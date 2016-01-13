@@ -41,7 +41,7 @@ namespace Atata
                 Append(" ").
                 Append(logLevel).
                 Append(" ").
-                Append(message);
+                AppendFormat(message, args);
 
             writeLineAction(builder.ToString());
         }
