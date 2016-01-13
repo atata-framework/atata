@@ -136,6 +136,8 @@
     <Compile Include="FindStrategies\FindItemByLabelStrategy.cs" />
     <Compile Include="FindStrategies\FindItemByValueStrategy.cs" />
     <Compile Include="FindStrategies\IItemElementFindStrategy.cs" />
+    <Compile Include="Logging\SimpleLogManager.cs" />
+    <Compile Include="Logging\LogManagerBase.cs" />
     <Compile Include="Page`1.cs" />
     <Compile Include="PopupWindow`1.cs" />
     <Compile Include="Settings\ByOptions.cs" />
