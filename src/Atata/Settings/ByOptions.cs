@@ -1,0 +1,44 @@
+﻿using System;
+
+namespace Atata
+{
+    public class ByOptions
+    {
+        protected ByOptions()
+        {
+        }
+
+        public string Name { get; set; }
+        public string Kind { get; set; }
+        public TimeSpan Timeout { get; set; }
+        public TimeSpan RetryInterval { get; set; }
+        public ElementVisibility Visibility { get; set; }
+        public bool ThrowOnFail { get; set; }
+
+        public string GetNameWithKind()
+        {
+            bool hasName = !string.IsNullOrWhiteSpace(Name);
+            bool hasKind = !string.IsNullOrWhiteSpace(Kind);
+
+            if (hasKind && hasKind)
+                return string.Format("'{0}' {1}", Name, Kind);
+            else if (hasName)
+                return Name;
+            else if (hasKind)
+                return Kind;
+            else
+                return null;
+        }
+
+        public static ByOptions CreateDefault()
+        {
+            return new ByOptions
+            {
+                Timeout = RetrySettings.Timeout,
+                RetryInterval = RetrySettings.RetryInterval,
+                Visibility = ElementVisibility.Visible,
+                ThrowOnFail = true
+            };
+        }
+    }
+}
