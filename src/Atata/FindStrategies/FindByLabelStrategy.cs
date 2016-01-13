@@ -11,7 +11,7 @@ namespace Atata
         {
             string labelCondition = options.GetQualifiersXPathCondition();
             IWebElement label = scope.Get(
-                By.XPath(".//label[{0}][{1}]".FormatWith(labelCondition, options.Position)).
+                By.XPath(".//label[{0}]{1}".FormatWith(labelCondition, options.GetPositionWrappedXPathCondition())).
                     Label(options.GetQualifiersAsString()).
                     Safely(options.IsSafely));
 
