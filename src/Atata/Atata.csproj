@@ -71,6 +71,7 @@
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\FindClickablesAttribute.cs" />
     <Compile Include="Attributes\FindEditableFieldsAttribute.cs" />
+    <Compile Include="Attributes\FindInScope.cs" />
     <Compile Include="Attributes\FindItemAttribute.cs" />
     <Compile Include="Attributes\FindItemByLabelAttribute.cs" />
     <Compile Include="Attributes\FormatAttribute.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Logging\LogManagerBase.cs" />
     <Compile Include="Page`1.cs" />
     <Compile Include="PopupWindow`1.cs" />
+    <Compile Include="ScopeSource.cs" />
     <Compile Include="Settings\ByOptions.cs" />
     <Compile Include="Components\ClickableBase`2.cs" />
     <Compile Include="Components\Clickable`1.cs" />

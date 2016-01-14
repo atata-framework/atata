@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -109,11 +110,14 @@ namespace Atata
             IElementFindStrategy strategy = findAttribute.CreateStrategy(metadata);
 
             IItemsControl itemsControl = component as IItemsControl;
+
+            ScopeSource scopeSource = findAttribute.GetScope(metadata);
+
             if (itemsControl != null)
             {
                 component.ScopeElementFinder = isSafely =>
                     {
-                        return parentComponent.Scope;
+                        return GetScopeElement(parentComponent, scopeSource);
                     };
                 itemsControl.ItemsFindStrategy = strategy;
                 itemsControl.ItemsFindOptions = findOptions;
@@ -125,9 +129,27 @@ namespace Atata
                 component.ScopeElementFinder = isSafely =>
                     {
                         findOptions.IsSafely = isSafely;
-                        ElementLocator locator = strategy.Find(parentComponent.Scope, findOptions);
+                        IWebElement scope = GetScopeElement(parentComponent, scopeSource);
+                        ElementLocator locator = strategy.Find(scope, findOptions);
                         return locator.GetElement(isSafely);
                     };
+            }
+        }
+
+        private static IWebElement GetScopeElement(UIComponent parentComponent, ScopeSource scopeSource)
+        {
+            switch (scopeSource)
+            {
+                case ScopeSource.Parent:
+                    return parentComponent.Scope;
+                case ScopeSource.Grandparent:
+                    return parentComponent.Parent.Scope;
+                case ScopeSource.PageObject:
+                    return parentComponent.Owner.Scope;
+                case ScopeSource.Page:
+                    return parentComponent.Driver.Get(By.TagName("body"));
+                default:
+                    throw new ArgumentException("scopeSource", "Unsupported '{0}' value of ScopeSource".FormatWith(scopeSource));
             }
         }
 
