@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -7,13 +8,13 @@ namespace Atata
     public static class ILogManagerExtensions
     {
         [ThreadStatic]
-        private static string sectionEndMessage;
+        private static readonly Stack<string> SectionEndMessageStack = new Stack<string>();
 
         public static void StartSection(this ILogManager logger, string message, params object[] args)
         {
             string fullMessage = args != null && args.Any() ? message.FormatWith(args) : message;
             logger.Info("Starting: {0}", fullMessage);
-            sectionEndMessage = "Finished: {0}".FormatWith(fullMessage);
+            SectionEndMessageStack.Push("Finished: {0}".FormatWith(fullMessage));
         }
 
         public static void StartClickingSection(this ILogManager logger, string componentName)
@@ -63,9 +64,11 @@ namespace Atata
 
         public static void EndSection(this ILogManager logger)
         {
-            if (!string.IsNullOrWhiteSpace(sectionEndMessage))
-                logger.Info(sectionEndMessage);
-            sectionEndMessage = null;
+            if (SectionEndMessageStack.Any())
+            {
+                string message = SectionEndMessageStack.Pop();
+                logger.Info(message);
+            }
         }
     }
 }
