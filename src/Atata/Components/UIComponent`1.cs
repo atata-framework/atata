@@ -15,6 +15,12 @@ namespace Atata
             internal set { base.Owner = value; }
         }
 
+        protected internal new UIComponent<TOwner> Parent
+        {
+            get { return (UIComponent<TOwner>)base.Parent; }
+            internal set { base.Parent = value; }
+        }
+
         protected internal virtual void InitComponent()
         {
             UIComponentResolver.Resolve<TOwner>(this);

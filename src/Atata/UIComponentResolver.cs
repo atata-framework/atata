@@ -88,6 +88,7 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             component.Owner = parentComponent.Owner ?? (TOwner)parentComponent;
+            component.Parent = parentComponent;
             component.Log = parentComponent.Log;
             component.Driver = parentComponent.Driver;
 

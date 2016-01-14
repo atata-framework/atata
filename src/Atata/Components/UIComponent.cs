@@ -20,6 +20,8 @@ namespace Atata
         }
 
         protected internal UIComponent Owner { get; internal set; }
+        protected internal UIComponent Parent { get; internal set; }
+
         protected internal ILogManager Log { get; internal set; }
         protected internal RemoteWebDriver Driver { get; internal set; }
 
@@ -93,7 +95,9 @@ namespace Atata
 
             TriggerContext context = new TriggerContext
             {
-                Driver = Driver
+                Driver = Driver,
+                Component = this,
+                ParentComponent = Parent
             };
 
             foreach (var trigger in triggers)

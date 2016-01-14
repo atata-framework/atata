@@ -177,7 +177,8 @@ namespace Atata
                 ComponentName = name,
                 Owner = Owner,
                 Log = Log,
-                Settings = Settings
+                Settings = Settings,
+                Parent = this
             };
 
             row.InitComponent();

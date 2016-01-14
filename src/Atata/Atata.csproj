@@ -86,6 +86,7 @@
     <Compile Include="Attributes\SetAllGeneratablesAttribute.cs" />
     <Compile Include="Attributes\StringValueAttribute.cs" />
     <Compile Include="Attributes\FindByIdAttribute.cs" />
+    <Compile Include="Attributes\Triggers\ClickParentAttribute.cs" />
     <Compile Include="Attributes\Triggers\ScrollUpAttribute.cs" />
     <Compile Include="Attributes\Triggers\TriggerAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="Components\Fields\SelectSelectionKind.cs" />
     <Compile Include="Components\Fields\TimeInput`1.cs" />
     <Compile Include="Components\Fields\GroupField`2.cs" />
+    <Compile Include="Components\IClickable.cs" />
     <Compile Include="Components\IItemsControl.cs" />
     <Compile Include="Components\KendoUI\KendoWindow.cs" />
     <Compile Include="Components\Link`1.cs" />

@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public abstract class Control<TOwner> : UIComponent<TOwner>
+    public abstract class Control<TOwner> : UIComponent<TOwner>, IClickable
         where TOwner : PageObject<TOwner>
     {
         protected Control()
@@ -18,6 +18,11 @@
             Log.EndSection();
 
             return Owner;
+        }
+
+        void IClickable.Click()
+        {
+            Click();
         }
     }
 }
