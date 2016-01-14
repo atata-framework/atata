@@ -21,8 +21,7 @@ namespace Atata
 
         protected string Title { get; private set; }
 
-        // TODO: Review PageObject Parent property.
-        public UIComponent Parent { get; private set; }
+        protected UIComponent PreviousPageObject { get; private set; }
 
         protected virtual IWebElement GetScope(bool isSafely)
         {
@@ -158,7 +157,7 @@ namespace Atata
                 context = SwitchTo(windowName);
             }
 
-            pageObject.Parent = this;
+            pageObject.PreviousPageObject = this;
             pageObject.Init(context);
 
             return pageObject;
