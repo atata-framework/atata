@@ -9,12 +9,12 @@
 
         public string[] Values { get; private set; }
 
-        public string[] GetQualifiers(UIPropertyMetadata metadata)
+        public string[] GetQualifiers(UIComponentMetadata metadata)
         {
             return Values;
         }
 
-        public override IElementFindStrategy CreateStrategy(UIPropertyMetadata metadata)
+        public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             return new FindByCssStrategy();
         }

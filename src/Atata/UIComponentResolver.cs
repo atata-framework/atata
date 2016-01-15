@@ -71,12 +71,11 @@ namespace Atata
         private static void InitControlProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
             where TOwner : PageObject<TOwner>
         {
-            Control<TOwner> control = (Control<TOwner>)Activator.CreateInstance(property.PropertyType);
-            InitComponent(control, parentComponent, property);
+            UIComponentMetadata metadata = CreateComponentMetadata(property);
 
-            property.SetValue(parentComponent, control);
+            UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
 
-            UIComponentResolver.Resolve<TOwner>(control);
+            property.SetValue(parentComponent, component);
         }
 
         private static void InitDelegateProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
@@ -85,7 +84,37 @@ namespace Atata
             // TODO: Implement InitDelegateProperty method.
         }
 
-        private static void InitComponent<TOwner>(UIComponent<TOwner> component, UIComponent<TOwner> parentComponent, PropertyInfo property)
+        public static TComponent CreateComponent<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            if (!attributes.OfType<NameAttribute>().Any())
+                attributes = attributes.Concat(new[]
+                    {
+                        new NameAttribute(name)
+                    }).ToArray();
+
+            UIComponentMetadata metadata = CreateComponentMetadata(
+                name,
+                typeof(TComponent),
+                parentComponent.GetType(),
+                attributes);
+
+            return (TComponent)CreateComponent<TOwner>(parentComponent, metadata);
+        }
+
+        private static UIComponent<TOwner> CreateComponent<TOwner>(UIComponent<TOwner> parentComponent, UIComponentMetadata metadata)
+            where TOwner : PageObject<TOwner>
+        {
+            UIComponent<TOwner> component = (UIComponent<TOwner>)Activator.CreateInstance(metadata.ComponentType);
+
+            InitComponent(component, parentComponent, metadata);
+            UIComponentResolver.Resolve<TOwner>(component);
+
+            return component;
+        }
+
+        private static void InitComponent<TOwner>(UIComponent<TOwner> component, UIComponent<TOwner> parentComponent, UIComponentMetadata metadata)
             where TOwner : PageObject<TOwner>
         {
             component.Owner = parentComponent.Owner ?? (TOwner)parentComponent;
@@ -93,7 +122,6 @@ namespace Atata
             component.Log = parentComponent.Log;
             component.Driver = parentComponent.Driver;
 
-            UIPropertyMetadata metadata = CreatePropertyMetadata(property);
             FindAttribute findAttribute = GetPropertyFindAttribute(metadata);
 
             InitComponentFinders(component, parentComponent, metadata, findAttribute);
@@ -104,7 +132,7 @@ namespace Atata
             component.ApplyMetadata(metadata);
         }
 
-        private static void InitComponentFinders(UIComponent component, UIComponent parentComponent, UIPropertyMetadata metadata, FindAttribute findAttribute)
+        private static void InitComponentFinders(UIComponent component, UIComponent parentComponent, UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             ElementFindOptions findOptions = CreateFindOptions(metadata, findAttribute);
             IElementFindStrategy strategy = findAttribute.CreateStrategy(metadata);
@@ -153,7 +181,7 @@ namespace Atata
             }
         }
 
-        private static string ResolveComponentName(UIPropertyMetadata metadata, FindAttribute findAttribute)
+        private static string ResolveComponentName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             NameAttribute nameAttribute = metadata.GetFirstOrDefaultPropertyAttribute<NameAttribute>();
             if (nameAttribute != null)
@@ -176,37 +204,48 @@ namespace Atata
                 }
             }
 
-            return metadata.Property.Name.Humanize(LetterCasing.Title);
+            return metadata.Name.Humanize(LetterCasing.Title);
         }
 
-        private static UIPropertyMetadata CreatePropertyMetadata(PropertyInfo property)
+        private static UIComponentMetadata CreateComponentMetadata(PropertyInfo property)
         {
-            return new UIPropertyMetadata(
-                property,
-                GetComponentAttribute(property),
-                GetPropertyAttributes(property),
-                GetClassAttributes(property.DeclaringType),
-                GetAssemblyAttributes(property.DeclaringType.Assembly));
+            return CreateComponentMetadata(
+                property.Name,
+                property.PropertyType,
+                property.DeclaringType,
+                GetPropertyAttributes(property));
         }
 
-        private static FindAttribute GetPropertyFindAttribute(UIPropertyMetadata metadata)
+        private static UIComponentMetadata CreateComponentMetadata(string name, Type componentType, Type parentComponentType, Attribute[] componentAttributes)
+        {
+            return new UIComponentMetadata(
+                name,
+                componentType,
+                parentComponentType,
+                GetComponentAttribute(componentType),
+                componentAttributes,
+                GetClassAttributes(parentComponentType),
+                GetAssemblyAttributes(parentComponentType.Assembly));
+        }
+
+        private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
         {
             FindAttribute findAttribute = metadata.GetFirstOrDefaultPropertyAttribute<FindAttribute>();
             if (findAttribute != null)
             {
                 return findAttribute;
             }
-            else if (metadata.Property.PropertyType.IsSubclassOfRawGeneric(typeof(EditableField<,>)))
+            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(EditableField<,>)))
             {
                 var generalFindAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindEditableFieldsAttribute>();
                 return generalFindAttribute != null ? generalFindAttribute.CreateFindAttribute() : FindEditableFieldsAttribute.CreateDefaultFindAttribute();
             }
-            else if (metadata.Property.PropertyType.IsSubclassOfRawGeneric(typeof(ClickableBase<,>)))
+            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(ClickableBase<,>)))
             {
                 var generalFindAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindClickablesAttribute>();
                 return generalFindAttribute != null ? generalFindAttribute.CreateFindAttribute() : FindClickablesAttribute.CreateDefaultFindAttribute();
             }
-            else if (metadata.Property.PropertyType.IsSubclassOfRawGeneric(typeof(Text<>)) && metadata.Property.DeclaringType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
+            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(Text<>)) && metadata.ParentComponentType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
             {
                 return new FindByColumnAttribute();
             }
@@ -216,7 +255,7 @@ namespace Atata
             }
         }
 
-        private static FindItemAttribute GetPropertyFindItemAttribute(UIPropertyMetadata metadata)
+        private static FindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
             FindItemAttribute findAttribute = metadata.GetFirstOrDefaultPropertyAttribute<FindItemAttribute>();
             if (findAttribute != null)
@@ -229,7 +268,7 @@ namespace Atata
             }
         }
 
-        private static ElementFindOptions CreateFindOptions(UIPropertyMetadata metadata, FindAttribute findAttribute)
+        private static ElementFindOptions CreateFindOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             ElementFindOptions options = new ElementFindOptions
             {
@@ -250,17 +289,17 @@ namespace Atata
             return options;
         }
 
-        private static TriggerAttribute[] GetControlTriggers(UIPropertyMetadata metadata)
+        private static TriggerAttribute[] GetControlTriggers(UIComponentMetadata metadata)
         {
             return metadata.PropertyAttributes.OfType<TriggerAttribute>().ToArray();
         }
 
-        private static UIComponentAttribute GetComponentAttribute(PropertyInfo property)
+        private static UIComponentAttribute GetComponentAttribute(Type componentType)
         {
             // TODO: Add cache.
-            UIComponentAttribute componentAttribute = property.PropertyType.GetCustomAttribute<UIComponentAttribute>(true);
+            UIComponentAttribute componentAttribute = componentType.GetCustomAttribute<UIComponentAttribute>(true);
             if (componentAttribute == null)
-                throw new InvalidOperationException(string.Format("UIComponentAttribute is missing in '{0}' type", property.PropertyType.FullName));
+                throw new InvalidOperationException(string.Format("UIComponentAttribute is missing in '{0}' type", componentType.FullName));
             return componentAttribute;
         }
 

@@ -15,7 +15,7 @@
             return newObject;
         }
 
-        protected internal override void ApplyMetadata(UIPropertyMetadata metadata)
+        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
             base.ApplyMetadata(metadata);
 

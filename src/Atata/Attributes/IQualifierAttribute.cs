@@ -2,6 +2,6 @@
 {
     public interface IQualifierAttribute
     {
-        string[] GetQualifiers(UIPropertyMetadata metadata);
+        string[] GetQualifiers(UIComponentMetadata metadata);
     }
 }

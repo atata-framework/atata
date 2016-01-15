@@ -15,11 +15,11 @@
 
         public new QualifierMatch Match { get; set; }
 
-        public QualifierMatch GetQualifierMatch(UIPropertyMetadata metadata)
+        public QualifierMatch GetQualifierMatch(UIComponentMetadata metadata)
         {
             return Match != QualifierMatch.Inherit ? Match : GetQualifierMatchFromMetadata(metadata);
         }
 
-        protected abstract QualifierMatch GetQualifierMatchFromMetadata(UIPropertyMetadata metadata);
+        protected abstract QualifierMatch GetQualifierMatchFromMetadata(UIComponentMetadata metadata);
     }
 }

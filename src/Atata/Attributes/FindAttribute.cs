@@ -14,14 +14,14 @@ namespace Atata
         public int Index { get; set; }
         public ScopeSource Scope { get; set; }
 
-        public abstract IElementFindStrategy CreateStrategy(UIPropertyMetadata metadata);
+        public abstract IElementFindStrategy CreateStrategy(UIComponentMetadata metadata);
 
-        public ScopeSource GetScope(UIPropertyMetadata metadata)
+        public ScopeSource GetScope(UIComponentMetadata metadata)
         {
             return Scope != ScopeSource.Inherit ? Scope : GetScopeFromMetadata(metadata);
         }
 
-        private ScopeSource GetScopeFromMetadata(UIPropertyMetadata metadata)
+        private ScopeSource GetScopeFromMetadata(UIComponentMetadata metadata)
         {
             var scopeAttribute = metadata.GetFirstOrDefaultAttribute<FindInScope>(x => x.Scope != ScopeSource.Inherit);
             return scopeAttribute != null ? scopeAttribute.Scope : DefaultScopeSource;

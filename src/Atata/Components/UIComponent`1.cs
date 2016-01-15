@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 
 namespace Atata
 {
@@ -41,6 +42,12 @@ namespace Atata
             Asserter.That(element == null, "Found {0} component that should be missing", ComponentName);
             Log.EndSection();
             return Owner;
+        }
+
+        protected TComponent CreateComponent<TComponent>(string name, params Attribute[] attributes)
+            where TComponent : UIComponent<TOwner>
+        {
+            return UIComponentResolver.CreateComponent<TComponent, TOwner>(this, name, attributes);
         }
     }
 }

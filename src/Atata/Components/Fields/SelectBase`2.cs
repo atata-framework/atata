@@ -28,7 +28,7 @@ namespace Atata
                 selectElement.SelectByValue(value);
         }
 
-        protected internal override void ApplyMetadata(UIPropertyMetadata metadata)
+        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
             Settings = metadata.GetFirstOrDefaultPropertyAttribute<SelectSettingsAttribute>()
                 ?? new SelectSettingsAttribute();

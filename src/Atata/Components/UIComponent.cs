@@ -62,7 +62,7 @@ namespace Atata
             return element;
         }
 
-        protected internal virtual void ApplyMetadata(UIPropertyMetadata metadata)
+        protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
         {
         }
 

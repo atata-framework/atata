@@ -31,7 +31,7 @@ namespace Atata
             }
         }
 
-        protected internal override void ApplyMetadata(UIPropertyMetadata metadata)
+        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
             cultureInfo = metadata.GetCulture();
             format = metadata.GetFormat(GetType());

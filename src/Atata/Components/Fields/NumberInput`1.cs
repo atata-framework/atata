@@ -26,7 +26,7 @@ namespace Atata
             return generatableAttribute != null ? (decimal?)ValueGenerator.GenerateDecimal(generatableAttribute.Min, generatableAttribute.Max, generatableAttribute.Precision) : null;
         }
 
-        protected internal override void ApplyMetadata(UIPropertyMetadata metadata)
+        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
             generatableAttribute = metadata.GetFirstOrDefaultPropertyAttribute<GeneratableNumberAttribute>();
             cultureInfo = metadata.GetCulture();

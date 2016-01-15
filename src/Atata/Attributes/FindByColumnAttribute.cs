@@ -29,7 +29,7 @@ namespace Atata
         public int ColumnIndex { get; private set; }
         public Type Strategy { get; set; }
 
-        public override IElementFindStrategy CreateStrategy(UIPropertyMetadata metadata)
+        public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             if (useIndexStrategy)
             {
@@ -43,7 +43,7 @@ namespace Atata
         }
 
         // TODO: Rewiew copy/paste.
-        private Type GetStrategyType(UIPropertyMetadata metadata)
+        private Type GetStrategyType(UIComponentMetadata metadata)
         {
             if (Strategy != null)
             {
@@ -56,13 +56,13 @@ namespace Atata
             }
         }
 
-        protected override QualifierFormat GetQualifierFormatFromMetadata(UIPropertyMetadata metadata)
+        protected override QualifierFormat GetQualifierFormatFromMetadata(UIComponentMetadata metadata)
         {
             var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByColumnSettingsAttribute>(x => x.Format != QualifierFormat.Inherit);
             return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
         }
 
-        protected override QualifierMatch GetQualifierMatchFromMetadata(UIPropertyMetadata metadata)
+        protected override QualifierMatch GetQualifierMatchFromMetadata(UIComponentMetadata metadata)
         {
             var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByColumnSettingsAttribute>(x => x.Match != QualifierMatch.Inherit);
             return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;

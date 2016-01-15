@@ -2,6 +2,6 @@
 {
     public interface IQualifierMatchAttribute
     {
-        QualifierMatch GetQualifierMatch(UIPropertyMetadata metadata);
+        QualifierMatch GetQualifierMatch(UIComponentMetadata metadata);
     }
 }

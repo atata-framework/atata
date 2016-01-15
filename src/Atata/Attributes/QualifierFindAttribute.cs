@@ -20,45 +20,48 @@ namespace Atata
         public QualifierFormat Format { get; private set; }
         public bool ApplyNameAsIs { get; set; }
 
-        public virtual string[] GetQualifiers(UIPropertyMetadata metadata)
+        public virtual string[] GetQualifiers(UIComponentMetadata metadata)
         {
-            StringValueAttribute stringValueAttribute;
-
             if (Values != null && Values.Any())
+            {
                 return Values;
-            else if (metadata.Property.TryGetCustomAttribute(out stringValueAttribute) && stringValueAttribute.Values != null && stringValueAttribute.Values.Any())
-                return stringValueAttribute.Values;
+            }
             else
-                return new[] { GetQualifierFromProperty(metadata) };
+            {
+                StringValueAttribute stringValueAttribute = metadata.GetFirstOrDefaultPropertyAttribute<StringValueAttribute>(x => x.Values != null && x.Values.Any());
+                if (stringValueAttribute != null)
+                    return stringValueAttribute.Values;
+            }
+            return new[] { GetQualifierFromProperty(metadata) };
         }
 
-        private string GetQualifierFromProperty(UIPropertyMetadata metadata)
+        private string GetQualifierFromProperty(UIComponentMetadata metadata)
         {
             QualifierFormat format = GetQualifierFormat(metadata);
             string name = GetPropertyName(metadata);
             return Humanize(name, format);
         }
 
-        private QualifierFormat GetQualifierFormat(UIPropertyMetadata metadata)
+        private QualifierFormat GetQualifierFormat(UIComponentMetadata metadata)
         {
             return Format != QualifierFormat.Inherit ? Format : GetQualifierFormatFromMetadata(metadata);
         }
 
-        private string GetPropertyName(UIPropertyMetadata metadata)
+        private string GetPropertyName(UIComponentMetadata metadata)
         {
-            string name = metadata.Property.Name;
+            string name = metadata.Name;
             if (!ApplyNameAsIs)
             {
                 string suffixToIgnore = metadata.ComponentAttribute.GetIgnoreNameEndingValues().
                     FirstOrDefault(x => name.EndsWith(x) && name.Length > x.Length);
 
                 if (suffixToIgnore != null)
-                    return name.Substring(0, name.Length - suffixToIgnore.Length);
+                    return name.Substring(0, name.Length - suffixToIgnore.Length).TrimEnd();
             }
             return name;
         }
 
-        protected abstract QualifierFormat GetQualifierFormatFromMetadata(UIPropertyMetadata metadata);
+        protected abstract QualifierFormat GetQualifierFormatFromMetadata(UIComponentMetadata metadata);
 
         private static string Humanize(string name, QualifierFormat format)
         {

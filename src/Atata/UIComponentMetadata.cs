@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 
 namespace Atata
 {
-    public class UIPropertyMetadata
+    public class UIComponentMetadata
     {
-        public UIPropertyMetadata(
-            PropertyInfo property,
+        public UIComponentMetadata(
+            string name,
+            Type componentType,
+            Type parentComponentType,
             UIComponentAttribute componentAttribute,
             Attribute[] propertyAttributes,
             Attribute[] classAttributes,
             Attribute[] assemblyAttributes)
         {
-            Property = property;
+            Name = name;
+            ComponentType = componentType;
+            ParentComponentType = parentComponentType;
             ComponentAttribute = componentAttribute;
             PropertyAttributes = propertyAttributes;
             ClassAttributes = classAttributes;
@@ -23,7 +26,9 @@ namespace Atata
             GlobalAttributes = ClassAttributes.Concat(AssemblyAttributes).ToArray();
         }
 
-        public PropertyInfo Property { get; private set; }
+        public string Name { get; private set; }
+        public Type ComponentType { get; private set; }
+        public Type ParentComponentType { get; private set; }
         public UIComponentAttribute ComponentAttribute { get; private set; }
         public Attribute[] PropertyAttributes { get; private set; }
         public Attribute[] ClassAttributes { get; private set; }

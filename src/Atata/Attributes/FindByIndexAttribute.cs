@@ -11,7 +11,7 @@
             Index = index;
         }
 
-        public override IElementFindStrategy CreateStrategy(UIPropertyMetadata metadata)
+        public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             return new SimpleElementFindStrategy();
         }

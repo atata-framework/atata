@@ -2,7 +2,7 @@
 {
     public class FindItemByLabelAttribute : FindItemAttribute
     {
-        public override IItemElementFindStrategy CreateStrategy(UIPropertyMetadata metadata)
+        public override IItemElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             return new FindItemByLabelStrategy();
         }
