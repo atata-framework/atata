@@ -16,10 +16,10 @@ namespace Atata
                 throw new AssertionException(FormatExceptionMessage("not null", "null", message, args));
         }
 
-        public void AreEqual<T>(T expected, T actual)
+        public void AreEqual<T>(T expected, T actual, string message, params object[] args)
         {
             if (!object.Equals(expected, actual))
-                throw new AssertionException(FormatExceptionMessage(expected, actual));
+                throw new AssertionException(FormatExceptionMessage(expected, actual, message, args));
         }
 
         public void ContainsSubstring(string expected, string actual, string message, params object[] args)

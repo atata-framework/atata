@@ -21,8 +21,8 @@ namespace Atata
         {
             Log.StartVerificationSection("{0} equals '{1}'", ComponentName, value);
 
-            bool isEqual = Equals(value);
-            Asserter.That(isEqual, "{0} should equal '{1}'", ComponentName, value);
+            T actualValue = GetValue();
+            Asserter.AreEqual(value, actualValue, "Invalid {0} value", ComponentName);
 
             Log.EndSection();
             return Owner;

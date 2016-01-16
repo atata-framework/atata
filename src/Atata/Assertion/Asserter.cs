@@ -11,13 +11,11 @@
 
         public delegate void AssertThatDelegate(bool condition, string message, params object[] args);
         public delegate void AssertNotNullDelegate(object actual, string message, params object[] args);
-        public delegate void AssertAreEqualDelgate<T>(T expected, T actual);
+        public delegate void AssertAreEqualDelgate<T>(T expected, T actual, string message, params object[] args);
         public delegate void AssertContainsSubstringDelegate(string expected, string actual, string message, params object[] args);
 
         public static AssertThatDelegate That { get; private set; }
         public static AssertNotNullDelegate NotNull { get; private set; }
-
-        // TODO: Perhaps remove AreEqual method.
         public static AssertAreEqualDelgate<object> AreEqual { get; private set; }
 
         // TODO: Perhaps remove ContainsSubstring method.
