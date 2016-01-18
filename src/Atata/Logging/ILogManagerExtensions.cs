@@ -8,7 +8,12 @@ namespace Atata
     public static class ILogManagerExtensions
     {
         [ThreadStatic]
-        private static readonly Stack<string> SectionEndMessageStack = new Stack<string>();
+        private static Stack<string> sectionEndMessageStack;
+
+        private static Stack<string> SectionEndMessageStack
+        {
+            get { return sectionEndMessageStack ?? (sectionEndMessageStack = new Stack<string>()); }
+        }
 
         public static void StartSection(this ILogManager logger, string message, params object[] args)
         {
