@@ -149,7 +149,7 @@ namespace Atata
 
         protected TOther InitChild<TOther>(TOther pageObject, string windowName = null) where TOther : PageObject<TOther>
         {
-            RunTriggersAfter();
+            ////RunTriggersAfter();
 
             PageObjectContext context = PageObjectContext;
 

@@ -300,7 +300,7 @@ namespace Atata
                 Type currentTriggerType = allTriggers[0].GetType();
                 TriggerAttribute[] currentTriggersOfSameType = allTriggers.Where(x => x.GetType() == currentTriggerType).ToArray();
 
-                if (currentTriggersOfSameType.First().On != TriggerOn.None)
+                if (currentTriggersOfSameType.First().On != TriggerEvent.None)
                     resultTriggers.Add(currentTriggersOfSameType.First());
 
                 foreach (TriggerAttribute trigger in currentTriggersOfSameType)

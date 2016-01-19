@@ -194,7 +194,7 @@
     <Compile Include="SearchContexts\WebElementExtendedSearchContext.cs" />
     <Compile Include="Settings\ByOptionsMap.cs" />
     <Compile Include="TriggerContext.cs" />
-    <Compile Include="TriggerOn.cs" />
+    <Compile Include="TriggerEvent.cs" />
     <Compile Include="UIComponentMetadata.cs" />
     <Compile Include="QualifierFormat.cs" />
     <Compile Include="QualifierMatch.cs" />
