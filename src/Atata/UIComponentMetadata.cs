@@ -24,6 +24,7 @@ namespace Atata
             AssemblyAttributes = assemblyAttributes;
 
             GlobalAttributes = ClassAttributes.Concat(AssemblyAttributes).ToArray();
+            AllAttributes = PropertyAttributes.Concat(GlobalAttributes).ToArray();
         }
 
         public string Name { get; private set; }
@@ -34,6 +35,7 @@ namespace Atata
         public Attribute[] ClassAttributes { get; private set; }
         public Attribute[] AssemblyAttributes { get; private set; }
         public Attribute[] GlobalAttributes { get; private set; }
+        public Attribute[] AllAttributes { get; private set; }
 
         public T GetFirstOrDefaultPropertyAttribute<T>() where T : Attribute
         {
@@ -65,8 +67,7 @@ namespace Atata
 
         public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate) where T : Attribute
         {
-            return PropertyAttributes.
-                Concat(GlobalAttributes).
+            return AllAttributes.
                 OfType<T>().
                 FirstOrDefault(predicate);
         }

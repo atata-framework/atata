@@ -28,6 +28,7 @@ namespace Atata
                 Init<TOwner>(component, type);
         }
 
+        // TODO: Review InitPageObjectTriggers method.
         public static void InitPageObjectTriggers<TOwner>(PageObject<TOwner> pageObject)
             where TOwner : PageObject<TOwner>
         {
@@ -291,7 +292,23 @@ namespace Atata
 
         private static TriggerAttribute[] GetControlTriggers(UIComponentMetadata metadata)
         {
-            return metadata.PropertyAttributes.OfType<TriggerAttribute>().ToArray();
+            List<TriggerAttribute> allTriggers = metadata.AllAttributes.OfType<TriggerAttribute>().ToList();
+            List<TriggerAttribute> resultTriggers = new List<TriggerAttribute>();
+
+            while (allTriggers.Count > 0)
+            {
+                Type currentTriggerType = allTriggers[0].GetType();
+                TriggerAttribute[] currentTriggersOfSameType = allTriggers.Where(x => x.GetType() == currentTriggerType).ToArray();
+
+                if (currentTriggersOfSameType.First().On != TriggerOn.None)
+                    resultTriggers.Add(currentTriggersOfSameType.First());
+
+                foreach (TriggerAttribute trigger in currentTriggersOfSameType)
+                    allTriggers.Remove(trigger);
+            }
+
+            resultTriggers.Reverse();
+            return resultTriggers.ToArray();
         }
 
         private static UIComponentAttribute GetComponentAttribute(Type componentType)

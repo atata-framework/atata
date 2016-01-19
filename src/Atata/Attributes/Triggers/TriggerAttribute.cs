@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
     public abstract class TriggerAttribute : Attribute
     {
         protected TriggerAttribute(TriggerOn on = TriggerOn.Before)
