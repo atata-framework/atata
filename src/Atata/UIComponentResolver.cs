@@ -307,7 +307,7 @@ namespace Atata
                     allTriggers.Remove(trigger);
             }
 
-            return resultTriggers.ToArray();
+            return resultTriggers.OrderBy(x => x.Priority).ToArray();
         }
 
         private static UIComponentAttribute GetComponentAttribute(Type componentType)
