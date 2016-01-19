@@ -88,7 +88,10 @@
     <Compile Include="Attributes\StringValueAttribute.cs" />
     <Compile Include="Attributes\FindByIdAttribute.cs" />
     <Compile Include="Attributes\Triggers\ClickParentAttribute.cs" />
+    <Compile Include="Attributes\Triggers\PressEnterAttribute.cs" />
+    <Compile Include="Attributes\Triggers\PressTabAttribute.cs" />
     <Compile Include="Attributes\Triggers\ScrollUpAttribute.cs" />
+    <Compile Include="Attributes\Triggers\PressKeysAttribute.cs" />
     <Compile Include="Attributes\Triggers\TriggerAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
     <Compile Include="Attributes\UIComponentAttribute.cs" />
