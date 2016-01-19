@@ -50,7 +50,8 @@ namespace Atata
             Title = GetTitle();
 
             InitComponent();
-            RunTriggersBefore();
+
+            ////RunTriggersBefore();
 
             VerifyCurrentPage();
         }
