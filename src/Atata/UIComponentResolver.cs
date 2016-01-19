@@ -307,7 +307,6 @@ namespace Atata
                     allTriggers.Remove(trigger);
             }
 
-            resultTriggers.Reverse();
             return resultTriggers.ToArray();
         }
 
