@@ -5,15 +5,21 @@ namespace Atata
 {
     internal static class ExceptionsFactory
     {
-        public static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
+        internal static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
         {
-            string message = CreateMessageForNoSuchElement(elementName, by);
+            string message = BuildMessage("Unable to locate element", elementName, by);
             return new NoSuchElementException(message);
         }
 
-        private static string CreateMessageForNoSuchElement(string elementName, By by)
+        internal static NotMissingElementException CreateForNotMissingElement(string elementName = null, By by = null)
         {
-            StringBuilder builder = new StringBuilder("Unable to locate element");
+            string message = BuildMessage("Able to locate element that should be missing", elementName, by);
+            return new NotMissingElementException(message);
+        }
+
+        private static string BuildMessage(string message, string elementName, By by)
+        {
+            StringBuilder builder = new StringBuilder(message);
 
             bool hasName = !string.IsNullOrWhiteSpace(elementName);
             bool hasBy = by != null;

@@ -129,6 +129,7 @@
     <Compile Include="Components\Fields\Text`1.cs" />
     <Compile Include="ElementFinder.cs" />
     <Compile Include="ElementLocator.cs" />
+    <Compile Include="Exceptions\NotMissingElementException.cs" />
     <Compile Include="Exceptions\ExceptionsFactory.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\QualifierMatchExtensions.cs" />

@@ -24,5 +24,15 @@ namespace Atata
         {
             return driver.Title != null ? driver.Title.Contains(text) : false;
         }
+
+        public static bool Exists(this IWebDriver element, By by)
+        {
+            return new WebDriverExtendedSearchContext(element).Exists(by);
+        }
+
+        public static bool Missing(this IWebDriver element, By by)
+        {
+            return new WebDriverExtendedSearchContext(element).Missing(by);
+        }
     }
 }

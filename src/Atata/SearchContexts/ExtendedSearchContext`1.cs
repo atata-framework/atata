@@ -127,7 +127,7 @@ namespace Atata
             var elements = FindAll(by, options);
             var element = elements.FirstOrDefault();
 
-            if (options.ThrowOnFail == true && element == null)
+            if (options.ThrowOnFail && element == null)
                 throw ExceptionsFactory.CreateForNoSuchElement(options.GetNameWithKind(), by);
             else
                 return element;
@@ -168,6 +168,28 @@ namespace Atata
         {
             var wait = CreateWait();
             return wait.Until(condition);
+        }
+
+        public bool Exists(By by)
+        {
+            return Find(by) != null;
+        }
+
+        public bool Missing(By by)
+        {
+            ByOptions options = ByOptionsMap.GetOrDefault(by);
+
+            Func<T, bool> findFunction;
+            if (options.Visibility == ElementVisibility.Any)
+                findFunction = x => x.FindElements(by).Count == 0;
+            else
+                findFunction = x => !x.FindElements(by).Where(CreateVisibilityPredicate(options.Visibility)).Any();
+
+            bool isMissing = options.Timeout > TimeSpan.Zero ? Until(findFunction) : findFunction(Context);
+            if (options.ThrowOnFail && !isMissing)
+                throw ExceptionsFactory.CreateForNotMissingElement(options.GetNameWithKind(), by);
+            else
+                return isMissing;
         }
 
         private IWait<T> CreateWait()

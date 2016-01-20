@@ -8,7 +8,7 @@ namespace Atata
         public static IWebElement Get<T>(this T searchContext, By by)
             where T : ISearchContext
         {
-            ISearchContext contextToSearchIn = ResolveContext(searchContext);
+            IExtendedSearchContext contextToSearchIn = ResolveContext(searchContext);
             return contextToSearchIn.FindElement(by);
         }
 
@@ -19,11 +19,11 @@ namespace Atata
             return contextToSearchIn.FindElements(by);
         }
 
-        private static ISearchContext ResolveContext<T>(this T searchContext)
+        private static IExtendedSearchContext ResolveContext<T>(this T searchContext)
             where T : ISearchContext
         {
             if (typeof(T).IsSubclassOfRawGeneric(typeof(ExtendedSearchContext<>)))
-                return searchContext;
+                return (IExtendedSearchContext)searchContext;
             else
                 return new ExtendedSearchContext<T>(searchContext);
         }

@@ -54,5 +54,15 @@ namespace Atata
             element.SendKeys(text);
             return element;
         }
+
+        public static bool Exists(this IWebElement element, By by)
+        {
+            return new WebElementExtendedSearchContext(element).Exists(by);
+        }
+
+        public static bool Missing(this IWebElement element, By by)
+        {
+            return new WebElementExtendedSearchContext(element).Missing(by);
+        }
     }
 }
