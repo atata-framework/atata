@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace Atata
 {
@@ -17,15 +18,24 @@ namespace Atata
             return Owner;
         }
 
-        public TOwner VerifyEquals(T value)
+        public TOwner Verify(Action<T> assertAction, string message, params object[] args)
         {
-            Log.StartVerificationSection("{0} equals '{1}'", ComponentName, value);
+            StringBuilder messageBuilder = new StringBuilder(ComponentName);
+            if (!string.IsNullOrWhiteSpace(message))
+                messageBuilder.Append(" ").AppendFormat(message, args);
+
+            Log.StartVerificationSection(messageBuilder.ToString());
 
             T actualValue = GetValue();
-            Asserter.AreEqual(value, actualValue, "Invalid {0} value", ComponentName);
+            assertAction(actualValue);
 
             Log.EndSection();
             return Owner;
+        }
+
+        public TOwner VerifyEquals(T value)
+        {
+            return Verify(actual => Asserter.AreEqual(value, actual, "Invalid {0} value", ComponentName), "equals '{0}'", value);
         }
 
         public override bool Equals(object obj)
