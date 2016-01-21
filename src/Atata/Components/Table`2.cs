@@ -148,7 +148,7 @@ namespace Atata
         protected virtual By CreateRowBy(params string[] values)
         {
             string condition = values != null && values.Any()
-                ? "[{0}]".FormatWith(QualifierMatch.Contains.CreateXPathCondition(values))
+                ? "[{0}]".FormatWith(TermMatch.Contains.CreateXPathCondition(values))
                 : null;
             return By.XPath(".//tr[td{0}]".FormatWith(condition)).TableRow();
         }

@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public class FindByCssAttribute : FindAttribute, IQualifierAttribute
+    public class FindByCssAttribute : FindAttribute, ITermFindAttribute
     {
         public FindByCssAttribute(params string[] values)
         {
@@ -9,7 +9,7 @@
 
         public string[] Values { get; private set; }
 
-        public string[] GetQualifiers(UIComponentMetadata metadata)
+        public string[] GetTerms(UIComponentMetadata metadata)
         {
             return Values;
         }

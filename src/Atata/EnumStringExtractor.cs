@@ -10,7 +10,7 @@ namespace Atata
         {
             Type type = enumValue.GetType();
             MemberInfo memberInfo = type.GetMember(enumValue.ToString())[0];
-            StringValueAttribute attribute = memberInfo.GetCustomAttribute<StringValueAttribute>();
+            TermAttribute attribute = memberInfo.GetCustomAttribute<TermAttribute>();
             return attribute != null ? attribute.Values : new string[0];
         }
 

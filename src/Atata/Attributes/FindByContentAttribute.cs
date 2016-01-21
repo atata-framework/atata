@@ -1,11 +1,11 @@
 ﻿namespace Atata
 {
-    public class FindByContentAttribute : QualifierMatchFindAttribute
+    public class FindByContentAttribute : TermMatchFindAttribute
     {
-        private const QualifierFormat DefaultFormat = QualifierFormat.Title;
-        private const QualifierMatch DefaultMatch = QualifierMatch.Equals;
+        private const TermFormat DefaultFormat = TermFormat.Title;
+        private const TermMatch DefaultMatch = TermMatch.Equals;
 
-        public FindByContentAttribute(QualifierFormat format)
+        public FindByContentAttribute(TermFormat format)
             : base(format)
         {
         }
@@ -20,15 +20,15 @@
             return new FindByContentStrategy();
         }
 
-        protected override QualifierFormat GetQualifierFormatFromMetadata(UIComponentMetadata metadata)
+        protected override TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata)
         {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByContentSettingsAttribute>(x => x.Format != QualifierFormat.Inherit);
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByContentSettingsAttribute>(x => x.Format != TermFormat.Inherit);
             return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
         }
 
-        protected override QualifierMatch GetQualifierMatchFromMetadata(UIComponentMetadata metadata)
+        protected override TermMatch GetTremMatchFromMetadata(UIComponentMetadata metadata)
         {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByContentSettingsAttribute>(x => x.Match != QualifierMatch.Inherit);
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByContentSettingsAttribute>(x => x.Match != TermMatch.Inherit);
             return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
         }
     }

@@ -9,7 +9,7 @@ namespace Atata
 
         public ElementLocator Find(IWebElement scope, ElementFindOptions options)
         {
-            string cssSelector = string.Join(",", options.Qualifiers);
+            string cssSelector = string.Join(",", options.Terms);
             IWebElement element = GetElementByCss(scope, By.CssSelector(cssSelector), options.Index, options.IsSafely);
 
             return simpleElementFindStrategy.Find(element, options);

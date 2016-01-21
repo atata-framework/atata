@@ -2,14 +2,14 @@
 
 namespace Atata
 {
-    public class FindByColumnSettingsAttribute : QualifierFindSettingsAttribute
+    public class FindByColumnSettingsAttribute : TermFindSettingsAttribute
     {
         public FindByColumnSettingsAttribute(Type strategy)
         {
             Strategy = strategy;
         }
 
-        public FindByColumnSettingsAttribute(QualifierFormat format = QualifierFormat.Inherit, QualifierMatch match = QualifierMatch.Inherit, Type strategy = null)
+        public FindByColumnSettingsAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit, Type strategy = null)
             : base(format, match)
         {
             Strategy = strategy;

@@ -199,9 +199,9 @@ namespace Atata
                 }
                 else
                 {
-                    StringValueAttribute stringValueAttribute = metadata.GetFirstOrDefaultPropertyAttribute<StringValueAttribute>();
-                    if (stringValueAttribute != null && stringValueAttribute.Values != null && stringValueAttribute.Values.Any())
-                        return string.Join("/", stringValueAttribute.Values);
+                    TermAttribute termAttribute = metadata.GetFirstOrDefaultPropertyAttribute<TermAttribute>();
+                    if (termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any())
+                        return string.Join("/", termAttribute.Values);
                 }
             }
 
@@ -278,14 +278,14 @@ namespace Atata
                 Index = findAttribute.Index != 0 ? (int?)findAttribute.Index : null
             };
 
-            IQualifierAttribute qualifierAttribute = findAttribute as IQualifierAttribute;
-            IQualifierMatchAttribute qualifierMatchAttribute = findAttribute as IQualifierMatchAttribute;
+            ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;
+            ITermMatchFindAttribute termMatchFindAttribute = findAttribute as ITermMatchFindAttribute;
 
-            if (qualifierAttribute != null)
-                options.Qualifiers = qualifierAttribute.GetQualifiers(metadata);
+            if (termFindAttribute != null)
+                options.Terms = termFindAttribute.GetTerms(metadata);
 
-            if (qualifierMatchAttribute != null)
-                options.Match = qualifierMatchAttribute.GetQualifierMatch(metadata);
+            if (termMatchFindAttribute != null)
+                options.Match = termMatchFindAttribute.GetTermMatch(metadata);
 
             return options;
         }

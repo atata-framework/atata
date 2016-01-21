@@ -4,23 +4,23 @@ using System.Linq;
 
 namespace Atata
 {
-    public abstract class QualifierFindAttribute : FindAttribute, IQualifierAttribute
+    public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute
     {
-        protected QualifierFindAttribute(QualifierFormat format = QualifierFormat.Inherit)
+        protected TermFindAttribute(TermFormat format = TermFormat.Inherit)
         {
             Format = format;
         }
 
-        protected QualifierFindAttribute(params string[] values)
+        protected TermFindAttribute(params string[] values)
         {
             Values = values;
         }
 
         public string[] Values { get; private set; }
-        public QualifierFormat Format { get; private set; }
+        public TermFormat Format { get; private set; }
         public bool ApplyNameAsIs { get; set; }
 
-        public virtual string[] GetQualifiers(UIComponentMetadata metadata)
+        public virtual string[] GetTerms(UIComponentMetadata metadata)
         {
             if (Values != null && Values.Any())
             {
@@ -28,23 +28,23 @@ namespace Atata
             }
             else
             {
-                StringValueAttribute stringValueAttribute = metadata.GetFirstOrDefaultPropertyAttribute<StringValueAttribute>(x => x.Values != null && x.Values.Any());
-                if (stringValueAttribute != null)
-                    return stringValueAttribute.Values;
+                TermAttribute termAttribute = metadata.GetFirstOrDefaultPropertyAttribute<TermAttribute>(x => x.Values != null && x.Values.Any());
+                if (termAttribute != null)
+                    return termAttribute.Values;
             }
-            return new[] { GetQualifierFromProperty(metadata) };
+            return new[] { GetTermFromProperty(metadata) };
         }
 
-        private string GetQualifierFromProperty(UIComponentMetadata metadata)
+        private string GetTermFromProperty(UIComponentMetadata metadata)
         {
-            QualifierFormat format = GetQualifierFormat(metadata);
+            TermFormat format = GetTermFormat(metadata);
             string name = GetPropertyName(metadata);
             return Humanize(name, format);
         }
 
-        private QualifierFormat GetQualifierFormat(UIComponentMetadata metadata)
+        private TermFormat GetTermFormat(UIComponentMetadata metadata)
         {
-            return Format != QualifierFormat.Inherit ? Format : GetQualifierFormatFromMetadata(metadata);
+            return Format != TermFormat.Inherit ? Format : GetTermFormatFromMetadata(metadata);
         }
 
         private string GetPropertyName(UIComponentMetadata metadata)
@@ -61,29 +61,29 @@ namespace Atata
             return name;
         }
 
-        protected abstract QualifierFormat GetQualifierFormatFromMetadata(UIComponentMetadata metadata);
+        protected abstract TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata);
 
-        private static string Humanize(string name, QualifierFormat format)
+        private static string Humanize(string name, TermFormat format)
         {
             switch (format)
             {
-                case QualifierFormat.Title:
+                case TermFormat.Title:
                     return name.Humanize(LetterCasing.Title);
-                case QualifierFormat.Sentence:
+                case TermFormat.Sentence:
                     return name.Humanize(LetterCasing.Sentence);
-                case QualifierFormat.LowerCase:
+                case TermFormat.LowerCase:
                     return name.Humanize(LetterCasing.LowerCase);
-                case QualifierFormat.UpperCase:
+                case TermFormat.UpperCase:
                     return name.Humanize(LetterCasing.AllCaps);
-                case QualifierFormat.Camel:
+                case TermFormat.Camel:
                     return name.Humanize().Camelize();
-                case QualifierFormat.Pascal:
+                case TermFormat.Pascal:
                     return name.Humanize().Pascalize();
-                case QualifierFormat.Dashed:
+                case TermFormat.Dashed:
                     return name.Humanize().Dasherize();
-                case QualifierFormat.XDashed:
+                case TermFormat.XDashed:
                     return "x-" + name.Humanize().Dasherize();
-                case QualifierFormat.Underscored:
+                case TermFormat.Underscored:
                     return name.Humanize().Underscore();
                 default:
                     throw new ArgumentException("Unknown format", "format");

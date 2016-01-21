@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public enum QualifierFormat
+    public enum TermFormat
     {
         Inherit,
         Title,

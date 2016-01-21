@@ -3,9 +3,9 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-    public class StringValueAttribute : Attribute
+    public class TermAttribute : Attribute
     {
-        public StringValueAttribute(params string[] values)
+        public TermAttribute(params string[] values)
         {
             Values = values;
         }

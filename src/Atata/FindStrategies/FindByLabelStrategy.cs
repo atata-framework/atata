@@ -9,10 +9,10 @@ namespace Atata
 
         public ElementLocator Find(IWebElement scope, ElementFindOptions options)
         {
-            string labelCondition = options.GetQualifiersXPathCondition();
+            string labelCondition = options.GetTermsXPathCondition();
             IWebElement label = scope.Get(
                 By.XPath(".//label[{0}]{1}".FormatWith(labelCondition, options.GetPositionWrappedXPathCondition())).
-                    Label(options.GetQualifiersAsString()).
+                    Label(options.GetTermsAsString()).
                     Safely(options.IsSafely));
 
             if (label == null && options.IsSafely)
@@ -21,9 +21,9 @@ namespace Atata
             string elementId = label.GetAttribute("for");
 
             ElementFindOptions idOptions = options.Clone();
-            idOptions.Qualifiers = new[] { elementId };
+            idOptions.Terms = new[] { elementId };
             idOptions.Index = null;
-            idOptions.Match = QualifierMatch.Equals;
+            idOptions.Match = TermMatch.Equals;
 
             return findByIdStrategy.Find(scope, idOptions);
         }

@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public enum QualifierMatch
+    public enum TermMatch
     {
         Inherit,
         Contains,

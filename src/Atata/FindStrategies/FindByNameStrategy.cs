@@ -12,7 +12,7 @@ namespace Atata
 
         protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
         {
-            string nameCondition = options.GetQualifiersXPathCondition("@name");
+            string nameCondition = options.GetTermsXPathCondition("@name");
 
             builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(nameCondition, options.GetPositionWrappedXPathCondition()));
         }

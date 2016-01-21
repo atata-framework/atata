@@ -2,14 +2,14 @@
 
 namespace Atata
 {
-    public class FindByLabelAttribute : QualifierMatchFindAttribute
+    public class FindByLabelAttribute : TermMatchFindAttribute
     {
-        private const QualifierFormat DefaultFormat = QualifierFormat.Title;
-        private const QualifierMatch DefaultMatch = QualifierMatch.Equals;
+        private const TermFormat DefaultFormat = TermFormat.Title;
+        private const TermMatch DefaultMatch = TermMatch.Equals;
 
         private readonly Type defaultStrategy = typeof(FindByLabelStrategy);
 
-        public FindByLabelAttribute(QualifierFormat format = QualifierFormat.Inherit, QualifierMatch match = QualifierMatch.Inherit)
+        public FindByLabelAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
             : base(format, match)
         {
         }
@@ -40,15 +40,15 @@ namespace Atata
             }
         }
 
-        protected override QualifierFormat GetQualifierFormatFromMetadata(UIComponentMetadata metadata)
+        protected override TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata)
         {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Format != QualifierFormat.Inherit);
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Format != TermFormat.Inherit);
             return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
         }
 
-        protected override QualifierMatch GetQualifierMatchFromMetadata(UIComponentMetadata metadata)
+        protected override TermMatch GetTremMatchFromMetadata(UIComponentMetadata metadata)
         {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Match != QualifierMatch.Inherit);
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Match != TermMatch.Inherit);
             return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
         }
     }

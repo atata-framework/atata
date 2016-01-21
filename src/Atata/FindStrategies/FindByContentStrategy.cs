@@ -8,8 +8,8 @@ namespace Atata
         {
             builder.AppendFormat(
                 "[{0} or {1}]",
-                options.GetQualifiersXPathCondition(),
-                options.GetQualifiersXPathCondition("@value"));
+                options.GetTermsXPathCondition(),
+                options.GetTermsXPathCondition("@value"));
         }
     }
 }

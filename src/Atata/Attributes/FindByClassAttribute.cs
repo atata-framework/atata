@@ -1,11 +1,11 @@
 ﻿namespace Atata
 {
-    public class FindByClassAttribute : QualifierFindAttribute
+    public class FindByClassAttribute : TermFindAttribute
     {
-        private const QualifierFormat DefaultFormat = QualifierFormat.Dashed;
-        private const QualifierMatch DefaultMatch = QualifierMatch.Contains;
+        private const TermFormat DefaultFormat = TermFormat.Dashed;
+        private const TermMatch DefaultMatch = TermMatch.Contains;
 
-        public FindByClassAttribute(QualifierFormat format)
+        public FindByClassAttribute(TermFormat format)
             : base(format)
         {
         }
@@ -20,9 +20,9 @@
             return new FindByClassStrategy();
         }
 
-        protected override QualifierFormat GetQualifierFormatFromMetadata(UIComponentMetadata metadata)
+        protected override TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata)
         {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByClassSettingsAttribute>(x => x.Format != QualifierFormat.Inherit);
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByClassSettingsAttribute>(x => x.Format != TermFormat.Inherit);
             return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
         }
     }

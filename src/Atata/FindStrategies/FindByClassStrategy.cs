@@ -22,8 +22,8 @@ namespace Atata
         {
             string conditionFormat = "contains(concat(' ', normalize-space(@class), ' '), ' {0} ')";
 
-            var conditionOrParts = options.Qualifiers.
-                Select(q => q.Split(' ').Where(qp => !string.IsNullOrWhiteSpace(qp)).ToArray()).
+            var conditionOrParts = options.Terms.
+                Select(t => t.Split(' ').Where(qp => !string.IsNullOrWhiteSpace(qp)).ToArray()).
                 Where(qps => qps.Any()).
                 Select(qps => string.Join(" and ", qps.Select(qp => conditionFormat.FormatWith(qp)))).
                 ToArray();

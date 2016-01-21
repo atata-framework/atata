@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public class FindByXPathAttribute : FindAttribute, IQualifierAttribute
+    public class FindByXPathAttribute : FindAttribute, ITermFindAttribute
     {
         public FindByXPathAttribute(params string[] values)
         {
@@ -9,7 +9,7 @@
 
         public string[] Values { get; private set; }
 
-        public string[] GetQualifiers(UIComponentMetadata metadata)
+        public string[] GetTerms(UIComponentMetadata metadata)
         {
             return Values;
         }

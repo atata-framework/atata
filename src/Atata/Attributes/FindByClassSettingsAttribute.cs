@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
-    public class FindByClassSettingsAttribute : QualifierFindSettingsAttribute
+    public class FindByClassSettingsAttribute : TermFindSettingsAttribute
     {
-        public FindByClassSettingsAttribute(QualifierFormat format = QualifierFormat.Inherit, QualifierMatch match = QualifierMatch.Inherit)
+        public FindByClassSettingsAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
             : base(format, match)
         {
         }

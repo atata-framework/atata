@@ -5,11 +5,11 @@ namespace Atata
 {
     public class ElementFindOptions : ICloneable
     {
-        public string[] Qualifiers { get; set; }
+        public string[] Terms { get; set; }
         public string ElementXPath { get; set; }
         public string IdFinderFormat { get; set; }
         public int? Index { get; set; }
-        public QualifierMatch Match { get; set; }
+        public TermMatch Match { get; set; }
         public bool IsSafely { get; set; }
 
         public bool HasIndex
@@ -22,14 +22,14 @@ namespace Atata
             get { return HasIndex ? Index + 1 : null; }
         }
 
-        public string GetQualifiersXPathCondition(string value = ".")
+        public string GetTermsXPathCondition(string value = ".")
         {
-            return Match.CreateXPathCondition(Qualifiers, value);
+            return Match.CreateXPathCondition(Terms, value);
         }
 
-        public string GetQualifiersAsString()
+        public string GetTermsAsString()
         {
-            return Qualifiers != null ? string.Join("/", Qualifiers) : null;
+            return Terms != null ? string.Join("/", Terms) : null;
         }
 
         public string GetPositionWrappedXPathCondition()

@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using Humanizer;
+using OpenQA.Selenium;
+using System;
 using System.Text;
 
 namespace Atata
@@ -7,17 +9,24 @@ namespace Atata
     {
         internal static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
         {
-            string message = BuildMessage("Unable to locate element", elementName, by);
+            string message = BuildElementErrorMessage("Unable to locate element", elementName, by);
             return new NoSuchElementException(message);
         }
 
         internal static NotMissingElementException CreateForNotMissingElement(string elementName = null, By by = null)
         {
-            string message = BuildMessage("Able to locate element that should be missing", elementName, by);
+            string message = BuildElementErrorMessage("Able to locate element that should be missing", elementName, by);
             return new NotMissingElementException(message);
         }
 
-        private static string BuildMessage(string message, string elementName, By by)
+        internal static ArgumentException CreateForUnsuppotedEnumValue<T>(T value, string paramName)
+            where T : struct
+        {
+            string message = "Unsopported {0} value: {1}.".FormatWith(typeof(T).FullName, value);
+            return new ArgumentException(message, paramName);
+        }
+
+        private static string BuildElementErrorMessage(string message, string elementName, By by)
         {
             StringBuilder builder = new StringBuilder(message);
 
