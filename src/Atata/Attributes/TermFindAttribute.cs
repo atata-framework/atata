@@ -18,7 +18,7 @@ namespace Atata
 
         public string[] Values { get; private set; }
         public TermFormat Format { get; private set; }
-        public bool ApplyNameAsIs { get; set; }
+        public bool CutEnding { get; set; }
 
         public virtual string[] GetTerms(UIComponentMetadata metadata)
         {
@@ -50,7 +50,7 @@ namespace Atata
         private string GetPropertyName(UIComponentMetadata metadata)
         {
             string name = metadata.Name;
-            if (!ApplyNameAsIs)
+            if (CutEnding)
             {
                 string suffixToIgnore = metadata.ComponentAttribute.GetIgnoreNameEndingValues().
                     FirstOrDefault(x => name.EndsWith(x) && name.Length > x.Length);
