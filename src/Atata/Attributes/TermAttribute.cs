@@ -5,8 +5,13 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
     public class TermAttribute : Attribute
     {
-        public TermAttribute(TermFormat format = TermFormat.Inherit)
-            : this(null, format: format)
+        public TermAttribute(TermMatch match)
+            : this(null, TermFormat.Inherit, match)
+        {
+        }
+
+        public TermAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
+            : this(null, format, match)
         {
         }
 
@@ -20,7 +25,7 @@ namespace Atata
         {
         }
 
-        protected TermAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        private TermAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
         {
             Values = values;
             Format = format;

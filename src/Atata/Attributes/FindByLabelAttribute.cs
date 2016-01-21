@@ -2,15 +2,25 @@
 
 namespace Atata
 {
-    public class FindByLabelAttribute : TermMatchFindAttribute
+    public class FindByLabelAttribute : TermFindAttribute
     {
         private const TermFormat DefaultFormat = TermFormat.Title;
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
         private readonly Type defaultStrategy = typeof(FindByLabelStrategy);
 
-        public FindByLabelAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        public FindByLabelAttribute(TermMatch match)
+            : base(match)
+        {
+        }
+
+        public FindByLabelAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
             : base(format, match)
+        {
+        }
+
+        public FindByLabelAttribute(string value, TermMatch match)
+            : base(value, match)
         {
         }
 
@@ -46,7 +56,7 @@ namespace Atata
             return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
         }
 
-        protected override TermMatch GetTremMatchFromMetadata(UIComponentMetadata metadata)
+        protected override TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata)
         {
             var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Match != TermMatch.Inherit);
             return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;

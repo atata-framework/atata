@@ -1,23 +1,41 @@
 ﻿using Humanizer;
-using System;
 using System.Linq;
 
 namespace Atata
 {
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute
     {
-        protected TermFindAttribute(TermFormat format = TermFormat.Inherit)
+        protected TermFindAttribute(TermMatch match)
+            : this(null, TermFormat.Inherit, match)
         {
-            Format = format;
+        }
+
+        protected TermFindAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
+            : this(null, format, match)
+        {
+        }
+
+        protected TermFindAttribute(string value, TermMatch match)
+            : this(new[] { value }, match: match)
+        {
         }
 
         protected TermFindAttribute(params string[] values)
+            : this(values, TermFormat.Inherit)
+        {
+        }
+
+        private TermFindAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
         {
             Values = values;
+            Format = format;
+            Match = match;
+            CutEnding = true;
         }
 
         public string[] Values { get; private set; }
         public TermFormat Format { get; private set; }
+        public new TermMatch Match { get; set; }
         public bool CutEnding { get; set; }
 
         public virtual string[] GetTerms(UIComponentMetadata metadata)
@@ -47,6 +65,11 @@ namespace Atata
             return Format != TermFormat.Inherit ? Format : GetTermFormatFromMetadata(metadata);
         }
 
+        public TermMatch GetTermMatch(UIComponentMetadata metadata)
+        {
+            return Match != TermMatch.Inherit ? Match : GetTermMatchFromMetadata(metadata);
+        }
+
         private string GetPropertyName(UIComponentMetadata metadata)
         {
             string name = metadata.Name;
@@ -62,6 +85,8 @@ namespace Atata
         }
 
         protected abstract TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata);
+
+        protected abstract TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata);
 
         private static string Humanize(string name, TermFormat format)
         {
@@ -86,7 +111,7 @@ namespace Atata
                 case TermFormat.Underscored:
                     return name.Humanize().Underscore();
                 default:
-                    throw new ArgumentException("Unknown format", "format");
+                    throw ExceptionsFactory.CreateForUnsuppotedEnumValue(format, "format");
             }
         }
     }

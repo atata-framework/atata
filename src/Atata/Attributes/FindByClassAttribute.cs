@@ -5,8 +5,18 @@
         private const TermFormat DefaultFormat = TermFormat.Dashed;
         private const TermMatch DefaultMatch = TermMatch.Contains;
 
-        public FindByClassAttribute(TermFormat format)
-            : base(format)
+        public FindByClassAttribute(TermMatch match)
+            : base(match)
+        {
+        }
+
+        public FindByClassAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
+            : base(format, match)
+        {
+        }
+
+        public FindByClassAttribute(string value, TermMatch match)
+            : base(value, match)
         {
         }
 
@@ -24,6 +34,12 @@
         {
             var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByClassSettingsAttribute>(x => x.Format != TermFormat.Inherit);
             return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
+        }
+
+        protected override TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata)
+        {
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByClassSettingsAttribute>(x => x.Match != TermMatch.Inherit);
+            return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
         }
     }
 }

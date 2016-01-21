@@ -2,23 +2,34 @@
 
 namespace Atata
 {
-    public class FindByColumnAttribute : TermMatchFindAttribute
+    public class FindByColumnAttribute : TermFindAttribute
     {
         private const TermFormat DefaultFormat = TermFormat.Title;
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
+        private readonly bool useIndexStrategy;
         private readonly Type defaultStrategy = typeof(FindByColumnHeaderStrategy);
 
-        private bool useIndexStrategy;
-
-        public FindByColumnAttribute()
-        {
-        }
-
         public FindByColumnAttribute(int columnIndex)
+            : base()
         {
             ColumnIndex = columnIndex;
             useIndexStrategy = true;
+        }
+
+        public FindByColumnAttribute(TermMatch match)
+            : base(match)
+        {
+        }
+
+        public FindByColumnAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
+            : base(format, match)
+        {
+        }
+
+        public FindByColumnAttribute(string value, TermMatch match)
+            : base(value, match)
+        {
         }
 
         public FindByColumnAttribute(params string[] values)
@@ -62,7 +73,7 @@ namespace Atata
             return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
         }
 
-        protected override TermMatch GetTremMatchFromMetadata(UIComponentMetadata metadata)
+        protected override TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata)
         {
             var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByColumnSettingsAttribute>(x => x.Match != TermMatch.Inherit);
             return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
