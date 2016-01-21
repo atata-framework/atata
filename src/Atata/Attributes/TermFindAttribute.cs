@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute
+    public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute
     {
         protected TermFindAttribute(TermMatch match)
             : this(null, TermFormat.Inherit, match)
