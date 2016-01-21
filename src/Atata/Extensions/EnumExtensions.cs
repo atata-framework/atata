@@ -1,5 +1,6 @@
 ﻿using Humanizer;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Atata
@@ -21,11 +22,12 @@ namespace Atata
             Type type = value.GetType();
             MemberInfo memberInfo = type.GetMember(value.ToString())[0];
 
-            NameAttribute nameAttribute = memberInfo.GetCustomAttribute<NameAttribute>(false);
-            if (nameAttribute != null)
-                return nameAttribute.Value;
-            else
-                return value.Humanize(casing);
+            TermAttribute termAttribute = memberInfo.GetCustomAttribute<TermAttribute>(false);
+            string term = (termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any())
+                ? termAttribute.Values.First()
+                : value.ToString();
+
+            return (termAttribute.Format != TermFormat.Inherit) ? termAttribute.Format.ApplyTo(term) : term.Humanize(casing);
         }
     }
 }

@@ -199,7 +199,7 @@ namespace Atata
                 }
                 else
                 {
-                    TermAttribute termAttribute = metadata.GetFirstOrDefaultPropertyAttribute<TermAttribute>();
+                    TermAttribute termAttribute = metadata.GetTerm();
                     if (termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any())
                         return string.Join("/", termAttribute.Values);
                 }

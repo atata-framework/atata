@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Atata
 {
@@ -46,7 +45,7 @@ namespace Atata
             }
             else
             {
-                TermAttribute termAttribute = metadata.GetFirstOrDefaultPropertyAttribute<TermAttribute>(x => x.Values != null && x.Values.Any());
+                TermAttribute termAttribute = metadata.GetTerm(x => x.Values != null && x.Values.Any());
                 if (termAttribute != null)
                     return termAttribute.Values;
             }
@@ -57,23 +56,37 @@ namespace Atata
         {
             TermFormat format = GetTermFormat(metadata);
             string name = GetPropertyName(metadata);
-            return Humanize(name, format);
+            return format.ApplyTo(name);
         }
 
         private TermFormat GetTermFormat(UIComponentMetadata metadata)
         {
-            return Format != TermFormat.Inherit ? Format : GetTermFormatFromMetadata(metadata);
+            TermAttribute termAttribute;
+            if (Format != TermFormat.Inherit)
+                return Format;
+            else if ((termAttribute = metadata.GetTerm(x => x.Format != TermFormat.Inherit)) != null)
+                return termAttribute.Format;
+            else
+                return GetTermFormatFromMetadata(metadata);
         }
 
         public TermMatch GetTermMatch(UIComponentMetadata metadata)
         {
-            return Match != TermMatch.Inherit ? Match : GetTermMatchFromMetadata(metadata);
+            TermAttribute termAttribute;
+            if (Match != TermMatch.Inherit)
+                return Match;
+            else if ((termAttribute = metadata.GetTerm(x => x.Match != TermMatch.Inherit)) != null)
+                return termAttribute.Match;
+            else
+                return GetTermMatchFromMetadata(metadata);
         }
 
         private string GetPropertyName(UIComponentMetadata metadata)
         {
             string name = metadata.Name;
-            if (CutEnding)
+            TermAttribute termAttribute = metadata.GetTerm();
+
+            if (CutEnding && (termAttribute == null || termAttribute.CutEnding))
             {
                 string suffixToIgnore = metadata.ComponentAttribute.GetIgnoreNameEndingValues().
                     FirstOrDefault(x => name.EndsWith(x) && name.Length > x.Length);
@@ -87,32 +100,5 @@ namespace Atata
         protected abstract TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata);
 
         protected abstract TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata);
-
-        private static string Humanize(string name, TermFormat format)
-        {
-            switch (format)
-            {
-                case TermFormat.Title:
-                    return name.Humanize(LetterCasing.Title);
-                case TermFormat.Sentence:
-                    return name.Humanize(LetterCasing.Sentence);
-                case TermFormat.LowerCase:
-                    return name.Humanize(LetterCasing.LowerCase);
-                case TermFormat.UpperCase:
-                    return name.Humanize(LetterCasing.AllCaps);
-                case TermFormat.Camel:
-                    return name.Humanize().Camelize();
-                case TermFormat.Pascal:
-                    return name.Humanize().Pascalize();
-                case TermFormat.Dashed:
-                    return name.Humanize().Dasherize();
-                case TermFormat.XDashed:
-                    return "x-" + name.Humanize().Dasherize();
-                case TermFormat.Underscored:
-                    return name.Humanize().Underscore();
-                default:
-                    throw ExceptionsFactory.CreateForUnsuppotedEnumValue(format, "format");
-            }
-        }
     }
 }

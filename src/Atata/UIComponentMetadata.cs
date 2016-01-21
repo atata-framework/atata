@@ -72,6 +72,16 @@ namespace Atata
                 FirstOrDefault(predicate);
         }
 
+        public TermAttribute GetTerm()
+        {
+            return GetFirstOrDefaultPropertyAttribute<TermAttribute>();
+        }
+
+        public TermAttribute GetTerm(Func<TermAttribute, bool> predicate)
+        {
+            return GetFirstOrDefaultPropertyAttribute<TermAttribute>(predicate);
+        }
+
         public CultureInfo GetCulture()
         {
             return (GetFirstOrDefaultAttribute<CultureAttribute>(x => x.HasValue) ?? new CultureAttribute()).GetCultureInfo();
