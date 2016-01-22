@@ -16,12 +16,12 @@ namespace Atata
         }
 
         public TermAttribute(string value, TermMatch match)
-            : this(new[] { value }, match: match)
+            : this(new[] { value }, TermFormat.None, match: match)
         {
         }
 
         public TermAttribute(params string[] values)
-            : this(values, TermFormat.Inherit)
+            : this(values, TermFormat.None)
         {
         }
 

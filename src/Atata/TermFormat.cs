@@ -3,6 +3,7 @@
     public enum TermFormat
     {
         Inherit,
+        None,
         Title,
         Sentence,
         LowerCase,

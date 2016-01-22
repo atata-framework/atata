@@ -8,6 +8,8 @@ namespace Atata
         {
             switch (format)
             {
+                case TermFormat.None:
+                    return value;
                 case TermFormat.Title:
                     return value.Humanize(LetterCasing.Title);
                 case TermFormat.Sentence:

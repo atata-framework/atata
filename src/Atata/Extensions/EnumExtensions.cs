@@ -23,11 +23,15 @@ namespace Atata
             MemberInfo memberInfo = type.GetMember(value.ToString())[0];
 
             TermAttribute termAttribute = memberInfo.GetCustomAttribute<TermAttribute>(false);
-            string term = (termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any())
-                ? termAttribute.Values.First()
-                : value.ToString();
+            bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
+            string term = hasTermValue ? termAttribute.Values.First() : value.ToString();
 
-            return (termAttribute.Format != TermFormat.Inherit) ? termAttribute.Format.ApplyTo(term) : term.Humanize(casing);
+            if (hasTermValue)
+                return term;
+            else if (termAttribute != null && termAttribute.Format != TermFormat.Inherit)
+                return termAttribute.Format.ApplyTo(term);
+            else
+                return term.Humanize(casing);
         }
     }
 }
