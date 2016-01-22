@@ -87,7 +87,9 @@ namespace Atata
             {
                 Driver = Driver,
                 Component = this,
-                ParentComponent = Parent
+                ParentComponent = Parent,
+                ComponentScopeFinder = ScopeElementFinder,
+                ParentComponentScopeFinder = Parent.ScopeElementFinder
             };
 
             foreach (var trigger in triggers)
