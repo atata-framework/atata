@@ -19,7 +19,7 @@
         {
             base.ApplyMetadata(metadata);
 
-            setAllGeneratables = metadata.GetFirstOrDefaultPropertyAttribute<SetAllGeneratablesAttribute>() != null;
+            setAllGeneratables = metadata.GetFirstOrDefaultDeclaringAttribute<SetAllGeneratablesAttribute>() != null;
         }
     }
 }

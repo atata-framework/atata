@@ -11,75 +11,64 @@ namespace Atata
             Type componentType,
             Type parentComponentType,
             UIComponentAttribute componentAttribute,
-            Attribute[] propertyAttributes,
-            Attribute[] classAttributes,
+            Attribute[] declaringAttributes,
+            Attribute[] componentAttributes,
+            Attribute[] parentComponentAttributes,
             Attribute[] assemblyAttributes)
         {
             Name = name;
             ComponentType = componentType;
             ParentComponentType = parentComponentType;
             ComponentAttribute = componentAttribute;
-            PropertyAttributes = propertyAttributes;
-            ClassAttributes = classAttributes;
+            DeclaringAttributes = declaringAttributes;
+            ComponentAttributes = componentAttributes;
+            ParentComponentAttributes = parentComponentAttributes;
             AssemblyAttributes = assemblyAttributes;
 
-            GlobalAttributes = ClassAttributes.Concat(AssemblyAttributes).ToArray();
-            AllAttributes = PropertyAttributes.Concat(GlobalAttributes).ToArray();
+            GlobalAttributes = ParentComponentAttributes.Concat(AssemblyAttributes).ToArray();
+            AllAttributes = DeclaringAttributes.Concat(GlobalAttributes).ToArray();
         }
 
         public string Name { get; private set; }
         public Type ComponentType { get; private set; }
         public Type ParentComponentType { get; private set; }
         public UIComponentAttribute ComponentAttribute { get; private set; }
-        public Attribute[] PropertyAttributes { get; private set; }
-        public Attribute[] ClassAttributes { get; private set; }
+        public Attribute[] DeclaringAttributes { get; private set; }
+        public Attribute[] ComponentAttributes { get; private set; }
+        public Attribute[] ParentComponentAttributes { get; private set; }
         public Attribute[] AssemblyAttributes { get; private set; }
         public Attribute[] GlobalAttributes { get; private set; }
         public Attribute[] AllAttributes { get; private set; }
 
-        public T GetFirstOrDefaultPropertyAttribute<T>() where T : Attribute
+        public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
         {
-            return PropertyAttributes.
-                OfType<T>().
-                FirstOrDefault();
+            return GetFirstOrDefaultAttribute(DeclaringAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultPropertyAttribute<T>(Func<T, bool> predicate) where T : Attribute
+        public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
         {
-            return PropertyAttributes.
-                OfType<T>().
-                FirstOrDefault(predicate);
+            return GetFirstOrDefaultAttribute(GlobalAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultGlobalAttribute<T>() where T : Attribute
+        public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
         {
-            return GlobalAttributes.
-                OfType<T>().
-                FirstOrDefault();
+            return GetFirstOrDefaultAttribute(AllAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate) where T : Attribute
+        private T GetFirstOrDefaultAttribute<T>(Attribute[] attributes, Func<T, bool> predicate = null) where T : Attribute
         {
-            return GlobalAttributes.
-                OfType<T>().
-                FirstOrDefault(predicate);
-        }
-
-        public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate) where T : Attribute
-        {
-            return AllAttributes.
-                OfType<T>().
-                FirstOrDefault(predicate);
+            var query = attributes.OfType<T>();
+            return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
         }
 
         public TermAttribute GetTerm()
         {
-            return GetFirstOrDefaultPropertyAttribute<TermAttribute>();
+            return GetFirstOrDefaultDeclaringAttribute<TermAttribute>();
         }
 
         public TermAttribute GetTerm(Func<TermAttribute, bool> predicate)
         {
-            return GetFirstOrDefaultPropertyAttribute<TermAttribute>(predicate);
+            return GetFirstOrDefaultDeclaringAttribute<TermAttribute>(predicate);
         }
 
         public CultureInfo GetCulture()
@@ -89,7 +78,7 @@ namespace Atata
 
         public string GetFormat(Type componentType)
         {
-            FormatAttribute formatAttribute = GetFirstOrDefaultPropertyAttribute<FormatAttribute>();
+            FormatAttribute formatAttribute = GetFirstOrDefaultDeclaringAttribute<FormatAttribute>();
             if (formatAttribute != null)
             {
                 return formatAttribute.Value;

@@ -28,7 +28,7 @@ namespace Atata
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            generatableAttribute = metadata.GetFirstOrDefaultPropertyAttribute<GeneratableNumberAttribute>();
+            generatableAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<GeneratableNumberAttribute>();
             cultureInfo = metadata.GetCulture();
             format = metadata.GetFormat(GetType());
         }

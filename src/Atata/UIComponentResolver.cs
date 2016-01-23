@@ -184,7 +184,7 @@ namespace Atata
 
         private static string ResolveComponentName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            NameAttribute nameAttribute = metadata.GetFirstOrDefaultPropertyAttribute<NameAttribute>();
+            NameAttribute nameAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<NameAttribute>();
             if (nameAttribute != null)
             {
                 return nameAttribute.Value;
@@ -217,21 +217,22 @@ namespace Atata
                 GetPropertyAttributes(property));
         }
 
-        private static UIComponentMetadata CreateComponentMetadata(string name, Type componentType, Type parentComponentType, Attribute[] componentAttributes)
+        private static UIComponentMetadata CreateComponentMetadata(string name, Type componentType, Type parentComponentType, Attribute[] declaringAttributes)
         {
             return new UIComponentMetadata(
                 name,
                 componentType,
                 parentComponentType,
                 GetComponentAttribute(componentType),
-                componentAttributes,
+                declaringAttributes,
+                GetClassAttributes(componentType),
                 GetClassAttributes(parentComponentType),
                 GetAssemblyAttributes(parentComponentType.Assembly));
         }
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
         {
-            FindAttribute findAttribute = metadata.GetFirstOrDefaultPropertyAttribute<FindAttribute>();
+            FindAttribute findAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<FindAttribute>();
             if (findAttribute != null)
             {
                 return findAttribute;
@@ -258,7 +259,7 @@ namespace Atata
 
         private static FindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
-            FindItemAttribute findAttribute = metadata.GetFirstOrDefaultPropertyAttribute<FindItemAttribute>();
+            FindItemAttribute findAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<FindItemAttribute>();
             if (findAttribute != null)
             {
                 return findAttribute;

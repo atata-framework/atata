@@ -30,7 +30,7 @@ namespace Atata
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            Settings = metadata.GetFirstOrDefaultPropertyAttribute<SelectSettingsAttribute>()
+            Settings = metadata.GetFirstOrDefaultDeclaringAttribute<SelectSettingsAttribute>()
                 ?? new SelectSettingsAttribute();
         }
     }

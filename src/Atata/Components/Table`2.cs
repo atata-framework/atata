@@ -19,7 +19,7 @@ namespace Atata
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            Settings = metadata.GetFirstOrDefaultPropertyAttribute<TableSettingsAttribute>()
+            Settings = metadata.GetFirstOrDefaultDeclaringAttribute<TableSettingsAttribute>()
                 ?? new TableSettingsAttribute();
 
             ItemKindName = ComponentName.Singularize(false);

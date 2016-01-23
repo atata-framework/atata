@@ -19,7 +19,7 @@
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            generatableAttribute = metadata.GetFirstOrDefaultPropertyAttribute<GeneratableStringAttribute>() ?? new GeneratableStringAttribute();
+            generatableAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<GeneratableStringAttribute>() ?? new GeneratableStringAttribute();
         }
     }
 }
