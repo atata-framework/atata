@@ -197,6 +197,7 @@
     <Compile Include="TriggerContext.cs" />
     <Compile Include="TriggerEvent.cs" />
     <Compile Include="TriggerPriority.cs" />
+    <Compile Include="TriggerScope.cs" />
     <Compile Include="UIComponentMetadata.cs" />
     <Compile Include="TermFormat.cs" />
     <Compile Include="TermMatch.cs" />
