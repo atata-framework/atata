@@ -140,13 +140,13 @@ namespace Atata
 
             IItemsControl itemsControl = component as IItemsControl;
 
-            ScopeSource scopeSource = findAttribute.GetScope(metadata);
+            component.ScopeSource = findAttribute.GetScope(metadata);
 
             if (itemsControl != null)
             {
                 component.ScopeElementFinder = isSafely =>
                     {
-                        return GetScopeElement(parentComponent, scopeSource);
+                        return component.ScopeSource.GetScopeElement(parentComponent);
                     };
                 itemsControl.ItemsFindStrategy = strategy;
                 itemsControl.ItemsFindOptions = findOptions;
@@ -158,27 +158,10 @@ namespace Atata
                 component.ScopeElementFinder = isSafely =>
                     {
                         findOptions.IsSafely = isSafely;
-                        IWebElement scope = GetScopeElement(parentComponent, scopeSource);
+                        IWebElement scope = component.ScopeSource.GetScopeElement(parentComponent);
                         ElementLocator locator = strategy.Find(scope, findOptions);
                         return locator.GetElement(isSafely);
                     };
-            }
-        }
-
-        private static IWebElement GetScopeElement(UIComponent parentComponent, ScopeSource scopeSource)
-        {
-            switch (scopeSource)
-            {
-                case ScopeSource.Parent:
-                    return parentComponent.Scope;
-                case ScopeSource.Grandparent:
-                    return parentComponent.Parent.Scope;
-                case ScopeSource.PageObject:
-                    return parentComponent.Owner.Scope;
-                case ScopeSource.Page:
-                    return parentComponent.Driver.Get(By.TagName("body"));
-                default:
-                    throw new ArgumentException("scopeSource", "Unsupported '{0}' value of ScopeSource".FormatWith(scopeSource));
             }
         }
 

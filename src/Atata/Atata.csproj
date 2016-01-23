@@ -93,6 +93,12 @@
     <Compile Include="Attributes\Triggers\PressKeysAttribute.cs" />
     <Compile Include="Attributes\Triggers\TriggerAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForElementByClassAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForElementByCssAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForElementAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForElementByNameAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForElementByIdAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForElementByXPathAttribute.cs" />
     <Compile Include="Attributes\UIComponentAttribute.cs" />
     <Compile Include="Attributes\FindAttribute.cs" />
     <Compile Include="Attributes\FindByContentAttribute.cs" />
@@ -131,6 +137,7 @@
     <Compile Include="Exceptions\NotMissingElementException.cs" />
     <Compile Include="Exceptions\ExceptionsFactory.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ScopeSourceExtensions.cs" />
     <Compile Include="Extensions\TermFormatExtensions.cs" />
     <Compile Include="Extensions\TermMatchExtensions.cs" />
     <Compile Include="FindStrategies\FindByClassStrategy.cs" />

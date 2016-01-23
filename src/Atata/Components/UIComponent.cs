@@ -25,6 +25,7 @@ namespace Atata
         protected internal ILogManager Log { get; internal set; }
         protected internal RemoteWebDriver Driver { get; internal set; }
 
+        protected internal ScopeSource ScopeSource { get; internal set; }
         protected internal ElementFinder ScopeElementFinder { get; internal set; }
         protected internal bool CacheScopeElement { get; internal set; }
         protected internal string ComponentName { get; internal set; }
