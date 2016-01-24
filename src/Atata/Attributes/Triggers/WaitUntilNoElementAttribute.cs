@@ -4,8 +4,8 @@ namespace Atata
 {
     public abstract class WaitUntilNoElementAttribute : ElementWaitAttribute
     {
-        protected WaitUntilNoElementAttribute(By by, TriggerEvent on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope applyTo = TriggerScope.Self)
-            : base(by, on, priority, applyTo)
+        protected WaitUntilNoElementAttribute(By by, TriggerEvent on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+            : base(by, on, priority, appliesTo)
         {
         }
 

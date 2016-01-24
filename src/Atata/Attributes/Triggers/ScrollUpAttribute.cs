@@ -2,8 +2,8 @@
 {
     public class ScrollUpAttribute : TriggerAttribute
     {
-        public ScrollUpAttribute(TriggerEvent on = TriggerEvent.BeforeAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope applyTo = TriggerScope.Self)
-            : base(on, priority, applyTo)
+        public ScrollUpAttribute(TriggerEvent on = TriggerEvent.BeforeAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+            : base(on, priority, appliesTo)
         {
         }
 
