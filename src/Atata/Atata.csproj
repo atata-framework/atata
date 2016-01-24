@@ -87,6 +87,7 @@
     <Compile Include="Attributes\TermAttribute.cs" />
     <Compile Include="Attributes\FindByIdAttribute.cs" />
     <Compile Include="Attributes\Triggers\ClickParentAttribute.cs" />
+    <Compile Include="Attributes\Triggers\ElementWaitAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEnterAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressTabAttribute.cs" />
     <Compile Include="Attributes\Triggers\ScrollUpAttribute.cs" />
@@ -99,6 +100,12 @@
     <Compile Include="Attributes\Triggers\WaitForElementByNameAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByIdAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByXPathAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitUntilNoElementAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitUntilNoElementByClassAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitUntilNoElementByCssAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitUntilNoElementByIdAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitUntilNoElementByNameAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitUntilNoElementByXPathAttribute.cs" />
     <Compile Include="Attributes\UIComponentAttribute.cs" />
     <Compile Include="Attributes\FindAttribute.cs" />
     <Compile Include="Attributes\FindByContentAttribute.cs" />

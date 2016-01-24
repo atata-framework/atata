@@ -2,22 +2,16 @@
 
 namespace Atata
 {
-    public abstract class WaitForElementAttribute : TriggerAttribute
+    public abstract class WaitForElementAttribute : ElementWaitAttribute
     {
         protected WaitForElementAttribute(By by, TriggerEvent on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope scope = TriggerScope.Self)
-            : base(on, priority, scope)
+            : base(by, on, priority, scope)
         {
-            By = by;
         }
 
-        public By By { get; private set; }
-        public ScopeSource ScopeSource { get; set; }
-
-        public override void Run(TriggerContext context)
+        protected override void Wait(IWebElement scopeElement)
         {
-            ScopeSource scopeSource = ScopeSource != ScopeSource.Inherit ? ScopeSource : context.Component.ScopeSource;
-            IWebElement element = scopeSource.GetScopeElement(context.ParentComponent);
-            element.Exists(By);
+            scopeElement.Exists(By);
         }
     }
 }
