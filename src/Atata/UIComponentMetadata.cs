@@ -26,7 +26,7 @@ namespace Atata
             AssemblyAttributes = assemblyAttributes;
 
             GlobalAttributes = ParentComponentAttributes.Concat(AssemblyAttributes).ToArray();
-            AllAttributes = DeclaringAttributes.Concat(GlobalAttributes).ToArray();
+            AllAttributes = DeclaringAttributes.Concat(GlobalAttributes).Concat(ComponentAttributes).ToArray();
         }
 
         public string Name { get; private set; }
