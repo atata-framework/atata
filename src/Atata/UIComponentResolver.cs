@@ -206,7 +206,6 @@ namespace Atata
                 name,
                 componentType,
                 parentComponentType,
-                GetComponentAttribute(componentType),
                 declaringAttributes,
                 GetClassAttributes(componentType),
                 GetClassAttributes(parentComponentType),
@@ -257,8 +256,8 @@ namespace Atata
         {
             ElementFindOptions options = new ElementFindOptions
             {
-                ElementXPath = metadata.ComponentAttribute.ElementXPath,
-                IdFinderFormat = metadata.ComponentAttribute.IdFinderFormat,
+                ElementXPath = metadata.ComponentDefinitonAttribute != null ? metadata.ComponentDefinitonAttribute.ElementXPath : "*",
+                IdFinderFormat = metadata.ComponentDefinitonAttribute != null ? metadata.ComponentDefinitonAttribute.IdFinderFormat : null,
                 Index = findAttribute.Index != 0 ? (int?)findAttribute.Index : null
             };
 
@@ -292,15 +291,6 @@ namespace Atata
             }
 
             return resultTriggers.OrderBy(x => x.Priority).ToArray();
-        }
-
-        private static UIComponentAttribute GetComponentAttribute(Type componentType)
-        {
-            // TODO: Add cache.
-            UIComponentAttribute componentAttribute = componentType.GetCustomAttribute<UIComponentAttribute>(true);
-            if (componentAttribute == null)
-                throw new InvalidOperationException(string.Format("UIComponentAttribute is missing in '{0}' type", componentType.FullName));
-            return componentAttribute;
         }
 
         private static Attribute[] GetPropertyAttributes(PropertyInfo property)

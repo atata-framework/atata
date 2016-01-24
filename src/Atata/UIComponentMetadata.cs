@@ -10,7 +10,6 @@ namespace Atata
             string name,
             Type componentType,
             Type parentComponentType,
-            UIComponentAttribute componentAttribute,
             Attribute[] declaringAttributes,
             Attribute[] componentAttributes,
             Attribute[] parentComponentAttributes,
@@ -19,7 +18,6 @@ namespace Atata
             Name = name;
             ComponentType = componentType;
             ParentComponentType = parentComponentType;
-            ComponentAttribute = componentAttribute;
             DeclaringAttributes = declaringAttributes;
             ComponentAttributes = componentAttributes;
             ParentComponentAttributes = parentComponentAttributes;
@@ -27,18 +25,22 @@ namespace Atata
 
             GlobalAttributes = ParentComponentAttributes.Concat(AssemblyAttributes).ToArray();
             AllAttributes = DeclaringAttributes.Concat(GlobalAttributes).Concat(ComponentAttributes).ToArray();
+
+            ComponentDefinitonAttribute = GetFirstOrDefaultComponentAttribute<UIComponentAttribute>();
         }
 
         public string Name { get; private set; }
         public Type ComponentType { get; private set; }
         public Type ParentComponentType { get; private set; }
-        public UIComponentAttribute ComponentAttribute { get; private set; }
         public Attribute[] DeclaringAttributes { get; private set; }
         public Attribute[] ComponentAttributes { get; private set; }
         public Attribute[] ParentComponentAttributes { get; private set; }
         public Attribute[] AssemblyAttributes { get; private set; }
+
         public Attribute[] GlobalAttributes { get; private set; }
         public Attribute[] AllAttributes { get; private set; }
+
+        public UIComponentAttribute ComponentDefinitonAttribute { get; private set; }
 
         public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
         {
@@ -48,6 +50,11 @@ namespace Atata
         public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
         {
             return GetFirstOrDefaultAttribute(GlobalAttributes, predicate);
+        }
+
+        public T GetFirstOrDefaultComponentAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        {
+            return GetFirstOrDefaultAttribute(ComponentAttributes, predicate);
         }
 
         public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
@@ -61,12 +68,7 @@ namespace Atata
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
         }
 
-        public TermAttribute GetTerm()
-        {
-            return GetFirstOrDefaultDeclaringAttribute<TermAttribute>();
-        }
-
-        public TermAttribute GetTerm(Func<TermAttribute, bool> predicate)
+        public TermAttribute GetTerm(Func<TermAttribute, bool> predicate = null)
         {
             return GetFirstOrDefaultDeclaringAttribute<TermAttribute>(predicate);
         }
