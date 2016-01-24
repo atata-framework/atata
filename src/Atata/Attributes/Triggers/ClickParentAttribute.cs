@@ -2,8 +2,8 @@
 {
     public class ClickParentAttribute : TriggerAttribute
     {
-        public ClickParentAttribute(TriggerEvent on = TriggerEvent.BeforeAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope scope = TriggerScope.Self)
-            : base(on, priority, scope)
+        public ClickParentAttribute(TriggerEvent on = TriggerEvent.BeforeAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope applyTo = TriggerScope.Self)
+            : base(on, priority, applyTo)
         {
         }
 
