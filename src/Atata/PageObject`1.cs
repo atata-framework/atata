@@ -90,7 +90,7 @@ namespace Atata
         {
             ContentContainsAttribute attribute;
 
-            if (GetType().TryGetCustomAttribute(out attribute, true) && attribute.Values != null)
+            if (GetType().TryGetCustomAttribute(out attribute) && attribute.Values != null)
             {
                 string[] values = attribute.Values != null ? attribute.Values.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray() : new string[0];
                 string notFoundValue = null;

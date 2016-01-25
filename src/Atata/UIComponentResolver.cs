@@ -76,7 +76,7 @@ namespace Atata
 
             UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
 
-            property.SetValue(parentComponent, component);
+            property.SetValue(parentComponent, component, null);
         }
 
         private static void InitDelegateProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
