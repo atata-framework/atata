@@ -71,7 +71,7 @@
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\FindClickablesAttribute.cs" />
     <Compile Include="Attributes\FindEditableFieldsAttribute.cs" />
-    <Compile Include="Attributes\FindInScope.cs" />
+    <Compile Include="Attributes\FindInScopeAttribute.cs" />
     <Compile Include="Attributes\FindItemAttribute.cs" />
     <Compile Include="Attributes\FindItemByLabelAttribute.cs" />
     <Compile Include="Attributes\FormatAttribute.cs" />

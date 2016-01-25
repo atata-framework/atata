@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -23,7 +24,11 @@ namespace Atata
 
         private ScopeSource GetScopeFromMetadata(UIComponentMetadata metadata)
         {
-            var scopeAttribute = metadata.GetFirstOrDefaultAttribute<FindInScope>(x => x.Scope != ScopeSource.Inherit);
+            var scopeAttribute = metadata.DeclaringAttributes.
+                Concat(metadata.ParentComponentAttributes).
+                OfType<FindInScopeAttribute>().
+                FirstOrDefault(x => x.Scope != ScopeSource.Inherit);
+
             return scopeAttribute != null ? scopeAttribute.Scope : DefaultScopeSource;
         }
     }

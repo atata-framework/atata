@@ -3,9 +3,9 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Assembly, Inherited = true)]
-    public class FindInScope : Attribute
+    public class FindInScopeAttribute : Attribute
     {
-        public FindInScope(ScopeSource scope = ScopeSource.Inherit)
+        public FindInScopeAttribute(ScopeSource scope = ScopeSource.Inherit)
         {
             Scope = scope;
         }
