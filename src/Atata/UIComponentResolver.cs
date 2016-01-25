@@ -275,19 +275,28 @@ namespace Atata
 
         private static TriggerAttribute[] GetControlTriggers(UIComponentMetadata metadata)
         {
-            List<TriggerAttribute> allTriggers = metadata.AllAttributes.OfType<TriggerAttribute>().ToList();
-            List<TriggerAttribute> resultTriggers = new List<TriggerAttribute>();
+            List<TriggerAttribute> resultTriggers = metadata.ComponentAttributes.
+                OfType<TriggerAttribute>().
+                Where(x => x.AppliesTo == TriggerScope.Self).
+                OrderBy(x => x.Priority).
+                ToList();
 
-            while (allTriggers.Count > 0)
+            List<TriggerAttribute> allOtherTriggers = metadata.DeclaringAttributes.
+                Concat(metadata.ParentComponentAttributes.OfType<TriggerAttribute>().Where(x => x.AppliesTo == TriggerScope.Children)).
+                Concat(metadata.AssemblyAttributes).
+                OfType<TriggerAttribute>().
+                ToList();
+
+            while (allOtherTriggers.Count > 0)
             {
-                Type currentTriggerType = allTriggers[0].GetType();
-                TriggerAttribute[] currentTriggersOfSameType = allTriggers.Where(x => x.GetType() == currentTriggerType).ToArray();
+                Type currentTriggerType = allOtherTriggers[0].GetType();
+                TriggerAttribute[] currentTriggersOfSameType = allOtherTriggers.Where(x => x.GetType() == currentTriggerType).ToArray();
 
                 if (currentTriggersOfSameType.First().On != TriggerEvent.None)
                     resultTriggers.Add(currentTriggersOfSameType.First());
 
                 foreach (TriggerAttribute trigger in currentTriggersOfSameType)
-                    allTriggers.Remove(trigger);
+                    allOtherTriggers.Remove(trigger);
             }
 
             return resultTriggers.OrderBy(x => x.Priority).ToArray();
