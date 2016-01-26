@@ -6,7 +6,12 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class)]
     public class UIComponentAttribute : Attribute
     {
-        public UIComponentAttribute(string elementXPath, string idFinderFormat = null)
+        public UIComponentAttribute(string elementXPath)
+            : this(elementXPath, null)
+        {
+        }
+
+        public UIComponentAttribute(string elementXPath, string idFinderFormat)
         {
             ElementXPath = elementXPath;
             IdFinderFormat = idFinderFormat;
