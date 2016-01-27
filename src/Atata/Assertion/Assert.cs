@@ -15,6 +15,7 @@
         internal static AssertionSimpleDelegate<bool> That { get; private set; }
         internal static AssertionSimpleDelegate<object> NotNull { get; private set; }
         internal static AssertionDelgate<object> AreEqual { get; private set; }
+        internal static AssertionDelgate<object> AreNotEqual { get; private set; }
 
         // TODO: Perhaps remove ContainsSubstring method.
         internal static AssertionDelgate<string> ContainsSubstring { get; private set; }
@@ -24,6 +25,7 @@
             That = asserter.That;
             NotNull = asserter.NotNull;
             AreEqual = asserter.AreEqual;
+            AreNotEqual = asserter.AreNotEqual;
             ContainsSubstring = asserter.ContainsSubstring;
         }
     }

@@ -26,6 +26,12 @@ namespace Atata
             return new ArgumentException(message, paramName);
         }
 
+        internal static AssertionException CreateForFailedAssert(object expected, object actual, string message = null, params object[] args)
+        {
+            string errorMesage = BuildAssertionErrorMessage(expected, actual, message, args);
+            return new AssertionException(errorMesage);
+        }
+
         private static string BuildElementErrorMessage(string message, string elementName, By by)
         {
             StringBuilder builder = new StringBuilder(message);
@@ -46,6 +52,19 @@ namespace Atata
             }
 
             return builder.ToString();
+        }
+
+        private static string BuildAssertionErrorMessage(object expected, object actual, string message = null, params object[] args)
+        {
+            StringBuilder builder = new StringBuilder();
+            if (!string.IsNullOrWhiteSpace(message))
+                builder.AppendFormat(message, args).AppendLine();
+
+            return builder.
+                AppendFormat("Expected: {0}", expected).
+                AppendLine().
+                AppendFormat("But was: {0}", actual)
+                .ToString();
         }
     }
 }
