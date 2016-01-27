@@ -55,7 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assertion\Asserter.cs" />
+    <Compile Include="Assertion\Assert.cs" />
     <Compile Include="Assertion\DefaultAsserter.cs" />
     <Compile Include="Assertion\IAsserter.cs" />
     <Compile Include="Attributes\CultureAttribute.cs" />

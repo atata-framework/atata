@@ -39,7 +39,7 @@ namespace Atata
         {
             Log.StartVerificationSection("{0} component missing", ComponentName);
             IWebElement element = GetScopeElement(isSafely: true);
-            Asserter.That(element == null, "Found {0} component that should be missing", ComponentName);
+            Assert.That(element == null, "Found {0} component that should be missing", ComponentName);
             Log.EndSection();
             return Owner;
         }

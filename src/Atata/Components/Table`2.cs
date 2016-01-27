@@ -59,7 +59,7 @@ namespace Atata
                 Where(x => columnValues.All(cv => GetColumnValue(x, columnIndices[cv.Key]) == cv.Value)).
                 Count();
 
-            Asserter.That(itemsCount == 1, "Failed to find '{0}' {1}", name, ItemKindName);
+            Assert.That(itemsCount == 1, "Failed to find '{0}' {1}", name, ItemKindName);
 
             return Owner;
         }
@@ -67,7 +67,7 @@ namespace Atata
         protected IWebElement FindItem(string name, bool isFirst = false)
         {
             IWebElement item = GetItem(name, isFirst);
-            Asserter.NotNull(item, "Unable to locate {0} table row containing '{1}'", ItemKindName, name);
+            Assert.NotNull(item, "Unable to locate {0} table row containing '{1}'", ItemKindName, name);
             return item;
         }
 

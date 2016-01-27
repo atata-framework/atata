@@ -100,7 +100,7 @@ namespace Atata
                         notFoundValue = attribute.Values.FirstOrDefault(value => !text.Contains(value));
                         return notFoundValue == null;
                     });
-                Asserter.That(hasContent, "Expected to find content: {0}", notFoundValue);
+                Assert.That(hasContent, "Expected to find content: {0}", notFoundValue);
             }
         }
 
@@ -117,7 +117,7 @@ namespace Atata
                         AppendFormat("Expected: String containing '{0}'", Title).AppendLine().
                         AppendFormat("But was: '{0}'", Driver.Title).ToString();
 
-                    Asserter.That(containsTitle, message);
+                    Assert.That(containsTitle, message);
                 }
             }
         }

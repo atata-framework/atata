@@ -35,7 +35,7 @@ namespace Atata
 
         public TOwner VerifyEquals(T value)
         {
-            return Verify(actual => Asserter.AreEqual(value, actual, "Invalid {0} value", ComponentName), "equals '{0}'", value);
+            return Verify(actual => Assert.AreEqual(value, actual, "Invalid {0} value", ComponentName), "equals '{0}'", value);
         }
 
         public override bool Equals(object obj)
