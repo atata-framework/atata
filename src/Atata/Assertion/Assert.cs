@@ -19,6 +19,7 @@
 
         // TODO: Perhaps remove ContainsSubstring method.
         internal static AssertionDelgate<string> ContainsSubstring { get; private set; }
+        internal static AssertionDelgate<string> IsMatch { get; private set; }
 
         private static void Apply(IAsserter asserter)
         {
@@ -27,6 +28,7 @@
             AreEqual = asserter.AreEqual;
             AreNotEqual = asserter.AreNotEqual;
             ContainsSubstring = asserter.ContainsSubstring;
+            IsMatch = asserter.IsMatch;
         }
     }
 }

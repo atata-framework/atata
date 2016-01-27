@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using System.Text.RegularExpressions;
 
 namespace Atata
 {
@@ -32,6 +33,12 @@ namespace Atata
         {
             if (!actual.Contains(expected))
                 throw ExceptionsFactory.CreateForFailedAssert("String containing '{0}'".FormatWith(expected), "'{0}'".FormatWith(actual), message, args);
+        }
+
+        public void IsMatch(string pattern, string actual, string message, params object[] args)
+        {
+            if (!Regex.IsMatch(actual, pattern))
+                throw ExceptionsFactory.CreateForFailedAssert("String matching '{0}'".FormatWith(pattern), "'{0}'".FormatWith(actual), message, args);
         }
     }
 }
