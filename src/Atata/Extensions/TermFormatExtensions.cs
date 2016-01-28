@@ -19,15 +19,21 @@ namespace Atata
                 case TermFormat.UpperCase:
                     return value.Humanize(LetterCasing.AllCaps);
                 case TermFormat.Camel:
-                    return value.Humanize().Camelize();
+                    return value.Camelize();
                 case TermFormat.Pascal:
-                    return value.Humanize().Pascalize();
+                    return value.Pascalize();
                 case TermFormat.Dashed:
-                    return value.Humanize().Dasherize();
+                    return value.Underscore().Dasherize();
+                case TermFormat.Hyphenated:
+                    return value.Underscore().Hyphenate();
+                case TermFormat.PascalDashed:
+                    return value.Underscore().PascalDasherize();
+                case TermFormat.PascalHyphenated:
+                    return value.Underscore().PascalHyphenate();
                 case TermFormat.XDashed:
-                    return "x-" + value.Humanize().Dasherize();
+                    return "x-" + value.Underscore().Dasherize();
                 case TermFormat.Underscored:
-                    return value.Humanize().Underscore();
+                    return value.Underscore();
                 default:
                     throw ExceptionsFactory.CreateForUnsuppotedEnumValue(format, "format");
             }

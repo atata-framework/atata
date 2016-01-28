@@ -11,6 +11,9 @@
         Camel,
         Pascal,
         Dashed,
+        Hyphenated,
+        PascalDashed,
+        PascalHyphenated,
         XDashed,
         Underscored
     }
