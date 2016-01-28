@@ -87,6 +87,7 @@
     <Compile Include="Attributes\SetAllGeneratablesAttribute.cs" />
     <Compile Include="Attributes\TermAttribute.cs" />
     <Compile Include="Attributes\FindByIdAttribute.cs" />
+    <Compile Include="Attributes\Triggers\ClearValueAttribute.cs" />
     <Compile Include="Attributes\Triggers\ClickParentAttribute.cs" />
     <Compile Include="Attributes\Triggers\ElementWaitAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEnterAttribute.cs" />
