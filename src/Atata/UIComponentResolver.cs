@@ -224,7 +224,7 @@ namespace Atata
                 var generalFindAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindEditableFieldsAttribute>();
                 return generalFindAttribute != null ? generalFindAttribute.CreateFindAttribute() : FindEditableFieldsAttribute.CreateDefaultFindAttribute();
             }
-            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(ClickableBase<,>)))
+            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(ClickableBase<>)))
             {
                 var generalFindAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindClickablesAttribute>();
                 return generalFindAttribute != null ? generalFindAttribute.CreateFindAttribute() : FindClickablesAttribute.CreateDefaultFindAttribute();
