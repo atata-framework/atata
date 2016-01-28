@@ -142,11 +142,6 @@ namespace Atata
             return InitChild(new TOther(), windowName);
         }
 
-        protected TOther InitChildWithoutNavigation<TOther>(string windowName = null) where TOther : PageObject<TOther>, new()
-        {
-            return InitChild(new TOther() { NavigateOnInit = false }, windowName);
-        }
-
         protected TOther InitChild<TOther>(TOther pageObject, string windowName = null) where TOther : PageObject<TOther>
         {
             ////RunTriggersAfter();
@@ -170,11 +165,6 @@ namespace Atata
             return PageObjectContext;
         }
 
-        public TOther SwitchTo<TOther>() where TOther : PageObject<TOther>, new()
-        {
-            return InitChildWithoutNavigation<TOther>();
-        }
-
         public TOther GoTo<TOther>() where TOther : PageObject<TOther>
         {
             TOther newPageObject = Activator.CreateInstance<TOther>();
@@ -187,12 +177,13 @@ namespace Atata
             return InitChild(pageObject);
         }
 
-        public TOther GoToNewWindow<TOther>() where TOther : PageObject<TOther>, new()
+        public TOther GoToNewWindow<TOther>() where TOther : PageObject<TOther>
         {
-            return GoToNewWindow(new TOther());
+            TOther newPageObject = Activator.CreateInstance<TOther>();
+            return GoToNewWindow(newPageObject);
         }
 
-        public TOther GoToNewWindow<TOther>(TOther pageObject) where TOther : PageObject<TOther>, new()
+        public TOther GoToNewWindow<TOther>(TOther pageObject) where TOther : PageObject<TOther>
         {
             pageObject.NavigateOnInit = false;
             string windowHandle = Driver.WindowHandles.SkipWhile(x => x != Driver.CurrentWindowHandle).ElementAt(1);
