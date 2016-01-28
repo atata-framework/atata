@@ -200,9 +200,9 @@ namespace Atata
         }
 
         // TODO: Change return type to self. Remove or implement SetAllGeneratables method.
-        public void SetAllGeneratables()
-        {
-        }
+        ////public void SetAllGeneratables()
+        ////{
+        ////}
 
         public virtual void CloseWindow()
         {
