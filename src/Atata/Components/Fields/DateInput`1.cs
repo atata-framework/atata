@@ -7,6 +7,8 @@ namespace Atata
     public class DateInput<TOwner> : EditableField<DateTime?, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        private const string DefaultFormat = "d";
+
         private CultureInfo cultureInfo;
         private string format;
 
@@ -34,7 +36,7 @@ namespace Atata
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
             cultureInfo = metadata.GetCulture();
-            format = metadata.GetFormat(GetType());
+            format = metadata.GetFormat(GetType()) ?? DefaultFormat;
         }
     }
 }
