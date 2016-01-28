@@ -2,7 +2,7 @@
 {
     [UIComponent("*", IgnoreNameEndings = "Button,Link")]
     public class Clickable<TNavigateTo, TOwner> : ClickableBase<TNavigateTo, TOwner>
-        where TNavigateTo : PageObject<TNavigateTo>, new()
+        where TNavigateTo : PageObject<TNavigateTo>
         where TOwner : PageObject<TOwner>
     {
         private bool setAllGeneratables;
