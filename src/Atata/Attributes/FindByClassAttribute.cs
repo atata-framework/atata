@@ -36,17 +36,5 @@
         {
             return new FindByClassStrategy();
         }
-
-        protected override TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata)
-        {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByClassSettingsAttribute>(x => x.Format != TermFormat.Inherit);
-            return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
-        }
-
-        protected override TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata)
-        {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByClassSettingsAttribute>(x => x.Match != TermMatch.Inherit);
-            return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
-        }
     }
 }

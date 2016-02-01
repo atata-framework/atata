@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -100,8 +101,18 @@ namespace Atata
             return name;
         }
 
-        protected abstract TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata);
+        private TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata)
+        {
+            Type thisType = GetType();
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FinderAttributeType == thisType && x.Format != TermFormat.Inherit);
+            return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
+        }
 
-        protected abstract TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata);
+        private TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata)
+        {
+            Type thisType = GetType();
+            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FinderAttributeType == thisType && x.Match != TermMatch.Inherit);
+            return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
+        }
     }
 }

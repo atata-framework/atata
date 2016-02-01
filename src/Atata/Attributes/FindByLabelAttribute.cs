@@ -56,17 +56,5 @@ namespace Atata
                 return settingsAttribute != null ? settingsAttribute.Strategy : defaultStrategy;
             }
         }
-
-        protected override TermFormat GetTermFormatFromMetadata(UIComponentMetadata metadata)
-        {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Format != TermFormat.Inherit);
-            return settingsAttribute != null ? settingsAttribute.Format : DefaultFormat;
-        }
-
-        protected override TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata)
-        {
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Match != TermMatch.Inherit);
-            return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
-        }
     }
 }
