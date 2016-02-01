@@ -63,12 +63,16 @@
     <Compile Include="Attributes\FindByClassSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByColumnAttribute.cs" />
     <Compile Include="Attributes\FindByColumnSettingsAttribute.cs" />
+    <Compile Include="Attributes\FindByContentOrValueAttribute.cs" />
+    <Compile Include="Attributes\FindByContentOrValueSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByContentSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByCssAttribute.cs" />
     <Compile Include="Attributes\FindByIndexAttribute.cs" />
     <Compile Include="Attributes\FindByLabelSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByNameAttribute.cs" />
     <Compile Include="Attributes\FindByNameSettingsAttribute.cs" />
+    <Compile Include="Attributes\FindByValueAttribute.cs" />
+    <Compile Include="Attributes\FindByValueSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\FindClickablesAttribute.cs" />
     <Compile Include="Attributes\FindControlsAttribute.cs" />
@@ -156,8 +160,10 @@
     <Compile Include="FindStrategies\FindByClassStrategy.cs" />
     <Compile Include="FindStrategies\FindByColumnHeaderStrategy.cs" />
     <Compile Include="FindStrategies\FindByColumnIndexStrategy.cs" />
+    <Compile Include="FindStrategies\FindByContentOrValueStrategy.cs" />
     <Compile Include="FindStrategies\FindByCssStrategy.cs" />
     <Compile Include="FindStrategies\FindByNameStrategy.cs" />
+    <Compile Include="FindStrategies\FindByAttributeStrategy.cs" />
     <Compile Include="FindStrategies\FindByXPathStrategy.cs" />
     <Compile Include="FindStrategies\FindItemByIndexStrategy.cs" />
     <Compile Include="FindStrategies\FindItemByLabelStrategy.cs" />

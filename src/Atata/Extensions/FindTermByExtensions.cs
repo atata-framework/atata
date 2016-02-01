@@ -15,8 +15,12 @@ namespace Atata
                     return typeof(FindByClassAttribute);
                 case FindTermBy.Label:
                     return typeof(FindByLabelAttribute);
-                case FindTermBy.ContentOrValue:
+                case FindTermBy.Content:
                     return typeof(FindByContentAttribute);
+                case FindTermBy.Value:
+                    return typeof(FindByValueAttribute);
+                case FindTermBy.ContentOrValue:
+                    return typeof(FindByContentOrValueAttribute);
                 case FindTermBy.ColumnHeader:
                     return typeof(FindByColumnAttribute);
                 default:

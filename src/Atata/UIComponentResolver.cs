@@ -250,7 +250,7 @@ namespace Atata
             if (controlType.IsSubclassOfRawGeneric(typeof(EditableField<,>)))
                 return new FindByLabelAttribute();
             else if (controlType.IsSubclassOfRawGeneric(typeof(ClickableBase<>)))
-                return new FindByContentAttribute();
+                return new FindByContentOrValueAttribute();
             else if (controlType.IsSubclassOfRawGeneric(typeof(Text<>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
                 return new FindByColumnAttribute();
             else

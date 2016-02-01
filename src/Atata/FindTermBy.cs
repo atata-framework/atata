@@ -6,6 +6,8 @@
         Name,
         Class,
         Label,
+        Content,
+        Value,
         ContentOrValue,
         ColumnHeader
     }
