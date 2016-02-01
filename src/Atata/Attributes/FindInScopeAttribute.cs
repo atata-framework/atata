@@ -10,6 +10,6 @@ namespace Atata
             Scope = scope;
         }
 
-        public ScopeSource Scope { get; set; }
+        public ScopeSource Scope { get; private set; }
     }
 }
