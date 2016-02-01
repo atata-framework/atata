@@ -71,6 +71,7 @@
     <Compile Include="Attributes\FindByNameSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\FindClickablesAttribute.cs" />
+    <Compile Include="Attributes\FindControlsAttribute.cs" />
     <Compile Include="Attributes\FindEditableFieldsAttribute.cs" />
     <Compile Include="Attributes\FindInScopeAttribute.cs" />
     <Compile Include="Attributes\FindItemAttribute.cs" />
@@ -149,6 +150,7 @@
     <Compile Include="Extensions\FieldExtensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\FindTermByExtensions.cs" />
     <Compile Include="Extensions\TermFormatExtensions.cs" />
     <Compile Include="Extensions\TermMatchExtensions.cs" />
     <Compile Include="FindStrategies\FindByClassStrategy.cs" />
@@ -167,7 +169,7 @@
     <Compile Include="PopupWindow`1.cs" />
     <Compile Include="ScopeSource.cs" />
     <Compile Include="Settings\ByOptions.cs" />
-    <Compile Include="Components\ClickableBase`2.cs" />
+    <Compile Include="Components\ClickableBase`1.cs" />
     <Compile Include="Components\Clickable`1.cs" />
     <Compile Include="Components\Fields\Select`2.cs" />
     <Compile Include="Components\KendoUI\KendoMultiSelect`1.cs" />
@@ -188,8 +190,6 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Components\Fields\GeneratableField`2.cs" />
     <Compile Include="Components\Fields\NumberInput`1.cs" />
-    <Compile Include="FindClickableBy.cs" />
-    <Compile Include="FindFieldBy.cs" />
     <Compile Include="FindStrategies\ElementFindOptions.cs" />
     <Compile Include="FindStrategies\FindByContentStrategy.cs" />
     <Compile Include="FindStrategies\FindByIdStrategy.cs" />
@@ -212,6 +212,7 @@
     <Compile Include="SearchContexts\WebDriverExtendedSearchContext.cs" />
     <Compile Include="SearchContexts\WebElementExtendedSearchContext.cs" />
     <Compile Include="Settings\ByOptionsMap.cs" />
+    <Compile Include="FindTermBy.cs" />
     <Compile Include="TriggerContext.cs" />
     <Compile Include="TriggerEvent.cs" />
     <Compile Include="TriggerPriority.cs" />

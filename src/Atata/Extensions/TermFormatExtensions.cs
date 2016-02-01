@@ -35,7 +35,7 @@ namespace Atata
                 case TermFormat.Underscored:
                     return value.Underscore();
                 default:
-                    throw ExceptionsFactory.CreateForUnsuppotedEnumValue(format, "format");
+                    throw ExceptionsFactory.CreateForUnsupportedEnumValue(format, "format");
             }
         }
     }

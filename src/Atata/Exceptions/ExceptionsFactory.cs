@@ -19,7 +19,7 @@ namespace Atata
             return new NotMissingElementException(message);
         }
 
-        internal static ArgumentException CreateForUnsuppotedEnumValue<T>(T value, string paramName)
+        internal static ArgumentException CreateForUnsupportedEnumValue<T>(T value, string paramName)
             where T : struct
         {
             string message = "Unsopported {0} value: {1}.".FormatWith(typeof(T).FullName, value);

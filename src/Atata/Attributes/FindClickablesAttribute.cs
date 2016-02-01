@@ -2,28 +2,16 @@
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly)]
-    public class FindClickablesAttribute : Attribute
+    public class FindClickablesAttribute : FindControlsAttribute
     {
-        public FindClickablesAttribute(FindClickableBy by)
+        public FindClickablesAttribute(FindTermBy by)
+            : base(typeof(ClickableBase<>), by)
         {
-            By = by;
         }
 
-        public FindClickableBy By { get; private set; }
-
-        public FindAttribute CreateFindAttribute()
+        public FindClickablesAttribute(Type finderType)
+            : base(typeof(ClickableBase<>), finderType)
         {
-            // TODO: Finish this switch.
-            switch (By)
-            {
-                case FindClickableBy.Id:
-                    return new FindByIdAttribute();
-                case FindClickableBy.Content:
-                    return new FindByContentAttribute();
-                default:
-                    throw new InvalidOperationException("Unknown 'By' value.");
-            }
         }
 
         public static FindAttribute CreateDefaultFindAttribute()

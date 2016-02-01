@@ -17,7 +17,7 @@ namespace Atata
                 case ScopeSource.Page:
                     return parentComponent.Driver.Get(By.TagName("body"));
                 default:
-                    throw ExceptionsFactory.CreateForUnsuppotedEnumValue(scopeSource, "scopeSource");
+                    throw ExceptionsFactory.CreateForUnsupportedEnumValue(scopeSource, "scopeSource");
             }
         }
     }
