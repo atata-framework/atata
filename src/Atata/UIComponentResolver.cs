@@ -247,9 +247,11 @@ namespace Atata
         // TODO: Remove GetDefaultFindAttribute method. Move this logic to some other place.
         private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType)
         {
-            if (controlType.IsSubclassOfRawGeneric(typeof(EditableField<,>)))
+            if (controlType.IsSubclassOfRawGeneric(typeof(Field<,>)))
                 return new FindByLabelAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(ClickableBase<>)))
+            else if (controlType.IsSubclassOfRawGeneric(typeof(Link<>)))
+                return new FindByContentAttribute();
+            else if (controlType.IsSubclassOfRawGeneric(typeof(Button<>)))
                 return new FindByContentOrValueAttribute();
             else if (controlType.IsSubclassOfRawGeneric(typeof(Text<>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
                 return new FindByColumnAttribute();

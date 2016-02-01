@@ -59,6 +59,7 @@
     <Compile Include="Assertion\DefaultAsserter.cs" />
     <Compile Include="Assertion\IAsserter.cs" />
     <Compile Include="Attributes\CultureAttribute.cs" />
+    <Compile Include="Attributes\FindButtonsAttribute.cs" />
     <Compile Include="Attributes\FindByClassAttribute.cs" />
     <Compile Include="Attributes\FindByClassSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByColumnAttribute.cs" />
@@ -74,7 +75,7 @@
     <Compile Include="Attributes\FindByValueAttribute.cs" />
     <Compile Include="Attributes\FindByValueSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
-    <Compile Include="Attributes\FindClickablesAttribute.cs" />
+    <Compile Include="Attributes\FindLinksAttribute.cs" />
     <Compile Include="Attributes\FindControlsAttribute.cs" />
     <Compile Include="Attributes\FindEditableFieldsAttribute.cs" />
     <Compile Include="Attributes\FindInScopeAttribute.cs" />
@@ -175,7 +176,6 @@
     <Compile Include="PopupWindow`1.cs" />
     <Compile Include="ScopeSource.cs" />
     <Compile Include="Settings\ByOptions.cs" />
-    <Compile Include="Components\ClickableBase`1.cs" />
     <Compile Include="Components\Clickable`1.cs" />
     <Compile Include="Components\Fields\Select`2.cs" />
     <Compile Include="Components\KendoUI\KendoMultiSelect`1.cs" />
