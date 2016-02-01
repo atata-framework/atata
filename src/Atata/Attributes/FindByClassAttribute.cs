@@ -2,9 +2,6 @@
 {
     public class FindByClassAttribute : TermFindAttribute
     {
-        private const TermFormat DefaultFormat = TermFormat.Dashed;
-        private const TermMatch DefaultMatch = TermMatch.Contains;
-
         public FindByClassAttribute(TermMatch match)
             : base(match)
         {
@@ -23,6 +20,16 @@
         public FindByClassAttribute(params string[] values)
             : base(values)
         {
+        }
+
+        protected override TermFormat DefaultFormat
+        {
+            get { return TermFormat.Dashed; }
+        }
+
+        protected override TermMatch DefaultMatch
+        {
+            get { return TermMatch.Equals; }
         }
 
         public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)

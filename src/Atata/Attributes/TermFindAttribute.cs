@@ -37,6 +37,9 @@ namespace Atata
         public new TermMatch Match { get; set; }
         public bool CutEnding { get; set; }
 
+        protected abstract TermFormat DefaultFormat { get; }
+        protected abstract TermMatch DefaultMatch { get; }
+
         public virtual string[] GetTerms(UIComponentMetadata metadata)
         {
             if (Values != null && Values.Any())

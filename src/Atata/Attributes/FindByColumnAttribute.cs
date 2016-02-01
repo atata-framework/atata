@@ -4,9 +4,6 @@ namespace Atata
 {
     public class FindByColumnAttribute : TermFindAttribute
     {
-        private const TermFormat DefaultFormat = TermFormat.Title;
-        private const TermMatch DefaultMatch = TermMatch.Equals;
-
         private readonly bool useIndexStrategy;
         private readonly Type defaultStrategy = typeof(FindByColumnHeaderStrategy);
 
@@ -39,6 +36,16 @@ namespace Atata
 
         public int ColumnIndex { get; private set; }
         public Type Strategy { get; set; }
+
+        protected override TermFormat DefaultFormat
+        {
+            get { return TermFormat.Title; }
+        }
+
+        protected override TermMatch DefaultMatch
+        {
+            get { return TermMatch.Equals; }
+        }
 
         public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
