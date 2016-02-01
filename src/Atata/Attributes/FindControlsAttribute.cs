@@ -18,6 +18,7 @@ namespace Atata
 
         public Type ControlType { get; private set; }
         public Type FinderType { get; private set; }
+        public Type ParentControlType { get; set; }
 
         public TermFindAttribute CreateFindAttribute()
         {

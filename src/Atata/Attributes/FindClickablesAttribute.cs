@@ -13,10 +13,5 @@ namespace Atata
             : base(typeof(ClickableBase<>), finderType)
         {
         }
-
-        public static FindAttribute CreateDefaultFindAttribute()
-        {
-            return new FindByContentAttribute();
-        }
     }
 }

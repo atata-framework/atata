@@ -219,24 +219,42 @@ namespace Atata
             {
                 return findAttribute;
             }
-            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(EditableField<,>)))
-            {
-                var generalFindAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindEditableFieldsAttribute>();
-                return generalFindAttribute != null ? generalFindAttribute.CreateFindAttribute() : FindEditableFieldsAttribute.CreateDefaultFindAttribute();
-            }
-            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(ClickableBase<>)))
-            {
-                var generalFindAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindClickablesAttribute>();
-                return generalFindAttribute != null ? generalFindAttribute.CreateFindAttribute() : FindClickablesAttribute.CreateDefaultFindAttribute();
-            }
-            else if (metadata.ComponentType.IsSubclassOfRawGeneric(typeof(Text<>)) && metadata.ParentComponentType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
-            {
-                return new FindByColumnAttribute();
-            }
             else
             {
-                return new FindByIndexAttribute();
+                Type controlType = metadata.ComponentType;
+                Type parentControlType = metadata.ParentComponentType;
+
+                FindControlsAttribute findControlsAttribute =
+                    GetNearestFindControlsAttribute(controlType, parentControlType, metadata.ParentComponentAttributes) ??
+                    GetNearestFindControlsAttribute(controlType, parentControlType, metadata.AssemblyAttributes);
+
+                return findControlsAttribute != null
+                    ? findControlsAttribute.CreateFindAttribute()
+                    : GetDefaultFindAttribute(controlType, parentControlType);
             }
+        }
+
+        private static FindControlsAttribute GetNearestFindControlsAttribute(Type controlType, Type parentControlType, IEnumerable<Attribute> attributes)
+        {
+            return attributes.OfType<FindControlsAttribute>().
+                Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritanceOfRawGeneric(attr.ControlType) }).
+                Where(x => x.Depth != null).
+                OrderBy(x => x.Depth).
+                Select(x => x.Attribute).
+                FirstOrDefault(attr => attr.ParentControlType == null || parentControlType.IsSubclassOfRawGeneric(attr.ParentControlType));
+        }
+
+        // TODO: Remove GetDefaultFindAttribute method. Move this logic to some other place.
+        private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType)
+        {
+            if (controlType.IsSubclassOfRawGeneric(typeof(EditableField<,>)))
+                return new FindByLabelAttribute();
+            else if (controlType.IsSubclassOfRawGeneric(typeof(ClickableBase<>)))
+                return new FindByContentAttribute();
+            else if (controlType.IsSubclassOfRawGeneric(typeof(Text<>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
+                return new FindByColumnAttribute();
+            else
+                return new FindByIndexAttribute();
         }
 
         private static FindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)

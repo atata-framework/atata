@@ -13,10 +13,5 @@ namespace Atata
             : base(typeof(EditableField<,>), finderType)
         {
         }
-
-        public static FindAttribute CreateDefaultFindAttribute()
-        {
-            return new FindByLabelAttribute();
-        }
     }
 }
