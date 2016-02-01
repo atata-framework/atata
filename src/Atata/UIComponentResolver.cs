@@ -368,12 +368,16 @@ namespace Atata
 
         private static string ResolvePageObjectNameFromTypeName(string typeName)
         {
+            string normalizedTypeName = typeName.Contains("`")
+                ? typeName.Substring(0, typeName.IndexOf('`'))
+                : typeName;
+
             string[] endingsToIgnore = { "Page", "Window" };
-            string foundEndingToIgnore = endingsToIgnore.FirstOrDefault(x => typeName.EndsWith(x));
+            string foundEndingToIgnore = endingsToIgnore.FirstOrDefault(x => normalizedTypeName.EndsWith(x));
 
             string name = foundEndingToIgnore != null
-                ? typeName.Substring(0, typeName.Length - foundEndingToIgnore.Length)
-                : typeName;
+                ? normalizedTypeName.Substring(0, normalizedTypeName.Length - foundEndingToIgnore.Length)
+                : normalizedTypeName;
             return name.Humanize(LetterCasing.Title);
         }
 
