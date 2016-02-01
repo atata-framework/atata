@@ -27,11 +27,6 @@
             get { return TermFormat.Title; }
         }
 
-        protected override TermMatch DefaultMatch
-        {
-            get { return TermMatch.Equals; }
-        }
-
         public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             return new FindByContentStrategy();
