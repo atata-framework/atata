@@ -18,12 +18,18 @@ namespace Atata
 
         protected override void SetValue(decimal? value)
         {
-            Scope.FillInWith(value != null ? value.Value.ToString(format, cultureInfo) : string.Empty);
+            string stringValue = ConvertValueToString(value);
+            Scope.FillInWith(stringValue);
         }
 
         protected override decimal? Generate()
         {
             return generatableAttribute != null ? (decimal?)ValueGenerator.GenerateDecimal(generatableAttribute.Min, generatableAttribute.Max, generatableAttribute.Precision) : null;
+        }
+
+        protected internal override string ConvertValueToString(decimal? value)
+        {
+            return value != null ? value.Value.ToString(format, cultureInfo) : string.Empty;
         }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)

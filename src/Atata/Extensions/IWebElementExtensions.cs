@@ -51,7 +51,8 @@ namespace Atata
         public static IWebElement FillInWith(this IWebElement element, string text)
         {
             element.Clear();
-            element.SendKeys(text);
+            if (!string.IsNullOrEmpty(text))
+                element.SendKeys(text);
             return element;
         }
 

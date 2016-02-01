@@ -12,7 +12,7 @@
         public TOwner Set(T value)
         {
             RunTriggers(TriggerEvent.BeforeSet);
-            Log.StartSettingSection(ComponentName, value);
+            Log.StartSettingSection(ComponentName, ConvertValueToString(value));
 
             SetValue(value);
 

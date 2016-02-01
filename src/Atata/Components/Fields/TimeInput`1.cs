@@ -20,15 +20,13 @@ namespace Atata
 
         protected override void SetValue(TimeSpan? value)
         {
-            if (value.HasValue)
-            {
-                string stringValue = value.Value.ToString(format, cultureInfo);
-                Scope.FillInWith(stringValue);
-            }
-            else
-            {
-                Scope.Clear();
-            }
+            string stringValue = ConvertValueToString(value);
+            Scope.FillInWith(stringValue);
+        }
+
+        protected internal override string ConvertValueToString(TimeSpan? value)
+        {
+            return value != null ? value.Value.ToString(format, cultureInfo) : string.Empty;
         }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)

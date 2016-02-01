@@ -18,6 +18,11 @@ namespace Atata
             return Owner;
         }
 
+        protected internal virtual string ConvertValueToString(T value)
+        {
+            return value.ToString();
+        }
+
         public TOwner Verify(Action<T> assertAction, string message, params object[] args)
         {
             StringBuilder messageBuilder = new StringBuilder(ComponentName);
@@ -35,12 +40,12 @@ namespace Atata
 
         public TOwner VerifyEquals(T value)
         {
-            return Verify(actual => Assert.AreEqual(value, actual, "Invalid {0} value", ComponentName), "equal to '{0}'", value);
+            return Verify(actual => Assert.AreEqual(value, actual, "Invalid {0} value", ComponentName), "equal to '{0}'", ConvertValueToString(value));
         }
 
         public TOwner VerifyNotEqual(T value)
         {
-            return Verify(actual => Assert.AreNotEqual(value, actual, "Invalid {0} value", ComponentName), "not equal to '{0}'", value);
+            return Verify(actual => Assert.AreNotEqual(value, actual, "Invalid {0} value", ComponentName), "not equal to '{0}'", ConvertValueToString(value));
         }
 
         public override bool Equals(object obj)

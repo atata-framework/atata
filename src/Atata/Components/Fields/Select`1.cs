@@ -1,6 +1,5 @@
 ﻿namespace Atata
 {
-    [UIComponent("select")]
     public class Select<TOwner> : SelectBase<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
