@@ -5,14 +5,14 @@ namespace Atata
     public class FindByColumnSettingsAttribute : TermFindSettingsAttribute
     {
         public FindByColumnSettingsAttribute(Type strategy)
+            : base(typeof(FindByColumnAttribute))
         {
             Strategy = strategy;
         }
 
-        public FindByColumnSettingsAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit, Type strategy = null)
-            : base(format, match)
+        public FindByColumnSettingsAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+            : base(typeof(FindByColumnAttribute), format, match)
         {
-            Strategy = strategy;
         }
 
         public Type Strategy { get; set; }

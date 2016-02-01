@@ -3,14 +3,16 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = false, Inherited = true)]
-    public abstract class TermFindSettingsAttribute : Attribute
+    public class TermFindSettingsAttribute : Attribute
     {
-        protected TermFindSettingsAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        public TermFindSettingsAttribute(Type finderAttributeType, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
         {
+            FinderAttributeType = finderAttributeType;
             Format = format;
             Match = match;
         }
 
+        public Type FinderAttributeType { get; private set; }
         public TermFormat Format { get; set; }
         public new TermMatch Match { get; set; }
     }
