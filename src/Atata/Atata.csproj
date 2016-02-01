@@ -72,6 +72,7 @@
     <Compile Include="Attributes\FindByLabelSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByNameAttribute.cs" />
     <Compile Include="Attributes\FindByNameSettingsAttribute.cs" />
+    <Compile Include="Attributes\FindByTitleAttribute.cs" />
     <Compile Include="Attributes\FindByValueAttribute.cs" />
     <Compile Include="Attributes\FindByValueSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByXPathAttribute.cs" />

@@ -9,6 +9,7 @@
         Content,
         Value,
         ContentOrValue,
-        ColumnHeader
+        ColumnHeader,
+        Title
     }
 }
