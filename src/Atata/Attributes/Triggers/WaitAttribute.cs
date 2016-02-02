@@ -4,7 +4,7 @@ namespace Atata
 {
     public class WaitAttribute : TriggerAttribute
     {
-        public WaitAttribute(double seconds, TriggerEvent on = TriggerEvent.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        public WaitAttribute(double seconds, TriggerEvents on = TriggerEvents.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
             Seconds = seconds;

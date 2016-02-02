@@ -11,13 +11,13 @@
 
         public TOwner Set(T value)
         {
-            RunTriggers(TriggerEvent.BeforeSet);
+            RunTriggers(TriggerEvents.BeforeSet);
             Log.StartSettingSection(ComponentName, ConvertValueToString(value));
 
             SetValue(value);
 
             Log.EndSection();
-            RunTriggers(TriggerEvent.AfterSet);
+            RunTriggers(TriggerEvents.AfterSet);
 
             return Owner;
         }

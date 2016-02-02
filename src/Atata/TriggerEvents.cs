@@ -3,7 +3,7 @@
 namespace Atata
 {
     [Flags]
-    public enum TriggerEvent
+    public enum TriggerEvents
     {
         None = 0,
         BeforeClick = 1 << 0,

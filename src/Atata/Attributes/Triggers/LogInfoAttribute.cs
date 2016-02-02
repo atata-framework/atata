@@ -2,7 +2,7 @@
 {
     public class LogInfoAttribute : TriggerAttribute
     {
-        public LogInfoAttribute(string message, TriggerEvent on = TriggerEvent.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        public LogInfoAttribute(string message, TriggerEvents on = TriggerEvents.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
             Message = message;

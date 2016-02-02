@@ -2,7 +2,7 @@
 {
     public class ClearValueAttribute : TriggerAttribute
     {
-        public ClearValueAttribute(TriggerEvent on = TriggerEvent.BeforeSet, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        public ClearValueAttribute(TriggerEvents on = TriggerEvents.BeforeSet, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
         }

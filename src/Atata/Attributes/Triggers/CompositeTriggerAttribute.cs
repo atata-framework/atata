@@ -7,7 +7,7 @@ namespace Atata
     {
         private TriggerAttribute[] triggers;
 
-        protected CompositeTriggerAttribute(TriggerEvent on = TriggerEvent.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        protected CompositeTriggerAttribute(TriggerEvents on = TriggerEvents.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
         }

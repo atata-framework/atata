@@ -2,7 +2,7 @@
 {
     public class ScreenshotAttribute : TriggerAttribute
     {
-        public ScreenshotAttribute(string title = null, TriggerEvent on = TriggerEvent.BeforeClick, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        public ScreenshotAttribute(string title = null, TriggerEvents on = TriggerEvents.BeforeClick, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
             Title = title;

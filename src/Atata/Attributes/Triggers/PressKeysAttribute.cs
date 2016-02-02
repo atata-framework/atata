@@ -4,7 +4,7 @@ namespace Atata
 {
     public class PressKeysAttribute : TriggerAttribute
     {
-        public PressKeysAttribute(string keys, TriggerEvent on = TriggerEvent.None, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        public PressKeysAttribute(string keys, TriggerEvents on = TriggerEvents.None, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
             Keys = keys;

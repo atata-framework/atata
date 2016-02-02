@@ -8,14 +8,14 @@ namespace Atata
     {
         public new TNavigateTo Click()
         {
-            RunTriggers(TriggerEvent.BeforeClick);
+            RunTriggers(TriggerEvents.BeforeClick);
             Log.StartClickingSection(ComponentName);
 
             IWebElement cellElement = GetCell(Settings.ColumnIndexToClick);
             cellElement.Click();
 
             Log.EndSection();
-            RunTriggers(TriggerEvent.AfterClick);
+            RunTriggers(TriggerEvents.AfterClick);
 
             return typeof(TOwner) == typeof(TNavigateTo) ? (TNavigateTo)(object)Owner : Owner.GoTo<TNavigateTo>();
         }

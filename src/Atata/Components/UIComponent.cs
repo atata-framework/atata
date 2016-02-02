@@ -77,9 +77,9 @@ namespace Atata
             return GetScopeElement(true) == null;
         }
 
-        protected void RunTriggers(TriggerEvent on)
+        protected void RunTriggers(TriggerEvents on)
         {
-            if (Triggers == null || on == TriggerEvent.None)
+            if (Triggers == null || on == TriggerEvents.None)
                 return;
 
             var triggers = Triggers.Where(x => x.On.HasFlag(on));

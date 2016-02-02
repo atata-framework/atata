@@ -4,7 +4,7 @@ namespace Atata
 {
     public abstract class ElementWaitAttribute : TriggerAttribute
     {
-        protected ElementWaitAttribute(By by, TriggerEvent on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        protected ElementWaitAttribute(By by, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
             By = by;
