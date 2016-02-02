@@ -12,7 +12,7 @@ namespace Atata
             AppliesTo = appliesTo;
         }
 
-        public TriggerEvent On { get; private set; }
+        public TriggerEvent On { get; internal set; }
         public TriggerPriority Priority { get; set; }
         public TriggerScope AppliesTo { get; set; }
 
