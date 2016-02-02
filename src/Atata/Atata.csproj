@@ -98,6 +98,7 @@
     <Compile Include="Attributes\Triggers\ClickParentAttribute.cs" />
     <Compile Include="Attributes\Triggers\CompositeTriggerAttribute.cs" />
     <Compile Include="Attributes\Triggers\ElementWaitAttribute.cs" />
+    <Compile Include="Attributes\Triggers\LogInfoAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEnterAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressTabAttribute.cs" />
     <Compile Include="Attributes\Triggers\ScreenshotAttribute.cs" />
