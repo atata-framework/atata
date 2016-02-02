@@ -87,6 +87,7 @@ namespace Atata
             TriggerContext context = new TriggerContext
             {
                 Driver = Driver,
+                Log = Log,
                 Component = this,
                 ParentComponent = Parent,
                 ComponentScopeFinder = ScopeElementFinder,
