@@ -12,8 +12,12 @@ namespace Atata
                     return value;
                 case TermFormat.Title:
                     return value.Humanize(LetterCasing.Title);
+                case TermFormat.TitleWithColon:
+                    return value.Humanize(LetterCasing.Title) + ":";
                 case TermFormat.Sentence:
                     return value.Humanize(LetterCasing.Sentence);
+                case TermFormat.SentenceWithColon:
+                    return value.Humanize(LetterCasing.Sentence) + ":";
                 case TermFormat.LowerCase:
                     return value.Humanize(LetterCasing.LowerCase);
                 case TermFormat.UpperCase:
