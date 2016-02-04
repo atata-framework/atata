@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Atata
 {
-    public class FindByClassStrategy : SimpleElementFindStrategy
+    public class FindByClassStrategy : XPathElementFindStrategy
     {
         public FindByClassStrategy()
             : base(applyIndex: false)

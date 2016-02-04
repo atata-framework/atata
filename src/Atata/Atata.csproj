@@ -173,6 +173,7 @@
     <Compile Include="FindStrategies\FindItemByLabelStrategy.cs" />
     <Compile Include="FindStrategies\FindItemByValueStrategy.cs" />
     <Compile Include="FindStrategies\IItemElementFindStrategy.cs" />
+    <Compile Include="FindStrategies\IXPathElementFindStrategy.cs" />
     <Compile Include="Logging\SimpleLogManager.cs" />
     <Compile Include="Logging\LogManagerBase.cs" />
     <Compile Include="Page`1.cs" />
@@ -207,7 +208,7 @@
     <Compile Include="Components\Fields\GeneratableStringField`1.cs" />
     <Compile Include="Components\Fields\IGeneratableField`2.cs" />
     <Compile Include="Components\Fields\Select`1.cs" />
-    <Compile Include="FindStrategies\SimpleElementFindStrategy.cs" />
+    <Compile Include="FindStrategies\XPathElementFindStrategy.cs" />
     <Compile Include="Logging\ILogManager.cs" />
     <Compile Include="Logging\ILogManagerExtensions.cs" />
     <Compile Include="Logging\LogManager.cs" />

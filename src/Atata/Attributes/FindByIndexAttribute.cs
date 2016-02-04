@@ -13,7 +13,7 @@
 
         public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            return new SimpleElementFindStrategy();
+            return new XPathElementFindStrategy();
         }
     }
 }

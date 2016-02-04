@@ -4,8 +4,8 @@ namespace Atata
 {
     public class FindByCssStrategy : IElementFindStrategy
     {
-        private readonly SimpleElementFindStrategy simpleElementFindStrategy =
-            new SimpleElementFindStrategy(SimpleElementFindStrategy.XPathPrefixKind.DescendantOrSelf, false);
+        private readonly XPathElementFindStrategy simpleElementFindStrategy =
+            new XPathElementFindStrategy(XPathElementFindStrategy.XPathPrefixKind.DescendantOrSelf, false);
 
         public ElementLocator Find(IWebElement scope, ElementFindOptions options)
         {

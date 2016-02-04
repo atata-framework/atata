@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    public class FindByAttributeStrategy : SimpleElementFindStrategy
+    public class FindByAttributeStrategy : XPathElementFindStrategy
     {
         private readonly string attributeName;
 

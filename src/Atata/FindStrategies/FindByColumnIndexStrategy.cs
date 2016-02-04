@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Atata
 {
-    public class FindByColumnIndexStrategy : SimpleElementFindStrategy
+    public class FindByColumnIndexStrategy : XPathElementFindStrategy
     {
         private readonly int columnIndex;
 

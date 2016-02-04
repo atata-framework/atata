@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    public class FindByContentOrValueStrategy : SimpleElementFindStrategy
+    public class FindByContentOrValueStrategy : XPathElementFindStrategy
     {
         protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
         {
