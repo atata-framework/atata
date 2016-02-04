@@ -65,6 +65,18 @@ namespace Atata
             return by;
         }
 
+        public static By With(this By by, SearchOptions options)
+        {
+            ByOptions byOptions = ByOptionsMap.GetAndStore(by);
+
+            byOptions.Timeout = options.Timeout;
+            byOptions.RetryInterval = options.RetryInterval;
+            byOptions.Visibility = options.Visibility;
+            byOptions.ThrowOnFail = !options.IsSafely;
+
+            return by;
+        }
+
         public static By FormatWith(this By by, params object[] args)
         {
             string selector = string.Format(by.GetSelector(), args);

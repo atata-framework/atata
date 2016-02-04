@@ -157,6 +157,7 @@
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FieldExtensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />
+    <Compile Include="Extensions\SearchOptionsExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\FindTermByExtensions.cs" />
     <Compile Include="Extensions\TermFormatExtensions.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="SearchContexts\WebElementExtendedSearchContext.cs" />
     <Compile Include="Settings\ByOptionsMap.cs" />
     <Compile Include="FindTermBy.cs" />
+    <Compile Include="Settings\SearchOptions.cs" />
     <Compile Include="TriggerContext.cs" />
     <Compile Include="TriggerEvents.cs" />
     <Compile Include="TriggerPriority.cs" />
