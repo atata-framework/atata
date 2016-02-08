@@ -4,12 +4,18 @@ namespace Atata
 {
     public class SequalComponentScopeLocateResult : ComponentScopeLocateResult
     {
-        public SequalComponentScopeLocateResult(IWebElement element, IComponentScopeLocateStrategy locator, ComponentScopeLocateOptions options = null)
+        public SequalComponentScopeLocateResult(IWebElement scopeSource, IComponentScopeLocateStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions = null)
         {
+            ScopeSource = scopeSource;
+            Strategy = strategy;
+            ScopeLocateOptions = scopeLocateOptions;
         }
 
-        public SequalComponentScopeLocateResult(By by, IComponentScopeLocateStrategy locator, ComponentScopeLocateOptions options = null)
+        public SequalComponentScopeLocateResult(By scopeSourceBy, IComponentScopeLocateStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions = null)
         {
+            ScopeSourceBy = scopeSourceBy;
+            Strategy = strategy;
+            ScopeLocateOptions = scopeLocateOptions;
         }
 
         public IWebElement ScopeSource { get; private set; }

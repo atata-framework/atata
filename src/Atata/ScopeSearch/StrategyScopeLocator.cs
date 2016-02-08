@@ -65,7 +65,9 @@ namespace Atata
             if (sequalResult != null)
             {
                 IWebElement nextScopeSource = sequalResult.ScopeSource ?? scopeSource.Get(sequalResult.ScopeSourceBy.With(searchOptions));
-                ComponentScopeLocateResult nextResult = sequalResult.Strategy.Find(nextScopeSource, scopeLocateOptions, searchOptions);
+                ComponentScopeLocateOptions nextScopeLocateOptions = sequalResult.ScopeLocateOptions ?? scopeLocateOptions;
+
+                ComponentScopeLocateResult nextResult = sequalResult.Strategy.Find(nextScopeSource, nextScopeLocateOptions, searchOptions);
                 return ResolveScopeLocateResult(nextResult, nextScopeSource, searchOptions);
             }
 

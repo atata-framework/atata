@@ -251,7 +251,7 @@ namespace Atata
                 return new FindByLabelAttribute();
             else if (controlType.IsSubclassOfRawGeneric(typeof(Link<>)))
                 return new FindByContentAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(Button<>)))
+            else if (controlType.IsSubclassOfRawGeneric(typeof(Clickable<>)))
                 return new FindByContentOrValueAttribute();
             else if (controlType.IsSubclassOfRawGeneric(typeof(Text<>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
                 return new FindByColumnAttribute();
