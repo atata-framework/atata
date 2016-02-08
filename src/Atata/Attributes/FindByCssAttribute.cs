@@ -14,7 +14,7 @@
             return Values;
         }
 
-        public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
+        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             return new FindByCssStrategy();
         }

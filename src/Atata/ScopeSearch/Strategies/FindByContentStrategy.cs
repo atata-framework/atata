@@ -2,9 +2,9 @@
 
 namespace Atata
 {
-    public class FindByContentStrategy : XPathElementFindStrategy
+    public class FindByContentStrategy : XPathComponentScopeLocateStrategy
     {
-        protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
+        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
             builder.AppendFormat(
                 "[{0}]",

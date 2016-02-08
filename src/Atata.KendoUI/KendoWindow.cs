@@ -10,7 +10,7 @@ namespace Atata.KendoUI
         {
         }
 
-        protected override IWebElement GetScope(bool isSafely)
+        protected override IWebElement GetScope(SearchOptions options)
         {
             StringBuilder xPathBuilder = new StringBuilder(
                 ".//div[contains(concat(' ', normalize-space(@class), ' '), ' k-window ')]");
@@ -20,7 +20,7 @@ namespace Atata.KendoUI
                     "[div[contains(concat(' ', normalize-space(@class), ' '), ' k-window-titlebar ')][contains(., '{0}')]]",
                     Title);
 
-            return Driver.Get(By.XPath(xPathBuilder.ToString()).PopupWindow(Title).Safely(isSafely));
+            return Driver.Get(By.XPath(xPathBuilder.ToString()).PopupWindow(Title).With(options));
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Atata
         protected PageObject()
         {
             NavigateOnInit = true;
-            ScopeElementFinder = GetScope;
+            ScopeLocator = new DynamicScopeLocator(GetScope);
         }
 
         public bool NavigateOnInit { get; set; }
@@ -23,9 +23,9 @@ namespace Atata
 
         protected UIComponent PreviousPageObject { get; private set; }
 
-        protected virtual IWebElement GetScope(bool isSafely)
+        protected virtual IWebElement GetScope(SearchOptions searchOptions)
         {
-            return Driver.Get(By.TagName("body").Safely(isSafely));
+            return Driver.Get(By.TagName("body").With(searchOptions));
         }
 
         protected virtual string GetTitle()

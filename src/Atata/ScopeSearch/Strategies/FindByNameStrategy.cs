@@ -3,14 +3,14 @@ using System.Text;
 
 namespace Atata
 {
-    public class FindByNameStrategy : XPathElementFindStrategy
+    public class FindByNameStrategy : XPathComponentScopeLocateStrategy
     {
         public FindByNameStrategy()
             : base(applyIndex: false)
         {
         }
 
-        protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
+        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
             string nameCondition = options.GetTermsXPathCondition("@name");
 

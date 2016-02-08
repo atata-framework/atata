@@ -38,7 +38,7 @@ namespace Atata
         public TOwner VerifyMissing()
         {
             Log.StartVerificationSection("{0} component missing", ComponentName);
-            IWebElement element = GetScopeElement(isSafely: true);
+            IWebElement element = GetScopeElement(SearchOptions.Safely());
             Assert.That(element == null, "Found {0} component that should be missing", ComponentName);
             Log.EndSection();
             return Owner;

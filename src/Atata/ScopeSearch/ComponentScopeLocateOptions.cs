@@ -3,14 +3,13 @@ using System;
 
 namespace Atata
 {
-    public class ElementFindOptions : ICloneable
+    public class ComponentScopeLocateOptions : ICloneable
     {
         public string[] Terms { get; set; }
         public string ElementXPath { get; set; }
         public string IdFinderFormat { get; set; }
         public int? Index { get; set; }
         public TermMatch Match { get; set; }
-        public bool IsSafely { get; set; }
 
         public bool HasIndex
         {
@@ -37,9 +36,9 @@ namespace Atata
             return HasIndex ? "[{0}]".FormatWith(Position) : null;
         }
 
-        public ElementFindOptions Clone()
+        public ComponentScopeLocateOptions Clone()
         {
-            return (ElementFindOptions)MemberwiseClone();
+            return (ComponentScopeLocateOptions)MemberwiseClone();
         }
 
         object ICloneable.Clone()

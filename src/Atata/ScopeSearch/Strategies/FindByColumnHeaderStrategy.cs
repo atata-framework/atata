@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Atata
 {
-    public class FindByColumnHeaderStrategy : IElementFindStrategy
+    public class FindByColumnHeaderStrategy : IComponentScopeLocateStrategy
     {
-        public ElementLocator Find(IWebElement scope, ElementFindOptions options)
+        public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             var headers = scope.GetAll(By.XPath("preceding::table[//th][1]//th").OfAnyVisibility().TableHeader(options.GetTermsAsString()));
             var headerNamePredicate = options.Match.GetPredicate();
@@ -18,13 +18,13 @@ namespace Atata
 
             if (columnIndex == null)
             {
-                if (options.IsSafely)
-                    return null;
+                if (searchOptions.IsSafely)
+                    return new MissingComponentScopeLocateResult();
                 else
                     throw ExceptionsFactory.CreateForNoSuchElement(options.GetTermsAsString());
             }
 
-            return new FindByColumnIndexStrategy(columnIndex.Value).Find(scope, options);
+            return new FindByColumnIndexStrategy(columnIndex.Value).Find(scope, options, searchOptions);
         }
     }
 }

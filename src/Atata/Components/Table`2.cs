@@ -123,26 +123,26 @@ namespace Atata
 
             foreach (IWebElement rowElement in Scope.GetAll(rowBy))
             {
-                TRow row = CreateRow(isSafely => rowElement, rowElementName);
+                TRow row = CreateRow(new DefinedScopeLocator(rowElement), rowElementName);
                 if (predicate(row))
                     return row;
             }
 
             return CreateRow(
-                isSafely =>
+                new DynamicScopeLocator(options =>
                 {
-                    if (isSafely)
+                    if (options.IsSafely)
                         return null;
                     else
                         throw ExceptionsFactory.CreateForNoSuchElement(rowElementName);
-                },
+                }),
                 rowElementName);
         }
 
         private TRow CreateRow(By by, string name)
         {
-            ElementFinder rowElementFinder = CreateRowElementFinder(by.Named(name));
-            return CreateRow(rowElementFinder, name);
+            IScopeLocator locator = CreateRowElementFinder(by.Named(name));
+            return CreateRow(locator, name);
         }
 
         protected virtual By CreateRowBy(params string[] values)
@@ -161,19 +161,16 @@ namespace Atata
                 return null;
         }
 
-        protected virtual ElementFinder CreateRowElementFinder(By by)
+        protected virtual IScopeLocator CreateRowElementFinder(By by)
         {
-            return isSafely =>
-                {
-                    return Scope.Get(by.Safely(isSafely));
-                };
+            return new DynamicScopeLocator(options => Scope.Get(by.With(options)));
         }
 
-        protected virtual TRow CreateRow(ElementFinder elementFinder, string name)
+        protected virtual TRow CreateRow(IScopeLocator scopeLocator, string name)
         {
             TRow row = new TRow
             {
-                ScopeElementFinder = elementFinder,
+                ScopeLocator = scopeLocator,
                 ComponentName = name,
                 Owner = Owner,
                 Log = Log,

@@ -15,7 +15,7 @@ namespace Atata
         public int Index { get; set; }
         public ScopeSource Scope { get; set; }
 
-        public abstract IElementFindStrategy CreateStrategy(UIComponentMetadata metadata);
+        public abstract IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata);
 
         public ScopeSource GetScope(UIComponentMetadata metadata)
         {

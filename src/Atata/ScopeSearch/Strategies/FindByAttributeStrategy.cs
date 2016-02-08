@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    public class FindByAttributeStrategy : XPathElementFindStrategy
+    public class FindByAttributeStrategy : XPathComponentScopeLocateStrategy
     {
         private readonly string attributeName;
 
@@ -11,7 +11,7 @@ namespace Atata
             this.attributeName = attributeName;
         }
 
-        protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
+        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
             builder.AppendFormat(
                 "[{0}]",

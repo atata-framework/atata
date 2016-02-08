@@ -26,7 +26,7 @@ namespace Atata
         protected internal RemoteWebDriver Driver { get; internal set; }
 
         protected internal ScopeSource ScopeSource { get; internal set; }
-        protected internal ElementFinder ScopeElementFinder { get; internal set; }
+        protected internal IScopeLocator ScopeLocator { get; internal set; }
         protected internal bool CacheScopeElement { get; internal set; }
         protected internal string ComponentName { get; internal set; }
 
@@ -48,13 +48,15 @@ namespace Atata
             Configurator.EnumDescriptionPropertyLocator = p => p.Name == "Description" || p.Name == "Value";
         }
 
-        protected IWebElement GetScopeElement(bool isSafely = false)
+        protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
-            if (ScopeElementFinder == null)
-                throw new InvalidOperationException("ElementFinder is missing");
+            if (ScopeLocator == null)
+                throw new InvalidOperationException("ScopeLocator is missing");
 
-            IWebElement element = ScopeElementFinder(isSafely);
-            if (!isSafely && element == null)
+            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+
+            IWebElement element = ScopeLocator.GetElement(searchOptions);
+            if (!searchOptions.IsSafely && element == null)
                 throw ExceptionsFactory.CreateForNoSuchElement(ComponentName);
 
             if (CacheScopeElement)
@@ -69,12 +71,12 @@ namespace Atata
 
         public bool Exists()
         {
-            return GetScopeElement(true) != null;
+            return ScopeLocator.GetElement() != null;
         }
 
         public bool Missing()
         {
-            return GetScopeElement(true) == null;
+            return ScopeLocator.GetElement() == null;
         }
 
         protected void RunTriggers(TriggerEvents on)
@@ -90,8 +92,8 @@ namespace Atata
                 Log = Log,
                 Component = this,
                 ParentComponent = Parent,
-                ComponentScopeFinder = ScopeElementFinder,
-                ParentComponentScopeFinder = Parent.ScopeElementFinder
+                ComponentScopeLocator = ScopeLocator,
+                ParentComponentScopeLocator = Parent.ScopeLocator
             };
 
             foreach (var trigger in triggers)

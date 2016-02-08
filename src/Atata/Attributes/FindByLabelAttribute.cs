@@ -33,10 +33,10 @@ namespace Atata
             get { return TermFormat.Title; }
         }
 
-        public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
+        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             Type strategyType = GetStrategyType(metadata);
-            return (IElementFindStrategy)Activator.CreateInstance(strategyType);
+            return (IComponentScopeLocateStrategy)Activator.CreateInstance(strategyType);
         }
 
         private Type GetStrategyType(UIComponentMetadata metadata)

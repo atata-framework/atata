@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Atata
 {
-    public class FindByColumnIndexStrategy : XPathElementFindStrategy
+    public class FindByColumnIndexStrategy : XPathComponentScopeLocateStrategy
     {
         private readonly int columnIndex;
 
@@ -12,7 +12,7 @@ namespace Atata
             this.columnIndex = columnIndex;
         }
 
-        protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
+        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
             builder.Insert(0, "td[{0}]/descendant-or-self::".FormatWith(columnIndex + 1));
         }

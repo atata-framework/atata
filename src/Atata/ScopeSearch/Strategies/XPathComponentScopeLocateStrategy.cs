@@ -3,11 +3,12 @@ using System.Text;
 
 namespace Atata
 {
-    public class XPathElementFindStrategy : IXPathElementFindStrategy
+    public class XPathComponentScopeLocateStrategy : IComponentScopeLocateStrategy
     {
-        public XPathElementFindStrategy(XPathPrefixKind xPathPrefix = XPathPrefixKind.Descendant, bool applyIndex = true)
+        public XPathComponentScopeLocateStrategy(XPathPrefixKind xPathPrefix = XPathPrefixKind.Descendant, bool applyIndex = true)
         {
             XPathPrefix = xPathPrefix;
+            ApplyIndex = applyIndex;
         }
 
         public enum XPathPrefixKind
@@ -20,16 +21,13 @@ namespace Atata
         protected XPathPrefixKind XPathPrefix { get; private set; }
         protected bool ApplyIndex { get; private set; }
 
-        public ElementLocator Find(IWebElement scope, ElementFindOptions options)
+        public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            if (scope == null && options.IsSafely)
-                return null;
-
             string xPath = BuildXPath(options);
-            return new ElementLocator(scope, xPath);
+            return new XPathComponentScopeLocateResult(xPath);
         }
 
-        public string BuildXPath(ElementFindOptions options)
+        private string BuildXPath(ComponentScopeLocateOptions options)
         {
             StringBuilder builder = new StringBuilder(options.ElementXPath);
             BuildXPath(builder, options);
@@ -43,7 +41,7 @@ namespace Atata
             return builder.ToString();
         }
 
-        protected virtual void BuildXPath(StringBuilder builder, ElementFindOptions options)
+        protected virtual void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
         }
     }

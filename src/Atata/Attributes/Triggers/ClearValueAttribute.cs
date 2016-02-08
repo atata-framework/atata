@@ -9,7 +9,7 @@
 
         public override void Run(TriggerContext context)
         {
-            context.ComponentScopeFinder(false).Clear();
+            context.ComponentScopeLocator.GetElement().Clear();
         }
     }
 }

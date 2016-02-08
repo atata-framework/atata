@@ -4,14 +4,14 @@ using System.Text;
 
 namespace Atata
 {
-    public class FindByIdStrategy : XPathElementFindStrategy
+    public class FindByIdStrategy : XPathComponentScopeLocateStrategy
     {
         public FindByIdStrategy()
             : base(applyIndex: false)
         {
         }
 
-        protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
+        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
             string idCondition = string.IsNullOrWhiteSpace(options.IdFinderFormat)
                 ? options.GetTermsXPathCondition("@id")

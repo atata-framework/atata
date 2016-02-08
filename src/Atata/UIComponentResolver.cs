@@ -1,5 +1,4 @@
 ﻿using Humanizer;
-using OpenQA.Selenium;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -125,7 +124,7 @@ namespace Atata
 
             FindAttribute findAttribute = GetPropertyFindAttribute(metadata);
 
-            InitComponentFinders(component, parentComponent, metadata, findAttribute);
+            InitComponentLocator(component, parentComponent, metadata, findAttribute);
             component.ComponentName = ResolveComponentName(metadata, findAttribute);
             component.CacheScopeElement = false;
             component.Triggers = GetControlTriggers(metadata);
@@ -133,10 +132,10 @@ namespace Atata
             component.ApplyMetadata(metadata);
         }
 
-        private static void InitComponentFinders(UIComponent component, UIComponent parentComponent, UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static void InitComponentLocator(UIComponent component, UIComponent parentComponent, UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            ElementFindOptions findOptions = CreateFindOptions(metadata, findAttribute);
-            IElementFindStrategy strategy = findAttribute.CreateStrategy(metadata);
+            ComponentScopeLocateOptions findOptions = CreateFindOptions(metadata, findAttribute);
+            IComponentScopeLocateStrategy elementLocator = findAttribute.CreateStrategy(metadata);
 
             IItemsControl itemsControl = component as IItemsControl;
 
@@ -144,25 +143,26 @@ namespace Atata
 
             if (itemsControl != null)
             {
-                component.ScopeElementFinder = isSafely =>
-                    {
-                        return component.ScopeSource.GetScopeElement(parentComponent);
-                    };
-                itemsControl.ItemsFindStrategy = strategy;
-                itemsControl.ItemsFindOptions = findOptions;
-                FindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
-                itemsControl.ItemFindStrategy = findItemAttribute.CreateStrategy(metadata);
+                ////component.ScopeElementFinder = isSafely =>
+                ////    {
+                ////        return component.ScopeSource.GetScopeElement(parentComponent);
+                ////    };
+                ////itemsControl.ItemsFindStrategy = elementLocator;
+                ////itemsControl.ItemsFindOptions = findOptions;
+                ////FindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
+                ////itemsControl.ItemFindStrategy = findItemAttribute.CreateStrategy(metadata);
             }
             else
             {
-                component.ScopeElementFinder = isSafely =>
-                    {
-                        findOptions.IsSafely = isSafely;
-                        IWebElement scope = component.ScopeSource.GetScopeElement(parentComponent);
-                        ElementLocator locator = strategy.Find(scope, findOptions);
-                        return locator.GetElement(isSafely);
-                    };
+                ////component.ScopeElementFinder = isSafely =>
+                ////    {
+                ////        findOptions.IsSafely = isSafely;
+                ////        IWebElement scope = component.ScopeSource.GetScopeElement(parentComponent);
+                ////        ElementLocator locator = elementLocator.Find(scope, findOptions, null);
+                ////        return locator.GetElement(isSafely);
+                ////    };
             }
+            component.ScopeLocator = new StrategyScopeLocator(component, elementLocator, findOptions);
         }
 
         private static string ResolveComponentName(UIComponentMetadata metadata, FindAttribute findAttribute)
@@ -272,9 +272,9 @@ namespace Atata
             }
         }
 
-        private static ElementFindOptions CreateFindOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static ComponentScopeLocateOptions CreateFindOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            ElementFindOptions options = new ElementFindOptions
+            ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
                 ElementXPath = metadata.ComponentDefinitonAttribute != null ? metadata.ComponentDefinitonAttribute.ElementXPath : "*",
                 IdFinderFormat = metadata.ComponentDefinitonAttribute != null ? metadata.ComponentDefinitonAttribute.IdFinderFormat : null,

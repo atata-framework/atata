@@ -4,21 +4,21 @@ using System.Text;
 
 namespace Atata
 {
-    public class FindByClassStrategy : XPathElementFindStrategy
+    public class FindByClassStrategy : XPathComponentScopeLocateStrategy
     {
         public FindByClassStrategy()
             : base(applyIndex: false)
         {
         }
 
-        protected override void BuildXPath(StringBuilder builder, ElementFindOptions options)
+        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
             string classCondition = GetClassCondition(options);
 
             builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(classCondition, options.GetPositionWrappedXPathCondition()));
         }
 
-        private string GetClassCondition(ElementFindOptions options)
+        private string GetClassCondition(ComponentScopeLocateOptions options)
         {
             string conditionFormat = "contains(concat(' ', normalize-space(@class), ' '), ' {0} ')";
 

@@ -42,7 +42,7 @@ namespace Atata
             get { return TermFormat.Title; }
         }
 
-        public override IElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
+        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             if (useIndexStrategy)
             {
@@ -51,7 +51,7 @@ namespace Atata
             else
             {
                 Type strategyType = GetStrategyType(metadata);
-                return (IElementFindStrategy)Activator.CreateInstance(strategyType);
+                return (IComponentScopeLocateStrategy)Activator.CreateInstance(strategyType);
             }
         }
 
