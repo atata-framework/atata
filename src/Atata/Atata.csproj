@@ -102,6 +102,7 @@
     <Compile Include="Attributes\Triggers\PressEnterAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressTabAttribute.cs" />
     <Compile Include="Attributes\Triggers\ScreenshotAttribute.cs" />
+    <Compile Include="Attributes\Triggers\ScrollDownAttribute.cs" />
     <Compile Include="Attributes\Triggers\ScrollUpAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressKeysAttribute.cs" />
     <Compile Include="Attributes\Triggers\TriggerAttribute.cs" />
