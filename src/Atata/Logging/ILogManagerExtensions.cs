@@ -76,7 +76,7 @@ namespace Atata
                 LogSectionInfo sectionInfo = SectionEndMessageStack.Pop();
 
                 TimeSpan duration = sectionInfo.GetDuration();
-                logger.Info("{0} ({1:F0}:{2:ss\\.ffff})", sectionInfo.EndMessage, Math.Floor(duration.TotalMinutes), duration);
+                logger.Info("{0} ({1}.{2:fff}s)", sectionInfo.EndMessage, Math.Floor(duration.TotalSeconds), duration);
             }
         }
 
