@@ -17,14 +17,14 @@ namespace Atata
         public static void Resolve<TOwner>(UIComponent<TOwner> component)
             where TOwner : PageObject<TOwner>
         {
-            PageObject<TOwner> componentAsPageObject = component as PageObject<TOwner>;
-            if (componentAsPageObject != null)
-                InitPageObjectTriggers(componentAsPageObject);
-
             Type[] allTypes = GetAllInheritedTypes(component.GetType()).Reverse().ToArray();
 
             foreach (Type type in allTypes)
-                Init<TOwner>(component, type);
+                InitComponentTypeMembers<TOwner>(component, type);
+
+            PageObject<TOwner> componentAsPageObject = component as PageObject<TOwner>;
+            if (componentAsPageObject != null)
+                InitPageObjectTriggers(componentAsPageObject);
         }
 
         // TODO: Review InitPageObjectTriggers method.
@@ -32,7 +32,10 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             Type pageObjectType = pageObject.GetType();
-            pageObject.Triggers = GetClassAttributes(pageObjectType).OfType<TriggerAttribute>().ToArray();
+            pageObject.Triggers = GetClassAttributes(pageObjectType).
+                Concat(GetAssemblyAttributes(pageObjectType.Assembly)).
+                OfType<TriggerAttribute>().
+                ToArray();
         }
 
         private static IEnumerable<Type> GetAllInheritedTypes(Type type)
@@ -45,7 +48,7 @@ namespace Atata
             }
         }
 
-        private static void Init<TOwner>(UIComponent<TOwner> component, Type type)
+        private static void InitComponentTypeMembers<TOwner>(UIComponent<TOwner> component, Type type)
             where TOwner : PageObject<TOwner>
         {
             PropertyInfo[] suitableProperties = type.

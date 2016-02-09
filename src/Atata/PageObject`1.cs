@@ -53,7 +53,7 @@ namespace Atata
 
             Log.EndSection();
 
-            ////RunTriggersBefore();
+            RunTriggers(TriggerEvents.OnPageObjectInit);
 
             VerifyCurrentPage();
         }
@@ -149,7 +149,7 @@ namespace Atata
 
         protected TOther InitChild<TOther>(TOther pageObject, string windowName = null) where TOther : PageObject<TOther>
         {
-            ////RunTriggersAfter();
+            RunTriggers(TriggerEvents.OnPageObjectLeave);
 
             PageObjectContext context = PageObjectContext;
 
