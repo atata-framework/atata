@@ -11,10 +11,18 @@
 
         protected override string Generate()
         {
-            return ValueGenerator.GenerateString(
-                generatableAttribute.Prefix,
-                generatableAttribute.NumberOfCharacters,
-                generatableAttribute.Separator);
+            string format = NormalizeFormat(generatableAttribute.Format);
+            return ValueGenerator.GenerateString(format, generatableAttribute.NumberOfCharacters);
+        }
+
+        private string NormalizeFormat(string format)
+        {
+            if (string.IsNullOrEmpty(format))
+                return "{0}";
+            else if (!format.Contains("{0}"))
+                return format + "{0}";
+            else
+                return format;
         }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)

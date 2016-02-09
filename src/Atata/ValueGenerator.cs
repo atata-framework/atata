@@ -1,13 +1,25 @@
 ﻿using System;
+using System.Globalization;
+using System.Text;
 
 namespace Atata
 {
     public static class ValueGenerator
     {
-        public static string GenerateString(string prefix = null, int numberOfCharacters = 15, string separator = " ")
+        public static string GenerateString(string format = "{0}", int numberOfCharacters = 15)
         {
-            string id = Guid.NewGuid().ToString().Replace("-", string.Empty).Substring(0, numberOfCharacters);
-            return string.Format("{0}{1}{2}", prefix, separator, id);
+            string uniqueValue = Guid.NewGuid().ToString("N").Substring(0, numberOfCharacters);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            int baseCharacter = (int)'a';
+            for (int i = 0; i < uniqueValue.Length; i++)
+            {
+                string characterAsString = uniqueValue.Substring(i, 1);
+                int characterIntValue = int.Parse(characterAsString.ToString(), NumberStyles.HexNumber);
+                char alphaCharacter = (char)(baseCharacter + characterIntValue);
+                stringBuilder.Append(alphaCharacter);
+            }
+            return string.Format(format, stringBuilder.ToString());
         }
 
         public static int GenerateInt(int min, int max)
