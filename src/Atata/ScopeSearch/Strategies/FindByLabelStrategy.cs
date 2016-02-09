@@ -19,13 +19,20 @@ namespace Atata
                 return new MissingComponentScopeLocateResult();
 
             string elementId = label.GetAttribute("for");
+            if (string.IsNullOrEmpty(elementId))
+            {
+                var strategy = new XPathComponentScopeLocateStrategy(applyIndex: false);
+                return new SequalComponentScopeLocateResult(label, strategy);
+            }
+            else
+            {
+                ComponentScopeLocateOptions idOptions = options.Clone();
+                idOptions.Terms = new[] { elementId };
+                idOptions.Index = null;
+                idOptions.Match = TermMatch.Equals;
 
-            ComponentScopeLocateOptions idOptions = options.Clone();
-            idOptions.Terms = new[] { elementId };
-            idOptions.Index = null;
-            idOptions.Match = TermMatch.Equals;
-
-            return new SequalComponentScopeLocateResult(scope, findByIdStrategy, idOptions);
+                return new SequalComponentScopeLocateResult(scope, findByIdStrategy, idOptions);
+            }
         }
     }
 }
