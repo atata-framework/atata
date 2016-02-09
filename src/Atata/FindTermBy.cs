@@ -10,6 +10,7 @@
         Value,
         ContentOrValue,
         ColumnHeader,
-        Title
+        Title,
+        Fieldset
     }
 }

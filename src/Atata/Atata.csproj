@@ -68,6 +68,7 @@
     <Compile Include="Attributes\FindByContentOrValueSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByContentSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByCssAttribute.cs" />
+    <Compile Include="Attributes\FindByFieldsetAttribute.cs" />
     <Compile Include="Attributes\FindByIndexAttribute.cs" />
     <Compile Include="Attributes\FindByLabelSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByNameAttribute.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="ScopeSearch\Strategies\FindByColumnIndexStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByContentOrValueStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByCssStrategy.cs" />
+    <Compile Include="ScopeSearch\Strategies\FindByFieldsetStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByNameStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByAttributeStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByXPathStrategy.cs" />
