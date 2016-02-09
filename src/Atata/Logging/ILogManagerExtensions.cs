@@ -8,18 +8,20 @@ namespace Atata
     public static class ILogManagerExtensions
     {
         [ThreadStatic]
-        private static Stack<string> sectionEndMessageStack;
+        private static Stack<LogSectionInfo> sectionEndMessageStack;
 
-        private static Stack<string> SectionEndMessageStack
+        private static Stack<LogSectionInfo> SectionEndMessageStack
         {
-            get { return sectionEndMessageStack ?? (sectionEndMessageStack = new Stack<string>()); }
+            get { return sectionEndMessageStack ?? (sectionEndMessageStack = new Stack<LogSectionInfo>()); }
         }
 
         public static void StartSection(this ILogManager logger, string message, params object[] args)
         {
             string fullMessage = args != null && args.Any() ? message.FormatWith(args) : message;
             logger.Info("Starting: {0}", fullMessage);
-            SectionEndMessageStack.Push("Finished: {0}".FormatWith(fullMessage));
+
+            string endMessage = "Finished: {0}".FormatWith(fullMessage);
+            SectionEndMessageStack.Push(new LogSectionInfo(endMessage));
         }
 
         public static void StartClickingSection(this ILogManager logger, string componentName)
@@ -71,8 +73,27 @@ namespace Atata
         {
             if (SectionEndMessageStack.Any())
             {
-                string message = SectionEndMessageStack.Pop();
-                logger.Info(message);
+                LogSectionInfo sectionInfo = SectionEndMessageStack.Pop();
+
+                TimeSpan duration = sectionInfo.GetDuration();
+                logger.Info("{0} ({1:F0}:{2:ss\\.ffff})", sectionInfo.EndMessage, Math.Floor(duration.TotalMinutes), duration);
+            }
+        }
+
+        public class LogSectionInfo
+        {
+            public LogSectionInfo(string endMessage)
+            {
+                EndMessage = endMessage;
+                StartedAt = DateTime.UtcNow;
+            }
+
+            public string EndMessage { get; private set; }
+            public DateTime StartedAt { get; private set; }
+
+            public TimeSpan GetDuration()
+            {
+                return DateTime.UtcNow - StartedAt;
             }
         }
     }

@@ -51,6 +51,8 @@ namespace Atata
 
             InitComponent();
 
+            Log.EndSection();
+
             ////RunTriggersBefore();
 
             VerifyCurrentPage();
@@ -71,7 +73,10 @@ namespace Atata
             NavigateToAttribute attribute;
 
             if (GetType().TryGetCustomAttribute(out attribute, true))
+            {
+                Log.Info("Navigate to {0}", attribute.Url);
                 Navigate(attribute.Url);
+            }
         }
 
         protected virtual void Navigate(string url)
@@ -134,7 +139,7 @@ namespace Atata
         private void LogGoTo()
         {
             string pageObjectName = UIComponentResolver.ResolvePageObjectName<T>();
-            Log.Info("Go to {0}", pageObjectName);
+            Log.StartSection("Go to {0}", pageObjectName);
         }
 
         protected TOther InitChild<TOther>(string windowName = null) where TOther : PageObject<TOther>, new()
