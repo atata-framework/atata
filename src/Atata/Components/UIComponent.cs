@@ -93,7 +93,7 @@ namespace Atata
                 Component = this,
                 ParentComponent = Parent,
                 ComponentScopeLocator = ScopeLocator,
-                ParentComponentScopeLocator = Parent.ScopeLocator
+                ParentComponentScopeLocator = Parent != null ? Parent.ScopeLocator : null
             };
 
             foreach (var trigger in triggers)
