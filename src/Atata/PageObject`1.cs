@@ -203,7 +203,17 @@ namespace Atata
         public virtual void CloseWindow()
         {
             Driver.ExecuteScript("window.close();");
-            ////Browser.ExecuteScript("window.close();");
+        }
+
+        public T Do<TComponent>(Func<T, TComponent> childComponentGetter, params Action<TComponent>[] actions)
+            where TComponent : Control<T>
+        {
+            TComponent component = childComponentGetter((T)this);
+
+            foreach (var action in actions)
+                action(component);
+
+            return (T)this;
         }
     }
 }
