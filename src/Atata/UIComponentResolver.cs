@@ -8,11 +8,20 @@ namespace Atata
 {
     public static class UIComponentResolver
     {
-        private static readonly Dictionary<PropertyInfo, Attribute[]> PropertyAttributes = new Dictionary<PropertyInfo, Attribute[]>();
-        private static readonly Dictionary<Type, Attribute[]> ClassAttributes = new Dictionary<Type, Attribute[]>();
-        private static readonly Dictionary<Assembly, Attribute[]> AssemblyAttributes = new Dictionary<Assembly, Attribute[]>();
+        private static readonly Dictionary<PropertyInfo, Attribute[]> PropertyAttributes;
+        private static readonly Dictionary<Type, Attribute[]> ClassAttributes;
+        private static readonly Dictionary<Assembly, Attribute[]> AssemblyAttributes;
 
-        private static readonly Dictionary<Type, string> PageObjectNames = new Dictionary<Type, string>();
+        private static readonly Dictionary<Type, string> PageObjectNames;
+
+        static UIComponentResolver()
+        {
+            PropertyAttributes = new Dictionary<PropertyInfo, Attribute[]>();
+            ClassAttributes = new Dictionary<Type, Attribute[]>();
+            AssemblyAttributes = new Dictionary<Assembly, Attribute[]>();
+
+            PageObjectNames = new Dictionary<Type, string>();
+        }
 
         public static void Resolve<TOwner>(UIComponent<TOwner> component)
             where TOwner : PageObject<TOwner>
