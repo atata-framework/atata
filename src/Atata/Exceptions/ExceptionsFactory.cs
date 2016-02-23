@@ -54,7 +54,7 @@ namespace Atata
             return builder.ToString();
         }
 
-        private static string BuildAssertionErrorMessage(object expected, object actual, string message = null, params object[] args)
+        internal static string BuildAssertionErrorMessage(object expected, object actual, string message = null, params object[] args)
         {
             StringBuilder builder = new StringBuilder();
             if (!string.IsNullOrWhiteSpace(message))
