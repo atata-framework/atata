@@ -39,6 +39,10 @@ namespace Atata.Tests
 
             [Term(TermFormat.SentenceWithColon)]
             public TextInput<_> MiddleName { get; private set; }
+
+            public TextInput<_> ReadonlyField { get; private set; }
+
+            public TextInput<_> DisabledField { get; private set; }
         }
 
         [UIComponent("*")]

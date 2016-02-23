@@ -21,6 +21,14 @@
                     <label for="MiddleName">Middle name:</label>
                     <input id="MiddleName" type="text" class="form-control" />
                 </div>
+                <div class="form-group">
+                    <label for="readonly-field">Readonly Field</label>
+                    <input id="readonly-field" type="text" class="form-control" readonly value="readme" />
+                </div>
+                <div class="form-group">
+                    <label for="disabled-field">Disabled Field</label>
+                    <input id="disabled-field" type="text" class="form-control" disabled value="readme" />
+                </div>
 
                 <div class="form-group">
                     <button class="btn btn-default">
@@ -50,15 +58,15 @@
                 <div class="form-group x-checkbox-container">
                     <fieldset>
                         <legend>Checkbox Options</legend>
-                        <label>
+                        <label class="checkbox-inline">
                             <input type="checkbox" name="checkbox-options" value="OptionA" />
                             Option A
                         </label>
-                        <label>
+                        <label class="checkbox-inline">
                             <input type="checkbox" name="checkbox-options" value="OptionB" />
                             Option B
                         </label>
-                        <label>
+                        <label class="checkbox-inline">
                             <input type="checkbox" name="checkbox-options" value="OptionB" />
                             Option C
                         </label>
@@ -68,17 +76,14 @@
                 <div class="form-group x-radio-container">
                     <fieldset>
                         <legend>Radio Options</legend>
-                        <label>
-                            <input type="radio" name="radio-options" value="OptionA" />
-                            Option A
+                        <label class="radio-inline">
+                            <input type="radio" name="radio-options" value="OptionA" />Option A
                         </label>
-                        <label>
-                            <input type="radio" name="radio-options" value="OptionB" />
-                            Option B
+                        <label class="radio-inline">
+                            <input type="radio" name="radio-options" value="OptionB" />Option B
                         </label>
-                        <label>
-                            <input type="radio" name="radio-options" value="OptionB" />
-                            Option C
+                        <label class="radio-inline">
+                            <input type="radio" name="radio-options" value="OptionB" />Option C
                         </label>
                     </fieldset>
                 </div>

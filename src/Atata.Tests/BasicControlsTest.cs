@@ -13,6 +13,9 @@ namespace Atata.Tests
             GoTo<BasicControlsPage>().
                 Header.VerifyEquals("Header 1").
 
+                ByLabel.FirstName.VerifyExists().
+                ByLabel.FirstName.VerifyEnabled().
+                ByLabel.FirstName.VerifyNotReadOnly().
                 ByLabel.FirstName.SetGenerated(out firstName).
                 ByLabel.FirstName.VerifyEquals(firstName).
                 ById.FirstName.VerifyEquals(firstName).
@@ -24,6 +27,16 @@ namespace Atata.Tests
                 ById.MiddleName.Set("mdname").
                 Do(_ => _.ByLabel.MiddleName, x => x.VerifyEquals("mdname"), x => x.Set("md2name")).
                 ById.MiddleName.VerifyEquals("md2name").
+
+                ByLabel.ReadonlyField.VerifyExists().
+                ByLabel.ReadonlyField.VerifyEnabled().
+                ByLabel.ReadonlyField.VerifyReadOnly().
+                ByLabel.ReadonlyField.VerifyEquals("readme").
+
+                ByLabel.DisabledField.VerifyExists().
+                ByLabel.DisabledField.VerifyDisabled().
+                ByLabel.DisabledField.VerifyNotReadOnly().
+                ByLabel.DisabledField.VerifyEquals("readme").
 
                 RawButton.VerifyExists().
                 RawButton.VerifyEnabled().
