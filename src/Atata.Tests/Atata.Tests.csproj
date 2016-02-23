@@ -42,12 +42,12 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Components\BasicControlsPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicControlsTest.cs" />
+    <Compile Include="TestBase.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Components\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Atata\Atata.csproj">
       <Project>{9d876d23-607a-45dc-979a-01da1d34189c}</Project>

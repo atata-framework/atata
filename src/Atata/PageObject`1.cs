@@ -205,10 +205,10 @@ namespace Atata
             Driver.ExecuteScript("window.close();");
         }
 
-        public T Do<TComponent>(Func<T, TComponent> childComponentGetter, params Action<TComponent>[] actions)
+        public T Do<TComponent>(Func<T, TComponent> childControlGetter, params Action<TComponent>[] actions)
             where TComponent : Control<T>
         {
-            TComponent component = childComponentGetter((T)this);
+            TComponent component = childControlGetter((T)this);
 
             foreach (var action in actions)
                 action(component);
