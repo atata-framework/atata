@@ -1,7 +1,11 @@
-﻿namespace Atata.Tests
+﻿using NUnit.Framework;
+
+namespace Atata.Tests
 {
+    [TestFixture]
     public class BasicControlsTest : TestBase
     {
+        [Test]
         public void BasicControlsInteraction()
         {
             string firstName;
@@ -18,7 +22,7 @@
                 ById.LastName.VerifyEquals("LastName").
 
                 ById.MiddleName.Set("mdname").
-                Do(x => x.ByLabel.MiddleName, x => x.VerifyEquals("mdname"), x => x.Set("md2name")).
+                Do(_ => _.ByLabel.MiddleName, x => x.VerifyEquals("mdname"), x => x.Set("md2name")).
                 ById.MiddleName.VerifyEquals("md2name").
 
                 RawButton.VerifyExists().
@@ -27,9 +31,15 @@
                 RawButton.Click().
                 InputButton.VerifyExists().
                 InputButton.Click().
-                LinkButton.VerifyExists().
-                LinkButton.VerifyContent("Link", TermMatch.StartsWith).
-                LinkButton.Click().
+                Do(_ => _.LinkButton, x =>
+                    {
+                        x.VerifyExists();
+                        x.VerifyContent("Link Button", TermMatch.Equals);
+                        x.VerifyContent("Link", TermMatch.StartsWith);
+                        x.VerifyContent("utton", TermMatch.EndsWith);
+                        x.VerifyContent("ink Butto", TermMatch.Contains);
+                        x.Click();
+                    }).
                 DisabledButton.VerifyExists().
                 DisabledButton.VerifyDisabled().
                 MissingButton.VerifyMissing();

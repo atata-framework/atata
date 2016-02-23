@@ -20,6 +20,11 @@ namespace Atata
         {
         }
 
+        public TermAttribute()
+            : this(null, TermFormat.Inherit)
+        {
+        }
+
         public TermAttribute(params string[] values)
             : this(values, TermFormat.None)
         {

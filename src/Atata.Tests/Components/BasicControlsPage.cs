@@ -13,14 +13,20 @@ namespace Atata.Tests
 
         public FindById ById { get; private set; }
 
+        [Term(CutEnding = false)]
+        [FindByContent]
         public Button<_> RawButton { get; private set; }
 
+        [Term(CutEnding = false)]
         public Button<_> InputButton { get; private set; }
 
+        [Term(CutEnding = false)]
         public Link<_> LinkButton { get; private set; }
 
+        [Term(CutEnding = false)]
         public Button<_> DisabledButton { get; private set; }
 
+        [Term(CutEnding = false)]
         public Button<_> MissingButton { get; private set; }
 
         [UIComponent("*")]
