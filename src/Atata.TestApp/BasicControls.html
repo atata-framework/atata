@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Controls Test</title>
+    <script src="Scripts/bootstrap.min.js"></script>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <h1>Header 1</h1>
+                <div class="form-group">
+                    <label for="first-name">First Name</label>
+                    <input id="first-name" type="text" class="form-control x-first-name" />
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name*</label>
+                    <input id="lastName" type="text" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label for="MiddleName">Middle name:</label>
+                    <input id="MiddleName" type="text" class="form-control" />
+                </div>
+
+                <div class="form-group">
+                    <button class="btn btn-default">
+                        Button
+                    </button>
+                    <input type="button" value="Input Button" class="btn btn-default" />
+                    <a title="Link Button" class="btn btn-default">Link Button</a>
+                    <button class="btn btn-default" disabled>
+                        Disabled Button
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender</label>
+                    <select id="gender" type="text" class="form-control">
+                        <option value="" selected>--select--</option>
+                        <option value="1">Male</option>
+                        <option value="0">Female</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input id="age" type="number" class="form-control" min="0" max="150" step="1" />
+                </div>
+
+                <div class="form-group x-checkbox-container">
+                    <fieldset>
+                        <legend>Checkbox Options</legend>
+                        <label>
+                            <input type="checkbox" name="checkbox-options" value="OptionA" />
+                            Option A
+                        </label>
+                        <label>
+                            <input type="checkbox" name="checkbox-options" value="OptionB" />
+                            Option B
+                        </label>
+                        <label>
+                            <input type="checkbox" name="checkbox-options" value="OptionB" />
+                            Option C
+                        </label>
+                    </fieldset>
+                </div>
+
+                <div class="form-group x-radio-container">
+                    <fieldset>
+                        <legend>Radio Options</legend>
+                        <label>
+                            <input type="radio" name="radio-options" value="OptionA" />
+                            Option A
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-options" value="OptionB" />
+                            Option B
+                        </label>
+                        <label>
+                            <input type="radio" name="radio-options" value="OptionB" />
+                            Option C
+                        </label>
+                    </fieldset>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

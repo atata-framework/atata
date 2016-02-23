@@ -14,6 +14,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{751C2E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.KendoUI", "Atata.KendoUI\Atata.KendoUI.csproj", "{C9D19F68-B8CA-4EB0-872D-7A331E6A959D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.TestApp", "Atata.TestApp\Atata.TestApp.csproj", "{147EA0C6-A26A-4720-B1B8-8DCA11D53B31}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Tests", "Atata.Tests\Atata.Tests.csproj", "{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5262AF3A-5A4A-458E-8C38-B133972D058F}"
+	ProjectSection(SolutionItems) = preProject
+		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +37,14 @@ Global
 		{C9D19F68-B8CA-4EB0-872D-7A331E6A959D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9D19F68-B8CA-4EB0-872D-7A331E6A959D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9D19F68-B8CA-4EB0-872D-7A331E6A959D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{147EA0C6-A26A-4720-B1B8-8DCA11D53B31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{147EA0C6-A26A-4720-B1B8-8DCA11D53B31}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{147EA0C6-A26A-4720-B1B8-8DCA11D53B31}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{147EA0C6-A26A-4720-B1B8-8DCA11D53B31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
