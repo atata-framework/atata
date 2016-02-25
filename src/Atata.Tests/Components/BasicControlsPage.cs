@@ -6,6 +6,13 @@ namespace Atata.Tests
     [NavigateTo("http://localhost:50549/BasicControls.html")]
     public class BasicControlsPage : Page<BasicControlsPage>
     {
+        public enum RadioOption
+        {
+            OptionA,
+            OptionB,
+            OptionC
+        }
+
         [FindByCss("h1")]
         public Text<_> Header { get; private set; }
 
@@ -43,6 +50,9 @@ namespace Atata.Tests
             public TextInput<_> ReadonlyField { get; private set; }
 
             public TextInput<_> DisabledField { get; private set; }
+
+            [FindByName("radio-options"), FindItemByLabel]
+            public RadioButtonGroup<RadioOption, _> RadioOptions { get; private set; }
         }
 
         [UIComponent("*")]

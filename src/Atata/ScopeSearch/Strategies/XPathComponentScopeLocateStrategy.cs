@@ -24,7 +24,7 @@ namespace Atata
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             string xPath = BuildXPath(options);
-            return new XPathComponentScopeLocateResult(xPath);
+            return new XPathComponentScopeLocateResult(xPath, scope, searchOptions);
         }
 
         private string BuildXPath(ComponentScopeLocateOptions options)

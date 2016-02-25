@@ -155,25 +155,10 @@ namespace Atata
 
             if (itemsControl != null)
             {
-                ////component.ScopeElementFinder = isSafely =>
-                ////    {
-                ////        return component.ScopeSource.GetScopeElement(parentComponent);
-                ////    };
-                ////itemsControl.ItemsFindStrategy = elementLocator;
-                ////itemsControl.ItemsFindOptions = findOptions;
-                ////FindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
-                ////itemsControl.ItemFindStrategy = findItemAttribute.CreateStrategy(metadata);
+                FindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
+                itemsControl.ItemFindStrategy = findItemAttribute.CreateStrategy(metadata);
             }
-            else
-            {
-                ////component.ScopeElementFinder = isSafely =>
-                ////    {
-                ////        findOptions.IsSafely = isSafely;
-                ////        IWebElement scope = component.ScopeSource.GetScopeElement(parentComponent);
-                ////        ElementLocator locator = elementLocator.Find(scope, findOptions, null);
-                ////        return locator.GetElement(isSafely);
-                ////    };
-            }
+
             component.ScopeLocator = new StrategyScopeLocator(component, elementLocator, findOptions);
         }
 

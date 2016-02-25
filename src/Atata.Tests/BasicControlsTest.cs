@@ -25,7 +25,12 @@ namespace Atata.Tests
                 ById.LastName.VerifyEquals("LastName").
 
                 ById.MiddleName.Set("mdname").
-                Do(_ => _.ByLabel.MiddleName, x => x.VerifyEquals("mdname"), x => x.Set("md2name")).
+                Do(_ => _.ByLabel.MiddleName, x =>
+                    {
+                        x.VerifyEquals("mdname");
+                        x.Set("md2name");
+                        x.VerifyNotEqual("mdname");
+                    }).
                 ById.MiddleName.VerifyEquals("md2name").
 
                 ByLabel.ReadonlyField.VerifyExists().
@@ -55,7 +60,14 @@ namespace Atata.Tests
                     }).
                 DisabledButton.VerifyExists().
                 DisabledButton.VerifyDisabled().
-                MissingButton.VerifyMissing();
+                MissingButton.VerifyMissing().
+
+                ByLabel.RadioOptions.VerifyExists().
+                ByLabel.RadioOptions.Set(BasicControlsPage.RadioOption.OptionC).
+                ByLabel.RadioOptions.VerifyEquals(BasicControlsPage.RadioOption.OptionC).
+                ByLabel.RadioOptions.Set(BasicControlsPage.RadioOption.OptionB).
+                ByLabel.RadioOptions.VerifyNotEqual(BasicControlsPage.RadioOption.OptionC).
+                ByLabel.RadioOptions.VerifyEquals(BasicControlsPage.RadioOption.OptionB);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public interface IItemElementFindStrategy
     {
-        string Find(string xPath, object parameter);
+        string Find(object parameter);
     }
 }

@@ -4,11 +4,11 @@ namespace Atata
 {
     public class FindItemByIndexStrategy : IItemElementFindStrategy
     {
-        public string Find(string xPath, object parameter)
+        public string Find(object parameter)
         {
             int index = (int)parameter;
 
-            return xPath + "[{0}]".FormatWith(parameter);
+            return "[{0}]".FormatWith(parameter);
         }
     }
 }
