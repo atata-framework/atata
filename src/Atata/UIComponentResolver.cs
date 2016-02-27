@@ -8,17 +8,17 @@ namespace Atata
 {
     public static class UIComponentResolver
     {
-        private static readonly Dictionary<PropertyInfo, Attribute[]> PropertyAttributes;
-        private static readonly Dictionary<Type, Attribute[]> ClassAttributes;
-        private static readonly Dictionary<Assembly, Attribute[]> AssemblyAttributes;
+        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> PropertyAttributes;
+        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> ClassAttributes;
+        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> AssemblyAttributes;
 
         private static readonly Dictionary<Type, string> PageObjectNames;
 
         static UIComponentResolver()
         {
-            PropertyAttributes = new Dictionary<PropertyInfo, Attribute[]>();
-            ClassAttributes = new Dictionary<Type, Attribute[]>();
-            AssemblyAttributes = new Dictionary<Assembly, Attribute[]>();
+            PropertyAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
+            ClassAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
+            AssemblyAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
 
             PageObjectNames = new Dictionary<Type, string>();
         }
@@ -319,28 +319,35 @@ namespace Atata
             return resultTriggers.OrderBy(x => x.Priority).ToArray();
         }
 
-        private static Attribute[] GetPropertyAttributes(PropertyInfo property)
+        private static Attribute[] ResolveAndCacheAttributes(Dictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
         {
             Attribute[] attributes;
-            if (PropertyAttributes.TryGetValue(property, out attributes))
+
+            if (cache.TryGetValue(attributeProvider, out attributes))
                 return attributes;
-            return PropertyAttributes[property] = property.GetCustomAttributes(true).Cast<Attribute>().ToArray();
+
+            lock (cache)
+            {
+                if (cache.TryGetValue(attributeProvider, out attributes))
+                    return attributes;
+                else
+                    return cache[attributeProvider] = attributeProvider.GetCustomAttributes(true).Cast<Attribute>().ToArray();
+            }
+        }
+
+        private static Attribute[] GetPropertyAttributes(PropertyInfo property)
+        {
+            return ResolveAndCacheAttributes(PropertyAttributes, property);
         }
 
         private static Attribute[] GetClassAttributes(Type type)
         {
-            Attribute[] attributes;
-            if (ClassAttributes.TryGetValue(type, out attributes))
-                return attributes;
-            return ClassAttributes[type] = type.GetCustomAttributes(true).Cast<Attribute>().ToArray();
+            return ResolveAndCacheAttributes(ClassAttributes, type);
         }
 
         private static Attribute[] GetAssemblyAttributes(Assembly assembly)
         {
-            Attribute[] attributes;
-            if (AssemblyAttributes.TryGetValue(assembly, out attributes))
-                return attributes;
-            return AssemblyAttributes[assembly] = assembly.GetCustomAttributes(true).Cast<Attribute>().ToArray();
+            return ResolveAndCacheAttributes(AssemblyAttributes, assembly);
         }
 
         public static string ResolvePageObjectName<TPageObject>()
