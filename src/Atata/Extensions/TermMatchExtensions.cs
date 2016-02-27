@@ -5,6 +5,11 @@ namespace Atata
 {
     public static class TermMatchExtensions
     {
+        public static string CreateXPathCondition(this TermMatch match, string value, string operand = ".")
+        {
+            return CreateXPathCondition(match, new[] { value }, operand);
+        }
+
         public static string CreateXPathCondition(this TermMatch match, string[] values, string operand = ".")
         {
             string operationFormat = match.GetXPathOperationFormat();
