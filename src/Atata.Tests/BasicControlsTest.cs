@@ -11,7 +11,7 @@ namespace Atata.Tests
             string firstName;
 
             GoTo<BasicControlsPage>().
-                Header.VerifyEquals("Header 1").
+                Header.VerifyEquals("Basic Controls").
 
                 ByLabel.FirstName.VerifyExists().
                 ByLabel.FirstName.VerifyEnabled().
