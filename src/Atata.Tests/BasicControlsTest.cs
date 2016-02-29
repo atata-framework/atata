@@ -62,12 +62,19 @@ namespace Atata.Tests
                 DisabledButton.VerifyDisabled().
                 MissingButton.VerifyMissing().
 
-                ByLabel.RadioOptions.VerifyExists().
-                ByLabel.RadioOptions.Set(BasicControlsPage.RadioOption.OptionC).
-                ByLabel.RadioOptions.VerifyEquals(BasicControlsPage.RadioOption.OptionC).
-                ByLabel.RadioOptions.Set(BasicControlsPage.RadioOption.OptionB).
-                ByLabel.RadioOptions.VerifyNotEqual(BasicControlsPage.RadioOption.OptionC).
-                ByLabel.RadioOptions.VerifyEquals(BasicControlsPage.RadioOption.OptionB);
+                GroupControls.RadioOptionsByNameAndLabel.VerifyExists().
+                GroupControls.RadioOptionsByNameAndLabel.Set(BasicControlsPage.RadioOptionLabel.OptionC).
+                GroupControls.RadioOptionsByNameAndLabel.VerifyEquals(BasicControlsPage.RadioOptionLabel.OptionC).
+                GroupControls.RadioOptionsByNameAndLabel.Set(BasicControlsPage.RadioOptionLabel.OptionB).
+                GroupControls.RadioOptionsByNameAndLabel.VerifyNotEqual(BasicControlsPage.RadioOptionLabel.OptionC).
+                GroupControls.RadioOptionsByNameAndLabel.VerifyEquals(BasicControlsPage.RadioOptionLabel.OptionB).
+
+                GroupControls.RadioOptionsByClassAndValue.VerifyExists().
+                GroupControls.RadioOptionsByClassAndValue.Set(BasicControlsPage.RadioOptionValue.OptionC).
+                GroupControls.RadioOptionsByClassAndValue.VerifyEquals(BasicControlsPage.RadioOptionValue.OptionC).
+                GroupControls.RadioOptionsByClassAndValue.Set(BasicControlsPage.RadioOptionValue.OptionB).
+                GroupControls.RadioOptionsByClassAndValue.VerifyNotEqual(BasicControlsPage.RadioOptionValue.OptionC).
+                GroupControls.RadioOptionsByClassAndValue.VerifyEquals(BasicControlsPage.RadioOptionValue.OptionB);
         }
     }
 }
