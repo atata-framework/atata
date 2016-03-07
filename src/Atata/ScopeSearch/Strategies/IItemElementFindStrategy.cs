@@ -1,7 +1,10 @@
-﻿namespace Atata
+﻿using OpenQA.Selenium;
+
+namespace Atata
 {
     public interface IItemElementFindStrategy
     {
-        string Find(object parameter);
+        string GetConditionXPath(object parameter);
+        string GetParameter(IWebElement element);
     }
 }

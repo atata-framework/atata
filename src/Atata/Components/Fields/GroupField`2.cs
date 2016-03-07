@@ -15,7 +15,7 @@ namespace Atata
 
         protected IWebElement GetItem(object parameter, bool isSafely = false, string extraXPath = null)
         {
-            string itemConditionXPath = ((IItemsControl)this).ItemFindStrategy.Find(parameter);
+            string itemConditionXPath = ((IItemsControl)this).ItemFindStrategy.GetConditionXPath(parameter);
             itemConditionXPath += extraXPath;
             return ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
         }
