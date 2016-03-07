@@ -4,7 +4,7 @@ namespace Atata
 {
     public interface IItemElementFindStrategy
     {
-        string GetConditionXPath(object parameter);
-        string GetParameter(IWebElement element);
+        string GetXPathCondition(object parameter);
+        object GetParameter(IWebElement element);
     }
 }

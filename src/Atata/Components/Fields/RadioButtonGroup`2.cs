@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using Humanizer;
+using OpenQA.Selenium;
 using System;
 using System.Linq;
 
@@ -11,9 +12,20 @@ namespace Atata
     {
         protected override TEnum GetValue()
         {
-            var enumValues = Enum.GetValues(typeof(TEnum));
-
-            return enumValues.Cast<TEnum>().FirstOrDefault(x => IsChecked(x));
+            IWebElement selectedItem = GetItems().FirstOrDefault(x => x.Selected);
+            if (selectedItem != null)
+            {
+                string stringValue = ((IItemsControl)this).ItemFindStrategy.GetParameter(selectedItem).ToString();
+                Enum dehumanizedValue = stringValue.DehumanizeTo(typeof(TEnum), OnNoMatch.ReturnsNull);
+                if (dehumanizedValue != null)
+                    return (TEnum)(object)dehumanizedValue;
+                else
+                    return (TEnum)Enum.Parse(typeof(TEnum), stringValue);
+            }
+            else
+            {
+                return default(TEnum);
+            }
         }
 
         protected override void SetValue(TEnum value)

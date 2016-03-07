@@ -1,4 +1,6 @@
 ﻿using OpenQA.Selenium;
+using System.Collections.ObjectModel;
+
 namespace Atata
 {
     public class XPathComponentScopeLocateResult : ComponentScopeLocateResult
@@ -14,9 +16,19 @@ namespace Atata
         public IWebElement ScopeSource { get; private set; }
         public SearchOptions SearchOptions { get; private set; }
 
-        public IWebElement Get(string extraXPath = null)
+        public IWebElement Get(string xPathCondition = null)
         {
-            return ScopeSource.Get(By.XPath(XPath + extraXPath).With(SearchOptions));
+            return ScopeSource.Get(CreateBy(xPathCondition));
+        }
+
+        public ReadOnlyCollection<IWebElement> GetAll(string xPathCondition = null)
+        {
+            return ScopeSource.GetAll(CreateBy(xPathCondition));
+        }
+
+        private By CreateBy(string xPathCondition)
+        {
+            return By.XPath(XPath + xPathCondition).With(SearchOptions);
         }
     }
 }

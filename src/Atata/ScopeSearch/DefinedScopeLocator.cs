@@ -11,9 +11,14 @@ namespace Atata
             this.element = element;
         }
 
-        public IWebElement GetElement(SearchOptions searchOptions = null, string extraXPath = null)
+        public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             return element;
+        }
+
+        public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+        {
+            return new[] { element };
         }
     }
 }

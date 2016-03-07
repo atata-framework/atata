@@ -12,11 +12,16 @@ namespace Atata
             this.locateFunction = locateFunction;
         }
 
-        public IWebElement GetElement(SearchOptions searchOptions = null, string extraXPath = null)
+        public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
             return locateFunction(searchOptions);
+        }
+
+        public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+        {
+            return new[] { GetElement(searchOptions, xPathCondition) };
         }
     }
 }

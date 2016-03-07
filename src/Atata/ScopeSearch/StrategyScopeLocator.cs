@@ -18,7 +18,25 @@ namespace Atata
             this.scopeLocateOptions = scopeLocateOptions;
         }
 
-        public IWebElement GetElement(SearchOptions searchOptions = null, string extraXPath = null)
+        public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
+        {
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
+            if (xPathResults.Any())
+                return xPathResults.Select(x => x.Get(xPathCondition)).Where(x => x != null).FirstOrDefault();
+            else
+                return null;
+        }
+
+        public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+        {
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
+            if (xPathResults.Any())
+                return xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray();
+            else
+                return new IWebElement[0];
+        }
+
+        public XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions, string xPathCondition)
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
@@ -29,35 +47,10 @@ namespace Atata
 
             ComponentScopeLocateResult result = strategy.Find(scopeSource, scopeLocateOptions, searchOptions);
 
-            XPathComponentScopeLocateResult[] xPathResults = ResolveScopeLocateResult(result, scopeSource, searchOptions);
-            if (xPathResults.Any())
-            {
-                return xPathResults.Select(x => x.Get(extraXPath)).FirstOrDefault();
-            }
-            else
-            {
-                return null;
-            }
-
-            ////if (extraXPath == null)
-            ////{
-            ////    By scopeBy = elementLocator.Find(scopeSource, findOptions, searchOptions);
-            ////    return scopeSource.Get(scopeBy.Named(findOptions.ComponentName).With(searchOptions));
-            ////}
-            ////else if (elementLocator is IXPathElementFindStrategy)
-            ////{
-            ////    IXPathElementFindStrategy xPathStrategy = (IXPathElementFindStrategy)elementLocator;
-            ////    string baseXPath = xPathStrategy.BuildXPath(findOptions);
-            ////    string completeXPath = string.Format("{0}//{1}", baseXPath, extraXPath);
-            ////    return scopeSource.Get(By.XPath(completeXPath).Named(findOptions.ComponentName).With(searchOptions));
-            ////}
-            ////else
-            ////{
-            ////    return null;
-            ////}
+            return ResolveScopeLocateResults(result, scopeSource, searchOptions);
         }
 
-        private XPathComponentScopeLocateResult[] ResolveScopeLocateResult(ComponentScopeLocateResult result, IWebElement scopeSource, SearchOptions searchOptions)
+        private XPathComponentScopeLocateResult[] ResolveScopeLocateResults(ComponentScopeLocateResult result, IWebElement scopeSource, SearchOptions searchOptions)
         {
             if (result == null)
                 throw new ArgumentNullException("result");
@@ -78,7 +71,7 @@ namespace Atata
                 if (sequalResult.ScopeSource != null)
                 {
                     ComponentScopeLocateResult nextResult = sequalResult.Strategy.Find(sequalResult.ScopeSource, nextScopeLocateOptions, searchOptions);
-                    return ResolveScopeLocateResult(nextResult, sequalResult.ScopeSource, searchOptions);
+                    return ResolveScopeLocateResults(nextResult, sequalResult.ScopeSource, searchOptions);
                 }
                 else
                 {
@@ -93,7 +86,7 @@ namespace Atata
 
                     var results = nextScopeSources.
                         Select(nextScopeSource => sequalResult.Strategy.Find(nextScopeSource, nextScopeLocateOptions, nextSearchOptions)).
-                        Select(nextResult => ResolveScopeLocateResult(nextResult, nextScopeSources[0], nextSearchOptions)).
+                        Select(nextResult => ResolveScopeLocateResults(nextResult, nextScopeSources[0], nextSearchOptions)).
                         Where(xPathResults => xPathResults != null).
                         SelectMany(xPathResults => xPathResults).
                         ToArray();

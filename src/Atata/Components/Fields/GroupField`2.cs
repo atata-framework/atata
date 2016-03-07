@@ -13,17 +13,22 @@ namespace Atata
 
         IItemElementFindStrategy IItemsControl.ItemFindStrategy { get; set; }
 
-        protected IWebElement GetItem(object parameter, bool isSafely = false, string extraXPath = null)
+        protected IWebElement GetItem(object parameter, bool isSafely = false, string xPathCondition = null)
         {
-            string itemConditionXPath = ((IItemsControl)this).ItemFindStrategy.GetConditionXPath(parameter);
-            itemConditionXPath += extraXPath;
+            string itemConditionXPath = ((IItemsControl)this).ItemFindStrategy.GetXPathCondition(parameter);
+            itemConditionXPath += xPathCondition;
             return ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
+        }
+
+        protected IWebElement[] GetItems()
+        {
+            return ScopeLocator.GetElements();
         }
 
         protected bool IsChecked(object parameter)
         {
             IWebElement element = GetItem(parameter);
-            return element.GetAttribute("checked") != null;
+            return element.Selected;
         }
     }
 }
