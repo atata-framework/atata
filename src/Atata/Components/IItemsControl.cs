@@ -2,6 +2,6 @@
 {
     public interface IItemsControl
     {
-        IItemElementFindStrategy ItemFindStrategy { get; set; }
+        void Apply(IItemElementFindStrategy itemElementFindStrategy);
     }
 }

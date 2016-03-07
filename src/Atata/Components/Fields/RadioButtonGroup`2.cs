@@ -12,10 +12,10 @@ namespace Atata
     {
         protected override TEnum GetValue()
         {
-            IWebElement selectedItem = GetItems().FirstOrDefault(x => x.Selected);
+            IWebElement selectedItem = GetItemElements().FirstOrDefault(x => x.Selected);
             if (selectedItem != null)
             {
-                string stringValue = ((IItemsControl)this).ItemFindStrategy.GetParameter(selectedItem).ToString();
+                string stringValue = ItemElementFindStrategy.GetParameter(selectedItem).ToString();
                 Enum dehumanizedValue = stringValue.DehumanizeTo(typeof(TEnum), OnNoMatch.ReturnsNull);
                 if (dehumanizedValue != null)
                     return (TEnum)(object)dehumanizedValue;
@@ -30,7 +30,7 @@ namespace Atata
 
         protected override void SetValue(TEnum value)
         {
-            IWebElement element = GetItem(value);
+            IWebElement element = GetItemElement(value);
             if (!element.Selected)
                 element.Click();
         }

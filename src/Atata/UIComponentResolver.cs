@@ -156,7 +156,8 @@ namespace Atata
             if (itemsControl != null)
             {
                 FindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
-                itemsControl.ItemFindStrategy = findItemAttribute.CreateStrategy(metadata);
+                IItemElementFindStrategy itemElementFindStrategy = findItemAttribute.CreateStrategy(metadata);
+                itemsControl.Apply(itemElementFindStrategy);
             }
 
             component.ScopeLocator = new StrategyScopeLocator(component, elementLocator, findOptions);

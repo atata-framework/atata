@@ -1,33 +1,36 @@
 ﻿using OpenQA.Selenium;
-using System;
 
 namespace Atata
 {
-    public abstract class GroupField<TEnum, TOwner> : EditableField<TEnum, TOwner>, IItemsControl
-        where TEnum : struct, IComparable, IFormattable
+    public abstract class GroupField<T, TOwner> : EditableField<T, TOwner>, IItemsControl
         where TOwner : PageObject<TOwner>
     {
         protected GroupField()
         {
         }
 
-        IItemElementFindStrategy IItemsControl.ItemFindStrategy { get; set; }
+        protected IItemElementFindStrategy ItemElementFindStrategy { get; private set; }
 
-        protected IWebElement GetItem(object parameter, bool isSafely = false, string xPathCondition = null)
+        void IItemsControl.Apply(IItemElementFindStrategy itemElementFindStrategy)
         {
-            string itemConditionXPath = ((IItemsControl)this).ItemFindStrategy.GetXPathCondition(parameter);
+            ItemElementFindStrategy = itemElementFindStrategy;
+        }
+
+        protected IWebElement GetItemElement(object parameter, bool isSafely = false, string xPathCondition = null)
+        {
+            string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter);
             itemConditionXPath += xPathCondition;
             return ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
         }
 
-        protected IWebElement[] GetItems()
+        protected IWebElement[] GetItemElements()
         {
             return ScopeLocator.GetElements();
         }
 
         protected bool IsChecked(object parameter)
         {
-            IWebElement element = GetItem(parameter);
+            IWebElement element = GetItemElement(parameter);
             return element.Selected;
         }
     }
