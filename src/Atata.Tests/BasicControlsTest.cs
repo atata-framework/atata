@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 
 namespace Atata.Tests
 {
@@ -60,21 +61,39 @@ namespace Atata.Tests
                     }).
                 DisabledButton.VerifyExists().
                 DisabledButton.VerifyDisabled().
-                MissingButton.VerifyMissing().
+                MissingButton.VerifyMissing();
+        }
 
-                GroupControls.RadioOptionsByNameAndLabel.VerifyExists().
-                GroupControls.RadioOptionsByNameAndLabel.Set(BasicControlsPage.RadioOptionLabel.OptionC).
-                GroupControls.RadioOptionsByNameAndLabel.VerifyEquals(BasicControlsPage.RadioOptionLabel.OptionC).
-                GroupControls.RadioOptionsByNameAndLabel.Set(BasicControlsPage.RadioOptionLabel.OptionB).
-                GroupControls.RadioOptionsByNameAndLabel.VerifyNotEqual(BasicControlsPage.RadioOptionLabel.OptionC).
-                GroupControls.RadioOptionsByNameAndLabel.VerifyEquals(BasicControlsPage.RadioOptionLabel.OptionB).
+        [Test]
+        public void RadioButtonGroup()
+        {
+            var page = GoTo<BasicControlsPage>();
 
-                GroupControls.RadioOptionsByClassAndValue.VerifyExists().
-                GroupControls.RadioOptionsByClassAndValue.Set(BasicControlsPage.RadioOptionValue.OptionC).
-                GroupControls.RadioOptionsByClassAndValue.VerifyEquals(BasicControlsPage.RadioOptionValue.OptionC).
-                GroupControls.RadioOptionsByClassAndValue.Set(BasicControlsPage.RadioOptionValue.OptionB).
-                GroupControls.RadioOptionsByClassAndValue.VerifyNotEqual(BasicControlsPage.RadioOptionValue.OptionC).
-                GroupControls.RadioOptionsByClassAndValue.VerifyEquals(BasicControlsPage.RadioOptionValue.OptionB);
+            TestRadioButtonGroup(
+                page.GroupControls.RadioOptionsByNameAndLabel,
+                BasicControlsPage.RadioOptionLabel.OptionC,
+                BasicControlsPage.RadioOptionLabel.OptionB);
+
+            TestRadioButtonGroup(
+                page.GroupControls.RadioOptionsByClassAndValue,
+                BasicControlsPage.RadioOptionValue.OptionC,
+                BasicControlsPage.RadioOptionValue.OptionA);
+
+            TestRadioButtonGroup(
+                page.GroupControls.RadioOptionsByCssAndValue,
+                BasicControlsPage.RadioOptionValue.OptionB,
+                BasicControlsPage.RadioOptionValue.OptionC);
+        }
+
+        private void TestRadioButtonGroup<T>(RadioButtonGroup<T, BasicControlsPage> group, T value1, T value2)
+            where T : struct, IComparable, IFormattable
+        {
+            group.VerifyExists();
+            group.Set(value1);
+            group.VerifyEquals(value1);
+            group.Set(value2);
+            group.VerifyNotEqual(value1);
+            group.VerifyEquals(value2);
         }
     }
 }
