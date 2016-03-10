@@ -1,17 +1,20 @@
 ﻿namespace Atata
 {
-    public class FindItemByLabelAttribute : FindItemAttribute
+    public class FindItemByLabelAttribute : TermFindItemAttribute
     {
-        public FindItemByLabelAttribute(TermMatch match = TermMatch.Equals)
+        public FindItemByLabelAttribute(TermMatch match)
+            : this(TermFormat.Title, match)
         {
-            Match = match;
         }
 
-        public new TermMatch Match { get; private set; }
+        public FindItemByLabelAttribute(TermFormat format = TermFormat.Title, TermMatch match = TermMatch.Equals)
+            : base(format, match)
+        {
+        }
 
         public override IItemElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            return new FindItemByLabelStrategy(Match);
+            return new FindItemByLabelStrategy(this);
         }
     }
 }

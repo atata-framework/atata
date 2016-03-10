@@ -1,21 +1,21 @@
 ﻿using Humanizer;
 using OpenQA.Selenium;
-using System;
 
 namespace Atata
 {
     public class FindItemByLabelStrategy : IItemElementFindStrategy
     {
-        private readonly TermMatch match;
+        private readonly ITermSettings termSettings;
 
-        public FindItemByLabelStrategy(TermMatch match)
+        public FindItemByLabelStrategy(ITermSettings termSettings)
         {
-            this.match = match;
+            this.termSettings = termSettings;
         }
 
         public string GetXPathCondition(object parameter)
         {
-            string parameterAsString = parameter is Enum ? ((Enum)parameter).ToTitleString() : parameter.ToString();
+            string parameterAsString = TermResolver.ToString(parameter, termSettings);
+            TermMatch match = TermResolver.GetMatch(parameter, termSettings);
             return "[ancestor::label[{0}]]".FormatWith(match.CreateXPathCondition(parameterAsString));
         }
 

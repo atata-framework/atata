@@ -2,8 +2,8 @@
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property, AllowMultiple = false)]
-    public class TermAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
+    public class TermAttribute : Attribute, ITermSettings
     {
         public TermAttribute(TermMatch match)
             : this(null, TermFormat.Inherit, match)

@@ -93,7 +93,9 @@
     <Compile Include="Attributes\GeneratableNumberAttribute.cs" />
     <Compile Include="Attributes\ITermFindAttribute.cs" />
     <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
+    <Compile Include="Attributes\ITermSettings.cs" />
     <Compile Include="Attributes\NameAttribute.cs" />
+    <Compile Include="Attributes\TermFindItemAttribute.cs" />
     <Compile Include="Attributes\TermFindSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByIdSettingsAttribute.cs" />
     <Compile Include="Attributes\NavigateToAttribute.cs" />
@@ -101,6 +103,7 @@
     <Compile Include="Attributes\SetAllGeneratablesAttribute.cs" />
     <Compile Include="Attributes\TermAttribute.cs" />
     <Compile Include="Attributes\FindByIdAttribute.cs" />
+    <Compile Include="Attributes\TermSettingsAttribute.cs" />
     <Compile Include="Attributes\Triggers\ClearValueAttribute.cs" />
     <Compile Include="Attributes\Triggers\ClickParentAttribute.cs" />
     <Compile Include="Attributes\Triggers\CompositeTriggerAttribute.cs" />
@@ -238,7 +241,7 @@
     <Compile Include="Settings\ByOptionsMap.cs" />
     <Compile Include="FindTermBy.cs" />
     <Compile Include="Settings\SearchOptions.cs" />
-    <Compile Include="TermConverter.cs" />
+    <Compile Include="TermResolver.cs" />
     <Compile Include="TriggerContext.cs" />
     <Compile Include="TriggerEvents.cs" />
     <Compile Include="TriggerPriority.cs" />
