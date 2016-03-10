@@ -19,6 +19,22 @@ namespace Atata
                 return value.ToString();
         }
 
+        public static object FromString(string value, Type destinationType, ITermSettings termSettings = null)
+        {
+            if (destinationType.IsEnum)
+                return StringToEnum(value, destinationType, termSettings);
+            else
+                return Convert.ChangeType(value, destinationType);
+        }
+
+        public static object StringToEnum(string value, Type enumType, ITermSettings termSettings = null)
+        {
+            return Enum.GetValues(enumType).
+                Cast<Enum>().
+                Where(x => GetEnumMatch(x, termSettings).IsMatch(value, EnumToString(x, termSettings))).
+                FirstOrDefault();
+        }
+
         public static string EnumToString(Enum value, ITermSettings termSettings = null)
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);

@@ -33,6 +33,11 @@ namespace Atata
             }
         }
 
+        public static bool IsMatch(this TermMatch match, string text, string term)
+        {
+            return match.GetPredicate()(text, term);
+        }
+
         public static Func<string, string, bool> GetPredicate(this TermMatch match)
         {
             switch (match)
