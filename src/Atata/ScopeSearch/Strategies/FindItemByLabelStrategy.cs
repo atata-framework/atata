@@ -14,9 +14,8 @@ namespace Atata
 
         public string GetXPathCondition(object parameter)
         {
-            string parameterAsString = TermResolver.ToString(parameter, termSettings);
-            TermMatch match = TermResolver.GetMatch(parameter, termSettings);
-            return "[ancestor::label[{0}]]".FormatWith(match.CreateXPathCondition(parameterAsString));
+            string xPathCondition = TermResolver.CreateXPathCondition(parameter, termSettings);
+            return "[ancestor::label[{0}]]".FormatWith(xPathCondition);
         }
 
         public object GetParameter(IWebElement element)

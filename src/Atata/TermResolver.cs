@@ -11,12 +11,25 @@ namespace Atata
 
         public static string ToString(object value, ITermSettings termSettings = null)
         {
+            string[] terms = GetTerms(value, termSettings);
+            return string.Join("/", terms);
+        }
+
+        public static string[] GetTerms(object value, ITermSettings termSettings = null)
+        {
             if (value is string)
-                return (string)value;
+                return new[] { (string)value };
             else if (value is Enum)
-                return EnumToString((Enum)value, termSettings);
+                return GetEnumTerms((Enum)value, termSettings);
             else
-                return value.ToString();
+                return new[] { value.ToString() };
+        }
+
+        public static string CreateXPathCondition(object value, ITermSettings termSettings = null, string operand = ".")
+        {
+            string[] terms = TermResolver.GetTerms(value, termSettings);
+            TermMatch match = TermResolver.GetMatch(value, termSettings);
+            return match.CreateXPathCondition(terms);
         }
 
         public static object FromString(string value, Type destinationType, ITermSettings termSettings = null)
@@ -31,19 +44,18 @@ namespace Atata
         {
             return Enum.GetValues(enumType).
                 Cast<Enum>().
-                Where(x => GetEnumMatch(x, termSettings).IsMatch(value, EnumToString(x, termSettings))).
+                Where(x => GetEnumMatch(x, termSettings).IsMatch(value, GetEnumTerms(x, termSettings))).
                 FirstOrDefault();
         }
 
-        public static string EnumToString(Enum value, ITermSettings termSettings = null)
+        public static string[] GetEnumTerms(Enum value, ITermSettings termSettings = null)
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);
             bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
-            string term = hasTermValue ? termAttribute.Values.First() : value.ToString();
 
             if (hasTermValue)
             {
-                return term;
+                return termAttribute.Values;
             }
             else
             {
@@ -52,7 +64,7 @@ namespace Atata
                     ?? GetTermFormatOrNull(GetTermSettings(value.GetType()))
                     ?? DefaultFormat;
 
-                return termFormat.ApplyTo(term);
+                return new[] { termFormat.ApplyTo(value.ToString()) };
             }
         }
 

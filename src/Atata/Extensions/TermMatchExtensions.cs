@@ -33,9 +33,10 @@ namespace Atata
             }
         }
 
-        public static bool IsMatch(this TermMatch match, string text, string term)
+        public static bool IsMatch(this TermMatch match, string text, params string[] terms)
         {
-            return match.GetPredicate()(text, term);
+            var predicate = match.GetPredicate();
+            return terms.Any(term => predicate(text, term));
         }
 
         public static Func<string, string, bool> GetPredicate(this TermMatch match)
