@@ -18,9 +18,10 @@ namespace Atata
             return "[ancestor::label[{0}]]".FormatWith(xPathCondition);
         }
 
-        public object GetParameter(IWebElement element)
+        public T GetParameter<T>(IWebElement element)
         {
-            return element.Get(By.XPath("ancestor::label").Immediately()).Text;
+            string value = element.Get(By.XPath("ancestor::label").Immediately()).Text;
+            return TermResolver.FromString<T>(value, termSettings);
         }
     }
 }

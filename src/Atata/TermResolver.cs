@@ -29,7 +29,12 @@ namespace Atata
         {
             string[] terms = TermResolver.GetTerms(value, termSettings);
             TermMatch match = TermResolver.GetMatch(value, termSettings);
-            return match.CreateXPathCondition(terms);
+            return match.CreateXPathCondition(terms, operand);
+        }
+
+        public static T FromString<T>(string value, ITermSettings termSettings = null)
+        {
+            return (T)FromString(value, typeof(T), termSettings);
         }
 
         public static object FromString(string value, Type destinationType, ITermSettings termSettings = null)

@@ -7,7 +7,7 @@
         {
         }
 
-        public FindItemByLabelAttribute(TermFormat format = TermFormat.Title, TermMatch match = TermMatch.Equals)
+        public FindItemByLabelAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
             : base(format, match)
         {
         }

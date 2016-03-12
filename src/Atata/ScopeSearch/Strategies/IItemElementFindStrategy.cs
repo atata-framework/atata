@@ -5,6 +5,6 @@ namespace Atata
     public interface IItemElementFindStrategy
     {
         string GetXPathCondition(object parameter);
-        object GetParameter(IWebElement element);
+        T GetParameter<T>(IWebElement element);
     }
 }

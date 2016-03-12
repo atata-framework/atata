@@ -1,27 +1,27 @@
 ﻿using Humanizer;
 using OpenQA.Selenium;
-using System;
 
 namespace Atata
 {
     public class FindItemByValueStrategy : IItemElementFindStrategy
     {
-        private readonly TermMatch match;
+        private readonly ITermSettings termSettings;
 
-        public FindItemByValueStrategy(TermMatch match)
+        public FindItemByValueStrategy(ITermSettings termSettings)
         {
-            this.match = match;
+            this.termSettings = termSettings;
         }
 
         public string GetXPathCondition(object parameter)
         {
-            string parameterAsString = parameter is Enum ? ((Enum)parameter).ToTitleString() : parameter.ToString();
-            return "[{0}]".FormatWith(match.CreateXPathCondition(parameterAsString, "@value"));
+            string xPathCondition = TermResolver.CreateXPathCondition(parameter, termSettings, "@value");
+            return "[{0}]".FormatWith(xPathCondition);
         }
 
-        public object GetParameter(IWebElement element)
+        public T GetParameter<T>(IWebElement element)
         {
-            return element.GetValue();
+            string value = element.GetValue();
+            return TermResolver.FromString<T>(value, termSettings);
         }
     }
 }
