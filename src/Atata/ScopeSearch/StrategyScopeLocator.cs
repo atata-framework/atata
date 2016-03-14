@@ -20,15 +20,27 @@ namespace Atata
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
+            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+
             XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
             if (xPathResults.Any())
-                return xPathResults.Select(x => x.Get(xPathCondition)).Where(x => x != null).FirstOrDefault();
+            {
+                IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).Where(x => x != null).FirstOrDefault();
+                if (element == null && !searchOptions.IsSafely)
+                    throw ExceptionsFactory.CreateForNoSuchElement(by: By.XPath(xPathResults.First().XPath + xPathCondition));
+                else
+                    return element;
+            }
             else
+            {
                 return null;
+            }
         }
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
+            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+
             XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
             if (xPathResults.Any())
                 return xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray();
@@ -36,10 +48,8 @@ namespace Atata
                 return new IWebElement[0];
         }
 
-        public XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions, string xPathCondition)
+        private XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions, string xPathCondition)
         {
-            searchOptions = searchOptions ?? SearchOptions.Safely(false);
-
             IWebElement scopeSource = component.ScopeSource.GetScopeElement(component.Parent);
 
             if (scopeSource == null && searchOptions.IsSafely)

@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 using System;
 
 namespace Atata.Tests
@@ -25,6 +26,8 @@ namespace Atata.Tests
                 page.RadioOptionsByCssAndValue,
                 RadioButtonGroupPage.RadioOptionValue.OptionB,
                 RadioButtonGroupPage.RadioOptionValue.OptionC);
+
+            Assert.Throws<NoSuchElementException>(() => page.RadioOptionsByCssAndValue.Set(RadioButtonGroupPage.RadioOptionValue.MissingValue));
         }
 
         private void TestRadioButtonGroup<T>(RadioButtonGroup<T, RadioButtonGroupPage> group, T value1, T value2)
