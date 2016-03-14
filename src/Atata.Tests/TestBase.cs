@@ -18,6 +18,11 @@ namespace Atata.Tests
 
             Logger.Info("Start test");
             NativeDriver.Manage().Window.Maximize();
+            OnSetUp();
+        }
+
+        protected virtual void OnSetUp()
+        {
         }
 
         [TearDown]

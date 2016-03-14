@@ -1,24 +1,22 @@
 ﻿using OpenQA.Selenium;
-using System;
 using System.Linq;
 
 namespace Atata
 {
     [UIComponent("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonGroup,Radios,RadioGroup,Buttons,ButtonGroup,Options,OptionGroup")]
-    public class RadioButtonGroup<TEnum, TOwner> : GroupField<TEnum, TOwner>
-        where TEnum : struct, IComparable, IFormattable
+    public class RadioButtonGroup<T, TOwner> : GroupField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected override TEnum GetValue()
+        protected override T GetValue()
         {
             IWebElement selectedItem = GetItemElements().FirstOrDefault(x => x.Selected);
             if (selectedItem != null)
-                return ItemElementFindStrategy.GetParameter<TEnum>(selectedItem);
+                return ItemElementFindStrategy.GetParameter<T>(selectedItem);
             else
-                return default(TEnum);
+                return default(T);
         }
 
-        protected override void SetValue(TEnum value)
+        protected override void SetValue(T value)
         {
             IWebElement element = GetItemElement(value);
             if (!element.Selected)
