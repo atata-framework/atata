@@ -195,6 +195,7 @@
     <Compile Include="Page`1.cs" />
     <Compile Include="PopupWindow`1.cs" />
     <Compile Include="ScopeSearch\IScopeLocator.cs" />
+    <Compile Include="ScopeSearch\Strategies\TermItemElementFindStrategy.cs" />
     <Compile Include="ScopeSearch\StrategyScopeLocator.cs" />
     <Compile Include="ScopeSearch\XPathComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSource.cs" />

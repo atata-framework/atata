@@ -20,7 +20,7 @@ namespace Atata
 
         protected internal virtual string ConvertValueToString(T value)
         {
-            return value.ToString();
+            return TermResolver.ToString(value);
         }
 
         public TOwner Verify(Action<T> assertAction, string message, params object[] args)

@@ -33,5 +33,10 @@ namespace Atata
             IWebElement element = GetItemElement(parameter);
             return element.Selected;
         }
+
+        protected internal override string ConvertValueToString(T value)
+        {
+            return ItemElementFindStrategy.ConvertToString(value);
+        }
     }
 }
