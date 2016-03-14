@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using System;
 
 namespace Atata.Tests
 {
@@ -62,38 +61,6 @@ namespace Atata.Tests
                 DisabledButton.VerifyExists().
                 DisabledButton.VerifyDisabled().
                 MissingButton.VerifyMissing();
-        }
-
-        [Test]
-        public void RadioButtonGroup()
-        {
-            var page = GoTo<BasicControlsPage>();
-
-            TestRadioButtonGroup(
-                page.GroupControls.RadioOptionsByNameAndLabel,
-                BasicControlsPage.RadioOptionLabel.OptionC,
-                BasicControlsPage.RadioOptionLabel.OptionB);
-
-            TestRadioButtonGroup(
-                page.GroupControls.RadioOptionsByClassAndValue,
-                BasicControlsPage.RadioOptionValue.OptionC,
-                BasicControlsPage.RadioOptionValue.OptionA);
-
-            TestRadioButtonGroup(
-                page.GroupControls.RadioOptionsByCssAndValue,
-                BasicControlsPage.RadioOptionValue.OptionB,
-                BasicControlsPage.RadioOptionValue.OptionC);
-        }
-
-        private void TestRadioButtonGroup<T>(RadioButtonGroup<T, BasicControlsPage> group, T value1, T value2)
-            where T : struct, IComparable, IFormattable
-        {
-            group.VerifyExists();
-            group.Set(value1);
-            group.VerifyEquals(value1);
-            group.Set(value2);
-            group.VerifyNotEqual(value1);
-            group.VerifyEquals(value2);
         }
     }
 }

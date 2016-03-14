@@ -6,31 +6,12 @@ namespace Atata.Tests
     [NavigateTo("http://localhost:50549/BasicControls.html")]
     public class BasicControlsPage : Page<BasicControlsPage>
     {
-        public enum RadioOptionLabel
-        {
-            OptionA,
-            OptionB,
-            OptionC
-        }
-
-        public enum RadioOptionValue
-        {
-            [Term(TermFormat.Pascal)]
-            OptionA,
-            [Term(TermFormat.Pascal)]
-            OptionB,
-            [Term(TermFormat.Pascal)]
-            OptionC
-        }
-
         [FindByCss("h1")]
         public Text<_> Header { get; private set; }
 
         public FindByLabel ByLabel { get; private set; }
 
         public FindById ById { get; private set; }
-
-        public GroupControlsContainer GroupControls { get; private set; }
 
         [Term(CutEnding = false)]
         [FindByContent]
@@ -76,19 +57,6 @@ namespace Atata.Tests
 
             [Term(TermFormat.Pascal)]
             public TextInput<_> MiddleName { get; private set; }
-        }
-
-        [UIComponent("*")]
-        public class GroupControlsContainer : Control<_>
-        {
-            [FindByName("radio-options"), FindItemByLabel]
-            public RadioButtonGroup<RadioOptionLabel, _> RadioOptionsByNameAndLabel { get; private set; }
-
-            [FindByClass("x-radio-container"), FindItemByValue]
-            public RadioButtonGroup<RadioOptionValue, _> RadioOptionsByClassAndValue { get; private set; }
-
-            [FindByCss(".x-radio-container"), FindItemByValue]
-            public RadioButtonGroup<RadioOptionValue, _> RadioOptionsByCssAndValue { get; private set; }
         }
     }
 }
