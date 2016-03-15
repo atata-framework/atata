@@ -5,7 +5,7 @@ namespace Atata.Tests
     [NavigateTo("http://localhost:50549/RadioButtonGroup.html")]
     public class RadioButtonGroupPage : Page<_>
     {
-        public enum RadioOptionLabel
+        public enum ByLabel
         {
             OptionA,
             OptionB,
@@ -14,7 +14,7 @@ namespace Atata.Tests
         }
 
         [TermSettings(TermFormat.Title)]
-        public enum RadioOptionValue
+        public enum ByValue
         {
             None,
             [Term(TermFormat.Pascal)]
@@ -29,15 +29,18 @@ namespace Atata.Tests
         }
 
         [FindByName("radio-options"), FindItemByLabel]
-        public RadioButtonGroup<RadioOptionLabel?, _> RadioOptionsByNameAndLabel { get; private set; }
+        public RadioButtonGroup<ByLabel?, _> ByNameAndLabel { get; private set; }
 
         [FindByClass("x-radio-container"), FindItemByValue]
-        public RadioButtonGroup<RadioOptionValue, _> RadioOptionsByClassAndValue { get; private set; }
+        public RadioButtonGroup<ByValue, _> ByClassAndValue { get; private set; }
 
         [FindByCss(".x-radio-container"), FindItemByValue(TermFormat.Pascal)]
-        public RadioButtonGroup<RadioOptionLabel, _> RadioOptionsByCssAndValue { get; private set; }
+        public RadioButtonGroup<ByLabel, _> ByCssAndValue { get; private set; }
 
         [FindByName(TermFormat.Dashed), FindItemByLabel]
         public RadioButtonGroup<string, _> VerticalItems { get; private set; }
+
+        [FindByFieldset("Vertical List"), FindItemByLabel]
+        public RadioButtonGroup<string, _> VerticalItemsByFieldset { get; private set; }
     }
 }
