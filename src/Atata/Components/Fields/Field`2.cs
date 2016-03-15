@@ -18,6 +18,11 @@ namespace Atata
             return Owner;
         }
 
+        public T Get()
+        {
+            return GetValue();
+        }
+
         protected internal virtual string ConvertValueToString(T value)
         {
             return TermResolver.ToString(value);
