@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium;
+using System;
 
 namespace Atata.Tests
 {
@@ -16,6 +17,9 @@ namespace Atata.Tests
         [Test]
         public void RadioButtonGroup_Enum()
         {
+            page.RadioOptionsByNameAndLabel.VerifyEquals(null);
+            page.RadioOptionsByClassAndValue.VerifyEquals(RadioButtonGroupPage.RadioOptionValue.None);
+
             TestRadioButtonGroup(
                 page.RadioOptionsByNameAndLabel,
                 RadioButtonGroupPage.RadioOptionLabel.OptionC,
@@ -28,11 +32,14 @@ namespace Atata.Tests
 
             TestRadioButtonGroup(
                 page.RadioOptionsByCssAndValue,
-                RadioButtonGroupPage.RadioOptionValue.OptionB,
-                RadioButtonGroupPage.RadioOptionValue.OptionC);
+                RadioButtonGroupPage.RadioOptionLabel.OptionB,
+                RadioButtonGroupPage.RadioOptionLabel.OptionC);
 
             Assert.Throws<NoSuchElementException>(() =>
-                page.RadioOptionsByCssAndValue.Set(RadioButtonGroupPage.RadioOptionValue.MissingValue));
+                page.RadioOptionsByClassAndValue.Set(RadioButtonGroupPage.RadioOptionValue.MissingValue));
+
+            Assert.Throws<ArgumentNullException>(() =>
+                page.RadioOptionsByNameAndLabel.Set(null));
         }
 
         [Test]
@@ -47,16 +54,26 @@ namespace Atata.Tests
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.VerticalItems.Set("Item 999"));
+
+            Assert.Throws<ArgumentNullException>(() =>
+                page.VerticalItems.Set(null));
         }
 
         private void TestRadioButtonGroup<T>(RadioButtonGroup<T, RadioButtonGroupPage> group, T value1, T value2)
         {
+            T actualValue;
+
             group.VerifyExists();
             group.Set(value1);
             group.VerifyEquals(value1);
+            group.Get(out actualValue);
+            Assert.That(actualValue, Is.EqualTo(value1));
+
             group.Set(value2);
             group.VerifyNotEqual(value1);
             group.VerifyEquals(value2);
+            group.Get(out actualValue);
+            Assert.That(actualValue, Is.EqualTo(value2));
         }
     }
 }

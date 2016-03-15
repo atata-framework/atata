@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using System;
 using System.Linq;
 
 namespace Atata
@@ -18,6 +19,9 @@ namespace Atata
 
         protected override void SetValue(T value)
         {
+            if (value == null)
+                throw new ArgumentNullException("value", "Cannot set 'null' to RadioButtonGroup control.");
+
             IWebElement element = GetItemElement(value);
             if (!element.Selected)
                 element.Click();

@@ -11,6 +11,9 @@ namespace Atata
 
         public static string ToString(object value, ITermSettings termSettings = null)
         {
+            if (value == null)
+                return "null";
+
             string[] terms = GetTerms(value, termSettings);
             return string.Join("/", terms);
         }
@@ -39,6 +42,8 @@ namespace Atata
 
         public static object FromString(string value, Type destinationType, ITermSettings termSettings = null)
         {
+            destinationType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
+
             if (destinationType.IsEnum)
                 return StringToEnum(value, destinationType, termSettings);
             else

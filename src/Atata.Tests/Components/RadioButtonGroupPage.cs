@@ -16,11 +16,12 @@ namespace Atata.Tests
         [TermSettings(TermFormat.Title)]
         public enum RadioOptionValue
         {
+            None,
             [Term(TermFormat.Pascal)]
             OptionA,
             [Term(TermFormat.Pascal)]
             OptionB,
-            [Term(TermFormat.Pascal)]
+            [Term("COption", "OptionC")]
             OptionC,
             [Term(TermFormat.Pascal)]
             OptionD,
@@ -28,13 +29,13 @@ namespace Atata.Tests
         }
 
         [FindByName("radio-options"), FindItemByLabel]
-        public RadioButtonGroup<RadioOptionLabel, _> RadioOptionsByNameAndLabel { get; private set; }
+        public RadioButtonGroup<RadioOptionLabel?, _> RadioOptionsByNameAndLabel { get; private set; }
 
         [FindByClass("x-radio-container"), FindItemByValue]
         public RadioButtonGroup<RadioOptionValue, _> RadioOptionsByClassAndValue { get; private set; }
 
-        [FindByCss(".x-radio-container"), FindItemByValue]
-        public RadioButtonGroup<RadioOptionValue, _> RadioOptionsByCssAndValue { get; private set; }
+        [FindByCss(".x-radio-container"), FindItemByValue(TermFormat.Pascal)]
+        public RadioButtonGroup<RadioOptionLabel, _> RadioOptionsByCssAndValue { get; private set; }
 
         [FindByName(TermFormat.Dashed), FindItemByLabel]
         public RadioButtonGroup<string, _> VerticalItems { get; private set; }
