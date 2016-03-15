@@ -56,7 +56,7 @@ namespace Atata
             var matchPredicate = match.GetPredicate();
             string actualText = Scope.Text;
             bool doesMatch = matchPredicate(actualText, content);
-            string errorMessage = ExceptionsFactory.BuildAssertionErrorMessage(
+            string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
                 "String that {0} '{1}'".FormatWith(matchActionText, content),
                 actualText,
                 "{0} component text doesn't match criteria", ComponentName);

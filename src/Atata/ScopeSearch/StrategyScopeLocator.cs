@@ -27,7 +27,7 @@ namespace Atata
             {
                 IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).Where(x => x != null).FirstOrDefault();
                 if (element == null && !searchOptions.IsSafely)
-                    throw ExceptionsFactory.CreateForNoSuchElement(by: By.XPath(xPathResults.First().XPath + xPathCondition));
+                    throw ExceptionFactory.CreateForNoSuchElement(by: By.XPath(xPathResults.First().XPath + xPathCondition));
                 else
                     return element;
             }
@@ -106,7 +106,7 @@ namespace Atata
                     else if (searchOptions.IsSafely)
                         return null;
                     else
-                        ExceptionsFactory.CreateForNoSuchElement(by: sequalResult.ScopeSourceBy);
+                        ExceptionFactory.CreateForNoSuchElement(by: sequalResult.ScopeSourceBy);
                 }
             }
 

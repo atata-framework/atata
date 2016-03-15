@@ -162,7 +162,7 @@
     <Compile Include="Components\Table`2.cs" />
     <Compile Include="Components\Fields\Text`1.cs" />
     <Compile Include="Exceptions\NotMissingElementException.cs" />
-    <Compile Include="Exceptions\ExceptionsFactory.cs" />
+    <Compile Include="Exceptions\ExceptionFactory.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FieldExtensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />

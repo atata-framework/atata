@@ -57,7 +57,7 @@ namespace Atata
 
             IWebElement element = ScopeLocator.GetElement(searchOptions);
             if (!searchOptions.IsSafely && element == null)
-                throw ExceptionsFactory.CreateForNoSuchElement(ComponentName);
+                throw ExceptionFactory.CreateForNoSuchElement(ComponentName);
 
             if (CacheScopeElement)
                 this.scope = element;

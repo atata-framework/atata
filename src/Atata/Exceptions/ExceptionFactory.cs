@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Atata
 {
-    internal static class ExceptionsFactory
+    internal static class ExceptionFactory
     {
         internal static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
         {

@@ -21,7 +21,7 @@ namespace Atata
                 if (searchOptions.IsSafely)
                     return new MissingComponentScopeLocateResult();
                 else
-                    throw ExceptionsFactory.CreateForNoSuchElement(options.GetTermsAsString());
+                    throw ExceptionFactory.CreateForNoSuchElement(options.GetTermsAsString());
             }
 
             return new FindByColumnIndexStrategy(columnIndex.Value).Find(scope, options, searchOptions);

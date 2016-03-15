@@ -134,7 +134,7 @@ namespace Atata
                     if (options.IsSafely)
                         return null;
                     else
-                        throw ExceptionsFactory.CreateForNoSuchElement(rowElementName);
+                        throw ExceptionFactory.CreateForNoSuchElement(rowElementName);
                 }),
                 rowElementName);
         }

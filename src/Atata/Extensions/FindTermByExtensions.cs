@@ -28,7 +28,7 @@ namespace Atata
                 case FindTermBy.Fieldset:
                     return typeof(FindByFieldsetAttribute);
                 default:
-                    throw ExceptionsFactory.CreateForUnsupportedEnumValue(by, "by");
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(by, "by");
             }
         }
     }
