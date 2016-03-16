@@ -9,56 +9,56 @@ namespace Atata
         private const TermFormat DefaultFormat = TermFormat.Title;
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
-        public static string ToString(object value, ITermSettings termSettings = null)
+        public static string ToString(object value, TermOptions termOptions = null)
         {
             if (value == null)
                 return "null";
 
-            string[] terms = GetTerms(value, termSettings);
+            string[] terms = GetTerms(value, termOptions);
             return string.Join("/", terms);
         }
 
-        public static string[] GetTerms(object value, ITermSettings termSettings = null)
+        public static string[] GetTerms(object value, TermOptions termOptions = null)
         {
             if (value is string)
                 return new[] { (string)value };
             else if (value is Enum)
-                return GetEnumTerms((Enum)value, termSettings);
+                return GetEnumTerms((Enum)value, termOptions);
             else
                 return new[] { value.ToString() };
         }
 
-        public static string CreateXPathCondition(object value, ITermSettings termSettings = null, string operand = ".")
+        public static string CreateXPathCondition(object value, TermOptions termOptions = null, string operand = ".")
         {
-            string[] terms = TermResolver.GetTerms(value, termSettings);
-            TermMatch match = TermResolver.GetMatch(value, termSettings);
+            string[] terms = GetTerms(value, termOptions);
+            TermMatch match = GetMatch(value, termOptions);
             return match.CreateXPathCondition(terms, operand);
         }
 
-        public static T FromString<T>(string value, ITermSettings termSettings = null)
+        public static T FromString<T>(string value, TermOptions termOptions = null)
         {
-            return (T)FromString(value, typeof(T), termSettings);
+            return (T)FromString(value, typeof(T), termOptions);
         }
 
-        public static object FromString(string value, Type destinationType, ITermSettings termSettings = null)
+        public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
         {
             destinationType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
 
             if (destinationType.IsEnum)
-                return StringToEnum(value, destinationType, termSettings);
+                return StringToEnum(value, destinationType, termOptions);
             else
                 return Convert.ChangeType(value, destinationType);
         }
 
-        public static object StringToEnum(string value, Type enumType, ITermSettings termSettings = null)
+        public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)
         {
             return Enum.GetValues(enumType).
                 Cast<Enum>().
-                Where(x => GetEnumMatch(x, termSettings).IsMatch(value, GetEnumTerms(x, termSettings))).
+                Where(x => GetEnumMatch(x, termOptions).IsMatch(value, GetEnumTerms(x, termOptions))).
                 FirstOrDefault();
         }
 
-        public static string[] GetEnumTerms(Enum value, ITermSettings termSettings = null)
+        public static string[] GetEnumTerms(Enum value, TermOptions termOptions = null)
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);
             bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
@@ -69,7 +69,7 @@ namespace Atata
             }
             else
             {
-                TermFormat termFormat = GetTermFormatOrNull(termSettings)
+                TermFormat termFormat = GetTermFormatOrNull(termOptions)
                     ?? GetTermFormatOrNull(termAttribute)
                     ?? GetTermFormatOrNull(GetTermSettings(value.GetType()))
                     ?? DefaultFormat;
@@ -83,7 +83,7 @@ namespace Atata
             if (value is Enum)
                 return GetEnumMatch((Enum)value, termSettings);
             else
-                return GetTermMatchOrNull(termSettings) ?? TermMatch.Equals;
+                return GetTermMatchOrNull(termSettings) ?? DefaultMatch;
         }
 
         public static TermMatch GetEnumMatch(Enum value, ITermSettings termSettings = null)

@@ -14,7 +14,7 @@
 
         public override IItemElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            return new FindItemByValueStrategy(this);
+            return new FindItemByValueStrategy();
         }
     }
 }

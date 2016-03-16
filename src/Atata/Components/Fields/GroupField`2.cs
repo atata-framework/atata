@@ -18,7 +18,7 @@ namespace Atata
 
         protected IWebElement GetItemElement(object parameter, bool isSafely = false, string xPathCondition = null)
         {
-            string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter);
+            string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter, ValueTermOptions);
             itemConditionXPath += xPathCondition;
             return ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
         }
@@ -34,9 +34,14 @@ namespace Atata
             return element.Selected;
         }
 
-        protected internal override string ConvertValueToString(T value)
+        protected override void InitValueTermOptions(UIComponentMetadata metadata, TermOptions termOptions)
         {
-            return ItemElementFindStrategy.ConvertToString(value);
+            TermFindItemAttribute termFindItemAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<TermFindItemAttribute>();
+            if (termFindItemAttribute != null)
+            {
+                termOptions.Format = termFindItemAttribute.Format;
+                termOptions.Match = termFindItemAttribute.Match;
+            }
         }
     }
 }

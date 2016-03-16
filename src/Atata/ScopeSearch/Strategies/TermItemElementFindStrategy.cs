@@ -5,32 +5,24 @@ namespace Atata
 {
     public abstract class TermItemElementFindStrategy : IItemElementFindStrategy
     {
-        protected TermItemElementFindStrategy(ITermSettings termSettings)
+        protected TermItemElementFindStrategy()
         {
-            TermSettings = termSettings;
         }
 
-        protected ITermSettings TermSettings { get; private set; }
+        public abstract string GetXPathCondition(object parameter, TermOptions termOptions);
 
-        public abstract string GetXPathCondition(object parameter);
-
-        public T GetParameter<T>(IWebElement element)
+        public T GetParameter<T>(IWebElement element, TermOptions termOptions)
         {
             string value = GetParameterAsString(element);
-            return TermResolver.FromString<T>(value, TermSettings);
+            return TermResolver.FromString<T>(value, termOptions);
         }
 
         protected abstract string GetParameterAsString(IWebElement element);
 
-        protected string CreateXPathCodition(string locatorXPathFormat, object parameter, string operand)
+        protected string CreateSimpleXPathCodition(string locatorXPathFormat, object parameter, TermOptions termOptions, string operand)
         {
-            string xPathCondition = TermResolver.CreateXPathCondition(parameter, TermSettings, operand);
+            string xPathCondition = TermResolver.CreateXPathCondition(parameter, termOptions, operand);
             return locatorXPathFormat.FormatWith(xPathCondition);
-        }
-
-        public string ConvertToString(object parameter)
-        {
-            return TermResolver.ToString(parameter, TermSettings);
         }
     }
 }

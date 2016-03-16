@@ -4,14 +4,9 @@ namespace Atata
 {
     public class FindItemByLabelStrategy : TermItemElementFindStrategy
     {
-        public FindItemByLabelStrategy(ITermSettings termSettings)
-            : base(termSettings)
+        public override string GetXPathCondition(object parameter, TermOptions termOptions)
         {
-        }
-
-        public override string GetXPathCondition(object parameter)
-        {
-            return CreateXPathCodition("[ancestor::label[{0}]]", parameter, ".");
+            return CreateSimpleXPathCodition("[ancestor::label[{0}]]", parameter, termOptions, ".");
         }
 
         protected override string GetParameterAsString(IWebElement element)

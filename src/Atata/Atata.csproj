@@ -242,6 +242,7 @@
     <Compile Include="Settings\ByOptionsMap.cs" />
     <Compile Include="FindTermBy.cs" />
     <Compile Include="Settings\SearchOptions.cs" />
+    <Compile Include="TermOptions.cs" />
     <Compile Include="TermResolver.cs" />
     <Compile Include="TriggerContext.cs" />
     <Compile Include="TriggerEvents.cs" />

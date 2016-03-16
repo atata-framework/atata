@@ -10,6 +10,8 @@ namespace Atata
         {
         }
 
+        protected TermOptions ValueTermOptions { get; private set; }
+
         protected abstract T GetValue();
 
         public TOwner Get(out T value)
@@ -25,7 +27,7 @@ namespace Atata
 
         protected internal virtual string ConvertValueToString(T value)
         {
-            return TermResolver.ToString(value);
+            return TermResolver.ToString(value, ValueTermOptions);
         }
 
         public TOwner Verify(Action<T> assertAction, string message, params object[] args)
@@ -95,6 +97,20 @@ namespace Atata
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
+        {
+            base.ApplyMetadata(metadata);
+
+            ValueTermOptions = TermOptions.CreateDefault();
+            InitValueTermOptions(metadata, ValueTermOptions);
+        }
+
+        protected virtual void InitValueTermOptions(UIComponentMetadata metadata, TermOptions termOptions)
+        {
+            termOptions.Culture = metadata.GetCulture();
+            termOptions.StringFormat = metadata.GetFormat(GetType());
         }
     }
 }
