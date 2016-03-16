@@ -37,6 +37,9 @@ namespace Atata.Tests
         [FindByCss(".x-radio-container"), FindItemByValue(TermFormat.Pascal)]
         public RadioButtonGroup<ByLabel, _> ByCssAndValue { get; private set; }
 
+        [FindByClass(TermFormat.Underscored), FindItemByLabel]
+        public RadioButtonGroup<int?, _> IntegerItems { get; private set; }
+
         [FindByName(TermFormat.Dashed), FindItemByLabel]
         public RadioButtonGroup<string, _> VerticalItems { get; private set; }
 

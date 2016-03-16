@@ -58,6 +58,20 @@ namespace Atata.Tests
                 page.VerticalItems.Set(null));
         }
 
+        [Test]
+        public void RadioButtonGroup_Int()
+        {
+            page.IntegerItems.VerifyEquals(null);
+
+            TestRadioButtonGroup(page.IntegerItems, 2, 3);
+
+            Assert.Throws<NoSuchElementException>(() =>
+                page.IntegerItems.Set(9));
+
+            Assert.Throws<ArgumentNullException>(() =>
+                page.VerticalItems.Set(null));
+        }
+
         private void TestRadioButtonGroup<T>(RadioButtonGroup<T, RadioButtonGroupPage> group, T value1, T value2)
         {
             group.VerifyExists();
