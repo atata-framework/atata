@@ -72,6 +72,21 @@ namespace Atata.Tests
                 page.VerticalItems.Set(null));
         }
 
+        [Test]
+        public void RadioButtonGroup_Decimal()
+        {
+            page.DecimalItems.VerifyEquals(null);
+
+            TestRadioButtonGroup(page.DecimalItems, 1000, 2500);
+            TestRadioButtonGroup(page.DecimalItems, 3210.50m, 4310.10m);
+
+            Assert.Throws<NoSuchElementException>(() =>
+                page.DecimalItems.Set(918.76m));
+
+            Assert.Throws<ArgumentNullException>(() =>
+                page.VerticalItems.Set(null));
+        }
+
         private void TestRadioButtonGroup<T>(RadioButtonGroup<T, RadioButtonGroupPage> group, T value1, T value2)
         {
             group.VerifyExists();

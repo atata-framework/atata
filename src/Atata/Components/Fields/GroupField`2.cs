@@ -36,6 +36,8 @@ namespace Atata
 
         protected override void InitValueTermOptions(UIComponentMetadata metadata, TermOptions termOptions)
         {
+            base.InitValueTermOptions(metadata, termOptions);
+
             TermFindItemAttribute termFindItemAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<TermFindItemAttribute>();
             if (termFindItemAttribute != null)
             {

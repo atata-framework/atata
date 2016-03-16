@@ -40,6 +40,9 @@ namespace Atata.Tests
         [FindByClass(TermFormat.Underscored), FindItemByLabel]
         public RadioButtonGroup<int?, _> IntegerItems { get; private set; }
 
+        [FindByName, FindItemByLabel, Format("C")]
+        public RadioButtonGroup<decimal?, _> DecimalItems { get; private set; }
+
         [FindByName(TermFormat.Dashed), FindItemByLabel]
         public RadioButtonGroup<string, _> VerticalItems { get; private set; }
 
