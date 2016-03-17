@@ -1,9 +1,9 @@
-﻿using _ = Atata.Tests.RadioButtonGroupPage;
+﻿using _ = Atata.Tests.RadioButtonListPage;
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/RadioButtonGroup.html")]
-    public class RadioButtonGroupPage : Page<_>
+    [NavigateTo("http://localhost:50549/RadioButtonList.html")]
+    public class RadioButtonListPage : Page<_>
     {
         public enum ByLabel
         {
@@ -29,24 +29,24 @@ namespace Atata.Tests
         }
 
         [FindByName("radio-options"), FindItemByLabel]
-        public RadioButtonGroup<ByLabel?, _> ByNameAndLabel { get; private set; }
+        public RadioButtonList<ByLabel?, _> ByNameAndLabel { get; private set; }
 
         [FindByClass("x-radio-container"), FindItemByValue]
-        public RadioButtonGroup<ByValue, _> ByClassAndValue { get; private set; }
+        public RadioButtonList<ByValue, _> ByClassAndValue { get; private set; }
 
         [FindByCss(".x-radio-container"), FindItemByValue(TermFormat.Pascal)]
-        public RadioButtonGroup<ByLabel, _> ByCssAndValue { get; private set; }
+        public RadioButtonList<ByLabel, _> ByCssAndValue { get; private set; }
 
         [FindByClass(TermFormat.Underscored), FindItemByLabel]
-        public RadioButtonGroup<int?, _> IntegerItems { get; private set; }
+        public RadioButtonList<int?, _> IntegerItems { get; private set; }
 
         [FindByName, FindItemByLabel, Format("C")]
-        public RadioButtonGroup<decimal?, _> DecimalItems { get; private set; }
+        public RadioButtonList<decimal?, _> DecimalItems { get; private set; }
 
         [FindByName(TermFormat.Dashed), FindItemByLabel]
-        public RadioButtonGroup<string, _> VerticalItems { get; private set; }
+        public RadioButtonList<string, _> VerticalItems { get; private set; }
 
         [FindByFieldset("Vertical List"), FindItemByLabel]
-        public RadioButtonGroup<string, _> VerticalItemsByFieldset { get; private set; }
+        public RadioButtonList<string, _> VerticalItemsByFieldset { get; private set; }
     }
 }

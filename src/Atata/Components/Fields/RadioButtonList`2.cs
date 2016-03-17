@@ -4,8 +4,8 @@ using System.Linq;
 
 namespace Atata
 {
-    [UIComponent("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonGroup,Radios,RadioGroup,Buttons,ButtonGroup,Options,OptionGroup")]
-    public class RadioButtonGroup<T, TOwner> : GroupField<T, TOwner>
+    [UIComponent("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup")]
+    public class RadioButtonList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected override T GetValue()

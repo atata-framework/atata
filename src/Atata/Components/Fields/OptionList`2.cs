@@ -2,10 +2,10 @@
 
 namespace Atata
 {
-    public abstract class GroupField<T, TOwner> : EditableField<T, TOwner>, IItemsControl
+    public abstract class OptionList<T, TOwner> : EditableField<T, TOwner>, IItemsControl
         where TOwner : PageObject<TOwner>
     {
-        protected GroupField()
+        protected OptionList()
         {
         }
 
