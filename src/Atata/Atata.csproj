@@ -141,7 +141,7 @@
     <Compile Include="Components\Button`2.cs" />
     <Compile Include="Components\Clickable`2.cs" />
     <Compile Include="Components\Control`1.cs" />
-    <Compile Include="Components\Fields\CheckBox`1_.cs" />
+    <Compile Include="Components\Fields\CheckBox`1.cs" />
     <Compile Include="Components\Fields\DateInput`1.cs" />
     <Compile Include="Components\Fields\EditableField`2.cs" />
     <Compile Include="Components\Fields\RadioButtonGroup`2.cs" />
