@@ -5,51 +5,51 @@ using System;
 namespace Atata.Tests
 {
     [TestFixture]
-    public class RadioButtonGroupTest : TestBase
+    public class RadioButtonListTest : TestBase
     {
-        private RadioButtonGroupPage page;
+        private RadioButtonListPage page;
 
         protected override void OnSetUp()
         {
-            page = GoTo<RadioButtonGroupPage>();
+            page = GoTo<RadioButtonListPage>();
         }
 
         [Test]
-        public void RadioButtonGroup_Enum()
+        public void RadioButtonList_Enum()
         {
             page.ByNameAndLabel.VerifyEquals(null);
-            page.ByClassAndValue.VerifyEquals(RadioButtonGroupPage.ByValue.None);
+            page.ByClassAndValue.VerifyEquals(RadioButtonListPage.ByValue.None);
 
-            TestRadioButtonGroup(
+            TestRadioButtonList(
                 page.ByNameAndLabel,
-                RadioButtonGroupPage.ByLabel.OptionC,
-                RadioButtonGroupPage.ByLabel.OptionB);
+                RadioButtonListPage.ByLabel.OptionC,
+                RadioButtonListPage.ByLabel.OptionB);
 
-            TestRadioButtonGroup(
+            TestRadioButtonList(
                 page.ByClassAndValue,
-                RadioButtonGroupPage.ByValue.OptionD,
-                RadioButtonGroupPage.ByValue.OptionA);
+                RadioButtonListPage.ByValue.OptionD,
+                RadioButtonListPage.ByValue.OptionA);
 
-            TestRadioButtonGroup(
+            TestRadioButtonList(
                 page.ByCssAndValue,
-                RadioButtonGroupPage.ByLabel.OptionB,
-                RadioButtonGroupPage.ByLabel.OptionC);
+                RadioButtonListPage.ByLabel.OptionB,
+                RadioButtonListPage.ByLabel.OptionC);
 
             Assert.Throws<NoSuchElementException>(() =>
-                page.ByClassAndValue.Set(RadioButtonGroupPage.ByValue.MissingValue));
+                page.ByClassAndValue.Set(RadioButtonListPage.ByValue.MissingValue));
 
             Assert.Throws<ArgumentNullException>(() =>
                 page.ByNameAndLabel.Set(null));
         }
 
         [Test]
-        public void RadioButtonGroup_String()
+        public void RadioButtonList_String()
         {
             page.VerticalItems.VerifyEquals("Item 1");
             page.VerticalItems.VerifyNotEqual(null);
 
-            TestRadioButtonGroup(page.VerticalItems, "Item 2", "Item 5");
-            TestRadioButtonGroup(page.VerticalItemsByFieldset, "Item 3", "Item 1");
+            TestRadioButtonList(page.VerticalItems, "Item 2", "Item 5");
+            TestRadioButtonList(page.VerticalItemsByFieldset, "Item 3", "Item 1");
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.VerticalItems.Set("Item 999"));
@@ -59,11 +59,11 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void RadioButtonGroup_Int()
+        public void RadioButtonList_Int()
         {
             page.IntegerItems.VerifyEquals(null);
 
-            TestRadioButtonGroup(page.IntegerItems, 2, 3);
+            TestRadioButtonList(page.IntegerItems, 2, 3);
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.IntegerItems.Set(9));
@@ -73,12 +73,12 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void RadioButtonGroup_Decimal()
+        public void RadioButtonList_Decimal()
         {
             page.DecimalItems.VerifyEquals(null);
 
-            TestRadioButtonGroup(page.DecimalItems, 1000, 2500);
-            TestRadioButtonGroup(page.DecimalItems, 3210.50m, 4310.10m);
+            TestRadioButtonList(page.DecimalItems, 1000, 2500);
+            TestRadioButtonList(page.DecimalItems, 3210.50m, 4310.10m);
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.DecimalItems.Set(918.76m));
@@ -87,7 +87,7 @@ namespace Atata.Tests
                 page.VerticalItems.Set(null));
         }
 
-        private void TestRadioButtonGroup<T>(RadioButtonGroup<T, RadioButtonGroupPage> group, T value1, T value2)
+        private void TestRadioButtonList<T>(RadioButtonList<T, RadioButtonListPage> group, T value1, T value2)
         {
             group.VerifyExists();
             group.Set(value1);
