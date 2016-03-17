@@ -20,7 +20,7 @@ namespace Atata
         protected override void SetValue(T value)
         {
             if (value == null)
-                throw new ArgumentNullException("value", "Cannot set 'null' to RadioButtonGroup control.");
+                throw new ArgumentNullException("value", "Cannot set 'null' to RadioButtonList control.");
 
             IWebElement element = GetItemElement(value);
             if (!element.Selected)
