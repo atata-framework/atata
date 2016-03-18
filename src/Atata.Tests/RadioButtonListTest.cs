@@ -87,17 +87,17 @@ namespace Atata.Tests
                 page.VerticalItems.Set(null));
         }
 
-        private void TestRadioButtonList<T>(RadioButtonList<T, RadioButtonListPage> group, T value1, T value2)
+        private void TestRadioButtonList<T>(RadioButtonList<T, RadioButtonListPage> list, T value1, T value2)
         {
-            group.VerifyExists();
-            group.Set(value1);
-            group.VerifyEquals(value1);
-            Assert.That(group.Get(), Is.EqualTo(value1));
+            list.VerifyExists();
+            list.Set(value1);
+            list.VerifyEquals(value1);
+            Assert.That(list.Get(), Is.EqualTo(value1));
 
-            group.Set(value2);
-            group.VerifyNotEqual(value1);
-            group.VerifyEquals(value2);
-            Assert.That(group.Get(), Is.EqualTo(value2));
+            list.Set(value2);
+            list.VerifyNotEqual(value1);
+            list.VerifyEquals(value2);
+            Assert.That(list.Get(), Is.EqualTo(value2));
         }
     }
 }

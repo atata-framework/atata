@@ -1,49 +1,29 @@
-﻿using _ = Atata.Tests.CheckBoxListPage;
+﻿using System;
+using _ = Atata.Tests.CheckBoxListPage;
 
 namespace Atata.Tests
 {
     [NavigateTo("http://localhost:50549/CheckBoxList.html")]
     public class CheckBoxListPage : Page<_>
     {
-        public enum ByLabel
+        [Flags]
+        public enum Options
         {
-            OptionA,
-            OptionB,
-            OptionC,
-            OptionD
+            None = 0,
+            OptionA = 1 << 0,
+            OptionB = 1 << 1,
+            OptionC = 1 << 2,
+            OptionD = 1 << 3,
+            OptionE = 1 << 4,
+            OptionF = 1 << 5,
+            MissingValue = 1 << 6,
+            OptionsDF = OptionD | OptionF
         }
 
-        [TermSettings(TermFormat.Title)]
-        public enum ByValue
-        {
-            None,
-            [Term(TermFormat.Pascal)]
-            OptionA,
-            [Term(TermFormat.Pascal)]
-            OptionB,
-            [Term("COption", "OptionC")]
-            OptionC,
-            [Term(TermFormat.Pascal)]
-            OptionD,
-            MissingValue
-        }
+        [FindById("enum-checkboxes"), FindItemByValue]
+        public CheckBoxList<Options, _> ByIdAndLabel { get; private set; }
 
-        [FindByClass("x-radio-container"), FindItemByValue]
-        public CheckBoxList<ByLabel?, _> ByClassAndLabel { get; private set; }
-
-        [FindByCss(".x-radio-container"), FindItemByValue(TermFormat.Pascal)]
-        public CheckBoxList<ByLabel, _> ByCssAndValue { get; private set; }
-
-        [FindByClass(TermFormat.Underscored), FindItemByLabel]
-        public CheckBoxList<int?, _> IntegerItems { get; private set; }
-
-        [FindByName, FindItemByLabel, Format("C")]
-        public CheckBoxList<decimal?, _> DecimalItems { get; private set; }
-
-        [FindByName(TermFormat.Dashed), FindItemByLabel]
-        public CheckBoxList<string, _> VerticalItems { get; private set; }
-
-        [FindByFieldset("Vertical List"), FindItemByLabel]
-        public CheckBoxList<string, _> VerticalItemsByFieldset { get; private set; }
+        [FindByXPath("*[@id='enum-checkboxes']"), FindItemByValue(TermFormat.Pascal)]
+        public CheckBoxList<Options, _> ByXPathAndValue { get; private set; }
     }
 }

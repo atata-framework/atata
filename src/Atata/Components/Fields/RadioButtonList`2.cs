@@ -12,7 +12,7 @@ namespace Atata
         {
             IWebElement selectedItem = GetItemElements().FirstOrDefault(x => x.Selected);
             if (selectedItem != null)
-                return ItemElementFindStrategy.GetParameter<T>(selectedItem, ValueTermOptions);
+                return GetElementValue(selectedItem);
             else
                 return default(T);
         }

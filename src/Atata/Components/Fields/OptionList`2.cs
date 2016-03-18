@@ -28,6 +28,11 @@ namespace Atata
             return ScopeLocator.GetElements();
         }
 
+        protected T GetElementValue(IWebElement element)
+        {
+            return ItemElementFindStrategy.GetParameter<T>(element, ValueTermOptions);
+        }
+
         protected bool IsChecked(object parameter)
         {
             IWebElement element = GetItemElement(parameter);

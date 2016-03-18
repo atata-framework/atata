@@ -7,6 +7,20 @@ namespace Atata
 {
     public static class EnumExtensions
     {
+        public static Enum AddFlag(this Enum source, Enum flagToAdd)
+        {
+            try
+            {
+                return (Enum)(object)((ulong)(object)source | (ulong)(object)flagToAdd);
+            }
+            catch (Exception exception)
+            {
+                throw new ArgumentException(
+                    "Cannot add '{0}' value to '{1}' of enumerated type '{2}'.".FormatWith(source, flagToAdd, source.GetType().FullName),
+                    exception);
+            }
+        }
+
         public static string ToTitleString(this Enum value)
         {
             return value.ToString(LetterCasing.Title);

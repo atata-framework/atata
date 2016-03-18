@@ -1,5 +1,7 @@
-﻿using OpenQA.Selenium;
+﻿using Humanizer;
+using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -8,6 +10,12 @@ namespace Atata
     public class CheckBoxList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        public CheckBoxList()
+        {
+            if (!typeof(T).IsEnum)
+                throw new InvalidOperationException("Incorrect generic parameter type '{0}'. CheckBoxList control supports only Enum types.".FormatWith(typeof(T).FullName));
+        }
+
         protected override T GetValue()
         {
             T[] selectedValues = GetItemElements().
@@ -23,8 +31,12 @@ namespace Atata
 
         private T JoinValues(T[] values)
         {
-            // TODO: Implement.
-            return default(T);
+            return (T)(object)JoinEnumValues(values.Cast<Enum>());
+        }
+
+        private Enum JoinEnumValues(IEnumerable<Enum> values)
+        {
+            return values.Aggregate(EnumExtensions.AddFlag);
         }
 
         protected override void SetValue(T value)
@@ -33,8 +45,17 @@ namespace Atata
                 throw new ArgumentNullException("value", "Cannot set 'null' to CheckBoxList control.");
 
             IWebElement[] elements = GetItemElements();
+            foreach (IWebElement element in elements)
+            {
+                T elementValue = GetElementValue(element);
+                if (HasValue(value, elementValue) != element.Selected)
+                    element.Click();
+            }
+        }
 
-            // TODO: Implement.
+        private bool HasValue(T joinedValue, T value)
+        {
+            return ((Enum)(object)joinedValue).HasFlag((Enum)(object)value);
         }
     }
 }
