@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Humanizer;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -110,7 +111,14 @@ namespace Atata
 
         public static T FromString<T>(string value, TermOptions termOptions = null)
         {
-            return (T)FromString(value, typeof(T), termOptions);
+            object result = FromString(value, typeof(T), termOptions);
+
+            if (result == null && !typeof(T).IsClassOrNullable())
+                throw new ArgumentException(
+                    "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(typeof(T).FullName, value),
+                    "value");
+
+            return (T)result;
         }
 
         public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
@@ -136,6 +144,18 @@ namespace Atata
         }
 
         public static string[] GetEnumTerms(Enum value, TermOptions termOptions = null)
+        {
+            return value.GetType().IsDefined(typeof(FlagsAttribute), false)
+                ? GetFlagsEnumTerms(value, termOptions)
+                : GetIndividualEnumTerms(value, termOptions);
+        }
+
+        private static string[] GetFlagsEnumTerms(Enum value, TermOptions termOptions)
+        {
+            return value.GetIndividualFlags().SelectMany(x => GetIndividualEnumTerms(x, termOptions)).ToArray();
+        }
+
+        private static string[] GetIndividualEnumTerms(Enum value, TermOptions termOptions)
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);
             bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();

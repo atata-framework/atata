@@ -23,5 +23,10 @@ namespace Atata
             }
             return null;
         }
+
+        public static bool IsClassOrNullable(this Type type)
+        {
+            return type.IsClass || Nullable.GetUnderlyingType(type) != null;
+        }
     }
 }
