@@ -63,12 +63,32 @@ namespace Atata
                 throw ExceptionFactory.CreateForNoSuchElement(
                     "Unable to locate element{0}: '{1}'.".FormatWith(
                         individualValues.Count > 1 ? "s" : null,
-                        string.Join("', '", individualValues.Select(x => TermResolver.ToString(x, ValueTermOptions)).ToArray())));
+                        ConvertIndividualValuesToString(individualValues)));
         }
 
         private IEnumerable<T> GetIndividualValues(T value)
         {
             return ((Enum)(object)value).GetIndividualFlags().Cast<T>();
+        }
+
+        protected internal override string ConvertValueToString(T value)
+        {
+            var individualValues = GetIndividualValues(value);
+            return ConvertIndividualValuesToString(individualValues);
+        }
+
+        protected string ConvertIndividualValuesToString(IEnumerable<T> values)
+        {
+            string[] stringValues = values.Select(x => TermResolver.ToString(x, ValueTermOptions)).ToArray();
+
+            if (stringValues.Length == 0)
+                return "<none>";
+            if (stringValues.Length == 1)
+                return stringValues[0];
+            else if (stringValues.Any(x => x.Contains(',')))
+                return "\"{0}\"".FormatWith(string.Join("\", \"", stringValues));
+            else
+                return string.Join(", ", stringValues);
         }
     }
 }

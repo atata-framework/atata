@@ -28,6 +28,11 @@ namespace Atata.Tests
                 CheckBoxListPage.Options.OptionA,
                 CheckBoxListPage.Options.OptionsDF);
 
+            TestCheckBoxList(
+                page.ByXPathAndValue,
+                CheckBoxListPage.Options.None,
+                CheckBoxListPage.Options.OptionA);
+
             Assert.Throws<NoSuchElementException>(() =>
                 page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));
         }
