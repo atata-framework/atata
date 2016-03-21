@@ -44,18 +44,31 @@ namespace Atata
             if (value == null)
                 throw new ArgumentNullException("value", "Cannot set 'null' to CheckBoxList control.");
 
+            List<T> individualValues = GetIndividualValues(value).ToList();
+
             IWebElement[] elements = GetItemElements();
             foreach (IWebElement element in elements)
             {
                 T elementValue = GetElementValue(element);
-                if (HasValue(value, elementValue) != element.Selected)
+                bool shouldBeSelected = individualValues.Contains(elementValue);
+
+                if (shouldBeSelected)
+                    individualValues.Remove(elementValue);
+
+                if (shouldBeSelected != element.Selected)
                     element.Click();
             }
+
+            if (individualValues.Any())
+                throw ExceptionFactory.CreateForNoSuchElement(
+                    "Unable to locate element{0}: '{1}'.".FormatWith(
+                        individualValues.Count > 1 ? "s" : null,
+                        string.Join("', '", individualValues.Select(x => TermResolver.ToString(x, ValueTermOptions)).ToArray())));
         }
 
-        private bool HasValue(T joinedValue, T value)
+        private IEnumerable<T> GetIndividualValues(T value)
         {
-            return ((Enum)(object)joinedValue).HasFlag((Enum)(object)value);
+            return ((Enum)(object)value).GetIndividualFlags().Cast<T>();
         }
     }
 }
