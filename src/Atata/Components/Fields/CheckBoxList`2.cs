@@ -16,6 +16,8 @@ namespace Atata
                 throw new InvalidOperationException("Incorrect generic parameter type '{0}'. CheckBoxList control supports only Enum types.".FormatWith(typeof(T).FullName));
         }
 
+        protected delegate bool ClickItemPredicate(bool isInValue, bool isSelected);
+
         protected override T GetValue()
         {
             T[] selectedValues = GetItemElements().
@@ -41,21 +43,23 @@ namespace Atata
 
         protected override void SetValue(T value)
         {
-            if (value == null)
-                throw new ArgumentNullException("value", "Cannot set 'null' to CheckBoxList control.");
+            ClickItems(value, (isInValue, isSelected) => isInValue != isSelected);
+        }
 
+        protected void ClickItems(T value, ClickItemPredicate predicate)
+        {
             List<T> individualValues = GetIndividualValues(value).ToList();
 
             IWebElement[] elements = GetItemElements();
             foreach (IWebElement element in elements)
             {
                 T elementValue = GetElementValue(element);
-                bool shouldBeSelected = individualValues.Contains(elementValue);
+                bool isInValue = individualValues.Contains(elementValue);
 
-                if (shouldBeSelected)
+                if (isInValue)
                     individualValues.Remove(elementValue);
 
-                if (shouldBeSelected != element.Selected)
+                if (predicate(isInValue, element.Selected))
                     element.Click();
             }
 
@@ -64,6 +68,36 @@ namespace Atata
                     "Unable to locate element{0}: '{1}'.".FormatWith(
                         individualValues.Count > 1 ? "s" : null,
                         ConvertIndividualValuesToString(individualValues)));
+        }
+
+        public TOwner Check(T value)
+        {
+            if (!object.Equals(value, null))
+            {
+                RunTriggers(TriggerEvents.BeforeSet);
+                Log.StartSection("Check '{0}' of {1}", ConvertValueToString(value), ComponentName);
+
+                ClickItems(value, (isInValue, isSelected) => isInValue && !isSelected);
+
+                Log.EndSection();
+                RunTriggers(TriggerEvents.AfterSet);
+            }
+            return Owner;
+        }
+
+        public TOwner Uncheck(T value)
+        {
+            if (!object.Equals(value, null))
+            {
+                RunTriggers(TriggerEvents.BeforeSet);
+                Log.StartSection("Uncheck '{0}' of {1}", ConvertValueToString(value), ComponentName);
+
+                ClickItems(value, (isInValue, isSelected) => isInValue && isSelected);
+
+                Log.EndSection();
+                RunTriggers(TriggerEvents.AfterSet);
+            }
+            return Owner;
         }
 
         private IEnumerable<T> GetIndividualValues(T value)

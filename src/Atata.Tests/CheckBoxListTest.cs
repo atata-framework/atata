@@ -33,6 +33,12 @@ namespace Atata.Tests
                 CheckBoxListPage.Options.None,
                 CheckBoxListPage.Options.OptionA);
 
+            page.ByIdAndLabel.Check(CheckBoxListPage.Options.OptionD);
+            page.ByXPathAndValue.VerifyEquals(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
+
+            page.ByXPathAndValue.Uncheck(CheckBoxListPage.Options.OptionA);
+            page.ByIdAndLabel.VerifyEquals(CheckBoxListPage.Options.OptionD);
+
             Assert.Throws<NoSuchElementException>(() =>
                 page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));
         }
