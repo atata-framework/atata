@@ -1,4 +1,5 @@
-﻿namespace Atata
+﻿using System.Collections;
+namespace Atata
 {
     internal static class Assert
     {
@@ -20,6 +21,7 @@
         // TODO: Perhaps remove ContainsSubstring method.
         internal static AssertionDelgate<string> ContainsSubstring { get; private set; }
         internal static AssertionDelgate<string> IsMatch { get; private set; }
+        internal static AssertionDelgate<IEnumerable> IsSubsetOf { get; private set; }
 
         private static void Apply(IAsserter asserter)
         {
@@ -29,6 +31,7 @@
             AreNotEqual = asserter.AreNotEqual;
             ContainsSubstring = asserter.ContainsSubstring;
             IsMatch = asserter.IsMatch;
+            IsSubsetOf = asserter.IsSubsetOf;
         }
     }
 }
