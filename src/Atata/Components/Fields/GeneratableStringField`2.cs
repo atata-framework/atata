@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public abstract class GeneratableStringField<TOwner> : GeneratableField<string, TOwner>
+    public abstract class GeneratableStringField<T, TOwner> : GeneratableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
         private GeneratableStringAttribute generatableAttribute;
@@ -9,10 +9,11 @@
         {
         }
 
-        protected override string Generate()
+        protected override T Generate()
         {
             string format = NormalizeFormat(generatableAttribute.Format);
-            return ValueGenerator.GenerateString(format, generatableAttribute.NumberOfCharacters);
+            string generatedString = ValueGenerator.GenerateString(format, generatableAttribute.NumberOfCharacters);
+            return TermResolver.FromString<T>(generatedString, ValueTermOptions);
         }
 
         private string NormalizeFormat(string format)

@@ -30,6 +30,11 @@ namespace Atata
             return TermResolver.ToString(value, ValueTermOptions);
         }
 
+        protected internal virtual T ConvertStringToValue(string value)
+        {
+            return TermResolver.FromString<T>(value, ValueTermOptions);
+        }
+
         public TOwner Verify(Action<T> assertAction, string message, params object[] args)
         {
             StringBuilder messageBuilder = new StringBuilder(ComponentName);
