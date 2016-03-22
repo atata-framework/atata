@@ -22,6 +22,18 @@ namespace Atata
             return pageObject;
         }
 
+        protected T GoTo<T>(string url) where T : PageObject<T>, new()
+        {
+            GoToUrl(url);
+            return GoTo<T>();
+        }
+
+        protected T GoTo<T>(string url, T pageObject) where T : PageObject<T>
+        {
+            GoToUrl(url);
+            return GoTo<T>(pageObject);
+        }
+
         protected virtual PageObjectContext CreatePageObjectContext()
         {
             return new PageObjectContext(NativeDriver, Logger);
