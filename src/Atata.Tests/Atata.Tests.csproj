@@ -60,7 +60,9 @@
     <Compile Include="CheckBoxListTest.cs" />
     <Compile Include="Components\BasicControlsPage.cs" />
     <Compile Include="Components\CheckBoxListPage.cs" />
+    <Compile Include="Components\InputPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
+    <Compile Include="InputTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicControlsTest.cs" />
     <Compile Include="RadioButtonListTest.cs" />

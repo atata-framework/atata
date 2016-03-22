@@ -18,20 +18,20 @@ namespace Atata.Tests
         {
             page.ByIdAndLabel.VerifyEquals(CheckBoxListPage.Options.None);
 
-            TestCheckBoxList(
+            SetAndVerifyValues(
                 page.ByIdAndLabel,
                 CheckBoxListPage.Options.OptionC | CheckBoxListPage.Options.OptionD,
                 CheckBoxListPage.Options.OptionB);
 
-            TestCheckBoxList(
+            SetAndVerifyValues(
                 page.ByXPathAndValue,
                 CheckBoxListPage.Options.OptionA,
                 CheckBoxListPage.Options.OptionsDF);
 
-            page.ByIdAndLabel.VerifyUnchecked(CheckBoxListPage.Options.OptionA);
-            page.ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionD | CheckBoxListPage.Options.OptionF);
+            page.ByIdAndLabel.VerifyUnchecked(CheckBoxListPage.Options.OptionA).
+                ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionD | CheckBoxListPage.Options.OptionF);
 
-            TestCheckBoxList(
+            SetAndVerifyValues(
                 page.ByXPathAndValue,
                 CheckBoxListPage.Options.None,
                 CheckBoxListPage.Options.OptionA);
@@ -50,19 +50,6 @@ namespace Atata.Tests
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));
-        }
-
-        private void TestCheckBoxList<T>(CheckBoxList<T, CheckBoxListPage> list, T value1, T value2)
-        {
-            list.VerifyExists();
-            list.Set(value1);
-            list.VerifyEquals(value1);
-            Assert.That(list.Get(), Is.EqualTo(value1));
-
-            list.Set(value2);
-            list.VerifyNotEqual(value1);
-            list.VerifyEquals(value2);
-            Assert.That(list.Get(), Is.EqualTo(value2));
         }
     }
 }

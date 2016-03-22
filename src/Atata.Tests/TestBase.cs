@@ -31,5 +31,38 @@ namespace Atata.Tests
             Logger.Info("Finish test");
             NativeDriver.Quit();
         }
+
+        protected void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
+            where TPage : PageObject<TPage>
+        {
+            control.VerifyExists();
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                control.Set(values[i]);
+                control.VerifyEquals(values[i]);
+                Assert.That(control.Get(), Is.EqualTo(values[i]));
+
+                if (i > 0 && !object.Equals(values[i], values[i - 1]))
+                    control.VerifyNotEqual(values[i - 1]);
+            }
+        }
+
+        protected void SetAndVerifyValue<T, TPage>(EditableField<T, TPage> control, T value)
+            where TPage : PageObject<TPage>
+        {
+            control.Set(value);
+            control.VerifyEquals(value);
+            Assert.That(control.Get(), Is.EqualTo(value));
+        }
+
+        protected void VerifyNotEqual<T, TPage>(EditableField<T, TPage> control, T value)
+            where TPage : PageObject<TPage>
+        {
+            control.VerifyNotEqual(value);
+
+            Assert.Throws<AssertionException>(() =>
+                control.VerifyEquals(value));
+        }
     }
 }
