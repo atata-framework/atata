@@ -22,6 +22,7 @@ namespace Atata
         internal static AssertionDelgate<string> ContainsSubstring { get; private set; }
         internal static AssertionDelgate<string> IsMatch { get; private set; }
         internal static AssertionDelgate<IEnumerable> IsSubsetOf { get; private set; }
+        internal static AssertionDelgate<IEnumerable> HasNoIntersection { get; private set; }
 
         private static void Apply(IAsserter asserter)
         {
@@ -32,6 +33,7 @@ namespace Atata
             ContainsSubstring = asserter.ContainsSubstring;
             IsMatch = asserter.IsMatch;
             IsSubsetOf = asserter.IsSubsetOf;
+            HasNoIntersection = asserter.HasNoIntersection;
         }
     }
 }

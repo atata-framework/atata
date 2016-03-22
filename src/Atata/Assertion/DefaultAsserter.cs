@@ -58,6 +58,19 @@ namespace Atata
                     args);
         }
 
+        public void HasNoIntersection(IEnumerable collection1, IEnumerable collection2, string message, params object[] args)
+        {
+            var castedCollection1 = collection1.Cast<object>().ToArray();
+            var castedCollection2 = collection2.Cast<object>().ToArray();
+
+            if (castedCollection1.Intersect(castedCollection2).Any())
+                throw ExceptionFactory.CreateForFailedAssert(
+                    "no intersection with {0}".FormatWith(CollectionToString(castedCollection1)),
+                    CollectionToString(castedCollection2),
+                    message,
+                    args);
+        }
+
         private string CollectionToString(IEnumerable<object> collection)
         {
             if (!collection.Any())

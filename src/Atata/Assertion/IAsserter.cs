@@ -11,5 +11,6 @@ namespace Atata
         void ContainsSubstring(string expected, string actual, string message, params object[] args);
         void IsMatch(string pattern, string actual, string message, params object[] args);
         void IsSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args);
+        void HasNoIntersection(IEnumerable collection1, IEnumerable collection2, string message, params object[] args);
     }
 }
