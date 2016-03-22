@@ -28,6 +28,8 @@ namespace Atata.Tests
                 CheckBoxListPage.Options.OptionA,
                 CheckBoxListPage.Options.OptionsDF);
 
+            page.ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionD | CheckBoxListPage.Options.OptionF);
+
             TestCheckBoxList(
                 page.ByXPathAndValue,
                 CheckBoxListPage.Options.None,
@@ -37,7 +39,7 @@ namespace Atata.Tests
             page.ByXPathAndValue.VerifyEquals(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
 
             page.ByXPathAndValue.Uncheck(CheckBoxListPage.Options.OptionA);
-            page.ByIdAndLabel.VerifyEquals(CheckBoxListPage.Options.OptionD);
+            page.ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionD);
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));

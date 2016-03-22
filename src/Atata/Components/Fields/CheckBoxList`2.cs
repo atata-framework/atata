@@ -100,6 +100,19 @@ namespace Atata
             return Owner;
         }
 
+        public TOwner VerifyChecked(T value)
+        {
+            return Verify(
+                actual =>
+                {
+                    IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
+                    IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
+                    Assert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentName);
+                },
+                "has checked '{0}'",
+                ConvertValueToString(value));
+        }
+
         private IEnumerable<T> GetIndividualValues(T value)
         {
             return ((Enum)(object)value).GetIndividualFlags().Cast<T>();
