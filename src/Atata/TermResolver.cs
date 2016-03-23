@@ -41,8 +41,10 @@ namespace Atata
         {
             RegisterConverter(
                 typeof(T),
-                (s, to) => fromStringConverter(s, NumberStyles.Any, to.Culture),
-                (v, to) => ((T)v).ToString(to.StringFormat, to.Culture));
+                (s, opt) => fromStringConverter(s, NumberStyles.Any, opt.Culture),
+                (v, opt) => opt.StringFormat != null && opt.StringFormat.Contains("{0")
+                    ? string.Format(opt.Culture, opt.StringFormat, v)
+                    : ((T)v).ToString(opt.StringFormat, opt.Culture));
         }
 
         public static void RegisterConverter<T>(
@@ -92,14 +94,19 @@ namespace Atata
             termOptions = termOptions ?? TermOptions.CreateDefault();
             TermConverter termConverter;
 
-            if (value is string)
-                return new[] { (string)value };
-            else if (value is Enum)
+            if (value is Enum)
                 return GetEnumTerms((Enum)value, termOptions);
             else if (TypeTermConverters.TryGetValue(value.GetType(), out termConverter) && termConverter.ToStringConverter != null)
                 return new[] { termConverter.ToStringConverter(value, termOptions) };
             else
-                return new[] { value.ToString() };
+                return new[] { FormatValue(value, termOptions) };
+        }
+
+        private static string FormatValue(object value, TermOptions termOptions)
+        {
+            return termOptions.StringFormat != null
+                ? string.Format(termOptions.Culture, termOptions.StringFormat, value)
+                : value.ToString();
         }
 
         public static string CreateXPathCondition(object value, TermOptions termOptions = null, string operand = ".")
