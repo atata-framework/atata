@@ -41,10 +41,19 @@ namespace Atata
         {
             RegisterConverter(
                 typeof(T),
-                (s, opt) => fromStringConverter(s, NumberStyles.Any, opt.Culture),
-                (v, opt) => opt.StringFormat != null && opt.StringFormat.Contains("{0")
-                    ? string.Format(opt.Culture, opt.StringFormat, v)
-                    : ((T)v).ToString(opt.StringFormat, opt.Culture));
+                (s, opt) =>
+                {
+                    string stringValue = opt.StringFormat != null && opt.StringFormat.Contains("{0")
+                        ? RetrieveValuePart(s, opt.StringFormat)
+                        : s;
+                    return fromStringConverter(stringValue, NumberStyles.Any, opt.Culture);
+                },
+                (v, opt) =>
+                {
+                    return opt.StringFormat != null && opt.StringFormat.Contains("{0")
+                        ? string.Format(opt.Culture, opt.StringFormat, v)
+                        : ((T)v).ToString(opt.StringFormat, opt.Culture);
+                });
         }
 
         public static void RegisterConverter<T>(
@@ -109,6 +118,21 @@ namespace Atata
                 : string.Format(culture, format, value);
         }
 
+        // TODO: Review/refactor RetrieveValuePart method.
+        private static string RetrieveValuePart(string value, string format)
+        {
+            if (string.IsNullOrEmpty(format))
+                return value;
+
+            string[] formatParts = format.Split(new[] { "{0" }, 2, StringSplitOptions.None);
+            formatParts[1] = formatParts[1].Substring(formatParts[1].IndexOf('}') + 1);
+
+            if (!value.StartsWith(formatParts[0]) || !value.EndsWith(formatParts[1]))
+                throw ExceptionFactory.CreateForFailedAssert("string in format '{0}'".FormatWith(format), value);
+
+            return value.Substring(formatParts[0].Length, value.Length - formatParts[0].Length - formatParts[1].Length);
+        }
+
         public static string CreateXPathCondition(object value, TermOptions termOptions = null, string operand = ".")
         {
             string[] terms = GetTerms(value, termOptions);
@@ -119,27 +143,28 @@ namespace Atata
         public static T FromString<T>(string value, TermOptions termOptions = null)
         {
             object result = FromString(value, typeof(T), termOptions);
-
-            if (result == null && !typeof(T).IsClassOrNullable())
-                throw new ArgumentException(
-                    "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(typeof(T).FullName, value),
-                    "value");
-
             return (T)result;
         }
 
         public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
         {
             termOptions = termOptions ?? TermOptions.CreateDefault();
-            destinationType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
+            Type underlyingType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
+
             TermConverter termConverter;
 
-            if (destinationType.IsEnum)
-                return StringToEnum(value, destinationType, termOptions);
-            else if (TypeTermConverters.TryGetValue(destinationType, out termConverter))
-                return termConverter.FromStringConverter(value, termOptions);
-            else
-                return Convert.ChangeType(value, destinationType, termOptions.Culture);
+            object result = underlyingType.IsEnum
+                ? StringToEnum(value, underlyingType, termOptions)
+                : TypeTermConverters.TryGetValue(underlyingType, out termConverter)
+                    ? termConverter.FromStringConverter(value, termOptions)
+                    : Convert.ChangeType(RetrieveValuePart(value, termOptions.StringFormat), underlyingType, termOptions.Culture);
+
+            if (result == null && !destinationType.IsClassOrNullable())
+                throw new ArgumentException(
+                    "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(destinationType.FullName, value),
+                    "value");
+
+            return result;
         }
 
         public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)
