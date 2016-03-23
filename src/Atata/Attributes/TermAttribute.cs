@@ -41,6 +41,7 @@ namespace Atata
         public string[] Values { get; private set; }
         public TermFormat Format { get; private set; }
         public new TermMatch Match { get; set; }
+        public string StringFormat { get; set; }
         public bool CutEnding { get; set; }
     }
 }

@@ -99,14 +99,14 @@ namespace Atata
             else if (TypeTermConverters.TryGetValue(value.GetType(), out termConverter) && termConverter.ToStringConverter != null)
                 return new[] { termConverter.ToStringConverter(value, termOptions) };
             else
-                return new[] { FormatValue(value, termOptions) };
+                return new[] { FormatValue(value, termOptions.StringFormat, termOptions.Culture) };
         }
 
-        private static string FormatValue(object value, TermOptions termOptions)
+        private static string FormatValue(object value, string format, CultureInfo culture)
         {
-            return termOptions.StringFormat != null
-                ? string.Format(termOptions.Culture, termOptions.StringFormat, value)
-                : value.ToString();
+            return string.IsNullOrEmpty(format)
+                ? value.ToString()
+                : string.Format(culture, format, value);
         }
 
         public static string CreateXPathCondition(object value, TermOptions termOptions = null, string operand = ".")
@@ -166,10 +166,11 @@ namespace Atata
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);
             bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
+            string[] terms;
 
             if (hasTermValue)
             {
-                return termAttribute.Values;
+                terms = termAttribute.Values;
             }
             else
             {
@@ -178,8 +179,15 @@ namespace Atata
                     ?? GetTermFormatOrNull(GetTermSettings(value.GetType()))
                     ?? DefaultFormat;
 
-                return new[] { termFormat.ApplyTo(value.ToString()) };
+                terms = new[] { termFormat.ApplyTo(value.ToString()) };
             }
+
+            string termStringFormat = GetTermStringFormatOrNull(termOptions)
+                    ?? GetTermStringFormatOrNull(termAttribute)
+                    ?? GetTermStringFormatOrNull(GetTermSettings(value.GetType()))
+                    ?? null;
+
+            return terms.Select(x => FormatValue(x, termStringFormat, termOptions.Culture)).ToArray();
         }
 
         public static TermMatch GetMatch(object value, ITermSettings termSettings = null)
@@ -223,6 +231,13 @@ namespace Atata
             return termSettings != null && termSettings.Match != TermMatch.Inherit
                 ? termSettings.Match
                 : (TermMatch?)null;
+        }
+
+        private static string GetTermStringFormatOrNull(ITermSettings termSettings)
+        {
+            return termSettings != null && termSettings.StringFormat != null
+                ? termSettings.StringFormat
+                : null;
         }
 
         private class TermConverter

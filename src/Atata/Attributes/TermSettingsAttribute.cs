@@ -18,5 +18,6 @@ namespace Atata
 
         public TermFormat Format { get; private set; }
         public new TermMatch Match { get; private set; }
+        public string StringFormat { get; set; }
     }
 }
