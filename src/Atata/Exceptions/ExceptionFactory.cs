@@ -7,6 +7,8 @@ namespace Atata
 {
     internal static class ExceptionFactory
     {
+        private const string NullString = "null";
+
         internal static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
         {
             string message = BuildElementErrorMessage("Unable to locate element", elementName, by);
@@ -61,9 +63,9 @@ namespace Atata
                 builder.AppendFormat(message, args).AppendLine();
 
             return builder.
-                AppendFormat("Expected: {0}", expected).
+                AppendFormat("Expected: {0}", expected ?? NullString).
                 AppendLine().
-                AppendFormat("But was: {0}", actual)
+                AppendFormat("But was: {0}", actual ?? NullString)
                 .ToString();
         }
     }

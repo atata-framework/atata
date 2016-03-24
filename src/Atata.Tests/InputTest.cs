@@ -15,7 +15,9 @@ namespace Atata.Tests
         [Test]
         public void Input_Text()
         {
-            SetAndVerifyValues(page.TextInput, "Text1", "Text2");
+            VerifyEquals(page.IntTextInput, null);
+
+            SetAndVerifyValues(page.TextInput, "Text1", null, "Text2");
 
             VerifyNotEqual(page.TextInput, "Text3");
         }
@@ -29,9 +31,21 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Input_NullableEnum()
+        {
+            VerifyEquals(page.NullableEnumTextInput, null);
+
+            SetAndVerifyValues(page.NullableEnumTextInput, InputPage.Option.OptionD, InputPage.Option.OptionA);
+
+            VerifyNotEqual(page.NullableEnumTextInput, InputPage.Option.OptionB);
+        }
+
+        [Test]
         public void Input_Int()
         {
-            SetAndVerifyValues(page.IntTextInput, 45, 57);
+            VerifyEquals(page.IntTextInput, null);
+
+            SetAndVerifyValues(page.IntTextInput, 45, null, 57);
 
             VerifyNotEqual(page.IntTextInput, 59);
         }

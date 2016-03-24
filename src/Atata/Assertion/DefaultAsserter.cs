@@ -30,7 +30,7 @@ namespace Atata
         public void AreNotEqual<T>(T expected, T actual, string message, params object[] args)
         {
             if (object.Equals(expected, actual))
-                throw ExceptionFactory.CreateForFailedAssert("not equal to {0}".FormatWith(expected), actual, message, args);
+                throw ExceptionFactory.CreateForFailedAssert("not equal to {0}".FormatWith(object.Equals(expected, null) ? "null" : expected.ToString()), actual, message, args);
         }
 
         public void ContainsSubstring(string expected, string actual, string message, params object[] args)

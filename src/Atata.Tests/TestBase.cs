@@ -52,6 +52,12 @@ namespace Atata.Tests
             where TPage : PageObject<TPage>
         {
             control.Set(value);
+            VerifyEquals(control, value);
+        }
+
+        protected void VerifyEquals<T, TPage>(EditableField<T, TPage> control, T value)
+            where TPage : PageObject<TPage>
+        {
             control.VerifyEquals(value);
             Assert.That(control.Get(), Is.EqualTo(value));
         }

@@ -105,8 +105,8 @@ namespace Atata
 
         public static string ToString(object value, TermOptions termOptions = null)
         {
-            if (value == null)
-                return "null";
+            if (value == null || object.Equals(value, string.Empty))
+                return null;
 
             string[] terms = GetTerms(value, termOptions);
             return string.Join("/", terms);
@@ -165,23 +165,40 @@ namespace Atata
 
         public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
         {
-            termOptions = termOptions ?? TermOptions.CreateDefault();
-            Type underlyingType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
+            object result = string.IsNullOrEmpty(value)
+                ? null
+                : RetrieveValueFromString(value, destinationType, termOptions ?? new TermOptions());
 
+            if (result == null && !destinationType.IsClassOrNullable())
+            {
+                ////if (destinationType.IsEnum && GetEnumNumericValues(destinationType).Contains(0UL))
+                ////    return Enum.ToObject(destinationType, 0);
+
+                throw new ArgumentException(
+                    "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(destinationType.FullName, value),
+                    "value");
+            }
+            else
+            {
+                return result;
+            }
+        }
+
+        private static ulong[] GetEnumNumericValues(Type type)
+        {
+            return Enum.GetValues(type).Cast<Enum>().Select(x => Convert.ToUInt64(x)).ToArray();
+        }
+
+        private static object RetrieveValueFromString(string value, Type destinationType, TermOptions termOptions)
+        {
+            Type underlyingType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
             TermConverter termConverter;
 
-            object result = underlyingType.IsEnum
+            return underlyingType.IsEnum
                 ? StringToEnum(value, underlyingType, termOptions)
                 : TypeTermConverters.TryGetValue(underlyingType, out termConverter)
                     ? termConverter.FromStringConverter(value, termOptions)
                     : Convert.ChangeType(RetrieveValuePart(value, termOptions.StringFormat), underlyingType, termOptions.Culture);
-
-            if (result == null && !destinationType.IsClassOrNullable())
-                throw new ArgumentException(
-                    "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(destinationType.FullName, value),
-                    "value");
-
-            return result;
         }
 
         public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)

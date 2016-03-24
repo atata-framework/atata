@@ -20,7 +20,10 @@ namespace Atata.Tests
         [Term(CutEnding = false)]
         public TextInput<Option, _> EnumTextInput { get; private set; }
 
+        [Term("Enum Text Input")]
+        public TextInput<Option?, _> NullableEnumTextInput { get; private set; }
+
         [Term(CutEnding = false)]
-        public TextInput<int, _> IntTextInput { get; private set; }
+        public TextInput<int?, _> IntTextInput { get; private set; }
     }
 }
