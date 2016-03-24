@@ -36,17 +36,34 @@ namespace Atata
             RegisterNumericConverter(decimal.Parse);
         }
 
-        private static void RegisterNumericConverter<T>(Func<string, NumberStyles, IFormatProvider, T> fromStringConverter)
+        private static void RegisterNumericConverter<T>(
+            Func<string, NumberStyles, IFormatProvider, T> parseFunction)
             where T : IFormattable
         {
             RegisterConverter(
                 typeof(T),
                 (s, opt) =>
                 {
-                    string stringValue = opt.StringFormat != null && opt.StringFormat.Contains("{0")
-                        ? RetrieveValuePart(s, opt.StringFormat)
-                        : s;
-                    return fromStringConverter(stringValue, NumberStyles.Any, opt.Culture);
+                    bool isComplexFormat = opt.StringFormat != null && opt.StringFormat.Contains("{0");
+                    string stringValue = isComplexFormat ? RetrieveValuePart(s, opt.StringFormat) : s;
+
+                    bool isPercentageFormat = opt.StringFormat != null &&
+                        (opt.StringFormat.IndexOf("{0:P", StringComparison.CurrentCultureIgnoreCase) != -1 ||
+                        (!isComplexFormat && opt.StringFormat.StartsWith("P", StringComparison.CurrentCultureIgnoreCase)));
+
+                    if (isPercentageFormat)
+                    {
+                        stringValue = stringValue.
+                            Replace(opt.Culture.NumberFormat.PercentSymbol, string.Empty).
+                            Replace(opt.Culture.NumberFormat.PercentDecimalSeparator, opt.Culture.NumberFormat.NumberDecimalSeparator);
+
+                        decimal result = decimal.Parse(stringValue, NumberStyles.Any, opt.Culture) / 100;
+                        return Convert.ChangeType(result, typeof(T), opt.Culture);
+                    }
+                    else
+                    {
+                        return parseFunction(stringValue, NumberStyles.Any, opt.Culture);
+                    }
                 },
                 (v, opt) =>
                 {

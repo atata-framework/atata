@@ -4,6 +4,11 @@ namespace Atata
 {
     public class TermOptions : ITermSettings
     {
+        public TermOptions()
+        {
+            Culture = CultureInfo.CurrentCulture;
+        }
+
         public TermFormat Format { get; set; }
         public TermMatch Match { get; set; }
         public string StringFormat { get; set; }
@@ -11,13 +16,7 @@ namespace Atata
 
         public static TermOptions CreateDefault()
         {
-            return new TermOptions
-            {
-                Format = TermFormat.Inherit,
-                Match = TermMatch.Inherit,
-                StringFormat = null,
-                Culture = CultureInfo.CurrentCulture
-            };
+            return new TermOptions();
         }
     }
 }
