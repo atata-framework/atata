@@ -64,12 +64,6 @@ namespace Atata
                     {
                         return parseFunction(stringValue, NumberStyles.Any, opt.Culture);
                     }
-                },
-                (v, opt) =>
-                {
-                    return opt.StringFormat != null && opt.StringFormat.Contains("{0")
-                        ? string.Format(opt.Culture, opt.StringFormat, v)
-                        : ((T)v).ToString(opt.StringFormat, opt.Culture);
                 });
         }
 
@@ -130,9 +124,14 @@ namespace Atata
 
         private static string FormatValue(object value, string format, CultureInfo culture)
         {
-            return string.IsNullOrEmpty(format)
-                ? value.ToString()
-                : string.Format(culture, format, value);
+            bool isValueFormattable = value is IFormattable;
+
+            if (format != null && format.Contains("{0"))
+                return string.Format(culture, format, value);
+            else if (value is IFormattable)
+                return ((IFormattable)value).ToString(format, culture);
+            else
+                return value.ToString();
         }
 
         // TODO: Review/refactor RetrieveValuePart method.
