@@ -6,6 +6,17 @@ namespace Atata.Tests
     [SetCulture("en-us")]
     public class TermResolverTest
     {
+        [TermSettings(StringFormat = ">>{0}")]
+        public enum Options
+        {
+            [Term(TermFormat.TitleWithColon)]
+            A,
+            B,
+            C,
+            [Term(TermFormat.LowerCase, StringFormat = "--{0}--")]
+            D
+        }
+
         [TestCase("test string")]
         [TestCase(50)]
         [TestCase(1234.56f)]
@@ -14,6 +25,9 @@ namespace Atata.Tests
         [TestCase(0.25, "P0", "25 %")]
         [TestCase(-0.257f, "tax {0:P1}", "tax -25.7 %")]
         [TestCase(15, "Percent: {0}%")]
+        [TestCase(Options.B)]
+        [TestCase(Options.D, null, "--d--")]
+        [TestCase(Options.A, null, ">>A:")]
         public void TermResolver_StringFormat(object value, string format = "Before {0} after", string expectedFormattedValue = null)
         {
             TermOptions options = new TermOptions { StringFormat = format };

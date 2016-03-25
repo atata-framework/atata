@@ -5,7 +5,7 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum)]
     public class TermSettingsAttribute : Attribute, ITermSettings
     {
-        public TermSettingsAttribute(TermMatch match)
+        public TermSettingsAttribute(TermMatch match = TermMatch.Inherit)
             : this(TermFormat.Inherit, match)
         {
         }
