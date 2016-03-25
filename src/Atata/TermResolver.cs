@@ -203,8 +203,7 @@ namespace Atata
 
         public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)
         {
-            return Enum.GetValues(enumType).
-                Cast<Enum>().
+            return enumType.GetIndividualEnumFlags().
                 Where(x => GetEnumMatch(x, termOptions).IsMatch(value, GetEnumTerms(x, termOptions))).
                 FirstOrDefault();
         }
