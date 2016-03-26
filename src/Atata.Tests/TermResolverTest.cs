@@ -28,6 +28,10 @@ namespace Atata.Tests
         [TestCase(Options.B)]
         [TestCase(Options.D, null, "--d--")]
         [TestCase(Options.A, null, ">>A:")]
+        [TestCase(Options.C, "D", "2")]
+        [TestCase(Options.C, "{0:D}.", "2.")]
+        [TestCase(Options.C, "X", "00000002")]
+        [TestCase(Options.A, "_{0:G}_", "_A_")]
         public void TermResolver_StringFormat(object value, string format = "Before {0} after", string expectedFormattedValue = null)
         {
             TermOptions options = new TermOptions { StringFormat = format };

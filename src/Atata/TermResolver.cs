@@ -223,11 +223,15 @@ namespace Atata
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);
             bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
-            string[] terms;
+
+            string termStringFormat = GetTermStringFormatOrNull(termOptions)
+                ?? GetTermStringFormatOrNull(termAttribute)
+                ?? GetTermStringFormatOrNull(GetTermSettings(value.GetType()))
+                ?? null;
 
             if (hasTermValue)
             {
-                terms = termAttribute.Values;
+                return termAttribute.Values.Select(x => FormatValue(x, termStringFormat, termOptions.Culture)).ToArray();
             }
             else
             {
@@ -236,15 +240,16 @@ namespace Atata
                     ?? GetTermFormatOrNull(GetTermSettings(value.GetType()))
                     ?? DefaultFormat;
 
-                terms = new[] { termFormat.ApplyTo(value.ToString()) };
+                if (termStringFormat == null || termStringFormat.Contains("{0}"))
+                {
+                    string term = termFormat.ApplyTo(value.ToString());
+                    return new[] { FormatValue(term, termStringFormat, termOptions.Culture) };
+                }
+                else
+                {
+                    return new[] { FormatValue(value, termStringFormat, termOptions.Culture) };
+                }
             }
-
-            string termStringFormat = GetTermStringFormatOrNull(termOptions)
-                    ?? GetTermStringFormatOrNull(termAttribute)
-                    ?? GetTermStringFormatOrNull(GetTermSettings(value.GetType()))
-                    ?? null;
-
-            return terms.Select(x => FormatValue(x, termStringFormat, termOptions.Culture)).ToArray();
         }
 
         public static TermMatch GetMatch(object value, ITermSettings termSettings = null)
