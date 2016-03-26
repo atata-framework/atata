@@ -34,6 +34,18 @@ namespace Atata
             RegisterNumericConverter(float.Parse);
             RegisterNumericConverter(double.Parse);
             RegisterNumericConverter(decimal.Parse);
+
+            RegisterConverter<DateTime>(
+                (s, opt) =>
+                {
+                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+
+                    if (concreteFormat == null)
+                        return DateTime.Parse(stringValue, opt.Culture);
+                    else
+                        return DateTime.ParseExact(stringValue, concreteFormat, opt.Culture);
+                });
         }
 
         private static void RegisterNumericConverter<T>(
@@ -44,12 +56,10 @@ namespace Atata
                 typeof(T),
                 (s, opt) =>
                 {
-                    bool isComplexFormat = opt.StringFormat != null && opt.StringFormat.Contains("{0");
-                    string stringValue = isComplexFormat ? RetrieveValuePart(s, opt.StringFormat) : s;
+                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
 
-                    bool isPercentageFormat = opt.StringFormat != null &&
-                        (opt.StringFormat.IndexOf("{0:P", StringComparison.CurrentCultureIgnoreCase) != -1 ||
-                        (!isComplexFormat && opt.StringFormat.StartsWith("P", StringComparison.CurrentCultureIgnoreCase)));
+                    bool isPercentageFormat = concreteFormat != null && concreteFormat.StartsWith("P", StringComparison.InvariantCultureIgnoreCase);
 
                     if (isPercentageFormat)
                     {
@@ -57,8 +67,8 @@ namespace Atata
                             Replace(opt.Culture.NumberFormat.PercentSymbol, string.Empty).
                             Replace(opt.Culture.NumberFormat.PercentDecimalSeparator, opt.Culture.NumberFormat.NumberDecimalSeparator);
 
-                        decimal result = decimal.Parse(stringValue, NumberStyles.Any, opt.Culture) / 100;
-                        return Convert.ChangeType(result, typeof(T), opt.Culture);
+                        decimal percent = decimal.Parse(stringValue, NumberStyles.Any, opt.Culture) / 100;
+                        return Convert.ChangeType(percent, typeof(T), opt.Culture);
                     }
                     else
                     {
@@ -126,12 +136,43 @@ namespace Atata
         {
             bool isValueFormattable = value is IFormattable;
 
-            if (format != null && format.Contains("{0"))
+            if (IsComplexStringFormat(format))
                 return string.Format(culture, format, value);
             else if (value is IFormattable)
                 return ((IFormattable)value).ToString(format, culture);
             else
                 return value.ToString();
+        }
+
+        private static bool IsComplexStringFormat(string format)
+        {
+            return format != null && format.Contains("{0");
+        }
+
+        private static string RetrieveValueFromString(string value, string format)
+        {
+            return IsComplexStringFormat(format) ? RetrieveValuePart(value, format) : value;
+        }
+
+        private static string RetrieveConcreteFormatFromStringFormat(string format)
+        {
+            if (string.IsNullOrEmpty(format))
+            {
+                return null;
+            }
+            else if (IsComplexStringFormat(format))
+            {
+                int startIndex = format.IndexOf("{0");
+                int endIndex = format.IndexOf('}', startIndex + 2);
+                if (endIndex - startIndex == 2)
+                    return null;
+                else
+                    return format.Substring(startIndex + 3, endIndex - startIndex - 3);
+            }
+            else
+            {
+                return format;
+            }
         }
 
         // TODO: Review/refactor RetrieveValuePart method.
