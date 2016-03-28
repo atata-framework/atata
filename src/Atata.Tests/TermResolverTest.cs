@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using System;
 using System.Globalization;
 
 namespace Atata.Tests
@@ -49,6 +50,11 @@ namespace Atata.Tests
                 Add(Options.C, "{0:D}.", "2.");
                 Add(Options.C, "X", "00000002");
                 Add(Options.A, "_{0:G}_", "_A_");
+
+                DateTime date = new DateTime(2016, 3, 28);
+                Add(date, "date: '{0:d}'");
+                Add(date, "date: '{0:yyyy-MM-dd}'");
+                Add(date, "MM/dd", "03/28");
             }
 
             private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null)
