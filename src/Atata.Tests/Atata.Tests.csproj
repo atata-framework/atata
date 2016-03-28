@@ -68,6 +68,7 @@
     <Compile Include="RadioButtonListTest.cs" />
     <Compile Include="TermResolverTest.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="TestCaseDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
