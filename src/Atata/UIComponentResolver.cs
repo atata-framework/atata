@@ -41,9 +41,12 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             Type pageObjectType = pageObject.GetType();
-            pageObject.Triggers = GetClassAttributes(pageObjectType).
-                Concat(GetAssemblyAttributes(pageObjectType.Assembly)).
-                OfType<TriggerAttribute>().
+            var classTriggers = GetClassAttributes(pageObjectType).OfType<TriggerAttribute>().Where(x => x.AppliesTo == TriggerScope.Self);
+            var assemblyTriggers = GetAssemblyAttributes(pageObjectType.Assembly).OfType<TriggerAttribute>();
+
+            pageObject.Triggers = classTriggers.
+                Concat(assemblyTriggers).
+                OrderBy(x => x.Priority).
                 ToArray();
         }
 
