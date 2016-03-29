@@ -71,6 +71,18 @@ namespace Atata
                     else
                         return FormatValue(v, opt.StringFormat, opt.Culture);
                 });
+
+            RegisterConverter<Guid>(
+                (s, opt) =>
+                {
+                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+
+                    if (concreteFormat == null)
+                        return Guid.Parse(stringValue);
+                    else
+                        return Guid.ParseExact(stringValue, concreteFormat);
+                });
         }
 
         private static void RegisterNumericConverter<T>(
@@ -259,11 +271,12 @@ namespace Atata
             Type underlyingType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
             TermConverter termConverter;
 
-            return underlyingType.IsEnum
-                ? StringToEnum(value, underlyingType, termOptions)
-                : TypeTermConverters.TryGetValue(underlyingType, out termConverter)
-                    ? termConverter.FromStringConverter(value, termOptions)
-                    : Convert.ChangeType(RetrieveValuePart(value, termOptions.StringFormat), underlyingType, termOptions.Culture);
+            if (underlyingType.IsEnum)
+                return StringToEnum(value, underlyingType, termOptions);
+            else if (TypeTermConverters.TryGetValue(underlyingType, out termConverter))
+                return termConverter.FromStringConverter(value, termOptions);
+            else
+                return Convert.ChangeType(RetrieveValuePart(value, termOptions.StringFormat), underlyingType, termOptions.Culture);
         }
 
         public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)

@@ -64,6 +64,11 @@ namespace Atata.Tests
                 Add(new TimeSpan(10, 45, 0), "time: '{0:hh\\:mm}'");
                 Add(new TimeSpan(10, 45, 0), "hh:mm tt", "10:45 AM");
                 Add(new TimeSpan(17, 45, 0), "time: {0:h\\:mm tt}", "time: 5:45 PM");
+
+                Guid guid = new Guid("9d0aa4f2-4987-4395-be95-76abc329b7a0");
+                Add(guid);
+                Add(guid, "P", "(9d0aa4f2-4987-4395-be95-76abc329b7a0)");
+                Add(guid, "<{0:B}>");
             }
 
             private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null)
