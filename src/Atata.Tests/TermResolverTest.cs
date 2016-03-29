@@ -36,6 +36,9 @@ namespace Atata.Tests
             public TermResolverStringFormatTestCaseSource()
             {
                 Add("test string");
+                Add('a');
+                Add(true);
+                Add((byte)126);
                 Add(50);
                 Add(1234.56f);
                 Add(1234.56, "C2", "$1,234.56");
