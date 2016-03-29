@@ -46,6 +46,31 @@ namespace Atata
                     else
                         return DateTime.ParseExact(stringValue, concreteFormat, opt.Culture);
                 });
+
+            RegisterConverter<TimeSpan>(
+                (s, opt) =>
+                {
+                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+
+                    if (concreteFormat == null)
+                        return TimeSpan.Parse(stringValue, opt.Culture);
+                    else if (concreteFormat.Contains("t"))
+                        return DateTime.ParseExact(stringValue, concreteFormat, opt.Culture).TimeOfDay;
+                    else
+                        return TimeSpan.ParseExact(stringValue, concreteFormat, opt.Culture);
+                },
+                (v, opt) =>
+                {
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+                    if (concreteFormat != null && concreteFormat.Contains("t"))
+                        return FormatValue(
+                            DateTime.Today.Add(v).ToString(concreteFormat, opt.Culture),
+                            opt.StringFormat,
+                            opt.Culture);
+                    else
+                        return FormatValue(v, opt.StringFormat, opt.Culture);
+                });
         }
 
         private static void RegisterNumericConverter<T>(

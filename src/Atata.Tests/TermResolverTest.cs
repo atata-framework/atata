@@ -55,6 +55,12 @@ namespace Atata.Tests
                 Add(date, "date: '{0:d}'");
                 Add(date, "date: '{0:yyyy-MM-dd}'");
                 Add(date, "MM/dd", "03/28");
+
+                Add(new TimeSpan(10, 45, 15), "c", "10:45:15");
+                Add(new TimeSpan(10, 45, 15), "time: '{0:g}'");
+                Add(new TimeSpan(10, 45, 0), "time: '{0:hh\\:mm}'");
+                Add(new TimeSpan(10, 45, 0), "hh:mm tt", "10:45 AM");
+                Add(new TimeSpan(17, 45, 0), "time: {0:h\\:mm tt}", "time: 5:45 PM");
             }
 
             private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null)
