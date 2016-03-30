@@ -1,5 +1,4 @@
 ﻿using Humanizer;
-using OpenQA.Selenium;
 using System;
 
 namespace Atata
@@ -28,20 +27,15 @@ namespace Atata
             UIComponentResolver.Resolve<TOwner>(this);
         }
 
-        public TOwner VerifyExists()
+        public new TOwner VerifyExists()
         {
-            Log.StartVerificationSection("{0} component exists", ComponentName);
-            GetScopeElement();
-            Log.EndSection();
+            base.VerifyExists();
             return Owner;
         }
 
-        public TOwner VerifyMissing()
+        public new TOwner VerifyMissing()
         {
-            Log.StartVerificationSection("{0} component missing", ComponentName);
-            IWebElement element = GetScopeElement(SearchOptions.Safely());
-            Assert.That(element == null, "Found {0} component that should be missing", ComponentName);
-            Log.EndSection();
+            base.VerifyMissing();
             return Owner;
         }
 

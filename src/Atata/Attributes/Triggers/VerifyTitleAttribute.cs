@@ -54,6 +54,11 @@ namespace Atata
         {
             string[] expectedValues = GetExpectedValues(context.Component.ComponentName);
 
+            string matchAsString = TermResolver.ToDisplayString(Match, new TermOptions { Format = TermFormat.LowerCase });
+            string expectedValuesAsString = TermResolver.ToDisplayString(expectedValues);
+
+            context.Log.StartVerificationSection("Title {0} '{1}'", matchAsString, expectedValuesAsString);
+
             string actualTitle = null;
             bool containsTitle = context.Driver.Try().Until(d =>
                 {
@@ -66,14 +71,13 @@ namespace Atata
                 string message = new StringBuilder().
                     Append("Incorrect page title.").
                     AppendLine().
-                    AppendFormat("Expected: String that {0} '{1}'",
-                        TermResolver.ToDisplayString(Match, new TermOptions { Format = TermFormat.LowerCase }),
-                        TermResolver.ToDisplayString(expectedValues)).
+                    AppendFormat("Expected: String that {0} '{1}'", matchAsString, expectedValuesAsString).
                     AppendLine().
                     AppendFormat("But was: '{0}'", actualTitle).ToString();
 
                 Assert.That(containsTitle, message);
             }
+            context.Log.EndSection();
         }
 
         private string[] GetExpectedValues(string pageObjectName)

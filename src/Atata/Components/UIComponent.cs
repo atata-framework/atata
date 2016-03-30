@@ -84,6 +84,21 @@ namespace Atata
             return ScopeLocator.GetElement() == null;
         }
 
+        public void VerifyExists()
+        {
+            Log.StartVerificationSection("{0} component exists", ComponentName);
+            GetScopeElement();
+            Log.EndSection();
+        }
+
+        public void VerifyMissing()
+        {
+            Log.StartVerificationSection("{0} component missing", ComponentName);
+            IWebElement element = GetScopeElement(SearchOptions.Safely());
+            Assert.That(element == null, "Found {0} component that should be missing", ComponentName);
+            Log.EndSection();
+        }
+
         protected void RunTriggers(TriggerEvents on)
         {
             if (Triggers == null || on == TriggerEvents.None)
