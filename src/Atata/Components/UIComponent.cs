@@ -2,6 +2,7 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -12,6 +13,7 @@ namespace Atata
 
         protected UIComponent()
         {
+            Children = new List<UIComponent>();
         }
 
         static UIComponent()
@@ -21,6 +23,7 @@ namespace Atata
 
         protected internal UIComponent Owner { get; internal set; }
         protected internal UIComponent Parent { get; internal set; }
+        protected internal List<UIComponent> Children { get; private set; }
 
         protected internal ILogManager Log { get; internal set; }
         protected internal RemoteWebDriver Driver { get; internal set; }
@@ -84,8 +87,6 @@ namespace Atata
             if (Triggers == null || on == TriggerEvents.None)
                 return;
 
-            var triggers = Triggers.Where(x => x.On.HasFlag(on));
-
             TriggerContext context = new TriggerContext
             {
                 Driver = Driver,
@@ -96,8 +97,18 @@ namespace Atata
                 ParentComponentScopeLocator = Parent != null ? Parent.ScopeLocator : null
             };
 
+            var triggers = Triggers.Where(x => x.On.HasFlag(on));
+
             foreach (var trigger in triggers)
                 trigger.Run(context);
+
+            if (on == TriggerEvents.OnPageObjectInit || on == TriggerEvents.OnPageObjectLeave)
+            {
+                foreach (UIComponent child in Children)
+                {
+                    child.RunTriggers(on);
+                }
+            }
         }
     }
 }

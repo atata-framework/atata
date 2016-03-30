@@ -89,6 +89,7 @@ namespace Atata
             UIComponentMetadata metadata = CreateComponentMetadata(property);
 
             UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
+            parentComponent.Children.Add(component);
 
             property.SetValue(parentComponent, component, null);
         }
