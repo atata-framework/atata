@@ -144,6 +144,14 @@ namespace Atata
             };
         }
 
+        public static string ToDisplayString(object value, TermOptions termOptions = null)
+        {
+            if (value is IEnumerable<object>)
+                return string.Join("/", ((IEnumerable<object>)value).Select(x => ToDisplayString(x, termOptions)));
+            else
+                return ToString(value, termOptions);
+        }
+
         public static string ToString(object value, TermOptions termOptions = null)
         {
             if (value == null || object.Equals(value, string.Empty))

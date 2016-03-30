@@ -33,6 +33,8 @@ namespace Atata
         protected internal bool CacheScopeElement { get; internal set; }
         protected internal string ComponentName { get; internal set; }
 
+        protected internal UIComponentMetadata Metadata { get; internal set; }
+
         protected internal TriggerAttribute[] Triggers { get; internal set; }
 
         protected internal IWebElement Scope

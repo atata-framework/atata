@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [TitleContains("Basic Controls")]
+    [VerifyTitle("Basic Controls", TermMatch.StartsWith)]
     [NavigateTo("http://localhost:50549/BasicControls.html")]
     public class BasicControlsPage : Page<BasicControlsPage>
     {

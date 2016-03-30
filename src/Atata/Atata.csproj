@@ -116,6 +116,7 @@
     <Compile Include="Attributes\Triggers\ScrollUpAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressKeysAttribute.cs" />
     <Compile Include="Attributes\Triggers\TriggerAttribute.cs" />
+    <Compile Include="Attributes\Triggers\VerifyTitleAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByClassAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByCssAttribute.cs" />

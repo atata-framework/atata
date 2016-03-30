@@ -33,11 +33,17 @@ namespace Atata
 
             PageObject<TOwner> componentAsPageObject = component as PageObject<TOwner>;
             if (componentAsPageObject != null)
+            {
+                // TODO: Review PageObject ComponentName set.
+                componentAsPageObject.ComponentName = ResolvePageObjectName<TOwner>();
+                componentAsPageObject.Metadata = CreatePageObjectMetadata(component.GetType());
+                componentAsPageObject.ApplyMetadata(componentAsPageObject.Metadata);
                 InitPageObjectTriggers(componentAsPageObject);
+            }
         }
 
         // TODO: Review InitPageObjectTriggers method.
-        public static void InitPageObjectTriggers<TOwner>(PageObject<TOwner> pageObject)
+        private static void InitPageObjectTriggers<TOwner>(PageObject<TOwner> pageObject)
             where TOwner : PageObject<TOwner>
         {
             Type pageObjectType = pageObject.GetType();
@@ -145,6 +151,7 @@ namespace Atata
             component.CacheScopeElement = false;
             component.Triggers = GetControlTriggers(metadata);
 
+            component.Metadata = metadata;
             component.ApplyMetadata(metadata);
         }
 
@@ -193,6 +200,16 @@ namespace Atata
             return metadata.Name.Humanize(LetterCasing.Title);
         }
 
+        private static UIComponentMetadata CreatePageObjectMetadata(Type type)
+        {
+            // TODO: Review name set.
+            return CreateComponentMetadata(
+                type.Name,
+                type,
+                null,
+                new Attribute[0]);
+        }
+
         private static UIComponentMetadata CreateComponentMetadata(PropertyInfo property)
         {
             return CreateComponentMetadata(
@@ -211,7 +228,7 @@ namespace Atata
                 declaringAttributes,
                 GetClassAttributes(componentType),
                 GetClassAttributes(parentComponentType),
-                GetAssemblyAttributes(parentComponentType.Assembly));
+                GetAssemblyAttributes((parentComponentType != null ? parentComponentType : componentType).Assembly));
         }
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
@@ -326,6 +343,9 @@ namespace Atata
 
         private static Attribute[] ResolveAndCacheAttributes(Dictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
         {
+            if (attributeProvider == null)
+                return new Attribute[0];
+
             Attribute[] attributes;
 
             if (cache.TryGetValue(attributeProvider, out attributes))
