@@ -216,7 +216,6 @@
     <Compile Include="Components\UIComponent`1.cs" />
     <Compile Include="Components\Table`1.cs" />
     <Compile Include="ElementVisibility.cs" />
-    <Compile Include="EnumStringExtractor.cs" />
     <Compile Include="Exceptions\AssertionException.cs" />
     <Compile Include="Extensions\ByExtensions.cs" />
     <Compile Include="Extensions\ByKindExtensions.cs" />
