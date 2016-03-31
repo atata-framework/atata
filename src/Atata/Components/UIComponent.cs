@@ -34,6 +34,11 @@ namespace Atata
         protected internal bool CacheScopeElement { get; internal set; }
         protected internal string ComponentName { get; internal set; }
 
+        protected internal string ComponentFullName
+        {
+            get { return string.Format("'{0}' component", ComponentName); }
+        }
+
         protected internal UIComponentMetadata Metadata { get; internal set; }
 
         protected internal TriggerAttribute[] Triggers { get; internal set; }
@@ -87,33 +92,73 @@ namespace Atata
 
         public void VerifyExists()
         {
-            Log.StartVerificationSection("{0} component exists", ComponentName);
+            Log.StartVerificationSection("{0} exists", ComponentFullName);
             GetScopeElement();
             Log.EndSection();
         }
 
         public void VerifyMissing()
         {
-            Log.StartVerificationSection("{0} component missing", ComponentName);
+            Log.StartVerificationSection("{0} missing", ComponentFullName);
             IWebElement element = GetScopeElement(SearchOptions.Safely());
-            Assert.That(element == null, "Found {0} component that should be missing", ComponentName);
+            Assert.That(element == null, "Found {0} that should be missing", ComponentFullName);
             Log.EndSection();
         }
 
-        protected internal void VerifyContent(string[] content, TermMatch match = TermMatch.Equals, bool isMatchAll = false)
+        protected internal void VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
         {
             string matchAsString = match.ToString(TermFormat.LowerCase);
             string expectedValuesAsString = TermResolver.ToDisplayString(content);
 
-            Log.StartVerificationSection("{0} component text {1} '{2}'", ComponentName, matchAsString, expectedValuesAsString);
+            Log.StartVerificationSection("{0} content {1} '{2}'", ComponentFullName, matchAsString, expectedValuesAsString);
 
-            string actualText = Scope.Text;
-            bool doesMatch = match.IsMatch(actualText, content);
-            string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
-                "String that {0} '{1}'".FormatWith(matchAsString, content),
-                actualText,
-                "{0} component text doesn't match criteria", ComponentName);
-            Assert.That(doesMatch, errorMessage);
+            string actualText = null;
+
+            bool containsText = Driver.Try().Until(_ =>
+            {
+                actualText = Scope.Text;
+                return match.IsMatch(actualText, content);
+            });
+
+            if (!containsText)
+            {
+                string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
+                    "String that {0} '{1}'".FormatWith(matchAsString, expectedValuesAsString),
+                    string.Format("'{0}'", actualText),
+                    "{0} content doesn't match criteria", ComponentFullName);
+
+                Assert.That(containsText, errorMessage);
+            }
+
+            Log.EndSection();
+        }
+
+        protected internal void VerifyContentContainsAll(params string[] content)
+        {
+            string matchAsString = TermMatch.Contains.ToString(TermFormat.LowerCase);
+            string expectedValuesAsString = TermResolver.ToDisplayString(content);
+
+            Log.StartVerificationSection("{0} content {1} '{2}'", ComponentFullName, matchAsString, expectedValuesAsString);
+
+            string actualText = null;
+            string notFoundValue = null;
+
+            bool containsText = Driver.Try().Until(_ =>
+            {
+                actualText = Scope.Text;
+                notFoundValue = content.FirstOrDefault(value => !actualText.Contains(value));
+                return notFoundValue == null;
+            });
+
+            if (!containsText)
+            {
+                string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
+                    "String that {0} '{1}'".FormatWith(matchAsString, notFoundValue),
+                    string.Format("'{0}'", actualText),
+                    "{0} content doesn't match criteria", ComponentFullName);
+
+                Assert.That(containsText, errorMessage);
+            }
 
             Log.EndSection();
         }

@@ -43,15 +43,15 @@ namespace Atata
             return this.VerifyContent(new[] { content }, match);
         }
 
-        public TOwner VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
+        public new TOwner VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
         {
             base.VerifyContent(content, match);
             return Owner;
         }
 
-        public TOwner VerifyContentContains(params string[] content)
+        public new TOwner VerifyContentContainsAll(params string[] content)
         {
-            base.VerifyContent(content, TermMatch.Contains, true);
+            base.VerifyContentContainsAll(content);
             return Owner;
         }
 

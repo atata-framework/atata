@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Humanizer;
+using System;
 using System.Linq;
-using System.Text;
 
 namespace Atata
 {
@@ -57,7 +57,7 @@ namespace Atata
             string matchAsString = Match.ToString(TermFormat.LowerCase);
             string expectedValuesAsString = TermResolver.ToDisplayString(expectedValues);
 
-            context.Log.StartVerificationSection("Title {0} '{1}'", matchAsString, expectedValuesAsString);
+            context.Log.StartVerificationSection("page title {0} '{1}'", matchAsString, expectedValuesAsString);
 
             string actualTitle = null;
             bool containsTitle = context.Driver.Try().Until(d =>
@@ -68,14 +68,12 @@ namespace Atata
 
             if (!containsTitle)
             {
-                string message = new StringBuilder().
-                    Append("Incorrect page title.").
-                    AppendLine().
-                    AppendFormat("Expected: String that {0} '{1}'", matchAsString, expectedValuesAsString).
-                    AppendLine().
-                    AppendFormat("But was: '{0}'", actualTitle).ToString();
+                string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
+                    "String that {0} '{1}'".FormatWith(matchAsString, expectedValuesAsString),
+                    string.Format("'{0}'", actualTitle),
+                    "Incorrect page title");
 
-                Assert.That(containsTitle, message);
+                Assert.That(containsTitle, errorMessage);
             }
             context.Log.EndSection();
         }
