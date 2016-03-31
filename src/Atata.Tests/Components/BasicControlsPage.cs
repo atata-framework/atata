@@ -8,7 +8,7 @@ namespace Atata.Tests
     public class BasicControlsPage : Page<BasicControlsPage>
     {
         [FindByCss("h1")]
-        public Text<_> Header { get; private set; }
+        public TextContent<_> Header { get; private set; }
 
         public FindByLabel ByLabel { get; private set; }
 

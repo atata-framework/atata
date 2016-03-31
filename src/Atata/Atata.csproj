@@ -149,6 +149,7 @@
     <Compile Include="Components\Control`1.cs" />
     <Compile Include="Components\Fields\CheckBoxList`2.cs" />
     <Compile Include="Components\Fields\CheckBox`1.cs" />
+    <Compile Include="Components\Fields\Content`2.cs" />
     <Compile Include="Components\Fields\DateInput`1.cs" />
     <Compile Include="Components\Fields\EditableField`2.cs" />
     <Compile Include="Components\Fields\RadioButtonList`2.cs" />
@@ -168,7 +169,7 @@
     <Compile Include="Components\TableRow`2.cs" />
     <Compile Include="Components\TableSettingsAttribute.cs" />
     <Compile Include="Components\Table`2.cs" />
-    <Compile Include="Components\Fields\Text`1.cs" />
+    <Compile Include="Components\Fields\TextContent`1.cs" />
     <Compile Include="Exceptions\NotMissingElementException.cs" />
     <Compile Include="Exceptions\ExceptionFactory.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
