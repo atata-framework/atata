@@ -37,8 +37,6 @@ namespace Atata
             if (NavigateOnInit)
                 Navigate();
 
-            Wait(2);
-
             InitComponent();
 
             Log.EndSection();
