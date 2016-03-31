@@ -139,7 +139,6 @@
     <Compile Include="Attributes\FindByContentAttribute.cs" />
     <Compile Include="Attributes\FindByLabelAttribute.cs" />
     <Compile Include="Attributes\GeneratableStringAttribute.cs" />
-    <Compile Include="Attributes\ContentContainsAttribute.cs" />
     <Compile Include="Attributes\IgnoreInitAttribute.cs" />
     <Compile Include="Attributes\UIComponentFormatAttribute.cs" />
     <Compile Include="Attributes\WindowTitleAttribute.cs" />

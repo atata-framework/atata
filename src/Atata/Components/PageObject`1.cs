@@ -74,26 +74,7 @@ namespace Atata
 
         private void VerifyCurrentPage()
         {
-            VerifyContainsContent();
             OnVerify();
-        }
-
-        private void VerifyContainsContent()
-        {
-            ContentContainsAttribute attribute;
-
-            if (GetType().TryGetCustomAttribute(out attribute) && attribute.Values != null)
-            {
-                string[] values = attribute.Values != null ? attribute.Values.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray() : new string[0];
-                string notFoundValue = null;
-                bool hasContent = Scope.Try().Until(x =>
-                    {
-                        string text = x.Text;
-                        notFoundValue = attribute.Values.FirstOrDefault(value => !text.Contains(value));
-                        return notFoundValue == null;
-                    });
-                Assert.That(hasContent, "Expected to find content: {0}", notFoundValue);
-            }
         }
 
         protected virtual void OnVerify()
