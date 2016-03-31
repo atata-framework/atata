@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using System;
+﻿using System;
 
 namespace Atata
 {
@@ -41,19 +40,18 @@ namespace Atata
 
         public TOwner VerifyContent(string content, TermMatch match = TermMatch.Equals)
         {
-            string matchActionText = match.ToSentenceString();
-            Log.StartVerificationSection("{0} component text {1} '{2}'", ComponentName, matchActionText, content);
+            return this.VerifyContent(new[] { content }, match);
+        }
 
-            var matchPredicate = match.GetPredicate();
-            string actualText = Scope.Text;
-            bool doesMatch = matchPredicate(actualText, content);
-            string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
-                "String that {0} '{1}'".FormatWith(matchActionText, content),
-                actualText,
-                "{0} component text doesn't match criteria", ComponentName);
-            Assert.That(doesMatch, errorMessage);
+        public TOwner VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
+        {
+            base.VerifyContent(content, match);
+            return Owner;
+        }
 
-            Log.EndSection();
+        public TOwner VerifyContentContains(params string[] content)
+        {
+            base.VerifyContent(content, TermMatch.Contains, true);
             return Owner;
         }
 

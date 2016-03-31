@@ -1,4 +1,5 @@
-﻿using Humanizer.Configuration;
+﻿using Humanizer;
+using Humanizer.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using System;
@@ -96,6 +97,24 @@ namespace Atata
             Log.StartVerificationSection("{0} component missing", ComponentName);
             IWebElement element = GetScopeElement(SearchOptions.Safely());
             Assert.That(element == null, "Found {0} component that should be missing", ComponentName);
+            Log.EndSection();
+        }
+
+        protected internal void VerifyContent(string[] content, TermMatch match = TermMatch.Equals, bool isMatchAll = false)
+        {
+            string matchAsString = match.ToString(TermFormat.LowerCase);
+            string expectedValuesAsString = TermResolver.ToDisplayString(content);
+
+            Log.StartVerificationSection("{0} component text {1} '{2}'", ComponentName, matchAsString, expectedValuesAsString);
+
+            string actualText = Scope.Text;
+            bool doesMatch = match.IsMatch(actualText, content);
+            string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
+                "String that {0} '{1}'".FormatWith(matchAsString, content),
+                actualText,
+                "{0} component text doesn't match criteria", ComponentName);
+            Assert.That(doesMatch, errorMessage);
+
             Log.EndSection();
         }
 

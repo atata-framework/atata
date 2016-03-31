@@ -51,6 +51,11 @@ namespace Atata
             return value.ToString(LetterCasing.Sentence);
         }
 
+        public static string ToString(this Enum value, TermFormat format)
+        {
+            return TermResolver.ToDisplayString(value, new TermOptions { Format = format });
+        }
+
         public static string ToString(this Enum value, LetterCasing casing)
         {
             Type type = value.GetType();

@@ -54,7 +54,7 @@ namespace Atata
         {
             string[] expectedValues = GetExpectedValues(context.Component.ComponentName);
 
-            string matchAsString = TermResolver.ToDisplayString(Match, new TermOptions { Format = TermFormat.LowerCase });
+            string matchAsString = Match.ToString(TermFormat.LowerCase);
             string expectedValuesAsString = TermResolver.ToDisplayString(expectedValues);
 
             context.Log.StartVerificationSection("Title {0} '{1}'", matchAsString, expectedValuesAsString);
