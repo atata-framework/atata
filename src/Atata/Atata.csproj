@@ -141,7 +141,7 @@
     <Compile Include="Attributes\FindByLabelAttribute.cs" />
     <Compile Include="Attributes\GeneratableStringAttribute.cs" />
     <Compile Include="Attributes\IgnoreInitAttribute.cs" />
-    <Compile Include="Attributes\UIComponentFormatAttribute.cs" />
+    <Compile Include="Attributes\FormatSettingsAttribute.cs" />
     <Compile Include="Attributes\WindowTitleAttribute.cs" />
     <Compile Include="Components\Button`1.cs" />
     <Compile Include="Components\Button`2.cs" />

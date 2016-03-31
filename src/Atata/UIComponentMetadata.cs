@@ -92,8 +92,8 @@ namespace Atata
             }
             else
             {
-                UIComponentFormatAttribute componentFormatAttribute =
-                    GetFirstOrDefaultGlobalAttribute<UIComponentFormatAttribute>(x => componentType.IsSubclassOfRawGeneric(x.ComponentType));
+                FormatSettingsAttribute componentFormatAttribute =
+                    GetFirstOrDefaultGlobalAttribute<FormatSettingsAttribute>(x => componentType.IsSubclassOfRawGeneric(x.ComponentType));
                 if (componentFormatAttribute != null)
                     return componentFormatAttribute.Value;
                 else
