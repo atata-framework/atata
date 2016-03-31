@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace Atata
@@ -19,19 +18,11 @@ namespace Atata
 
         protected PageObjectContext PageObjectContext { get; private set; }
 
-        protected string Title { get; private set; }
-
         protected UIComponent PreviousPageObject { get; private set; }
 
         protected virtual IWebElement GetScope(SearchOptions searchOptions)
         {
             return Driver.Get(By.TagName("body").With(searchOptions));
-        }
-
-        protected virtual string GetTitle()
-        {
-            TitleContainsAttribute attribute;
-            return GetType().TryGetCustomAttribute(out attribute, true) ? attribute.Value : null;
         }
 
         internal void Init(PageObjectContext context)
@@ -47,7 +38,6 @@ namespace Atata
                 Navigate();
 
             Wait(2);
-            Title = GetTitle();
 
             InitComponent();
 
@@ -87,7 +77,6 @@ namespace Atata
         private void VerifyCurrentPage()
         {
             VerifyContainsContent();
-            VerifyTitleContainsContent();
             OnVerify();
         }
 
@@ -106,24 +95,6 @@ namespace Atata
                         return notFoundValue == null;
                     });
                 Assert.That(hasContent, "Expected to find content: {0}", notFoundValue);
-            }
-        }
-
-        // TODO: Remake VerifyTitleContainsContent.
-        protected virtual void VerifyTitleContainsContent()
-        {
-            if (!string.IsNullOrEmpty(Title))
-            {
-                bool containsTitle = Driver.Try().TitleContains(Title);
-                if (!containsTitle)
-                {
-                    string message = new StringBuilder().
-                        Append("Incorrect title.").AppendLine().
-                        AppendFormat("Expected: String containing '{0}'", Title).AppendLine().
-                        AppendFormat("But was: '{0}'", Driver.Title).ToString();
-
-                    Assert.That(containsTitle, message);
-                }
             }
         }
 

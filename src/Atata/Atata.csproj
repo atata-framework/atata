@@ -142,6 +142,7 @@
     <Compile Include="Attributes\ContentContainsAttribute.cs" />
     <Compile Include="Attributes\IgnoreInitAttribute.cs" />
     <Compile Include="Attributes\UIComponentFormatAttribute.cs" />
+    <Compile Include="Attributes\WindowTitleAttribute.cs" />
     <Compile Include="Components\Button`1.cs" />
     <Compile Include="Components\Button`2.cs" />
     <Compile Include="Components\Clickable`2.cs" />
@@ -262,7 +263,6 @@
     <Compile Include="UITest.cs" />
     <Compile Include="ValueGenerator.cs" />
     <Compile Include="Components\Fields\TextInput`1.cs" />
-    <Compile Include="Attributes\TitleContainsAttribute.cs" />
     <Compile Include="Settings\RetrySettings.cs" />
   </ItemGroup>
   <ItemGroup>
