@@ -311,9 +311,9 @@ namespace Atata
             TermAttribute termAttribute = GetEnumTermAttribute(value);
             bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
 
-            string termStringFormat = GetTermStringFormatOrNull(termOptions)
-                ?? GetTermStringFormatOrNull(termAttribute)
-                ?? GetTermStringFormatOrNull(GetTermSettings(value.GetType()))
+            string termStringFormat = termOptions.GetStringFormatOrNull()
+                ?? termAttribute.GetStringFormatOrNull()
+                ?? GetTermSettings(value.GetType()).GetStringFormatOrNull()
                 ?? null;
 
             if (hasTermValue)
@@ -322,9 +322,9 @@ namespace Atata
             }
             else
             {
-                TermFormat termFormat = GetTermFormatOrNull(termOptions)
-                    ?? GetTermFormatOrNull(termAttribute)
-                    ?? GetTermFormatOrNull(GetTermSettings(value.GetType()))
+                TermFormat termFormat = termOptions.GetFormatOrNull()
+                    ?? termAttribute.GetFormatOrNull()
+                    ?? GetTermSettings(value.GetType()).GetFormatOrNull()
                     ?? DefaultFormat;
 
                 if (termStringFormat == null || termStringFormat.Contains("{0}"))
@@ -344,14 +344,14 @@ namespace Atata
             if (value is Enum)
                 return GetEnumMatch((Enum)value, termSettings);
             else
-                return GetTermMatchOrNull(termSettings) ?? DefaultMatch;
+                return termSettings.GetMatchOrNull() ?? DefaultMatch;
         }
 
         public static TermMatch GetEnumMatch(Enum value, ITermSettings termSettings = null)
         {
-            return GetTermMatchOrNull(termSettings)
-                ?? GetTermMatchOrNull(GetEnumTermAttribute(value))
-                ?? GetTermMatchOrNull(GetTermSettings(value.GetType()))
+            return termSettings.GetMatchOrNull()
+                ?? GetEnumTermAttribute(value).GetMatchOrNull()
+                ?? GetTermSettings(value.GetType()).GetMatchOrNull()
                 ?? DefaultMatch;
         }
 
@@ -366,27 +366,6 @@ namespace Atata
         private static ITermSettings GetTermSettings(Type type)
         {
             return type.GetCustomAttribute<TermSettingsAttribute>(false);
-        }
-
-        private static TermFormat? GetTermFormatOrNull(ITermSettings termSettings)
-        {
-            return termSettings != null && termSettings.Format != TermFormat.Inherit
-                ? termSettings.Format
-                : (TermFormat?)null;
-        }
-
-        private static TermMatch? GetTermMatchOrNull(ITermSettings termSettings)
-        {
-            return termSettings != null && termSettings.Match != TermMatch.Inherit
-                ? termSettings.Match
-                : (TermMatch?)null;
-        }
-
-        private static string GetTermStringFormatOrNull(ITermSettings termSettings)
-        {
-            return termSettings != null && termSettings.StringFormat != null
-                ? termSettings.StringFormat
-                : null;
         }
 
         private class TermConverter

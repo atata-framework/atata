@@ -34,12 +34,20 @@ namespace Atata
             PageObject<TOwner> componentAsPageObject = component as PageObject<TOwner>;
             if (componentAsPageObject != null)
             {
-                // TODO: Review PageObject ComponentName set.
-                componentAsPageObject.ComponentName = ResolvePageObjectName<TOwner>();
-                componentAsPageObject.Metadata = CreatePageObjectMetadata(component.GetType());
-                componentAsPageObject.ApplyMetadata(componentAsPageObject.Metadata);
-                InitPageObjectTriggers(componentAsPageObject);
+                InitPageObject(componentAsPageObject);
             }
+        }
+
+        private static void InitPageObject<TPageObject>(PageObject<TPageObject> pageObject)
+            where TPageObject : PageObject<TPageObject>
+        {
+            // TODO: Review PageObject ComponentName set.
+            pageObject.ComponentName = ResolvePageObjectName<TPageObject>();
+
+            InitPageObjectTriggers(pageObject);
+
+            UIComponentMetadata metadata = CreatePageObjectMetadata(pageObject.GetType());
+            ApplyMetadata(pageObject, metadata);
         }
 
         // TODO: Review InitPageObjectTriggers method.
@@ -151,8 +159,19 @@ namespace Atata
             component.CacheScopeElement = false;
             component.Triggers = GetControlTriggers(metadata);
 
+            ApplyMetadata(component, metadata);
+        }
+
+        private static void ApplyMetadata<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)
+            where TOwner : PageObject<TOwner>
+        {
             component.Metadata = metadata;
             component.ApplyMetadata(metadata);
+
+            foreach (TriggerAttribute trigger in component.Triggers)
+            {
+                trigger.ApplyMetadata(metadata);
+            }
         }
 
         private static void InitComponentLocator(UIComponent component, UIComponent parentComponent, UIComponentMetadata metadata, FindAttribute findAttribute)

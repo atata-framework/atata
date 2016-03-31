@@ -52,6 +52,11 @@ namespace Atata
             return GetFirstOrDefaultAttribute(GlobalAttributes, predicate);
         }
 
+        public T GetFirstOrDefaultAssemblyAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        {
+            return GetFirstOrDefaultAttribute(AssemblyAttributes, predicate);
+        }
+
         public T GetFirstOrDefaultComponentAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
         {
             return GetFirstOrDefaultAttribute(ComponentAttributes, predicate);

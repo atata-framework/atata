@@ -121,6 +121,7 @@
     <Compile Include="Attributes\Triggers\VerifyExistsAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyMissingAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyTitleAttribute.cs" />
+    <Compile Include="Attributes\Triggers\VerifyTitleSettingsAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByClassAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByCssAttribute.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="Exceptions\ExceptionFactory.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FieldExtensions.cs" />
+    <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />
     <Compile Include="Extensions\SearchOptionsExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />

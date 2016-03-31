@@ -10,32 +10,27 @@ namespace Atata
         private const TermFormat DefaultFormat = TermFormat.Title;
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
-        public VerifyTitleAttribute(TermMatch match)
-            : this(null, DefaultFormat, match)
+        public VerifyTitleAttribute(TermFormat format = TermFormat.Inherit)
+            : this(null, format, TermMatch.Inherit)
         {
         }
 
-        public VerifyTitleAttribute(TermFormat format, TermMatch match = DefaultMatch)
+        public VerifyTitleAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
             : this(null, format, match)
         {
         }
 
-        public VerifyTitleAttribute(string value, TermMatch match)
-            : this(new[] { value }, DefaultFormat, match: match)
-        {
-        }
-
-        public VerifyTitleAttribute()
-            : this(null, DefaultFormat)
+        public VerifyTitleAttribute(TermMatch match, params string[] values)
+            : this(values, TermFormat.Inherit, match)
         {
         }
 
         public VerifyTitleAttribute(params string[] values)
-            : this(values, DefaultFormat)
+            : this(values, TermFormat.Inherit, TermMatch.Inherit)
         {
         }
 
-        private VerifyTitleAttribute(string[] values = null, TermFormat format = DefaultFormat, TermMatch match = DefaultMatch)
+        private VerifyTitleAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
             : base(TriggerEvents.OnPageObjectInit)
         {
             Values = values;
@@ -49,6 +44,17 @@ namespace Atata
         public new TermMatch Match { get; set; }
         public string StringFormat { get; set; }
         public bool CutEnding { get; set; }
+
+        public override void ApplyMetadata(UIComponentMetadata metadata)
+        {
+            base.ApplyMetadata(metadata);
+
+            VerifyTitleSettingsAttribute settingsAttribute = metadata.GetFirstOrDefaultAssemblyAttribute<VerifyTitleSettingsAttribute>();
+
+            Format = this.GetFormatOrNull() ?? settingsAttribute.GetFormatOrNull() ?? DefaultFormat;
+            Match = this.GetMatchOrNull() ?? settingsAttribute.GetMatchOrNull() ?? DefaultMatch;
+            StringFormat = this.GetStringFormatOrNull() ?? settingsAttribute.GetStringFormatOrNull();
+        }
 
         public override void Run(TriggerContext context)
         {
@@ -80,7 +86,7 @@ namespace Atata
 
         private string[] GetExpectedValues(string pageObjectName)
         {
-            if (Values != null)
+            if (Values != null && Values.Any())
             {
                 return StringFormat != null ? Values.Select(x => string.Format(StringFormat, x)).ToArray() : Values;
             }

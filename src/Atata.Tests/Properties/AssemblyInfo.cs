@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using Atata;
+using NUnit.Framework;
 using System.Reflection;
 using System.Runtime.InteropServices;
 
@@ -8,3 +9,4 @@ using System.Runtime.InteropServices;
 [assembly: LevelOfParallelism(4)]
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 [assembly: Atata.Culture("en-us")]
+[assembly: VerifyTitleSettings(StringFormat = "{0} - Atata")]
