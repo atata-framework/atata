@@ -107,6 +107,11 @@ namespace Atata
 
         protected internal void VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
         {
+            if (content == null)
+                throw new ArgumentNullException("content");
+            if (content.Length == 0)
+                throw ExceptionFactory.CreateForArgumentEmptyCollection("content");
+
             string matchAsString = match.ToString(TermFormat.LowerCase);
             string expectedValuesAsString = TermResolver.ToDisplayString(content);
 
@@ -135,10 +140,15 @@ namespace Atata
 
         protected internal void VerifyContentContainsAll(params string[] content)
         {
-            string matchAsString = TermMatch.Contains.ToString(TermFormat.LowerCase);
-            string expectedValuesAsString = TermResolver.ToDisplayString(content);
+            if (content == null)
+                throw new ArgumentNullException("content");
+            if (content.Length == 0)
+                throw ExceptionFactory.CreateForArgumentEmptyCollection("content");
 
-            Log.StartVerificationSection("{0} content {1} '{2}'", ComponentFullName, matchAsString, expectedValuesAsString);
+            string matchAsString = TermMatch.Contains.ToString(TermFormat.LowerCase);
+            string expectedValuesAsString = content.ToQuotedValuesListOfString();
+
+            Log.StartVerificationSection("{0} content {1} {2}", ComponentFullName, matchAsString, expectedValuesAsString);
 
             string actualText = null;
             string notFoundValue = null;

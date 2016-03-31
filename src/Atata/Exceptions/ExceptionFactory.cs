@@ -9,6 +9,11 @@ namespace Atata
     {
         private const string NullString = "null";
 
+        internal static ArgumentException CreateForArgumentEmptyCollection(string parameterName)
+        {
+            return new ArgumentException("Collection should contain at least one element.", parameterName);
+        }
+
         internal static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
         {
             string message = BuildElementErrorMessage("Unable to locate element", elementName, by);

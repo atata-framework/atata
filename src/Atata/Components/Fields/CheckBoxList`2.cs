@@ -146,7 +146,7 @@ namespace Atata
             if (stringValues.Length == 1)
                 return stringValues[0];
             else if (stringValues.Any(x => x.Contains(',')))
-                return "\"{0}\"".FormatWith(string.Join("\", \"", stringValues));
+                return stringValues.ToQuotedValuesListOfString(doubleQuotes: true);
             else
                 return string.Join(", ", stringValues);
         }
