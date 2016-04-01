@@ -16,7 +16,7 @@ namespace Atata.Tests
                 ByLabel.FirstName.VerifyExists().
                 ByLabel.FirstName.VerifyEnabled().
                 ByLabel.FirstName.VerifyNotReadOnly().
-                ByLabel.FirstName.SetGenerated(out firstName).
+                ByLabel.FirstName.SetRandom(out firstName).
                 ByLabel.FirstName.VerifyEquals(firstName).
                 ById.FirstName.VerifyEquals(firstName).
 

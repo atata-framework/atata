@@ -1,6 +1,7 @@
 ﻿namespace Atata
 {
-    public class TextInput<TOwner> : TextInput<string, TOwner>
+    [UIComponent("input[@type='text' or @type='password' or not(@type)]")]
+    public class TextInput<TOwner> : Input<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
     }

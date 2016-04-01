@@ -18,12 +18,12 @@ namespace Atata.Tests
         public TextInput<_> TextInput { get; private set; }
 
         [Term(CutEnding = false)]
-        public TextInput<Option, _> EnumTextInput { get; private set; }
+        public Input<Option, _> EnumTextInput { get; private set; }
 
         [Term("Enum Text Input")]
-        public TextInput<Option?, _> NullableEnumTextInput { get; private set; }
+        public Input<Option?, _> NullableEnumTextInput { get; private set; }
 
         [Term(CutEnding = false)]
-        public TextInput<int?, _> IntTextInput { get; private set; }
+        public Input<int?, _> IntTextInput { get; private set; }
     }
 }

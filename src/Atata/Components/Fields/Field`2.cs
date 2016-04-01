@@ -109,10 +109,10 @@ namespace Atata
             base.ApplyMetadata(metadata);
 
             ValueTermOptions = TermOptions.CreateDefault();
-            InitValueTermOptions(metadata, ValueTermOptions);
+            InitValueTermOptions(ValueTermOptions, metadata);
         }
 
-        protected virtual void InitValueTermOptions(UIComponentMetadata metadata, TermOptions termOptions)
+        protected virtual void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
         {
             termOptions.Culture = metadata.GetCulture();
             termOptions.StringFormat = metadata.GetFormat(GetType());

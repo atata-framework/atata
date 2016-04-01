@@ -1,40 +1,19 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Atata
 {
     [UIComponent("input[@type='text' or @type='date' or not(@type)]")]
-    public class DateInput<TOwner> : EditableField<DateTime?, TOwner>
+    public class DateInput<TOwner> : Input<DateTime?, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private const string DefaultFormat = "d";
+        private const string DefaultStringFormat = "d";
 
-        private CultureInfo cultureInfo;
-        private string format;
-
-        protected override DateTime? GetValue()
+        protected override void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
         {
-            DateTime value;
-            return DateTime.TryParse(Scope.GetValue(), cultureInfo, DateTimeStyles.None, out value)
-                ? (DateTime?)value
-                : null;
-        }
+            base.InitValueTermOptions(termOptions, metadata);
 
-        protected override void SetValue(DateTime? value)
-        {
-            string stringValue = ConvertValueToString(value);
-            Scope.FillInWith(stringValue);
-        }
-
-        protected internal override string ConvertValueToString(DateTime? value)
-        {
-            return value != null ? value.Value.ToString(format, cultureInfo) : string.Empty;
-        }
-
-        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
-        {
-            cultureInfo = metadata.GetCulture();
-            format = metadata.GetFormat(GetType()) ?? DefaultFormat;
+            if (termOptions.StringFormat == null)
+                termOptions.StringFormat = DefaultStringFormat;
         }
     }
 }

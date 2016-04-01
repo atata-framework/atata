@@ -157,7 +157,7 @@
     <Compile Include="Components\Fields\SelectSettingsAttribute.cs" />
     <Compile Include="Components\Fields\SelectBase`2.cs" />
     <Compile Include="Components\Fields\SelectSelectionKind.cs" />
-    <Compile Include="Components\Fields\TextInput`2.cs" />
+    <Compile Include="Components\Fields\Input`2.cs" />
     <Compile Include="Components\Fields\TimeInput`1.cs" />
     <Compile Include="Components\Fields\OptionList`2.cs" />
     <Compile Include="Components\IClickable.cs" />
@@ -226,14 +226,12 @@
     <Compile Include="Extensions\IWebDriverExtensions.cs" />
     <Compile Include="Extensions\IWebElementExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Components\Fields\GeneratableField`2.cs" />
     <Compile Include="Components\Fields\NumberInput`1.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateOptions.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByContentStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByIdStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByLabelStrategy.cs" />
     <Compile Include="Components\Fields\Field`2.cs" />
-    <Compile Include="Components\Fields\GeneratableStringField`2.cs" />
     <Compile Include="Components\Fields\IGeneratableField`2.cs" />
     <Compile Include="Components\Fields\Select`1.cs" />
     <Compile Include="ScopeSearch\Strategies\XPathComponentScopeLocateStrategy.cs" />

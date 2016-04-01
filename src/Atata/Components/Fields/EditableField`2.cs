@@ -42,5 +42,17 @@
         {
             return Scope.GetAttribute("readonly") != null;
         }
+
+        public TOwner SetRandom()
+        {
+            T value = ValueRandomizer.GetRandom<T>(Metadata);
+            return Set(value);
+        }
+
+        public TOwner SetRandom(out T value)
+        {
+            value = ValueRandomizer.GetRandom<T>(Metadata);
+            return Set(value);
+        }
     }
 }

@@ -39,9 +39,9 @@ namespace Atata
             return element.Selected;
         }
 
-        protected override void InitValueTermOptions(UIComponentMetadata metadata, TermOptions termOptions)
+        protected override void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
         {
-            base.InitValueTermOptions(metadata, termOptions);
+            base.InitValueTermOptions(termOptions, metadata);
 
             TermFindItemAttribute termFindItemAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<TermFindItemAttribute>();
             if (termFindItemAttribute != null)
