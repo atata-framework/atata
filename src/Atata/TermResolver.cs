@@ -23,17 +23,17 @@ namespace Atata
 
         private static void RegisterStandardConverters()
         {
-            RegisterNumericConverter(sbyte.Parse);
-            RegisterNumericConverter(byte.Parse);
-            RegisterNumericConverter(short.Parse);
-            RegisterNumericConverter(ushort.Parse);
-            RegisterNumericConverter(int.Parse);
-            RegisterNumericConverter(uint.Parse);
-            RegisterNumericConverter(long.Parse);
-            RegisterNumericConverter(ulong.Parse);
-            RegisterNumericConverter(float.Parse);
-            RegisterNumericConverter(double.Parse);
-            RegisterNumericConverter(decimal.Parse);
+            RegisterNumberConverter(sbyte.Parse);
+            RegisterNumberConverter(byte.Parse);
+            RegisterNumberConverter(short.Parse);
+            RegisterNumberConverter(ushort.Parse);
+            RegisterNumberConverter(int.Parse);
+            RegisterNumberConverter(uint.Parse);
+            RegisterNumberConverter(long.Parse);
+            RegisterNumberConverter(ulong.Parse);
+            RegisterNumberConverter(float.Parse);
+            RegisterNumberConverter(double.Parse);
+            RegisterNumberConverter(decimal.Parse);
 
             RegisterConverter<DateTime>(
                 (s, opt) =>
@@ -85,7 +85,7 @@ namespace Atata
                 });
         }
 
-        private static void RegisterNumericConverter<T>(
+        private static void RegisterNumberConverter<T>(
             Func<string, NumberStyles, IFormatProvider, T> parseFunction)
             where T : IFormattable
         {

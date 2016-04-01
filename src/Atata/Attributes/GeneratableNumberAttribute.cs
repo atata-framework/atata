@@ -12,8 +12,8 @@ namespace Atata
             Precision = precision;
         }
 
-        public GeneratableNumberAttribute(int min, int max, int precision = 0)
-            : this((decimal)min, (decimal)max, precision)
+        public GeneratableNumberAttribute(int min = 0, int max = 100)
+            : this((decimal)min, (decimal)max, 0)
         {
         }
 

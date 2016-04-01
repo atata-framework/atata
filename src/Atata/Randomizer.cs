@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Atata
 {
-    public static class ValueGenerator
+    public static class Randomizer
     {
-        public static string GenerateString(string format = "{0}", int numberOfCharacters = 15)
+        public static string GetString(string format = "{0}", int numberOfCharacters = 15)
         {
             string uniqueValue = Guid.NewGuid().ToString("N").Substring(0, numberOfCharacters);
 
@@ -22,12 +22,12 @@ namespace Atata
             return string.Format(format, stringBuilder.ToString());
         }
 
-        public static int GenerateInt(int min, int max)
+        public static int GetInt(int min, int max)
         {
             return new Random().Next(min, max);
         }
 
-        public static decimal GenerateDecimal(decimal min, decimal max, int precision)
+        public static decimal GetDecimal(decimal min, decimal max, int precision)
         {
             var next = (decimal)new Random().NextDouble();
             decimal value = min + (next * (max - min));

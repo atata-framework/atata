@@ -24,7 +24,7 @@ namespace Atata
 
         protected override decimal? Generate()
         {
-            return generatableAttribute != null ? (decimal?)ValueGenerator.GenerateDecimal(generatableAttribute.Min, generatableAttribute.Max, generatableAttribute.Precision) : null;
+            return generatableAttribute != null ? (decimal?)Randomizer.GetDecimal(generatableAttribute.Min, generatableAttribute.Max, generatableAttribute.Precision) : null;
         }
 
         protected internal override string ConvertValueToString(decimal? value)

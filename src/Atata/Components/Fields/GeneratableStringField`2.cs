@@ -12,7 +12,7 @@
         protected override T Generate()
         {
             string format = NormalizeFormat(generatableAttribute.Format);
-            string generatedString = ValueGenerator.GenerateString(format, generatableAttribute.NumberOfCharacters);
+            string generatedString = Randomizer.GetString(format, generatableAttribute.NumberOfCharacters);
             return TermResolver.FromString<T>(generatedString, ValueTermOptions);
         }
 
