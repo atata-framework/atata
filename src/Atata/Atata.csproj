@@ -81,6 +81,7 @@
     <Compile Include="Attributes\FindByValueSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\FindFieldsAttribute.cs" />
+    <Compile Include="Attributes\FindFirstAttribute.cs" />
     <Compile Include="Attributes\FindItemByIndexAttribute.cs" />
     <Compile Include="Attributes\FindItemByValueAttribute.cs" />
     <Compile Include="Attributes\FindLinksAttribute.cs" />
