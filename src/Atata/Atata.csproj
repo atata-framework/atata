@@ -148,6 +148,7 @@
     <Compile Include="Components\Button`2.cs" />
     <Compile Include="Components\Clickable`2.cs" />
     <Compile Include="Components\Control`1.cs" />
+    <Compile Include="Components\ComponentDelegates.cs" />
     <Compile Include="Components\Fields\CheckBoxList`2.cs" />
     <Compile Include="Components\Fields\CheckBox`1.cs" />
     <Compile Include="Components\Fields\Content`2.cs" />
@@ -173,9 +174,13 @@
     <Compile Include="Components\Fields\Text`1.cs" />
     <Compile Include="Exceptions\NotMissingElementException.cs" />
     <Compile Include="Exceptions\ExceptionFactory.cs" />
+    <Compile Include="Extensions\Clickable2Extensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FieldExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
+    <Compile Include="Extensions\Clickable1Extensions.cs" />
+    <Compile Include="Extensions\Link1Extensions.cs" />
+    <Compile Include="Extensions\Link2Extensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />
     <Compile Include="Extensions\SearchOptionsExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
