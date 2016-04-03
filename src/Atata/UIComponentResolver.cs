@@ -438,5 +438,14 @@ namespace Atata
                 : null;
             return ending != null ? string.Format("{0} {1}", name, ending) : name;
         }
+
+        internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)
+            where TOwner : PageObject<TOwner>
+        {
+            if (controlDelegate == null)
+                throw new ArgumentNullException("controlDelegate");
+
+            return default(Control<TOwner>);
+        }
     }
 }

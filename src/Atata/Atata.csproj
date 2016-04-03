@@ -148,7 +148,7 @@
     <Compile Include="Components\Button`2.cs" />
     <Compile Include="Components\Clickable`2.cs" />
     <Compile Include="Components\Control`1.cs" />
-    <Compile Include="Components\ComponentDelegates.cs" />
+    <Compile Include="Components\ControlDelegates.cs" />
     <Compile Include="Components\Fields\CheckBoxList`2.cs" />
     <Compile Include="Components\Fields\CheckBox`1.cs" />
     <Compile Include="Components\Fields\Content`2.cs" />
