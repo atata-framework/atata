@@ -26,7 +26,16 @@ namespace Atata
             DelegateControlsTypeMapping = new Dictionary<Type, Type>();
             DelegateControls = new Dictionary<Delegate, UIComponent>();
 
+            InitDelegateControlMappings();
+        }
+
+        public static void InitDelegateControlMappings()
+        {
             RegisterDelegateControlMapping(typeof(_Clickable<>), typeof(Clickable<>));
+            RegisterDelegateControlMapping(typeof(_Clickable<,>), typeof(Clickable<,>));
+
+            RegisterDelegateControlMapping(typeof(_Link<>), typeof(Link<>));
+            RegisterDelegateControlMapping(typeof(_Link<,>), typeof(Link<,>));
         }
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
@@ -130,6 +139,11 @@ namespace Atata
 
                 UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
                 parentComponent.Children.Add(component);
+
+                Delegate clickDelegate = Delegate.CreateDelegate(property.PropertyType, component, "Click");
+                property.SetValue(parentComponent, clickDelegate, null);
+
+                DelegateControls[clickDelegate] = component;
             }
         }
 
@@ -482,6 +496,24 @@ namespace Atata
                 return (Control<TOwner>)control;
             else
                 throw new ArgumentException("Failed to find mapped control by specified 'controlDelegate'.", "controlDelegate");
+        }
+
+        public static void CleanUpPageObject<T>(PageObject<T> pageObject)
+            where T : PageObject<T>
+        {
+            var delegatesToRemove = DelegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key);
+            foreach (var item in delegatesToRemove)
+                DelegateControls.Remove(item);
+
+            ClearComponentChildren(pageObject);
+        }
+
+        private static void ClearComponentChildren(UIComponent component)
+        {
+            foreach (var item in component.Children)
+                ClearComponentChildren(item);
+
+            component.Children.Clear();
         }
     }
 }

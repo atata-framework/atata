@@ -100,6 +100,7 @@ namespace Atata
         protected TOther InitChild<TOther>(TOther pageObject, string windowName = null) where TOther : PageObject<TOther>
         {
             RunTriggers(TriggerEvents.OnPageObjectLeave);
+            UIComponentResolver.CleanUpPageObject<T>(this);
 
             PageObjectContext context = PageObjectContext;
 
@@ -156,7 +157,6 @@ namespace Atata
         }
 
         public T Do<TComponent>(Func<T, TComponent> childControlGetter, params Action<TComponent>[] actions)
-            where TComponent : Control<T>
         {
             TComponent component = childControlGetter((T)this);
 
