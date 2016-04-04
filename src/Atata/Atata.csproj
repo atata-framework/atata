@@ -144,9 +144,9 @@
     <Compile Include="Attributes\IgnoreInitAttribute.cs" />
     <Compile Include="Attributes\FormatSettingsAttribute.cs" />
     <Compile Include="Attributes\WindowTitleAttribute.cs" />
-    <Compile Include="Components\Button`1.cs" />
-    <Compile Include="Components\Button`2.cs" />
-    <Compile Include="Components\Clickable`2.cs" />
+    <Compile Include="Components\ButtonControl`1.cs" />
+    <Compile Include="Components\ButtonControl`2.cs" />
+    <Compile Include="Components\ClickableControl`2.cs" />
     <Compile Include="Components\Control`1.cs" />
     <Compile Include="Components\ControlDelegates.cs" />
     <Compile Include="Components\Fields\CheckBoxList`2.cs" />
@@ -164,8 +164,8 @@
     <Compile Include="Components\Fields\OptionList`2.cs" />
     <Compile Include="Components\IClickable.cs" />
     <Compile Include="Components\IItemsControl.cs" />
-    <Compile Include="Components\Link`1.cs" />
-    <Compile Include="Components\Link`2.cs" />
+    <Compile Include="Components\LinkControl`1.cs" />
+    <Compile Include="Components\LinkControl`2.cs" />
     <Compile Include="Components\TableRowBase`1.cs" />
     <Compile Include="Components\TableRow`1.cs" />
     <Compile Include="Components\TableRow`2.cs" />
@@ -218,7 +218,7 @@
     <Compile Include="ScopeSearch\XPathComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSource.cs" />
     <Compile Include="Settings\ByOptions.cs" />
-    <Compile Include="Components\Clickable`1.cs" />
+    <Compile Include="Components\ClickableControl`1.cs" />
     <Compile Include="Components\Fields\Select`2.cs" />
     <Compile Include="Components\UIComponent.cs" />
     <Compile Include="Components\UIComponent`1.cs" />

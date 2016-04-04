@@ -31,14 +31,14 @@ namespace Atata
 
         public static void InitDelegateControlMappings()
         {
-            RegisterDelegateControlMapping(typeof(_Clickable<>), typeof(Clickable<>));
-            RegisterDelegateControlMapping(typeof(_Clickable<,>), typeof(Clickable<,>));
+            RegisterDelegateControlMapping(typeof(_Clickable<>), typeof(ClickableControl<>));
+            RegisterDelegateControlMapping(typeof(_Clickable<,>), typeof(ClickableControl<,>));
 
-            RegisterDelegateControlMapping(typeof(_Link<>), typeof(Link<>));
-            RegisterDelegateControlMapping(typeof(_Link<,>), typeof(Link<,>));
+            RegisterDelegateControlMapping(typeof(_Link<>), typeof(LinkControl<>));
+            RegisterDelegateControlMapping(typeof(_Link<,>), typeof(LinkControl<,>));
 
-            RegisterDelegateControlMapping(typeof(_Button<>), typeof(Button<>));
-            RegisterDelegateControlMapping(typeof(_Button<,>), typeof(Button<,>));
+            RegisterDelegateControlMapping(typeof(_Button<>), typeof(ButtonControl<>));
+            RegisterDelegateControlMapping(typeof(_Button<,>), typeof(ButtonControl<,>));
         }
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
@@ -336,9 +336,9 @@ namespace Atata
         {
             if (controlType.IsSubclassOfRawGeneric(typeof(Field<,>)))
                 return new FindByLabelAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(Link<>)))
+            else if (controlType.IsSubclassOfRawGeneric(typeof(LinkControl<>)))
                 return new FindByContentAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(Clickable<>)))
+            else if (controlType.IsSubclassOfRawGeneric(typeof(ClickableControl<>)))
                 return new FindByContentOrValueAttribute();
             else if (controlType.IsSubclassOfRawGeneric(typeof(Text<>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
                 return new FindByColumnAttribute();

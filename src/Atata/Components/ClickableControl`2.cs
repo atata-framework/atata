@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public class Link<TNavigateTo, TOwner> : Link<TOwner>
+    public class ClickableControl<TNavigateTo, TOwner> : ClickableControl<TOwner>
         where TNavigateTo : PageObject<TNavigateTo>
         where TOwner : PageObject<TOwner>
     {

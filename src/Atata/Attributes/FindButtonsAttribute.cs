@@ -5,12 +5,12 @@ namespace Atata
     public class FindButtonsAttribute : FindControlsAttribute
     {
         public FindButtonsAttribute(FindTermBy by)
-            : base(typeof(Button<>), by)
+            : base(typeof(ButtonControl<>), by)
         {
         }
 
         public FindButtonsAttribute(Type finderType)
-            : base(typeof(Button<>), finderType)
+            : base(typeof(ButtonControl<>), finderType)
         {
         }
     }

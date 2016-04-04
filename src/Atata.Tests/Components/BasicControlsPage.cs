@@ -16,19 +16,19 @@ namespace Atata.Tests
 
         [Term(CutEnding = false)]
         [FindByContent]
-        public Button<_> RawButton { get; private set; }
+        public ButtonControl<_> RawButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public Button<_> InputButton { get; private set; }
+        public ButtonControl<_> InputButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public Link<_> LinkButton { get; private set; }
+        public LinkControl<_> LinkButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public Button<_> DisabledButton { get; private set; }
+        public ButtonControl<_> DisabledButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public Button<_> MissingButton { get; private set; }
+        public ButtonControl<_> MissingButton { get; private set; }
 
         [UIComponent("*")]
         public class FindByLabel : Control<_>
