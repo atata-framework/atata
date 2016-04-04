@@ -13,6 +13,8 @@ namespace Atata
         private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> AssemblyAttributes;
 
         private static readonly Dictionary<Type, string> PageObjectNames;
+        private static readonly Dictionary<Type, Type> DelegateControlsTypeMapping;
+        private static readonly Dictionary<Delegate, UIComponent> DelegateControls;
 
         static UIComponentResolver()
         {
@@ -21,6 +23,15 @@ namespace Atata
             AssemblyAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
 
             PageObjectNames = new Dictionary<Type, string>();
+            DelegateControlsTypeMapping = new Dictionary<Type, Type>();
+            DelegateControls = new Dictionary<Delegate, UIComponent>();
+
+            RegisterDelegateControlMapping(typeof(_Clickable<>), typeof(Clickable<>));
+        }
+
+        public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
+        {
+            DelegateControlsTypeMapping[delegateType] = controlType;
         }
 
         public static void Resolve<TOwner>(UIComponent<TOwner> component)
@@ -90,7 +101,7 @@ namespace Atata
                 InitControlProperty<TOwner>(component, property);
 
             PropertyInfo[] delegateProperties = suitableProperties.
-                Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(Func<>))).
+                Where(x => typeof(MulticastDelegate).IsAssignableFrom(x.PropertyType.BaseType) && x.PropertyType.IsGenericType).
                 ToArray();
 
             foreach (var property in delegateProperties)
@@ -111,7 +122,28 @@ namespace Atata
         private static void InitDelegateProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
             where TOwner : PageObject<TOwner>
         {
-            // TODO: Implement InitDelegateProperty method.
+            Type controlType = ResolveDelegateControlType(property.PropertyType);
+
+            if (controlType != null)
+            {
+                UIComponentMetadata metadata = CreateComponentMetadata(property, controlType);
+
+                UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
+                parentComponent.Children.Add(component);
+            }
+        }
+
+        private static Type ResolveDelegateControlType(Type delegateType)
+        {
+            Type delegateGenericTypeDefinition = delegateType.GetGenericTypeDefinition();
+            Type controlGenericTypeDefinition;
+
+            if (DelegateControlsTypeMapping.TryGetValue(delegateGenericTypeDefinition, out controlGenericTypeDefinition))
+            {
+                Type[] genericArguments = delegateType.GetGenericArguments();
+                return controlGenericTypeDefinition.MakeGenericType(genericArguments);
+            }
+            return null;
         }
 
         public static TComponent CreateComponent<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
@@ -229,11 +261,11 @@ namespace Atata
                 new Attribute[0]);
         }
 
-        private static UIComponentMetadata CreateComponentMetadata(PropertyInfo property)
+        private static UIComponentMetadata CreateComponentMetadata(PropertyInfo property, Type propertyType = null)
         {
             return CreateComponentMetadata(
                 property.Name,
-                property.PropertyType,
+                propertyType ?? property.PropertyType,
                 property.DeclaringType,
                 GetPropertyAttributes(property));
         }
@@ -445,7 +477,11 @@ namespace Atata
             if (controlDelegate == null)
                 throw new ArgumentNullException("controlDelegate");
 
-            return default(Control<TOwner>);
+            UIComponent control;
+            if (DelegateControls.TryGetValue(controlDelegate, out control))
+                return (Control<TOwner>)control;
+            else
+                throw new ArgumentException("Failed to find mapped control by specified 'controlDelegate'.", "controlDelegate");
         }
     }
 }
