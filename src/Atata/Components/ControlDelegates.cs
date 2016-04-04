@@ -13,4 +13,11 @@
     public delegate TNavigateTo _Link<TNavigateTo, TOwner>()
         where TNavigateTo : PageObject<TNavigateTo>
         where TOwner : PageObject<TOwner>;
+
+    public delegate TOwner _Button<TOwner>()
+        where TOwner : PageObject<TOwner>;
+
+    public delegate TNavigateTo _Button<TNavigateTo, TOwner>()
+        where TNavigateTo : PageObject<TNavigateTo>
+        where TOwner : PageObject<TOwner>;
 }

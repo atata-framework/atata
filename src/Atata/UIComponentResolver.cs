@@ -36,6 +36,9 @@ namespace Atata
 
             RegisterDelegateControlMapping(typeof(_Link<>), typeof(Link<>));
             RegisterDelegateControlMapping(typeof(_Link<,>), typeof(Link<,>));
+
+            RegisterDelegateControlMapping(typeof(_Button<>), typeof(Button<>));
+            RegisterDelegateControlMapping(typeof(_Button<,>), typeof(Button<,>));
         }
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
