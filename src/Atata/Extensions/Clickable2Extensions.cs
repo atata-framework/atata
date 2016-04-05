@@ -2,11 +2,18 @@ namespace Atata
 {
     public static class Clickable2Extensions
     {
-        public static Control<TOwner> GetControl<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
+        public static ClickableControl<TNavigateTo, TOwner> GetControl<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
+            return (ClickableControl<TNavigateTo, TOwner>)UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
+        }
+
+        public static TNavigateTo Click<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            return clickable.GetControl().Click();
         }
 
         public static TOwner VerifyEnabled<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)

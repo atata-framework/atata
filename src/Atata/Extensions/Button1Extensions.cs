@@ -2,10 +2,16 @@ namespace Atata
 {
     public static class Button1Extensions
     {
-        public static Control<TOwner> GetControl<TOwner>(this Button<TOwner> clickable)
+        public static ButtonControl<TOwner> GetControl<TOwner>(this Button<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
+            return (ButtonControl<TOwner>)UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
+        }
+
+        public static TOwner Click<TOwner>(this Button<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().Click();
         }
 
         public static TOwner VerifyEnabled<TOwner>(this Button<TOwner> clickable)

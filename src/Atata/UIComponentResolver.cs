@@ -504,7 +504,7 @@ namespace Atata
         public static void CleanUpPageObject<T>(PageObject<T> pageObject)
             where T : PageObject<T>
         {
-            var delegatesToRemove = DelegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key);
+            var delegatesToRemove = DelegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key).ToArray();
             foreach (var item in delegatesToRemove)
                 DelegateControls.Remove(item);
 

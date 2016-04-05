@@ -2,10 +2,16 @@
 {
     public static class Clickable1Extensions
     {
-        public static Control<TOwner> GetControl<TOwner>(this Clickable<TOwner> clickable)
+        public static ClickableControl<TOwner> GetControl<TOwner>(this Clickable<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
+            return (ClickableControl<TOwner>)UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
+        }
+
+        public static TOwner Click<TOwner>(this Clickable<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().Click();
         }
 
         public static TOwner VerifyEnabled<TOwner>(this Clickable<TOwner> clickable)
