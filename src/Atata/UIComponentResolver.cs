@@ -31,14 +31,14 @@ namespace Atata
 
         public static void InitDelegateControlMappings()
         {
-            RegisterDelegateControlMapping(typeof(_Clickable<>), typeof(ClickableControl<>));
-            RegisterDelegateControlMapping(typeof(_Clickable<,>), typeof(ClickableControl<,>));
+            RegisterDelegateControlMapping(typeof(Clickable<>), typeof(ClickableControl<>));
+            RegisterDelegateControlMapping(typeof(Clickable<,>), typeof(ClickableControl<,>));
 
-            RegisterDelegateControlMapping(typeof(_Link<>), typeof(LinkControl<>));
-            RegisterDelegateControlMapping(typeof(_Link<,>), typeof(LinkControl<,>));
+            RegisterDelegateControlMapping(typeof(Link<>), typeof(LinkControl<>));
+            RegisterDelegateControlMapping(typeof(Link<,>), typeof(LinkControl<,>));
 
-            RegisterDelegateControlMapping(typeof(_Button<>), typeof(ButtonControl<>));
-            RegisterDelegateControlMapping(typeof(_Button<,>), typeof(ButtonControl<,>));
+            RegisterDelegateControlMapping(typeof(Button<>), typeof(ButtonControl<>));
+            RegisterDelegateControlMapping(typeof(Button<,>), typeof(ButtonControl<,>));
         }
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
