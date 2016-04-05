@@ -1,7 +1,6 @@
 ﻿namespace Atata
 {
-    [UIComponent("a", IgnoreNameEndings = "Button,Link")]
-    public class LinkControl<TOwner> : ClickableControl<TOwner>
+    public class LinkControl<TOwner> : LinkControl<TOwner, TOwner>
         where TOwner : PageObject<TOwner>
     {
     }

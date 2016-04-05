@@ -336,11 +336,11 @@ namespace Atata
         {
             if (controlType.IsSubclassOfRawGeneric(typeof(Field<,>)))
                 return new FindByLabelAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(LinkControl<>)))
+            else if (controlType.IsSubclassOfRawGeneric(typeof(LinkControl<,>)))
                 return new FindByContentAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(ClickableControl<>)))
+            else if (controlType.IsSubclassOfRawGeneric(typeof(ClickableControl<,>)))
                 return new FindByContentOrValueAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(Text<>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
+            else if (controlType.IsSubclassOfRawGeneric(typeof(Content<,>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
                 return new FindByColumnAttribute();
             else
                 return new FindByIndexAttribute();
