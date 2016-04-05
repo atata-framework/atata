@@ -175,11 +175,12 @@ namespace Atata
 
         protected void RunTriggers(TriggerEvents on)
         {
-            if (Triggers == null || on == TriggerEvents.None)
+            if (Triggers == null || Triggers.Length == 0 || on == TriggerEvents.None)
                 return;
 
             TriggerContext context = new TriggerContext
             {
+                Event = on,
                 Driver = Driver,
                 Log = Log,
                 Component = this,
