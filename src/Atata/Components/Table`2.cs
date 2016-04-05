@@ -173,6 +173,7 @@ namespace Atata
                 ScopeLocator = scopeLocator,
                 ComponentName = name,
                 Owner = Owner,
+                Driver = Driver,
                 Log = Log,
                 Settings = Settings,
                 Parent = this
