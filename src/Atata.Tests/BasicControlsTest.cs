@@ -43,13 +43,13 @@ namespace Atata.Tests
                 ByLabel.DisabledField.VerifyNotReadOnly().
                 ByLabel.DisabledField.VerifyEquals("readme").
 
-                RawButton.VerifyExists().
-                RawButton.VerifyEnabled().
-                RawButton.VerifyContent("Raw Button").
-                RawButton.Click().
-                InputButton.VerifyExists().
-                InputButton.Click().
-                Do(_ => _.LinkButton, x =>
+                RawButtonControl.VerifyExists().
+                RawButtonControl.VerifyEnabled().
+                RawButtonControl.VerifyContent("Raw Button").
+                RawButtonControl.Click().
+                InputButtonControl.VerifyExists().
+                InputButtonControl.Click().
+                Do(_ => _.LinkButtonControl, x =>
                     {
                         x.VerifyExists();
                         x.VerifyContent("Link Button", TermMatch.Equals);
@@ -58,9 +58,11 @@ namespace Atata.Tests
                         x.VerifyContent("ink Butto", TermMatch.Contains);
                         x.Click();
                     }).
-                DisabledButton.VerifyExists().
-                DisabledButton.VerifyDisabled().
-                MissingButton.VerifyMissing();
+                ClickableControl.VerifyExists().
+                ClickableControl.Click().
+                DisabledButtonControl.VerifyExists().
+                DisabledButtonControl.VerifyDisabled().
+                MissingButtonControl.VerifyMissing();
         }
     }
 }

@@ -37,15 +37,29 @@
                 </div>
 
                 <h2>Buttons/Links</h2>
-                <div class="form-group">
+                <div>
                     <button class="btn btn-default">
                         Raw Button
                     </button>
                     <input type="button" value="Input Button" class="btn btn-default" />
                     <a title="Link Button" class="btn btn-default">Link Button</a>
+                    <div class="btn btn-default">
+                        Div Button
+                    </div>
                     <button class="btn btn-default" disabled>
                         Disabled Button
                     </button>
+                </div>
+                <br />
+                <div>
+                    <button class="btn btn-default" onclick="location.href='Input.html';">
+                        Go To Button
+                    </button>
+                    <input type="button" value="Go To Input Button" class="btn btn-default" onclick="location.href='Input.html';"/>
+                    <a title="Link Button" class="btn btn-default" href="Input.html">Go To Link</a>
+                    <div class="btn btn-default" onclick="location.href='Input.html';">
+                        Go To Div Button
+                    </div>
                 </div>
 
                 <h2>Selects</h2>

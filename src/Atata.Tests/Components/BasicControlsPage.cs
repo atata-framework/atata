@@ -2,9 +2,9 @@
 
 namespace Atata.Tests
 {
+    [NavigateTo("http://localhost:50549/BasicControls.html")]
     [VerifyTitle("Basic Controls")]
     [VerifyContentContainsAll("First Name", "Age")]
-    [NavigateTo("http://localhost:50549/BasicControls.html")]
     public class BasicControlsPage : Page<BasicControlsPage>
     {
         [FindByCss("h1")]
@@ -14,21 +14,56 @@ namespace Atata.Tests
 
         public FindById ById { get; private set; }
 
+        [Term("Raw Button")]
+        [FindByContent]
+        public ButtonControl<_> RawButtonControl { get; private set; }
+
+        [Term("Input Button")]
+        public ButtonControl<_> InputButtonControl { get; private set; }
+
+        [Term("Link Button")]
+        public LinkControl<_> LinkButtonControl { get; private set; }
+
+        [Term("Div Button")]
+        public ClickableControl<_> ClickableControl { get; private set; }
+
+        [Term("Disabled Button")]
+        public ButtonControl<_> DisabledButtonControl { get; private set; }
+
+        [Term("Missing Button")]
+        public ButtonControl<_> MissingButtonControl { get; private set; }
+
         [Term(CutEnding = false)]
         [FindByContent]
-        public ButtonControl<_> RawButton { get; private set; }
+        public Button<_> RawButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public ButtonControl<_> InputButton { get; private set; }
+        public Button<_> InputButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public LinkControl<_> LinkButton { get; private set; }
+        public Link<_> LinkButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public ButtonControl<_> DisabledButton { get; private set; }
+        public Clickable<_> DivButton { get; private set; }
 
         [Term(CutEnding = false)]
-        public ButtonControl<_> MissingButton { get; private set; }
+        public Button<_> DisabledButton { get; private set; }
+
+        [Term(CutEnding = false)]
+        public Button<_> MissingButton { get; private set; }
+
+        [Term(CutEnding = false)]
+        [FindByContent]
+        public Button<InputPage, _> GoToButton { get; private set; }
+
+        [Term(CutEnding = false)]
+        public Button<InputPage, _> GoToInputButton { get; private set; }
+
+        [Term(CutEnding = false)]
+        public Link<InputPage, _> GoToLink { get; private set; }
+
+        [Term(CutEnding = false)]
+        public Clickable<InputPage, _> GoToDivButton { get; private set; }
 
         [UIComponent("*")]
         public class FindByLabel : Control<_>
