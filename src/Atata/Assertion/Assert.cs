@@ -18,8 +18,9 @@ namespace Atata
         internal static AssertionDelgate<object> AreEqual { get; private set; }
         internal static AssertionDelgate<object> AreNotEqual { get; private set; }
 
-        // TODO: Perhaps remove ContainsSubstring method.
-        internal static AssertionDelgate<string> ContainsSubstring { get; private set; }
+        internal static AssertionDelgate<string> Contains { get; private set; }
+        internal static AssertionDelgate<string> StartsWith { get; private set; }
+        internal static AssertionDelgate<string> EndsWith { get; private set; }
         internal static AssertionDelgate<string> IsMatch { get; private set; }
         internal static AssertionDelgate<IEnumerable> IsSubsetOf { get; private set; }
         internal static AssertionDelgate<IEnumerable> HasNoIntersection { get; private set; }
@@ -30,7 +31,9 @@ namespace Atata
             NotNull = asserter.NotNull;
             AreEqual = asserter.AreEqual;
             AreNotEqual = asserter.AreNotEqual;
-            ContainsSubstring = asserter.ContainsSubstring;
+            Contains = asserter.Contains;
+            StartsWith = asserter.StartsWith;
+            EndsWith = asserter.EndsWith;
             IsMatch = asserter.IsMatch;
             IsSubsetOf = asserter.IsSubsetOf;
             HasNoIntersection = asserter.HasNoIntersection;

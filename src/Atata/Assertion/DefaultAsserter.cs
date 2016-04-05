@@ -33,16 +33,28 @@ namespace Atata
                 throw ExceptionFactory.CreateForFailedAssert("not equal to {0}".FormatWith(object.Equals(expected, null) ? "null" : expected.ToString()), actual, message, args);
         }
 
-        public void ContainsSubstring(string expected, string actual, string message, params object[] args)
+        public void Contains(string expected, string actual, string message, params object[] args)
         {
             if (!actual.Contains(expected))
-                throw ExceptionFactory.CreateForFailedAssert("String containing '{0}'".FormatWith(expected), "'{0}'".FormatWith(actual), message, args);
+                throw ExceptionFactory.CreateForFailedAssert("String containing \"{0}\"".FormatWith(expected), "\"{0}\"".FormatWith(actual), message, args);
+        }
+
+        public void StartsWith(string expected, string actual, string message, params object[] args)
+        {
+            if (!actual.StartsWith(expected))
+                throw ExceptionFactory.CreateForFailedAssert("String starting with \"{0}\"".FormatWith(expected), "\"{0}\"".FormatWith(actual), message, args);
+        }
+
+        public void EndsWith(string expected, string actual, string message, params object[] args)
+        {
+            if (!actual.EndsWith(expected))
+                throw ExceptionFactory.CreateForFailedAssert("String ending with \"{0}\"".FormatWith(expected), "\"{0}\"".FormatWith(actual), message, args);
         }
 
         public void IsMatch(string pattern, string actual, string message, params object[] args)
         {
             if (!Regex.IsMatch(actual, pattern))
-                throw ExceptionFactory.CreateForFailedAssert("String matching '{0}'".FormatWith(pattern), "'{0}'".FormatWith(actual), message, args);
+                throw ExceptionFactory.CreateForFailedAssert("String matching \"{0}\"".FormatWith(pattern), "\"{0}\"".FormatWith(actual), message, args);
         }
 
         public void IsSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args)
