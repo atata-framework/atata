@@ -33,10 +33,11 @@ namespace Atata
         protected internal IScopeLocator ScopeLocator { get; internal set; }
         protected internal bool CacheScopeElement { get; internal set; }
         protected internal string ComponentName { get; internal set; }
+        protected internal string ComponentTypeName { get; internal set; }
 
         protected internal string ComponentFullName
         {
-            get { return string.Format("'{0}' component", ComponentName); }
+            get { return string.Format("'{0}' {1}", ComponentName, ComponentTypeName ?? "component"); }
         }
 
         protected internal UIComponentMetadata Metadata { get; internal set; }

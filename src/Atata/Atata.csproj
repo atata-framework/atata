@@ -96,6 +96,7 @@
     <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
     <Compile Include="Attributes\ITermSettings.cs" />
     <Compile Include="Attributes\NameAttribute.cs" />
+    <Compile Include="Attributes\PageObjectDefinitionAttribute.cs" />
     <Compile Include="Attributes\TermFindItemAttribute.cs" />
     <Compile Include="Attributes\TermFindSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByIdSettingsAttribute.cs" />

@@ -64,9 +64,6 @@ namespace Atata
         private static void InitPageObject<TPageObject>(PageObject<TPageObject> pageObject)
             where TPageObject : PageObject<TPageObject>
         {
-            // TODO: Review PageObject ComponentName set.
-            pageObject.ComponentName = ResolvePageObjectName<TPageObject>();
-
             InitPageObjectTriggers(pageObject);
 
             UIComponentMetadata metadata = CreatePageObjectMetadata(pageObject.GetType());
@@ -457,36 +454,41 @@ namespace Atata
         private static string ResolvePageObjectNameFromMetadata(Type type)
         {
             NameAttribute nameAttribute = GetClassAttributes(type).OfType<NameAttribute>().FirstOrDefault();
-            string name = nameAttribute != null && !string.IsNullOrWhiteSpace(nameAttribute.Value)
+            return nameAttribute != null && !string.IsNullOrWhiteSpace(nameAttribute.Value)
                 ? nameAttribute.Value
-                : ResolvePageObjectNameFromTypeName(type.Name);
-
-            return AddEndingToPageObjectName(type, name);
+                : ResolvePageObjectNameFromType(type);
         }
 
-        private static string ResolvePageObjectNameFromTypeName(string typeName)
+        private static string ResolvePageObjectNameFromType(Type type)
         {
-            string normalizedTypeName = typeName.Contains("`")
-                ? typeName.Substring(0, typeName.IndexOf('`'))
-                : typeName;
+            string typeName = NormalizeTypeName(type);
 
-            string[] endingsToIgnore = { "Page", "Window" };
-            string foundEndingToIgnore = endingsToIgnore.FirstOrDefault(x => normalizedTypeName.EndsWith(x));
+            string[] endingsToIgnore = GetPageObjectDefinition(type).GetIgnoreNameEndingValues();
+            string foundEndingToIgnore = endingsToIgnore.FirstOrDefault(x => typeName.EndsWith(x));
 
             string name = foundEndingToIgnore != null
-                ? normalizedTypeName.Substring(0, normalizedTypeName.Length - foundEndingToIgnore.Length)
-                : normalizedTypeName;
+                ? typeName.Substring(0, typeName.Length - foundEndingToIgnore.Length)
+                : typeName;
             return name.Humanize(LetterCasing.Title);
         }
 
-        private static string AddEndingToPageObjectName(Type type, string name)
+        public static string ResolvePageObjectTypeName<TPageObject>()
+            where TPageObject : PageObject<TPageObject>
         {
-            string ending = type.IsSubclassOfRawGeneric(typeof(Page<>))
-                ? "page"
-                : type.IsSubclassOfRawGeneric(typeof(PopupWindow<>))
-                ? "window"
-                : null;
-            return ending != null ? string.Format("{0} {1}", name, ending) : name;
+            return GetPageObjectDefinition(typeof(TPageObject)).ComponentTypeName ?? "page object";
+        }
+
+        private static string NormalizeTypeName(Type type)
+        {
+            string typeName = type.Name;
+            return typeName.Contains("`")
+                ? typeName.Substring(0, typeName.IndexOf('`'))
+                : typeName;
+        }
+
+        private static PageObjectDefinitionAttribute GetPageObjectDefinition(Type type)
+        {
+            return GetClassAttributes(type).OfType<PageObjectDefinitionAttribute>().FirstOrDefault() ?? new PageObjectDefinitionAttribute();
         }
 
         internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)

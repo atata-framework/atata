@@ -30,7 +30,11 @@ namespace Atata
             PageObjectContext = context;
 
             ApplyContext(context);
-            LogGoTo();
+
+            ComponentName = UIComponentResolver.ResolvePageObjectName<T>();
+            ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<T>();
+
+            Log.StartSection("Go to {0}", ComponentFullName);
 
             OnInit();
 
@@ -84,12 +88,6 @@ namespace Atata
         protected void Wait(double seconds)
         {
             Thread.Sleep((int)(seconds * 1000));
-        }
-
-        private void LogGoTo()
-        {
-            string pageObjectName = UIComponentResolver.ResolvePageObjectName<T>();
-            Log.StartSection("Go to {0}", pageObjectName);
         }
 
         protected TOther InitChild<TOther>(string windowName = null) where TOther : PageObject<TOther>, new()
