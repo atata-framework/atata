@@ -22,6 +22,10 @@ namespace Atata
         internal static AssertionDelgate<string> StartsWith { get; private set; }
         internal static AssertionDelgate<string> EndsWith { get; private set; }
         internal static AssertionDelgate<string> IsMatch { get; private set; }
+        internal static AssertionDelgate<string> DoesNotContain { get; private set; }
+        internal static AssertionDelgate<string> DoesNotStartWith { get; private set; }
+        internal static AssertionDelgate<string> DoesNotEndWith { get; private set; }
+        internal static AssertionDelgate<string> DoesNotMatch { get; private set; }
         internal static AssertionDelgate<IEnumerable> IsSubsetOf { get; private set; }
         internal static AssertionDelgate<IEnumerable> HasNoIntersection { get; private set; }
 
@@ -35,6 +39,10 @@ namespace Atata
             StartsWith = asserter.StartsWith;
             EndsWith = asserter.EndsWith;
             IsMatch = asserter.IsMatch;
+            DoesNotContain = asserter.DoesNotContain;
+            DoesNotStartWith = asserter.DoesNotStartWith;
+            DoesNotEndWith = asserter.DoesNotEndWith;
+            DoesNotMatch = asserter.DoesNotMatch;
             IsSubsetOf = asserter.IsSubsetOf;
             HasNoIntersection = asserter.HasNoIntersection;
         }

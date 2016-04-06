@@ -57,6 +57,30 @@ namespace Atata
                 throw ExceptionFactory.CreateForFailedAssert("String matching \"{0}\"".FormatWith(pattern), "\"{0}\"".FormatWith(actual), message, args);
         }
 
+        public void DoesNotContain(string expected, string actual, string message, params object[] args)
+        {
+            if (actual.Contains(expected))
+                throw ExceptionFactory.CreateForFailedAssert("String not containing \"{0}\"".FormatWith(expected), "\"{0}\"".FormatWith(actual), message, args);
+        }
+
+        public void DoesNotStartWith(string expected, string actual, string message, params object[] args)
+        {
+            if (actual.StartsWith(expected))
+                throw ExceptionFactory.CreateForFailedAssert("String not starting with \"{0}\"".FormatWith(expected), "\"{0}\"".FormatWith(actual), message, args);
+        }
+
+        public void DoesNotEndWith(string expected, string actual, string message, params object[] args)
+        {
+            if (actual.EndsWith(expected))
+                throw ExceptionFactory.CreateForFailedAssert("String not ending with \"{0}\"".FormatWith(expected), "\"{0}\"".FormatWith(actual), message, args);
+        }
+
+        public void DoesNotMatch(string pattern, string actual, string message, params object[] args)
+        {
+            if (Regex.IsMatch(actual, pattern))
+                throw ExceptionFactory.CreateForFailedAssert("String not matching \"{0}\"".FormatWith(pattern), "\"{0}\"".FormatWith(actual), message, args);
+        }
+
         public void IsSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args)
         {
             var castedSubset = subset.Cast<object>().ToArray();
