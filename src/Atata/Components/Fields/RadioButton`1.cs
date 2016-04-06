@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    [UIComponent("input[@type='radio']", IgnoreNameEndings = "RadioButton,Radio,Button,Option")]
+    [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButton,Radio,Button,Option")]
     public class RadioButton<TOwner> : Field<bool, TOwner>
         where TOwner : PageObject<TOwner>
     {

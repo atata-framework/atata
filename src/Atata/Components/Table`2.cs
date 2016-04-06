@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Atata
 {
-    [UIComponent("table")]
+    [ControlDefinition("table")]
     public class Table<TRow, TOwner> : Control<TOwner>
         where TRow : TableRowBase<TOwner>, new()
         where TOwner : PageObject<TOwner>

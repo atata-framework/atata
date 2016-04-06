@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Atata
 {
-    [UIComponent("input[@type='checkbox']", IgnoreNameEndings = "CheckBoxes,CheckBoxList,CheckBoxGroup,Options,OptionGroup")]
+    [ControlDefinition("input[@type='checkbox']", IgnoreNameEndings = "CheckBoxes,CheckBoxList,CheckBoxGroup,Options,OptionGroup")]
     public class CheckBoxList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

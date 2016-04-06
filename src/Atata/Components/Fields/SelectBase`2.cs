@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace Atata
 {
-    [UIComponent("select")]
+    [ControlDefinition("select")]
     public abstract class SelectBase<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

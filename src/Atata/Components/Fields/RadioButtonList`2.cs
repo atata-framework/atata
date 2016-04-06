@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Atata
 {
-    [UIComponent("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup")]
+    [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup")]
     public class RadioButtonList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

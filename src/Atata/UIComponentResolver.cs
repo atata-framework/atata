@@ -361,10 +361,11 @@ namespace Atata
 
         private static ComponentScopeLocateOptions CreateFindOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
+            ControlDefinitionAttribute definition = metadata.ComponentDefiniton as ControlDefinitionAttribute;
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
-                ElementXPath = metadata.ComponentDefinitonAttribute != null ? metadata.ComponentDefinitonAttribute.ElementXPath : "*",
-                IdFinderFormat = metadata.ComponentDefinitonAttribute != null ? metadata.ComponentDefinitonAttribute.IdFinderFormat : null,
+                ElementXPath = definition != null ? definition.ScopeXPath : "*",
+                IdFinderFormat = definition != null ? definition.IdFinderFormat : null,
                 Index = findAttribute.Index != 0 ? (int?)findAttribute.Index : null
             };
 

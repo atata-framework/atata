@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    [UIComponent("input[@type!='button' and @type!='submit' and @type!='reset']")]
+    [ControlDefinition("input[@type!='button' and @type!='submit' and @type!='reset']")]
     public class Input<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

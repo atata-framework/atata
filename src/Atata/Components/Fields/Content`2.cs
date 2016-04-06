@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    [UIComponent("*")]
+    [ControlDefinition("*")]
     public class Content<T, TOwner> : Field<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

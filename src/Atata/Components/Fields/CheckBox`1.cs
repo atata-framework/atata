@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    [UIComponent("input[@type='checkbox']", IgnoreNameEndings = "Checkbox,CheckBox,Option")]
+    [ControlDefinition("input[@type='checkbox']", IgnoreNameEndings = "Checkbox,CheckBox,Option")]
     public class CheckBox<TOwner> : EditableField<bool, TOwner>
         where TOwner : PageObject<TOwner>
     {

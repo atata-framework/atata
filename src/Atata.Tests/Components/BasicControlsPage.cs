@@ -65,7 +65,7 @@ namespace Atata.Tests
         [Term(CutEnding = false)]
         public Clickable<InputPage, _> GoToDivButton { get; private set; }
 
-        [UIComponent("*")]
+        [ControlDefinition("*")]
         public class FindByLabel : Control<_>
         {
             public TextInput<_> FirstName { get; private set; }
@@ -81,7 +81,7 @@ namespace Atata.Tests
             public TextInput<_> DisabledField { get; private set; }
         }
 
-        [UIComponent("*")]
+        [ControlDefinition("*")]
         [FindFields(FindTermBy.Id)]
         public class FindById : Control<_>
         {

@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace Atata
 {
-    [UIComponent("input[@type='text' or @type='time' or not(@type)]")]
+    [ControlDefinition("input[@type='text' or @type='time' or not(@type)]")]
     public class TimeInput<TOwner> : EditableField<TimeSpan?, TOwner>
         where TOwner : PageObject<TOwner>
     {

@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    [UIComponent("input[@type='text' or @type='date' or not(@type)]")]
+    [ControlDefinition("input[@type='text' or @type='date' or not(@type)]")]
     public class DateInput<TOwner> : Input<DateTime?, TOwner>
         where TOwner : PageObject<TOwner>
     {

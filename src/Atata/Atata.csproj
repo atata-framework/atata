@@ -136,13 +136,14 @@
     <Compile Include="Attributes\Triggers\WaitUntilNoElementByIdAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitUntilNoElementByNameAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitUntilNoElementByXPathAttribute.cs" />
-    <Compile Include="Attributes\UIComponentAttribute.cs" />
+    <Compile Include="Attributes\ControlDefinitionAttribute.cs" />
     <Compile Include="Attributes\FindAttribute.cs" />
     <Compile Include="Attributes\FindByContentAttribute.cs" />
     <Compile Include="Attributes\FindByLabelAttribute.cs" />
     <Compile Include="Attributes\GeneratableStringAttribute.cs" />
     <Compile Include="Attributes\IgnoreInitAttribute.cs" />
     <Compile Include="Attributes\FormatSettingsAttribute.cs" />
+    <Compile Include="Attributes\UIComponentDefinitionAttribute.cs" />
     <Compile Include="Attributes\WindowTitleAttribute.cs" />
     <Compile Include="Components\ButtonControl`1.cs" />
     <Compile Include="Components\ButtonControl`2.cs" />
