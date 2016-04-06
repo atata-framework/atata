@@ -5,7 +5,7 @@ namespace Atata
 {
     public class UITest
     {
-        protected RemoteWebDriver NativeDriver { get; set; }
+        protected RemoteWebDriver Driver { get; set; }
         protected ILogManager Logger { get; set; }
         protected PageObjectContext PageObjectContext { get; private set; }
 
@@ -36,13 +36,13 @@ namespace Atata
 
         protected virtual PageObjectContext CreatePageObjectContext()
         {
-            return new PageObjectContext(NativeDriver, Logger);
+            return new PageObjectContext(Driver, Logger);
         }
 
         protected virtual void GoToUrl(string url)
         {
             Logger.Info("Go to URL '{0}'", url);
-            NativeDriver.Navigate().GoToUrl(url);
+            Driver.Navigate().GoToUrl(url);
         }
 
         protected void Wait(double seconds)

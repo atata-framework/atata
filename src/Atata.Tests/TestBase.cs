@@ -8,16 +8,16 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-            NativeDriver = new FirefoxDriver();
+            Driver = new FirefoxDriver();
             Logger = new SimpleLogManager(
                 message =>
                 {
                     TestContext.WriteLine(message);
                 },
-                NativeDriver);
+                Driver);
 
             Logger.Info("Start test");
-            NativeDriver.Manage().Window.Maximize();
+            Driver.Manage().Window.Maximize();
             OnSetUp();
         }
 
@@ -29,7 +29,7 @@ namespace Atata.Tests
         public void TearDown()
         {
             Logger.Info("Finish test");
-            NativeDriver.Quit();
+            Driver.Quit();
         }
 
         protected void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
