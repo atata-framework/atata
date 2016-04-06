@@ -13,7 +13,8 @@ namespace Atata
             Attribute[] declaringAttributes,
             Attribute[] componentAttributes,
             Attribute[] parentComponentAttributes,
-            Attribute[] assemblyAttributes)
+            Attribute[] assemblyAttributes,
+            UIComponentDefinitionAttribute componentDefinitonAttribute)
         {
             Name = name;
             ComponentType = componentType;
@@ -26,7 +27,7 @@ namespace Atata
             GlobalAttributes = ParentComponentAttributes.Concat(AssemblyAttributes).ToArray();
             AllAttributes = DeclaringAttributes.Concat(GlobalAttributes).Concat(ComponentAttributes).ToArray();
 
-            ComponentDefiniton = GetFirstOrDefaultComponentAttribute<UIComponentDefinitionAttribute>();
+            ComponentDefinitonAttribute = componentDefinitonAttribute;
         }
 
         public string Name { get; private set; }
@@ -40,7 +41,7 @@ namespace Atata
         public Attribute[] GlobalAttributes { get; private set; }
         public Attribute[] AllAttributes { get; private set; }
 
-        public UIComponentDefinitionAttribute ComponentDefiniton { get; private set; }
+        public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; private set; }
 
         public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
         {

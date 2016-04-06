@@ -94,9 +94,9 @@ namespace Atata
             string name = metadata.Name;
             TermAttribute termAttribute = metadata.GetTerm();
 
-            if (CutEnding && (termAttribute == null || termAttribute.CutEnding) && metadata.ComponentDefiniton != null)
+            if (CutEnding && (termAttribute == null || termAttribute.CutEnding))
             {
-                string suffixToIgnore = metadata.ComponentDefiniton.GetIgnoreNameEndingValues().
+                string suffixToIgnore = metadata.ComponentDefinitonAttribute.GetIgnoreNameEndingValues().
                     FirstOrDefault(x => name.EndsWith(x) && name.Length > x.Length);
 
                 if (suffixToIgnore != null)
