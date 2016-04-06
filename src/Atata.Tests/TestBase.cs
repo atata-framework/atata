@@ -9,14 +9,14 @@ namespace Atata.Tests
         public void SetUp()
         {
             Driver = new FirefoxDriver();
-            Logger = new SimpleLogManager(
+            Log = new SimpleLogManager(
                 message =>
                 {
                     TestContext.WriteLine(message);
                 },
                 Driver);
 
-            Logger.Info("Start test");
+            Log.Info("Start test");
             Driver.Manage().Window.Maximize();
             OnSetUp();
         }
@@ -28,7 +28,7 @@ namespace Atata.Tests
         [TearDown]
         public void TearDown()
         {
-            Logger.Info("Finish test");
+            Log.Info("Finish test");
             Driver.Quit();
         }
 
