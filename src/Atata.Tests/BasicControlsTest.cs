@@ -29,7 +29,7 @@ namespace Atata.Tests
                     {
                         x.VerifyEquals("mdname");
                         x.Set("md2name");
-                        x.VerifyNotEqual("mdname");
+                        x.VerifyDoesNotEqual("mdname");
                     }).
                 ById.MiddleName.VerifyEquals("md2name").
 

@@ -46,7 +46,7 @@ namespace Atata.Tests
         public void RadioButtonList_String()
         {
             page.VerticalItems.VerifyEquals("Item 1");
-            page.VerticalItems.VerifyNotEqual(null);
+            page.VerticalItems.VerifyDoesNotEqual(null);
 
             SetAndVerifyValues(page.VerticalItems, "Item 2", "Item 5");
             SetAndVerifyValues(page.VerticalItemsByFieldset, "Item 3", "Item 1");

@@ -55,7 +55,7 @@ namespace Atata
             return Verify(actual => Assert.AreEqual(value, actual, "Invalid {0} value", ComponentName), "is equal to '{0}'", ConvertValueToString(value));
         }
 
-        public TOwner VerifyNotEqual(T value)
+        public TOwner VerifyDoesNotEqual(T value)
         {
             return Verify(actual => Assert.AreNotEqual(value, actual, "Invalid {0} value", ComponentName), "is not equal to '{0}'", ConvertValueToString(value));
         }
