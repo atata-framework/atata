@@ -13,7 +13,7 @@ namespace Atata
         {
             Randomizers = new Dictionary<Type, RandomizeFunc>();
 
-            RegisterRandomizer<string>(RandomizeString);
+            RegisterRandomizer(RandomizeString);
             RegisterNumberRandomizer<sbyte>();
             RegisterNumberRandomizer<byte>();
             RegisterNumberRandomizer<short>();
@@ -32,12 +32,12 @@ namespace Atata
             if (randomizeFunction == null)
                 throw new ArgumentNullException("randomizeFunction");
 
-            Randomizers[typeof(T)] = m => (object)randomizeFunction(m);
+            Randomizers[typeof(T)] = m => randomizeFunction(m);
         }
 
         private static void RegisterNumberRandomizer<T>()
         {
-            Randomizers[typeof(T)] = m => (object)RandomizeNumber<T>(m);
+            Randomizers[typeof(T)] = m => RandomizeNumber<T>(m);
         }
 
         private static string RandomizeString(UIComponentMetadata metadata)
@@ -68,8 +68,10 @@ namespace Atata
 
         public static T GetRandom<T>(UIComponentMetadata metadata)
         {
+            Type type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
             RandomizeFunc randomizeFunction;
-            if (Randomizers.TryGetValue(typeof(T), out randomizeFunction))
+
+            if (Randomizers.TryGetValue(type, out randomizeFunction))
                 return (T)randomizeFunction(metadata);
             else
                 throw new InvalidOperationException("Cannot get random value for '{0}' type. There is no registered randomizer for this type.".FormatWith(typeof(T).FullName));
