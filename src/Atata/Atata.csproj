@@ -242,7 +242,6 @@
     <Compile Include="ScopeSearch\Strategies\FindByIdStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByLabelStrategy.cs" />
     <Compile Include="Components\Fields\Field`2.cs" />
-    <Compile Include="Components\Fields\IGeneratableField`2.cs" />
     <Compile Include="Components\Fields\Select`1.cs" />
     <Compile Include="ScopeSearch\Strategies\XPathComponentScopeLocateStrategy.cs" />
     <Compile Include="Logging\ILogManager.cs" />
