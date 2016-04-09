@@ -12,7 +12,7 @@
         public TOwner Set(T value)
         {
             RunTriggers(TriggerEvents.BeforeSet);
-            Log.StartSettingSection(ComponentName, ConvertValueToString(value));
+            Log.StartSettingSection(ComponentFullName, ConvertValueToString(value));
 
             SetValue(value);
 
@@ -24,16 +24,16 @@
 
         public TOwner VerifyReadOnly()
         {
-            Log.StartVerificationSection("{0} component is read-only", ComponentName);
-            Assert.That(IsReadOnly(), "Expected {0} component to be read-only", ComponentName);
+            Log.StartVerificationSection("{0} is read-only", ComponentFullName);
+            Assert.That(IsReadOnly(), "Expected {0} to be read-only", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
 
         public TOwner VerifyNotReadOnly()
         {
-            Log.StartVerificationSection("{0} component is not read-only", ComponentName);
-            Assert.That(!IsReadOnly(), "Expected {0} component not to be read-only", ComponentName);
+            Log.StartVerificationSection("{0} is not read-only", ComponentFullName);
+            Assert.That(!IsReadOnly(), "Expected {0} not to be read-only", ComponentFullName);
             Log.EndSection();
             return Owner;
         }

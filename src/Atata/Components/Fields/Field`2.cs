@@ -37,7 +37,7 @@ namespace Atata
 
         public TOwner Verify(Action<T> assertAction, string message, params object[] args)
         {
-            StringBuilder messageBuilder = new StringBuilder(ComponentName);
+            StringBuilder messageBuilder = new StringBuilder(ComponentFullName);
             if (!string.IsNullOrWhiteSpace(message))
                 messageBuilder.Append(" ").AppendFormat(message, args);
 
@@ -52,12 +52,12 @@ namespace Atata
 
         public TOwner VerifyEquals(T value)
         {
-            return Verify(actual => Assert.AreEqual(value, actual, "Invalid {0} value", ComponentName), "is equal to '{0}'", ConvertValueToString(value));
+            return Verify(actual => Assert.AreEqual(value, actual, "Invalid {0} value", ComponentFullName), "is equal to '{0}'", ConvertValueToString(value));
         }
 
         public TOwner VerifyDoesNotEqual(T value)
         {
-            return Verify(actual => Assert.AreNotEqual(value, actual, "Invalid {0} value", ComponentName), "is not equal to '{0}'", ConvertValueToString(value));
+            return Verify(actual => Assert.AreNotEqual(value, actual, "Invalid {0} value", ComponentFullName), "does not equal to '{0}'", ConvertValueToString(value));
         }
 
         public override bool Equals(object obj)

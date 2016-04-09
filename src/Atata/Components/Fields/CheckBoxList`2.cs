@@ -75,7 +75,7 @@ namespace Atata
             if (!object.Equals(value, null))
             {
                 RunTriggers(TriggerEvents.BeforeSet);
-                Log.StartSection("Check '{0}' of {1}", ConvertValueToString(value), ComponentName);
+                Log.StartSection("Check '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
 
                 ClickItems(value, (isInValue, isSelected) => isInValue && !isSelected);
 
@@ -90,7 +90,7 @@ namespace Atata
             if (!object.Equals(value, null))
             {
                 RunTriggers(TriggerEvents.BeforeSet);
-                Log.StartSection("Uncheck '{0}' of {1}", ConvertValueToString(value), ComponentName);
+                Log.StartSection("Uncheck '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
 
                 ClickItems(value, (isInValue, isSelected) => isInValue && isSelected);
 
@@ -107,7 +107,7 @@ namespace Atata
                 {
                     IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
                     IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    Assert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentName);
+                    Assert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
                 },
                 "has checked '{0}'",
                 ConvertValueToString(value));
@@ -120,7 +120,7 @@ namespace Atata
                 {
                     IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
                     IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    Assert.HasNoIntersection(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentName);
+                    Assert.HasNoIntersection(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
                 },
                 "has unchecked '{0}'",
                 ConvertValueToString(value));

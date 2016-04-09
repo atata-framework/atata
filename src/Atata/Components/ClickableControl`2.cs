@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    [ControlDefinition("*", IgnoreNameEndings = "Button,Link")]
+    [ControlDefinition("*", ComponentTypeName = "clickable control", IgnoreNameEndings = "Button,Link")]
     public class ClickableControl<TNavigateTo, TOwner> : Control<TOwner>
         where TNavigateTo : PageObject<TNavigateTo>
         where TOwner : PageObject<TOwner>

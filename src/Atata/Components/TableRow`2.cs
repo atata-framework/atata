@@ -9,7 +9,7 @@ namespace Atata
         public new TNavigateTo Click()
         {
             RunTriggers(TriggerEvents.BeforeClick);
-            Log.StartClickingSection(ComponentName);
+            Log.StartClickingSection(ComponentFullName);
 
             IWebElement cellElement = GetCell(Settings.ColumnIndexToClick);
             cellElement.Click();

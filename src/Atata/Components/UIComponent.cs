@@ -69,7 +69,7 @@ namespace Atata
 
             IWebElement element = ScopeLocator.GetElement(searchOptions);
             if (!searchOptions.IsSafely && element == null)
-                throw ExceptionFactory.CreateForNoSuchElement(ComponentName);
+                throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
 
             if (CacheScopeElement)
                 this.scope = element;
@@ -100,7 +100,7 @@ namespace Atata
 
         public void VerifyMissing()
         {
-            Log.StartVerificationSection("{0} missing", ComponentFullName);
+            Log.StartVerificationSection("{0} is missing", ComponentFullName);
             IWebElement element = GetScopeElement(SearchOptions.Safely());
             Assert.That(element == null, "Found {0} that should be missing", ComponentFullName);
             Log.EndSection();

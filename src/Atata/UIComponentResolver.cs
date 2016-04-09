@@ -203,6 +203,7 @@ namespace Atata
 
             InitComponentLocator(component, parentComponent, metadata, findAttribute);
             component.ComponentName = ResolveComponentName(metadata, findAttribute);
+            component.ComponentTypeName = ResolveControlTypeName(component.GetType());
             component.CacheScopeElement = false;
             component.Triggers = GetControlTriggers(metadata);
 
@@ -485,6 +486,17 @@ namespace Atata
             where TPageObject : PageObject<TPageObject>
         {
             return GetPageObjectDefinition(typeof(TPageObject)).ComponentTypeName ?? "page object";
+        }
+
+        public static string ResolveControlTypeName<TControl>()
+            where TControl : UIComponent
+        {
+            return ResolveControlTypeName(typeof(TControl));
+        }
+
+        public static string ResolveControlTypeName(Type type)
+        {
+            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).Humanize(LetterCasing.LowerCase);
         }
 
         private static string NormalizeTypeName(Type type)

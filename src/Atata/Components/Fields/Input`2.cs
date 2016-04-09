@@ -19,7 +19,7 @@
         public TOwner Append(string value)
         {
             RunTriggers(TriggerEvents.BeforeSet);
-            Log.StartSection("Append '{0}' to {1}", value, ComponentName);
+            Log.StartSection("Append '{0}' to {1}", value, ComponentFullName);
 
             Scope.SendKeys(value);
 

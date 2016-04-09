@@ -172,6 +172,7 @@ namespace Atata
             {
                 ScopeLocator = scopeLocator,
                 ComponentName = name,
+                ComponentTypeName = UIComponentResolver.ResolveControlTypeName<TRow>(),
                 Owner = Owner,
                 Driver = Driver,
                 Log = Log,

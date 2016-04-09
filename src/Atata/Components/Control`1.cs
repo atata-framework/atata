@@ -10,7 +10,7 @@
         public TOwner Click()
         {
             RunTriggers(TriggerEvents.BeforeClick);
-            Log.StartClickingSection(ComponentName);
+            Log.StartClickingSection(ComponentFullName);
 
             Scope.Click();
 
@@ -27,16 +27,16 @@
 
         public TOwner VerifyEnabled()
         {
-            Log.StartVerificationSection("{0} component is enabled", ComponentName);
-            Assert.That(IsEnabled(), "Expected {0} component to be enabled", ComponentName);
+            Log.StartVerificationSection("{0} is enabled", ComponentFullName);
+            Assert.That(IsEnabled(), "Expected {0} to be enabled", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
 
         public TOwner VerifyDisabled()
         {
-            Log.StartVerificationSection("{0} component is disabled", ComponentName);
-            Assert.That(!IsEnabled(), "Expected {0} component to be disabled", ComponentName);
+            Log.StartVerificationSection("{0} is disabled", ComponentFullName);
+            Assert.That(!IsEnabled(), "Expected {0} to be disabled", ComponentFullName);
             Log.EndSection();
             return Owner;
         }

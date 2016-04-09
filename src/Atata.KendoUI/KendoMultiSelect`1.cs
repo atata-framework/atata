@@ -2,13 +2,13 @@
 
 namespace Atata.KendoUI
 {
-    [ControlDefinition("div[contains(concat(' ', normalize-space(@class), ' '), ' k-multiselect ')]", "div[div[1]/ul[id='{0}_taglist']]")]
+    [ControlDefinition("div[contains(concat(' ', normalize-space(@class), ' '), ' k-multiselect ')]", "div[div[1]/ul[id='{0}_taglist']]", ComponentTypeName = "multi-select")]
     public class KendoMultiSelect<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
         public TOwner Add(string value)
         {
-            Log.StartAddingSection(ComponentName, value);
+            Log.StartAddingSection(ComponentFullName, value);
 
             var input = Scope.Get(By.CssSelector("input.k-input"));
             input.Click();
