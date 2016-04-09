@@ -1,6 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -121,9 +122,21 @@ namespace Atata
             return FindAll(By.XPath(xpath));
         }
 
-        private IWebElement Find(By by)
+        private ByOptions ResolveOptions(By by)
         {
             ByOptions options = ByOptionsMap.GetOrDefault(by);
+
+            if (options.Timeout == null)
+                options.Timeout = Timeout;
+            if (options.RetryInterval == null)
+                options.RetryInterval = RetryInterval;
+
+            return options;
+        }
+
+        private IWebElement Find(By by)
+        {
+            ByOptions options = ResolveOptions(by);
             var elements = FindAll(by, options);
             var element = elements.FirstOrDefault();
 
@@ -135,7 +148,7 @@ namespace Atata
 
         private ReadOnlyCollection<IWebElement> FindAll(By by, ByOptions options = null)
         {
-            options = options ?? ByOptionsMap.GetOrDefault(by);
+            options = options ?? ResolveOptions(by);
 
             Func<T, ReadOnlyCollection<IWebElement>> findFunction = x => x.FindElements(by);
 
@@ -146,10 +159,10 @@ namespace Atata
                 findFunction = x => originalFindFunction(Context).Where(CreateVisibilityPredicate(options.Visibility)).ToReadOnly();
             }
 
-            return options.Timeout > TimeSpan.Zero ? Until(findFunction) : findFunction(Context);
+            return Until(findFunction, options.Timeout, options.RetryInterval);
         }
 
-        private Func<IWebElement, bool> CreateVisibilityPredicate(ElementVisibility visibility)
+        private static Func<IWebElement, bool> CreateVisibilityPredicate(ElementVisibility visibility)
         {
             switch (visibility)
             {
@@ -164,10 +177,20 @@ namespace Atata
             }
         }
 
-        public TResult Until<TResult>(Func<T, TResult> condition)
+        public TResult Until<TResult>(Func<T, TResult> condition, TimeSpan? timeout = null, TimeSpan? retryInterval = null)
         {
-            var wait = CreateWait();
-            return wait.Until(condition);
+            TimeSpan actualTimeout = timeout ?? Timeout;
+            TimeSpan actualRetryInterval = retryInterval ?? RetryInterval;
+
+            if (timeout.HasValue && timeout.Value > TimeSpan.Zero)
+            {
+                var wait = CreateWait(actualTimeout, actualRetryInterval);
+                return wait.Until(condition);
+            }
+            else
+            {
+                return condition(Context);
+            }
         }
 
         public bool Exists(By by)
@@ -177,7 +200,7 @@ namespace Atata
 
         public bool Missing(By by)
         {
-            ByOptions options = ByOptionsMap.GetOrDefault(by);
+            ByOptions options = ResolveOptions(by);
 
             Func<T, bool> findFunction;
             if (options.Visibility == ElementVisibility.Any)
@@ -185,19 +208,72 @@ namespace Atata
             else
                 findFunction = x => !x.FindElements(by).Where(CreateVisibilityPredicate(options.Visibility)).Any();
 
-            bool isMissing = options.Timeout > TimeSpan.Zero ? Until(findFunction) : findFunction(Context);
+            bool isMissing = Until(findFunction, options.Timeout, options.RetryInterval);
+
             if (options.ThrowOnFail && !isMissing)
                 throw ExceptionFactory.CreateForNotMissingElement(options.GetNameWithKind(), by);
             else
                 return isMissing;
         }
 
-        private IWait<T> CreateWait()
+        public bool MissingAll(params By[] byArray)
+        {
+            if (byArray == null)
+                throw new ArgumentNullException("byArray");
+            if (byArray.Length == 0)
+                throw new ArgumentException("Array should not be empty.", "byArray");
+
+            Dictionary<By, ByOptions> byOptions = byArray.ToDictionary(x => x, x => ResolveOptions(x));
+
+            ByOptions options = ResolveOptions(byArray.First());
+
+            List<By> leftBys = byArray.ToList();
+
+            Func<T, bool> findFunction = context =>
+            {
+                By[] currentByArray = leftBys.ToArray();
+                foreach (By by in currentByArray)
+                {
+                    if (IsMissing(context, by, byOptions[by]))
+                        leftBys.Remove(by);
+                }
+                if (!leftBys.Any())
+                {
+                    leftBys = byArray.Except(currentByArray).Where(by => !IsMissing(context, by, byOptions[by])).ToList();
+                    if (!leftBys.Any())
+                        return true;
+                }
+                return false;
+            };
+
+            TimeSpan maxTimeout = byOptions.Values.Max(x => x.Timeout.Value);
+            TimeSpan maxRetryInterval = byOptions.Values.Max(x => x.RetryInterval.Value);
+
+            bool isMissing = Until(findFunction, maxTimeout, maxRetryInterval);
+
+            if (byOptions.Values.Any(x => x.ThrowOnFail) && !isMissing)
+            {
+                throw ExceptionFactory.CreateForNotMissingElement(
+                    byOptions[leftBys.First()].GetNameWithKind(),
+                    leftBys.First());
+            }
+            else
+            {
+                return isMissing;
+            }
+        }
+
+        private static bool IsMissing(ISearchContext context, By by, ByOptions options)
+        {
+            return !context.FindElements(by).Where(CreateVisibilityPredicate(options.Visibility)).Any();
+        }
+
+        private IWait<T> CreateWait(TimeSpan timeout, TimeSpan retryInterval)
         {
             IWait<T> wait = new SafeWait<T>(Context)
             {
-                Timeout = Timeout,
-                PollingInterval = RetryInterval
+                Timeout = timeout,
+                PollingInterval = retryInterval
             };
             wait.IgnoreExceptionTypes(typeof(StaleElementReferenceException), typeof(NotFoundException));
             return wait;

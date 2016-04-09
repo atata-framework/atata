@@ -10,8 +10,8 @@ namespace Atata
 
         public string Name { get; set; }
         public string Kind { get; set; }
-        public TimeSpan Timeout { get; set; }
-        public TimeSpan RetryInterval { get; set; }
+        public TimeSpan? Timeout { get; set; }
+        public TimeSpan? RetryInterval { get; set; }
         public ElementVisibility Visibility { get; set; }
         public bool ThrowOnFail { get; set; }
 
@@ -34,8 +34,8 @@ namespace Atata
         {
             return new ByOptions
             {
-                Timeout = RetrySettings.Timeout,
-                RetryInterval = RetrySettings.RetryInterval,
+                Timeout = null,
+                RetryInterval = null,
                 Visibility = ElementVisibility.Visible,
                 ThrowOnFail = true
             };
