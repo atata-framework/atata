@@ -3,9 +3,9 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Property)]
-    public class GeneratableStringAttribute : Attribute
+    public class RandomizeStringSettingsAttribute : Attribute
     {
-        public GeneratableStringAttribute(string format = "{0}", int numberOfCharacters = 15)
+        public RandomizeStringSettingsAttribute(string format = "{0}", int numberOfCharacters = 15)
         {
             Format = format;
             NumberOfCharacters = numberOfCharacters;

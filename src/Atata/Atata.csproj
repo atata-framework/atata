@@ -91,7 +91,7 @@
     <Compile Include="Attributes\FindItemAttribute.cs" />
     <Compile Include="Attributes\FindItemByLabelAttribute.cs" />
     <Compile Include="Attributes\FormatAttribute.cs" />
-    <Compile Include="Attributes\GeneratableNumberAttribute.cs" />
+    <Compile Include="Attributes\RandomizeNumberSettingsAttribute.cs" />
     <Compile Include="Attributes\ITermFindAttribute.cs" />
     <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
     <Compile Include="Attributes\ITermSettings.cs" />
@@ -141,7 +141,7 @@
     <Compile Include="Attributes\FindAttribute.cs" />
     <Compile Include="Attributes\FindByContentAttribute.cs" />
     <Compile Include="Attributes\FindByLabelAttribute.cs" />
-    <Compile Include="Attributes\GeneratableStringAttribute.cs" />
+    <Compile Include="Attributes\RandomizeStringSettingsAttribute.cs" />
     <Compile Include="Attributes\IgnoreInitAttribute.cs" />
     <Compile Include="Attributes\FormatSettingsAttribute.cs" />
     <Compile Include="Attributes\UIComponentDefinitionAttribute.cs" />
