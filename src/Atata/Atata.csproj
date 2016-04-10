@@ -174,8 +174,6 @@
     <Compile Include="Components\TableSettingsAttribute.cs" />
     <Compile Include="Components\Table`2.cs" />
     <Compile Include="Components\Fields\Text`1.cs" />
-    <Compile Include="Exceptions\NotMissingElementException.cs" />
-    <Compile Include="Exceptions\ExceptionFactory.cs" />
     <Compile Include="Extensions\Button1Extensions.cs" />
     <Compile Include="Extensions\Button2Extensions.cs" />
     <Compile Include="Extensions\Clickable2Extensions.cs" />
@@ -219,22 +217,13 @@
     <Compile Include="ScopeSearch\StrategyScopeLocator.cs" />
     <Compile Include="ScopeSearch\XPathComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSource.cs" />
-    <Compile Include="Settings\ByOptions.cs" />
     <Compile Include="Components\ClickableControl`1.cs" />
     <Compile Include="Components\Fields\Select`2.cs" />
     <Compile Include="Components\UIComponent.cs" />
     <Compile Include="Components\UIComponent`1.cs" />
     <Compile Include="Components\Table`1.cs" />
-    <Compile Include="ElementVisibility.cs" />
-    <Compile Include="Exceptions\AssertionException.cs" />
-    <Compile Include="Extensions\ByExtensions.cs" />
-    <Compile Include="Extensions\ByKindExtensions.cs" />
     <Compile Include="Extensions\CustomAttributeExtensions.cs" />
-    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ISearchContextExtensions.cs" />
-    <Compile Include="Extensions\ITimeoutsExtensions.cs" />
-    <Compile Include="Extensions\IWebDriverExtensions.cs" />
-    <Compile Include="Extensions\IWebElementExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Components\Fields\NumberInput`1.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateOptions.cs" />
@@ -250,14 +239,7 @@
     <Compile Include="PageObjectContext.cs" />
     <Compile Include="Components\PageObject`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SafeWait`1.cs" />
-    <Compile Include="SearchContexts\ExtendedSearchContext`1.cs" />
-    <Compile Include="SearchContexts\IExtendedSearchContext.cs" />
-    <Compile Include="SearchContexts\WebDriverExtendedSearchContext.cs" />
-    <Compile Include="SearchContexts\WebElementExtendedSearchContext.cs" />
-    <Compile Include="Settings\ByOptionsMap.cs" />
     <Compile Include="FindTermBy.cs" />
-    <Compile Include="Settings\SearchOptions.cs" />
     <Compile Include="TermOptions.cs" />
     <Compile Include="TermResolver.cs" />
     <Compile Include="TriggerContext.cs" />
@@ -271,7 +253,6 @@
     <Compile Include="UITest.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="Components\Fields\TextInput`1.cs" />
-    <Compile Include="Settings\RetrySettings.cs" />
     <Compile Include="ValueRandomizer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -279,7 +260,12 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Atata.WebDriverExtras\Atata.WebDriverExtras.csproj">
+      <Project>{a08c24d1-7904-4a0c-bf07-5aef4a520d82}</Project>
+      <Name>Atata.WebDriverExtras</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
