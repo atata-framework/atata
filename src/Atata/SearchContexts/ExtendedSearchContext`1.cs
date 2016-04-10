@@ -218,28 +218,31 @@ namespace Atata
 
         public bool MissingAll(params By[] byArray)
         {
-            if (byArray == null)
-                throw new ArgumentNullException("byArray");
-            if (byArray.Length == 0)
-                throw new ArgumentException("Array should not be empty.", "byArray");
+            return MissingAll(byArray.ToDictionary(x => x, x => (ISearchContext)Context));
+        }
 
-            Dictionary<By, ByOptions> byOptions = byArray.ToDictionary(x => x, x => ResolveOptions(x));
+        public bool MissingAll(Dictionary<By, ISearchContext> byContextPairs)
+        {
+            if (byContextPairs == null)
+                throw new ArgumentNullException("byContextPairs");
+            if (byContextPairs.Count == 0)
+                throw new ArgumentException("Collection should not be empty.", "byContextPairs");
 
-            ByOptions options = ResolveOptions(byArray.First());
+            Dictionary<By, ByOptions> byOptions = byContextPairs.Keys.ToDictionary(x => x, x => ResolveOptions(x));
 
-            List<By> leftBys = byArray.ToList();
+            List<By> leftBys = byContextPairs.Keys.ToList();
 
-            Func<T, bool> findFunction = context =>
+            Func<T, bool> findFunction = _ =>
             {
                 By[] currentByArray = leftBys.ToArray();
                 foreach (By by in currentByArray)
                 {
-                    if (IsMissing(context, by, byOptions[by]))
+                    if (IsMissing(byContextPairs[by], by, byOptions[by]))
                         leftBys.Remove(by);
                 }
                 if (!leftBys.Any())
                 {
-                    leftBys = byArray.Except(currentByArray).Where(by => !IsMissing(context, by, byOptions[by])).ToList();
+                    leftBys = byContextPairs.Keys.Except(currentByArray).Where(by => !IsMissing(byContextPairs[by], by, byOptions[by])).ToList();
                     if (!leftBys.Any())
                         return true;
                 }

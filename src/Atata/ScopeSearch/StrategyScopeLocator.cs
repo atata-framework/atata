@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using OpenQA.Selenium;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -46,6 +47,22 @@ namespace Atata
                 return xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray();
             else
                 return new IWebElement[0];
+        }
+
+        public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
+        {
+            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
+            if (xPathResults.Any())
+            {
+                Dictionary<By, ISearchContext> byScopePairs = xPathResults.ToDictionary(x => x.CreateBy(xPathCondition), x => (ISearchContext)x.ScopeSource);
+                return component.Driver.Try().MissingAll(byScopePairs);
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions, string xPathCondition)

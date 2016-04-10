@@ -10,7 +10,7 @@ namespace Atata
 {
     public abstract class UIComponent
     {
-        private IWebElement scope;
+        private IWebElement cachedScope;
 
         protected UIComponent()
         {
@@ -48,8 +48,8 @@ namespace Atata
         {
             get
             {
-                if (CacheScopeElement && scope != null)
-                    return scope;
+                if (CacheScopeElement && cachedScope != null)
+                    return cachedScope;
                 else
                     return GetScopeElement();
             }
@@ -63,7 +63,7 @@ namespace Atata
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
             if (ScopeLocator == null)
-                throw new InvalidOperationException("ScopeLocator is missing");
+                throw new InvalidOperationException("ScopeLocator is missing.");
 
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
@@ -72,7 +72,7 @@ namespace Atata
                 throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
 
             if (CacheScopeElement)
-                this.scope = element;
+                this.cachedScope = element;
 
             return element;
         }
@@ -83,12 +83,12 @@ namespace Atata
 
         public bool Exists()
         {
-            return ScopeLocator.GetElement() != null;
+            return ScopeLocator.GetElement(SearchOptions.Safely()) != null;
         }
 
         public bool Missing()
         {
-            return ScopeLocator.GetElement() == null;
+            return ScopeLocator.IsMissing(SearchOptions.Safely());
         }
 
         public void VerifyExists()
@@ -101,8 +101,7 @@ namespace Atata
         public void VerifyMissing()
         {
             Log.StartVerificationSection("{0} is missing", ComponentFullName);
-            IWebElement element = GetScopeElement(SearchOptions.Safely());
-            Assert.That(element == null, "Found {0} that should be missing", ComponentFullName);
+            ScopeLocator.IsMissing();
             Log.EndSection();
         }
 

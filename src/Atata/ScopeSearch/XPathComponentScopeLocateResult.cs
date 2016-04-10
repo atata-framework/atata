@@ -26,7 +26,7 @@ namespace Atata
             return ScopeSource.GetAll(CreateBy(xPathCondition));
         }
 
-        private By CreateBy(string xPathCondition)
+        public By CreateBy(string xPathCondition)
         {
             return By.XPath(XPath + xPathCondition).With(SearchOptions);
         }

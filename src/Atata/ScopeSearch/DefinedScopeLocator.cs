@@ -20,5 +20,10 @@ namespace Atata
         {
             return new[] { element };
         }
+
+        public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
+        {
+            return element == null;
+        }
     }
 }
