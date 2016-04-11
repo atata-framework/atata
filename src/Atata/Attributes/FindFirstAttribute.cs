@@ -1,10 +1,10 @@
 ﻿namespace Atata
 {
-    public class FindFirstAttribute : FindAttribute
+    public class FindFirstAttribute : FindByIndexAttribute
     {
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        public FindFirstAttribute()
+            : base(0)
         {
-            return new XPathComponentScopeLocateStrategy();
         }
     }
 }

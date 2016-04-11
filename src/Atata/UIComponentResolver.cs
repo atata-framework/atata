@@ -350,7 +350,7 @@ namespace Atata
             else if (controlType.IsSubclassOfRawGeneric(typeof(Content<,>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
                 return new FindByColumnAttribute();
             else
-                return new FindByIndexAttribute();
+                return new FindFirstAttribute();
         }
 
         private static FindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
@@ -373,7 +373,7 @@ namespace Atata
             {
                 ElementXPath = definition != null && definition.ScopeXPath != null ? definition.ScopeXPath : "*",
                 IdFinderFormat = definition != null ? definition.IdFinderFormat : null,
-                Index = findAttribute.Index != 0 ? (int?)findAttribute.Index : null
+                Index = findAttribute.Index
             };
 
             ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;
