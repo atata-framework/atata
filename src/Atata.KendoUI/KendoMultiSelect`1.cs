@@ -11,7 +11,6 @@ namespace Atata.KendoUI
             Log.StartAddingSection(ComponentFullName, value);
 
             var input = Scope.Get(By.CssSelector("input.k-input"));
-            input.Click();
             input.FillInWith(value);
 
             Scope.Get(By.XPath("//body")).
