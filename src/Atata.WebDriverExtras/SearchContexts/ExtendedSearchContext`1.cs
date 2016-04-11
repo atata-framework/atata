@@ -226,7 +226,7 @@ namespace Atata
             if (byContextPairs == null)
                 throw new ArgumentNullException("byContextPairs");
             if (byContextPairs.Count == 0)
-                throw new ArgumentException("Collection should not be empty.", "byContextPairs");
+                throw ExceptionFactory.CreateForArgumentEmptyCollection("byContextPairs");
 
             Dictionary<By, ByOptions> byOptions = byContextPairs.Keys.ToDictionary(x => x, x => ResolveOptions(x));
 

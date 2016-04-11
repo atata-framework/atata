@@ -74,9 +74,9 @@ namespace Atata
 
             if (!containsTitle)
             {
-                string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
-                    "String that {0} '{1}'".FormatWith(matchAsString, expectedValuesAsString),
-                    string.Format("'{0}'", actualTitle),
+                string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
+                    "String that {0} \"{1}\"".FormatWith(matchAsString, expectedValuesAsString),
+                    string.Format("\"{0}\"", actualTitle),
                     "Incorrect page title");
 
                 Assert.That(containsTitle, errorMessage);

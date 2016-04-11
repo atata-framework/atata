@@ -56,7 +56,6 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ElementVisibility.cs" />
-    <Compile Include="Exceptions\AssertionException.cs" />
     <Compile Include="Exceptions\ExceptionFactory.cs" />
     <Compile Include="Exceptions\NotMissingElementException.cs" />
     <Compile Include="Extensions\ByExtensions.cs" />

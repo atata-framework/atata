@@ -7,8 +7,6 @@ namespace Atata
 {
     public static class ExceptionFactory
     {
-        private const string NullString = "null";
-
         public static ArgumentException CreateForArgumentEmptyCollection(string parameterName)
         {
             return new ArgumentException("Collection should contain at least one element.", parameterName);
@@ -33,12 +31,6 @@ namespace Atata
             return new ArgumentException(message, paramName);
         }
 
-        public static AssertionException CreateForFailedAssert(object expected, object actual, string message = null, params object[] args)
-        {
-            string errorMesage = BuildAssertionErrorMessage(expected, actual, message, args);
-            return new AssertionException(errorMesage);
-        }
-
         public static string BuildElementErrorMessage(string message, string elementName, By by)
         {
             StringBuilder builder = new StringBuilder(message);
@@ -59,19 +51,6 @@ namespace Atata
             }
 
             return builder.ToString();
-        }
-
-        public static string BuildAssertionErrorMessage(object expected, object actual, string message = null, params object[] args)
-        {
-            StringBuilder builder = new StringBuilder();
-            if (!string.IsNullOrWhiteSpace(message))
-                builder.AppendFormat(message, args).AppendLine();
-
-            return builder.
-                AppendFormat("Expected: {0}", expected ?? NullString).
-                AppendLine().
-                AppendFormat("But was: {0}", actual ?? NullString)
-                .ToString();
         }
     }
 }

@@ -62,7 +62,7 @@ namespace Atata.Tests
             Assert.That(control.Get(), Is.EqualTo(value));
         }
 
-        protected void VerifyNotEqual<T, TPage>(EditableField<T, TPage> control, T value)
+        protected void VerifyDoesNotEqual<T, TPage>(EditableField<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
             control.VerifyDoesNotEqual(value);

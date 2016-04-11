@@ -127,9 +127,9 @@ namespace Atata
 
             if (!containsText)
             {
-                string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
-                    "String that {0} '{1}'".FormatWith(matchAsString, expectedValuesAsString),
-                    string.Format("'{0}'", actualText),
+                string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
+                    "String that {0} \"{1}\"".FormatWith(matchAsString, expectedValuesAsString),
+                    string.Format("\"{0}\"", actualText),
                     "{0} content doesn't match criteria", ComponentFullName);
 
                 Assert.That(containsText, errorMessage);
@@ -162,9 +162,9 @@ namespace Atata
 
             if (!containsText)
             {
-                string errorMessage = ExceptionFactory.BuildAssertionErrorMessage(
-                    "String that {0} '{1}'".FormatWith(matchAsString, notFoundValue),
-                    string.Format("'{0}'", actualText),
+                string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
+                    "String that {0} \"{1}\"'".FormatWith(matchAsString, notFoundValue),
+                    string.Format("\"{0}\"", actualText),
                     "{0} content doesn't match criteria", ComponentFullName);
 
                 Assert.That(containsText, errorMessage);
