@@ -180,6 +180,7 @@
     <Compile Include="Extensions\Clickable2Extensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
     <Compile Include="Extensions\FieldExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\Clickable1Extensions.cs" />
     <Compile Include="Extensions\Link1Extensions.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Extensions\FindTermByExtensions.cs" />
     <Compile Include="Extensions\TermFormatExtensions.cs" />
     <Compile Include="Extensions\TermMatchExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
     <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
@@ -224,8 +226,6 @@
     <Compile Include="Components\UIComponent`1.cs" />
     <Compile Include="Components\Table`1.cs" />
     <Compile Include="Extensions\CustomAttributeExtensions.cs" />
-    <Compile Include="Extensions\ISearchContextExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Components\Fields\NumberInput`1.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateOptions.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByContentStrategy.cs" />

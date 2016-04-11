@@ -61,9 +61,11 @@
     <Compile Include="Extensions\ByExtensions.cs" />
     <Compile Include="Extensions\ByKindExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\ISearchContextExtensions.cs" />
     <Compile Include="Extensions\ITimeoutsExtensions.cs" />
     <Compile Include="Extensions\IWebDriverExtensions.cs" />
     <Compile Include="Extensions\IWebElementExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SafeWait`1.cs" />
     <Compile Include="SearchContexts\ExtendedSearchContext`1.cs" />
