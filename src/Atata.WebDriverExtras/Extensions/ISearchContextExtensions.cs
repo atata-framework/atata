@@ -19,6 +19,20 @@ namespace Atata
             return contextToSearchIn.FindElements(by);
         }
 
+        public static bool Exists<T>(this T searchContext, By by)
+            where T : ISearchContext
+        {
+            ISearchContext contextToSearchIn = ResolveContext(searchContext);
+            return contextToSearchIn.Exists(by);
+        }
+
+        public static bool Missing<T>(this T searchContext, By by)
+            where T : ISearchContext
+        {
+            ISearchContext contextToSearchIn = ResolveContext(searchContext);
+            return contextToSearchIn.Missing(by);
+        }
+
         private static IExtendedSearchContext ResolveContext<T>(this T searchContext)
             where T : ISearchContext
         {

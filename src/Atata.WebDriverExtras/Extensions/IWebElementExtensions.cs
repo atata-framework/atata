@@ -1,7 +1,5 @@
 ﻿using OpenQA.Selenium;
 using System;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Atata
 {
@@ -28,21 +26,6 @@ namespace Atata
             return element.Text.Contains(content);
         }
 
-        public static IWebElement NullIfInvisible(this IWebElement element)
-        {
-            return element.Displayed ? element : null;
-        }
-
-        public static ReadOnlyCollection<IWebElement> OnlyVisible(this ReadOnlyCollection<IWebElement> source)
-        {
-            return source.Where(x => x.Displayed).ToReadOnly();
-        }
-
-        public static IWebElement FirstVisibleOrDefault(this ReadOnlyCollection<IWebElement> source)
-        {
-            return source.Where(x => x.Displayed).FirstOrDefault();
-        }
-
         public static string GetValue(this IWebElement element)
         {
             return element.GetAttribute("value");
@@ -54,16 +37,6 @@ namespace Atata
             if (!string.IsNullOrEmpty(text))
                 element.SendKeys(text);
             return element;
-        }
-
-        public static bool Exists(this IWebElement element, By by)
-        {
-            return new WebElementExtendedSearchContext(element).Exists(by);
-        }
-
-        public static bool Missing(this IWebElement element, By by)
-        {
-            return new WebElementExtendedSearchContext(element).Missing(by);
         }
     }
 }
