@@ -7,12 +7,23 @@ namespace Atata
     public abstract class FindAttribute : Attribute
     {
         private const ScopeSource DefaultScopeSource = ScopeSource.Parent;
+        private int index;
 
         protected FindAttribute()
         {
         }
 
-        public int? Index { get; set; }
+        public int Index
+        {
+            get { return index; }
+            set
+            {
+                index = value;
+                IsIndexSet = true;
+            }
+        }
+
+        internal bool IsIndexSet { get; private set; }
         public ScopeSource Scope { get; set; }
 
         public abstract IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata);

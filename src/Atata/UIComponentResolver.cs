@@ -373,7 +373,7 @@ namespace Atata
             {
                 ElementXPath = definition != null && definition.ScopeXPath != null ? definition.ScopeXPath : "*",
                 IdFinderFormat = definition != null ? definition.IdFinderFormat : null,
-                Index = findAttribute.Index
+                Index = findAttribute.IsIndexSet ? (int?)findAttribute.Index : null
             };
 
             ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;
