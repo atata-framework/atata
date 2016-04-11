@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using System;
+﻿using System;
 
 namespace Atata
 {
@@ -7,8 +6,8 @@ namespace Atata
     {
         static RetrySettings()
         {
-            Timeout = 10.Seconds();
-            RetryInterval = 500.Milliseconds();
+            Timeout = TimeSpan.FromSeconds(10);
+            RetryInterval = TimeSpan.FromSeconds(0.5);
         }
 
         public static TimeSpan Timeout { get; internal set; }

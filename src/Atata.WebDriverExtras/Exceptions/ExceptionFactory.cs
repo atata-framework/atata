@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using System;
 using System.Text;
 
@@ -27,7 +26,7 @@ namespace Atata
         public static ArgumentException CreateForUnsupportedEnumValue<T>(T value, string paramName)
             where T : struct
         {
-            string message = "Unsopported {0} value: {1}.".FormatWith(typeof(T).FullName, value);
+            string message = string.Format("Unsupported {0} enum value: {1}.", typeof(T).FullName, value);
             return new ArgumentException(message, paramName);
         }
 
