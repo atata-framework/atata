@@ -77,6 +77,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Atata.WebDriverExtras\Atata.WebDriverExtras.csproj">
+      <Project>{a08c24d1-7904-4a0c-bf07-5aef4a520d82}</Project>
+      <Name>Atata.WebDriverExtras</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Atata\Atata.csproj">
       <Project>{9d876d23-607a-45dc-979a-01da1d34189c}</Project>
       <Name>Atata</Name>

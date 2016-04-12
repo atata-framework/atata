@@ -195,6 +195,7 @@
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
     <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
+    <Compile Include="ScopeSearch\Strategies\FindByIndexStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\IComponentScopeLocateStrategy.cs" />
     <Compile Include="ScopeSearch\MissingComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\SequalComponentScopeLocateResult.cs" />
