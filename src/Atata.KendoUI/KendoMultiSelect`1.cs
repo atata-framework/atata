@@ -8,6 +8,7 @@ namespace Atata.KendoUI
     {
         public TOwner Add(string value)
         {
+            RunTriggers(TriggerEvents.BeforeSet);
             Log.StartAddingSection(ComponentFullName, value);
 
             var input = Scope.Get(By.CssSelector("input.k-input"));
@@ -22,6 +23,7 @@ namespace Atata.KendoUI
             Scope.Get(By.XPath(".//ul/li[contains(.,'{0}')]").Named(value).OfKind("value in control"));
 
             Log.EndSection();
+            RunTriggers(TriggerEvents.AfterSet);
 
             return Owner;
         }
