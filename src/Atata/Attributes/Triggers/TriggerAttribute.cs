@@ -20,6 +20,6 @@ namespace Atata
         {
         }
 
-        public abstract void Run(TriggerContext context);
+        public abstract void Execute(TriggerContext context);
     }
 }

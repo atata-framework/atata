@@ -12,7 +12,7 @@ namespace Atata
 
         public string Keys { get; protected set; }
 
-        public override void Run(TriggerContext context)
+        public override void Execute(TriggerContext context)
         {
             if (!string.IsNullOrEmpty(Keys))
             {

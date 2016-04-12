@@ -14,14 +14,14 @@ namespace Atata
 
         protected abstract IEnumerable<TriggerAttribute> CreateTriggers();
 
-        public override void Run(TriggerContext context)
+        public override void Execute(TriggerContext context)
         {
             if (triggers == null)
                 InitTriggers();
 
             foreach (TriggerAttribute trigger in triggers)
             {
-                trigger.Run(context);
+                trigger.Execute(context);
             }
         }
 

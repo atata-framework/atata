@@ -9,13 +9,13 @@
 
         public TOwner Click()
         {
-            RunTriggers(TriggerEvents.BeforeClick);
+            ExecuteTriggers(TriggerEvents.BeforeClick);
             Log.StartClickingSection(ComponentFullName);
 
             Scope.Click();
 
             Log.EndSection();
-            RunTriggers(TriggerEvents.AfterClick);
+            ExecuteTriggers(TriggerEvents.AfterClick);
 
             return Owner;
         }

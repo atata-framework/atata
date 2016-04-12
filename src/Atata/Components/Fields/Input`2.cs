@@ -18,13 +18,13 @@
 
         public TOwner Append(string value)
         {
-            RunTriggers(TriggerEvents.BeforeSet);
+            ExecuteTriggers(TriggerEvents.BeforeSet);
             Log.StartSection("Append '{0}' to {1}", value, ComponentFullName);
 
             Scope.SendKeys(value);
 
             Log.EndSection();
-            RunTriggers(TriggerEvents.AfterSet);
+            ExecuteTriggers(TriggerEvents.AfterSet);
 
             return Owner;
         }

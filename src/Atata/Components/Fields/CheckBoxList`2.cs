@@ -74,13 +74,13 @@ namespace Atata
         {
             if (!object.Equals(value, null))
             {
-                RunTriggers(TriggerEvents.BeforeSet);
+                ExecuteTriggers(TriggerEvents.BeforeSet);
                 Log.StartSection("Check '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
 
                 ClickItems(value, (isInValue, isSelected) => isInValue && !isSelected);
 
                 Log.EndSection();
-                RunTriggers(TriggerEvents.AfterSet);
+                ExecuteTriggers(TriggerEvents.AfterSet);
             }
             return Owner;
         }
@@ -89,13 +89,13 @@ namespace Atata
         {
             if (!object.Equals(value, null))
             {
-                RunTriggers(TriggerEvents.BeforeSet);
+                ExecuteTriggers(TriggerEvents.BeforeSet);
                 Log.StartSection("Uncheck '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
 
                 ClickItems(value, (isInValue, isSelected) => isInValue && isSelected);
 
                 Log.EndSection();
-                RunTriggers(TriggerEvents.AfterSet);
+                ExecuteTriggers(TriggerEvents.AfterSet);
             }
             return Owner;
         }

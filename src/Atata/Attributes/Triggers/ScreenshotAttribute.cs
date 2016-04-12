@@ -10,7 +10,7 @@
 
         public string Title { get; private set; }
 
-        public override void Run(TriggerContext context)
+        public override void Execute(TriggerContext context)
         {
             context.Log.Screenshot(Title);
         }

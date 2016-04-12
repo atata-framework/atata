@@ -7,7 +7,7 @@
         {
         }
 
-        public override void Run(TriggerContext context)
+        public override void Execute(TriggerContext context)
         {
             context.Driver.ExecuteScript("window.scrollTo(0,document.body.scrollHeight);");
         }

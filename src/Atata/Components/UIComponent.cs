@@ -173,7 +173,7 @@ namespace Atata
             Log.EndSection();
         }
 
-        protected void RunTriggers(TriggerEvents on)
+        protected void ExecuteTriggers(TriggerEvents on)
         {
             if (Triggers == null || Triggers.Length == 0 || on == TriggerEvents.None)
                 return;
@@ -192,13 +192,13 @@ namespace Atata
             var triggers = Triggers.Where(x => x.On.HasFlag(on));
 
             foreach (var trigger in triggers)
-                trigger.Run(context);
+                trigger.Execute(context);
 
             if (on == TriggerEvents.OnPageObjectInit || on == TriggerEvents.OnPageObjectLeave)
             {
                 foreach (UIComponent child in Children)
                 {
-                    child.RunTriggers(on);
+                    child.ExecuteTriggers(on);
                 }
             }
         }

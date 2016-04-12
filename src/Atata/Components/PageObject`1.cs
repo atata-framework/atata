@@ -45,7 +45,7 @@ namespace Atata
 
             Log.EndSection();
 
-            RunTriggers(TriggerEvents.OnPageObjectInit);
+            ExecuteTriggers(TriggerEvents.OnPageObjectInit);
 
             VerifyCurrentPage();
         }
@@ -97,7 +97,7 @@ namespace Atata
 
         protected TOther InitChild<TOther>(TOther pageObject, string windowName = null) where TOther : PageObject<TOther>
         {
-            RunTriggers(TriggerEvents.OnPageObjectLeave);
+            ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
             UIComponentResolver.CleanUpPageObject<T>(this);
 
             PageObjectContext context = PageObjectContext;
