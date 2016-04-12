@@ -26,7 +26,16 @@ namespace Atata
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            return GetElement(searchOptions, xPathCondition) == null;
+            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+
+            SearchOptions searchOptionsForElementGet = searchOptions.Clone();
+            searchOptionsForElementGet.IsSafely = true;
+
+            IWebElement element = GetElement(searchOptionsForElementGet, xPathCondition);
+            if (element != null && !searchOptions.IsSafely)
+                throw ExceptionFactory.CreateForNotMissingElement();
+            else
+                return element == null;
         }
     }
 }
