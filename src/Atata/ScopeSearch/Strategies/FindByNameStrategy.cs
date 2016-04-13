@@ -6,7 +6,7 @@ namespace Atata
     public class FindByNameStrategy : XPathComponentScopeLocateStrategy
     {
         public FindByNameStrategy()
-            : base(applyIndex: false)
+            : base(useIndex: IndexUsage.None)
         {
         }
 
@@ -14,7 +14,7 @@ namespace Atata
         {
             string nameCondition = options.GetTermsXPathCondition("@name");
 
-            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(nameCondition, options.GetPositionWrappedXPathCondition()));
+            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(nameCondition, options.GetPositionWrappedXPathConditionOrNull()));
         }
     }
 }

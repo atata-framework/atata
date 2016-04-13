@@ -33,6 +33,11 @@ namespace Atata
 
         public string GetPositionWrappedXPathCondition()
         {
+            return "[{0}]".FormatWith(Position ?? 1);
+        }
+
+        public string GetPositionWrappedXPathConditionOrNull()
+        {
             return HasIndex ? "[{0}]".FormatWith(Position) : null;
         }
 

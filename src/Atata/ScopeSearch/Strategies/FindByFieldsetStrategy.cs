@@ -6,7 +6,7 @@ namespace Atata
     public class FindByFieldsetStrategy : XPathComponentScopeLocateStrategy
     {
         public FindByFieldsetStrategy()
-            : base(applyIndex: false)
+            : base(useIndex: IndexUsage.None)
         {
         }
 
@@ -14,7 +14,7 @@ namespace Atata
         {
             string legendCondition = options.GetTermsXPathCondition();
 
-            builder.Insert(0, "fieldset[legend[{0}]]{1}//".FormatWith(legendCondition, options.GetPositionWrappedXPathCondition()));
+            builder.Insert(0, "fieldset[legend[{0}]]{1}//".FormatWith(legendCondition, options.GetPositionWrappedXPathConditionOrNull()));
         }
     }
 }

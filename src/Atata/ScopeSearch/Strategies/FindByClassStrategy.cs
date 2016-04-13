@@ -7,7 +7,7 @@ namespace Atata
     public class FindByClassStrategy : XPathComponentScopeLocateStrategy
     {
         public FindByClassStrategy()
-            : base(applyIndex: false)
+            : base(useIndex: IndexUsage.None)
         {
         }
 
@@ -15,7 +15,7 @@ namespace Atata
         {
             string classCondition = GetClassCondition(options);
 
-            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(classCondition, options.GetPositionWrappedXPathCondition()));
+            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(classCondition, options.GetPositionWrappedXPathConditionOrNull()));
         }
 
         private string GetClassCondition(ComponentScopeLocateOptions options)

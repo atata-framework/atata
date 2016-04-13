@@ -324,7 +324,7 @@ namespace Atata
 
                 return findControlsAttribute != null
                     ? findControlsAttribute.CreateFindAttribute()
-                    : GetDefaultFindAttribute(controlType, parentControlType);
+                    : GetDefaultFindAttribute(controlType, parentControlType, metadata);
             }
         }
 
@@ -339,7 +339,7 @@ namespace Atata
         }
 
         // TODO: Remove GetDefaultFindAttribute method. Move this logic to some other place.
-        private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType)
+        private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType, UIComponentMetadata metadata)
         {
             if (controlType.IsSubclassOfRawGeneric(typeof(Field<,>)))
                 return new FindByLabelAttribute();
@@ -349,6 +349,8 @@ namespace Atata
                 return new FindByContentOrValueAttribute();
             else if (controlType.IsSubclassOfRawGeneric(typeof(Content<,>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
                 return new FindByColumnAttribute();
+            else if (string.IsNullOrEmpty(metadata.ComponentDefinitonAttribute.ScopeXPath) || metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
+                return new UseParentScopeAttribute();
             else
                 return new FindFirstAttribute();
         }

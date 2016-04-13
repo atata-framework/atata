@@ -5,10 +5,10 @@ namespace Atata
 {
     public class XPathComponentScopeLocateStrategy : IComponentScopeLocateStrategy
     {
-        public XPathComponentScopeLocateStrategy(XPathPrefixKind xPathPrefix = XPathPrefixKind.Descendant, bool applyIndex = true)
+        public XPathComponentScopeLocateStrategy(XPathPrefixKind xPathPrefix = XPathPrefixKind.Descendant, IndexUsage useIndex = IndexUsage.IfNotNull)
         {
             XPathPrefix = xPathPrefix;
-            ApplyIndex = applyIndex;
+            UseIndex = useIndex;
         }
 
         public enum XPathPrefixKind
@@ -18,8 +18,15 @@ namespace Atata
             DescendantOrSelf
         }
 
+        public enum IndexUsage
+        {
+            None,
+            IfNotNull,
+            AnyCase
+        }
+
         protected XPathPrefixKind XPathPrefix { get; private set; }
-        protected bool ApplyIndex { get; private set; }
+        protected IndexUsage UseIndex { get; private set; }
 
         public virtual ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
@@ -32,7 +39,7 @@ namespace Atata
             StringBuilder builder = new StringBuilder(options.ElementXPath);
             BuildXPath(builder, options);
 
-            if (ApplyIndex && options.HasIndex)
+            if (UseIndex == IndexUsage.AnyCase || (UseIndex == IndexUsage.IfNotNull && options.HasIndex))
                 builder.AppendFormat(options.GetPositionWrappedXPathCondition());
 
             if (XPathPrefix != XPathPrefixKind.None)

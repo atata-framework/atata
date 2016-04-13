@@ -7,7 +7,7 @@ namespace Atata
     public class FindByIdStrategy : XPathComponentScopeLocateStrategy
     {
         public FindByIdStrategy()
-            : base(applyIndex: false)
+            : base(useIndex: IndexUsage.None)
         {
         }
 
@@ -17,7 +17,7 @@ namespace Atata
                 ? options.GetTermsXPathCondition("@id")
                 : string.Join(" or ", options.Terms.Select(x => options.IdFinderFormat.FormatWith(x)));
 
-            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(idCondition, options.GetPositionWrappedXPathCondition()));
+            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(idCondition, options.GetPositionWrappedXPathConditionOrNull()));
         }
     }
 }

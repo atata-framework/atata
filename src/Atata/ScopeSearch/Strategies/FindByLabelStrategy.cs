@@ -11,7 +11,7 @@ namespace Atata
         {
             string labelCondition = options.GetTermsXPathCondition();
             IWebElement label = scope.Get(
-                By.XPath(".//label[{0}]{1}".FormatWith(labelCondition, options.GetPositionWrappedXPathCondition())).
+                By.XPath(".//label[{0}]{1}".FormatWith(labelCondition, options.GetPositionWrappedXPathConditionOrNull())).
                     With(searchOptions).
                     Label(options.GetTermsAsString()));
 
@@ -21,7 +21,7 @@ namespace Atata
             string elementId = label.GetAttribute("for");
             if (string.IsNullOrEmpty(elementId))
             {
-                var strategy = new XPathComponentScopeLocateStrategy(applyIndex: false);
+                var strategy = new XPathComponentScopeLocateStrategy(useIndex: XPathComponentScopeLocateStrategy.IndexUsage.None);
                 return new SequalComponentScopeLocateResult(label, strategy);
             }
             else
