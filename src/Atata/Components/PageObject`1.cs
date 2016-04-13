@@ -15,6 +15,7 @@ namespace Atata
         }
 
         public bool NavigateOnInit { get; set; }
+        protected bool IsTemporarilyNavigated { get; private set; }
 
         protected PageObjectContext PageObjectContext { get; private set; }
 
@@ -95,10 +96,11 @@ namespace Atata
             return InitChild(new TOther(), windowName);
         }
 
-        protected TOther InitChild<TOther>(TOther pageObject, string windowName = null) where TOther : PageObject<TOther>
+        protected TOther InitChild<TOther>(TOther pageObject, string windowName = null, bool isReturnedFromTemporary = false) where TOther : PageObject<TOther>
         {
             ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
-            UIComponentResolver.CleanUpPageObject<T>(this);
+            if (!pageObject.IsTemporarilyNavigated)
+                UIComponentResolver.CleanUpPageObject(this);
 
             PageObjectContext context = PageObjectContext;
 
@@ -107,8 +109,11 @@ namespace Atata
                 context = SwitchTo(windowName);
             }
 
-            pageObject.PreviousPageObject = this;
-            pageObject.Init(context);
+            if (!isReturnedFromTemporary)
+            {
+                pageObject.PreviousPageObject = this;
+                pageObject.Init(context);
+            }
 
             return pageObject;
         }
@@ -121,14 +126,35 @@ namespace Atata
 
         public TOther GoTo<TOther>() where TOther : PageObject<TOther>
         {
-            TOther newPageObject = Activator.CreateInstance<TOther>();
-            return GoTo(newPageObject);
+            bool isReturnedFromTemporary = IsTemporarilyNavigated && PreviousPageObject is TOther;
+
+            TOther newPageObject = isReturnedFromTemporary ? (TOther)PreviousPageObject : Activator.CreateInstance<TOther>();
+
+            newPageObject.NavigateOnInit = false;
+
+            return InitChild(newPageObject, isReturnedFromTemporary: isReturnedFromTemporary);
         }
 
         public TOther GoTo<TOther>(TOther pageObject) where TOther : PageObject<TOther>
         {
             pageObject.NavigateOnInit = false;
             return InitChild(pageObject);
+        }
+
+        public TOther GoToTemporarily<TOther>() where TOther : PageObject<TOther>
+        {
+            TOther newPageObject;
+            if (IsTemporarilyNavigated && PreviousPageObject is TOther)
+            {
+                newPageObject = (TOther)PreviousPageObject;
+            }
+            else
+            {
+                newPageObject = Activator.CreateInstance<TOther>();
+                newPageObject.IsTemporarilyNavigated = true;
+            }
+
+            return GoTo(newPageObject);
         }
 
         public TOther GoToNewWindow<TOther>() where TOther : PageObject<TOther>
