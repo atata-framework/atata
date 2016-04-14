@@ -142,11 +142,13 @@ namespace Atata
         {
             if (content == null)
                 throw new ArgumentNullException("content");
-            if (content.Length == 0)
+            if (content.Length == 0 || content.All(x => string.IsNullOrEmpty(x)))
                 throw ExceptionFactory.CreateForArgumentEmptyCollection("content");
 
+            string[] expectedValues = content.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
             string matchAsString = TermMatch.Contains.ToString(TermFormat.LowerCase);
-            string expectedValuesAsString = content.ToQuotedValuesListOfString();
+            string expectedValuesAsString = expectedValues.ToQuotedValuesListOfString();
 
             Log.StartVerificationSection("{0} content {1} {2}", ComponentFullName, matchAsString, expectedValuesAsString);
 
@@ -156,7 +158,7 @@ namespace Atata
             bool containsText = Driver.Try().Until(_ =>
             {
                 actualText = Scope.Text;
-                notFoundValue = content.FirstOrDefault(value => !actualText.Contains(value));
+                notFoundValue = expectedValues.FirstOrDefault(value => !actualText.Contains(value));
                 return notFoundValue == null;
             });
 
