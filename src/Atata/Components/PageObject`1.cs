@@ -17,8 +17,6 @@ namespace Atata
         public bool NavigateOnInit { get; set; }
         protected bool IsTemporarilyNavigated { get; private set; }
 
-        protected PageObjectContext PageObjectContext { get; private set; }
-
         protected UIComponent PreviousPageObject { get; private set; }
 
         protected virtual IWebElement GetScope(SearchOptions searchOptions)
@@ -28,8 +26,6 @@ namespace Atata
 
         internal void Init(PageObjectContext context)
         {
-            PageObjectContext = context;
-
             ApplyContext(context);
 
             ComponentName = UIComponentResolver.ResolvePageObjectName<T>();
@@ -96,32 +92,27 @@ namespace Atata
             return InitChild(new TOther(), windowName);
         }
 
-        protected TOther InitChild<TOther>(TOther pageObject, string windowName = null, bool isReturnedFromTemporary = false) where TOther : PageObject<TOther>
+        protected internal TOther InitChild<TOther>(TOther pageObject, string windowName = null, bool isReturnedFromTemporary = false) where TOther : PageObject<TOther>
         {
             ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
             if (!pageObject.IsTemporarilyNavigated)
                 UIComponentResolver.CleanUpPageObject(this);
 
-            PageObjectContext context = PageObjectContext;
-
             if (!string.IsNullOrWhiteSpace(windowName))
-            {
-                context = SwitchTo(windowName);
-            }
+                SwitchTo(windowName);
 
             if (!isReturnedFromTemporary)
             {
                 pageObject.PreviousPageObject = this;
-                pageObject.Init(context);
+                pageObject.Init(new PageObjectContext(Driver, Log));
             }
 
             return pageObject;
         }
 
-        protected virtual PageObjectContext SwitchTo(string windowName)
+        protected virtual void SwitchTo(string windowName)
         {
             Driver.SwitchTo().Window(windowName);
-            return PageObjectContext;
         }
 
         public TOther GoTo<TOther>() where TOther : PageObject<TOther>

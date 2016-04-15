@@ -169,6 +169,7 @@
     <Compile Include="Components\IItemsControl.cs" />
     <Compile Include="Components\LinkControl`1.cs" />
     <Compile Include="Components\LinkControl`2.cs" />
+    <Compile Include="AtataContext.cs" />
     <Compile Include="Components\TableRowBase`1.cs" />
     <Compile Include="Components\TableRow`1.cs" />
     <Compile Include="Components\TableRow`2.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Extensions\TermFormatExtensions.cs" />
     <Compile Include="Extensions\TermMatchExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Go.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
     <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
