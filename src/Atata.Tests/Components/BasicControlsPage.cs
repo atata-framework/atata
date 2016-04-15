@@ -5,7 +5,7 @@ namespace Atata.Tests
     [NavigateTo("http://localhost:50549/BasicControls.html")]
     [VerifyTitle("Basic Controls")]
     [VerifyContentContainsAll("First Name", "Age")]
-    public class BasicControlsPage : Page<BasicControlsPage>
+    public class BasicControlsPage : Page<_>
     {
         [FindByCss("h1")]
         public Text<_> Header { get; private set; }

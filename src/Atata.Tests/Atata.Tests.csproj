@@ -61,8 +61,11 @@
     <Compile Include="ClickableTest.cs" />
     <Compile Include="Components\BasicControlsPage.cs" />
     <Compile Include="Components\CheckBoxListPage.cs" />
+    <Compile Include="Components\GoTo1Page.cs" />
+    <Compile Include="Components\GoTo2Page.cs" />
     <Compile Include="Components\InputPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
+    <Compile Include="GoToTest.cs" />
     <Compile Include="InputTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicControlsTest.cs" />

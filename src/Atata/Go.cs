@@ -8,7 +8,7 @@ namespace Atata
         public static T To<T>(T pageObject = null, string url = null, bool navigate = true, bool temporarily = false)
             where T : PageObject<T>
         {
-            return To(pageObject, new GoOptions { Url = url, Navigate = navigate, Temporarily = temporarily });
+            return To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url) && navigate, Temporarily = temporarily });
         }
 
         public static T ToWindow<T>(T pageObject, string windowName, bool temporarily = false)
@@ -50,6 +50,7 @@ namespace Atata
             if (AtataContext.Current.PageObject == null)
             {
                 pageObject = pageObject ?? Activator.CreateInstance<T>();
+                AtataContext.Current.PageObject = pageObject;
 
                 if (!string.IsNullOrWhiteSpace(options.Url))
                 {
@@ -63,7 +64,9 @@ namespace Atata
             else
             {
                 IPageObject currentPageObject = (IPageObject)AtataContext.Current.PageObject;
-                return currentPageObject.GoTo<T>(pageObject, options);
+                T newPageObject = currentPageObject.GoTo(pageObject, options);
+                AtataContext.Current.PageObject = newPageObject;
+                return newPageObject;
             }
         }
     }

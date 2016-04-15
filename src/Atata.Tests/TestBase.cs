@@ -16,6 +16,8 @@ namespace Atata.Tests
                 },
                 Driver);
 
+            AtataContext.Init(Driver, Log);
+
             Log.Info("Start test");
             Driver.Manage().Window.Maximize();
             OnSetUp();

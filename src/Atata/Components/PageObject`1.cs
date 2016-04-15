@@ -63,14 +63,8 @@ namespace Atata
 
             if (GetType().TryGetCustomAttribute(out attribute, true))
             {
-                Log.Info("Navigate to {0}", attribute.Url);
-                Navigate(attribute.Url);
+                GoToUrl(attribute.Url);
             }
-        }
-
-        protected virtual void Navigate(string url)
-        {
-            Driver.Navigate().GoToUrl(url);
         }
 
         private void VerifyCurrentPage()
