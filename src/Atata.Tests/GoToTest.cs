@@ -13,6 +13,17 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void GoTo_LinkNavigation()
+        {
+            var page1 = Go.To<GoTo1Page>();
+            var page1Returned = page1.
+                GoTo2().
+                    GoTo1();
+
+            Assert.That(page1Returned, Is.Not.EqualTo(page1));
+        }
+
+        [Test]
         public void GoTo_UrlNavigation()
         {
             Go.To<GoTo1Page>();
@@ -20,6 +31,16 @@ namespace Atata.Tests
             Go.To<GoTo2Page>(url: url);
 
             Assert.That(AtataContext.Current.Driver.Url, Is.EqualTo(url));
+        }
+
+        [Test]
+        public void GoTo_Temporarily()
+        {
+            var page1 = Go.To<GoTo1Page>();
+            Go.To<GoTo2Page>(temporarily: true);
+            var page1Returned = Go.To<GoTo1Page>();
+
+            Assert.That(page1Returned, Is.EqualTo(page1));
         }
     }
 }

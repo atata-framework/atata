@@ -6,7 +6,7 @@ namespace Atata.Tests
     [VerifyTitle("GoTo 2")]
     public class GoTo2Page : Page<_>
     {
-        public Link<_> GoTo1 { get; private set; }
+        public Link<GoTo1Page, _> GoTo1 { get; private set; }
         public Link<_> GoTo1Blank { get; private set; }
     }
 }
