@@ -8,7 +8,7 @@ namespace Atata
         [ThreadStatic]
         private static AtataContext current;
 
-        public UIComponent CurrentPageObject { get; internal set; }
+        public UIComponent PageObject { get; internal set; }
         public RemoteWebDriver Driver { get; internal set; }
         public ILogManager Log { get; internal set; }
 

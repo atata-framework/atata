@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Atata
 {
-    public abstract class PageObject<T> : UIComponent<T>
+    public abstract class PageObject<T> : UIComponent<T>, IPageObject
         where T : PageObject<T>
     {
         protected PageObject()
@@ -87,6 +87,34 @@ namespace Atata
             Thread.Sleep((int)(seconds * 1000));
         }
 
+        TOther IPageObject.GoTo<TOther>(TOther pageObject, GoOptions options)
+        {
+            bool isReturnedFromTemporary = pageObject == null && IsTemporarilyNavigated && PreviousPageObject is TOther;
+
+            pageObject = isReturnedFromTemporary ? (TOther)PreviousPageObject : pageObject ?? Activator.CreateInstance<TOther>();
+
+            pageObject.NavigateOnInit = options.Navigate;
+            pageObject.IsTemporarilyNavigated = options.Temporarily;
+
+            ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
+            if (!pageObject.IsTemporarilyNavigated)
+                UIComponentResolver.CleanUpPageObject(this);
+
+            if (!string.IsNullOrWhiteSpace(options.Url))
+                GoToUrl(options.Url);
+
+            if (!string.IsNullOrWhiteSpace(options.WindowName))
+                SwitchTo(options.WindowName);
+
+            if (!isReturnedFromTemporary)
+            {
+                pageObject.PreviousPageObject = this;
+                pageObject.Init(new PageObjectContext(Driver, Log));
+            }
+
+            return pageObject;
+        }
+
         protected TOther InitChild<TOther>(string windowName = null) where TOther : PageObject<TOther>, new()
         {
             return InitChild(new TOther(), windowName);
@@ -110,8 +138,15 @@ namespace Atata
             return pageObject;
         }
 
+        protected virtual void GoToUrl(string url)
+        {
+            Log.Info("Go to URL '{0}'", url);
+            Driver.Navigate().GoToUrl(url);
+        }
+
         protected virtual void SwitchTo(string windowName)
         {
+            Log.Info("Switch to window '{0}'", windowName);
             Driver.SwitchTo().Window(windowName);
         }
 

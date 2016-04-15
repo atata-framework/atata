@@ -167,6 +167,7 @@
     <Compile Include="Components\Fields\OptionList`2.cs" />
     <Compile Include="Components\IClickable.cs" />
     <Compile Include="Components\IItemsControl.cs" />
+    <Compile Include="Components\IPageObject.cs" />
     <Compile Include="Components\LinkControl`1.cs" />
     <Compile Include="Components\LinkControl`2.cs" />
     <Compile Include="AtataContext.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Extensions\TermMatchExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Go.cs" />
+    <Compile Include="GoOptions.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
     <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
