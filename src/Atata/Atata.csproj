@@ -103,7 +103,6 @@
     <Compile Include="Attributes\FindByIdSettingsAttribute.cs" />
     <Compile Include="Attributes\NavigateToAttribute.cs" />
     <Compile Include="Attributes\TermFindAttribute.cs" />
-    <Compile Include="Attributes\SetAllGeneratablesAttribute.cs" />
     <Compile Include="Attributes\TermAttribute.cs" />
     <Compile Include="Attributes\FindByIdAttribute.cs" />
     <Compile Include="Attributes\TermSettingsAttribute.cs" />
