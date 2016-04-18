@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
+using System.Linq;
 using System.Threading;
 
 namespace Atata
@@ -82,15 +83,24 @@ namespace Atata
 
         TOther IPageObject.GoTo<TOther>(TOther pageObject, GoOptions options)
         {
-            bool isReturnedFromTemporary = pageObject == null && IsTemporarilyNavigated && PreviousPageObject is TOther;
+            bool isReturnedFromTemporary = pageObject == null && TryResolvePreviousPageObjectNavigatedTemporarily(options, out pageObject);
 
-            pageObject = isReturnedFromTemporary ? (TOther)PreviousPageObject : pageObject ?? Activator.CreateInstance<TOther>();
+            pageObject = pageObject ?? Activator.CreateInstance<TOther>();
+
+            if (!options.Temporarily && !isReturnedFromTemporary)
+            {
+                UIComponentResolver.CleanUpPageObjects(AtataContext.Current.TemporarilyPreservedPageObjects);
+                AtataContext.Current.TemporarilyPreservedPageObjectList.Clear();
+            }
 
             pageObject.NavigateOnInit = options.Navigate;
             pageObject.IsTemporarilyNavigated = options.Temporarily;
 
+            if (options.Temporarily)
+                AtataContext.Current.TemporarilyPreservedPageObjectList.Add(this);
+
             ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
-            if (!pageObject.IsTemporarilyNavigated)
+            if (!options.Temporarily)
                 UIComponentResolver.CleanUpPageObject(this);
 
             if (!string.IsNullOrWhiteSpace(options.Url))
@@ -106,6 +116,30 @@ namespace Atata
             }
 
             return pageObject;
+        }
+
+        private bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(GoOptions options, out TOther pageObject)
+            where TOther : PageObject<TOther>
+        {
+            UIComponent foundPageObject = AtataContext.Current.TemporarilyPreservedPageObjects.
+                AsEnumerable().
+                Reverse().
+                FirstOrDefault(x => x is TOther);
+
+            pageObject = (TOther)foundPageObject;
+
+            if (foundPageObject == null)
+                return false;
+
+            var tempPageObjectsToRemove = AtataContext.Current.TemporarilyPreservedPageObjects.
+                SkipWhile(x => x != foundPageObject).
+                ToArray();
+
+            UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove);
+            foreach (var item in tempPageObjectsToRemove)
+                AtataContext.Current.TemporarilyPreservedPageObjectList.Remove(item);
+
+            return true;
         }
 
         protected virtual void SwitchTo(string windowName)

@@ -532,8 +532,13 @@ namespace Atata
                 throw new ArgumentException("Failed to find mapped control by specified 'controlDelegate'.", "controlDelegate");
         }
 
-        public static void CleanUpPageObject<T>(PageObject<T> pageObject)
-            where T : PageObject<T>
+        public static void CleanUpPageObjects(IEnumerable<UIComponent> pageObjects)
+        {
+            foreach (var item in pageObjects)
+                CleanUpPageObject(item);
+        }
+
+        public static void CleanUpPageObject(UIComponent pageObject)
         {
             var delegatesToRemove = DelegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key).ToArray();
             foreach (var item in delegatesToRemove)
