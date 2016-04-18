@@ -42,5 +42,27 @@ namespace Atata.Tests
 
             Assert.That(page1Returned, Is.EqualTo(page1));
         }
+
+        [Test]
+        public void GoTo_TemporarilyByLink()
+        {
+            var page1 = Go.To<GoTo1Page>();
+            var page1Returned = page1.
+                GoTo2Temporarily().
+                    GoTo1();
+
+            Assert.That(page1Returned, Is.EqualTo(page1));
+        }
+
+        [Test]
+        public void GoTo_TemporarilyByLink2()
+        {
+            var page1 = Go.To<GoTo1Page>();
+            var page1Returned = page1.
+                GoTo2Temporarily().
+                    GoTo1Temporarily();
+
+            Assert.That(page1Returned, Is.EqualTo(page1));
+        }
     }
 }

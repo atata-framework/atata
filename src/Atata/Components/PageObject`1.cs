@@ -14,7 +14,7 @@ namespace Atata
             ScopeLocator = new DynamicScopeLocator(GetScope);
         }
 
-        public bool NavigateOnInit { get; set; }
+        protected bool NavigateOnInit { get; private set; }
         protected bool IsTemporarilyNavigated { get; private set; }
 
         protected UIComponent PreviousPageObject { get; private set; }

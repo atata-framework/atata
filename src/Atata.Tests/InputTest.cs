@@ -9,7 +9,7 @@ namespace Atata.Tests
 
         protected override void OnSetUp()
         {
-            page = GoTo<InputPage>();
+            page = Go.To<InputPage>();
         }
 
         [Test]

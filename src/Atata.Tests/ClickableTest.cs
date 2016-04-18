@@ -8,7 +8,7 @@ namespace Atata.Tests
         [Test]
         public void ControlDelegates()
         {
-            GoTo<BasicControlsPage>().
+            Go.To<BasicControlsPage>().
                 RawButton.VerifyExists().
                 RawButton.VerifyEnabled().
                 RawButton.VerifyContent("Raw Button").
@@ -31,22 +31,22 @@ namespace Atata.Tests
         [Test]
         public void ControlDelegates_WithNavigaton()
         {
-            GoTo<BasicControlsPage>().
+            Go.To<BasicControlsPage>().
                 RawButton.VerifyExists().
                 RawButton.VerifyEnabled().
                 GoToButton();
 
-            GoTo<BasicControlsPage>().
+            Go.To<BasicControlsPage>().
                 RawButton.VerifyExists().
                 RawButton.VerifyEnabled().
                 GoToInputButton();
 
-            GoTo<BasicControlsPage>().
+            Go.To<BasicControlsPage>().
                 RawButton.VerifyExists().
                 RawButton.VerifyEnabled().
                 GoToLink();
 
-            GoTo<BasicControlsPage>().
+            Go.To<BasicControlsPage>().
                 RawButton.VerifyExists().
                 RawButton.VerifyEnabled().
                 GoToDivButton();

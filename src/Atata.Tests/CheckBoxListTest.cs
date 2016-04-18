@@ -10,7 +10,7 @@ namespace Atata.Tests
 
         protected override void OnSetUp()
         {
-            page = GoTo<CheckBoxListPage>();
+            page = Go.To<CheckBoxListPage>();
         }
 
         [Test]

@@ -10,7 +10,7 @@ namespace Atata.Tests
         {
             string firstName;
 
-            GoTo<BasicControlsPage>().
+            Go.To<BasicControlsPage>().
                 Header.VerifyEquals("Basic Controls").
 
                 ByLabel.FirstName.VerifyExists().

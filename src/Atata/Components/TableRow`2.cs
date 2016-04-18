@@ -17,7 +17,16 @@ namespace Atata
             Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
 
-            return typeof(TOwner) == typeof(TNavigateTo) ? (TNavigateTo)(object)Owner : Owner.GoTo<TNavigateTo>();
+            if (typeof(TOwner) == typeof(TNavigateTo))
+                return (TNavigateTo)(object)Owner;
+            else
+                return Go.To<TNavigateTo>(navigate: false, temporarily: IsGoTemporarily());
+        }
+
+        private bool IsGoTemporarily()
+        {
+            var attribute = Metadata.GetFirstOrDefaultDeclaringAttribute<GoTemporarilyAttribute>();
+            return attribute != null && attribute.IsTemporarily;
         }
     }
 }

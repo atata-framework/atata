@@ -12,7 +12,13 @@
             if (typeof(TOwner) == typeof(TNavigateTo))
                 return (TNavigateTo)(object)Owner;
             else
-                return Owner.GoTo<TNavigateTo>();
+                return Go.To<TNavigateTo>(navigate: false, temporarily: IsGoTemporarily());
+        }
+
+        private bool IsGoTemporarily()
+        {
+            var attribute = Metadata.GetFirstOrDefaultDeclaringAttribute<GoTemporarilyAttribute>();
+            return attribute != null && attribute.IsTemporarily;
         }
     }
 }

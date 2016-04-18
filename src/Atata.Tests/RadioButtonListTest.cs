@@ -11,7 +11,7 @@ namespace Atata.Tests
 
         protected override void OnSetUp()
         {
-            page = GoTo<RadioButtonListPage>();
+            page = Go.To<RadioButtonListPage>();
         }
 
         [Test]
