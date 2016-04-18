@@ -87,19 +87,26 @@ namespace Atata
 
             pageObject = pageObject ?? Activator.CreateInstance<TOther>();
 
-            if (!options.Temporarily && !isReturnedFromTemporary)
+            if (!isReturnedFromTemporary)
             {
-                UIComponentResolver.CleanUpPageObjects(AtataContext.Current.TemporarilyPreservedPageObjects);
-                AtataContext.Current.TemporarilyPreservedPageObjectList.Clear();
+                if (!options.Temporarily)
+                {
+                    UIComponentResolver.CleanUpPageObjects(AtataContext.Current.TemporarilyPreservedPageObjects);
+                    AtataContext.Current.TemporarilyPreservedPageObjectList.Clear();
+                }
+
+                pageObject.NavigateOnInit = options.Navigate;
+
+                if (options.Temporarily)
+                {
+                    pageObject.IsTemporarilyNavigated = options.Temporarily;
+                    AtataContext.Current.TemporarilyPreservedPageObjectList.Add(this);
+                }
             }
 
-            pageObject.NavigateOnInit = options.Navigate;
-            pageObject.IsTemporarilyNavigated = options.Temporarily;
-
-            if (options.Temporarily)
-                AtataContext.Current.TemporarilyPreservedPageObjectList.Add(this);
-
             ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
+
+            // TODO: Review that condition.
             if (!options.Temporarily)
                 UIComponentResolver.CleanUpPageObject(this);
 
