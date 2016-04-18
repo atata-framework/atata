@@ -54,8 +54,7 @@ namespace Atata
 
                 if (!string.IsNullOrWhiteSpace(options.Url))
                 {
-                    AtataContext.Current.Log.Info("Go to URL '{0}'", options.Url);
-                    AtataContext.Current.Driver.Navigate().GoToUrl(options.Url);
+                    ToUrl(options.Url);
                 }
 
                 pageObject.Init(new PageObjectContext(AtataContext.Current.Driver, AtataContext.Current.Log));
@@ -68,6 +67,12 @@ namespace Atata
                 AtataContext.Current.PageObject = newPageObject;
                 return newPageObject;
             }
+        }
+
+        public static void ToUrl(string url)
+        {
+            AtataContext.Current.Log.Info("Go to URL '{0}'", url);
+            AtataContext.Current.Driver.Navigate().GoToUrl(url);
         }
     }
 }

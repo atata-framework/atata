@@ -1,6 +1,5 @@
 ﻿using OpenQA.Selenium;
 using System;
-using System.Linq;
 using System.Threading;
 
 namespace Atata
@@ -63,7 +62,7 @@ namespace Atata
 
             if (GetType().TryGetCustomAttribute(out attribute, true))
             {
-                GoToUrl(attribute.Url);
+                Go.ToUrl(attribute.Url);
             }
         }
 
@@ -95,7 +94,7 @@ namespace Atata
                 UIComponentResolver.CleanUpPageObject(this);
 
             if (!string.IsNullOrWhiteSpace(options.Url))
-                GoToUrl(options.Url);
+                Go.ToUrl(options.Url);
 
             if (!string.IsNullOrWhiteSpace(options.WindowName))
                 SwitchTo(options.WindowName);
@@ -109,85 +108,10 @@ namespace Atata
             return pageObject;
         }
 
-        protected TOther InitChild<TOther>(string windowName = null) where TOther : PageObject<TOther>, new()
-        {
-            return InitChild(new TOther(), windowName);
-        }
-
-        protected internal TOther InitChild<TOther>(TOther pageObject, string windowName = null, bool isReturnedFromTemporary = false) where TOther : PageObject<TOther>
-        {
-            ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
-            if (!pageObject.IsTemporarilyNavigated)
-                UIComponentResolver.CleanUpPageObject(this);
-
-            if (!string.IsNullOrWhiteSpace(windowName))
-                SwitchTo(windowName);
-
-            if (!isReturnedFromTemporary)
-            {
-                pageObject.PreviousPageObject = this;
-                pageObject.Init(new PageObjectContext(Driver, Log));
-            }
-
-            return pageObject;
-        }
-
-        protected virtual void GoToUrl(string url)
-        {
-            Log.Info("Go to URL '{0}'", url);
-            Driver.Navigate().GoToUrl(url);
-        }
-
         protected virtual void SwitchTo(string windowName)
         {
             Log.Info("Switch to window '{0}'", windowName);
             Driver.SwitchTo().Window(windowName);
-        }
-
-        public TOther GoTo<TOther>() where TOther : PageObject<TOther>
-        {
-            bool isReturnedFromTemporary = IsTemporarilyNavigated && PreviousPageObject is TOther;
-
-            TOther newPageObject = isReturnedFromTemporary ? (TOther)PreviousPageObject : Activator.CreateInstance<TOther>();
-
-            newPageObject.NavigateOnInit = false;
-
-            return InitChild(newPageObject, isReturnedFromTemporary: isReturnedFromTemporary);
-        }
-
-        public TOther GoTo<TOther>(TOther pageObject) where TOther : PageObject<TOther>
-        {
-            pageObject.NavigateOnInit = false;
-            return InitChild(pageObject);
-        }
-
-        public TOther GoToTemporarily<TOther>() where TOther : PageObject<TOther>
-        {
-            TOther newPageObject;
-            if (IsTemporarilyNavigated && PreviousPageObject is TOther)
-            {
-                newPageObject = (TOther)PreviousPageObject;
-            }
-            else
-            {
-                newPageObject = Activator.CreateInstance<TOther>();
-                newPageObject.IsTemporarilyNavigated = true;
-            }
-
-            return GoTo(newPageObject);
-        }
-
-        public TOther GoToNewWindow<TOther>() where TOther : PageObject<TOther>
-        {
-            TOther newPageObject = Activator.CreateInstance<TOther>();
-            return GoToNewWindow(newPageObject);
-        }
-
-        public TOther GoToNewWindow<TOther>(TOther pageObject) where TOther : PageObject<TOther>
-        {
-            pageObject.NavigateOnInit = false;
-            string windowHandle = Driver.WindowHandles.SkipWhile(x => x != Driver.CurrentWindowHandle).ElementAt(1);
-            return InitChild(pageObject, windowHandle);
         }
 
         public virtual void CloseWindow()
