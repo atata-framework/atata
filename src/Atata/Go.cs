@@ -80,8 +80,18 @@ namespace Atata
 
         public static void ToUrl(string url)
         {
-            AtataContext.Current.Log.Info("Go to URL '{0}'", url);
-            AtataContext.Current.Driver.Navigate().GoToUrl(url);
+            Uri uri;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+            {
+                Uri currentUri = new Uri(AtataContext.Current.Driver.Url, UriKind.Absolute);
+
+                string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
+                Uri domainUri = new Uri(domainPart);
+
+                uri = new Uri(domainUri, url);
+            }
+            AtataContext.Current.Log.Info("Go to URL '{0}'", uri);
+            AtataContext.Current.Driver.Navigate().GoToUrl(uri);
         }
     }
 }
