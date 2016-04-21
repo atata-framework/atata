@@ -1,5 +1,4 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Text;
 
 namespace Atata
@@ -8,13 +7,10 @@ namespace Atata
     {
         private Action<string> writeLineAction;
 
-        public SimpleLogManager(Action<string> writeLineAction, IWebDriver driver = null, string screenshotsFolderPath = null)
-            : base(driver, screenshotsFolderPath)
+        public SimpleLogManager(Action<string> writeLineAction = null, string screenshotsFolderPath = null)
+            : base(screenshotsFolderPath)
         {
-            if (writeLineAction == null)
-                throw new ArgumentNullException("writeLineAction");
-
-            this.writeLineAction = writeLineAction;
+            this.writeLineAction = writeLineAction ?? (x => Console.WriteLine(x));
         }
 
         public override void Info(string message, params object[] args)

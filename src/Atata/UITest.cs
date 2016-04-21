@@ -7,12 +7,6 @@ namespace Atata
     {
         protected RemoteWebDriver Driver { get; set; }
         protected ILogManager Log { get; set; }
-        protected PageObjectContext PageObjectContext { get; private set; }
-
-        protected virtual PageObjectContext CreatePageObjectContext()
-        {
-            return new PageObjectContext(Driver, Log);
-        }
 
         protected void Wait(double seconds)
         {

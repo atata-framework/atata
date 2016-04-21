@@ -89,8 +89,7 @@ namespace Atata
             {
                 if (!options.Temporarily)
                 {
-                    UIComponentResolver.CleanUpPageObjects(AtataContext.Current.TemporarilyPreservedPageObjects);
-                    AtataContext.Current.TemporarilyPreservedPageObjectList.Clear();
+                    AtataContext.Current.CleanUpTemporarilyPreservedPageObjectList();
                 }
 
                 pageObject.NavigateOnInit = options.Navigate;

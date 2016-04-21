@@ -11,18 +11,21 @@ namespace Atata
     {
         private int screenshotNumber = 0;
 
-        public LogManagerBase(IWebDriver driver = null, string screenshotsFolderPath = null)
+        public LogManagerBase(string screenshotsFolderPath = null)
         {
-            Driver = driver;
             ScreenshotsFolderPath = screenshotsFolderPath;
         }
 
-        public IWebDriver Driver { get; set; }
+        protected IWebDriver Driver
+        {
+            get { return AtataContext.Current.Driver; }
+        }
+
         public string ScreenshotsFolderPath { get; set; }
 
         public abstract void Info(string message, params object[] args);
         public abstract void Warn(string message, params object[] args);
-        public abstract void Error(string message, System.Exception excepton);
+        public abstract void Error(string message, Exception excepton);
 
         public void Screenshot(string title = null)
         {
