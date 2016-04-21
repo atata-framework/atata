@@ -65,6 +65,7 @@ namespace Atata
                     ToUrl(options.Url);
                 }
 
+                pageObject.NavigateOnInit = options.Navigate;
                 pageObject.Init(new PageObjectContext(AtataContext.Current.Driver, AtataContext.Current.Log));
                 return pageObject;
             }
