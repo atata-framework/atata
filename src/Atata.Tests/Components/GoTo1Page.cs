@@ -12,8 +12,5 @@ namespace Atata.Tests
         public Link<GoTo2Page, _> GoTo2Temporarily { get; private set; }
 
         public Link<_> GoTo2Blank { get; private set; }
-
-        [GoTemporarily]
-        public Link<_> GoTo2BlankTemporarily { get; private set; }
     }
 }

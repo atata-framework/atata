@@ -63,6 +63,7 @@
     <Compile Include="Components\CheckBoxListPage.cs" />
     <Compile Include="Components\GoTo1Page.cs" />
     <Compile Include="Components\GoTo2Page.cs" />
+    <Compile Include="Components\GoTo3Page.cs" />
     <Compile Include="Components\InputPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
     <Compile Include="GoToTest.cs" />

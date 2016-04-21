@@ -157,7 +157,24 @@ namespace Atata
 
         public virtual void CloseWindow()
         {
-            Driver.ExecuteScript("window.close();");
+            string nextWindowHandle = ResolveWindowHandleToSwitchAfterClose();
+
+            Driver.Close();
+
+            if (nextWindowHandle != null)
+                Driver.SwitchTo().Window(nextWindowHandle);
+        }
+
+        private string ResolveWindowHandleToSwitchAfterClose()
+        {
+            string currentWindowHandle = Driver.CurrentWindowHandle;
+            int indexOfCurrent = Driver.WindowHandles.IndexOf(currentWindowHandle);
+            if (indexOfCurrent > 0)
+                return Driver.WindowHandles[indexOfCurrent - 1];
+            else if (Driver.WindowHandles.Count > 1)
+                return Driver.WindowHandles[1];
+            else
+                return null;
         }
 
         public T Do<TComponent>(Func<T, TComponent> childControlGetter, params Action<TComponent>[] actions)

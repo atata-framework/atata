@@ -13,7 +13,11 @@ namespace Atata.Tests
 
         public Link<_> GoTo1Blank { get; private set; }
 
+        public Link<GoTo3Page, _> GoTo3 { get; private set; }
+
         [GoTemporarily]
-        public Link<_> GoTo1BlankTemporarily { get; private set; }
+        public Link<GoTo3Page, _> GoTo3Temporarily { get; private set; }
+
+        public Link<_> GoTo3Blank { get; private set; }
     }
 }
