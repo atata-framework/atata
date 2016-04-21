@@ -14,18 +14,24 @@ namespace Atata
         public static T ToWindow<T>(T pageObject, string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
+            AtataContext.Current.Log.Info("Switch to '{0}' window", windowName);
+
             return To(pageObject, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
 
         public static T ToWindow<T>(string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
+            AtataContext.Current.Log.Info("Switch to '{0}' window", windowName);
+
             return To<T>(null, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
 
         public static T ToNextWindow<T>(T pageObject = null, bool temporarily = false)
             where T : PageObject<T>
         {
+            AtataContext.Current.Log.Info("Switch to next window");
+
             string windowHandle = AtataContext.Current.Driver.WindowHandles.
                 SkipWhile(x => x != AtataContext.Current.Driver.CurrentWindowHandle).
                 ElementAt(1);
@@ -36,6 +42,8 @@ namespace Atata
         public static T ToPreviousWindow<T>(T pageObject = null, bool temporarily = false)
             where T : PageObject<T>
         {
+            AtataContext.Current.Log.Info("Switch to previous window");
+
             string windowHandle = AtataContext.Current.Driver.WindowHandles.
                 Reverse().
                 SkipWhile(x => x != AtataContext.Current.Driver.CurrentWindowHandle).

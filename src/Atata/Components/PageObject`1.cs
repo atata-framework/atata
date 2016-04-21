@@ -31,7 +31,7 @@ namespace Atata
             ComponentName = UIComponentResolver.ResolvePageObjectName<T>();
             ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<T>();
 
-            Log.StartSection("Go to {0}", ComponentFullName);
+            Log.Info("Go to {0}", ComponentFullName);
 
             OnInit();
 
@@ -39,8 +39,6 @@ namespace Atata
                 Navigate();
 
             InitComponent();
-
-            Log.EndSection();
 
             ExecuteTriggers(TriggerEvents.OnPageObjectInit);
 
@@ -116,7 +114,11 @@ namespace Atata
             if (!string.IsNullOrWhiteSpace(options.WindowName))
                 SwitchTo(options.WindowName);
 
-            if (!isReturnedFromTemporary)
+            if (isReturnedFromTemporary)
+            {
+                Log.Info("Go to {0}", pageObject.ComponentFullName);
+            }
+            else
             {
                 pageObject.PreviousPageObject = this;
                 pageObject.Init(new PageObjectContext(Driver, Log));
@@ -151,7 +153,6 @@ namespace Atata
 
         protected virtual void SwitchTo(string windowName)
         {
-            Log.Info("Switch to window '{0}'", windowName);
             Driver.SwitchTo().Window(windowName);
         }
 
@@ -159,10 +160,11 @@ namespace Atata
         {
             string nextWindowHandle = ResolveWindowHandleToSwitchAfterClose();
 
+            Log.Info("Close window");
             Driver.Close();
 
             if (nextWindowHandle != null)
-                Driver.SwitchTo().Window(nextWindowHandle);
+                SwitchTo(nextWindowHandle);
         }
 
         private string ResolveWindowHandleToSwitchAfterClose()
