@@ -341,18 +341,22 @@ namespace Atata
         // TODO: Remove GetDefaultFindAttribute method. Move this logic to some other place.
         private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType, UIComponentMetadata metadata)
         {
+            if (controlType.IsSubclassOfRawGeneric(typeof(Content<,>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
+                return new FindByColumnAttribute();
+
             if (controlType.IsSubclassOfRawGeneric(typeof(Field<,>)))
                 return new FindByLabelAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(LinkControl<,>)))
+
+            if (controlType.IsSubclassOfRawGeneric(typeof(LinkControl<,>)))
                 return new FindByContentAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(ClickableControl<,>)))
+
+            if (controlType.IsSubclassOfRawGeneric(typeof(ClickableControl<,>)))
                 return new FindByContentOrValueAttribute();
-            else if (controlType.IsSubclassOfRawGeneric(typeof(Content<,>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
-                return new FindByColumnAttribute();
-            else if (string.IsNullOrEmpty(metadata.ComponentDefinitonAttribute.ScopeXPath) || metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
+
+            if (string.IsNullOrEmpty(metadata.ComponentDefinitonAttribute.ScopeXPath) || metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
                 return new UseParentScopeAttribute();
-            else
-                return new FindFirstAttribute();
+
+            return new FindFirstAttribute();
         }
 
         private static FindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
