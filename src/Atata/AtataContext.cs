@@ -20,6 +20,8 @@ namespace Atata
 
         internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; }
 
+        private DateTime SetUpDateTime { get; set; }
+
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
         {
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
@@ -36,12 +38,13 @@ namespace Atata
             Current = new AtataContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
-                Log = log ?? new SimpleLogManager()
+                Log = log ?? new SimpleLogManager(),
+                SetUpDateTime = DateTime.UtcNow
             };
 
             Current.LogTestStart(testName);
 
-            Current.Log.StartSection("Init web driver");
+            Current.Log.StartSection("Init WebDriver");
             Current.Driver = driverFactory != null ? driverFactory() : new FirefoxDriver();
             Current.Log.EndSection();
         }
@@ -60,12 +63,18 @@ namespace Atata
         {
             if (Current != null)
             {
-                Current.Log.Info("Finished test");
+                Current.Log.StartSection("Clean-up test context");
 
-                Current.Log = null;
                 Current.Driver.Quit();
                 Current.CleanUpTemporarilyPreservedPageObjectList();
                 UIComponentResolver.CleanUpPageObject(Current.PageObject);
+
+                Current.Log.EndSection();
+
+                TimeSpan testExecutionTime = DateTime.UtcNow - Current.SetUpDateTime;
+                Current.Log.InfoWithExecutionTime("Finished test", testExecutionTime);
+
+                Current.Log = null;
                 Current = null;
             }
         }
