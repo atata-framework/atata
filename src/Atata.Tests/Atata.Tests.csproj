@@ -67,12 +67,14 @@
     <Compile Include="Components\InputPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
     <Compile Include="Components\SelectPage.cs" />
+    <Compile Include="Components\TablePage.cs" />
     <Compile Include="GoToTest.cs" />
     <Compile Include="InputTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicControlsTest.cs" />
     <Compile Include="RadioButtonListTest.cs" />
     <Compile Include="SelectTest.cs" />
+    <Compile Include="TableTest.cs" />
     <Compile Include="TermResolverTest.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestCaseDataSource.cs" />
