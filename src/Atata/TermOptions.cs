@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 
 namespace Atata
 {
@@ -17,6 +18,21 @@ namespace Atata
         public static TermOptions CreateDefault()
         {
             return new TermOptions();
+        }
+
+        public void MergeWith(ITermSettings otherTermSettings)
+        {
+            if (otherTermSettings == null)
+                throw new ArgumentNullException("otherTermSettings");
+
+            if (otherTermSettings.Format != TermFormat.Inherit)
+                Format = otherTermSettings.Format;
+
+            if (otherTermSettings.Match != TermMatch.Inherit)
+                Match = otherTermSettings.Match;
+
+            if (otherTermSettings.StringFormat != null)
+                StringFormat = otherTermSettings.StringFormat;
         }
     }
 }

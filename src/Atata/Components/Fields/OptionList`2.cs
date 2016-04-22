@@ -45,10 +45,7 @@ namespace Atata
 
             TermFindItemAttribute termFindItemAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<TermFindItemAttribute>();
             if (termFindItemAttribute != null)
-            {
-                termOptions.Format = termFindItemAttribute.Format;
-                termOptions.Match = termFindItemAttribute.Match;
-            }
+                termOptions.MergeWith(termFindItemAttribute);
         }
     }
 }

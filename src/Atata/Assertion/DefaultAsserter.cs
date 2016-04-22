@@ -20,20 +20,20 @@ namespace Atata
 
         public void NotNull(object actual, string message, params object[] args)
         {
-            if (object.Equals(actual, null))
+            if (Equals(actual, null))
                 throw CreateExceptionForFailedAssert("not null", "null", message, args);
         }
 
         public void AreEqual<T>(T expected, T actual, string message, params object[] args)
         {
-            if (!object.Equals(expected, actual))
+            if (!Equals(expected, actual))
                 throw CreateExceptionForFailedAssert(expected, actual, message, args);
         }
 
         public void AreNotEqual<T>(T expected, T actual, string message, params object[] args)
         {
-            if (object.Equals(expected, actual))
-                throw CreateExceptionForFailedAssert("not equal to {0}".FormatWith(object.Equals(expected, null) ? "null" : expected.ToString()), actual, message, args);
+            if (Equals(expected, actual))
+                throw CreateExceptionForFailedAssert("not equal to {0}".FormatWith(Equals(expected, null) ? "null" : expected.ToString()), actual, message, args);
         }
 
         public void Contains(string expected, string actual, string message, params object[] args)

@@ -3,7 +3,7 @@
     public class FindItemByLabelAttribute : TermFindItemAttribute
     {
         public FindItemByLabelAttribute(TermMatch match)
-            : this(TermFormat.Title, match)
+            : this(TermFormat.Inherit, match)
         {
         }
 

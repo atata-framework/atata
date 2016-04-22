@@ -1,16 +1,7 @@
 ﻿namespace Atata
 {
-    public class Select<TOwner> : SelectBase<string, TOwner>
+    public class Select<TOwner> : Select<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected override string GetValue()
-        {
-            return GetSelectedOptionValue();
-        }
-
-        protected override void SetValue(string value)
-        {
-            SetSelectedOptionValue(value);
-        }
     }
 }

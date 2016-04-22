@@ -99,6 +99,9 @@
     <Compile Include="Attributes\ITermSettings.cs" />
     <Compile Include="Attributes\NameAttribute.cs" />
     <Compile Include="Attributes\PageObjectDefinitionAttribute.cs" />
+    <Compile Include="Attributes\SelectByAttribute.cs" />
+    <Compile Include="Attributes\SelectByTextAttribute.cs" />
+    <Compile Include="Attributes\SelectByValueAttribute.cs" />
     <Compile Include="Attributes\TermFindItemAttribute.cs" />
     <Compile Include="Attributes\TermFindSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByIdSettingsAttribute.cs" />
@@ -160,9 +163,6 @@
     <Compile Include="Components\Fields\EditableField`2.cs" />
     <Compile Include="Components\Fields\RadioButtonList`2.cs" />
     <Compile Include="Components\Fields\RadioButton`1.cs" />
-    <Compile Include="Components\Fields\SelectSettingsAttribute.cs" />
-    <Compile Include="Components\Fields\SelectBase`2.cs" />
-    <Compile Include="Components\Fields\SelectSelectionKind.cs" />
     <Compile Include="Components\Fields\Input`2.cs" />
     <Compile Include="Components\Fields\TimeInput`1.cs" />
     <Compile Include="Components\Fields\OptionList`2.cs" />

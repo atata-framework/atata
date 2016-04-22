@@ -15,7 +15,7 @@ namespace Atata.Tests
         [Test]
         public void Input_Text()
         {
-            VerifyEquals(page.IntTextInput, null);
+            VerifyEquals(page.TextInput, null);
 
             SetAndVerifyValues(page.TextInput, "Text1", null, "Text2");
 

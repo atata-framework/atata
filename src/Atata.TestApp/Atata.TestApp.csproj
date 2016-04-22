@@ -94,6 +94,7 @@
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.0.js" />
     <Content Include="Scripts\jquery-2.2.0.min.js" />
+    <Content Include="Select.html" />
     <Content Include="Web.config" />
     <Content Include="Scripts\jquery-2.2.0.min.map" />
   </ItemGroup>
