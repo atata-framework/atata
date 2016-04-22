@@ -14,9 +14,9 @@ namespace Atata.Tests
                     TestContext.WriteLine(message);
                 });
 
-            AtataContext.SetUp(() => new FirefoxDriver(), log, TestContext.CurrentContext.Test.Name);
+            ATContext.SetUp(() => new FirefoxDriver(), log, TestContext.CurrentContext.Test.Name);
 
-            AtataContext.Current.Driver.Manage().Window.Maximize();
+            ATContext.Current.Driver.Manage().Window.Maximize();
             OnSetUp();
         }
 
@@ -27,7 +27,7 @@ namespace Atata.Tests
         [TearDown]
         public void TearDown()
         {
-            AtataContext.CleanUp();
+            ATContext.CleanUp();
         }
 
         protected void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)

@@ -89,7 +89,7 @@ namespace Atata
             {
                 if (!options.Temporarily)
                 {
-                    AtataContext.Current.CleanUpTemporarilyPreservedPageObjectList();
+                    ATContext.Current.CleanUpTemporarilyPreservedPageObjectList();
                 }
 
                 pageObject.NavigateOnInit = options.Navigate;
@@ -97,7 +97,7 @@ namespace Atata
                 if (options.Temporarily)
                 {
                     pageObject.IsTemporarilyNavigated = options.Temporarily;
-                    AtataContext.Current.TemporarilyPreservedPageObjectList.Add(this);
+                    ATContext.Current.TemporarilyPreservedPageObjectList.Add(this);
                 }
             }
 
@@ -129,7 +129,7 @@ namespace Atata
         private bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(GoOptions options, out TOther pageObject)
             where TOther : PageObject<TOther>
         {
-            UIComponent foundPageObject = AtataContext.Current.TemporarilyPreservedPageObjects.
+            UIComponent foundPageObject = ATContext.Current.TemporarilyPreservedPageObjects.
                 AsEnumerable().
                 Reverse().
                 FirstOrDefault(x => x is TOther);
@@ -139,13 +139,13 @@ namespace Atata
             if (foundPageObject == null)
                 return false;
 
-            var tempPageObjectsToRemove = AtataContext.Current.TemporarilyPreservedPageObjects.
+            var tempPageObjectsToRemove = ATContext.Current.TemporarilyPreservedPageObjects.
                 SkipWhile(x => x != foundPageObject).
                 ToArray();
 
             UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove);
             foreach (var item in tempPageObjectsToRemove)
-                AtataContext.Current.TemporarilyPreservedPageObjectList.Remove(item);
+                ATContext.Current.TemporarilyPreservedPageObjectList.Remove(item);
 
             return true;
         }

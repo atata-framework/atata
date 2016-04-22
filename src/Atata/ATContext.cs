@@ -7,10 +7,10 @@ using System.Text;
 
 namespace Atata
 {
-    public class AtataContext
+    public class ATContext
     {
         [ThreadStatic]
-        private static AtataContext current;
+        private static ATContext current;
 
         public RemoteWebDriver Driver { get; internal set; }
 
@@ -27,7 +27,7 @@ namespace Atata
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
         }
 
-        public static AtataContext Current
+        public static ATContext Current
         {
             get { return current; }
             private set { current = value; }
@@ -35,7 +35,7 @@ namespace Atata
 
         public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null)
         {
-            Current = new AtataContext
+            Current = new ATContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
                 Log = log ?? new SimpleLogManager(),

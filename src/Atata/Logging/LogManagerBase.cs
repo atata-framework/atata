@@ -18,7 +18,7 @@ namespace Atata
 
         protected IWebDriver Driver
         {
-            get { return AtataContext.Current.Driver; }
+            get { return ATContext.Current.Driver; }
         }
 
         public string ScreenshotsFolderPath { get; set; }

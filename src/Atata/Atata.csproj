@@ -171,7 +171,7 @@
     <Compile Include="Components\IPageObject.cs" />
     <Compile Include="Components\LinkControl`1.cs" />
     <Compile Include="Components\LinkControl`2.cs" />
-    <Compile Include="AtataContext.cs" />
+    <Compile Include="ATContext.cs" />
     <Compile Include="Components\TableRowBase`1.cs" />
     <Compile Include="Components\TableRow`1.cs" />
     <Compile Include="Components\TableRow`2.cs" />
