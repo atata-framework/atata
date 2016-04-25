@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 
 namespace Atata
 {
-    [ControlDefinition("table")]
+    [ControlDefinition("table", IgnoreNameEndings = "Table")]
     public class Table<TRow, TOwner> : Control<TOwner>
         where TRow : TableRowBase<TOwner>, new()
         where TOwner : PageObject<TOwner>
@@ -113,8 +113,16 @@ namespace Atata
 
         public TRow FirstRow()
         {
+            string rowName = "<first>";
+
+            Log.StartSection("Find '{0}' table row", rowName);
+
             By rowBy = CreateRowBy();
-            return CreateRow(rowBy, "first row");
+            TRow row = CreateRow(rowBy, rowName);
+
+            Log.EndSection();
+
+            return row;
         }
 
         public TRow Row(params string[] values)
@@ -126,13 +134,24 @@ namespace Atata
 
         public TRow Row(Expression<Func<TRow, bool>> predicateExpression)
         {
+            string rowName = BuildRowName(predicateExpression);
+
+            Log.StartSection("Find '{0}' table row", rowName);
+
+            TRow row = FindRow(predicateExpression, rowName);
+
+            Log.EndSection();
+            return row;
+        }
+
+        private TRow FindRow(Expression<Func<TRow, bool>> predicateExpression, string rowName)
+        {
             By rowBy = CreateRowBy();
-            string rowElementName = "row";
             var predicate = predicateExpression.Compile();
 
             foreach (IWebElement rowElement in Scope.GetAll(rowBy))
             {
-                TRow row = CreateRow(new DefinedScopeLocator(rowElement), rowElementName);
+                TRow row = CreateRow(new DefinedScopeLocator(rowElement), rowName);
                 if (predicate(row))
                     return row;
             }
@@ -143,9 +162,20 @@ namespace Atata
                     if (options.IsSafely)
                         return null;
                     else
-                        throw ExceptionFactory.CreateForNoSuchElement(rowElementName);
+                        throw ExceptionFactory.CreateForNoSuchElement(rowName);
                 }),
-                rowElementName);
+                rowName);
+        }
+
+        private string BuildRowName(Expression<Func<TRow, bool>> predicateExpression)
+        {
+            string parameterName = predicateExpression.Parameters[0].Name;
+            string rowName = predicateExpression.Body.ToString();
+            if (rowName.StartsWith("(") && rowName.EndsWith(")"))
+                rowName = rowName.Substring(1, rowName.Length - 2);
+
+            rowName = rowName.Replace(parameterName + ".", string.Empty);
+            return rowName;
         }
 
         private TRow CreateRow(By by, string name)

@@ -2,6 +2,7 @@
 
 namespace Atata
 {
+    [ControlDefinition("tr", ComponentTypeName = "table row")]
     public class TableRowBase<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {

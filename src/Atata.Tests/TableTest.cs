@@ -16,6 +16,7 @@ namespace Atata.Tests
         public void Table_Simple()
         {
             page.
+                SimpleTable.VerifyExists().
                 SimpleTable.VerifyColumns("First Name", "Last Name").
                 SimpleTable.FirstRow().VerifyContent("John", TermMatch.Contains).
                 Do(x => x.SimpleTable.Row("Jack"), x =>
@@ -29,6 +30,7 @@ namespace Atata.Tests
         public void Table_Complex()
         {
             page.
+                ComplexTable.VerifyExists().
                 ComplexTable.VerifyColumns("First Name", "Last Name").
                 ComplexTable.FirstRow().FirstName.VerifyEquals("John").
                 Do(x => x.ComplexTable.Row(r => r.FirstName == "Jack"), x =>
@@ -42,6 +44,7 @@ namespace Atata.Tests
         public void Table_Navigatable()
         {
             var goToPage = page.
+                NavigatableTable.VerifyExists().
                 NavigatableTable.Row(r => r.FirstName == "Jack").Click();
 
             Assert.That(goToPage, Is.Not.Null);
