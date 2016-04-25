@@ -165,7 +165,7 @@ namespace Atata
             if (!containsText)
             {
                 string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
-                    "String that {0} \"{1}\"'".FormatWith(matchAsString, notFoundValue),
+                    "String that {0} \"{1}\"".FormatWith(matchAsString, notFoundValue),
                     string.Format("\"{0}\"", actualText),
                     "{0} content doesn't match criteria", ComponentFullName);
 

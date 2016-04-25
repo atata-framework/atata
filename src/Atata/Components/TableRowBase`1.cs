@@ -12,5 +12,17 @@ namespace Atata
         {
             return Scope.Get(By.XPath(".//td[{0}]").TableColumn().FormatWith(index + 1));
         }
+
+        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
+        {
+            base.ApplyMetadata(metadata);
+
+            if (ColumnIndexToClick == null)
+            {
+                var columnIndexToClickAttribute = metadata.GetFirstOrDefaultComponentAttribute<ColumnIndexToClickAttribute>();
+                if (columnIndexToClickAttribute != null)
+                    ColumnIndexToClick = columnIndexToClickAttribute.Index;
+            }
+        }
     }
 }
