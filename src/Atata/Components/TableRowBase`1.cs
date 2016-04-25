@@ -5,7 +5,8 @@ namespace Atata
     public class TableRowBase<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected internal TableSettingsAttribute Settings { get; set; }
+        protected internal int? ColumnIndexToClick { get; set; }
+        protected internal bool GoTemporarily { get; set; }
 
         protected IWebElement GetCell(int index)
         {

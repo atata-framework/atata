@@ -9,7 +9,7 @@
         <div class="row">
             <h1 class="text-center">Table</h1>
             <div class="col-md-6 col-md-offset-3">
-                <table class="table">
+                <table class="table table-hover">
                     <thead>
                         <tr>
                             <th>First Name</th>
@@ -17,19 +17,19 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr onclick="goTo()">
                             <td>John</td>
                             <td>Smith</td>
                         </tr>
-                        <tr>
+                        <tr onclick="goTo()">
                             <td>Jane</td>
                             <td>Smith</td>
                         </tr>
-                        <tr>
+                        <tr onclick="goTo()">
                             <td>Jack</td>
                             <td>Jameson</td>
                         </tr>
-                        <tr>
+                        <tr onclick="goTo()">
                             <td>Sam</td>
                             <td>Jackson</td>
                         </tr>
@@ -38,5 +38,11 @@
             </div>
         </div>
     </div>
+    <script>
+        function goTo()
+        {
+            window.document.location = '/GoTo1.html';
+        }
+    </script>
 </body>
 </html>

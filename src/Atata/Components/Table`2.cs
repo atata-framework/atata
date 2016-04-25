@@ -15,12 +15,21 @@ namespace Atata
         protected string ItemKindName { get; set; }
         protected string ItemKindNamePluralized { get; set; }
 
-        protected TableSettingsAttribute Settings { get; set; }
+        protected int? ColumnIndexToClick { get; set; }
+        protected internal bool GoTemporarily { get; set; }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            Settings = metadata.GetFirstOrDefaultDeclaringAttribute<TableSettingsAttribute>()
-                ?? new TableSettingsAttribute();
+            if (ColumnIndexToClick == null)
+            {
+                var columnIndexToClickAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<ColumnIndexToClickAttribute>();
+                if (columnIndexToClickAttribute != null)
+                    ColumnIndexToClick = columnIndexToClickAttribute.Index;
+            }
+
+            var goTemporarilyAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<GoTemporarilyAttribute>();
+            if (goTemporarilyAttribute != null)
+                GoTemporarily = goTemporarilyAttribute.IsTemporarily;
 
             ItemKindName = ComponentName.Singularize(false);
             ItemKindNamePluralized = ComponentName.Pluralize(false);
@@ -168,19 +177,11 @@ namespace Atata
 
         protected virtual TRow CreateRow(IScopeLocator scopeLocator, string name)
         {
-            TRow row = new TRow
-            {
-                ScopeLocator = scopeLocator,
-                ComponentName = name,
-                ComponentTypeName = UIComponentResolver.ResolveControlTypeName<TRow>(),
-                Owner = Owner,
-                Driver = Driver,
-                Log = Log,
-                Settings = Settings,
-                Parent = this
-            };
+            TRow row = CreateComponent<TRow>(name);
 
-            row.InitComponent();
+            row.ScopeLocator = scopeLocator;
+            row.ColumnIndexToClick = ColumnIndexToClick;
+            row.GoTemporarily = GoTemporarily;
 
             return row;
         }

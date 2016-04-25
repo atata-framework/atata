@@ -316,6 +316,7 @@
           <Value>on</Value>
           <Value>by</Value>
           <Value>x</Value>
+		  <Value>go</Value>
         </CollectionProperty>
       </AnalyzerSettings>
     </Analyzer>

@@ -11,8 +11,8 @@ namespace Atata
             ExecuteTriggers(TriggerEvents.BeforeClick);
             Log.StartClickingSection(ComponentFullName);
 
-            IWebElement cellElement = GetCell(Settings.ColumnIndexToClick);
-            cellElement.Click();
+            IWebElement elementToClick = ColumnIndexToClick.HasValue ? GetCell(ColumnIndexToClick.Value) : Scope;
+            elementToClick.Click();
 
             Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
@@ -20,13 +20,7 @@ namespace Atata
             if (typeof(TOwner) == typeof(TNavigateTo))
                 return (TNavigateTo)(object)Owner;
             else
-                return Go.To<TNavigateTo>(navigate: false, temporarily: IsGoTemporarily());
-        }
-
-        private bool IsGoTemporarily()
-        {
-            var attribute = Metadata.GetFirstOrDefaultDeclaringAttribute<GoTemporarilyAttribute>();
-            return attribute != null && attribute.IsTemporarily;
+                return Go.To<TNavigateTo>(navigate: false, temporarily: GoTemporarily);
         }
     }
 }

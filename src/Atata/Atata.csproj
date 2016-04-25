@@ -62,6 +62,7 @@
     <Compile Include="Assertion\Assert.cs" />
     <Compile Include="Assertion\DefaultAsserter.cs" />
     <Compile Include="Assertion\IAsserter.cs" />
+    <Compile Include="Attributes\ColumnIndexToClickAttribute.cs" />
     <Compile Include="Attributes\CultureAttribute.cs" />
     <Compile Include="Attributes\FindButtonsAttribute.cs" />
     <Compile Include="Attributes\FindByClassAttribute.cs" />
@@ -175,7 +176,6 @@
     <Compile Include="Components\TableRowBase`1.cs" />
     <Compile Include="Components\TableRow`1.cs" />
     <Compile Include="Components\TableRow`2.cs" />
-    <Compile Include="Components\TableSettingsAttribute.cs" />
     <Compile Include="Components\Table`2.cs" />
     <Compile Include="Components\Fields\Text`1.cs" />
     <Compile Include="Extensions\Button1Extensions.cs" />

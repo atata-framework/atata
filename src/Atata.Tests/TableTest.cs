@@ -37,5 +37,14 @@ namespace Atata.Tests
                     x.LastName.VerifyEquals("Jameson");
                 });
         }
+
+        [Test]
+        public void Table_Navigatable()
+        {
+            var goToPage = page.
+                NavigatableTable.Row(r => r.FirstName == "Jack").Click();
+
+            Assert.That(goToPage, Is.Not.Null);
+        }
     }
 }
