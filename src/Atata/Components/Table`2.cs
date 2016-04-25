@@ -15,21 +15,21 @@ namespace Atata
         protected string ItemKindName { get; set; }
         protected string ItemKindNamePluralized { get; set; }
 
-        protected int? ColumnIndexToClick { get; set; }
-        protected internal bool GoTemporarily { get; set; }
+        protected int? ColumnIndexToClickOnRow { get; set; }
+        protected internal bool GoTemporarilyByClickOnRow { get; set; }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            if (ColumnIndexToClick == null)
+            if (ColumnIndexToClickOnRow == null)
             {
                 var columnIndexToClickAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<ColumnIndexToClickAttribute>();
                 if (columnIndexToClickAttribute != null)
-                    ColumnIndexToClick = columnIndexToClickAttribute.Index;
+                    ColumnIndexToClickOnRow = columnIndexToClickAttribute.Index;
             }
 
             var goTemporarilyAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<GoTemporarilyAttribute>();
             if (goTemporarilyAttribute != null)
-                GoTemporarily = goTemporarilyAttribute.IsTemporarily;
+                GoTemporarilyByClickOnRow = goTemporarilyAttribute.IsTemporarily;
 
             ItemKindName = ComponentName.Singularize(false);
             ItemKindNamePluralized = ComponentName.Pluralize(false);
@@ -45,10 +45,11 @@ namespace Atata
 
         public TOwner VerifyColumns(params string[] columns)
         {
-            Log.StartVerificationSection("'{0}' column(s) exist in table", string.Join(", ", columns));
+            Log.StartVerificationSection("{0} contains column(s) {1}", ComponentFullName, columns.ToQuotedValuesListOfString(true));
 
+            // TODO: Remake XPath.
             foreach (string column in columns)
-                Scope.Get(By.XPath(".//th[contains(., '{0}')]").TableColumn(column));
+                Scope.Get(By.XPath(".//th[contains(., '{0}')]").TableHeader(column));
 
             Log.EndSection();
 
@@ -90,20 +91,9 @@ namespace Atata
             return Scope.Get(By.XPath(".//tr[td[contains(., '{0}')]]").TableRow(name).Safely());
         }
 
-        protected void ClickItemLink(string name, string linkText)
-        {
-            var element = FindItem(name);
-            element.Get(By.PartialLinkText(linkText).Immediately()).Click();
-        }
-
         protected int GetColumnIndex(string header)
         {
             return Scope.GetAll(By.TagName("th")).Select((x, i) => new { Item = x, Index = i }).Single(x => x.Item.Text == header).Index;
-        }
-
-        protected string GetColumnValue(string name, int columnIndex)
-        {
-            return GetColumnValue(FindItem(name), columnIndex);
         }
 
         protected string GetColumnValue(IWebElement element, int columnIndex)
@@ -127,9 +117,19 @@ namespace Atata
 
         public TRow Row(params string[] values)
         {
+            if (values == null || !values.Any())
+                return FirstRow();
+
+            string rowName = BuildRowName(values);
+
+            Log.StartSection("Find '{0}' table row", rowName);
+
             By rowBy = CreateRowBy(values);
-            string rowElementName = CreateRowElementName(values);
-            return CreateRow(rowBy, rowElementName);
+            TRow row = CreateRow(rowBy, rowName);
+
+            Log.EndSection();
+
+            return row;
         }
 
         public TRow Row(Expression<Func<TRow, bool>> predicateExpression)
@@ -138,13 +138,13 @@ namespace Atata
 
             Log.StartSection("Find '{0}' table row", rowName);
 
-            TRow row = FindRow(predicateExpression, rowName);
+            TRow row = CreateRow(predicateExpression, rowName);
 
             Log.EndSection();
             return row;
         }
 
-        private TRow FindRow(Expression<Func<TRow, bool>> predicateExpression, string rowName)
+        private TRow CreateRow(Expression<Func<TRow, bool>> predicateExpression, string rowName)
         {
             By rowBy = CreateRowBy();
             var predicate = predicateExpression.Compile();
@@ -167,6 +167,21 @@ namespace Atata
                 rowName);
         }
 
+        private TRow CreateRow(By by, string name)
+        {
+            IScopeLocator locator = CreateRowElementFinder(by.Named(name));
+            return CreateRow(locator, name);
+        }
+
+        protected virtual By CreateRowBy(params string[] values)
+        {
+            string condition = values != null && values.Any()
+                ? string.Concat(values.Select(x => "[td[{0}]]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))))
+                : "[td]";
+
+            return By.XPath(".//tr{0}".FormatWith(condition)).TableRow();
+        }
+
         private string BuildRowName(Expression<Func<TRow, bool>> predicateExpression)
         {
             string parameterName = predicateExpression.Parameters[0].Name;
@@ -178,24 +193,10 @@ namespace Atata
             return rowName;
         }
 
-        private TRow CreateRow(By by, string name)
-        {
-            IScopeLocator locator = CreateRowElementFinder(by.Named(name));
-            return CreateRow(locator, name);
-        }
-
-        protected virtual By CreateRowBy(params string[] values)
-        {
-            string condition = values != null && values.Any()
-                ? "[{0}]".FormatWith(TermMatch.Contains.CreateXPathCondition(values))
-                : null;
-            return By.XPath(".//tr[td{0}]".FormatWith(condition)).TableRow();
-        }
-
-        protected virtual string CreateRowElementName(string[] values)
+        protected virtual string BuildRowName(string[] values)
         {
             if (values != null && values.Any())
-                return "row containing: {0}".FormatWith(string.Join(", ", values.Select(x => "'{0}'".FormatWith(x))));
+                return values.ToQuotedValuesListOfString(true);
             else
                 return null;
         }
@@ -210,8 +211,8 @@ namespace Atata
             TRow row = CreateComponent<TRow>(name);
 
             row.ScopeLocator = scopeLocator;
-            row.ColumnIndexToClick = ColumnIndexToClick;
-            row.GoTemporarily = GoTemporarily;
+            row.ColumnIndexToClick = ColumnIndexToClickOnRow;
+            row.GoTemporarily = GoTemporarilyByClickOnRow;
 
             return row;
         }
