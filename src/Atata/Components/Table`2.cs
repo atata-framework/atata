@@ -1,7 +1,6 @@
 ﻿using Humanizer;
 using OpenQA.Selenium;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -12,9 +11,6 @@ namespace Atata
         where TRow : TableRowBase<TOwner>, new()
         where TOwner : PageObject<TOwner>
     {
-        protected string ItemKindName { get; set; }
-        protected string ItemKindNamePluralized { get; set; }
-
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }
 
@@ -30,9 +26,6 @@ namespace Atata
             var goTemporarilyAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<GoTemporarilyAttribute>();
             if (goTemporarilyAttribute != null)
                 GoTemporarilyByClickOnRow = goTemporarilyAttribute.IsTemporarily;
-
-            ItemKindName = ComponentName.Singularize(false);
-            ItemKindNamePluralized = ComponentName.Pluralize(false);
         }
 
         ////public TOwner VerifyRowsCount(string name, int value)
@@ -41,6 +34,51 @@ namespace Atata
         ////    Asserter.AreEqual(value, FindItems(name).Count());
         ////    Log.EndSection();
         ////    return Owner;
+        ////}
+
+        ////public TOwner RowExists(string name, string columnName, string columnValue)
+        ////{
+        ////    return RowExists(name, new Dictionary<string, string>() { { columnName, columnValue } });
+        ////}
+
+        ////public TOwner RowExists(string name, Dictionary<string, string> columnValues)
+        ////{
+        ////    Dictionary<string, int> columnIndices = columnValues.Keys.ToDictionary(x => x, x => GetColumnIndex(x));
+
+        ////    int itemsCount = FindItems(name).
+        ////        Where(x => columnValues.All(cv => GetColumnValue(x, columnIndices[cv.Key]) == cv.Value)).
+        ////        Count();
+
+        ////    Assert.That(itemsCount == 1, "Failed to find '{0}' {1}", name, ItemKindName);
+
+        ////    return Owner;
+        ////}
+
+        ////protected IWebElement FindItem(string name, bool isFirst = false)
+        ////{
+        ////    IWebElement item = GetItem(name, isFirst);
+        ////    Assert.NotNull(item, "Unable to locate {0} table row containing '{1}'", ItemKindName, name);
+        ////    return item;
+        ////}
+
+        ////protected IWebElement[] FindItems(string name)
+        ////{
+        ////    return Scope.GetAll(By.XPath(".//tr[contains(.,'{0}')]").TableRow(name)).ToArray();
+        ////}
+
+        ////protected IWebElement GetItem(string name, bool isFirst = false)
+        ////{
+        ////    return Scope.Get(By.XPath(".//tr[td[contains(., '{0}')]]").TableRow(name).Safely());
+        ////}
+
+        ////protected int GetColumnIndex(string header)
+        ////{
+        ////    return Scope.GetAll(By.TagName("th")).Select((x, i) => new { Item = x, Index = i }).Single(x => x.Item.Text == header).Index;
+        ////}
+
+        ////protected string GetColumnValue(IWebElement element, int columnIndex)
+        ////{
+        ////    return element.GetAll(By.TagName("td")).ElementAt(columnIndex).Text;
         ////}
 
         public TOwner VerifyColumns(params string[] columns)
@@ -54,51 +92,6 @@ namespace Atata
             Log.EndSection();
 
             return Owner;
-        }
-
-        public TOwner RowExists(string name, string columnName, string columnValue)
-        {
-            return RowExists(name, new Dictionary<string, string>() { { columnName, columnValue } });
-        }
-
-        public TOwner RowExists(string name, Dictionary<string, string> columnValues)
-        {
-            Dictionary<string, int> columnIndices = columnValues.Keys.ToDictionary(x => x, x => GetColumnIndex(x));
-
-            int itemsCount = FindItems(name).
-                Where(x => columnValues.All(cv => GetColumnValue(x, columnIndices[cv.Key]) == cv.Value)).
-                Count();
-
-            Assert.That(itemsCount == 1, "Failed to find '{0}' {1}", name, ItemKindName);
-
-            return Owner;
-        }
-
-        protected IWebElement FindItem(string name, bool isFirst = false)
-        {
-            IWebElement item = GetItem(name, isFirst);
-            Assert.NotNull(item, "Unable to locate {0} table row containing '{1}'", ItemKindName, name);
-            return item;
-        }
-
-        protected IWebElement[] FindItems(string name)
-        {
-            return Scope.GetAll(By.XPath(".//tr[contains(.,'{0}')]").TableRow(name)).ToArray();
-        }
-
-        protected IWebElement GetItem(string name, bool isFirst = false)
-        {
-            return Scope.Get(By.XPath(".//tr[td[contains(., '{0}')]]").TableRow(name).Safely());
-        }
-
-        protected int GetColumnIndex(string header)
-        {
-            return Scope.GetAll(By.TagName("th")).Select((x, i) => new { Item = x, Index = i }).Single(x => x.Item.Text == header).Index;
-        }
-
-        protected string GetColumnValue(IWebElement element, int columnIndex)
-        {
-            return element.GetAll(By.TagName("td")).ElementAt(columnIndex).Text;
         }
 
         public TRow FirstRow()
