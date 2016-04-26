@@ -34,6 +34,7 @@ namespace Atata.Tests
 
         [TestCase(Atata.TermFormat.Camel, "SimpleText", ExpectedResult = "simpleText")]
         [TestCase(Atata.TermFormat.Camel, "HTML5text", ExpectedResult = "html5Text")]
+        [TestCase(Atata.TermFormat.Camel, "I 5W", ExpectedResult = "i5W")]
 
         [TestCase(Atata.TermFormat.Pascal, "SimpleText", ExpectedResult = "SimpleText")]
         [TestCase(Atata.TermFormat.Pascal, "html5Text", ExpectedResult = "Html5Text")]
