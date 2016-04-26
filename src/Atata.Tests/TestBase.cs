@@ -3,7 +3,7 @@ using OpenQA.Selenium.Firefox;
 
 namespace Atata.Tests
 {
-    public abstract class TestBase : UITest
+    public abstract class TestBase
     {
         [SetUp]
         public void SetUp()

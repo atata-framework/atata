@@ -257,7 +257,6 @@
     <Compile Include="TermFormat.cs" />
     <Compile Include="TermMatch.cs" />
     <Compile Include="UIComponentResolver.cs" />
-    <Compile Include="UITest.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="Components\Fields\TextInput`1.cs" />
     <Compile Include="ValueRandomizer.cs" />
