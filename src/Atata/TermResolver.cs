@@ -154,7 +154,7 @@ namespace Atata
 
         public static string ToString(object value, TermOptions termOptions = null)
         {
-            if (value == null || object.Equals(value, string.Empty))
+            if (value == null || Equals(value, string.Empty))
                 return null;
 
             string[] terms = GetTerms(value, termOptions);
