@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Humanizer;
+using System;
 using System.Linq;
 
 namespace Atata
@@ -80,18 +81,28 @@ namespace Atata
 
         public static void ToUrl(string url)
         {
-            Uri uri;
-            if (!Uri.TryCreate(url, UriKind.Absolute, out uri))
+            Uri absoluteUri;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out absoluteUri))
             {
-                Uri currentUri = new Uri(ATContext.Current.Driver.Url, UriKind.Absolute);
+                if (!ATContext.Current.IsNavigated)
+                {
+                    if (!Uri.TryCreate(ATContext.Current.StartUri, UriKind.Absolute, out absoluteUri))
+                        throw new InvalidOperationException("Cannot navigate to relative URI '{0}'. ATContext.Current.StartUri ".FormatWith(absoluteUri));
+                    absoluteUri = new Uri(absoluteUri, url);
+                }
+                else
+                {
+                    Uri currentUri = new Uri(ATContext.Current.Driver.Url, UriKind.Absolute);
 
-                string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
-                Uri domainUri = new Uri(domainPart);
+                    string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
+                    Uri domainUri = new Uri(domainPart);
 
-                uri = new Uri(domainUri, url);
+                    absoluteUri = new Uri(domainUri, url);
+                }
             }
-            ATContext.Current.Log.Info("Go to URL '{0}'", uri);
-            ATContext.Current.Driver.Navigate().GoToUrl(uri);
+            ATContext.Current.Log.Info("Go to URL '{0}'", absoluteUri);
+            ATContext.Current.Driver.Navigate().GoToUrl(absoluteUri);
+            ATContext.Current.IsNavigated = true;
         }
     }
 }

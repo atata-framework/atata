@@ -16,9 +16,13 @@ namespace Atata
 
         public ILogManager Log { get; internal set; }
 
+        public string StartUri { get; internal set; }
+
         public UIComponent PageObject { get; internal set; }
 
         internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; }
+
+        internal bool IsNavigated { get; set; }
 
         private DateTime SetUpDateTime { get; set; }
 
@@ -33,12 +37,13 @@ namespace Atata
             private set { current = value; }
         }
 
-        public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null)
+        public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string startUri = null)
         {
             Current = new ATContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
                 Log = log ?? new SimpleLogManager(),
+                StartUri = startUri,
                 SetUpDateTime = DateTime.UtcNow
             };
 
