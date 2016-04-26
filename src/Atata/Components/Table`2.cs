@@ -87,7 +87,7 @@ namespace Atata
 
             // TODO: Remake XPath.
             foreach (string column in columns)
-                Scope.Get(By.XPath(".//th[contains(., '{0}')]").TableHeader(column));
+                Scope.Exists(By.XPath(".//th[contains(., '{0}')]").TableHeader(column));
 
             Log.EndSection();
 

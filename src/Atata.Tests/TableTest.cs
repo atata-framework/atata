@@ -23,7 +23,9 @@ namespace Atata.Tests
                 {
                     x.VerifyExists();
                     x.VerifyContent("Jameson", TermMatch.Contains);
-                });
+                }).
+                ComplexTable.Row("Jack", "Jameson").VerifyExists().
+                ComplexTable.Row("Jack Jameson").VerifyMissing();
         }
 
         [Test]
@@ -37,7 +39,9 @@ namespace Atata.Tests
                 {
                     x.VerifyExists();
                     x.LastName.VerifyEquals("Jameson");
-                });
+                }).
+                ComplexTable.Row("Jack", "Jameson").VerifyExists().
+                ComplexTable.Row("Jack Jameson").VerifyMissing();
         }
 
         [Test]
