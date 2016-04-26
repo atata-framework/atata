@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -264,7 +263,7 @@ namespace Atata
                 }
             }
 
-            return metadata.Name.Humanize(LetterCasing.Title);
+            return metadata.Name.ToString(TermFormat.Title);
         }
 
         private static UIComponentMetadata CreatePageObjectMetadata(Type type)
@@ -485,7 +484,7 @@ namespace Atata
             string name = foundEndingToIgnore != null
                 ? typeName.Substring(0, typeName.Length - foundEndingToIgnore.Length)
                 : typeName;
-            return name.Humanize(LetterCasing.Title);
+            return name.ToString(TermFormat.Title);
         }
 
         public static string ResolvePageObjectTypeName<TPageObject>()
@@ -502,7 +501,7 @@ namespace Atata
 
         public static string ResolveControlTypeName(Type type)
         {
-            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).Humanize(LetterCasing.LowerCase);
+            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).ToString(TermFormat.LowerCase);
         }
 
         private static string NormalizeTypeName(Type type)
