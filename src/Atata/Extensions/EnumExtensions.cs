@@ -39,20 +39,5 @@ namespace Atata
                 }
             }
         }
-
-        public static string ToTitleString(this Enum value)
-        {
-            return value.ToString(TermFormat.Title);
-        }
-
-        public static string ToSentenceString(this Enum value)
-        {
-            return value.ToString(TermFormat.Sentence);
-        }
-
-        public static string ToString(this Enum value, TermFormat format)
-        {
-            return TermResolver.ToDisplayString(value, new TermOptions { Format = format });
-        }
     }
 }

@@ -188,6 +188,7 @@
     <Compile Include="Extensions\Clickable1Extensions.cs" />
     <Compile Include="Extensions\Link1Extensions.cs" />
     <Compile Include="Extensions\Link2Extensions.cs" />
+    <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />
     <Compile Include="Extensions\SearchOptionsExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
