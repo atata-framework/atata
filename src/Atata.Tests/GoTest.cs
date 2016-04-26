@@ -3,10 +3,10 @@
 namespace Atata.Tests
 {
     [TestFixture]
-    public class GoToTest : TestBase
+    public class GoTest : TestBase
     {
         [Test]
-        public void GoTo_SimpleNavigation()
+        public void Go_To_SimpleNavigation()
         {
             var page1 = Go.To<GoTo1Page>();
             AssertCurrentPageObject(page1);
@@ -16,7 +16,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_LinkNavigation()
+        public void Go_To_LinkNavigation()
         {
             var page1 = Go.To<GoTo1Page>();
 
@@ -31,7 +31,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_AbsoluteUrlNavigation()
+        public void Go_To_AbsoluteUrlNavigation()
         {
             Go.To<GoTo1Page>();
             string url = "http://localhost:50549/GoTo2.html?somearg=1";
@@ -42,7 +42,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_RelativeUrlNavigation()
+        public void Go_To_RelativeUrlNavigation()
         {
             Go.To<GoTo1Page>();
             string url = "GoTo2.html?somearg=1";
@@ -53,7 +53,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_Temporarily()
+        public void Go_To_Temporarily()
         {
             var page1 = Go.To<GoTo1Page>();
             Go.To<GoTo2Page>(temporarily: true);
@@ -67,7 +67,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_TemporarilyByLink()
+        public void Go_To_TemporarilyByLink()
         {
             var page1 = Go.To<GoTo1Page>();
 
@@ -81,10 +81,13 @@ namespace Atata.Tests
 
             AssertNoTemporarilyPreservedPageObjects();
             Assert.That(page1Returned, Is.EqualTo(page1));
+
+            page1Returned.
+                GoTo2();
         }
 
         [Test]
-        public void GoTo_TemporarilyByLink2()
+        public void Go_To_TemporarilyByLink2()
         {
             var page1 = Go.To<GoTo1Page>();
 
@@ -101,7 +104,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_TemporarilyByLinkComplex()
+        public void Go_To_TemporarilyByLinkComplex()
         {
             var page1 = Go.To<GoTo1Page>();
 
@@ -124,7 +127,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_Window()
+        public void Go_ToNextWindow()
         {
             var page1 = Go.To<GoTo1Page>();
 
@@ -140,7 +143,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_Window_Temporarily()
+        public void Go_ToNextWindow_Temporarily()
         {
             var page1 = Go.To<GoTo1Page>().
                 GoTo2Blank();
@@ -156,7 +159,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void GoTo_Window_TemporarilyComplex()
+        public void Go_ToNextWindow_TemporarilyComplex()
         {
             var page1 = Go.To<GoTo1Page>().
                 GoTo2Blank();
