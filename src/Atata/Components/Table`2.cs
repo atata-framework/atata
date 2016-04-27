@@ -10,6 +10,14 @@ namespace Atata
         where TRow : TableRowBase<TOwner>, new()
         where TOwner : PageObject<TOwner>
     {
+        private readonly string rowScopeXPath;
+
+        public Table()
+        {
+            ControlDefinitionAttribute controlDefinition = UIComponentResolver.GetControlDefinition(typeof(TRow));
+            rowScopeXPath = (controlDefinition != null ? controlDefinition.ScopeXPath : null) ?? "tr";
+        }
+
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }
 
@@ -171,7 +179,7 @@ namespace Atata
                 ? string.Concat(values.Select(x => "[td[{0}]]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))))
                 : "[td]";
 
-            return By.XPath(".//tr{0}".FormatWith(condition)).TableRow();
+            return By.XPath(".//{0}{1}".FormatWith(rowScopeXPath, condition)).TableRow();
         }
 
         private string BuildRowName(Expression<Func<TRow, bool>> predicateExpression)

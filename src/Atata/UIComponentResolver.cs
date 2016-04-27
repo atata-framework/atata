@@ -512,7 +512,7 @@ namespace Atata
                 : typeName;
         }
 
-        private static ControlDefinitionAttribute GetControlDefinition(Type type)
+        internal static ControlDefinitionAttribute GetControlDefinition(Type type)
         {
             return GetClassAttributes(type).OfType<ControlDefinitionAttribute>().FirstOrDefault() ?? new ControlDefinitionAttribute();
         }
