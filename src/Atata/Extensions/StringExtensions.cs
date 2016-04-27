@@ -6,6 +6,11 @@ namespace Atata
 {
     public static class StringExtensions
     {
+        internal static string FormatWith(this string format, params object[] args)
+        {
+            return string.Format(format, args);
+        }
+
         public static bool IsUpper(this string value)
         {
             if (string.IsNullOrWhiteSpace(value))

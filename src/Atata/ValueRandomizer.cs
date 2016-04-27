@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using RandomizeFunc = System.Func<Atata.UIComponentMetadata, object>;
 

@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

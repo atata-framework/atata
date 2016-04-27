@@ -1,6 +1,4 @@
-﻿using Humanizer;
-using Humanizer.Configuration;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
@@ -15,11 +13,6 @@ namespace Atata
         protected UIComponent()
         {
             Children = new List<UIComponent>();
-        }
-
-        static UIComponent()
-        {
-            SetupHumanizerSettings();
         }
 
         protected internal UIComponent Owner { get; internal set; }
@@ -53,11 +46,6 @@ namespace Atata
                 else
                     return GetScopeElement();
             }
-        }
-
-        private static void SetupHumanizerSettings()
-        {
-            Configurator.EnumDescriptionPropertyLocator = p => p.Name == "Description" || p.Name == "Value";
         }
 
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)

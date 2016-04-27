@@ -1,5 +1,4 @@
-﻿using Humanizer;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Atata
 {
