@@ -2,11 +2,11 @@
 
 namespace Atata.TermFormatting
 {
-    public class XDashedTermFormatter : ITermFormatter
+    public class UpperCaseTermFormatter : ITermFormatter
     {
         public string Format(string[] words)
         {
-            return "x-" + string.Join("-", words.Select(x => x.ToLower()));
+            return string.Join(" ", words.Select(x => x.ToUpper()));
         }
     }
 }

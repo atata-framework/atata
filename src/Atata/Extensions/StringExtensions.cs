@@ -6,6 +6,14 @@ namespace Atata
 {
     public static class StringExtensions
     {
+        public static bool IsUpper(this string value)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return false;
+
+            return value.ToCharArray().All(x => char.IsUpper(x));
+        }
+
         public static string ToUpperFirstLetter(this string value)
         {
             if (value == null)
