@@ -208,7 +208,7 @@ namespace Atata
 
         protected virtual TRow CreateRow(IScopeLocator scopeLocator, string name)
         {
-            TRow row = CreateComponent<TRow>(name);
+            TRow row = Create<TRow>(name);
 
             row.ScopeLocator = scopeLocator;
             row.ColumnIndexToClick = ColumnIndexToClickOnRow;
