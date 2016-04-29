@@ -60,5 +60,24 @@ namespace Atata
         {
             return UIComponentResolver.CreateComponent<TComponent, TOwner>(this, name, attributes);
         }
+
+        protected LinkControl<TOwner> CreateLink(string name, params Attribute[] attributes)
+        {
+            return CreateComponent<LinkControl<TOwner>>(name, attributes);
+        }
+
+        protected LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, params Attribute[] attributes)
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            return CreateComponent<LinkControl<TNavigateTo, TOwner>>(name, attributes);
+        }
+
+        protected LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            var control = CreateComponent<LinkControl<TNavigateTo, TOwner>>(name, attributes);
+            control.NavigationPageObjectCreator = navigationPageObjectCreator;
+            return control;
+        }
     }
 }
