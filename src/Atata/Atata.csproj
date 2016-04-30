@@ -182,6 +182,7 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\Clickable1Extensions.cs" />
+    <Compile Include="Extensions\IUIComponentValueProviderExtensions.cs" />
     <Compile Include="Extensions\Link1Extensions.cs" />
     <Compile Include="Extensions\Link2Extensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Go.cs" />
     <Compile Include="GoOptions.cs" />
+    <Compile Include="IUIComponentValueProvider`2.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
     <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
