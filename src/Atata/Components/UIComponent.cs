@@ -2,7 +2,6 @@
 using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Atata
 {
@@ -117,43 +116,6 @@ namespace Atata
             {
                 string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
                     "String that {0} \"{1}\"".FormatWith(matchAsString, expectedValuesAsString),
-                    string.Format("\"{0}\"", actualText),
-                    "{0} content doesn't match criteria", ComponentFullName);
-
-                Assert.That(containsText, errorMessage);
-            }
-
-            Log.EndSection();
-        }
-
-        protected internal void VerifyContentContainsAll(params string[] content)
-        {
-            if (content == null)
-                throw new ArgumentNullException("content");
-            if (content.Length == 0 || content.All(x => string.IsNullOrEmpty(x)))
-                throw ExceptionFactory.CreateForArgumentEmptyCollection("content");
-
-            string[] expectedValues = content.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-
-            string matchAsString = TermMatch.Contains.ToString(TermFormat.LowerCase);
-            string expectedValuesAsString = expectedValues.ToQuotedValuesListOfString();
-
-            Log.StartVerificationSection("{0} content {1} {2}", ComponentFullName, matchAsString, expectedValuesAsString);
-
-            string actualText = null;
-            string notFoundValue = null;
-
-            bool containsText = Driver.Try().Until(_ =>
-            {
-                actualText = Scope.Text;
-                notFoundValue = expectedValues.FirstOrDefault(value => !actualText.Contains(value));
-                return notFoundValue == null;
-            });
-
-            if (!containsText)
-            {
-                string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
-                    "String that {0} \"{1}\"".FormatWith(matchAsString, notFoundValue),
                     string.Format("\"{0}\"", actualText),
                     "{0} content doesn't match criteria", ComponentFullName);
 

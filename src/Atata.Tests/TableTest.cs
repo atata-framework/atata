@@ -18,11 +18,11 @@ namespace Atata.Tests
             page.
                 SimpleTable.VerifyExists().
                 SimpleTable.VerifyColumns("First Name", "Last Name").
-                SimpleTable.FirstRow().VerifyContent("John", TermMatch.Contains).
+                SimpleTable.FirstRow().Content.VerifyContains("John").
                 Do(x => x.SimpleTable.Row("Jack"), x =>
                 {
                     x.VerifyExists();
-                    x.VerifyContent("Jameson", TermMatch.Contains);
+                    x.Content.VerifyContains("Jameson");
                 }).
                 ComplexTable.Row("Jack", "Jameson").VerifyExists().
                 ComplexTable.Row("Jack Jameson").VerifyMissing();

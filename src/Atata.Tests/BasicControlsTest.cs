@@ -45,17 +45,17 @@ namespace Atata.Tests
 
                 RawButtonControl.VerifyExists().
                 RawButtonControl.VerifyEnabled().
-                RawButtonControl.VerifyContent("Raw Button").
+                RawButtonControl.Content.VerifyEquals("Raw Button").
                 RawButtonControl.Click().
                 InputButtonControl.VerifyExists().
                 InputButtonControl.Click().
                 Do(_ => _.LinkButtonControl, x =>
                     {
                         x.VerifyExists();
-                        x.VerifyContent("Link Button", TermMatch.Equals);
-                        x.VerifyContent("Link", TermMatch.StartsWith);
-                        x.VerifyContent("utton", TermMatch.EndsWith);
-                        x.VerifyContent("ink Butto", TermMatch.Contains);
+                        x.Content.VerifyEquals("Link Button");
+                        x.Content.VerifyStartsWith("Link");
+                        x.Content.VerifyEndsWith("utton");
+                        x.Content.VerifyContains("ink Butto");
                         x.Click();
                     }).
                 ClickableControl.VerifyExists().

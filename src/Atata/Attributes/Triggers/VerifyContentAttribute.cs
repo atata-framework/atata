@@ -9,12 +9,12 @@
             Match = match;
         }
 
-        public string[] Values { get; private set; }
         public new TermMatch Match { get; set; }
+        public string[] Values { get; private set; }
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            context.Component.VerifyContent(Values, Match);
+            context.Component.Content.VerifyUntilMatchesAny(Match, Values);
         }
     }
 }

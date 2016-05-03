@@ -8,6 +8,7 @@ namespace Atata
     {
         protected UIComponent()
         {
+            Content = new UIComponentContentValueProvider<TOwner>(this);
         }
 
         protected internal new TOwner Owner
@@ -21,6 +22,8 @@ namespace Atata
             get { return (UIComponent<TOwner>)base.Parent; }
             internal set { base.Parent = value; }
         }
+
+        public IUIComponentValueProvider<string, TOwner> Content { get; private set; }
 
         protected internal virtual void InitComponent()
         {
@@ -47,12 +50,6 @@ namespace Atata
         public new TOwner VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
         {
             base.VerifyContent(content, match);
-            return Owner;
-        }
-
-        public new TOwner VerifyContentContainsAll(params string[] content)
-        {
-            base.VerifyContentContainsAll(content);
             return Owner;
         }
 

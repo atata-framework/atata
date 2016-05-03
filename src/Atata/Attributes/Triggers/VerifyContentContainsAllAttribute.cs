@@ -12,7 +12,7 @@
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            context.Component.VerifyContentContainsAll(Values);
+            context.Component.Content.VerifyUntilContains(Values);
         }
     }
 }
