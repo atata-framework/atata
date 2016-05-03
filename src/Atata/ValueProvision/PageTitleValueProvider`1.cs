@@ -10,7 +10,7 @@
 
         public override string ProviderName
         {
-            get { return "page title"; }
+            get { return "title"; }
         }
 
         public override string Get()

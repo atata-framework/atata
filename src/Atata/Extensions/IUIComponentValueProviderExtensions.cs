@@ -9,7 +9,9 @@ namespace Atata
         public static TOwner Verify<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, Action assertAction, string verificationMessage, params object[] verificationMessageArgs)
             where TOwner : PageObject<TOwner>
         {
-            StringBuilder logMessageBuilder = new StringBuilder(provider.ComponentFullName);
+            StringBuilder logMessageBuilder = new StringBuilder();
+            logMessageBuilder.AppendFormat("{0} {1}", provider.ComponentFullName, provider.ProviderName);
+
             if (!string.IsNullOrWhiteSpace(verificationMessage))
                 logMessageBuilder.Append(" ").AppendFormat(verificationMessage, verificationMessageArgs);
 
@@ -42,7 +44,7 @@ namespace Atata
         {
             return provider.Verify(
                 (actual, message) => Assert.AreEqual(expected, actual, message),
-                "is equal to \"{0}\"",
+                "equals \"{0}\"",
                 provider.ConvertValueToString(expected));
         }
 
@@ -51,7 +53,7 @@ namespace Atata
         {
             return provider.Verify(
                 (actual, message) => Assert.AreNotEqual(unexpected, actual, message),
-                "does not equal to \"{0}\"",
+                "does not equal \"{0}\"",
                 provider.ConvertValueToString(unexpected));
         }
 

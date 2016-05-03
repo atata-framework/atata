@@ -59,28 +59,7 @@ namespace Atata
         {
             string[] expectedValues = GetExpectedValues(context.Component.ComponentName);
 
-            string matchAsString = Match.ToString(TermFormat.LowerCase);
-            string expectedValuesAsString = TermResolver.ToDisplayString(expectedValues);
-
-            context.Log.StartVerificationSection("page title {0} '{1}'", matchAsString, expectedValuesAsString);
-
-            string actualTitle = null;
-            bool containsTitle = context.Driver.Try().Until(d =>
-                {
-                    actualTitle = d.Title;
-                    return Match.IsMatch(actualTitle, expectedValues);
-                });
-
-            if (!containsTitle)
-            {
-                string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
-                    "String that {0} \"{1}\"".FormatWith(matchAsString, expectedValuesAsString),
-                    string.Format("\"{0}\"", actualTitle),
-                    "Incorrect page title");
-
-                Assert.That(containsTitle, errorMessage);
-            }
-            context.Log.EndSection();
+            context.Component.Owner.PageTitle.VerifyUntilMatchesAny(Match, expectedValues);
         }
 
         private string[] GetExpectedValues(string pageObjectName)

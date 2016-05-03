@@ -30,7 +30,7 @@ namespace Atata
 
         protected internal string ComponentFullName
         {
-            get { return string.Format("'{0}' {1}", ComponentName, ComponentTypeName ?? "component"); }
+            get { return string.Format("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component"); }
         }
 
         protected internal UIComponentMetadata Metadata { get; internal set; }

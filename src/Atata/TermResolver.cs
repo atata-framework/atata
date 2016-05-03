@@ -168,12 +168,22 @@ namespace Atata
             termOptions = termOptions ?? TermOptions.CreateDefault();
             TermConverter termConverter;
 
-            if (value is Enum)
+            if (value is string)
+                return new[] { FormatStringValue((string)value, termOptions) };
+            else if (value is Enum)
                 return GetEnumTerms((Enum)value, termOptions);
             else if (TypeTermConverters.TryGetValue(value.GetType(), out termConverter) && termConverter.ToStringConverter != null)
                 return new[] { termConverter.ToStringConverter(value, termOptions) };
             else
                 return new[] { FormatValue(value, termOptions.StringFormat, termOptions.Culture) };
+        }
+
+        private static string FormatStringValue(string value, TermOptions termOptions)
+        {
+            if (termOptions.GetFormatOrNull() != null)
+                value = termOptions.GetFormatOrNull().Value.ApplyTo(value);
+
+            return FormatValue(value, termOptions.StringFormat, termOptions.Culture);
         }
 
         private static string FormatValue(object value, string format, CultureInfo culture)
