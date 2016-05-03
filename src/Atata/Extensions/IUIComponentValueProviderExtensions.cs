@@ -42,8 +42,89 @@ namespace Atata
         {
             return provider.Verify(
                 (actual, message) => Assert.AreEqual(expected, actual, message),
-                "is equal to '{0}'",
+                "is equal to \"{0}\"",
                 provider.ConvertValueToString(expected));
+        }
+
+        public static TOwner VerifyDoesNotEqual<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue unexpected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.AreNotEqual(unexpected, actual, message),
+                "does not equal to \"{0}\"",
+                provider.ConvertValueToString(unexpected));
+        }
+
+        public static TOwner VerifyContains<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.Contains(expected, actual, message),
+                "contains \"{0}\"",
+                expected);
+        }
+
+        public static TOwner VerifyStartsWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.StartsWith(expected, actual, message),
+                "starts with \"{0}\"",
+                expected);
+        }
+
+        public static TOwner VerifyEndsWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.EndsWith(expected, actual, message),
+                "ends with \"{0}\"",
+                expected);
+        }
+
+        public static TOwner VerifyMatches<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string pattern)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.IsMatch(pattern, actual, message),
+                "matches pattern \"{0}\"",
+                pattern);
+        }
+
+        public static TOwner VerifyDoesNotContain<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.DoesNotContain(unexpected, actual, message),
+                "does not contain \"{0}\"",
+                unexpected);
+        }
+
+        public static TOwner VerifyDoesNotStartWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.DoesNotStartWith(unexpected, actual, message),
+                "does not start with \"{0}\"",
+                unexpected);
+        }
+
+        public static TOwner VerifyDoesNotEndWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.DoesNotEndWith(unexpected, actual, message),
+                "does not end with \"{0}\"",
+                unexpected);
+        }
+
+        public static TOwner VerifyDoesNotMatch<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string pattern)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => Assert.DoesNotMatch(pattern, actual, message),
+                "does not match pattern \"{0}\"",
+                pattern);
         }
 
         public static TOwner VerifyUntilMatchesAny<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, TermMatch match, params string[] expectedValues)

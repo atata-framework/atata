@@ -195,7 +195,7 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Go.cs" />
     <Compile Include="GoOptions.cs" />
-    <Compile Include="IUIComponentValueProvider`2.cs" />
+    <Compile Include="ValueProvision\IUIComponentValueProvider`2.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
     <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
@@ -270,6 +270,8 @@
     <Compile Include="UIComponentResolver.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="Components\Fields\TextInput`1.cs" />
+    <Compile Include="ValueProvision\PageTitleValueProvider`1.cs" />
+    <Compile Include="ValueProvision\ValueProviderBase`2.cs" />
     <Compile Include="ValueRandomizer.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -283,6 +285,7 @@
       <Name>Atata.WebDriverExtras</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
