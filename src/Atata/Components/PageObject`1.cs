@@ -12,12 +12,16 @@ namespace Atata
         {
             NavigateOnInit = true;
             ScopeLocator = new DynamicScopeLocator(GetScope);
+
+            PageTitle = new PageTitleValueProvider<T>((T)this);
         }
 
         protected internal bool NavigateOnInit { get; internal set; }
         protected bool IsTemporarilyNavigated { get; private set; }
 
         protected UIComponent PreviousPageObject { get; private set; }
+
+        public IUIComponentValueProvider<string, T> PageTitle { get; private set; }
 
         protected virtual IWebElement GetScope(SearchOptions searchOptions)
         {
