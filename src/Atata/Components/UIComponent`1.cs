@@ -53,65 +53,65 @@ namespace Atata
             return Owner;
         }
 
-        protected TComponent Create<TComponent>(string name, params Attribute[] attributes)
-            where TComponent : UIComponent<TOwner>
+        protected TControl CreateControl<TControl>(string name, params Attribute[] attributes)
+            where TControl : Control<TOwner>
         {
-            return UIComponentResolver.CreateComponent<TComponent, TOwner>(this, name, attributes);
+            return UIComponentResolver.CreateComponent<TControl, TOwner>(this, name, attributes);
         }
 
         protected ClickableControl<TOwner> CreateClickable(string name, params Attribute[] attributes)
         {
-            return Create<ClickableControl<TOwner>>(name, attributes);
+            return CreateControl<ClickableControl<TOwner>>(name, attributes);
         }
 
         protected ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
+            return CreateControl<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
         }
 
         protected ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            var control = Create<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
+            var control = CreateControl<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
             control.NavigationPageObjectCreator = navigationPageObjectCreator;
             return control;
         }
 
         protected LinkControl<TOwner> CreateLink(string name, params Attribute[] attributes)
         {
-            return Create<LinkControl<TOwner>>(name, attributes);
+            return CreateControl<LinkControl<TOwner>>(name, attributes);
         }
 
         protected LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<LinkControl<TNavigateTo, TOwner>>(name, attributes);
+            return CreateControl<LinkControl<TNavigateTo, TOwner>>(name, attributes);
         }
 
         protected LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            var control = Create<LinkControl<TNavigateTo, TOwner>>(name, attributes);
+            var control = CreateControl<LinkControl<TNavigateTo, TOwner>>(name, attributes);
             control.NavigationPageObjectCreator = navigationPageObjectCreator;
             return control;
         }
 
         protected ButtonControl<TOwner> CreateButton(string name, params Attribute[] attributes)
         {
-            return Create<ButtonControl<TOwner>>(name, attributes);
+            return CreateControl<ButtonControl<TOwner>>(name, attributes);
         }
 
         protected ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
+            return CreateControl<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
         }
 
         protected ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            var control = Create<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
+            var control = CreateControl<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
             control.NavigationPageObjectCreator = navigationPageObjectCreator;
             return control;
         }
