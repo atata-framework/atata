@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Atata
 {
-    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>
+    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IUIComponentValueProvider<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected Field()
@@ -11,6 +11,26 @@ namespace Atata
         }
 
         protected TermOptions ValueTermOptions { get; private set; }
+
+        string IUIComponentValueProvider<T, TOwner>.ComponentFullName
+        {
+            get { return ComponentFullName; }
+        }
+
+        protected virtual string ValueProviderName
+        {
+            get { return "value"; }
+        }
+
+        string IUIComponentValueProvider<T, TOwner>.ProviderName
+        {
+            get { return ValueProviderName; }
+        }
+
+        TOwner IUIComponentValueProvider<T, TOwner>.Owner
+        {
+            get { return Owner; }
+        }
 
         protected abstract T GetValue();
 
@@ -23,6 +43,11 @@ namespace Atata
         public T Get()
         {
             return GetValue();
+        }
+
+        string IUIComponentValueProvider<T, TOwner>.ConvertValueToString(T value)
+        {
+            return ConvertValueToString(value);
         }
 
         protected internal virtual string ConvertValueToString(T value)
@@ -50,16 +75,6 @@ namespace Atata
             return Owner;
         }
 
-        public TOwner VerifyEquals(T value)
-        {
-            return Verify(actual => Assert.AreEqual(value, actual, "Invalid {0} value", ComponentFullName), "is equal to '{0}'", ConvertValueToString(value));
-        }
-
-        public TOwner VerifyDoesNotEqual(T value)
-        {
-            return Verify(actual => Assert.AreNotEqual(value, actual, "Invalid {0} value", ComponentFullName), "does not equal to '{0}'", ConvertValueToString(value));
-        }
-
         public override bool Equals(object obj)
         {
             if (obj == null)
@@ -70,7 +85,7 @@ namespace Atata
             Field<T, TOwner> objAsField = obj as Field<T, TOwner>;
             if (objAsField != null)
             {
-                return object.ReferenceEquals(this, objAsField);
+                return ReferenceEquals(this, objAsField);
             }
             else if (obj is T)
             {
@@ -91,7 +106,7 @@ namespace Atata
 
         public static bool operator ==(Field<T, TOwner> field, T value)
         {
-            return field == null ? object.Equals(value, null) : field.Equals(value);
+            return field == null ? Equals(value, null) : field.Equals(value);
         }
 
         public static bool operator !=(Field<T, TOwner> field, T value)

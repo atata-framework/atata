@@ -178,7 +178,6 @@
     <Compile Include="Extensions\Button2Extensions.cs" />
     <Compile Include="Extensions\Clickable2Extensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\FieldExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\Clickable1Extensions.cs" />
