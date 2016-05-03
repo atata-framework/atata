@@ -42,17 +42,6 @@ namespace Atata
             return Owner;
         }
 
-        public TOwner VerifyContent(string content, TermMatch match = TermMatch.Equals)
-        {
-            return this.VerifyContent(new[] { content }, match);
-        }
-
-        public new TOwner VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
-        {
-            base.VerifyContent(content, match);
-            return Owner;
-        }
-
         protected TControl CreateControl<TControl>(string name, params Attribute[] attributes)
             where TControl : Control<TOwner>
         {

@@ -91,38 +91,5 @@ namespace Atata
             ScopeLocator.IsMissing();
             Log.EndSection();
         }
-
-        protected internal void VerifyContent(string[] content, TermMatch match = TermMatch.Equals)
-        {
-            if (content == null)
-                throw new ArgumentNullException("content");
-            if (content.Length == 0)
-                throw ExceptionFactory.CreateForArgumentEmptyCollection("content");
-
-            string matchAsString = match.ToString(TermFormat.LowerCase);
-            string expectedValuesAsString = TermResolver.ToDisplayString(content);
-
-            Log.StartVerificationSection("{0} content {1} '{2}'", ComponentFullName, matchAsString, expectedValuesAsString);
-
-            string actualText = null;
-
-            bool containsText = Driver.Try().Until(_ =>
-            {
-                actualText = Scope.Text;
-                return match.IsMatch(actualText, content);
-            });
-
-            if (!containsText)
-            {
-                string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
-                    "String that {0} \"{1}\"".FormatWith(matchAsString, expectedValuesAsString),
-                    string.Format("\"{0}\"", actualText),
-                    "{0} content doesn't match criteria", ComponentFullName);
-
-                Assert.That(containsText, errorMessage);
-            }
-
-            Log.EndSection();
-        }
     }
 }
