@@ -1,19 +1,31 @@
 ﻿namespace Atata
 {
-    public class PageTitleValueProvider<TOwner> : ValueProviderBase<string, TOwner>
+    public class PageTitleValueProvider<TOwner> : IUIComponentValueProvider<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
         public PageTitleValueProvider(TOwner owner)
-            : base(owner, owner.ComponentFullName)
         {
+            Owner = owner;
         }
 
-        public override string ProviderName
+        public string ComponentFullName
+        {
+            get { return Owner.ComponentFullName; }
+        }
+
+        public TOwner Owner { get; private set; }
+
+        public string ProviderName
         {
             get { return "title"; }
         }
 
-        public override string Get()
+        public string ConvertValueToString(string value)
+        {
+            return TermResolver.ToDisplayString(value);
+        }
+
+        public string Get()
         {
             return Owner.Driver.Title;
         }

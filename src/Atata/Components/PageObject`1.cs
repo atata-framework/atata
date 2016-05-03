@@ -14,6 +14,8 @@ namespace Atata
             ScopeLocator = new DynamicScopeLocator(GetScope);
 
             Owner = (T)this;
+
+            PageTitle = new PageTitleValueProvider<T>((T)this);
         }
 
         protected internal bool NavigateOnInit { get; internal set; }
@@ -36,8 +38,6 @@ namespace Atata
             ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<T>();
 
             Log.Info("Go to {0}", ComponentFullName);
-
-            PageTitle = new PageTitleValueProvider<T>((T)this);
 
             OnInit();
 
