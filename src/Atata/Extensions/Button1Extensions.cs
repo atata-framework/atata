@@ -50,16 +50,10 @@ namespace Atata
             return clickable.GetControl().Exists();
         }
 
-        public static TOwner VerifyContent<TOwner>(this Button<TOwner> clickable, string content, TermMatch match = TermMatch.Equals)
+        public static IUIComponentValueProvider<string, TOwner> Content<TOwner>(this Button<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().VerifyContent(content, match);
-        }
-
-        public static TOwner VerifyContent<TOwner>(this Button<TOwner> clickable, string[] content, TermMatch match = TermMatch.Equals)
-            where TOwner : PageObject<TOwner>
-        {
-            return clickable.GetControl().VerifyContent(content, match);
+            return clickable.GetControl().Content;
         }
     }
 }

@@ -50,16 +50,10 @@
             return clickable.GetControl().Exists();
         }
 
-        public static TOwner VerifyContent<TOwner>(this Clickable<TOwner> clickable, string content, TermMatch match = TermMatch.Equals)
+        public static IUIComponentValueProvider<string, TOwner> Content<TOwner>(this Clickable<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().VerifyContent(content, match);
-        }
-
-        public static TOwner VerifyContent<TOwner>(this Clickable<TOwner> clickable, string[] content, TermMatch match = TermMatch.Equals)
-            where TOwner : PageObject<TOwner>
-        {
-            return clickable.GetControl().VerifyContent(content, match);
+            return clickable.GetControl().Content;
         }
     }
 }

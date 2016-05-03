@@ -11,14 +11,14 @@ namespace Atata.Tests
             Go.To<BasicControlsPage>().
                 RawButton.VerifyExists().
                 RawButton.VerifyEnabled().
-                RawButton.VerifyContent("Raw Button").
+                RawButton.Content().VerifyEquals("Raw Button").
                 RawButton().
                 InputButton.VerifyExists().
                 InputButton().
                 Do(_ => _.LinkButton, x =>
                 {
                     x.VerifyExists();
-                    x.VerifyContent("Link Button");
+                    x.Content().VerifyEquals("Link Button");
                     x();
                 }).
                 DivButton.VerifyExists().

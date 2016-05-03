@@ -58,18 +58,11 @@ namespace Atata
             return clickable.GetControl().Exists();
         }
 
-        public static TOwner VerifyContent<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable, string content, TermMatch match = TermMatch.Equals)
+        public static IUIComponentValueProvider<string, TOwner> Content<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return clickable.GetControl().VerifyContent(content, match);
-        }
-
-        public static TOwner VerifyContent<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable, string[] content, TermMatch match = TermMatch.Equals)
-            where TOwner : PageObject<TOwner>
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return clickable.GetControl().VerifyContent(content, match);
+            return clickable.GetControl().Content;
         }
     }
 }
