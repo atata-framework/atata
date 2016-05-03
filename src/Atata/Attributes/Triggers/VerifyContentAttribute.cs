@@ -12,7 +12,7 @@
         public string[] Values { get; private set; }
         public new TermMatch Match { get; set; }
 
-        public override void Execute(TriggerContext context)
+        public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             context.Component.VerifyContent(Values, Match);
         }

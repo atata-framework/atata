@@ -13,7 +13,7 @@ namespace Atata
         public By By { get; private set; }
         public ScopeSource ScopeSource { get; set; }
 
-        public override void Execute(TriggerContext context)
+        public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             ScopeSource scopeSource = ScopeSource != ScopeSource.Inherit ? ScopeSource : context.Component.ScopeSource;
             IWebElement element = scopeSource.GetScopeElement(context.ParentComponent);

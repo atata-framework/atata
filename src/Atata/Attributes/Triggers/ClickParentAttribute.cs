@@ -7,7 +7,7 @@
         {
         }
 
-        public override void Execute(TriggerContext context)
+        public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             ((IClickable)context.ParentComponent).Click();
         }

@@ -55,7 +55,7 @@ namespace Atata
             StringFormat = this.GetStringFormatOrNull() ?? settingsAttribute.GetStringFormatOrNull();
         }
 
-        public override void Execute(TriggerContext context)
+        public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             string[] expectedValues = GetExpectedValues(context.Component.ComponentName);
 

@@ -162,35 +162,5 @@ namespace Atata
 
             Log.EndSection();
         }
-
-        protected void ExecuteTriggers(TriggerEvents on)
-        {
-            if (Triggers == null || Triggers.Length == 0 || on == TriggerEvents.None)
-                return;
-
-            TriggerContext context = new TriggerContext
-            {
-                Event = on,
-                Driver = Driver,
-                Log = Log,
-                Component = this,
-                ParentComponent = Parent,
-                ComponentScopeLocator = ScopeLocator,
-                ParentComponentScopeLocator = Parent != null ? Parent.ScopeLocator : null
-            };
-
-            var triggers = Triggers.Where(x => x.On.HasFlag(on));
-
-            foreach (var trigger in triggers)
-                trigger.Execute(context);
-
-            if (on == TriggerEvents.OnPageObjectInit || on == TriggerEvents.OnPageObjectLeave)
-            {
-                foreach (UIComponent child in Children)
-                {
-                    child.ExecuteTriggers(on);
-                }
-            }
-        }
     }
 }

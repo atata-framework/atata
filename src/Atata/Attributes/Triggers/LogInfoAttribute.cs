@@ -10,7 +10,7 @@
 
         public string Message { get; private set; }
 
-        public override void Execute(TriggerContext context)
+        public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             context.Log.Info(Message);
         }

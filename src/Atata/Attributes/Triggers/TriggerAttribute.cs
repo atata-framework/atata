@@ -20,6 +20,7 @@ namespace Atata
         {
         }
 
-        public abstract void Execute(TriggerContext context);
+        public abstract void Execute<TOwner>(TriggerContext<TOwner> context)
+            where TOwner : PageObject<TOwner>;
     }
 }

@@ -12,7 +12,7 @@ namespace Atata
 
         public double Seconds { get; private set; }
 
-        public override void Execute(TriggerContext context)
+        public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             Thread.Sleep((int)(Seconds * 1000));
         }

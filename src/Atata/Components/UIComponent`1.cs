@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -116,6 +117,36 @@ namespace Atata
             var control = Create<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
             control.NavigationPageObjectCreator = navigationPageObjectCreator;
             return control;
+        }
+
+        protected void ExecuteTriggers(TriggerEvents on)
+        {
+            if (Triggers == null || Triggers.Length == 0 || on == TriggerEvents.None)
+                return;
+
+            TriggerContext<TOwner> context = new TriggerContext<TOwner>
+            {
+                Event = on,
+                Driver = Driver,
+                Log = Log,
+                Component = this,
+                ParentComponent = Parent,
+                ComponentScopeLocator = ScopeLocator,
+                ParentComponentScopeLocator = Parent != null ? Parent.ScopeLocator : null
+            };
+
+            var triggers = Triggers.Where(x => x.On.HasFlag(on));
+
+            foreach (var trigger in triggers)
+                trigger.Execute(context);
+
+            if (on == TriggerEvents.OnPageObjectInit || on == TriggerEvents.OnPageObjectLeave)
+            {
+                foreach (UIComponent<TOwner> child in Children)
+                {
+                    child.ExecuteTriggers(on);
+                }
+            }
         }
     }
 }
