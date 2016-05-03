@@ -6,6 +6,12 @@ namespace Atata
 {
     public static class IUIComponentValueProviderExtensions
     {
+        private static string BuildErrorMessage<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return string.Format("Invalid {0} {1}", provider.ComponentFullName, provider.ProviderName);
+        }
+
         public static TOwner Verify<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, Action assertAction, string verificationMessage, params object[] verificationMessageArgs)
             where TOwner : PageObject<TOwner>
         {
@@ -32,7 +38,7 @@ namespace Atata
                 {
                     TValue actual = provider.Get();
 
-                    string errorMessage = string.Format("Invalid {0} {1}", provider.ComponentFullName, provider.ProviderName);
+                    string errorMessage = BuildErrorMessage(provider);
                     assertAction(actual, errorMessage);
                 },
                 verificationMessage,
@@ -207,6 +213,36 @@ namespace Atata
                 "{0} {1}",
                 matchAsString,
                 expectedValuesAsString);
+        }
+
+        public static TOwner VerifyUntil<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, Action<TValue, string> assertAction, string verificationMessage, params object[] verificationMessageArgs)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                () =>
+                {
+                    string errorMessage = BuildErrorMessage(provider);
+                    TValue actual = default(TValue);
+
+                    bool isSuccess = ATContext.Current.Driver.Try().Until(_ =>
+                    {
+                        actual = provider.Get();
+                        try
+                        {
+                            assertAction(actual, errorMessage);
+                            return true;
+                        }
+                        catch
+                        {
+                            return false;
+                        }
+                    });
+
+                    if (!isSuccess)
+                        assertAction(actual, errorMessage);
+                },
+                verificationMessage,
+                verificationMessageArgs);
         }
     }
 }
