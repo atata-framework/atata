@@ -1,11 +1,11 @@
 ﻿namespace Atata
 {
-    public class PageTitleValueProvider<TOwner> : IUIComponentValueProvider<string, TOwner>
+    public class PageUrlValueProvider<TOwner> : IUIComponentValueProvider<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
         private readonly TOwner pageObject;
 
-        public PageTitleValueProvider(TOwner pageObject)
+        public PageUrlValueProvider(TOwner pageObject)
         {
             this.pageObject = pageObject;
         }
@@ -22,7 +22,7 @@
 
         string IUIComponentValueProvider<string, TOwner>.ProviderName
         {
-            get { return "title"; }
+            get { return "URL"; }
         }
 
         string IUIComponentValueProvider<string, TOwner>.ConvertValueToString(string value)
@@ -32,7 +32,7 @@
 
         public string Get()
         {
-            return pageObject.Driver.Title;
+            return pageObject.Driver.Url;
         }
     }
 }
