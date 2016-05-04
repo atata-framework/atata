@@ -272,6 +272,7 @@
     <Compile Include="ValueProvision\PageTitleValueProvider`1.cs" />
     <Compile Include="ValueProvision\PageUrlValueProvider`1.cs" />
     <Compile Include="ValueProvision\UIComponentContentValueProvider`1.cs" />
+    <Compile Include="ValueProvision\UIComponentValueProvider`2.cs" />
     <Compile Include="ValueRandomizer.cs" />
   </ItemGroup>
   <ItemGroup>
