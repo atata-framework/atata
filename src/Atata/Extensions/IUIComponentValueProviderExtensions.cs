@@ -6,10 +6,11 @@ namespace Atata
 {
     public static class IUIComponentValueProviderExtensions
     {
-        private static string BuildErrorMessage<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+        public static TOwner Get<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, out TValue value)
             where TOwner : PageObject<TOwner>
         {
-            return string.Format("Invalid {0} {1}", provider.ComponentFullName, provider.ProviderName);
+            value = provider.Get();
+            return provider.Owner;
         }
 
         public static TOwner Verify<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, Action assertAction, string verificationMessage, params object[] verificationMessageArgs)
@@ -243,6 +244,12 @@ namespace Atata
                 },
                 verificationMessage,
                 verificationMessageArgs);
+        }
+
+        private static string BuildErrorMessage<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return string.Format("Invalid {0} {1}", provider.ComponentFullName, provider.ProviderName);
         }
     }
 }

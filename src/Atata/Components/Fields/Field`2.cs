@@ -34,12 +34,6 @@ namespace Atata
 
         protected abstract T GetValue();
 
-        public TOwner Get(out T value)
-        {
-            value = GetValue();
-            return Owner;
-        }
-
         public T Get()
         {
             return GetValue();
