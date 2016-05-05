@@ -71,7 +71,7 @@ namespace Atata
 
         public TOwner Check(T value)
         {
-            if (!object.Equals(value, null))
+            if (!Equals(value, null))
             {
                 ExecuteTriggers(TriggerEvents.BeforeSet);
                 Log.StartSection("Check '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
@@ -86,7 +86,7 @@ namespace Atata
 
         public TOwner Uncheck(T value)
         {
-            if (!object.Equals(value, null))
+            if (!Equals(value, null))
             {
                 ExecuteTriggers(TriggerEvents.BeforeSet);
                 Log.StartSection("Uncheck '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
@@ -101,12 +101,12 @@ namespace Atata
 
         public TOwner VerifyChecked(T value)
         {
-            return Verify(
-                actual =>
+            return this.Verify(
+                (actual, message) =>
                 {
                     IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
                     IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    ATAssert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
+                    ATAssert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, message);
                 },
                 "has checked '{0}'",
                 ConvertValueToString(value));
@@ -114,12 +114,12 @@ namespace Atata
 
         public TOwner VerifyUnchecked(T value)
         {
-            return Verify(
-                actual =>
+            return this.Verify(
+                (actual, message) =>
                 {
                     IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
                     IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    ATAssert.HasNoIntersection(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
+                    ATAssert.HasNoIntersection(expectedIndividualValues, actualIndividualValues, message);
                 },
                 "has unchecked '{0}'",
                 ConvertValueToString(value));

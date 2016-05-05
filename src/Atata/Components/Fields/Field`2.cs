@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 
 namespace Atata
 {
@@ -52,21 +51,6 @@ namespace Atata
         protected internal virtual T ConvertStringToValue(string value)
         {
             return TermResolver.FromString<T>(value, ValueTermOptions);
-        }
-
-        public TOwner Verify(Action<T> assertAction, string message, params object[] args)
-        {
-            StringBuilder messageBuilder = new StringBuilder(ComponentFullName);
-            if (!string.IsNullOrWhiteSpace(message))
-                messageBuilder.Append(" ").AppendFormat(message, args);
-
-            Log.StartVerificationSection(messageBuilder.ToString());
-
-            T actualValue = GetValue();
-            assertAction(actualValue);
-
-            Log.EndSection();
-            return Owner;
         }
 
         public override bool Equals(object obj)
