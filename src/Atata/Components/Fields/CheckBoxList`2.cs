@@ -106,7 +106,7 @@ namespace Atata
                 {
                     IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
                     IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    Assert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
+                    ATAssert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
                 },
                 "has checked '{0}'",
                 ConvertValueToString(value));
@@ -119,7 +119,7 @@ namespace Atata
                 {
                     IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
                     IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    Assert.HasNoIntersection(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
+                    ATAssert.HasNoIntersection(expectedIndividualValues, actualIndividualValues, "Invalid {0} value", ComponentFullName);
                 },
                 "has unchecked '{0}'",
                 ConvertValueToString(value));

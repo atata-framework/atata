@@ -238,8 +238,8 @@ namespace Atata
             string[] formatParts = format.Split(new[] { "{0" }, 2, StringSplitOptions.None);
             formatParts[1] = formatParts[1].Substring(formatParts[1].IndexOf('}') + 1);
 
-            Assert.StartsWith(formatParts[0], value, "Incorrect string format");
-            Assert.EndsWith(formatParts[1], value, "Incorrect string format");
+            ATAssert.StartsWith(formatParts[0], value, "Incorrect string format");
+            ATAssert.EndsWith(formatParts[1], value, "Incorrect string format");
 
             return value.Substring(formatParts[0].Length, value.Length - formatParts[0].Length - formatParts[1].Length);
         }

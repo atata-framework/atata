@@ -11,16 +11,16 @@ namespace Atata
     {
         private const string NullString = "null";
 
-        public void IsTrue(bool condition, string message, params object[] args)
+        public void IsTrue(bool? actual, string message, params object[] args)
         {
-            if (!condition)
-                throw new AssertionException(string.Format(message, args));
+            if (actual != true)
+                throw CreateExceptionForFailedAssert(bool.TrueString, actual.ToString(), message, args);
         }
 
-        public void IsFalse(bool condition, string message, params object[] args)
+        public void IsFalse(bool? actual, string message, params object[] args)
         {
-            if (condition)
-                throw new AssertionException(string.Format(message, args));
+            if (actual != false)
+                throw CreateExceptionForFailedAssert(bool.FalseString, actual.ToString(), message, args);
         }
 
         public void NotNull(object actual, string message, params object[] args)
