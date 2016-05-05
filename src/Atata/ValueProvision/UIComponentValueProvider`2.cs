@@ -6,10 +6,10 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         private readonly UIComponent<TOwner> component;
-        private readonly Func<UIComponent<TOwner>, TValue> valueGetFunction;
+        private readonly Func<TValue> valueGetFunction;
         private readonly string providerName;
 
-        public UIComponentValueProvider(UIComponent<TOwner> component, Func<UIComponent<TOwner>, TValue> valueGetFunction, string providerName)
+        public UIComponentValueProvider(UIComponent<TOwner> component, Func<TValue> valueGetFunction, string providerName)
         {
             if (component == null)
                 throw new ArgumentNullException("component");
@@ -45,7 +45,7 @@ namespace Atata
 
         public TValue Get()
         {
-            return valueGetFunction(component);
+            return valueGetFunction();
         }
     }
 }

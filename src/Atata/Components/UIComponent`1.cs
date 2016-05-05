@@ -105,6 +105,11 @@ namespace Atata
             return control;
         }
 
+        protected UIComponentValueProvider<TValue, TOwner> CreateValueProvider<TValue>(Func<TValue> valueGetFunction, string providerName)
+        {
+            return new UIComponentValueProvider<TValue, TOwner>(this, valueGetFunction, providerName);
+        }
+
         protected void ExecuteTriggers(TriggerEvents on)
         {
             if (Triggers == null || Triggers.Length == 0 || on == TriggerEvents.None)

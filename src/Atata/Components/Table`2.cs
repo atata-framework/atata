@@ -16,7 +16,11 @@ namespace Atata
         {
             ControlDefinitionAttribute controlDefinition = UIComponentResolver.GetControlDefinition(typeof(TRow));
             rowScopeXPath = (controlDefinition != null ? controlDefinition.ScopeXPath : null) ?? "tr";
+
+            RowCount = CreateValueProvider(GetRowCount, "row count");
         }
+
+        public UIComponentValueProvider<int, TOwner> RowCount { get; private set; }
 
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }
@@ -101,11 +105,17 @@ namespace Atata
             return Owner;
         }
 
+        private int GetRowCount()
+        {
+            By rowBy = CreateRowBy();
+            return Driver.GetAll(rowBy).Count;
+        }
+
         public TRow FirstRow()
         {
             string rowName = "<first>";
 
-            Log.StartSection("Find '{0}' table row", rowName);
+            Log.StartSection("Find \"{0}\" table row", rowName);
 
             By rowBy = CreateRowBy();
             TRow row = CreateRow(rowBy, rowName);
@@ -122,7 +132,7 @@ namespace Atata
 
             string rowName = BuildRowName(values);
 
-            Log.StartSection("Find '{0}' table row", rowName);
+            Log.StartSection("Find \"{0}\" table row", rowName);
 
             By rowBy = CreateRowBy(values);
             TRow row = CreateRow(rowBy, rowName);
@@ -136,7 +146,7 @@ namespace Atata
         {
             string rowName = BuildRowName(predicateExpression);
 
-            Log.StartSection("Find '{0}' table row", rowName);
+            Log.StartSection("Find \"{0}\" table row", rowName);
 
             TRow row = CreateRow(predicateExpression, rowName);
 
@@ -195,10 +205,12 @@ namespace Atata
 
         protected virtual string BuildRowName(string[] values)
         {
-            if (values != null && values.Any())
-                return values.ToQuotedValuesListOfString(true);
-            else
+            if (values == null || !values.Any())
                 return null;
+            else if (values.Length == 1)
+                return values.First();
+            else
+                return values.ToQuotedValuesListOfString(true);
         }
 
         protected virtual IScopeLocator CreateRowElementFinder(By by)
