@@ -4,7 +4,8 @@ namespace Atata
 {
     public interface IAsserter
     {
-        void That(bool condition, string message, params object[] args);
+        void IsTrue(bool condition, string message, params object[] args);
+        void IsFalse(bool condition, string message, params object[] args);
         void NotNull(object actual, string message, params object[] args);
         void AreEqual<T>(T expected, T actual, string message, params object[] args);
         void AreNotEqual<T>(T expected, T actual, string message, params object[] args);

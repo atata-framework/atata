@@ -165,7 +165,7 @@ namespace Atata
                             string.Format("\"{0}\"", actualText),
                             "{0} {1} doesn't match criteria", provider.ComponentFullName, provider.ProviderName);
 
-                        Assert.That(containsText, errorMessage);
+                        Assert.IsTrue(containsText, errorMessage);
                     }
                 },
                 "{0} {1}{2}",
@@ -208,7 +208,7 @@ namespace Atata
                             string.Format("\"{0}\"", actualText),
                             "{0} {1} doesn't match criteria", provider.ComponentFullName, provider.ProviderName);
 
-                        Assert.That(containsText, errorMessage);
+                        Assert.IsTrue(containsText, errorMessage);
                     }
                 },
                 "{0} {1}",

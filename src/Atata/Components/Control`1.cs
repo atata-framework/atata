@@ -28,7 +28,7 @@
         public TOwner VerifyEnabled()
         {
             Log.StartVerificationSection("{0} is enabled", ComponentFullName);
-            Assert.That(IsEnabled(), "Expected {0} to be enabled", ComponentFullName);
+            Assert.IsTrue(IsEnabled(), "Expected {0} to be enabled", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
@@ -36,7 +36,7 @@
         public TOwner VerifyDisabled()
         {
             Log.StartVerificationSection("{0} is disabled", ComponentFullName);
-            Assert.That(!IsEnabled(), "Expected {0} to be disabled", ComponentFullName);
+            Assert.IsTrue(!IsEnabled(), "Expected {0} to be disabled", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
