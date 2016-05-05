@@ -229,7 +229,6 @@ namespace Atata
             }
         }
 
-        // TODO: Review/refactor RetrieveValuePart method.
         private static string RetrieveValuePart(string value, string format)
         {
             if (string.IsNullOrEmpty(format))
@@ -238,10 +237,20 @@ namespace Atata
             string[] formatParts = format.Split(new[] { "{0" }, 2, StringSplitOptions.None);
             formatParts[1] = formatParts[1].Substring(formatParts[1].IndexOf('}') + 1);
 
-            ATAssert.StartsWith(formatParts[0], value, "Incorrect string format");
-            ATAssert.EndsWith(formatParts[1], value, "Incorrect string format");
+            string formatStart = formatParts[0];
+            string formatEnd = formatParts[1];
 
-            return value.Substring(formatParts[0].Length, value.Length - formatParts[0].Length - formatParts[1].Length);
+            if (!value.StartsWith(formatStart))
+                throw new ArgumentException(
+                    "\"{0}\" value doesn't match format \"{1}\". Should start with \"{2}\"".FormatWith(value, format, formatStart),
+                    "value");
+
+            if (!value.EndsWith(formatEnd))
+                throw new ArgumentException(
+                    "\"{0}\" value doesn't match format \"{1}\". Should end with \"{2}\"".FormatWith(value, format, formatEnd),
+                    "value");
+
+            return value.Substring(formatStart.Length, value.Length - formatStart.Length - formatEnd.Length);
         }
 
         public static string CreateXPathCondition(object value, TermOptions termOptions = null, string operand = ".")
