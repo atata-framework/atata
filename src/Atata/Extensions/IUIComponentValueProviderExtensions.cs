@@ -136,6 +136,42 @@ namespace Atata
                 pattern);
         }
 
+        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsTrue(actual, message),
+                "is {0}",
+                bool.TrueString);
+        }
+
+        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsTrue(actual, message),
+                "is {0}",
+                bool.TrueString);
+        }
+
+        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsFalse(actual, message),
+                "is {0}",
+                bool.FalseString);
+        }
+
+        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsFalse(actual, message),
+                "is {0}",
+                bool.FalseString);
+        }
+
         public static TOwner VerifyUntilMatchesAny<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, TermMatch match, params string[] expectedValues)
             where TOwner : PageObject<TOwner>
         {
@@ -246,7 +282,7 @@ namespace Atata
                 verificationMessageArgs);
         }
 
-        private static string BuildErrorMessage<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+        internal static string BuildErrorMessage<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return string.Format("Invalid {0} {1}", provider.ComponentFullName, provider.ProviderName);

@@ -3,7 +3,7 @@
 namespace Atata
 {
     [ControlDefinition("input[@type='checkbox']", IgnoreNameEndings = "Checkbox,CheckBox,Option")]
-    public class CheckBox<TOwner> : EditableField<bool, TOwner>
+    public class CheckBox<TOwner> : EditableField<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected override bool GetValue()

@@ -158,6 +158,7 @@
     <Compile Include="Components\Fields\Content`2.cs" />
     <Compile Include="Components\Fields\DateInput`1.cs" />
     <Compile Include="Components\Fields\EditableField`2.cs" />
+    <Compile Include="Components\Fields\ICheckable.cs" />
     <Compile Include="Components\Fields\RadioButtonList`2.cs" />
     <Compile Include="Components\Fields\RadioButton`1.cs" />
     <Compile Include="Components\Fields\Input`2.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Extensions\Button2Extensions.cs" />
     <Compile Include="Extensions\Clickable2Extensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
+    <Compile Include="Extensions\ICheckableExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\Clickable1Extensions.cs" />
