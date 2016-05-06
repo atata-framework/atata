@@ -50,7 +50,7 @@ namespace Atata
 
             ExecuteTriggers(TriggerEvents.OnPageObjectInit);
 
-            VerifyCurrentPage();
+            OnVerify();
         }
 
         protected virtual void ApplyContext(PageObjectContext context)
@@ -71,11 +71,6 @@ namespace Atata
             {
                 Go.ToUrl(attribute.Url);
             }
-        }
-
-        private void VerifyCurrentPage()
-        {
-            OnVerify();
         }
 
         protected virtual void OnVerify()
