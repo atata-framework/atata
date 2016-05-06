@@ -23,7 +23,7 @@ namespace Atata
             internal set { base.Parent = value; }
         }
 
-        public IUIComponentValueProvider<string, TOwner> Content { get; private set; }
+        public UIComponentContentValueProvider<TOwner> Content { get; private set; }
 
         protected internal virtual void InitComponent()
         {

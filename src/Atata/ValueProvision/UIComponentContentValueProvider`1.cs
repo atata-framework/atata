@@ -10,24 +10,24 @@
             this.component = component;
         }
 
-        public string ComponentFullName
+        string IUIComponentValueProvider<string, TOwner>.ComponentFullName
         {
             get { return component.ComponentFullName; }
         }
 
-        public TOwner Owner
+        TOwner IUIComponentValueProvider<string, TOwner>.Owner
         {
             get { return component.Owner; }
         }
 
-        public string ProviderName
+        string IUIComponentValueProvider<string, TOwner>.ProviderName
         {
             get { return "content"; }
         }
 
-        public string ConvertValueToString(string value)
+        string IUIComponentValueProvider<string, TOwner>.ConvertValueToString(string value)
         {
-            return TermResolver.ToDisplayString(value);
+            return value;
         }
 
         public string Get()
