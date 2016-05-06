@@ -26,13 +26,25 @@ namespace Atata
         public void IsNull(object actual, string message, params object[] args)
         {
             if (!Equals(actual, null))
-                throw CreateException("is null", ObjectToString(actual), message, args);
+                throw CreateException(NullString, ObjectToString(actual), message, args);
         }
 
         public void IsNotNull(object actual, string message, params object[] args)
         {
             if (Equals(actual, null))
-                throw CreateException("is not null", NullString, message, args);
+                throw CreateException("not null", NullString, message, args);
+        }
+
+        public void IsNullOrEmpty(string actual, string message, params object[] args)
+        {
+            if (!string.IsNullOrEmpty(actual))
+                throw CreateException("null or empty", ObjectToString(actual), message, args);
+        }
+
+        public void IsNotNullOrEmpty(string actual, string message, params object[] args)
+        {
+            if (string.IsNullOrEmpty(actual))
+                throw CreateException("not null or empty", ObjectToString(actual), message, args);
         }
 
         public void AreEqual<T>(T expected, T actual, string message, params object[] args)

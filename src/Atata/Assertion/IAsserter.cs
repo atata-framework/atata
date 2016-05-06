@@ -8,6 +8,8 @@ namespace Atata
         void IsFalse(bool? condition, string message, params object[] args);
         void IsNull(object actual, string message, params object[] args);
         void IsNotNull(object actual, string message, params object[] args);
+        void IsNullOrEmpty(string actual, string message, params object[] args);
+        void IsNotNullOrEmpty(string actual, string message, params object[] args);
         void AreEqual<T>(T expected, T actual, string message, params object[] args);
         void AreNotEqual<T>(T expected, T actual, string message, params object[] args);
         void Contains(string expected, string actual, string message, params object[] args);
