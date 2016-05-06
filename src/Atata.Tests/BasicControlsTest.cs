@@ -15,7 +15,7 @@ namespace Atata.Tests
 
                 ByLabel.FirstName.VerifyExists().
                 ByLabel.FirstName.VerifyEnabled().
-                ByLabel.FirstName.VerifyNotReadOnly().
+                ByLabel.FirstName.VerifyIsNotReadOnly().
                 ByLabel.FirstName.SetRandom(out firstName).
                 ByLabel.FirstName.VerifyEquals(firstName).
                 ById.FirstName.VerifyEquals(firstName).
@@ -35,12 +35,12 @@ namespace Atata.Tests
 
                 ByLabel.ReadonlyField.VerifyExists().
                 ByLabel.ReadonlyField.VerifyEnabled().
-                ByLabel.ReadonlyField.VerifyReadOnly().
+                ByLabel.ReadonlyField.VerifyIsReadOnly().
                 ByLabel.ReadonlyField.VerifyEquals("readme").
 
                 ByLabel.DisabledField.VerifyExists().
                 ByLabel.DisabledField.VerifyDisabled().
-                ByLabel.DisabledField.VerifyNotReadOnly().
+                ByLabel.DisabledField.VerifyIsNotReadOnly().
                 ByLabel.DisabledField.VerifyEquals("readme").
 
                 RawButtonControl.VerifyExists().

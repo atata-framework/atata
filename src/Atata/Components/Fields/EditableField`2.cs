@@ -22,7 +22,7 @@
             return Owner;
         }
 
-        public TOwner VerifyReadOnly()
+        public TOwner VerifyIsReadOnly()
         {
             Log.StartVerificationSection("{0} is read-only", ComponentFullName);
             ATAssert.IsTrue(IsReadOnly(), "Expected {0} to be read-only", ComponentFullName);
@@ -30,7 +30,7 @@
             return Owner;
         }
 
-        public TOwner VerifyNotReadOnly()
+        public TOwner VerifyIsNotReadOnly()
         {
             Log.StartVerificationSection("{0} is not read-only", ComponentFullName);
             ATAssert.IsFalse(IsReadOnly(), "Expected {0} not to be read-only", ComponentFullName);
