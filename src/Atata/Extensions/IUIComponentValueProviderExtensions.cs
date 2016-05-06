@@ -46,6 +46,58 @@ namespace Atata
                 verificationMessageArgs);
         }
 
+        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsTrue(actual, message),
+                "is {0}",
+                bool.TrueString);
+        }
+
+        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsTrue(actual, message),
+                "is {0}",
+                bool.TrueString);
+        }
+
+        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsFalse(actual, message),
+                "is {0}",
+                bool.FalseString);
+        }
+
+        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsFalse(actual, message),
+                "is {0}",
+                bool.FalseString);
+        }
+
+        public static TOwner VerifyIsNull<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsNull(actual, message),
+                "is null");
+        }
+
+        public static TOwner VerifyIsNotNull<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsNotNull(actual, message),
+                "is not null");
+        }
+
         public static TOwner VerifyEquals<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue expected)
             where TOwner : PageObject<TOwner>
         {
@@ -134,42 +186,6 @@ namespace Atata
                 (actual, message) => ATAssert.DoesNotMatch(pattern, actual, message),
                 "does not match pattern \"{0}\"",
                 pattern);
-        }
-
-        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
-            where TOwner : PageObject<TOwner>
-        {
-            return provider.Verify(
-                (actual, message) => ATAssert.IsTrue(actual, message),
-                "is {0}",
-                bool.TrueString);
-        }
-
-        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
-            where TOwner : PageObject<TOwner>
-        {
-            return provider.Verify(
-                (actual, message) => ATAssert.IsTrue(actual, message),
-                "is {0}",
-                bool.TrueString);
-        }
-
-        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
-            where TOwner : PageObject<TOwner>
-        {
-            return provider.Verify(
-                (actual, message) => ATAssert.IsFalse(actual, message),
-                "is {0}",
-                bool.FalseString);
-        }
-
-        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
-            where TOwner : PageObject<TOwner>
-        {
-            return provider.Verify(
-                (actual, message) => ATAssert.IsFalse(actual, message),
-                "is {0}",
-                bool.FalseString);
         }
 
         public static TOwner VerifyUntilMatchesAny<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, TermMatch match, params string[] expectedValues)
