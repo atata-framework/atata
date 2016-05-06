@@ -15,7 +15,8 @@ namespace Atata
 
         public static AssertionSimpleDelegate<bool?> IsTrue { get; set; }
         public static AssertionSimpleDelegate<bool?> IsFalse { get; set; }
-        public static AssertionSimpleDelegate<object> NotNull { get; set; }
+        public static AssertionSimpleDelegate<object> IsNull { get; set; }
+        public static AssertionSimpleDelegate<object> IsNotNull { get; set; }
         public static AssertionDelgate<object> AreEqual { get; set; }
         public static AssertionDelgate<object> AreNotEqual { get; set; }
 
@@ -34,7 +35,8 @@ namespace Atata
         {
             IsTrue = asserter.IsTrue;
             IsFalse = asserter.IsFalse;
-            NotNull = asserter.NotNull;
+            IsNull = asserter.IsNull;
+            IsNotNull = asserter.IsNotNull;
             AreEqual = asserter.AreEqual;
             AreNotEqual = asserter.AreNotEqual;
             Contains = asserter.Contains;
