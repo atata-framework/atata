@@ -29,6 +29,8 @@ namespace Atata
         public static AssertionComparisonDelgate Less { get; set; }
         public static AssertionComparisonDelgate LessOrEqual { get; set; }
 
+        public static AssertionDelgate<string> AreEqualIgnoringCase { get; set; }
+        public static AssertionDelgate<string> AreNotEqualIgnoringCase { get; set; }
         public static AssertionDelgate<string> Contains { get; set; }
         public static AssertionDelgate<string> StartsWith { get; set; }
         public static AssertionDelgate<string> EndsWith { get; set; }
@@ -56,6 +58,8 @@ namespace Atata
             Less = asserter.Less;
             LessOrEqual = asserter.LessOrEqual;
 
+            AreEqualIgnoringCase = asserter.AreEqualIgnoringCase;
+            AreNotEqualIgnoringCase = asserter.AreNotEqualIgnoringCase;
             Contains = asserter.Contains;
             StartsWith = asserter.StartsWith;
             EndsWith = asserter.EndsWith;

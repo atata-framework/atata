@@ -19,6 +19,8 @@ namespace Atata
         void Less(IComparable value1, IComparable value2, string message, params object[] args);
         void LessOrEqual(IComparable value1, IComparable value2, string message, params object[] args);
 
+        void AreEqualIgnoringCase(string expected, string actual, string message, params object[] args);
+        void AreNotEqualIgnoringCase(string expected, string actual, string message, params object[] args);
         void Contains(string expected, string actual, string message, params object[] args);
         void StartsWith(string expected, string actual, string message, params object[] args);
         void EndsWith(string expected, string actual, string message, params object[] args);

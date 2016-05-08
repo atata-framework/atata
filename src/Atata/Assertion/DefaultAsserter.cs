@@ -83,6 +83,18 @@ namespace Atata
                 throw CreateException("less than or equal to {0}".FormatWith(ObjectToString(value2)), ObjectToString(value1), message, args);
         }
 
+        public void AreEqualIgnoringCase(string expected, string actual, string message, params object[] args)
+        {
+            if (!string.Equals(expected, actual, StringComparison.CurrentCultureIgnoreCase))
+                throw CreateException("{0}, ignoring case".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+        }
+
+        public void AreNotEqualIgnoringCase(string expected, string actual, string message, params object[] args)
+        {
+            if (string.Equals(expected, actual, StringComparison.CurrentCultureIgnoreCase))
+                throw CreateException("not equal to {0}, ignoring case".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+        }
+
         public void Contains(string expected, string actual, string message, params object[] args)
         {
             if (!actual.Contains(expected))
