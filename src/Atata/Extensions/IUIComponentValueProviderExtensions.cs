@@ -98,6 +98,22 @@ namespace Atata
                 "is not null");
         }
 
+        public static TOwner VerifyIsNullOrEmpty<TOwner>(this IUIComponentValueProvider<string, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsNullOrEmpty(actual, message),
+                "is null or empty");
+        }
+
+        public static TOwner VerifyIsNotNullOrEmpty<TOwner>(this IUIComponentValueProvider<string, TOwner> provider)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsNotNullOrEmpty(actual, message),
+                "is not null or empty");
+        }
+
         public static TOwner VerifyEquals<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue expected)
             where TOwner : PageObject<TOwner>
         {
