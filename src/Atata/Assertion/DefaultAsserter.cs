@@ -62,49 +62,49 @@ namespace Atata
         public void Contains(string expected, string actual, string message, params object[] args)
         {
             if (!actual.Contains(expected))
-                throw CreateException("String containing {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+                throw CreateException("string containing {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
         }
 
         public void StartsWith(string expected, string actual, string message, params object[] args)
         {
             if (!actual.StartsWith(expected))
-                throw CreateException("String starting with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+                throw CreateException("string starting with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
         }
 
         public void EndsWith(string expected, string actual, string message, params object[] args)
         {
             if (!actual.EndsWith(expected))
-                throw CreateException("String ending with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+                throw CreateException("string ending with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
         }
 
         public void IsMatch(string pattern, string actual, string message, params object[] args)
         {
             if (!Regex.IsMatch(actual, pattern))
-                throw CreateException("String matching {0}".FormatWith(ObjectToString(pattern)), ObjectToString(actual), message, args);
+                throw CreateException("string matching {0}".FormatWith(ObjectToString(pattern)), ObjectToString(actual), message, args);
         }
 
         public void DoesNotContain(string expected, string actual, string message, params object[] args)
         {
             if (actual.Contains(expected))
-                throw CreateException("String not containing {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+                throw CreateException("string not containing {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
         }
 
         public void DoesNotStartWith(string expected, string actual, string message, params object[] args)
         {
             if (actual.StartsWith(expected))
-                throw CreateException("String not starting with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+                throw CreateException("string not starting with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
         }
 
         public void DoesNotEndWith(string expected, string actual, string message, params object[] args)
         {
             if (actual.EndsWith(expected))
-                throw CreateException("String not ending with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
+                throw CreateException("string not ending with {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
         }
 
         public void DoesNotMatch(string pattern, string actual, string message, params object[] args)
         {
             if (Regex.IsMatch(actual, pattern))
-                throw CreateException("String not matching {0}".FormatWith(ObjectToString(pattern)), ObjectToString(actual), message, args);
+                throw CreateException("string not matching {0}".FormatWith(ObjectToString(pattern)), ObjectToString(actual), message, args);
         }
 
         public void IsSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args)
