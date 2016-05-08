@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace Atata
 {
@@ -11,6 +12,7 @@ namespace Atata
         }
 
         public delegate void AssertionDelgate<T>(T expected, T actual, string message, params object[] args);
+        public delegate void AssertionComparisonDelgate(IComparable value1, IComparable value2, string message, params object[] args);
         public delegate void AssertionSimpleDelegate<T>(T actual, string message, params object[] args);
 
         public static AssertionSimpleDelegate<bool?> IsTrue { get; set; }
@@ -21,6 +23,11 @@ namespace Atata
         public static AssertionSimpleDelegate<string> IsNotNullOrEmpty { get; set; }
         public static AssertionDelgate<object> AreEqual { get; set; }
         public static AssertionDelgate<object> AreNotEqual { get; set; }
+
+        public static AssertionComparisonDelgate Greater { get; set; }
+        public static AssertionComparisonDelgate GreaterOrEqual { get; set; }
+        public static AssertionComparisonDelgate Less { get; set; }
+        public static AssertionComparisonDelgate LessOrEqual { get; set; }
 
         public static AssertionDelgate<string> Contains { get; set; }
         public static AssertionDelgate<string> StartsWith { get; set; }
@@ -43,6 +50,12 @@ namespace Atata
             IsNotNullOrEmpty = asserter.IsNotNullOrEmpty;
             AreEqual = asserter.AreEqual;
             AreNotEqual = asserter.AreNotEqual;
+
+            Greater = asserter.Greater;
+            GreaterOrEqual = asserter.GreaterOrEqual;
+            Less = asserter.Less;
+            LessOrEqual = asserter.LessOrEqual;
+
             Contains = asserter.Contains;
             StartsWith = asserter.StartsWith;
             EndsWith = asserter.EndsWith;

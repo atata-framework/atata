@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace Atata
 {
@@ -12,6 +13,12 @@ namespace Atata
         void IsNotNullOrEmpty(string actual, string message, params object[] args);
         void AreEqual<T>(T expected, T actual, string message, params object[] args);
         void AreNotEqual<T>(T expected, T actual, string message, params object[] args);
+
+        void Greater(IComparable expected, IComparable actual, string message, params object[] args);
+        void GreaterOrEqual(IComparable value1, IComparable value2, string message, params object[] args);
+        void Less(IComparable value1, IComparable value2, string message, params object[] args);
+        void LessOrEqual(IComparable value1, IComparable value2, string message, params object[] args);
+
         void Contains(string expected, string actual, string message, params object[] args);
         void StartsWith(string expected, string actual, string message, params object[] args);
         void EndsWith(string expected, string actual, string message, params object[] args);

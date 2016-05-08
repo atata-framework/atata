@@ -59,6 +59,30 @@ namespace Atata
                 throw CreateException("not equal to {0}".FormatWith(ObjectToString(expected)), ObjectToString(actual), message, args);
         }
 
+        public void Greater(IComparable value1, IComparable value2, string message, params object[] args)
+        {
+            if (value1.CompareTo(value2) <= 0)
+                throw CreateException("greater than {0}".FormatWith(ObjectToString(value2)), ObjectToString(value1), message, args);
+        }
+
+        public void GreaterOrEqual(IComparable value1, IComparable value2, string message, params object[] args)
+        {
+            if (value1.CompareTo(value2) < 0)
+                throw CreateException("greater than or equal to {0}".FormatWith(ObjectToString(value2)), ObjectToString(value1), message, args);
+        }
+
+        public void Less(IComparable value1, IComparable value2, string message, params object[] args)
+        {
+            if (value1.CompareTo(value2) >= 0)
+                throw CreateException("less than {0}".FormatWith(ObjectToString(value2)), ObjectToString(value1), message, args);
+        }
+
+        public void LessOrEqual(IComparable value1, IComparable value2, string message, params object[] args)
+        {
+            if (value1.CompareTo(value2) > 0)
+                throw CreateException("less than or equal to {0}".FormatWith(ObjectToString(value2)), ObjectToString(value1), message, args);
+        }
+
         public void Contains(string expected, string actual, string message, params object[] args)
         {
             if (!actual.Contains(expected))
