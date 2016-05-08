@@ -132,6 +132,64 @@ namespace Atata
                 provider.ConvertValueToString(unexpected));
         }
 
+        public static TOwner VerifyIsGreaterThan<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+            where TValue : IComparable<TValue>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.Greater(actual, compareTo, message),
+                "is greater than \"{0}\"",
+                provider.ConvertValueToString(compareTo));
+        }
+
+        public static TOwner VerifyIsGreaterThanOrEqualTo<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+            where TValue : IComparable<TValue>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.GreaterOrEqual(actual, compareTo, message),
+                "is greater than or equal to \"{0}\"",
+                provider.ConvertValueToString(compareTo));
+        }
+
+        public static TOwner VerifyIsLessThan<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+            where TValue : IComparable<TValue>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.Less(actual, compareTo, message),
+                "is less than \"{0}\"",
+                provider.ConvertValueToString(compareTo));
+        }
+
+        public static TOwner VerifyIsLessThanOrEqualTo<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+            where TValue : IComparable<TValue>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.LessOrEqual(actual, compareTo, message),
+                "is less than or equal to \"{0}\"",
+                provider.ConvertValueToString(compareTo));
+        }
+
+        public static TOwner VerifyEqualsIgnoringCase<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.AreEqualIgnoringCase(expected, actual, message),
+                "equals \"{0}\" ignoring case",
+                expected);
+        }
+
+        public static TOwner VerifyDoesNotEqualIgnoringCase<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.AreNotEqualIgnoringCase(unexpected, actual, message),
+                "does not equal \"{0}\" ignoring case",
+                unexpected);
+        }
+
         public static TOwner VerifyContains<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
             where TOwner : PageObject<TOwner>
         {
