@@ -13,6 +13,7 @@ namespace Atata
 
         public delegate void AssertionDelgate<T>(T expected, T actual, string message, params object[] args);
         public delegate void AssertionComparisonDelgate(IComparable value1, IComparable value2, string message, params object[] args);
+        public delegate void AssertionIsInRangeDelgate(IComparable from, IComparable to, IComparable actual, string message, params object[] args);
         public delegate void AssertionSimpleDelegate<T>(T actual, string message, params object[] args);
 
         public static AssertionSimpleDelegate<bool?> IsTrue { get; set; }
@@ -28,6 +29,7 @@ namespace Atata
         public static AssertionComparisonDelgate GreaterOrEqual { get; set; }
         public static AssertionComparisonDelgate Less { get; set; }
         public static AssertionComparisonDelgate LessOrEqual { get; set; }
+        public static AssertionIsInRangeDelgate IsInRange { get; set; }
 
         public static AssertionDelgate<string> AreEqualIgnoringCase { get; set; }
         public static AssertionDelgate<string> AreNotEqualIgnoringCase { get; set; }
@@ -57,6 +59,7 @@ namespace Atata
             GreaterOrEqual = asserter.GreaterOrEqual;
             Less = asserter.Less;
             LessOrEqual = asserter.LessOrEqual;
+            IsInRange = asserter.IsInRange;
 
             AreEqualIgnoringCase = asserter.AreEqualIgnoringCase;
             AreNotEqualIgnoringCase = asserter.AreNotEqualIgnoringCase;

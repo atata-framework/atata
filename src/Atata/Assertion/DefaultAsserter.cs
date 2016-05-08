@@ -83,6 +83,12 @@ namespace Atata
                 throw CreateException("less than or equal to {0}".FormatWith(ObjectToString(value2)), ObjectToString(value1), message, args);
         }
 
+        public void IsInRange(IComparable from, IComparable to, IComparable actual, string message, params object[] args)
+        {
+            if (actual.CompareTo(from) < 0 || actual.CompareTo(to) > 0)
+                throw CreateException("in range {0} - {1}".FormatWith(ObjectToString(from), ObjectToString(to)), ObjectToString(actual), message, args);
+        }
+
         public void AreEqualIgnoringCase(string expected, string actual, string message, params object[] args)
         {
             if (!string.Equals(expected, actual, StringComparison.CurrentCultureIgnoreCase))

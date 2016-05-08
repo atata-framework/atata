@@ -18,6 +18,7 @@ namespace Atata
         void GreaterOrEqual(IComparable value1, IComparable value2, string message, params object[] args);
         void Less(IComparable value1, IComparable value2, string message, params object[] args);
         void LessOrEqual(IComparable value1, IComparable value2, string message, params object[] args);
+        void IsInRange(IComparable from, IComparable to, IComparable actual, string message, params object[] args);
 
         void AreEqualIgnoringCase(string expected, string actual, string message, params object[] args);
         void AreNotEqualIgnoringCase(string expected, string actual, string message, params object[] args);
