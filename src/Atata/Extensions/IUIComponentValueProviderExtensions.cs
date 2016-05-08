@@ -138,7 +138,7 @@ namespace Atata
         {
             return provider.Verify(
                 (actual, message) => ATAssert.Greater(actual, compareTo, message),
-                "is greater than \"{0}\"",
+                "is greater than {0}",
                 provider.ConvertValueToString(compareTo));
         }
 
@@ -148,7 +148,7 @@ namespace Atata
         {
             return provider.Verify(
                 (actual, message) => ATAssert.GreaterOrEqual(actual, compareTo, message),
-                "is greater than or equal to \"{0}\"",
+                "is greater than or equal to {0}",
                 provider.ConvertValueToString(compareTo));
         }
 
@@ -158,7 +158,7 @@ namespace Atata
         {
             return provider.Verify(
                 (actual, message) => ATAssert.Less(actual, compareTo, message),
-                "is less than \"{0}\"",
+                "is less than {0}",
                 provider.ConvertValueToString(compareTo));
         }
 
@@ -168,8 +168,19 @@ namespace Atata
         {
             return provider.Verify(
                 (actual, message) => ATAssert.LessOrEqual(actual, compareTo, message),
-                "is less than or equal to \"{0}\"",
+                "is less than or equal to {0}",
                 provider.ConvertValueToString(compareTo));
+        }
+
+        public static TOwner VerifyIsInRange<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue from, TValue to)
+            where TValue : IComparable<TValue>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.IsInRange(from, to, actual, message),
+                "is in range {0} - {1}",
+                provider.ConvertValueToString(from),
+                provider.ConvertValueToString(to));
         }
 
         public static TOwner VerifyEqualsIgnoringCase<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
