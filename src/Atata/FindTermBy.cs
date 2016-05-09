@@ -11,6 +11,7 @@
         ContentOrValue,
         ColumnHeader,
         Title,
-        Fieldset
+        Fieldset,
+        Placeholder
     }
 }
