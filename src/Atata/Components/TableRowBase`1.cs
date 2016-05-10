@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    [ControlDefinition("tr", ComponentTypeName = "table row")]
+    [ControlDefinition("tr[parent::table or parent::tbody]", ComponentTypeName = "table row")]
     public class TableRowBase<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
