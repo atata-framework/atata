@@ -14,7 +14,7 @@ namespace Atata
         public static T ToWindow<T>(T pageObject, string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
-            ATContext.Current.Log.Info("Switch to '{0}' window", windowName);
+            ATContext.Current.Log.Info("Switch to \"{0}\" window", windowName);
 
             return To(pageObject, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
@@ -22,7 +22,7 @@ namespace Atata
         public static T ToWindow<T>(string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
-            ATContext.Current.Log.Info("Switch to '{0}' window", windowName);
+            ATContext.Current.Log.Info("Switch to \"{0}\" window", windowName);
 
             return To<T>(null, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
@@ -86,7 +86,7 @@ namespace Atata
                 if (!ATContext.Current.IsNavigated)
                 {
                     if (!Uri.TryCreate(ATContext.Current.StartUri, UriKind.Absolute, out absoluteUri))
-                        throw new InvalidOperationException("Cannot navigate to relative URI '{0}'. ATContext.Current.StartUri ".FormatWith(absoluteUri));
+                        throw new InvalidOperationException("Cannot navigate to relative URI \"{0}\". ATContext.Current.StartUri can be set with base URL.".FormatWith(absoluteUri));
                     absoluteUri = new Uri(absoluteUri, url);
                 }
                 else
@@ -99,7 +99,7 @@ namespace Atata
                     absoluteUri = new Uri(domainUri, url);
                 }
             }
-            ATContext.Current.Log.Info("Go to URL '{0}'", absoluteUri);
+            ATContext.Current.Log.Info("Go to URL \"{0}\"", absoluteUri);
             ATContext.Current.Driver.Navigate().GoToUrl(absoluteUri);
             ATContext.Current.IsNavigated = true;
         }
