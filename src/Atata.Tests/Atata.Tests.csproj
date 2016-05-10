@@ -65,11 +65,13 @@
     <Compile Include="Components\GoTo2Page.cs" />
     <Compile Include="Components\GoTo3Page.cs" />
     <Compile Include="Components\InputPage.cs" />
+    <Compile Include="Components\MessageBoxPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
     <Compile Include="Components\SelectPage.cs" />
     <Compile Include="Components\TablePage.cs" />
     <Compile Include="GoTest.cs" />
     <Compile Include="InputTest.cs" />
+    <Compile Include="MessageBoxTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicControlsTest.cs" />
     <Compile Include="RadioButtonListTest.cs" />

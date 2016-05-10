@@ -1,0 +1,19 @@
+﻿using _ = Atata.Tests.MessageBoxPage;
+
+namespace Atata.Tests
+{
+    [NavigateTo("http://localhost:50549/MessageBox.html")]
+    [VerifyTitle]
+    public class MessageBoxPage : Page<_>
+    {
+        [CloseAlertBox]
+        public Button<_> AlertButton { get; private set; }
+
+        [CloseConfirmBox]
+        public Link<GoTo1Page, _> ConfirmButton { get; private set; }
+
+        [Term("Confirm")]
+        [CloseConfirmBox(false)]
+        public Link<_> ConfirmButtonWithReject { get; private set; }
+    }
+}
