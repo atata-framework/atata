@@ -55,6 +55,9 @@ namespace Atata
         private static T To<T>(T pageObject, GoOptions options)
             where T : PageObject<T>
         {
+            if (ATContext.Current == null)
+                ATContext.SetUp();
+
             if (ATContext.Current.PageObject == null)
             {
                 pageObject = pageObject ?? Activator.CreateInstance<T>();
@@ -80,6 +83,9 @@ namespace Atata
 
         public static void ToUrl(string url)
         {
+            if (ATContext.Current == null)
+                ATContext.SetUp();
+
             Uri absoluteUri;
             if (!Uri.TryCreate(url, UriKind.Absolute, out absoluteUri))
             {
