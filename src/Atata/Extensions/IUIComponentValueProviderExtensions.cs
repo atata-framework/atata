@@ -295,14 +295,14 @@ namespace Atata
                     if (!containsText)
                     {
                         string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
-                            "String that {0} {1}\"{2}\"".FormatWith(matchAsString, expectedValues.Length > 1 ? "any of " : null, expectedValuesAsString),
+                            "string that {0} {1}{2}".FormatWith(matchAsString, expectedValues.Length > 1 ? "any of " : null, expectedValuesAsString),
                             string.Format("\"{0}\"", actualText),
                             "{0} {1} doesn't match criteria", provider.ComponentFullName, provider.ProviderName);
 
                         ATAssert.IsTrue(containsText, errorMessage);
                     }
                 },
-                "{0} {1}{2}",
+                "{0} {1}{2} (with retry)",
                 matchAsString,
                 expectedValues.Length > 1 ? "any of " : null,
                 expectedValuesAsString);
@@ -335,16 +335,10 @@ namespace Atata
 
                     if (!containsText)
                     {
-                        string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
-                            "String that {0} \"{1}\"".FormatWith(matchAsString, notFoundValue),
-                            string.Format("\"{0}\"", actualText),
-                            "{0} {1} doesn't match criteria", provider.ComponentFullName, provider.ProviderName);
-
-                        ATAssert.IsTrue(containsText, errorMessage);
+                        ATAssert.Contains(notFoundValue, actualText, "{0} {1} doesn't match criteria", provider.ComponentFullName, provider.ProviderName);
                     }
                 },
-                "{0} {1}",
-                matchAsString,
+                "contains {0} (with retry)",
                 expectedValuesAsString);
         }
 
