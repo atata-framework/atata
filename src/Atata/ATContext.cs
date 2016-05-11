@@ -16,7 +16,7 @@ namespace Atata
 
         public ILogManager Log { get; internal set; }
 
-        public string StartUri { get; internal set; }
+        public string StartUrl { get; internal set; }
 
         public UIComponent PageObject { get; internal set; }
 
@@ -37,13 +37,13 @@ namespace Atata
             private set { current = value; }
         }
 
-        public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string startUri = null)
+        public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string startUrl = null)
         {
             Current = new ATContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
                 Log = log ?? new SimpleLogManager(),
-                StartUri = startUri,
+                StartUrl = startUrl,
                 SetUpDateTime = DateTime.UtcNow
             };
 

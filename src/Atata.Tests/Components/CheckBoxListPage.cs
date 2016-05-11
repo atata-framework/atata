@@ -3,7 +3,8 @@ using _ = Atata.Tests.CheckBoxListPage;
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/CheckBoxList.html")]
+    [NavigateTo("CheckBoxList.html")]
+    [VerifyTitle(TermFormat.Pascal)]
     public class CheckBoxListPage : Page<_>
     {
         [Flags]

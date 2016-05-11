@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/MessageBox.html")]
+    [NavigateTo("MessageBox.html")]
     [VerifyTitle]
     public class MessageBoxPage : Page<_>
     {

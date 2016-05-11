@@ -2,7 +2,8 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/RadioButtonList.html")]
+    [NavigateTo("RadioButtonList.html")]
+    [VerifyTitle(TermFormat.Pascal)]
     public class RadioButtonListPage : Page<_>
     {
         public enum ByLabel

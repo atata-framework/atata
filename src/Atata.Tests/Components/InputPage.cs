@@ -2,8 +2,8 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/Input.html")]
-    [VerifyTitle("Input")]
+    [NavigateTo("Input.html")]
+    [VerifyTitle]
     public class InputPage : Page<_>
     {
         [TermSettings(TermFormat.LowerCase)]

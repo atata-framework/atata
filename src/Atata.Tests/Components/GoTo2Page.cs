@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/GoTo2.html")]
+    [NavigateTo("GoTo2.html")]
     [VerifyTitle("GoTo 2")]
     public class GoTo2Page : Page<_>
     {

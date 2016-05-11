@@ -2,8 +2,8 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/Select.html")]
-    [VerifyTitle("Select")]
+    [NavigateTo("Select.html")]
+    [VerifyTitle]
     public class SelectPage : Page<_>
     {
         [TermSettings(TermFormat.Title)]

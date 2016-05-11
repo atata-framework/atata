@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using OpenQA.Selenium.Firefox;
+using System.Configuration;
 
 namespace Atata.Tests
 {
@@ -14,7 +15,8 @@ namespace Atata.Tests
                     TestContext.WriteLine(message);
                 });
 
-            ATContext.SetUp(() => new FirefoxDriver(), log, TestContext.CurrentContext.Test.Name);
+            string startUrl = ConfigurationManager.AppSettings["TestAppUrl"];
+            ATContext.SetUp(() => new FirefoxDriver(), log, TestContext.CurrentContext.Test.Name, startUrl);
 
             ATContext.Current.Driver.Manage().Window.Maximize();
             OnSetUp();

@@ -85,7 +85,7 @@ namespace Atata
             {
                 if (!ATContext.Current.IsNavigated)
                 {
-                    if (!Uri.TryCreate(ATContext.Current.StartUri, UriKind.Absolute, out absoluteUri))
+                    if (!Uri.TryCreate(ATContext.Current.StartUrl, UriKind.Absolute, out absoluteUri))
                         throw new InvalidOperationException("Cannot navigate to relative URI \"{0}\". ATContext.Current.StartUri can be set with base URL.".FormatWith(absoluteUri));
                     absoluteUri = new Uri(absoluteUri, url);
                 }

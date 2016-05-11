@@ -2,8 +2,8 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("http://localhost:50549/Table.html")]
-    [VerifyTitle("Table")]
+    [NavigateTo("Table.html")]
+    [VerifyTitle]
     public class TablePage : Page<_>
     {
         public Table<_> SimpleTable { get; private set; }
