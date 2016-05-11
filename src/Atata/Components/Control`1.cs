@@ -36,7 +36,7 @@
         public TOwner VerifyDisabled()
         {
             Log.StartVerificationSection("{0} is disabled", ComponentFullName);
-            ATAssert.IsTrue(!IsEnabled(), "Expected {0} to be disabled", ComponentFullName);
+            ATAssert.IsFalse(IsEnabled(), "Expected {0} to be disabled", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
