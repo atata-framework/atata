@@ -25,7 +25,7 @@ namespace Atata
         {
         }
 
-        private TermFindAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        protected TermFindAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
         {
             Values = values;
             Format = format;

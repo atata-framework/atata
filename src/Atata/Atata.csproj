@@ -61,6 +61,7 @@
     <Compile Include="Attributes\ColumnIndexToClickAttribute.cs" />
     <Compile Include="Attributes\CultureAttribute.cs" />
     <Compile Include="Attributes\FindButtonsAttribute.cs" />
+    <Compile Include="Attributes\FindByAttributeAttribute.cs" />
     <Compile Include="Attributes\FindByClassAttribute.cs" />
     <Compile Include="Attributes\FindByColumnAttribute.cs" />
     <Compile Include="Attributes\FindByColumnSettingsAttribute.cs" />
