@@ -1,13 +1,10 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     public static class ObjectExtensions
     {
         public static string ToString(this object value, TermFormat format)
         {
-            if (value == null)
-                throw new ArgumentNullException("value");
+            value.CheckNotNull("value");
 
             return TermResolver.ToString(value, new TermOptions { Format = format });
         }

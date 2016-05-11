@@ -276,10 +276,7 @@ namespace Atata
         public static TOwner VerifyUntilMatchesAny<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, TermMatch match, params string[] expectedValues)
             where TOwner : PageObject<TOwner>
         {
-            if (expectedValues == null)
-                throw new ArgumentNullException("expectedValues");
-            if (expectedValues.Length == 0)
-                throw ExceptionFactory.CreateForArgumentEmptyCollection("expectedValues");
+            expectedValues.CheckNotNullOrEmpty("expectedValues");
 
             string matchAsString = match.ToString(TermFormat.LowerCase);
             string expectedValuesAsString = expectedValues.ToQuotedValuesListOfString(true);
@@ -314,13 +311,11 @@ namespace Atata
         public static TOwner VerifyUntilContains<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, params string[] expectedValues)
             where TOwner : PageObject<TOwner>
         {
-            if (expectedValues == null)
-                throw new ArgumentNullException("expectedValues");
+            expectedValues.CheckNotNull("expectedValues");
 
             expectedValues = expectedValues.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
-            if (expectedValues.Length == 0)
-                throw ExceptionFactory.CreateForArgumentEmptyCollection("expectedValues");
+            expectedValues.CheckNotNullOrEmpty("expectedValues");
 
             string matchAsString = TermMatch.Contains.ToString(TermFormat.LowerCase);
             string expectedValuesAsString = expectedValues.ToQuotedValuesListOfString(true);

@@ -28,8 +28,7 @@ namespace Atata
 
         public static void RegisterRandomizer<T>(Func<UIComponentMetadata, T> randomizeFunction)
         {
-            if (randomizeFunction == null)
-                throw new ArgumentNullException("randomizeFunction");
+            randomizeFunction.CheckNotNull("randomizeFunction");
 
             Randomizers[typeof(T)] = m => randomizeFunction(m);
         }

@@ -525,8 +525,7 @@ namespace Atata
         internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)
             where TOwner : PageObject<TOwner>
         {
-            if (controlDelegate == null)
-                throw new ArgumentNullException("controlDelegate");
+            controlDelegate.CheckNotNull("controlDelegate");
 
             UIComponent control;
             if (DelegateControls.TryGetValue(controlDelegate, out control))

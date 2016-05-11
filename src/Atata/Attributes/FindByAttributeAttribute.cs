@@ -25,7 +25,7 @@
         private FindByAttributeAttribute(string attributeName, string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
             : base(values, format, match)
         {
-            AttributeName = attributeName;
+            AttributeName = attributeName.CheckNotNullOrWhitespace("attributeName");
         }
 
         public string AttributeName { get; private set; }

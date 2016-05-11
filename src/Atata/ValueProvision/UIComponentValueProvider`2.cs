@@ -11,16 +11,9 @@ namespace Atata
 
         public UIComponentValueProvider(UIComponent<TOwner> component, Func<TValue> valueGetFunction, string providerName)
         {
-            if (component == null)
-                throw new ArgumentNullException("component");
-            if (valueGetFunction == null)
-                throw new ArgumentNullException("valueGetFunction");
-            if (providerName == null)
-                throw new ArgumentNullException("providerName");
-
-            this.component = component;
-            this.valueGetFunction = valueGetFunction;
-            this.providerName = providerName;
+            this.component = component.CheckNotNull("component");
+            this.valueGetFunction = valueGetFunction.CheckNotNull("valueGetFunction");
+            this.providerName = providerName.CheckNotNullOrWhitespace("providerName");
         }
 
         string IUIComponentValueProvider<TValue, TOwner>.ComponentFullName

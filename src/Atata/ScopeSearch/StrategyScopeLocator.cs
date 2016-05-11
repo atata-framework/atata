@@ -78,8 +78,7 @@ namespace Atata
 
         private XPathComponentScopeLocateResult[] ResolveScopeLocateResults(ComponentScopeLocateResult result, IWebElement scopeSource, SearchOptions searchOptions)
         {
-            if (result == null)
-                throw new ArgumentNullException("result");
+            result.CheckNotNull("result");
 
             MissingComponentScopeLocateResult missingResult = result as MissingComponentScopeLocateResult;
             if (missingResult != null)

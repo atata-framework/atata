@@ -184,6 +184,7 @@
     <Compile Include="Extensions\IUIComponentValueProviderExtensions.cs" />
     <Compile Include="Extensions\Link1Extensions.cs" />
     <Compile Include="Extensions\Link2Extensions.cs" />
+    <Compile Include="Extensions\CheckExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />
     <Compile Include="Extensions\SearchOptionsExtensions.cs" />

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace Atata
 {
@@ -22,8 +21,7 @@ namespace Atata
 
         public void MergeWith(ITermSettings otherTermSettings)
         {
-            if (otherTermSettings == null)
-                throw new ArgumentNullException("otherTermSettings");
+            otherTermSettings.CheckNotNull("otherTermSettings");
 
             if (otherTermSettings.Format != TermFormat.Inherit)
                 Format = otherTermSettings.Format;
