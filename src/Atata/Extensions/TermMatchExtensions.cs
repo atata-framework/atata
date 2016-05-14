@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -51,6 +52,27 @@ namespace Atata
                     return (text, term) => text.Trim().StartsWith(term);
                 case TermMatch.EndsWith:
                     return (text, term) => text.Trim().EndsWith(term);
+                default:
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, "match");
+            }
+        }
+
+        public static void Assert(this TermMatch match, IEnumerable<string> expected, string actual, string message, params object[] args)
+        {
+            switch (match)
+            {
+                case TermMatch.Contains:
+                    ATAssert.ContainsAny(expected, actual, message, args);
+                    break;
+                case TermMatch.Equals:
+                    ATAssert.EqualsAny(expected, actual, message, args);
+                    break;
+                case TermMatch.StartsWith:
+                    ATAssert.StartsWithAny(expected, actual, message, args);
+                    break;
+                case TermMatch.EndsWith:
+                    ATAssert.EndsWithAny(expected, actual, message, args);
+                    break;
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(match, "match");
             }

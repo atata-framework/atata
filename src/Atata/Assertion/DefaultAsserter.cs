@@ -149,10 +149,48 @@ namespace Atata
                 throw CreateException("string not matching {0}".FormatWith(ObjectToString(pattern)), ObjectToString(actual), message, args);
         }
 
+        public void EqualsAny(IEnumerable<object> expected, object actual, string message, params object[] args)
+        {
+            expected.CheckNotNull("expected");
+
+            if (!expected.Any(value => Equals(value, actual)))
+            {
+                string expectedAsString = expected.All(x => x is string)
+                    ? expected.Cast<string>().ToQuotedValuesListOfString(true)
+                    : CollectionToString(expected);
+
+                throw CreateException("{0}{1}".FormatWith(expected.Count() > 1 ? "any of " : null, expectedAsString), ObjectToString(actual), message, args);
+            }
+        }
+
+        public void ContainsAny(IEnumerable<string> expected, string actual, string message, params object[] args)
+        {
+            expected.CheckNotNull("expected");
+
+            if (actual == null || !expected.Any(value => actual.Contains(value)))
+                throw CreateException("string containing {0}{1}".FormatWith(expected.Count() > 1 ? "any of " : null, expected.ToQuotedValuesListOfString(true)), ObjectToString(actual), message, args);
+        }
+
+        public void StartsWithAny(IEnumerable<string> expected, string actual, string message, params object[] args)
+        {
+            expected.CheckNotNull("expected");
+
+            if (actual == null || !expected.Any(value => actual.StartsWith(value)))
+                throw CreateException("string starting with {0}{1}".FormatWith(expected.Count() > 1 ? "any of " : null, expected.ToQuotedValuesListOfString(true)), ObjectToString(actual), message, args);
+        }
+
+        public void EndsWithAny(IEnumerable<string> expected, string actual, string message, params object[] args)
+        {
+            expected.CheckNotNull("expected");
+
+            if (actual == null || !expected.Any(value => actual.EndsWith(value)))
+                throw CreateException("string ending with {0}{1}".FormatWith(expected.Count() > 1 ? "any of " : null, expected.ToQuotedValuesListOfString(true)), ObjectToString(actual), message, args);
+        }
+
         public void IsSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args)
         {
-            var castedSubset = subset.Cast<object>().ToArray();
-            var castedSuperset = superset.Cast<object>().ToArray();
+            var castedSubset = subset.CheckNotNull("subset").Cast<object>().ToArray();
+            var castedSuperset = superset.CheckNotNull("superset").Cast<object>().ToArray();
 
             if (castedSubset.Intersect(castedSuperset).Count() != castedSubset.Count())
                 throw CreateException(
@@ -164,8 +202,8 @@ namespace Atata
 
         public void HasNoIntersection(IEnumerable collection1, IEnumerable collection2, string message, params object[] args)
         {
-            var castedCollection1 = collection1.Cast<object>().ToArray();
-            var castedCollection2 = collection2.Cast<object>().ToArray();
+            var castedCollection1 = collection1.CheckNotNull("collection1").Cast<object>().ToArray();
+            var castedCollection2 = collection2.CheckNotNull("collection2").Cast<object>().ToArray();
 
             if (castedCollection1.Intersect(castedCollection2).Any())
                 throw CreateException(

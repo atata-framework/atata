@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Atata
 {
@@ -30,6 +31,12 @@ namespace Atata
         void DoesNotStartWith(string expected, string actual, string message, params object[] args);
         void DoesNotEndWith(string expected, string actual, string message, params object[] args);
         void DoesNotMatch(string pattern, string actual, string message, params object[] args);
+
+        void EqualsAny(IEnumerable<object> expected, object actual, string message, params object[] args);
+        void ContainsAny(IEnumerable<string> expected, string actual, string message, params object[] args);
+        void StartsWithAny(IEnumerable<string> expected, string actual, string message, params object[] args);
+        void EndsWithAny(IEnumerable<string> expected, string actual, string message, params object[] args);
+
         void IsSubsetOf(IEnumerable subset, IEnumerable superset, string message, params object[] args);
         void HasNoIntersection(IEnumerable collection1, IEnumerable collection2, string message, params object[] args);
     }

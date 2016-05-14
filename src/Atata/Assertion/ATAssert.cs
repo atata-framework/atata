@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 namespace Atata
 {
@@ -11,6 +12,7 @@ namespace Atata
             Apply(asserter);
         }
 
+        public delegate void AssertionDelgate<TExpected, TActual>(TExpected expected, TActual actual, string message, params object[] args);
         public delegate void AssertionDelgate<T>(T expected, T actual, string message, params object[] args);
         public delegate void AssertionComparisonDelgate(IComparable value1, IComparable value2, string message, params object[] args);
         public delegate void AssertionIsInRangeDelgate(IComparable from, IComparable to, IComparable actual, string message, params object[] args);
@@ -41,6 +43,12 @@ namespace Atata
         public static AssertionDelgate<string> DoesNotStartWith { get; set; }
         public static AssertionDelgate<string> DoesNotEndWith { get; set; }
         public static AssertionDelgate<string> DoesNotMatch { get; set; }
+
+        public static AssertionDelgate<IEnumerable<object>, object> EqualsAny { get; set; }
+        public static AssertionDelgate<IEnumerable<string>, string> ContainsAny { get; set; }
+        public static AssertionDelgate<IEnumerable<string>, string> StartsWithAny { get; set; }
+        public static AssertionDelgate<IEnumerable<string>, string> EndsWithAny { get; set; }
+
         public static AssertionDelgate<IEnumerable> IsSubsetOf { get; set; }
         public static AssertionDelgate<IEnumerable> HasNoIntersection { get; set; }
 
@@ -71,6 +79,12 @@ namespace Atata
             DoesNotStartWith = asserter.DoesNotStartWith;
             DoesNotEndWith = asserter.DoesNotEndWith;
             DoesNotMatch = asserter.DoesNotMatch;
+
+            EqualsAny = asserter.EqualsAny;
+            ContainsAny = asserter.ContainsAny;
+            StartsWithAny = asserter.StartsWithAny;
+            EndsWithAny = asserter.EndsWithAny;
+
             IsSubsetOf = asserter.IsSubsetOf;
             HasNoIntersection = asserter.HasNoIntersection;
         }

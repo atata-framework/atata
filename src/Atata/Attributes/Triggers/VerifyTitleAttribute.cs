@@ -66,12 +66,12 @@ namespace Atata
         {
             if (Values != null && Values.Any())
             {
-                return StringFormat != null ? Values.Select(x => string.Format(StringFormat, x)).ToArray() : Values;
+                return !string.IsNullOrEmpty(StringFormat) ? Values.Select(x => string.Format(StringFormat, x)).ToArray() : Values;
             }
             else
             {
                 string value = Format.ApplyTo(pageObjectName);
-                if (StringFormat != null)
+                if (!string.IsNullOrEmpty(StringFormat))
                     value = string.Format(StringFormat, value);
                 return new[] { value };
             }

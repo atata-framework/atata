@@ -294,12 +294,7 @@ namespace Atata
 
                     if (!containsText)
                     {
-                        string errorMessage = DefaultAsserter.BuildAssertionErrorMessage(
-                            "string that {0} {1}{2}".FormatWith(matchAsString, expectedValues.Length > 1 ? "any of " : null, expectedValuesAsString),
-                            string.Format("\"{0}\"", actualText),
-                            "{0} {1} doesn't match criteria", provider.ComponentFullName, provider.ProviderName);
-
-                        ATAssert.IsTrue(containsText, errorMessage);
+                        match.Assert(expectedValues, actualText, "{0} {1} doesn't match criteria", provider.ComponentFullName, provider.ProviderName);
                     }
                 },
                 "{0} {1}{2} (with retry)",
