@@ -179,10 +179,13 @@ namespace Atata
 
         public TResult Until<TResult>(Func<T, TResult> condition, TimeSpan? timeout = null, TimeSpan? retryInterval = null)
         {
+            if (condition == null)
+                throw new ArgumentNullException("condition");
+
             TimeSpan actualTimeout = timeout ?? Timeout;
             TimeSpan actualRetryInterval = retryInterval ?? RetryInterval;
 
-            if (timeout.HasValue && timeout.Value > TimeSpan.Zero)
+            if (actualTimeout > TimeSpan.Zero)
             {
                 var wait = CreateWait(actualTimeout, actualRetryInterval);
                 return wait.Until(condition);
