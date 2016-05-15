@@ -15,9 +15,10 @@ namespace Atata
         OnPageObjectInit = 1 << 6,
         OnPageObjectLeave = 1 << 7,
         BeforeAndAfterClick = BeforeClick | AfterClick,
-        BeforeGetAndSet = BeforeGet | BeforeSet,
+        BeforeGetOrSet = BeforeGet | BeforeSet,
         BeforeAnyAction = BeforeClick | BeforeGet | BeforeSet,
-        AfterGetAndSet = AfterGet | AfterSet,
-        AfterAnyAction = AfterClick | AfterGet | AfterSet
+        AfterGetOrSet = AfterGet | AfterSet,
+        AfterAnyAction = AfterClick | AfterGet | AfterSet,
+        AfterClickOrSet = AfterClick | AfterSet
     }
 }

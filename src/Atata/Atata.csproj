@@ -130,6 +130,7 @@
     <Compile Include="Attributes\Triggers\WaitForElementByNameAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByIdAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByXPathAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitUntilJQueryAjaxAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitUntilNoElementAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitUntilNoElementByClassAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitUntilNoElementByCssAttribute.cs" />
