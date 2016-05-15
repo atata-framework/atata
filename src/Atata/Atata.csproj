@@ -124,6 +124,7 @@
     <Compile Include="Attributes\Triggers\VerifyTitleAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyTitleSettingsAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForDocumentReadyStateAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByClassAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByCssAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementAttribute.cs" />
