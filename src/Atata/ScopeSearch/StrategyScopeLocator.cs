@@ -121,7 +121,7 @@ namespace Atata
                     else if (searchOptions.IsSafely)
                         return null;
                     else
-                        ExceptionFactory.CreateForNoSuchElement(by: sequalResult.ScopeSourceBy);
+                        throw ExceptionFactory.CreateForNoSuchElement(by: sequalResult.ScopeSourceBy);
                 }
             }
 
