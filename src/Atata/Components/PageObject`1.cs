@@ -159,6 +159,22 @@ namespace Atata
             return Go.To<T>(navigate: false);
         }
 
+        public virtual TOther GoBack<TOther>(TOther previousPageObject = null)
+            where TOther : PageObject<TOther>
+        {
+            Log.Info("Go back");
+            Driver.Navigate().Back();
+            return Go.To(previousPageObject, navigate: false);
+        }
+
+        public virtual TOther GoForward<TOther>(TOther nextPageObject = null)
+            where TOther : PageObject<TOther>
+        {
+            Log.Info("Go forward");
+            Driver.Navigate().Forward();
+            return Go.To(nextPageObject, navigate: false);
+        }
+
         public virtual void CloseWindow()
         {
             string nextWindowHandle = ResolveWindowHandleToSwitchAfterClose();
