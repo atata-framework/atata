@@ -30,15 +30,21 @@ namespace Atata
             UIComponentResolver.Resolve<TOwner>(this);
         }
 
-        public new TOwner VerifyExists()
+        public TOwner VerifyExists()
         {
-            base.VerifyExists();
+            Log.StartVerificationSection("{0} exists", ComponentFullName);
+            GetScopeElement();
+            Log.EndSection();
+
             return Owner;
         }
 
-        public new TOwner VerifyMissing()
+        public TOwner VerifyMissing()
         {
-            base.VerifyMissing();
+            Log.StartVerificationSection("{0} is missing", ComponentFullName);
+            ScopeLocator.IsMissing();
+            Log.EndSection();
+
             return Owner;
         }
 

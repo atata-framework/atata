@@ -79,20 +79,6 @@ namespace Atata
             return ScopeLocator.IsMissing(SearchOptions.Safely());
         }
 
-        public void VerifyExists()
-        {
-            Log.StartVerificationSection("{0} exists", ComponentFullName);
-            GetScopeElement();
-            Log.EndSection();
-        }
-
-        public void VerifyMissing()
-        {
-            Log.StartVerificationSection("{0} is missing", ComponentFullName);
-            ScopeLocator.IsMissing();
-            Log.EndSection();
-        }
-
         protected void Wait(double seconds)
         {
             Thread.Sleep((int)(seconds * 1000));
