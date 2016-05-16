@@ -152,6 +152,12 @@ namespace Atata
             Driver.SwitchTo().Window(windowName);
         }
 
+        public virtual T RefreshPage()
+        {
+            Driver.Navigate().Refresh();
+            return Go.To<T>(navigate: false);
+        }
+
         public virtual void CloseWindow()
         {
             string nextWindowHandle = ResolveWindowHandleToSwitchAfterClose();
