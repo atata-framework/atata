@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using System;
 using System.Linq;
-using System.Threading;
 
 namespace Atata
 {
@@ -75,11 +74,6 @@ namespace Atata
 
         protected virtual void OnVerify()
         {
-        }
-
-        protected void Wait(double seconds)
-        {
-            Thread.Sleep((int)(seconds * 1000));
         }
 
         TOther IPageObject.GoTo<TOther>(TOther pageObject, GoOptions options)

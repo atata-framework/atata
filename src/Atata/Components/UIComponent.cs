@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Atata
 {
@@ -90,6 +91,11 @@ namespace Atata
             Log.StartVerificationSection("{0} is missing", ComponentFullName);
             ScopeLocator.IsMissing();
             Log.EndSection();
+        }
+
+        protected void Wait(double seconds)
+        {
+            Thread.Sleep((int)(seconds * 1000));
         }
     }
 }
