@@ -25,6 +25,7 @@ namespace Atata
         internal bool IsNavigated { get; set; }
 
         private DateTime SetUpDateTime { get; set; }
+        private DateTime CleanExecutionStartDateTime { get; set; }
 
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
         {
@@ -52,6 +53,8 @@ namespace Atata
             Current.Log.StartSection("Init WebDriver");
             Current.Driver = driverFactory != null ? driverFactory() : new FirefoxDriver();
             Current.Log.EndSection();
+
+            Current.CleanExecutionStartDateTime = DateTime.UtcNow;
         }
 
         private void LogTestStart(string testName)
@@ -68,6 +71,8 @@ namespace Atata
         {
             if (Current != null)
             {
+                TimeSpan cleanTestExecutionTime = DateTime.UtcNow - Current.CleanExecutionStartDateTime;
+
                 Current.Log.StartSection("Clean-up test context");
 
                 Current.Driver.Quit();
@@ -77,7 +82,8 @@ namespace Atata
                 Current.Log.EndSection();
 
                 TimeSpan testExecutionTime = DateTime.UtcNow - Current.SetUpDateTime;
-                Current.Log.InfoWithExecutionTime("Finished test", testExecutionTime);
+                Current.Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
+                Current.Log.InfoWithExecutionTime("Сlean test execution time: ", cleanTestExecutionTime);
 
                 Current.Log = null;
                 Current = null;

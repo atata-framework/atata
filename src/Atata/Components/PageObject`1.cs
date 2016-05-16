@@ -154,6 +154,7 @@ namespace Atata
 
         public virtual T RefreshPage()
         {
+            Log.Info("Refresh page");
             Driver.Navigate().Refresh();
             return Go.To<T>(navigate: false);
         }
