@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class VerifyTitleAttribute : TriggerAttribute, ITermSettings
     {
         private const TermFormat DefaultFormat = TermFormat.Title;

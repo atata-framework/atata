@@ -4,7 +4,7 @@ namespace Atata.Tests
 {
     [NavigateTo("BasicControls.html")]
     [VerifyTitle]
-    [VerifyContentContainsAll("First Name", "Age")]
+    [VerifyContent("First Name", "Age")]
     public class BasicControlsPage : Page<_>
     {
         [FindByCss("h1")]
