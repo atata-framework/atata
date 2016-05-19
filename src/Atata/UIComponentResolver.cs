@@ -63,6 +63,7 @@ namespace Atata
         private static void InitPageObject<TPageObject>(PageObject<TPageObject> pageObject)
             where TPageObject : PageObject<TPageObject>
         {
+            pageObject.Owner = (TPageObject)pageObject;
             InitPageObjectTriggers(pageObject);
 
             UIComponentMetadata metadata = CreatePageObjectMetadata(pageObject.GetType());

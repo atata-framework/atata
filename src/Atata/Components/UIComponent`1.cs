@@ -120,6 +120,8 @@ namespace Atata
                 Event = on,
                 Driver = Driver,
                 Log = Log,
+                Owner = Owner,
+                OwnerScopeLocator = Owner != null ? Owner.ScopeLocator : null,
                 Component = this,
                 ParentComponent = Parent,
                 ComponentScopeLocator = ScopeLocator,
