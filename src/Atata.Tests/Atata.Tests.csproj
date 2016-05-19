@@ -73,6 +73,7 @@
     <Compile Include="GoTest.cs" />
     <Compile Include="InputTest.cs" />
     <Compile Include="MessageBoxTest.cs" />
+    <Compile Include="PageObjectTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="BasicControlsTest.cs" />
     <Compile Include="RadioButtonListTest.cs" />

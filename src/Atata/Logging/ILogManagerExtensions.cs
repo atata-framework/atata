@@ -75,11 +75,16 @@ namespace Atata
                 LogSectionInfo sectionInfo = SectionEndMessageStack.Pop();
 
                 TimeSpan duration = sectionInfo.GetDuration();
-                logger.InfoWithExecutionTime(sectionInfo.EndMessage, duration);
+                logger.InfoWithExecutionTimeInBrackets(sectionInfo.EndMessage, duration);
             }
         }
 
         internal static void InfoWithExecutionTime(this ILogManager logger, string message, TimeSpan executionTime)
+        {
+            logger.Info("{0} {1}.{2:fff}s", message, Math.Floor(executionTime.TotalSeconds), executionTime);
+        }
+
+        internal static void InfoWithExecutionTimeInBrackets(this ILogManager logger, string message, TimeSpan executionTime)
         {
             logger.Info("{0} ({1}.{2:fff}s)", message, Math.Floor(executionTime.TotalSeconds), executionTime);
         }
