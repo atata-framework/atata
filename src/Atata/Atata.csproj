@@ -116,6 +116,7 @@
     <Compile Include="Attributes\Triggers\ScrollDownAttribute.cs" />
     <Compile Include="Attributes\Triggers\ScrollUpAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressKeysAttribute.cs" />
+    <Compile Include="Attributes\Triggers\SpecificTriggerAttribute.cs" />
     <Compile Include="Attributes\Triggers\TriggerAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyContentMatchesAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyContentAttribute.cs" />
