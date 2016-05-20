@@ -16,9 +16,13 @@ namespace Atata.Tests
                 });
 
             string startUrl = ConfigurationManager.AppSettings["TestAppUrl"];
-            ATContext.SetUp(() => new FirefoxDriver(), log, TestContext.CurrentContext.Test.Name, startUrl);
 
-            ATContext.Current.Driver.Manage().Window.Maximize();
+            ATContext.SetUp(
+                () => new FirefoxDriver().Maximize(),
+                log,
+                TestContext.CurrentContext.Test.Name,
+                startUrl);
+
             OnSetUp();
         }
 
