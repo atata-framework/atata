@@ -80,7 +80,9 @@ namespace Atata
 
                 Current.Driver.Quit();
                 Current.CleanUpTemporarilyPreservedPageObjectList();
-                UIComponentResolver.CleanUpPageObject(Current.PageObject);
+
+                if (Current.PageObject != null)
+                    UIComponentResolver.CleanUpPageObject(Current.PageObject);
 
                 Current.Log.EndSection();
 
