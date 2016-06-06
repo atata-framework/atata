@@ -4,7 +4,12 @@
     public class PopupWindow<T> : PageObject<T>
         where T : PopupWindow<T>
     {
-        protected string WindowTitle { get; private set; }
+        public PopupWindow(string windowTitle = null)
+        {
+            WindowTitle = windowTitle;
+        }
+
+        protected string WindowTitle { get; set; }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
