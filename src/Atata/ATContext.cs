@@ -1,9 +1,9 @@
-﻿using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Remote;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -16,7 +16,7 @@ namespace Atata
 
         public ILogManager Log { get; internal set; }
 
-        public string StartUrl { get; internal set; }
+        public string BaseUrl { get; internal set; }
 
         public UIComponent PageObject { get; internal set; }
 
@@ -38,13 +38,16 @@ namespace Atata
             private set { current = value; }
         }
 
-        public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string startUrl = null)
+        public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string baseUrl = null)
         {
+            if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
+                throw new ArgumentException("Invalid URL format \"{0}\".".FormatWith(baseUrl), "baseUrl");
+
             Current = new ATContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
                 Log = log ?? new SimpleLogManager(),
-                StartUrl = startUrl,
+                BaseUrl = baseUrl,
                 SetUpDateTime = DateTime.UtcNow
             };
 

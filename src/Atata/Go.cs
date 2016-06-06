@@ -87,15 +87,13 @@ namespace Atata
                 ATContext.SetUp();
 
             Uri absoluteUri;
+
             if (!Uri.TryCreate(url, UriKind.Absolute, out absoluteUri))
             {
-                if (!ATContext.Current.IsNavigated)
-                {
-                    if (!Uri.TryCreate(ATContext.Current.StartUrl, UriKind.Absolute, out absoluteUri))
-                        throw new InvalidOperationException("Cannot navigate to relative URI \"{0}\". ATContext.Current.StartUri can be set with base URL.".FormatWith(absoluteUri));
-                    absoluteUri = new Uri(absoluteUri, url);
-                }
-                else
+                if (!ATContext.Current.IsNavigated && ATContext.Current.BaseUrl == null)
+                    throw new InvalidOperationException("Cannot navigate to relative URL \"{0}\". ATContext.Current.BaseUrl can be set with base URL.".FormatWith(absoluteUri));
+
+                if (ATContext.Current.BaseUrl == null)
                 {
                     Uri currentUri = new Uri(ATContext.Current.Driver.Url, UriKind.Absolute);
 
@@ -104,10 +102,30 @@ namespace Atata
 
                     absoluteUri = new Uri(domainUri, url);
                 }
+                else
+                {
+                    absoluteUri = ConcatWithBaseUrl(url);
+                }
             }
+
             ATContext.Current.Log.Info("Go to URL \"{0}\"", absoluteUri);
             ATContext.Current.Driver.Navigate().GoToUrl(absoluteUri);
             ATContext.Current.IsNavigated = true;
+        }
+
+        private static Uri ConcatWithBaseUrl(string relativeUri)
+        {
+            string baseUrl = ATContext.Current.BaseUrl;
+            string fullUrl = baseUrl;
+
+            if (baseUrl.EndsWith("/") && relativeUri.StartsWith("/"))
+                fullUrl += relativeUri.Substring(1);
+            else if (!baseUrl.EndsWith("/") && !relativeUri.StartsWith("/"))
+                fullUrl += "/" + relativeUri;
+            else
+                fullUrl += relativeUri;
+
+            return new Uri(fullUrl);
         }
     }
 }
