@@ -197,6 +197,7 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Go.cs" />
     <Compile Include="GoOptions.cs" />
+    <Compile Include="ScopeSearch\Strategies\FindByDescriptionTermStrategy.cs" />
     <Compile Include="ValueProvision\IUIComponentValueProvider`2.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
