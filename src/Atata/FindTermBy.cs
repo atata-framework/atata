@@ -12,6 +12,7 @@
         ColumnHeader,
         Title,
         Fieldset,
-        Placeholder
+        Placeholder,
+        DescriptionTerm
     }
 }

@@ -67,6 +67,7 @@
     <Compile Include="Attributes\FindByColumnSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByContentOrValueAttribute.cs" />
     <Compile Include="Attributes\FindByCssAttribute.cs" />
+    <Compile Include="Attributes\FindByDescriptionTermAttribute.cs" />
     <Compile Include="Attributes\FindByFieldsetAttribute.cs" />
     <Compile Include="Attributes\FindByIndexAttribute.cs" />
     <Compile Include="Attributes\FindByLabelSettingsAttribute.cs" />
