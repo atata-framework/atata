@@ -19,12 +19,12 @@ namespace Atata.TermFormatting
                 { TermFormat.UpperCase, FormatterItem.For<UpperCaseTermFormatter>() },
                 { TermFormat.Camel, FormatterItem.For<CamelTermFormatter>() },
                 { TermFormat.Pascal, FormatterItem.For<PascalTermFormatter>() },
-                { TermFormat.Dashed, FormatterItem.For<DashedTermFormatter>() },
-                { TermFormat.XDashed, FormatterItem.For<DashedTermFormatter>("x-{0}") },
-                { TermFormat.Hyphenated, FormatterItem.For<HyphenatedTermFormatter>() },
-                { TermFormat.Underscored, FormatterItem.For<UnderscoredTermFormatter>() },
-                { TermFormat.PascalDashed, FormatterItem.For<PascalDashedTermFormatter>() },
-                { TermFormat.PascalHyphenated, FormatterItem.For<PascalHyphenatedTermFormatter>() }
+                { TermFormat.Kebab, FormatterItem.For<KebabTermFormatter>() },
+                { TermFormat.XKebab, FormatterItem.For<KebabTermFormatter>("x-{0}") },
+                { TermFormat.HyphenKebab, FormatterItem.For<HyphenKebabTermFormatter>() },
+                { TermFormat.Snake, FormatterItem.For<SnakeTermFormatter>() },
+                { TermFormat.PascalKebab, FormatterItem.For<PascalKebabTermFormatter>() },
+                { TermFormat.PascalHyphenKebab, FormatterItem.For<PascalHyphenKebabTermFormatter>() }
             };
         }
 

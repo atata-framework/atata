@@ -42,25 +42,25 @@ namespace Atata.Tests
         [TestCase(Atata.TermFormat.Pascal, "SimpleText", ExpectedResult = "SimpleText")]
         [TestCase(Atata.TermFormat.Pascal, "html5Text", ExpectedResult = "Html5Text")]
 
-        [TestCase(Atata.TermFormat.Dashed, "SimpleText", ExpectedResult = "simple-text")]
-        [TestCase(Atata.TermFormat.Dashed, "HTML5text", ExpectedResult = "html-5-text")]
-        [TestCase(Atata.TermFormat.Dashed, "5Text", ExpectedResult = "5-text")]
-        [TestCase(Atata.TermFormat.Dashed, "Row6", ExpectedResult = "row-6")]
+        [TestCase(Atata.TermFormat.Kebab, "SimpleText", ExpectedResult = "simple-text")]
+        [TestCase(Atata.TermFormat.Kebab, "HTML5text", ExpectedResult = "html-5-text")]
+        [TestCase(Atata.TermFormat.Kebab, "5Text", ExpectedResult = "5-text")]
+        [TestCase(Atata.TermFormat.Kebab, "Row6", ExpectedResult = "row-6")]
 
-        [TestCase(Atata.TermFormat.XDashed, "SimpleText", ExpectedResult = "x-simple-text")]
-        [TestCase(Atata.TermFormat.XDashed, "HTML5text", ExpectedResult = "x-html-5-text")]
-        [TestCase(Atata.TermFormat.XDashed, "5Text", ExpectedResult = "x-5-text")]
-        [TestCase(Atata.TermFormat.XDashed, "Row6", ExpectedResult = "x-row-6")]
+        [TestCase(Atata.TermFormat.XKebab, "SimpleText", ExpectedResult = "x-simple-text")]
+        [TestCase(Atata.TermFormat.XKebab, "HTML5text", ExpectedResult = "x-html-5-text")]
+        [TestCase(Atata.TermFormat.XKebab, "5Text", ExpectedResult = "x-5-text")]
+        [TestCase(Atata.TermFormat.XKebab, "Row6", ExpectedResult = "x-row-6")]
 
-        [TestCase(Atata.TermFormat.Hyphenated, "HTML5text", ExpectedResult = "html‐5‐text")]
+        [TestCase(Atata.TermFormat.HyphenKebab, "HTML5text", ExpectedResult = "html‐5‐text")]
 
-        [TestCase(Atata.TermFormat.Underscored, "SimpleText", ExpectedResult = "simple_text")]
-        [TestCase(Atata.TermFormat.Underscored, "HTML5text", ExpectedResult = "html_5_text")]
-        [TestCase(Atata.TermFormat.Underscored, "5Text-5", ExpectedResult = "5_text_5")]
-        [TestCase(Atata.TermFormat.Underscored, "Row-6", ExpectedResult = "row_6")]
+        [TestCase(Atata.TermFormat.Snake, "SimpleText", ExpectedResult = "simple_text")]
+        [TestCase(Atata.TermFormat.Snake, "HTML5text", ExpectedResult = "html_5_text")]
+        [TestCase(Atata.TermFormat.Snake, "5Text-5", ExpectedResult = "5_text_5")]
+        [TestCase(Atata.TermFormat.Snake, "Row-6", ExpectedResult = "row_6")]
 
-        [TestCase(Atata.TermFormat.PascalDashed, "html5Text", ExpectedResult = "Html-5-Text")]
-        [TestCase(Atata.TermFormat.PascalHyphenated, "html5Text", ExpectedResult = "Html‐5‐Text")]
+        [TestCase(Atata.TermFormat.PascalKebab, "html5Text", ExpectedResult = "Html-5-Text")]
+        [TestCase(Atata.TermFormat.PascalHyphenKebab, "html5Text", ExpectedResult = "Html‐5‐Text")]
         public string TermFormat(TermFormat format, string value)
         {
             return format.ApplyTo(value);

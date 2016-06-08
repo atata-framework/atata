@@ -2,7 +2,7 @@
 
 namespace Atata.TermFormatting
 {
-    public class PascalHyphenatedTermFormatter : ITermFormatter
+    public class PascalHyphenKebabTermFormatter : ITermFormatter
     {
         public string Format(string[] words)
         {

@@ -2,11 +2,11 @@
 
 namespace Atata.TermFormatting
 {
-    public class DashedTermFormatter : ITermFormatter
+    public class SnakeTermFormatter : ITermFormatter
     {
         public string Format(string[] words)
         {
-            return string.Join("-", words.Select(x => x.ToLower()));
+            return string.Join("_", words.Select(x => x.ToLower()));
         }
     }
 }

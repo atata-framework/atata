@@ -24,7 +24,7 @@
 
         protected override TermFormat DefaultFormat
         {
-            get { return TermFormat.Dashed; }
+            get { return TermFormat.Kebab; }
         }
 
         public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)

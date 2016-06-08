@@ -38,13 +38,13 @@ namespace Atata.Tests
         [FindByCss(".x-radio-container"), FindItemByValue(TermFormat.Pascal)]
         public RadioButtonList<ByLabel, _> ByCssAndValue { get; private set; }
 
-        [FindByClass(TermFormat.Underscored), FindItemByLabel]
+        [FindByClass(TermFormat.Snake), FindItemByLabel]
         public RadioButtonList<int?, _> IntegerItems { get; private set; }
 
         [FindByName, FindItemByLabel, Format("C")]
         public RadioButtonList<decimal?, _> DecimalItems { get; private set; }
 
-        [FindByName(TermFormat.Dashed), FindItemByLabel]
+        [FindByName(TermFormat.Kebab), FindItemByLabel]
         public RadioButtonList<string, _> VerticalItems { get; private set; }
 
         [FindByFieldset("Vertical List"), FindItemByLabel]

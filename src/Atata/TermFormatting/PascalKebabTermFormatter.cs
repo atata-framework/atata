@@ -2,7 +2,7 @@
 
 namespace Atata.TermFormatting
 {
-    public class PascalDashedTermFormatter : ITermFormatter
+    public class PascalKebabTermFormatter : ITermFormatter
     {
         public string Format(string[] words)
         {

@@ -85,7 +85,7 @@ namespace Atata.Tests
         [FindFields(FindTermBy.Id)]
         public class FindById : Control<_>
         {
-            [FindById(TermFormat.Dashed)]
+            [FindById(TermFormat.Kebab)]
             public TextInput<_> FirstName { get; private set; }
 
             [Term(TermFormat.Camel)]

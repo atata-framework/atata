@@ -2,11 +2,11 @@
 
 namespace Atata.TermFormatting
 {
-    public class UnderscoredTermFormatter : ITermFormatter
+    public class KebabTermFormatter : ITermFormatter
     {
         public string Format(string[] words)
         {
-            return string.Join("_", words.Select(x => x.ToLower()));
+            return string.Join("-", words.Select(x => x.ToLower()));
         }
     }
 }
