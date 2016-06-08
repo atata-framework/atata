@@ -157,10 +157,16 @@
     <Compile Include="Components\ControlDelegates.cs" />
     <Compile Include="Components\Fields\CheckBoxList`2.cs" />
     <Compile Include="Components\Fields\CheckBox`1.cs" />
-    <Compile Include="Components\Fields\Content`2.cs" />
+    <Compile Include="Components\Fields\Content\Content`2.cs" />
+    <Compile Include="Components\Fields\Content\H1`1.cs" />
+    <Compile Include="Components\Fields\Content\H2`1.cs" />
+    <Compile Include="Components\Fields\Content\H3`1.cs" />
+    <Compile Include="Components\Fields\Content\H4`1.cs" />
+    <Compile Include="Components\Fields\Content\H5`1.cs" />
+    <Compile Include="Components\Fields\Content\H6`1.cs" />
     <Compile Include="Components\Fields\DateInput`1.cs" />
     <Compile Include="Components\Fields\EditableField`2.cs" />
-    <Compile Include="Components\Fields\ICheckable.cs" />
+    <Compile Include="Components\Fields\ICheckable`1.cs" />
     <Compile Include="Components\Fields\RadioButtonList`2.cs" />
     <Compile Include="Components\Fields\RadioButton`1.cs" />
     <Compile Include="Components\Fields\Input`2.cs" />
@@ -175,7 +181,7 @@
     <Compile Include="Components\TableRow`1.cs" />
     <Compile Include="Components\TableRow`2.cs" />
     <Compile Include="Components\Table`2.cs" />
-    <Compile Include="Components\Fields\Text`1.cs" />
+    <Compile Include="Components\Fields\Content\Text`1.cs" />
     <Compile Include="Extensions\Button1Extensions.cs" />
     <Compile Include="Extensions\Button2Extensions.cs" />
     <Compile Include="Extensions\Clickable2Extensions.cs" />
