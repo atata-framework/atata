@@ -48,24 +48,24 @@ namespace Atata
             return Owner;
         }
 
-        protected TControl CreateControl<TControl>(string name, params Attribute[] attributes)
+        protected internal TControl CreateControl<TControl>(string name, params Attribute[] attributes)
             where TControl : Control<TOwner>
         {
             return UIComponentResolver.CreateComponent<TControl, TOwner>(this, name, attributes);
         }
 
-        protected ClickableControl<TOwner> CreateClickable(string name, params Attribute[] attributes)
+        protected internal ClickableControl<TOwner> CreateClickable(string name, params Attribute[] attributes)
         {
             return CreateControl<ClickableControl<TOwner>>(name, attributes);
         }
 
-        protected ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, params Attribute[] attributes)
+        protected internal ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return CreateControl<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
         }
 
-        protected ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
+        protected internal ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
             var control = CreateControl<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
@@ -73,18 +73,18 @@ namespace Atata
             return control;
         }
 
-        protected LinkControl<TOwner> CreateLink(string name, params Attribute[] attributes)
+        protected internal LinkControl<TOwner> CreateLink(string name, params Attribute[] attributes)
         {
             return CreateControl<LinkControl<TOwner>>(name, attributes);
         }
 
-        protected LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, params Attribute[] attributes)
+        protected internal LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return CreateControl<LinkControl<TNavigateTo, TOwner>>(name, attributes);
         }
 
-        protected LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
+        protected internal LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
             var control = CreateControl<LinkControl<TNavigateTo, TOwner>>(name, attributes);
@@ -92,18 +92,18 @@ namespace Atata
             return control;
         }
 
-        protected ButtonControl<TOwner> CreateButton(string name, params Attribute[] attributes)
+        protected internal ButtonControl<TOwner> CreateButton(string name, params Attribute[] attributes)
         {
             return CreateControl<ButtonControl<TOwner>>(name, attributes);
         }
 
-        protected ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, params Attribute[] attributes)
+        protected internal ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return CreateControl<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
         }
 
-        protected ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
+        protected internal ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
             var control = CreateControl<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
