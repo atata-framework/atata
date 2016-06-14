@@ -5,22 +5,22 @@
     /// </summary>
     public class VerifyH1Attribute : VerifyHeadingTriggerAttribute
     {
-        protected VerifyH1Attribute(TermFormat format = TermFormat.Inherit)
+        public VerifyH1Attribute(TermFormat format = TermFormat.Inherit)
             : base(format)
         {
         }
 
-        protected VerifyH1Attribute(params string[] values)
+        public VerifyH1Attribute(params string[] values)
             : base(values)
         {
         }
 
-        protected VerifyH1Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+        public VerifyH1Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
             : base(match, format)
         {
         }
 
-        protected VerifyH1Attribute(TermMatch match, params string[] values)
+        public VerifyH1Attribute(TermMatch match, params string[] values)
             : base(match, values)
         {
         }

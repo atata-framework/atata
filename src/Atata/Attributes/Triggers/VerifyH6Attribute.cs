@@ -5,22 +5,22 @@ namespace Atata
     /// </summary>
     public class VerifyH6Attribute : VerifyHeadingTriggerAttribute
     {
-        protected VerifyH6Attribute(TermFormat format = TermFormat.Inherit)
+        public VerifyH6Attribute(TermFormat format = TermFormat.Inherit)
             : base(format)
         {
         }
 
-        protected VerifyH6Attribute(params string[] values)
+        public VerifyH6Attribute(params string[] values)
             : base(values)
         {
         }
 
-        protected VerifyH6Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+        public VerifyH6Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
             : base(match, format)
         {
         }
 
-        protected VerifyH6Attribute(TermMatch match, params string[] values)
+        public VerifyH6Attribute(TermMatch match, params string[] values)
             : base(match, values)
         {
         }
