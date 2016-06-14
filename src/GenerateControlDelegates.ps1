@@ -2,7 +2,7 @@ Write-Output "Started";
 
 $folderPath = $PSScriptRoot + "\Atata\Extensions\";
 $sourceFile = $folderPath + "Clickable1Extensions.cs";
-Write-Output "Source File=" + $folderPath;
+Write-Output "Source File=" $sourceFile;
 $sourceContent = Get-Content $sourceFile;
 
 New-Item ($folderPath + "Clickable2Extensions.cs") -type file -force;

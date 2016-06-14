@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		GenerateControlDelegates.ps1 = GenerateControlDelegates.ps1
+		GenerateHeadingVerificationTriggers.ps1 = GenerateHeadingVerificationTriggers.ps1
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.WebDriverExtras", "Atata.WebDriverExtras\Atata.WebDriverExtras.csproj", "{A08C24D1-7904-4A0C-BF07-5AEF4A520D82}"

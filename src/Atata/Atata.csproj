@@ -124,6 +124,11 @@
     <Compile Include="Attributes\Triggers\VerifyContentAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyExistsAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyH1Attribute.cs" />
+    <Compile Include="Attributes\Triggers\VerifyH2Attribute.cs" />
+    <Compile Include="Attributes\Triggers\VerifyH3Attribute.cs" />
+    <Compile Include="Attributes\Triggers\VerifyH4Attribute.cs" />
+    <Compile Include="Attributes\Triggers\VerifyH5Attribute.cs" />
+    <Compile Include="Attributes\Triggers\VerifyH6Attribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyHeadingTriggerAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyMissingAttribute.cs" />
     <Compile Include="Attributes\Triggers\VerifyTitleAttribute.cs" />
