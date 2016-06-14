@@ -178,6 +178,7 @@
     <Compile Include="Components\Fields\RadioButtonList`2.cs" />
     <Compile Include="Components\Fields\RadioButton`1.cs" />
     <Compile Include="Components\Fields\Input`2.cs" />
+    <Compile Include="Components\Fields\TextArea`1.cs" />
     <Compile Include="Components\Fields\TimeInput`1.cs" />
     <Compile Include="Components\Fields\OptionList`2.cs" />
     <Compile Include="Components\IItemsControl.cs" />
