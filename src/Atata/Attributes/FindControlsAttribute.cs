@@ -41,15 +41,7 @@ namespace Atata
             if (!FinderType.IsSubclassOf(typeof(TermFindAttribute)))
                 throw new InvalidOperationException("'{0}' FinderType is not subclass of TermFindAttribute.".FormatWith(FinderType.FullName));
 
-            var constructor = FinderType.GetConstructor(new[] { typeof(string[]) });
-            if (constructor != null)
-                return () => (TermFindAttribute)constructor.Invoke(new object[] { null });
-
-            constructor = FinderType.GetConstructor(Type.EmptyTypes);
-            if (constructor != null)
-                return () => (TermFindAttribute)constructor.Invoke(null);
-
-            throw new InvalidOperationException("'{0}' FinderType doesn't have a parameterless constructor.".FormatWith(FinderType.FullName));
+            return () => (TermFindAttribute)ActivatorEx.CreateInstance(FinderType);
         }
     }
 }

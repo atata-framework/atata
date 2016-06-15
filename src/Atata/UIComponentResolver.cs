@@ -183,7 +183,7 @@ namespace Atata
         private static UIComponent<TOwner> CreateComponent<TOwner>(UIComponent<TOwner> parentComponent, UIComponentMetadata metadata)
             where TOwner : PageObject<TOwner>
         {
-            UIComponent<TOwner> component = (UIComponent<TOwner>)Activator.CreateInstance(metadata.ComponentType);
+            UIComponent<TOwner> component = (UIComponent<TOwner>)ActivatorEx.CreateInstance(metadata.ComponentType);
 
             InitComponent(component, parentComponent, metadata);
             UIComponentResolver.Resolve<TOwner>(component);

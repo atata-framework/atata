@@ -51,7 +51,7 @@ namespace Atata
             else
             {
                 Type strategyType = GetStrategyType(metadata);
-                return (IComponentScopeLocateStrategy)Activator.CreateInstance(strategyType);
+                return (IComponentScopeLocateStrategy)ActivatorEx.CreateInstance(strategyType);
             }
         }
 

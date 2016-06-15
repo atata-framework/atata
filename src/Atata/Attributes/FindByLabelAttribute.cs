@@ -36,7 +36,7 @@ namespace Atata
         public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             Type strategyType = GetStrategyType(metadata);
-            return (IComponentScopeLocateStrategy)Activator.CreateInstance(strategyType);
+            return (IComponentScopeLocateStrategy)ActivatorEx.CreateInstance(strategyType);
         }
 
         private Type GetStrategyType(UIComponentMetadata metadata)

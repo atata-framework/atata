@@ -60,7 +60,7 @@ namespace Atata
 
             if (ATContext.Current.PageObject == null)
             {
-                pageObject = pageObject ?? Activator.CreateInstance<T>();
+                pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
                 ATContext.Current.PageObject = pageObject;
 
                 if (!string.IsNullOrWhiteSpace(options.Url))

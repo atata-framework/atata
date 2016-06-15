@@ -1,6 +1,6 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -80,7 +80,7 @@ namespace Atata
         {
             bool isReturnedFromTemporary = pageObject == null && TryResolvePreviousPageObjectNavigatedTemporarily(options, out pageObject);
 
-            pageObject = pageObject ?? Activator.CreateInstance<TOther>();
+            pageObject = pageObject ?? ActivatorEx.CreateInstance<TOther>();
 
             if (!isReturnedFromTemporary)
             {
