@@ -13,7 +13,7 @@ namespace Atata
         {
             string termCondition = options.GetTermsXPathCondition();
 
-            builder.Insert(0, "dl/dt[{0}]]{1}/following-sibling::dd//".FormatWith(termCondition, options.GetPositionWrappedXPathConditionOrNull()));
+            builder.Insert(0, "dl/dt[{0}]{1}/following-sibling::dd/descendant-or-self::".FormatWith(termCondition, options.GetPositionWrappedXPathConditionOrNull()));
         }
     }
 }
