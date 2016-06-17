@@ -8,6 +8,7 @@ namespace Atata
         TOwner Owner { get; }
         IUIComponent<TOwner> Parent { get; }
         UIComponentContentValueProvider<TOwner> Content { get; }
+        ScopeSource ScopeSource { get; }
         IScopeLocator ScopeLocator { get; }
         string ComponentName { get; }
         string ComponentTypeName { get; }

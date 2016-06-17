@@ -9,7 +9,7 @@
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            ((Control<TOwner>)context.ParentComponent).Click();
+            ((Control<TOwner>)context.Component.Parent).Click();
         }
     }
 }

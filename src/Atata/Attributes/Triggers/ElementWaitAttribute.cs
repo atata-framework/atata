@@ -16,7 +16,7 @@ namespace Atata
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             ScopeSource scopeSource = ScopeSource != ScopeSource.Inherit ? ScopeSource : context.Component.ScopeSource;
-            IWebElement element = scopeSource.GetScopeElement(context.ParentComponent);
+            IWebElement element = scopeSource.GetScopeElement((UIComponent)context.Component.Parent);
             Wait(element);
         }
 

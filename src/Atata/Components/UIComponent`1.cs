@@ -50,6 +50,11 @@ namespace Atata
             get { return ComponentTypeName; }
         }
 
+        ScopeSource IUIComponent<TOwner>.ScopeSource
+        {
+            get { return ScopeSource; }
+        }
+
         protected internal virtual void InitComponent()
         {
             UIComponentResolver.Resolve<TOwner>(this);
@@ -151,12 +156,7 @@ namespace Atata
                 Event = on,
                 Driver = Driver,
                 Log = Log,
-                Owner = Owner,
-                OwnerScopeLocator = Owner != null ? Owner.ScopeLocator : null,
-                Component = this,
-                ParentComponent = Parent,
-                ComponentScopeLocator = ScopeLocator,
-                ParentComponentScopeLocator = Parent != null ? Parent.ScopeLocator : null
+                Component = this
             };
 
             var triggers = Triggers.Where(x => x.On.HasFlag(on));

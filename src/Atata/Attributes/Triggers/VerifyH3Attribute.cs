@@ -28,7 +28,7 @@ namespace Atata
         protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
         {
             string name = TermResolver.ToDisplayString(values);
-            var headingControl = context.Owner.CreateControl<H3<TOwner>>(name, new FindByIndexAttribute(Index));
+            var headingControl = context.Component.Owner.CreateControl<H3<TOwner>>(name, new FindByIndexAttribute(Index));
             headingControl.VerifyUntilMatchesAny(Match, values);
         }
     }
