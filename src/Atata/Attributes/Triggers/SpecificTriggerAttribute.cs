@@ -15,7 +15,7 @@ namespace Atata
             MethodInfo declaredMethod = GetType().GetMethod("Execute", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (declaredMethod != null)
             {
-                Type ownerType = context.Owner.GetType();
+                Type ownerType = context.Component.Owner.GetType();
 
                 MethodInfo genericMethod = declaredMethod.MakeGenericMethod(ownerType);
                 genericMethod.Invoke(this, new object[] { context });

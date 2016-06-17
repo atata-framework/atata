@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Atata
 {
-    public abstract class UIComponent<TOwner> : UIComponent
+    public abstract class UIComponent<TOwner> : UIComponent, IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected UIComponent()
@@ -24,6 +24,36 @@ namespace Atata
         }
 
         public UIComponentContentValueProvider<TOwner> Content { get; private set; }
+
+        TOwner IUIComponent<TOwner>.Owner
+        {
+            get { return Owner; }
+        }
+
+        IUIComponent<TOwner> IUIComponent<TOwner>.Parent
+        {
+            get { return Parent; }
+        }
+
+        IScopeLocator IUIComponent<TOwner>.ScopeLocator
+        {
+            get { return ScopeLocator; }
+        }
+
+        string IUIComponent<TOwner>.ComponentName
+        {
+            get { return ComponentName; }
+        }
+
+        string IUIComponent<TOwner>.ComponentTypeName
+        {
+            get { return ComponentTypeName; }
+        }
+
+        ScopeSource IUIComponent<TOwner>.ScopeSource
+        {
+            get { return ScopeSource; }
+        }
 
         protected internal virtual void InitComponent()
         {
@@ -126,12 +156,7 @@ namespace Atata
                 Event = on,
                 Driver = Driver,
                 Log = Log,
-                Owner = Owner,
-                OwnerScopeLocator = Owner != null ? Owner.ScopeLocator : null,
-                Component = this,
-                ParentComponent = Parent,
-                ComponentScopeLocator = ScopeLocator,
-                ParentComponentScopeLocator = Parent != null ? Parent.ScopeLocator : null
+                Component = this
             };
 
             var triggers = Triggers.Where(x => x.On.HasFlag(on));
@@ -146,6 +171,11 @@ namespace Atata
                     child.ExecuteTriggers(on);
                 }
             }
+        }
+
+        TControl IUIComponent<TOwner>.CreateControl<TControl>(string name, params Attribute[] attributes)
+        {
+            return CreateControl<TControl>(name, attributes);
         }
     }
 }

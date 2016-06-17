@@ -10,11 +10,6 @@ namespace Atata
         public RemoteWebDriver Driver { get; internal set; }
         public ILogManager Log { get; internal set; }
 
-        public TOwner Owner { get; internal set; }
-        public IScopeLocator OwnerScopeLocator { get; internal set; }
-        public UIComponent<TOwner> Component { get; internal set; }
-        public IScopeLocator ComponentScopeLocator { get; internal set; }
-        public UIComponent<TOwner> ParentComponent { get; internal set; }
-        public IScopeLocator ParentComponentScopeLocator { get; internal set; }
+        public IUIComponent<TOwner> Component { get; internal set; }
     }
 }

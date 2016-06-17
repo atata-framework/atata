@@ -184,6 +184,7 @@
     <Compile Include="Components\Fields\OptionList`2.cs" />
     <Compile Include="Components\IItemsControl.cs" />
     <Compile Include="Components\IPageObject.cs" />
+    <Compile Include="Components\IUIComponent`1.cs" />
     <Compile Include="Components\LinkControl`1.cs" />
     <Compile Include="Components\LinkControl`2.cs" />
     <Compile Include="ATContext.cs" />
