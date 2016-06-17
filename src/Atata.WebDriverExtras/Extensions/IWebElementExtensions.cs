@@ -1,5 +1,6 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
+using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -24,6 +25,11 @@ namespace Atata
         public static bool HasContent(this IWebElement element, string content)
         {
             return element.Text.Contains(content);
+        }
+
+        public static bool HasClass(this IWebElement element, string className)
+        {
+            return element.GetAttribute("class").Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Contains(className);
         }
 
         public static string GetValue(this IWebElement element)
