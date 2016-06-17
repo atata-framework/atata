@@ -273,6 +273,15 @@ namespace Atata
                 pattern);
         }
 
+        public static TOwner VerifyDateEquals<TOwner>(this IUIComponentValueProvider<DateTime, TOwner> provider, DateTime expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return provider.Verify(
+                (actual, message) => ATAssert.AreEqual(expected.Date, actual.Date, message),
+                "date equals \"{0}\"",
+                provider.ConvertValueToString(expected));
+        }
+
         public static TOwner VerifyUntilMatchesAny<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, TermMatch match, params string[] expectedValues)
             where TOwner : PageObject<TOwner>
         {
