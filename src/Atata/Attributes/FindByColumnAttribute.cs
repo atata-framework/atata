@@ -14,18 +14,18 @@ namespace Atata
             useIndexStrategy = true;
         }
 
-        public FindByColumnAttribute(TermMatch match)
-            : base(match)
+        public FindByColumnAttribute(TermFormat format)
+            : base(format)
         {
         }
 
-        public FindByColumnAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : base(format, match)
+        public FindByColumnAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : base(match, format)
         {
         }
 
-        public FindByColumnAttribute(string value, TermMatch match)
-            : base(value, match)
+        public FindByColumnAttribute(TermMatch match, params string[] values)
+            : base(match, values)
         {
         }
 

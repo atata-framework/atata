@@ -2,18 +2,18 @@
 {
     public class FindByFieldsetAttribute : TermFindAttribute
     {
-        public FindByFieldsetAttribute(TermMatch match)
-            : base(match)
+        public FindByFieldsetAttribute(TermFormat format)
+            : base(format)
         {
         }
 
-        public FindByFieldsetAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : base(format, match)
+        public FindByFieldsetAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : base(match, format)
         {
         }
 
-        public FindByFieldsetAttribute(string value, TermMatch match)
-            : base(value, match)
+        public FindByFieldsetAttribute(TermMatch match, params string[] values)
+            : base(match, values)
         {
         }
 

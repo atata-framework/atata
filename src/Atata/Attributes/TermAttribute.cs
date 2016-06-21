@@ -5,42 +5,37 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
     public class TermAttribute : Attribute, ITermSettings
     {
-        public TermAttribute(TermMatch match)
-            : this(null, TermFormat.Inherit, match)
+        public TermAttribute(TermFormat format)
+            : this(null, format: format)
         {
         }
 
-        public TermAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : this(null, format, match)
+        public TermAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : this(null, match, format)
         {
         }
 
-        public TermAttribute(string value, TermMatch match)
-            : this(new[] { value }, TermFormat.None, match: match)
-        {
-        }
-
-        public TermAttribute()
-            : this(null, TermFormat.Inherit)
+        public TermAttribute(TermMatch match, params string[] values)
+            : this(values, match)
         {
         }
 
         public TermAttribute(params string[] values)
-            : this(values, TermFormat.None)
+            : this(values, TermMatch.Inherit)
         {
         }
 
-        private TermAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        private TermAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
         {
             Values = values;
-            Format = format;
             Match = match;
+            Format = format;
             CutEnding = true;
         }
 
         public string[] Values { get; private set; }
-        public TermFormat Format { get; private set; }
         public new TermMatch Match { get; set; }
+        public TermFormat Format { get; private set; }
         public string StringFormat { get; set; }
         public bool CutEnding { get; set; }
     }

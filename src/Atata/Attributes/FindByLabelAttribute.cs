@@ -6,18 +6,18 @@ namespace Atata
     {
         private readonly Type defaultStrategy = typeof(FindByLabelStrategy);
 
-        public FindByLabelAttribute(TermMatch match)
-            : base(match)
+        public FindByLabelAttribute(TermFormat format)
+            : base(format)
         {
         }
 
-        public FindByLabelAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : base(format, match)
+        public FindByLabelAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : base(match, format)
         {
         }
 
-        public FindByLabelAttribute(string value, TermMatch match)
-            : base(value, match)
+        public FindByLabelAttribute(TermMatch match, params string[] values)
+            : base(match, values)
         {
         }
 

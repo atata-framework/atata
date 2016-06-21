@@ -5,20 +5,20 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
     public class TermFindSettingsAttribute : Attribute
     {
-        public TermFindSettingsAttribute(FindTermBy by, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
-            : this(by.ResolveFindAttributeType(), format, match)
+        public TermFindSettingsAttribute(FindTermBy by, TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
+            : this(by.ResolveFindAttributeType(), match, format)
         {
         }
 
-        public TermFindSettingsAttribute(Type finderAttributeType, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        public TermFindSettingsAttribute(Type finderAttributeType, TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
         {
             FinderAttributeType = finderAttributeType;
-            Format = format;
             Match = match;
+            Format = format;
         }
 
         public Type FinderAttributeType { get; private set; }
-        public TermFormat Format { get; set; }
         public new TermMatch Match { get; set; }
+        public TermFormat Format { get; set; }
     }
 }

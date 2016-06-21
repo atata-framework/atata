@@ -2,18 +2,18 @@
 {
     public class FindByValueAttribute : TermFindAttribute
     {
-        public FindByValueAttribute(TermMatch match)
-            : base(match)
+        public FindByValueAttribute(TermFormat format)
+            : base(format)
         {
         }
 
-        public FindByValueAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : base(format, match)
+        public FindByValueAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : base(match, format)
         {
         }
 
-        public FindByValueAttribute(string value, TermMatch match)
-            : base(value, match)
+        public FindByValueAttribute(TermMatch match, params string[] values)
+            : base(match, values)
         {
         }
 

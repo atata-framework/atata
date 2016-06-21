@@ -5,7 +5,7 @@
     /// </summary>
     public class VerifyH1Attribute : VerifyHeadingTriggerAttribute
     {
-        public VerifyH1Attribute(TermFormat format = TermFormat.Inherit)
+        public VerifyH1Attribute(TermFormat format)
             : base(format)
         {
         }

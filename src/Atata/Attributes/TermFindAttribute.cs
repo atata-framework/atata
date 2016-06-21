@@ -5,31 +5,31 @@ namespace Atata
 {
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute
     {
-        protected TermFindAttribute(TermMatch match)
-            : this(null, TermFormat.Inherit, match)
+        protected TermFindAttribute(TermFormat format)
+            : this(null, format: format)
         {
         }
 
-        protected TermFindAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : this(null, format, match)
+        protected TermFindAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : this(null, match, format)
         {
         }
 
-        protected TermFindAttribute(string value, TermMatch match)
-            : this(new[] { value }, match: match)
+        protected TermFindAttribute(TermMatch match, params string[] values)
+            : this(values, match)
         {
         }
 
         protected TermFindAttribute(params string[] values)
-            : this(values, TermFormat.Inherit)
+            : this(values, TermMatch.Inherit)
         {
         }
 
-        protected TermFindAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        protected TermFindAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
         {
             Values = values;
-            Format = format;
             Match = match;
+            Format = format;
             CutEnding = true;
         }
 

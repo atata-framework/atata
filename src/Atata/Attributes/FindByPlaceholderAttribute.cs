@@ -2,18 +2,18 @@
 {
     public class FindByPlaceholderAttribute : TermFindAttribute
     {
-        public FindByPlaceholderAttribute(TermMatch match)
-            : base(match)
+        public FindByPlaceholderAttribute(TermFormat format)
+            : base(format)
         {
         }
 
-        public FindByPlaceholderAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : base(format, match)
+        public FindByPlaceholderAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : base(match, format)
         {
         }
 
-        public FindByPlaceholderAttribute(string value, TermMatch match)
-            : base(value, match)
+        public FindByPlaceholderAttribute(TermMatch match, params string[] values)
+            : base(match, values)
         {
         }
 

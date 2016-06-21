@@ -9,32 +9,32 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
     public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermSettings
     {
-        protected TermVerificationTriggerAttribute(TermFormat format = TermFormat.Inherit)
-            : this(null, format, TermMatch.Inherit)
+        protected TermVerificationTriggerAttribute(TermFormat format)
+            : this(null, format: format)
         {
         }
 
         protected TermVerificationTriggerAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : this(null, format, match)
+            : this(null, match, format)
         {
         }
 
         protected TermVerificationTriggerAttribute(TermMatch match, params string[] values)
-            : this(values, TermFormat.Inherit, match)
+            : this(values, match)
         {
         }
 
         protected TermVerificationTriggerAttribute(params string[] values)
-            : this(values, TermFormat.Inherit, TermMatch.Inherit)
+            : this(values, TermMatch.Inherit)
         {
         }
 
-        private TermVerificationTriggerAttribute(string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
+        private TermVerificationTriggerAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
             : base(TriggerEvents.OnPageObjectInit)
         {
             Values = values;
-            Format = format;
             Match = match;
+            Format = format;
         }
 
         public string[] Values { get; private set; }

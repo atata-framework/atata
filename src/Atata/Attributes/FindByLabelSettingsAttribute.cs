@@ -4,16 +4,9 @@ namespace Atata
 {
     public class FindByLabelSettingsAttribute : TermFindSettingsAttribute
     {
-        public FindByLabelSettingsAttribute(Type strategy)
-            : base(typeof(FindByLabelAttribute))
+        public FindByLabelSettingsAttribute(TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
+            : base(typeof(FindByLabelAttribute), match, format)
         {
-            Strategy = strategy;
-        }
-
-        public FindByLabelSettingsAttribute(TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit, Type strategy = null)
-            : base(typeof(FindByLabelAttribute), format, match)
-        {
-            Strategy = strategy;
         }
 
         public Type Strategy { get; set; }

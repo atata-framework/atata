@@ -2,28 +2,28 @@
 {
     public class FindByAttributeAttribute : TermFindAttribute
     {
-        public FindByAttributeAttribute(string attributeName, TermMatch match)
-            : this(attributeName, null, TermFormat.Inherit, match)
+        public FindByAttributeAttribute(string attributeName, TermFormat format)
+            : this(attributeName, null, format: format)
         {
         }
 
-        public FindByAttributeAttribute(string attributeName, TermFormat format, TermMatch match = TermMatch.Inherit)
-            : this(attributeName, null, format, match)
+        public FindByAttributeAttribute(string attributeName, TermMatch match, TermFormat format = TermFormat.Inherit)
+            : this(attributeName, null, match, format)
         {
         }
 
-        public FindByAttributeAttribute(string attributeName, string value, TermMatch match)
-            : this(attributeName, new[] { value }, match: match)
+        public FindByAttributeAttribute(string attributeName, TermMatch match, params string[] values)
+            : this(attributeName, values, match)
         {
         }
 
         public FindByAttributeAttribute(string attributeName, params string[] values)
-            : this(attributeName, values, TermFormat.Inherit)
+            : this(attributeName, values, format: TermFormat.Inherit)
         {
         }
 
-        private FindByAttributeAttribute(string attributeName, string[] values = null, TermFormat format = TermFormat.Inherit, TermMatch match = TermMatch.Inherit)
-            : base(values, format, match)
+        private FindByAttributeAttribute(string attributeName, string[] values = null, TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
+            : base(values, match, format)
         {
             AttributeName = attributeName.CheckNotNullOrWhitespace("attributeName");
         }
