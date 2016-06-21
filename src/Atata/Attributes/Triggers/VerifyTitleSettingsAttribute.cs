@@ -5,13 +5,13 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Assembly)]
     public class VerifyTitleSettingsAttribute : TermSettingsAttribute
     {
-        public VerifyTitleSettingsAttribute(TermMatch match = TermMatch.Inherit)
-            : this(TermFormat.Inherit, match)
+        public VerifyTitleSettingsAttribute(TermFormat format = TermFormat.Inherit)
+            : base(format)
         {
         }
 
-        public VerifyTitleSettingsAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
-            : base(format, match)
+        public VerifyTitleSettingsAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+            : base(match, format)
         {
         }
     }

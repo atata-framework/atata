@@ -10,11 +10,6 @@ namespace Atata
         {
         }
 
-        public VerifyH3Attribute(params string[] values)
-            : base(values)
-        {
-        }
-
         public VerifyH3Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
             : base(match, format)
         {
@@ -22,6 +17,11 @@ namespace Atata
 
         public VerifyH3Attribute(TermMatch match, params string[] values)
             : base(match, values)
+        {
+        }
+
+        public VerifyH3Attribute(params string[] values)
+            : base(values)
         {
         }
 

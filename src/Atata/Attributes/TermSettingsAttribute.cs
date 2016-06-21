@@ -5,12 +5,12 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum)]
     public class TermSettingsAttribute : Attribute, ITermSettings
     {
-        public TermSettingsAttribute(TermMatch match = TermMatch.Inherit)
-            : this(TermFormat.Inherit, match)
+        public TermSettingsAttribute(TermFormat format = TermFormat.Inherit)
+            : this(TermMatch.Inherit, format)
         {
         }
 
-        public TermSettingsAttribute(TermFormat format, TermMatch match = TermMatch.Inherit)
+        public TermSettingsAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
         {
             Format = format;
             Match = match;

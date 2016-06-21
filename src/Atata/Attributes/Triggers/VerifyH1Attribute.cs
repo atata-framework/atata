@@ -10,11 +10,6 @@
         {
         }
 
-        public VerifyH1Attribute(params string[] values)
-            : base(values)
-        {
-        }
-
         public VerifyH1Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
             : base(match, format)
         {
@@ -22,6 +17,11 @@
 
         public VerifyH1Attribute(TermMatch match, params string[] values)
             : base(match, values)
+        {
+        }
+
+        public VerifyH1Attribute(params string[] values)
+            : base(values)
         {
         }
 
