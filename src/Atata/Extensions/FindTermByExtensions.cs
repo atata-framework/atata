@@ -31,6 +31,8 @@ namespace Atata
                     return typeof(FindByPlaceholderAttribute);
                 case FindTermBy.DescriptionTerm:
                     return typeof(FindByDescriptionTermAttribute);
+                case FindTermBy.ChildContent:
+                    return typeof(FindByChildContentAttribute);
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(by, "by");
             }

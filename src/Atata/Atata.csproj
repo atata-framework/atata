@@ -65,6 +65,7 @@
     <Compile Include="Attributes\CultureAttribute.cs" />
     <Compile Include="Attributes\FindButtonsAttribute.cs" />
     <Compile Include="Attributes\FindByAttributeAttribute.cs" />
+    <Compile Include="Attributes\FindByChildContentAttribute.cs" />
     <Compile Include="Attributes\FindByClassAttribute.cs" />
     <Compile Include="Attributes\FindByColumnAttribute.cs" />
     <Compile Include="Attributes\FindByColumnSettingsAttribute.cs" />
@@ -217,6 +218,7 @@
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Go.cs" />
     <Compile Include="GoOptions.cs" />
+    <Compile Include="ScopeSearch\Strategies\FindByChildContentStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByDescriptionTermStrategy.cs" />
     <Compile Include="ValueProvision\IUIComponentValueProvider`2.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />

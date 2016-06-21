@@ -13,6 +13,7 @@
         Title,
         Fieldset,
         Placeholder,
-        DescriptionTerm
+        DescriptionTerm,
+        ChildContent
     }
 }
