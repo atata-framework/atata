@@ -11,6 +11,9 @@ namespace Atata
 
         public static int? GetDepthOfInheritanceOfRawGeneric(this Type type, Type genericType)
         {
+            if (genericType == null)
+                return null;
+
             Type typeToCheck = type;
             int depth = 0;
             while (typeToCheck != null && typeToCheck != typeof(object))

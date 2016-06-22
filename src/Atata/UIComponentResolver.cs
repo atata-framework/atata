@@ -316,26 +316,36 @@ namespace Atata
             else
             {
                 Type controlType = metadata.ComponentType;
-                Type parentControlType = metadata.ParentComponentType;
+                Type parentComponentType = metadata.ParentComponentType;
 
                 ControlFindingAttribute controlFindingAttribute =
-                    GetNearestFindControlsAttribute(controlType, parentControlType, metadata.ParentComponentAttributes) ??
-                    GetNearestFindControlsAttribute(controlType, parentControlType, metadata.AssemblyAttributes);
+                    GetNearestControlFindingAttribute(controlType, parentComponentType, metadata.ParentComponentAttributes) ??
+                    GetNearestControlFindingAttribute(controlType, parentComponentType, metadata.AssemblyAttributes);
 
                 return controlFindingAttribute != null
                     ? controlFindingAttribute.CreateFindAttribute()
-                    : GetDefaultFindAttribute(controlType, parentControlType, metadata);
+                    : GetDefaultFindAttribute(controlType, parentComponentType, metadata);
             }
         }
 
-        private static ControlFindingAttribute GetNearestFindControlsAttribute(Type controlType, Type parentControlType, IEnumerable<Attribute> attributes)
+        private static ControlFindingAttribute GetNearestControlFindingAttribute(Type controlType, Type parentComponentType, IEnumerable<Attribute> attributes)
         {
             return attributes.OfType<ControlFindingAttribute>().
                 Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritanceOfRawGeneric(attr.ControlType) }).
                 Where(x => x.Depth != null).
                 OrderBy(x => x.Depth).
                 Select(x => x.Attribute).
-                FirstOrDefault(attr => attr.ParentControlType == null || parentControlType.IsSubclassOfRawGeneric(attr.ParentControlType));
+                FirstOrDefault(attr => attr.ParentComponentType == null || parentComponentType.IsSubclassOfRawGeneric(attr.ParentComponentType));
+        }
+
+        private static ControlFindingAttribute GetNearestDefaultControlFindingAttribute(Type parentComponentType, IEnumerable<Attribute> attributes)
+        {
+            return attributes.OfType<ControlFindingAttribute>().
+                Where(x => x.ControlType == null).
+                Select(attr => new { Attribute = attr, Depth = parentComponentType.GetDepthOfInheritanceOfRawGeneric(attr.ParentComponentType) }).
+                OrderBy(x => x.Depth).
+                Select(x => x.Attribute).
+                FirstOrDefault();
         }
 
         // TODO: Remove GetDefaultFindAttribute method. Move this logic to some other place.
