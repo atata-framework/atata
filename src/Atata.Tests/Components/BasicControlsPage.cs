@@ -82,7 +82,7 @@ namespace Atata.Tests
         }
 
         [ControlDefinition("*")]
-        [FindFields(FindTermBy.Id)]
+        [FieldFinding(FindTermBy.Id)]
         public class FindById : Control<_>
         {
             [FindById(TermFormat.Kebab)]

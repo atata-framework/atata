@@ -7,6 +7,14 @@ namespace Atata
 {
     internal static class CheckExtensions
     {
+        internal static T Check<T>(this T value, Predicate<T> checkPredicate, string argumentName, string errorMessage = null)
+        {
+            if (checkPredicate != null && !checkPredicate(value))
+                throw new ArgumentException(errorMessage, argumentName);
+
+            return value;
+        }
+
         internal static T CheckNotNull<T>(this T value, string argumentName, string errorMessage = null)
         {
             if (value == null)

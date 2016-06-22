@@ -186,7 +186,7 @@ namespace Atata
             UIComponent<TOwner> component = (UIComponent<TOwner>)ActivatorEx.CreateInstance(metadata.ComponentType);
 
             InitComponent(component, parentComponent, metadata);
-            UIComponentResolver.Resolve<TOwner>(component);
+            Resolve(component);
 
             return component;
         }
@@ -318,19 +318,19 @@ namespace Atata
                 Type controlType = metadata.ComponentType;
                 Type parentControlType = metadata.ParentComponentType;
 
-                FindControlsAttribute findControlsAttribute =
+                ControlFindingAttribute controlFindingAttribute =
                     GetNearestFindControlsAttribute(controlType, parentControlType, metadata.ParentComponentAttributes) ??
                     GetNearestFindControlsAttribute(controlType, parentControlType, metadata.AssemblyAttributes);
 
-                return findControlsAttribute != null
-                    ? findControlsAttribute.CreateFindAttribute()
+                return controlFindingAttribute != null
+                    ? controlFindingAttribute.CreateFindAttribute()
                     : GetDefaultFindAttribute(controlType, parentControlType, metadata);
             }
         }
 
-        private static FindControlsAttribute GetNearestFindControlsAttribute(Type controlType, Type parentControlType, IEnumerable<Attribute> attributes)
+        private static ControlFindingAttribute GetNearestFindControlsAttribute(Type controlType, Type parentControlType, IEnumerable<Attribute> attributes)
         {
-            return attributes.OfType<FindControlsAttribute>().
+            return attributes.OfType<ControlFindingAttribute>().
                 Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritanceOfRawGeneric(attr.ControlType) }).
                 Where(x => x.Depth != null).
                 OrderBy(x => x.Depth).
