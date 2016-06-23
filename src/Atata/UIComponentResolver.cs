@@ -320,7 +320,8 @@ namespace Atata
 
                 ControlFindingAttribute controlFindingAttribute =
                     GetNearestControlFindingAttribute(controlType, parentComponentType, metadata.ParentComponentAttributes) ??
-                    GetNearestControlFindingAttribute(controlType, parentComponentType, metadata.AssemblyAttributes);
+                    GetNearestControlFindingAttribute(controlType, parentComponentType, metadata.AssemblyAttributes) ??
+                    GetNearestDefaultControlFindingAttribute(parentComponentType, metadata.ComponentAttributes);
 
                 return controlFindingAttribute != null
                     ? controlFindingAttribute.CreateFindAttribute()
@@ -340,29 +341,17 @@ namespace Atata
 
         private static ControlFindingAttribute GetNearestDefaultControlFindingAttribute(Type parentComponentType, IEnumerable<Attribute> attributes)
         {
-            return attributes.OfType<ControlFindingAttribute>().
+            var allFindingAttributes = attributes.OfType<ControlFindingAttribute>().
                 Where(x => x.ControlType == null).
                 Select(attr => new { Attribute = attr, Depth = parentComponentType.GetDepthOfInheritanceOfRawGeneric(attr.ParentComponentType) }).
-                OrderBy(x => x.Depth).
-                Select(x => x.Attribute).
-                FirstOrDefault();
+                ToArray();
+
+            return allFindingAttributes.Where(x => x.Depth != null).OrderBy(x => x.Depth).Select(x => x.Attribute).FirstOrDefault() ??
+                allFindingAttributes.Where(x => x.Depth == null).Select(x => x.Attribute).FirstOrDefault();
         }
 
-        // TODO: Remove GetDefaultFindAttribute method. Move this logic to some other place.
         private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType, UIComponentMetadata metadata)
         {
-            if (controlType.IsSubclassOfRawGeneric(typeof(Content<,>)) && parentControlType.IsSubclassOfRawGeneric(typeof(TableRowBase<>)))
-                return new FindByColumnAttribute();
-
-            if (controlType.IsSubclassOfRawGeneric(typeof(Field<,>)))
-                return new FindByLabelAttribute();
-
-            if (controlType.IsSubclassOfRawGeneric(typeof(LinkControl<,>)))
-                return new FindByContentAttribute();
-
-            if (controlType.IsSubclassOfRawGeneric(typeof(ClickableControl<,>)))
-                return new FindByContentOrValueAttribute();
-
             if (string.IsNullOrEmpty(metadata.ComponentDefinitonAttribute.ScopeXPath) || metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
                 return new UseParentScopeAttribute();
 

@@ -2,6 +2,7 @@
 
 namespace Atata
 {
+    [ControlFinding(FindTermBy.Label)]
     public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IUIComponentValueProvider<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
