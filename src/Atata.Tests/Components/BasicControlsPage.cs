@@ -44,6 +44,7 @@ namespace Atata.Tests
         public Link<_> LinkButton { get; private set; }
 
         [Term(CutEnding = false)]
+        [FindByContent]
         public Clickable<_> DivButton { get; private set; }
 
         [Term(CutEnding = false)]
@@ -63,6 +64,7 @@ namespace Atata.Tests
         public Link<InputPage, _> GoToLink { get; private set; }
 
         [Term(CutEnding = false)]
+        [FindByContent]
         public Clickable<InputPage, _> GoToDivButton { get; private set; }
 
         [ControlDefinition("*")]
