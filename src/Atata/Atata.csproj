@@ -68,8 +68,9 @@
     <Compile Include="Attributes\FindByAttributeAttribute.cs" />
     <Compile Include="Attributes\FindByChildContentAttribute.cs" />
     <Compile Include="Attributes\FindByClassAttribute.cs" />
-    <Compile Include="Attributes\FindByColumnAttribute.cs" />
-    <Compile Include="Attributes\FindByColumnSettingsAttribute.cs" />
+    <Compile Include="Attributes\FindByColumnHeaderAttribute.cs" />
+    <Compile Include="Attributes\FindByColumnIndexAttribute.cs" />
+    <Compile Include="Attributes\FindByColumnHeaderSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByContentOrValueAttribute.cs" />
     <Compile Include="Attributes\FindByCssAttribute.cs" />
     <Compile Include="Attributes\FindByDescriptionTermAttribute.cs" />

@@ -22,7 +22,7 @@ namespace Atata
                 case FindTermBy.ContentOrValue:
                     return typeof(FindByContentOrValueAttribute);
                 case FindTermBy.ColumnHeader:
-                    return typeof(FindByColumnAttribute);
+                    return typeof(FindByColumnHeaderAttribute);
                 case FindTermBy.Title:
                     return typeof(FindByTitleAttribute);
                 case FindTermBy.FieldSet:
