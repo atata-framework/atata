@@ -11,7 +11,7 @@
         ContentOrValue,
         ColumnHeader,
         Title,
-        Fieldset,
+        FieldSet,
         Placeholder,
         DescriptionTerm,
         ChildContent

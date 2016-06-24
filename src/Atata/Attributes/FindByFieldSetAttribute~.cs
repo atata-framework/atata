@@ -1,23 +1,23 @@
 ﻿namespace Atata
 {
-    public class FindByFieldsetAttribute : TermFindAttribute
+    public class FindByFieldSetAttribute : TermFindAttribute
     {
-        public FindByFieldsetAttribute(TermFormat format)
+        public FindByFieldSetAttribute(TermFormat format)
             : base(format)
         {
         }
 
-        public FindByFieldsetAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
+        public FindByFieldSetAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
             : base(match, format)
         {
         }
 
-        public FindByFieldsetAttribute(TermMatch match, params string[] values)
+        public FindByFieldSetAttribute(TermMatch match, params string[] values)
             : base(match, values)
         {
         }
 
-        public FindByFieldsetAttribute(params string[] values)
+        public FindByFieldSetAttribute(params string[] values)
             : base(values)
         {
         }
@@ -29,7 +29,7 @@
 
         public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            return new FindByFieldsetStrategy();
+            return new FindByFieldSetStrategy();
         }
     }
 }

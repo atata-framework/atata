@@ -2,9 +2,9 @@
 
 namespace Atata
 {
-    public class FindByFieldsetStrategy : XPathComponentScopeLocateStrategy
+    public class FindByFieldSetStrategy : XPathComponentScopeLocateStrategy
     {
-        public FindByFieldsetStrategy()
+        public FindByFieldSetStrategy()
             : base(useIndex: IndexUsage.None)
         {
         }

@@ -47,7 +47,7 @@ namespace Atata.Tests
         [FindByName(TermFormat.Kebab), FindItemByLabel]
         public RadioButtonList<string, _> VerticalItems { get; private set; }
 
-        [FindByFieldset("Vertical List"), FindItemByLabel]
-        public RadioButtonList<string, _> VerticalItemsByFieldset { get; private set; }
+        [FindByFieldSet("Vertical List"), FindItemByLabel]
+        public RadioButtonList<string, _> VerticalItemsByFieldSet { get; private set; }
     }
 }
