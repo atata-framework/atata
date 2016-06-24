@@ -28,7 +28,7 @@ namespace Atata
             InitDelegateControlMappings();
         }
 
-        public static void InitDelegateControlMappings()
+        private static void InitDelegateControlMappings()
         {
             RegisterDelegateControlMapping(typeof(Clickable<>), typeof(ClickableControl<>));
             RegisterDelegateControlMapping(typeof(Clickable<,>), typeof(ClickableControl<,>));
