@@ -14,8 +14,8 @@ namespace Atata
         protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
         {
             builder.AppendFormat(
-                "/*[{0}][{1}]",
-                childIndex,
+                "[*[{0}][{1}]]",
+                childIndex + 1,
                 options.GetTermsXPathCondition());
         }
     }
