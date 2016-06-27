@@ -352,7 +352,7 @@ namespace Atata
 
         private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType, UIComponentMetadata metadata)
         {
-            if (string.IsNullOrEmpty(metadata.ComponentDefinitonAttribute.ScopeXPath) || metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
+            if (metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
                 return new UseParentScopeAttribute();
 
             return new FindFirstAttribute();
@@ -376,7 +376,7 @@ namespace Atata
             ControlDefinitionAttribute definition = metadata.ComponentDefinitonAttribute as ControlDefinitionAttribute;
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
-                ElementXPath = definition != null && definition.ScopeXPath != null ? definition.ScopeXPath : "*",
+                ElementXPath = definition != null ? definition.ScopeXPath : "*",
                 IdFinderFormat = definition != null ? definition.IdFinderFormat : null,
                 Index = findAttribute.IsIndexSet ? (int?)findAttribute.Index : null
             };

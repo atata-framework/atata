@@ -6,14 +6,28 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class UIComponentDefinitionAttribute : Attribute
     {
+        private string baseScopeXPath;
+
         protected UIComponentDefinitionAttribute(string scopeXPath = null)
         {
-            ScopeXPath = scopeXPath;
+            baseScopeXPath = scopeXPath;
         }
 
-        public string ScopeXPath { get; private set; }
+        public string ScopeXPath
+        {
+            get
+            {
+                string scopeXPath = baseScopeXPath ?? "*";
+                if (string.IsNullOrWhiteSpace(ContainingClass))
+                    return scopeXPath;
+                else
+                    return string.Format("{0}[contains(concat(' ', normalize-space(@class), ' '), ' {1} ')]", scopeXPath, ContainingClass.Trim());
+            }
+        }
+
         public string ComponentTypeName { get; set; }
         public string IgnoreNameEndings { get; set; }
+        public string ContainingClass { get; set; }
 
         public string[] GetIgnoreNameEndingValues()
         {
