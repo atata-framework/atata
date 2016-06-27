@@ -1,4 +1,4 @@
-﻿namespace Atata.Attributes
+﻿namespace Atata
 {
     public class FindByColumnIndexAttribute : FindAttribute
     {
