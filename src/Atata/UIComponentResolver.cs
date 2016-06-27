@@ -377,7 +377,7 @@ namespace Atata
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
                 ElementXPath = definition != null ? definition.ScopeXPath : "*",
-                IdFinderFormat = definition != null ? definition.IdFinderFormat : null,
+                IdXPathFormat = definition != null ? definition.IdXPathFormat : null,
                 Index = findAttribute.IsIndexSet ? (int?)findAttribute.Index : null
             };
 

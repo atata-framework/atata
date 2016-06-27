@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    [PageObjectDefinition(ComponentTypeName = "window", IgnoreNameEndings = "Window,PopupWindow")]
+    [PageObjectDefinition(ComponentTypeName = "window", IgnoreNameEndings = "PopupWindow,Window,Popup")]
     public class PopupWindow<T> : PageObject<T>
         where T : PopupWindow<T>
     {

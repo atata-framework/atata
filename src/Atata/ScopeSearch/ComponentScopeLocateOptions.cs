@@ -6,7 +6,7 @@ namespace Atata
     {
         public string[] Terms { get; set; }
         public string ElementXPath { get; set; }
-        public string IdFinderFormat { get; set; }
+        public string IdXPathFormat { get; set; }
         public int? Index { get; set; }
         public TermMatch Match { get; set; }
 

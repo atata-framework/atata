@@ -2,12 +2,11 @@
 {
     public class ControlDefinitionAttribute : UIComponentDefinitionAttribute
     {
-        public ControlDefinitionAttribute(string scopeXPath = null, string idFinderFormat = null)
+        public ControlDefinitionAttribute(string scopeXPath = null)
             : base(scopeXPath)
         {
-            IdFinderFormat = idFinderFormat;
         }
 
-        public string IdFinderFormat { get; set; }
+        public string IdXPathFormat { get; set; }
     }
 }
