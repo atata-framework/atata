@@ -287,7 +287,7 @@ namespace Atata
         {
             expectedValues.CheckNotNullOrEmpty("expectedValues");
 
-            string matchAsString = match.ToString(TermFormat.LowerCase);
+            string matchAsString = match.ToString(TermFormat.Lower);
             string expectedValuesAsString = expectedValues.ToQuotedValuesListOfString(true);
 
             return provider.Verify(
@@ -321,7 +321,7 @@ namespace Atata
 
             expectedValues.CheckNotNullOrEmpty("expectedValues");
 
-            string matchAsString = TermMatch.Contains.ToString(TermFormat.LowerCase);
+            string matchAsString = TermMatch.Contains.ToString(TermFormat.Lower);
             string expectedValuesAsString = expectedValues.ToQuotedValuesListOfString(true);
 
             return provider.Verify(

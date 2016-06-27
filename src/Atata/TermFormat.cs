@@ -31,19 +31,34 @@
         Sentence,
 
         /// <summary>
+        /// Uses sentence case starting with first letter in lower case (e.g. "some term").
+        /// </summary>
+        SentenceLower,
+
+        /// <summary>
         /// Uses sententce case with colon (':') ending (e.g. "Some term:").
         /// </summary>
         SentenceWithColon,
 
         /// <summary>
-        /// Uses lower case (e.g. "someterm").
+        /// Uses lower case (e.g. "some term").
         /// </summary>
-        LowerCase,
+        Lower,
 
         /// <summary>
-        /// Uses upper case (e.g. "SOMETERM").
+        /// Uses lower case with words merging (e.g. "someterm").
         /// </summary>
-        UpperCase,
+        LowerMerged,
+
+        /// <summary>
+        /// Uses upper case (e.g. "SOME TERM").
+        /// </summary>
+        Upper,
+
+        /// <summary>
+        /// Uses upper case with words merging (e.g. "SOMETERM").
+        /// </summary>
+        UpperMerged,
 
         /// <summary>
         /// Uses camel case (e.g. "someTerm").

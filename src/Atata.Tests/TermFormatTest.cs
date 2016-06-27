@@ -29,11 +29,17 @@ namespace Atata.Tests
         [TestCase(Atata.TermFormat.Sentence, "T5Y", ExpectedResult = "T 5 y")]
         [TestCase(Atata.TermFormat.Sentence, "HTML5", ExpectedResult = "HTML 5")]
 
-        [TestCase(Atata.TermFormat.LowerCase, "SimpleText", ExpectedResult = "simple text")]
-        [TestCase(Atata.TermFormat.LowerCase, "HTML5", ExpectedResult = "html 5")]
+        [TestCase(Atata.TermFormat.SentenceLower, "Simple125Text", ExpectedResult = "simple 125 text")]
 
-        [TestCase(Atata.TermFormat.UpperCase, "SimpleText", ExpectedResult = "SIMPLE TEXT")]
-        [TestCase(Atata.TermFormat.UpperCase, "html5", ExpectedResult = "HTML 5")]
+        [TestCase(Atata.TermFormat.Lower, "SimpleText", ExpectedResult = "simple text")]
+        [TestCase(Atata.TermFormat.Lower, "HTML5", ExpectedResult = "html 5")]
+
+        [TestCase(Atata.TermFormat.LowerMerged, "SimpleText", ExpectedResult = "simpletext")]
+
+        [TestCase(Atata.TermFormat.Upper, "SimpleText", ExpectedResult = "SIMPLE TEXT")]
+        [TestCase(Atata.TermFormat.Upper, "html5", ExpectedResult = "HTML 5")]
+
+        [TestCase(Atata.TermFormat.UpperMerged, "html5", ExpectedResult = "HTML5")]
 
         [TestCase(Atata.TermFormat.Camel, "SimpleText", ExpectedResult = "simpleText")]
         [TestCase(Atata.TermFormat.Camel, "HTML5text", ExpectedResult = "html5Text")]

@@ -15,7 +15,7 @@ namespace Atata.Tests
             A,
             B,
             C,
-            [Term(TermFormat.LowerCase, StringFormat = "--{0}--")]
+            [Term(TermFormat.Lower, StringFormat = "--{0}--")]
             D
         }
 

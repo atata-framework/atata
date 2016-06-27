@@ -221,6 +221,9 @@
     <Compile Include="GoOptions.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByChildContentStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByDescriptionTermStrategy.cs" />
+    <Compile Include="TermFormatting\LowerMergedTermFormatter.cs" />
+    <Compile Include="TermFormatting\SentenceLowerTermFormatter.cs" />
+    <Compile Include="TermFormatting\UpperMergedTermFormatter.cs" />
     <Compile Include="ValueProvision\IUIComponentValueProvider`2.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
@@ -275,7 +278,7 @@
     <Compile Include="TermFormatting\KebabTermFormatter.cs" />
     <Compile Include="TermFormatting\HyphenKebabTermFormatter.cs" />
     <Compile Include="TermFormatting\ITermFormatter.cs" />
-    <Compile Include="TermFormatting\LowerCaseTermFormatter.cs" />
+    <Compile Include="TermFormatting\LowerTermFormatter.cs" />
     <Compile Include="TermFormatting\PascalKebabTermFormatter.cs" />
     <Compile Include="TermFormatting\PascalHyphenKebabTermFormatter.cs" />
     <Compile Include="TermFormatting\PascalTermFormatter.cs" />
@@ -283,7 +286,7 @@
     <Compile Include="TermFormatting\TermFormatResolver.cs" />
     <Compile Include="TermFormatting\TitleTermFormatter.cs" />
     <Compile Include="TermFormatting\SnakeTermFormatter.cs" />
-    <Compile Include="TermFormatting\UpperCaseTermFormatter.cs" />
+    <Compile Include="TermFormatting\UpperTermFormatter.cs" />
     <Compile Include="TermOptions.cs" />
     <Compile Include="TermResolver.cs" />
     <Compile Include="TriggerContext`1.cs" />

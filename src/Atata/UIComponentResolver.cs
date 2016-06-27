@@ -501,7 +501,7 @@ namespace Atata
 
         public static string ResolveControlTypeName(Type type)
         {
-            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).ToString(TermFormat.LowerCase);
+            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).ToString(TermFormat.Lower);
         }
 
         private static string NormalizeTypeName(Type type)
