@@ -7,7 +7,8 @@ namespace Atata.KendoUI
     public abstract class KendoWindow<T> : PopupWindow<T>
         where T : KendoWindow<T>
     {
-        protected KendoWindow()
+        protected KendoWindow(params string[] windowTitleValues)
+            : base(windowTitleValues)
         {
         }
 
