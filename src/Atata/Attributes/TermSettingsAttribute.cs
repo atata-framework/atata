@@ -5,19 +5,19 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum)]
     public class TermSettingsAttribute : Attribute, ITermSettings
     {
-        public TermSettingsAttribute(TermFormat format)
-            : this(TermMatch.Inherit, format)
+        public TermSettingsAttribute(TermCase termCase)
+            : this(TermMatch.Inherit, termCase)
         {
         }
 
-        public TermSettingsAttribute(TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
+        public TermSettingsAttribute(TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
         {
             Match = match;
-            Format = format;
+            Case = termCase;
         }
 
         public new TermMatch Match { get; private set; }
-        public TermFormat Format { get; private set; }
+        public TermCase Case { get; private set; }
         public string StringFormat { get; set; }
     }
 }

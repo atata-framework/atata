@@ -2,13 +2,13 @@
 {
     public abstract class VerifyHeadingTriggerAttribute : TermVerificationTriggerAttribute
     {
-        protected VerifyHeadingTriggerAttribute(TermFormat format = TermFormat.Inherit)
-            : base(format)
+        protected VerifyHeadingTriggerAttribute(TermCase termCase)
+            : base(termCase)
         {
         }
 
-        protected VerifyHeadingTriggerAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        protected VerifyHeadingTriggerAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 

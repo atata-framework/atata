@@ -4,7 +4,7 @@ using _ = Atata.Tests.CheckBoxListPage;
 namespace Atata.Tests
 {
     [NavigateTo("CheckBoxList.html")]
-    [VerifyTitle(TermFormat.Pascal)]
+    [VerifyTitle(TermCase.Pascal)]
     public class CheckBoxListPage : Page<_>
     {
         [Flags]
@@ -24,7 +24,7 @@ namespace Atata.Tests
         [FindById("enum-checkboxes"), FindItemByLabel]
         public CheckBoxList<Options, _> ByIdAndLabel { get; private set; }
 
-        [FindByXPath("*[@id='enum-checkboxes']"), FindItemByValue(TermFormat.Pascal)]
+        [FindByXPath("*[@id='enum-checkboxes']"), FindItemByValue(TermCase.Pascal)]
         public CheckBoxList<Options, _> ByXPathAndValue { get; private set; }
     }
 }

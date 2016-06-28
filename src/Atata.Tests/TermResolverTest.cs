@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
-using System;
+﻿using System;
 using System.Globalization;
+using NUnit.Framework;
 
 namespace Atata.Tests
 {
@@ -11,11 +11,11 @@ namespace Atata.Tests
         [TermSettings(StringFormat = ">>{0}")]
         public enum Options
         {
-            [Term(TermFormat.TitleWithColon)]
+            [Term(TermCase.TitleWithColon)]
             A,
             B,
             C,
-            [Term(TermFormat.Lower, StringFormat = "--{0}--")]
+            [Term(TermCase.Lower, StringFormat = "--{0}--")]
             D
         }
 

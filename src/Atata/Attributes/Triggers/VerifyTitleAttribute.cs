@@ -8,13 +8,13 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class VerifyTitleAttribute : TermVerificationTriggerAttribute, ITermSettings
     {
-        public VerifyTitleAttribute(TermFormat format)
-            : base(format)
+        public VerifyTitleAttribute(TermCase termCase)
+            : base(termCase)
         {
         }
 
-        public VerifyTitleAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public VerifyTitleAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 

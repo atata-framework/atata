@@ -214,7 +214,7 @@
     <Compile Include="Extensions\SearchOptionsExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\FindTermByExtensions.cs" />
-    <Compile Include="Extensions\TermFormatExtensions.cs" />
+    <Compile Include="Extensions\TermCaseExtensions.cs" />
     <Compile Include="Extensions\TermMatchExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Go.cs" />
@@ -283,7 +283,7 @@
     <Compile Include="TermFormatting\PascalHyphenKebabTermFormatter.cs" />
     <Compile Include="TermFormatting\PascalTermFormatter.cs" />
     <Compile Include="TermFormatting\SentenceTermFormatter.cs" />
-    <Compile Include="TermFormatting\TermFormatResolver.cs" />
+    <Compile Include="TermFormatting\TermCaseResolver.cs" />
     <Compile Include="TermFormatting\TitleTermFormatter.cs" />
     <Compile Include="TermFormatting\SnakeTermFormatter.cs" />
     <Compile Include="TermFormatting\UpperTermFormatter.cs" />
@@ -294,7 +294,7 @@
     <Compile Include="TriggerPriority.cs" />
     <Compile Include="TriggerScope.cs" />
     <Compile Include="UIComponentMetadata.cs" />
-    <Compile Include="TermFormat.cs" />
+    <Compile Include="TermCase.cs" />
     <Compile Include="TermMatch.cs" />
     <Compile Include="UIComponentResolver.cs" />
     <Compile Include="Randomizer.cs" />

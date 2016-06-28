@@ -2,13 +2,13 @@
 {
     public class FindByClassAttribute : TermFindAttribute
     {
-        public FindByClassAttribute(TermFormat format)
-            : base(format)
+        public FindByClassAttribute(TermCase termCase)
+            : base(termCase)
         {
         }
 
-        public FindByClassAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public FindByClassAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 
@@ -22,9 +22,9 @@
         {
         }
 
-        protected override TermFormat DefaultFormat
+        protected override TermCase DefaultCase
         {
-            get { return TermFormat.Kebab; }
+            get { return TermCase.Kebab; }
         }
 
         public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)

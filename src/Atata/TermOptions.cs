@@ -9,7 +9,7 @@ namespace Atata
             Culture = CultureInfo.CurrentCulture;
         }
 
-        public TermFormat Format { get; set; }
+        public TermCase Case { get; set; }
         public TermMatch Match { get; set; }
         public string StringFormat { get; set; }
         public CultureInfo Culture { get; set; }
@@ -23,8 +23,8 @@ namespace Atata
         {
             otherTermSettings.CheckNotNull("otherTermSettings");
 
-            if (otherTermSettings.Format != TermFormat.Inherit)
-                Format = otherTermSettings.Format;
+            if (otherTermSettings.Case != TermCase.Inherit)
+                Case = otherTermSettings.Case;
 
             if (otherTermSettings.Match != TermMatch.Inherit)
                 Match = otherTermSettings.Match;

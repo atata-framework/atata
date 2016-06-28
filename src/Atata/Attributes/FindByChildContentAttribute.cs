@@ -2,13 +2,13 @@
 {
     public class FindByChildContentAttribute : TermFindAttribute
     {
-        public FindByChildContentAttribute(TermFormat format)
-            : base(format)
+        public FindByChildContentAttribute(TermCase termCase)
+            : base(termCase)
         {
         }
 
-        public FindByChildContentAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public FindByChildContentAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 
@@ -22,9 +22,9 @@
         {
         }
 
-        protected override TermFormat DefaultFormat
+        protected override TermCase DefaultCase
         {
-            get { return TermFormat.Title; }
+            get { return TermCase.Title; }
         }
 
         public int ChildIndex { get; set; }

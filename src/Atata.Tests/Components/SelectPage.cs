@@ -6,7 +6,7 @@ namespace Atata.Tests
     [VerifyTitle]
     public class SelectPage : Page<_>
     {
-        [TermSettings(TermFormat.Title)]
+        [TermSettings(TermCase.Title)]
         public enum Option
         {
             [Term("--select--")]
@@ -29,7 +29,7 @@ namespace Atata.Tests
         public Select<Option, _> EnumSelectByText { get; private set; }
 
         [Term("Text Select", CutEnding = false)]
-        [SelectByValue(TermFormat.Pascal)]
+        [SelectByValue(TermCase.Pascal)]
         public Select<Option, _> EnumSelectByValue { get; private set; }
 
         [Term("Int Select", CutEnding = false)]

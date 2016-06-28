@@ -2,13 +2,13 @@
 {
     public class SelectByTextAttribute : SelectByAttribute
     {
-        public SelectByTextAttribute(TermFormat format)
-            : base(format)
+        public SelectByTextAttribute(TermCase termCase)
+            : base(termCase)
         {
         }
 
-        public SelectByTextAttribute(TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public SelectByTextAttribute(TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
     }

@@ -5,13 +5,13 @@
     /// </summary>
     public class VerifyH1Attribute : VerifyHeadingTriggerAttribute
     {
-        public VerifyH1Attribute(TermFormat format)
-            : base(format)
+        public VerifyH1Attribute(TermCase termCase)
+            : base(termCase)
         {
         }
 
-        public VerifyH1Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public VerifyH1Attribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 

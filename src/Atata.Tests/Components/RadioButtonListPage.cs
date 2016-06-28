@@ -3,7 +3,7 @@
 namespace Atata.Tests
 {
     [NavigateTo("RadioButtonList.html")]
-    [VerifyTitle(TermFormat.Pascal)]
+    [VerifyTitle(TermCase.Pascal)]
     public class RadioButtonListPage : Page<_>
     {
         public enum ByLabel
@@ -14,17 +14,17 @@ namespace Atata.Tests
             OptionD
         }
 
-        [TermSettings(TermFormat.Title)]
+        [TermSettings(TermCase.Title)]
         public enum ByValue
         {
             None,
-            [Term(TermFormat.Pascal)]
+            [Term(TermCase.Pascal)]
             OptionA,
-            [Term(TermFormat.Pascal)]
+            [Term(TermCase.Pascal)]
             OptionB,
             [Term("COption", "OptionC")]
             OptionC,
-            [Term(TermFormat.Pascal)]
+            [Term(TermCase.Pascal)]
             OptionD,
             MissingValue
         }
@@ -35,16 +35,16 @@ namespace Atata.Tests
         [FindByClass("x-radio-container"), FindItemByValue]
         public RadioButtonList<ByValue, _> ByClassAndValue { get; private set; }
 
-        [FindByCss(".x-radio-container"), FindItemByValue(TermFormat.Pascal)]
+        [FindByCss(".x-radio-container"), FindItemByValue(TermCase.Pascal)]
         public RadioButtonList<ByLabel, _> ByCssAndValue { get; private set; }
 
-        [FindByClass(TermFormat.Snake), FindItemByLabel]
+        [FindByClass(TermCase.Snake), FindItemByLabel]
         public RadioButtonList<int?, _> IntegerItems { get; private set; }
 
         [FindByName, FindItemByLabel, Format("C")]
         public RadioButtonList<decimal?, _> DecimalItems { get; private set; }
 
-        [FindByName(TermFormat.Kebab), FindItemByLabel]
+        [FindByName(TermCase.Kebab), FindItemByLabel]
         public RadioButtonList<string, _> VerticalItems { get; private set; }
 
         [FindByFieldSet("Vertical List"), FindItemByLabel]

@@ -6,7 +6,7 @@ namespace Atata.Tests
     [VerifyTitle]
     public class InputPage : Page<_>
     {
-        [TermSettings(TermFormat.Lower)]
+        [TermSettings(TermCase.Lower)]
         public enum Option
         {
             OptionA,

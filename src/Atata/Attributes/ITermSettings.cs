@@ -2,7 +2,7 @@
 {
     public interface ITermSettings
     {
-        TermFormat Format { get; }
+        TermCase Case { get; }
         TermMatch Match { get; }
         string StringFormat { get; }
     }

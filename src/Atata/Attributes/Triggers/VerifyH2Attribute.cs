@@ -5,13 +5,13 @@ namespace Atata
     /// </summary>
     public class VerifyH2Attribute : VerifyHeadingTriggerAttribute
     {
-        public VerifyH2Attribute(TermFormat format = TermFormat.Inherit)
-            : base(format)
+        public VerifyH2Attribute(TermCase termCase = TermCase.Inherit)
+            : base(termCase)
         {
         }
 
-        public VerifyH2Attribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public VerifyH2Attribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 

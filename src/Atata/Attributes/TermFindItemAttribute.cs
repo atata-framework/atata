@@ -2,14 +2,14 @@
 {
     public abstract class TermFindItemAttribute : FindItemAttribute, ITermSettings
     {
-        protected TermFindItemAttribute(TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
+        protected TermFindItemAttribute(TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
         {
             Match = match;
-            Format = format;
+            Case = termCase;
         }
 
         public new TermMatch Match { get; private set; }
-        public TermFormat Format { get; private set; }
+        public TermCase Case { get; private set; }
         public string StringFormat { get; set; }
     }
 }

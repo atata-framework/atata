@@ -2,11 +2,11 @@
 {
     public static class ITermSettingsExtensions
     {
-        public static TermFormat? GetFormatOrNull(this ITermSettings termSettings)
+        public static TermCase? GetCaseOrNull(this ITermSettings termSettings)
         {
-            return termSettings != null && termSettings.Format != TermFormat.Inherit
-                ? termSettings.Format
-                : (TermFormat?)null;
+            return termSettings != null && termSettings.Case != TermCase.Inherit
+                ? termSettings.Case
+                : (TermCase?)null;
         }
 
         public static TermMatch? GetMatchOrNull(this ITermSettings termSettings)

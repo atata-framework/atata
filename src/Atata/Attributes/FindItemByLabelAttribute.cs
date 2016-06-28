@@ -2,13 +2,13 @@
 {
     public class FindItemByLabelAttribute : TermFindItemAttribute
     {
-        public FindItemByLabelAttribute(TermFormat format)
-            : base(format: format)
+        public FindItemByLabelAttribute(TermCase termCase)
+            : base(termCase: termCase)
         {
         }
 
-        public FindItemByLabelAttribute(TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public FindItemByLabelAttribute(TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 

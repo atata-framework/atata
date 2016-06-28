@@ -264,7 +264,7 @@ namespace Atata
                 }
             }
 
-            return metadata.Name.ToString(TermFormat.Title);
+            return metadata.Name.ToString(TermCase.Title);
         }
 
         private static UIComponentMetadata CreatePageObjectMetadata(Type type)
@@ -484,7 +484,7 @@ namespace Atata
             string name = foundEndingToIgnore != null
                 ? typeName.Substring(0, typeName.Length - foundEndingToIgnore.Length)
                 : typeName;
-            return name.ToString(TermFormat.Title);
+            return name.ToString(TermCase.Title);
         }
 
         public static string ResolvePageObjectTypeName<TPageObject>()
@@ -501,7 +501,7 @@ namespace Atata
 
         public static string ResolveControlTypeName(Type type)
         {
-            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).ToString(TermFormat.Lower);
+            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).ToString(TermCase.Lower);
         }
 
         private static string NormalizeTypeName(Type type)

@@ -2,11 +2,11 @@
 {
     public static class ObjectExtensions
     {
-        public static string ToString(this object value, TermFormat format)
+        public static string ToString(this object value, TermCase termCase)
         {
             value.CheckNotNull("value");
 
-            return TermResolver.ToString(value, new TermOptions { Format = format });
+            return TermResolver.ToString(value, new TermOptions { Case = termCase });
         }
     }
 }

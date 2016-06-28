@@ -6,13 +6,13 @@ namespace Atata
     {
         private readonly Type defaultStrategy = typeof(FindByColumnHeaderStrategy);
 
-        public FindByColumnHeaderAttribute(TermFormat format)
-            : base(format)
+        public FindByColumnHeaderAttribute(TermCase termCase)
+            : base(termCase)
         {
         }
 
-        public FindByColumnHeaderAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : base(match, format)
+        public FindByColumnHeaderAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : base(match, termCase)
         {
         }
 
@@ -28,9 +28,9 @@ namespace Atata
 
         public Type Strategy { get; set; }
 
-        protected override TermFormat DefaultFormat
+        protected override TermCase DefaultCase
         {
-            get { return TermFormat.Title; }
+            get { return TermCase.Title; }
         }
 
         public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)

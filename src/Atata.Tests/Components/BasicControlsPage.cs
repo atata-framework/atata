@@ -75,7 +75,7 @@ namespace Atata.Tests
             [Term(TermMatch.StartsWith)]
             public TextInput<_> LastName { get; private set; }
 
-            [Term(TermFormat.SentenceWithColon)]
+            [Term(TermCase.SentenceWithColon)]
             public TextInput<_> MiddleName { get; private set; }
 
             public TextInput<_> ReadonlyField { get; private set; }
@@ -87,13 +87,13 @@ namespace Atata.Tests
         [FieldFinding(FindTermBy.Id)]
         public class FindById : Control<_>
         {
-            [FindById(TermFormat.Kebab)]
+            [FindById(TermCase.Kebab)]
             public TextInput<_> FirstName { get; private set; }
 
-            [Term(TermFormat.Camel)]
+            [Term(TermCase.Camel)]
             public TextInput<_> LastName { get; private set; }
 
-            [Term(TermFormat.Pascal)]
+            [Term(TermCase.Pascal)]
             public TextInput<_> MiddleName { get; private set; }
         }
     }

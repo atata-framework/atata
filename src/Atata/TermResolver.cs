@@ -8,7 +8,7 @@ namespace Atata
 {
     public static class TermResolver
     {
-        private const TermFormat DefaultFormat = TermFormat.Title;
+        private const TermCase DefaultFormat = TermCase.Title;
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
         private static readonly Dictionary<Type, TermConverter> TypeTermConverters;
@@ -177,8 +177,8 @@ namespace Atata
 
         private static string FormatStringValue(string value, TermOptions termOptions)
         {
-            if (termOptions.GetFormatOrNull() != null)
-                value = termOptions.GetFormatOrNull().Value.ApplyTo(value);
+            if (termOptions.GetCaseOrNull() != null)
+                value = termOptions.GetCaseOrNull().Value.ApplyTo(value);
 
             return FormatValue(value, termOptions.StringFormat, termOptions.Culture);
         }
@@ -337,14 +337,14 @@ namespace Atata
             }
             else
             {
-                TermFormat termFormat = termOptions.GetFormatOrNull()
-                    ?? termAttribute.GetFormatOrNull()
-                    ?? GetTermSettings(value.GetType()).GetFormatOrNull()
+                TermCase termCase = termOptions.GetCaseOrNull()
+                    ?? termAttribute.GetCaseOrNull()
+                    ?? GetTermSettings(value.GetType()).GetCaseOrNull()
                     ?? DefaultFormat;
 
                 if (termStringFormat == null || termStringFormat.Contains("{0}"))
                 {
-                    string term = termFormat.ApplyTo(value.ToString());
+                    string term = termCase.ApplyTo(value.ToString());
                     return new[] { FormatValue(term, termStringFormat, termOptions.Culture) };
                 }
                 else

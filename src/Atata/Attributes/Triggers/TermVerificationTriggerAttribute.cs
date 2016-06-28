@@ -9,13 +9,13 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
     public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermSettings
     {
-        protected TermVerificationTriggerAttribute(TermFormat format)
-            : this(null, format: format)
+        protected TermVerificationTriggerAttribute(TermCase termCase)
+            : this(null, termCase: termCase)
         {
         }
 
-        protected TermVerificationTriggerAttribute(TermMatch match, TermFormat format = TermFormat.Inherit)
-            : this(null, match, format)
+        protected TermVerificationTriggerAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+            : this(null, match, termCase)
         {
         }
 
@@ -29,22 +29,22 @@ namespace Atata
         {
         }
 
-        private TermVerificationTriggerAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermFormat format = TermFormat.Inherit)
+        private TermVerificationTriggerAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
             : base(TriggerEvents.OnPageObjectInit)
         {
             Values = values;
             Match = match;
-            Format = format;
+            Case = termCase;
         }
 
         public string[] Values { get; private set; }
-        public TermFormat Format { get; private set; }
+        public TermCase Case { get; private set; }
         public new TermMatch Match { get; set; }
         public string StringFormat { get; set; }
 
-        protected virtual TermFormat DefaultFormat
+        protected virtual TermCase DefaultFormat
         {
-            get { return TermFormat.Title; }
+            get { return TermCase.Title; }
         }
 
         protected virtual TermMatch DefaultMatch
@@ -58,7 +58,7 @@ namespace Atata
 
             ITermSettings termSettings = ResolveTermSettings(metadata);
 
-            Format = this.GetFormatOrNull() ?? termSettings.GetFormatOrNull() ?? DefaultFormat;
+            Case = this.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultFormat;
             Match = this.GetMatchOrNull() ?? termSettings.GetMatchOrNull() ?? DefaultMatch;
             StringFormat = this.GetStringFormatOrNull() ?? termSettings.GetStringFormatOrNull();
         }
@@ -86,7 +86,7 @@ namespace Atata
             }
             else
             {
-                string value = Format.ApplyTo(componentName);
+                string value = Case.ApplyTo(componentName);
                 if (!string.IsNullOrEmpty(StringFormat))
                     value = string.Format(StringFormat, value);
                 return new[] { value };

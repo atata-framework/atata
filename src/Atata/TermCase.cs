@@ -1,17 +1,17 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the term format.
+    /// Specifies the term case.
     /// </summary>
-    public enum TermFormat
+    public enum TermCase
     {
         /// <summary>
-        /// Uses inherited format or none if missing.
+        /// Uses inherited case or none if missing.
         /// </summary>
         Inherit,
 
         /// <summary>
-        /// Doesn't apply format.
+        /// Doesn't apply case.
         /// </summary>
         None,
 
