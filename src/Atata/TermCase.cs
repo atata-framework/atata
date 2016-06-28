@@ -31,12 +31,12 @@
         Sentence,
 
         /// <summary>
-        /// Uses sentence case starting with first letter in lower case (e.g. "some term").
+        /// Uses mid-sentence case where first word not capitalised (e.g. "some term").
         /// </summary>
-        SentenceLower,
+        MidSentence,
 
         /// <summary>
-        /// Uses sententce case with colon (':') ending (e.g. "Some term:").
+        /// Uses sentence case with colon (':') ending (e.g. "Some term:").
         /// </summary>
         SentenceWithColon,
 

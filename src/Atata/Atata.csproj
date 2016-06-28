@@ -222,7 +222,7 @@
     <Compile Include="ScopeSearch\Strategies\FindByChildContentStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByDescriptionTermStrategy.cs" />
     <Compile Include="TermFormatting\LowerMergedTermFormatter.cs" />
-    <Compile Include="TermFormatting\SentenceLowerTermFormatter.cs" />
+    <Compile Include="TermFormatting\MidSentenceTermFormatter.cs" />
     <Compile Include="TermFormatting\UpperMergedTermFormatter.cs" />
     <Compile Include="ValueProvision\IUIComponentValueProvider`2.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />

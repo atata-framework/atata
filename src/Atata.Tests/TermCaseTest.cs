@@ -29,7 +29,7 @@ namespace Atata.Tests
         [TestCase(Atata.TermCase.Sentence, "T5Y", ExpectedResult = "T 5 y")]
         [TestCase(Atata.TermCase.Sentence, "HTML5", ExpectedResult = "HTML 5")]
 
-        [TestCase(Atata.TermCase.SentenceLower, "Simple125Text", ExpectedResult = "simple 125 text")]
+        [TestCase(Atata.TermCase.MidSentence, "Simple125Text", ExpectedResult = "simple 125 text")]
 
         [TestCase(Atata.TermCase.Lower, "SimpleText", ExpectedResult = "simple text")]
         [TestCase(Atata.TermCase.Lower, "HTML5", ExpectedResult = "html 5")]

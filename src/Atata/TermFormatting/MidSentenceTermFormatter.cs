@@ -2,7 +2,7 @@
 
 namespace Atata.TermFormatting
 {
-    public class SentenceLowerTermFormatter : ITermFormatter
+    public class MidSentenceTermFormatter : ITermFormatter
     {
         public string Format(string[] words)
         {

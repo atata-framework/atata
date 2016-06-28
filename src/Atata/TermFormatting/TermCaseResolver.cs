@@ -14,7 +14,7 @@ namespace Atata.TermFormatting
                 { TermCase.Title, FormatterItem.For<TitleTermFormatter>() },
                 { TermCase.TitleWithColon, FormatterItem.For<TitleTermFormatter>("{0}:") },
                 { TermCase.Sentence, FormatterItem.For<SentenceTermFormatter>() },
-                { TermCase.SentenceLower, FormatterItem.For<SentenceLowerTermFormatter>() },
+                { TermCase.MidSentence, FormatterItem.For<MidSentenceTermFormatter>() },
                 { TermCase.SentenceWithColon, FormatterItem.For<SentenceTermFormatter>("{0}:") },
                 { TermCase.Lower, FormatterItem.For<LowerTermFormatter>() },
                 { TermCase.LowerMerged, FormatterItem.For<LowerMergedTermFormatter>() },
