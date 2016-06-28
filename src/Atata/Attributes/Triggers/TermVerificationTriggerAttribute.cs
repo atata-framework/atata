@@ -42,7 +42,7 @@ namespace Atata
         public new TermMatch Match { get; set; }
         public string Format { get; set; }
 
-        protected virtual TermCase DefaultFormat
+        protected virtual TermCase DefaultCase
         {
             get { return TermCase.Title; }
         }
@@ -58,7 +58,7 @@ namespace Atata
 
             ITermSettings termSettings = ResolveTermSettings(metadata);
 
-            Case = this.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultFormat;
+            Case = this.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultCase;
             Match = this.GetMatchOrNull() ?? termSettings.GetMatchOrNull() ?? DefaultMatch;
             Format = this.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
         }
