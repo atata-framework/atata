@@ -36,7 +36,7 @@ namespace Atata
         public string[] Values { get; private set; }
         public new TermMatch Match { get; set; }
         public TermCase Case { get; private set; }
-        public string StringFormat { get; set; }
+        public string Format { get; set; }
         public bool CutEnding { get; set; }
     }
 }

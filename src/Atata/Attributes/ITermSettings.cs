@@ -4,6 +4,6 @@
     {
         TermCase Case { get; }
         TermMatch Match { get; }
-        string StringFormat { get; }
+        string Format { get; }
     }
 }

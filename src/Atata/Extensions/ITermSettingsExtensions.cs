@@ -16,10 +16,10 @@
                 : (TermMatch?)null;
         }
 
-        public static string GetStringFormatOrNull(this ITermSettings termSettings)
+        public static string GetFormatOrNull(this ITermSettings termSettings)
         {
-            return termSettings != null && termSettings.StringFormat != null
-                ? termSettings.StringFormat
+            return termSettings != null && termSettings.Format != null
+                ? termSettings.Format
                 : null;
         }
     }

@@ -37,8 +37,8 @@ namespace Atata
             RegisterConverter<DateTime>(
                 (s, opt) =>
                 {
-                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+                    string stringValue = RetrieveValueFromString(s, opt.Format);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
 
                     if (concreteFormat == null)
                         return DateTime.Parse(stringValue, opt.Culture);
@@ -49,8 +49,8 @@ namespace Atata
             RegisterConverter<TimeSpan>(
                 (s, opt) =>
                 {
-                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+                    string stringValue = RetrieveValueFromString(s, opt.Format);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
 
                     if (concreteFormat == null)
                         return TimeSpan.Parse(stringValue, opt.Culture);
@@ -61,21 +61,21 @@ namespace Atata
                 },
                 (v, opt) =>
                 {
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
                     if (concreteFormat != null && concreteFormat.Contains("t"))
                         return FormatValue(
                             DateTime.Today.Add(v).ToString(concreteFormat, opt.Culture),
-                            opt.StringFormat,
+                            opt.Format,
                             opt.Culture);
                     else
-                        return FormatValue(v, opt.StringFormat, opt.Culture);
+                        return FormatValue(v, opt.Format, opt.Culture);
                 });
 
             RegisterConverter<Guid>(
                 (s, opt) =>
                 {
-                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+                    string stringValue = RetrieveValueFromString(s, opt.Format);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
 
                     if (concreteFormat == null)
                         return Guid.Parse(stringValue);
@@ -92,8 +92,8 @@ namespace Atata
                 typeof(T),
                 (s, opt) =>
                 {
-                    string stringValue = RetrieveValueFromString(s, opt.StringFormat);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.StringFormat);
+                    string stringValue = RetrieveValueFromString(s, opt.Format);
+                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
 
                     bool isPercentageFormat = concreteFormat != null && concreteFormat.StartsWith("P", StringComparison.InvariantCultureIgnoreCase);
 
@@ -172,7 +172,7 @@ namespace Atata
             else if (TypeTermConverters.TryGetValue(value.GetType(), out termConverter) && termConverter.ToStringConverter != null)
                 return new[] { termConverter.ToStringConverter(value, termOptions) };
             else
-                return new[] { FormatValue(value, termOptions.StringFormat, termOptions.Culture) };
+                return new[] { FormatValue(value, termOptions.Format, termOptions.Culture) };
         }
 
         private static string FormatStringValue(string value, TermOptions termOptions)
@@ -180,7 +180,7 @@ namespace Atata
             if (termOptions.GetCaseOrNull() != null)
                 value = termOptions.GetCaseOrNull().Value.ApplyTo(value);
 
-            return FormatValue(value, termOptions.StringFormat, termOptions.Culture);
+            return FormatValue(value, termOptions.Format, termOptions.Culture);
         }
 
         private static string FormatValue(object value, string format, CultureInfo culture)
@@ -299,7 +299,7 @@ namespace Atata
             else if (TypeTermConverters.TryGetValue(underlyingType, out termConverter))
                 return termConverter.FromStringConverter(value, termOptions);
             else
-                return Convert.ChangeType(RetrieveValuePart(value, termOptions.StringFormat), underlyingType, termOptions.Culture);
+                return Convert.ChangeType(RetrieveValuePart(value, termOptions.Format), underlyingType, termOptions.Culture);
         }
 
         public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)
@@ -326,14 +326,14 @@ namespace Atata
             TermAttribute termAttribute = GetEnumTermAttribute(value);
             bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
 
-            string termStringFormat = termOptions.GetStringFormatOrNull()
-                ?? termAttribute.GetStringFormatOrNull()
-                ?? GetTermSettings(value.GetType()).GetStringFormatOrNull()
+            string termFormat = termOptions.GetFormatOrNull()
+                ?? termAttribute.GetFormatOrNull()
+                ?? GetTermSettings(value.GetType()).GetFormatOrNull()
                 ?? null;
 
             if (hasTermValue)
             {
-                return termAttribute.Values.Select(x => FormatValue(x, termStringFormat, termOptions.Culture)).ToArray();
+                return termAttribute.Values.Select(x => FormatValue(x, termFormat, termOptions.Culture)).ToArray();
             }
             else
             {
@@ -342,14 +342,14 @@ namespace Atata
                     ?? GetTermSettings(value.GetType()).GetCaseOrNull()
                     ?? DefaultFormat;
 
-                if (termStringFormat == null || termStringFormat.Contains("{0}"))
+                if (termFormat == null || termFormat.Contains("{0}"))
                 {
                     string term = termCase.ApplyTo(value.ToString());
-                    return new[] { FormatValue(term, termStringFormat, termOptions.Culture) };
+                    return new[] { FormatValue(term, termFormat, termOptions.Culture) };
                 }
                 else
                 {
-                    return new[] { FormatValue(value, termStringFormat, termOptions.Culture) };
+                    return new[] { FormatValue(value, termFormat, termOptions.Culture) };
                 }
             }
         }

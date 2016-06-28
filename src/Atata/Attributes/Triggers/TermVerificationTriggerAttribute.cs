@@ -40,7 +40,7 @@ namespace Atata
         public string[] Values { get; private set; }
         public TermCase Case { get; private set; }
         public new TermMatch Match { get; set; }
-        public string StringFormat { get; set; }
+        public string Format { get; set; }
 
         protected virtual TermCase DefaultFormat
         {
@@ -60,7 +60,7 @@ namespace Atata
 
             Case = this.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultFormat;
             Match = this.GetMatchOrNull() ?? termSettings.GetMatchOrNull() ?? DefaultMatch;
-            StringFormat = this.GetStringFormatOrNull() ?? termSettings.GetStringFormatOrNull();
+            Format = this.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
         }
 
         protected virtual ITermSettings ResolveTermSettings(UIComponentMetadata metadata)
@@ -82,13 +82,13 @@ namespace Atata
         {
             if (Values != null && Values.Any())
             {
-                return !string.IsNullOrEmpty(StringFormat) ? Values.Select(x => string.Format(StringFormat, x)).ToArray() : Values;
+                return !string.IsNullOrEmpty(Format) ? Values.Select(x => string.Format(Format, x)).ToArray() : Values;
             }
             else
             {
                 string value = Case.ApplyTo(componentName);
-                if (!string.IsNullOrEmpty(StringFormat))
-                    value = string.Format(StringFormat, value);
+                if (!string.IsNullOrEmpty(Format))
+                    value = string.Format(Format, value);
                 return new[] { value };
             }
         }

@@ -8,21 +8,21 @@ namespace Atata.Tests
     [SetCulture("en-us")]
     public class TermResolverTest
     {
-        [TermSettings(StringFormat = ">>{0}")]
+        [TermSettings(Format = ">>{0}")]
         public enum Options
         {
             [Term(TermCase.TitleWithColon)]
             A,
             B,
             C,
-            [Term(TermCase.Lower, StringFormat = "--{0}--")]
+            [Term(TermCase.Lower, Format = "--{0}--")]
             D
         }
 
-        [TestCaseSource(typeof(TermResolverStringFormatTestCaseSource))]
-        public void TermResolver_StringFormat(object value, string format, string expectedFormattedValue)
+        [TestCaseSource(typeof(TermResolverFormatTestCaseSource))]
+        public void TermResolver_Format(object value, string format, string expectedFormattedValue)
         {
-            TermOptions options = new TermOptions { StringFormat = format };
+            TermOptions options = new TermOptions { Format = format };
             string formatted = TermResolver.ToString(value, options);
 
             Assert.That(formatted, Is.EqualTo(expectedFormattedValue));
@@ -31,9 +31,9 @@ namespace Atata.Tests
             Assert.That(unformatted, Is.EqualTo(value));
         }
 
-        private class TermResolverStringFormatTestCaseSource : TestCaseDataSource
+        private class TermResolverFormatTestCaseSource : TestCaseDataSource
         {
-            public TermResolverStringFormatTestCaseSource()
+            public TermResolverFormatTestCaseSource()
             {
                 Add("test string");
                 Add('a');

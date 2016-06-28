@@ -6,14 +6,14 @@ namespace Atata
     public class DateInput<TOwner> : Input<DateTime?, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private const string DefaultStringFormat = "d";
+        private const string DefaultFormat = "d";
 
         protected override void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
         {
             base.InitValueTermOptions(termOptions, metadata);
 
-            if (termOptions.StringFormat == null)
-                termOptions.StringFormat = DefaultStringFormat;
+            if (termOptions.Format == null)
+                termOptions.Format = DefaultFormat;
         }
     }
 }
