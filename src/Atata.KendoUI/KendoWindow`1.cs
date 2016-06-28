@@ -18,7 +18,7 @@ namespace Atata.KendoUI
 
             if (WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit)
                 xPathBuilder.AppendFormat(
-                    "[div[contains(concat(' ', normalize-space(@class), ' '), ' k-window-titlebar ')][{0}]]",
+                    "[.//*[contains(concat(' ', normalize-space(@class), ' '), ' k-window-title ')][{0}]]",
                     WindowTitleMatch.CreateXPathCondition(WindowTitleValues));
 
             return Driver.Get(By.XPath(xPathBuilder.ToString()).PopupWindow(TermResolver.ToDisplayString(WindowTitleValues)).With(options));
