@@ -1,15 +1,16 @@
 ﻿namespace Atata
 {
     [PageObjectDefinition(ComponentTypeName = "window", IgnoreNameEndings = "PopupWindow,Window,Popup")]
-    public class PopupWindow<T> : PageObject<T>
+    public abstract class PopupWindow<T> : PageObject<T>
         where T : PopupWindow<T>
     {
-        public PopupWindow(string windowTitle = null)
+        protected PopupWindow(params string[] windowTitleValues)
         {
-            WindowTitle = windowTitle;
+            WindowTitleValues = windowTitleValues;
         }
 
-        protected string WindowTitle { get; set; }
+        protected string[] WindowTitleValues { get; set; }
+        protected TermMatch WindowTitleMatch { get; set; }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
@@ -18,10 +19,8 @@
             WindowTitleAttribute titleAttribute = metadata.GetFirstOrDefaultAttribute<WindowTitleAttribute>();
             if (titleAttribute != null)
             {
-                if (titleAttribute.Value != null)
-                    WindowTitle = titleAttribute.Value;
-                else if (titleAttribute.UseComponentName)
-                    WindowTitle = ComponentName;
+                WindowTitleValues = titleAttribute.GetActualValues(ComponentName);
+                WindowTitleMatch = titleAttribute.Match;
             }
         }
     }

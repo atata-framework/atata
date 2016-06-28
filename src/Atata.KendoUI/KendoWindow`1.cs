@@ -1,10 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using System.Linq;
 using System.Text;
+using OpenQA.Selenium;
 
 namespace Atata.KendoUI
 {
     public abstract class KendoWindow<T> : PopupWindow<T>
-        where T : PopupWindow<T>
+        where T : KendoWindow<T>
     {
         protected KendoWindow()
         {
@@ -15,12 +16,12 @@ namespace Atata.KendoUI
             StringBuilder xPathBuilder = new StringBuilder(
                 ".//div[contains(concat(' ', normalize-space(@class), ' '), ' k-window ')]");
 
-            if (!string.IsNullOrWhiteSpace(WindowTitle))
+            if (WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit)
                 xPathBuilder.AppendFormat(
-                    "[div[contains(concat(' ', normalize-space(@class), ' '), ' k-window-titlebar ')][contains(., '{0}')]]",
-                    WindowTitle);
+                    "[div[contains(concat(' ', normalize-space(@class), ' '), ' k-window-titlebar ')][{0}]]",
+                    WindowTitleMatch.CreateXPathCondition(WindowTitleValues));
 
-            return Driver.Get(By.XPath(xPathBuilder.ToString()).PopupWindow(WindowTitle).With(options));
+            return Driver.Get(By.XPath(xPathBuilder.ToString()).PopupWindow(TermResolver.ToDisplayString(WindowTitleValues)).With(options));
         }
     }
 }

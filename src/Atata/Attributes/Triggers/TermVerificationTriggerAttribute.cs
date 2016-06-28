@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Atata
 {
@@ -7,7 +6,7 @@ namespace Atata
     /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
-    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermSettings
+    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
             : this(null, termCase: termCase)
@@ -39,7 +38,7 @@ namespace Atata
 
         public string[] Values { get; private set; }
         public TermCase Case { get; private set; }
-        public new TermMatch Match { get; set; }
+        public new TermMatch Match { get; private set; }
         public string Format { get; set; }
 
         protected virtual TermCase DefaultCase
@@ -70,27 +69,12 @@ namespace Atata
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            string[] expectedValues = GetExpectedValues(context.Component.ComponentName);
+            string[] expectedValues = this.GetActualValues(context.Component.ComponentName);
 
             OnExecute(context, expectedValues);
         }
 
         protected abstract void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
             where TOwner : PageObject<TOwner>;
-
-        private string[] GetExpectedValues(string componentName)
-        {
-            if (Values != null && Values.Any())
-            {
-                return !string.IsNullOrEmpty(Format) ? Values.Select(x => string.Format(Format, x)).ToArray() : Values;
-            }
-            else
-            {
-                string value = Case.ApplyTo(componentName);
-                if (!string.IsNullOrEmpty(Format))
-                    value = string.Format(Format, value);
-                return new[] { value };
-            }
-        }
     }
 }
