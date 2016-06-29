@@ -46,7 +46,15 @@ namespace Atata
             get { return TermMatch.Equals; }
         }
 
-        public virtual string[] GetTerms(UIComponentMetadata metadata)
+        public string[] GetTerms(UIComponentMetadata metadata)
+        {
+            string[] rawTerms = GetRawTerms(metadata);
+            string format = GetTermFormat(metadata);
+
+            return !string.IsNullOrEmpty(format) ? rawTerms.Select(x => string.Format(format, x)).ToArray() : rawTerms;
+        }
+
+        protected virtual string[] GetRawTerms(UIComponentMetadata metadata)
         {
             if (Values != null && Values.Any())
             {
@@ -72,22 +80,24 @@ namespace Atata
         {
             return this.GetCaseOrNull()
                 ?? metadata.GetTerm().GetCaseOrNull()
-                ?? GetTermCaseFromMetadata(metadata);
+                ?? GetSettingsAtribute(metadata).GetCaseOrNull()
+                ?? DefaultCase;
+        }
+
+        private string GetTermFormat(UIComponentMetadata metadata)
+        {
+            return this.GetFormatOrNull()
+                ?? metadata.GetTerm().GetFormatOrNull()
+                ?? GetSettingsAtribute(metadata).GetFormatOrNull();
         }
 
         public TermMatch GetTermMatch(UIComponentMetadata metadata)
         {
             return this.GetMatchOrNull()
                 ?? metadata.GetTerm().GetMatchOrNull()
-                ?? GetTermMatchFromMetadata(metadata);
+                ?? GetSettingsAtribute(metadata).GetMatchOrNull()
+                ?? DefaultMatch;
         }
-
-        ////private string GetTermFormat(UIComponentMetadata metadata)
-        ////{
-        ////    return this.GetFormatOrNull()
-        ////        ?? metadata.GetTerm().GetFormatOrNull()
-        ////        ?? GetTermMatchFromMetadata(metadata);
-        ////}
 
         private string GetPropertyName(UIComponentMetadata metadata)
         {
@@ -105,18 +115,10 @@ namespace Atata
             return name;
         }
 
-        private TermCase GetTermCaseFromMetadata(UIComponentMetadata metadata)
+        private TermFindSettingsAttribute GetSettingsAtribute(UIComponentMetadata metadata)
         {
             Type thisType = GetType();
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FinderAttributeType == thisType && x.Case != TermCase.Inherit);
-            return settingsAttribute != null ? settingsAttribute.Case : DefaultCase;
-        }
-
-        private TermMatch GetTermMatchFromMetadata(UIComponentMetadata metadata)
-        {
-            Type thisType = GetType();
-            var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FinderAttributeType == thisType && x.Match != TermMatch.Inherit);
-            return settingsAttribute != null ? settingsAttribute.Match : DefaultMatch;
+            return metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FinderAttributeType == thisType);
         }
     }
 }
