@@ -3,7 +3,7 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
-    public class TermFindSettingsAttribute : Attribute
+    public class TermFindSettingsAttribute : Attribute, ITermSettings
     {
         public TermFindSettingsAttribute(FindTermBy by, TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
             : this(by.ResolveFindAttributeType(), match, termCase)
@@ -18,7 +18,8 @@ namespace Atata
         }
 
         public Type FinderAttributeType { get; private set; }
-        public new TermMatch Match { get; set; }
         public TermCase Case { get; set; }
+        public new TermMatch Match { get; set; }
+        public string Format { get; set; }
     }
 }

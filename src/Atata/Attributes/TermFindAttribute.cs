@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Atata
 {
-    public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute
+    public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute, ITermSettings
     {
         protected TermFindAttribute(TermCase termCase)
             : this(null, termCase: termCase)
@@ -36,6 +36,7 @@ namespace Atata
         public string[] Values { get; private set; }
         public TermCase Case { get; private set; }
         public new TermMatch Match { get; set; }
+        public string Format { get; set; }
         public bool CutEnding { get; set; }
 
         protected abstract TermCase DefaultCase { get; }
@@ -69,25 +70,24 @@ namespace Atata
 
         private TermCase GetTermCase(UIComponentMetadata metadata)
         {
-            TermAttribute termAttribute;
-            if (Case != TermCase.Inherit)
-                return Case;
-            else if ((termAttribute = metadata.GetTerm(x => x.Case != TermCase.Inherit)) != null)
-                return termAttribute.Case;
-            else
-                return GetTermCaseFromMetadata(metadata);
+            return this.GetCaseOrNull()
+                ?? metadata.GetTerm().GetCaseOrNull()
+                ?? GetTermCaseFromMetadata(metadata);
         }
 
         public TermMatch GetTermMatch(UIComponentMetadata metadata)
         {
-            TermAttribute termAttribute;
-            if (Match != TermMatch.Inherit)
-                return Match;
-            else if ((termAttribute = metadata.GetTerm(x => x.Match != TermMatch.Inherit)) != null)
-                return termAttribute.Match;
-            else
-                return GetTermMatchFromMetadata(metadata);
+            return this.GetMatchOrNull()
+                ?? metadata.GetTerm().GetMatchOrNull()
+                ?? GetTermMatchFromMetadata(metadata);
         }
+
+        ////private string GetTermFormat(UIComponentMetadata metadata)
+        ////{
+        ////    return this.GetFormatOrNull()
+        ////        ?? metadata.GetTerm().GetFormatOrNull()
+        ////        ?? GetTermMatchFromMetadata(metadata);
+        ////}
 
         private string GetPropertyName(UIComponentMetadata metadata)
         {
