@@ -4,6 +4,7 @@ namespace Atata.Tests
 {
     [NavigateTo("BasicControls.html")]
     [VerifyTitle]
+    [VerifyH1]
     [VerifyContent("First Name", "Age")]
     public class BasicControlsPage : Page<_>
     {

@@ -347,7 +347,7 @@ namespace Atata
                 ToArray();
 
             return allFindingAttributes.Where(x => x.Depth != null).OrderBy(x => x.Depth).Select(x => x.Attribute).FirstOrDefault() ??
-                allFindingAttributes.Where(x => x.Depth == null).Select(x => x.Attribute).FirstOrDefault();
+                allFindingAttributes.Where(x => x.Depth == null && x.Attribute.ParentComponentType == null).Select(x => x.Attribute).FirstOrDefault();
         }
 
         private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType, UIComponentMetadata metadata)
