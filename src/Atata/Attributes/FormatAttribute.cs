@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface)]
     public class FormatAttribute : Attribute
     {
         public FormatAttribute(string value = null)

@@ -84,22 +84,11 @@ namespace Atata
             return (GetFirstOrDefaultAttribute<CultureAttribute>(x => x.HasValue) ?? new CultureAttribute()).GetCultureInfo();
         }
 
-        public string GetFormat(Type componentType)
+        public string GetFormat()
         {
-            FormatAttribute formatAttribute = GetFirstOrDefaultDeclaringAttribute<FormatAttribute>();
-            if (formatAttribute != null)
-            {
-                return formatAttribute.Value;
-            }
-            else
-            {
-                FormatSettingsAttribute componentFormatAttribute =
-                    GetFirstOrDefaultGlobalAttribute<FormatSettingsAttribute>(x => componentType.IsSubclassOfRawGeneric(x.ComponentType));
-                if (componentFormatAttribute != null)
-                    return componentFormatAttribute.Value;
-                else
-                    return null;
-            }
+            return GetFirstOrDefaultDeclaringAttribute<FormatAttribute>()?.Value
+                ?? GetFirstOrDefaultGlobalAttribute<FormatSettingsAttribute>(x => ComponentType.IsSubclassOfRawGeneric(x.ComponentType))?.Value
+                ?? GetFirstOrDefaultComponentAttribute<FormatAttribute>()?.Value;
         }
     }
 }

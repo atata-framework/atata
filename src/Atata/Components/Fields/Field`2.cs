@@ -114,7 +114,7 @@ namespace Atata
         protected virtual void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
         {
             termOptions.Culture = metadata.GetCulture();
-            termOptions.Format = metadata.GetFormat(GetType());
+            termOptions.Format = metadata.GetFormat();
         }
     }
 }
