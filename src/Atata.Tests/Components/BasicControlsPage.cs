@@ -22,10 +22,11 @@ namespace Atata.Tests
         [Term("Input Button")]
         public ButtonControl<_> InputButtonControl { get; private set; }
 
-        [Term("Link Button")]
+        [Term("Link", Format = "{0} Button")]
         public LinkControl<_> LinkButtonControl { get; private set; }
 
-        [Term("Div Button")]
+        [Term("Div")]
+        [FindByContent(Format = "{0} Button")]
         public ClickableControl<_> ClickableControl { get; private set; }
 
         [Term("Disabled Button")]
