@@ -1,14 +1,23 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the checkbox list control (a set of &lt;input type="checkbox"&gt;).
+    /// </summary>
+    /// <typeparam name="T">The type of the control's data. Supports only enum types currently.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='checkbox']", IgnoreNameEndings = "CheckBoxes,CheckBoxList,CheckBoxGroup,Options,OptionGroup")]
     public class CheckBoxList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <summary>
+        /// Initializes a new instance of the Atata.CheckBoxList`2 class.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">generic 'T'  parameter is not a Enum type.</exception>
         public CheckBoxList()
         {
             if (!typeof(T).IsEnum)
@@ -69,6 +78,11 @@ namespace Atata
                         ConvertIndividualValuesToString(individualValues)));
         }
 
+        /// <summary>
+        /// Checks the checkbox by specifed value.
+        /// </summary>
+        /// <param name="value">The value of the checkbox.</param>
+        /// <returns>The owner page object.</returns>
         public TOwner Check(T value)
         {
             if (!Equals(value, null))
@@ -84,6 +98,11 @@ namespace Atata
             return Owner;
         }
 
+        /// <summary>
+        /// Unchecks the checkbox by specifed value.
+        /// </summary>
+        /// <param name="value">The value of the checkbox.</param>
+        /// <returns>The owner page object.</returns>
         public TOwner Uncheck(T value)
         {
             if (!Equals(value, null))
