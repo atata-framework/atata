@@ -2,6 +2,11 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base class for the field controls.
+    /// </summary>
+    /// <typeparam name="T">The type of the control's data.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlFinding(FindTermBy.Label)]
     public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IUIComponentValueProvider<T, TOwner>
         where TOwner : PageObject<TOwner>

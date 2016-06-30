@@ -1,5 +1,10 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Represents the base class for the editable field controls.
+    /// </summary>
+    /// <typeparam name="T">The type of the control's data.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public abstract class EditableField<T, TOwner> : Field<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
