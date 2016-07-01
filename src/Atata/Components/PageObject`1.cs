@@ -140,7 +140,7 @@ namespace Atata
                 SkipWhile(x => x != foundPageObject).
                 ToArray();
 
-            UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove);
+            UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove.Skip(1));
             foreach (var item in tempPageObjectsToRemove)
                 ATContext.Current.TemporarilyPreservedPageObjectList.Remove(item);
 
