@@ -11,6 +11,9 @@ namespace Atata.KendoUI
     public class KendoMultiSelect<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        [FindByClass("k-input")]
+        protected virtual TextInput<TOwner> Input { get; set; }
+
         protected string ValueXPath
         {
             get { return Metadata.GetFirstOrDefaultDeclaringOrComponentAttribute<ValueXPathAttribute>()?.XPath; }
@@ -36,16 +39,25 @@ namespace Atata.KendoUI
 
         protected virtual void OnAdd(string value)
         {
-            var input = Scope.Get(By.CssSelector("input.k-input"));
-            input.FillInWith(value);
+            Input.Set(value);
 
-            Scope.Get(By.XPath("//body")).
-                Get(By.CssSelector(".k-animation-container .k-list-container.k-popup").DropDownList()).
-                Get(By.XPath(".//li{0}[.='{1}')]").FormatWith(ItemValueXPath, value).DropDownOption(value));
+            GetDropDownOption(value);
 
-            input.SendKeys(Keys.Enter);
+            Driver.Perform(x => x.SendKeys(Keys.Enter));
 
-            Scope.Get(By.XPath(".//ul/li{0}[.='{1}')]").FormatWith(ValueXPath, value).OfKind("value in control", value));
+            Scope.Get(By.XPath(".//ul/li{0}[.='{1}')]").FormatWith(ValueXPath, value).OfKind("added item element", value));
+        }
+
+        protected virtual IWebElement GetDropDownList()
+        {
+            return Driver.
+                Get(By.CssSelector(".k-animation-container .k-list-container.k-popup").DropDownList());
+        }
+
+        protected virtual IWebElement GetDropDownOption(string value, SearchOptions searchOptions = null)
+        {
+            return GetDropDownList().
+               Get(By.XPath(".//li{0}[.='{1}')]").FormatWith(ItemValueXPath, value).DropDownOption(value).With(searchOptions));
         }
     }
 }
