@@ -53,6 +53,8 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="KendoDropDownList`1.cs" />
+    <Compile Include="KendoDropDownList`2.cs" />
     <Compile Include="KendoMultiSelect`1.cs" />
     <Compile Include="KendoWindow`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
