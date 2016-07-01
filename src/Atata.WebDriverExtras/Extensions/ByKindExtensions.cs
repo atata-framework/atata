@@ -39,6 +39,11 @@ namespace Atata
             return by.OfKind("drop-down option", name);
         }
 
+        public static By DropDownButton(this By by, string name = null)
+        {
+            return by.OfKind("drop-down button", name);
+        }
+
         public static By Table(this By by, string name = null)
         {
             return by.OfKind("table", name);

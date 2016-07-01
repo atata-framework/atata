@@ -1,5 +1,5 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -67,6 +67,9 @@ namespace Atata
 
         public static By With(this By by, SearchOptions options)
         {
+            if (options == null)
+                return by;
+
             ByOptions byOptions = ByOptionsMap.GetAndStore(by);
 
             byOptions.Timeout = options.Timeout;
