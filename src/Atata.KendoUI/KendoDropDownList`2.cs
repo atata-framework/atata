@@ -50,7 +50,7 @@ namespace Atata.KendoUI
         protected virtual IWebElement GetDropDownOption(string value, SearchOptions searchOptions = null)
         {
             return GetDropDownList().
-               Get(By.XPath(".//li{0}[.='{1}')]").FormatWith(ItemValueXPath, value).DropDownOption(value).With(searchOptions));
+               Get(By.XPath(".//li{0}[.='{1}']").FormatWith(ItemValueXPath, value).DropDownOption(value).With(searchOptions));
         }
     }
 }
