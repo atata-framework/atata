@@ -10,7 +10,7 @@
         }
 
         protected string[] WindowTitleValues { get; set; }
-        protected TermMatch WindowTitleMatch { get; set; }
+        protected TermMatch WindowTitleMatch { get; set; } = TermMatch.Equals;
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {

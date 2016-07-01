@@ -17,7 +17,7 @@ namespace Atata.KendoUI
             StringBuilder xPathBuilder = new StringBuilder(
                 ".//div[contains(concat(' ', normalize-space(@class), ' '), ' k-window ')]");
 
-            if (WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit)
+            if (WindowTitleValues == null && WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit)
                 xPathBuilder.AppendFormat(
                     "[.//*[contains(concat(' ', normalize-space(@class), ' '), ' k-window-title ')][{0}]]",
                     WindowTitleMatch.CreateXPathCondition(WindowTitleValues));

@@ -45,7 +45,7 @@ namespace Atata.KendoUI
 
             Driver.Perform(x => x.SendKeys(Keys.Enter));
 
-            Scope.Get(By.XPath(".//ul/li{0}[.='{1}']").FormatWith(ValueXPath, value).OfKind("added item element", value));
+            Scope.Get(By.XPath(".//ul/li{0}[normalize-space(.)='{1}']").FormatWith(ValueXPath, value).OfKind("added item element", value));
         }
 
         protected virtual IWebElement GetDropDownList()
@@ -57,7 +57,7 @@ namespace Atata.KendoUI
         protected virtual IWebElement GetDropDownOption(string value, SearchOptions searchOptions = null)
         {
             return GetDropDownList().
-               Get(By.XPath(".//li{0}[.='{1}']").FormatWith(ItemValueXPath, value).DropDownOption(value).With(searchOptions));
+               Get(By.XPath(".//li{0}[normalize-space(.)='{1}']").FormatWith(ItemValueXPath, value).DropDownOption(value).With(searchOptions));
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Atata.KendoUI
 
         protected override T GetValue()
         {
-            string value = Scope.Get(By.XPath("span[@class='k-input']{0}").FormatWith(ValueXPath)).Text;
+            string value = Scope.Get(By.XPath(".//span[@class='k-input']{0}").FormatWith(ValueXPath)).Text.Trim();
             return ConvertStringToValue(value);
         }
 
@@ -50,7 +50,7 @@ namespace Atata.KendoUI
         protected virtual IWebElement GetDropDownOption(string value, SearchOptions searchOptions = null)
         {
             return GetDropDownList().
-               Get(By.XPath(".//li{0}[.='{1}']").FormatWith(ItemValueXPath, value).DropDownOption(value).With(searchOptions));
+               Get(By.XPath(".//li{0}[normalize-space(.)='{1}']").FormatWith(ItemValueXPath, value).DropDownOption(value).With(searchOptions));
         }
     }
 }
