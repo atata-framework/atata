@@ -9,6 +9,16 @@ namespace Atata
             return by.OfKind("button", name);
         }
 
+        public static By Link(this By by, string name = null)
+        {
+            return by.OfKind("link", name);
+        }
+
+        public static By Input(this By by, string name = null)
+        {
+            return by.OfKind("input", name);
+        }
+
         public static By Field(this By by, string name = null)
         {
             return by.OfKind("field", name);
@@ -67,6 +77,11 @@ namespace Atata
         public static By PopupWindow(this By by, string name = null)
         {
             return by.OfKind("popup window", name);
+        }
+
+        public static By Dialog(this By by, string name = null)
+        {
+            return by.OfKind("dialog", name);
         }
 
         public static By Menu(this By by, string name = null)

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
@@ -68,7 +69,12 @@ namespace Atata
             return GetFirstOrDefaultAttribute(AllAttributes, predicate);
         }
 
-        private T GetFirstOrDefaultAttribute<T>(Attribute[] attributes, Func<T, bool> predicate = null) where T : Attribute
+        public T GetFirstOrDefaultDeclaringOrComponentAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        {
+            return GetFirstOrDefaultAttribute(DeclaringAttributes.Concat(ComponentAttributes), predicate);
+        }
+
+        private T GetFirstOrDefaultAttribute<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null) where T : Attribute
         {
             var query = attributes.OfType<T>();
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);

@@ -65,6 +65,7 @@
     <Compile Include="Attributes\ControlFinding\ControlFindingAttribute.cs" />
     <Compile Include="Attributes\CultureAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\ButtonFindingAttribute.cs" />
+    <Compile Include="Attributes\ExtraXPathAttribute.cs" />
     <Compile Include="Attributes\FindByAttributeAttribute.cs" />
     <Compile Include="Attributes\FindByChildContentAttribute.cs" />
     <Compile Include="Attributes\FindByClassAttribute.cs" />
@@ -93,9 +94,11 @@
     <Compile Include="Attributes\FindItemByLabelAttribute.cs" />
     <Compile Include="Attributes\FormatAttribute.cs" />
     <Compile Include="Attributes\GoTemporarilyAttribute.cs" />
+    <Compile Include="Attributes\ItemValueXPathAttribute.cs" />
     <Compile Include="Attributes\RandomizeNumberSettingsAttribute.cs" />
     <Compile Include="Attributes\ITermFindAttribute.cs" />
     <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
+    <Compile Include="Attributes\ValueXPathAttribute.cs" />
     <Compile Include="Extensions\ITermDataProviderExtensions.cs" />
     <Compile Include="ITermDataProvider.cs" />
     <Compile Include="ITermSettings.cs" />
