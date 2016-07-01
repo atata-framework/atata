@@ -45,7 +45,7 @@ namespace Atata.KendoUI
 
             Driver.Perform(x => x.SendKeys(Keys.Enter));
 
-            Scope.Get(By.XPath(".//ul/li{0}[.='{1}')]").FormatWith(ValueXPath, value).OfKind("added item element", value));
+            Scope.Get(By.XPath(".//ul/li{0}[.='{1}']").FormatWith(ValueXPath, value).OfKind("added item element", value));
         }
 
         protected virtual IWebElement GetDropDownList()
