@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Text;
+﻿using System.Text;
 using OpenQA.Selenium;
 
 namespace Atata.KendoUI
@@ -17,7 +16,7 @@ namespace Atata.KendoUI
             StringBuilder xPathBuilder = new StringBuilder(
                 ".//div[contains(concat(' ', normalize-space(@class), ' '), ' k-window ')]");
 
-            if (WindowTitleValues == null && WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit)
+            if (CanFindByWindowTitle)
                 xPathBuilder.AppendFormat(
                     "[.//*[contains(concat(' ', normalize-space(@class), ' '), ' k-window-title ')][{0}]]",
                     WindowTitleMatch.CreateXPathCondition(WindowTitleValues));

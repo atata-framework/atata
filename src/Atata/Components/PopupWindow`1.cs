@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System.Linq;
+
+namespace Atata
 {
     [PageObjectDefinition(ComponentTypeName = "window", IgnoreNameEndings = "PopupWindow,Window,Popup")]
     public abstract class PopupWindow<T> : PageObject<T>
@@ -11,6 +13,11 @@
 
         protected string[] WindowTitleValues { get; set; }
         protected TermMatch WindowTitleMatch { get; set; } = TermMatch.Equals;
+
+        protected bool CanFindByWindowTitle
+        {
+            get { return WindowTitleValues != null && WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit; }
+        }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
