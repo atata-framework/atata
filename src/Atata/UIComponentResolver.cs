@@ -53,7 +53,7 @@ namespace Atata
             foreach (Type type in allTypes)
                 InitComponentTypeMembers<TOwner>(component, type);
 
-            PageObject<TOwner> componentAsPageObject = component as PageObject<TOwner>;
+            TOwner componentAsPageObject = component as TOwner;
             if (componentAsPageObject != null)
             {
                 InitPageObject(componentAsPageObject);
@@ -66,7 +66,7 @@ namespace Atata
             pageObject.Owner = (TPageObject)pageObject;
             InitPageObjectTriggers(pageObject);
 
-            UIComponentMetadata metadata = CreatePageObjectMetadata(pageObject.GetType());
+            UIComponentMetadata metadata = CreatePageObjectMetadata<TPageObject>();
             ApplyMetadata(pageObject, metadata);
         }
 
@@ -120,7 +120,7 @@ namespace Atata
         private static void InitControlProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
             where TOwner : PageObject<TOwner>
         {
-            UIComponentMetadata metadata = CreateComponentMetadata(property);
+            UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(property);
 
             UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
             parentComponent.Children.Add(component);
@@ -135,7 +135,7 @@ namespace Atata
 
             if (controlType != null)
             {
-                UIComponentMetadata metadata = CreateComponentMetadata(property, controlType);
+                UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(property, controlType);
 
                 UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
                 parentComponent.Children.Add(component);
@@ -170,7 +170,7 @@ namespace Atata
                         new NameAttribute(name)
                     }).ToArray();
 
-            UIComponentMetadata metadata = CreateComponentMetadata(
+            UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(
                 name,
                 typeof(TComponent),
                 parentComponent.GetType(),
@@ -267,10 +267,11 @@ namespace Atata
             return metadata.Name.ToString(TermCase.Title);
         }
 
-        private static UIComponentMetadata CreatePageObjectMetadata(Type type)
+        private static UIComponentMetadata CreatePageObjectMetadata<TPageObject>()
         {
+            Type type = typeof(TPageObject);
             // TODO: Review name set.
-            return CreateComponentMetadata(
+            return CreateComponentMetadata<TPageObject>(
                 type.Name,
                 type,
                 null,
@@ -278,9 +279,9 @@ namespace Atata
                 GetPageObjectDefinition(type));
         }
 
-        private static UIComponentMetadata CreateComponentMetadata(PropertyInfo property, Type propertyType = null)
+        private static UIComponentMetadata CreateComponentMetadata<TOwner>(PropertyInfo property, Type propertyType = null)
         {
-            return CreateComponentMetadata(
+            return CreateComponentMetadata<TOwner>(
                 property.Name,
                 propertyType ?? property.PropertyType,
                 property.DeclaringType,
@@ -288,7 +289,7 @@ namespace Atata
                 GetControlDefinition(propertyType ?? property.PropertyType));
         }
 
-        private static UIComponentMetadata CreateComponentMetadata(
+        private static UIComponentMetadata CreateComponentMetadata<TOwner>(
             string name,
             Type componentType,
             Type parentComponentType,
@@ -302,7 +303,7 @@ namespace Atata
                 declaringAttributes,
                 GetClassAttributes(componentType),
                 GetClassAttributes(parentComponentType),
-                GetAssemblyAttributes((parentComponentType != null ? parentComponentType : componentType).Assembly),
+                GetAssemblyAttributes(typeof(TOwner).Assembly),
                 componentDefinitonAttribute);
         }
 
