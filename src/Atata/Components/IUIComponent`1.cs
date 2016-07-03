@@ -5,7 +5,7 @@ namespace Atata
     public interface IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        TOwner Owner { get; }
+        IPageObject<TOwner> Owner { get; }
         IUIComponent<TOwner> Parent { get; }
         UIComponentContentValueProvider<TOwner> Content { get; }
         ScopeSource ScopeSource { get; }

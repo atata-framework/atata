@@ -25,7 +25,7 @@ namespace Atata
 
         public UIComponentContentValueProvider<TOwner> Content { get; private set; }
 
-        TOwner IUIComponent<TOwner>.Owner
+        IPageObject<TOwner> IUIComponent<TOwner>.Owner
         {
             get { return Owner; }
         }

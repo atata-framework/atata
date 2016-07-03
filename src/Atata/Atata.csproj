@@ -99,6 +99,7 @@
     <Compile Include="Attributes\ITermFindAttribute.cs" />
     <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
     <Compile Include="Attributes\ValueXPathAttribute.cs" />
+    <Compile Include="Components\Fields\IPageObject`1.cs" />
     <Compile Include="Extensions\ITermDataProviderExtensions.cs" />
     <Compile Include="ITermDataProvider.cs" />
     <Compile Include="ITermSettings.cs" />

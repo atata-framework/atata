@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public abstract class PageObject<T> : UIComponent<T>, IPageObject
+    public abstract class PageObject<T> : UIComponent<T>, IPageObject<T>, IPageObject
         where T : PageObject<T>
     {
         protected PageObject()
