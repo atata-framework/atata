@@ -270,6 +270,7 @@ namespace Atata
         private static UIComponentMetadata CreatePageObjectMetadata<TPageObject>()
         {
             Type type = typeof(TPageObject);
+
             // TODO: Review name set.
             return CreateComponentMetadata<TPageObject>(
                 type.Name,

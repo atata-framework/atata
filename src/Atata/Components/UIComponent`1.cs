@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -33,6 +34,11 @@ namespace Atata
         IUIComponent<TOwner> IUIComponent<TOwner>.Parent
         {
             get { return Parent; }
+        }
+
+        IWebElement IUIComponent<TOwner>.Scope
+        {
+            get { return Scope; }
         }
 
         IScopeLocator IUIComponent<TOwner>.ScopeLocator

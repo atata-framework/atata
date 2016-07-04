@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -9,6 +10,7 @@ namespace Atata
         IUIComponent<TOwner> Parent { get; }
         UIComponentContentValueProvider<TOwner> Content { get; }
         ScopeSource ScopeSource { get; }
+        IWebElement Scope { get; }
         IScopeLocator ScopeLocator { get; }
         string ComponentName { get; }
         string ComponentTypeName { get; }
