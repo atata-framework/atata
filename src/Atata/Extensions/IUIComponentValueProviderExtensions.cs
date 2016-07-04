@@ -321,7 +321,6 @@ namespace Atata
 
             expectedValues.CheckNotNullOrEmpty("expectedValues");
 
-            string matchAsString = TermMatch.Contains.ToString(TermCase.Lower);
             string expectedValuesAsString = expectedValues.ToQuotedValuesListOfString(true);
 
             return provider.Verify(
