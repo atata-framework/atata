@@ -17,25 +17,15 @@ namespace Atata
 
         protected TermOptions ValueTermOptions { get; private set; }
 
-        string IUIComponentValueProvider<T, TOwner>.ComponentFullName
-        {
-            get { return ComponentFullName; }
-        }
+        string IUIComponentValueProvider<T, TOwner>.ComponentFullName => ComponentFullName;
 
-        protected virtual string ValueProviderName
-        {
-            get { return "value"; }
-        }
+        protected virtual string ValueProviderName => "value";
 
-        string IUIComponentValueProvider<T, TOwner>.ProviderName
-        {
-            get { return ValueProviderName; }
-        }
+        string IUIComponentValueProvider<T, TOwner>.ProviderName => ValueProviderName;
 
-        TOwner IUIComponentValueProvider<T, TOwner>.Owner
-        {
-            get { return Owner; }
-        }
+        TOwner IUIComponentValueProvider<T, TOwner>.Owner => Owner;
+
+        public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, Field<T, TOwner>, TOwner>(this);
 
         protected abstract T GetValue();
 
@@ -44,10 +34,7 @@ namespace Atata
             return GetValue();
         }
 
-        string IUIComponentValueProvider<T, TOwner>.ConvertValueToString(T value)
-        {
-            return ConvertValueToString(value);
-        }
+        string IUIComponentValueProvider<T, TOwner>.ConvertValueToString(T value) => ConvertValueToString(value);
 
         protected internal virtual string ConvertValueToString(T value)
         {

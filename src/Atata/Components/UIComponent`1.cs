@@ -26,40 +26,19 @@ namespace Atata
 
         public UIComponentContentValueProvider<TOwner> Content { get; private set; }
 
-        IPageObject<TOwner> IUIComponent<TOwner>.Owner
-        {
-            get { return Owner; }
-        }
+        IPageObject<TOwner> IUIComponent<TOwner>.Owner => Owner;
 
-        IUIComponent<TOwner> IUIComponent<TOwner>.Parent
-        {
-            get { return Parent; }
-        }
+        IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;
 
-        IWebElement IUIComponent<TOwner>.Scope
-        {
-            get { return Scope; }
-        }
+        IWebElement IUIComponent<TOwner>.Scope => Scope;
 
-        IScopeLocator IUIComponent<TOwner>.ScopeLocator
-        {
-            get { return ScopeLocator; }
-        }
+        IScopeLocator IUIComponent<TOwner>.ScopeLocator => ScopeLocator;
 
-        string IUIComponent<TOwner>.ComponentName
-        {
-            get { return ComponentName; }
-        }
+        string IUIComponent<TOwner>.ComponentName => ComponentName;
 
-        string IUIComponent<TOwner>.ComponentTypeName
-        {
-            get { return ComponentTypeName; }
-        }
+        string IUIComponent<TOwner>.ComponentTypeName => ComponentTypeName;
 
-        ScopeSource IUIComponent<TOwner>.ScopeSource
-        {
-            get { return ScopeSource; }
-        }
+        ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
         protected internal virtual void InitComponent()
         {

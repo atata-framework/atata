@@ -7,6 +7,8 @@
         {
         }
 
+        public ControlVerificationProvider<Control<TOwner>, TOwner> Should => new ControlVerificationProvider<Control<TOwner>, TOwner>(this);
+
         public TOwner Click()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
