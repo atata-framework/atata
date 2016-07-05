@@ -30,12 +30,12 @@ namespace Atata
 
         public static void StartSettingSection(this ILogManager logger, string fieldName, object value)
         {
-            logger.StartSection("Set '{0}' to {1}".FormatWith(value, fieldName));
+            logger.StartSection("Set \"{0}\" to {1}".FormatWith(value, fieldName));
         }
 
         public static void StartAddingSection(this ILogManager logger, string fieldName, object value)
         {
-            logger.StartSection("Add '{0}' to {1}".FormatWith(value, fieldName));
+            logger.StartSection("Add \"{0}\" to {1}".FormatWith(value, fieldName));
         }
 
         public static void StartSavingSection(this ILogManager logger, string itemKind)
@@ -45,12 +45,12 @@ namespace Atata
 
         public static void StartSavingSection(this ILogManager logger, string itemKind, string itemName)
         {
-            logger.StartSection("Save '{0}' {1}".FormatWith(itemName, itemKind));
+            logger.StartSection("Save \"{0}\" {1}".FormatWith(itemName, itemKind));
         }
 
         public static void StartDeletingSection(this ILogManager logger, string itemKind, string itemName)
         {
-            logger.StartSection("Delete '{0}' {1}".FormatWith(itemName, itemKind));
+            logger.StartSection("Delete \"{0}\" {1}".FormatWith(itemName, itemKind));
         }
 
         public static void StartVerificationSection(this ILogManager logger, string message, params object[] args)
@@ -60,7 +60,7 @@ namespace Atata
 
         public static void StartVerifyingFieldSection(this ILogManager logger, string fieldName)
         {
-            logger.StartSection("Verify '{0}' field".FormatWith(fieldName));
+            logger.StartSection("Verify \"{0}\" field".FormatWith(fieldName));
         }
 
         public static void StartSelectingSection(this ILogManager logger, string itemName)
