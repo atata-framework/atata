@@ -23,16 +23,68 @@ namespace Atata
             logMessageBuilder.AppendFormat("{0} {1}", provider.ComponentFullName, provider.ProviderName);
 
             if (!string.IsNullOrWhiteSpace(message))
+            {
+                string[] convertedArgs = args?.Select(x => "\"{0}\"".FormatWith(provider.ConvertValueToString(x) ?? NullString)).ToArray();
+
                 logMessageBuilder.
                     Append(" should ").
-                    Append(message.FormatWith(args?.Select(x => provider.ConvertValueToString(x)).ToArray()));
+                    Append(message.FormatWith(convertedArgs));
+            }
 
             ATContext.Current.Log.StartVerificationSection(logMessageBuilder.ToString());
 
-            // TODO: Assertion.
+            TData actual = provider.Get();
+            bool doesSatisfy = predicate(actual);
+
+            if (!doesSatisfy)
+            {
+                string errorMesage = BuildAssertionErrorMessage(
+                    $"Invalid {provider.ComponentFullName} {provider.ProviderName}",
+                    actual,
+                    message,
+                    args.Cast<object>().ToArray());
+                throw new AssertionException(errorMesage);
+            }
+
             ATContext.Current.Log.EndSection();
 
             return should.Owner;
+        }
+
+        public static string BuildAssertionErrorMessage(string primaryMessage, object actual, string expectedMessage, object[] expectedArgs)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            if (!string.IsNullOrWhiteSpace(primaryMessage))
+                builder.Append(primaryMessage).AppendLine();
+
+            return builder.
+                Append("Expected: should {0}".FormatWith(expectedMessage.FormatWith(expectedArgs?.Select(x => ObjectToString(x)).ToArray()))).
+                AppendLine().
+                AppendFormat("But was: {0}", ObjectToString(actual)).
+                ToString();
+        }
+
+        private static string CollectionToString(IEnumerable<object> collection)
+        {
+            if (!collection.Any())
+                return "<empty>";
+
+            return "< {0} >".FormatWith(string.Join(", ", collection.Select(ObjectToString).ToArray()));
+        }
+
+        private static string ObjectToString(object value)
+        {
+            if (Equals(value, null))
+                return NullString;
+            else if (value is string)
+                return "\"{0}\"".FormatWith(value);
+            else if (value is ValueType)
+                return value.ToString();
+            else if (value is IEnumerable)
+                return CollectionToString(((IEnumerable)value).Cast<object>());
+            else
+                return "{{{0}}}".FormatWith(value.ToString());
         }
 
         public static TOwner Equal<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected)
@@ -45,6 +97,12 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             return should.Satisfy(x => x.StartsWith(expected), "start with {0}", expected);
+        }
+
+        public static TOwner EndWith<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(x => x.EndsWith(expected), "end with {0}", expected);
         }
 
         public static TOwner Match<TOwner>(this IDataVerificationProvider<string, TOwner> should, string pattern)
@@ -73,28 +131,6 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             return should.Satisfy(x => x.CompareTo(from) >= 0 || x.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
-        }
-
-        private static string CollectionToString(IEnumerable<object> collection)
-        {
-            if (!collection.Any())
-                return "<empty>";
-
-            return "< {0} >".FormatWith(string.Join(", ", collection.Select(ObjectToString).ToArray()));
-        }
-
-        private static string ObjectToString(object value)
-        {
-            if (Equals(value, null))
-                return NullString;
-            else if (value is string)
-                return "\"{0}\"".FormatWith(value);
-            else if (value is ValueType)
-                return value.ToString();
-            else if (value is IEnumerable)
-                return CollectionToString(((IEnumerable)value).Cast<object>());
-            else
-                return "{{{0}}}".FormatWith(value.ToString());
         }
     }
 }
