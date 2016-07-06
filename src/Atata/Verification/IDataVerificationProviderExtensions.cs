@@ -27,7 +27,7 @@ namespace Atata
                 string[] convertedArgs = args?.Select(x => "\"{0}\"".FormatWith(provider.ConvertValueToString(x) ?? NullString)).ToArray();
 
                 logMessageBuilder.
-                    Append(" should ").
+                    Append($" {ResolveShouldText(should.IsNegation)} ").
                     Append(message.FormatWith(convertedArgs));
             }
 
@@ -36,12 +36,12 @@ namespace Atata
             TData actual = provider.Get();
             bool doesSatisfy = predicate(actual);
 
-            if (!doesSatisfy)
+            if (doesSatisfy == should.IsNegation)
             {
                 string errorMesage = BuildAssertionErrorMessage(
                     $"Invalid {provider.ComponentFullName} {provider.ProviderName}",
                     actual,
-                    message,
+                    $"{ResolveShouldText(should.IsNegation)} {message}",
                     args.Cast<object>().ToArray());
                 throw new AssertionException(errorMesage);
             }
@@ -59,10 +59,15 @@ namespace Atata
                 builder.Append(primaryMessage).AppendLine();
 
             return builder.
-                Append("Expected: should {0}".FormatWith(expectedMessage.FormatWith(expectedArgs?.Select(x => ObjectToString(x)).ToArray()))).
+                AppendFormat("Expected: {0}", expectedMessage.FormatWith(expectedArgs?.Select(x => ObjectToString(x)).ToArray())).
                 AppendLine().
                 AppendFormat("But was: {0}", ObjectToString(actual)).
                 ToString();
+        }
+
+        private static string ResolveShouldText(bool isNegation)
+        {
+            return isNegation ? "should not" : "should";
         }
 
         private static string CollectionToString(IEnumerable<object> collection)
