@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Atata
 {
@@ -12,6 +13,15 @@ namespace Atata
         private static Stack<LogSectionInfo> SectionEndMessageStack
         {
             get { return sectionEndMessageStack ?? (sectionEndMessageStack = new Stack<LogSectionInfo>()); }
+        }
+
+        public static void Error(this ILogManager logger, string message, string stackTrace)
+        {
+            StringBuilder builder = new StringBuilder(message);
+            builder.AppendLine().
+                Append(stackTrace);
+
+            logger.Error(builder.ToString(), null);
         }
 
         public static void StartSection(this ILogManager logger, string message, params object[] args)

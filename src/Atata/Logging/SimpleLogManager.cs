@@ -25,7 +25,8 @@ namespace Atata
 
         public override void Error(string message, Exception excepton)
         {
-            Log("ERROR", string.Format("{0} {1}", message, excepton));
+            string completeMessage = string.Join(" ", new[] { message, excepton.ToString() });
+            Log("ERROR", completeMessage);
         }
 
         private void Log(string logLevel, string message, params object[] args)
