@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 
 namespace Atata
@@ -25,7 +26,7 @@ namespace Atata
 
         public override void Error(string message, Exception excepton)
         {
-            string completeMessage = string.Join(" ", new[] { message, excepton.ToString() });
+            string completeMessage = string.Join(" ", new[] { message, excepton?.ToString() }.Where(x => x != null));
             Log("ERROR", completeMessage);
         }
 
