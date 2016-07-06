@@ -1,5 +1,6 @@
 ﻿using System.Configuration;
 using NUnit.Framework;
+using NUnit.Framework.Interfaces;
 using OpenQA.Selenium.Chrome;
 
 namespace Atata.Tests
@@ -33,6 +34,10 @@ namespace Atata.Tests
         [TearDown]
         public void TearDown()
         {
+            var testResult = TestContext.CurrentContext.Result;
+            if (testResult.Outcome.Status == TestStatus.Failed)
+                ATContext.Current.Log.Error(testResult.Message, testResult.StackTrace);
+
             ATContext.CleanUp();
         }
 
