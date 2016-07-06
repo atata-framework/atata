@@ -1,23 +1,20 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Atata
 {
     public class SafeWait<T> : IWait<T>
     {
-        private T input;
-        private IClock clock;
+        private readonly T input;
+        private readonly IClock clock;
 
-        private TimeSpan timeout = DefaultSleepTimeout;
-        private TimeSpan sleepInterval = DefaultSleepTimeout;
-
-        private List<Type> ignoredExceptions = new List<Type>();
+        private readonly List<Type> ignoredExceptions = new List<Type>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
@@ -52,25 +49,12 @@ namespace Atata
         /// <summary>
         /// Gets or sets how long to wait for the evaluated condition to be true. The default timeout is 500 milliseconds.
         /// </summary>
-        public TimeSpan Timeout
-        {
-            get { return this.timeout; }
-            set { this.timeout = value; }
-        }
+        public TimeSpan Timeout { get; set; } = TimeSpan.FromMilliseconds(500);
 
         /// <summary>
         /// Gets or sets how often the condition should be evaluated. The default timeout is 500 milliseconds.
         /// </summary>
-        public TimeSpan PollingInterval
-        {
-            get { return this.sleepInterval; }
-            set { this.sleepInterval = value; }
-        }
-
-        private static TimeSpan DefaultSleepTimeout
-        {
-            get { return TimeSpan.FromMilliseconds(500); }
-        }
+        public TimeSpan PollingInterval { get; set; } = TimeSpan.FromMilliseconds(500);
 
         public string Message { get; set; }
 
@@ -124,7 +108,7 @@ namespace Atata
                 throw new ArgumentException("Can only wait on an object or boolean response, tried to use type: " + resultType.ToString(), "condition");
             }
 
-            var endTime = this.clock.LaterBy(this.timeout);
+            var endTime = clock.LaterBy(Timeout);
             while (true)
             {
                 try
@@ -153,7 +137,7 @@ namespace Atata
 
                 // Check the timeout after evaluating the function to ensure conditions
                 // with a zero timeout can succeed.
-                if (!this.clock.IsNowBefore(endTime))
+                if (!clock.IsNowBefore(endTime))
                 {
                     if (typeof(TResult) == typeof(ReadOnlyCollection<IWebElement>))
                         return (TResult)(object)new IWebElement[0].ToReadOnly();
@@ -161,7 +145,7 @@ namespace Atata
                         return default(TResult);
                 }
 
-                Thread.Sleep(this.sleepInterval);
+                Thread.Sleep(PollingInterval);
             }
         }
 

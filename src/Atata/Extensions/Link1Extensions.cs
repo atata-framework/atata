@@ -26,7 +26,7 @@ namespace Atata
             return clickable.GetControl().VerifyDisabled();
         }
 
-        public static bool IsEnabled<TNavigateTo, TOwner>(this Link<TOwner> clickable)
+        public static bool IsEnabled<TOwner>(this Link<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().IsEnabled();

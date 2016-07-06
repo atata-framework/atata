@@ -20,7 +20,7 @@ namespace Atata
             bool hasName = !string.IsNullOrWhiteSpace(Name);
             bool hasKind = !string.IsNullOrWhiteSpace(Kind);
 
-            if (hasKind && hasKind)
+            if (hasName && hasKind)
                 return string.Format("'{0}' {1}", Name, Kind);
             else if (hasName)
                 return Name;

@@ -185,8 +185,6 @@ namespace Atata
 
         private static string FormatValue(object value, string format, CultureInfo culture)
         {
-            bool isValueFormattable = value is IFormattable;
-
             if (IsComplexStringFormat(format))
                 return string.Format(culture, format, value);
             else if (value is IFormattable)
@@ -305,8 +303,7 @@ namespace Atata
         public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)
         {
             return enumType.GetIndividualEnumFlags().
-                Where(x => GetEnumMatch(x, termOptions).IsMatch(value, GetEnumTerms(x, termOptions))).
-                FirstOrDefault();
+                FirstOrDefault(x => GetEnumMatch(x, termOptions).IsMatch(value, GetEnumTerms(x, termOptions)));
         }
 
         public static string[] GetEnumTerms(Enum value, TermOptions termOptions = null)

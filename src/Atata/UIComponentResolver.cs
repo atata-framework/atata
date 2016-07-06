@@ -87,10 +87,10 @@ namespace Atata
         private static IEnumerable<Type> GetAllInheritedTypes(Type type)
         {
             Type typeToCheck = type;
-            while (type != typeof(UIComponent) && (!type.IsGenericType || (type.GetGenericTypeDefinition() != typeof(UIComponent<>) && type.GetGenericTypeDefinition() != typeof(PageObject<>))))
+            while (typeToCheck != typeof(UIComponent) && (!typeToCheck.IsGenericType || (typeToCheck.GetGenericTypeDefinition() != typeof(UIComponent<>) && typeToCheck.GetGenericTypeDefinition() != typeof(PageObject<>))))
             {
-                yield return type;
-                type = type.BaseType;
+                yield return typeToCheck;
+                typeToCheck = typeToCheck.BaseType;
             }
         }
 
@@ -201,7 +201,7 @@ namespace Atata
 
             FindAttribute findAttribute = GetPropertyFindAttribute(metadata);
 
-            InitComponentLocator(component, parentComponent, metadata, findAttribute);
+            InitComponentLocator(component, metadata, findAttribute);
             component.ComponentName = ResolveComponentName(metadata, findAttribute);
             component.ComponentTypeName = ResolveControlTypeName(component.GetType());
             component.CacheScopeElement = false;
@@ -222,7 +222,7 @@ namespace Atata
             }
         }
 
-        private static void InitComponentLocator(UIComponent component, UIComponent parentComponent, UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             ComponentScopeLocateOptions findOptions = CreateFindOptions(metadata, findAttribute);
             IComponentScopeLocateStrategy elementLocator = findAttribute.CreateStrategy(metadata);
@@ -327,7 +327,7 @@ namespace Atata
 
                 return controlFindingAttribute != null
                     ? controlFindingAttribute.CreateFindAttribute()
-                    : GetDefaultFindAttribute(controlType, parentComponentType, metadata);
+                    : GetDefaultFindAttribute(metadata);
             }
         }
 
@@ -352,7 +352,7 @@ namespace Atata
                 allFindingAttributes.Where(x => x.Depth == null && x.Attribute.ParentComponentType == null).Select(x => x.Attribute).FirstOrDefault();
         }
 
-        private static FindAttribute GetDefaultFindAttribute(Type controlType, Type parentControlType, UIComponentMetadata metadata)
+        private static FindAttribute GetDefaultFindAttribute(UIComponentMetadata metadata)
         {
             if (metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
                 return new UseParentScopeAttribute();

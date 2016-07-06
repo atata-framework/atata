@@ -1,7 +1,7 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -22,10 +22,10 @@ namespace Atata
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
             if (xPathResults.Any())
             {
-                IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).Where(x => x != null).FirstOrDefault();
+                IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).FirstOrDefault(x => x != null);
                 if (element == null && !searchOptions.IsSafely)
                     throw ExceptionFactory.CreateForNoSuchElement(by: By.XPath(xPathResults.First().XPath + xPathCondition));
                 else
@@ -41,7 +41,7 @@ namespace Atata
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
             if (xPathResults.Any())
                 return xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray();
             else
@@ -52,7 +52,7 @@ namespace Atata
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions, xPathCondition);
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
             if (xPathResults.Any())
             {
                 Dictionary<By, ISearchContext> byScopePairs = xPathResults.ToDictionary(x => x.CreateBy(xPathCondition), x => (ISearchContext)x.ScopeSource);
@@ -64,7 +64,7 @@ namespace Atata
             }
         }
 
-        private XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions, string xPathCondition)
+        private XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions)
         {
             IWebElement scopeSource = component.ScopeSource.GetScopeElement(component.Parent);
 

@@ -22,6 +22,7 @@
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
     <DocumentationFile>bin\Debug\Atata.WebDriverExtras.XML</DocumentationFile>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +31,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -79,6 +81,9 @@
     <Compile Include="Settings\SearchOptions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Atata.ruleset">
+      <Link>Properties\Atata.ruleset</Link>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

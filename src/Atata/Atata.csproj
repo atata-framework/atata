@@ -25,6 +25,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Debug\Atata.XML</DocumentationFile>
     <NoWarn>1591</NoWarn>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,6 +34,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -322,6 +324,9 @@
     <Compile Include="Verification\VerificationProvider`1.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Atata.ruleset">
+      <Link>Properties\Atata.ruleset</Link>
+    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

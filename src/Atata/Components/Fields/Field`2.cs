@@ -72,7 +72,7 @@ namespace Atata
         public bool Equals(T other)
         {
             T value = GetValue();
-            return object.Equals(value, other);
+            return Equals(value, other);
         }
 
         public static bool operator ==(Field<T, TOwner> field, T value)

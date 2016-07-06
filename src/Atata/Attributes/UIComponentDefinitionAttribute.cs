@@ -6,7 +6,7 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class UIComponentDefinitionAttribute : Attribute
     {
-        private string baseScopeXPath;
+        private readonly string baseScopeXPath;
 
         protected UIComponentDefinitionAttribute(string scopeXPath = null)
         {

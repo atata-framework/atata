@@ -78,7 +78,7 @@ namespace Atata
 
         TOther IPageObject.GoTo<TOther>(TOther pageObject, GoOptions options)
         {
-            bool isReturnedFromTemporary = pageObject == null && TryResolvePreviousPageObjectNavigatedTemporarily(options, out pageObject);
+            bool isReturnedFromTemporary = pageObject == null && TryResolvePreviousPageObjectNavigatedTemporarily(out pageObject);
 
             pageObject = pageObject ?? ActivatorEx.CreateInstance<TOther>();
 
@@ -123,7 +123,7 @@ namespace Atata
             return pageObject;
         }
 
-        private bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(GoOptions options, out TOther pageObject)
+        private bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(out TOther pageObject)
             where TOther : PageObject<TOther>
         {
             UIComponent foundPageObject = ATContext.Current.TemporarilyPreservedPageObjects.

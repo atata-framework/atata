@@ -1,9 +1,9 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 
 namespace Atata
 {
@@ -209,7 +209,7 @@ namespace Atata
             if (options.Visibility == ElementVisibility.Any)
                 findFunction = x => x.FindElements(by).Count == 0;
             else
-                findFunction = x => !x.FindElements(by).Where(CreateVisibilityPredicate(options.Visibility)).Any();
+                findFunction = x => !x.FindElements(by).Any(CreateVisibilityPredicate(options.Visibility));
 
             bool isMissing = Until(findFunction, options.Timeout, options.RetryInterval);
 
@@ -271,7 +271,7 @@ namespace Atata
 
         private static bool IsMissing(ISearchContext context, By by, ByOptions options)
         {
-            return !context.FindElements(by).Where(CreateVisibilityPredicate(options.Visibility)).Any();
+            return !context.FindElements(by).Any(CreateVisibilityPredicate(options.Visibility));
         }
 
         private IWait<T> CreateWait(TimeSpan timeout, TimeSpan retryInterval)

@@ -6,7 +6,7 @@ namespace Atata
 {
     public class SimpleLogManager : LogManagerBase
     {
-        private Action<string> writeLineAction;
+        private readonly Action<string> writeLineAction;
 
         public SimpleLogManager(Action<string> writeLineAction = null, string screenshotsFolderPath = null)
             : base(screenshotsFolderPath)
