@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Atata
 {
-    public static class IUIComponentValueProviderExtensions
+    public static class IUIComponentDataProviderExtensions
     {
         public static TOwner Get<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, out TValue value)
             where TOwner : PageObject<TOwner>

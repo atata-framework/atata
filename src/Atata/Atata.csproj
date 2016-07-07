@@ -213,7 +213,7 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\Clickable1Extensions.cs" />
-    <Compile Include="Extensions\IUIComponentValueProviderExtensions.cs" />
+    <Compile Include="Extensions\IUIComponentDataProviderExtensions.cs" />
     <Compile Include="Extensions\Link1Extensions.cs" />
     <Compile Include="Extensions\Link2Extensions.cs" />
     <Compile Include="Extensions\CheckExtensions.cs" />
