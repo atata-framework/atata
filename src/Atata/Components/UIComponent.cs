@@ -1,8 +1,8 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -60,7 +60,7 @@ namespace Atata
                 throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
 
             if (CacheScopeElement)
-                this.cachedScope = element;
+                cachedScope = element;
 
             return element;
         }

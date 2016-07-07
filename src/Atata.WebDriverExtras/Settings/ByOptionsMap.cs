@@ -1,5 +1,5 @@
-﻿using OpenQA.Selenium;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -11,7 +11,10 @@ namespace Atata
         internal static ByOptions GetAndStore(By by)
         {
             ByOptions options;
-            return AllOptions.TryGetValue(by, out options) ? options : AllOptions[by] = ByOptions.CreateDefault();
+            if (AllOptions.TryGetValue(by, out options))
+                return options;
+            else
+                return AllOptions[by] = ByOptions.CreateDefault();
         }
 
         internal static ByOptions GetOrDefault(By by)

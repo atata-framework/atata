@@ -304,8 +304,10 @@ namespace Atata
                 declaringAttributes,
                 GetClassAttributes(componentType),
                 GetClassAttributes(parentComponentType),
-                GetAssemblyAttributes(typeof(TOwner).Assembly),
-                componentDefinitonAttribute);
+                GetAssemblyAttributes(typeof(TOwner).Assembly))
+            {
+                ComponentDefinitonAttribute = componentDefinitonAttribute
+            };
         }
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)

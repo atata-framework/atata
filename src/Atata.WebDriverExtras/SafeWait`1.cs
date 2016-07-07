@@ -78,7 +78,7 @@ namespace Atata
                 }
             }
 
-            this.ignoredExceptions.AddRange(exceptionTypes);
+            ignoredExceptions.AddRange(exceptionTypes);
         }
 
         /// <summary>
@@ -97,10 +97,7 @@ namespace Atata
         /// <returns>The delegate's return value.</returns>
         public TResult Until<TResult>(Func<T, TResult> condition)
         {
-            if (condition == null)
-            {
-                throw new ArgumentNullException("condition", "condition cannot be null");
-            }
+            condition.CheckNotNull(nameof(condition));
 
             var resultType = typeof(TResult);
             if ((resultType.IsValueType && resultType != typeof(bool)) || !typeof(object).IsAssignableFrom(resultType))
@@ -113,23 +110,14 @@ namespace Atata
             {
                 try
                 {
-                    var result = condition(this.input);
-                    if (resultType == typeof(bool))
-                    {
-                        var boolResult = result as bool?;
-                        if (boolResult.HasValue && boolResult.Value)
-                        {
-                            return result;
-                        }
-                    }
-                    else if (result != null && (!(result is IEnumerable) || ((IEnumerable)result).Cast<object>().Any()))
-                    {
+                    var result = condition(input);
+
+                    if (DoesConditionResultSatisfy(result))
                         return result;
-                    }
                 }
                 catch (Exception ex)
                 {
-                    if (!this.IsIgnoredException(ex))
+                    if (!IsIgnoredException(ex))
                     {
                         throw;
                     }
@@ -149,9 +137,26 @@ namespace Atata
             }
         }
 
+        protected virtual bool DoesConditionResultSatisfy<TResult>(TResult result)
+        {
+            if (typeof(TResult) == typeof(bool))
+            {
+                var boolResult = result as bool?;
+                if (boolResult.HasValue && boolResult.Value)
+                {
+                    return true;
+                }
+            }
+            else if (result != null && (!(result is IEnumerable) || ((IEnumerable)result).Cast<object>().Any()))
+            {
+                return true;
+            }
+            return false;
+        }
+
         private bool IsIgnoredException(Exception exception)
         {
-            return this.ignoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
+            return ignoredExceptions.Any(type => type.IsAssignableFrom(exception.GetType()));
         }
     }
 }

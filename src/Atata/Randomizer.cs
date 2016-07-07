@@ -11,15 +11,15 @@ namespace Atata
             string uniqueValue = Guid.NewGuid().ToString("N").Substring(0, numberOfCharacters);
 
             StringBuilder stringBuilder = new StringBuilder();
-            int baseCharacter = (int)'a';
+            int baseCharacter = 'a';
             for (int i = 0; i < uniqueValue.Length; i++)
             {
                 string characterAsString = uniqueValue.Substring(i, 1);
-                int characterIntValue = int.Parse(characterAsString.ToString(), NumberStyles.HexNumber);
+                int characterIntValue = int.Parse(characterAsString, NumberStyles.HexNumber);
                 char alphaCharacter = (char)(baseCharacter + characterIntValue);
                 stringBuilder.Append(alphaCharacter);
             }
-            return string.Format(format, stringBuilder.ToString());
+            return string.Format(format, stringBuilder);
         }
 
         public static int GetInt(int min, int max)

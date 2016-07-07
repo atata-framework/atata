@@ -11,10 +11,10 @@ namespace Atata
         private readonly IComponentScopeLocateStrategy strategy;
         private readonly ComponentScopeLocateOptions scopeLocateOptions;
 
-        public StrategyScopeLocator(UIComponent component, IComponentScopeLocateStrategy elementLocator, ComponentScopeLocateOptions scopeLocateOptions)
+        public StrategyScopeLocator(UIComponent component, IComponentScopeLocateStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions)
         {
             this.component = component;
-            this.strategy = elementLocator;
+            this.strategy = strategy;
             this.scopeLocateOptions = scopeLocateOptions;
         }
 

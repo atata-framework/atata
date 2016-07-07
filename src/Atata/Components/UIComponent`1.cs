@@ -151,7 +151,7 @@ namespace Atata
 
             if (on == TriggerEvents.OnPageObjectInit || on == TriggerEvents.OnPageObjectLeave)
             {
-                foreach (UIComponent<TOwner> child in Children)
+                foreach (UIComponent<TOwner> child in Children.Cast<UIComponent<TOwner>>())
                 {
                     child.ExecuteTriggers(on);
                 }

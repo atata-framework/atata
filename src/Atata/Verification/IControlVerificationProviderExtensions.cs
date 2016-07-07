@@ -15,7 +15,7 @@ namespace Atata
             where TControl : IUIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            var scope = should.Control.Scope;
+            should.Control.Exists();
             return should.Owner;
         }
 

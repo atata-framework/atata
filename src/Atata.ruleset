@@ -5,6 +5,9 @@
     <Rule Id="CA1009" Action="Warning" />
     <Rule Id="CA1016" Action="Warning" />
     <Rule Id="CA1033" Action="Warning" />
+    <Rule Id="CA1040" Action="Warning" />
+    <Rule Id="CA1041" Action="Warning" />
+    <Rule Id="CA1044" Action="Warning" />
     <Rule Id="CA1049" Action="Warning" />
     <Rule Id="CA1060" Action="Warning" />
     <Rule Id="CA1061" Action="Warning" />
@@ -64,12 +67,25 @@
     <Rule Id="CA2241" Action="Warning" />
     <Rule Id="CA2242" Action="Warning" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
+    <Rule Id="IDE0002" Action="Warning" />
+    <Rule Id="IDE0003" Action="Warning" />
+    <Rule Id="IDE1005" Action="Warning" />
+  </Rules>
   <Rules AnalyzerId="SonarAnalyzer.CSharp" RuleNamespace="SonarAnalyzer.CSharp">
     <Rule Id="S101" Action="None" />
+    <Rule Id="S104" Action="Warning" />
     <Rule Id="S105" Action="Warning" />
     <Rule Id="S107" Action="Warning" />
+    <Rule Id="S1109" Action="Warning" />
+    <Rule Id="S122" Action="Warning" />
+    <Rule Id="S1227" Action="Warning" />
+    <Rule Id="S131" Action="Warning" />
+    <Rule Id="S134" Action="Warning" />
     <Rule Id="S1449" Action="None" />
+    <Rule Id="S2225" Action="None" />
     <Rule Id="S2357" Action="Warning" />
     <Rule Id="S2360" Action="None" />
+    <Rule Id="S3249" Action="None" />
   </Rules>
 </RuleSet>

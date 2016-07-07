@@ -269,9 +269,6 @@ namespace Atata
 
             if (result == null && !destinationType.IsClassOrNullable())
             {
-                ////if (destinationType.IsEnum && GetEnumNumericValues(destinationType).Contains(0UL))
-                ////    return Enum.ToObject(destinationType, 0);
-
                 throw new ArgumentException(
                     "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(destinationType.FullName, value),
                     "value");
@@ -280,11 +277,6 @@ namespace Atata
             {
                 return result;
             }
-        }
-
-        private static ulong[] GetEnumNumericValues(Type type)
-        {
-            return Enum.GetValues(type).Cast<Enum>().Select(x => Convert.ToUInt64(x)).ToArray();
         }
 
         private static object RetrieveValueFromString(string value, Type destinationType, TermOptions termOptions)
