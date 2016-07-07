@@ -253,5 +253,17 @@ namespace Atata
         {
             return should.Satisfy(actual => actual != null && (actual.Value.CompareTo(from) >= 0 || actual.Value.CompareTo(to) <= 0), "be in range {0} - {1}", from, to);
         }
+
+        public static TOwner EqualDate<TOwner>(this IDataVerificationProvider<DateTime, TOwner> should, DateTime expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => Equals(actual.Date, expected.Date), "equal date {0}", expected);
+        }
+
+        public static TOwner EqualDate<TOwner>(this IDataVerificationProvider<DateTime?, TOwner> should, DateTime expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && Equals(actual.Value.Date, expected.Date), "equal date {0}", expected);
+        }
     }
 }
