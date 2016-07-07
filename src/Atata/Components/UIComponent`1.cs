@@ -45,7 +45,7 @@ namespace Atata
             UIComponentResolver.Resolve<TOwner>(this);
         }
 
-        public string GetContent()
+        private string GetContent()
         {
             return Scope.Text;
         }
