@@ -188,35 +188,70 @@ namespace Atata
             where TData : IComparable<TData>, IComparable
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual.CompareTo(expected) > 0, "be greater than {0}", expected);
+            return should.Satisfy(actual => actual != null && actual.CompareTo(expected) > 0, "be greater than {0}", expected);
+        }
+
+        public static TOwner BeGreater<TData, TOwner>(this IDataVerificationProvider<TData?, TOwner> should, TData expected)
+            where TData : struct, IComparable<TData>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) > 0, "be greater than {0}", expected);
         }
 
         public static TOwner BeGreaterOrEqual<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected)
             where TData : IComparable<TData>, IComparable
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual.CompareTo(expected) >= 0, "be greater than or equal to {0}", expected);
+            return should.Satisfy(actual => actual != null && actual.CompareTo(expected) >= 0, "be greater than or equal to {0}", expected);
+        }
+
+        public static TOwner BeGreaterOrEqual<TData, TOwner>(this IDataVerificationProvider<TData?, TOwner> should, TData expected)
+            where TData : struct, IComparable<TData>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) >= 0, "be greater than or equal to {0}", expected);
         }
 
         public static TOwner BeLess<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected)
             where TData : IComparable<TData>, IComparable
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual.CompareTo(expected) < 0, "be less than {0}", expected);
+            return should.Satisfy(actual => actual != null && actual.CompareTo(expected) < 0, "be less than {0}", expected);
+        }
+
+        public static TOwner BeLess<TData, TOwner>(this IDataVerificationProvider<TData?, TOwner> should, TData expected)
+            where TData : struct, IComparable<TData>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) < 0, "be less than {0}", expected);
         }
 
         public static TOwner BeLessOrEqual<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected)
             where TData : IComparable<TData>, IComparable
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual.CompareTo(expected) <= 0, "be less than or equal to {0}", expected);
+            return should.Satisfy(actual => actual != null && actual.CompareTo(expected) <= 0, "be less than or equal to {0}", expected);
+        }
+
+        public static TOwner BeLessOrEqual<TData, TOwner>(this IDataVerificationProvider<TData?, TOwner> should, TData expected)
+            where TData : struct, IComparable<TData>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) <= 0, "be less than or equal to {0}", expected);
         }
 
         public static TOwner BeInRange<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData from, TData to)
             where TData : IComparable<TData>, IComparable
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual.CompareTo(from) >= 0 || actual.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
+            return should.Satisfy(actual => actual != null && (actual.CompareTo(from) >= 0 || actual.CompareTo(to) <= 0), "be in range {0} - {1}", from, to);
+        }
+
+        public static TOwner BeInRange<TData, TOwner>(this IDataVerificationProvider<TData?, TOwner> should, TData from, TData to)
+            where TData : struct, IComparable<TData>, IComparable
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && (actual.Value.CompareTo(from) >= 0 || actual.Value.CompareTo(to) <= 0), "be in range {0} - {1}", from, to);
         }
     }
 }
