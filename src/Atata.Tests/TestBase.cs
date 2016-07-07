@@ -49,11 +49,11 @@ namespace Atata.Tests
             for (int i = 0; i < values.Length; i++)
             {
                 control.Set(values[i]);
-                control.VerifyEquals(values[i]);
+                control.Should.Equal(values[i]);
                 Assert.That(control.Get(), Is.EqualTo(values[i]));
 
-                if (i > 0 && !object.Equals(values[i], values[i - 1]))
-                    control.VerifyDoesNotEqual(values[i - 1]);
+                if (i > 0 && !Equals(values[i], values[i - 1]))
+                    control.Should.Not.Equal(values[i - 1]);
             }
         }
 
@@ -74,10 +74,10 @@ namespace Atata.Tests
         protected void VerifyDoesNotEqual<T, TPage>(EditableField<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
-            control.VerifyDoesNotEqual(value);
+            control.Should.Not.Equal(value);
 
             Assert.Throws<AssertionException>(() =>
-                control.VerifyEquals(value));
+                control.Should.Equal(value));
         }
     }
 }

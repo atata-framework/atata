@@ -146,33 +146,51 @@ namespace Atata
             return should.Satisfy(actual => string.Equals(expected, actual, StringComparison.CurrentCultureIgnoreCase), "equal {0} ignoring case", expected);
         }
 
-        public static TOwner Contains<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
+        public static TOwner Contain<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual != null && actual.Contains(expected), "contains {0}", expected);
+            expected.CheckNotNull(nameof(expected));
+
+            return should.Satisfy(actual => actual != null && actual.Contains(expected), "contain {0}", expected);
+        }
+
+        public static TOwner ContainIgnoringCase<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
+            where TOwner : PageObject<TOwner>
+        {
+            expected.CheckNotNull(nameof(expected));
+
+            return should.Satisfy(actual => actual != null && actual.ToUpper().Contains(expected.ToUpper()), "contain {0} ignoring case", expected);
         }
 
         public static TOwner StartWith<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
             where TOwner : PageObject<TOwner>
         {
+            expected.CheckNotNull(nameof(expected));
+
             return should.Satisfy(actual => actual != null && actual.StartsWith(expected), "start with {0}", expected);
         }
 
         public static TOwner StartWithIgnoringCase<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
             where TOwner : PageObject<TOwner>
         {
+            expected.CheckNotNull(nameof(expected));
+
             return should.Satisfy(actual => actual != null && actual.StartsWith(expected, StringComparison.CurrentCultureIgnoreCase), "start with {0} ignoring case", expected);
         }
 
         public static TOwner EndWith<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
             where TOwner : PageObject<TOwner>
         {
+            expected.CheckNotNull(nameof(expected));
+
             return should.Satisfy(actual => actual != null && actual.EndsWith(expected), "end with {0}", expected);
         }
 
         public static TOwner EndWithIgnoringCase<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
             where TOwner : PageObject<TOwner>
         {
+            expected.CheckNotNull(nameof(expected));
+
             return should.Satisfy(actual => actual != null && actual.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase), "end with {0} ignoring case", expected);
         }
 

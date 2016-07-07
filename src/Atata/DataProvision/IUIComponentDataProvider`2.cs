@@ -1,12 +1,12 @@
 ﻿namespace Atata
 {
-    public interface IUIComponentDataProvider<TValue, TOwner>
+    public interface IUIComponentDataProvider<TData, TOwner>
         where TOwner : PageObject<TOwner>
     {
         string ComponentFullName { get; }
         string ProviderName { get; }
         TOwner Owner { get; }
-        TValue Get();
-        string ConvertValueToString(TValue value);
+        TData Get();
+        string ConvertValueToString(TData value);
     }
 }

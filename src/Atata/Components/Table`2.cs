@@ -1,7 +1,7 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -17,7 +17,7 @@ namespace Atata
             ControlDefinitionAttribute controlDefinition = UIComponentResolver.GetControlDefinition(typeof(TRow));
             rowScopeXPath = (controlDefinition != null ? controlDefinition.ScopeXPath : null) ?? "tr";
 
-            RowCount = CreateValueProvider(GetRowCount, "row count");
+            RowCount = CreateDataProvider(GetRowCount, "row count");
         }
 
         public UIComponentDataProvider<int, TOwner> RowCount { get; private set; }

@@ -309,7 +309,6 @@
     <Compile Include="Components\Fields\TextInput`1.cs" />
     <Compile Include="DataProvision\PageTitleDataProvider`1.cs" />
     <Compile Include="DataProvision\PageUrlDataProvider`1.cs" />
-    <Compile Include="DataProvision\UIComponentContentDataProvider`1.cs" />
     <Compile Include="DataProvision\UIComponentDataProvider`2.cs" />
     <Compile Include="ValueRandomizer.cs" />
     <Compile Include="Verification\ControlVerificationProvider`2.cs" />

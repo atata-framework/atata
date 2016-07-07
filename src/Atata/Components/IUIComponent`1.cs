@@ -8,7 +8,7 @@ namespace Atata
     {
         IPageObject<TOwner> Owner { get; }
         IUIComponent<TOwner> Parent { get; }
-        UIComponentContentDataProvider<TOwner> Content { get; }
+        UIComponentDataProvider<string, TOwner> Content { get; }
         ScopeSource ScopeSource { get; }
         IWebElement Scope { get; }
         IScopeLocator ScopeLocator { get; }

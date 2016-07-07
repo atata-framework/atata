@@ -48,6 +48,10 @@ namespace Atata.Tests
             SetAndVerifyValues(page.IntTextInput, 45, null, 57);
 
             VerifyDoesNotEqual(page.IntTextInput, 59);
+
+            page.IntTextInput.Should.BeGreater(55).
+                IntTextInput.Should.BeLess(60).
+                IntTextInput.Should.BeInRange(50, 60);
         }
     }
 }
