@@ -14,8 +14,8 @@ namespace Atata
 
             Owner = (T)this;
 
-            PageTitle = new PageTitleValueProvider<T>((T)this);
-            PageUrl = new PageUrlValueProvider<T>((T)this);
+            PageTitle = new PageTitleDataProvider<T>((T)this);
+            PageUrl = new PageUrlDataProvider<T>((T)this);
         }
 
         protected internal bool NavigateOnInit { get; internal set; }
@@ -23,8 +23,8 @@ namespace Atata
 
         protected UIComponent PreviousPageObject { get; private set; }
 
-        public PageTitleValueProvider<T> PageTitle { get; private set; }
-        public PageUrlValueProvider<T> PageUrl { get; private set; }
+        public PageTitleDataProvider<T> PageTitle { get; private set; }
+        public PageUrlDataProvider<T> PageUrl { get; private set; }
 
         protected virtual IWebElement GetScope(SearchOptions searchOptions)
         {

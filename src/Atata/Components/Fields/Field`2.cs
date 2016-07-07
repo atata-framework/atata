@@ -8,7 +8,7 @@ namespace Atata
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlFinding(FindTermBy.Label)]
-    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IUIComponentValueProvider<T, TOwner>
+    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IUIComponentDataProvider<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected Field()
@@ -17,13 +17,13 @@ namespace Atata
 
         protected TermOptions ValueTermOptions { get; private set; }
 
-        string IUIComponentValueProvider<T, TOwner>.ComponentFullName => ComponentFullName;
+        string IUIComponentDataProvider<T, TOwner>.ComponentFullName => ComponentFullName;
 
         protected virtual string ValueProviderName => "value";
 
-        string IUIComponentValueProvider<T, TOwner>.ProviderName => ValueProviderName;
+        string IUIComponentDataProvider<T, TOwner>.ProviderName => ValueProviderName;
 
-        TOwner IUIComponentValueProvider<T, TOwner>.Owner => Owner;
+        TOwner IUIComponentDataProvider<T, TOwner>.Owner => Owner;
 
         public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, Field<T, TOwner>, TOwner>(this);
 
@@ -34,7 +34,7 @@ namespace Atata
             return GetValue();
         }
 
-        string IUIComponentValueProvider<T, TOwner>.ConvertValueToString(T value) => ConvertValueToString(value);
+        string IUIComponentDataProvider<T, TOwner>.ConvertValueToString(T value) => ConvertValueToString(value);
 
         protected internal virtual string ConvertValueToString(T value)
         {

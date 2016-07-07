@@ -17,7 +17,7 @@ namespace Atata
             should.CheckNotNull(nameof(should));
             predicate.CheckNotNull(nameof(predicate));
 
-            IUIComponentValueProvider<TData, TOwner> provider = should.DataProvider;
+            IUIComponentDataProvider<TData, TOwner> provider = should.DataProvider;
 
             StringBuilder logMessageBuilder = new StringBuilder();
             logMessageBuilder.AppendFormat("{0} {1}", provider.ComponentFullName, provider.ProviderName);

@@ -6,14 +6,14 @@ namespace Atata
 {
     public static class IUIComponentValueProviderExtensions
     {
-        public static TOwner Get<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, out TValue value)
+        public static TOwner Get<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, out TValue value)
             where TOwner : PageObject<TOwner>
         {
             value = provider.Get();
             return provider.Owner;
         }
 
-        public static TOwner Verify<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, Action assertAction, string verificationMessage, params object[] verificationMessageArgs)
+        public static TOwner Verify<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, Action assertAction, string verificationMessage, params object[] verificationMessageArgs)
             where TOwner : PageObject<TOwner>
         {
             StringBuilder logMessageBuilder = new StringBuilder();
@@ -31,7 +31,7 @@ namespace Atata
             return provider.Owner;
         }
 
-        public static TOwner Verify<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, Action<TValue, string> assertAction, string verificationMessage, params object[] verificationMessageArgs)
+        public static TOwner Verify<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, Action<TValue, string> assertAction, string verificationMessage, params object[] verificationMessageArgs)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -46,7 +46,7 @@ namespace Atata
                 verificationMessageArgs);
         }
 
-        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
+        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentDataProvider<bool, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -55,7 +55,7 @@ namespace Atata
                 bool.TrueString);
         }
 
-        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
+        public static TOwner VerifyIsTrue<TOwner>(this IUIComponentDataProvider<bool?, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -64,7 +64,7 @@ namespace Atata
                 bool.TrueString);
         }
 
-        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool, TOwner> provider)
+        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentDataProvider<bool, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -73,7 +73,7 @@ namespace Atata
                 bool.FalseString);
         }
 
-        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentValueProvider<bool?, TOwner> provider)
+        public static TOwner VerifyIsFalse<TOwner>(this IUIComponentDataProvider<bool?, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -82,7 +82,7 @@ namespace Atata
                 bool.FalseString);
         }
 
-        public static TOwner VerifyIsNull<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+        public static TOwner VerifyIsNull<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -90,7 +90,7 @@ namespace Atata
                 "is null");
         }
 
-        public static TOwner VerifyIsNotNull<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+        public static TOwner VerifyIsNotNull<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -98,7 +98,7 @@ namespace Atata
                 "is not null");
         }
 
-        public static TOwner VerifyIsNullOrEmpty<TOwner>(this IUIComponentValueProvider<string, TOwner> provider)
+        public static TOwner VerifyIsNullOrEmpty<TOwner>(this IUIComponentDataProvider<string, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -106,7 +106,7 @@ namespace Atata
                 "is null or empty");
         }
 
-        public static TOwner VerifyIsNotNullOrEmpty<TOwner>(this IUIComponentValueProvider<string, TOwner> provider)
+        public static TOwner VerifyIsNotNullOrEmpty<TOwner>(this IUIComponentDataProvider<string, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -114,7 +114,7 @@ namespace Atata
                 "is not null or empty");
         }
 
-        public static TOwner VerifyEquals<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue expected)
+        public static TOwner VerifyEquals<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, TValue expected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -123,7 +123,7 @@ namespace Atata
                 provider.ConvertValueToString(expected));
         }
 
-        public static TOwner VerifyDoesNotEqual<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue unexpected)
+        public static TOwner VerifyDoesNotEqual<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, TValue unexpected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -132,7 +132,7 @@ namespace Atata
                 provider.ConvertValueToString(unexpected));
         }
 
-        public static TOwner VerifyIsGreaterThan<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+        public static TOwner VerifyIsGreaterThan<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, TValue compareTo)
             where TValue : IComparable<TValue>, IComparable
             where TOwner : PageObject<TOwner>
         {
@@ -142,7 +142,7 @@ namespace Atata
                 provider.ConvertValueToString(compareTo));
         }
 
-        public static TOwner VerifyIsGreaterThanOrEqualTo<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+        public static TOwner VerifyIsGreaterThanOrEqualTo<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, TValue compareTo)
             where TValue : IComparable<TValue>, IComparable
             where TOwner : PageObject<TOwner>
         {
@@ -152,7 +152,7 @@ namespace Atata
                 provider.ConvertValueToString(compareTo));
         }
 
-        public static TOwner VerifyIsLessThan<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+        public static TOwner VerifyIsLessThan<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, TValue compareTo)
             where TValue : IComparable<TValue>, IComparable
             where TOwner : PageObject<TOwner>
         {
@@ -162,7 +162,7 @@ namespace Atata
                 provider.ConvertValueToString(compareTo));
         }
 
-        public static TOwner VerifyIsLessThanOrEqualTo<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue compareTo)
+        public static TOwner VerifyIsLessThanOrEqualTo<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, TValue compareTo)
             where TValue : IComparable<TValue>, IComparable
             where TOwner : PageObject<TOwner>
         {
@@ -172,7 +172,7 @@ namespace Atata
                 provider.ConvertValueToString(compareTo));
         }
 
-        public static TOwner VerifyIsInRange<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, TValue from, TValue to)
+        public static TOwner VerifyIsInRange<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, TValue from, TValue to)
             where TValue : IComparable<TValue>, IComparable
             where TOwner : PageObject<TOwner>
         {
@@ -183,7 +183,7 @@ namespace Atata
                 provider.ConvertValueToString(to));
         }
 
-        public static TOwner VerifyEqualsIgnoringCase<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+        public static TOwner VerifyEqualsIgnoringCase<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string expected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -192,7 +192,7 @@ namespace Atata
                 expected);
         }
 
-        public static TOwner VerifyDoesNotEqualIgnoringCase<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+        public static TOwner VerifyDoesNotEqualIgnoringCase<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string unexpected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -201,7 +201,7 @@ namespace Atata
                 unexpected);
         }
 
-        public static TOwner VerifyContains<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+        public static TOwner VerifyContains<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string expected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -210,7 +210,7 @@ namespace Atata
                 expected);
         }
 
-        public static TOwner VerifyStartsWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+        public static TOwner VerifyStartsWith<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string expected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -219,7 +219,7 @@ namespace Atata
                 expected);
         }
 
-        public static TOwner VerifyEndsWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string expected)
+        public static TOwner VerifyEndsWith<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string expected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -228,7 +228,7 @@ namespace Atata
                 expected);
         }
 
-        public static TOwner VerifyMatches<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string pattern)
+        public static TOwner VerifyMatches<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string pattern)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -237,7 +237,7 @@ namespace Atata
                 pattern);
         }
 
-        public static TOwner VerifyDoesNotContain<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+        public static TOwner VerifyDoesNotContain<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string unexpected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -246,7 +246,7 @@ namespace Atata
                 unexpected);
         }
 
-        public static TOwner VerifyDoesNotStartWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+        public static TOwner VerifyDoesNotStartWith<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string unexpected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -255,7 +255,7 @@ namespace Atata
                 unexpected);
         }
 
-        public static TOwner VerifyDoesNotEndWith<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string unexpected)
+        public static TOwner VerifyDoesNotEndWith<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string unexpected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -264,7 +264,7 @@ namespace Atata
                 unexpected);
         }
 
-        public static TOwner VerifyDoesNotMatch<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, string pattern)
+        public static TOwner VerifyDoesNotMatch<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, string pattern)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -273,7 +273,7 @@ namespace Atata
                 pattern);
         }
 
-        public static TOwner VerifyDateEquals<TOwner>(this IUIComponentValueProvider<DateTime, TOwner> provider, DateTime expected)
+        public static TOwner VerifyDateEquals<TOwner>(this IUIComponentDataProvider<DateTime, TOwner> provider, DateTime expected)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -282,7 +282,7 @@ namespace Atata
                 provider.ConvertValueToString(expected));
         }
 
-        public static TOwner VerifyUntilMatchesAny<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, TermMatch match, params string[] expectedValues)
+        public static TOwner VerifyUntilMatchesAny<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, TermMatch match, params string[] expectedValues)
             where TOwner : PageObject<TOwner>
         {
             expectedValues.CheckNotNullOrEmpty("expectedValues");
@@ -312,7 +312,7 @@ namespace Atata
                 expectedValuesAsString);
         }
 
-        public static TOwner VerifyUntilContains<TOwner>(this IUIComponentValueProvider<string, TOwner> provider, params string[] expectedValues)
+        public static TOwner VerifyUntilContains<TOwner>(this IUIComponentDataProvider<string, TOwner> provider, params string[] expectedValues)
             where TOwner : PageObject<TOwner>
         {
             expectedValues.CheckNotNull("expectedValues");
@@ -345,7 +345,7 @@ namespace Atata
                 expectedValuesAsString);
         }
 
-        public static TOwner VerifyUntil<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider, Action<TValue, string> assertAction, string verificationMessage, params object[] verificationMessageArgs)
+        public static TOwner VerifyUntil<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider, Action<TValue, string> assertAction, string verificationMessage, params object[] verificationMessageArgs)
             where TOwner : PageObject<TOwner>
         {
             return provider.Verify(
@@ -375,7 +375,7 @@ namespace Atata
                 verificationMessageArgs);
         }
 
-        internal static string BuildErrorMessage<TValue, TOwner>(this IUIComponentValueProvider<TValue, TOwner> provider)
+        internal static string BuildErrorMessage<TValue, TOwner>(this IUIComponentDataProvider<TValue, TOwner> provider)
             where TOwner : PageObject<TOwner>
         {
             return string.Format("Invalid {0} {1}", provider.ComponentFullName, provider.ProviderName);

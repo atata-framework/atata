@@ -4,14 +4,14 @@
         : VerificationProvider<TOwner>, IDataVerificationProvider<TData, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public DataVerificationProvider(IUIComponentValueProvider<TData, TOwner> dataProvider)
+        public DataVerificationProvider(IUIComponentDataProvider<TData, TOwner> dataProvider)
         {
             DataProvider = dataProvider;
         }
 
-        protected IUIComponentValueProvider<TData, TOwner> DataProvider { get; private set; }
+        protected IUIComponentDataProvider<TData, TOwner> DataProvider { get; private set; }
 
-        IUIComponentValueProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
+        IUIComponentDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
 
         protected override TOwner Owner
         {
@@ -23,14 +23,14 @@
         public class NegationDataVerificationProvider
             : NegationVerificationProvider<TOwner>, IDataVerificationProvider<TData, TOwner>
         {
-            public NegationDataVerificationProvider(IUIComponentValueProvider<TData, TOwner> dataProvider)
+            public NegationDataVerificationProvider(IUIComponentDataProvider<TData, TOwner> dataProvider)
             {
                 DataProvider = dataProvider;
             }
 
-            protected IUIComponentValueProvider<TData, TOwner> DataProvider { get; private set; }
+            protected IUIComponentDataProvider<TData, TOwner> DataProvider { get; private set; }
 
-            IUIComponentValueProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
+            IUIComponentDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
 
             protected override TOwner Owner
             {

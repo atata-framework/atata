@@ -1,31 +1,31 @@
 ﻿namespace Atata
 {
-    public class UIComponentContentValueProvider<TOwner> : IUIComponentValueProvider<string, TOwner>
+    public class UIComponentContentDataProvider<TOwner> : IUIComponentDataProvider<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
         private readonly UIComponent<TOwner> component;
 
-        public UIComponentContentValueProvider(UIComponent<TOwner> component)
+        public UIComponentContentDataProvider(UIComponent<TOwner> component)
         {
             this.component = component;
         }
 
-        string IUIComponentValueProvider<string, TOwner>.ComponentFullName
+        string IUIComponentDataProvider<string, TOwner>.ComponentFullName
         {
             get { return component.ComponentFullName; }
         }
 
-        TOwner IUIComponentValueProvider<string, TOwner>.Owner
+        TOwner IUIComponentDataProvider<string, TOwner>.Owner
         {
             get { return component.Owner; }
         }
 
-        string IUIComponentValueProvider<string, TOwner>.ProviderName
+        string IUIComponentDataProvider<string, TOwner>.ProviderName
         {
             get { return "content"; }
         }
 
-        string IUIComponentValueProvider<string, TOwner>.ConvertValueToString(string value)
+        string IUIComponentDataProvider<string, TOwner>.ConvertValueToString(string value)
         {
             return value;
         }

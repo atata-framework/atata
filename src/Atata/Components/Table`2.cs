@@ -20,7 +20,7 @@ namespace Atata
             RowCount = CreateValueProvider(GetRowCount, "row count");
         }
 
-        public UIComponentValueProvider<int, TOwner> RowCount { get; private set; }
+        public UIComponentDataProvider<int, TOwner> RowCount { get; private set; }
 
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }

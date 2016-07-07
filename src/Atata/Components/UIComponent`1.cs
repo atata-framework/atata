@@ -9,7 +9,7 @@ namespace Atata
     {
         protected UIComponent()
         {
-            Content = new UIComponentContentValueProvider<TOwner>(this);
+            Content = new UIComponentContentDataProvider<TOwner>(this);
         }
 
         protected internal new TOwner Owner
@@ -24,7 +24,7 @@ namespace Atata
             internal set { base.Parent = value; }
         }
 
-        public UIComponentContentValueProvider<TOwner> Content { get; private set; }
+        public UIComponentContentDataProvider<TOwner> Content { get; private set; }
 
         IPageObject<TOwner> IUIComponent<TOwner>.Owner => Owner;
 
@@ -126,9 +126,9 @@ namespace Atata
             return control;
         }
 
-        protected UIComponentValueProvider<TValue, TOwner> CreateValueProvider<TValue>(Func<TValue> valueGetFunction, string providerName)
+        protected UIComponentDataProvider<TValue, TOwner> CreateValueProvider<TValue>(Func<TValue> valueGetFunction, string providerName)
         {
-            return new UIComponentValueProvider<TValue, TOwner>(this, valueGetFunction, providerName);
+            return new UIComponentDataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
         }
 
         protected void ExecuteTriggers(TriggerEvents on)

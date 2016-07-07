@@ -50,7 +50,7 @@ namespace Atata
             return clickable.GetControl().Exists();
         }
 
-        public static IUIComponentValueProvider<string, TOwner> Content<TOwner>(this Link<TOwner> clickable)
+        public static IUIComponentDataProvider<string, TOwner> Content<TOwner>(this Link<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().Content;

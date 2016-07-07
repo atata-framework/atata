@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public interface IUIComponentValueProvider<TValue, TOwner>
+    public interface IUIComponentDataProvider<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
         string ComponentFullName { get; }
