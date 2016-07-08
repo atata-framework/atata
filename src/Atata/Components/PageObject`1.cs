@@ -76,7 +76,7 @@ namespace Atata
         {
             NavigateToAttribute attribute;
 
-            if (GetType().TryGetCustomAttribute(out attribute, true))
+            if (GetType().TryGetCustomAttribute(out attribute))
             {
                 Go.ToUrl(attribute.Url);
             }
