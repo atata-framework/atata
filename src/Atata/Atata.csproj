@@ -103,6 +103,7 @@
     <Compile Include="Attributes\ValueXPathAttribute.cs" />
     <Compile Include="Components\Fields\IPageObject`1.cs" />
     <Compile Include="Extensions\ITermDataProviderExtensions.cs" />
+    <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="Terms\ITermDataProvider.cs" />
     <Compile Include="Terms\ITermSettings.cs" />
     <Compile Include="Attributes\NameAttribute.cs" />

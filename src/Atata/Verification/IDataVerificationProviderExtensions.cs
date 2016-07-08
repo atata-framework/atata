@@ -19,8 +19,8 @@ namespace Atata
 
             IUIComponentDataProvider<TData, TOwner> provider = should.DataProvider;
 
-            StringBuilder logMessageBuilder = new StringBuilder();
-            logMessageBuilder.AppendFormat("{0} {1}", provider.ComponentFullName, provider.ProviderName);
+            StringBuilder logMessageBuilder = new StringBuilder().
+                Append($"{provider.ComponentFullName} {provider.ProviderName}");
 
             if (!string.IsNullOrWhiteSpace(message))
             {
@@ -51,7 +51,7 @@ namespace Atata
             return should.Owner;
         }
 
-        public static string BuildAssertionErrorMessage(string primaryMessage, object actual, string expectedMessage, object[] expectedArgs)
+        private static string BuildAssertionErrorMessage(string primaryMessage, object actual, string expectedMessage, object[] expectedArgs)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -282,6 +282,23 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             return should.Satisfy(actual => actual != null && Equals(actual.Value.Date, expected.Date), "equal date {0}", expected);
+        }
+
+        public static TOwner MatchAny<TOwner>(this IDataVerificationProvider<string, TOwner> should, TermMatch match, params string[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            match.CheckNotEquals(nameof(match), TermMatch.Inherit);
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            var predicate = match.GetPredicate();
+
+            string message = new StringBuilder().
+                Append($"{match.GetShouldText()} ").
+                AppendIf(expected.Length > 1, "any of: ").
+                AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}")).
+                ToString();
+
+            return should.Satisfy(actual => actual != null && expected.Any(x => predicate(actual, x)), message, expected);
         }
     }
 }

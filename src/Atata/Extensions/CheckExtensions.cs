@@ -53,6 +53,15 @@ namespace Atata
             return collection;
         }
 
+        internal static T CheckNotEquals<T>(this T value, string argumentName, T invalidValue, string errorMessage = null)
+            where T : struct
+        {
+            if (Equals(value, invalidValue))
+                throw new ArgumentException(ConcatMessage($"Invalid {typeof(T).FullName} value: {value}.", errorMessage), argumentName);
+
+            return value;
+        }
+
         private static string ConcatMessage(string primaryMessage, string secondaryMessage)
         {
             StringBuilder builder = new StringBuilder(primaryMessage);

@@ -57,6 +57,23 @@ namespace Atata
             }
         }
 
+        internal static string GetShouldText(this TermMatch match)
+        {
+            switch (match)
+            {
+                case TermMatch.Contains:
+                    return "contain";
+                case TermMatch.Equals:
+                    return "equal";
+                case TermMatch.StartsWith:
+                    return "start with";
+                case TermMatch.EndsWith:
+                    return "end with";
+                default:
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, "match");
+            }
+        }
+
         public static void Assert(this TermMatch match, IEnumerable<string> expected, string actual, string message, params object[] args)
         {
             switch (match)
