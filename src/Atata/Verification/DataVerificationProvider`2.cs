@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
-    public class DataVerificationProvider<TData, TOwner>
-        : VerificationProvider<TOwner>, IDataVerificationProvider<TData, TOwner>
+    public class DataVerificationProvider<TData, TOwner> :
+        VerificationProvider<DataVerificationProvider<TData, TOwner>, TOwner>,
+        IDataVerificationProvider<TData, TOwner>
         where TOwner : PageObject<TOwner>
     {
         public DataVerificationProvider(IUIComponentDataProvider<TData, TOwner> dataProvider)
@@ -20,8 +21,9 @@
 
         public NegationDataVerificationProvider Not => new NegationDataVerificationProvider(DataProvider);
 
-        public class NegationDataVerificationProvider
-            : NegationVerificationProvider<TOwner>, IDataVerificationProvider<TData, TOwner>
+        public class NegationDataVerificationProvider :
+            NegationVerificationProvider<NegationDataVerificationProvider, TOwner>,
+            IDataVerificationProvider<TData, TOwner>
         {
             public NegationDataVerificationProvider(IUIComponentDataProvider<TData, TOwner> dataProvider)
             {

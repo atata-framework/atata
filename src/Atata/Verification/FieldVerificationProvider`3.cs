@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
-    public class FieldVerificationProvider<TData, TField, TOwner>
-        : ControlVerificationProvider<TField, TOwner>, IDataVerificationProvider<TData, TOwner>
+    public class FieldVerificationProvider<TData, TField, TOwner> :
+        ControlVerificationProvider<TField, FieldVerificationProvider<TData, TField, TOwner>, TOwner>,
+        IDataVerificationProvider<TData, TOwner>
         where TField : Field<TData, TOwner>
         where TOwner : PageObject<TOwner>
     {

@@ -311,6 +311,7 @@
     <Compile Include="DataProvision\UIComponentDataProvider`2.cs" />
     <Compile Include="ValueRandomizer.cs" />
     <Compile Include="Verification\ControlVerificationProvider`2.cs" />
+    <Compile Include="Verification\ControlVerificationProvider`3.cs" />
     <Compile Include="Verification\DataVerificationProvider`2.cs" />
     <Compile Include="Verification\FieldVerificationProvider`3.cs" />
     <Compile Include="Verification\IControlVerificationProviderExtensions.cs" />
@@ -318,8 +319,8 @@
     <Compile Include="Verification\IDataVerificationProviderExtensions.cs" />
     <Compile Include="Verification\IDataVerificationProvider`2.cs" />
     <Compile Include="Verification\IVerificationProvider`1.cs" />
-    <Compile Include="Verification\NegationVerificationProvider`1.cs" />
-    <Compile Include="Verification\VerificationProvider`1.cs" />
+    <Compile Include="Verification\NegationVerificationProvider`2.cs" />
+    <Compile Include="Verification\VerificationProvider`2.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Atata.ruleset">

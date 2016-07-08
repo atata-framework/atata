@@ -21,10 +21,15 @@ namespace Atata
 
             ATContext.Current.Log.StartVerificationSection(logMessage);
 
-            TData actual = should.DataProvider.Get();
-            bool doesSatisfy = predicate(actual);
+            TData actual = default(TData);
 
-            if (doesSatisfy == should.IsNegation)
+            bool doesSatisfy = ATContext.Current.Driver.Try().Until(_ =>
+            {
+                actual = should.DataProvider.Get();
+                return predicate(actual) != should.IsNegation;
+            });
+
+            if (!doesSatisfy)
                 throw CreateAssertionException(should, actual, message, args);
 
             ATContext.Current.Log.EndSection();
