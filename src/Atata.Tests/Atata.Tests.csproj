@@ -87,6 +87,9 @@
     <Compile Include="TestCaseDataSource.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Atata.ruleset">
+      <Link>Properties\Atata.ruleset</Link>
+    </None>
     <None Include="App.config" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
