@@ -17,38 +17,49 @@ namespace Atata
             should.CheckNotNull(nameof(should));
             predicate.CheckNotNull(nameof(predicate));
 
-            IUIComponentDataProvider<TData, TOwner> provider = should.DataProvider;
+            string logMessage = BuildLogMessage(should, message, args);
 
+            ATContext.Current.Log.StartVerificationSection(logMessage);
+
+            TData actual = should.DataProvider.Get();
+            bool doesSatisfy = predicate(actual);
+
+            if (doesSatisfy == should.IsNegation)
+                throw CreateAssertionException(should, actual, message, args);
+
+            ATContext.Current.Log.EndSection();
+
+            return should.Owner;
+        }
+
+        private static string BuildLogMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string message, params TData[] args)
+            where TOwner : PageObject<TOwner>
+        {
             StringBuilder logMessageBuilder = new StringBuilder().
-                Append($"{provider.ComponentFullName} {provider.ProviderName}");
+                Append($"{should.DataProvider.ComponentFullName} {should.DataProvider.ProviderName}");
 
             if (!string.IsNullOrWhiteSpace(message))
             {
-                string[] convertedArgs = args?.Select(x => "\"{0}\"".FormatWith(provider.ConvertValueToString(x) ?? NullString)).ToArray();
+                string[] convertedArgs = args?.
+                    Select(x => "\"{0}\"".FormatWith(should.DataProvider.ConvertValueToString(x) ?? NullString)).
+                    ToArray();
 
                 logMessageBuilder.
                     Append($" {ResolveShouldText(should.IsNegation)} ").
                     Append(message.FormatWith(convertedArgs));
             }
+            return logMessageBuilder.ToString();
+        }
 
-            ATContext.Current.Log.StartVerificationSection(logMessageBuilder.ToString());
-
-            TData actual = provider.Get();
-            bool doesSatisfy = predicate(actual);
-
-            if (doesSatisfy == should.IsNegation)
-            {
-                string errorMesage = BuildAssertionErrorMessage(
-                    $"Invalid {provider.ComponentFullName} {provider.ProviderName}",
+        private static AssertionException CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, TData actual, string message, params TData[] args)
+            where TOwner : PageObject<TOwner>
+        {
+            string errorMesage = BuildAssertionErrorMessage(
+                    $"Invalid {should.DataProvider.ComponentFullName} {should.DataProvider.ProviderName}",
                     actual,
                     $"{ResolveShouldText(should.IsNegation)} {message}",
                     args.Cast<object>().ToArray());
-                throw new AssertionException(errorMesage);
-            }
-
-            ATContext.Current.Log.EndSection();
-
-            return should.Owner;
+            return new AssertionException(errorMesage);
         }
 
         private static string BuildAssertionErrorMessage(string primaryMessage, object actual, string expectedMessage, object[] expectedArgs)
