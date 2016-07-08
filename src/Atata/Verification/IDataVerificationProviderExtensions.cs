@@ -300,5 +300,19 @@ namespace Atata
 
             return should.Satisfy(actual => actual != null && expected.Any(x => predicate(actual, x)), message, expected);
         }
+
+        public static TOwner ContainAll<TOwner>(this IDataVerificationProvider<string, TOwner> should, params string[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            string message = new StringBuilder().
+                Append($"contain ").
+                AppendIf(expected.Length > 1, "all of: ").
+                AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}")).
+                ToString();
+
+            return should.Satisfy(actual => actual != null && expected.All(x => actual.Contains(x)), message, expected);
+        }
     }
 }
