@@ -69,9 +69,9 @@ namespace Atata
         {
         }
 
-        public bool Exists()
+        public bool Exists(SearchOptions options = null)
         {
-            return ScopeLocator.GetElement(SearchOptions.Safely()) != null;
+            return ScopeLocator.GetElement(options ?? SearchOptions.Safely()) != null;
         }
 
         public bool Missing()

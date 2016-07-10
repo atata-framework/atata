@@ -4,10 +4,13 @@ namespace Atata
 {
     public static class IControlVerificationProviderExtensions
     {
-        public static TOwner Satisfy<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should, string message, Predicate<TControl> predicate)
+        public static TOwner Satisfy<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should, Predicate<TControl> predicate, string message)
             where TControl : IUIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
+            should.CheckNotNull(nameof(should));
+            predicate.CheckNotNull(nameof(predicate));
+
             return should.Owner;
         }
 
@@ -15,15 +18,14 @@ namespace Atata
             where TControl : IUIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.Control.Exists();
-            return should.Owner;
+            return should.Satisfy(control => control.Exists(new SearchOptions { IsSafely = true, Timeout = TimeSpan.Zero }), "exist");
         }
 
         public static TOwner BeEnabled<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy("be enabled", x => x.IsEnabled());
+            return should.Satisfy(control => control.IsEnabled(), "be enabled");
         }
     }
 }

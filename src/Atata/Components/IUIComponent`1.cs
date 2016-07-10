@@ -15,7 +15,7 @@ namespace Atata
         string ComponentName { get; }
         string ComponentTypeName { get; }
 
-        bool Exists();
+        bool Exists(SearchOptions options = null);
         bool Missing();
 
         TOwner VerifyExists();
