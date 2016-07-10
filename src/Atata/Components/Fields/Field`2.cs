@@ -19,9 +19,9 @@ namespace Atata
 
         string IUIComponentDataProvider<T, TOwner>.ComponentFullName => ComponentFullName;
 
-        protected virtual string ValueProviderName => "value";
+        protected virtual string DataProviderName => "value";
 
-        string IUIComponentDataProvider<T, TOwner>.ProviderName => ValueProviderName;
+        string IUIComponentDataProvider<T, TOwner>.ProviderName => DataProviderName;
 
         TOwner IUIComponentDataProvider<T, TOwner>.Owner => Owner;
 
@@ -83,6 +83,11 @@ namespace Atata
         public static bool operator !=(Field<T, TOwner> field, T value)
         {
             return !(field == value);
+        }
+
+        public static explicit operator T(Field<T, TOwner> field)
+        {
+            return field.Get();
         }
 
         public override int GetHashCode()
