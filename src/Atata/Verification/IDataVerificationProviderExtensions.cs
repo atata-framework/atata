@@ -50,7 +50,7 @@ namespace Atata
                     ToArray();
 
                 logMessageBuilder.
-                    Append($" {ResolveShouldText(should.IsNegation)} ").
+                    Append($" {should.GetShouldText()} ").
                     Append(message.FormatWith(convertedArgs));
             }
             return logMessageBuilder.ToString();
@@ -62,7 +62,7 @@ namespace Atata
             string errorMesage = BuildAssertionErrorMessage(
                     $"Invalid {should.DataProvider.ComponentFullName} {should.DataProvider.ProviderName}",
                     actual,
-                    $"{ResolveShouldText(should.IsNegation)} {message}",
+                    $"{should.GetShouldText()} {message}",
                     args.Cast<object>().ToArray());
             return new AssertionException(errorMesage);
         }
@@ -79,11 +79,6 @@ namespace Atata
                 AppendLine().
                 AppendFormat("But was: {0}", ObjectToString(actual)).
                 ToString();
-        }
-
-        private static string ResolveShouldText(bool isNegation)
-        {
-            return isNegation ? "should not" : "should";
         }
 
         private static string CollectionToString(IEnumerable<object> collection)

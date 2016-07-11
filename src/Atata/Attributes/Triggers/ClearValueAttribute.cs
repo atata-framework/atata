@@ -9,7 +9,7 @@
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            context.Component.ScopeLocator.GetElement().Clear();
+            context.Component.Scope.Clear();
         }
     }
 }

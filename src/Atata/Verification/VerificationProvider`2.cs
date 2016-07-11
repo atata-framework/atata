@@ -33,18 +33,39 @@ namespace Atata
         {
             get
             {
+                Timeout = RetrySettings.Timeout;
+                RetryInterval = RetrySettings.RetryInterval;
+
+                return (TVerificationProvider)this;
+            }
+        }
+
+        public TVerificationProvider WithoutRetry
+        {
+            get
+            {
+                Timeout = TimeSpan.Zero;
+
                 return (TVerificationProvider)this;
             }
         }
 
         public TVerificationProvider Within(TimeSpan timeout, TimeSpan? retryInterval = null)
         {
+            Timeout = timeout;
+            RetryInterval = retryInterval ?? RetryInterval;
+
             return (TVerificationProvider)this;
         }
 
         public TVerificationProvider WithinSeconds(double timeoutSeconds, double? retryIntervalSeconds = null)
         {
-            return (TVerificationProvider)this;
+            return Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? (TimeSpan?)TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
+        }
+
+        string IVerificationProvider<TOwner>.GetShouldText()
+        {
+            return isNegation ? "should not" : "should";
         }
     }
 }

@@ -38,6 +38,8 @@ namespace Atata
 
         string IUIComponent<TOwner>.ComponentTypeName => ComponentTypeName;
 
+        string IUIComponent<TOwner>.ComponentFullName => ComponentFullName;
+
         ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
         protected internal virtual void InitComponent()

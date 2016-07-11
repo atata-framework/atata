@@ -71,12 +71,12 @@ namespace Atata
 
         public bool Exists(SearchOptions options = null)
         {
-            return ScopeLocator.GetElement(options ?? SearchOptions.Safely()) != null;
+            return GetScopeElement(options ?? SearchOptions.Safely()) != null;
         }
 
-        public bool Missing()
+        public bool Missing(SearchOptions options = null)
         {
-            return ScopeLocator.IsMissing(SearchOptions.Safely());
+            return ScopeLocator.IsMissing(options ?? SearchOptions.Safely());
         }
 
         protected void Wait(double seconds)

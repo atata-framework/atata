@@ -9,5 +9,7 @@ namespace Atata
         TOwner Owner { get; }
         TimeSpan? Timeout { get; }
         TimeSpan? RetryInterval { get; }
+
+        string GetShouldText();
     }
 }

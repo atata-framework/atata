@@ -14,9 +14,10 @@ namespace Atata
         IScopeLocator ScopeLocator { get; }
         string ComponentName { get; }
         string ComponentTypeName { get; }
+        string ComponentFullName { get; }
 
         bool Exists(SearchOptions options = null);
-        bool Missing();
+        bool Missing(SearchOptions options = null);
 
         TOwner VerifyExists();
         TOwner VerifyMissing();

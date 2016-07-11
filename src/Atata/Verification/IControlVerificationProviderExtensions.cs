@@ -18,7 +18,25 @@ namespace Atata
             where TControl : IUIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(control => control.Exists(new SearchOptions { IsSafely = true, Timeout = TimeSpan.Zero }), "exist");
+            should.CheckNotNull(nameof(should));
+
+            ATContext.Current.Log.StartVerificationSection($"{should.Control.ComponentFullName} {should.GetShouldText()} exist");
+
+            SearchOptions searchOptions = new SearchOptions
+            {
+                IsSafely = false,
+                Timeout = should.Timeout ?? RetrySettings.Timeout,
+                RetryInterval = should.RetryInterval ?? RetrySettings.RetryInterval
+            };
+
+            if (should.IsNegation)
+                should.Control.Missing(searchOptions);
+            else
+                should.Control.Exists(searchOptions);
+
+            ATContext.Current.Log.EndSection();
+
+            return should.Owner;
         }
 
         public static TOwner BeEnabled<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
