@@ -16,8 +16,8 @@ namespace Atata.Tests
         public void Table_Simple()
         {
             page.
-                SimpleTable.VerifyExists().
-                SimpleTable.RowCount.VerifyEquals(4).
+                SimpleTable.Should.Exist().
+                SimpleTable.RowCount.Should.Equal(4).
                 SimpleTable.VerifyColumns("First Name", "Last Name").
                 SimpleTable.FirstRow().Content.VerifyContains("John").
                 Do(x => x.SimpleTable.Row("Jack"), x =>
@@ -33,8 +33,8 @@ namespace Atata.Tests
         public void Table_Complex()
         {
             page.
-                ComplexTable.VerifyExists().
-                ComplexTable.RowCount.VerifyEquals(4).
+                ComplexTable.Should.Exist().
+                ComplexTable.RowCount.Should.Equal(4).
                 ComplexTable.VerifyColumns("First Name", "Last Name").
                 ComplexTable.FirstRow().FirstName.VerifyEquals("John").
                 Do(x => x.ComplexTable.Row(r => r.FirstName == "Jack"), x =>
@@ -42,16 +42,16 @@ namespace Atata.Tests
                     x.VerifyExists();
                     x.LastName.VerifyEquals("Jameson");
                 }).
-                ComplexTable.Row("Jack", "Jameson").VerifyExists().
-                ComplexTable.Row("Jack Jameson").VerifyMissing();
+                ComplexTable.Row("Jack", "Jameson").Should.Exist().
+                ComplexTable.Row("Jack Jameson").Should.Not.Exist();
         }
 
         [Test]
         public void Table_Navigatable()
         {
             var goToPage = page.
-                NavigatableTable.VerifyExists().
-                NavigatableTable.RowCount.VerifyEquals(4).
+                NavigatableTable.Should.Exist().
+                NavigatableTable.RowCount.Should.Equal(4).
                 NavigatableTable.Row(r => r.FirstName == "Jack").Click();
 
             Assert.That(goToPage, Is.Not.Null);

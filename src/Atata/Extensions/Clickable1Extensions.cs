@@ -50,7 +50,7 @@
             return clickable.GetControl().Exists();
         }
 
-        public static IUIComponentDataProvider<string, TOwner> Content<TOwner>(this Clickable<TOwner> clickable)
+        public static UIComponentDataProvider<string, TOwner> Content<TOwner>(this Clickable<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().Content;

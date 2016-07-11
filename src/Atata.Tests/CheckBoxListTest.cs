@@ -16,7 +16,7 @@ namespace Atata.Tests
         [Test]
         public void CheckBoxList_Enum()
         {
-            page.ByIdAndLabel.VerifyEquals(CheckBoxListPage.Options.None);
+            page.ByIdAndLabel.Should.Equal(CheckBoxListPage.Options.None);
 
             SetAndVerifyValues(
                 page.ByIdAndLabel,
@@ -37,7 +37,7 @@ namespace Atata.Tests
                 CheckBoxListPage.Options.OptionA);
 
             page.ByIdAndLabel.Check(CheckBoxListPage.Options.OptionD);
-            page.ByXPathAndValue.VerifyEquals(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
+            page.ByXPathAndValue.Should.Equal(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
 
             page.ByXPathAndValue.Uncheck(CheckBoxListPage.Options.OptionA);
             page.ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionD);

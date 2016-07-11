@@ -44,7 +44,7 @@ namespace Atata.Tests
         protected void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
             where TPage : PageObject<TPage>
         {
-            control.VerifyExists();
+            control.Should.Exist();
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -67,7 +67,7 @@ namespace Atata.Tests
         protected void VerifyEquals<T, TPage>(EditableField<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
-            control.VerifyEquals(value);
+            control.Should.Equal(value);
             Assert.That(control.Get(), Is.EqualTo(value));
         }
 

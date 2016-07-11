@@ -27,7 +27,7 @@ namespace Atata
             {
                 actual = should.DataProvider.Get();
                 return predicate(actual) != should.IsNegation;
-            });
+            }, should.Timeout, should.RetryInterval);
 
             if (!doesSatisfy)
                 throw CreateAssertionException(should, actual, message, args);

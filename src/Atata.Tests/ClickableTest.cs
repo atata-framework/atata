@@ -18,7 +18,7 @@ namespace Atata.Tests
                 Do(_ => _.LinkButton, x =>
                 {
                     x.VerifyExists();
-                    x.Content().VerifyEquals("Link Button");
+                    x.Content().Should.Equal("Link Button");
                     x();
                 }).
                 DivButton.VerifyExists().

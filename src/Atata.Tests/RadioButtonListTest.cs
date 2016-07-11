@@ -1,6 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
-using System;
 
 namespace Atata.Tests
 {
@@ -17,7 +17,9 @@ namespace Atata.Tests
         [Test]
         public void RadioButtonList_Enum()
         {
-            page.ByNameAndLabel.VerifyEquals(null);
+            page.ByNameAndLabel.Should.Equal(null).
+                ByNameAndLabel.Should.BeNull();
+
             page.ByClassAndValue.VerifyEquals(RadioButtonListPage.ByValue.None);
 
             SetAndVerifyValues(
@@ -45,8 +47,8 @@ namespace Atata.Tests
         [Test]
         public void RadioButtonList_String()
         {
-            page.VerticalItems.VerifyEquals("Item 1");
-            page.VerticalItems.VerifyDoesNotEqual(null);
+            page.VerticalItems.Should.Equal("Item 1");
+            page.VerticalItems.Should.Not.BeNull();
 
             SetAndVerifyValues(page.VerticalItems, "Item 2", "Item 5");
             SetAndVerifyValues(page.VerticalItemsByFieldSet, "Item 3", "Item 1");
@@ -61,7 +63,7 @@ namespace Atata.Tests
         [Test]
         public void RadioButtonList_Int()
         {
-            page.IntegerItems.VerifyEquals(null);
+            page.IntegerItems.Should.BeNull();
 
             SetAndVerifyValues(page.IntegerItems, 2, 3);
 
@@ -75,7 +77,7 @@ namespace Atata.Tests
         [Test]
         public void RadioButtonList_Decimal()
         {
-            page.DecimalItems.VerifyEquals(null);
+            page.DecimalItems.Should.BeNull();
 
             SetAndVerifyValues(page.DecimalItems, 1000, 2500);
             SetAndVerifyValues(page.DecimalItems, 3210.50m, 4310.10m);

@@ -10,9 +10,9 @@ namespace Atata.Tests
         {
             Go.To<BasicControlsPage>().
                 ById.FirstName.Set("test").
-                ById.FirstName.VerifyEquals("test").
+                ById.FirstName.Should.Equal("test").
                 RefreshPage().
-                ById.FirstName.VerifyIsNull();
+                ById.FirstName.Should.BeNull();
         }
 
         [Test]

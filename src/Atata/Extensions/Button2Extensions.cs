@@ -58,7 +58,7 @@ namespace Atata
             return clickable.GetControl().Exists();
         }
 
-        public static IUIComponentDataProvider<string, TOwner> Content<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)
+        public static UIComponentDataProvider<string, TOwner> Content<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {

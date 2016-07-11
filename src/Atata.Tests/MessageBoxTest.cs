@@ -10,7 +10,7 @@ namespace Atata.Tests
         {
             Go.To<MessageBoxPage>().
                 AlertButton().
-                PageTitle.VerifyStartsWith("Message Box");
+                PageTitle.Should.StartWith("Message Box");
         }
 
         [Test]
@@ -18,7 +18,7 @@ namespace Atata.Tests
         {
             Go.To<MessageBoxPage>().
                 ConfirmButton().
-                PageTitle.VerifyStartsWith("Go");
+                PageTitle.Should.StartWith("Go");
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Atata.Tests
         {
             Go.To<MessageBoxPage>().
                 ConfirmButtonWithReject().
-                PageTitle.VerifyStartsWith("Message Box");
+                PageTitle.Should.StartWith("Message Box");
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Atata.Tests
             Go.To<BasicControlsPage>().
                 Header.VerifyEquals("Basic Controls").
 
-                ByLabel.FirstName.VerifyExists().
+                ByLabel.FirstName.Should.Exist().
                 ByLabel.FirstName.VerifyEnabled().
                 ByLabel.FirstName.VerifyIsNotReadOnly().
                 ByLabel.FirstName.SetRandom(out firstName).
@@ -33,21 +33,21 @@ namespace Atata.Tests
                     }).
                 ById.MiddleName.Should.Equal("md2name").
 
-                ByLabel.ReadonlyField.VerifyExists().
+                ByLabel.ReadonlyField.Should.Exist().
                 ByLabel.ReadonlyField.VerifyEnabled().
                 ByLabel.ReadonlyField.VerifyIsReadOnly().
                 ByLabel.ReadonlyField.Should.Equal("readme").
 
-                ByLabel.DisabledField.VerifyExists().
+                ByLabel.DisabledField.Should.Exist().
                 ByLabel.DisabledField.VerifyDisabled().
                 ByLabel.DisabledField.VerifyIsNotReadOnly().
                 ByLabel.DisabledField.Should.Equal("readme").
 
-                RawButtonControl.VerifyExists().
+                RawButtonControl.Should.Exist().
                 RawButtonControl.VerifyEnabled().
                 RawButtonControl.Content.Should.Equal("Raw Button").
                 RawButtonControl.Click().
-                InputButtonControl.VerifyExists().
+                InputButtonControl.Should.Exist().
                 InputButtonControl.Click().
                 Do(_ => _.LinkButtonControl, x =>
                     {
@@ -59,11 +59,11 @@ namespace Atata.Tests
                         x.Content.Should.ContainIgnoringCase("k but");
                         x.Click();
                     }).
-                ClickableControl.VerifyExists().
+                ClickableControl.Should.Exist().
                 ClickableControl.Click().
-                DisabledButtonControl.VerifyExists().
+                DisabledButtonControl.Should.Exist().
                 DisabledButtonControl.VerifyDisabled().
-                MissingButtonControl.VerifyMissing();
+                MissingButtonControl.Should.Not.Exist();
         }
     }
 }
