@@ -29,7 +29,7 @@
         public static bool IsEnabled<TOwner>(this Clickable<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().IsEnabled();
+            return clickable.GetControl().IsEnabled;
         }
 
         public static TOwner VerifyExists<TOwner>(this Clickable<TOwner> clickable)

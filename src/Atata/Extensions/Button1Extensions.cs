@@ -29,7 +29,7 @@ namespace Atata
         public static bool IsEnabled<TOwner>(this Button<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().IsEnabled();
+            return clickable.GetControl().IsEnabled;
         }
 
         public static TOwner VerifyExists<TOwner>(this Button<TOwner> clickable)

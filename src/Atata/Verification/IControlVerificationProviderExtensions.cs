@@ -43,7 +43,7 @@ namespace Atata
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(control => control.IsEnabled(), "be enabled");
+            return should.Satisfy(control => control.IsEnabled, "be enabled");
         }
     }
 }

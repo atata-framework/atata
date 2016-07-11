@@ -12,6 +12,11 @@
         {
         }
 
+        public virtual bool IsReadOnly
+        {
+            get { return Scope.GetAttribute("readonly") != null; }
+        }
+
         protected abstract void SetValue(T value);
 
         public TOwner Set(T value)
@@ -30,7 +35,7 @@
         public TOwner VerifyIsReadOnly()
         {
             Log.StartVerificationSection("{0} is read-only", ComponentFullName);
-            ATAssert.IsTrue(IsReadOnly(), "Expected {0} to be read-only", ComponentFullName);
+            ATAssert.IsTrue(IsReadOnly, "Expected {0} to be read-only", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
@@ -38,14 +43,9 @@
         public TOwner VerifyIsNotReadOnly()
         {
             Log.StartVerificationSection("{0} is not read-only", ComponentFullName);
-            ATAssert.IsFalse(IsReadOnly(), "Expected {0} not to be read-only", ComponentFullName);
+            ATAssert.IsFalse(IsReadOnly, "Expected {0} not to be read-only", ComponentFullName);
             Log.EndSection();
             return Owner;
-        }
-
-        public virtual bool IsReadOnly()
-        {
-            return Scope.GetAttribute("readonly") != null;
         }
 
         public TOwner SetRandom()
