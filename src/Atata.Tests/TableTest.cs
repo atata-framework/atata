@@ -19,14 +19,14 @@ namespace Atata.Tests
                 SimpleTable.Should.Exist().
                 SimpleTable.RowCount.Should.Equal(4).
                 SimpleTable.VerifyColumns("First Name", "Last Name").
-                SimpleTable.FirstRow().Content.VerifyContains("John").
+                SimpleTable.FirstRow().Content.Should.Contain("John").
                 Do(x => x.SimpleTable.Row("Jack"), x =>
                 {
-                    x.VerifyExists();
-                    x.Content.VerifyContains("Jameson");
+                    x.Should.Exist();
+                    x.Content.Should.Contain("Jameson");
                 }).
-                SimpleTable.Row("Jack", "Jameson").VerifyExists().
-                SimpleTable.Row("Jack Jameson").VerifyMissing();
+                SimpleTable.Row("Jack", "Jameson").Should.Exist().
+                SimpleTable.Row("Jack Jameson").Should.Not.Exist();
         }
 
         [Test]
@@ -36,11 +36,11 @@ namespace Atata.Tests
                 ComplexTable.Should.Exist().
                 ComplexTable.RowCount.Should.Equal(4).
                 ComplexTable.VerifyColumns("First Name", "Last Name").
-                ComplexTable.FirstRow().FirstName.VerifyEquals("John").
+                ComplexTable.FirstRow().FirstName.Should.Equal("John").
                 Do(x => x.ComplexTable.Row(r => r.FirstName == "Jack"), x =>
                 {
-                    x.VerifyExists();
-                    x.LastName.VerifyEquals("Jameson");
+                    x.Should.Exist();
+                    x.LastName.Should.Equal("Jameson");
                 }).
                 ComplexTable.Row("Jack", "Jameson").Should.Exist().
                 ComplexTable.Row("Jack Jameson").Should.Not.Exist();

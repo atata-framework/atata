@@ -20,7 +20,7 @@ namespace Atata.Tests
             page.ByNameAndLabel.Should.Equal(null).
                 ByNameAndLabel.Should.BeNull();
 
-            page.ByClassAndValue.VerifyEquals(RadioButtonListPage.ByValue.None);
+            page.ByClassAndValue.Should.Equal(RadioButtonListPage.ByValue.None);
 
             SetAndVerifyValues(
                 page.ByNameAndLabel,

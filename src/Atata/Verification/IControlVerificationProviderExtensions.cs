@@ -35,6 +35,14 @@
             return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
         }
 
+        public static TOwner BeDisabled<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+            where TControl : Control<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            var dataShould = should.Control.IsEnabled.Should;
+            return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
+        }
+
         public static TOwner BeReadOnly<TData, TControl, TOwner>(this FieldVerificationProvider<TData, TControl, TOwner> should)
             where TControl : EditableField<TData, TOwner>
             where TOwner : PageObject<TOwner>
@@ -55,6 +63,14 @@
         {
             var dataShould = should.Control.Should;
             return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+        }
+
+        public static TOwner BeUnchecked<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+            where TControl : Field<bool, TOwner>, ICheckable<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            var dataShould = should.Control.Should;
+            return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
     }
 }

@@ -14,8 +14,8 @@ namespace Atata.Tests
                 Header.VerifyEquals("Basic Controls").
 
                 ByLabel.FirstName.Should.Exist().
-                ByLabel.FirstName.VerifyEnabled().
-                ByLabel.FirstName.VerifyIsNotReadOnly().
+                ByLabel.FirstName.Should.BeEnabled().
+                ByLabel.FirstName.Should.Not.BeReadOnly().
                 ByLabel.FirstName.SetRandom(out firstName).
                 ByLabel.FirstName.Should.Equal(firstName).
                 ById.FirstName.Should.Equal(firstName).
@@ -34,24 +34,24 @@ namespace Atata.Tests
                 ById.MiddleName.Should.Equal("md2name").
 
                 ByLabel.ReadonlyField.Should.Exist().
-                ByLabel.ReadonlyField.VerifyEnabled().
-                ByLabel.ReadonlyField.VerifyIsReadOnly().
+                ByLabel.ReadonlyField.Should.BeEnabled().
+                ByLabel.ReadonlyField.Should.BeReadOnly().
                 ByLabel.ReadonlyField.Should.Equal("readme").
 
                 ByLabel.DisabledField.Should.Exist().
-                ByLabel.DisabledField.VerifyDisabled().
-                ByLabel.DisabledField.VerifyIsNotReadOnly().
+                ByLabel.DisabledField.Should.Not.BeEnabled().
+                ByLabel.DisabledField.Should.Not.BeReadOnly().
                 ByLabel.DisabledField.Should.Equal("readme").
 
                 RawButtonControl.Should.Exist().
-                RawButtonControl.VerifyEnabled().
+                RawButtonControl.Should.BeEnabled().
                 RawButtonControl.Content.Should.Equal("Raw Button").
                 RawButtonControl.Click().
                 InputButtonControl.Should.Exist().
                 InputButtonControl.Click().
                 Do(_ => _.LinkButtonControl, x =>
                     {
-                        x.VerifyExists();
+                        x.Should.Exist();
                         x.Content.Should.Equal("Link Button");
                         x.Content.Should.StartWith("Link");
                         x.Content.Should.EndWith("utton");
@@ -62,7 +62,7 @@ namespace Atata.Tests
                 ClickableControl.Should.Exist().
                 ClickableControl.Click().
                 DisabledButtonControl.Should.Exist().
-                DisabledButtonControl.VerifyDisabled().
+                DisabledButtonControl.Should.BeDisabled().
                 MissingButtonControl.Should.Not.Exist();
         }
     }

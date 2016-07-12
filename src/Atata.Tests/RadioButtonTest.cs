@@ -23,7 +23,7 @@ namespace Atata.Tests
                 OptionB.Check().
                 OptionA.Should.Not.BeTrue().
                 OptionA.Should.Not.BeChecked().
-                OptionB.Should.BeChecked().
+                OptionB.Should.Not.BeUnchecked().
                 OptionA.Check().
                 OptionA.Should.BeChecked();
         }
