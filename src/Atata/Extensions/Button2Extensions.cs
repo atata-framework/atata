@@ -34,7 +34,7 @@ namespace Atata
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return clickable.GetControl().IsEnabled;
+            return clickable.GetControl().IsEnabled.Get();
         }
 
         public static TOwner VerifyExists<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)

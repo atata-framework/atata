@@ -12,7 +12,7 @@
             Control = control;
         }
 
-        protected TControl Control { get; private set; }
+        protected internal TControl Control { get; private set; }
 
         TControl IControlVerificationProvider<TControl, TOwner>.Control => Control;
 
@@ -32,7 +32,7 @@
                 Control = control;
             }
 
-            protected TControl Control { get; private set; }
+            protected internal TControl Control { get; private set; }
 
             TControl IControlVerificationProvider<TControl, TOwner>.Control => Control;
 

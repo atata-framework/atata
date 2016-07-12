@@ -1,19 +1,7 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     public static class IControlVerificationProviderExtensions
     {
-        public static TOwner Satisfy<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should, Predicate<TControl> predicate, string message)
-            where TControl : IUIComponent<TOwner>
-            where TOwner : PageObject<TOwner>
-        {
-            should.CheckNotNull(nameof(should));
-            predicate.CheckNotNull(nameof(predicate));
-
-            return should.Owner;
-        }
-
         public static TOwner Exist<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
             where TControl : IUIComponent<TOwner>
             where TOwner : PageObject<TOwner>
@@ -43,7 +31,22 @@ namespace Atata
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(control => control.IsEnabled, "be enabled");
+            var dataShould = should.Control.IsEnabled.Should;
+            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+        }
+
+        public static TOwner BeReadOnly<TData, TControl, TOwner>(this FieldVerificationProvider<TData, TControl, TOwner> should)
+            where TControl : EditableField<TData, TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Control.IsReadOnly.Should.BeTrue();
+        }
+
+        public static TOwner BeReadOnly<TData, TControl, TOwner>(this FieldVerificationProvider<TData, TControl, TOwner>.NegationFieldVerificationProvider should)
+            where TControl : EditableField<TData, TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Control.IsReadOnly.Should.Not.BeTrue();
         }
     }
 }

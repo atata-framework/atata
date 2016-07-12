@@ -12,9 +12,13 @@
         {
         }
 
-        public virtual bool IsReadOnly
+        public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only", GetIsReadOnly);
+
+        public new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner>(this);
+
+        protected virtual bool GetIsReadOnly()
         {
-            get { return Scope.GetAttribute("readonly") != null; }
+            return Scope.GetAttribute("readonly") != null;
         }
 
         protected abstract void SetValue(T value);
@@ -35,7 +39,7 @@
         public TOwner VerifyIsReadOnly()
         {
             Log.StartVerificationSection("{0} is read-only", ComponentFullName);
-            ATAssert.IsTrue(IsReadOnly, "Expected {0} to be read-only", ComponentFullName);
+            ATAssert.IsTrue(IsReadOnly.Get(), "Expected {0} to be read-only", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
@@ -43,7 +47,7 @@
         public TOwner VerifyIsNotReadOnly()
         {
             Log.StartVerificationSection("{0} is not read-only", ComponentFullName);
-            ATAssert.IsFalse(IsReadOnly, "Expected {0} not to be read-only", ComponentFullName);
+            ATAssert.IsFalse(IsReadOnly.Get(), "Expected {0} not to be read-only", ComponentFullName);
             Log.EndSection();
             return Owner;
         }
