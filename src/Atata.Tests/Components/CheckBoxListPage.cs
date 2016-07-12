@@ -26,5 +26,7 @@ namespace Atata.Tests
 
         [FindByXPath("*[@id='enum-checkboxes']"), FindItemByValue(TermCase.Pascal)]
         public CheckBoxList<Options, _> ByXPathAndValue { get; private set; }
+
+        public CheckBox<_> OptionA { get; private set; }
     }
 }

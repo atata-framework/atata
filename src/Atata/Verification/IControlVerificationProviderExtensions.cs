@@ -48,5 +48,13 @@
         {
             return should.Control.IsReadOnly.Should.Not.BeTrue();
         }
+
+        public static TOwner BeChecked<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+            where TControl : Field<bool, TOwner>, ICheckable<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            var dataShould = should.Control.Should;
+            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+        }
     }
 }

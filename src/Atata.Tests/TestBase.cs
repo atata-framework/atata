@@ -5,6 +5,7 @@ using OpenQA.Selenium.Chrome;
 
 namespace Atata.Tests
 {
+    [TestFixture]
     public abstract class TestBase
     {
         [SetUp]

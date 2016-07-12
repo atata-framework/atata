@@ -4,6 +4,8 @@
     public class RadioButton<TOwner> : Field<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> Should => new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner>(this);
+
         protected override bool GetValue()
         {
             return Scope.Selected;

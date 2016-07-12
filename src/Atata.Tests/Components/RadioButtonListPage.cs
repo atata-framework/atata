@@ -49,5 +49,9 @@ namespace Atata.Tests
 
         [FindByFieldSet("Vertical List"), FindItemByLabel]
         public RadioButtonList<string, _> VerticalItemsByFieldSet { get; private set; }
+
+        public RadioButton<_> OptionA { get; private set; }
+
+        public RadioButton<_> OptionB { get; private set; }
     }
 }
