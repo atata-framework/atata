@@ -215,7 +215,7 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\Clickable1Extensions.cs" />
-    <Compile Include="Extensions\IUIComponentDataProviderExtensions.cs" />
+    <Compile Include="DataProvision\IDataProviderExtensions.cs" />
     <Compile Include="Extensions\Link1Extensions.cs" />
     <Compile Include="Extensions\Link2Extensions.cs" />
     <Compile Include="Extensions\CheckExtensions.cs" />
@@ -234,7 +234,7 @@
     <Compile Include="Terms\Formatting\LowerMergedTermFormatter.cs" />
     <Compile Include="Terms\Formatting\MidSentenceTermFormatter.cs" />
     <Compile Include="Terms\Formatting\UpperMergedTermFormatter.cs" />
-    <Compile Include="DataProvision\IUIComponentDataProvider`2.cs" />
+    <Compile Include="DataProvision\IDataProvider`2.cs" />
     <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
     <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
     <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
@@ -309,7 +309,7 @@
     <Compile Include="UIComponentResolver.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="Components\Fields\TextInput`1.cs" />
-    <Compile Include="DataProvision\UIComponentDataProvider`2.cs" />
+    <Compile Include="DataProvision\DataProvider`2.cs" />
     <Compile Include="ValueRandomizer.cs" />
     <Compile Include="Verification\ControlVerificationProvider`2.cs" />
     <Compile Include="Verification\ControlVerificationProvider`3.cs" />

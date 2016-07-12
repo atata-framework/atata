@@ -20,8 +20,8 @@ namespace Atata
 
         protected UIComponent PreviousPageObject { get; private set; }
 
-        public UIComponentDataProvider<string, T> PageTitle => GetOrCreateDataProvider("title", GetTitle);
-        public UIComponentDataProvider<string, T> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
+        public DataProvider<string, T> PageTitle => GetOrCreateDataProvider("title", GetTitle);
+        public DataProvider<string, T> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 
         private string GetTitle()
         {

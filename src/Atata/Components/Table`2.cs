@@ -18,7 +18,7 @@ namespace Atata
             rowScopeXPath = (controlDefinition != null ? controlDefinition.ScopeXPath : null) ?? "tr";
         }
 
-        public UIComponentDataProvider<int, TOwner> RowCount => GetOrCreateDataProvider(nameof(RowCount).ToString(TermCase.Lower), GetRowCount);
+        public DataProvider<int, TOwner> RowCount => GetOrCreateDataProvider(nameof(RowCount).ToString(TermCase.Lower), GetRowCount);
 
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }

@@ -13,7 +13,7 @@
 
         public new NegationFieldVerificationProvider Not => new NegationFieldVerificationProvider(Control);
 
-        IUIComponentDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Control;
+        IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Control;
 
         public class NegationFieldVerificationProvider
             : NegationControlVerificationProvider, IDataVerificationProvider<TData, TOwner>
@@ -23,7 +23,7 @@
             {
             }
 
-            IUIComponentDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Control;
+            IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Control;
         }
     }
 }

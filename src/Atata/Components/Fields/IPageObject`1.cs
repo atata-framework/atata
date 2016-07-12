@@ -3,7 +3,7 @@
     public interface IPageObject<TOwner> : IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        UIComponentDataProvider<string, TOwner> PageTitle { get; }
-        UIComponentDataProvider<string, TOwner> PageUrl { get; }
+        DataProvider<string, TOwner> PageTitle { get; }
+        DataProvider<string, TOwner> PageUrl { get; }
     }
 }

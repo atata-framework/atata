@@ -26,7 +26,7 @@ namespace Atata
             internal set { base.Parent = value; }
         }
 
-        public UIComponentDataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
+        public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
         IPageObject<TOwner> IUIComponent<TOwner>.Owner => Owner;
 
@@ -135,18 +135,18 @@ namespace Atata
             return control;
         }
 
-        protected UIComponentDataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
+        protected DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             object dataProvider;
             if (dataProviders.TryGetValue(providerName, out dataProvider))
-                return (UIComponentDataProvider<TValue, TOwner>)dataProvider;
+                return (DataProvider<TValue, TOwner>)dataProvider;
             else
                 return CreateDataProvider(providerName, valueGetFunction);
         }
 
-        protected UIComponentDataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
+        protected DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
-            var dataProvider = new UIComponentDataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
+            var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
             dataProviders[providerName] = dataProvider;
             return dataProvider;
         }
