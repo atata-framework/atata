@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
 
@@ -7,9 +8,10 @@ namespace Atata
     public abstract class UIComponent<TOwner> : UIComponent, IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        private readonly Dictionary<string, object> dataProviders = new Dictionary<string, object>();
+
         protected UIComponent()
         {
-            Content = CreateDataProvider(GetContent, "content");
         }
 
         protected internal new TOwner Owner
@@ -24,7 +26,7 @@ namespace Atata
             internal set { base.Parent = value; }
         }
 
-        public UIComponentDataProvider<string, TOwner> Content { get; private set; }
+        public UIComponentDataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
         IPageObject<TOwner> IUIComponent<TOwner>.Owner => Owner;
 
@@ -133,9 +135,20 @@ namespace Atata
             return control;
         }
 
-        protected UIComponentDataProvider<TValue, TOwner> CreateDataProvider<TValue>(Func<TValue> valueGetFunction, string providerName)
+        protected UIComponentDataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
-            return new UIComponentDataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
+            object dataProvider;
+            if (dataProviders.TryGetValue(providerName, out dataProvider))
+                return (UIComponentDataProvider<TValue, TOwner>)dataProvider;
+            else
+                return CreateDataProvider(providerName, valueGetFunction);
+        }
+
+        protected UIComponentDataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
+        {
+            var dataProvider = new UIComponentDataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
+            dataProviders[providerName] = dataProvider;
+            return dataProvider;
         }
 
         protected void ExecuteTriggers(TriggerEvents on)

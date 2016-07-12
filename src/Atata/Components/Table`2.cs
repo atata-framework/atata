@@ -16,11 +16,9 @@ namespace Atata
         {
             ControlDefinitionAttribute controlDefinition = UIComponentResolver.GetControlDefinition(typeof(TRow));
             rowScopeXPath = (controlDefinition != null ? controlDefinition.ScopeXPath : null) ?? "tr";
-
-            RowCount = CreateDataProvider(GetRowCount, "row count");
         }
 
-        public UIComponentDataProvider<int, TOwner> RowCount { get; private set; }
+        public UIComponentDataProvider<int, TOwner> RowCount => GetOrCreateDataProvider(nameof(RowCount).ToString(TermCase.Lower), GetRowCount);
 
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }
@@ -105,7 +103,7 @@ namespace Atata
             return Owner;
         }
 
-        private int GetRowCount()
+        protected virtual int GetRowCount()
         {
             By rowBy = CreateRowBy();
             return Driver.GetAll(rowBy).Count;
