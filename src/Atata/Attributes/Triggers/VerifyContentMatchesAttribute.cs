@@ -14,7 +14,7 @@
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            context.Component.Content.VerifyUntilMatchesAny(Match, Values);
+            context.Component.Content.Should.WithRetry.MatchAny(Match, Values);
         }
     }
 }
