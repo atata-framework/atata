@@ -59,26 +59,21 @@ namespace Atata
         private static AssertionException CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, TData actual, string message, params TData[] args)
             where TOwner : PageObject<TOwner>
         {
-            string errorMesage = BuildAssertionErrorMessage(
-                    $"Invalid {should.DataProvider.ComponentFullName} {should.DataProvider.ProviderName}",
-                    actual,
-                    $"{should.GetShouldText()} {message}",
-                    args.Cast<object>().ToArray());
-            return new AssertionException(errorMesage);
+            return should.CreateAssertionException(
+                message.FormatWith(args?.Select(x => ObjectToString(x)).ToArray()),
+                ObjectToString(actual));
         }
 
-        private static string BuildAssertionErrorMessage(string primaryMessage, object actual, string expectedMessage, object[] expectedArgs)
+        internal static AssertionException CreateAssertionException<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
+            where TOwner : PageObject<TOwner>
         {
-            StringBuilder builder = new StringBuilder();
-
-            if (!string.IsNullOrWhiteSpace(primaryMessage))
-                builder.Append(primaryMessage).AppendLine();
-
-            return builder.
-                AppendFormat("Expected: {0}", expectedMessage.FormatWith(expectedArgs?.Select(x => ObjectToString(x)).ToArray())).
-                AppendLine().
-                AppendFormat("But was: {0}", ObjectToString(actual)).
+            string errorMessage = new StringBuilder().
+                AppendLine($"Invalid {should.DataProvider.ComponentFullName} {should.DataProvider.ProviderName}.").
+                AppendLine($"Expected: {should.GetShouldText()} {expected}").
+                AppendLine($"But was: {actual}").
                 ToString();
+
+            return new AssertionException(errorMessage);
         }
 
         private static string CollectionToString(IEnumerable<object> collection)

@@ -75,9 +75,9 @@ namespace Atata
 
             if (individualValues.Any())
                 throw ExceptionFactory.CreateForNoSuchElement(
-                    "Unable to locate element{0}: '{1}'.".FormatWith(
+                    "Unable to locate element{0}: {1}.".FormatWith(
                         individualValues.Count > 1 ? "s" : null,
-                        ConvertIndividualValuesToString(individualValues)));
+                        ConvertIndividualValuesToString(individualValues, true)));
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Atata
                 ConvertValueToString(value));
         }
 
-        private IEnumerable<T> GetIndividualValues(T value)
+        protected internal IEnumerable<T> GetIndividualValues(T value)
         {
             return ((Enum)(object)value).GetIndividualFlags().Cast<T>();
         }
@@ -154,18 +154,16 @@ namespace Atata
         protected internal override string ConvertValueToString(T value)
         {
             var individualValues = GetIndividualValues(value);
-            return ConvertIndividualValuesToString(individualValues);
+            return ConvertIndividualValuesToString(individualValues, false);
         }
 
-        protected string ConvertIndividualValuesToString(IEnumerable<T> values)
+        protected internal string ConvertIndividualValuesToString(IEnumerable<T> values, bool wrapWithDoubleQuotes)
         {
             string[] stringValues = values.Select(x => TermResolver.ToString(x, ValueTermOptions)).ToArray();
 
             if (stringValues.Length == 0)
                 return "<none>";
-            if (stringValues.Length == 1)
-                return stringValues[0];
-            else if (stringValues.Any(x => x.Contains(',')))
+            else if (wrapWithDoubleQuotes)
                 return stringValues.ToQuotedValuesListOfString(doubleQuotes: true);
             else
                 return string.Join(", ", stringValues);

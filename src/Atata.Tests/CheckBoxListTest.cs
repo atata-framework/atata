@@ -27,8 +27,8 @@ namespace Atata.Tests
                 CheckBoxListPage.Options.OptionA,
                 CheckBoxListPage.Options.OptionsDF);
 
-            page.ByIdAndLabel.VerifyUnchecked(CheckBoxListPage.Options.OptionA).
-                ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionD | CheckBoxListPage.Options.OptionF);
+            page.ByIdAndLabel.Should.Not.HaveChecked(CheckBoxListPage.Options.OptionA).
+                ByIdAndLabel.Should.HaveChecked(CheckBoxListPage.Options.OptionD | CheckBoxListPage.Options.OptionF);
 
             SetAndVerifyValues(
                 page.ByXPathAndValue,
@@ -39,13 +39,13 @@ namespace Atata.Tests
             page.ByXPathAndValue.Should.Equal(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
 
             page.ByXPathAndValue.Uncheck(CheckBoxListPage.Options.OptionA);
-            page.ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionD);
+            page.ByIdAndLabel.Should.HaveChecked(CheckBoxListPage.Options.OptionD);
 
             Assert.Throws<AssertionException>(() =>
-                page.ByIdAndLabel.VerifyUnchecked(CheckBoxListPage.Options.OptionD));
+                page.ByIdAndLabel.Should.Not.HaveChecked(CheckBoxListPage.Options.OptionD));
 
             Assert.Throws<AssertionException>(() =>
-                page.ByIdAndLabel.VerifyChecked(CheckBoxListPage.Options.OptionA));
+                page.ByIdAndLabel.Should.HaveChecked(CheckBoxListPage.Options.OptionA));
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));
