@@ -12,9 +12,12 @@ namespace Atata
         ScopeSource ScopeSource { get; }
         IWebElement Scope { get; }
         IScopeLocator ScopeLocator { get; }
+
         string ComponentName { get; }
         string ComponentTypeName { get; }
         string ComponentFullName { get; }
+
+        UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should { get; }
 
         bool Exists(SearchOptions options = null);
         bool Missing(SearchOptions options = null);

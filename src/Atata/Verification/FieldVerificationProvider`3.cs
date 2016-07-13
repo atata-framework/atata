@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     public class FieldVerificationProvider<TData, TField, TOwner> :
-        ControlVerificationProvider<TField, FieldVerificationProvider<TData, TField, TOwner>, TOwner>,
+        UIComponentVerificationProvider<TField, FieldVerificationProvider<TData, TField, TOwner>, TOwner>,
         IDataVerificationProvider<TData, TOwner>
         where TField : Field<TData, TOwner>
         where TOwner : PageObject<TOwner>
@@ -11,9 +11,9 @@
         {
         }
 
-        public new NegationFieldVerificationProvider Not => new NegationFieldVerificationProvider(Control);
+        public new NegationFieldVerificationProvider Not => new NegationFieldVerificationProvider(Component);
 
-        IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Control;
+        IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Component;
 
         public class NegationFieldVerificationProvider
             : NegationControlVerificationProvider, IDataVerificationProvider<TData, TOwner>
@@ -23,7 +23,7 @@
             {
             }
 
-            IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Control;
+            IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Component;
         }
     }
 }

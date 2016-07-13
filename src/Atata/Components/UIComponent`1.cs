@@ -28,6 +28,8 @@ namespace Atata
 
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
+        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
+
         IPageObject<TOwner> IUIComponent<TOwner>.Owner => Owner;
 
         IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;

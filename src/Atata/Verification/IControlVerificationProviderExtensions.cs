@@ -2,13 +2,13 @@
 {
     public static class IControlVerificationProviderExtensions
     {
-        public static TOwner Exist<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+        public static TOwner Exist<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
             where TControl : IUIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
             should.CheckNotNull(nameof(should));
 
-            ATContext.Current.Log.StartVerificationSection($"{should.Control.ComponentFullName} {should.GetShouldText()} exist");
+            ATContext.Current.Log.StartVerificationSection($"{should.Component.ComponentFullName} {should.GetShouldText()} exist");
 
             SearchOptions searchOptions = new SearchOptions
             {
@@ -18,28 +18,28 @@
             };
 
             if (should.IsNegation)
-                should.Control.Missing(searchOptions);
+                should.Component.Missing(searchOptions);
             else
-                should.Control.Exists(searchOptions);
+                should.Component.Exists(searchOptions);
 
             ATContext.Current.Log.EndSection();
 
             return should.Owner;
         }
 
-        public static TOwner BeEnabled<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeEnabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            var dataShould = should.Control.IsEnabled.Should;
+            var dataShould = should.Component.IsEnabled.Should;
             return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
         }
 
-        public static TOwner BeDisabled<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeDisabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            var dataShould = should.Control.IsEnabled.Should;
+            var dataShould = should.Component.IsEnabled.Should;
             return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
 
@@ -47,29 +47,29 @@
             where TControl : EditableField<TData, TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.Control.IsReadOnly.Should.BeTrue();
+            return should.Component.IsReadOnly.Should.BeTrue();
         }
 
         public static TOwner BeReadOnly<TData, TControl, TOwner>(this FieldVerificationProvider<TData, TControl, TOwner>.NegationFieldVerificationProvider should)
             where TControl : EditableField<TData, TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.Control.IsReadOnly.Should.Not.BeTrue();
+            return should.Component.IsReadOnly.Should.Not.BeTrue();
         }
 
-        public static TOwner BeChecked<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeChecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
             where TControl : Field<bool, TOwner>, ICheckable<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            var dataShould = should.Control.Should;
+            var dataShould = should.Component.Should;
             return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
         }
 
-        public static TOwner BeUnchecked<TControl, TOwner>(this IControlVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeUnchecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
             where TControl : Field<bool, TOwner>, ICheckable<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            var dataShould = should.Control.Should;
+            var dataShould = should.Component.Should;
             return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
     }

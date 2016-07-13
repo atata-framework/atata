@@ -9,7 +9,7 @@
 
         public DataProvider<bool, TOwner> IsEnabled => GetOrCreateDataProvider("enabled", GetIsEnabled);
 
-        public ControlVerificationProvider<Control<TOwner>, TOwner> Should => new ControlVerificationProvider<Control<TOwner>, TOwner>(this);
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should => new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
 
         protected virtual bool GetIsEnabled()
         {

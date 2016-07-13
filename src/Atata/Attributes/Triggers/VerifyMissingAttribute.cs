@@ -9,7 +9,7 @@
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            context.Component.VerifyMissing();
+            context.Component.Should.Not.Exist();
         }
     }
 }
