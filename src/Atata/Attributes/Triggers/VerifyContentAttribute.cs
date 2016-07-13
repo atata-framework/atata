@@ -15,7 +15,7 @@ namespace Atata
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            context.Component.Content.VerifyUntilContains(Values);
+            context.Component.Content.Should.WithRetry.ContainAll(Values);
         }
     }
 }

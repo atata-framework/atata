@@ -35,7 +35,7 @@ namespace Atata
 
         protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
         {
-            context.Component.Owner.PageTitle.VerifyUntilMatchesAny(Match, values);
+            context.Component.Owner.PageTitle.Should.WithRetry.MatchAny(Match, values);
         }
     }
 }

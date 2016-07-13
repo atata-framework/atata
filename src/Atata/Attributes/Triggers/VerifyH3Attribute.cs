@@ -29,7 +29,7 @@ namespace Atata
         {
             string name = TermResolver.ToDisplayString(values);
             var headingControl = context.Component.Owner.CreateControl<H3<TOwner>>(name, new FindByIndexAttribute(Index));
-            headingControl.VerifyUntilMatchesAny(Match, values);
+            headingControl.Should.WithRetry.MatchAny(Match, values);
         }
     }
 }
