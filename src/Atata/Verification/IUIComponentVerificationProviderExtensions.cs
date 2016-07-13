@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public static class IControlVerificationProviderExtensions
+    public static class IUIComponentVerificationProviderExtensions
     {
         public static TOwner Exist<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
             where TControl : IUIComponent<TOwner>
@@ -43,18 +43,12 @@
             return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
 
-        public static TOwner BeReadOnly<TData, TControl, TOwner>(this FieldVerificationProvider<TData, TControl, TOwner> should)
+        public static TOwner BeReadOnly<TData, TControl, TOwner>(this IFieldVerificationProvider<TData, TControl, TOwner> should)
             where TControl : EditableField<TData, TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.Component.IsReadOnly.Should.BeTrue();
-        }
-
-        public static TOwner BeReadOnly<TData, TControl, TOwner>(this FieldVerificationProvider<TData, TControl, TOwner>.NegationFieldVerificationProvider should)
-            where TControl : EditableField<TData, TOwner>
-            where TOwner : PageObject<TOwner>
-        {
-            return should.Component.IsReadOnly.Should.Not.BeTrue();
+            var dataShould = should.Component.IsReadOnly.Should;
+            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
         }
 
         public static TOwner BeChecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
@@ -71,6 +65,13 @@
         {
             var dataShould = should.Component.Should;
             return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
+        }
+
+        public static TOwner HaveChecked<TData, TControl, TOwner>(this IFieldVerificationProvider<TData, TControl, TOwner> should, TData value)
+            where TControl : CheckBoxList<TData, TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Owner;
         }
     }
 }

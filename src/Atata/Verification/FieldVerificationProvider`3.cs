@@ -2,7 +2,7 @@
 {
     public class FieldVerificationProvider<TData, TField, TOwner> :
         UIComponentVerificationProvider<TField, FieldVerificationProvider<TData, TField, TOwner>, TOwner>,
-        IDataVerificationProvider<TData, TOwner>
+        IFieldVerificationProvider<TData, TField, TOwner>
         where TField : Field<TData, TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -15,8 +15,9 @@
 
         IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Component;
 
-        public class NegationFieldVerificationProvider
-            : NegationControlVerificationProvider, IDataVerificationProvider<TData, TOwner>
+        public class NegationFieldVerificationProvider :
+            NegationControlVerificationProvider,
+            IFieldVerificationProvider<TData, TField, TOwner>
         {
             public NegationFieldVerificationProvider(TField control)
                 : base(control)
