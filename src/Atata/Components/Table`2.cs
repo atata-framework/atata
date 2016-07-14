@@ -106,7 +106,7 @@ namespace Atata
         protected virtual int GetRowCount()
         {
             By rowBy = CreateRowBy();
-            return Driver.GetAll(rowBy).Count;
+            return Scope.GetAll(rowBy).Count;
         }
 
         public TRow FirstRow()

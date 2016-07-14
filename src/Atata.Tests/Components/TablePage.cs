@@ -12,6 +12,12 @@ namespace Atata.Tests
 
         public Table<UserNavigatableTableRow, _> NavigatableTable { get; private set; }
 
+        [FindByIndex(1)]
+        public Table<CountryTableRow, _> CountryTable { get; private set; }
+
+        [FindByIndex(1)]
+        public Table<CountryByColumnIndexTableRow, _> CountryByColumnIndexTable { get; private set; }
+
         public class UserTableRow : TableRow<_>
         {
             public Text<_> FirstName { get; private set; }
@@ -24,6 +30,22 @@ namespace Atata.Tests
             public Text<_> FirstName { get; private set; }
 
             public Text<_> LastName { get; private set; }
+        }
+
+        public class CountryTableRow : TableRow<_>
+        {
+            public Text<_> Country { get; private set; }
+
+            public Text<_> Capital { get; private set; }
+        }
+
+        public class CountryByColumnIndexTableRow : TableRow<_>
+        {
+            [FindByColumnIndex(0)]
+            public Text<_> CountryName { get; private set; }
+
+            [FindByColumnIndex(1)]
+            public Text<_> CapitalName { get; private set; }
         }
     }
 }

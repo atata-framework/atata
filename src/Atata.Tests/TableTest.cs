@@ -56,5 +56,35 @@ namespace Atata.Tests
 
             Assert.That(goToPage, Is.Not.Null);
         }
+
+        [Test]
+        public void Table_ByIndex()
+        {
+            page.
+                CountryTable.Should.Exist().
+                CountryTable.RowCount.Should.Equal(3).
+                CountryTable.FirstRow().Capital.Should.Equal("London").
+                Do(x => x.CountryTable.Row(r => r.Capital == "Paris"), x =>
+                {
+                    x.Should.Exist();
+                    x.Country.Should.Equal("France");
+                }).
+                CountryTable.Row("Germany", "Berlin").Should.Exist();
+        }
+
+        [Test]
+        public void Table_ByColumnIndex()
+        {
+            page.
+                CountryByColumnIndexTable.Should.Exist().
+                CountryByColumnIndexTable.RowCount.Should.Equal(3).
+                CountryByColumnIndexTable.FirstRow().CapitalName.Should.Equal("London").
+                Do(x => x.CountryByColumnIndexTable.Row(r => r.CapitalName == "Paris"), x =>
+                {
+                    x.Should.Exist();
+                    x.CountryName.Should.Equal("France");
+                }).
+                CountryByColumnIndexTable.Row("Germany", "Berlin").Should.Exist();
+        }
     }
 }

@@ -1,5 +1,5 @@
-﻿using OpenQA.Selenium;
-using System.Linq;
+﻿using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -7,7 +7,8 @@ namespace Atata
     {
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            var headers = scope.GetAll(By.XPath("ancestor::*/descendant-or-self::table[//th][1]//th").OfAnyVisibility().TableHeader(options.GetTermsAsString()));
+            ////var headers = scope.GetAll(By.XPath("ancestor::*/descendant-or-self::table[//th][1]//th").OfAnyVisibility().TableHeader(options.GetTermsAsString()));
+            var headers = scope.GetAll(By.XPath("(ancestor::table)[1]//th").OfAnyVisibility().TableHeader(options.GetTermsAsString()));
             var headerNamePredicate = options.Match.GetPredicate();
 
             int? columnIndex = headers.
