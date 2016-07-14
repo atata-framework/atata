@@ -8,8 +8,7 @@ namespace Atata.Tests
     [VerifyContent("First Name", "Age")]
     public class BasicControlsPage : Page<_>
     {
-        [FindByCss("h1")]
-        public Text<_> Header { get; private set; }
+        public H1<_> Header { get; private set; }
 
         public FindByLabel ByLabel { get; private set; }
 

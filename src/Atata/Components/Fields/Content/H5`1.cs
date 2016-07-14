@@ -5,6 +5,7 @@
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("h5", ComponentTypeName = "<h5> heading", IgnoreNameEndings = "Header,Heading")]
+    [ControlFinding(typeof(FindFirstAttribute))]
     public class H5<TOwner> : Text<TOwner>
         where TOwner : PageObject<TOwner>
     {
