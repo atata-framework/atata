@@ -48,7 +48,7 @@ namespace Atata
             }
             else
             {
-                var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByColumnHeaderSettingsAttribute>(x => x.Strategy != null);
+                var settingsAttribute = metadata.GetFirstOrDefaultAttribute<FindByColumnHeaderSettingsAttribute>(x => x.Strategy != null);
                 return settingsAttribute != null ? settingsAttribute.Strategy : defaultStrategy;
             }
         }

@@ -5,10 +5,21 @@ namespace Atata
 {
     public class FindByColumnHeaderStrategy : IComponentScopeLocateStrategy
     {
+        private readonly string headerXPath;
+
+        public FindByColumnHeaderStrategy()
+            : this("(ancestor::table)[1]//th")
+        {
+        }
+
+        public FindByColumnHeaderStrategy(string headerXPath)
+        {
+            this.headerXPath = headerXPath;
+        }
+
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            ////var headers = scope.GetAll(By.XPath("ancestor::*/descendant-or-self::table[//th][1]//th").OfAnyVisibility().TableHeader(options.GetTermsAsString()));
-            var headers = scope.GetAll(By.XPath("(ancestor::table)[1]//th").OfAnyVisibility().TableHeader(options.GetTermsAsString()));
+            var headers = scope.GetAll(By.XPath(headerXPath).OfAnyVisibility().TableHeader(options.GetTermsAsString()));
             var headerNamePredicate = options.Match.GetPredicate();
 
             int? columnIndex = headers.
