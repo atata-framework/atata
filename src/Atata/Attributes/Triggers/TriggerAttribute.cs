@@ -21,6 +21,6 @@ namespace Atata
         }
 
         public abstract void Execute<TOwner>(TriggerContext<TOwner> context)
-            where TOwner : PageObject<TOwner>;
+            where TOwner : PageObject<TOwner>, IPageObject<TOwner>;
     }
 }

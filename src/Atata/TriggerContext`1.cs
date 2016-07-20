@@ -3,7 +3,7 @@
 namespace Atata
 {
     public class TriggerContext<TOwner>
-        where TOwner : PageObject<TOwner>
+        where TOwner : PageObject<TOwner>, IPageObject<TOwner>
     {
         public TriggerEvents Event { get; internal set; }
 

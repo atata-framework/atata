@@ -4,9 +4,9 @@ using OpenQA.Selenium;
 namespace Atata
 {
     public interface IUIComponent<TOwner>
-        where TOwner : PageObject<TOwner>
+        where TOwner : PageObject<TOwner>, IPageObject<TOwner>
     {
-        IPageObject<TOwner> Owner { get; }
+        TOwner Owner { get; }
         IUIComponent<TOwner> Parent { get; }
         DataProvider<string, TOwner> Content { get; }
         ScopeSource ScopeSource { get; }
