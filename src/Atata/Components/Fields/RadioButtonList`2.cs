@@ -1,8 +1,13 @@
-﻿using OpenQA.Selenium;
-using System.Linq;
+﻿using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the radio button list control (a set of &lt;input type="radio"&gt;).
+    /// </summary>
+    /// <typeparam name="T">The type of the control's data. Supports string, enum types, numeric types and others.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup")]
     public class RadioButtonList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>

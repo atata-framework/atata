@@ -10,7 +10,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="T">The type of the control's data. Supports only enum types currently.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='checkbox']", IgnoreNameEndings = "CheckBoxes,CheckBoxList,CheckBoxGroup,Options,OptionGroup")]
+    [ControlDefinition("input[@type='checkbox']", ComponentTypeName = "checkbox list", IgnoreNameEndings = "CheckBoxes,CheckBoxList,CheckBoxGroup,Options,OptionGroup")]
     public class CheckBoxList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

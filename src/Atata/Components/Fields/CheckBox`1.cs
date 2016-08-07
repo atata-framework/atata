@@ -6,7 +6,7 @@ namespace Atata
     /// Represents the checkbox control (&lt;input type="checkbox"&gt;).
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='checkbox']", IgnoreNameEndings = "Checkbox,CheckBox,Option")]
+    [ControlDefinition("input[@type='checkbox']", ComponentTypeName = "checkbox", IgnoreNameEndings = "Checkbox,CheckBox,Option")]
     public class CheckBox<TOwner> : EditableField<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
     {

@@ -1,5 +1,9 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Represents the radio button control (&lt;input type="radio"&gt;).
+    /// </summary>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButton,Radio,Button,Option")]
     public class RadioButton<TOwner> : Field<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
