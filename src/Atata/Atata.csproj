@@ -101,7 +101,7 @@
     <Compile Include="Attributes\ITermFindAttribute.cs" />
     <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
     <Compile Include="Attributes\ValueXPathAttribute.cs" />
-    <Compile Include="Components\ComponentPart`1.cs" />
+    <Compile Include="Components\UIComponentPart`1.cs" />
     <Compile Include="Components\ControlList`2.cs" />
     <Compile Include="Components\IPageObject`1.cs" />
     <Compile Include="Components\Fields\PasswordInput`2.cs" />
