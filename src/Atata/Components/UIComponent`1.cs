@@ -137,7 +137,7 @@ namespace Atata
             return control;
         }
 
-        protected DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
+        protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             object dataProvider;
             if (dataProviders.TryGetValue(providerName, out dataProvider))
@@ -146,7 +146,7 @@ namespace Atata
                 return CreateDataProvider(providerName, valueGetFunction);
         }
 
-        protected DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
+        protected internal DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
             dataProviders[providerName] = dataProvider;
