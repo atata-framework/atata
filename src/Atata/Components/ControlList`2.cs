@@ -21,7 +21,19 @@ namespace Atata
 
         public T this[int index]
         {
-            get { return null; }
+            get
+            {
+                string itemName = $"by index {index}";
+
+                Component.Log.StartSection($"Find \"{itemName}\" {itemDefinition.ComponentTypeName}");
+
+                By itemBy = CreateItemBy(index);
+                IScopeLocator scopeLocator = CreateItemScopeLocator(itemBy);
+                T item = CreateItem(scopeLocator, itemName);
+
+                Component.Log.EndSection();
+                return item;
+            }
         }
 
         public T this[Expression<Func<T, bool>> predicateExpression]
@@ -38,6 +50,11 @@ namespace Atata
         protected virtual By CreateItemBy()
         {
             return By.XPath($".//{itemDefinition.ScopeXPath}").OfKind(itemDefinition.ComponentTypeName);
+        }
+
+        protected virtual By CreateItemBy(int index)
+        {
+            return By.XPath($"(.//{itemDefinition.ScopeXPath})[{index + 1}]").OfKind(itemDefinition.ComponentTypeName);
         }
 
         protected virtual IScopeLocator CreateItemScopeLocator(By by)
