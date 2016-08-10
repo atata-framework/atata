@@ -128,32 +128,20 @@ namespace Atata
 
         private string OrdinalizeNumber(int number)
         {
-            int mod100 = number % 100;
+            string ending = "th";
 
-            string ending;
+            int tensDigit = number % 100 / 10;
 
-            if (mod100 >= 11 && mod100 <= 13)
+            if (tensDigit != 1)
             {
-                ending = "th";
+                int unitDigit = number % 10;
+
+                ending = unitDigit == 1 ? "st"
+                    : unitDigit == 2 ? "nd"
+                    : unitDigit == 3 ? "rd"
+                    : ending;
             }
-            else
-            {
-                switch (number % 10)
-                {
-                    case 1:
-                        ending = "st";
-                        break;
-                    case 2:
-                        ending = "nd";
-                        break;
-                    case 3:
-                        ending = "rd";
-                        break;
-                    default:
-                        ending = "th";
-                        break;
-                }
-            }
+
             return $"{number}{ending}";
         }
 
