@@ -157,14 +157,15 @@ namespace Atata
             return $"{number}{ending}";
         }
 
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
         public IEnumerator<TItem> GetEnumerator()
         {
-            throw new NotImplementedException();
-        }
+            By itemBy = CreateItemBy();
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            return Component.Scope.GetAll(itemBy).
+                Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1))).
+                GetEnumerator();
         }
     }
 }
