@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using OpenQA.Selenium;
 
@@ -10,12 +11,7 @@ namespace Atata
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public ControlList()
-        {
-            ItemDefinition = UIComponentResolver.GetControlDefinition(typeof(TItem));
-        }
-
-        protected ControlDefinitionAttribute ItemDefinition { get; private set; }
+        protected ControlDefinitionAttribute ItemDefinition { get; } = UIComponentResolver.GetControlDefinition(typeof(TItem));
 
         public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} count", GetCount);
 
@@ -34,12 +30,30 @@ namespace Atata
 
         public TItem this[Expression<Func<TItem, bool>> predicateExpression]
         {
-            get { return null; }
+            get
+            {
+                predicateExpression.CheckNotNull(nameof(predicateExpression));
+
+                string itemName = BuildItemName(predicateExpression);
+
+                return GetItem(itemName, predicateExpression);
+            }
+        }
+
+        protected virtual int GetCount()
+        {
+            By itemBy = CreateItemBy();
+            return Component.Scope.GetAll(itemBy).Count;
+        }
+
+        private string BuildLogFindMessage(string name)
+        {
+            return $"Find \"{name}\" {ItemDefinition.ComponentTypeName} in {Component.ComponentFullName}";
         }
 
         protected virtual TItem GetItem(string name, By by)
         {
-            Component.Log.StartSection($"Find \"{name}\" {ItemDefinition.ComponentTypeName} in {Component.ComponentFullName}");
+            Component.Log.StartSection(BuildLogFindMessage(name));
 
             IScopeLocator scopeLocator = CreateItemScopeLocator(by);
             TItem item = CreateItem(scopeLocator, name);
@@ -49,10 +63,33 @@ namespace Atata
             return item;
         }
 
-        protected virtual int GetCount()
+        protected virtual TItem GetItem(string name, Expression<Func<TItem, bool>> predicateExpression)
         {
+            Component.Log.StartSection(BuildLogFindMessage(name));
+
             By itemBy = CreateItemBy();
-            return Component.Scope.GetAll(itemBy).Count;
+            var predicate = predicateExpression.Compile();
+
+            TItem item = Component.Scope.GetAll(itemBy).
+                Select(element => CreateItem(new DefinedScopeLocator(element), name)).
+                FirstOrDefault(predicate);
+
+            if (item == null)
+            {
+                item = CreateItem(
+                    new DynamicScopeLocator(options =>
+                    {
+                        if (options.IsSafely)
+                            return null;
+                        else
+                            throw ExceptionFactory.CreateForNoSuchElement(name);
+                    }),
+                    name);
+            }
+
+            Component.Log.EndSection();
+
+            return item;
         }
 
         protected virtual By CreateItemBy()
@@ -76,6 +113,17 @@ namespace Atata
             item.ScopeLocator = scopeLocator;
 
             return item;
+        }
+
+        private string BuildItemName(Expression<Func<TItem, bool>> predicateExpression)
+        {
+            string parameterName = predicateExpression.Parameters[0].Name;
+            string itemName = predicateExpression.Body.ToString();
+            if (itemName.StartsWith("(") && itemName.EndsWith(")"))
+                itemName = itemName.Substring(1, itemName.Length - 2);
+
+            itemName = itemName.Replace(parameterName + ".", string.Empty);
+            return itemName;
         }
 
         private string OrdinalizeNumber(int number)

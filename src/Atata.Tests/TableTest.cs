@@ -37,7 +37,7 @@ namespace Atata.Tests
                 ComplexTable.Rows.Count.Should.Equal(4).
                 ComplexTable.VerifyColumns("First Name", "Last Name").
                 ComplexTable.Rows[0].FirstName.Should.Equal("John").
-                Do(x => x.ComplexTable.Row(r => r.FirstName == "Jack"), x =>
+                Do(x => x.ComplexTable.Rows[r => r.FirstName == "Jack"], x =>
                 {
                     x.Should.Exist();
                     x.LastName.Should.Equal("Jameson");
@@ -52,7 +52,7 @@ namespace Atata.Tests
             var goToPage = page.
                 NavigatableTable.Should.Exist().
                 NavigatableTable.Rows.Count.Should.Equal(4).
-                NavigatableTable.Row(r => r.FirstName == "Jack").Click();
+                NavigatableTable.Rows[r => r.FirstName == "Jack"].Click();
 
             Assert.That(goToPage, Is.Not.Null);
         }
@@ -64,7 +64,7 @@ namespace Atata.Tests
                 CountryTable.Should.Exist().
                 CountryTable.Rows.Count.Should.Equal(3).
                 CountryTable.Rows[0].Capital.Should.Equal("London").
-                Do(x => x.CountryTable.Row(r => r.Capital == "Paris"), x =>
+                Do(x => x.CountryTable.Rows[r => r.Capital == "Paris"], x =>
                 {
                     x.Should.Exist();
                     x.Country.Should.Equal("France");
@@ -79,7 +79,7 @@ namespace Atata.Tests
                 CountryByColumnIndexTable.Should.Exist().
                 CountryByColumnIndexTable.Rows.Count.Should.Equal(3).
                 CountryByColumnIndexTable.Rows[0].CapitalName.Should.Equal("London").
-                Do(x => x.CountryByColumnIndexTable.Row(r => r.CapitalName == "Paris"), x =>
+                Do(x => x.CountryByColumnIndexTable.Rows[r => r.CapitalName == "Paris"], x =>
                 {
                     x.Should.Exist();
                     x.CountryName.Should.Equal("France");
