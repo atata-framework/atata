@@ -17,16 +17,16 @@ namespace Atata.Tests
         {
             page.
                 SimpleTable.Should.Exist().
-                SimpleTable.RowCount.Should.Equal(4).
+                SimpleTable.Rows.Count.Should.Equal(4).
                 SimpleTable.VerifyColumns("First Name", "Last Name").
-                SimpleTable.FirstRow().Content.Should.Contain("John").
-                Do(x => x.SimpleTable.Row("Jack"), x =>
+                SimpleTable.Rows[0].Content.Should.Contain("John").
+                Do(x => x.SimpleTable.Rows["Jack"], x =>
                 {
                     x.Should.Exist();
                     x.Content.Should.Contain("Jameson");
                 }).
-                SimpleTable.Row("Jack", "Jameson").Should.Exist().
-                SimpleTable.Row("Jack Jameson").Should.Not.Exist();
+                SimpleTable.Rows["Jack", "Jameson"].Should.Exist().
+                SimpleTable.Rows["Jack Jameson"].Should.WithoutRetry.Not.Exist();
         }
 
         [Test]
@@ -34,16 +34,16 @@ namespace Atata.Tests
         {
             page.
                 ComplexTable.Should.Exist().
-                ComplexTable.RowCount.Should.Equal(4).
+                ComplexTable.Rows.Count.Should.Equal(4).
                 ComplexTable.VerifyColumns("First Name", "Last Name").
-                ComplexTable.FirstRow().FirstName.Should.Equal("John").
+                ComplexTable.Rows[0].FirstName.Should.Equal("John").
                 Do(x => x.ComplexTable.Row(r => r.FirstName == "Jack"), x =>
                 {
                     x.Should.Exist();
                     x.LastName.Should.Equal("Jameson");
                 }).
-                ComplexTable.Row("Jack", "Jameson").Should.Exist().
-                ComplexTable.Row("Jack Jameson").Should.Not.Exist();
+                ComplexTable.Rows["Jack", "Jameson"].Should.Exist().
+                ComplexTable.Rows["Jack Jameson"].Should.Not.Exist();
         }
 
         [Test]
@@ -51,7 +51,7 @@ namespace Atata.Tests
         {
             var goToPage = page.
                 NavigatableTable.Should.Exist().
-                NavigatableTable.RowCount.Should.Equal(4).
+                NavigatableTable.Rows.Count.Should.Equal(4).
                 NavigatableTable.Row(r => r.FirstName == "Jack").Click();
 
             Assert.That(goToPage, Is.Not.Null);
@@ -62,14 +62,14 @@ namespace Atata.Tests
         {
             page.
                 CountryTable.Should.Exist().
-                CountryTable.RowCount.Should.Equal(3).
-                CountryTable.FirstRow().Capital.Should.Equal("London").
+                CountryTable.Rows.Count.Should.Equal(3).
+                CountryTable.Rows[0].Capital.Should.Equal("London").
                 Do(x => x.CountryTable.Row(r => r.Capital == "Paris"), x =>
                 {
                     x.Should.Exist();
                     x.Country.Should.Equal("France");
                 }).
-                CountryTable.Row("Germany", "Berlin").Should.Exist();
+                CountryTable.Rows["Germany", "Berlin"].Should.Exist();
         }
 
         [Test]
@@ -77,14 +77,14 @@ namespace Atata.Tests
         {
             page.
                 CountryByColumnIndexTable.Should.Exist().
-                CountryByColumnIndexTable.RowCount.Should.Equal(3).
-                CountryByColumnIndexTable.FirstRow().CapitalName.Should.Equal("London").
+                CountryByColumnIndexTable.Rows.Count.Should.Equal(3).
+                CountryByColumnIndexTable.Rows[0].CapitalName.Should.Equal("London").
                 Do(x => x.CountryByColumnIndexTable.Row(r => r.CapitalName == "Paris"), x =>
                 {
                     x.Should.Exist();
                     x.CountryName.Should.Equal("France");
                 }).
-                CountryByColumnIndexTable.Row("Germany", "Berlin").Should.Exist();
+                CountryByColumnIndexTable.Rows["Germany", "Berlin"].Should.Exist();
         }
     }
 }

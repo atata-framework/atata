@@ -20,6 +20,8 @@ namespace Atata
 
         public DataProvider<int, TOwner> RowCount => GetOrCreateDataProvider(nameof(RowCount).ToString(TermCase.Lower), GetRowCount);
 
+        public TableRowList<TRow, TOwner> Rows { get; private set; }
+
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }
 

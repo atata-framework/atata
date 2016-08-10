@@ -6,39 +6,47 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public class ControlList<T, TOwner> : UIComponentPart<TOwner>, IEnumerable<T>
-        where T : Control<TOwner>
+    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IEnumerable<TItem>
+        where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private readonly ControlDefinitionAttribute itemDefinition;
-
         public ControlList()
         {
-            itemDefinition = UIComponentResolver.GetControlDefinition(typeof(T));
+            ItemDefinition = UIComponentResolver.GetControlDefinition(typeof(TItem));
         }
 
-        public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{itemDefinition.ComponentTypeName} count", GetCount);
+        protected ControlDefinitionAttribute ItemDefinition { get; private set; }
 
-        public T this[int index]
+        public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} count", GetCount);
+
+        public TItem this[int index]
         {
             get
             {
-                string itemName = $"by index {index}";
+                index.CheckIndexNonNegative();
 
-                Component.Log.StartSection($"Find \"{itemName}\" {itemDefinition.ComponentTypeName}");
-
+                string itemName = OrdinalizeNumber(index + 1);
                 By itemBy = CreateItemBy(index);
-                IScopeLocator scopeLocator = CreateItemScopeLocator(itemBy);
-                T item = CreateItem(scopeLocator, itemName);
 
-                Component.Log.EndSection();
-                return item;
+                return GetItem(itemName, itemBy);
             }
         }
 
-        public T this[Expression<Func<T, bool>> predicateExpression]
+        public TItem this[Expression<Func<TItem, bool>> predicateExpression]
         {
             get { return null; }
+        }
+
+        protected virtual TItem GetItem(string name, By by)
+        {
+            Component.Log.StartSection($"Find \"{name}\" {ItemDefinition.ComponentTypeName} in {Component.ComponentFullName}");
+
+            IScopeLocator scopeLocator = CreateItemScopeLocator(by);
+            TItem item = CreateItem(scopeLocator, name);
+
+            Component.Log.EndSection();
+
+            return item;
         }
 
         protected virtual int GetCount()
@@ -49,12 +57,12 @@ namespace Atata
 
         protected virtual By CreateItemBy()
         {
-            return By.XPath($".//{itemDefinition.ScopeXPath}").OfKind(itemDefinition.ComponentTypeName);
+            return By.XPath($".//{ItemDefinition.ScopeXPath}").OfKind(ItemDefinition.ComponentTypeName);
         }
 
         protected virtual By CreateItemBy(int index)
         {
-            return By.XPath($"(.//{itemDefinition.ScopeXPath})[{index + 1}]").OfKind(itemDefinition.ComponentTypeName);
+            return By.XPath($"(.//{ItemDefinition.ScopeXPath})[{index + 1}]").OfKind(ItemDefinition.ComponentTypeName);
         }
 
         protected virtual IScopeLocator CreateItemScopeLocator(By by)
@@ -62,15 +70,46 @@ namespace Atata
             return new DynamicScopeLocator(options => Component.Scope.Get(by.With(options)));
         }
 
-        protected virtual T CreateItem(IScopeLocator scopeLocator, string name)
+        protected virtual TItem CreateItem(IScopeLocator scopeLocator, string name)
         {
-            T item = Component.CreateControl<T>(name);
+            TItem item = Component.CreateControl<TItem>(name);
             item.ScopeLocator = scopeLocator;
 
             return item;
         }
 
-        public IEnumerator<T> GetEnumerator()
+        private string OrdinalizeNumber(int number)
+        {
+            int mod100 = number % 100;
+
+            string ending;
+
+            if (mod100 >= 11 && mod100 <= 13)
+            {
+                ending = "th";
+            }
+            else
+            {
+                switch (number % 10)
+                {
+                    case 1:
+                        ending = "st";
+                        break;
+                    case 2:
+                        ending = "nd";
+                        break;
+                    case 3:
+                        ending = "rd";
+                        break;
+                    default:
+                        ending = "th";
+                        break;
+                }
+            }
+            return $"{number}{ending}";
+        }
+
+        public IEnumerator<TItem> GetEnumerator()
         {
             throw new NotImplementedException();
         }

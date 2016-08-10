@@ -94,6 +94,7 @@ namespace Atata
             }
         }
 
+        // TODO: Refactor InitComponentTypeMembers method.
         private static void InitComponentTypeMembers<TOwner>(UIComponent<TOwner> component, Type type)
             where TOwner : PageObject<TOwner>
         {
@@ -108,6 +109,13 @@ namespace Atata
 
             foreach (var property in controlProperties)
                 InitControlProperty<TOwner>(component, property);
+
+            PropertyInfo[] componentPartProperties = suitableProperties.
+                Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(UIComponentPart<>))).
+                ToArray();
+
+            foreach (var property in componentPartProperties)
+                InitComponentPartProperty<TOwner>(component, property);
 
             PropertyInfo[] delegateProperties = suitableProperties.
                 Where(x => typeof(MulticastDelegate).IsAssignableFrom(x.PropertyType.BaseType) && x.PropertyType.IsGenericType).
@@ -145,6 +153,14 @@ namespace Atata
 
                 DelegateControls[clickDelegate] = component;
             }
+        }
+
+        private static void InitComponentPartProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
+            where TOwner : PageObject<TOwner>
+        {
+            UIComponentPart<TOwner> componentPart = (UIComponentPart<TOwner>)ActivatorEx.CreateInstance(property.PropertyType);
+            componentPart.Component = parentComponent;
+            property.SetValue(parentComponent, componentPart, null);
         }
 
         private static Type ResolveDelegateControlType(Type delegateType)

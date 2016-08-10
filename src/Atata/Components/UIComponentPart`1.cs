@@ -3,6 +3,6 @@
     public class UIComponentPart<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected UIComponent<TOwner> Component { get; private set; }
+        protected internal UIComponent<TOwner> Component { get; internal set; }
     }
 }

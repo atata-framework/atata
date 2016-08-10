@@ -57,7 +57,24 @@ namespace Atata
             where T : struct
         {
             if (Equals(value, invalidValue))
-                throw new ArgumentException(ConcatMessage($"Invalid {typeof(T).FullName} value: {value}.", errorMessage), argumentName);
+                throw new ArgumentException(ConcatMessage($"Invalid {typeof(T).FullName} value: {value}. Should not equal to: {invalidValue}.", errorMessage), argumentName);
+
+            return value;
+        }
+
+        internal static T CheckGreaterOrEqual<T>(this T value, string argumentName, T checkValue, string errorMessage = null)
+            where T : struct, IComparable<T>
+        {
+            if (value.CompareTo(checkValue) < 0)
+                throw new ArgumentOutOfRangeException(argumentName, value, ConcatMessage($"Invalid {typeof(T).FullName} value: {value}. Should be greater or equal to: {checkValue}.", errorMessage));
+
+            return value;
+        }
+
+        internal static int CheckIndexNonNegative(this int value)
+        {
+            if (value < 0)
+                throw new ArgumentOutOfRangeException("index", value, "Index was out of range. Must be non-negative.");
 
             return value;
         }
