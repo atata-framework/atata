@@ -7,13 +7,21 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IEnumerable<TItem>
+    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IDataProvider<IEnumerable<TItem>, TOwner>, IEnumerable<TItem>
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected ControlDefinitionAttribute ItemDefinition { get; } = UIComponentResolver.GetControlDefinition(typeof(TItem));
 
+        public DataVerificationProvider<IEnumerable<TItem>, TOwner> Should => new DataVerificationProvider<IEnumerable<TItem>, TOwner>(this);
+
         public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} count", GetCount);
+
+        string IDataProvider<IEnumerable<TItem>, TOwner>.ComponentFullName => Component.ComponentFullName;
+
+        string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => $"{ItemDefinition.ComponentTypeName} items";
+
+        TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
         public TItem this[int index]
         {
@@ -149,11 +157,22 @@ namespace Atata
 
         public IEnumerator<TItem> GetEnumerator()
         {
+            return GetAll().GetEnumerator();
+        }
+
+        protected virtual IEnumerable<TItem> GetAll()
+        {
             By itemBy = CreateItemBy();
 
             return Component.Scope.GetAll(itemBy).
-                Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1))).
-                GetEnumerator();
+                Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1)));
+        }
+
+        IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Get() => GetAll();
+
+        string IDataProvider<IEnumerable<TItem>, TOwner>.ConvertValueToString(IEnumerable<TItem> value)
+        {
+            return TermResolver.ToString(value);
         }
     }
 }
