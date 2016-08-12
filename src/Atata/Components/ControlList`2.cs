@@ -23,6 +23,8 @@ namespace Atata
 
         TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
+        TermOptions IDataProvider<IEnumerable<TItem>, TOwner>.ValueTermOptions { get; }
+
         public TItem this[int index]
         {
             get
@@ -165,14 +167,10 @@ namespace Atata
             By itemBy = CreateItemBy();
 
             return Component.Scope.GetAll(itemBy).
-                Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1)));
+                Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1))).
+                ToArray();
         }
 
         IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Get() => GetAll();
-
-        string IDataProvider<IEnumerable<TItem>, TOwner>.ConvertValueToString(IEnumerable<TItem> value)
-        {
-            return TermResolver.ToString(value);
-        }
     }
 }

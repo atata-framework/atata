@@ -25,6 +25,8 @@ namespace Atata
 
         TOwner IDataProvider<T, TOwner>.Owner => Owner;
 
+        TermOptions IDataProvider<T, TOwner>.ValueTermOptions => ValueTermOptions;
+
         public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, Field<T, TOwner>, TOwner>(this);
 
         protected abstract T GetValue();
@@ -34,11 +36,9 @@ namespace Atata
             return GetValue();
         }
 
-        string IDataProvider<T, TOwner>.ConvertValueToString(T value) => ConvertValueToString(value);
-
         protected internal virtual string ConvertValueToString(T value)
         {
-            return TermResolver.ToString(value, ValueTermOptions);
+            return (this as IDataProvider<T, TOwner>).ConvertValueToString(value);
         }
 
         protected internal virtual T ConvertStringToValue(string value)

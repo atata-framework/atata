@@ -13,6 +13,12 @@ namespace Atata
             return provider.Owner;
         }
 
+        internal static string ConvertValueToString<TValue, TOwner>(this IDataProvider<TValue, TOwner> provider, TValue value)
+            where TOwner : PageObject<TOwner>
+        {
+            return TermResolver.ToString(value, provider.ValueTermOptions);
+        }
+
         public static TOwner Verify<TValue, TOwner>(this IDataProvider<TValue, TOwner> provider, Action assertAction, string verificationMessage, params object[] verificationMessageArgs)
             where TOwner : PageObject<TOwner>
         {

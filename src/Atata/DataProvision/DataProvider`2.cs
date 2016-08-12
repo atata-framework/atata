@@ -31,12 +31,9 @@ namespace Atata
             get { return providerName; }
         }
 
-        public DataVerificationProvider<TData, TOwner> Should => new DataVerificationProvider<TData, TOwner>(this);
+        TermOptions IDataProvider<TData, TOwner>.ValueTermOptions { get; }
 
-        string IDataProvider<TData, TOwner>.ConvertValueToString(TData value)
-        {
-            return TermResolver.ToString(value);
-        }
+        public DataVerificationProvider<TData, TOwner> Should => new DataVerificationProvider<TData, TOwner>(this);
 
         public TData Get()
         {

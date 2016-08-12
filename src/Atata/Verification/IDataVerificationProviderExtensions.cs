@@ -320,5 +320,45 @@ namespace Atata
 
             return should.Satisfy(actual => actual != null && expected.All(x => actual.Contains(x)), message, expected);
         }
+
+        public static TOwner BeEmpty<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Any(), "be empty");
+        }
+
+        public static TOwner HaveCount<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, int expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
+        }
+
+        public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch contentMatch, params string[] expected)
+            where TControl : Control<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return should.Satisfy(
+                actual =>
+                {
+                    if (actual == null)
+                        return false;
+
+                    var actualContentValues = actual.Select(x => x.Content.Get()).ToArray();
+                    return expected.All(expectedValue => actualContentValues.Any(actualContentValue => contentMatch.IsMatch(actualContentValue, expectedValue)));
+                },
+                $"contain having content \"{TermResolver.ToString(expected, should.DataProvider.ValueTermOptions)}\"");
+        }
+
+        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return should.Satisfy(
+                actual => actual != null && actual.Select(x => x.Get()).Intersect(expected).Count() == expected.Count(),
+                $"contain \"{TermResolver.ToString(expected, should.DataProvider.ValueTermOptions)}\"");
+        }
     }
 }
