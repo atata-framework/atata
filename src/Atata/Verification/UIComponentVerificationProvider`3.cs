@@ -21,13 +21,14 @@
             get { return Component.Owner; }
         }
 
-        public NegationControlVerificationProvider Not => new NegationControlVerificationProvider(Component);
+        public NegationControlVerificationProvider Not => new NegationControlVerificationProvider(Component, this);
 
         public class NegationControlVerificationProvider :
             NegationVerificationProvider<TVerificationProvider, TOwner>,
             IUIComponentVerificationProvider<TComponent, TOwner>
         {
-            public NegationControlVerificationProvider(TComponent component)
+            internal NegationControlVerificationProvider(TComponent component, IVerificationProvider<TOwner> verificationProvider)
+                : base(verificationProvider)
             {
                 Component = component;
             }

@@ -19,13 +19,14 @@
             get { return DataProvider.Owner; }
         }
 
-        public NegationDataVerificationProvider Not => new NegationDataVerificationProvider(DataProvider);
+        public NegationDataVerificationProvider Not => new NegationDataVerificationProvider(DataProvider, this);
 
         public class NegationDataVerificationProvider :
             NegationVerificationProvider<NegationDataVerificationProvider, TOwner>,
             IDataVerificationProvider<TData, TOwner>
         {
-            public NegationDataVerificationProvider(IDataProvider<TData, TOwner> dataProvider)
+            internal NegationDataVerificationProvider(IDataProvider<TData, TOwner> dataProvider, IVerificationProvider<TOwner> verificationProvider)
+                : base(verificationProvider)
             {
                 DataProvider = dataProvider;
             }

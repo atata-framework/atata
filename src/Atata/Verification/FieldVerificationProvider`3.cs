@@ -11,7 +11,7 @@
         {
         }
 
-        public new NegationFieldVerificationProvider Not => new NegationFieldVerificationProvider(Component);
+        public new NegationFieldVerificationProvider Not => new NegationFieldVerificationProvider(Component, this);
 
         IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Component;
 
@@ -19,8 +19,8 @@
             NegationControlVerificationProvider,
             IFieldVerificationProvider<TData, TField, TOwner>
         {
-            public NegationFieldVerificationProvider(TField control)
-                : base(control)
+            internal NegationFieldVerificationProvider(TField control, IVerificationProvider<TOwner> verificationProvider)
+                : base(control, verificationProvider)
             {
             }
 

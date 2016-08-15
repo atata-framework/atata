@@ -4,9 +4,11 @@
         where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected NegationVerificationProvider()
+        protected NegationVerificationProvider(IVerificationProvider<TOwner> verificationProvider)
             : base(isNegation: true)
         {
+            Timeout = verificationProvider.Timeout;
+            RetryInterval = verificationProvider.RetryInterval;
         }
     }
 }
