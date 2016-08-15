@@ -80,8 +80,10 @@ namespace Atata
         {
             if (!collection.Any())
                 return "<empty>";
-
-            return "< {0} >".FormatWith(string.Join(", ", collection.Select(ObjectToString).ToArray()));
+            else if (collection.Count() == 1)
+                return ObjectToString(collection.First());
+            else
+                return "<{0}>".FormatWith(string.Join(", ", collection.Select(ObjectToString).ToArray()));
         }
 
         private static string ObjectToString(object value)
@@ -348,7 +350,7 @@ namespace Atata
                     var actualContentValues = actual.Select(x => x.Content.Get()).ToArray();
                     return expected.All(expectedValue => actualContentValues.Any(actualContentValue => contentMatch.IsMatch(actualContentValue, expectedValue)));
                 },
-                $"contain having content \"{TermResolver.ToString(expected, should.DataProvider.ValueTermOptions)}\"");
+                $"contain having content {CollectionToString(expected)}");
         }
 
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)

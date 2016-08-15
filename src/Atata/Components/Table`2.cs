@@ -18,9 +18,9 @@ namespace Atata
             rowScopeXPath = (controlDefinition != null ? controlDefinition.ScopeXPath : null) ?? "tr";
         }
 
-        public DataProvider<int, TOwner> RowCount => GetOrCreateDataProvider(nameof(RowCount).ToString(TermCase.Lower), GetRowCount);
-
         public TableRowList<TRow, TOwner> Rows { get; private set; }
+
+        public ControlList<TableHeader<TOwner>, TOwner> Headers { get; private set; }
 
         protected int? ColumnIndexToClickOnRow { get; set; }
         protected internal bool GoTemporarilyByClickOnRow { get; set; }
@@ -39,59 +39,6 @@ namespace Atata
                 GoTemporarilyByClickOnRow = goTemporarilyAttribute.IsTemporarily;
         }
 
-        ////public TOwner VerifyRowsCount(string name, int value)
-        ////{
-        ////    Log.StartVerificationThat("'{0}' {1} count equals '{2}'", name, ItemKindNamePluralized, value);
-        ////    Asserter.AreEqual(value, FindItems(name).Count());
-        ////    Log.EndSection();
-        ////    return Owner;
-        ////}
-
-        ////public TOwner RowExists(string name, string columnName, string columnValue)
-        ////{
-        ////    return RowExists(name, new Dictionary<string, string>() { { columnName, columnValue } });
-        ////}
-
-        ////public TOwner RowExists(string name, Dictionary<string, string> columnValues)
-        ////{
-        ////    Dictionary<string, int> columnIndices = columnValues.Keys.ToDictionary(x => x, x => GetColumnIndex(x));
-
-        ////    int itemsCount = FindItems(name).
-        ////        Where(x => columnValues.All(cv => GetColumnValue(x, columnIndices[cv.Key]) == cv.Value)).
-        ////        Count();
-
-        ////    Assert.That(itemsCount == 1, "Failed to find '{0}' {1}", name, ItemKindName);
-
-        ////    return Owner;
-        ////}
-
-        ////protected IWebElement FindItem(string name, bool isFirst = false)
-        ////{
-        ////    IWebElement item = GetItem(name, isFirst);
-        ////    Assert.NotNull(item, "Unable to locate {0} table row containing '{1}'", ItemKindName, name);
-        ////    return item;
-        ////}
-
-        ////protected IWebElement[] FindItems(string name)
-        ////{
-        ////    return Scope.GetAll(By.XPath(".//tr[contains(.,'{0}')]").TableRow(name)).ToArray();
-        ////}
-
-        ////protected IWebElement GetItem(string name, bool isFirst = false)
-        ////{
-        ////    return Scope.Get(By.XPath(".//tr[td[contains(., '{0}')]]").TableRow(name).Safely());
-        ////}
-
-        ////protected int GetColumnIndex(string header)
-        ////{
-        ////    return Scope.GetAll(By.TagName("th")).Select((x, i) => new { Item = x, Index = i }).Single(x => x.Item.Text == header).Index;
-        ////}
-
-        ////protected string GetColumnValue(IWebElement element, int columnIndex)
-        ////{
-        ////    return element.GetAll(By.TagName("td")).ElementAt(columnIndex).Text;
-        ////}
-
         public TOwner VerifyColumns(params string[] columns)
         {
             Log.StartVerificationSection("{0} contains column(s) {1}", ComponentFullName, columns.ToQuotedValuesListOfString(true));
@@ -103,12 +50,6 @@ namespace Atata
             Log.EndSection();
 
             return Owner;
-        }
-
-        protected virtual int GetRowCount()
-        {
-            By rowBy = CreateRowBy();
-            return Scope.GetAll(rowBy).Count;
         }
 
         public TRow FirstRow()

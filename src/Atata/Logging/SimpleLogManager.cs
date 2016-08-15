@@ -38,8 +38,12 @@ namespace Atata
                 Append(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.ffff")).
                 Append(" ").
                 Append(logLevel).
-                Append(" ").
-                AppendFormat(message, args);
+                Append(" ");
+
+            if (args.Length == 0)
+                builder.Append(message);
+            else
+                builder.AppendFormat(message, args);
 
             writeLineAction(builder.ToString());
         }
