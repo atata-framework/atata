@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -360,7 +361,19 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && actual.Select(x => x.Get()).Intersect(expected).Count() == expected.Count(),
-                $"contain \"{TermResolver.ToString(expected, should.DataProvider.ValueTermOptions)}\"");
+                $"contain {CollectionToString(expected.Cast<object>())}");
+        }
+
+        public static TOwner Contain<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, Expression<Func<TControl, bool>> predicateExpression)
+            where TControl : Control<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            predicateExpression.CheckNotNull(nameof(predicateExpression));
+            var predicate = predicateExpression.Compile();
+
+            return should.Satisfy(
+                actual => actual != null && actual.Any(predicate),
+                $"contain \"{UIComponentResolver.ResolveControlName<TControl, TOwner>(predicateExpression)}\"");
         }
     }
 }

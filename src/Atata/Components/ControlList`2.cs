@@ -19,7 +19,7 @@ namespace Atata
 
         string IDataProvider<IEnumerable<TItem>, TOwner>.ComponentFullName => Component.ComponentFullName;
 
-        string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => $"{ItemDefinition.ComponentTypeName} items";
+        string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => $"{ItemDefinition.ComponentTypeName} list";
 
         TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
@@ -44,7 +44,7 @@ namespace Atata
             {
                 predicateExpression.CheckNotNull(nameof(predicateExpression));
 
-                string itemName = BuildItemName(predicateExpression);
+                string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
                 return GetItem(itemName, predicateExpression);
             }
@@ -123,17 +123,6 @@ namespace Atata
             item.ScopeLocator = scopeLocator;
 
             return item;
-        }
-
-        private string BuildItemName(Expression<Func<TItem, bool>> predicateExpression)
-        {
-            string parameterName = predicateExpression.Parameters[0].Name;
-            string itemName = predicateExpression.Body.ToString();
-            if (itemName.StartsWith("(") && itemName.EndsWith(")"))
-                itemName = itemName.Substring(1, itemName.Length - 2);
-
-            itemName = itemName.Replace(parameterName + ".", string.Empty);
-            return itemName;
         }
 
         private string OrdinalizeNumber(int number)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace Atata
@@ -522,6 +523,19 @@ namespace Atata
         public static string ResolveControlTypeName(Type type)
         {
             return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).ToString(TermCase.Lower);
+        }
+
+        public static string ResolveControlName<TControl, TOwner>(Expression<Func<TControl, bool>> predicateExpression)
+            where TControl : Control<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            string parameterName = predicateExpression.Parameters[0].Name;
+            string itemName = predicateExpression.Body.ToString();
+            if (itemName.StartsWith("(") && itemName.EndsWith(")"))
+                itemName = itemName.Substring(1, itemName.Length - 2);
+
+            itemName = itemName.Replace(parameterName + ".", string.Empty);
+            return itemName;
         }
 
         private static string NormalizeTypeName(Type type)

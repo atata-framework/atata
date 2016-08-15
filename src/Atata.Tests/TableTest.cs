@@ -46,6 +46,7 @@ namespace Atata.Tests
                     x.Should.Exist();
                     x.LastName.Should.Equal("Jameson");
                 }).
+                ComplexTable.Rows.Should.Contain(r => r.FirstName == "Jack").
                 ComplexTable.Rows["Jack", "Jameson"].Should.Exist().
                 ComplexTable.Rows["Jack Jameson"].Should.Not.Exist();
         }

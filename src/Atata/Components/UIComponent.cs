@@ -91,7 +91,7 @@ namespace Atata
             StringBuilder builder = new StringBuilder(ComponentFullName);
             if (scope != null)
             {
-                builder.Append($". Tag: \"{ scope.TagName }\", Text: \"{scope.Text}\"");
+                builder.Append($". Tag: \"{scope.TagName}\", Text: \"{scope.Text}\"");
             }
             return builder.ToString();
         }
