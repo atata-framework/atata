@@ -28,8 +28,9 @@ namespace Atata.Tests
                     x.Content.Should.Contain("Jameson");
                 }).
                 SimpleTable.Rows["Jack", "Jameson"].Should.Exist().
+                SimpleTable.Rows.Should.ContainHavingContent(TermMatch.Contains, "Jameson").
                 SimpleTable.Rows["Jack Jameson"].Should.WithoutRetry.Not.Exist().
-                SimpleTable.Rows.Should.Not.ContainHavingContent(TermMatch.Equals, "Jack Cook");
+                SimpleTable.Rows.Should.Not.ContainHavingContent(TermMatch.Equals, "Jameson");
         }
 
         [Test]

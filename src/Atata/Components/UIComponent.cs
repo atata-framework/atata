@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
@@ -82,6 +83,17 @@ namespace Atata
         protected void Wait(double seconds)
         {
             Thread.Sleep((int)(seconds * 1000));
+        }
+
+        public override string ToString()
+        {
+            IWebElement scope = GetScopeElement(SearchOptions.Safely());
+            StringBuilder builder = new StringBuilder(ComponentFullName);
+            if (scope != null)
+            {
+                builder.Append($". Tag: \"{ scope.TagName }\", Text: \"{scope.Text}\"");
+            }
+            return builder.ToString();
         }
     }
 }
