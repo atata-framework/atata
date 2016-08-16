@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -13,14 +12,14 @@ namespace Atata
             {
                 cellValues.CheckNotNullOrEmpty(nameof(cellValues));
 
-                string itemName = BuildItemName(cellValues);
-                By itemBy = CreateItemBy(cellValues);
+                string itemName = BuildItemNameByCellValues(cellValues);
+                string xPath = CreateItemInnerXPathByCellValues(cellValues);
 
-                return GetItem(itemName, itemBy);
+                return GetItemByInnerXPath(itemName, xPath);
             }
         }
 
-        protected virtual string BuildItemName(string[] values)
+        protected string BuildItemNameByCellValues(string[] values)
         {
             if (values == null || !values.Any())
                 return null;
@@ -30,13 +29,9 @@ namespace Atata
                 return values.ToQuotedValuesListOfString();
         }
 
-        protected virtual By CreateItemBy(params string[] values)
+        protected string CreateItemInnerXPathByCellValues(params string[] values)
         {
-            string condition = values != null && values.Any()
-                ? string.Concat(values.Select(x => "[td[{0}]]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))))
-                : "[td]";
-
-            return By.XPath(".//{0}{1}".FormatWith(ItemDefinition.ScopeXPath, condition)).OfKind(ItemDefinition.ComponentTypeName);
+            return string.Join(" and ", values.Select(x => "td[{0}]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))));
         }
     }
 }

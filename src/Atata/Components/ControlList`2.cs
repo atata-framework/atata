@@ -31,10 +31,7 @@ namespace Atata
             {
                 index.CheckIndexNonNegative();
 
-                string itemName = OrdinalizeNumber(index + 1);
-                By itemBy = CreateItemBy(index);
-
-                return GetItem(itemName, itemBy);
+                return GetItemByIndex(index);
             }
         }
 
@@ -61,12 +58,24 @@ namespace Atata
             return $"Find \"{name}\" {ItemDefinition.ComponentTypeName} in {Component.ComponentFullName}";
         }
 
-        protected virtual TItem GetItem(string name, By by)
+        protected TItem GetItemByIndex(int index)
         {
-            Component.Log.StartSection(BuildLogFindMessage(name));
+            string itemName = OrdinalizeNumber(index + 1);
 
-            IScopeLocator scopeLocator = CreateItemScopeLocator(by);
-            TItem item = CreateItem(scopeLocator, name);
+            Component.Log.StartSection(BuildLogFindMessage(itemName));
+
+            TItem item = CreateItem(itemName, new FindByIndexAttribute(index));
+
+            Component.Log.EndSection();
+
+            return item;
+        }
+
+        protected TItem GetItemByInnerXPath(string itemName, string xPath)
+        {
+            Component.Log.StartSection(BuildLogFindMessage(itemName));
+
+            TItem item = CreateItem(itemName, new FindByInnerXPathAttribute(xPath));
 
             Component.Log.EndSection();
 
@@ -107,14 +116,9 @@ namespace Atata
             return By.XPath($".//{ItemDefinition.ScopeXPath}").OfKind(ItemDefinition.ComponentTypeName);
         }
 
-        protected virtual By CreateItemBy(int index)
+        protected TItem CreateItem(string name, params Attribute[] attributes)
         {
-            return By.XPath($"(.//{ItemDefinition.ScopeXPath})[{index + 1}]").OfKind(ItemDefinition.ComponentTypeName);
-        }
-
-        protected virtual IScopeLocator CreateItemScopeLocator(By by)
-        {
-            return new DynamicScopeLocator(options => Component.Scope.Get(by.With(options)));
+            return Component.CreateControl<TItem>(name, attributes);
         }
 
         protected virtual TItem CreateItem(IScopeLocator scopeLocator, string name)

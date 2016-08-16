@@ -22,6 +22,7 @@ namespace Atata.Tests
                 SimpleTable.Headers.Should.Not.HaveCount(3).
                 SimpleTable.Headers.Should.ContainHavingContent(TermMatch.Equals, "First Name", "Last Name").
                 SimpleTable.Rows[0].Content.Should.Contain("John").
+                SimpleTable.Rows[1].Content.Should.Contain("Jane Smith").
                 Do(x => x.SimpleTable.Rows["Jack"], x =>
                 {
                     x.Should.Exist();
@@ -29,7 +30,7 @@ namespace Atata.Tests
                 }).
                 SimpleTable.Rows["Jack", "Jameson"].Should.Exist().
                 SimpleTable.Rows.Should.ContainHavingContent(TermMatch.Contains, "Jameson").
-                SimpleTable.Rows["Jack Jameson"].Should.WithoutRetry.Not.Exist().
+                SimpleTable.Rows["Jack Jameson"].Should.Not.Exist().
                 SimpleTable.Rows.Should.Not.ContainHavingContent(TermMatch.Equals, "Jameson");
         }
 
@@ -41,6 +42,7 @@ namespace Atata.Tests
                 ComplexTable.Rows.Count.Should.Equal(4).
                 ComplexTable.VerifyColumns("First Name", "Last Name").
                 ComplexTable.Rows[0].FirstName.Should.Equal("John").
+                ComplexTable.Rows[1].FirstName.Should.Equal("Jane").
                 Do(x => x.ComplexTable.Rows[r => r.FirstName == "Jack"], x =>
                 {
                     x.Should.Exist();

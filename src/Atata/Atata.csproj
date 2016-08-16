@@ -84,6 +84,7 @@
     <Compile Include="Attributes\FindByPlaceholderAttribute.cs" />
     <Compile Include="Attributes\FindByTitleAttribute.cs" />
     <Compile Include="Attributes\FindByValueAttribute.cs" />
+    <Compile Include="Attributes\FindByInnerXPathAttribute.cs" />
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\FieldFindingAttribute.cs" />
     <Compile Include="Attributes\FindFirstAttribute.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Components\Fields\PasswordInput`2.cs" />
     <Compile Include="Extensions\ITermDataProviderExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
+    <Compile Include="ScopeSearch\Strategies\FindByInnerXPathStrategy.cs" />
     <Compile Include="Terms\ITermDataProvider.cs" />
     <Compile Include="Terms\ITermSettings.cs" />
     <Compile Include="Attributes\NameAttribute.cs" />
