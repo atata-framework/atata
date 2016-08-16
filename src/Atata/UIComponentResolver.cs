@@ -241,8 +241,8 @@ namespace Atata
 
         private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            ComponentScopeLocateOptions findOptions = CreateFindOptions(metadata, findAttribute);
-            IComponentScopeLocateStrategy elementLocator = findAttribute.CreateStrategy(metadata);
+            ComponentScopeLocateOptions locateOptions = CreateFindOptions(metadata, findAttribute);
+            IComponentScopeLocateStrategy strategy = findAttribute.CreateStrategy(metadata);
 
             IItemsControl itemsControl = component as IItemsControl;
 
@@ -255,7 +255,7 @@ namespace Atata
                 itemsControl.Apply(itemElementFindStrategy);
             }
 
-            component.ScopeLocator = new StrategyScopeLocator(component, elementLocator, findOptions);
+            component.ScopeLocator = new StrategyScopeLocator(component, strategy, locateOptions);
         }
 
         private static string ResolveComponentName(UIComponentMetadata metadata, FindAttribute findAttribute)
