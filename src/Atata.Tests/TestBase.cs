@@ -78,7 +78,7 @@ namespace Atata.Tests
             control.Should.Not.Equal(value);
 
             Assert.Throws<AssertionException>(() =>
-                control.Should.Equal(value));
+                control.Should.WithoutRetry.Equal(value));
         }
     }
 }
