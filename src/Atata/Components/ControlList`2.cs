@@ -53,39 +53,20 @@ namespace Atata
             return Component.Scope.GetAll(itemBy).Count;
         }
 
-        private string BuildLogFindMessage(string name)
-        {
-            return $"Find \"{name}\" {ItemDefinition.ComponentTypeName} in {Component.ComponentFullName}";
-        }
-
         protected TItem GetItemByIndex(int index)
         {
             string itemName = OrdinalizeNumber(index + 1);
 
-            Component.Log.StartSection(BuildLogFindMessage(itemName));
-
-            TItem item = CreateItem(itemName, new FindByIndexAttribute(index));
-
-            Component.Log.EndSection();
-
-            return item;
+            return CreateItem(itemName, new FindByIndexAttribute(index));
         }
 
         protected TItem GetItemByInnerXPath(string itemName, string xPath)
         {
-            Component.Log.StartSection(BuildLogFindMessage(itemName));
-
-            TItem item = CreateItem(itemName, new FindByInnerXPathAttribute(xPath));
-
-            Component.Log.EndSection();
-
-            return item;
+            return CreateItem(itemName, new FindByInnerXPathAttribute(xPath));
         }
 
         protected virtual TItem GetItem(string name, Expression<Func<TItem, bool>> predicateExpression)
         {
-            Component.Log.StartSection(BuildLogFindMessage(name));
-
             By itemBy = CreateItemBy();
             var predicate = predicateExpression.Compile();
 
@@ -93,9 +74,8 @@ namespace Atata
                 Select(element => CreateItem(new DefinedScopeLocator(element), name)).
                 FirstOrDefault(predicate);
 
-            if (item == null)
-            {
-                item = CreateItem(
+            return item ??
+                CreateItem(
                     new DynamicScopeLocator(options =>
                     {
                         if (options.IsSafely)
@@ -104,11 +84,6 @@ namespace Atata
                             throw ExceptionFactory.CreateForNoSuchElement(name);
                     }),
                     name);
-            }
-
-            Component.Log.EndSection();
-
-            return item;
         }
 
         protected virtual By CreateItemBy()

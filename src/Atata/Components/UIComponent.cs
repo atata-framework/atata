@@ -31,7 +31,7 @@ namespace Atata
 
         protected internal string ComponentFullName
         {
-            get { return string.Format("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component"); }
+            get { return BuildComponentFullName(); }
         }
 
         protected internal UIComponentMetadata Metadata { get; internal set; }
@@ -68,6 +68,21 @@ namespace Atata
 
         protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
         {
+        }
+
+        protected virtual string BuildComponentFullName()
+        {
+            StringBuilder builder = new StringBuilder();
+            if (Parent != null && !Parent.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>)))
+            {
+                string parentFullName = Parent.ComponentFullName;
+                builder.
+                    Append(parentFullName).
+                    Append(parentFullName.EndsWith("s") ? "'" : "'s").
+                    Append(" ");
+            }
+            builder.AppendFormat("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component");
+            return builder.ToString();
         }
 
         public bool Exists(SearchOptions options = null)
