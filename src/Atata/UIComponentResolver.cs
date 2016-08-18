@@ -529,13 +529,7 @@ namespace Atata
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            string parameterName = predicateExpression.Parameters[0].Name;
-            string itemName = predicateExpression.Body.ToString();
-            if (itemName.StartsWith("(") && itemName.EndsWith(")"))
-                itemName = itemName.Substring(1, itemName.Length - 2);
-
-            itemName = itemName.Replace(parameterName + ".", string.Empty);
-            return itemName;
+            return ControlNameExpressionStringBuilder.ExpressionToString(predicateExpression);
         }
 
         private static string NormalizeTypeName(Type type)

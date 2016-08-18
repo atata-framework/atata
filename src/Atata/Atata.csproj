@@ -108,6 +108,8 @@
     <Compile Include="Components\ControlList`2.cs" />
     <Compile Include="Components\IPageObject`1.cs" />
     <Compile Include="Components\Fields\PasswordInput`2.cs" />
+    <Compile Include="Expressions\ControlNameExpressionStringBuilder.cs" />
+    <Compile Include="Expressions\ExpressionStringBuilder.cs" />
     <Compile Include="Extensions\ITermDataProviderExtensions.cs" />
     <Compile Include="Extensions\StringBuilderExtensions.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByInnerXPathStrategy.cs" />
