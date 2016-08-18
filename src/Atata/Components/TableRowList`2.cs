@@ -26,7 +26,7 @@ namespace Atata
             else if (values.Length == 1)
                 return values.First();
             else
-                return values.ToQuotedValuesListOfString();
+                return values.ToQuotedValuesListOfString(true);
         }
 
         protected string CreateItemInnerXPathByCellValues(params string[] values)
