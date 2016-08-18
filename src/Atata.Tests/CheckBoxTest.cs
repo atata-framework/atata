@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class CheckBoxTest : TestBase
+    public class CheckBoxTest : AutoTest
     {
         private CheckBoxListPage page;
 

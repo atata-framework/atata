@@ -3,8 +3,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class SelectTest : TestBase
+    public class SelectTest : AutoTest
     {
         private SelectPage page;
 

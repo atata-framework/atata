@@ -2,8 +2,7 @@
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class InputTest : TestBase
+    public class InputTest : AutoTest
     {
         private InputPage page;
 

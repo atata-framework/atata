@@ -2,8 +2,7 @@
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class MessageBoxTest : TestBase
+    public class MessageBoxTest : AutoTest
     {
         [Test]
         public void CloseAlertBox()

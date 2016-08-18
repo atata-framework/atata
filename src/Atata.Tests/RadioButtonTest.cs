@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class RadioButtonTest : TestBase
+    public class RadioButtonTest : AutoTest
     {
         private RadioButtonListPage page;
 

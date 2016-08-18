@@ -28,5 +28,7 @@ namespace Atata.Tests
         public CheckBoxList<Options, _> ByXPathAndValue { get; private set; }
 
         public CheckBox<_> OptionA { get; private set; }
+
+        public ControlList<CheckBox<_>, _> AllItems { get; private set; }
     }
 }

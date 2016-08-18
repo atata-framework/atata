@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    public class CheckBoxListTest : TestBase
+    public class CheckBoxListTest : AutoTest
     {
         private CheckBoxListPage page;
 

@@ -2,8 +2,7 @@
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class GoTest : TestBase
+    public class GoTest : AutoTest
     {
         [Test]
         public void Go_To_SimpleNavigation()

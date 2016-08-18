@@ -2,8 +2,7 @@
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class TableTest : TestBase
+    public class TableTest : AutoTest
     {
         private TablePage page;
 

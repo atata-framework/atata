@@ -73,6 +73,7 @@
     <Compile Include="Components\RadioButtonListPage.cs" />
     <Compile Include="Components\SelectPage.cs" />
     <Compile Include="Components\TablePage.cs" />
+    <Compile Include="ControlListTest.cs" />
     <Compile Include="GoTest.cs" />
     <Compile Include="InputTest.cs" />
     <Compile Include="MessageBoxTest.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="TableTest.cs" />
     <Compile Include="TermCaseTest.cs" />
     <Compile Include="TermResolverTest.cs" />
-    <Compile Include="TestBase.cs" />
+    <Compile Include="AutoTest.cs" />
     <Compile Include="TestCaseDataSource.cs" />
   </ItemGroup>
   <ItemGroup>

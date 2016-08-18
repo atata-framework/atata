@@ -2,8 +2,7 @@
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class PageObjectTest : TestBase
+    public class PageObjectTest : AutoTest
     {
         [Test]
         public void PageObject_RefreshPage()

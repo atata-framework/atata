@@ -2,8 +2,7 @@
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class BasicControlsTest : TestBase
+    public class BasicControlsTest : AutoTest
     {
         [Test]
         public void BasicControlsInteraction()

@@ -6,7 +6,7 @@ using OpenQA.Selenium.Chrome;
 namespace Atata.Tests
 {
     [TestFixture]
-    public abstract class TestBase
+    public abstract class AutoTest
     {
         [SetUp]
         public void SetUp()

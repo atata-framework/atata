@@ -4,8 +4,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class RadioButtonListTest : TestBase
+    public class RadioButtonListTest : AutoTest
     {
         private RadioButtonListPage page;
 
