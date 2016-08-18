@@ -152,5 +152,18 @@ namespace Atata
 
             return base.VisitBinary(node);
         }
+
+        protected override Expression VisitUnary(UnaryExpression node)
+        {
+            switch (node.NodeType)
+            {
+                case ExpressionType.Convert:
+                case ExpressionType.ConvertChecked:
+                    Visit(node.Operand);
+                    return node;
+                default:
+                    return base.VisitUnary(node);
+            }
+        }
     }
 }
