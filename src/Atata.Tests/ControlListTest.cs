@@ -16,8 +16,7 @@ namespace Atata.Tests
                 AllItems.Count.Should.Not.BeLess(6).
                 AllItems.Should.Not.Contain(true).
                 AllItems.Should.Not.Contain(x => x.IsChecked).
-                AllItems[x => !x.IsChecked].Should.Not.Exist().
-                AllItems[x => x.IsChecked == false].Should.Not.Exist();
+                AllItems[x => x.IsChecked].Should.Not.Exist();
             ////AllItems[2].Check().
             ////AllItems.Should.Contain(x => x.IsChecked).
             ////AllItems[2].IsChecked.Should.BeTrue();
