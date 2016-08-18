@@ -25,5 +25,21 @@ namespace Atata
                     ColumnIndexToClick = columnIndexToClickAttribute.Index;
             }
         }
+
+        protected override void OnClick()
+        {
+            var columnIndexToClickAttribute = Metadata.GetFirstOrDefaultComponentAttribute<ColumnIndexToClickAttribute>();
+
+            if (columnIndexToClickAttribute != null)
+            {
+                ColumnIndexToClick = columnIndexToClickAttribute.Index;
+
+                GetCell(ColumnIndexToClick.Value).Click();
+            }
+            else
+            {
+                base.OnClick();
+            }
+        }
     }
 }

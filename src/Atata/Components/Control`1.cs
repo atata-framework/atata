@@ -21,12 +21,17 @@
             ExecuteTriggers(TriggerEvents.BeforeClick);
             Log.StartClickingSection(ComponentFullName);
 
-            Scope.Click();
+            OnClick();
 
             Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
 
             return Owner;
+        }
+
+        protected virtual void OnClick()
+        {
+            Scope.Click();
         }
 
         public TOwner VerifyEnabled()
