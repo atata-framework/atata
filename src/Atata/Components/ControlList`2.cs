@@ -25,6 +25,8 @@ namespace Atata
 
         TermOptions IDataProvider<IEnumerable<TItem>, TOwner>.ValueTermOptions { get; }
 
+        IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Value => GetAll();
+
         public TItem this[int index]
         {
             get
@@ -108,7 +110,7 @@ namespace Atata
         {
             string ending = "th";
 
-            int tensDigit = number % 100 / 10;
+            int tensDigit = (number % 100) / 10;
 
             if (tensDigit != 1)
             {

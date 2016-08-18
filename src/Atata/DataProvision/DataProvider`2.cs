@@ -33,11 +33,21 @@ namespace Atata
 
         TermOptions IDataProvider<TData, TOwner>.ValueTermOptions { get; }
 
+        public TData Value
+        {
+            get { return valueGetFunction(); }
+        }
+
         public DataVerificationProvider<TData, TOwner> Should => new DataVerificationProvider<TData, TOwner>(this);
 
         public TData Get()
         {
             return valueGetFunction();
+        }
+
+        public static implicit operator TData(DataProvider<TData, TOwner> field)
+        {
+            return field.Get();
         }
     }
 }

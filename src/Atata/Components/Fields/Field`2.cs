@@ -15,6 +15,8 @@ namespace Atata
         {
         }
 
+        public T Value => GetValue();
+
         protected TermOptions ValueTermOptions { get; private set; }
 
         string IDataProvider<T, TOwner>.ComponentFullName => ComponentFullName;
@@ -31,10 +33,7 @@ namespace Atata
 
         protected abstract T GetValue();
 
-        public T Get()
-        {
-            return GetValue();
-        }
+        public T Get() => GetValue();
 
         protected internal virtual string ConvertValueToString(T value)
         {
