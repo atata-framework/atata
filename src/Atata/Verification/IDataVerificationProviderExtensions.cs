@@ -351,7 +351,7 @@ namespace Atata
                     var actualContentValues = actual.Select(x => x.Content.Get()).ToArray();
                     return expected.All(expectedValue => actualContentValues.Any(actualContentValue => contentMatch.IsMatch(actualContentValue, expectedValue)));
                 },
-                $"contain having content {CollectionToString(expected)}");
+                $"contain {UIComponentResolver.ResolveControlTypeName<TControl>()} having content {CollectionToString(expected)}");
         }
 
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
@@ -373,7 +373,7 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && actual.Any(predicate),
-                $"contain \"{UIComponentResolver.ResolveControlName<TControl, TOwner>(predicateExpression)}\"");
+                $"contain \"{UIComponentResolver.ResolveControlName<TControl, TOwner>(predicateExpression)}\" {UIComponentResolver.ResolveControlTypeName<TControl>()}");
         }
     }
 }
