@@ -39,7 +39,8 @@ namespace Atata.Tests
             page.
                 ComplexTable.Should.Exist().
                 ComplexTable.Rows.Count.Should.Equal(4).
-                ComplexTable.VerifyColumns("First Name", "Last Name").
+                ComplexTable.Headers.Should.HaveCount(2).
+                ComplexTable.Headers.Should.ContainHavingContent(TermMatch.Equals, "First Name", "Last Name").
                 ComplexTable.Rows[0].FirstName.Should.Equal("John").
                 ComplexTable.Rows[1].FirstName.Should.Equal("Jane").
                 Do(x => x.ComplexTable.Rows[r => r.FirstName == "Jack"], x =>
