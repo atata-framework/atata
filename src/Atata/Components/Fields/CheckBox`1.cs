@@ -10,6 +10,8 @@ namespace Atata
     public class CheckBox<TOwner> : EditableField<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        public DataProvider<bool, TOwner> IsChecked => GetOrCreateDataProvider("checked", () => Get());
+
         public new FieldVerificationProvider<bool, CheckBox<TOwner>, TOwner> Should => new FieldVerificationProvider<bool, CheckBox<TOwner>, TOwner>(this);
 
         protected override bool GetValue()
