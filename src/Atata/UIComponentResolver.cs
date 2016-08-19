@@ -219,7 +219,7 @@ namespace Atata
             FindAttribute findAttribute = GetPropertyFindAttribute(metadata);
 
             InitComponentLocator(component, metadata, findAttribute);
-            component.ComponentName = ResolveComponentName(metadata, findAttribute);
+            component.ComponentName = ResolveControlName(metadata, findAttribute);
             component.ComponentTypeName = ResolveControlTypeName(component.GetType());
             component.CacheScopeElement = false;
             component.Triggers = GetControlTriggers(metadata);
@@ -258,10 +258,10 @@ namespace Atata
             component.ScopeLocator = new StrategyScopeLocator(component, strategy, locateOptions);
         }
 
-        private static string ResolveComponentName(UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static string ResolveControlName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             NameAttribute nameAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<NameAttribute>();
-            if (nameAttribute != null)
+            if (nameAttribute != null && !string.IsNullOrWhiteSpace(nameAttribute.Value))
             {
                 return nameAttribute.Value;
             }
@@ -281,7 +281,9 @@ namespace Atata
                 }
             }
 
-            return metadata.Name.ToString(TermCase.Title);
+            return metadata.ComponentDefinitonAttribute.
+                NormalizeNameIgnoringEnding(metadata.Name).
+                ToString(TermCase.Title);
         }
 
         private static UIComponentMetadata CreatePageObjectMetadata<TPageObject>()
@@ -499,13 +501,9 @@ namespace Atata
         {
             string typeName = NormalizeTypeName(type);
 
-            string[] endingsToIgnore = GetPageObjectDefinition(type).GetIgnoreNameEndingValues();
-            string foundEndingToIgnore = endingsToIgnore.FirstOrDefault(x => typeName.EndsWith(x));
-
-            string name = foundEndingToIgnore != null
-                ? typeName.Substring(0, typeName.Length - foundEndingToIgnore.Length)
-                : typeName;
-            return name.ToString(TermCase.Title);
+            return GetPageObjectDefinition(type).
+                NormalizeNameIgnoringEnding(typeName).
+                ToString(TermCase.Title);
         }
 
         public static string ResolvePageObjectTypeName<TPageObject>()

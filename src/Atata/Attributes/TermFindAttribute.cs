@@ -101,18 +101,9 @@ namespace Atata
 
         private string GetPropertyName(UIComponentMetadata metadata)
         {
-            string name = metadata.Name;
-            TermAttribute termAttribute = metadata.GetTerm();
-
-            if (CutEnding && (termAttribute == null || termAttribute.CutEnding))
-            {
-                string suffixToIgnore = metadata.ComponentDefinitonAttribute.GetIgnoreNameEndingValues().
-                    FirstOrDefault(x => name.EndsWith(x) && name.Length > x.Length);
-
-                if (suffixToIgnore != null)
-                    return name.Substring(0, name.Length - suffixToIgnore.Length).TrimEnd();
-            }
-            return name;
+            return CutEnding && (metadata.GetTerm()?.CutEnding ?? true)
+                ? metadata.ComponentDefinitonAttribute.NormalizeNameIgnoringEnding(metadata.Name)
+                : metadata.Name;
         }
 
         private TermFindSettingsAttribute GetSettingsAtribute(UIComponentMetadata metadata)
