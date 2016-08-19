@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 namespace Atata
 {
     public interface IUIComponent<TOwner>
-        where TOwner : PageObject<TOwner>, IPageObject<TOwner>
+        where TOwner : PageObject<TOwner>
     {
         TOwner Owner { get; }
         IUIComponent<TOwner> Parent { get; }

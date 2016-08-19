@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public abstract class Control<TOwner> : UIComponent<TOwner>
+    public abstract class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected Control()
