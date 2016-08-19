@@ -68,6 +68,8 @@ namespace Atata.Tests
         [FindByContent]
         public Clickable<InputPage, _> GoToDivButton { get; private set; }
 
+        public ControlList<TextInput<_>, _> AllTextInputs { get; private set; }
+
         [ControlDefinition("*")]
         public class FindByLabel : Control<_>
         {

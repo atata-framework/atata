@@ -1,5 +1,5 @@
-﻿using OpenQA.Selenium;
-using System.Text;
+﻿using System.Text;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -39,11 +39,11 @@ namespace Atata
             StringBuilder builder = new StringBuilder(options.ElementXPath);
             BuildXPath(builder, options);
 
-            if (UseIndex == IndexUsage.AnyCase || (UseIndex == IndexUsage.IfNotNull && options.HasIndex))
-                builder.AppendFormat(options.GetPositionWrappedXPathCondition());
-
             if (XPathPrefix != XPathPrefixKind.None)
                 builder.Insert(0, XPathPrefix == XPathPrefixKind.Descendant ? ".//" : "descendant-or-self::");
+
+            if (UseIndex == IndexUsage.AnyCase || (UseIndex == IndexUsage.IfNotNull && options.HasIndex))
+                builder.Insert(0, "(").Append(")").AppendFormat(options.GetPositionWrappedXPathCondition());
 
             return builder.ToString();
         }
