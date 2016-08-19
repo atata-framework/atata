@@ -13,7 +13,7 @@ namespace Atata
         {
             string legendCondition = options.GetTermsXPathCondition();
 
-            builder.Insert(0, "fieldset[legend[{0}]]{1}//".FormatWith(legendCondition, options.GetPositionWrappedXPathConditionOrNull()));
+            builder.Insert(0, "fieldset[legend[{0}]]{1}/descendant-or-self::".FormatWith(legendCondition, options.GetPositionWrappedXPathConditionOrNull()));
         }
     }
 }
