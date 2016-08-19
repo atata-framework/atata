@@ -53,5 +53,8 @@ namespace Atata.Tests
         public RadioButton<_> OptionA { get; private set; }
 
         public RadioButton<_> OptionB { get; private set; }
+
+        [FindByFieldSet("Integer List")]
+        public ItemsControl<RadioButton<_>, _> IntegerItemsControl { get; private set; }
     }
 }

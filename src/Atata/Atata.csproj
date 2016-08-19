@@ -102,6 +102,7 @@
     <Compile Include="Attributes\ITermFindAttribute.cs" />
     <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
     <Compile Include="Attributes\ValueXPathAttribute.cs" />
+    <Compile Include="Components\ItemsControl`2.cs" />
     <Compile Include="Components\TableHeader`1.cs" />
     <Compile Include="Components\TableRowList`2.cs" />
     <Compile Include="Components\UIComponentPart`1.cs" />

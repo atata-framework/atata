@@ -33,5 +33,24 @@ namespace Atata.Tests
                 AllItems.Should.Contain(x => x.IsChecked).
                 AllItems[2].IsChecked.Should.BeTrue();
         }
+
+        [Test]
+        public void ControlList_RadioButton()
+        {
+            Go.To<RadioButtonListPage>().
+                IntegerItemsControl.Should.Exist().
+                IntegerItemsControl.Items.Should.HaveCount(4).
+                IntegerItemsControl.Items.Should.Not.HaveCount(1).
+                IntegerItemsControl.Items.Count.Should.Equal(4).
+                IntegerItemsControl.Items.Should.Not.Contain(true).
+                IntegerItemsControl.Items.Should.Not.Contain(x => x.IsChecked).
+                IntegerItemsControl.Items[x => x.IsChecked].Should.Not.Exist().
+                IntegerItemsControl.Items[3].Check().
+                IntegerItemsControl.Items.Should.Contain(x => x.IsChecked).
+                IntegerItemsControl.Items[3].IsChecked.Should.BeTrue().
+                IntegerItemsControl.Items[1].Check().
+                IntegerItemsControl.Items[3].IsChecked.Should.BeFalse().
+                IntegerItemsControl.Items[1].Should.BeChecked();
+        }
     }
 }
