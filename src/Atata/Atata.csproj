@@ -88,7 +88,6 @@
     <Compile Include="Attributes\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\FieldFindingAttribute.cs" />
     <Compile Include="Attributes\FindFirstAttribute.cs" />
-    <Compile Include="Attributes\FindItemByIndexAttribute.cs" />
     <Compile Include="Attributes\FindItemByValueAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\LinkFindingAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\EditableFieldFindingAttribute.cs" />
@@ -259,7 +258,6 @@
     <Compile Include="ScopeSearch\Strategies\FindByNameStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByAttributeStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindByXPathStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindItemByIndexStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindItemByLabelStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindItemByValueStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\IItemElementFindStrategy.cs" />
