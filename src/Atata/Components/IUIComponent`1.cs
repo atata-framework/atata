@@ -17,6 +17,8 @@ namespace Atata
         string ComponentTypeName { get; }
         string ComponentFullName { get; }
 
+        UIComponentMetadata Metadata { get; }
+
         UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should { get; }
 
         bool Exists(SearchOptions options = null);

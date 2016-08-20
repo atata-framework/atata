@@ -44,6 +44,8 @@ namespace Atata
 
         string IUIComponent<TOwner>.ComponentFullName => ComponentFullName;
 
+        UIComponentMetadata IUIComponent<TOwner>.Metadata => Metadata;
+
         ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
         protected internal virtual void InitComponent()
