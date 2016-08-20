@@ -1,6 +1,4 @@
-﻿using OpenQA.Selenium;
-
-namespace Atata.KendoUI
+﻿namespace Atata.KendoUI
 {
     public class KendoGridRow<TNavigateTo, TOwner> : KendoGridRow<TOwner>
         where TNavigateTo : PageObject<TNavigateTo>
@@ -8,14 +6,7 @@ namespace Atata.KendoUI
     {
         public new TNavigateTo Click()
         {
-            ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.StartClickingSection(ComponentFullName);
-
-            IWebElement elementToClick = ColumnIndexToClick.HasValue ? GetCell(ColumnIndexToClick.Value) : Scope;
-            elementToClick.Click();
-
-            Log.EndSection();
-            ExecuteTriggers(TriggerEvents.AfterClick);
+            base.Click();
 
             if (typeof(TOwner) == typeof(TNavigateTo))
                 return (TNavigateTo)(object)Owner;

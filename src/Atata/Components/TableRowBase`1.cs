@@ -6,35 +6,21 @@ namespace Atata
     public class TableRowBase<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected internal int? ColumnIndexToClick { get; set; }
         protected internal bool GoTemporarily { get; set; }
 
         protected IWebElement GetCell(int index)
         {
-            return Scope.Get(By.XPath(".//td[{0}]").TableColumn().FormatWith(index + 1));
-        }
-
-        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
-        {
-            base.ApplyMetadata(metadata);
-
-            if (ColumnIndexToClick == null)
-            {
-                var columnIndexToClickAttribute = metadata.GetFirstOrDefaultComponentAttribute<ColumnIndexToClickAttribute>();
-                if (columnIndexToClickAttribute != null)
-                    ColumnIndexToClick = columnIndexToClickAttribute.Index;
-            }
+            return Scope.Get(By.XPath($".//td[{index + 1}]").TableColumn());
         }
 
         protected override void OnClick()
         {
-            var columnIndexToClickAttribute = Metadata.GetFirstOrDefaultComponentAttribute<ColumnIndexToClickAttribute>();
+            var columnIndexToClickAttribute = Parent.Metadata.GetFirstOrDefaultDeclaringAttribute<CellIndexToClickAttribute>()
+                ?? Metadata.GetFirstOrDefaultComponentAttribute<CellIndexToClickAttribute>();
 
             if (columnIndexToClickAttribute != null)
             {
-                ColumnIndexToClick = columnIndexToClickAttribute.Index;
-
-                GetCell(ColumnIndexToClick.Value).Click();
+                GetCell(columnIndexToClickAttribute.Index).Click();
             }
             else
             {

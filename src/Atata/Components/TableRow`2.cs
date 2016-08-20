@@ -1,6 +1,4 @@
-﻿using OpenQA.Selenium;
-
-namespace Atata
+﻿namespace Atata
 {
     public class TableRow<TNavigateTo, TOwner> : TableRowBase<TOwner>
         where TNavigateTo : PageObject<TNavigateTo>
@@ -8,14 +6,7 @@ namespace Atata
     {
         public new TNavigateTo Click()
         {
-            ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.StartClickingSection(ComponentFullName);
-
-            IWebElement elementToClick = ColumnIndexToClick.HasValue ? GetCell(ColumnIndexToClick.Value) : Scope;
-            elementToClick.Click();
-
-            Log.EndSection();
-            ExecuteTriggers(TriggerEvents.AfterClick);
+            base.Click();
 
             if (typeof(TOwner) == typeof(TNavigateTo))
                 return (TNavigateTo)(object)Owner;

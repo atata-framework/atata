@@ -3,9 +3,9 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
-    public class ColumnIndexToClickAttribute : Attribute
+    public class CellIndexToClickAttribute : Attribute
     {
-        public ColumnIndexToClickAttribute(int index)
+        public CellIndexToClickAttribute(int index)
         {
             Index = index;
         }

@@ -63,7 +63,7 @@
     <Compile Include="Assertion\ATAssert.cs" />
     <Compile Include="Assertion\DefaultAsserter.cs" />
     <Compile Include="Assertion\IAsserter.cs" />
-    <Compile Include="Attributes\ColumnIndexToClickAttribute.cs" />
+    <Compile Include="Attributes\CellIndexToClickAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\ControlFindingAttribute.cs" />
     <Compile Include="Attributes\CultureAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\ButtonFindingAttribute.cs" />
