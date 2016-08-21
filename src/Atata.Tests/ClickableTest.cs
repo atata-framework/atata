@@ -32,23 +32,23 @@ namespace Atata.Tests
         public void ControlDelegates_WithNavigaton()
         {
             Go.To<BasicControlsPage>().
-                RawButton.Should().Exist().
-                RawButton.Should().BeEnabled().
+                GoToButton.Should().Exist().
+                GoToButton.Should().BeEnabled().
                 GoToButton();
 
             Go.To<BasicControlsPage>().
-                RawButton.Should().Exist().
-                RawButton.Should().BeEnabled().
+                GoToInputButton.Should().Exist().
+                GoToInputButton.Should().BeEnabled().
                 GoToInputButton();
 
             Go.To<BasicControlsPage>().
-                RawButton.Should().Exist().
-                RawButton.Should().BeEnabled().
+                GoToLink.Should().Exist().
+                GoToLink.Should().BeEnabled().
                 GoToLink();
 
             Go.To<BasicControlsPage>().
-                RawButton.Should().Exist().
-                RawButton.Should().BeEnabled().
+                GoToDivButton.Should().Exist().
+                GoToDivButton.Should().BeEnabled().
                 GoToDivButton();
         }
     }
