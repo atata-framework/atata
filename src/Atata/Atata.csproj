@@ -96,6 +96,7 @@
     <Compile Include="Attributes\FindItemByLabelAttribute.cs" />
     <Compile Include="Attributes\FormatAttribute.cs" />
     <Compile Include="Attributes\GoTemporarilyAttribute.cs" />
+    <Compile Include="Attributes\NavigationPageObjectCreatorAttribute.cs" />
     <Compile Include="Attributes\ItemValueXPathAttribute.cs" />
     <Compile Include="Attributes\RandomizeNumberSettingsAttribute.cs" />
     <Compile Include="Attributes\ITermFindAttribute.cs" />
