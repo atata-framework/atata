@@ -16,46 +16,25 @@ namespace Atata
             return clickable.GetControl().Click();
         }
 
-        public static TOwner VerifyEnabled<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
-            where TOwner : PageObject<TOwner>
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return clickable.GetControl().VerifyEnabled();
-        }
-
-        public static TOwner VerifyDisabled<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
-            where TOwner : PageObject<TOwner>
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return clickable.GetControl().VerifyDisabled();
-        }
-
         public static bool IsEnabled<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return clickable.GetControl().IsEnabled.Get();
+            return clickable.GetControl().IsEnabled.Value;
         }
 
-        public static TOwner VerifyExists<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
+        public static bool Exists<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable, SearchOptions options = null)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return clickable.GetControl().VerifyExists();
+            return clickable.GetControl().Exists(options);
         }
 
-        public static TOwner VerifyMissing<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
+        public static bool Missing<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable, SearchOptions options = null)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return clickable.GetControl().VerifyMissing();
-        }
-
-        public static bool Exists<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
-            where TOwner : PageObject<TOwner>
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return clickable.GetControl().Exists();
+            return clickable.GetControl().Missing(options);
         }
 
         public static DataProvider<string, TOwner> Content<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
@@ -63,6 +42,13 @@ namespace Atata
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return clickable.GetControl().Content;
+        }
+
+        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> Should<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            return clickable.GetControl().Should;
         }
     }
 }

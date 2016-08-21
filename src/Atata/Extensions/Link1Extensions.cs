@@ -14,46 +14,34 @@ namespace Atata
             return clickable.GetControl().Click();
         }
 
-        public static TOwner VerifyEnabled<TOwner>(this Link<TOwner> clickable)
-            where TOwner : PageObject<TOwner>
-        {
-            return clickable.GetControl().VerifyEnabled();
-        }
-
-        public static TOwner VerifyDisabled<TOwner>(this Link<TOwner> clickable)
-            where TOwner : PageObject<TOwner>
-        {
-            return clickable.GetControl().VerifyDisabled();
-        }
-
         public static bool IsEnabled<TOwner>(this Link<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().IsEnabled.Get();
+            return clickable.GetControl().IsEnabled.Value;
         }
 
-        public static TOwner VerifyExists<TOwner>(this Link<TOwner> clickable)
+        public static bool Exists<TOwner>(this Link<TOwner> clickable, SearchOptions options = null)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().VerifyExists();
+            return clickable.GetControl().Exists(options);
         }
 
-        public static TOwner VerifyMissing<TOwner>(this Link<TOwner> clickable)
+        public static bool Missing<TOwner>(this Link<TOwner> clickable, SearchOptions options = null)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().VerifyMissing();
-        }
-
-        public static bool Exists<TOwner>(this Link<TOwner> clickable)
-            where TOwner : PageObject<TOwner>
-        {
-            return clickable.GetControl().Exists();
+            return clickable.GetControl().Missing(options);
         }
 
         public static DataProvider<string, TOwner> Content<TOwner>(this Link<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().Content;
+        }
+
+        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> Should<TOwner>(this Link<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().Should;
         }
     }
 }
