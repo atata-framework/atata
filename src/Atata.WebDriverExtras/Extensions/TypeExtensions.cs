@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -6,7 +7,7 @@ namespace Atata
     {
         public static bool IsSubclassOfRawGeneric(this Type type, Type genericType)
         {
-            return GetDepthOfInheritanceOfRawGeneric(type, genericType) != null;
+            return type.GetDepthOfInheritanceOfRawGeneric(genericType) != null;
         }
 
         public static int? GetDepthOfInheritanceOfRawGeneric(this Type type, Type genericType)
@@ -25,6 +26,16 @@ namespace Atata
                 depth++;
             }
             return null;
+        }
+
+        public static bool IsImplementGenericInterface(this Type type, Type genericType)
+        {
+            return type.GetGenericInterfaceType(genericType) != null;
+        }
+
+        public static Type GetGenericInterfaceType(this Type type, Type genericType)
+        {
+            return type.GetInterfaces().FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == genericType);
         }
     }
 }

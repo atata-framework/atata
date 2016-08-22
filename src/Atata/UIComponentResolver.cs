@@ -149,10 +149,31 @@ namespace Atata
                 UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
                 parentComponent.Children.Add(component);
 
-                Delegate clickDelegate = Delegate.CreateDelegate(property.PropertyType, component, "Click");
+                Delegate clickDelegate = CreateDelegatePropertyDelegate(property, component);
+
                 property.SetValue(parentComponent, clickDelegate, null);
 
                 DelegateControls[clickDelegate] = component;
+            }
+        }
+
+        private static Delegate CreateDelegatePropertyDelegate<TOwner>(PropertyInfo property, UIComponent<TOwner> component) where TOwner : PageObject<TOwner>
+        {
+            Type navigableInterfaceType = component.GetType().GetGenericInterfaceType(typeof(INavigable<,>));
+
+            if (navigableInterfaceType != null)
+            {
+                var navigableGenericArguments = navigableInterfaceType.GetGenericArguments();
+
+                var clickAndGoMethod = typeof(INavigableExtensions).
+                    GetMethod(nameof(INavigableExtensions.ClickAndGo)).
+                    MakeGenericMethod(navigableGenericArguments);
+
+                return Delegate.CreateDelegate(property.PropertyType, component, clickAndGoMethod);
+            }
+            else
+            {
+                return Delegate.CreateDelegate(property.PropertyType, component, "Click");
             }
         }
 
@@ -551,13 +572,13 @@ namespace Atata
         internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)
             where TOwner : PageObject<TOwner>
         {
-            controlDelegate.CheckNotNull("controlDelegate");
+            controlDelegate.CheckNotNull(nameof(controlDelegate));
 
             UIComponent control;
             if (DelegateControls.TryGetValue(controlDelegate, out control))
                 return (Control<TOwner>)control;
             else
-                throw new ArgumentException("Failed to find mapped control by specified 'controlDelegate'.", "controlDelegate");
+                throw new ArgumentException($"Failed to find mapped control by specified '{nameof(controlDelegate)}'.", nameof(controlDelegate));
         }
 
         public static void CleanUpPageObjects(IEnumerable<UIComponent> pageObjects)
