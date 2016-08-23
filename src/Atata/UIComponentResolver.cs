@@ -104,8 +104,11 @@ namespace Atata
                 Where(x => x.GetCustomAttribute<IgnoreInitAttribute>() == null).
                 ToArray();
 
+            Func<PropertyInfo, bool> isNullPropertyPredicate = x => x.GetValue(component, new object[0]) == null;
+
             PropertyInfo[] controlProperties = suitableProperties.
                 Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(Control<>))).
+                Where(isNullPropertyPredicate).
                 ToArray();
 
             foreach (var property in controlProperties)
@@ -113,6 +116,7 @@ namespace Atata
 
             PropertyInfo[] componentPartProperties = suitableProperties.
                 Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(UIComponentPart<>))).
+                Where(isNullPropertyPredicate).
                 ToArray();
 
             foreach (var property in componentPartProperties)
@@ -120,6 +124,7 @@ namespace Atata
 
             PropertyInfo[] delegateProperties = suitableProperties.
                 Where(x => typeof(MulticastDelegate).IsAssignableFrom(x.PropertyType.BaseType) && x.PropertyType.IsGenericType).
+                Where(isNullPropertyPredicate).
                 ToArray();
 
             foreach (var property in delegateProperties)
@@ -215,7 +220,11 @@ namespace Atata
                 attributes,
                 GetControlDefinition(typeof(TComponent)));
 
-            return (TComponent)CreateComponent<TOwner>(parentComponent, metadata);
+            var component = (TComponent)CreateComponent<TOwner>(parentComponent, metadata);
+
+            parentComponent.Children.Add(component);
+
+            return component;
         }
 
         private static UIComponent<TOwner> CreateComponent<TOwner>(UIComponent<TOwner> parentComponent, UIComponentMetadata metadata)
