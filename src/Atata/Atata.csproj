@@ -107,6 +107,7 @@
     <Compile Include="Components\ItemsControl`2.cs" />
     <Compile Include="Components\TableHeader`1.cs" />
     <Compile Include="Components\TableRowList`2.cs" />
+    <Compile Include="Components\UIComponentChildrenList`1.cs" />
     <Compile Include="Components\UIComponentPart`1.cs" />
     <Compile Include="Components\ControlList`2.cs" />
     <Compile Include="Components\IPageObject`1.cs" />

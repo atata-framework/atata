@@ -95,7 +95,7 @@ namespace Atata
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
         {
-            return Component.CreateControl<TItem>(name, attributes);
+            return Component.Controls.Create<TItem>(name, attributes);
         }
 
         protected TItem CreateItem(IScopeLocator scopeLocator, string name)

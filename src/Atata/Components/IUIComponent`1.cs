@@ -1,5 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -17,6 +16,7 @@ namespace Atata
         string ComponentTypeName { get; }
         string ComponentFullName { get; }
 
+        UIComponentChildrenList<TOwner> Controls { get; }
         UIComponentMetadata Metadata { get; }
 
         UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should { get; }
@@ -26,7 +26,5 @@ namespace Atata
 
         TOwner VerifyExists();
         TOwner VerifyMissing();
-        TControl CreateControl<TControl>(string name, params Attribute[] attributes)
-            where TControl : Control<TOwner>;
     }
 }

@@ -110,5 +110,7 @@ namespace Atata
             }
             return builder.ToString();
         }
+
+        public abstract void CleanUp();
     }
 }

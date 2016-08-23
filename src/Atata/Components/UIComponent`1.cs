@@ -12,6 +12,7 @@ namespace Atata
 
         protected UIComponent()
         {
+            Controls = new UIComponentChildrenList<TOwner>(this);
         }
 
         protected internal new TOwner Owner
@@ -44,6 +45,10 @@ namespace Atata
 
         string IUIComponent<TOwner>.ComponentFullName => ComponentFullName;
 
+        protected internal UIComponentChildrenList<TOwner> Controls { get; private set; }
+
+        UIComponentChildrenList<TOwner> IUIComponent<TOwner>.Controls => Controls;
+
         UIComponentMetadata IUIComponent<TOwner>.Metadata => Metadata;
 
         ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
@@ -74,75 +79,6 @@ namespace Atata
             Log.EndSection();
 
             return Owner;
-        }
-
-        protected internal TControl CreateControl<TControl>(string name, params Attribute[] attributes)
-            where TControl : Control<TOwner>
-        {
-            return UIComponentResolver.CreateComponent<TControl, TOwner>(this, name, attributes);
-        }
-
-        protected internal ClickableControl<TOwner> CreateClickable(string name, params Attribute[] attributes)
-        {
-            return CreateControl<ClickableControl<TOwner>>(name, attributes);
-        }
-
-        protected internal ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, params Attribute[] attributes)
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return CreateControl<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
-        }
-
-        protected internal ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return CreateControl<ClickableControl<TNavigateTo, TOwner>>(
-                name,
-                ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
-        }
-
-        protected internal LinkControl<TOwner> CreateLink(string name, params Attribute[] attributes)
-        {
-            return CreateControl<LinkControl<TOwner>>(name, attributes);
-        }
-
-        protected internal LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, params Attribute[] attributes)
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return CreateControl<LinkControl<TNavigateTo, TOwner>>(name, attributes);
-        }
-
-        protected internal LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return CreateControl<LinkControl<TNavigateTo, TOwner>>(
-                name,
-                ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
-        }
-
-        protected internal ButtonControl<TOwner> CreateButton(string name, params Attribute[] attributes)
-        {
-            return CreateControl<ButtonControl<TOwner>>(name, attributes);
-        }
-
-        protected internal ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, params Attribute[] attributes)
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return CreateControl<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
-        }
-
-        protected internal ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return CreateControl<ButtonControl<TNavigateTo, TOwner>>(
-                name,
-                ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
-        }
-
-        private Attribute[] ConcatWithNavigationPageObjectCreatorAttribute<TNavigateTo>(Attribute[] attributes, Func<TNavigateTo> navigationPageObjectCreator)
-            where TNavigateTo : PageObject<TNavigateTo>
-        {
-            return attributes.Concat(new[] { new NavigationPageObjectCreatorAttribute(navigationPageObjectCreator) }).ToArray();
         }
 
         protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
@@ -188,9 +124,12 @@ namespace Atata
             }
         }
 
-        TControl IUIComponent<TOwner>.CreateControl<TControl>(string name, params Attribute[] attributes)
+        public override void CleanUp()
         {
-            return CreateControl<TControl>(name, attributes);
+            foreach (var item in Children)
+                item.CleanUp();
+
+            Children.Clear();
         }
     }
 }

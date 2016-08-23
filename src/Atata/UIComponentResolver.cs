@@ -602,15 +602,7 @@ namespace Atata
             foreach (var item in delegatesToRemove)
                 DelegateControls.Remove(item);
 
-            ClearComponentChildren(pageObject);
-        }
-
-        private static void ClearComponentChildren(UIComponent component)
-        {
-            foreach (var item in component.Children)
-                ClearComponentChildren(item);
-
-            component.Children.Clear();
+            pageObject.CleanUp();
         }
     }
 }
