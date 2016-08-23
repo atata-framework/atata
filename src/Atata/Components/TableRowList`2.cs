@@ -3,7 +3,7 @@
 namespace Atata
 {
     public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
-        where TItem : TableRowBase<TOwner>
+        where TItem : TableRow<TOwner>
         where TOwner : PageObject<TOwner>
     {
         public TItem this[params string[] cellValues]

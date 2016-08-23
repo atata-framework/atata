@@ -59,7 +59,6 @@
     <Compile Include="KendoDropDownList`2.cs" />
     <Compile Include="KendoGridFindByColumnHeaderStrategy.cs" />
     <Compile Include="KendoGridRow`1.cs" />
-    <Compile Include="KendoGridRow`2.cs" />
     <Compile Include="KendoGrid`2.cs" />
     <Compile Include="KendoMultiSelect`1.cs" />
     <Compile Include="KendoNumericTextBox`1.cs" />

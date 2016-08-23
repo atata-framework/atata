@@ -93,14 +93,14 @@ namespace Atata
             return By.XPath($".//{ItemDefinition.ScopeXPath}").OfKind(ItemDefinition.ComponentTypeName);
         }
 
-        protected TItem CreateItem(string name, params Attribute[] attributes)
+        protected virtual TItem CreateItem(string name, params Attribute[] attributes)
         {
             return Component.CreateControl<TItem>(name, attributes);
         }
 
-        protected virtual TItem CreateItem(IScopeLocator scopeLocator, string name)
+        protected TItem CreateItem(IScopeLocator scopeLocator, string name)
         {
-            TItem item = Component.CreateControl<TItem>(name);
+            TItem item = CreateItem(name);
             item.ScopeLocator = scopeLocator;
 
             return item;

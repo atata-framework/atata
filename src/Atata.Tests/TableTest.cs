@@ -59,10 +59,10 @@ namespace Atata.Tests
         [Test]
         public void Table_Navigatable()
         {
-            var goToPage = page.
+            GoTo1Page goToPage = page.
                 NavigatableTable.Should.Exist().
                 NavigatableTable.Rows.Count.Should.Equal(4).
-                NavigatableTable.Rows[r => r.FirstName == "Jack"].Click();
+                NavigatableTable.Rows[r => r.FirstName == "Jack"].ClickAndGo();
 
             Assert.That(goToPage, Is.Not.Null);
         }

@@ -17,12 +17,12 @@ namespace Atata.Tests
         [Test]
         public void Go_To_LinkNavigation()
         {
-            var page1 = Go.To<GoTo1Page>();
+            GoTo1Page page1 = Go.To<GoTo1Page>();
 
             AssertNoTemporarilyPreservedPageObjects();
 
-            var page1Returned = page1.
-                GoTo2().
+            GoTo1Page page1Returned = page1.
+                GoTo2.ClickAndGo().
                     GoTo1();
 
             AssertNoTemporarilyPreservedPageObjects();
