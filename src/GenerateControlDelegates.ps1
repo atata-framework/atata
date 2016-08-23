@@ -11,8 +11,7 @@ $sourceContent.
 	replace("Clickable<TOwner>", "Clickable<TNavigateTo, TOwner>").
 	replace("ClickableControl<TOwner>", "ClickableControl<TNavigateTo, TOwner>").
 	replace("<TOwner>(this", "<TNavigateTo, TOwner>(this").
-	replace("where TOwner : PageObject<TOwner>", "where TOwner : PageObject<TOwner>`r`n            where TNavigateTo : PageObject<TNavigateTo>").
-	replace("TOwner Click", "TNavigateTo Click") |
+	replace("where TOwner : PageObject<TOwner>", "where TOwner : PageObject<TOwner>`r`n            where TNavigateTo : PageObject<TNavigateTo>") |
 	Set-Content ($folderPath + "Clickable2Extensions.cs") -force;
 
 New-Item ($folderPath + "Link1Extensions.cs") -type file -force;
@@ -28,8 +27,7 @@ $sourceContent.
 	replace("<TOwner>(this", "<TNavigateTo, TOwner>(this").
 	replace("ClickableControl<TOwner>", "LinkControl<TNavigateTo, TOwner>").
 	replace("Clickable<TOwner>", "Link<TNavigateTo, TOwner>").
-	replace("where TOwner : PageObject<TOwner>", "where TOwner : PageObject<TOwner>`r`n            where TNavigateTo : PageObject<TNavigateTo>").
-	replace("TOwner Click", "TNavigateTo Click") |
+	replace("where TOwner : PageObject<TOwner>", "where TOwner : PageObject<TOwner>`r`n            where TNavigateTo : PageObject<TNavigateTo>") |
 	Set-Content ($folderPath + "Link2Extensions.cs") -force;
 
 New-Item ($folderPath + "Button1Extensions.cs") -type file -force;
@@ -45,8 +43,7 @@ $sourceContent.
 	replace("<TOwner>(this", "<TNavigateTo, TOwner>(this").
 	replace("ClickableControl<TOwner>", "ButtonControl<TNavigateTo, TOwner>").
 	replace("Clickable<TOwner>", "Button<TNavigateTo, TOwner>").
-	replace("where TOwner : PageObject<TOwner>", "where TOwner : PageObject<TOwner>`r`n            where TNavigateTo : PageObject<TNavigateTo>").
-	replace("TOwner Click", "TNavigateTo Click") |
+	replace("where TOwner : PageObject<TOwner>", "where TOwner : PageObject<TOwner>`r`n            where TNavigateTo : PageObject<TNavigateTo>") |
 	Set-Content ($folderPath + "Button2Extensions.cs") -force;
 
 Write-Output "Finished";

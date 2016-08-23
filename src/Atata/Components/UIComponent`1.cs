@@ -96,11 +96,9 @@ namespace Atata
         protected internal ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            var control = CreateControl<ClickableControl<TNavigateTo, TOwner>>(
+            return CreateControl<ClickableControl<TNavigateTo, TOwner>>(
                 name,
                 ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
-            control.NavigationPageObjectCreator = navigationPageObjectCreator;
-            return control;
         }
 
         protected internal LinkControl<TOwner> CreateLink(string name, params Attribute[] attributes)
@@ -117,12 +115,9 @@ namespace Atata
         protected internal LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            var control = CreateControl<LinkControl<TNavigateTo, TOwner>>(
+            return CreateControl<LinkControl<TNavigateTo, TOwner>>(
                 name,
                 ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
-
-            control.NavigationPageObjectCreator = navigationPageObjectCreator;
-            return control;
         }
 
         protected internal ButtonControl<TOwner> CreateButton(string name, params Attribute[] attributes)
@@ -139,12 +134,9 @@ namespace Atata
         protected internal ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            var control = CreateControl<ButtonControl<TNavigateTo, TOwner>>(
+            return CreateControl<ButtonControl<TNavigateTo, TOwner>>(
                 name,
                 ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
-
-            control.NavigationPageObjectCreator = navigationPageObjectCreator;
-            return control;
         }
 
         private Attribute[] ConcatWithNavigationPageObjectCreatorAttribute<TNavigateTo>(Attribute[] attributes, Func<TNavigateTo> navigationPageObjectCreator)

@@ -9,7 +9,7 @@ namespace Atata
             return (ClickableControl<TNavigateTo, TOwner>)UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
         }
 
-        public static TNavigateTo Click<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
+        public static TOwner Click<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {

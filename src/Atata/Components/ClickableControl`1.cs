@@ -1,6 +1,7 @@
 ﻿namespace Atata
 {
-    public class ClickableControl<TOwner> : ClickableControl<TOwner, TOwner>
+    [ControlDefinition("*", ComponentTypeName = "control", IgnoreNameEndings = "Button,Link")]
+    public class ClickableControl<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
     }

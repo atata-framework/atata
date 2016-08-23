@@ -1,6 +1,8 @@
 ﻿namespace Atata
 {
-    public class LinkControl<TOwner> : LinkControl<TOwner, TOwner>
+    [ControlDefinition("a", ComponentTypeName = "link", IgnoreNameEndings = "Button,Link")]
+    [ControlFinding(FindTermBy.Content)]
+    public class LinkControl<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
     }
