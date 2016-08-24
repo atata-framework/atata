@@ -38,5 +38,23 @@
 
             return Owner;
         }
+
+        public TOwner Clear()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeSet);
+            Log.StartSettingSection(ComponentFullName, null);
+
+            OnClear();
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterSet);
+
+            return Owner;
+        }
+
+        protected virtual void OnClear()
+        {
+            Scope.Clear();
+        }
     }
 }
