@@ -1,12 +1,8 @@
 ﻿namespace Atata
 {
-    [ControlDefinition("table", IgnoreNameEndings = "Table")]
-    public class Table<TRow, TOwner> : Control<TOwner>
-        where TRow : TableRow<TOwner>, new()
+    public class Table<TRow, TOwner> : Table<TableHeader<TOwner>, TRow, TOwner>
+        where TRow : TableRow<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public TableRowList<TRow, TOwner> Rows { get; private set; }
-
-        public ControlList<TableHeader<TOwner>, TOwner> Headers { get; private set; }
     }
 }
