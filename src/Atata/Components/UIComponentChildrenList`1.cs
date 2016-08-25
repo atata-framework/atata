@@ -20,6 +20,14 @@ namespace Atata
             return UIComponentResolver.CreateComponent<TControl, TOwner>(component, name, attributes);
         }
 
+        public TControl Create<TControl>(string name, IScopeLocator scopeLocator, params Attribute[] attributes)
+            where TControl : Control<TOwner>
+        {
+            var control = Create<TControl>(name, attributes);
+            control.ScopeLocator = scopeLocator;
+            return control;
+        }
+
         public ClickableControl<TOwner> CreateClickable(string name, params Attribute[] attributes)
         {
             return Create<ClickableControl<TOwner>>(name, attributes);
