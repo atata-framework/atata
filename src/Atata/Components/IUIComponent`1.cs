@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -26,5 +27,7 @@ namespace Atata
 
         TOwner VerifyExists();
         TOwner VerifyMissing();
+
+        DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
     }
 }

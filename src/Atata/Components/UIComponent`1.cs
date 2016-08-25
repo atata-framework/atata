@@ -90,6 +90,8 @@ namespace Atata
                 return CreateDataProvider(providerName, valueGetFunction);
         }
 
+        DataProvider<TValue, TOwner> IUIComponent<TOwner>.GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction) => GetOrCreateDataProvider(providerName, valueGetFunction);
+
         protected internal DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
