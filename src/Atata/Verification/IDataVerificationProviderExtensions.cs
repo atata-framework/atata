@@ -327,7 +327,7 @@ namespace Atata
         public static TOwner BeEmpty<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should)
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual != null && actual.Any(), "be empty");
+            return should.Satisfy(actual => actual != null && !actual.Any(), "be empty");
         }
 
         public static TOwner HaveCount<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, int expected)
