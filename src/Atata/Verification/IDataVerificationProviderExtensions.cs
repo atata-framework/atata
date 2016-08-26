@@ -336,10 +336,11 @@ namespace Atata
             return should.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
         }
 
-        public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch contentMatch, params string[] expected)
+        public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch match, params string[] expected)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
+            match.CheckNotEquals(nameof(match), TermMatch.Inherit);
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
@@ -348,10 +349,10 @@ namespace Atata
                     if (actual == null)
                         return false;
 
-                    var actualContentValues = actual.Select(x => x.Content.Get()).ToArray();
-                    return expected.All(expectedValue => actualContentValues.Any(actualContentValue => contentMatch.IsMatch(actualContentValue, expectedValue)));
+                    var actualValues = actual.Select(x => x.Content.Value).ToArray();
+                    return expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
                 },
-                $"contain {UIComponentResolver.ResolveControlTypeName<TControl>()} having content {CollectionToString(expected)}");
+                $"contain {UIComponentResolver.ResolveControlTypeName<TControl>()} having content that {match.ToString(TermCase.Lower)} {CollectionToString(expected)}");
         }
 
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
@@ -374,6 +375,24 @@ namespace Atata
             return should.Satisfy(
                 actual => actual != null && actual.Any(predicate),
                 $"contain \"{UIComponentResolver.ResolveControlName<TControl, TOwner>(predicateExpression)}\" {UIComponentResolver.ResolveControlTypeName<TControl>()}");
+        }
+
+        public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<string, TOwner>>, TOwner> should, TermMatch match, params string[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            match.CheckNotEquals(nameof(match), TermMatch.Inherit);
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return should.Satisfy(
+                actual =>
+                {
+                    if (actual == null)
+                        return false;
+
+                    var actualValues = actual.Select(x => x.Value).ToArray();
+                    return expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
+                },
+                $"contain having value that {match.ToString(TermCase.Lower)} {CollectionToString(expected)}");
         }
     }
 }
