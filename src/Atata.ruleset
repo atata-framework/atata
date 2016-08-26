@@ -4,7 +4,6 @@
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
     <Rule Id="CA1016" Action="Warning" />
-    <Rule Id="CA1033" Action="Warning" />
     <Rule Id="CA1040" Action="Warning" />
     <Rule Id="CA1041" Action="Warning" />
     <Rule Id="CA1044" Action="Warning" />
