@@ -1,9 +1,9 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
-using System;
+﻿using System;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Support.Extensions;
 
 namespace Atata
 {
@@ -24,8 +24,10 @@ namespace Atata
         public string ScreenshotsFolderPath { get; set; }
 
         public abstract void Info(string message, params object[] args);
+
         public abstract void Warn(string message, params object[] args);
-        public abstract void Error(string message, Exception excepton);
+
+        public abstract void Error(string message, Exception exception);
 
         public void Screenshot(string title = null)
         {

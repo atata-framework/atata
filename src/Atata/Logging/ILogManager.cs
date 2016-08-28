@@ -6,7 +6,7 @@ namespace Atata
     {
         void Info(string message, params object[] args);
         void Warn(string message, params object[] args);
-        void Error(string message, Exception excepton);
+        void Error(string message, Exception exception);
         void Screenshot(string title = null);
     }
 }
