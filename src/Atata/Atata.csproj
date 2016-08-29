@@ -63,6 +63,7 @@
     <Compile Include="Logging\ILogConsumer.cs" />
     <Compile Include="Logging\LogEventInfo.cs" />
     <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\NLogConsumer.cs" />
     <Compile Include="Logging\NUnitTestContextLogConsumer.cs" />
     <Compile Include="Logging\TextOutputLogConsumer.cs" />
     <Compile Include="Logging\TraceLogConsumer.cs" />

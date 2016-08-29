@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 
 namespace Atata
 {
@@ -22,11 +21,6 @@ namespace Atata
         /// Gets the log message.
         /// </summary>
         public string Message { get; internal set; }
-
-        /// <summary>
-        /// Gets the entire stack trace.
-        /// </summary>
-        public StackTrace StackTrace { get; internal set; }
 
         /// <summary>
         /// Gets the exception information.

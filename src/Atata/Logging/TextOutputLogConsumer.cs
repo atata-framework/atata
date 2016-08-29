@@ -32,11 +32,6 @@ namespace Atata
                     Append(Separator).
                     Append(eventInfo.Exception.ToString());
 
-            if (eventInfo.StackTrace != null)
-                builder.
-                    Append(Separator).
-                    Append(eventInfo.StackTrace);
-
             return builder.ToString();
         }
     }

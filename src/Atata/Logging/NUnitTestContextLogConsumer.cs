@@ -9,8 +9,9 @@ namespace Atata
 
         public NUnitTestContextLogConsumer()
         {
-            Type type = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
-            writeMethod = type.GetMethod("WriteLine", new[] { typeof(string) });
+            Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
+
+            writeMethod = testContextType.GetMethodWithThrowOnError("WriteLine", typeof(string));
         }
 
         protected override void Write(string completeMessage)
