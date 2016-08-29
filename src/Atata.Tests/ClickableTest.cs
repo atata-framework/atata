@@ -11,7 +11,7 @@ namespace Atata.Tests
             Go.To<BasicControlsPage>().
                 RawButton.Should().Exist().
                 RawButton.Should().BeEnabled().
-                RawButton.Content().VerifyEquals("Raw Button").
+                RawButton.Content().Should.Equal("Raw Button").
                 RawButton().
                 InputButton.Should().Exist().
                 InputButton().

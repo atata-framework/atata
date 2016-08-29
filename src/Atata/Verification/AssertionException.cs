@@ -20,11 +20,9 @@ namespace Atata
         {
         }
 
-#if !NETCF && !SILVERLIGHT && !PORTABLE
         protected AssertionException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-#endif
     }
 }

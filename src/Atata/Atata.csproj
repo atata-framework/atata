@@ -59,10 +59,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
-    <Compile Include="Assertion\AssertionException.cs" />
-    <Compile Include="Assertion\ATAssert.cs" />
-    <Compile Include="Assertion\DefaultAsserter.cs" />
-    <Compile Include="Assertion\IAsserter.cs" />
+    <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Attributes\CellIndexToClickAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\ControlFindingAttribute.cs" />
     <Compile Include="Attributes\CultureAttribute.cs" />
@@ -224,7 +221,6 @@
     <Compile Include="Extensions\Button2Extensions.cs" />
     <Compile Include="Extensions\Clickable2Extensions.cs" />
     <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\ICheckableExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ITermSettingsExtensions.cs" />
     <Compile Include="Extensions\Clickable1Extensions.cs" />
