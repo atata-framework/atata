@@ -120,32 +120,6 @@ namespace Atata
             return Owner;
         }
 
-        public TOwner VerifyChecked(T value)
-        {
-            return this.Verify(
-                (actual, message) =>
-                {
-                    IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
-                    IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    ATAssert.IsSubsetOf(expectedIndividualValues, actualIndividualValues, message);
-                },
-                "has checked '{0}'",
-                ConvertValueToString(value));
-        }
-
-        public TOwner VerifyUnchecked(T value)
-        {
-            return this.Verify(
-                (actual, message) =>
-                {
-                    IEnumerable<T> expectedIndividualValues = GetIndividualValues(value);
-                    IEnumerable<T> actualIndividualValues = GetIndividualValues(actual);
-                    ATAssert.HasNoIntersection(expectedIndividualValues, actualIndividualValues, message);
-                },
-                "has unchecked '{0}'",
-                ConvertValueToString(value));
-        }
-
         protected internal IEnumerable<T> GetIndividualValues(T value)
         {
             return ((Enum)(object)value).GetIndividualFlags().Cast<T>();

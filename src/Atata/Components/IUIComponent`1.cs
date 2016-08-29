@@ -25,9 +25,6 @@ namespace Atata
         bool Exists(SearchOptions options = null);
         bool Missing(SearchOptions options = null);
 
-        TOwner VerifyExists();
-        TOwner VerifyMissing();
-
         DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
     }
 }

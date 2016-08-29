@@ -33,21 +33,5 @@
         {
             Scope.Click();
         }
-
-        public TOwner VerifyEnabled()
-        {
-            Log.StartVerificationSection("{0} is enabled", ComponentFullName);
-            ATAssert.IsTrue(IsEnabled.Get(), "Expected {0} to be enabled", ComponentFullName);
-            Log.EndSection();
-            return Owner;
-        }
-
-        public TOwner VerifyDisabled()
-        {
-            Log.StartVerificationSection("{0} is disabled", ComponentFullName);
-            ATAssert.IsFalse(IsEnabled.Get(), "Expected {0} to be disabled", ComponentFullName);
-            Log.EndSection();
-            return Owner;
-        }
     }
 }

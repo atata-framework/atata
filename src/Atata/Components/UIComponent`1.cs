@@ -63,24 +63,6 @@ namespace Atata
             return Scope.Text;
         }
 
-        public TOwner VerifyExists()
-        {
-            Log.StartVerificationSection("{0} exists", ComponentFullName);
-            GetScopeElement();
-            Log.EndSection();
-
-            return Owner;
-        }
-
-        public TOwner VerifyMissing()
-        {
-            Log.StartVerificationSection("{0} is missing", ComponentFullName);
-            ScopeLocator.IsMissing();
-            Log.EndSection();
-
-            return Owner;
-        }
-
         protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             object dataProvider;

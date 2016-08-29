@@ -36,22 +36,6 @@
             return Owner;
         }
 
-        public TOwner VerifyIsReadOnly()
-        {
-            Log.StartVerificationSection("{0} is read-only", ComponentFullName);
-            ATAssert.IsTrue(IsReadOnly.Get(), "Expected {0} to be read-only", ComponentFullName);
-            Log.EndSection();
-            return Owner;
-        }
-
-        public TOwner VerifyIsNotReadOnly()
-        {
-            Log.StartVerificationSection("{0} is not read-only", ComponentFullName);
-            ATAssert.IsFalse(IsReadOnly.Get(), "Expected {0} not to be read-only", ComponentFullName);
-            Log.EndSection();
-            return Owner;
-        }
-
         public TOwner SetRandom()
         {
             T value = ValueRandomizer.GetRandom<T>(Metadata);

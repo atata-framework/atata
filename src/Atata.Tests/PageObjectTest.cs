@@ -20,7 +20,7 @@ namespace Atata.Tests
             Go.To<GoTo1Page>().
                 GoTo2().
                     GoBack<GoTo1Page>().
-                    VerifyExists();
+                    Should.Exist();
         }
 
         [Test]
@@ -40,7 +40,7 @@ namespace Atata.Tests
                 GoTo2().
                     GoBack<GoTo1Page>().
                 GoForward<GoTo2Page>().
-                    VerifyExists();
+                    Should.Exist();
         }
 
         [Test]
