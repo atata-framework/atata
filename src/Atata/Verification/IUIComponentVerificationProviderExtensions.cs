@@ -81,8 +81,7 @@ namespace Atata
             return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
 
-        public static TOwner HaveChecked<TData, TControl, TOwner>(this IFieldVerificationProvider<TData, TControl, TOwner> should, TData value)
-            where TControl : CheckBoxList<TData, TOwner>
+        public static TOwner HaveChecked<TData, TOwner>(this IFieldVerificationProvider<TData, CheckBoxList<TData, TOwner>, TOwner> should, TData value)
             where TOwner : PageObject<TOwner>
         {
             should.CheckNotNull(nameof(should));
