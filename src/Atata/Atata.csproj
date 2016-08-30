@@ -59,14 +59,20 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Logging\UIComponentClickLogSection.cs" />
+    <Compile Include="Logging\UIComponentLogSection.cs" />
     <Compile Include="Logging\DebugLogConsumer.cs" />
     <Compile Include="Logging\ILogConsumer.cs" />
     <Compile Include="Logging\LogEventInfo.cs" />
     <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Logging\LogSection.cs" />
     <Compile Include="Logging\NLogConsumer.cs" />
     <Compile Include="Logging\NUnitTestContextLogConsumer.cs" />
     <Compile Include="Logging\TextOutputLogConsumer.cs" />
     <Compile Include="Logging\TraceLogConsumer.cs" />
+    <Compile Include="Logging\UIComponentSetLogSection.cs" />
+    <Compile Include="Logging\UIComponentVerificationLogSection.cs" />
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Attributes\CellIndexToClickAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\ControlFindingAttribute.cs" />
