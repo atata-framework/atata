@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.IO;
 using System.Linq;
-using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.Extensions;
 
@@ -12,16 +9,12 @@ namespace Atata
     public class LogManager : ILogManager
     {
         private readonly List<ILogConsumer> logConsumers = new List<ILogConsumer>();
+        private readonly List<IScreenshotConsumer> screenshotConsumers = new List<IScreenshotConsumer>();
 
         [ThreadStatic]
         private static Stack<LogSection> sectionEndStack;
 
         private int screenshotNumber;
-
-        public LogManager(string screenshotsFolderPath = null)
-        {
-            ScreenshotsFolderPath = screenshotsFolderPath;
-        }
 
         protected IWebDriver Driver
         {
@@ -32,8 +25,6 @@ namespace Atata
         {
             get { return sectionEndStack ?? (sectionEndStack = new Stack<LogSection>()); }
         }
-
-        public string ScreenshotsFolderPath { get; set; }
 
         public void Info(string message, params object[] args)
         {
@@ -107,36 +98,33 @@ namespace Atata
 
         public void Screenshot(string title = null)
         {
-            if (ScreenshotsFolderPath == null || Driver == null)
+            if (Driver == null || !screenshotConsumers.Any())
                 return;
 
             try
             {
-                if (screenshotNumber == 0 && !Directory.Exists(ScreenshotsFolderPath))
-                    Directory.CreateDirectory(ScreenshotsFolderPath);
                 screenshotNumber++;
 
-                string completeTitle = GetScreenshotCompleteTitle(title);
-                Info("Take screenshot {0}", completeTitle);
+                Info($"Take screenshot {screenshotNumber} {title}");
 
-                string fileName = string.Format("{0}.png", completeTitle);
-                string filePath = Path.Combine(ScreenshotsFolderPath, fileName);
                 Screenshot screenshot = Driver.TakeScreenshot();
-                screenshot.SaveAsFile(filePath, ImageFormat.Png);
+
+                foreach (IScreenshotConsumer screenshotConsumer in screenshotConsumers)
+                {
+                    try
+                    {
+                        screenshotConsumer.Take(screenshot, screenshotNumber, title);
+                    }
+                    catch (Exception e)
+                    {
+                        Error("Screenshot failed", e);
+                    }
+                }
             }
             catch (Exception e)
             {
                 Error("Screenshot failed", e);
             }
-        }
-
-        protected virtual string GetScreenshotCompleteTitle(string title)
-        {
-            StringBuilder builder = new StringBuilder(screenshotNumber.ToString("D2"));
-            if (!string.IsNullOrWhiteSpace(title))
-                builder.AppendFormat(" - {0}", title);
-
-            return builder.ToString();
         }
     }
 }

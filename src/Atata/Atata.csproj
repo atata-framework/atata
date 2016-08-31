@@ -59,6 +59,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Logging\FileScreenshotConsumer.cs" />
+    <Compile Include="Logging\IScreenshotConsumer.cs" />
     <Compile Include="Logging\UIComponentClickLogSection.cs" />
     <Compile Include="Logging\UIComponentLogSection.cs" />
     <Compile Include="Logging\DebugLogConsumer.cs" />
