@@ -32,6 +32,16 @@ namespace Atata
             return this;
         }
 
+        public void Trace(string message, params object[] args)
+        {
+            Log(LogLevel.Trace, message, args);
+        }
+
+        public void Debug(string message, params object[] args)
+        {
+            Log(LogLevel.Debug, message, args);
+        }
+
         public void Info(string message, params object[] args)
         {
             Log(LogLevel.Info, message, args);
@@ -47,6 +57,16 @@ namespace Atata
             Log(new LogEventInfo
             {
                 Level = LogLevel.Error,
+                Message = message,
+                Exception = exception
+            });
+        }
+
+        public void Fatal(string message, Exception exception)
+        {
+            Log(new LogEventInfo
+            {
+                Level = LogLevel.Fatal,
                 Message = message,
                 Exception = exception
             });
