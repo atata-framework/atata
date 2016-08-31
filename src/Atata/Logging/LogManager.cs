@@ -11,19 +11,13 @@ namespace Atata
         private readonly List<ILogConsumer> logConsumers = new List<ILogConsumer>();
         private readonly List<IScreenshotConsumer> screenshotConsumers = new List<IScreenshotConsumer>();
 
-        [ThreadStatic]
-        private static Stack<LogSection> sectionEndStack;
+        private readonly Stack<LogSection> sectionEndStack = new Stack<LogSection>();
 
         private int screenshotNumber;
 
         protected IWebDriver Driver
         {
             get { return ATContext.Current.Driver; }
-        }
-
-        private static Stack<LogSection> SectionEndStack
-        {
-            get { return sectionEndStack ?? (sectionEndStack = new Stack<LogSection>()); }
         }
 
         public void Info(string message, params object[] args)
@@ -59,14 +53,14 @@ namespace Atata
 
             Log(eventInfo);
 
-            SectionEndStack.Push(section);
+            sectionEndStack.Push(section);
         }
 
         public void EndSection()
         {
-            if (SectionEndStack.Any())
+            if (sectionEndStack.Any())
             {
-                LogSection section = SectionEndStack.Pop();
+                LogSection section = sectionEndStack.Pop();
 
                 TimeSpan duration = section.GetDuration();
 
