@@ -3,7 +3,7 @@
     public interface IDataProvider<out TData, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        string ComponentFullName { get; }
+        UIComponent Component { get; }
         string ProviderName { get; }
         TOwner Owner { get; }
         TData Value { get; }

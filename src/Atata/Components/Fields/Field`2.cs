@@ -19,7 +19,7 @@ namespace Atata
 
         protected TermOptions ValueTermOptions { get; private set; }
 
-        string IDataProvider<T, TOwner>.ComponentFullName => ComponentFullName;
+        UIComponent IDataProvider<T, TOwner>.Component => this;
 
         protected virtual string DataProviderName => "value";
 

@@ -19,7 +19,7 @@
         public TOwner Click()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.StartClickingSection(ComponentFullName);
+            Log.Start(new ClickLogSection(this));
 
             OnClick();
 

@@ -1,119 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Atata
 {
     public static class ILogManagerExtensions
     {
-        [ThreadStatic]
-        private static Stack<LogSectionInfo> sectionEndMessageStack;
-
-        private static Stack<LogSectionInfo> SectionEndMessageStack
+        public static void Start(this ILogManager logger, string sectionMessage)
         {
-            get { return sectionEndMessageStack ?? (sectionEndMessageStack = new Stack<LogSectionInfo>()); }
+            logger.Start(new LogSection(sectionMessage));
         }
 
         public static void Error(this ILogManager logger, string message, string stackTrace)
         {
-            StringBuilder builder = new StringBuilder(message);
-            builder.AppendLine().
+            StringBuilder builder = new StringBuilder(message).
+                AppendLine().
                 Append(stackTrace);
 
             logger.Error(builder.ToString(), null);
         }
 
-        public static void StartSection(this ILogManager logger, string message, params object[] args)
-        {
-            string fullMessage = args != null && args.Any() ? message.FormatWith(args) : message;
-            logger.Info("Starting: {0}", fullMessage);
-
-            string endMessage = "Finished: {0}".FormatWith(fullMessage);
-            SectionEndMessageStack.Push(new LogSectionInfo(endMessage));
-        }
-
-        public static void StartClickingSection(this ILogManager logger, string componentName)
-        {
-            logger.StartSection("Click {0}".FormatWith(componentName));
-        }
-
-        public static void StartSettingSection(this ILogManager logger, string fieldName, object value)
-        {
-            logger.StartSection("Set \"{0}\" to {1}".FormatWith(value, fieldName));
-        }
-
-        public static void StartAddingSection(this ILogManager logger, string fieldName, object value)
-        {
-            logger.StartSection("Add \"{0}\" to {1}".FormatWith(value, fieldName));
-        }
-
-        public static void StartSavingSection(this ILogManager logger, string itemKind)
-        {
-            logger.StartSection("Save {0}".FormatWith(itemKind));
-        }
-
-        public static void StartSavingSection(this ILogManager logger, string itemKind, string itemName)
-        {
-            logger.StartSection("Save \"{0}\" {1}".FormatWith(itemName, itemKind));
-        }
-
-        public static void StartDeletingSection(this ILogManager logger, string itemKind, string itemName)
-        {
-            logger.StartSection("Delete \"{0}\" {1}".FormatWith(itemName, itemKind));
-        }
-
-        public static void StartVerificationSection(this ILogManager logger, string message, params object[] args)
-        {
-            logger.StartSection("Verify " + message, args);
-        }
-
-        public static void StartVerifyingFieldSection(this ILogManager logger, string fieldName)
-        {
-            logger.StartSection("Verify \"{0}\" field".FormatWith(fieldName));
-        }
-
-        public static void StartSelectingSection(this ILogManager logger, string itemName)
-        {
-            logger.StartSection("Select {0}".FormatWith(itemName));
-        }
-
-        public static void EndSection(this ILogManager logger)
-        {
-            if (SectionEndMessageStack.Any())
-            {
-                LogSectionInfo sectionInfo = SectionEndMessageStack.Pop();
-
-                TimeSpan duration = sectionInfo.GetDuration();
-                logger.InfoWithExecutionTimeInBrackets(sectionInfo.EndMessage, duration);
-            }
-        }
-
         internal static void InfoWithExecutionTime(this ILogManager logger, string message, TimeSpan executionTime)
         {
-            logger.Info("{0} {1}.{2:fff}s", message, Math.Floor(executionTime.TotalSeconds), executionTime);
+            logger.Info($"{message} {Math.Floor(executionTime.TotalSeconds)}.{executionTime:fff}s");
         }
 
         internal static void InfoWithExecutionTimeInBrackets(this ILogManager logger, string message, TimeSpan executionTime)
         {
-            logger.Info("{0} ({1}.{2:fff}s)", message, Math.Floor(executionTime.TotalSeconds), executionTime);
-        }
-
-        public class LogSectionInfo
-        {
-            public LogSectionInfo(string endMessage)
-            {
-                EndMessage = endMessage;
-                StartedAt = DateTime.UtcNow;
-            }
-
-            public string EndMessage { get; private set; }
-            public DateTime StartedAt { get; private set; }
-
-            public TimeSpan GetDuration()
-            {
-                return DateTime.UtcNow - StartedAt;
-            }
+            logger.Info($"{message} ({Math.Floor(executionTime.TotalSeconds)}.{executionTime:fff}s)");
         }
     }
 }

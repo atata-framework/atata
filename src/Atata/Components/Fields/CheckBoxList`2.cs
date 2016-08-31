@@ -90,7 +90,7 @@ namespace Atata
             if (!Equals(value, null))
             {
                 ExecuteTriggers(TriggerEvents.BeforeSet);
-                Log.StartSection("Check '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
+                Log.Start(new DataSettingLogSection(this, ConvertValueToString(value)) { ActionText = "Check" });
 
                 ClickItems(value, (isInValue, isSelected) => isInValue && !isSelected);
 
@@ -110,7 +110,7 @@ namespace Atata
             if (!Equals(value, null))
             {
                 ExecuteTriggers(TriggerEvents.BeforeSet);
-                Log.StartSection("Uncheck '{0}' of {1}", ConvertValueToString(value), ComponentFullName);
+                Log.Start(new DataSettingLogSection(this, ConvertValueToString(value)) { ActionText = "Uncheck" });
 
                 ClickItems(value, (isInValue, isSelected) => isInValue && isSelected);
 

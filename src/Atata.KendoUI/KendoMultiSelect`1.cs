@@ -27,7 +27,7 @@ namespace Atata.KendoUI
         public TOwner Add(string value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.StartAddingSection(ComponentFullName, value);
+            Log.Start(new DataAdditionLogSection(this, value));
 
             OnAdd(value);
 

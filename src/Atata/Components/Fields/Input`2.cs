@@ -29,7 +29,7 @@
         public TOwner Append(string value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.StartSection("Append '{0}' to {1}", value, ComponentFullName);
+            Log.Start(new DataAdditionLogSection(this, value) { ActionText = "Append" });
 
             Scope.SendKeys(value);
 
@@ -42,7 +42,7 @@
         public TOwner Clear()
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.StartSettingSection(ComponentFullName, null);
+            Log.Start(new DataClearingLogSection(this));
 
             OnClear();
 

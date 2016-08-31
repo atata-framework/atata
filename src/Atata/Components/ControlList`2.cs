@@ -17,7 +17,7 @@ namespace Atata
 
         public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} count", GetCount);
 
-        string IDataProvider<IEnumerable<TItem>, TOwner>.ComponentFullName => Component.ComponentFullName;
+        UIComponent IDataProvider<IEnumerable<TItem>, TOwner>.Component => (UIComponent)Component;
 
         string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => $"{ItemDefinition.ComponentTypeName} list";
 

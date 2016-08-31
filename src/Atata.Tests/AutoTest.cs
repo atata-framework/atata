@@ -11,11 +11,8 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-            var log = new SimpleLogManager(
-                message =>
-                {
-                    TestContext.WriteLine(message);
-                });
+            var log = new LogManager().
+                Add(new NUnitTestContextLogConsumer());
 
             string startUrl = ConfigurationManager.AppSettings["TestAppUrl"];
 

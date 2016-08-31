@@ -18,9 +18,9 @@ namespace Atata
             should.CheckNotNull(nameof(should));
             predicate.CheckNotNull(nameof(predicate));
 
-            string logMessage = BuildLogMessage(should, message, args);
+            string verificationConstraintMessage = BuildVerificationConstraintMessage(should, message, args);
 
-            ATContext.Current.Log.StartVerificationSection(logMessage);
+            ATContext.Current.Log.Start(new DataVerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
             TData actual = default(TData);
 
@@ -38,23 +38,21 @@ namespace Atata
             return should.Owner;
         }
 
-        private static string BuildLogMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string message, params TData[] args)
+        private static string BuildVerificationConstraintMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string message, params TData[] args)
             where TOwner : PageObject<TOwner>
         {
-            StringBuilder logMessageBuilder = new StringBuilder().
-                Append($"{should.DataProvider.ComponentFullName} {should.DataProvider.ProviderName}");
-
             if (!string.IsNullOrWhiteSpace(message))
             {
                 string[] convertedArgs = args?.
                     Select(x => "\"{0}\"".FormatWith(should.DataProvider.ConvertValueToString(x) ?? NullString)).
                     ToArray();
 
-                logMessageBuilder.
-                    Append($" {should.GetShouldText()} ").
-                    Append(message.FormatWith(convertedArgs));
+                return $"{should.GetShouldText()} {message.FormatWith(convertedArgs)}";
             }
-            return logMessageBuilder.ToString();
+            else
+            {
+                return null;
+            }
         }
 
         private static AssertionException CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, TData actual, string message, params TData[] args)
@@ -69,7 +67,7 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             string errorMessage = new StringBuilder().
-                AppendLine($"Invalid {should.DataProvider.ComponentFullName} {should.DataProvider.ProviderName}.").
+                AppendLine($"Invalid {should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
                 AppendLine($"Expected: {should.GetShouldText()} {expected}").
                 AppendLine($"But was: {actual}").
                 ToString();

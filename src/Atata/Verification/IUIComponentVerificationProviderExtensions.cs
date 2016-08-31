@@ -7,12 +7,12 @@ namespace Atata
     public static class IUIComponentVerificationProviderExtensions
     {
         public static TOwner Exist<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
-            where TControl : IUIComponent<TOwner>
+            where TControl : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
             should.CheckNotNull(nameof(should));
 
-            ATContext.Current.Log.StartVerificationSection($"{should.Component.ComponentFullName} {should.GetShouldText()} exist");
+            ATContext.Current.Log.Start(new DataVerificationLogSection(should.Component, $"{should.GetShouldText()} exist"));
 
             SearchOptions searchOptions = new SearchOptions
             {
@@ -94,8 +94,7 @@ namespace Atata
                 AppendIf(expectedIndividualValues.Count() > 1, ":").
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
-            ATContext.Current.Log.StartVerificationSection(
-                $"{should.Component.ComponentFullName} {should.GetShouldText()} {expectedMessage}");
+            ATContext.Current.Log.Start(new DataVerificationLogSection(should.Component, $"{should.GetShouldText()} {expectedMessage}"));
 
             IEnumerable<TData> actualIndividualValues = null;
 

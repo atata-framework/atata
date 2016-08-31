@@ -26,7 +26,7 @@
         public TOwner Set(T value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.StartSettingSection(ComponentFullName, ConvertValueToString(value));
+            Log.Start(new DataSettingLogSection(this, ConvertValueToString(value)));
 
             SetValue(value);
 

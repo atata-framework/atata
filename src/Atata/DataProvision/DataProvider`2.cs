@@ -16,9 +16,9 @@ namespace Atata
             this.providerName = providerName.CheckNotNullOrWhitespace("providerName");
         }
 
-        string IDataProvider<TData, TOwner>.ComponentFullName
+        UIComponent IDataProvider<TData, TOwner>.Component
         {
-            get { return component.ComponentFullName; }
+            get { return component; }
         }
 
         TOwner IDataProvider<TData, TOwner>.Owner

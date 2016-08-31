@@ -46,14 +46,14 @@ namespace Atata
             Current = new ATContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
-                Log = log ?? new SimpleLogManager(),
+                Log = log ?? new LogManager().Add(new DebugLogConsumer()),
                 BaseUrl = baseUrl,
                 SetUpDateTime = DateTime.UtcNow
             };
 
             Current.LogTestStart(testName);
 
-            Current.Log.StartSection("Init WebDriver");
+            Current.Log.Start("Init WebDriver");
             Current.Driver = driverFactory != null ? driverFactory() : new FirefoxDriver();
             Current.Log.EndSection();
 
@@ -76,7 +76,7 @@ namespace Atata
             {
                 TimeSpan cleanTestExecutionTime = DateTime.UtcNow - Current.CleanExecutionStartDateTime;
 
-                Current.Log.StartSection("Clean-up test context");
+                Current.Log.Start("Clean-up test context");
 
                 Current.Driver.Quit();
                 Current.CleanUpTemporarilyPreservedPageObjectList();
