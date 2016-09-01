@@ -20,13 +20,13 @@ namespace Atata
             get { return ATContext.Current.Driver; }
         }
 
-        public LogManager Add(ILogConsumer consumer)
+        public LogManager Use(ILogConsumer consumer)
         {
             logConsumers.Add(consumer);
             return this;
         }
 
-        public LogManager Add(IScreenshotConsumer consumer)
+        public LogManager Use(IScreenshotConsumer consumer)
         {
             screenshotConsumers.Add(consumer);
             return this;

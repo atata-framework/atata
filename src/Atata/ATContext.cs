@@ -46,7 +46,7 @@ namespace Atata
             Current = new ATContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
-                Log = log ?? new LogManager().Add(new DebugLogConsumer()),
+                Log = log ?? new LogManager().Use(new DebugLogConsumer()),
                 BaseUrl = baseUrl,
                 SetUpDateTime = DateTime.UtcNow
             };

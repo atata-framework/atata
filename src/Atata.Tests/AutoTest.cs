@@ -12,7 +12,7 @@ namespace Atata.Tests
         public void SetUp()
         {
             var log = new LogManager().
-                Add(new NUnitTestContextLogConsumer());
+                Use(new NUnitTestContextLogConsumer());
 
             string startUrl = ConfigurationManager.AppSettings["TestAppUrl"];
 
