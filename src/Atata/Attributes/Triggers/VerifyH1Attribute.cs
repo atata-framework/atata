@@ -28,7 +28,10 @@
         protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
         {
             string name = TermResolver.ToDisplayString(values);
-            var headingControl = context.Component.Owner.Controls.Create<H1<TOwner>>(name, new FindByIndexAttribute(Index));
+
+            var headingControl = context.Component.Owner.Controls.Create<H1<TOwner>>(
+                name,
+                Index >= 0 ? new FindByIndexAttribute(Index) : null);
             headingControl.Should.WithRetry.MatchAny(Match, values);
         }
     }

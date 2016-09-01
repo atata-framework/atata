@@ -5,7 +5,7 @@ namespace Atata
     /// </summary>
     public class VerifyH3Attribute : VerifyHeadingTriggerAttribute
     {
-        public VerifyH3Attribute(TermCase termCase = TermCase.Inherit)
+        public VerifyH3Attribute(TermCase termCase)
             : base(termCase)
         {
         }
@@ -28,7 +28,10 @@ namespace Atata
         protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
         {
             string name = TermResolver.ToDisplayString(values);
-            var headingControl = context.Component.Owner.Controls.Create<H3<TOwner>>(name, new FindByIndexAttribute(Index));
+
+            var headingControl = context.Component.Owner.Controls.Create<H3<TOwner>>(
+                name,
+                Index >= 0 ? new FindByIndexAttribute(Index) : null);
             headingControl.Should.WithRetry.MatchAny(Match, values);
         }
     }

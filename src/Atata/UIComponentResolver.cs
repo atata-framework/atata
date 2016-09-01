@@ -207,6 +207,8 @@ namespace Atata
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
+            attributes = attributes?.Where(x => x != null).ToArray() ?? new Attribute[0];
+
             if (!attributes.OfType<NameAttribute>().Any())
                 attributes = attributes.Concat(new[]
                     {
@@ -431,7 +433,7 @@ namespace Atata
             {
                 ElementXPath = definition != null ? definition.ScopeXPath : "*",
                 IdXPathFormat = definition != null ? definition.IdXPathFormat : null,
-                Index = findAttribute.IsIndexSet ? (int?)findAttribute.Index : null
+                Index = findAttribute.Index >= 0 ? (int?)findAttribute.Index : null
             };
 
             ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;
