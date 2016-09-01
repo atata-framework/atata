@@ -20,7 +20,7 @@ namespace Atata
 
             string verificationConstraintMessage = BuildVerificationConstraintMessage(should, message, args);
 
-            ATContext.Current.Log.Start(new DataVerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
+            ATContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
             TData actual = default(TData);
 

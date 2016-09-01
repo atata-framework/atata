@@ -2,14 +2,14 @@
 
 namespace Atata
 {
-    public class DataVerificationLogSection : UIComponentLogSection
+    public class VerificationLogSection : UIComponentLogSection
     {
-        public DataVerificationLogSection(UIComponent component, string verificationConstraint)
+        public VerificationLogSection(UIComponent component, string verificationConstraint)
             : this(component, null, verificationConstraint)
         {
         }
 
-        public DataVerificationLogSection(UIComponent component, string dataProviderName, string verificationConstraint)
+        public VerificationLogSection(UIComponent component, string dataProviderName, string verificationConstraint)
             : base(component)
         {
             Message = new StringBuilder($"Verify {component.ComponentFullName}").
