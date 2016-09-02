@@ -1,16 +1,11 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Text;
+using OpenQA.Selenium;
 
 namespace Atata
 {
     public static class ExceptionFactory
     {
-        public static ArgumentException CreateForArgumentEmptyCollection(string parameterName)
-        {
-            return new ArgumentException("Collection should contain at least one element.", parameterName);
-        }
-
         public static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
         {
             string message = BuildElementErrorMessage("Unable to locate element", elementName, by);

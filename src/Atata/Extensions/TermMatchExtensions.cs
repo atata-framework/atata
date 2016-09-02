@@ -29,7 +29,7 @@ namespace Atata
                 case TermMatch.EndsWith:
                     return "substring(normalize-space({0}), string-length(normalize-space({0})) - string-length('{1}') + 1) = '{1}'";
                 default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, "match");
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
             }
         }
 
@@ -52,7 +52,7 @@ namespace Atata
                 case TermMatch.EndsWith:
                     return (text, term) => text.Trim().EndsWith(term);
                 default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, "match");
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
             }
         }
 
@@ -69,7 +69,7 @@ namespace Atata
                 case TermMatch.EndsWith:
                     return "end with";
                 default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, "match");
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
             }
         }
     }

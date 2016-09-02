@@ -226,10 +226,7 @@ namespace Atata
 
         public bool MissingAll(Dictionary<By, ISearchContext> byContextPairs)
         {
-            if (byContextPairs == null)
-                throw new ArgumentNullException("byContextPairs");
-            if (byContextPairs.Count == 0)
-                throw ExceptionFactory.CreateForArgumentEmptyCollection("byContextPairs");
+            byContextPairs.CheckNotNullOrEmpty(nameof(byContextPairs));
 
             Dictionary<By, ByOptions> byOptions = byContextPairs.Keys.ToDictionary(x => x, x => ResolveOptions(x));
 

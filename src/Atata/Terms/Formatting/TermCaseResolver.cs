@@ -43,7 +43,7 @@ namespace Atata.TermFormatting
 
             FormatterItem formatterItem;
             if (!Formatters.TryGetValue(termCase, out formatterItem))
-                throw ExceptionFactory.CreateForUnsupportedEnumValue(termCase, "termCase");
+                throw ExceptionFactory.CreateForUnsupportedEnumValue(termCase, nameof(termCase));
 
             string formattedValue = formatterItem.Formatter.Format(words);
 
