@@ -141,7 +141,7 @@ namespace Atata
             var element = elements.FirstOrDefault();
 
             if (options.ThrowOnFail && element == null)
-                throw ExceptionFactory.CreateForNoSuchElement(options.GetNameWithKind(), by);
+                throw ExceptionFactory.CreateForNoSuchElement(options.GetNameWithKind(), by, Context);
             else
                 return element;
         }
@@ -214,7 +214,7 @@ namespace Atata
             bool isMissing = Until(findFunction, options.Timeout, options.RetryInterval);
 
             if (options.ThrowOnFail && !isMissing)
-                throw ExceptionFactory.CreateForNotMissingElement(options.GetNameWithKind(), by);
+                throw ExceptionFactory.CreateForNotMissingElement(options.GetNameWithKind(), by, Context);
             else
                 return isMissing;
         }
@@ -258,7 +258,8 @@ namespace Atata
             {
                 throw ExceptionFactory.CreateForNotMissingElement(
                     byOptions[leftBys.First()].GetNameWithKind(),
-                    leftBys.First());
+                    leftBys.First(),
+                    Context);
             }
             else
             {

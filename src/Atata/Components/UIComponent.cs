@@ -102,12 +102,12 @@ namespace Atata
 
         public override string ToString()
         {
-            IWebElement scope = GetScopeElement(SearchOptions.Safely());
             StringBuilder builder = new StringBuilder(ComponentFullName);
+            IWebElement scope = GetScopeElement(SearchOptions.SafelyAndImmediately());
+
             if (scope != null)
-            {
-                builder.Append($". Tag: \"{scope.TagName}\", Text: \"{scope.Text}\"");
-            }
+                builder.AppendLine().Append(scope.ToString());
+
             return builder.ToString();
         }
 

@@ -32,6 +32,11 @@ namespace Atata
             return new SearchOptions { IsSafely = isSafely };
         }
 
+        public static SearchOptions SafelyAndImmediately(bool isSafely = true)
+        {
+            return new SearchOptions { IsSafely = isSafely, Timeout = TimeSpan.Zero };
+        }
+
         public static SearchOptions Invisible()
         {
             return new SearchOptions { Visibility = ElementVisibility.Invisible };

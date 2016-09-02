@@ -6,15 +6,15 @@ namespace Atata
 {
     public static class ExceptionFactory
     {
-        public static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null)
+        public static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null, ISearchContext searchContext = null)
         {
-            string message = BuildElementErrorMessage("Unable to locate element", elementName, by);
+            string message = BuildElementErrorMessage("Unable to locate element", elementName, by, searchContext);
             return new NoSuchElementException(message);
         }
 
-        public static NotMissingElementException CreateForNotMissingElement(string elementName = null, By by = null)
+        public static NotMissingElementException CreateForNotMissingElement(string elementName = null, By by = null, ISearchContext searchContext = null)
         {
-            string message = BuildElementErrorMessage("Able to locate element that should be missing", elementName, by);
+            string message = BuildElementErrorMessage("Able to locate element that should be missing", elementName, by, searchContext);
             return new NotMissingElementException(message);
         }
 
@@ -25,7 +25,7 @@ namespace Atata
             return new ArgumentException(message, paramName);
         }
 
-        public static string BuildElementErrorMessage(string message, string elementName, By by)
+        public static string BuildElementErrorMessage(string message, string elementName, By by, ISearchContext searchContext = null)
         {
             StringBuilder builder = new StringBuilder(message);
 
@@ -44,7 +44,25 @@ namespace Atata
                     builder.Append(by);
             }
 
+            string searchContextString = SearchContextToString(searchContext);
+            if (searchContextString != null)
+                builder.AppendLine().Append(searchContextString);
+
             return builder.ToString();
+        }
+
+        private static string SearchContextToString(ISearchContext context)
+        {
+            IWebElement element = context as IWebElement;
+            if (element != null)
+            {
+                return $@"Context element:
+{element.ToDetailedString()}";
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -44,5 +44,22 @@ namespace Atata
                 element.SendKeys(text);
             return element;
         }
+
+        public static string ToDetailedString(this IWebElement element)
+        {
+            element.CheckNotNull(nameof(element));
+
+            try
+            {
+                return $@"Tag: {element.TagName}
+Location: {element.Location}
+Size: {element.Size}
+Text: {element.Text}";
+            }
+            catch
+            {
+                return null;
+            }
+        }
     }
 }
