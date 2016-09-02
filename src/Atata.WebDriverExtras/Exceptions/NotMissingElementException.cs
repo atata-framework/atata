@@ -1,6 +1,6 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Runtime.Serialization;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -21,11 +21,9 @@ namespace Atata
         {
         }
 
-#if !NETCF && !SILVERLIGHT && !PORTABLE
         protected NotMissingElementException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }
-#endif
     }
 }

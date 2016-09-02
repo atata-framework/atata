@@ -71,8 +71,9 @@ namespace Atata
         public static bool TitleContains(this IWebDriver driver, string text)
         {
             driver.CheckNotNull(nameof(driver));
+            text.CheckNotNullOrEmpty(nameof(text));
 
-            return driver.Title != null ? driver.Title.Contains(text) : false;
+            return driver?.Title.Contains(text) ?? false;
         }
     }
 }

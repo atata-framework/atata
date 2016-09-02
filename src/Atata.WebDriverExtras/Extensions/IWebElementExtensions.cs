@@ -22,11 +22,6 @@ namespace Atata
             return new WebElementExtendedSearchContext(element, timeout, retryInterval);
         }
 
-        public static bool HasContent(this IWebElement element, string content)
-        {
-            return element.Text.Contains(content);
-        }
-
         public static bool HasClass(this IWebElement element, string className)
         {
             return element.GetAttribute("class").Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).Contains(className);

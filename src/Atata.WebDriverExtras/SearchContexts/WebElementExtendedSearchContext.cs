@@ -1,5 +1,5 @@
-﻿using OpenQA.Selenium;
-using System;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -22,7 +22,7 @@ namespace Atata
 
         public bool HasContent(string content)
         {
-            return Until(x => x.HasContent(content));
+            return Until(x => x.Text.Contains(content));
         }
     }
 }

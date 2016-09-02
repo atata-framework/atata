@@ -128,6 +128,7 @@ namespace Atata
 
             if (options.Timeout == null)
                 options.Timeout = Timeout;
+
             if (options.RetryInterval == null)
                 options.RetryInterval = RetryInterval;
 
@@ -137,6 +138,7 @@ namespace Atata
         private IWebElement Find(By by)
         {
             ByOptions options = ResolveOptions(by);
+
             var elements = FindAll(by, options);
             var element = elements.FirstOrDefault();
 
@@ -150,13 +152,17 @@ namespace Atata
         {
             options = options ?? ResolveOptions(by);
 
-            Func<T, ReadOnlyCollection<IWebElement>> findFunction = x => x.FindElements(by);
+            Func<T, ReadOnlyCollection<IWebElement>> findFunction;
 
-            // TODO: Extend this.
-            if (options.Visibility != ElementVisibility.Any)
+            if (options.Visibility == ElementVisibility.Any)
             {
-                var originalFindFunction = findFunction;
-                findFunction = x => originalFindFunction(Context).Where(CreateVisibilityPredicate(options.Visibility)).ToReadOnly();
+                findFunction = x => x.FindElements(by);
+            }
+            else
+            {
+                findFunction = x => x.FindElements(by).
+                    Where(CreateVisibilityPredicate(options.Visibility)).
+                    ToReadOnly();
             }
 
             return Until(findFunction, options.Timeout, options.RetryInterval);
@@ -173,7 +179,7 @@ namespace Atata
                 case ElementVisibility.Any:
                     return x => true;
                 default:
-                    throw new ArgumentException("Unknown ElementVisibility value", "visibility");
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue<ElementVisibility>(visibility, nameof(visibility));
             }
         }
 
@@ -206,8 +212,9 @@ namespace Atata
             ByOptions options = ResolveOptions(by);
 
             Func<T, bool> findFunction;
+
             if (options.Visibility == ElementVisibility.Any)
-                findFunction = x => x.FindElements(by).Count == 0;
+                findFunction = x => !x.FindElements(by).Any();
             else
                 findFunction = x => !x.FindElements(by).Any(CreateVisibilityPredicate(options.Visibility));
 

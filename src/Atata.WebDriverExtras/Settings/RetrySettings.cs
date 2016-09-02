@@ -4,13 +4,20 @@ namespace Atata
 {
     public static class RetrySettings
     {
-        static RetrySettings()
-        {
-            Timeout = TimeSpan.FromSeconds(10);
-            RetryInterval = TimeSpan.FromSeconds(0.5);
-        }
+        /// <summary>
+        /// Gets the timeout.
+        /// </summary>
+        /// <value>
+        /// The timeout. The default is 10 seconds.
+        /// </value>
+        public static TimeSpan Timeout { get; internal set; } = TimeSpan.FromSeconds(10);
 
-        public static TimeSpan Timeout { get; internal set; }
-        public static TimeSpan RetryInterval { get; internal set; }
+        /// <summary>
+        /// Gets the retry interval.
+        /// </summary>
+        /// <value>
+        /// The retry interval. The default is 500 milliseconds.
+        /// </value>
+        public static TimeSpan RetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
     }
 }
