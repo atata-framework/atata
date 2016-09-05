@@ -9,14 +9,20 @@ namespace Atata
 {
     public class ATContext
     {
+        private static readonly object LockObject = new object();
+
         [ThreadStatic]
         private static ATContext current;
 
-        public RemoteWebDriver Driver { get; internal set; }
+        public static DateTime? BuildStart { get; private set; }
 
-        public ILogManager Log { get; internal set; }
+        public RemoteWebDriver Driver { get; private set; }
 
-        public string BaseUrl { get; internal set; }
+        public ILogManager Log { get; private set; }
+
+        public string TestName { get; private set; }
+
+        public string BaseUrl { get; private set; }
 
         public UIComponent PageObject { get; internal set; }
 
@@ -41,14 +47,17 @@ namespace Atata
         public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string baseUrl = null)
         {
             if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
-                throw new ArgumentException("Invalid URL format \"{0}\".".FormatWith(baseUrl), "baseUrl");
+                throw new ArgumentException("Invalid URL format \"{0}\".".FormatWith(baseUrl), nameof(baseUrl));
+
+            InitGlobalVariables();
 
             Current = new ATContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
                 Log = log ?? new LogManager().Use(new DebugLogConsumer()),
+                TestName = testName,
                 BaseUrl = baseUrl,
-                SetUpDateTime = DateTime.UtcNow
+                SetUpDateTime = DateTime.Now
             };
 
             Current.LogTestStart(testName);
@@ -57,7 +66,21 @@ namespace Atata
             Current.Driver = driverFactory != null ? driverFactory() : new FirefoxDriver();
             Current.Log.EndSection();
 
-            Current.CleanExecutionStartDateTime = DateTime.UtcNow;
+            Current.CleanExecutionStartDateTime = DateTime.Now;
+        }
+
+        private static void InitGlobalVariables()
+        {
+            if (BuildStart == null)
+            {
+                lock (LockObject)
+                {
+                    if (BuildStart == null)
+                    {
+                        BuildStart = DateTime.Now;
+                    }
+                }
+            }
         }
 
         private void LogTestStart(string testName)
@@ -65,7 +88,7 @@ namespace Atata
             StringBuilder logMessageBuilder = new StringBuilder("Starting test");
 
             if (!string.IsNullOrWhiteSpace(testName))
-                logMessageBuilder.AppendFormat(": {0}", testName);
+                logMessageBuilder.Append($": {testName}");
 
             Current.Log.Info(logMessageBuilder.ToString());
         }
@@ -74,7 +97,7 @@ namespace Atata
         {
             if (Current != null)
             {
-                TimeSpan cleanTestExecutionTime = DateTime.UtcNow - Current.CleanExecutionStartDateTime;
+                TimeSpan cleanTestExecutionTime = DateTime.Now - Current.CleanExecutionStartDateTime;
 
                 Current.Log.Start("Clean-up test context");
 
@@ -86,7 +109,7 @@ namespace Atata
 
                 Current.Log.EndSection();
 
-                TimeSpan testExecutionTime = DateTime.UtcNow - Current.SetUpDateTime;
+                TimeSpan testExecutionTime = DateTime.Now - Current.SetUpDateTime;
                 Current.Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
                 Current.Log.InfoWithExecutionTime("Сlean test execution time: ", cleanTestExecutionTime);
 
