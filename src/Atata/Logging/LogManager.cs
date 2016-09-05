@@ -6,6 +6,10 @@ using OpenQA.Selenium.Support.Extensions;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the log manager, the entry point for the Atata logging functionality.
+    /// </summary>
+    /// <seealso cref="Atata.ILogManager" />
     public class LogManager : ILogManager
     {
         private readonly List<ILogConsumer> logConsumers = new List<ILogConsumer>();
@@ -20,12 +24,22 @@ namespace Atata
             get { return ATContext.Current.Driver; }
         }
 
+        /// <summary>
+        /// Use the specified consumer for logging.
+        /// </summary>
+        /// <param name="consumer">The log consumer.</param>
+        /// <returns></returns>
         public LogManager Use(ILogConsumer consumer)
         {
             logConsumers.Add(consumer);
             return this;
         }
 
+        /// <summary>
+        /// Use the specified screenshot consumer.
+        /// </summary>
+        /// <param name="consumer">The screenshot consumer.</param>
+        /// <returns></returns>
         public LogManager Use(IScreenshotConsumer consumer)
         {
             screenshotConsumers.Add(consumer);
@@ -72,6 +86,18 @@ namespace Atata
             });
         }
 
+        /// <summary>
+        /// Starts the specified log section.
+        /// </summary>
+        /// <param name="section">The log section.</param>
+        /// <example> This sample shows how to log the data insertion to some control in the scope of the control.
+        /// <code>
+        /// string value = "new_value";
+        /// Log.Start(new DataAdditionLogSection(this, value));
+        /// // TODO: Add a value to the control.
+        /// Log.EndSection();
+        /// </code>
+        /// </example>
         public void Start(LogSection section)
         {
             LogEventInfo eventInfo = new LogEventInfo
@@ -88,6 +114,9 @@ namespace Atata
             sectionEndStack.Push(section);
         }
 
+        /// <summary>
+        /// Ends the latest log section.
+        /// </summary>
         public void EndSection()
         {
             if (sectionEndStack.Any())
