@@ -50,5 +50,18 @@ namespace Atata
 
             return method;
         }
+
+        internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name)
+        {
+            type.CheckNotNull(nameof(type));
+            name.CheckNotNullOrWhitespace(nameof(name));
+
+            PropertyInfo property = type.GetProperty(name);
+
+            if (property == null)
+                throw new MissingMemberException(type.FullName, name);
+
+            return property;
+        }
     }
 }
