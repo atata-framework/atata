@@ -23,7 +23,7 @@ namespace Atata
             if (logger == null)
                 throw new InvalidOperationException("Failed to create NLog logger.");
 
-            logEventInfoType = Type.GetType("NLog.NLog,LogEventInfo", true);
+            logEventInfoType = Type.GetType("NLog.LogEventInfo,NLog", true);
 
             InitLogLevelsMap();
         }
