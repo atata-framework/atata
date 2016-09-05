@@ -21,7 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>1591</NoWarn>
-    <DocumentationFile>bin\Debug\Atata.WebDriverExtras.XML</DocumentationFile>
+    <DocumentationFile>bin\Debug\Atata.WebDriverExtras.xml</DocumentationFile>
     <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -32,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\Release\Atata.WebDriverExtras.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
