@@ -5,6 +5,10 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the screenshot consumer that saves the screenshot to the file.
+    /// </summary>
+    /// <seealso cref="Atata.IScreenshotConsumer" />
     public class FileScreenshotConsumer : IScreenshotConsumer
     {
         private readonly string folderPath;
@@ -21,6 +25,12 @@ namespace Atata
             this.imageFormat = imageFormat;
         }
 
+        /// <summary>
+        /// Takes the specified screenshot.
+        /// </summary>
+        /// <param name="screenshot">The screenshot.</param>
+        /// <param name="number">The number of the screenshot.</param>
+        /// <param name="title">The title. Can be null.</param>
         public void Take(Screenshot screenshot, int number, string title)
         {
             if (!Directory.Exists(folderPath))
@@ -37,7 +47,7 @@ namespace Atata
             return Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c.ToString(), string.Empty));
         }
 
-        public static string GetImageFormatExtension(ImageFormat format)
+        private static string GetImageFormatExtension(ImageFormat format)
         {
             return ImageCodecInfo.GetImageEncoders().First(x => x.FormatID == format.Guid).FilenameExtension;
         }
