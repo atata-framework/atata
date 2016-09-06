@@ -7,6 +7,9 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the Atata context, the entry point for the test set-up.
+    /// </summary>
     public class ATContext
     {
         private static readonly object LockObject = new object();
@@ -14,13 +17,45 @@ namespace Atata
         [ThreadStatic]
         private static ATContext current;
 
+        /// <summary>
+        /// Gets the build start date and time.
+        /// </summary>
+        /// <value>
+        /// The build start. Contains the same value for all the tests being executed within one build.
+        /// </value>
         public static DateTime? BuildStart { get; private set; }
 
+        /// <summary>
+        /// Gets the driver.
+        /// </summary>
+        /// <value>
+        /// The driver.
+        /// </value>
         public RemoteWebDriver Driver { get; private set; }
 
+        /// <summary>
+        /// Gets the log manager.
+        /// </summary>
+        /// <value>
+        /// The instance of the log manager.
+        /// </value>
         public ILogManager Log { get; private set; }
 
+        /// <summary>
+        /// Gets the name of the test.
+        /// </summary>
+        /// <value>
+        /// The name of the test.
+        /// </value>
         public string TestName { get; private set; }
+
+        /// <summary>
+        /// Gets the test start date and time.
+        /// </summary>
+        /// <value>
+        /// The test start.
+        /// </value>
+        public DateTime TestStart { get; private set; }
 
         public string BaseUrl { get; private set; }
 
@@ -30,7 +65,6 @@ namespace Atata
 
         internal bool IsNavigated { get; set; }
 
-        private DateTime SetUpDateTime { get; set; }
         private DateTime CleanExecutionStartDateTime { get; set; }
 
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
@@ -38,6 +72,12 @@ namespace Atata
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
         }
 
+        /// <summary>
+        /// Gets the current test context.
+        /// </summary>
+        /// <value>
+        /// The test context.
+        /// </value>
         public static ATContext Current
         {
             get { return current; }
@@ -56,11 +96,11 @@ namespace Atata
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
                 Log = log ?? new LogManager().Use(new DebugLogConsumer()),
                 TestName = testName,
-                BaseUrl = baseUrl,
-                SetUpDateTime = DateTime.Now
+                TestStart = DateTime.Now,
+                BaseUrl = baseUrl
             };
 
-            Current.LogTestStart(testName);
+            Current.LogTestStart();
 
             Current.Log.Start("Init WebDriver");
             Current.Driver = driverFactory != null ? driverFactory() : new FirefoxDriver();
@@ -83,16 +123,19 @@ namespace Atata
             }
         }
 
-        private void LogTestStart(string testName)
+        private void LogTestStart()
         {
             StringBuilder logMessageBuilder = new StringBuilder("Starting test");
 
-            if (!string.IsNullOrWhiteSpace(testName))
-                logMessageBuilder.Append($": {testName}");
+            if (!string.IsNullOrWhiteSpace(TestName))
+                logMessageBuilder.Append($": {TestName}");
 
             Current.Log.Info(logMessageBuilder.ToString());
         }
 
+        /// <summary>
+        /// Cleans up current test context.
+        /// </summary>
         public static void CleanUp()
         {
             if (Current != null)
@@ -109,7 +152,7 @@ namespace Atata
 
                 Current.Log.EndSection();
 
-                TimeSpan testExecutionTime = DateTime.Now - Current.SetUpDateTime;
+                TimeSpan testExecutionTime = DateTime.Now - Current.TestStart;
                 Current.Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
                 Current.Log.InfoWithExecutionTime("Сlean test execution time: ", cleanTestExecutionTime);
 

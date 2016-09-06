@@ -12,6 +12,7 @@ namespace Atata
             Timestamp = DateTime.Now;
             BuildStart = ATContext.BuildStart.Value;
             TestName = ATContext.Current?.TestName;
+            TestStart = ATContext.Current?.TestStart ?? DateTime.MinValue;
         }
 
         /// <summary>
@@ -48,7 +49,7 @@ namespace Atata
         /// Gets the build start date and time.
         /// </summary>
         /// <value>
-        /// The build start. Contains the same value for all the tests being executed in the scope of one build.
+        /// The build start. Contains the same value for all the tests being executed within one build.
         /// </value>
         public DateTime BuildStart { get; internal set; }
 
@@ -59,5 +60,13 @@ namespace Atata
         /// The name of the test.
         /// </value>
         public string TestName { get; internal set; }
+
+        /// <summary>
+        /// Gets the test start date and time.
+        /// </summary>
+        /// <value>
+        /// The test start.
+        /// </value>
+        public DateTime TestStart { get; internal set; }
     }
 }
