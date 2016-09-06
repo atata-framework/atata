@@ -23,11 +23,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the index of header.
+        /// Gets or sets the index of header. The default value is -1, meaning that the index is not used.
         /// </summary>
-        /// <value>
-        /// The index. The default is -1, meaning that the index is not used.
-        /// </value>
         public int Index { get; set; } = -1;
     }
 }

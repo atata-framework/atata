@@ -1,4 +1,5 @@
-﻿using System.Drawing.Imaging;
+﻿using System;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using OpenQA.Selenium;
@@ -11,18 +12,35 @@ namespace Atata
     /// <seealso cref="Atata.IScreenshotConsumer" />
     public class FileScreenshotConsumer : IScreenshotConsumer
     {
-        private readonly string folderPath;
-        private readonly ImageFormat imageFormat;
+        private readonly Func<string> folderPathCreator;
+
+        private string folderPath;
+        private bool isInitialized;
 
         public FileScreenshotConsumer(string folderPath)
-            : this(folderPath, ImageFormat.Png)
-        {
-        }
-
-        public FileScreenshotConsumer(string folderPath, ImageFormat imageFormat)
         {
             this.folderPath = folderPath;
-            this.imageFormat = imageFormat;
+        }
+
+        public FileScreenshotConsumer(Func<string> folderPathCreator)
+        {
+            this.folderPathCreator = folderPathCreator;
+        }
+
+        /// <summary>
+        /// Gets or sets the image format. The default format is Png.
+        /// </summary>
+        public ImageFormat ImageFormat { get; set; }
+
+        private void Initialize()
+        {
+            if (folderPathCreator != null)
+                folderPath = folderPathCreator();
+
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+
+            isInitialized = true;
         }
 
         /// <summary>
@@ -33,13 +51,13 @@ namespace Atata
         /// <param name="title">The title. Can be null.</param>
         public void Take(Screenshot screenshot, int number, string title)
         {
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
+            if (!isInitialized)
+                Initialize();
 
-            string fileName = $"{number:D2} {SanitizeFileName(title)}.{GetImageFormatExtension(imageFormat)}";
+            string fileName = $"{number:D2} {SanitizeFileName(title)}.{GetImageFormatExtension(ImageFormat)}";
             string filePath = Path.Combine(folderPath, fileName);
 
-            screenshot.SaveAsFile(filePath, imageFormat);
+            screenshot.SaveAsFile(filePath, ImageFormat);
         }
 
         private string SanitizeFileName(string name)

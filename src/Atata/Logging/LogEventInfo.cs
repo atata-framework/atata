@@ -46,27 +46,18 @@ namespace Atata
         public LogSection SectionEnd { get; internal set; }
 
         /// <summary>
-        /// Gets the build start date and time.
+        /// Gets the build start date and time. Contains the same value for all the tests being executed within one build.
         /// </summary>
-        /// <value>
-        /// The build start. Contains the same value for all the tests being executed within one build.
-        /// </value>
         public DateTime BuildStart { get; internal set; }
 
         /// <summary>
         /// Gets the name of the test.
         /// </summary>
-        /// <value>
-        /// The name of the test.
-        /// </value>
         public string TestName { get; internal set; }
 
         /// <summary>
         /// Gets the test start date and time.
         /// </summary>
-        /// <value>
-        /// The test start.
-        /// </value>
         public DateTime TestStart { get; internal set; }
     }
 }

@@ -18,43 +18,28 @@ namespace Atata
         private static ATContext current;
 
         /// <summary>
-        /// Gets the build start date and time.
+        /// Gets the build start date and time. Contains the same value for all the tests being executed within one build.
         /// </summary>
-        /// <value>
-        /// The build start. Contains the same value for all the tests being executed within one build.
-        /// </value>
         public static DateTime? BuildStart { get; private set; }
 
         /// <summary>
         /// Gets the driver.
         /// </summary>
-        /// <value>
-        /// The driver.
-        /// </value>
         public RemoteWebDriver Driver { get; private set; }
 
         /// <summary>
-        /// Gets the log manager.
+        /// Gets the instance of the log manager.
         /// </summary>
-        /// <value>
-        /// The instance of the log manager.
-        /// </value>
         public ILogManager Log { get; private set; }
 
         /// <summary>
         /// Gets the name of the test.
         /// </summary>
-        /// <value>
-        /// The name of the test.
-        /// </value>
         public string TestName { get; private set; }
 
         /// <summary>
         /// Gets the test start date and time.
         /// </summary>
-        /// <value>
-        /// The test start.
-        /// </value>
         public DateTime TestStart { get; private set; }
 
         public string BaseUrl { get; private set; }
@@ -75,9 +60,6 @@ namespace Atata
         /// <summary>
         /// Gets the current test context.
         /// </summary>
-        /// <value>
-        /// The test context.
-        /// </value>
         public static ATContext Current
         {
             get { return current; }

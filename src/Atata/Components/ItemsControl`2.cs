@@ -13,9 +13,6 @@
         /// <summary>
         /// Gets the items' ControlList.
         /// </summary>
-        /// <value>
-        /// The items.
-        /// </value>
         public ControlList<TItem, TOwner> Items { get; private set; }
     }
 }
