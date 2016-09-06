@@ -162,13 +162,20 @@ namespace Atata
 
                 Info($"Take screenshot {screenshotNumber} {title}");
 
-                Screenshot screenshot = Driver.TakeScreenshot();
+                ScreenshotInfo screenshotInfo = new ScreenshotInfo
+                {
+                    Screenshot = Driver.TakeScreenshot(),
+                    Number = screenshotNumber,
+                    Title = title,
+                    PageObjectName = ATContext.Current.PageObject.ComponentName,
+                    PageObjectFullName = ATContext.Current.PageObject.ComponentFullName
+                };
 
                 foreach (IScreenshotConsumer screenshotConsumer in screenshotConsumers)
                 {
                     try
                     {
-                        screenshotConsumer.Take(screenshot, screenshotNumber, title);
+                        screenshotConsumer.Take(screenshotInfo);
                     }
                     catch (Exception e)
                     {

@@ -3,7 +3,6 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
-using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -50,22 +49,20 @@ namespace Atata
         /// <summary>
         /// Takes the specified screenshot.
         /// </summary>
-        /// <param name="screenshot">The screenshot.</param>
-        /// <param name="number">The number of the screenshot.</param>
-        /// <param name="title">The title. Can be null.</param>
-        public void Take(Screenshot screenshot, int number, string title)
+        /// <param name="screenshotInfo">The screenshot information object.</param>
+        public void Take(ScreenshotInfo screenshotInfo)
         {
             if (!isInitialized)
                 Initialize();
 
-            string fileName = new StringBuilder($"{number:D2}").
-                Append(!string.IsNullOrWhiteSpace(title) ? $" {SanitizeFileName(title)}" : null).
+            string fileName = new StringBuilder($"{screenshotInfo.Number:D2} - {SanitizeFileName(screenshotInfo.PageObjectFullName)}").
+                Append(!string.IsNullOrWhiteSpace(screenshotInfo.Title) ? $" - {SanitizeFileName(screenshotInfo.Title)}" : null).
                 Append(GetImageFormatExtension(ImageFormat)).
                 ToString();
 
             string filePath = Path.Combine(folderPath, fileName);
 
-            screenshot.SaveAsFile(filePath, ImageFormat);
+            screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
         }
 
         private string SanitizeFileName(string name)

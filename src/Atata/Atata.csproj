@@ -62,6 +62,7 @@
     <Compile Include="ActivatorEx.cs" />
     <Compile Include="Logging\FileScreenshotConsumer.cs" />
     <Compile Include="Logging\IScreenshotConsumer.cs" />
+    <Compile Include="Logging\ScreenshotInfo.cs" />
     <Compile Include="Logging\Sections\DataAdditionLogSection.cs" />
     <Compile Include="Logging\Sections\DataClearingLogSection.cs" />
     <Compile Include="Logging\Sections\ClickLogSection.cs" />
