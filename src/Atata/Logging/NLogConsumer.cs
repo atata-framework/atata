@@ -51,6 +51,9 @@ namespace Atata
             otherEventInfo.Level = logLevelsMap[eventInfo.Level];
             otherEventInfo.Message = eventInfo.Message;
             otherEventInfo.Exception = eventInfo.Exception;
+            otherEventInfo.Properties["build-start"] = eventInfo.BuildStart;
+            otherEventInfo.Properties["test-name"] = eventInfo.TestName;
+            otherEventInfo.Properties["test-start"] = eventInfo.TestStart;
 
             logger.Log(otherEventInfo);
         }
