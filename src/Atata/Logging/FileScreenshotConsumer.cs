@@ -2,6 +2,7 @@
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -30,12 +31,15 @@ namespace Atata
         /// <summary>
         /// Gets or sets the image format. The default format is Png.
         /// </summary>
-        public ImageFormat ImageFormat { get; set; }
+        public ImageFormat ImageFormat { get; set; } = ImageFormat.Png;
 
         private void Initialize()
         {
             if (folderPathCreator != null)
                 folderPath = folderPathCreator();
+
+            if (!Path.IsPathRooted(folderPath))
+                folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, folderPath);
 
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
@@ -54,7 +58,11 @@ namespace Atata
             if (!isInitialized)
                 Initialize();
 
-            string fileName = $"{number:D2} {SanitizeFileName(title)}.{GetImageFormatExtension(ImageFormat)}";
+            string fileName = new StringBuilder($"{number:D2}").
+                Append(!string.IsNullOrWhiteSpace(title) ? $" {SanitizeFileName(title)}" : null).
+                Append(GetImageFormatExtension(ImageFormat)).
+                ToString();
+
             string filePath = Path.Combine(folderPath, fileName);
 
             screenshot.SaveAsFile(filePath, ImageFormat);
@@ -67,7 +75,13 @@ namespace Atata
 
         private static string GetImageFormatExtension(ImageFormat format)
         {
-            return ImageCodecInfo.GetImageEncoders().First(x => x.FormatID == format.Guid).FilenameExtension;
+            return ImageCodecInfo.GetImageEncoders().
+                First(x => x.FormatID == format.Guid).
+                FilenameExtension.
+                Split(';').
+                First().
+                TrimStart('*').
+                ToLower();
         }
     }
 }
