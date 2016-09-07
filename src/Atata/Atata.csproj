@@ -60,6 +60,8 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Components\UIComponentAttributeProvider.cs" />
+    <Compile Include="Components\UIComponentCssProvider.cs" />
     <Compile Include="Logging\FileScreenshotConsumer.cs" />
     <Compile Include="Logging\IScreenshotConsumer.cs" />
     <Compile Include="Logging\ScreenshotInfo.cs" />
