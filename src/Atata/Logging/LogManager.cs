@@ -160,7 +160,12 @@ namespace Atata
             {
                 screenshotNumber++;
 
-                Info($"Take screenshot {screenshotNumber} {title}");
+                string logMessage = $"Take screenshot #{screenshotNumber}";
+
+                if (!string.IsNullOrWhiteSpace(title))
+                    logMessage += $" {title}";
+
+                Info(logMessage);
 
                 ScreenshotInfo screenshotInfo = new ScreenshotInfo
                 {

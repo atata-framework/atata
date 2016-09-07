@@ -2,7 +2,6 @@
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Text;
 
 namespace Atata
 {
@@ -49,20 +48,30 @@ namespace Atata
         /// <summary>
         /// Takes the specified screenshot.
         /// </summary>
-        /// <param name="screenshotInfo">The screenshot information object.</param>
+        /// <param name="screenshotInfo">The screenshot information.</param>
         public void Take(ScreenshotInfo screenshotInfo)
         {
             if (!isInitialized)
                 Initialize();
 
-            string fileName = new StringBuilder($"{screenshotInfo.Number:D2} - {SanitizeFileName(screenshotInfo.PageObjectFullName)}").
-                Append(!string.IsNullOrWhiteSpace(screenshotInfo.Title) ? $" - {SanitizeFileName(screenshotInfo.Title)}" : null).
-                Append(GetImageFormatExtension(ImageFormat)).
-                ToString();
-
+            string fileName = string.Concat(BuildFileName(screenshotInfo), GetImageFormatExtension(ImageFormat));
             string filePath = Path.Combine(folderPath, fileName);
 
             screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
+        }
+
+        /// <summary>
+        /// Builds the name of the file without extension.
+        /// </summary>
+        /// <param name="screenshotInfo">The screenshot information.</param>
+        /// <returns></returns>
+        protected virtual string BuildFileName(ScreenshotInfo screenshotInfo)
+        {
+            string fileName = $"{screenshotInfo.Number:D2} - {SanitizeFileName(screenshotInfo.PageObjectFullName)}";
+
+            return string.IsNullOrWhiteSpace(screenshotInfo.Title)
+                ? fileName
+                : string.Concat(fileName, $" - {SanitizeFileName(screenshotInfo.Title)}");
         }
 
         private string SanitizeFileName(string name)
