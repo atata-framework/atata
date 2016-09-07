@@ -111,6 +111,6 @@ namespace Atata
             return builder.ToString();
         }
 
-        public abstract void CleanUp();
+        protected internal abstract void CleanUp();
     }
 }

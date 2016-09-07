@@ -108,7 +108,7 @@ namespace Atata
             }
         }
 
-        public override void CleanUp()
+        protected internal override void CleanUp()
         {
             foreach (var item in Children)
                 item.CleanUp();
