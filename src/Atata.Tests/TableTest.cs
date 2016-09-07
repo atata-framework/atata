@@ -96,5 +96,15 @@ namespace Atata.Tests
                 }).
                 CountryByColumnIndexTable.Rows["Germany", "Berlin"].Should.Exist();
         }
+
+        [Test]
+        public void Table_Empty()
+        {
+            page.
+                EmptyTable.Should.Exist().
+                EmptyTable.Rows.Count.Should.Equal(0).
+                EmptyTable.Rows.Should.BeEmpty().
+                EmptyTable.Rows[x => x.Name == "missing"].Should.Not.Exist();
+        }
     }
 }

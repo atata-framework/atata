@@ -82,6 +82,7 @@
     <Compile Include="Logging\TraceLogConsumer.cs" />
     <Compile Include="Logging\Sections\DataSettingLogSection.cs" />
     <Compile Include="Logging\Sections\VerificationLogSection.cs" />
+    <Compile Include="ScopeSearch\ControlListScopeLocator.cs" />
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Attributes\CellIndexToClickAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\ControlFindingAttribute.cs" />

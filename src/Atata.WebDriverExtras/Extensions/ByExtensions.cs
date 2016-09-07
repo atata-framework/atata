@@ -65,6 +65,14 @@ namespace Atata
             return by;
         }
 
+        public static By SafelyAndImmediately(this By by, bool isSafely = true)
+        {
+            ByOptions options = ByOptionsMap.GetAndStore(by);
+            options.ThrowOnFail = !isSafely;
+            options.Timeout = TimeSpan.Zero;
+            return by;
+        }
+
         public static By With(this By by, SearchOptions options)
         {
             if (options == null)

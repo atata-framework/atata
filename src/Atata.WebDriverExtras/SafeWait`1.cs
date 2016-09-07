@@ -129,6 +129,8 @@ namespace Atata
                 {
                     if (typeof(TResult) == typeof(ReadOnlyCollection<IWebElement>))
                         return (TResult)(object)new IWebElement[0].ToReadOnly();
+                    else if (typeof(TResult) == typeof(IWebElement[]))
+                        return (TResult)(object)new IWebElement[0];
                     else
                         return default(TResult);
                 }
