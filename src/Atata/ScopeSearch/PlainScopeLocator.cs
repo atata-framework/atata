@@ -29,25 +29,27 @@ namespace Atata
             get { return by ?? (by = byCreator()); }
         }
 
+        public ISearchContext SearchContext { get; set; } = ATContext.Current.Driver;
+
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            return ATContext.Current.Driver.Get(By.With(searchOptions));
+            return SearchContext.Get(By.With(searchOptions));
         }
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            return ATContext.Current.Driver.GetAll(By.With(searchOptions)).ToArray();
+            return SearchContext.GetAll(By.With(searchOptions)).ToArray();
         }
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            return ATContext.Current.Driver.Missing(By.With(searchOptions));
+            return SearchContext.Missing(By.With(searchOptions));
         }
     }
 }
