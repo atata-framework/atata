@@ -7,11 +7,11 @@ namespace Atata
 {
     public class ControlListScopeLocator : IScopeLocator
     {
-        private readonly Func<SearchOptions, IEnumerable<IWebElement>> locateFunction;
+        private readonly Func<SearchOptions, IEnumerable<IWebElement>> predicate;
 
-        public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> locateFunction)
+        public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> predicate)
         {
-            this.locateFunction = locateFunction;
+            this.predicate = predicate;
         }
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
@@ -20,7 +20,7 @@ namespace Atata
 
             IWebElement element = ATContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
-                return locateFunction(searchOptions).FirstOrDefault();
+                return predicate(searchOptions).FirstOrDefault();
             });
 
             if (element == null && !searchOptions.IsSafely)
@@ -35,7 +35,7 @@ namespace Atata
 
             return ATContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
-                return locateFunction(searchOptions).ToArray();
+                return predicate(searchOptions).ToArray();
             });
         }
 
@@ -45,7 +45,7 @@ namespace Atata
 
             bool isMissing = ATContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
-                return !locateFunction(searchOptions).Any();
+                return !predicate(searchOptions).Any();
             });
 
             if (!isMissing && !searchOptions.IsSafely)

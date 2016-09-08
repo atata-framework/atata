@@ -10,7 +10,7 @@ namespace Atata
         protected PageObject()
         {
             NavigateOnInit = true;
-            ScopeLocator = new DynamicScopeLocator(GetScope);
+            ScopeLocator = new PlainScopeLocator(CreateScopeBy);
 
             Owner = (T)this;
         }
@@ -33,10 +33,7 @@ namespace Atata
             return Driver.Url;
         }
 
-        protected virtual IWebElement GetScope(SearchOptions searchOptions)
-        {
-            return Driver.Get(By.TagName("body").With(searchOptions));
-        }
+        protected abstract By CreateScopeBy();
 
         internal void Init(PageObjectContext context)
         {
