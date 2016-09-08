@@ -14,8 +14,13 @@ namespace Atata
                     With(searchOptions).
                     Label(options.GetTermsAsString()));
 
-            if (label == null && searchOptions.IsSafely)
-                return new MissingComponentScopeLocateResult();
+            if (label == null)
+            {
+                if (searchOptions.IsSafely)
+                    return new MissingComponentScopeLocateResult();
+                else
+                    throw ExceptionFactory.CreateForNoSuchElement(options.GetTermsAsString(), searchContext: scope);
+            }
 
             string elementId = label.GetAttribute("for");
             if (string.IsNullOrEmpty(elementId))

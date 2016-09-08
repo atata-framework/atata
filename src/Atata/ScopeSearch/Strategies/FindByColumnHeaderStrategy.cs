@@ -33,7 +33,7 @@ namespace Atata
                 if (searchOptions.IsSafely)
                     return new MissingComponentScopeLocateResult();
                 else
-                    throw ExceptionFactory.CreateForNoSuchElement(options.GetTermsAsString());
+                    throw ExceptionFactory.CreateForNoSuchElement(options.GetTermsAsString(), searchContext: scope);
             }
 
             return new FindByColumnIndexStrategy(columnIndex.Value).Find(scope, options, searchOptions);

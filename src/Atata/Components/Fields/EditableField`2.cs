@@ -18,7 +18,7 @@
 
         protected virtual bool GetIsReadOnly()
         {
-            return Scope.GetAttribute("readonly") != null;
+            return Attributes["readonly"] != null;
         }
 
         protected abstract void SetValue(T value);
