@@ -26,8 +26,15 @@ namespace Atata
         protected internal ILogManager Log { get; internal set; }
         protected internal RemoteWebDriver Driver { get; internal set; }
 
-        protected internal UIComponentAttributeProvider Attributes { get; internal set; }
-        protected internal UIComponentCssProvider Css { get; internal set; }
+        /// <summary>
+        /// Gets the scope element's attributes.
+        /// </summary>
+        public UIComponentAttributeProvider Attributes { get; private set; }
+
+        /// <summary>
+        /// Gets the scope element's CSS properties.
+        /// </summary>
+        public UIComponentCssProvider Css { get; private set; }
 
         protected internal ScopeSource ScopeSource { get; internal set; }
         protected internal IScopeLocator ScopeLocator { get; internal set; }

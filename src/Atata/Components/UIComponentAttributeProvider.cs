@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Allows to access the component scope element attributy values.
+    /// Allows to access the component scope element attribute values.
     /// </summary>
     public class UIComponentAttributeProvider
     {
