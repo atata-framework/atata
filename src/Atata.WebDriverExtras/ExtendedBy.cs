@@ -9,7 +9,11 @@ namespace Atata
 
         internal ExtendedBy(By by)
         {
+            by.CheckNotNull(nameof(by));
+
             this.by = (by as ExtendedBy)?.by ?? by;
+
+            Options = (by as ExtendedBy)?.Options?.Clone() ?? SearchOptions.Safely();
 
             Description = this.by.ToString();
         }

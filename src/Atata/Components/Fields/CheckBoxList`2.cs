@@ -83,7 +83,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Checks the checkbox by specifed value.
+        /// Checks the checkbox by specified value.
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>
@@ -104,7 +104,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Unchecks the checkbox by specifed value.
+        /// Unchecks the checkbox by specified value.
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>

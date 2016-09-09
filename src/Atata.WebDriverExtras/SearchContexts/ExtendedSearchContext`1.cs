@@ -138,33 +138,25 @@ namespace Atata
             return FindAll(By.XPath(xpath));
         }
 
-        private ByOptions ResolveOptions(By by)
+        private SearchOptions ResolveOptions(By by)
         {
-            ByOptions options = ByOptionsMap.GetOrDefault(by);
-
-            if (options.Timeout == null)
-                options.Timeout = Timeout;
-
-            if (options.RetryInterval == null)
-                options.RetryInterval = RetryInterval;
-
-            return options;
+            return (by as ExtendedBy)?.Options ?? SearchOptions.Unsafely();
         }
 
         private IWebElement Find(By by)
         {
-            ByOptions options = ResolveOptions(by);
+            SearchOptions options = ResolveOptions(by);
 
             var elements = FindAll(by, options);
             var element = elements.FirstOrDefault();
 
-            if (options.ThrowOnFail && element == null)
-                throw ExceptionFactory.CreateForNoSuchElement(options.GetNameWithKind(), by, Context);
+            if (!options.IsSafely && element == null)
+                throw ExceptionFactory.CreateForNoSuchElement(by: by, searchContext: Context);
             else
                 return element;
         }
 
-        private ReadOnlyCollection<IWebElement> FindAll(By by, ByOptions options = null)
+        private ReadOnlyCollection<IWebElement> FindAll(By by, SearchOptions options = null)
         {
             options = options ?? ResolveOptions(by);
 
@@ -210,7 +202,7 @@ namespace Atata
 
         public bool Missing(By by)
         {
-            ByOptions options = ResolveOptions(by);
+            SearchOptions options = ResolveOptions(by);
 
             Func<T, bool> findFunction;
 
@@ -221,8 +213,8 @@ namespace Atata
 
             bool isMissing = Until(findFunction, options.Timeout, options.RetryInterval);
 
-            if (options.ThrowOnFail && !isMissing)
-                throw ExceptionFactory.CreateForNotMissingElement(options.GetNameWithKind(), by, Context);
+            if (!options.IsSafely && !isMissing)
+                throw ExceptionFactory.CreateForNotMissingElement(by: by, searchContext: Context);
             else
                 return isMissing;
         }
@@ -236,7 +228,7 @@ namespace Atata
         {
             byContextPairs.CheckNotNullOrEmpty(nameof(byContextPairs));
 
-            Dictionary<By, ByOptions> byOptions = byContextPairs.Keys.ToDictionary(x => x, x => ResolveOptions(x));
+            Dictionary<By, SearchOptions> searchOptions = byContextPairs.Keys.ToDictionary(x => x, x => ResolveOptions(x));
 
             List<By> leftBys = byContextPairs.Keys.ToList();
 
@@ -246,13 +238,13 @@ namespace Atata
 
                 foreach (By by in currentByArray)
                 {
-                    if (IsMissing(byContextPairs[by], by, byOptions[by]))
+                    if (IsMissing(byContextPairs[by], by, searchOptions[by]))
                         leftBys.Remove(by);
                 }
 
                 if (!leftBys.Any())
                 {
-                    leftBys = byContextPairs.Keys.Except(currentByArray).Where(by => !IsMissing(byContextPairs[by], by, byOptions[by])).ToList();
+                    leftBys = byContextPairs.Keys.Except(currentByArray).Where(by => !IsMissing(byContextPairs[by], by, searchOptions[by])).ToList();
                     if (!leftBys.Any())
                         return true;
                 }
@@ -260,25 +252,18 @@ namespace Atata
                 return false;
             };
 
-            TimeSpan maxTimeout = byOptions.Values.Max(x => x.Timeout.Value);
-            TimeSpan maxRetryInterval = byOptions.Values.Max(x => x.RetryInterval.Value);
+            TimeSpan maxTimeout = searchOptions.Values.Max(x => x.Timeout);
+            TimeSpan maxRetryInterval = searchOptions.Values.Max(x => x.RetryInterval);
 
             bool isMissing = Until(findFunction, maxTimeout, maxRetryInterval);
 
-            if (byOptions.Values.Any(x => x.ThrowOnFail) && !isMissing)
-            {
-                throw ExceptionFactory.CreateForNotMissingElement(
-                    byOptions[leftBys.First()].GetNameWithKind(),
-                    leftBys.First(),
-                    Context);
-            }
+            if (searchOptions.Values.Any(x => !x.IsSafely) && !isMissing)
+                throw ExceptionFactory.CreateForNotMissingElement(by: leftBys.FirstOrDefault(), searchContext: Context);
             else
-            {
                 return isMissing;
-            }
         }
 
-        private static bool IsMissing(ISearchContext context, By by, ByOptions options)
+        private static bool IsMissing(ISearchContext context, By by, SearchOptions options)
         {
             return !context.FindElements(by).Any(CreateVisibilityPredicate(options.Visibility));
         }
@@ -290,7 +275,9 @@ namespace Atata
                 Timeout = timeout,
                 PollingInterval = retryInterval
             };
+
             wait.IgnoreExceptionTypes(typeof(StaleElementReferenceException), typeof(NotFoundException));
+
             return wait;
         }
     }

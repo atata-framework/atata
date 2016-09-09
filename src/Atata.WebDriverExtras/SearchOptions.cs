@@ -16,13 +16,24 @@ namespace Atata
 
         public TimeSpan RetryInterval { get; set; }
 
+        /// <summary>
+        /// Gets or sets the visibility of the search element. The default value is Visible.
+        /// </summary>
         public ElementVisibility Visibility { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the search element is safely searching. If it is true then null is returned after the search, otherwise an exception is thrown. The default value is false.
+        /// </summary>
         public bool IsSafely { get; set; }
 
         public static SearchOptions Safely(bool isSafely = true)
         {
             return new SearchOptions { IsSafely = isSafely };
+        }
+
+        public static SearchOptions Unsafely()
+        {
+            return new SearchOptions { IsSafely = false };
         }
 
         public static SearchOptions SafelyAndImmediately(bool isSafely = true)

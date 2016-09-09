@@ -7,92 +7,103 @@ namespace Atata
     {
         public static By OfKind(this By by, string kind, string name = null)
         {
-            ByOptions options = ByOptionsMap.GetAndStore(by);
-            options.Kind = kind;
-            return name != null ? by.Named(name) : by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.ElementKind = kind;
+            return name != null ? extendedBy.Named(name) : extendedBy;
         }
 
         public static By Named(this By by, string name)
         {
-            ByOptions options = ByOptionsMap.GetAndStore(by);
-            options.Name = name;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.ElementName = name;
 
-            if (name != null && by.ToString().Contains("{0}"))
+            if (name != null && extendedBy.ToString().Contains("{0}"))
             {
-                By newBy = by.FormatWith(name);
-                ByOptionsMap.Replace(by, newBy);
-
-                return newBy;
+                return extendedBy.FormatWith(name);
             }
 
-            return by;
+            return extendedBy;
         }
 
-        public static By Safely(this By by, bool safely = true)
+        public static By Safely(this By by, bool isSafely = true)
         {
-            ByOptionsMap.GetAndStore(by).ThrowOnFail = !safely;
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.IsSafely = isSafely;
+            return extendedBy;
         }
 
         public static By Invisible(this By by)
         {
-            ByOptionsMap.GetAndStore(by).Visibility = ElementVisibility.Invisible;
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.Visibility = ElementVisibility.Invisible;
+            return extendedBy;
         }
 
         public static By OfAnyVisibility(this By by)
         {
-            ByOptionsMap.GetAndStore(by).Visibility = ElementVisibility.Any;
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.Visibility = ElementVisibility.Any;
+            return extendedBy;
         }
 
         public static By WithRetry(this By by, TimeSpan timeout)
         {
-            ByOptionsMap.GetAndStore(by).Timeout = timeout;
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.Timeout = timeout;
+            return extendedBy;
         }
 
         public static By WithRetry(this By by, TimeSpan timeout, TimeSpan retryInterval)
         {
-            ByOptions options = ByOptionsMap.GetAndStore(by);
-            options.Timeout = timeout;
-            options.RetryInterval = retryInterval;
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.Timeout = timeout;
+            extendedBy.Options.RetryInterval = retryInterval;
+            return extendedBy;
         }
 
         public static By Immediately(this By by)
         {
-            ByOptionsMap.GetAndStore(by).Timeout = TimeSpan.Zero;
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.Timeout = TimeSpan.Zero;
+            return extendedBy;
         }
 
         public static By SafelyAndImmediately(this By by, bool isSafely = true)
         {
-            ByOptions options = ByOptionsMap.GetAndStore(by);
-            options.ThrowOnFail = !isSafely;
-            options.Timeout = TimeSpan.Zero;
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.IsSafely = isSafely;
+            extendedBy.Options.Timeout = TimeSpan.Zero;
+            return extendedBy;
         }
 
         public static By With(this By by, SearchOptions options)
         {
-            if (options == null)
-                return by;
+            options = options ?? SearchOptions.Unsafely();
 
-            ByOptions byOptions = ByOptionsMap.GetAndStore(by);
-
-            byOptions.Timeout = options.Timeout;
-            byOptions.RetryInterval = options.RetryInterval;
-            byOptions.Visibility = options.Visibility;
-            byOptions.ThrowOnFail = !options.IsSafely;
-
-            return by;
+            ExtendedBy extendedBy = new ExtendedBy(by);
+            extendedBy.Options.Timeout = options.Timeout;
+            extendedBy.Options.RetryInterval = options.RetryInterval;
+            extendedBy.Options.Visibility = options.Visibility;
+            extendedBy.Options.IsSafely = options.IsSafely;
+            return extendedBy;
         }
 
         public static By FormatWith(this By by, params object[] args)
         {
             string selector = string.Format(by.GetSelector(), args);
-            return CreateBy(by.GetMethod(), selector);
+            By formattedBy = CreateBy(by.GetMethod(), selector);
+
+            ExtendedBy extendedBy = new ExtendedBy(formattedBy);
+
+            ExtendedBy originalByAsExtended = by as ExtendedBy;
+            if (originalByAsExtended != null)
+            {
+                extendedBy.ElementName = originalByAsExtended.ElementName;
+                extendedBy.ElementKind = originalByAsExtended.ElementKind;
+                extendedBy.Options = originalByAsExtended.Options;
+            }
+
+            return extendedBy;
         }
 
         public static string GetMethod(this By by)

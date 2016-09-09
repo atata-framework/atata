@@ -8,12 +8,16 @@ namespace Atata
     {
         public static NoSuchElementException CreateForNoSuchElement(string elementName = null, By by = null, ISearchContext searchContext = null)
         {
+            elementName = elementName ?? (by as ExtendedBy)?.GetElementNameWithKind();
+
             string message = BuildElementErrorMessage("Unable to locate element", elementName, by, searchContext);
             return new NoSuchElementException(message);
         }
 
         public static NotMissingElementException CreateForNotMissingElement(string elementName = null, By by = null, ISearchContext searchContext = null)
         {
+            elementName = elementName ?? (by as ExtendedBy)?.GetElementNameWithKind();
+
             string message = BuildElementErrorMessage("Able to locate element that should be missing", elementName, by, searchContext);
             return new NotMissingElementException(message);
         }

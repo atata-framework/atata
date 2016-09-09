@@ -22,7 +22,7 @@ namespace Atata
         protected internal UIComponent Owner { get; internal set; }
 
         /// <summary>
-        /// Gets the parent componenent.
+        /// Gets the parent component.
         /// </summary>
         protected internal UIComponent Parent { get; internal set; }
 
@@ -77,7 +77,7 @@ namespace Atata
             if (ScopeLocator == null)
                 throw new InvalidOperationException("ScopeLocator is missing.");
 
-            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+            searchOptions = searchOptions ?? SearchOptions.Unsafely();
 
             IWebElement element = ScopeLocator.GetElement(searchOptions);
             if (!searchOptions.IsSafely && element == null)

@@ -12,6 +12,7 @@ namespace Atata
     public class SafeWait<T> : IWait<T>
     {
         private readonly T input;
+
         private readonly IClock clock;
 
         private readonly List<Type> ignoredExceptions = new List<Type>();

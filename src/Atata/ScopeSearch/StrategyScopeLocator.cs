@@ -20,7 +20,7 @@ namespace Atata
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+            searchOptions = searchOptions ?? SearchOptions.Unsafely();
 
             XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
             if (xPathResults.Any())
@@ -39,7 +39,7 @@ namespace Atata
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+            searchOptions = searchOptions ?? SearchOptions.Unsafely();
 
             XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
             if (xPathResults.Any())
@@ -50,7 +50,7 @@ namespace Atata
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Safely(false);
+            searchOptions = searchOptions ?? SearchOptions.Unsafely();
 
             XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
             if (xPathResults.Any())
