@@ -17,7 +17,7 @@ namespace Atata.Tests
 
             string startUrl = ConfigurationManager.AppSettings["TestAppUrl"];
 
-            ATContext.SetUp(
+            AtataContext.SetUp(
                 CreateChromeDriver,
                 log,
                 TestContext.CurrentContext.Test.Name,
@@ -43,9 +43,9 @@ namespace Atata.Tests
         {
             var testResult = TestContext.CurrentContext.Result;
             if (testResult.Outcome.Status == TestStatus.Failed)
-                ATContext.Current.Log.Error(testResult.Message, testResult.StackTrace);
+                AtataContext.Current.Log.Error(testResult.Message, testResult.StackTrace);
 
-            ATContext.CleanUp();
+            AtataContext.CleanUp();
         }
 
         protected void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)

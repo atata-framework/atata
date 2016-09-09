@@ -37,7 +37,7 @@ namespace Atata.Tests
             Go.To<GoTo2Page>(url: url);
 
             AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(ATContext.Current.Driver.Url, Is.EqualTo(url));
+            Assert.That(AtataContext.Current.Driver.Url, Is.EqualTo(url));
         }
 
         [Test]
@@ -48,7 +48,7 @@ namespace Atata.Tests
             Go.To<GoTo2Page>(url: url);
 
             AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(ATContext.Current.Driver.Url, Does.EndWith(url));
+            Assert.That(AtataContext.Current.Driver.Url, Does.EndWith(url));
         }
 
         [Test]
@@ -179,18 +179,18 @@ namespace Atata.Tests
 
         private void AssertCurrentPageObject(UIComponent pageObject)
         {
-            Assert.That(ATContext.Current.PageObject, Is.EqualTo(pageObject));
+            Assert.That(AtataContext.Current.PageObject, Is.EqualTo(pageObject));
         }
 
         private void AssertNoTemporarilyPreservedPageObjects()
         {
-            Assert.That(ATContext.Current.TemporarilyPreservedPageObjects, Is.Empty);
+            Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.Empty);
         }
 
         private void AssertTemporarilyPreservedPageObjects(params UIComponent[] pageObjects)
         {
-            Assert.That(ATContext.Current.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
-            Assert.That(ATContext.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
+            Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
+            Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
         }
     }
 }

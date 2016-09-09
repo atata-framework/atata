@@ -10,9 +10,9 @@ namespace Atata
         internal LogEventInfo()
         {
             Timestamp = DateTime.Now;
-            BuildStart = ATContext.BuildStart.Value;
-            TestName = ATContext.Current?.TestName;
-            TestStart = ATContext.Current?.TestStart ?? DateTime.MinValue;
+            BuildStart = AtataContext.BuildStart.Value;
+            TestName = AtataContext.Current?.TestName;
+            TestStart = AtataContext.Current?.TestStart ?? DateTime.MinValue;
         }
 
         /// <summary>

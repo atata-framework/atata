@@ -10,17 +10,21 @@ namespace Atata
     /// <summary>
     /// Represents the Atata context, the entry point for the test set-up.
     /// </summary>
-    public class ATContext
+    public sealed class AtataContext
     {
         private static readonly object LockObject = new object();
 
         [ThreadStatic]
-        private static ATContext current;
+        private static AtataContext current;
+
+        private AtataContext()
+        {
+        }
 
         /// <summary>
         /// Gets the current context.
         /// </summary>
-        public static ATContext Current
+        public static AtataContext Current
         {
             get { return current; }
             private set { current = value; }
@@ -73,7 +77,7 @@ namespace Atata
 
             InitGlobalVariables();
 
-            Current = new ATContext
+            Current = new AtataContext
             {
                 TemporarilyPreservedPageObjectList = new List<UIComponent>(),
                 Log = log ?? new LogManager().Use(new DebugLogConsumer()),

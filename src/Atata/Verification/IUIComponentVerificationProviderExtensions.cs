@@ -12,7 +12,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            ATContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} exist"));
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} exist"));
 
             SearchOptions searchOptions = new SearchOptions
             {
@@ -26,7 +26,7 @@ namespace Atata
             else
                 should.Component.Exists(searchOptions);
 
-            ATContext.Current.Log.EndSection();
+            AtataContext.Current.Log.EndSection();
 
             return should.Owner;
         }
@@ -94,11 +94,11 @@ namespace Atata
                 AppendIf(expectedIndividualValues.Count() > 1, ":").
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
-            ATContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} {expectedMessage}"));
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} {expectedMessage}"));
 
             IEnumerable<TData> actualIndividualValues = null;
 
-            bool doesSatisfy = ATContext.Current.Driver.Try().Until(
+            bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
                 _ =>
                 {
                     actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
@@ -115,7 +115,7 @@ namespace Atata
                     should.Component.ConvertIndividualValuesToString(actualIndividualValues, true));
             }
 
-            ATContext.Current.Log.EndSection();
+            AtataContext.Current.Log.EndSection();
 
             return should.Owner;
         }

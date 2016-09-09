@@ -20,11 +20,11 @@ namespace Atata
 
             string verificationConstraintMessage = BuildVerificationConstraintMessage(should, message, args);
 
-            ATContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
             TData actual = default(TData);
 
-            bool doesSatisfy = ATContext.Current.Driver.Try().Until(
+            bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
                 _ =>
                 {
                     actual = should.DataProvider.Get();
@@ -36,7 +36,7 @@ namespace Atata
             if (!doesSatisfy)
                 throw CreateAssertionException(should, actual, message, args);
 
-            ATContext.Current.Log.EndSection();
+            AtataContext.Current.Log.EndSection();
 
             return should.Owner;
         }

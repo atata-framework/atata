@@ -21,7 +21,7 @@ namespace Atata
 
         protected IWebDriver Driver
         {
-            get { return ATContext.Current.Driver; }
+            get { return AtataContext.Current.Driver; }
         }
 
         /// <summary>
@@ -172,8 +172,8 @@ namespace Atata
                     Screenshot = Driver.TakeScreenshot(),
                     Number = screenshotNumber,
                     Title = title,
-                    PageObjectName = ATContext.Current.PageObject.ComponentName,
-                    PageObjectFullName = ATContext.Current.PageObject.ComponentFullName
+                    PageObjectName = AtataContext.Current.PageObject.ComponentName,
+                    PageObjectFullName = AtataContext.Current.PageObject.ComponentFullName
                 };
 
                 foreach (IScreenshotConsumer screenshotConsumer in screenshotConsumers)

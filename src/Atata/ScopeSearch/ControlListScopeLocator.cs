@@ -18,7 +18,7 @@ namespace Atata
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            IWebElement element = ATContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
+            IWebElement element = AtataContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
                 return predicate(searchOptions).FirstOrDefault();
             });
@@ -33,7 +33,7 @@ namespace Atata
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            return ATContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
+            return AtataContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
                 return predicate(searchOptions).ToArray();
             });
@@ -43,7 +43,7 @@ namespace Atata
         {
             searchOptions = searchOptions ?? SearchOptions.Safely(false);
 
-            bool isMissing = ATContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
+            bool isMissing = AtataContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
                 return !predicate(searchOptions).Any();
             });

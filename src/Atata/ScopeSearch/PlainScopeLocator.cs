@@ -29,7 +29,7 @@ namespace Atata
             get { return by ?? (by = byCreator()); }
         }
 
-        public ISearchContext SearchContext { get; set; } = ATContext.Current.Driver;
+        public ISearchContext SearchContext { get; set; } = AtataContext.Current.Driver;
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
