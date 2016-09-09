@@ -78,6 +78,7 @@
     <Compile Include="SearchContexts\WebElementExtendedSearchContext.cs" />
     <Compile Include="Settings\ByOptions.cs" />
     <Compile Include="Settings\ByOptionsMap.cs" />
+    <Compile Include="ExtendedBy.cs" />
     <Compile Include="Settings\RetrySettings.cs" />
     <Compile Include="Settings\SearchOptions.cs" />
   </ItemGroup>
