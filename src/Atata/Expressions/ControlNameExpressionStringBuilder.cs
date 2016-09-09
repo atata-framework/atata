@@ -18,6 +18,8 @@ namespace Atata
         /// <summary>
         /// Output a given expression tree to a string.
         /// </summary>
+        /// <param name="node">The expression node.</param>
+        /// <returns>The string representing the expression.</returns>
         public static new string ExpressionToString(Expression node)
         {
             Debug.Assert(node != null, "'node' should not be null.");
@@ -74,6 +76,7 @@ namespace Atata
             {
                 expressionParts[i] = TrimBrackets(expressionParts[i]);
             }
+
             return expressionParts;
         }
 
@@ -127,12 +130,14 @@ namespace Atata
                 Out("(");
 
                 int firstArgumentIndex = isExtensionMethod ? 1 : 0;
+
                 for (int i = firstArgumentIndex, n = node.Arguments.Count; i < n; i++)
                 {
                     if (i > firstArgumentIndex)
                         Out(", ");
                     Visit(node.Arguments[i]);
                 }
+
                 Out(")");
                 return node;
             }

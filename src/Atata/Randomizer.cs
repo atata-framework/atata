@@ -12,6 +12,7 @@ namespace Atata
 
             StringBuilder stringBuilder = new StringBuilder();
             int baseCharacter = 'a';
+
             for (int i = 0; i < uniqueValue.Length; i++)
             {
                 string characterAsString = uniqueValue.Substring(i, 1);
@@ -19,6 +20,7 @@ namespace Atata
                 char alphaCharacter = (char)(baseCharacter + characterIntValue);
                 stringBuilder.Append(alphaCharacter);
             }
+
             return string.Format(format, stringBuilder);
         }
 

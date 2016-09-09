@@ -55,12 +55,14 @@ namespace Atata
             else
             {
                 int id;
+
                 if (!ids.TryGetValue(label, out id))
                 {
                     // label is met the first time
                     id = ids.Count;
                     AddLabel(label);
                 }
+
                 return id;
             }
         }
@@ -92,12 +94,14 @@ namespace Atata
             else
             {
                 int id;
+
                 if (!ids.TryGetValue(p, out id))
                 {
                     // p is met the first time
                     id = ids.Count;
                     AddParam(p);
                 }
+
                 return id;
             }
         }
@@ -115,6 +119,8 @@ namespace Atata
         /// <summary>
         /// Output a given expression tree to a string.
         /// </summary>
+        /// <param name="node">The expession node.</param>
+        /// <returns>The string representing the expression.</returns>
         public static string ExpressionToString(Expression node)
         {
             Debug.Assert(node != null, "'node' should not be null.");
@@ -189,30 +195,31 @@ namespace Atata
             }
         }
 
-        private void VisitExpressions<T>(char open, IList<T> expressions, char close) where T : Expression
+        private void VisitExpressions<T>(char open, IList<T> expressions, char close)
+            where T : Expression
         {
             VisitExpressions(open, expressions, close, ", ");
         }
 
-        private void VisitExpressions<T>(char open, IList<T> expressions, char close, string seperator) where T : Expression
+        private void VisitExpressions<T>(char open, IList<T> expressions, char close, string seperator)
+            where T : Expression
         {
             Out(open);
+
             if (expressions != null)
             {
                 bool isFirst = true;
                 foreach (T e in expressions)
                 {
                     if (isFirst)
-                    {
                         isFirst = false;
-                    }
                     else
-                    {
                         Out(seperator);
-                    }
+
                     Visit(e);
                 }
             }
+
             Out(close);
         }
 
@@ -244,6 +251,7 @@ namespace Atata
                 Visit(node.Right);
                 Out(")");
             }
+
             return node;
         }
 
@@ -330,15 +338,14 @@ namespace Atata
             {
                 Out("ref ");
             }
+
             string name = node.Name;
+
             if (string.IsNullOrEmpty(name))
-            {
                 Out("Param_" + GetParamId(node));
-            }
             else
-            {
                 Out(name);
-            }
+
             return node;
         }
 
@@ -354,6 +361,7 @@ namespace Atata
                 // (p1, p2, ..., pn) => body
                 VisitExpressions('(', node.Parameters, ')');
             }
+
             Out(" => ");
             Visit(node.Body);
             return node;
@@ -363,14 +371,15 @@ namespace Atata
         {
             Visit(node.NewExpression);
             Out(" {");
+
             for (int i = 0, n = node.Initializers.Count; i < n; i++)
             {
                 if (i > 0)
-                {
                     Out(", ");
-                }
+
                 Out(node.Initializers[i].ToString());
             }
+
             Out("}");
             return node;
         }
@@ -379,10 +388,13 @@ namespace Atata
         {
             Out("IIF(");
             Visit(node.Test);
+
             Out(", ");
             Visit(node.IfTrue);
+
             Out(", ");
             Visit(node.IfFalse);
+
             Out(")");
             return node;
         }
@@ -413,6 +425,7 @@ namespace Atata
             {
                 Out("null");
             }
+
             return node;
         }
 
@@ -471,7 +484,9 @@ namespace Atata
             {
                 Visit(node.NewExpression);
             }
+
             Out(" {");
+
             for (int i = 0, n = node.Bindings.Count; i < n; i++)
             {
                 MemberBinding b = node.Bindings[i];
@@ -479,8 +494,10 @@ namespace Atata
                 {
                     Out(", ");
                 }
+
                 VisitMemberBinding(b);
             }
+
             Out("}");
             return node;
         }
@@ -497,14 +514,17 @@ namespace Atata
         {
             Out(binding.Member.Name);
             Out(" = {");
+
             for (int i = 0, n = binding.Initializers.Count; i < n; i++)
             {
                 if (i > 0)
                 {
                     Out(", ");
                 }
+
                 VisitElementInit(binding.Initializers[i]);
             }
+
             Out("}");
             return binding;
         }
@@ -516,11 +536,11 @@ namespace Atata
             for (int i = 0, n = binding.Bindings.Count; i < n; i++)
             {
                 if (i > 0)
-                {
                     Out(", ");
-                }
+
                 VisitMemberBinding(binding.Bindings[i]);
             }
+
             Out("}");
             return binding;
         }
@@ -545,6 +565,7 @@ namespace Atata
                 Out(sep);
                 Visit(node.Arguments[i]);
             }
+
             Out(")");
             return node;
         }
@@ -565,14 +586,18 @@ namespace Atata
                 Visit(objectExpression);
                 Out(".");
             }
+
             Out(node.Method.Name);
             Out("(");
+
             for (int i = start, n = node.Arguments.Count; i < n; i++)
             {
                 if (i > start)
                     Out(", ");
+
                 Visit(node.Arguments[i]);
             }
+
             Out(")");
             return node;
         }
@@ -589,6 +614,7 @@ namespace Atata
                 Out("new [] ");
                 VisitExpressions('{', node.Expressions, '}');
             }
+
             return node;
         }
 
@@ -603,6 +629,7 @@ namespace Atata
                 {
                     Out(", ");
                 }
+
                 if (members != null)
                 {
                     string name = members[i].Name;
@@ -610,8 +637,10 @@ namespace Atata
                     Out(name);
                     Out(" = ");
                 }
+
                 Visit(node.Arguments[i]);
             }
+
             Out(")");
             return node;
         }
@@ -704,18 +733,21 @@ namespace Atata
                     Out(")");
                     break;
             }
+
             return node;
         }
 
         protected override Expression VisitBlock(BlockExpression node)
         {
             Out("{");
+
             foreach (var v in node.Variables)
             {
                 Out("var ");
                 Visit(v);
                 Out(";");
             }
+
             Out(" ... }");
             return node;
         }
@@ -740,12 +772,14 @@ namespace Atata
         {
             Out(node.Kind.ToString().ToLower(CultureInfo.CurrentCulture));
             DumpLabel(node.Target);
+
             if (node.Value != null)
             {
                 Out(" (");
                 Visit(node.Value);
                 Out(") ");
             }
+
             return node;
         }
 
@@ -775,10 +809,10 @@ namespace Atata
         protected override CatchBlock VisitCatchBlock(CatchBlock node)
         {
             Out("catch (" + node.Test.Name);
+
             if (node.Variable != null)
-            {
                 Out(node.Variable.Name ?? string.Empty);
-            }
+
             Out(") { ... }");
             return node;
         }
@@ -800,6 +834,7 @@ namespace Atata
                 Debug.Assert(node.Indexer != null, "'node.Indexer' should not be null.");
                 Out(node.Indexer.DeclaringType.Name);
             }
+
             if (node.Indexer != null)
             {
                 Out(".");
@@ -833,6 +868,7 @@ namespace Atata
             {
                 Out(node.NodeType.ToString());
             }
+
             Out("]");
             return node;
         }

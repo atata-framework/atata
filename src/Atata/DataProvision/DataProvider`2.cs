@@ -40,14 +40,14 @@ namespace Atata
 
         public DataVerificationProvider<TData, TOwner> Should => new DataVerificationProvider<TData, TOwner>(this);
 
-        public TData Get()
-        {
-            return valueGetFunction();
-        }
-
         public static implicit operator TData(DataProvider<TData, TOwner> field)
         {
             return field.Get();
+        }
+
+        public TData Get()
+        {
+            return valueGetFunction();
         }
     }
 }

@@ -21,10 +21,12 @@ namespace Atata.Tests
             OptionsDF = OptionD | OptionF
         }
 
-        [FindById("enum-checkboxes"), FindItemByLabel]
+        [FindById("enum-checkboxes")]
+        [FindItemByLabel]
         public CheckBoxList<Options, _> ByIdAndLabel { get; private set; }
 
-        [FindByXPath("*[@id='enum-checkboxes']"), FindItemByValue(TermCase.Pascal)]
+        [FindByXPath("*[@id='enum-checkboxes']")]
+        [FindItemByValue(TermCase.Pascal)]
         public CheckBoxList<Options, _> ByXPathAndValue { get; private set; }
 
         public CheckBox<_> OptionA { get; private set; }

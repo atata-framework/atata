@@ -28,9 +28,7 @@ namespace Atata
                 Append(eventInfo.Message);
 
             if (eventInfo.Exception != null)
-                builder.
-                    Append(Separator).
-                    Append(eventInfo.Exception.ToString());
+                builder.Append(Separator).Append(eventInfo.Exception.ToString());
 
             return builder.ToString();
         }

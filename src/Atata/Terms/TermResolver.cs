@@ -62,13 +62,18 @@ namespace Atata
                 (v, opt) =>
                 {
                     string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
+
                     if (concreteFormat != null && concreteFormat.Contains("t"))
+                    {
                         return FormatValue(
                             DateTime.Today.Add(v).ToString(concreteFormat, opt.Culture),
                             opt.Format,
                             opt.Culture);
+                    }
                     else
+                    {
                         return FormatValue(v, opt.Format, opt.Culture);
+                    }
                 });
 
             RegisterConverter<Guid>(
@@ -236,14 +241,18 @@ namespace Atata
             string formatEnd = formatParts[1];
 
             if (!value.StartsWith(formatStart))
+            {
                 throw new ArgumentException(
                     "\"{0}\" value doesn't match format \"{1}\". Should start with \"{2}\"".FormatWith(value, format, formatStart),
                     "value");
+            }
 
             if (!value.EndsWith(formatEnd))
+            {
                 throw new ArgumentException(
                     "\"{0}\" value doesn't match format \"{1}\". Should end with \"{2}\"".FormatWith(value, format, formatEnd),
                     "value");
+            }
 
             return value.Substring(formatStart.Length, value.Length - formatStart.Length - formatEnd.Length);
         }

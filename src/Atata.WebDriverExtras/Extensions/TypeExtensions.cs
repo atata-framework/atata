@@ -17,6 +17,7 @@ namespace Atata
 
             Type typeToCheck = type;
             int depth = 0;
+
             while (typeToCheck != null && typeToCheck != typeof(object))
             {
                 if (typeToCheck.IsGenericType && typeToCheck.GetGenericTypeDefinition() == genericType)
@@ -25,6 +26,7 @@ namespace Atata
                 typeToCheck = typeToCheck.BaseType;
                 depth++;
             }
+
             return null;
         }
 

@@ -41,37 +41,44 @@ namespace Atata
 
         public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }
 
-        public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null)
+            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(DeclaringAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate = null)
+            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(GlobalAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultAssemblyAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        public T GetFirstOrDefaultAssemblyAttribute<T>(Func<T, bool> predicate = null)
+            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(AssemblyAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultComponentAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        public T GetFirstOrDefaultComponentAttribute<T>(Func<T, bool> predicate = null)
+            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(ComponentAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate = null)
+            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(AllAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultDeclaringOrComponentAttribute<T>(Func<T, bool> predicate = null) where T : Attribute
+        public T GetFirstOrDefaultDeclaringOrComponentAttribute<T>(Func<T, bool> predicate = null)
+            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(DeclaringAttributes.Concat(ComponentAttributes), predicate);
         }
 
-        private T GetFirstOrDefaultAttribute<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null) where T : Attribute
+        private T GetFirstOrDefaultAttribute<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null)
+            where T : Attribute
         {
             var query = attributes.OfType<T>();
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);

@@ -28,7 +28,7 @@ namespace Atata
         /// Use the specified consumer for logging.
         /// </summary>
         /// <param name="consumer">The log consumer.</param>
-        /// <returns></returns>
+        /// <returns>The same <see cref="LogManager"/> instance.</returns>
         public LogManager Use(ILogConsumer consumer)
         {
             logConsumers.Add(consumer);
@@ -39,7 +39,7 @@ namespace Atata
         /// Use the specified screenshot consumer.
         /// </summary>
         /// <param name="consumer">The screenshot consumer.</param>
-        /// <returns></returns>
+        /// <returns>The same <see cref="LogManager"/> instance.</returns>
         public LogManager Use(IScreenshotConsumer consumer)
         {
             screenshotConsumers.Add(consumer);

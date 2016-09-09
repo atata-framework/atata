@@ -13,19 +13,12 @@ namespace Atata
         }
 
         public TimeSpan Timeout { get; set; }
+
         public TimeSpan RetryInterval { get; set; }
+
         public ElementVisibility Visibility { get; set; }
+
         public bool IsSafely { get; set; }
-
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
-
-        public SearchOptions Clone()
-        {
-            return (SearchOptions)MemberwiseClone();
-        }
 
         public static SearchOptions Safely(bool isSafely = true)
         {
@@ -60,6 +53,16 @@ namespace Atata
         public static SearchOptions Immediately()
         {
             return new SearchOptions { Timeout = TimeSpan.Zero };
+        }
+
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
+        public SearchOptions Clone()
+        {
+            return (SearchOptions)MemberwiseClone();
         }
     }
 }

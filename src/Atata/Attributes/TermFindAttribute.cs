@@ -66,6 +66,7 @@ namespace Atata
                 if (termAttribute != null)
                     return termAttribute.Values;
             }
+
             return new[] { GetTermFromProperty(metadata) };
         }
 

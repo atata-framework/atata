@@ -98,17 +98,22 @@ namespace Atata
 
             IEnumerable<TData> actualIndividualValues = null;
 
-            bool doesSatisfy = ATContext.Current.Driver.Try().Until(_ =>
-            {
-                actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
-                int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
-                return should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
-            }, should.Timeout, should.RetryInterval);
+            bool doesSatisfy = ATContext.Current.Driver.Try().Until(
+                _ =>
+                {
+                    actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
+                    int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
+                    return should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
+                },
+                should.Timeout,
+                should.RetryInterval);
 
             if (!doesSatisfy)
+            {
                 throw should.CreateAssertionException(
                     expectedMessage,
                     should.Component.ConvertIndividualValuesToString(actualIndividualValues, true));
+            }
 
             ATContext.Current.Log.EndSection();
 

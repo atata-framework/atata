@@ -86,6 +86,7 @@ namespace Atata
         protected virtual string BuildComponentFullName()
         {
             StringBuilder builder = new StringBuilder();
+
             if (Parent != null && !Parent.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>)))
             {
                 string parentFullName = Parent.ComponentFullName;
@@ -94,6 +95,7 @@ namespace Atata
                     Append(parentFullName.EndsWith("s") ? "'" : "'s").
                     Append(" ");
             }
+
             builder.AppendFormat("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component");
             return builder.ToString();
         }

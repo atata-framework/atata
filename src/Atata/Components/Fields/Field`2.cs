@@ -31,6 +31,21 @@ namespace Atata
 
         public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, Field<T, TOwner>, TOwner>(this);
 
+        public static explicit operator T(Field<T, TOwner> field)
+        {
+            return field.Get();
+        }
+
+        public static bool operator ==(Field<T, TOwner> field, T value)
+        {
+            return field == null ? Equals(value, null) : field.Equals(value);
+        }
+
+        public static bool operator !=(Field<T, TOwner> field, T value)
+        {
+            return !(field == value);
+        }
+
         protected abstract T GetValue();
 
         public T Get() => GetValue();
@@ -72,21 +87,6 @@ namespace Atata
         {
             T value = GetValue();
             return Equals(value, other);
-        }
-
-        public static bool operator ==(Field<T, TOwner> field, T value)
-        {
-            return field == null ? Equals(value, null) : field.Equals(value);
-        }
-
-        public static bool operator !=(Field<T, TOwner> field, T value)
-        {
-            return !(field == value);
-        }
-
-        public static explicit operator T(Field<T, TOwner> field)
-        {
-            return field.Get();
         }
 
         public override int GetHashCode()

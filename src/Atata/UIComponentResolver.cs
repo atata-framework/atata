@@ -162,7 +162,8 @@ namespace Atata
             }
         }
 
-        private static Delegate CreateDelegatePropertyDelegate<TOwner>(PropertyInfo property, UIComponent<TOwner> component) where TOwner : PageObject<TOwner>
+        private static Delegate CreateDelegatePropertyDelegate<TOwner>(PropertyInfo property, UIComponent<TOwner> component)
+            where TOwner : PageObject<TOwner>
         {
             Type navigableInterfaceType = component.GetType().GetGenericInterfaceType(typeof(INavigable<,>));
 
@@ -200,6 +201,7 @@ namespace Atata
                 Type[] genericArguments = delegateType.GetGenericArguments();
                 return controlGenericTypeDefinition.MakeGenericType(genericArguments);
             }
+
             return null;
         }
 
@@ -210,10 +212,12 @@ namespace Atata
             attributes = attributes?.Where(x => x != null).ToArray() ?? new Attribute[0];
 
             if (!attributes.OfType<NameAttribute>().Any())
+            {
                 attributes = attributes.Concat(new[]
                     {
                         new NameAttribute(name)
                     }).ToArray();
+            }
 
             UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(
                 name,

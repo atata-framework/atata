@@ -15,9 +15,9 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Initializes a new instance of the Atata.CheckBoxList`2 class.
+        /// Initializes a new instance of the <see cref="CheckBoxList{T, TOwner}"/> class.
         /// </summary>
-        /// <exception cref="InvalidOperationException">generic 'T'  parameter is not a Enum type.</exception>
+        /// <exception cref="InvalidOperationException">generic 'T'  parameter is not an Enum type.</exception>
         public CheckBoxList()
         {
             if (!typeof(T).IsEnum)
@@ -74,10 +74,12 @@ namespace Atata
             }
 
             if (individualValues.Any())
+            {
                 throw ExceptionFactory.CreateForNoSuchElement(
                     "Unable to locate element{0}: {1}.".FormatWith(
                         individualValues.Count > 1 ? "s" : null,
                         ConvertIndividualValuesToString(individualValues, true)));
+            }
         }
 
         /// <summary>
@@ -97,6 +99,7 @@ namespace Atata
                 Log.EndSection();
                 ExecuteTriggers(TriggerEvents.AfterSet);
             }
+
             return Owner;
         }
 
@@ -117,6 +120,7 @@ namespace Atata
                 Log.EndSection();
                 ExecuteTriggers(TriggerEvents.AfterSet);
             }
+
             return Owner;
         }
 

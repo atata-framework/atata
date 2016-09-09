@@ -32,6 +32,21 @@ namespace Atata
         public TimeSpan Timeout { get; set; }
         public TimeSpan RetryInterval { get; set; }
 
+        private static Func<IWebElement, bool> CreateVisibilityPredicate(ElementVisibility visibility)
+        {
+            switch (visibility)
+            {
+                case ElementVisibility.Visible:
+                    return x => x.Displayed;
+                case ElementVisibility.Invisible:
+                    return x => !x.Displayed;
+                case ElementVisibility.Any:
+                    return x => true;
+                default:
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue<ElementVisibility>(visibility, nameof(visibility));
+            }
+        }
+
         public IWebElement FindElement(By by)
         {
             return Find(by);
@@ -168,21 +183,6 @@ namespace Atata
             return Until(findFunction, options.Timeout, options.RetryInterval);
         }
 
-        private static Func<IWebElement, bool> CreateVisibilityPredicate(ElementVisibility visibility)
-        {
-            switch (visibility)
-            {
-                case ElementVisibility.Visible:
-                    return x => x.Displayed;
-                case ElementVisibility.Invisible:
-                    return x => !x.Displayed;
-                case ElementVisibility.Any:
-                    return x => true;
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue<ElementVisibility>(visibility, nameof(visibility));
-            }
-        }
-
         public TResult Until<TResult>(Func<T, TResult> condition, TimeSpan? timeout = null, TimeSpan? retryInterval = null)
         {
             if (condition == null)
@@ -242,17 +242,20 @@ namespace Atata
             Func<T, bool> findFunction = _ =>
             {
                 By[] currentByArray = leftBys.ToArray();
+
                 foreach (By by in currentByArray)
                 {
                     if (IsMissing(byContextPairs[by], by, byOptions[by]))
                         leftBys.Remove(by);
                 }
+
                 if (!leftBys.Any())
                 {
                     leftBys = byContextPairs.Keys.Except(currentByArray).Where(by => !IsMissing(byContextPairs[by], by, byOptions[by])).ToList();
                     if (!leftBys.Any())
                         return true;
                 }
+
                 return false;
             };
 

@@ -18,6 +18,15 @@ namespace Atata
         private static ATContext current;
 
         /// <summary>
+        /// Gets the current context.
+        /// </summary>
+        public static ATContext Current
+        {
+            get { return current; }
+            private set { current = value; }
+        }
+
+        /// <summary>
         /// Gets the build start date and time. Contains the same value for all the tests being executed within one build.
         /// </summary>
         public static DateTime? BuildStart { get; private set; }
@@ -55,15 +64,6 @@ namespace Atata
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
         {
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
-        }
-
-        /// <summary>
-        /// Gets the current test context.
-        /// </summary>
-        public static ATContext Current
-        {
-            get { return current; }
-            private set { current = value; }
         }
 
         public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string baseUrl = null)

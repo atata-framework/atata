@@ -24,11 +24,14 @@ namespace Atata
 
             TData actual = default(TData);
 
-            bool doesSatisfy = ATContext.Current.Driver.Try().Until(_ =>
-            {
-                actual = should.DataProvider.Get();
-                return predicate(actual) != should.IsNegation;
-            }, should.Timeout, should.RetryInterval);
+            bool doesSatisfy = ATContext.Current.Driver.Try().Until(
+                _ =>
+                {
+                    actual = should.DataProvider.Get();
+                    return predicate(actual) != should.IsNegation;
+                },
+                should.Timeout,
+                should.RetryInterval);
 
             if (!doesSatisfy)
                 throw CreateAssertionException(should, actual, message, args);

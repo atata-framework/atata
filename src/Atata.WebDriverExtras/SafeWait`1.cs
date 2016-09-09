@@ -17,7 +17,7 @@ namespace Atata
         private readonly List<Type> ignoredExceptions = new List<Type>();
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="SafeWait{T}"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
         public SafeWait(T input)
@@ -26,7 +26,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DefaultWait&lt;T&gt;"/> class.
+        /// Initializes a new instance of the <see cref="SafeWait{T}"/> class.
         /// </summary>
         /// <param name="input">The input value to pass to the evaluated conditions.</param>
         /// <param name="clock">The clock to use when measuring the timeout.</param>
@@ -144,15 +144,15 @@ namespace Atata
             if (typeof(TResult) == typeof(bool))
             {
                 var boolResult = result as bool?;
+
                 if (boolResult.HasValue && boolResult.Value)
-                {
                     return true;
-                }
             }
             else if (result != null && (!(result is IEnumerable) || ((IEnumerable)result).Cast<object>().Any()))
             {
                 return true;
             }
+
             return false;
         }
 

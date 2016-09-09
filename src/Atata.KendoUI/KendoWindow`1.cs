@@ -17,9 +17,11 @@ namespace Atata.KendoUI
                 "//div[contains(concat(' ', normalize-space(@class), ' '), ' k-window ')]");
 
             if (CanFindByWindowTitle)
+            {
                 xPathBuilder.AppendFormat(
                     "[.//*[contains(concat(' ', normalize-space(@class), ' '), ' k-window-title ')][{0}]]",
                     WindowTitleMatch.CreateXPathCondition(WindowTitleValues));
+            }
 
             return By.XPath(xPathBuilder.ToString()).PopupWindow(TermResolver.ToDisplayString(WindowTitleValues));
         }

@@ -1,5 +1,5 @@
-﻿using OpenQA.Selenium;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using OpenQA.Selenium;
 
 namespace Atata
 {

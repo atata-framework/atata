@@ -31,6 +31,22 @@ namespace Atata
         /// </summary>
         public ImageFormat ImageFormat { get; set; } = ImageFormat.Png;
 
+        protected static string SanitizeFileName(string name)
+        {
+            return Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c.ToString(), string.Empty));
+        }
+
+        private static string GetImageFormatExtension(ImageFormat format)
+        {
+            return ImageCodecInfo.GetImageEncoders().
+                First(x => x.FormatID == format.Guid).
+                FilenameExtension.
+                Split(';').
+                First().
+                TrimStart('*').
+                ToLower();
+        }
+
         private void Initialize()
         {
             if (folderPathCreator != null)
@@ -61,10 +77,10 @@ namespace Atata
         }
 
         /// <summary>
-        /// Builds the name of the file without extension.
+        /// Builds the name of the file without the extension.
         /// </summary>
         /// <param name="screenshotInfo">The screenshot information.</param>
-        /// <returns></returns>
+        /// <returns>The file name without the extension.</returns>
         protected virtual string BuildFileName(ScreenshotInfo screenshotInfo)
         {
             string fileName = $"{screenshotInfo.Number:D2} - {SanitizeFileName(screenshotInfo.PageObjectFullName)}";
@@ -72,22 +88,6 @@ namespace Atata
             return string.IsNullOrWhiteSpace(screenshotInfo.Title)
                 ? fileName
                 : string.Concat(fileName, $" - {SanitizeFileName(screenshotInfo.Title)}");
-        }
-
-        private string SanitizeFileName(string name)
-        {
-            return Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c.ToString(), string.Empty));
-        }
-
-        private static string GetImageFormatExtension(ImageFormat format)
-        {
-            return ImageCodecInfo.GetImageEncoders().
-                First(x => x.FormatID == format.Guid).
-                FilenameExtension.
-                Split(';').
-                First().
-                TrimStart('*').
-                ToLower();
         }
     }
 }
