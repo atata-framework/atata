@@ -8,6 +8,7 @@ namespace Atata
         public TriggerEvents Event { get; internal set; }
 
         public RemoteWebDriver Driver { get; internal set; }
+
         public ILogManager Log { get; internal set; }
 
         public IUIComponent<TOwner> Component { get; internal set; }

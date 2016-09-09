@@ -18,8 +18,11 @@ namespace Atata
         }
 
         public Type FinderAttributeType { get; private set; }
+
         public TermCase Case { get; set; }
+
         public new TermMatch Match { get; set; }
+
         public string Format { get; set; }
     }
 }

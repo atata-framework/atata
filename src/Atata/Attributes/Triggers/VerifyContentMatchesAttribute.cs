@@ -10,6 +10,7 @@
         }
 
         public new TermMatch Match { get; set; }
+
         public string[] Values { get; private set; }
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)

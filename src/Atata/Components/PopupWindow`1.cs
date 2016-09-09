@@ -12,6 +12,7 @@ namespace Atata
         }
 
         protected string[] WindowTitleValues { get; set; }
+
         protected TermMatch WindowTitleMatch { get; set; } = TermMatch.Equals;
 
         protected bool CanFindByWindowTitle

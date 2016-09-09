@@ -20,10 +20,16 @@ namespace Atata
         }
 
         protected internal UIComponent Owner { get; internal set; }
+
+        /// <summary>
+        /// Gets the parent componenent.
+        /// </summary>
         protected internal UIComponent Parent { get; internal set; }
+
         protected internal List<UIComponent> Children { get; private set; }
 
         protected internal ILogManager Log { get; internal set; }
+
         protected internal RemoteWebDriver Driver { get; internal set; }
 
         /// <summary>
@@ -37,9 +43,13 @@ namespace Atata
         public UIComponentCssProvider Css { get; private set; }
 
         protected internal ScopeSource ScopeSource { get; internal set; }
+
         protected internal IScopeLocator ScopeLocator { get; internal set; }
+
         protected internal bool CacheScopeElement { get; set; }
+
         protected internal string ComponentName { get; internal set; }
+
         protected internal string ComponentTypeName { get; internal set; }
 
         protected internal string ComponentFullName

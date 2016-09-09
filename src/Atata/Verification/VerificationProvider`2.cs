@@ -23,6 +23,7 @@ namespace Atata
         protected abstract TOwner Owner { get; }
 
         protected internal TimeSpan? Timeout { get; internal set; }
+
         protected internal TimeSpan? RetryInterval { get; internal set; }
 
         TimeSpan? IVerificationProvider<TOwner>.Timeout => Timeout;

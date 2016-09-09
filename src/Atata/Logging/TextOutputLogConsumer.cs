@@ -6,6 +6,7 @@ namespace Atata
     public abstract class TextOutputLogConsumer : ILogConsumer
     {
         public string Separator { get; set; } = " ";
+
         public string TimestampFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.ffff";
 
         public void Log(LogEventInfo eventInfo)

@@ -29,14 +29,21 @@ namespace Atata
         }
 
         public string Name { get; private set; }
+
         public Type ComponentType { get; private set; }
+
         public Type ParentComponentType { get; private set; }
+
         public Attribute[] DeclaringAttributes { get; private set; }
+
         public Attribute[] ComponentAttributes { get; private set; }
+
         public Attribute[] ParentComponentAttributes { get; private set; }
+
         public Attribute[] AssemblyAttributes { get; private set; }
 
         public Attribute[] GlobalAttributes { get; private set; }
+
         public Attribute[] AllAttributes { get; private set; }
 
         public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }

@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Atata
 {
     public static class FindTermByExtensions

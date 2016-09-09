@@ -30,6 +30,7 @@ namespace Atata
         public T Context { get; private set; }
 
         public TimeSpan Timeout { get; set; }
+
         public TimeSpan RetryInterval { get; set; }
 
         private static Func<IWebElement, bool> CreateVisibilityPredicate(ElementVisibility visibility)

@@ -23,7 +23,9 @@ namespace Atata
         }
 
         public decimal Min { get; private set; }
+
         public decimal Max { get; private set; }
+
         public int Precision { get; private set; }
     }
 }

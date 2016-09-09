@@ -62,6 +62,7 @@ namespace Atata.TermFormatting
             }
 
             public ITermFormatter Formatter { get; private set; }
+
             public string StringFormat { get; private set; }
 
             public static FormatterItem For<T>(string stringFormat = null)

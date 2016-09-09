@@ -4,6 +4,7 @@
         where TOwner : PageObject<TOwner>
     {
         DataProvider<string, TOwner> PageTitle { get; }
+
         DataProvider<string, TOwner> PageUrl { get; }
     }
 }

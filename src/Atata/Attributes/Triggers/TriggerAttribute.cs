@@ -13,7 +13,9 @@ namespace Atata
         }
 
         public TriggerEvents On { get; set; }
+
         public TriggerPriority Priority { get; set; }
+
         public TriggerScope AppliesTo { get; set; }
 
         public virtual void ApplyMetadata(UIComponentMetadata metadata)

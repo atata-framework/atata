@@ -4,8 +4,11 @@
         where TOwner : PageObject<TOwner>
     {
         UIComponent Component { get; }
+
         string ProviderName { get; }
+
         TOwner Owner { get; }
+
         TData Value { get; }
 
         // TODO: Extract ValueTermOptions to another interface.

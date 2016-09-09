@@ -10,8 +10,11 @@ namespace Atata
         }
 
         public TermCase Case { get; set; }
+
         public TermMatch Match { get; set; }
+
         public string Format { get; set; }
+
         public CultureInfo Culture { get; set; }
 
         public static TermOptions CreateDefault()

@@ -12,6 +12,7 @@ namespace Atata
         }
 
         public Type ComponentType { get; private set; }
+
         public string Value { get; private set; }
     }
 }

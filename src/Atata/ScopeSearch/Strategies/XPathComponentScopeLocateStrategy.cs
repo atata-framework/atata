@@ -26,6 +26,7 @@ namespace Atata
         }
 
         protected XPathPrefixKind XPathPrefix { get; private set; }
+
         protected IndexUsage UseIndex { get; private set; }
 
         public virtual ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)

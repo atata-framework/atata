@@ -384,6 +384,7 @@ namespace Atata
         private class TermConverter
         {
             public Func<string, TermOptions, object> FromStringConverter { get; set; }
+
             public Func<object, TermOptions, string> ToStringConverter { get; set; }
         }
     }

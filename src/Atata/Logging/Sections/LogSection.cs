@@ -11,7 +11,9 @@ namespace Atata
         }
 
         public string Message { get; protected set; }
+
         public LogLevel Level { get; protected set; }
+
         public DateTime StartedAt { get; internal set; }
 
         public TimeSpan GetDuration()

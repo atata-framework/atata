@@ -6,8 +6,11 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         bool IsNegation { get; }
+
         TOwner Owner { get; }
+
         TimeSpan? Timeout { get; }
+
         TimeSpan? RetryInterval { get; }
 
         string GetShouldText();

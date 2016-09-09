@@ -13,7 +13,9 @@ namespace Atata
         }
 
         public string XPath { get; private set; }
+
         public IWebElement ScopeSource { get; private set; }
+
         public SearchOptions SearchOptions { get; private set; }
 
         public IWebElement Get(string xPathCondition = null)

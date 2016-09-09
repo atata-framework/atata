@@ -12,6 +12,7 @@ namespace Atata
         }
 
         public string Format { get; private set; }
+
         public int NumberOfCharacters { get; private set; }
     }
 }

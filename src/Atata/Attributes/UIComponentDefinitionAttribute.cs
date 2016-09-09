@@ -26,7 +26,9 @@ namespace Atata
         }
 
         public string ComponentTypeName { get; set; }
+
         public string IgnoreNameEndings { get; set; }
+
         public string ContainingClass { get; set; }
 
         public string[] GetIgnoreNameEndingValues()

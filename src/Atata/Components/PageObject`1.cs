@@ -16,11 +16,13 @@ namespace Atata
         }
 
         protected internal bool NavigateOnInit { get; internal set; }
+
         protected bool IsTemporarilyNavigated { get; private set; }
 
         protected UIComponent PreviousPageObject { get; private set; }
 
         public DataProvider<string, T> PageTitle => GetOrCreateDataProvider("title", GetTitle);
+
         public DataProvider<string, T> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 
         private string GetTitle()

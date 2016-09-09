@@ -11,6 +11,7 @@ namespace Atata
         }
 
         public By By { get; private set; }
+
         public ScopeSource ScopeSource { get; set; }
 
         public override void Execute<TOwner>(TriggerContext<TOwner> context)

@@ -11,6 +11,7 @@ namespace Atata
         }
 
         public RemoteWebDriver Driver { get; set; }
+
         public ILogManager Logger { get; set; }
     }
 }

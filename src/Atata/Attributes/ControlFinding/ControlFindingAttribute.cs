@@ -18,7 +18,9 @@ namespace Atata
         }
 
         public Type FindAttributeType { get; private set; }
+
         public Type ControlType { get; set; }
+
         public Type ParentComponentType { get; set; }
 
         public FindAttribute CreateFindAttribute()

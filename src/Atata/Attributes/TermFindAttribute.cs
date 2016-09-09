@@ -34,9 +34,13 @@ namespace Atata
         }
 
         public string[] Values { get; private set; }
+
         public TermCase Case { get; private set; }
+
         public new TermMatch Match { get; set; }
+
         public string Format { get; set; }
+
         public bool CutEnding { get; set; }
 
         protected abstract TermCase DefaultCase { get; }
