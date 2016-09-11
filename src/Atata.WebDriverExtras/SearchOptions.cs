@@ -9,7 +9,7 @@ namespace Atata
             Timeout = RetrySettings.Timeout;
             RetryInterval = RetrySettings.RetryInterval;
             Visibility = ElementVisibility.Visible;
-            IsSafely = true;
+            IsSafely = false;
         }
 
         public TimeSpan Timeout { get; set; }

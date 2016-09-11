@@ -102,12 +102,7 @@ namespace Atata
                 {
                     IWebElement[] nextScopeSources = scopeSource.GetAll(sequalResult.ScopeSourceBy.With(searchOptions)).ToArray();
 
-                    SearchOptions nextSearchOptions = new SearchOptions
-                    {
-                        IsSafely = true,
-                        Timeout = TimeSpan.Zero,
-                        Visibility = searchOptions.Visibility
-                    };
+                    SearchOptions nextSearchOptions = SearchOptions.SafelyAndImmediately();
 
                     var results = nextScopeSources.
                         Select(nextScopeSource => sequalResult.Strategy.Find(nextScopeSource, nextScopeLocateOptions, nextSearchOptions)).

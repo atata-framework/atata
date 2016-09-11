@@ -276,7 +276,7 @@ namespace Atata
                 PollingInterval = retryInterval
             };
 
-            wait.IgnoreExceptionTypes(typeof(StaleElementReferenceException), typeof(NotFoundException));
+            ////wait.IgnoreExceptionTypes(typeof(StaleElementReferenceException), typeof(NotFoundException));
 
             return wait;
         }

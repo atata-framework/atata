@@ -33,11 +33,13 @@ namespace Atata
             return contextToSearchIn.Missing(by);
         }
 
-        private static ExtendedSearchContext<T> ResolveContext<T>(this T searchContext)
+        private static IExtendedSearchContext ResolveContext<T>(this T searchContext)
             where T : ISearchContext
         {
-            if (typeof(T).IsSubclassOfRawGeneric(typeof(ExtendedSearchContext<>)))
-                return (ExtendedSearchContext<T>)(object)searchContext;
+            searchContext.CheckNotNull(nameof(searchContext));
+
+            if (searchContext.GetType().IsSubclassOfRawGeneric(typeof(ExtendedSearchContext<>)))
+                return (IExtendedSearchContext)searchContext;
             else
                 return new ExtendedSearchContext<T>(searchContext);
         }

@@ -16,7 +16,7 @@ namespace Atata
             this.by = byAsExtended?.by ?? by;
             Description = this.by.ToString();
 
-            Options = byAsExtended?.Options?.Clone() ?? SearchOptions.Safely();
+            Options = byAsExtended?.Options?.Clone() ?? SearchOptions.Unsafely();
 
             if (byAsExtended != null)
             {
