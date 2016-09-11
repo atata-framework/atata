@@ -49,7 +49,7 @@ namespace Atata
                 return $@"Tag: {element.TagName}
 Location: {element.Location}
 Size: {element.Size}
-Text: {element.Text}";
+Text: {element.Text.Trim()}";
             }
             catch
             {
