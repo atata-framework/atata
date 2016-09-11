@@ -23,7 +23,7 @@ namespace Atata
             searchOptions = searchOptions ?? SearchOptions.Unsafely();
 
             XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
-            if (xPathResults.Any())
+            if (xPathResults != null && xPathResults.Any())
             {
                 IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).FirstOrDefault(x => x != null);
                 if (element == null && !searchOptions.IsSafely)
