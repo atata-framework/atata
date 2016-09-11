@@ -11,11 +11,18 @@ namespace Atata
         {
             by.CheckNotNull(nameof(by));
 
-            this.by = (by as ExtendedBy)?.by ?? by;
+            ExtendedBy byAsExtended = by as ExtendedBy;
 
-            Options = (by as ExtendedBy)?.Options?.Clone() ?? SearchOptions.Safely();
-
+            this.by = byAsExtended?.by ?? by;
             Description = this.by.ToString();
+
+            Options = byAsExtended?.Options?.Clone() ?? SearchOptions.Safely();
+
+            if (byAsExtended != null)
+            {
+                ElementName = byAsExtended.ElementName;
+                ElementKind = byAsExtended.ElementKind;
+            }
         }
 
         internal string ElementName { get; set; }
