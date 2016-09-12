@@ -28,15 +28,16 @@ namespace Atata
         /// Use the specified consumer for logging.
         /// </summary>
         /// <param name="consumer">The log consumer.</param>
-        /// <param name="logSectionEnd">If set to <c>true</c> logs section end messages with elapsed time span.</param>
+        /// <param name="minLevel">The minimum level of the log message.</param>
+        /// <param name="logSectionEnd">If set to <c>true</c> logs the section end messages with elapsed time span.</param>
         /// <returns>
         /// The same <see cref="LogManager" /> instance.
         /// </returns>
-        public LogManager Use(ILogConsumer consumer, bool logSectionEnd = true)
+        public LogManager Use(ILogConsumer consumer, LogLevel minLevel = LogLevel.Trace, bool logSectionEnd = true)
         {
             consumer.CheckNotNull(nameof(consumer));
 
-            LogConsumerInfo consumerInfo = new LogConsumerInfo(consumer, logSectionEnd);
+            LogConsumerInfo consumerInfo = new LogConsumerInfo(consumer, minLevel, logSectionEnd);
             logConsumers.Add(consumerInfo);
             return this;
         }
@@ -161,7 +162,12 @@ namespace Atata
 
         private void Log(LogEventInfo eventInfo, bool? withLogSectionEnd = null)
         {
-            foreach (ILogConsumer logConsumer in logConsumers.Where(x => withLogSectionEnd == null || x.LogSectionEnd == withLogSectionEnd).Select(x => x.Consumer))
+            var appropriateConsumers = logConsumers.
+                Where(x => eventInfo.Level >= x.MinLevel).
+                Where(x => withLogSectionEnd == null || x.LogSectionEnd == withLogSectionEnd).
+                Select(x => x.Consumer);
+
+            foreach (ILogConsumer logConsumer in appropriateConsumers)
                 logConsumer.Log(eventInfo);
         }
 
@@ -210,13 +216,16 @@ namespace Atata
 
         private class LogConsumerInfo
         {
-            public LogConsumerInfo(ILogConsumer consumer, bool logSectionEnd)
+            public LogConsumerInfo(ILogConsumer consumer, LogLevel minLevel, bool logSectionEnd)
             {
                 Consumer = consumer;
                 LogSectionEnd = logSectionEnd;
+                MinLevel = minLevel;
             }
 
             public ILogConsumer Consumer { get; private set; }
+
+            public LogLevel MinLevel { get; set; }
 
             public bool LogSectionEnd { get; set; }
         }
