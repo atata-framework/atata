@@ -12,7 +12,7 @@ namespace Atata
     /// <seealso cref="Atata.ILogManager" />
     public class LogManager : ILogManager
     {
-        private readonly List<ILogConsumer> logConsumers = new List<ILogConsumer>();
+        private readonly List<LogConsumerInfo> logConsumers = new List<LogConsumerInfo>();
         private readonly List<IScreenshotConsumer> screenshotConsumers = new List<IScreenshotConsumer>();
 
         private readonly Stack<LogSection> sectionEndStack = new Stack<LogSection>();
@@ -28,10 +28,16 @@ namespace Atata
         /// Use the specified consumer for logging.
         /// </summary>
         /// <param name="consumer">The log consumer.</param>
-        /// <returns>The same <see cref="LogManager"/> instance.</returns>
-        public LogManager Use(ILogConsumer consumer)
+        /// <param name="logSectionEnd">If set to <c>true</c> logs section end messages with elapsed time span.</param>
+        /// <returns>
+        /// The same <see cref="LogManager" /> instance.
+        /// </returns>
+        public LogManager Use(ILogConsumer consumer, bool logSectionEnd = true)
         {
-            logConsumers.Add(consumer);
+            consumer.CheckNotNull(nameof(consumer));
+
+            LogConsumerInfo consumerInfo = new LogConsumerInfo(consumer, logSectionEnd);
+            logConsumers.Add(consumerInfo);
             return this;
         }
 
@@ -42,6 +48,8 @@ namespace Atata
         /// <returns>The same <see cref="LogManager"/> instance.</returns>
         public LogManager Use(IScreenshotConsumer consumer)
         {
+            consumer.CheckNotNull(nameof(consumer));
+
             screenshotConsumers.Add(consumer);
             return this;
         }
@@ -100,16 +108,22 @@ namespace Atata
         /// </example>
         public void Start(LogSection section)
         {
+            section.CheckNotNull(nameof(section));
+
             LogEventInfo eventInfo = new LogEventInfo
             {
                 Level = section.Level,
-                Message = $"Starting: {section.Message}",
+                Message = section.Message,
                 SectionStart = section
             };
 
             section.StartedAt = eventInfo.Timestamp;
 
-            Log(eventInfo);
+            Log(eventInfo, false);
+
+            eventInfo.Message = $"Starting: {eventInfo.Message}";
+
+            Log(eventInfo, true);
 
             sectionEndStack.Push(section);
         }
@@ -132,7 +146,7 @@ namespace Atata
                     SectionEnd = section
                 };
 
-                Log(eventInfo);
+                Log(eventInfo, true);
             }
         }
 
@@ -145,9 +159,9 @@ namespace Atata
             });
         }
 
-        private void Log(LogEventInfo eventInfo)
+        private void Log(LogEventInfo eventInfo, bool? withLogSectionEnd = null)
         {
-            foreach (ILogConsumer logConsumer in logConsumers)
+            foreach (ILogConsumer logConsumer in logConsumers.Where(x => withLogSectionEnd == null || x.LogSectionEnd == withLogSectionEnd).Select(x => x.Consumer))
                 logConsumer.Log(eventInfo);
         }
 
@@ -192,6 +206,19 @@ namespace Atata
             {
                 Error("Screenshot failed", e);
             }
+        }
+
+        private class LogConsumerInfo
+        {
+            public LogConsumerInfo(ILogConsumer consumer, bool logSectionEnd)
+            {
+                Consumer = consumer;
+                LogSectionEnd = logSectionEnd;
+            }
+
+            public ILogConsumer Consumer { get; private set; }
+
+            public bool LogSectionEnd { get; set; }
         }
     }
 }
