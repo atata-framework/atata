@@ -70,6 +70,11 @@ namespace Atata
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
         }
 
+        public static AtataContextBuilder Build()
+        {
+            return new AtataContextBuilder(new AtataBuildingContext());
+        }
+
         public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string baseUrl = null)
         {
             if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))

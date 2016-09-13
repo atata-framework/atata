@@ -29,15 +29,19 @@ namespace Atata
         /// </summary>
         /// <param name="consumer">The log consumer.</param>
         /// <param name="minLevel">The minimum level of the log message.</param>
-        /// <param name="logSectionEnd">If set to <c>true</c> logs the section end messages with elapsed time span.</param>
+        /// <param name="logSectionFinish">If set to <c>true</c> logs the section finish messages with elapsed time span.</param>
         /// <returns>
         /// The same <see cref="LogManager" /> instance.
         /// </returns>
-        public LogManager Use(ILogConsumer consumer, LogLevel minLevel = LogLevel.Trace, bool logSectionEnd = true)
+        public LogManager Use(ILogConsumer consumer, LogLevel minLevel = LogLevel.Trace, bool logSectionFinish = true)
         {
             consumer.CheckNotNull(nameof(consumer));
 
-            LogConsumerInfo consumerInfo = new LogConsumerInfo(consumer, minLevel, logSectionEnd);
+            return Use(new LogConsumerInfo(consumer, minLevel, logSectionFinish));
+        }
+
+        internal LogManager Use(LogConsumerInfo consumerInfo)
+        {
             logConsumers.Add(consumerInfo);
             return this;
         }
@@ -164,7 +168,7 @@ namespace Atata
         {
             var appropriateConsumers = logConsumers.
                 Where(x => eventInfo.Level >= x.MinLevel).
-                Where(x => withLogSectionEnd == null || x.LogSectionEnd == withLogSectionEnd).
+                Where(x => withLogSectionEnd == null || x.LogSectionFinish == withLogSectionEnd).
                 Select(x => x.Consumer);
 
             foreach (ILogConsumer logConsumer in appropriateConsumers)
@@ -212,22 +216,6 @@ namespace Atata
             {
                 Error("Screenshot failed", e);
             }
-        }
-
-        private class LogConsumerInfo
-        {
-            public LogConsumerInfo(ILogConsumer consumer, LogLevel minLevel, bool logSectionEnd)
-            {
-                Consumer = consumer;
-                LogSectionEnd = logSectionEnd;
-                MinLevel = minLevel;
-            }
-
-            public ILogConsumer Consumer { get; private set; }
-
-            public LogLevel MinLevel { get; set; }
-
-            public bool LogSectionEnd { get; set; }
         }
     }
 }

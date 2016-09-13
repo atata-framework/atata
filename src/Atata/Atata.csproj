@@ -60,10 +60,15 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Context\AtataBuildingContext.cs" />
+    <Compile Include="Context\AtataContextBuilder.cs" />
     <Compile Include="Components\UIComponentAttributeProvider.cs" />
     <Compile Include="Components\UIComponentCssProvider.cs" />
+    <Compile Include="Context\AtataContextBuilderExtensions.cs" />
+    <Compile Include="Context\AtataContextBuilder`1.cs" />
     <Compile Include="Logging\FileScreenshotConsumer.cs" />
     <Compile Include="Logging\IScreenshotConsumer.cs" />
+    <Compile Include="Logging\LogConsumerInfo.cs" />
     <Compile Include="Logging\ScreenshotInfo.cs" />
     <Compile Include="Logging\Sections\DataAdditionLogSection.cs" />
     <Compile Include="Logging\Sections\DataClearingLogSection.cs" />
@@ -240,7 +245,7 @@
     <Compile Include="Components\IUIComponent`1.cs" />
     <Compile Include="Components\LinkControl`1.cs" />
     <Compile Include="Components\LinkControl`2.cs" />
-    <Compile Include="AtataContext.cs" />
+    <Compile Include="Context\AtataContext.cs" />
     <Compile Include="Components\TableRow`1.cs" />
     <Compile Include="Components\Table`2.cs" />
     <Compile Include="Components\Fields\Content\Text`1.cs" />
