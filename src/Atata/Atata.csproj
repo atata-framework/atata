@@ -66,6 +66,13 @@
     <Compile Include="Components\UIComponentCssProvider.cs" />
     <Compile Include="Context\AtataContextBuilderExtensions.cs" />
     <Compile Include="Context\AtataContextBuilder`1.cs" />
+    <Compile Include="Context\ChromeAtataContextBuilder.cs" />
+    <Compile Include="Context\EdgeAtataContextBuilder.cs" />
+    <Compile Include="Context\FirefoxAtataContextBuilder.cs" />
+    <Compile Include="Context\InternetExplorerAtataContextBuilder.cs" />
+    <Compile Include="Context\OperaAtataContextBuilder.cs" />
+    <Compile Include="Context\PhantomJSAtataContextBuilder.cs" />
+    <Compile Include="Context\SafariAtataContextBuilder.cs" />
     <Compile Include="Logging\FileScreenshotConsumer.cs" />
     <Compile Include="Logging\IScreenshotConsumer.cs" />
     <Compile Include="Logging\LogConsumerInfo.cs" />
@@ -364,6 +371,7 @@
   <ItemGroup>
     <None Include="..\Atata.ruleset">
       <Link>Properties\Atata.ruleset</Link>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>

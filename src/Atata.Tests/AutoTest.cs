@@ -15,13 +15,24 @@ namespace Atata.Tests
             var log = new LogManager().
                 Use(new NUnitTestContextLogConsumer());
 
-            string startUrl = ConfigurationManager.AppSettings["TestAppUrl"];
+            string baseUrl = ConfigurationManager.AppSettings["TestAppUrl"];
+
+            AtataContext.Build().
+                UseChrome().
+                    WithArguments("disable-extensions", "no-sandbox", "start-maximized").
+                UseBaseUrl(baseUrl).
+                UseNUnitTestName().
+                UseNUnitTestContextLogging().
+                    WithMinLevel(LogLevel.Info).
+                    WithoutSectionFinish().
+                UseNLogLogging().
+                SetUp();
 
             AtataContext.SetUp(
                 CreateChromeDriver,
                 log,
                 TestContext.CurrentContext.Test.Name,
-                startUrl);
+                baseUrl);
 
             OnSetUp();
         }

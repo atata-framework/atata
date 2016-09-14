@@ -4,6 +4,51 @@ namespace Atata
 {
     public static class AtataContextBuilderExtensions
     {
+        public static ChromeAtataContextBuilder UseChrome(this AtataContextBuilder builder)
+        {
+            return new ChromeAtataContextBuilder(builder.BuildingContext);
+        }
+
+        public static FirefoxAtataContextBuilder UseFirefox(this AtataContextBuilder builder)
+        {
+            return new FirefoxAtataContextBuilder(builder.BuildingContext);
+        }
+
+        public static InternetExplorerAtataContextBuilder UseInternetExplorer(this AtataContextBuilder builder)
+        {
+            return new InternetExplorerAtataContextBuilder(builder.BuildingContext);
+        }
+
+        public static EdgeAtataContextBuilder UseEdge(this AtataContextBuilder builder)
+        {
+            return new EdgeAtataContextBuilder(builder.BuildingContext);
+        }
+
+        public static OperaAtataContextBuilder UseOpera(this AtataContextBuilder builder)
+        {
+            return new OperaAtataContextBuilder(builder.BuildingContext);
+        }
+
+        public static PhantomJSAtataContextBuilder UsePhantomJS(this AtataContextBuilder builder)
+        {
+            return new PhantomJSAtataContextBuilder(builder.BuildingContext);
+        }
+
+        public static SafariAtataContextBuilder UseSafari(this AtataContextBuilder builder)
+        {
+            return new SafariAtataContextBuilder(builder.BuildingContext);
+        }
+
+        public static ChromeAtataContextBuilder WithArguments(this ChromeAtataContextBuilder builder, params string[] arguments)
+        {
+            return builder.WithOptions(options => options.AddArguments(arguments));
+        }
+
+        public static OperaAtataContextBuilder WithArguments(this OperaAtataContextBuilder builder, params string[] arguments)
+        {
+            return builder.WithOptions(options => options.AddArguments(arguments));
+        }
+
         public static AtataContextBuilder UseNUnitTestName(this AtataContextBuilder builder)
         {
             return builder.UseTestName(null);

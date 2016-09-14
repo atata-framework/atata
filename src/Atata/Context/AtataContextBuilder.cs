@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -10,6 +11,14 @@ namespace Atata
         }
 
         public AtataBuildingContext BuildingContext { get; internal set; }
+
+        public AtataContextBuilder UseDriver(Func<RemoteWebDriver> driverCreator)
+        {
+            driverCreator.CheckNotNull(nameof(driverCreator));
+
+            BuildingContext.DriverCreator = driverCreator;
+            return this;
+        }
 
         public AtataContextBuilder<TLogConsumer> UseLogConsumer<TLogConsumer>(TLogConsumer consumer)
             where TLogConsumer : ILogConsumer
