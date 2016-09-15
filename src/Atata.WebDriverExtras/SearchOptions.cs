@@ -61,6 +61,16 @@ namespace Atata
             return new SearchOptions { Timeout = timeout, RetryInterval = retryInterval };
         }
 
+        public static SearchOptions WithRetry(double timeoutSeconds)
+        {
+            return new SearchOptions { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
+        }
+
+        public static SearchOptions WithRetry(double timeoutSeconds, double retryIntervalSeconds)
+        {
+            return new SearchOptions { Timeout = TimeSpan.FromSeconds(timeoutSeconds), RetryInterval = TimeSpan.FromSeconds(retryIntervalSeconds) };
+        }
+
         public static SearchOptions Immediately()
         {
             return new SearchOptions { Timeout = TimeSpan.Zero };
