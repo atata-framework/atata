@@ -9,12 +9,14 @@ namespace Atata
     /// <summary>
     /// Represents the Atata context, the entry point for the test set-up.
     /// </summary>
-    public sealed class AtataContext
+    public sealed class AtataContext : IDisposable
     {
         private static readonly object LockObject = new object();
 
         [ThreadStatic]
         private static AtataContext current;
+
+        private bool disposed;
 
         internal AtataContext()
         {
@@ -99,37 +101,55 @@ namespace Atata
         }
 
         /// <summary>
-        /// Cleans up current test context.
+        /// Cleans up the test context.
         /// </summary>
-        public static void CleanUp()
+        /// <param name="quitDriver">if set to <c>true</c> quits WebDriver.</param>
+        public void CleanUp(bool quitDriver = true)
         {
-            if (Current != null)
+            if (disposed)
+                return;
+
+            TimeSpan cleanTestExecutionTime = DateTime.Now - CleanExecutionStartDateTime;
+
+            Log.Start("Clean-up test context");
+
+            if (quitDriver)
             {
-                TimeSpan cleanTestExecutionTime = DateTime.Now - Current.CleanExecutionStartDateTime;
-
-                Current.Log.Start("Clean-up test context");
-
-                Current.Driver.Quit();
-                Current.CleanUpTemporarilyPreservedPageObjectList();
-
-                if (Current.PageObject != null)
-                    UIComponentResolver.CleanUpPageObject(Current.PageObject);
-
-                Current.Log.EndSection();
-
-                TimeSpan testExecutionTime = DateTime.Now - Current.TestStart;
-                Current.Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
-                Current.Log.InfoWithExecutionTime("Сlean test execution time: ", cleanTestExecutionTime);
-
-                Current.Log = null;
-                Current = null;
+                Driver.Quit();
+                Driver.Dispose();
             }
+
+            CleanUpTemporarilyPreservedPageObjectList();
+
+            if (PageObject != null)
+                UIComponentResolver.CleanUpPageObject(PageObject);
+
+            Log.EndSection();
+
+            TimeSpan testExecutionTime = DateTime.Now - TestStart;
+            Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
+            Log.InfoWithExecutionTime("Сlean test execution time: ", cleanTestExecutionTime);
+
+            Log = null;
+
+            if (Current == this)
+                Current = null;
+
+            disposed = true;
         }
 
         internal void CleanUpTemporarilyPreservedPageObjectList()
         {
             UIComponentResolver.CleanUpPageObjects(TemporarilyPreservedPageObjects);
             TemporarilyPreservedPageObjectList.Clear();
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        public void Dispose()
+        {
+            CleanUp();
         }
     }
 }

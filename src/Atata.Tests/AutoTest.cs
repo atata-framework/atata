@@ -36,7 +36,7 @@ namespace Atata.Tests
             if (testResult.Outcome.Status == TestStatus.Failed)
                 AtataContext.Current.Log.Error(testResult.Message, testResult.StackTrace);
 
-            AtataContext.CleanUp();
+            AtataContext.Current.CleanUp();
         }
 
         protected void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
