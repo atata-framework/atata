@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
 
@@ -80,6 +81,22 @@ namespace Atata
         public static AtataContextBuilder<ILogConsumer> UseNLogLogging(this AtataContextBuilder builder, string loggerName = null)
         {
             return builder.UseLogConsumer<ILogConsumer>(new NLogConsumer(loggerName));
+        }
+
+        public static AtataContextBuilder<FileScreenshotConsumer> UseScreenshotFileSaving(this AtataContextBuilder builder, string folderPath)
+        {
+            return builder.UseScreenshotConsumer(new FileScreenshotConsumer(folderPath));
+        }
+
+        public static AtataContextBuilder<FileScreenshotConsumer> UseScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathCreator)
+        {
+            return builder.UseScreenshotConsumer(new FileScreenshotConsumer(folderPathCreator));
+        }
+
+        public static AtataContextBuilder<FileScreenshotConsumer> With(this AtataContextBuilder<FileScreenshotConsumer> builder, ImageFormat imageFormat)
+        {
+            builder.Context.ImageFormat = imageFormat;
+            return builder;
         }
 
         public static AtataContextBuilder<T> WithoutSectionFinish<T>(this AtataContextBuilder<T> builder)
