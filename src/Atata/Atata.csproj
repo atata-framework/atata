@@ -269,7 +269,6 @@
     <Compile Include="Extensions\CheckExtensions.cs" />
     <Compile Include="Extensions\ObjectExtensions.cs" />
     <Compile Include="Extensions\ScopeSourceExtensions.cs" />
-    <Compile Include="Extensions\SearchOptionsExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\FindTermByExtensions.cs" />
     <Compile Include="Extensions\TermCaseExtensions.cs" />
