@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
 namespace Atata
@@ -44,15 +45,43 @@ namespace Atata
             return this;
         }
 
-        public AtataContextBuilder UseBaseUrl(string url)
+        public AtataContextBuilder UseBaseUrl(string baseUrl)
         {
-            BuildingContext.BaseUrl = url;
+            if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
+                throw new ArgumentException($"Invalid URL format \"{baseUrl}\".", nameof(baseUrl));
+
+            BuildingContext.BaseUrl = baseUrl;
             return this;
         }
 
         public void SetUp()
         {
-            throw new NotImplementedException();
+            AtataContext.InitGlobalVariables();
+
+            LogManager logManager = new LogManager();
+
+            foreach (var logConsumerItem in BuildingContext.LogConsumers)
+                logManager.Use(logConsumerItem.Consumer, logConsumerItem.MinLevel, logConsumerItem.LogSectionFinish);
+
+            foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
+                logManager.Use(screenshotConsumer);
+
+            AtataContext context = new AtataContext
+            {
+                TestName = BuildingContext.TestName,
+                BaseUrl = BuildingContext.BaseUrl,
+                Log = logManager
+            };
+
+            AtataContext.Current = context;
+
+            context.LogTestStart();
+
+            context.Log.Start("Init WebDriver");
+            context.Driver = BuildingContext.DriverCreator?.Invoke() ?? new FirefoxDriver();
+            context.Log.EndSection();
+
+            context.CleanExecutionStartDateTime = DateTime.Now;
         }
     }
 }

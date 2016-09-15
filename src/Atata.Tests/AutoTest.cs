@@ -1,8 +1,6 @@
 ﻿using System.Configuration;
 using NUnit.Framework;
 using NUnit.Framework.Interfaces;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 
 namespace Atata.Tests
 {
@@ -12,9 +10,6 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-            var log = new LogManager().
-                Use(new NUnitTestContextLogConsumer());
-
             string baseUrl = ConfigurationManager.AppSettings["TestAppUrl"];
 
             AtataContext.Build().
@@ -25,24 +20,9 @@ namespace Atata.Tests
                 UseNUnitTestContextLogging().
                     WithMinLevel(LogLevel.Info).
                     WithoutSectionFinish().
-                UseNLogLogging().
                 SetUp();
 
-            AtataContext.SetUp(
-                CreateChromeDriver,
-                log,
-                TestContext.CurrentContext.Test.Name,
-                baseUrl);
-
             OnSetUp();
-        }
-
-        private RemoteWebDriver CreateChromeDriver()
-        {
-            ChromeOptions options = new ChromeOptions();
-            options.AddArguments("disable-extensions", "no-sandbox", "start-maximized");
-
-            return new ChromeDriver(options);
         }
 
         protected virtual void OnSetUp()

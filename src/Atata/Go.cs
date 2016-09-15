@@ -56,7 +56,7 @@ namespace Atata
             where T : PageObject<T>
         {
             if (AtataContext.Current == null)
-                AtataContext.SetUp();
+                AtataContext.Build().SetUp();
 
             if (AtataContext.Current.PageObject == null)
             {
@@ -84,7 +84,7 @@ namespace Atata
         public static void ToUrl(string url)
         {
             if (AtataContext.Current == null)
-                AtataContext.SetUp();
+                AtataContext.Build().SetUp();
 
             Uri absoluteUri;
 

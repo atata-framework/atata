@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
 namespace Atata
@@ -17,7 +16,7 @@ namespace Atata
         [ThreadStatic]
         private static AtataContext current;
 
-        private AtataContext()
+        internal AtataContext()
         {
         }
 
@@ -27,7 +26,7 @@ namespace Atata
         public static AtataContext Current
         {
             get { return current; }
-            private set { current = value; }
+            internal set { current = value; }
         }
 
         /// <summary>
@@ -38,32 +37,32 @@ namespace Atata
         /// <summary>
         /// Gets the driver.
         /// </summary>
-        public RemoteWebDriver Driver { get; private set; }
+        public RemoteWebDriver Driver { get; internal set; }
 
         /// <summary>
         /// Gets the instance of the log manager.
         /// </summary>
-        public ILogManager Log { get; private set; }
+        public ILogManager Log { get; internal set; }
 
         /// <summary>
         /// Gets the name of the test.
         /// </summary>
-        public string TestName { get; private set; }
+        public string TestName { get; internal set; }
 
         /// <summary>
         /// Gets the test start date and time.
         /// </summary>
-        public DateTime TestStart { get; private set; }
+        public DateTime TestStart { get; private set; } = DateTime.Now;
 
-        public string BaseUrl { get; private set; }
+        public string BaseUrl { get; internal set; }
 
         public UIComponent PageObject { get; internal set; }
 
-        internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; }
+        internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; } = new List<UIComponent>();
 
         internal bool IsNavigated { get; set; }
 
-        private DateTime CleanExecutionStartDateTime { get; set; }
+        internal DateTime CleanExecutionStartDateTime { get; set; }
 
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
         {
@@ -75,32 +74,7 @@ namespace Atata
             return new AtataContextBuilder(new AtataBuildingContext());
         }
 
-        public static void SetUp(Func<RemoteWebDriver> driverFactory = null, ILogManager log = null, string testName = null, string baseUrl = null)
-        {
-            if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
-                throw new ArgumentException("Invalid URL format \"{0}\".".FormatWith(baseUrl), nameof(baseUrl));
-
-            InitGlobalVariables();
-
-            Current = new AtataContext
-            {
-                TemporarilyPreservedPageObjectList = new List<UIComponent>(),
-                Log = log ?? new LogManager().Use(new DebugLogConsumer()),
-                TestName = testName,
-                TestStart = DateTime.Now,
-                BaseUrl = baseUrl
-            };
-
-            Current.LogTestStart();
-
-            Current.Log.Start("Init WebDriver");
-            Current.Driver = driverFactory != null ? driverFactory() : new FirefoxDriver();
-            Current.Log.EndSection();
-
-            Current.CleanExecutionStartDateTime = DateTime.Now;
-        }
-
-        private static void InitGlobalVariables()
+        internal static void InitGlobalVariables()
         {
             if (BuildStart == null)
             {
@@ -114,7 +88,7 @@ namespace Atata
             }
         }
 
-        private void LogTestStart()
+        internal void LogTestStart()
         {
             StringBuilder logMessageBuilder = new StringBuilder("Starting test");
 
