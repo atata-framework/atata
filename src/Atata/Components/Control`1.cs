@@ -33,5 +33,23 @@
         {
             Scope.Click();
         }
+
+        public TOwner Focus()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeFocus);
+            Log.Start(new FocusLogSection(this));
+
+            OnFocus();
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterFocus);
+
+            return Owner;
+        }
+
+        protected virtual void OnFocus()
+        {
+            Driver.ExecuteScript("arguments[0].focus();", Scope);
+        }
     }
 }

@@ -82,6 +82,7 @@
     <Compile Include="Logging\Sections\ClickLogSection.cs" />
     <Compile Include="Logging\Sections\DataInsertionLogSection.cs" />
     <Compile Include="Logging\Sections\DataRemovalLogSection.cs" />
+    <Compile Include="Logging\Sections\FocusLogSection.cs" />
     <Compile Include="Logging\Sections\HoverLogSection.cs" />
     <Compile Include="Logging\Sections\UIComponentLogSection.cs" />
     <Compile Include="Logging\DebugLogConsumer.cs" />
