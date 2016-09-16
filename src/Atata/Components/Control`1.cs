@@ -69,5 +69,41 @@
         {
             Driver.ExecuteScript("arguments[0].focus();", Scope);
         }
+
+        public TOwner DoubleClick()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeClick);
+            Log.Start(new DoubleClickLogSection(this));
+
+            OnDoubleClick();
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterClick);
+
+            return Owner;
+        }
+
+        protected virtual void OnDoubleClick()
+        {
+            Driver.Perform(actions => actions.DoubleClick(Scope));
+        }
+
+        public TOwner RightClick()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeClick);
+            Log.Start(new RightClickLogSection(this));
+
+            OnRightClick();
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterClick);
+
+            return Owner;
+        }
+
+        protected virtual void OnRightClick()
+        {
+            Driver.Perform(actions => actions.ContextClick(Scope));
+        }
     }
 }

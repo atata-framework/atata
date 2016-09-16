@@ -8,5 +8,9 @@
         TOwner Hover();
 
         TOwner Focus();
+
+        TOwner DoubleClick();
+
+        TOwner RightClick();
     }
 }

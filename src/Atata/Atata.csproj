@@ -78,11 +78,13 @@
     <Compile Include="Logging\IScreenshotConsumer.cs" />
     <Compile Include="Logging\LogConsumerInfo.cs" />
     <Compile Include="Logging\ScreenshotInfo.cs" />
+    <Compile Include="Logging\Sections\RightClickLogSection.cs" />
     <Compile Include="Logging\Sections\DataAdditionLogSection.cs" />
     <Compile Include="Logging\Sections\DataClearingLogSection.cs" />
     <Compile Include="Logging\Sections\ClickLogSection.cs" />
     <Compile Include="Logging\Sections\DataInsertionLogSection.cs" />
     <Compile Include="Logging\Sections\DataRemovalLogSection.cs" />
+    <Compile Include="Logging\Sections\DoubleClickLogSection.cs" />
     <Compile Include="Logging\Sections\FocusLogSection.cs" />
     <Compile Include="Logging\Sections\HoverLogSection.cs" />
     <Compile Include="Logging\Sections\UIComponentLogSection.cs" />
