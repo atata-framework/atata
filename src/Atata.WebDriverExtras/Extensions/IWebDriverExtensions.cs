@@ -42,7 +42,7 @@ namespace Atata
 
             Actions actions = new Actions(driver);
             actions = actionsBuilder(actions);
-            actions.Build().Perform();
+            actions.Perform();
 
             return driver;
         }
