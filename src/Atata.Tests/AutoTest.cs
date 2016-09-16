@@ -19,7 +19,6 @@ namespace Atata.Tests
                 UseNUnitTestName().
                 UseNUnitTestContextLogging().
                     WithMinLevel(LogLevel.Info).
-                    WithoutSectionFinish().
                 SetUp();
 
             OnSetUp();

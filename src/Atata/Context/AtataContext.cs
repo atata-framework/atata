@@ -114,10 +114,7 @@ namespace Atata
             Log.Start("Clean-up test context");
 
             if (quitDriver)
-            {
                 Driver.Quit();
-                Driver.Dispose();
-            }
 
             CleanUpTemporarilyPreservedPageObjectList();
 
