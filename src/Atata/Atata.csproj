@@ -60,6 +60,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
     <Compile Include="Context\AtataBuildingContext.cs" />
     <Compile Include="Context\AtataContextBuilder.cs" />
     <Compile Include="Components\UIComponentAttributeProvider.cs" />

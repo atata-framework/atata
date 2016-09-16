@@ -4,5 +4,9 @@
         where TOwner : PageObject<TOwner>
     {
         TOwner Click();
+
+        TOwner Hover();
+
+        TOwner Focus();
     }
 }
