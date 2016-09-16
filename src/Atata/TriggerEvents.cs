@@ -10,26 +10,34 @@ namespace Atata
         OnPageObjectInit = 1 << 0,
         OnPageObjectLeave = 1 << 1,
 
-        BeforeClick = 1 << 2,
-        AfterClick = 1 << 3,
+        BeforeGet = 1 << 2,
+        AfterGet = 1 << 3,
 
-        BeforeGet = 1 << 4,
-        AfterGet = 1 << 5,
+        BeforeSet = 1 << 4,
+        AfterSet = 1 << 5,
 
-        BeforeSet = 1 << 6,
-        AfterSet = 1 << 7,
+        BeforeClick = 1 << 6,
+        AfterClick = 1 << 7,
 
-        BeforeFocus = 1 << 8,
-        AfterFocus = 1 << 9,
+        BeforeHover = 1 << 8,
+        AfterHover = 1 << 9,
 
-        BeforeAndAfterClick = BeforeClick | AfterClick,
+        BeforeFocus = 1 << 10,
+        AfterFocus = 1 << 11,
+
         BeforeGetOrSet = BeforeGet | BeforeSet,
+        BeforeClickOrHover = BeforeClick | BeforeHover,
         BeforeClickOrFocus = BeforeClick | BeforeFocus,
+        BeforeClickOrHoverOrFocus = BeforeClick | BeforeHover | BeforeFocus,
         BeforeAnyAction = BeforeClick | BeforeGet | BeforeSet | BeforeFocus,
 
         AfterGetOrSet = AfterGet | AfterSet,
+        AfterClickOrHover = AfterClick | AfterHover,
         AfterClickOrFocus = AfterClick | AfterFocus,
+        AfterClickOrHoverOrFocus = AfterClick | AfterHover | AfterFocus,
         AfterAnyAction = AfterClick | AfterGet | AfterSet | AfterFocus,
         AfterClickOrSet = AfterClick | AfterSet,
+
+        BeforeAndAfterClick = BeforeClick | AfterClick
     }
 }

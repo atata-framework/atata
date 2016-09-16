@@ -34,6 +34,24 @@
             Scope.Click();
         }
 
+        public TOwner Hover()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeHover);
+            Log.Start(new HoverLogSection(this));
+
+            OnHover();
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterHover);
+
+            return Owner;
+        }
+
+        protected virtual void OnHover()
+        {
+            Driver.Perform(actions => actions.MoveToElement(Scope));
+        }
+
         public TOwner Focus()
         {
             ExecuteTriggers(TriggerEvents.BeforeFocus);

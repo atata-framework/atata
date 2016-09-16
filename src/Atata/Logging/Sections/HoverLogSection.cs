@@ -5,7 +5,7 @@
         public HoverLogSection(UIComponent component)
             : base(component)
         {
-            Message = $"Hover {component.ComponentFullName}";
+            Message = $"Hover on {component.ComponentFullName}";
         }
     }
 }
