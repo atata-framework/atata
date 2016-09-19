@@ -4,15 +4,15 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public abstract class PageObject<T> : UIComponent<T>, IPageObject<T>, IPageObject
-        where T : PageObject<T>
+    public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
+        where TOwner : PageObject<TOwner>
     {
         protected PageObject()
         {
             NavigateOnInit = true;
             ScopeLocator = new PlainScopeLocator(CreateScopeBy);
 
-            Owner = (T)this;
+            Owner = (TOwner)this;
         }
 
         protected internal bool NavigateOnInit { get; internal set; }
@@ -21,9 +21,9 @@ namespace Atata
 
         protected UIComponent PreviousPageObject { get; private set; }
 
-        public DataProvider<string, T> PageTitle => GetOrCreateDataProvider("title", GetTitle);
+        public DataProvider<string, TOwner> PageTitle => GetOrCreateDataProvider("title", GetTitle);
 
-        public DataProvider<string, T> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
+        public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 
         private string GetTitle()
         {
@@ -41,8 +41,8 @@ namespace Atata
         {
             ApplyContext(context);
 
-            ComponentName = UIComponentResolver.ResolvePageObjectName<T>();
-            ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<T>();
+            ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
+            ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
 
             Log.Info("Go to {0}", ComponentFullName);
 
@@ -158,11 +158,11 @@ namespace Atata
             Driver.SwitchTo().Window(windowName);
         }
 
-        public virtual T RefreshPage()
+        public virtual TOwner RefreshPage()
         {
             Log.Info("Refresh page");
             Driver.Navigate().Refresh();
-            return Go.To<T>(navigate: false);
+            return Go.To<TOwner>(navigate: false);
         }
 
         public virtual TOther GoBack<TOther>(TOther previousPageObject = null)
@@ -204,14 +204,30 @@ namespace Atata
                 return null;
         }
 
-        public T Do<TComponent>(Func<T, TComponent> childControlGetter, params Action<TComponent>[] actions)
+        public TOwner Do<TComponent>(Func<TOwner, TComponent> childControlGetter, params Action<TComponent>[] actions)
         {
-            TComponent component = childControlGetter((T)this);
+            TComponent component = childControlGetter((TOwner)this);
 
             foreach (var action in actions)
                 action(component);
 
-            return (T)this;
+            return (TOwner)this;
+        }
+
+        public TOwner Do(params Action<TOwner>[] actions)
+        {
+            foreach (var action in actions)
+                action((TOwner)this);
+
+            return (TOwner)this;
+        }
+
+        public TNavigateTo Do<TNavigateTo>(Func<TOwner, TNavigateTo> navigationAction)
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            navigationAction.CheckNotNull(nameof(navigationAction));
+
+            return navigationAction((TOwner)this);
         }
     }
 }
