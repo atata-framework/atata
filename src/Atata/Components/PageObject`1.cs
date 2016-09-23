@@ -21,8 +21,14 @@ namespace Atata
 
         protected UIComponent PreviousPageObject { get; private set; }
 
+        /// <summary>
+        /// Gets the title of the current HTML page.
+        /// </summary>
         public DataProvider<string, TOwner> PageTitle => GetOrCreateDataProvider("title", GetTitle);
 
+        /// <summary>
+        /// Gets the URL of the current HTML page.
+        /// </summary>
         public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 
         private string GetTitle()

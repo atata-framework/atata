@@ -1,8 +1,12 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Represents the text area control (&lt;textarea&gt;).
+    /// </summary>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("textarea", IgnoreNameEndings = "TextArea")]
-    public class TextArea<_> : EditableField<string, _>
-        where _ : PageObject<_>
+    public class TextArea<TOwner> : EditableField<string, TOwner>
+        where TOwner : PageObject<TOwner>
     {
         protected override string GetValue()
         {

@@ -39,6 +39,10 @@
             return Owner;
         }
 
+        /// <summary>
+        /// Clears the value.
+        /// </summary>
+        /// <returns>The owner page object.</returns>
         public TOwner Clear()
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
