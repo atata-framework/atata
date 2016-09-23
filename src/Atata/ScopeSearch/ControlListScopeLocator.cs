@@ -24,7 +24,7 @@ namespace Atata
             });
 
             if (element == null && !searchOptions.IsSafely)
-                throw ExceptionFactory.CreateForNotMissingElement();
+                throw ExceptionFactory.CreateForNoSuchElement();
             else
                 return element;
         }
