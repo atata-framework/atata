@@ -19,6 +19,9 @@ namespace Atata.Tests
             SetAndVerifyValues(page.TextInput, "Text1", null, "Text2");
 
             VerifyDoesNotEqual(page.TextInput, "Text3");
+
+            page.TextInput.Clear().
+                TextInput.Should.BeNull();
         }
 
         [Test]

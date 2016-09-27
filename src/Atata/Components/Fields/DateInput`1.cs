@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the date input control.
+    /// Represents the date input control. By default is being searched by the label. The default format is "d" (short date pattern, e.g. 6/15/2009). Handles any input element with type="date", type="text" or without the type attribute defined.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='text' or @type='date' or not(@type)]")]
