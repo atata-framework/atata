@@ -4,7 +4,7 @@ using OpenQA.Selenium.Support.UI;
 namespace Atata
 {
     /// <summary>
-    /// Represents the select control (&lt;select&gt;).
+    /// Represents the select control (&lt;select&gt;). Property can be marked with <see cref="SelectByValueAttribute"/> or <see cref="SelectByTextAttribute"/>. By default selects by text.
     /// </summary>
     /// <typeparam name="T">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>

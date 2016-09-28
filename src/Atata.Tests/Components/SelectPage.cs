@@ -33,7 +33,7 @@ namespace Atata.Tests
         public Select<Option, _> EnumSelectByValue { get; private set; }
 
         [Term("Int Select", CutEnding = false)]
-        [SelectByText(Format = "0{0}")]
+        [Format("0{0}")]
         public Select<int, _> IntSelectByText { get; private set; }
 
         [Term("Int Select", CutEnding = false)]

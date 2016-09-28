@@ -26,5 +26,8 @@ namespace Atata.Tests
 
         [Term(CutEnding = false)]
         public Input<int?, _> IntTextInput { get; private set; }
+
+        [Term("Int Text Input")]
+        public NumberInput<_> NumberInput { get; private set; }
     }
 }

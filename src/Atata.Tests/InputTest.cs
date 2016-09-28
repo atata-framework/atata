@@ -55,5 +55,19 @@ namespace Atata.Tests
                 IntTextInput.Should.BeLess(60).
                 IntTextInput.Should.BeInRange(50, 60);
         }
+
+        [Test]
+        public void NumberInput()
+        {
+            VerifyEquals(page.NumberInput, null);
+
+            SetAndVerifyValues(page.NumberInput, 45, null, 57);
+
+            VerifyDoesNotEqual(page.NumberInput, 59);
+
+            page.NumberInput.Should.BeGreater(55).
+                NumberInput.Should.BeLess(60).
+                NumberInput.Should.BeInRange(50, 60);
+        }
     }
 }
