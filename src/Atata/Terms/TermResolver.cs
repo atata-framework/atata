@@ -122,7 +122,7 @@ namespace Atata
             Func<string, TermOptions, T> fromStringConverter,
             Func<T, TermOptions, string> toStringConverter = null)
         {
-            fromStringConverter.CheckNotNull("fromStringConverter");
+            fromStringConverter.CheckNotNull(nameof(fromStringConverter));
 
             Func<string, TermOptions, object> castedFromStringConverter = (s, to) => fromStringConverter(s, to);
             Func<object, TermOptions, string> castedToStringConverter = null;
@@ -137,7 +137,7 @@ namespace Atata
             Func<string, TermOptions, object> fromStringConverter,
             Func<object, TermOptions, string> toStringConverter = null)
         {
-            fromStringConverter.CheckNotNull("fromStringConverter");
+            fromStringConverter.CheckNotNull(nameof(fromStringConverter));
 
             TypeTermConverters[type] = new TermConverter
             {
@@ -165,7 +165,7 @@ namespace Atata
 
         public static string[] GetTerms(object value, TermOptions termOptions = null)
         {
-            value.CheckNotNull("value");
+            value.CheckNotNull(nameof(value));
 
             termOptions = termOptions ?? TermOptions.CreateDefault();
             TermConverter termConverter;
@@ -280,7 +280,7 @@ namespace Atata
             {
                 throw new ArgumentException(
                     "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(destinationType.FullName, value),
-                    "value");
+                    nameof(value));
             }
             else
             {
