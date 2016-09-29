@@ -11,9 +11,9 @@ namespace Atata
 
         public DataProvider(UIComponent<TOwner> component, Func<TData> valueGetFunction, string providerName)
         {
-            this.component = component.CheckNotNull("component");
-            this.valueGetFunction = valueGetFunction.CheckNotNull("valueGetFunction");
-            this.providerName = providerName.CheckNotNullOrWhitespace("providerName");
+            this.component = component.CheckNotNull(nameof(component));
+            this.valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
+            this.providerName = providerName.CheckNotNullOrWhitespace(nameof(providerName));
         }
 
         UIComponent IDataProvider<TData, TOwner>.Component

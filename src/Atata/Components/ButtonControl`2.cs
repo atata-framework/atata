@@ -5,8 +5,8 @@
     /// </summary>
     /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    /// <seealso cref="Atata.ButtonControl{TOwner}" />
-    /// <seealso cref="Atata.INavigable{TNavigateTo, TOwner}" />
+    /// <seealso cref="ButtonControl{TOwner}" />
+    /// <seealso cref="INavigable{TNavigateTo, TOwner}" />
     public class ButtonControl<TNavigateTo, TOwner> : ButtonControl<TOwner>, INavigable<TNavigateTo, TOwner>
         where TNavigateTo : PageObject<TNavigateTo>
         where TOwner : PageObject<TOwner>

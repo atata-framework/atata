@@ -1,5 +1,6 @@
 ﻿namespace Atata
 {
+    [ControlDefinition("*", ComponentTypeName = "control")]
     public abstract class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {
