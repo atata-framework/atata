@@ -7,6 +7,9 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base class for UI components.
+    /// </summary>
     public abstract class UIComponent
     {
         private IWebElement cachedScope;

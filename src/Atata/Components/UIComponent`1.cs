@@ -27,6 +27,9 @@ namespace Atata
             internal set { base.Parent = value; }
         }
 
+        /// <summary>
+        /// Gets the text content.
+        /// </summary>
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
