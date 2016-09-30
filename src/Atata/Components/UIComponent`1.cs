@@ -5,6 +5,10 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base class for UI components.
+    /// </summary>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public abstract class UIComponent<TOwner> : UIComponent, IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -32,6 +36,9 @@ namespace Atata
         /// </summary>
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
 
         TOwner IUIComponent<TOwner>.Owner => Owner;
