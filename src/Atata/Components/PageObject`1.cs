@@ -164,6 +164,10 @@ namespace Atata
             Driver.SwitchTo().Window(windowName);
         }
 
+        /// <summary>
+        /// Refreshes the current page.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
         public virtual TOwner RefreshPage()
         {
             Log.Info("Refresh page");
@@ -171,6 +175,14 @@ namespace Atata
             return Go.To<TOwner>(navigate: false);
         }
 
+        /// <summary>
+        /// Navigates back to the previous page.
+        /// </summary>
+        /// <typeparam name="TOther">The type of the page object that represents the previous page.</typeparam>
+        /// <param name="previousPageObject">The instance of the previous page object. If equals null, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
+        /// <returns>
+        /// The instance of the previous page object.
+        /// </returns>
         public virtual TOther GoBack<TOther>(TOther previousPageObject = null)
             where TOther : PageObject<TOther>
         {
@@ -179,6 +191,14 @@ namespace Atata
             return Go.To(previousPageObject, navigate: false);
         }
 
+        /// <summary>
+        /// Navigates forward to the next page.
+        /// </summary>
+        /// <typeparam name="TOther">The type of the page object that represents the next page.</typeparam>
+        /// <param name="nextPageObject">The instance of the next page object. If equals null, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
+        /// <returns>
+        /// The instance of the next page object.
+        /// </returns>
         public virtual TOther GoForward<TOther>(TOther nextPageObject = null)
             where TOther : PageObject<TOther>
         {
@@ -187,6 +207,9 @@ namespace Atata
             return Go.To(nextPageObject, navigate: false);
         }
 
+        /// <summary>
+        /// Closes the current window.
+        /// </summary>
         public virtual void CloseWindow()
         {
             string nextWindowHandle = ResolveWindowHandleToSwitchAfterClose();
