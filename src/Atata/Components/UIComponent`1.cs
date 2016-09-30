@@ -32,7 +32,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the text content.
+        /// Gets the DataProvider instance for the text content.
         /// </summary>
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 

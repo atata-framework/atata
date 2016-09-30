@@ -4,6 +4,10 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base class for the page objects.
+    /// </summary>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
         where TOwner : PageObject<TOwner>
     {
@@ -22,12 +26,12 @@ namespace Atata
         protected UIComponent PreviousPageObject { get; private set; }
 
         /// <summary>
-        /// Gets the title of the current HTML page.
+        /// Gets the DataProvider instance for the title of the current HTML page.
         /// </summary>
         public DataProvider<string, TOwner> PageTitle => GetOrCreateDataProvider("title", GetTitle);
 
         /// <summary>
-        /// Gets the URL of the current HTML page.
+        /// Gets the DataProvider instance for the URL of the current HTML page.
         /// </summary>
         public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 
@@ -167,7 +171,7 @@ namespace Atata
         /// <summary>
         /// Refreshes the current page.
         /// </summary>
-        /// <returns>The instance of the owner page object.</returns>
+        /// <returns>The instance of this page object.</returns>
         public virtual TOwner RefreshPage()
         {
             Log.Info("Refresh page");

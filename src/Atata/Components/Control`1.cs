@@ -12,6 +12,9 @@
         {
         }
 
+        /// <summary>
+        /// Gets the DataProvider instance for the value indicating whether the control is enabled.
+        /// </summary>
         public DataProvider<bool, TOwner> IsEnabled => GetOrCreateDataProvider("enabled", GetIsEnabled);
 
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should => new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
@@ -21,6 +24,10 @@
             return Scope.Enabled;
         }
 
+        /// <summary>
+        /// Clicks the control.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner Click()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
@@ -39,6 +46,10 @@
             Scope.Click();
         }
 
+        /// <summary>
+        /// Hovers the control.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner Hover()
         {
             ExecuteTriggers(TriggerEvents.BeforeHover);
@@ -57,6 +68,10 @@
             Driver.Perform(actions => actions.MoveToElement(Scope));
         }
 
+        /// <summary>
+        /// Focuses the control.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner Focus()
         {
             ExecuteTriggers(TriggerEvents.BeforeFocus);
@@ -75,6 +90,10 @@
             Driver.ExecuteScript("arguments[0].focus();", Scope);
         }
 
+        /// <summary>
+        /// Double-clicks the control.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner DoubleClick()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
@@ -93,6 +112,10 @@
             Driver.Perform(actions => actions.DoubleClick(Scope));
         }
 
+        /// <summary>
+        /// Right-clicks the control.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner RightClick()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
