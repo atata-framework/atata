@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using System.Text;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -31,6 +33,23 @@ namespace Atata
         protected bool CanFindByWindowTitle
         {
             get { return WindowTitleValues != null && WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit; }
+        }
+
+        protected override By CreateScopeBy()
+        {
+            string scopeXPath = Metadata.ComponentDefinitonAttribute?.ScopeXPath ?? "body";
+
+            StringBuilder xPathBuilder = new StringBuilder($".//{scopeXPath}");
+
+            string titleElementXPath = Metadata.GetFirstOrDefaultComponentAttribute<WindowTitleElementDefinitionAttribute>()?.ScopeXPath;
+
+            if (CanFindByWindowTitle && !string.IsNullOrWhiteSpace(titleElementXPath))
+            {
+                xPathBuilder.Append(
+                    $"[.//{titleElementXPath}[{WindowTitleMatch.CreateXPathCondition(WindowTitleValues)}]]");
+            }
+
+            return By.XPath(xPathBuilder.ToString()).PopupWindow(TermResolver.ToDisplayString(WindowTitleValues));
         }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)

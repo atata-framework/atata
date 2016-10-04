@@ -35,6 +35,13 @@ namespace Atata
         /// </summary>
         public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 
+        protected virtual By CreateScopeBy()
+        {
+            string scopeXPath = Metadata.ComponentDefinitonAttribute?.ScopeXPath ?? "body";
+
+            return By.XPath($".//{scopeXPath}");
+        }
+
         private string GetTitle()
         {
             return Driver.Title;
@@ -44,8 +51,6 @@ namespace Atata
         {
             return Driver.Url;
         }
-
-        protected abstract By CreateScopeBy();
 
         internal void Init(PageObjectContext context)
         {
