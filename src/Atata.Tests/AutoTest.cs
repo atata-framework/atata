@@ -61,14 +61,14 @@ namespace Atata.Tests
             VerifyEquals(control, value);
         }
 
-        protected void VerifyEquals<T, TPage>(EditableField<T, TPage> control, T value)
+        protected void VerifyEquals<T, TPage>(Field<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
             control.Should.Equal(value);
             Assert.That(control.Get(), Is.EqualTo(value));
         }
 
-        protected void VerifyDoesNotEqual<T, TPage>(EditableField<T, TPage> control, T value)
+        protected void VerifyDoesNotEqual<T, TPage>(Field<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
             control.Should.Not.Equal(value);

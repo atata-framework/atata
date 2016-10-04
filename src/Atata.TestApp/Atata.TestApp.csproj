@@ -74,6 +74,7 @@
     <Content Include="GoTo2.html" />
     <Content Include="GoTo1.html" />
     <Content Include="GoTo3.html" />
+    <Content Include="Content.html" />
     <Content Include="Input.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
