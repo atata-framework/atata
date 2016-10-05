@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Specifies that a control should be found by id attribute. Finds the descendant or self control in the scope of the element having the specified id. Uses <c>Kebab</c> as the default term case.
+    /// </summary>
     public class FindByIdAttribute : TermFindAttribute
     {
         public FindByIdAttribute(TermCase termCase)
@@ -22,6 +25,9 @@
         {
         }
 
+        /// <summary>
+        /// Gets the default case. The default value is <c>TermCase.Kebab</c>.
+        /// </summary>
         protected override TermCase DefaultCase
         {
             get { return TermCase.Kebab; }

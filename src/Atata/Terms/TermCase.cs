@@ -6,12 +6,12 @@
     public enum TermCase
     {
         /// <summary>
-        /// Uses inherited case or none if missing.
+        /// Uses the inherited case or none if missing.
         /// </summary>
         Inherit,
 
         /// <summary>
-        /// Doesn't apply case.
+        /// Doesn't apply the case.
         /// </summary>
         None,
 
@@ -31,7 +31,7 @@
         Sentence,
 
         /// <summary>
-        /// Uses mid-sentence case where first word not capitalised (e.g. "some term").
+        /// Uses mid-sentence case where the first word is not capitalised (e.g. "some term").
         /// </summary>
         MidSentence,
 
