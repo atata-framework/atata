@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies the verification of the page title when the page object is initialized. If no value is specifed, uses the class name as the expected value with the <c>TermCase.Title</c> casing applied.
+    /// Specifies the verification of the page title. By default occurs during the page object initialization. If no value is specified, uses the class name as the expected value with the <c>TermCase.Title</c> casing applied.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class VerifyTitleAttribute : TermVerificationTriggerAttribute
