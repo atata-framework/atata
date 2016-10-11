@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the text area control (&lt;textarea&gt;).
+    /// Represents the text area control (&lt;textarea&gt;). Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("textarea", IgnoreNameEndings = "TextArea")]

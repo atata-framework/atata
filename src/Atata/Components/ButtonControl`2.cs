@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the button control. By default is being searched by the content and value (button by content text and input by value attribute). Handles any input element with type="button", type="submit", type="reset" or button element.
+    /// Represents the button control. Default search is performed by the content and value (button by content text and input by value attribute). Handles any input element with type="button", type="submit", type="reset" or button element.
     /// </summary>
     /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>

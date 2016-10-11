@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the time input control. By default is being searched by the label. Handles any input element with type="time", type="text" or without the type attribute defined.
+    /// Represents the time input control. Default search is performed by the label. Handles any input element with type="time", type="text" or without the defined type attribute.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='text' or @type='time' or not(@type)]")]

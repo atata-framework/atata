@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the text input control (&lt;input type="text"&gt;). By default is being searched by the label. Handles any input element with type="text" or without the type attribute defined.
+    /// Represents the text input control (&lt;input type="text"&gt;). Default search is performed by the label. Handles any input element with type="text" or without the defined type attribute.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='text' or not(@type)]")]

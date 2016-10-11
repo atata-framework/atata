@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents any HTML element. By default is being searched by the id attribute.
+    /// Represents any HTML element. Default search is performed by the id attribute.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("*", ComponentTypeName = "control", IgnoreNameEndings = "Button,Link")]

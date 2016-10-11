@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies the verification of the page content. Verifies whether the component contains the specified content values. By default occurs during the page object initialization.
+    /// Specifies the verification of the page content. Verifies whether the component contains the specified content values. By default occurs upon the page object initialization.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class VerifyContentAttribute : TriggerAttribute

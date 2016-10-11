@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Defines the information message to be logged on the specified event.
+    /// </summary>
     public class LogInfoAttribute : TriggerAttribute
     {
         public LogInfoAttribute(string message, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)

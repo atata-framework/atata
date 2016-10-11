@@ -116,7 +116,7 @@ namespace Atata
         /// <summary>
         /// Determines whether the component exists.
         /// </summary>
-        /// <param name="options">The options. If set to null, uses SearchOptions.Safely().</param>
+        /// <param name="options">The options. If set to null, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>true if the component exists; otherwise, false.</returns>
         /// <exception cref="NoSuchElementException">The <paramref name="options"/> has IsSafely property equal to false value and the component doesn't exist.</exception>
         public bool Exists(SearchOptions options = null)
@@ -127,7 +127,7 @@ namespace Atata
         /// <summary>
         /// Determines whether the component is missing.
         /// </summary>
-        /// <param name="options">The options. If set to null, uses SearchOptions.Safely().</param>
+        /// <param name="options">The options. If set to null, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>true if the component is missing; otherwise, false.</returns>
         /// <exception cref="NotMissingElementException">The <paramref name="options"/> has IsSafely property equal to false value and the component exists.</exception>
         public bool Missing(SearchOptions options = null)
