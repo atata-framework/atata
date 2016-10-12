@@ -23,5 +23,11 @@ namespace Atata.Tests
 
         [Format("count: {0}")]
         public Number<_> NumberWithFormat { get; private set; }
+
+        public Currency<_> Currency { get; private set; }
+
+        [Format("C3")]
+        [Culture("fr-FR")]
+        public Currency<_> CurrencyFR { get; private set; }
     }
 }

@@ -31,5 +31,13 @@ namespace Atata.Tests
             VerifyEquals(page.NumberWithFormat, 59);
             VerifyDoesNotEqual(page.NumberWithFormat, 55);
         }
+
+        [Test]
+        public void Currency()
+        {
+            VerifyEquals(page.Currency, 125234.26m);
+            VerifyDoesNotEqual(page.Currency, 125234);
+            VerifyEquals(page.CurrencyFR, -123.456m);
+        }
     }
 }
