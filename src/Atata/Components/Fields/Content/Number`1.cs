@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents any element containing number content. Default search is performed by the label (if is declared in the class inherited from <see cref="TableRow{TOwner}"/>, then by column header).
+    /// Represents any element containing number content. Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public class Number<TOwner> : Content<decimal?, TOwner>
