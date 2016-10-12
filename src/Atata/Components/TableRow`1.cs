@@ -2,7 +2,13 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the table row component (&lt;tr&gt;). Default search is performed by the content. By default every its control of type (or inherited from) <see cref="Content{T, TOwner}" /> is searched by the column header.
+    /// </summary>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("tr[parent::table or parent::tbody]", ComponentTypeName = "row")]
+    [ControlFinding(FindTermBy.Content)]
+    [ControlFinding(FindTermBy.ColumnHeader, ControlType = typeof(Content<,>))]
     public class TableRow<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
