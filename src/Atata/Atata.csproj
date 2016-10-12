@@ -63,6 +63,7 @@
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
     <Compile Include="Attributes\WindowTitleElementDefinitionAttribute.cs" />
+    <Compile Include="Components\Fields\Content\Date`1.cs" />
     <Compile Include="Components\Fields\Content\Currency`1.cs" />
     <Compile Include="Components\Fields\Content\Number`1.cs" />
     <Compile Include="Context\AtataBuildingContext.cs" />

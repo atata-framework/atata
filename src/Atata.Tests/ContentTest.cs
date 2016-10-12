@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace Atata.Tests
 {
@@ -38,6 +39,16 @@ namespace Atata.Tests
             VerifyEquals(page.Currency, 125234.26m);
             VerifyDoesNotEqual(page.Currency, 125234);
             VerifyEquals(page.CurrencyFR, -123.456m);
+        }
+
+        [Test]
+        public void Date()
+        {
+            VerifyEquals(page.Date, new DateTime(2016, 5, 15));
+            VerifyEquals(page.DateNull, null);
+            page.DateNull.Content.Should.Equal(string.Empty);
+
+            VerifyEquals(page.DateWithFormat, new DateTime(2016, 6, 15));
         }
     }
 }

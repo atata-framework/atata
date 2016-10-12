@@ -29,5 +29,13 @@ namespace Atata.Tests
         [Format("C3")]
         [Culture("fr-FR")]
         public Currency<_> CurrencyFR { get; private set; }
+
+        public Date<_> Date { get; private set; }
+
+        [FindById]
+        public Date<_> DateNull { get; private set; }
+
+        [Format("{0:dd, MMMM yyyy} year")]
+        public Date<_> DateWithFormat { get; private set; }
     }
 }
