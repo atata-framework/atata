@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Indicates that the scroll up should be performed on the specified event. By default occurs before any action.
+    /// </summary>
     public class ScrollUpAttribute : TriggerAttribute
     {
         public ScrollUpAttribute(TriggerEvents on = TriggerEvents.BeforeAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)

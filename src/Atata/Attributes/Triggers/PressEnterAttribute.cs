@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the information message to be logged on the defined event. By default occurs after the set.
+    /// Indicates that the Enter key should be pressed on the specified event. By default occurs after the set.
     /// </summary>
     public class PressEnterAttribute : PressKeysAttribute
     {

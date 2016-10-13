@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Indicates that the screenshot should be captured with an optional title. By default occurs before the click.
+    /// </summary>
     public class ScreenshotAttribute : TriggerAttribute
     {
         public ScreenshotAttribute(string title = null, TriggerEvents on = TriggerEvents.BeforeClick, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)

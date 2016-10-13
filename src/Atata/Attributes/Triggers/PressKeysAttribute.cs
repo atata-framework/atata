@@ -1,10 +1,11 @@
-﻿using OpenQA.Selenium.Interactions;
-
-namespace Atata
+﻿namespace Atata
 {
+    /// <summary>
+    /// Defines the keys to press on the specified event. By default occurs after the set.
+    /// </summary>
     public class PressKeysAttribute : TriggerAttribute
     {
-        public PressKeysAttribute(string keys, TriggerEvents on = TriggerEvents.None, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        public PressKeysAttribute(string keys, TriggerEvents on = TriggerEvents.AfterSet, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
             Keys = keys;
@@ -16,8 +17,7 @@ namespace Atata
         {
             if (!string.IsNullOrEmpty(Keys))
             {
-                Actions actions = new Actions(context.Driver);
-                actions.SendKeys(Keys).Build().Perform();
+                context.Driver.Perform(x => x.SendKeys(Keys));
             }
         }
     }
