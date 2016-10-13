@@ -12,7 +12,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Input_Text()
+        public void TextInput()
         {
             VerifyEquals(page.TextInput, null);
 
