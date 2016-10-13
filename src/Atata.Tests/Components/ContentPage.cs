@@ -37,5 +37,13 @@ namespace Atata.Tests
 
         [Format("{0:dd, MMMM yyyy} year")]
         public Date<_> DateWithFormat { get; private set; }
+
+        public Time<_> Time { get; private set; }
+
+        [FindById]
+        public Time<_> TimeNull { get; private set; }
+
+        [Format("h:mm tt")]
+        public Time<_> TimeOfDay { get; private set; }
     }
 }
