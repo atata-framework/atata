@@ -45,5 +45,12 @@ namespace Atata.Tests
 
         [Format("h:mm tt")]
         public Time<_> TimeOfDay { get; private set; }
+
+        [Term(TermCase.Pascal)]
+        public DateTime<_> DateTime { get; private set; }
+
+        [Term("DateTime With Format")]
+        [Format("f")]
+        public DateTime<_> DateTimeWithFormat { get; private set; }
     }
 }

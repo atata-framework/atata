@@ -60,5 +60,17 @@ namespace Atata.Tests
 
             VerifyEquals(page.TimeOfDay, new TimeSpan(14, 45, 0));
         }
+
+        [Test]
+        public void DateTime()
+        {
+            VerifyEquals(page.DateTime, new DateTime(2016, 5, 15, 13, 45, 0));
+
+            page.DateTime.Should.EqualDate(new DateTime(2016, 5, 15)).
+                DateTime.Should.BeGreater(new DateTime(2016, 5, 15)).
+                DateTime.Should.BeLess(new DateTime(2016, 5, 16));
+
+            VerifyEquals(page.DateTimeWithFormat, new DateTime(2009, 6, 15, 13, 45, 0));
+        }
     }
 }
