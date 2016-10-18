@@ -33,7 +33,7 @@ namespace Atata
             Type logLevelType = Type.GetType("NLog.LogLevel,NLog", true);
 
             PropertyInfo allLevelsProperty = logLevelType.GetPropertyWithThrowOnError("AllLoggingLevels");
-            IEnumerable allLevels = (IEnumerable)allLevelsProperty.GetValue(null, new object[0]);
+            IEnumerable allLevels = (IEnumerable)allLevelsProperty.GetStaticValue();
 
             foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
             {

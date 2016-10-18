@@ -82,6 +82,7 @@
     <Compile Include="Context\OperaAtataContextBuilder.cs" />
     <Compile Include="Context\PhantomJSAtataContextBuilder.cs" />
     <Compile Include="Context\SafariAtataContextBuilder.cs" />
+    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Logging\FileScreenshotConsumer.cs" />
     <Compile Include="Logging\IScreenshotConsumer.cs" />
     <Compile Include="Logging\LogConsumerInfo.cs" />

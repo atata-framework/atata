@@ -104,7 +104,7 @@ namespace Atata
                 Where(x => x.GetCustomAttribute<IgnoreInitAttribute>() == null).
                 ToArray();
 
-            Func<PropertyInfo, bool> isNullPropertyPredicate = x => x.GetValue(component, new object[0]) == null;
+            Func<PropertyInfo, bool> isNullPropertyPredicate = x => x.GetValue(component) == null;
 
             PropertyInfo[] controlProperties = suitableProperties.
                 Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(Control<>))).
@@ -594,6 +594,17 @@ namespace Atata
                 return (Control<TOwner>)control;
             else
                 throw new ArgumentException($"Failed to find mapped control by specified '{nameof(controlDelegate)}'.", nameof(controlDelegate));
+        }
+
+        public static Control<TOwner> GetChildControl<TOwner>(IUIComponent<TOwner> parent, string controlName)
+            where TOwner : PageObject<TOwner>
+        {
+            PropertyInfo property = typeof(TOwner).GetPropertyWithThrowOnError(controlName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty);
+
+            if (!property.PropertyType.IsSubclassOfRawGeneric(typeof(Control<>)))
+                throw new InvalidOperationException($"Incorrect type of \"{controlName}\" property.");
+
+            return (Control<TOwner>)property.GetValue(parent);
         }
 
         public static void CleanUpPageObjects(IEnumerable<UIComponent> pageObjects)

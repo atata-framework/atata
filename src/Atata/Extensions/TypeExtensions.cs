@@ -51,12 +51,12 @@ namespace Atata
             return method;
         }
 
-        internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name)
+        internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
         {
             type.CheckNotNull(nameof(type));
             name.CheckNotNullOrWhitespace(nameof(name));
 
-            PropertyInfo property = type.GetProperty(name);
+            PropertyInfo property = type.GetProperty(name, bindingFlags);
 
             if (property == null)
                 throw new MissingMemberException(type.FullName, name);

@@ -57,7 +57,7 @@ namespace Atata
             Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
             PropertyInfo currentContextProperty = testContextType.GetPropertyWithThrowOnError("CurrentContext");
 
-            dynamic testContext = currentContextProperty.GetValue(null, new object[0]);
+            dynamic testContext = currentContextProperty.GetStaticValue();
             string testName = testContext.Test.Name;
 
             return builder.UseTestName(testName);
