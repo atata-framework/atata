@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Waiting - Atata</title>
+    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <h1 class="text-center">Waiting</h1>
+            <div class="col-md-6 col-md-offset-3">
+                <button class="btn btn-default" onclick="wait()">Wait</button>
+                <span class="processing-block" style="display: none">Processing...</span>
+                <span class="result-block" style="display: none">Result</span>
+            </div>
+        </div>
+    </div>
+    <script src="Scripts/jquery-2.2.0.min.js"></script>
+    <script>
+        function wait() {
+            $(".result-block").hide();
+            $(".processing-block").show();
+            setTimeout(function () {
+                $(".processing-block").hide();
+                $(".result-block").show();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
