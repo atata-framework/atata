@@ -2,6 +2,9 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Specifies the trigger events.
+    /// </summary>
     [Flags]
     public enum TriggerEvents
     {

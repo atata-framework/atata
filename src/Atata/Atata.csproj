@@ -62,6 +62,7 @@
     <Compile Include="ActivatorEx.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForAttribute.cs" />
     <Compile Include="Attributes\WindowTitleElementDefinitionAttribute.cs" />
     <Compile Include="Components\Fields\Content\DateTime`1.cs" />
     <Compile Include="Components\Fields\Content\Time`1.cs" />
@@ -186,7 +187,6 @@
     <Compile Include="Attributes\Triggers\CloseAlertBoxAttribute.cs" />
     <Compile Include="Attributes\Triggers\CloseConfirmBoxAttribute.cs" />
     <Compile Include="Attributes\Triggers\CompositeTriggerAttribute.cs" />
-    <Compile Include="Attributes\Triggers\ElementWaitAttribute.cs" />
     <Compile Include="Attributes\Triggers\LogInfoAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEnterAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressTabAttribute.cs" />
@@ -219,12 +219,6 @@
     <Compile Include="Attributes\Triggers\WaitForElementByIdAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementByXPathAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitUntilJQueryAjaxAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitUntilNoElementAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitUntilNoElementByClassAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitUntilNoElementByCssAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitUntilNoElementByIdAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitUntilNoElementByNameAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitUntilNoElementByXPathAttribute.cs" />
     <Compile Include="Attributes\ControlDefinitionAttribute.cs" />
     <Compile Include="Attributes\FindAttribute.cs" />
     <Compile Include="Attributes\FindByContentAttribute.cs" />
@@ -377,6 +371,7 @@
     <Compile Include="Verification\IVerificationProvider`1.cs" />
     <Compile Include="Verification\NegationVerificationProvider`2.cs" />
     <Compile Include="Verification\VerificationProvider`2.cs" />
+    <Compile Include="WaitUntil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Atata.ruleset">

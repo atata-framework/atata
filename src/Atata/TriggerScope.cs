@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the scope of trigger application.
+    /// Specifies the scope of the trigger application.
     /// </summary>
     public enum TriggerScope
     {
