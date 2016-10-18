@@ -56,7 +56,9 @@ namespace Atata
             type.CheckNotNull(nameof(type));
             name.CheckNotNullOrWhitespace(nameof(name));
 
-            PropertyInfo property = type.GetProperty(name, bindingFlags);
+            PropertyInfo property = bindingFlags == BindingFlags.Default
+                ? type.GetProperty(name)
+                : type.GetProperty(name, bindingFlags);
 
             if (property == null)
                 throw new MissingMemberException(type.FullName, name);
