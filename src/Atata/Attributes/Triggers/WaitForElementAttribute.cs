@@ -7,6 +7,21 @@ namespace Atata
         protected WaitForElementAttribute(By by, WaitUntil until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(by, until, on, priority, appliesTo)
         {
+            By = by;
+        }
+
+        public By By { get; private set; }
+
+        public ScopeSource ScopeSource { get; set; }
+
+        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        {
+            ScopeSource scopeSource = ScopeSource != ScopeSource.Inherit ? ScopeSource : context.Component.ScopeSource;
+            IWebElement scopeElement = scopeSource.GetScopeElement((UIComponent)context.Component.Parent);
+
+            WaitUnit[] waitUnits = GetWaitUnits(Until);
+
+            Wait(scopeElement, waitUnits);
         }
 
         protected override void Wait(IWebElement scopeElement, WaitUnit[] waitUnits)

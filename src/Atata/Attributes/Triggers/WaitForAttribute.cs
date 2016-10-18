@@ -8,7 +8,6 @@ namespace Atata
         public WaitForAttribute(By by, WaitUntil until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
             : base(on, priority, appliesTo)
         {
-            By = by;
             Until = until;
         }
 
@@ -18,11 +17,7 @@ namespace Atata
             Absence
         }
 
-        public By By { get; private set; }
-
         public WaitUntil Until { get; private set; }
-
-        public ScopeSource ScopeSource { get; set; }
 
         public bool ThrowOnPresenceFailure { get; set; } = true;
 
@@ -34,17 +29,7 @@ namespace Atata
 
         public double RetryInterval { get; set; } = RetrySettings.RetryInterval.TotalSeconds;
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
-            ScopeSource scopeSource = ScopeSource != ScopeSource.Inherit ? ScopeSource : context.Component.ScopeSource;
-            IWebElement scopeElement = scopeSource.GetScopeElement((UIComponent)context.Component.Parent);
-
-            WaitUnit[] waitUnits = GetWaitUnits(Until);
-
-            Wait(scopeElement, waitUnits);
-        }
-
-        private WaitUnit[] GetWaitUnits(WaitUntil until)
+        protected WaitUnit[] GetWaitUnits(WaitUntil until)
         {
             switch (until)
             {
