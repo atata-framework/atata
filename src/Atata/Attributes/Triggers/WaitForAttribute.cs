@@ -5,7 +5,7 @@ namespace Atata
 {
     public abstract class WaitForAttribute : TriggerAttribute
     {
-        public WaitForAttribute(By by, WaitUntil until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+        public WaitForAttribute(WaitUntil until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
             Until = until;

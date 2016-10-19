@@ -83,6 +83,7 @@
     <Compile Include="Context\PhantomJSAtataContextBuilder.cs" />
     <Compile Include="Context\SafariAtataContextBuilder.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
+    <Compile Include="Extensions\WaitByExtensions.cs" />
     <Compile Include="Logging\FileScreenshotConsumer.cs" />
     <Compile Include="Logging\IScreenshotConsumer.cs" />
     <Compile Include="Logging\LogConsumerInfo.cs" />
@@ -213,12 +214,7 @@
     <Compile Include="Attributes\Triggers\VerifyTitleSettingsAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForDocumentReadyStateAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForElementByClassAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForElementByCssAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForElementByNameAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForElementByIdAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForElementByXPathAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitUntilJQueryAjaxAttribute.cs" />
     <Compile Include="Attributes\ControlDefinitionAttribute.cs" />
     <Compile Include="Attributes\FindAttribute.cs" />
@@ -372,6 +368,7 @@
     <Compile Include="Verification\IVerificationProvider`1.cs" />
     <Compile Include="Verification\NegationVerificationProvider`2.cs" />
     <Compile Include="Verification\VerificationProvider`2.cs" />
+    <Compile Include="WaitBy.cs" />
     <Compile Include="WaitUntil.cs" />
   </ItemGroup>
   <ItemGroup>

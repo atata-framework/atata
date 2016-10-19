@@ -2,15 +2,18 @@
 
 namespace Atata
 {
-    public abstract class WaitForElementAttribute : WaitForAttribute
+    public class WaitForElementAttribute : WaitForAttribute
     {
-        protected WaitForElementAttribute(By by, WaitUntil until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(by, until, on, priority)
+        public WaitForElementAttribute(WaitBy waitBy, string selector, WaitUntil until = WaitUntil.MissingOrHidden, TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
+            : base(until, on, priority)
         {
-            By = by;
+            WaitBy = waitBy;
+            Selector = selector;
         }
 
-        public By By { get; private set; }
+        public WaitBy WaitBy { get; private set; }
+
+        public string Selector { get; private set; }
 
         public ScopeSource ScopeSource { get; set; }
 
@@ -28,7 +31,7 @@ namespace Atata
         {
             foreach (WaitUnit unit in waitUnits)
             {
-                By by = By.With(unit.Options);
+                By by = WaitBy.GetBy(Selector).With(unit.Options);
 
                 if (unit.Method == WaitMethod.Presence)
                     scopeElement.Exists(by);
