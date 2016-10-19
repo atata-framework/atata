@@ -5,8 +5,8 @@
     /// </summary>
     public class VerifyMissingAttribute : TriggerAttribute
     {
-        public VerifyMissingAttribute(TriggerEvents on = TriggerEvents.OnPageObjectInit, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        public VerifyMissingAttribute(TriggerEvents on = TriggerEvents.OnPageObjectInit, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
         }
 

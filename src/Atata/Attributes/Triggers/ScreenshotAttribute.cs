@@ -5,8 +5,8 @@
     /// </summary>
     public class ScreenshotAttribute : TriggerAttribute
     {
-        public ScreenshotAttribute(string title = null, TriggerEvents on = TriggerEvents.BeforeClick, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        public ScreenshotAttribute(string title = null, TriggerEvents on = TriggerEvents.BeforeClick, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
             Title = title;
         }

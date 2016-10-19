@@ -5,18 +5,17 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
     public abstract class TriggerAttribute : Attribute
     {
-        protected TriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
+        protected TriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
         {
             On = on;
             Priority = priority;
-            AppliesTo = appliesTo;
         }
 
         public TriggerEvents On { get; set; }
 
         public TriggerPriority Priority { get; set; }
 
-        public TriggerScope AppliesTo { get; set; }
+        public TriggerScope AppliesTo { get; set; } = TriggerScope.Self;
 
         public virtual void ApplyMetadata(UIComponentMetadata metadata)
         {

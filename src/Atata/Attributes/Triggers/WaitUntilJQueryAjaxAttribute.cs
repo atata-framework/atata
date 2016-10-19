@@ -4,8 +4,8 @@ namespace Atata
 {
     public class WaitUntilJQueryAjaxAttribute : TriggerAttribute
     {
-        public WaitUntilJQueryAjaxAttribute(TriggerEvents on = TriggerEvents.AfterClickOrSet, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        public WaitUntilJQueryAjaxAttribute(TriggerEvents on = TriggerEvents.AfterClickOrSet, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
         }
 

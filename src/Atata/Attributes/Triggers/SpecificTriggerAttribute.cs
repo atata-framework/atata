@@ -5,8 +5,8 @@ namespace Atata
 {
     public abstract class SpecificTriggerAttribute : TriggerAttribute
     {
-        protected SpecificTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        protected SpecificTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
         }
 

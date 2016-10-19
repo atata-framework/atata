@@ -4,8 +4,8 @@ namespace Atata
 {
     public class WaitForDocumentReadyStateAttribute : TriggerAttribute
     {
-        public WaitForDocumentReadyStateAttribute(TriggerEvents on = TriggerEvents.OnPageObjectInit, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        public WaitForDocumentReadyStateAttribute(TriggerEvents on = TriggerEvents.OnPageObjectInit, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
         }
 

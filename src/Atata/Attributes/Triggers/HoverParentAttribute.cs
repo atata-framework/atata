@@ -5,8 +5,8 @@
     /// </summary>
     public class HoverParentAttribute : TriggerAttribute
     {
-        public HoverParentAttribute(TriggerEvents on = TriggerEvents.BeforeAnyAction, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        public HoverParentAttribute(TriggerEvents on = TriggerEvents.BeforeAnyAction, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
         }
 

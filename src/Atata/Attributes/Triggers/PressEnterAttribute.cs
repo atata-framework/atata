@@ -5,8 +5,8 @@
     /// </summary>
     public class PressEnterAttribute : PressKeysAttribute
     {
-        public PressEnterAttribute(TriggerEvents on = TriggerEvents.AfterSet, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(OpenQA.Selenium.Keys.Enter, on, priority, appliesTo)
+        public PressEnterAttribute(TriggerEvents on = TriggerEvents.AfterSet, TriggerPriority priority = TriggerPriority.Medium)
+            : base(OpenQA.Selenium.Keys.Enter, on, priority)
         {
         }
     }

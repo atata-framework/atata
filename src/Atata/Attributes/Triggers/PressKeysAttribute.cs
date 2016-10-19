@@ -5,8 +5,8 @@
     /// </summary>
     public class PressKeysAttribute : TriggerAttribute
     {
-        public PressKeysAttribute(string keys, TriggerEvents on = TriggerEvents.AfterSet, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        public PressKeysAttribute(string keys, TriggerEvents on = TriggerEvents.AfterSet, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
             Keys = keys;
         }

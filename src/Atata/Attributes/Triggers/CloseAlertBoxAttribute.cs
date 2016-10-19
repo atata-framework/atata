@@ -5,8 +5,8 @@
     /// </summary>
     public class CloseAlertBoxAttribute : TriggerAttribute
     {
-        public CloseAlertBoxAttribute(TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium, TriggerScope appliesTo = TriggerScope.Self)
-            : base(on, priority, appliesTo)
+        public CloseAlertBoxAttribute(TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
+            : base(on, priority)
         {
         }
 
