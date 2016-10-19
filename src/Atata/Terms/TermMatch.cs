@@ -6,7 +6,7 @@
     public enum TermMatch
     {
         /// <summary>
-        /// Uses inherited match or none if missing.
+        /// Uses the inherited match or none if missing.
         /// </summary>
         Inherit,
         Contains,

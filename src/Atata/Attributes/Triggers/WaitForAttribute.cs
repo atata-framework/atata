@@ -1,11 +1,10 @@
 ﻿using System;
-using OpenQA.Selenium;
 
 namespace Atata
 {
     public abstract class WaitForAttribute : TriggerAttribute
     {
-        public WaitForAttribute(WaitUntil until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+        protected WaitForAttribute(WaitUntil until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
             Until = until;
@@ -17,16 +16,34 @@ namespace Atata
             Absence
         }
 
+        /// <summary>
+        /// Gets the waiting approach.
+        /// </summary>
         public WaitUntil Until { get; private set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to throw the exception on the presence (exists or visible) failure. The default value is true.
+        /// </summary>
         public bool ThrowOnPresenceFailure { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets a value indicating whether to throw the exception on the absence (missing or hidden) failure. The default value is true.
+        /// </summary>
         public bool ThrowOnAbsenceFailure { get; set; } = true;
 
+        /// <summary>
+        /// Gets or sets the presence (exists or visible) timeout in seconds. The default value is taken from <c>RetrySettings.Timeout.TotalSeconds</c>.
+        /// </summary>
         public double PresenceTimeout { get; set; } = RetrySettings.Timeout.TotalSeconds;
 
+        /// <summary>
+        /// Gets or sets the absence (missing or hidden) timeout in seconds. The default value is taken from <c>RetrySettings.Timeout.TotalSeconds</c>.
+        /// </summary>
         public double AbsenceTimeout { get; set; } = RetrySettings.Timeout.TotalSeconds;
 
+        /// <summary>
+        /// Gets or sets the retry interval. The default value is taken from <c>RetrySettings.RetryInterval.TotalSeconds</c>.
+        /// </summary>
         public double RetryInterval { get; set; } = RetrySettings.RetryInterval.TotalSeconds;
 
         protected WaitUnit[] GetWaitUnits(WaitUntil until)
@@ -116,8 +133,6 @@ namespace Atata
                 }
             };
         }
-
-        protected abstract void Wait(IWebElement scopeElement, WaitUnit[] waitUnits);
 
         protected class WaitUnit
         {

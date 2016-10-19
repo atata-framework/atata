@@ -1,22 +1,22 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the visibility of element.
+    /// Specifies the visibility of the element.
     /// </summary>
     public enum ElementVisibility
     {
         /// <summary>
-        /// Finds only visible elements.
+        /// Finds only the visible elements.
         /// </summary>
         Visible,
 
         /// <summary>
-        /// Finds only invisible elements.
+        /// Finds only the invisible elements.
         /// </summary>
         Invisible,
 
         /// <summary>
-        /// Finds elements with any visibility.
+        /// Finds the elements with any visibility.
         /// </summary>
         Any
     }
