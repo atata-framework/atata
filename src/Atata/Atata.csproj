@@ -215,7 +215,7 @@
     <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForDocumentReadyStateAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForElementAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitUntilJQueryAjaxAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForJQueryAjaxAttribute.cs" />
     <Compile Include="Attributes\ControlDefinitionAttribute.cs" />
     <Compile Include="Attributes\FindAttribute.cs" />
     <Compile Include="Attributes\FindByContentAttribute.cs" />
