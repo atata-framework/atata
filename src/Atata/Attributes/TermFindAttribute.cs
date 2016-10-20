@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base attribute class for the finding attributes that use terms.
+    /// </summary>
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute, ITermSettings
     {
         protected TermFindAttribute(TermCase termCase)
@@ -59,12 +62,12 @@ namespace Atata
         public bool CutEnding { get; set; }
 
         /// <summary>
-        /// Gets the default case.
+        /// Gets the default term case.
         /// </summary>
         protected abstract TermCase DefaultCase { get; }
 
         /// <summary>
-        /// Gets the default match.
+        /// Gets the default match. The default value is Equals.
         /// </summary>
         protected virtual TermMatch DefaultMatch
         {
