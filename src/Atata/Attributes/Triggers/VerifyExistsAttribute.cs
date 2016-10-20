@@ -5,7 +5,7 @@
     /// </summary>
     public class VerifyExistsAttribute : TriggerAttribute
     {
-        public VerifyExistsAttribute(TriggerEvents on = TriggerEvents.OnPageObjectInit, TriggerPriority priority = TriggerPriority.Medium)
+        public VerifyExistsAttribute(TriggerEvents on = TriggerEvents.Init, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
         }

@@ -109,7 +109,7 @@ namespace Atata
             foreach (var trigger in triggers)
                 trigger.Execute(context);
 
-            if (on == TriggerEvents.OnPageObjectInit || on == TriggerEvents.OnPageObjectLeave)
+            if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
             {
                 foreach (UIComponent<TOwner> child in Children.Cast<UIComponent<TOwner>>())
                 {

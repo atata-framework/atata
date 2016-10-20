@@ -16,12 +16,12 @@ namespace Atata
         /// <summary>
         /// Occurs upon the page object initialization.
         /// </summary>
-        OnPageObjectInit = 1 << 0,
+        Init = 1 << 0,
 
         /// <summary>
         /// Occurs upon the page object de-initialization.
         /// </summary>
-        OnPageObjectLeave = 1 << 1,
+        DeInit = 1 << 1,
 
         /// <summary>
         /// Occurs before the value is taken from the control.

@@ -29,7 +29,7 @@ namespace Atata
         }
 
         private TermVerificationTriggerAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
-            : base(TriggerEvents.OnPageObjectInit)
+            : base(TriggerEvents.Init)
         {
             Values = values;
             Match = match;

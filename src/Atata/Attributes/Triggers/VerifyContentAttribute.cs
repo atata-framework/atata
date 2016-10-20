@@ -9,7 +9,7 @@ namespace Atata
     public class VerifyContentAttribute : TriggerAttribute
     {
         public VerifyContentAttribute(params string[] values)
-            : base(TriggerEvents.OnPageObjectInit)
+            : base(TriggerEvents.Init)
         {
             Values = values;
         }

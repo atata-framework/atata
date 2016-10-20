@@ -9,7 +9,7 @@ namespace Atata
     public class VerifyContentMatchesAttribute : TriggerAttribute
     {
         public VerifyContentMatchesAttribute(TermMatch match, params string[] values)
-            : base(TriggerEvents.OnPageObjectInit)
+            : base(TriggerEvents.Init)
         {
             Values = values;
             Match = match;

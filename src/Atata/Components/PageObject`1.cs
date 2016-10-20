@@ -68,7 +68,7 @@ namespace Atata
 
             InitComponent();
 
-            ExecuteTriggers(TriggerEvents.OnPageObjectInit);
+            ExecuteTriggers(TriggerEvents.Init);
 
             OnVerify();
         }
@@ -119,7 +119,7 @@ namespace Atata
                 }
             }
 
-            ExecuteTriggers(TriggerEvents.OnPageObjectLeave);
+            ExecuteTriggers(TriggerEvents.DeInit);
 
             // TODO: Review that condition.
             if (!options.Temporarily)
