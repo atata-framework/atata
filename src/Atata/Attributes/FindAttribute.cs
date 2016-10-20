@@ -3,6 +3,9 @@ using System.Linq;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base attribute class for the finding attributes.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = true)]
     public abstract class FindAttribute : Attribute
     {
@@ -17,6 +20,9 @@ namespace Atata
         /// </summary>
         public int Index { get; set; } = -1;
 
+        /// <summary>
+        /// Gets or sets the scope source. The default value is Inherit.
+        /// </summary>
         public ScopeSource Scope { get; set; }
 
         public abstract IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata);

@@ -12,7 +12,7 @@ namespace Atata
         public ButtonFindingAttribute(Type findAttributeType)
             : base(findAttributeType)
         {
-            ControlType = typeof(ButtonControl<,>);
+            ControlType = typeof(ButtonControl<>);
         }
     }
 }

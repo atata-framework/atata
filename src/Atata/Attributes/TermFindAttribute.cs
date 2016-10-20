@@ -33,18 +33,39 @@ namespace Atata
             CutEnding = true;
         }
 
+        /// <summary>
+        /// Gets the term values.
+        /// </summary>
         public string[] Values { get; private set; }
 
+        /// <summary>
+        /// Gets the term case.
+        /// </summary>
         public TermCase Case { get; private set; }
 
-        public new TermMatch Match { get; set; }
+        /// <summary>
+        /// Gets the match.
+        /// </summary>
+        public new TermMatch Match { get; private set; }
 
+        /// <summary>
+        /// Gets or sets the format.
+        /// </summary>
         public string Format { get; set; }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether the name should be cut considering the IgnoreNameEndings property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>. The default value is true.
+        /// </summary>
         public bool CutEnding { get; set; }
 
+        /// <summary>
+        /// Gets the default case.
+        /// </summary>
         protected abstract TermCase DefaultCase { get; }
 
+        /// <summary>
+        /// Gets the default match.
+        /// </summary>
         protected virtual TermMatch DefaultMatch
         {
             get { return TermMatch.Equals; }

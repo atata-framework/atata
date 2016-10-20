@@ -12,7 +12,7 @@ namespace Atata
         public LinkFindingAttribute(Type findAttributeType)
             : base(findAttributeType)
         {
-            ControlType = typeof(LinkControl<,>);
+            ControlType = typeof(LinkControl<>);
         }
     }
 }
