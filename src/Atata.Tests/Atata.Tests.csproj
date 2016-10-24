@@ -104,6 +104,7 @@
     <Compile Include="Components\RadioButtonListPage.cs" />
     <Compile Include="Components\SelectPage.cs" />
     <Compile Include="Components\TablePage.cs" />
+    <Compile Include="Components\FindingPage.cs" />
     <Compile Include="Components\WaitingPage.cs" />
     <Compile Include="ContentTest.cs" />
     <Compile Include="ControlListTest.cs" />
@@ -122,6 +123,7 @@
     <Compile Include="TermResolverTest.cs" />
     <Compile Include="AutoTest.cs" />
     <Compile Include="TestCaseDataSource.cs" />
+    <Compile Include="FindingTest.cs" />
     <Compile Include="WaitingTest.cs" />
   </ItemGroup>
   <ItemGroup>
