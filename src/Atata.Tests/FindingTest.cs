@@ -12,9 +12,52 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Find_ByIndex()
+        {
+            VerifyRadioButton(page.OptionCByIndex);
+        }
+
+        [Test]
         public void Find_ByNameAndIndex()
         {
-            Assert.That(page.OptionC.Attributes["value"], Is.EqualTo("OptionC"));
+            VerifyRadioButton(page.OptionCByName);
+        }
+
+        [Test]
+        public void Find_ByCssAndIndex()
+        {
+            VerifyRadioButton(page.OptionCByCss);
+        }
+
+        [Test]
+        public void Find_ByXPathAndIndex()
+        {
+            VerifyRadioButton(page.OptionCByXPath);
+        }
+
+        [Test]
+        public void Find_ByAttributeAndIndex()
+        {
+            VerifyRadioButton(page.OptionCByName);
+        }
+
+        [Test]
+        public void Find_ByClassAndIndex()
+        {
+            VerifyRadioButton(page.OptionCByClass);
+        }
+
+        private void VerifyRadioButton(RadioButton<FindingPage> radioButton)
+        {
+            VerifyValue(radioButton, "OptionC");
+            radioButton.Should.BeUnchecked();
+            radioButton.Check();
+            radioButton.Should.BeChecked();
+        }
+
+        private void VerifyValue(UIComponent component, string expectedValue)
+        {
+            Assert.That(component.Attributes["value"], Is.EqualTo(expectedValue));
         }
     }
 }
