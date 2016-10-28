@@ -14,34 +14,9 @@ namespace Atata
 
         public TermMatch Match { get; set; }
 
-        public bool HasIndex
-        {
-            get { return Index.HasValue; }
-        }
-
-        public int? Position
-        {
-            get { return HasIndex ? Index + 1 : null; }
-        }
-
-        public string GetTermsXPathCondition(string value = ".")
-        {
-            return Match.CreateXPathCondition(Terms, value);
-        }
-
         public string GetTermsAsString()
         {
             return Terms != null ? string.Join("/", Terms) : null;
-        }
-
-        public string GetPositionWrappedXPathCondition()
-        {
-            return "[{0}]".FormatWith(Position ?? 1);
-        }
-
-        public string GetPositionWrappedXPathConditionOrNull()
-        {
-            return HasIndex ? "[{0}]".FormatWith(Position) : null;
         }
 
         public ComponentScopeLocateOptions Clone()

@@ -4,15 +4,12 @@ namespace Atata
 {
     public class FindByLabelStrategy : IComponentScopeLocateStrategy
     {
-        private readonly FindByIdStrategy findByIdStrategy = new FindByIdStrategy();
-
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            string labelCondition = options.GetTermsXPathCondition();
-            IWebElement label = scope.Get(
-                By.XPath(".//label[{0}]{1}".FormatWith(labelCondition, options.GetPositionWrappedXPathConditionOrNull())).
-                    With(searchOptions).
-                    Label(options.GetTermsAsString()));
+            string labelXPath = new ComponentScopeXPathBuilder(options).
+                WrapWithIndex(x => x.Descendant._("label").Where(y => y.TermsConditionOfContent));
+
+            IWebElement label = scope.Get(By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
 
             if (label == null)
             {
@@ -25,8 +22,7 @@ namespace Atata
             string elementId = label.GetAttribute("for");
             if (string.IsNullOrEmpty(elementId))
             {
-                var strategy = new XPathComponentScopeLocateStrategy(useIndex: XPathComponentScopeLocateStrategy.IndexUsage.None);
-                return new SequalComponentScopeLocateResult(label, strategy);
+                return new SequalComponentScopeLocateResult(label, new FindFirstDescendantStrategy());
             }
             else
             {
@@ -35,7 +31,7 @@ namespace Atata
                 idOptions.Index = null;
                 idOptions.Match = TermMatch.Equals;
 
-                return new SequalComponentScopeLocateResult(scope, findByIdStrategy, idOptions);
+                return new SequalComponentScopeLocateResult(scope, new FindByIdStrategy(), idOptions);
             }
         }
     }

@@ -79,6 +79,8 @@
     <Compile Include="ExtendedBy.cs" />
     <Compile Include="RetrySettings.cs" />
     <Compile Include="SearchOptions.cs" />
+    <Compile Include="XPathBuilder.cs" />
+    <Compile Include="XPathBuilder`1.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Atata.ruleset">

@@ -9,7 +9,7 @@
 
         public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            return new XPathComponentScopeLocateStrategy();
+            return new FindByIndexStrategy();
         }
     }
 }

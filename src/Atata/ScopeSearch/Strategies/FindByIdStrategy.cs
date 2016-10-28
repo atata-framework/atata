@@ -1,22 +1,17 @@
 ﻿using System.Linq;
-using System.Text;
 
 namespace Atata
 {
     public class FindByIdStrategy : XPathComponentScopeLocateStrategy
     {
-        public FindByIdStrategy()
-            : base(useIndex: IndexUsage.None)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-        }
-
-        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
-        {
-            string idCondition = string.IsNullOrWhiteSpace(options.IdXPathFormat)
-                ? options.GetTermsXPathCondition("@id")
-                : string.Join(" or ", options.Terms.Select(x => options.IdXPathFormat.FormatWith(x)));
-
-            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(idCondition, options.GetPositionWrappedXPathConditionOrNull()));
+            return builder.
+                WrapWithIndex(x => x.Descendant.Any.Where(y =>
+                    string.IsNullOrWhiteSpace(options.IdXPathFormat)
+                        ? y.TermsConditionOf("id")
+                        : y.JoinOr(options.Terms.Select(term => options.IdXPathFormat.FormatWith(term))))).
+                DescendantOrSelf.ComponentXPath;
         }
     }
 }

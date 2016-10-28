@@ -1,20 +1,16 @@
 ﻿using System.Linq;
-using System.Text;
 
 namespace Atata
 {
     public class FindByClassStrategy : XPathComponentScopeLocateStrategy
     {
-        public FindByClassStrategy()
-            : base(useIndex: IndexUsage.None)
-        {
-        }
-
-        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
             string classCondition = GetClassCondition(options);
 
-            builder.Insert(0, "*[{0}]{1}/descendant-or-self::".FormatWith(classCondition, options.GetPositionWrappedXPathConditionOrNull()));
+            return builder.
+                WrapWithIndex(x => x.Descendant.Any.Where(classCondition)).
+                DescendantOrSelf.ComponentXPath;
         }
 
         private string GetClassCondition(ComponentScopeLocateOptions options)

@@ -4,8 +4,7 @@ namespace Atata
 {
     public class FindByCssStrategy : IComponentScopeLocateStrategy
     {
-        private readonly XPathComponentScopeLocateStrategy sequalStrategy =
-            new XPathComponentScopeLocateStrategy(XPathComponentScopeLocateStrategy.XPathPrefixKind.DescendantOrSelf, XPathComponentScopeLocateStrategy.IndexUsage.None);
+        private readonly IComponentScopeLocateStrategy sequalStrategy = new FindFirstDescendantOrSelfStrategy();
 
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {

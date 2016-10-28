@@ -16,7 +16,7 @@ namespace Atata.Tests
         [FindByCss("[name='radio-options']", Index = 2)]
         public RadioButton<_> OptionCByCss { get; private set; }
 
-        [FindByXPath("*[@name='radio-options']", Index = 2)]
+        [FindByXPath("non-existent", "*[@name='radio-options']", Index = 2)]
         public RadioButton<_> OptionCByXPath { get; private set; }
 
         [FindByAttribute("name", "radio-options", Index = 2)]

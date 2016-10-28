@@ -1,15 +1,11 @@
-﻿using System.Text;
-
-namespace Atata
+﻿namespace Atata
 {
     public class FindByContentOrValueStrategy : XPathComponentScopeLocateStrategy
     {
-        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            builder.AppendFormat(
-                "[{0} or {1}]",
-                options.GetTermsXPathCondition(),
-                options.GetTermsXPathCondition("@value"));
+            return builder.
+                WrapWithIndex(x => x.Descendant.ComponentXPath.Where(y => y.TermsConditionOfContent.Or.TermsConditionOf("value")));
         }
     }
 }

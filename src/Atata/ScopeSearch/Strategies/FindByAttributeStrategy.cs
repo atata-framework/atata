@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Atata
+﻿namespace Atata
 {
     public class FindByAttributeStrategy : XPathComponentScopeLocateStrategy
     {
@@ -11,11 +9,10 @@ namespace Atata
             this.attributeName = attributeName;
         }
 
-        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            builder.AppendFormat(
-                "[{0}]",
-                options.GetTermsXPathCondition("@" + attributeName));
+            return builder.
+                WrapWithIndex(x => x.Descendant.ComponentXPath.Where(y => y.TermsConditionOf(attributeName)));
         }
     }
 }

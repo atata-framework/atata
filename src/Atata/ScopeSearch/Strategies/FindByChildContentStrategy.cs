@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Atata
+﻿namespace Atata
 {
     public class FindByChildContentStrategy : XPathComponentScopeLocateStrategy
     {
@@ -11,12 +9,11 @@ namespace Atata
             this.childIndex = childIndex;
         }
 
-        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            builder.AppendFormat(
-                "[*[{0}][{1}]]",
-                childIndex + 1,
-                options.GetTermsXPathCondition());
+            return builder.
+                WrapWithIndex(x => x.Descendant.ComponentXPath.Where(
+                    y => y.Any.WhereIndex(childIndex).Where(z => z.TermsConditionOfContent)));
         }
     }
 }

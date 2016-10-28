@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace Atata
+﻿namespace Atata
 {
     public class FindByColumnIndexStrategy : XPathComponentScopeLocateStrategy
     {
@@ -11,9 +9,10 @@ namespace Atata
             this.columnIndex = columnIndex;
         }
 
-        protected override void BuildXPath(StringBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            builder.Insert(0, "td[{0}]/descendant-or-self::".FormatWith(columnIndex + 1));
+            return builder.
+                WrapWithIndex(x => x.Descendant._("td").WhereIndex(columnIndex).DescendantOrSelf.ComponentXPath);
         }
     }
 }
