@@ -23,7 +23,7 @@ namespace Atata
 
         public static implicit operator string(ComponentScopeXPathBuilder builder)
         {
-            return builder.XPath;
+            return builder?.XPath;
         }
 
         public ComponentScopeXPathBuilder TermsConditionOf(string attributeName)
@@ -35,9 +35,15 @@ namespace Atata
         {
             string subPath = CreateSubPath(buildFunction);
 
-            return Options.Index.HasValue
-                ? _($"({subPath})[{Options.Index + 1}]")
-                : _(subPath);
+            if (Options.Index.HasValue)
+            {
+                subPath = subPath.StartsWith("(") && subPath.EndsWith(")") ? subPath : $"({subPath})";
+                return _($"{subPath}[{Options.Index + 1}]");
+            }
+            else
+            {
+                return _(subPath);
+            }
         }
 
         protected override ComponentScopeXPathBuilder CreateInstance()
