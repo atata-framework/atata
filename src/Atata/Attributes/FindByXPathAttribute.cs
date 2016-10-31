@@ -10,6 +10,9 @@
             Values = values;
         }
 
+        /// <summary>
+        /// Gets the XPath values.
+        /// </summary>
         public string[] Values { get; private set; }
 
         public string[] GetTerms(UIComponentMetadata metadata)

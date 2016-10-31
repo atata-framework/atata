@@ -4,13 +4,16 @@ namespace Atata
 {
     public class FindByXPathStrategy : XPathComponentScopeLocateStrategy
     {
-        private readonly string[] xPathPrefixValues = { "./", "/", "descendant", "child" };
+        private readonly string[] acceptableXPathPrefixValues = { ".", "/", "(", "ancestor::", "ancestor-or-self::", "descendant::", "descendant-or-self::", "child::", "following::", "following-sibling::", "parent::", "preceding::", "preceding-sibling::", "self::" };
 
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            string[] conditionalXPathSelectors = builder.Options.Terms.
-                Where(x => x.StartsWith("[") && x.EndsWith("]")).
-                Select(x => x.Substring(1, x.Length - 2)).
+            string[] conditionalXPathTerms = builder.Options.Terms.
+                Where(x => (x.StartsWith("[") && x.EndsWith("]")) || x.StartsWith("@")).
+                ToArray();
+
+            string[] conditionalXPathSelectors = conditionalXPathTerms.
+                Select(x => x.StartsWith("@") ? x : x.Substring(1, x.Length - 2)).
                 ToArray();
 
             if (conditionalXPathSelectors.Length > 1)
@@ -25,8 +28,8 @@ namespace Atata
                 : null;
 
             string[] outerXPathSelectors = builder.Options.Terms.
-                Where(x => !(x.StartsWith("[") && x.EndsWith("]"))).
-                Select(x => xPathPrefixValues.Any(prefix => x.StartsWith(prefix)) ? x : ".//" + x).
+                Except(conditionalXPathTerms).
+                Select(x => acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix)) ? x : ".//" + x).
                 ToArray();
 
             string outerXPath = outerXPathSelectors.Any()

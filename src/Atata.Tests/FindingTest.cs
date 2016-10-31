@@ -36,9 +36,15 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Find_ByXPathAndIndex_Conditional()
+        public void Find_ByXPathAndIndex_Condition()
         {
-            VerifyRadioButton(page.OptionCByXPathInner);
+            VerifyRadioButton(page.OptionCByXPathCondition);
+        }
+
+        [Test]
+        public void Find_ByXPathAndIndex_Attribute()
+        {
+            VerifyRadioButton(page.OptionCByXPathAttribute);
         }
 
         [Test]
