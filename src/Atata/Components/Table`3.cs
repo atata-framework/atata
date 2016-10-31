@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the table control (&lt;table&gt;). Default search finds the first occuring table.
+    /// Represents the table control (&lt;table&gt;). Default search finds the first occurring table.
     /// </summary>
     /// <typeparam name="THeader">The type of the table header control.</typeparam>
     /// <typeparam name="TRow">The type of the table row control.</typeparam>

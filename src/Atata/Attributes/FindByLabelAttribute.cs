@@ -2,6 +2,9 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Specifies that a control should be found by the label element. Finds the label element by the specified term(s), then finds the bound control (for example, by label's "for" attribute referencing the element of the control by id). Uses <c>Title</c> as the default term case.
+    /// </summary>
     public class FindByLabelAttribute : TermFindAttribute
     {
         private readonly Type defaultStrategy = typeof(FindByLabelStrategy);

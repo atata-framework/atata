@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Specifies that a control should be found by the value attribute. Finds the control that has the value attribute matching the value. Uses <c>Title</c> as the default term case.
+    /// </summary>
     public class FindByValueAttribute : TermFindAttribute
     {
         public FindByValueAttribute(TermCase termCase)

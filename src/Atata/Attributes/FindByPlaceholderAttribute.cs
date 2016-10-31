@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Specifies that a control should be found by the placeholder attribute. Finds the control that has the placeholder attribute matching the value. Uses <c>Title</c> as the default term case.
+    /// </summary>
     public class FindByPlaceholderAttribute : TermFindAttribute
     {
         public FindByPlaceholderAttribute(TermCase termCase)

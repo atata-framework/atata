@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Specifies that a control should be found by the child content text. Finds the control having the child with the specified content. Uses <c>Title</c> as the default term case.
+    /// </summary>
     public class FindByChildContentAttribute : TermFindAttribute
     {
         public FindByChildContentAttribute(TermCase termCase)
@@ -27,6 +30,9 @@
             get { return TermCase.Title; }
         }
 
+        /// <summary>
+        /// Gets or sets the index of the child element. The default value is 0.
+        /// </summary>
         public int ChildIndex { get; set; }
 
         public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
