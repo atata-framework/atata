@@ -1,10 +1,16 @@
-﻿namespace Atata
+﻿using System.Linq;
+
+namespace Atata
 {
     public class FindByInnerXPathStrategy : XPathComponentScopeLocateStrategy
     {
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            return builder.WrapWithIndex(x => x.Descendant.ComponentXPath.Where(y => y.JoinOr(options.Terms)));
+            string[] conditions = options.Terms.Length > 1
+                ? options.Terms.Select(x => $"({x})").ToArray()
+                : options.Terms;
+
+            return builder.WrapWithIndex(x => x.Descendant.ComponentXPath.Where(y => y.JoinOr(conditions)));
         }
     }
 }
