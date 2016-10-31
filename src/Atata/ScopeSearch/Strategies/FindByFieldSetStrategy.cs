@@ -5,7 +5,7 @@
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
             return builder.
-                WrapWithIndex(x => x.Descendant._("fieldset").Where(y => y._("legend").Where(z => z.TermsConditionOfContent))).
+                WrapWithIndex(x => x.Descendant._("fieldset")[y => y._("legend")[z => z.TermsConditionOfContent]]).
                 DescendantOrSelf.ComponentXPath;
         }
     }

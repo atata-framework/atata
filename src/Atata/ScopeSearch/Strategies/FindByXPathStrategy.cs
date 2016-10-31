@@ -24,7 +24,7 @@ namespace Atata
             }
 
             string conditionalXPath = conditionalXPathSelectors.Any()
-                ? builder.WrapWithIndex(x => x.Descendant.ComponentXPath.Where(y => y.JoinOr(conditionalXPathSelectors)))
+                ? builder.WrapWithIndex(x => x.Descendant.ComponentXPath[y => y.JoinOr(conditionalXPathSelectors)])
                 : null;
 
             string[] outerXPathSelectors = builder.Options.Terms.

@@ -43,6 +43,16 @@ namespace Atata
             get { return _(" and "); }
         }
 
+        public TBuilder this[Func<TBuilder, string> condition]
+        {
+            get { return Where(condition); }
+        }
+
+        public TBuilder this[object condition]
+        {
+            get { return Where(condition); }
+        }
+
 #pragma warning disable S100, SA1300 // Methods and properties should be named in camel case
         public TBuilder _(string xPath)
 #pragma warning restore S100, SA1300 // Methods and properties should be named in camel case

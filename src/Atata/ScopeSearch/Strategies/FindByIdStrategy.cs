@@ -6,12 +6,11 @@ namespace Atata
     {
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            return builder.
-                WrapWithIndex(x => x.Descendant.Any.Where(y =>
-                    string.IsNullOrWhiteSpace(options.IdXPathFormat)
-                        ? y.TermsConditionOf("id")
-                        : y.JoinOr(options.Terms.Select(term => options.IdXPathFormat.FormatWith(term))))).
-                DescendantOrSelf.ComponentXPath;
+            string idCondition = string.IsNullOrWhiteSpace(options.IdXPathFormat)
+                ? builder.TermsConditionOf("id")
+                : builder.JoinOr(options.Terms.Select(term => options.IdXPathFormat.FormatWith(term)));
+
+            return builder.WrapWithIndex(x => x.Descendant.Any[idCondition]).DescendantOrSelf.ComponentXPath;
         }
     }
 }

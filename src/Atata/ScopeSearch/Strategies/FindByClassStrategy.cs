@@ -9,7 +9,7 @@ namespace Atata
             string classCondition = GetClassCondition(options);
 
             return builder.
-                WrapWithIndex(x => x.Descendant.Any.Where(classCondition)).
+                WrapWithIndex(x => x.Descendant.Any[classCondition]).
                 DescendantOrSelf.ComponentXPath;
         }
 
