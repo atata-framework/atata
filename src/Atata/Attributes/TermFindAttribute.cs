@@ -33,7 +33,6 @@ namespace Atata
             Values = values;
             Match = match;
             Case = termCase;
-            CutEnding = true;
         }
 
         /// <summary>
@@ -59,7 +58,7 @@ namespace Atata
         /// <summary>
         /// Gets or sets a value indicating whether the name should be cut considering the IgnoreNameEndings property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>. The default value is true.
         /// </summary>
-        public bool CutEnding { get; set; }
+        public bool CutEnding { get; set; } = true;
 
         /// <summary>
         /// Gets the default term case.
@@ -109,7 +108,7 @@ namespace Atata
         {
             return this.GetCaseOrNull()
                 ?? metadata.GetTerm().GetCaseOrNull()
-                ?? GetTermFindSettings(metadata).GetCaseOrNull()
+                ?? GetTermFindSettings(metadata, x => x.Case != TermCase.Inherit).GetCaseOrNull()
                 ?? DefaultCase;
         }
 
@@ -117,14 +116,14 @@ namespace Atata
         {
             return this.GetFormatOrNull()
                 ?? metadata.GetTerm().GetFormatOrNull()
-                ?? GetTermFindSettings(metadata).GetFormatOrNull();
+                ?? GetTermFindSettings(metadata, x => x.Format != null).GetFormatOrNull();
         }
 
         public TermMatch GetTermMatch(UIComponentMetadata metadata)
         {
             return this.GetMatchOrNull()
                 ?? metadata.GetTerm().GetMatchOrNull()
-                ?? GetTermFindSettings(metadata).GetMatchOrNull()
+                ?? GetTermFindSettings(metadata, x => x.Match != TermMatch.Inherit).GetMatchOrNull()
                 ?? DefaultMatch;
         }
 
@@ -135,10 +134,10 @@ namespace Atata
                 : metadata.Name;
         }
 
-        private TermFindSettingsAttribute GetTermFindSettings(UIComponentMetadata metadata)
+        private TermFindSettingsAttribute GetTermFindSettings(UIComponentMetadata metadata, Func<TermFindSettingsAttribute, bool> predicate)
         {
             Type thisType = GetType();
-            return metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FinderAttributeType == thisType);
+            return metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x));
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     public class FindByLabelSettingsAttribute : TermFindSettingsAttribute
     {
@@ -8,7 +6,5 @@ namespace Atata
             : base(typeof(FindByLabelAttribute), match, termCase)
         {
         }
-
-        public Type Strategy { get; set; }
     }
 }

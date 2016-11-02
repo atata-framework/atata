@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     public class FindByColumnHeaderSettingsAttribute : TermFindSettingsAttribute
     {
@@ -8,7 +6,5 @@ namespace Atata
             : base(typeof(FindByColumnHeaderAttribute), match, termCase)
         {
         }
-
-        public Type Strategy { get; set; }
     }
 }
