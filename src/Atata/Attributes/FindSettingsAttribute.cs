@@ -16,7 +16,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the type of the attribute to use for the control search. Type should be inherited from <see cref="FindAttribute"/>.
+        /// Gets the type of the attribute to use for the control finding. Type should be inherited from <see cref="FindAttribute"/>.
         /// </summary>
         public Type FindAttributeType { get; private set; }
 
@@ -31,7 +31,7 @@ namespace Atata
         public ScopeSource Scope { get; set; }
 
         /// <summary>
-        /// Gets or sets the strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
+        /// Gets or sets the strategy type for the control finding. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
         /// </summary>
         public Type Strategy { get; set; }
     }
