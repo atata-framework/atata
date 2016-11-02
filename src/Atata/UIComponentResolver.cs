@@ -282,7 +282,7 @@ namespace Atata
 
             IItemsControl itemsControl = component as IItemsControl;
 
-            component.ScopeSource = findAttribute.GetScope(metadata);
+            component.ScopeSource = findAttribute.ResolveScope(metadata);
 
             if (itemsControl != null)
             {
@@ -437,7 +437,7 @@ namespace Atata
             {
                 ElementXPath = definition != null ? definition.ScopeXPath : "*",
                 IdXPathFormat = definition != null ? definition.IdXPathFormat : null,
-                Index = findAttribute.Index >= 0 ? (int?)findAttribute.Index : null
+                Index = findAttribute.ResolveIndex(metadata)
             };
 
             ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;

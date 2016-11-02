@@ -29,8 +29,6 @@ namespace Atata
         {
         }
 
-        public Type Strategy { get; set; }
-
         protected override TermCase DefaultCase
         {
             get { return TermCase.Title; }

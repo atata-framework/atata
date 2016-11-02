@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Atata
 {
@@ -9,7 +8,7 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Property, Inherited = true)]
     public abstract class FindAttribute : Attribute
     {
-        private const ScopeSource DefaultScopeSource = ScopeSource.Parent;
+        private const ScopeSource DefaultScope = ScopeSource.Parent;
 
         protected FindAttribute()
         {
@@ -25,21 +24,31 @@ namespace Atata
         /// </summary>
         public ScopeSource Scope { get; set; }
 
+        /// <summary>
+        /// Gets or sets the strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
+        /// </summary>
+        public Type Strategy { get; set; }
+
         public abstract IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata);
 
-        public ScopeSource GetScope(UIComponentMetadata metadata)
+        public ScopeSource ResolveScope(UIComponentMetadata metadata)
         {
-            return Scope != ScopeSource.Inherit ? Scope : GetScopeFromMetadata(metadata);
+            return Scope != ScopeSource.Inherit
+                ? Scope
+                : GetFindSettings(metadata, x => x.Scope != ScopeSource.Inherit)?.Scope ?? DefaultScope;
         }
 
-        private ScopeSource GetScopeFromMetadata(UIComponentMetadata metadata)
+        public int? ResolveIndex(UIComponentMetadata metadata)
         {
-            var scopeAttribute = metadata.DeclaringAttributes.
-                Concat(metadata.ParentComponentAttributes).
-                OfType<FindInScopeAttribute>().
-                FirstOrDefault(x => x.Scope != ScopeSource.Inherit);
+            return Index >= 0
+                ? Index
+                : GetFindSettings(metadata, x => x.Index >= 0)?.Index;
+        }
 
-            return scopeAttribute != null ? scopeAttribute.Scope : DefaultScopeSource;
+        private FindSettingsAttribute GetFindSettings(UIComponentMetadata metadata, Func<FindSettingsAttribute, bool> predicate)
+        {
+            Type thisType = GetType();
+            return metadata.GetFirstOrDefaultAttribute<FindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x));
         }
     }
 }

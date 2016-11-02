@@ -60,6 +60,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Attributes\FindSettingsAttribute.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForAttribute.cs" />
@@ -146,7 +147,6 @@
     <Compile Include="Attributes\FindItemByValueAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\LinkFindingAttribute.cs" />
     <Compile Include="Attributes\ControlFinding\EditableFieldFindingAttribute.cs" />
-    <Compile Include="Attributes\FindInScopeAttribute.cs" />
     <Compile Include="Attributes\FindItemAttribute.cs" />
     <Compile Include="Attributes\FindItemByLabelAttribute.cs" />
     <Compile Include="Attributes\FormatAttribute.cs" />

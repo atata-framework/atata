@@ -109,7 +109,7 @@ namespace Atata
         {
             return this.GetCaseOrNull()
                 ?? metadata.GetTerm().GetCaseOrNull()
-                ?? GetSettingsAtribute(metadata).GetCaseOrNull()
+                ?? GetTermFindSettings(metadata).GetCaseOrNull()
                 ?? DefaultCase;
         }
 
@@ -117,14 +117,14 @@ namespace Atata
         {
             return this.GetFormatOrNull()
                 ?? metadata.GetTerm().GetFormatOrNull()
-                ?? GetSettingsAtribute(metadata).GetFormatOrNull();
+                ?? GetTermFindSettings(metadata).GetFormatOrNull();
         }
 
         public TermMatch GetTermMatch(UIComponentMetadata metadata)
         {
             return this.GetMatchOrNull()
                 ?? metadata.GetTerm().GetMatchOrNull()
-                ?? GetSettingsAtribute(metadata).GetMatchOrNull()
+                ?? GetTermFindSettings(metadata).GetMatchOrNull()
                 ?? DefaultMatch;
         }
 
@@ -135,7 +135,7 @@ namespace Atata
                 : metadata.Name;
         }
 
-        private TermFindSettingsAttribute GetSettingsAtribute(UIComponentMetadata metadata)
+        private TermFindSettingsAttribute GetTermFindSettings(UIComponentMetadata metadata)
         {
             Type thisType = GetType();
             return metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FinderAttributeType == thisType);
