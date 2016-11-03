@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using OpenQA.Selenium;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the text area control (&lt;textarea&gt;). Default search is performed by the label.
@@ -16,6 +18,46 @@
         protected override void SetValue(string value)
         {
             Scope.FillInWith(value);
+        }
+
+        /// <summary>
+        /// Appends the specified value.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The owner page object.</returns>
+        public TOwner Append(string value)
+        {
+            ExecuteTriggers(TriggerEvents.BeforeSet);
+            Log.Start(new DataAdditionLogSection(this, value) { ActionText = "Append" });
+
+            Scope.SendKeys(Keys.End + value);
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterSet);
+
+            return Owner;
+        }
+
+        /// <summary>
+        /// Clears the value.
+        /// </summary>
+        /// <returns>The owner page object.</returns>
+        public TOwner Clear()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeSet);
+            Log.Start(new DataClearingLogSection(this));
+
+            OnClear();
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterSet);
+
+            return Owner;
+        }
+
+        protected virtual void OnClear()
+        {
+            Scope.Clear();
         }
     }
 }

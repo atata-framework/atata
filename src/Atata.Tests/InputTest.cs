@@ -20,7 +20,9 @@ namespace Atata.Tests
 
             VerifyDoesNotEqual(page.TextInput, "Text3");
 
-            page.TextInput.Clear().
+            page.TextInput.Append("0").
+                TextInput.Should.Equal("Text20").
+                TextInput.Clear().
                 TextInput.Should.BeNull();
         }
 

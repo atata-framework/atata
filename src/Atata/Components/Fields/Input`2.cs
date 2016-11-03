@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using OpenQA.Selenium;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the input control (&lt;input&gt;). Default search is performed by the label.
@@ -31,7 +33,7 @@
             ExecuteTriggers(TriggerEvents.BeforeSet);
             Log.Start(new DataAdditionLogSection(this, value) { ActionText = "Append" });
 
-            Scope.SendKeys(value);
+            Scope.SendKeys(Keys.End + value);
 
             Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterSet);
