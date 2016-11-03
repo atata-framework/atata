@@ -8,10 +8,6 @@
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected Control()
-        {
-        }
-
         /// <summary>
         /// Gets the DataProvider instance for the value indicating whether the control is enabled.
         /// </summary>
