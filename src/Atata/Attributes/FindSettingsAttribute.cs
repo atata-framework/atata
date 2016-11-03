@@ -28,7 +28,7 @@ namespace Atata
         /// <summary>
         /// Gets or sets the scope source. The default value is Inherit.
         /// </summary>
-        public ScopeSource Scope { get; set; }
+        public ScopeSource ScopeSource { get; set; }
 
         /// <summary>
         /// Gets or sets the strategy type for the control finding. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.

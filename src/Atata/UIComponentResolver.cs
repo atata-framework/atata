@@ -282,7 +282,7 @@ namespace Atata
 
             IItemsControl itemsControl = component as IItemsControl;
 
-            component.ScopeSource = findAttribute.ResolveScope(metadata);
+            component.ScopeSource = findAttribute.ResolveScopeSource(metadata);
 
             if (itemsControl != null)
             {
