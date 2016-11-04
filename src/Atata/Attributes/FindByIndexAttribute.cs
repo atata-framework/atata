@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies that a control should use the nth occurring element matching the control's definition.
@@ -10,9 +12,9 @@
             Index = index;
         }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new FindByIndexStrategy();
+            get { return typeof(FindByIndexStrategy); }
         }
     }
 }

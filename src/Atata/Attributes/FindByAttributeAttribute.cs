@@ -1,4 +1,7 @@
-﻿namespace Atata
+﻿using System;
+using System.Collections.Generic;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies that a control should be found by the specified attribute. Finds the control that has the specified attribute matching the specified term(s). Uses <c>Title</c> as the default term case.
@@ -38,9 +41,14 @@
             get { return TermCase.Title; }
         }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new FindByAttributeStrategy(AttributeName);
+            get { return typeof(FindByAttributeStrategy); }
+        }
+
+        protected override IEnumerable<object> GetStrategyArguments()
+        {
+            yield return AttributeName;
         }
     }
 }

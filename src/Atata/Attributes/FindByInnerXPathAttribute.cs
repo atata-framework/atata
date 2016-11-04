@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     public class FindByInnerXPathAttribute : FindAttribute, ITermFindAttribute
     {
@@ -9,14 +11,14 @@
 
         public string[] Values { get; private set; }
 
+        protected override Type DefaultStrategy
+        {
+            get { return typeof(FindByInnerXPathStrategy); }
+        }
+
         public string[] GetTerms(UIComponentMetadata metadata)
         {
             return Values;
-        }
-
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
-        {
-            return new FindByInnerXPathStrategy();
         }
     }
 }

@@ -7,8 +7,6 @@ namespace Atata
     /// </summary>
     public class FindByLabelAttribute : TermFindAttribute
     {
-        private readonly Type defaultStrategy = typeof(FindByLabelStrategy);
-
         public FindByLabelAttribute(TermCase termCase)
             : base(termCase)
         {
@@ -34,23 +32,9 @@ namespace Atata
             get { return TermCase.Title; }
         }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            Type strategyType = GetStrategyType(metadata);
-            return (IComponentScopeLocateStrategy)ActivatorEx.CreateInstance(strategyType);
-        }
-
-        private Type GetStrategyType(UIComponentMetadata metadata)
-        {
-            if (Strategy != null)
-            {
-                return Strategy;
-            }
-            else
-            {
-                var settingsAttribute = metadata.GetFirstOrDefaultGlobalAttribute<FindByLabelSettingsAttribute>(x => x.Strategy != null);
-                return settingsAttribute != null ? settingsAttribute.Strategy : defaultStrategy;
-            }
+            get { return typeof(FindByLabelStrategy); }
         }
     }
 }

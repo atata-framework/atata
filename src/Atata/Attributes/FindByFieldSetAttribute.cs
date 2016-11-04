@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies that a control should be found by the parent fieldset element. Finds the descendant control in the scope of the &lt;fieldset&gt; element that has the &lt;legend&gt; element matching the specified term(s). Uses <c>Title</c> as the default term case.
@@ -30,9 +32,9 @@
             get { return TermCase.Title; }
         }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new FindByFieldSetStrategy();
+            get { return typeof(FindByFieldSetStrategy); }
         }
     }
 }

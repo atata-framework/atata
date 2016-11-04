@@ -1,4 +1,7 @@
-﻿namespace Atata
+﻿using System;
+using System.Collections.Generic;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies that a control should be found by the child content text. Finds the control having the child with the specified content. Uses <c>Title</c> as the default term case.
@@ -35,9 +38,14 @@
         /// </summary>
         public int ChildIndex { get; set; }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new FindByChildContentStrategy(ChildIndex);
+            get { return typeof(FindByChildContentStrategy); }
+        }
+
+        protected override IEnumerable<object> GetStrategyArguments()
+        {
+            yield return ChildIndex;
         }
     }
 }

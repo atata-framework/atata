@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     public class UseParentScopeAttribute : FindAttribute
     {
@@ -7,9 +9,9 @@
             get { return base.Index; }
         }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new UseParentScopeStrategy();
+            get { return typeof(UseParentScopeStrategy); }
         }
     }
 }

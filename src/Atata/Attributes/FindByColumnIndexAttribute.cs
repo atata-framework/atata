@@ -1,4 +1,7 @@
-﻿namespace Atata
+﻿using System;
+using System.Collections.Generic;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies that a control should be found within the table column (&lt;td&gt;) that has the nth index.
@@ -12,9 +15,14 @@
 
         public int ColumnIndex { get; private set; }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new FindByColumnIndexStrategy(ColumnIndex);
+            get { return typeof(FindByColumnIndexStrategy); }
+        }
+
+        protected override IEnumerable<object> GetStrategyArguments()
+        {
+            yield return ColumnIndex;
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Atata
 {
@@ -29,7 +31,28 @@ namespace Atata
         /// </summary>
         public Type Strategy { get; set; }
 
-        public abstract IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata);
+        /// <summary>
+        /// Gets the default strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
+        /// </summary>
+        protected abstract Type DefaultStrategy { get; }
+
+        public IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        {
+            Type strategyType = ResolveStrategyType(metadata);
+            object[] strategyArguments = GetStrategyArguments().ToArray();
+
+            return (IComponentScopeLocateStrategy)Activator.CreateInstance(strategyType, strategyArguments);
+        }
+
+        protected virtual IEnumerable<object> GetStrategyArguments()
+        {
+            yield break;
+        }
+
+        public Type ResolveStrategyType(UIComponentMetadata metadata)
+        {
+            return Strategy ?? GetFindSettings(metadata, x => x.Strategy != null)?.Strategy ?? DefaultStrategy;
+        }
 
         public ScopeSource ResolveScopeSource(UIComponentMetadata metadata)
         {

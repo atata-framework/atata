@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies that a control should be found by id attribute. Finds the descendant or self control in the scope of the element having the specified id. Uses <c>Kebab</c> as the default term case.
@@ -26,16 +28,16 @@
         }
 
         /// <summary>
-        /// Gets the default case. The default value is <c>TermCase.Kebab</c>.
+        /// Gets the default term case. The default value is <c>TermCase.Kebab</c>.
         /// </summary>
         protected override TermCase DefaultCase
         {
             get { return TermCase.Kebab; }
         }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new FindByIdStrategy();
+            get { return typeof(FindByIdStrategy); }
         }
     }
 }

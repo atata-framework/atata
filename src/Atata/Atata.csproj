@@ -128,13 +128,11 @@
     <Compile Include="Attributes\FindByClassAttribute.cs" />
     <Compile Include="Attributes\FindByColumnHeaderAttribute.cs" />
     <Compile Include="Attributes\FindByColumnIndexAttribute.cs" />
-    <Compile Include="Attributes\FindByColumnHeaderSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByContentOrValueAttribute.cs" />
     <Compile Include="Attributes\FindByCssAttribute.cs" />
     <Compile Include="Attributes\FindByDescriptionTermAttribute.cs" />
     <Compile Include="Attributes\FindByFieldSetAttribute.cs" />
     <Compile Include="Attributes\FindByIndexAttribute.cs" />
-    <Compile Include="Attributes\FindByLabelSettingsAttribute.cs" />
     <Compile Include="Attributes\FindByNameAttribute.cs" />
     <Compile Include="Attributes\FindByPlaceholderAttribute.cs" />
     <Compile Include="Attributes\FindByTitleAttribute.cs" />

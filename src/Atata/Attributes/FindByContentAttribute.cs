@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies that a control should be found by the content text. Finds the control having the specified content. Uses <c>Title</c> as the default term case.
@@ -30,9 +32,9 @@
             get { return TermCase.Title; }
         }
 
-        public override IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+        protected override Type DefaultStrategy
         {
-            return new FindByContentStrategy();
+            get { return typeof(FindByContentStrategy); }
         }
     }
 }
