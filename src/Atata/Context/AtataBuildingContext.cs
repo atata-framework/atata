@@ -19,5 +19,7 @@ namespace Atata
         public string BaseUrl { get; set; }
 
         public Func<RemoteWebDriver> DriverCreator { get; set; }
+
+        public List<Action> CleanUpActions { get; private set; } = new List<Action>();
     }
 }

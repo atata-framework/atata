@@ -54,6 +54,13 @@ namespace Atata
             return this;
         }
 
+        public AtataContextBuilder OnCleanUp(Action action)
+        {
+            if (action != null)
+                BuildingContext.CleanUpActions.Add(action);
+            return this;
+        }
+
         public void SetUp()
         {
             AtataContext.InitGlobalVariables();
@@ -70,7 +77,8 @@ namespace Atata
             {
                 TestName = BuildingContext.TestName,
                 BaseUrl = BuildingContext.BaseUrl,
-                Log = logManager
+                Log = logManager,
+                CleanUpActions = BuildingContext.CleanUpActions
             };
 
             AtataContext.Current = context;

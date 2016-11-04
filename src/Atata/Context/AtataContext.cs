@@ -58,6 +58,8 @@ namespace Atata
 
         public string BaseUrl { get; internal set; }
 
+        internal List<Action> CleanUpActions { get; set; }
+
         public UIComponent PageObject { get; internal set; }
 
         internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; } = new List<UIComponent>();
@@ -109,6 +111,8 @@ namespace Atata
             if (disposed)
                 return;
 
+            ExecuteCleanUpActions();
+
             TimeSpan cleanTestExecutionTime = DateTime.Now - CleanExecutionStartDateTime;
 
             Log.Start("Clean-up test context");
@@ -139,6 +143,21 @@ namespace Atata
         {
             UIComponentResolver.CleanUpPageObjects(TemporarilyPreservedPageObjects);
             TemporarilyPreservedPageObjectList.Clear();
+        }
+
+        private void ExecuteCleanUpActions()
+        {
+            foreach (Action action in CleanUpActions)
+            {
+                try
+                {
+                    action();
+                }
+                catch (Exception e)
+                {
+                    Log.Error("Clean-up action failure.", e);
+                }
+            }
         }
 
         /// <summary>

@@ -54,13 +54,30 @@ namespace Atata
 
         public static AtataContextBuilder UseNUnitTestName(this AtataContextBuilder builder)
         {
-            Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
-            PropertyInfo currentContextProperty = testContextType.GetPropertyWithThrowOnError("CurrentContext");
-
-            dynamic testContext = currentContextProperty.GetStaticValue();
+            dynamic testContext = GetNUnitTestContext();
             string testName = testContext.Test.Name;
 
             return builder.UseTestName(testName);
+        }
+
+        public static AtataContextBuilder LogNUnitError(this AtataContextBuilder builder)
+        {
+            return builder.OnCleanUp(() =>
+            {
+                dynamic testContext = GetNUnitTestContext();
+                var testResult = testContext.Result;
+
+                if ((int)testResult.Outcome.Status == 3)
+                    AtataContext.Current.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
+            });
+        }
+
+        private static object GetNUnitTestContext()
+        {
+            Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
+            PropertyInfo currentContextProperty = testContextType.GetPropertyWithThrowOnError("CurrentContext");
+
+            return currentContextProperty.GetStaticValue();
         }
 
         public static AtataContextBuilder<ILogConsumer> UseTraceLogging(this AtataContextBuilder builder)
