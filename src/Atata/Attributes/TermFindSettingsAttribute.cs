@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Defines the settings to apply for the specified finding strategy of control. Applies to the class (inheritor of <see cref="UIComponent{TOwner}"/>) and assembly.
+    /// Defines the term settings to apply for the specified finding strategy of a control.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
     public class TermFindSettingsAttribute : FindSettingsAttribute, ITermSettings
@@ -20,10 +20,19 @@ namespace Atata
             Case = termCase;
         }
 
+        /// <summary>
+        /// Gets or sets the term case.
+        /// </summary>
         public TermCase Case { get; set; }
 
+        /// <summary>
+        /// Gets or sets the match.
+        /// </summary>
         public new TermMatch Match { get; set; }
 
+        /// <summary>
+        /// Gets or sets the format.
+        /// </summary>
         public string Format { get; set; }
     }
 }
