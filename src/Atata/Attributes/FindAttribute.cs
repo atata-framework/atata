@@ -71,7 +71,8 @@ namespace Atata
         private FindSettingsAttribute GetFindSettings(UIComponentMetadata metadata, Func<FindSettingsAttribute, bool> predicate)
         {
             Type thisType = GetType();
-            return metadata.GetFirstOrDefaultAttribute<FindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x));
+            return metadata.GetFirstOrDefaultDeclaringAttribute<FindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x))
+                ?? metadata.GetFirstOrDefaultGlobalAttribute<FindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x));
         }
     }
 }
