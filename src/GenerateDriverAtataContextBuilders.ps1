@@ -25,6 +25,11 @@ $sourceContent.
 	replace("Chrome", "PhantomJS") |
 	Set-Content ($folderPath + "PhantomJSAtataContextBuilder.cs") -force;
 
+New-Item ($folderPath + "SafariAtataContextBuilder.cs") -type file -force;
+$sourceContent.
+	replace("Chrome", "Safari") |
+	Set-Content ($folderPath + "SafariAtataContextBuilder.cs") -force;
+
 New-Item ($folderPath + "InternetExplorerAtataContextBuilder.cs") -type file -force;
 $sourceContent.
 	replace("OpenQA.Selenium.Chrome", "OpenQA.Selenium.IE").

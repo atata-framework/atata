@@ -13,6 +13,11 @@ namespace Atata
 
         public AtataBuildingContext BuildingContext { get; internal set; }
 
+        /// <summary>
+        /// Use custom driver creator function.
+        /// </summary>
+        /// <param name="driverCreator">The builder.</param>
+        /// <returns>The <see cref="FirefoxAtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseDriver(Func<RemoteWebDriver> driverCreator)
         {
             driverCreator.CheckNotNull(nameof(driverCreator));
@@ -39,12 +44,22 @@ namespace Atata
             return new AtataContextBuilder<TLogConsumer>(consumer, BuildingContext);
         }
 
+        /// <summary>
+        /// Specifies the name of the test.
+        /// </summary>
+        /// <param name="name">The name of the test.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseTestName(string name)
         {
             BuildingContext.TestName = name;
             return this;
         }
 
+        /// <summary>
+        /// Specifies the base URL.
+        /// </summary>
+        /// <param name="baseUrl">The base URL.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseBaseUrl(string baseUrl)
         {
             if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
@@ -54,6 +69,11 @@ namespace Atata
             return this;
         }
 
+        /// <summary>
+        /// Adds the action to perform on <see cref="AtataContext"/> clean up.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder OnCleanUp(Action action)
         {
             if (action != null)
@@ -61,6 +81,9 @@ namespace Atata
             return this;
         }
 
+        /// <summary>
+        /// Sets up the context.
+        /// </summary>
         public void SetUp()
         {
             AtataContext.InitGlobalVariables();
