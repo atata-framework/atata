@@ -66,7 +66,7 @@ namespace Atata
 
         private XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions)
         {
-            IWebElement scopeSource = component.ScopeSource.GetScopeElement(component.Parent);
+            IWebElement scopeSource = component.ScopeSource.GetScopeElement(component);
 
             if (scopeSource == null && searchOptions.IsSafely)
                 return null;
