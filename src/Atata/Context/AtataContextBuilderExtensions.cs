@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
@@ -144,52 +145,104 @@ namespace Atata
             return currentContextProperty.GetStaticValue();
         }
 
+        /// <summary>
+        /// Adds the <see cref="TraceLogConsumer"/> instance that uses <see cref="Trace"/> class for logging.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
         public static AtataContextBuilder<ILogConsumer> UseTraceLogging(this AtataContextBuilder builder)
         {
             return builder.UseLogConsumer<ILogConsumer>(new TraceLogConsumer());
         }
 
+        /// <summary>
+        /// Adds the <see cref="DebugLogConsumer"/> instance that uses <see cref="Debug"/> class for logging.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
         public static AtataContextBuilder<ILogConsumer> UseDebugLogging(this AtataContextBuilder builder)
         {
             return builder.UseLogConsumer<ILogConsumer>(new DebugLogConsumer());
         }
 
+        /// <summary>
+        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses NUnit.Framework.TestContext class for logging.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
         public static AtataContextBuilder<ILogConsumer> UseNUnitTestContextLogging(this AtataContextBuilder builder)
         {
             return builder.UseLogConsumer<ILogConsumer>(new NUnitTestContextLogConsumer());
         }
 
+        /// <summary>
+        /// Adds the <see cref="NLogConsumer"/> instance that uses NLog.Logger class for logging.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="loggerName">Name of the logger.</param>
+        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
         public static AtataContextBuilder<ILogConsumer> UseNLogLogging(this AtataContextBuilder builder, string loggerName = null)
         {
             return builder.UseLogConsumer<ILogConsumer>(new NLogConsumer(loggerName));
         }
 
+        /// <summary>
+        /// Adds the <see cref="FileScreenshotConsumer"/> instance with the specified folder path.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="folderPath">The folder path.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
         public static AtataContextBuilder<FileScreenshotConsumer> UseScreenshotFileSaving(this AtataContextBuilder builder, string folderPath)
         {
             return builder.UseScreenshotConsumer(new FileScreenshotConsumer(folderPath));
         }
 
+        /// <summary>
+        /// Adds the <see cref="FileScreenshotConsumer"/> instance with the specified folder path creator.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="folderPathCreator">The folder path creator.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
         public static AtataContextBuilder<FileScreenshotConsumer> UseScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathCreator)
         {
             return builder.UseScreenshotConsumer(new FileScreenshotConsumer(folderPathCreator));
         }
 
+        /// <summary>
+        /// Specifies the image format of the log consumer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="imageFormat">The image format.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
         public static AtataContextBuilder<FileScreenshotConsumer> With(this AtataContextBuilder<FileScreenshotConsumer> builder, ImageFormat imageFormat)
         {
             builder.Context.ImageFormat = imageFormat;
             return builder;
         }
 
-        public static AtataContextBuilder<T> WithoutSectionFinish<T>(this AtataContextBuilder<T> builder)
-            where T : ILogConsumer
+        /// <summary>
+        /// Defines that the logging should not use section-like messages (not "Starting: {action}" and "Finished: {action}", but just "{action}").
+        /// </summary>
+        /// <typeparam name="TTLogConsumer">The type of the log consumer.</typeparam>
+        /// <param name="builder">The builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder{TTLogConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<TTLogConsumer> WithoutSectionFinish<TTLogConsumer>(this AtataContextBuilder<TTLogConsumer> builder)
+            where TTLogConsumer : ILogConsumer
         {
             LogConsumerInfo consumerInfo = builder.BuildingContext.LogConsumers.Single(x => Equals(x.Consumer, builder.Context));
             consumerInfo.LogSectionFinish = false;
             return builder;
         }
 
-        public static AtataContextBuilder<T> WithMinLevel<T>(this AtataContextBuilder<T> builder, LogLevel level)
-            where T : ILogConsumer
+        /// <summary>
+        /// Specifies the minimum level of the log event to write to the log.
+        /// </summary>
+        /// <typeparam name="TTLogConsumer">The type of the log consumer.</typeparam>
+        /// <param name="builder">The builder.</param>
+        /// <param name="level">The level.</param>
+        /// <returns>The <see cref="AtataContextBuilder{TTLogConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<TTLogConsumer> WithMinLevel<TTLogConsumer>(this AtataContextBuilder<TTLogConsumer> builder, LogLevel level)
+            where TTLogConsumer : ILogConsumer
         {
             LogConsumerInfo consumerInfo = builder.BuildingContext.LogConsumers.Single(x => Equals(x.Consumer, builder.Context));
             consumerInfo.MinLevel = level;
