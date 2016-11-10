@@ -16,6 +16,7 @@ namespace Atata
             NavigateOnInit = true;
             ScopeLocator = new PlainScopeLocator(CreateScopeBy);
 
+            ScopeSource = ScopeSource.PageObject;
             Owner = (TOwner)this;
         }
 
