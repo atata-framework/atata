@@ -17,8 +17,8 @@ namespace Atata
             SearchOptions searchOptions = new SearchOptions
             {
                 IsSafely = false,
-                Timeout = should.Timeout ?? RetrySettings.Timeout,
-                RetryInterval = should.RetryInterval ?? RetrySettings.Interval
+                Timeout = should.Timeout ?? AtataContext.Current.RetryTimeout,
+                RetryInterval = should.RetryInterval ?? AtataContext.Current.RetryInterval
             };
 
             if (should.IsNegation)

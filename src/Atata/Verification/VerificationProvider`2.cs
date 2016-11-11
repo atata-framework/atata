@@ -34,8 +34,8 @@ namespace Atata
         {
             get
             {
-                Timeout = RetrySettings.Timeout;
-                RetryInterval = RetrySettings.Interval;
+                Timeout = AtataContext.Current.RetryTimeout;
+                RetryInterval = AtataContext.Current.RetryInterval;
 
                 return (TVerificationProvider)this;
             }

@@ -32,19 +32,19 @@ namespace Atata
         public bool ThrowOnAbsenceFailure { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets the presence (exists or visible) timeout in seconds. The default value is taken from <c>RetrySettings.Timeout.TotalSeconds</c>.
+        /// Gets or sets the presence (exists or visible) timeout in seconds. The default value is taken from <c>AtataContext.Current.RetryTimeout.TotalSeconds</c>.
         /// </summary>
-        public double PresenceTimeout { get; set; } = RetrySettings.Timeout.TotalSeconds;
+        public double PresenceTimeout { get; set; } = AtataContext.Current.RetryTimeout.TotalSeconds;
 
         /// <summary>
-        /// Gets or sets the absence (missing or hidden) timeout in seconds. The default value is taken from <c>RetrySettings.Timeout.TotalSeconds</c>.
+        /// Gets or sets the absence (missing or hidden) timeout in seconds. The default value is taken from <c>AtataContext.Current.RetryTimeout.TotalSeconds</c>.
         /// </summary>
-        public double AbsenceTimeout { get; set; } = RetrySettings.Timeout.TotalSeconds;
+        public double AbsenceTimeout { get; set; } = AtataContext.Current.RetryTimeout.TotalSeconds;
 
         /// <summary>
-        /// Gets or sets the retry interval. The default value is taken from <c>RetrySettings.RetryInterval.TotalSeconds</c>.
+        /// Gets or sets the retry interval. The default value is taken from <c>AtataContext.Current.RetryInterval.TotalSeconds</c>.
         /// </summary>
-        public double RetryInterval { get; set; } = RetrySettings.Interval.TotalSeconds;
+        public double RetryInterval { get; set; } = AtataContext.Current.RetryInterval.TotalSeconds;
 
         protected WaitUnit[] GetWaitUnits(WaitUntil until)
         {
