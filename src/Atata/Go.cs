@@ -5,6 +5,15 @@ namespace Atata
 {
     public static class Go
     {
+        /// <summary>
+        /// Navigates to the specified page object.
+        /// </summary>
+        /// <typeparam name="T">The type of the page object.</typeparam>
+        /// <param name="pageObject">The page object. If set to <c>null</c> creates an instance using the default constructor.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="navigate">If set to <c>true</c> executes page object navigation functionality.</param>
+        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
+        /// <returns>The page object.</returns>
         public static T To<T>(T pageObject = null, string url = null, bool navigate = true, bool temporarily = false)
             where T : PageObject<T>
         {
