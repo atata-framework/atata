@@ -3,9 +3,9 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class NavigateToAttribute : Attribute
+    public class UrlAttribute : Attribute
     {
-        public NavigateToAttribute(string url)
+        public UrlAttribute(string url)
         {
             Url = url;
         }

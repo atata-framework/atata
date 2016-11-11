@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("Waiting.html")]
+    [Url("Waiting.html")]
     [VerifyTitle]
     [VerifyH1]
     public class WaitingPage : Page<_>

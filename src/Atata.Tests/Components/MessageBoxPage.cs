@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("MessageBox.html")]
+    [Url("MessageBox.html")]
     [VerifyTitle]
     public class MessageBoxPage : Page<_>
     {

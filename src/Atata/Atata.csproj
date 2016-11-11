@@ -178,7 +178,7 @@
     <Compile Include="Attributes\SelectByValueAttribute.cs" />
     <Compile Include="Attributes\TermFindItemAttribute.cs" />
     <Compile Include="Attributes\TermFindSettingsAttribute.cs" />
-    <Compile Include="Attributes\NavigateToAttribute.cs" />
+    <Compile Include="Attributes\UrlAttribute.cs" />
     <Compile Include="Attributes\TermFindAttribute.cs" />
     <Compile Include="Attributes\TermAttribute.cs" />
     <Compile Include="Attributes\FindByIdAttribute.cs" />

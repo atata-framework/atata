@@ -86,7 +86,7 @@ namespace Atata
 
         protected virtual void Navigate()
         {
-            NavigateToAttribute attribute;
+            UrlAttribute attribute;
 
             if (GetType().TryGetCustomAttribute(out attribute))
             {

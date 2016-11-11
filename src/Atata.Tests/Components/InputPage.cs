@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("Input.html")]
+    [Url("Input.html")]
     [VerifyTitle]
     public class InputPage : Page<_>
     {

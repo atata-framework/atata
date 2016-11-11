@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [NavigateTo("BasicControls.html")]
+    [Url("BasicControls.html")]
     [VerifyTitle]
     [VerifyH1]
     [VerifyContent("First Name", "Age")]
