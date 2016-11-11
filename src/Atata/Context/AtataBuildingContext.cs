@@ -21,5 +21,9 @@ namespace Atata
         public Func<RemoteWebDriver> DriverCreator { get; set; }
 
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
+
+        public TimeSpan RetryTimeout { get; internal set; } = TimeSpan.FromSeconds(10);
+
+        public TimeSpan RetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
     }
 }

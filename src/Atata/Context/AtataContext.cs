@@ -56,7 +56,20 @@ namespace Atata
         /// </summary>
         public DateTime TestStart { get; private set; } = DateTime.Now;
 
+        /// <summary>
+        /// Gets the base URL.
+        /// </summary>
         public string BaseUrl { get; internal set; }
+
+        /// <summary>
+        /// Gets the retry timeout. The default value is 10 seconds.
+        /// </summary>
+        public TimeSpan RetryTimeout { get; internal set; }
+
+        /// <summary>
+        /// Gets the retry interval. The default value is 500 milliseconds.
+        /// </summary>
+        public TimeSpan RetryInterval { get; internal set; }
 
         internal List<Action> CleanUpActions { get; set; }
 

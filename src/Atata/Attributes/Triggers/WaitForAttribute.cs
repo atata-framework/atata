@@ -44,7 +44,7 @@ namespace Atata
         /// <summary>
         /// Gets or sets the retry interval. The default value is taken from <c>RetrySettings.RetryInterval.TotalSeconds</c>.
         /// </summary>
-        public double RetryInterval { get; set; } = RetrySettings.RetryInterval.TotalSeconds;
+        public double RetryInterval { get; set; } = RetrySettings.Interval.TotalSeconds;
 
         protected WaitUnit[] GetWaitUnits(WaitUntil until)
         {

@@ -14,7 +14,7 @@ namespace Atata
         public static ITimeouts SetRetryTimeout(this ITimeouts timeouts, TimeSpan timeToWait, TimeSpan retryInterval)
         {
             RetrySettings.Timeout = timeToWait;
-            RetrySettings.RetryInterval = retryInterval;
+            RetrySettings.Interval = retryInterval;
             return timeouts;
         }
     }

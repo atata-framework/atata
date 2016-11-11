@@ -18,7 +18,7 @@ namespace Atata
             {
                 IsSafely = false,
                 Timeout = should.Timeout ?? RetrySettings.Timeout,
-                RetryInterval = should.RetryInterval ?? RetrySettings.RetryInterval
+                RetryInterval = should.RetryInterval ?? RetrySettings.Interval
             };
 
             if (should.IsNegation)

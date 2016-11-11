@@ -16,7 +16,7 @@ namespace Atata
         }
 
         public ExtendedSearchContext(T context, TimeSpan timeout)
-            : this(context, timeout, RetrySettings.RetryInterval)
+            : this(context, timeout, RetrySettings.Interval)
         {
         }
 

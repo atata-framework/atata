@@ -57,7 +57,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Specifies the name of the test.
+        /// Sets the name of the test.
         /// </summary>
         /// <param name="name">The name of the test.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -68,7 +68,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Specifies the base URL.
+        /// Sets the base URL.
         /// </summary>
         /// <param name="baseUrl">The base URL.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -78,6 +78,28 @@ namespace Atata
                 throw new ArgumentException($"Invalid URL format \"{baseUrl}\".", nameof(baseUrl));
 
             BuildingContext.BaseUrl = baseUrl;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the retry timeout for a search of element/control.
+        /// </summary>
+        /// <param name="timeout">The retry timeout.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseRetryTimeout(TimeSpan timeout)
+        {
+            BuildingContext.RetryTimeout = timeout;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the retry interval for a search of element/control.
+        /// </summary>
+        /// <param name="interval">The retry interval.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseRetryInterval(TimeSpan interval)
+        {
+            BuildingContext.RetryInterval = interval;
             return this;
         }
 
@@ -113,7 +135,9 @@ namespace Atata
                 TestName = BuildingContext.TestName,
                 BaseUrl = BuildingContext.BaseUrl,
                 Log = logManager,
-                CleanUpActions = BuildingContext.CleanUpActions
+                CleanUpActions = BuildingContext.CleanUpActions,
+                RetryTimeout = BuildingContext.RetryTimeout,
+                RetryInterval = BuildingContext.RetryInterval
             };
 
             AtataContext.Current = context;
@@ -121,7 +145,10 @@ namespace Atata
             context.LogTestStart();
 
             context.Log.Start("Init WebDriver");
+
             context.Driver = BuildingContext.DriverCreator?.Invoke() ?? new FirefoxDriver();
+            context.Driver.Manage().Timeouts().SetRetryTimeout(BuildingContext.RetryTimeout, BuildingContext.RetryInterval);
+
             context.Log.EndSection();
 
             context.CleanExecutionStartDateTime = DateTime.Now;

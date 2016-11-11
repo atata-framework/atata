@@ -7,7 +7,7 @@ namespace Atata
         public SearchOptions()
         {
             Timeout = RetrySettings.Timeout;
-            RetryInterval = RetrySettings.RetryInterval;
+            RetryInterval = RetrySettings.Interval;
             Visibility = ElementVisibility.Visible;
             IsSafely = false;
         }
