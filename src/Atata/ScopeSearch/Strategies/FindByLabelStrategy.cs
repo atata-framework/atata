@@ -20,9 +20,19 @@ namespace Atata
             }
 
             string elementId = label.GetAttribute("for");
+            IdXPathForLabelAttribute idXPathForLabelAttribute;
+
             if (string.IsNullOrEmpty(elementId))
             {
                 return new SequalComponentScopeLocateResult(label, new FindFirstDescendantStrategy());
+            }
+            else if ((idXPathForLabelAttribute = options.Metadata.GetFirstOrDefaultComponentAttribute<IdXPathForLabelAttribute>()) != null)
+            {
+                ComponentScopeLocateOptions idOptions = options.Clone();
+                idOptions.Terms = new[] { idXPathForLabelAttribute.XPathFormat.FormatWith(elementId) };
+                idOptions.Index = null;
+
+                return new SequalComponentScopeLocateResult(scope, new FindByXPathStrategy(), idOptions);
             }
             else
             {

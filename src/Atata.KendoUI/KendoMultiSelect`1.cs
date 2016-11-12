@@ -2,11 +2,8 @@
 
 namespace Atata.KendoUI
 {
-    [ControlDefinition(
-        "div",
-        ContainingClass = "k-multiselect",
-        ComponentTypeName = "multi-select",
-        IdXPathFormat = "div[div[1]/ul[id='{0}_taglist']]")]
+    [ControlDefinition("div", ContainingClass = "k-multiselect", ComponentTypeName = "multi-select")]
+    [IdXPathForLabel("[ul[id='{0}_taglist']]")]
     [ValueXPath("span[1]")]
     public class KendoMultiSelect<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>

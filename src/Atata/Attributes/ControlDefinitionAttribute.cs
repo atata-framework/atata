@@ -6,7 +6,5 @@
             : base(scopeXPath)
         {
         }
-
-        public string IdXPathFormat { get; set; }
     }
 }

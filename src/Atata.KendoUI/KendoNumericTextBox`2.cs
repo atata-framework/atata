@@ -2,12 +2,8 @@
 
 namespace Atata.KendoUI
 {
-    // TODO: Fix IdXPathFormat. Element used by IdXPathFormat is invisilble.
-    [ControlDefinition(
-        "span",
-        ContainingClass = "k-numerictextbox",
-        ComponentTypeName = "numeric text box",
-        IdXPathFormat = "span[span/input[2][@id='{0}']]")]
+    [ControlDefinition("span", ContainingClass = "k-numerictextbox", ComponentTypeName = "numeric text box")]
+    [IdXPathForLabel("[span/input[2][@id='{0}']]")]
     public class KendoNumericTextBox<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

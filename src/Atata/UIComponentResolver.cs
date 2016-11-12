@@ -435,8 +435,8 @@ namespace Atata
             ControlDefinitionAttribute definition = metadata.ComponentDefinitonAttribute as ControlDefinitionAttribute;
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
+                Metadata = metadata,
                 ElementXPath = definition != null ? definition.ScopeXPath : "*",
-                IdXPathFormat = definition != null ? definition.IdXPathFormat : null,
                 Index = findAttribute.ResolveIndex(metadata)
             };
 

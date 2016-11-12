@@ -61,6 +61,7 @@
     </Compile>
     <Compile Include="ActivatorEx.cs" />
     <Compile Include="Attributes\FindSettingsAttribute.cs" />
+    <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForAttribute.cs" />
