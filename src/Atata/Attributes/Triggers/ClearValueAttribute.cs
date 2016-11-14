@@ -7,7 +7,7 @@
         {
         }
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             context.Component.Scope.Clear();
         }

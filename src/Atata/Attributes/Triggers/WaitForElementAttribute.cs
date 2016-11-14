@@ -37,7 +37,7 @@ namespace Atata
         /// </summary>
         public ScopeSource ScopeSource { get; set; }
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             ScopeSource scopeSource = ScopeSource != ScopeSource.Inherit ? ScopeSource : context.Component.ScopeSource;
             IWebElement scopeElement = scopeSource.GetScopeElement((UIComponent)context.Component);

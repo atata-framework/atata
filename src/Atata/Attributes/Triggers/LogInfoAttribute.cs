@@ -13,7 +13,7 @@
 
         public string Message { get; private set; }
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             context.Log.Info(Message);
         }

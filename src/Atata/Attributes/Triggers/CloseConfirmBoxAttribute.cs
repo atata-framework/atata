@@ -15,7 +15,7 @@ namespace Atata
 
         public bool Accept { get; private set; }
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             IAlert alert = context.Driver.SwitchTo().Alert();
 

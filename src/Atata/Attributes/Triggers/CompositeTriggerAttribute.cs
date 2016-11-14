@@ -14,7 +14,7 @@ namespace Atata
 
         protected abstract IEnumerable<TriggerAttribute> CreateTriggers();
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             if (triggers == null)
                 InitTriggers();

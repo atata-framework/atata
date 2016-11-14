@@ -13,7 +13,7 @@
 
         public string Keys { get; protected set; }
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             if (!string.IsNullOrEmpty(Keys))
             {

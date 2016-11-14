@@ -54,7 +54,7 @@ namespace Atata
             get { return TermMatch.Equals; }
         }
 
-        public override void ApplyMetadata(UIComponentMetadata metadata)
+        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
             base.ApplyMetadata(metadata);
 
@@ -70,7 +70,7 @@ namespace Atata
             return null;
         }
 
-        public override void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             string[] expectedValues = this.GetActualValues(context.Component.ComponentName);
 

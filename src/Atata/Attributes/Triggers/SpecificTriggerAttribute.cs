@@ -10,7 +10,7 @@ namespace Atata
         {
         }
 
-        public override sealed void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal override sealed void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             MethodInfo declaredMethod = GetType().GetMethod("Execute", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
             if (declaredMethod != null)

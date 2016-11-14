@@ -29,11 +29,11 @@ namespace Atata
         /// </summary>
         public TriggerScope AppliesTo { get; set; } = TriggerScope.Self;
 
-        public virtual void ApplyMetadata(UIComponentMetadata metadata)
+        protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
         {
         }
 
-        public abstract void Execute<TOwner>(TriggerContext<TOwner> context)
+        protected internal abstract void Execute<TOwner>(TriggerContext<TOwner> context)
             where TOwner : PageObject<TOwner>, IPageObject<TOwner>;
     }
 }
