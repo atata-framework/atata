@@ -2,17 +2,26 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Defines the format to apply for the specified control.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
     public class FormatSettingsAttribute : Attribute
     {
-        public FormatSettingsAttribute(Type componentType, string value)
+        public FormatSettingsAttribute(Type controlType, string value)
         {
-            ComponentType = componentType;
+            ControlType = controlType;
             Value = value;
         }
 
-        public Type ComponentType { get; private set; }
+        /// <summary>
+        /// Gets or sets the type of the control (e.g.: typeof(DateInput&lt;&gt;), typeof(TimeInput&lt;&gt;)).
+        /// </summary>
+        public Type ControlType { get; set; }
 
+        /// <summary>
+        /// Gets the format value.
+        /// </summary>
         public string Value { get; private set; }
     }
 }

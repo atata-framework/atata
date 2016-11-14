@@ -104,7 +104,7 @@ namespace Atata
         public string GetFormat()
         {
             return GetFirstOrDefaultDeclaringAttribute<FormatAttribute>()?.Value
-                ?? GetFirstOrDefaultGlobalAttribute<FormatSettingsAttribute>(x => ComponentType.IsSubclassOfRawGeneric(x.ComponentType))?.Value
+                ?? GetFirstOrDefaultGlobalAttribute<FormatSettingsAttribute>(x => ComponentType.IsSubclassOfRawGeneric(x.ControlType))?.Value
                 ?? GetFirstOrDefaultComponentAttribute<FormatAttribute>()?.Value;
         }
     }

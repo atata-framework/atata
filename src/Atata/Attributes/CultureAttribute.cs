@@ -3,6 +3,9 @@ using System.Globalization;
 
 namespace Atata
 {
+    /// <summary>
+    /// Specifies the culture of a component.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Assembly)]
     public class CultureAttribute : Attribute
     {
@@ -11,6 +14,9 @@ namespace Atata
             Value = value;
         }
 
+        /// <summary>
+        /// Gets the culture value.
+        /// </summary>
         public string Value { get; private set; }
 
         public bool HasValue
