@@ -243,20 +243,22 @@ namespace Atata
                 return null;
         }
 
-        public TOwner Do<TComponent>(Func<TOwner, TComponent> childControlGetter, params Action<TComponent>[] actions)
+        public TOwner Do<TComponent>(Func<TOwner, TComponent> childControlGetter, Action<TComponent> action)
         {
+            action.CheckNotNull(nameof(action));
+
             TComponent component = childControlGetter((TOwner)this);
 
-            foreach (var action in actions)
-                action(component);
+            action(component);
 
             return (TOwner)this;
         }
 
-        public TOwner Do(params Action<TOwner>[] actions)
+        public TOwner Do(Action<TOwner> action)
         {
-            foreach (var action in actions)
-                action((TOwner)this);
+            action.CheckNotNull(nameof(action));
+
+            action((TOwner)this);
 
             return (TOwner)this;
         }
