@@ -7,13 +7,13 @@ namespace Atata.Tests
     public class MessageBoxPage : Page<_>
     {
         [CloseAlertBox]
-        public Button<_> AlertButton { get; private set; }
+        public ButtonDelegate<_> AlertButton { get; private set; }
 
         [CloseConfirmBox]
-        public Link<GoTo1Page, _> ConfirmButton { get; private set; }
+        public LinkDelegate<GoTo1Page, _> ConfirmButton { get; private set; }
 
         [Term("Confirm")]
         [CloseConfirmBox(false)]
-        public Link<_> ConfirmButtonWithReject { get; private set; }
+        public LinkDelegate<_> ConfirmButtonWithReject { get; private set; }
     }
 }

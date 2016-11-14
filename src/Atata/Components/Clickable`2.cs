@@ -3,10 +3,10 @@
     /// <summary>
     /// Represents any HTML element. Default search is performed by the id attribute.
     /// </summary>
+    /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("*", ComponentTypeName = "control", IgnoreNameEndings = "Button,Link")]
-    [ControlFinding(FindTermBy.Id)]
-    public class ClickableControl<TOwner> : Control<TOwner>
+    public class Clickable<TNavigateTo, TOwner> : Clickable<TOwner>, INavigable<TNavigateTo, TOwner>
+        where TNavigateTo : PageObject<TNavigateTo>
         where TOwner : PageObject<TOwner>
     {
     }

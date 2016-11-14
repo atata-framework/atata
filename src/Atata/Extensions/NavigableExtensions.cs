@@ -2,25 +2,25 @@
 {
     public static class NavigableExtensions
     {
-        public static TNavigateTo ClickAndGo<TNavigateTo, TOwner>(this Clickable<TNavigateTo, TOwner> clickable)
+        public static TNavigateTo ClickAndGo<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickableDelegate)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().ClickAndGo();
+            return clickableDelegate.GetControl().ClickAndGo();
         }
 
-        public static TNavigateTo ClickAndGo<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> button)
+        public static TNavigateTo ClickAndGo<TNavigateTo, TOwner>(this ButtonDelegate<TNavigateTo, TOwner> buttonDelegate)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
         {
-            return button.GetControl().ClickAndGo();
+            return buttonDelegate.GetControl().ClickAndGo();
         }
 
-        public static TNavigateTo ClickAndGo<TNavigateTo, TOwner>(this Link<TNavigateTo, TOwner> link)
+        public static TNavigateTo ClickAndGo<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> linkDelegate)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
         {
-            return link.GetControl().ClickAndGo();
+            return linkDelegate.GetControl().ClickAndGo();
         }
     }
 }

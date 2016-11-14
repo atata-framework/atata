@@ -10,7 +10,7 @@ namespace Atata.KendoUI
         [FindByClass("k-select")]
         [Name("Drop-Down")]
         [Wait(0.5)]
-        protected virtual Clickable<TOwner> DropDownButton { get; set; }
+        protected virtual ClickableDelegate<TOwner> DropDownButton { get; set; }
 
         protected string ValueXPath
         {

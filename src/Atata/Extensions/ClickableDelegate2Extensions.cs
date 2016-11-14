@@ -1,50 +1,50 @@
 namespace Atata
 {
-    public static class Button2Extensions
+    public static class ClickableDelegate2Extensions
     {
-        public static ButtonControl<TNavigateTo, TOwner> GetControl<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)
+        public static Clickable<TNavigateTo, TOwner> GetControl<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return (ButtonControl<TNavigateTo, TOwner>)UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
+            return (Clickable<TNavigateTo, TOwner>)UIComponentResolver.GetControlByDelegate<TOwner>(clickable);
         }
 
-        public static TOwner Click<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)
+        public static TOwner Click<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return clickable.GetControl().Click();
         }
 
-        public static bool IsEnabled<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)
+        public static bool IsEnabled<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return clickable.GetControl().IsEnabled.Value;
         }
 
-        public static bool Exists<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable, SearchOptions options = null)
+        public static bool Exists<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable, SearchOptions options = null)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return clickable.GetControl().Exists(options);
         }
 
-        public static bool Missing<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable, SearchOptions options = null)
+        public static bool Missing<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable, SearchOptions options = null)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return clickable.GetControl().Missing(options);
         }
 
-        public static DataProvider<string, TOwner> Content<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)
+        public static DataProvider<string, TOwner> Content<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return clickable.GetControl().Content;
         }
 
-        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> Should<TNavigateTo, TOwner>(this Button<TNavigateTo, TOwner> clickable)
+        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> Should<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
             where TOwner : PageObject<TOwner>
             where TNavigateTo : PageObject<TNavigateTo>
         {

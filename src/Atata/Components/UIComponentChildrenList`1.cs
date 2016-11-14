@@ -28,59 +28,59 @@ namespace Atata
             return control;
         }
 
-        public ClickableControl<TOwner> CreateClickable(string name, params Attribute[] attributes)
+        public Clickable<TOwner> CreateClickable(string name, params Attribute[] attributes)
         {
-            return Create<ClickableControl<TOwner>>(name, attributes);
+            return Create<Clickable<TOwner>>(name, attributes);
         }
 
-        public ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, params Attribute[] attributes)
+        public Clickable<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<ClickableControl<TNavigateTo, TOwner>>(name, attributes);
+            return Create<Clickable<TNavigateTo, TOwner>>(name, attributes);
         }
 
-        public ClickableControl<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
+        public Clickable<TNavigateTo, TOwner> CreateClickable<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<ClickableControl<TNavigateTo, TOwner>>(
+            return Create<Clickable<TNavigateTo, TOwner>>(
                 name,
                 ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
         }
 
-        public LinkControl<TOwner> CreateLink(string name, params Attribute[] attributes)
+        public Link<TOwner> CreateLink(string name, params Attribute[] attributes)
         {
-            return Create<LinkControl<TOwner>>(name, attributes);
+            return Create<Link<TOwner>>(name, attributes);
         }
 
-        public LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, params Attribute[] attributes)
+        public Link<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<LinkControl<TNavigateTo, TOwner>>(name, attributes);
+            return Create<Link<TNavigateTo, TOwner>>(name, attributes);
         }
 
-        public LinkControl<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
+        public Link<TNavigateTo, TOwner> CreateLink<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<LinkControl<TNavigateTo, TOwner>>(
+            return Create<Link<TNavigateTo, TOwner>>(
                 name,
                 ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
         }
 
-        public ButtonControl<TOwner> CreateButton(string name, params Attribute[] attributes)
+        public Button<TOwner> CreateButton(string name, params Attribute[] attributes)
         {
-            return Create<ButtonControl<TOwner>>(name, attributes);
+            return Create<Button<TOwner>>(name, attributes);
         }
 
-        public ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, params Attribute[] attributes)
+        public Button<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<ButtonControl<TNavigateTo, TOwner>>(name, attributes);
+            return Create<Button<TNavigateTo, TOwner>>(name, attributes);
         }
 
-        public ButtonControl<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
+        public Button<TNavigateTo, TOwner> CreateButton<TNavigateTo>(string name, Func<TNavigateTo> navigationPageObjectCreator, params Attribute[] attributes)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            return Create<ButtonControl<TNavigateTo, TOwner>>(
+            return Create<Button<TNavigateTo, TOwner>>(
                 name,
                 ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
         }

@@ -3,10 +3,11 @@
     /// <summary>
     /// Represents the link control (&lt;a&gt;). Default search is performed by the content.
     /// </summary>
+    /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("a", ComponentTypeName = "link", IgnoreNameEndings = "Button,Link")]
-    [ControlFinding(FindTermBy.Content)]
-    public class LinkControl<TOwner> : Control<TOwner>
+    /// <seealso cref="Link{TOwner}" />
+    public class Link<TNavigateTo, TOwner> : Link<TOwner>, INavigable<TNavigateTo, TOwner>
+        where TNavigateTo : PageObject<TNavigateTo>
         where TOwner : PageObject<TOwner>
     {
     }
