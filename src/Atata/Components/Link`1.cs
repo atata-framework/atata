@@ -9,5 +9,11 @@
     public class Link<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        public DataProvider<string, TOwner> Href => GetOrCreateDataProvider("href", GetHref);
+
+        private string GetHref()
+        {
+            return Attributes["href"];
+        }
     }
 }
