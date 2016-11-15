@@ -54,9 +54,10 @@ namespace Atata
             return Driver.Url;
         }
 
-        internal void Init(PageObjectContext context)
+        internal void Init()
         {
-            ApplyContext(context);
+            Log = AtataContext.Current.Log;
+            Driver = AtataContext.Current.Driver;
 
             ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
             ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
@@ -73,12 +74,6 @@ namespace Atata
             ExecuteTriggers(TriggerEvents.Init);
 
             OnVerify();
-        }
-
-        protected virtual void ApplyContext(PageObjectContext context)
-        {
-            Log = context.Logger;
-            Driver = context.Driver;
         }
 
         protected virtual void OnInit()
@@ -140,7 +135,7 @@ namespace Atata
             else
             {
                 pageObject.PreviousPageObject = this;
-                pageObject.Init(new PageObjectContext(Driver, Log));
+                pageObject.Init();
             }
 
             return pageObject;

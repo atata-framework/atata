@@ -326,7 +326,6 @@
     <Compile Include="ScopeSearch\Strategies\XPathComponentScopeLocateStrategy.cs" />
     <Compile Include="Logging\ILogManager.cs" />
     <Compile Include="Logging\ILogManagerExtensions.cs" />
-    <Compile Include="PageObjectContext.cs" />
     <Compile Include="Components\PageObject`1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Terms\FindTermBy.cs" />

@@ -107,7 +107,7 @@ namespace Atata
                 }
 
                 pageObject.NavigateOnInit = options.Navigate;
-                pageObject.Init(new PageObjectContext(AtataContext.Current.Driver, AtataContext.Current.Log));
+                pageObject.Init();
                 return pageObject;
             }
             else
