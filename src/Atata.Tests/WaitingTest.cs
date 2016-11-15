@@ -19,7 +19,7 @@ namespace Atata.Tests
                 ButtonWithoutWait.Click();
 
             Assert.Throws<NoSuchElementException>(
-                () => page.Result.Should.WithoutRetry.Exist());
+                () => page.Result.Should.AtOnce.Exist());
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace Atata.Tests
         {
             page.
                 ButtonWithMissingOrHiddenWait.Click().
-                Result.Should.WithoutRetry.Exist();
+                Result.Should.AtOnce.Exist();
         }
 
         [Test]
@@ -43,7 +43,7 @@ namespace Atata.Tests
         {
             page.
                 ButtonWithVisibleAndHiddenWait.Click().
-                Result.Should.WithoutRetry.Exist();
+                Result.Should.AtOnce.Exist();
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Atata.Tests
             using (StopwatchAsserter.Within(2))
                 page.ButtonWithVisibleAndMissingWait.Click();
 
-            page.Result.Should.WithoutRetry.Exist();
+            page.Result.Should.AtOnce.Exist();
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace Atata.Tests
             using (StopwatchAsserter.Within(2))
                 page.ButtonWithHiddenAndVisibleWait.Click();
 
-            page.Result.Should.WithoutRetry.Exist();
+            page.Result.Should.AtOnce.Exist();
         }
     }
 }

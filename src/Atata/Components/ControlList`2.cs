@@ -52,7 +52,7 @@ namespace Atata
         protected virtual int GetCount()
         {
             By itemBy = CreateItemBy();
-            return Component.Scope.GetAll(itemBy.Immediately()).Count;
+            return Component.Scope.GetAll(itemBy.AtOnce()).Count;
         }
 
         protected TItem GetItemByIndex(int index)
@@ -74,7 +74,7 @@ namespace Atata
 
             ControlListScopeLocator scopeLocator = new ControlListScopeLocator(options =>
             {
-                return Component.Scope.GetAll(itemBy.With(options).SafelyAndImmediately()).
+                return Component.Scope.GetAll(itemBy.With(options).SafelyAtOnce()).
                     Where(element => predicate(CreateItem(new DefinedScopeLocator(element), name)));
             });
 
@@ -129,7 +129,7 @@ namespace Atata
         {
             By itemBy = CreateItemBy();
 
-            return Component.Scope.GetAll(itemBy.Immediately()).
+            return Component.Scope.GetAll(itemBy.AtOnce()).
                 Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1))).
                 ToArray();
         }

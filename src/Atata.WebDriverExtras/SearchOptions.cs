@@ -36,7 +36,7 @@ namespace Atata
             return new SearchOptions { IsSafely = false };
         }
 
-        public static SearchOptions SafelyAndImmediately(bool isSafely = true)
+        public static SearchOptions SafelyAtOnce(bool isSafely = true)
         {
             return new SearchOptions { IsSafely = isSafely, Timeout = TimeSpan.Zero };
         }
@@ -51,27 +51,27 @@ namespace Atata
             return new SearchOptions { Visibility = ElementVisibility.Any };
         }
 
-        public static SearchOptions WithRetry(TimeSpan timeout)
+        public static SearchOptions Within(TimeSpan timeout, TimeSpan? retryInterval = null)
         {
-            return new SearchOptions { Timeout = timeout };
+            return new SearchOptions { Timeout = timeout, RetryInterval = retryInterval ?? RetrySettings.Interval };
         }
 
-        public static SearchOptions WithRetry(TimeSpan timeout, TimeSpan retryInterval)
+        public static SearchOptions Within(double timeoutSeconds, double? retryIntervalSeconds)
         {
-            return new SearchOptions { Timeout = timeout, RetryInterval = retryInterval };
+            return new SearchOptions { Timeout = TimeSpan.FromSeconds(timeoutSeconds), RetryInterval = retryIntervalSeconds.HasValue ? TimeSpan.FromSeconds(retryIntervalSeconds.Value) : RetrySettings.Interval };
         }
 
-        public static SearchOptions WithRetry(double timeoutSeconds)
+        public static SearchOptions SafelyWithin(TimeSpan timeout, TimeSpan? retryInterval = null)
         {
-            return new SearchOptions { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
+            return new SearchOptions { IsSafely = true, Timeout = timeout, RetryInterval = retryInterval ?? RetrySettings.Interval };
         }
 
-        public static SearchOptions WithRetry(double timeoutSeconds, double retryIntervalSeconds)
+        public static SearchOptions SafelyWithin(double timeoutSeconds, double? retryIntervalSeconds)
         {
-            return new SearchOptions { Timeout = TimeSpan.FromSeconds(timeoutSeconds), RetryInterval = TimeSpan.FromSeconds(retryIntervalSeconds) };
+            return new SearchOptions { IsSafely = true, Timeout = TimeSpan.FromSeconds(timeoutSeconds), RetryInterval = retryIntervalSeconds.HasValue ? TimeSpan.FromSeconds(retryIntervalSeconds.Value) : RetrySettings.Interval };
         }
 
-        public static SearchOptions Immediately()
+        public static SearchOptions AtOnce()
         {
             return new SearchOptions { Timeout = TimeSpan.Zero };
         }

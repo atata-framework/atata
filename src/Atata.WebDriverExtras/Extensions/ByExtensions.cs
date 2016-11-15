@@ -46,14 +46,14 @@ namespace Atata
             return extendedBy;
         }
 
-        public static By WithRetry(this By by, TimeSpan timeout)
+        public static By Within(this By by, TimeSpan timeout)
         {
             ExtendedBy extendedBy = new ExtendedBy(by);
             extendedBy.Options.Timeout = timeout;
             return extendedBy;
         }
 
-        public static By WithRetry(this By by, TimeSpan timeout, TimeSpan retryInterval)
+        public static By Within(this By by, TimeSpan timeout, TimeSpan retryInterval)
         {
             ExtendedBy extendedBy = new ExtendedBy(by);
             extendedBy.Options.Timeout = timeout;
@@ -61,14 +61,14 @@ namespace Atata
             return extendedBy;
         }
 
-        public static By Immediately(this By by)
+        public static By AtOnce(this By by)
         {
             ExtendedBy extendedBy = new ExtendedBy(by);
             extendedBy.Options.Timeout = TimeSpan.Zero;
             return extendedBy;
         }
 
-        public static By SafelyAndImmediately(this By by, bool isSafely = true)
+        public static By SafelyAtOnce(this By by, bool isSafely = true)
         {
             ExtendedBy extendedBy = new ExtendedBy(by);
             extendedBy.Options.IsSafely = isSafely;

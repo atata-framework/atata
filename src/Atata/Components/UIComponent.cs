@@ -137,7 +137,7 @@ namespace Atata
         public override string ToString()
         {
             StringBuilder builder = new StringBuilder(ComponentFullName);
-            IWebElement scope = GetScopeElement(SearchOptions.SafelyAndImmediately());
+            IWebElement scope = GetScopeElement(SearchOptions.SafelyAtOnce());
 
             if (scope != null)
                 builder.AppendLine().Append(scope.ToString());

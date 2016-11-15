@@ -41,7 +41,7 @@ namespace Atata
             }
         }
 
-        public TVerificationProvider WithoutRetry
+        public TVerificationProvider AtOnce
         {
             get
             {
@@ -59,7 +59,7 @@ namespace Atata
             return (TVerificationProvider)this;
         }
 
-        public TVerificationProvider WithinSeconds(double timeoutSeconds, double? retryIntervalSeconds = null)
+        public TVerificationProvider Within(double timeoutSeconds, double? retryIntervalSeconds = null)
         {
             return Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? (TimeSpan?)TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
         }

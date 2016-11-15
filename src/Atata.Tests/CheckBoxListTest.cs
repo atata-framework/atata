@@ -42,10 +42,10 @@ namespace Atata.Tests
             page.ByIdAndLabel.Should.HaveChecked(CheckBoxListPage.Options.OptionD);
 
             Assert.Throws<AssertionException>(() =>
-                page.ByIdAndLabel.Should.WithoutRetry.Not.HaveChecked(CheckBoxListPage.Options.OptionD));
+                page.ByIdAndLabel.Should.AtOnce.Not.HaveChecked(CheckBoxListPage.Options.OptionD));
 
             Assert.Throws<AssertionException>(() =>
-                page.ByIdAndLabel.Should.WithoutRetry.HaveChecked(CheckBoxListPage.Options.OptionA));
+                page.ByIdAndLabel.Should.AtOnce.HaveChecked(CheckBoxListPage.Options.OptionA));
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));
