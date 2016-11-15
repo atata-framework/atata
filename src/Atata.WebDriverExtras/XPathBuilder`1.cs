@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Atata
 {
@@ -10,22 +11,57 @@ namespace Atata
 
         public TBuilder Descendant
         {
-            get { return _(string.IsNullOrEmpty(XPath) ? ".//" : "/descendant::"); }
+            get { return string.IsNullOrEmpty(XPath) ? _(".//") : AppendAxis("descendant"); }
         }
 
         public TBuilder DescendantOrSelf
         {
-            get { return _((string.IsNullOrEmpty(XPath) ? string.Empty : "/") + "descendant-or-self::"); }
+            get { return AppendAxis("descendant-or-self"); }
+        }
+
+        public TBuilder Child
+        {
+            get { return _("/"); }
         }
 
         public TBuilder Self
         {
-            get { return _((string.IsNullOrEmpty(XPath) ? string.Empty : "/") + "self::"); }
+            get { return AppendAxis("self"); }
+        }
+
+        public TBuilder Parent
+        {
+            get { return AppendAxis("parent"); }
+        }
+
+        public TBuilder Following
+        {
+            get { return AppendAxis("following"); }
         }
 
         public TBuilder FollowingSibling
         {
-            get { return _((string.IsNullOrEmpty(XPath) ? string.Empty : "/") + "following-sibling::"); }
+            get { return AppendAxis("following-sibling"); }
+        }
+
+        public TBuilder Ancestor
+        {
+            get { return AppendAxis("ancestor"); }
+        }
+
+        public TBuilder AncestorOrSelf
+        {
+            get { return AppendAxis("ancestor-or-self"); }
+        }
+
+        public TBuilder Preceding
+        {
+            get { return AppendAxis("preceding"); }
+        }
+
+        public TBuilder PrecedingSibling
+        {
+            get { return AppendAxis("preceding-sibling"); }
         }
 
         public TBuilder Any
@@ -51,6 +87,21 @@ namespace Atata
         public TBuilder this[object condition]
         {
             get { return Where(condition); }
+        }
+
+        protected TBuilder AppendAxis(string axisName)
+        {
+            string xPath = axisName + "::";
+
+            if (!string.IsNullOrEmpty(XPath))
+            {
+                char lastChar = XPath.Last();
+
+                if (!new[] { '[', ' ' }.Contains(lastChar))
+                    return _("/" + xPath);
+            }
+
+            return _(xPath);
         }
 
 #pragma warning disable S100, SA1300 // Methods and properties should be named in camel case
