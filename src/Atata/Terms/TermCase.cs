@@ -21,11 +21,6 @@
         Title,
 
         /// <summary>
-        /// Uses title case with colon (':') ending (e.g. "Some Term:").
-        /// </summary>
-        TitleWithColon,
-
-        /// <summary>
         /// Uses sentence case (e.g. "Some term").
         /// </summary>
         Sentence,
@@ -34,11 +29,6 @@
         /// Uses mid-sentence case where the first word is not capitalised (e.g. "some term").
         /// </summary>
         MidSentence,
-
-        /// <summary>
-        /// Uses sentence case with colon (':') ending (e.g. "Some term:").
-        /// </summary>
-        SentenceWithColon,
 
         /// <summary>
         /// Uses lower case (e.g. "some term").
@@ -89,11 +79,6 @@
         /// Uses hyphen ('‐') and pascal case (e.g. "Some‐Term").
         /// </summary>
         PascalHyphenKebab,
-
-        /// <summary>
-        /// Uses dash ('-'), lower case and "x-" prefix (e.g. "x-some-term").
-        /// </summary>
-        XKebab,
 
         /// <summary>
         /// Uses undersore ('_') and lower case (e.g. "some_term").

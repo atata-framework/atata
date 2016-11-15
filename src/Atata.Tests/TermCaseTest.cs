@@ -21,8 +21,6 @@ namespace Atata.Tests
         [TestCase(Atata.TermCase.Title, "150text", ExpectedResult = "150 Text")]
         [TestCase(Atata.TermCase.Title, "*-+=#@&^a%()", ExpectedResult = "A")]
 
-        [TestCase(Atata.TermCase.TitleWithColon, "150text ", ExpectedResult = "150 Text:")]
-
         [TestCase(Atata.TermCase.Sentence, "SimpleText", ExpectedResult = "Simple text")]
         [TestCase(Atata.TermCase.Sentence, "Simple125Text", ExpectedResult = "Simple 125 text")]
         [TestCase(Atata.TermCase.Sentence, " someUIText", ExpectedResult = "Some UI text")]
@@ -52,11 +50,6 @@ namespace Atata.Tests
         [TestCase(Atata.TermCase.Kebab, "HTML5text", ExpectedResult = "html-5-text")]
         [TestCase(Atata.TermCase.Kebab, "5Text", ExpectedResult = "5-text")]
         [TestCase(Atata.TermCase.Kebab, "Row6", ExpectedResult = "row-6")]
-
-        [TestCase(Atata.TermCase.XKebab, "SimpleText", ExpectedResult = "x-simple-text")]
-        [TestCase(Atata.TermCase.XKebab, "HTML5text", ExpectedResult = "x-html-5-text")]
-        [TestCase(Atata.TermCase.XKebab, "5Text", ExpectedResult = "x-5-text")]
-        [TestCase(Atata.TermCase.XKebab, "Row6", ExpectedResult = "x-row-6")]
 
         [TestCase(Atata.TermCase.HyphenKebab, "HTML5text", ExpectedResult = "html‐5‐text")]
 

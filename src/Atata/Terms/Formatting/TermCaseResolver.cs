@@ -12,10 +12,8 @@ namespace Atata.TermFormatting
             Formatters = new Dictionary<TermCase, FormatterItem>
             {
                 { TermCase.Title, FormatterItem.For<TitleTermFormatter>() },
-                { TermCase.TitleWithColon, FormatterItem.For<TitleTermFormatter>("{0}:") },
                 { TermCase.Sentence, FormatterItem.For<SentenceTermFormatter>() },
                 { TermCase.MidSentence, FormatterItem.For<MidSentenceTermFormatter>() },
-                { TermCase.SentenceWithColon, FormatterItem.For<SentenceTermFormatter>("{0}:") },
                 { TermCase.Lower, FormatterItem.For<LowerTermFormatter>() },
                 { TermCase.LowerMerged, FormatterItem.For<LowerMergedTermFormatter>() },
                 { TermCase.Upper, FormatterItem.For<UpperTermFormatter>() },
@@ -23,7 +21,6 @@ namespace Atata.TermFormatting
                 { TermCase.Camel, FormatterItem.For<CamelTermFormatter>() },
                 { TermCase.Pascal, FormatterItem.For<PascalTermFormatter>() },
                 { TermCase.Kebab, FormatterItem.For<KebabTermFormatter>() },
-                { TermCase.XKebab, FormatterItem.For<KebabTermFormatter>("x-{0}") },
                 { TermCase.HyphenKebab, FormatterItem.For<HyphenKebabTermFormatter>() },
                 { TermCase.Snake, FormatterItem.For<SnakeTermFormatter>() },
                 { TermCase.PascalKebab, FormatterItem.For<PascalKebabTermFormatter>() },

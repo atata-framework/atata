@@ -78,7 +78,7 @@ namespace Atata.Tests
             [Term(TermMatch.StartsWith)]
             public TextInput<_> LastName { get; private set; }
 
-            [Term(TermCase.SentenceWithColon)]
+            [Term(TermCase.Sentence, Format = "{0}:")]
             public TextInput<_> MiddleName { get; private set; }
 
             public TextInput<_> ReadonlyField { get; private set; }

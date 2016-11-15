@@ -11,7 +11,7 @@ namespace Atata.Tests
         [TermSettings(Format = ">>{0}")]
         public enum Options
         {
-            [Term(TermCase.TitleWithColon)]
+            [Term(TermCase.Title, Format = ">>{0}:")]
             A,
             B,
             C,
