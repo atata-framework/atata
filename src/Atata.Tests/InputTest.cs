@@ -67,9 +67,17 @@ namespace Atata.Tests
 
             VerifyDoesNotEqual(page.NumberInput, 59);
 
+            int? intNumber;
+
             page.NumberInput.Should.BeGreater(55).
                 NumberInput.Should.BeLess(60).
-                NumberInput.Should.BeInRange(50, 60);
+                NumberInput.Should.BeInRange(50, 60).
+                NumberInput.Get(out intNumber);
+
+            Assert.That(intNumber, Is.EqualTo(57));
+
+            page.NumberInput.SetRandom(out intNumber).
+                NumberInput.Should.Equal(intNumber);
         }
     }
 }

@@ -84,6 +84,7 @@
     <Compile Include="Context\OperaAtataContextBuilder.cs" />
     <Compile Include="Context\PhantomJSAtataContextBuilder.cs" />
     <Compile Include="Context\SafariAtataContextBuilder.cs" />
+    <Compile Include="Extensions\EditableFieldExtensions.cs" />
     <Compile Include="Extensions\PropertyInfoExtensions.cs" />
     <Compile Include="Extensions\WaitByExtensions.cs" />
     <Compile Include="Logging\FileScreenshotConsumer.cs" />
