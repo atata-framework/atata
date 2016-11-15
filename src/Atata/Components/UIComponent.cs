@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 
@@ -133,11 +132,6 @@ namespace Atata
         public bool Missing(SearchOptions options = null)
         {
             return ScopeLocator.IsMissing(options ?? SearchOptions.Safely());
-        }
-
-        protected void Wait(double seconds)
-        {
-            Thread.Sleep((int)(seconds * 1000));
         }
 
         public override string ToString()

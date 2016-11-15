@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -190,9 +191,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TOther">The type of the page object that represents the previous page.</typeparam>
         /// <param name="previousPageObject">The instance of the previous page object. If equals null, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
-        /// <returns>
-        /// The instance of the previous page object.
-        /// </returns>
+        /// <returns>The instance of the previous page object.</returns>
         public virtual TOther GoBack<TOther>(TOther previousPageObject = null)
             where TOther : PageObject<TOther>
         {
@@ -206,9 +205,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TOther">The type of the page object that represents the next page.</typeparam>
         /// <param name="nextPageObject">The instance of the next page object. If equals null, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
-        /// <returns>
-        /// The instance of the next page object.
-        /// </returns>
+        /// <returns>The instance of the next page object.</returns>
         public virtual TOther GoForward<TOther>(TOther nextPageObject = null)
             where TOther : PageObject<TOther>
         {
@@ -269,6 +266,30 @@ namespace Atata
             navigationAction.CheckNotNull(nameof(navigationAction));
 
             return navigationAction((TOwner)this);
+        }
+
+        /// <summary>
+        /// Waits the specified time.
+        /// </summary>
+        /// <param name="time">The time to wait.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner Wait(TimeSpan time)
+        {
+            Thread.Sleep(time);
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
+        /// Waits the specified time in seconds.
+        /// </summary>
+        /// <param name="seconds">The time to wait in seconds.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner Wait(double seconds)
+        {
+            Thread.Sleep((int)(seconds * 1000));
+
+            return (TOwner)this;
         }
     }
 }
