@@ -97,7 +97,7 @@ namespace Atata
             {
                 char lastChar = XPath.Last();
 
-                if (!new[] { '[', ' ' }.Contains(lastChar))
+                if (!new[] { '[', '(', ' ' }.Contains(lastChar))
                     return _("/" + xPath);
             }
 

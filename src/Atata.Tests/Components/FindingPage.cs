@@ -30,5 +30,8 @@ namespace Atata.Tests
 
         [FindByClass("radio-options", Index = 2)]
         public RadioButton<_> OptionCByClass { get; private set; }
+
+        [FindLast]
+        public RadioButton<_> OptionDAsLast { get; private set; }
     }
 }

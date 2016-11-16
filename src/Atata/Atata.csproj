@@ -60,6 +60,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
     <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
@@ -119,6 +120,7 @@
     <Compile Include="ScopeSearch\Strategies\FindByIndexStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindFirstDescendantOrSelfStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindFirstDescendantStrategy.cs" />
+    <Compile Include="ScopeSearch\Strategies\FindLastDescendantStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\UseParentScopeStrategy.cs" />
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Attributes\CellIndexToClickAttribute.cs" />

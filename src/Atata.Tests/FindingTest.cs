@@ -59,9 +59,15 @@ namespace Atata.Tests
             VerifyRadioButton(page.OptionCByClass);
         }
 
-        private void VerifyRadioButton(RadioButton<FindingPage> radioButton)
+        [Test]
+        public void Find_Last()
         {
-            VerifyValue(radioButton, "OptionC");
+            VerifyRadioButton(page.OptionDAsLast, "OptionD");
+        }
+
+        private void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")
+        {
+            VerifyValue(radioButton, expectedValue);
             radioButton.Should.BeUnchecked();
             radioButton.Check();
             radioButton.Should.BeChecked();
