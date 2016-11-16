@@ -77,11 +77,13 @@
     <Compile Include="Components\SelectPage.cs" />
     <Compile Include="Components\TablePage.cs" />
     <Compile Include="Components\FindingPage.cs" />
+    <Compile Include="Components\TriggersPage.cs" />
     <Compile Include="Components\WaitingPage.cs" />
     <Compile Include="ContentTest.cs" />
     <Compile Include="ControlListTest.cs" />
     <Compile Include="GoTest.cs" />
     <Compile Include="InputTest.cs" />
+    <Compile Include="TriggerTest.cs" />
     <Compile Include="MessageBoxTest.cs" />
     <Compile Include="PageObjectTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

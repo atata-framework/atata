@@ -65,6 +65,7 @@
     <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
+    <Compile Include="Attributes\Triggers\InvokeMethodAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForAttribute.cs" />
     <Compile Include="Attributes\WindowTitleElementDefinitionAttribute.cs" />
     <Compile Include="Components\Fields\Content\DateTime`1.cs" />
