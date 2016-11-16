@@ -76,7 +76,11 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             Type pageObjectType = pageObject.GetType();
+
             var classTriggers = GetClassAttributes(pageObjectType).OfType<TriggerAttribute>().Where(x => x.AppliesTo == TriggerScope.Self);
+            foreach (TriggerAttribute trigger in classTriggers)
+                trigger.IsDefinedAtComponentLevel = true;
+
             var assemblyTriggers = GetAssemblyAttributes(pageObjectType.Assembly).OfType<TriggerAttribute>();
 
             pageObject.Triggers = classTriggers.
@@ -459,6 +463,9 @@ namespace Atata
                 Where(x => x.AppliesTo == TriggerScope.Self).
                 OrderBy(x => x.Priority).
                 ToList();
+
+            foreach (TriggerAttribute trigger in resultTriggers)
+                trigger.IsDefinedAtComponentLevel = true;
 
             List<TriggerAttribute> allOtherTriggers = metadata.DeclaringAttributes.
                 Concat(metadata.ParentComponentAttributes.OfType<TriggerAttribute>().Where(x => x.AppliesTo == TriggerScope.Children)).

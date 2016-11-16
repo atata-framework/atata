@@ -29,6 +29,11 @@ namespace Atata
         /// </summary>
         public TriggerScope AppliesTo { get; set; } = TriggerScope.Self;
 
+        /// <summary>
+        /// Gets a value indicating whether this trigger is defined at the component level.
+        /// </summary>
+        public bool IsDefinedAtComponentLevel { get; internal set; }
+
         protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
         {
         }

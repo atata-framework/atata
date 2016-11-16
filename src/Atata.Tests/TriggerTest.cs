@@ -12,12 +12,18 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Trigger_InvokeMethod_OnProperty()
+        public void Trigger_InvokeMethod_AtProperty()
         {
             page.Perform.Click();
 
             Assert.That(page.IsBeforePerformInvoked, Is.True);
             Assert.That(page.IsAfterPerformInvoked, Is.True);
+        }
+
+        [Test]
+        public void Trigger_InvokeMethod_AtComponent()
+        {
+            Assert.That(TriggersPage.IsOnInitInvoked, Is.True);
         }
     }
 }
