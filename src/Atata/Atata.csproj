@@ -150,8 +150,8 @@
     <Compile Include="Attributes\NavigationPageObjectCreatorAttribute.cs" />
     <Compile Include="Attributes\ItemValueXPathAttribute.cs" />
     <Compile Include="Attributes\RandomizeNumberSettingsAttribute.cs" />
-    <Compile Include="Attributes\ITermFindAttribute.cs" />
-    <Compile Include="Attributes\ITermMatchFindAttribute.cs" />
+    <Compile Include="Attributes\ControlSearch\ITermFindAttribute.cs" />
+    <Compile Include="Attributes\ControlSearch\ITermMatchFindAttribute.cs" />
     <Compile Include="Attributes\ValueXPathAttribute.cs" />
     <Compile Include="Components\IControl`1.cs" />
     <Compile Include="Components\INavigable`2.cs" />
