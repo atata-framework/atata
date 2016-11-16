@@ -24,9 +24,9 @@ namespace Atata
 
         string ComponentFullName { get; }
 
-        UIComponentAttributeProvider Attributes { get; }
+        UIComponentAttributeProvider<TOwner> Attributes { get; }
 
-        UIComponentCssProvider Css { get; }
+        UIComponentCssProvider<TOwner> Css { get; }
 
         UIComponentChildrenList<TOwner> Controls { get; }
 

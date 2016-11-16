@@ -15,10 +15,6 @@ namespace Atata
 
         protected UIComponent()
         {
-            Children = new List<UIComponent>();
-
-            Attributes = new UIComponentAttributeProvider(this);
-            Css = new UIComponentCssProvider(this);
         }
 
         protected internal UIComponent Owner { get; internal set; }
@@ -28,21 +24,11 @@ namespace Atata
         /// </summary>
         protected internal UIComponent Parent { get; internal set; }
 
-        protected internal List<UIComponent> Children { get; private set; }
+        protected internal List<UIComponent> Children { get; private set; } = new List<UIComponent>();
 
         protected internal ILogManager Log { get; internal set; }
 
         protected internal RemoteWebDriver Driver { get; internal set; }
-
-        /// <summary>
-        /// Gets the scope element's attributes.
-        /// </summary>
-        public UIComponentAttributeProvider Attributes { get; private set; }
-
-        /// <summary>
-        /// Gets the scope element's CSS properties.
-        /// </summary>
-        public UIComponentCssProvider Css { get; private set; }
 
         protected internal ScopeSource ScopeSource { get; internal set; }
 

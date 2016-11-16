@@ -17,6 +17,8 @@ namespace Atata
         protected UIComponent()
         {
             Controls = new UIComponentChildrenList<TOwner>(this);
+            Attributes = new UIComponentAttributeProvider<TOwner>() { Component = this };
+            Css = new UIComponentCssProvider<TOwner>() { Component = this };
         }
 
         protected internal new TOwner Owner
@@ -40,6 +42,16 @@ namespace Atata
         /// Gets the verification provider that gives a set of verification extension methods.
         /// </summary>
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's attributes.
+        /// </summary>
+        public UIComponentAttributeProvider<TOwner> Attributes { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.
+        /// </summary>
+        public UIComponentCssProvider<TOwner> Css { get; private set; }
 
         TOwner IUIComponent<TOwner>.Owner => Owner;
 

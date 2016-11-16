@@ -73,9 +73,10 @@ namespace Atata.Tests
             radioButton.Should.BeChecked();
         }
 
-        private void VerifyValue(UIComponent component, string expectedValue)
+        private void VerifyValue<TOwner>(UIComponent<TOwner> component, string expectedValue)
+            where TOwner : PageObject<TOwner>
         {
-            Assert.That(component.Attributes["value"], Is.EqualTo(expectedValue));
+            Assert.That(component.Attributes.GetValue("value"), Is.EqualTo(expectedValue));
         }
     }
 }
