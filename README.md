@@ -1,19 +1,35 @@
-# Atata
-C#/.NET test automation framework based on Selenium WebDriver. Uses fluent page object pattern.
+# [Atata](https://atata-framework.github.io/)
+
+C#/.NET test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern.
 
 ## Demo
-[Demo Project](https://github.com/atata-framework/atata-sample-app-tests) covers main Atata features usage: page navigation, data input and verification, interaction with pop-ups (Bootstrap modal) and tables, logging, screenshot capture, etc.
+
+[The Demo Project](https://github.com/atata-framework/atata-sample-app-tests) tests application demonstrates different testing approaches and features of the Atata Framework. It covers main Atata features: page navigation, data input and verification, interaction with pop-ups and tables, logging, screenshot capture, etc.
+
+## Features
+
+* **WebDriver**. Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
+* **Page Object**. Provides unique fluent page object pattern that is easy to implement and maintain.
+* **Components**. Supports a rich set of HTML [components](https://atata-framework.github.io/components/).
+* **Integration**. Works on any .NET test engine (e.g. NUnit, xUnit) as well as on CI systems like TeamCity or TFS.
+* **Triggers**. A bunch of [triggers](https://atata-framework.github.io/triggers/) to bind with different component events.
+* **Verification**. A set of methods and triggers for the component and data verification.
+* **Configurable**. Defines the default component search strategies as well as additional settings.
+* **Logging**. Built-in customizable logging and screenshot capturing functionality.
+* **Extensible**. Atata.Bootstrap and Atata.KendoUI packages with a lot of ready to use components.
 
 ## Usage
+
 Simple sign-in page object:
+
 ```C#
 using _ = Atata.SampleApp.AutoTests.SignInPage;
 
 namespace Atata.SampleApp.AutoTests
 {
+    [Url("signin")]
     [VerifyTitle]
     [VerifyH1]
-    [NavigateTo("signin")]
     public class SignInPage : Page<_>
     {
         public TextInput<_> Email { get; private set; }
@@ -25,12 +41,24 @@ namespace Atata.SampleApp.AutoTests
 }
 
 ```
-and usage in the test method:
+
+Usage in the test method:
+
 ```C#
-Go.To<SignInPage>().
-    Email.Set("example@mail.com").
-    Password.Set("password").
-    SignIn();
+[Test]
+public void SignIn()
+{
+    Go.To<SignInPage>().
+        Email.Set("example@mail.com").
+        Password.Set("password").
+        SignIn();
+}
 ```
 
-###### More documentation coming soon...
+## Documentation
+
+Find out more on [Atata Docs](https://atata-framework.github.io/) and on [Getting Started](https://atata-framework.github.io/getting-started/) page in particular.
+
+## License
+
+Atata is an open source software, licensed under the Apache License 2.0. See [LICENSE.txt](LICENSE) for details.
