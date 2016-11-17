@@ -2,10 +2,6 @@
 
 C#/.NET test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern.
 
-## Demo
-
-[The Demo Project](https://github.com/atata-framework/atata-sample-app-tests) tests application demonstrates different testing approaches and features of the Atata Framework. It covers main Atata features: page navigation, data input and verification, interaction with pop-ups and tables, logging, screenshot capture, etc.
-
 ## Features
 
 * **WebDriver**. Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
@@ -17,6 +13,10 @@ C#/.NET test automation full featured framework based on Selenium WebDriver. It 
 * **Configurable**. Defines the default component search strategies as well as additional settings.
 * **Logging**. Built-in customizable logging and screenshot capturing functionality.
 * **Extensible**. Atata.Bootstrap and Atata.KendoUI packages with a lot of ready to use components.
+
+## Demo
+
+[The Demo Project](https://github.com/atata-framework/atata-sample-app-tests) tests application demonstrates different testing approaches and features of the Atata Framework. It covers main Atata features: page navigation, data input and verification, interaction with pop-ups and tables, logging, screenshot capture, etc.
 
 ## Usage
 
