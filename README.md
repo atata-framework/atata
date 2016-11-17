@@ -23,9 +23,10 @@ C#/.NET test automation full featured framework based on Selenium WebDriver. It 
 Simple sign-in page object:
 
 ```C#
-using _ = Atata.SampleApp.AutoTests.SignInPage;
+using Atata;
+using _ = SampleApp.AutoTests.SignInPage;
 
-namespace Atata.SampleApp.AutoTests
+namespace SampleApp.AutoTests
 {
     [Url("signin")]
     [VerifyTitle]
@@ -36,7 +37,7 @@ namespace Atata.SampleApp.AutoTests
 
         public PasswordInput<_> Password { get; private set; }
 
-        public Button<UsersPage, _> SignIn { get; private set; }
+        public Button<_> SignIn { get; private set; }
     }
 }
 
@@ -49,9 +50,9 @@ Usage in the test method:
 public void SignIn()
 {
     Go.To<SignInPage>().
-        Email.Set("example@mail.com").
-        Password.Set("password").
-        SignIn();
+        Email.Set("admin@mail.com").
+        Password.Set("abc123").
+        SignIn.Click();
 }
 ```
 
@@ -61,4 +62,4 @@ Find out more on [Atata Docs](https://atata-framework.github.io/) and on [Gettin
 
 ## License
 
-Atata is an open source software, licensed under the Apache License 2.0. See [LICENSE.txt](LICENSE) for details.
+Atata is an open source software, licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
