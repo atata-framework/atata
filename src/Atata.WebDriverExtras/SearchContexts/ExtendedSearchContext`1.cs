@@ -33,18 +33,18 @@ namespace Atata
 
         public TimeSpan RetryInterval { get; set; }
 
-        private static Func<IWebElement, bool> CreateVisibilityPredicate(ElementVisibility visibility)
+        private static Func<IWebElement, bool> CreateVisibilityPredicate(Visibility visibility)
         {
             switch (visibility)
             {
-                case ElementVisibility.Visible:
+                case Visibility.Visible:
                     return x => x.Displayed;
-                case ElementVisibility.Invisible:
+                case Visibility.Hidden:
                     return x => !x.Displayed;
-                case ElementVisibility.Any:
+                case Visibility.Any:
                     return x => true;
                 default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue<ElementVisibility>(visibility, nameof(visibility));
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue<Visibility>(visibility, nameof(visibility));
             }
         }
 
@@ -162,7 +162,7 @@ namespace Atata
 
             Func<T, ReadOnlyCollection<IWebElement>> findFunction;
 
-            if (options.Visibility == ElementVisibility.Any)
+            if (options.Visibility == Visibility.Any)
             {
                 findFunction = x => x.FindElements(by);
             }
@@ -206,7 +206,7 @@ namespace Atata
 
             Func<T, bool> findFunction;
 
-            if (options.Visibility == ElementVisibility.Any)
+            if (options.Visibility == Visibility.Any)
                 findFunction = x => !x.FindElements(by).Any();
             else
                 findFunction = x => !x.FindElements(by).Any(CreateVisibilityPredicate(options.Visibility));

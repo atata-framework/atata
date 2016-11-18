@@ -53,58 +53,58 @@ namespace Atata
                 case WaitUntil.Missing:
                     return new[]
                     {
-                        CreateAbsenceUnit(ElementVisibility.Any)
+                        CreateAbsenceUnit(Visibility.Any)
                     };
                 case WaitUntil.Hidden:
                     return new[]
                     {
-                        CreatePresenceUnit(ElementVisibility.Invisible)
+                        CreatePresenceUnit(Visibility.Hidden)
                     };
                 case WaitUntil.MissingOrHidden:
                     return new[]
                     {
-                        CreateAbsenceUnit(ElementVisibility.Visible)
+                        CreateAbsenceUnit(Visibility.Visible)
                     };
                 case WaitUntil.Visible:
                     return new[]
                     {
-                        CreatePresenceUnit(ElementVisibility.Visible)
+                        CreatePresenceUnit(Visibility.Visible)
                     };
                 case WaitUntil.Exists:
                     return new[]
                     {
-                        CreatePresenceUnit(ElementVisibility.Any)
+                        CreatePresenceUnit(Visibility.Any)
                     };
                 case WaitUntil.VisibleAndHidden:
                     return new[]
                     {
-                        CreatePresenceUnit(ElementVisibility.Visible),
-                        CreatePresenceUnit(ElementVisibility.Invisible)
+                        CreatePresenceUnit(Visibility.Visible),
+                        CreatePresenceUnit(Visibility.Hidden)
                     };
                 case WaitUntil.VisibleAndMissing:
                     return new[]
                     {
-                        CreatePresenceUnit(ElementVisibility.Visible),
-                        CreateAbsenceUnit(ElementVisibility.Any)
+                        CreatePresenceUnit(Visibility.Visible),
+                        CreateAbsenceUnit(Visibility.Any)
                     };
                 case WaitUntil.MissingAndVisible:
                     return new[]
                     {
-                        CreateAbsenceUnit(ElementVisibility.Any),
-                        CreatePresenceUnit(ElementVisibility.Visible)
+                        CreateAbsenceUnit(Visibility.Any),
+                        CreatePresenceUnit(Visibility.Visible)
                     };
                 case WaitUntil.HiddenAndVisible:
                     return new[]
                     {
-                        CreatePresenceUnit(ElementVisibility.Invisible),
-                        CreatePresenceUnit(ElementVisibility.Visible)
+                        CreatePresenceUnit(Visibility.Hidden),
+                        CreatePresenceUnit(Visibility.Visible)
                     };
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(until, nameof(until));
             }
         }
 
-        private WaitUnit CreatePresenceUnit(ElementVisibility visibility)
+        private WaitUnit CreatePresenceUnit(Visibility visibility)
         {
             return new WaitUnit
             {
@@ -119,7 +119,7 @@ namespace Atata
             };
         }
 
-        private WaitUnit CreateAbsenceUnit(ElementVisibility visibility)
+        private WaitUnit CreateAbsenceUnit(Visibility visibility)
         {
             return new WaitUnit
             {

@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the visibility of the element.
     /// </summary>
-    public enum ElementVisibility
+    public enum Visibility
     {
         /// <summary>
         /// Finds only the visible elements.
@@ -11,9 +11,9 @@
         Visible,
 
         /// <summary>
-        /// Finds only the invisible elements.
+        /// Finds only the hidden elements.
         /// </summary>
-        Invisible,
+        Hidden,
 
         /// <summary>
         /// Finds the elements with any visibility.

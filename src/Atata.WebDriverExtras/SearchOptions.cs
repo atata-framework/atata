@@ -8,7 +8,7 @@ namespace Atata
         {
             Timeout = RetrySettings.Timeout;
             RetryInterval = RetrySettings.Interval;
-            Visibility = ElementVisibility.Visible;
+            Visibility = Visibility.Visible;
             IsSafely = false;
         }
 
@@ -19,7 +19,7 @@ namespace Atata
         /// <summary>
         /// Gets or sets the visibility of the search element. The default value is Visible.
         /// </summary>
-        public ElementVisibility Visibility { get; set; }
+        public Visibility Visibility { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the search element is safely searching. If it is true then null is returned after the search, otherwise an exception is thrown. The default value is false.
@@ -41,14 +41,14 @@ namespace Atata
             return new SearchOptions { IsSafely = isSafely, Timeout = TimeSpan.Zero };
         }
 
-        public static SearchOptions Invisible()
+        public static SearchOptions Hidden()
         {
-            return new SearchOptions { Visibility = ElementVisibility.Invisible };
+            return new SearchOptions { Visibility = Visibility.Hidden };
         }
 
         public static SearchOptions OfAnyVisibility()
         {
-            return new SearchOptions { Visibility = ElementVisibility.Any };
+            return new SearchOptions { Visibility = Visibility.Any };
         }
 
         public static SearchOptions Within(TimeSpan timeout, TimeSpan? retryInterval = null)

@@ -32,17 +32,17 @@ namespace Atata
             return extendedBy;
         }
 
-        public static By Invisible(this By by)
+        public static By Hidden(this By by)
         {
             ExtendedBy extendedBy = new ExtendedBy(by);
-            extendedBy.Options.Visibility = ElementVisibility.Invisible;
+            extendedBy.Options.Visibility = Visibility.Hidden;
             return extendedBy;
         }
 
         public static By OfAnyVisibility(this By by)
         {
             ExtendedBy extendedBy = new ExtendedBy(by);
-            extendedBy.Options.Visibility = ElementVisibility.Any;
+            extendedBy.Options.Visibility = Visibility.Any;
             return extendedBy;
         }
 
