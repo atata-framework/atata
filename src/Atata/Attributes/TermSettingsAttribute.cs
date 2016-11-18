@@ -5,12 +5,21 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum)]
     public class TermSettingsAttribute : Attribute, ITermSettings, ISettingsAttribute
     {
-        public TermSettingsAttribute(TermCase termCase)
-            : this(TermMatch.Inherit, termCase)
+        public TermSettingsAttribute()
         {
         }
 
-        public TermSettingsAttribute(TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
+        public TermSettingsAttribute(TermCase termCase)
+        {
+            Case = termCase;
+        }
+
+        public TermSettingsAttribute(TermMatch match)
+        {
+            Match = match;
+        }
+
+        public TermSettingsAttribute(TermMatch match, TermCase termCase)
         {
             Match = match;
             Case = termCase;
@@ -21,13 +30,13 @@ namespace Atata
         public new TermMatch Match
         {
             get { return Properties.Get(nameof(Match), TermMatch.Equals); }
-            set { Properties[nameof(Match)] = value; }
+            private set { Properties[nameof(Match)] = value; }
         }
 
         public TermCase Case
         {
             get { return Properties.Get(nameof(Case), TermCase.None); }
-            set { Properties[nameof(Case)] = value; }
+            private set { Properties[nameof(Case)] = value; }
         }
 
         public string Format

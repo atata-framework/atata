@@ -8,12 +8,21 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Assembly)]
     public class VerifyTitleSettingsAttribute : TermSettingsAttribute
     {
-        public VerifyTitleSettingsAttribute(TermCase termCase = TermCase.Inherit)
+        public VerifyTitleSettingsAttribute()
+        {
+        }
+
+        public VerifyTitleSettingsAttribute(TermCase termCase)
             : base(termCase)
         {
         }
 
-        public VerifyTitleSettingsAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        public VerifyTitleSettingsAttribute(TermMatch match)
+            : base(match)
+        {
+        }
+
+        public VerifyTitleSettingsAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }

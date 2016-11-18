@@ -41,7 +41,7 @@ namespace Atata
         public TermCase Case
         {
             get { return Properties.Get(nameof(Case), DefaultCase, GetSettingsAttributes); }
-            set { Properties[nameof(Case)] = value; }
+            private set { Properties[nameof(Case)] = value; }
         }
 
         protected virtual TermCase DefaultCase
@@ -52,7 +52,7 @@ namespace Atata
         public new TermMatch Match
         {
             get { return Properties.Get(nameof(Match), DefaultMatch, GetSettingsAttributes); }
-            set { Properties[nameof(Match)] = value; }
+            private set { Properties[nameof(Match)] = value; }
         }
 
         protected virtual TermMatch DefaultMatch
