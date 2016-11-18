@@ -8,7 +8,7 @@ namespace Atata
     /// Represents the base attribute class for the finding attributes.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = true)]
-    public abstract class FindAttribute : Attribute
+    public abstract class FindAttribute : Attribute, ISettingsAttribute
     {
         private const ScopeSource DefaultScope = ScopeSource.Parent;
 
@@ -16,10 +16,32 @@ namespace Atata
         {
         }
 
+        public PropertyBag Properties { get; } = new PropertyBag();
+
         /// <summary>
         /// Gets or sets the index of the control. The default value is -1, meaning that the index is not used.
         /// </summary>
         public int Index { get; set; } = -1;
+
+        /// <summary>
+        /// Gets or sets the visibility. The default value is Visible.
+        /// </summary>
+        public Visibility Visibility
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(Visibility),
+                    Visibility.Visible,
+                    md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType()),
+                    md => md.GetComponentAttributes<ControlDefinitionAttribute>());
+            }
+
+            set
+            {
+                Properties[nameof(Visibility)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the scope source. The default value is Inherit.

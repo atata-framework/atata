@@ -91,6 +91,25 @@ namespace Atata
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
         }
 
+        public IEnumerable<T> GetDeclaringAndGlobalAttributes<T>(Func<T, bool> predicate = null)
+            where T : Attribute
+        {
+            return FilterAttributes(DeclaringAttributes.Concat(GlobalAttributes), predicate);
+        }
+
+        public IEnumerable<T> GetComponentAttributes<T>(Func<T, bool> predicate = null)
+            where T : Attribute
+        {
+            return FilterAttributes(ComponentAttributes, predicate);
+        }
+
+        private IEnumerable<T> FilterAttributes<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null)
+            where T : Attribute
+        {
+            var query = attributes.OfType<T>();
+            return predicate != null ? query.Where(predicate) : query;
+        }
+
         public TermAttribute GetTerm(Func<TermAttribute, bool> predicate = null)
         {
             return GetFirstOrDefaultDeclaringAttribute<TermAttribute>(predicate);

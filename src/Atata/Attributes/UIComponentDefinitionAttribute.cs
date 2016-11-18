@@ -4,12 +4,14 @@ using System.Linq;
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute
+    public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute, ISettingsAttribute
     {
         protected UIComponentDefinitionAttribute(string scopeXPath = null)
             : base(scopeXPath)
         {
         }
+
+        public PropertyBag Properties { get; } = new PropertyBag();
 
         public string ComponentTypeName { get; set; }
 
