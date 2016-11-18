@@ -3,7 +3,7 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum)]
-    public class TermSettingsAttribute : Attribute, ITermSettings
+    public class TermSettingsAttribute : Attribute, ITermSettings, ISettingsAttribute
     {
         public TermSettingsAttribute(TermCase termCase)
             : this(TermMatch.Inherit, termCase)
@@ -16,10 +16,24 @@ namespace Atata
             Case = termCase;
         }
 
-        public new TermMatch Match { get; private set; }
+        public PropertyBag Properties { get; } = new PropertyBag();
 
-        public TermCase Case { get; private set; }
+        public new TermMatch Match
+        {
+            get { return Properties.Get(nameof(Match), TermMatch.Equals); }
+            set { Properties[nameof(Match)] = value; }
+        }
 
-        public string Format { get; set; }
+        public TermCase Case
+        {
+            get { return Properties.Get(nameof(Case), TermCase.None); }
+            set { Properties[nameof(Case)] = value; }
+        }
+
+        public string Format
+        {
+            get { return Properties.Get<string>(nameof(Format)); }
+            set { Properties[nameof(Format)] = value; }
+        }
     }
 }

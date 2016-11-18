@@ -21,6 +21,11 @@ namespace Atata
             return values.ContainsKey(name);
         }
 
+        public T Get<T>(string name, params Func<UIComponentMetadata, IEnumerable<ISettingsAttribute>>[] settingsAttributesGetters)
+        {
+            return Get(name, default(T), settingsAttributesGetters);
+        }
+
         public T Get<T>(string name, T defaultValue, params Func<UIComponentMetadata, IEnumerable<ISettingsAttribute>>[] settingsAttributesGetters)
         {
             object value;

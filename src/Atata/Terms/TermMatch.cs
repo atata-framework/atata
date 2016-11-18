@@ -11,14 +11,14 @@
         Inherit,
 
         /// <summary>
-        /// Checks whether the text contains the specified term.
-        /// </summary>
-        Contains,
-
-        /// <summary>
         /// Checks whether the text equals the specified term.
         /// </summary>
         Equals,
+
+        /// <summary>
+        /// Checks whether the text contains the specified term.
+        /// </summary>
+        Contains,
 
         /// <summary>
         /// Checks whether the text starts with the specified term.

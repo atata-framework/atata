@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Atata
 {
@@ -6,47 +7,52 @@ namespace Atata
     /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
-    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider
+    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider, ISettingsAttribute
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
-            : this(null, termCase: termCase)
+            : this()
         {
+            Case = termCase;
         }
 
-        protected TermVerificationTriggerAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
-            : this(null, match, termCase)
+        protected TermVerificationTriggerAttribute(TermMatch match, TermCase termCase)
+            : this()
         {
-        }
-
-        protected TermVerificationTriggerAttribute(TermMatch match, params string[] values)
-            : this(values, match)
-        {
-        }
-
-        protected TermVerificationTriggerAttribute(params string[] values)
-            : this(values, TermMatch.Inherit)
-        {
-        }
-
-        private TermVerificationTriggerAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
-            : base(TriggerEvents.Init)
-        {
-            Values = values;
             Match = match;
             Case = termCase;
         }
 
+        protected TermVerificationTriggerAttribute(TermMatch match, params string[] values)
+            : this(values)
+        {
+            Match = match;
+        }
+
+        protected TermVerificationTriggerAttribute(params string[] values)
+            : base(TriggerEvents.Init)
+        {
+            Values = values;
+        }
+
+        public PropertyBag Properties { get; } = new PropertyBag();
+
         public string[] Values { get; private set; }
 
-        public TermCase Case { get; private set; }
-
-        public new TermMatch Match { get; private set; }
-
-        public string Format { get; set; }
+        public TermCase Case
+        {
+            get { return Properties.Get(nameof(Case), DefaultCase, GetSettingsAttributes); }
+            set { Properties[nameof(Case)] = value; }
+        }
 
         protected virtual TermCase DefaultCase
         {
             get { return TermCase.Title; }
+        }
+
+        public new TermMatch Match
+        {
+            get { return Properties.Get(nameof(Match), DefaultMatch, GetSettingsAttributes); }
+            set { Properties[nameof(Match)] = value; }
         }
 
         protected virtual TermMatch DefaultMatch
@@ -54,15 +60,15 @@ namespace Atata
             get { return TermMatch.Equals; }
         }
 
-        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
+        public string Format
         {
-            base.ApplyMetadata(metadata);
+            get { return Properties.Get<string>(nameof(Format), GetSettingsAttributes); }
+            set { Properties[nameof(Format)] = value; }
+        }
 
-            ITermSettings termSettings = ResolveTermSettings(metadata);
-
-            Case = this.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultCase;
-            Match = this.GetMatchOrNull() ?? termSettings.GetMatchOrNull() ?? DefaultMatch;
-            Format = this.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
+        protected virtual IEnumerable<ISettingsAttribute> GetSettingsAttributes(UIComponentMetadata metadata)
+        {
+            yield break;
         }
 
         protected virtual ITermSettings ResolveTermSettings(UIComponentMetadata metadata)

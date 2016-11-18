@@ -97,6 +97,12 @@ namespace Atata
             return FilterAttributes(DeclaringAttributes.Concat(GlobalAttributes), predicate);
         }
 
+        public IEnumerable<T> GetAssemblyAttributes<T>(Func<T, bool> predicate = null)
+            where T : Attribute
+        {
+            return FilterAttributes(AssemblyAttributes, predicate);
+        }
+
         public IEnumerable<T> GetComponentAttributes<T>(Func<T, bool> predicate = null)
             where T : Attribute
         {

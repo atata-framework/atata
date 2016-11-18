@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Atata
 {
@@ -13,7 +14,7 @@ namespace Atata
         {
         }
 
-        public VerifyTitleAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        public VerifyTitleAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }
@@ -28,9 +29,9 @@ namespace Atata
         {
         }
 
-        protected override ITermSettings ResolveTermSettings(UIComponentMetadata metadata)
+        protected override IEnumerable<ISettingsAttribute> GetSettingsAttributes(UIComponentMetadata metadata)
         {
-            return metadata.GetFirstOrDefaultAssemblyAttribute<VerifyTitleSettingsAttribute>();
+            return metadata.GetAssemblyAttributes<VerifyTitleSettingsAttribute>();
         }
 
         protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
