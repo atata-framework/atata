@@ -130,6 +130,30 @@ namespace Atata
             }
         }
 
+        protected internal TComponentToFind GetAncestor<TComponentToFind>()
+            where TComponentToFind : UIComponent<TOwner>
+        {
+            return Parent is TComponentToFind ?
+                (TComponentToFind)Parent :
+                Parent != null ?
+                    Parent.GetAncestor<TComponentToFind>() :
+                    null;
+        }
+
+        TComponentToFind IUIComponent<TOwner>.GetAncestor<TComponentToFind>() => GetAncestor<TComponentToFind>();
+
+        protected internal TComponentToFind GetAncestorOrSelf<TComponentToFind>()
+            where TComponentToFind : UIComponent<TOwner>
+        {
+            return this is TComponentToFind ?
+                (TComponentToFind)this :
+                Parent != null ?
+                    Parent.GetAncestorOrSelf<TComponentToFind>() :
+                    null;
+        }
+
+        TComponentToFind IUIComponent<TOwner>.GetAncestorOrSelf<TComponentToFind>() => GetAncestorOrSelf<TComponentToFind>();
+
         protected internal override void CleanUp()
         {
             foreach (var item in Children)

@@ -39,5 +39,11 @@ namespace Atata
         bool Missing(SearchOptions options = null);
 
         DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
+
+        TComponentToFind GetAncestor<TComponentToFind>()
+            where TComponentToFind : UIComponent<TOwner>;
+
+        TComponentToFind GetAncestorOrSelf<TComponentToFind>()
+            where TComponentToFind : UIComponent<TOwner>;
     }
 }
