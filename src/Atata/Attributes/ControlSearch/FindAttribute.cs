@@ -10,8 +10,6 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Property, Inherited = true)]
     public abstract class FindAttribute : Attribute, ISettingsAttribute
     {
-        private const ScopeSource DefaultScope = ScopeSource.Parent;
-
         protected FindAttribute()
         {
         }
@@ -21,7 +19,21 @@ namespace Atata
         /// <summary>
         /// Gets or sets the index of the control. The default value is -1, meaning that the index is not used.
         /// </summary>
-        public int Index { get; set; } = -1;
+        public int Index
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(Index),
+                    -1,
+                    md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+            }
+
+            set
+            {
+                Properties[nameof(Index)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the visibility. The default value is Visible.
@@ -44,9 +56,23 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the scope source. The default value is Inherit.
+        /// Gets or sets the scope source. The default value is Parent.
         /// </summary>
-        public ScopeSource ScopeSource { get; set; }
+        public ScopeSource ScopeSource
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(ScopeSource),
+                    ScopeSource.Parent,
+                    md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+            }
+
+            set
+            {
+                Properties[nameof(ScopeSource)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
@@ -74,20 +100,6 @@ namespace Atata
         public Type ResolveStrategyType(UIComponentMetadata metadata)
         {
             return Strategy ?? GetFindSettings(metadata, x => x.Strategy != null)?.Strategy ?? DefaultStrategy;
-        }
-
-        public ScopeSource ResolveScopeSource(UIComponentMetadata metadata)
-        {
-            return ScopeSource != ScopeSource.Inherit
-                ? ScopeSource
-                : GetFindSettings(metadata, x => x.ScopeSource != ScopeSource.Inherit)?.ScopeSource ?? DefaultScope;
-        }
-
-        public int? ResolveIndex(UIComponentMetadata metadata)
-        {
-            return Index >= 0
-                ? Index
-                : GetFindSettings(metadata, x => x.Index >= 0)?.Index;
         }
 
         private FindSettingsAttribute GetFindSettings(UIComponentMetadata metadata, Func<FindSettingsAttribute, bool> predicate)

@@ -28,12 +28,20 @@ namespace Atata
         /// <summary>
         /// Gets or sets the index of the control. The default value is -1, meaning that the index is not used.
         /// </summary>
-        public int Index { get; set; } = -1;
+        public int Index
+        {
+            get { return Properties.Get(nameof(Index), -1); }
+            set { Properties[nameof(Index)] = value; }
+        }
 
         /// <summary>
-        /// Gets or sets the scope source. The default value is Inherit.
+        /// Gets or sets the scope source. The default value is Parent.
         /// </summary>
-        public ScopeSource ScopeSource { get; set; }
+        public ScopeSource ScopeSource
+        {
+            get { return Properties.Get(nameof(ScopeSource), ScopeSource.Parent); }
+            set { Properties[nameof(ScopeSource)] = value; }
+        }
 
         /// <summary>
         /// Gets or sets the strategy type for the control finding. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.

@@ -8,7 +8,7 @@ namespace Atata
     {
         private readonly Dictionary<string, object> values = new Dictionary<string, object>();
 
-        public UIComponentMetadata Metadata { get; set; }
+        internal UIComponentMetadata Metadata { get; set; }
 
         public object this[string name]
         {

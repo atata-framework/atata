@@ -270,6 +270,9 @@ namespace Atata
         private static void ApplyMetadata<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)
             where TOwner : PageObject<TOwner>
         {
+            foreach (ISettingsAttribute settingsAttribute in metadata.AllAttributes.OfType<ISettingsAttribute>().Where(x => x.Properties != null))
+                settingsAttribute.Properties.Metadata = metadata;
+
             component.Metadata = metadata;
             component.ApplyMetadata(metadata);
 
@@ -286,7 +289,7 @@ namespace Atata
 
             IItemsControl itemsControl = component as IItemsControl;
 
-            component.ScopeSource = findAttribute.ResolveScopeSource(metadata);
+            component.ScopeSource = findAttribute.ScopeSource;
 
             if (itemsControl != null)
             {
@@ -437,11 +440,12 @@ namespace Atata
         private static ComponentScopeLocateOptions CreateFindOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             ControlDefinitionAttribute definition = metadata.ComponentDefinitonAttribute as ControlDefinitionAttribute;
+
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
                 Metadata = metadata,
                 ElementXPath = definition != null ? definition.ScopeXPath : "*",
-                Index = findAttribute.ResolveIndex(metadata)
+                Index = findAttribute.Index >= 0 ? (int?)findAttribute.Index : null
             };
 
             ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;
