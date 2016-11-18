@@ -12,7 +12,7 @@ namespace Atata
         {
         }
 
-        public FindByLabelAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        public FindByLabelAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }

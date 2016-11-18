@@ -12,7 +12,7 @@ namespace Atata
         {
         }
 
-        public FindByColumnHeaderAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        public FindByColumnHeaderAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }

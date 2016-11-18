@@ -13,7 +13,7 @@ namespace Atata
         {
         }
 
-        public TermAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        public TermAttribute(TermMatch match, TermCase termCase)
             : this(null, match, termCase)
         {
         }

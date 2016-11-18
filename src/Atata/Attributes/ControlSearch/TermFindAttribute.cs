@@ -13,7 +13,7 @@ namespace Atata
         {
         }
 
-        protected TermFindAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        protected TermFindAttribute(TermMatch match, TermCase termCase)
             : this(null, match, termCase)
         {
         }
