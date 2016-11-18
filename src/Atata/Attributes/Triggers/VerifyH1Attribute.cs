@@ -10,7 +10,7 @@
         {
         }
 
-        public VerifyH1Attribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        public VerifyH1Attribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }

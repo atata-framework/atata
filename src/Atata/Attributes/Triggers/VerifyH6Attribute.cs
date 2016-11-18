@@ -10,7 +10,7 @@ namespace Atata
         {
         }
 
-        public VerifyH6Attribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        public VerifyH6Attribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }

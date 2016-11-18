@@ -7,7 +7,7 @@
         {
         }
 
-        protected VerifyHeadingTriggerAttribute(TermMatch match, TermCase termCase = TermCase.Inherit)
+        protected VerifyHeadingTriggerAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }
