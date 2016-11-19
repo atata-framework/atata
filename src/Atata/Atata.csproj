@@ -62,6 +62,7 @@
     <Compile Include="ActivatorEx.cs" />
     <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
+    <Compile Include="Attributes\ControlSearch\IFindItemAttribute.cs" />
     <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
     <Compile Include="Attributes\ISettingsAttribute.cs" />
     <Compile Include="Attributes\PropertyBag.cs" />
@@ -148,7 +149,6 @@
     <Compile Include="Attributes\ControlSearch\FindByXPathAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindFirstAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindItemByValueAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindItemAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindItemByLabelAttribute.cs" />
     <Compile Include="Attributes\FormatAttribute.cs" />
     <Compile Include="Attributes\GoTemporarilyAttribute.cs" />
@@ -182,7 +182,6 @@
     <Compile Include="Attributes\PageObjectDefinitionAttribute.cs" />
     <Compile Include="Attributes\SelectByTextAttribute.cs" />
     <Compile Include="Attributes\SelectByValueAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\TermFindItemAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\TermFindSettingsAttribute.cs" />
     <Compile Include="Attributes\UrlAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\TermFindAttribute.cs" />

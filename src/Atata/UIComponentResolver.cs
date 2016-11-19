@@ -293,7 +293,7 @@ namespace Atata
 
             if (itemsControl != null)
             {
-                FindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
+                IFindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
                 IItemElementFindStrategy itemElementFindStrategy = findItemAttribute.CreateStrategy(metadata);
                 itemsControl.Apply(itemElementFindStrategy);
             }
@@ -424,17 +424,9 @@ namespace Atata
             return new FindFirstAttribute();
         }
 
-        private static FindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
+        private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
-            FindItemAttribute findAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<FindItemAttribute>();
-            if (findAttribute != null)
-            {
-                return findAttribute;
-            }
-            else
-            {
-                return new FindItemByLabelAttribute();
-            }
+            return metadata.GetFirstOrDefaultDeclaringAttribute<IFindItemAttribute>() ?? (IFindItemAttribute)new FindItemByLabelAttribute();
         }
 
         private static ComponentScopeLocateOptions CreateFindOptions(UIComponentMetadata metadata, FindAttribute findAttribute)

@@ -1,18 +1,30 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
-    public class FindItemByLabelAttribute : TermFindItemAttribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public class FindItemByLabelAttribute : TermSettingsAttribute, IFindItemAttribute
     {
-        public FindItemByLabelAttribute(TermCase termCase)
-            : base(termCase: termCase)
+        public FindItemByLabelAttribute()
         {
         }
 
-        public FindItemByLabelAttribute(TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
+        public FindItemByLabelAttribute(TermCase termCase)
+            : base(termCase)
+        {
+        }
+
+        public FindItemByLabelAttribute(TermMatch match)
+            : base(match)
+        {
+        }
+
+        public FindItemByLabelAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }
 
-        public override IItemElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
+        public IItemElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             return new FindItemByLabelStrategy();
         }

@@ -49,68 +49,57 @@ namespace Atata
         public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }
 
         public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(DeclaringAttributes, predicate);
         }
 
         public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(GlobalAttributes, predicate);
         }
 
         public T GetFirstOrDefaultAssemblyAttribute<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(AssemblyAttributes, predicate);
         }
 
         public T GetFirstOrDefaultComponentAttribute<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(ComponentAttributes, predicate);
         }
 
         public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(AllAttributes, predicate);
         }
 
         public T GetFirstOrDefaultDeclaringOrComponentAttribute<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return GetFirstOrDefaultAttribute(DeclaringAttributes.Concat(ComponentAttributes), predicate);
         }
 
         private T GetFirstOrDefaultAttribute<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null)
-            where T : Attribute
         {
             var query = attributes.OfType<T>();
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
         }
 
         public IEnumerable<T> GetDeclaringAndGlobalAttributes<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return FilterAttributes(DeclaringAttributes.Concat(GlobalAttributes), predicate);
         }
 
         public IEnumerable<T> GetAssemblyAttributes<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return FilterAttributes(AssemblyAttributes, predicate);
         }
 
         public IEnumerable<T> GetComponentAttributes<T>(Func<T, bool> predicate = null)
-            where T : Attribute
         {
             return FilterAttributes(ComponentAttributes, predicate);
         }
 
         private IEnumerable<T> FilterAttributes<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null)
-            where T : Attribute
         {
             var query = attributes.OfType<T>();
             return predicate != null ? query.Where(predicate) : query;

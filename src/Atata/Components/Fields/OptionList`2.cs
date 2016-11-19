@@ -43,9 +43,9 @@ namespace Atata
         {
             base.InitValueTermOptions(termOptions, metadata);
 
-            TermFindItemAttribute termFindItemAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<TermFindItemAttribute>();
-            if (termFindItemAttribute != null)
-                termOptions.MergeWith(termFindItemAttribute);
+            ITermSettings findItemAttributeAsTermSettings = metadata.GetFirstOrDefaultDeclaringAttribute<IFindItemAttribute>() as ITermSettings;
+            if (findItemAttributeAsTermSettings != null)
+                termOptions.MergeWith(findItemAttributeAsTermSettings);
         }
     }
 }
