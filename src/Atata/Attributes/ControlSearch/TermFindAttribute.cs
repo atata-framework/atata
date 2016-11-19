@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Atata
 {
@@ -9,56 +8,125 @@ namespace Atata
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute, ITermSettings
     {
         protected TermFindAttribute(TermCase termCase)
-            : this(null, termCase: termCase)
         {
+            Case = termCase;
         }
 
         protected TermFindAttribute(TermMatch match, TermCase termCase)
-            : this(null, match, termCase)
         {
+            Match = match;
+            Case = termCase;
         }
 
         protected TermFindAttribute(TermMatch match, params string[] values)
-            : this(values, match)
         {
+            Match = match;
+
+            if (values != null && values.Any())
+                Values = values;
         }
 
         protected TermFindAttribute(params string[] values)
-            : this(values, TermMatch.Inherit)
         {
-        }
-
-        protected TermFindAttribute(string[] values = null, TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
-        {
-            Values = values;
-            Match = match;
-            Case = termCase;
+            if (values != null && values.Any())
+                Values = values;
         }
 
         /// <summary>
         /// Gets the term values.
         /// </summary>
-        public string[] Values { get; private set; }
+        public string[] Values
+        {
+            get
+            {
+                return Properties.Get<string[]>(
+                    nameof(Values),
+                    md => md.GetDeclaringAttributes<TermAttribute>());
+            }
+
+            private set
+            {
+                Properties[nameof(Values)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets the term case.
         /// </summary>
-        public TermCase Case { get; private set; }
+        public TermCase Case
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(Case),
+                    DefaultCase,
+                    md => md.GetDeclaringAttributes<TermAttribute>(),
+                    md => md.GetGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+            }
+
+            private set
+            {
+                Properties[nameof(Case)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets the match.
         /// </summary>
-        public new TermMatch Match { get; private set; }
+        public new TermMatch Match
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(Match),
+                    DefaultMatch,
+                    md => md.GetDeclaringAttributes<TermAttribute>(),
+                    md => md.GetGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+            }
+
+            private set
+            {
+                Properties[nameof(Match)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets the format.
         /// </summary>
-        public string Format { get; set; }
+        public string Format
+        {
+            get
+            {
+                return Properties.Get<string>(
+                    nameof(Format),
+                    md => md.GetDeclaringAttributes<TermAttribute>(),
+                    md => md.GetGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+            }
+
+            set
+            {
+                Properties[nameof(Format)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the name should be cut considering the IgnoreNameEndings property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>. The default value is true.
         /// </summary>
-        public bool CutEnding { get; set; } = true;
+        public bool CutEnding
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(CutEnding),
+                    true,
+                    md => md.GetDeclaringAttributes<TermAttribute>());
+            }
+
+            set
+            {
+                Properties[nameof(CutEnding)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets the default term case.
@@ -76,68 +144,32 @@ namespace Atata
         public string[] GetTerms(UIComponentMetadata metadata)
         {
             string[] rawTerms = GetRawTerms(metadata);
-            string format = GetTermFormat(metadata);
+            string format = Format;
 
             return !string.IsNullOrEmpty(format) ? rawTerms.Select(x => string.Format(format, x)).ToArray() : rawTerms;
         }
 
         protected virtual string[] GetRawTerms(UIComponentMetadata metadata)
         {
-            if (Values != null && Values.Any())
-            {
-                return Values;
-            }
-            else
-            {
-                TermAttribute termAttribute = metadata.GetTerm(x => x.Values != null && x.Values.Any());
-                if (termAttribute != null)
-                    return termAttribute.Values;
-            }
-
-            return new[] { GetTermFromProperty(metadata) };
+            return Values ?? new[] { GetTermFromProperty(metadata) };
         }
 
         private string GetTermFromProperty(UIComponentMetadata metadata)
         {
-            TermCase termCase = GetTermCase(metadata);
             string name = GetPropertyName(metadata);
-            return termCase.ApplyTo(name);
-        }
-
-        private TermCase GetTermCase(UIComponentMetadata metadata)
-        {
-            return this.GetCaseOrNull()
-                ?? metadata.GetTerm().GetCaseOrNull()
-                ?? GetTermFindSettings(metadata, x => x.Case != TermCase.Inherit).GetCaseOrNull()
-                ?? DefaultCase;
-        }
-
-        private string GetTermFormat(UIComponentMetadata metadata)
-        {
-            return this.GetFormatOrNull()
-                ?? metadata.GetTerm().GetFormatOrNull()
-                ?? GetTermFindSettings(metadata, x => x.Format != null).GetFormatOrNull();
+            return Case.ApplyTo(name);
         }
 
         public TermMatch GetTermMatch(UIComponentMetadata metadata)
         {
-            return this.GetMatchOrNull()
-                ?? metadata.GetTerm().GetMatchOrNull()
-                ?? GetTermFindSettings(metadata, x => x.Match != TermMatch.Inherit).GetMatchOrNull()
-                ?? DefaultMatch;
+            return Match;
         }
 
         private string GetPropertyName(UIComponentMetadata metadata)
         {
-            return CutEnding && (metadata.GetTerm()?.CutEnding ?? true)
+            return CutEnding
                 ? metadata.ComponentDefinitonAttribute.NormalizeNameIgnoringEnding(metadata.Name)
                 : metadata.Name;
-        }
-
-        private TermFindSettingsAttribute GetTermFindSettings(UIComponentMetadata metadata, Func<TermFindSettingsAttribute, bool> predicate)
-        {
-            Type thisType = GetType();
-            return metadata.GetFirstOrDefaultGlobalAttribute<TermFindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x));
         }
     }
 }

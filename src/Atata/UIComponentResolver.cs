@@ -257,6 +257,7 @@ namespace Atata
             component.Driver = parentComponent.Driver;
 
             FindAttribute findAttribute = GetPropertyFindAttribute(metadata);
+            findAttribute.Properties.Metadata = metadata;
 
             InitComponentLocator(component, metadata, findAttribute);
             component.ComponentName = ResolveControlName(metadata, findAttribute);

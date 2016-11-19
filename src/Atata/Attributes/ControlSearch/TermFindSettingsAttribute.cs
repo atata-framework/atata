@@ -8,31 +8,41 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
     public class TermFindSettingsAttribute : FindSettingsAttribute, ITermSettings
     {
-        public TermFindSettingsAttribute(FindTermBy by, TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
-            : this(by.ResolveFindAttributeType(), match, termCase)
+        public TermFindSettingsAttribute(FindTermBy by)
+            : base(by)
         {
         }
 
-        public TermFindSettingsAttribute(Type findAttributeType, TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
+        public TermFindSettingsAttribute(Type findAttributeType)
             : base(findAttributeType)
         {
-            Match = match;
-            Case = termCase;
         }
 
         /// <summary>
         /// Gets or sets the term case.
         /// </summary>
-        public TermCase Case { get; set; }
+        public TermCase Case
+        {
+            get { return Properties.Get(nameof(Case), TermCase.None); }
+            set { Properties[nameof(Case)] = value; }
+        }
 
         /// <summary>
         /// Gets or sets the match.
         /// </summary>
-        public new TermMatch Match { get; set; }
+        public new TermMatch Match
+        {
+            get { return Properties.Get(nameof(Match), TermMatch.Equals); }
+            set { Properties[nameof(Match)] = value; }
+        }
 
         /// <summary>
         /// Gets or sets the format.
         /// </summary>
-        public string Format { get; set; }
+        public string Format
+        {
+            get { return Properties.Get<string>(nameof(Format)); }
+            set { Properties[nameof(Format)] = value; }
+        }
     }
 }

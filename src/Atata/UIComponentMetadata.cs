@@ -84,9 +84,19 @@ namespace Atata
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
         }
 
+        public IEnumerable<T> GetDeclaringAttributes<T>(Func<T, bool> predicate = null)
+        {
+            return FilterAttributes(DeclaringAttributes, predicate);
+        }
+
         public IEnumerable<T> GetDeclaringAndGlobalAttributes<T>(Func<T, bool> predicate = null)
         {
             return FilterAttributes(DeclaringAttributes.Concat(GlobalAttributes), predicate);
+        }
+
+        public IEnumerable<T> GetGlobalAttributes<T>(Func<T, bool> predicate = null)
+        {
+            return FilterAttributes(GlobalAttributes, predicate);
         }
 
         public IEnumerable<T> GetAssemblyAttributes<T>(Func<T, bool> predicate = null)
