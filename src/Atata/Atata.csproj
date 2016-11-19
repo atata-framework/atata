@@ -180,7 +180,6 @@
     <Compile Include="Terms\ITermSettings.cs" />
     <Compile Include="Attributes\NameAttribute.cs" />
     <Compile Include="Attributes\PageObjectDefinitionAttribute.cs" />
-    <Compile Include="Attributes\SelectByAttribute.cs" />
     <Compile Include="Attributes\SelectByTextAttribute.cs" />
     <Compile Include="Attributes\SelectByValueAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\TermFindItemAttribute.cs" />

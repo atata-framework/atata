@@ -1,13 +1,25 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
-    public class SelectByValueAttribute : SelectByAttribute
+    [AttributeUsage(AttributeTargets.Property)]
+    public class SelectByValueAttribute : TermSettingsAttribute
     {
+        public SelectByValueAttribute()
+        {
+        }
+
         public SelectByValueAttribute(TermCase termCase)
             : base(termCase)
         {
         }
 
-        public SelectByValueAttribute(TermMatch match = TermMatch.Inherit, TermCase termCase = TermCase.Inherit)
+        public SelectByValueAttribute(TermMatch match)
+            : base(match)
+        {
+        }
+
+        public SelectByValueAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
         }

@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum)]
+    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct | AttributeTargets.Enum)]
     public class TermSettingsAttribute : Attribute, ITermSettings, ISettingsAttribute
     {
         public TermSettingsAttribute()

@@ -26,14 +26,30 @@ namespace Atata
         {
             otherTermSettings.CheckNotNull("otherTermSettings");
 
-            if (otherTermSettings.Case != TermCase.Inherit)
-                Case = otherTermSettings.Case;
+            ISettingsAttribute settingsAttribute = otherTermSettings as ISettingsAttribute;
 
-            if (otherTermSettings.Match != TermMatch.Inherit)
-                Match = otherTermSettings.Match;
+            if (settingsAttribute != null)
+            {
+                if (settingsAttribute.Properties.Contains(nameof(Case)))
+                    Case = otherTermSettings.Case;
 
-            if (otherTermSettings.Format != null)
-                Format = otherTermSettings.Format;
+                if (settingsAttribute.Properties.Contains(nameof(Match)))
+                    Match = otherTermSettings.Match;
+
+                if (settingsAttribute.Properties.Contains(nameof(Format)))
+                    Format = otherTermSettings.Format;
+            }
+            else
+            {
+                if (otherTermSettings.Case != TermCase.Inherit)
+                    Case = otherTermSettings.Case;
+
+                if (otherTermSettings.Match != TermMatch.Inherit)
+                    Match = otherTermSettings.Match;
+
+                if (otherTermSettings.Format != null)
+                    Format = otherTermSettings.Format;
+            }
         }
     }
 }

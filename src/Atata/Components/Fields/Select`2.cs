@@ -12,7 +12,7 @@ namespace Atata
     public class Select<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private SelectByAttribute selectByAttribute;
+        private TermSettingsAttribute selectByAttribute;
         private SelectBy by;
 
         private enum SelectBy
@@ -41,7 +41,8 @@ namespace Atata
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            selectByAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<SelectByAttribute>()
+            selectByAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<SelectByTextAttribute>()
+                ?? (TermSettingsAttribute)metadata.GetFirstOrDefaultDeclaringAttribute<SelectByValueAttribute>()
                 ?? new SelectByTextAttribute();
 
             by = selectByAttribute is SelectByTextAttribute ? SelectBy.Text : SelectBy.Value;
