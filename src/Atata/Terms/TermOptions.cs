@@ -22,34 +22,18 @@ namespace Atata
             return new TermOptions();
         }
 
-        public void MergeWith(ITermSettings otherTermSettings)
+        public void MergeWith(ISettingsAttribute settingsAttribute)
         {
-            otherTermSettings.CheckNotNull("otherTermSettings");
+            settingsAttribute.CheckNotNull("settingsAttribute");
 
-            ISettingsAttribute settingsAttribute = otherTermSettings as ISettingsAttribute;
+            if (settingsAttribute.Properties.Contains(nameof(Case)))
+                Case = (TermCase)settingsAttribute.Properties[nameof(Case)];
 
-            if (settingsAttribute != null)
-            {
-                if (settingsAttribute.Properties.Contains(nameof(Case)))
-                    Case = otherTermSettings.Case;
+            if (settingsAttribute.Properties.Contains(nameof(Match)))
+                Match = (TermMatch)settingsAttribute.Properties[nameof(Match)];
 
-                if (settingsAttribute.Properties.Contains(nameof(Match)))
-                    Match = otherTermSettings.Match;
-
-                if (settingsAttribute.Properties.Contains(nameof(Format)))
-                    Format = otherTermSettings.Format;
-            }
-            else
-            {
-                if (otherTermSettings.Case != TermCase.Inherit)
-                    Case = otherTermSettings.Case;
-
-                if (otherTermSettings.Match != TermMatch.Inherit)
-                    Match = otherTermSettings.Match;
-
-                if (otherTermSettings.Format != null)
-                    Format = otherTermSettings.Format;
-            }
+            if (settingsAttribute.Properties.Contains(nameof(Format)))
+                Format = (string)settingsAttribute.Properties[nameof(Format)];
         }
     }
 }

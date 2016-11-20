@@ -297,7 +297,6 @@ namespace Atata
         public static TOwner MatchAny<TOwner>(this IDataVerificationProvider<string, TOwner> should, TermMatch match, params string[] expected)
             where TOwner : PageObject<TOwner>
         {
-            match.CheckNotEquals(nameof(match), TermMatch.Inherit);
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             var predicate = match.GetPredicate();
@@ -341,7 +340,6 @@ namespace Atata
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            match.CheckNotEquals(nameof(match), TermMatch.Inherit);
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
@@ -381,7 +379,6 @@ namespace Atata
         public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<string, TOwner>>, TOwner> should, TermMatch match, params string[] expected)
             where TOwner : PageObject<TOwner>
         {
-            match.CheckNotEquals(nameof(match), TermMatch.Inherit);
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(

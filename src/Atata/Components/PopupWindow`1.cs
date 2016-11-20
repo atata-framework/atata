@@ -32,7 +32,7 @@ namespace Atata
         /// </summary>
         protected bool CanFindByWindowTitle
         {
-            get { return WindowTitleValues != null && WindowTitleValues.Any() && WindowTitleMatch != TermMatch.Inherit; }
+            get { return WindowTitleValues != null && WindowTitleValues.Any(); }
         }
 
         protected override By CreateScopeBy()

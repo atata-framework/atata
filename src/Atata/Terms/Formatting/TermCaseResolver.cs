@@ -30,7 +30,7 @@ namespace Atata.TermFormatting
 
         public static string ApplyCase(string value, TermCase termCase)
         {
-            if (termCase == TermCase.None || termCase == TermCase.Inherit)
+            if (termCase == TermCase.None)
                 return value;
 
             string[] words = value.SplitIntoWords();
