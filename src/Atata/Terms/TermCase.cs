@@ -6,11 +6,6 @@
     public enum TermCase
     {
         /// <summary>
-        /// Uses the inherited case or none if missing.
-        /// </summary>
-        Inherit,
-
-        /// <summary>
         /// Doesn't apply the case.
         /// </summary>
         None,

@@ -29,7 +29,7 @@ namespace Atata
         {
         }
 
-        protected override IEnumerable<ISettingsAttribute> GetSettingsAttributes(UIComponentMetadata metadata)
+        protected override IEnumerable<IPropertySettings> GetPropertySettings(UIComponentMetadata metadata)
         {
             return metadata.GetAssemblyAttributes<VerifyTitleSettingsAttribute>();
         }

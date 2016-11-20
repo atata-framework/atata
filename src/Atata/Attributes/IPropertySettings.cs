@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public interface ISettingsAttribute
+    public interface IPropertySettings
     {
         PropertyBag Properties { get; }
     }

@@ -8,7 +8,7 @@ namespace Atata
     /// Represents the base attribute class for the finding attributes.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property, Inherited = true)]
-    public abstract class FindAttribute : Attribute, ISettingsAttribute
+    public abstract class FindAttribute : Attribute, IPropertySettings
     {
         protected FindAttribute()
         {

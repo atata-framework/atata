@@ -64,7 +64,7 @@
     <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\IFindItemAttribute.cs" />
     <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
-    <Compile Include="Attributes\ISettingsAttribute.cs" />
+    <Compile Include="Attributes\IPropertySettings.cs" />
     <Compile Include="Attributes\PropertyBag.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />

@@ -167,7 +167,7 @@ namespace Atata
         {
             value.CheckNotNull(nameof(value));
 
-            termOptions = termOptions ?? TermOptions.CreateDefault();
+            termOptions = termOptions ?? new TermOptions();
             TermConverter termConverter;
 
             if (value is string)

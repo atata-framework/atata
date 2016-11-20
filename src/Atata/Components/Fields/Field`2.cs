@@ -98,7 +98,7 @@ namespace Atata
         {
             base.ApplyMetadata(metadata);
 
-            ValueTermOptions = TermOptions.CreateDefault();
+            ValueTermOptions = new TermOptions();
             InitValueTermOptions(ValueTermOptions, metadata);
         }
 

@@ -6,11 +6,6 @@
     public enum TermMatch
     {
         /// <summary>
-        /// Uses the inherited match or the default one.
-        /// </summary>
-        Inherit,
-
-        /// <summary>
         /// Checks whether the text equals the specified term.
         /// </summary>
         Equals,

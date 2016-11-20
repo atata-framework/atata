@@ -271,8 +271,8 @@ namespace Atata
         private static void ApplyMetadata<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)
             where TOwner : PageObject<TOwner>
         {
-            foreach (ISettingsAttribute settingsAttribute in metadata.AllAttributes.OfType<ISettingsAttribute>().Where(x => x.Properties != null))
-                settingsAttribute.Properties.Metadata = metadata;
+            foreach (IPropertySettings propertySettings in metadata.AllAttributes.OfType<IPropertySettings>().Where(x => x.Properties != null))
+                propertySettings.Properties.Metadata = metadata;
 
             component.Metadata = metadata;
             component.ApplyMetadata(metadata);

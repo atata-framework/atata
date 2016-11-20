@@ -7,7 +7,7 @@ namespace Atata
     /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
-    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider, ISettingsAttribute
+    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider, IPropertySettings
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
             : this()
@@ -40,7 +40,7 @@ namespace Atata
 
         public TermCase Case
         {
-            get { return Properties.Get(nameof(Case), DefaultCase, GetSettingsAttributes); }
+            get { return Properties.Get(nameof(Case), DefaultCase, GetPropertySettings); }
             private set { Properties[nameof(Case)] = value; }
         }
 
@@ -51,7 +51,7 @@ namespace Atata
 
         public new TermMatch Match
         {
-            get { return Properties.Get(nameof(Match), DefaultMatch, GetSettingsAttributes); }
+            get { return Properties.Get(nameof(Match), DefaultMatch, GetPropertySettings); }
             private set { Properties[nameof(Match)] = value; }
         }
 
@@ -62,11 +62,11 @@ namespace Atata
 
         public string Format
         {
-            get { return Properties.Get<string>(nameof(Format), GetSettingsAttributes); }
+            get { return Properties.Get<string>(nameof(Format), GetPropertySettings); }
             set { Properties[nameof(Format)] = value; }
         }
 
-        protected virtual IEnumerable<ISettingsAttribute> GetSettingsAttributes(UIComponentMetadata metadata)
+        protected virtual IEnumerable<IPropertySettings> GetPropertySettings(UIComponentMetadata metadata)
         {
             yield break;
         }

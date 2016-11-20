@@ -21,26 +21,26 @@ namespace Atata
             return values.ContainsKey(name);
         }
 
-        public T Get<T>(string name, params Func<UIComponentMetadata, IEnumerable<ISettingsAttribute>>[] settingsAttributesGetters)
+        public T Get<T>(string name, params Func<UIComponentMetadata, IEnumerable<IPropertySettings>>[] propertySettingsGetters)
         {
-            return Get(name, default(T), settingsAttributesGetters);
+            return Get(name, default(T), propertySettingsGetters);
         }
 
-        public T Get<T>(string name, T defaultValue, params Func<UIComponentMetadata, IEnumerable<ISettingsAttribute>>[] settingsAttributesGetters)
+        public T Get<T>(string name, T defaultValue, params Func<UIComponentMetadata, IEnumerable<IPropertySettings>>[] propertySettingsGetters)
         {
             object value;
 
             if (values.TryGetValue(name, out value))
                 return (T)value;
 
-            if (Metadata != null && settingsAttributesGetters.Any())
+            if (Metadata != null && propertySettingsGetters.Any())
             {
-                ISettingsAttribute settingsAttribute = settingsAttributesGetters.
+                IPropertySettings propertySettings = propertySettingsGetters.
                     SelectMany(x => x(Metadata)).
                     FirstOrDefault(x => x.Properties.Contains(name));
 
-                if (settingsAttribute != null)
-                    return (T)settingsAttribute.Properties[name];
+                if (propertySettings != null)
+                    return (T)propertySettings.Properties[name];
             }
 
             return defaultValue;

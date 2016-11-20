@@ -6,7 +6,7 @@ namespace Atata
     /// Defines the settings to apply for the specified finding strategy of a control.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
-    public class FindSettingsAttribute : Attribute, ISettingsAttribute
+    public class FindSettingsAttribute : Attribute, IPropertySettings
     {
         public FindSettingsAttribute(FindTermBy by)
             : this(by.ResolveFindAttributeType())

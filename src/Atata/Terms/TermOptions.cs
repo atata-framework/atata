@@ -2,29 +2,46 @@
 
 namespace Atata
 {
-    public class TermOptions : ITermSettings
+    public class TermOptions : ITermSettings, IPropertySettings
     {
-        public TermOptions()
+        public PropertyBag Properties { get; } = new PropertyBag();
+
+        /// <summary>
+        /// Gets or sets the match.
+        /// </summary>
+        public TermMatch Match
         {
-            Culture = CultureInfo.CurrentCulture;
+            get { return Properties.Get(nameof(Match), TermMatch.Equals); }
+            set { Properties[nameof(Match)] = value; }
         }
 
-        public TermCase Case { get; set; }
-
-        public TermMatch Match { get; set; }
-
-        public string Format { get; set; }
-
-        public CultureInfo Culture { get; set; }
-
-        public static TermOptions CreateDefault()
+        /// <summary>
+        /// Gets or sets the term case.
+        /// </summary>
+        public TermCase Case
         {
-            return new TermOptions();
+            get { return Properties.Get(nameof(Case), TermCase.None); }
+            set { Properties[nameof(Case)] = value; }
         }
 
-        public void MergeWith(ISettingsAttribute settingsAttribute)
+        /// <summary>
+        /// Gets or sets the format.
+        /// </summary>
+        public string Format
         {
-            settingsAttribute.CheckNotNull("settingsAttribute");
+            get { return Properties.Get<string>(nameof(Format)); }
+            set { Properties[nameof(Format)] = value; }
+        }
+
+        public CultureInfo Culture
+        {
+            get { return Properties.Get(nameof(Culture), CultureInfo.CurrentCulture); }
+            set { Properties[nameof(Culture)] = value; }
+        }
+
+        public void MergeWith(IPropertySettings settingsAttribute)
+        {
+            settingsAttribute.CheckNotNull(nameof(settingsAttribute));
 
             if (settingsAttribute.Properties.Contains(nameof(Case)))
                 Case = (TermCase)settingsAttribute.Properties[nameof(Case)];
