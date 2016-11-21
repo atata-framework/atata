@@ -6,11 +6,6 @@
     public enum ScopeSource
     {
         /// <summary>
-        /// Uses the inherited value.
-        /// </summary>
-        Inherit,
-
-        /// <summary>
         /// Uses the parent's scope.
         /// </summary>
         Parent,

@@ -7,6 +7,8 @@ namespace Atata
     /// </summary>
     public class WaitForElementAttribute : WaitForAttribute
     {
+        private ScopeSource? scopeSource;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="WaitForElementAttribute" /> class.
         /// </summary>
@@ -35,12 +37,16 @@ namespace Atata
         /// <summary>
         /// Gets or sets the scope source.
         /// </summary>
-        public ScopeSource ScopeSource { get; set; }
+        public ScopeSource ScopeSource
+        {
+            get { return scopeSource ?? ScopeSource.Parent; }
+            set { scopeSource = value; }
+        }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            ScopeSource scopeSource = ScopeSource != ScopeSource.Inherit ? ScopeSource : context.Component.ScopeSource;
-            IWebElement scopeElement = scopeSource.GetScopeElement((UIComponent)context.Component);
+            ScopeSource actualScopeSource = scopeSource ?? context.Component.ScopeSource;
+            IWebElement scopeElement = actualScopeSource.GetScopeElement((UIComponent)context.Component);
 
             WaitUnit[] waitUnits = GetWaitUnits(Until);
 
