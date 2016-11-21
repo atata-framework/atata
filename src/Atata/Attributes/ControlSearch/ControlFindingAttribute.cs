@@ -26,7 +26,7 @@ namespace Atata
         public Type FindAttributeType { get; private set; }
 
         /// <summary>
-        /// Gets or sets the type of the control (e.g.: typeof(LinkControl&lt;&gt;), typeof(EditableField&lt;,&gt;)).
+        /// Gets or sets the type of the control (e.g.: typeof(Link&lt;&gt;), typeof(EditableField&lt;,&gt;)).
         /// </summary>
         public Type ControlType { get; set; }
 
