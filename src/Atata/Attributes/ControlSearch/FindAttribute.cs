@@ -10,8 +10,11 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Property, Inherited = true)]
     public abstract class FindAttribute : Attribute, IPropertySettings
     {
+        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> findSettingsGetter;
+
         protected FindAttribute()
         {
+            findSettingsGetter = md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType());
         }
 
         public PropertyBag Properties { get; } = new PropertyBag();
@@ -26,7 +29,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(Index),
                     -1,
-                    md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+                    findSettingsGetter);
             }
 
             set
@@ -45,7 +48,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(Visibility),
                     Visibility.Visible,
-                    md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType()),
+                    findSettingsGetter,
                     md => md.GetComponentAttributes<ControlDefinitionAttribute>());
             }
 
@@ -65,7 +68,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(ScopeSource),
                     ScopeSource.Parent,
-                    md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+                    findSettingsGetter);
             }
 
             set
@@ -77,7 +80,21 @@ namespace Atata
         /// <summary>
         /// Gets or sets the strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
         /// </summary>
-        public Type Strategy { get; set; }
+        public Type Strategy
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(Strategy),
+                    DefaultStrategy,
+                    findSettingsGetter);
+            }
+
+            set
+            {
+                Properties[nameof(Strategy)] = value;
+            }
+        }
 
         /// <summary>
         /// Gets the default strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
@@ -86,7 +103,7 @@ namespace Atata
 
         public IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            Type strategyType = ResolveStrategyType(metadata);
+            Type strategyType = Strategy ?? DefaultStrategy;
             object[] strategyArguments = GetStrategyArguments().ToArray();
 
             return (IComponentScopeLocateStrategy)Activator.CreateInstance(strategyType, strategyArguments);
@@ -95,18 +112,6 @@ namespace Atata
         protected virtual IEnumerable<object> GetStrategyArguments()
         {
             yield break;
-        }
-
-        public Type ResolveStrategyType(UIComponentMetadata metadata)
-        {
-            return Strategy ?? GetFindSettings(metadata, x => x.Strategy != null)?.Strategy ?? DefaultStrategy;
-        }
-
-        private FindSettingsAttribute GetFindSettings(UIComponentMetadata metadata, Func<FindSettingsAttribute, bool> predicate)
-        {
-            Type thisType = GetType();
-            return metadata.GetFirstOrDefaultDeclaringAttribute<FindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x))
-                ?? metadata.GetFirstOrDefaultGlobalAttribute<FindSettingsAttribute>(x => x.FindAttributeType == thisType && predicate(x));
         }
     }
 }

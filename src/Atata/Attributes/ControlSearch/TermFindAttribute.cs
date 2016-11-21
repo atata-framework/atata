@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Atata
 {
@@ -7,29 +9,36 @@ namespace Atata
     /// </summary>
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute, ITermSettings
     {
+        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> termGetter;
+
+        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> termFindSettingsGetter;
+
         protected TermFindAttribute(TermCase termCase)
+            : this()
         {
             Case = termCase;
         }
 
         protected TermFindAttribute(TermMatch match, TermCase termCase)
+            : this()
         {
             Match = match;
             Case = termCase;
         }
 
         protected TermFindAttribute(TermMatch match, params string[] values)
+            : this(values)
         {
             Match = match;
-
-            if (values != null && values.Any())
-                Values = values;
         }
 
         protected TermFindAttribute(params string[] values)
         {
             if (values != null && values.Any())
                 Values = values;
+
+            termGetter = md => md.GetDeclaringAttributes<TermAttribute>();
+            termFindSettingsGetter = md => md.GetDeclaringAndGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType());
         }
 
         /// <summary>
@@ -41,7 +50,7 @@ namespace Atata
             {
                 return Properties.Get<string[]>(
                     nameof(Values),
-                    md => md.GetDeclaringAttributes<TermAttribute>());
+                    termGetter);
             }
 
             private set
@@ -60,8 +69,8 @@ namespace Atata
                 return Properties.Get(
                     nameof(Case),
                     DefaultCase,
-                    md => md.GetDeclaringAttributes<TermAttribute>(),
-                    md => md.GetGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+                    termGetter,
+                    termFindSettingsGetter);
             }
 
             private set
@@ -80,8 +89,8 @@ namespace Atata
                 return Properties.Get(
                     nameof(Match),
                     DefaultMatch,
-                    md => md.GetDeclaringAttributes<TermAttribute>(),
-                    md => md.GetGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+                    termGetter,
+                    termFindSettingsGetter);
             }
 
             private set
@@ -99,8 +108,8 @@ namespace Atata
             {
                 return Properties.Get<string>(
                     nameof(Format),
-                    md => md.GetDeclaringAttributes<TermAttribute>(),
-                    md => md.GetGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType()));
+                    termGetter,
+                    termFindSettingsGetter);
             }
 
             set
@@ -119,7 +128,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(CutEnding),
                     true,
-                    md => md.GetDeclaringAttributes<TermAttribute>());
+                    termGetter);
             }
 
             set
