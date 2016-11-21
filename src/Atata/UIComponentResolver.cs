@@ -285,7 +285,7 @@ namespace Atata
 
         private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            ComponentScopeLocateOptions locateOptions = CreateFindOptions(metadata, findAttribute);
+            ComponentScopeLocateOptions locateOptions = CreateScopeLocateOptions(metadata, findAttribute);
             IComponentScopeLocateStrategy strategy = findAttribute.CreateStrategy(metadata);
 
             IItemsControl itemsControl = component as IItemsControl;
@@ -430,15 +430,18 @@ namespace Atata
             return metadata.GetFirstOrDefaultDeclaringAttribute<IFindItemAttribute>() ?? (IFindItemAttribute)new FindItemByLabelAttribute();
         }
 
-        private static ComponentScopeLocateOptions CreateFindOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static ComponentScopeLocateOptions CreateScopeLocateOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             ControlDefinitionAttribute definition = metadata.ComponentDefinitonAttribute as ControlDefinitionAttribute;
+
+            int index = findAttribute.Index;
 
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
                 Metadata = metadata,
                 ElementXPath = definition != null ? definition.ScopeXPath : "*",
-                Index = findAttribute.Index >= 0 ? (int?)findAttribute.Index : null
+                Index = index >= 0 ? (int?)index : null,
+                Visibility = findAttribute.Visibility
             };
 
             ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;

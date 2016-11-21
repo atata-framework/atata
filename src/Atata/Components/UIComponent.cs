@@ -63,9 +63,9 @@ namespace Atata
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
             if (ScopeLocator == null)
-                throw new InvalidOperationException("ScopeLocator is missing.");
+                throw new InvalidOperationException($"{nameof(ScopeLocator)} is missing.");
 
-            searchOptions = searchOptions ?? SearchOptions.Unsafely();
+            searchOptions = searchOptions ?? new SearchOptions();
 
             IWebElement element = ScopeLocator.GetElement(searchOptions);
             if (!searchOptions.IsSafely && element == null)

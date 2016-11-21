@@ -14,6 +14,8 @@ namespace Atata
 
         public TermMatch Match { get; set; }
 
+        public Visibility Visibility { get; set; }
+
         public string GetTermsAsString()
         {
             return Terms != null ? string.Join("/", Terms) : null;

@@ -16,7 +16,7 @@ namespace Atata
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Unsafely();
+            searchOptions = searchOptions ?? new SearchOptions();
 
             IWebElement element = AtataContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
@@ -31,7 +31,7 @@ namespace Atata
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Unsafely();
+            searchOptions = searchOptions ?? new SearchOptions();
 
             return AtataContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
@@ -41,7 +41,7 @@ namespace Atata
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Unsafely();
+            searchOptions = searchOptions ?? new SearchOptions();
 
             bool isMissing = AtataContext.Current.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {

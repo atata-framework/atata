@@ -140,7 +140,7 @@ namespace Atata
 
         private SearchOptions ResolveOptions(By by)
         {
-            return (by as ExtendedBy)?.Options ?? SearchOptions.Unsafely();
+            return (by as ExtendedBy)?.Options ?? new SearchOptions();
         }
 
         private IWebElement Find(By by)

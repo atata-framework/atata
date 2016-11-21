@@ -14,7 +14,7 @@ namespace Atata
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Unsafely();
+            searchOptions = searchOptions ?? new SearchOptions();
 
             return locateFunction(searchOptions);
         }
@@ -26,7 +26,7 @@ namespace Atata
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? SearchOptions.Unsafely();
+            searchOptions = searchOptions ?? new SearchOptions();
 
             SearchOptions searchOptionsForElementGet = searchOptions.Clone();
             searchOptionsForElementGet.IsSafely = true;

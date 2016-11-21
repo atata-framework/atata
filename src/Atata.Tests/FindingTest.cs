@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -63,6 +64,27 @@ namespace Atata.Tests
         public void Find_Last()
         {
             VerifyRadioButton(page.OptionDAsLast, "OptionD");
+        }
+
+        [Test]
+        public void Find_Visible()
+        {
+            page.VisibleInput.Should.Exist().
+                FailDisplayNoneInput.Should.Not.Exist();
+
+            Assert.Throws<NoSuchElementException>(() =>
+                page.FailDisplayNoneInput.Should.AtOnce.Exist());
+        }
+
+        [Test]
+        public void Find_Hidden()
+        {
+            page.DisplayNoneInput.Should.Exist().
+                HiddenInput.Should.Exist().
+                CollapseInput.Should.Exist().
+                TypeHiddenInput.Should.Exist();
+
+            Assert.That(page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
         }
 
         private void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")

@@ -4,27 +4,51 @@ namespace Atata
 {
     public class SearchOptions : ICloneable
     {
-        public SearchOptions()
+        private TimeSpan? timeout;
+
+        private TimeSpan? retryInterval;
+
+        private Visibility? visibility;
+
+        private bool? isSafely;
+
+        public TimeSpan Timeout
         {
-            Timeout = RetrySettings.Timeout;
-            RetryInterval = RetrySettings.Interval;
-            Visibility = Visibility.Visible;
-            IsSafely = false;
+            get { return timeout ?? RetrySettings.Timeout; }
+            set { timeout = value; }
         }
 
-        public TimeSpan Timeout { get; set; }
+        public bool IsTimeoutSet => timeout.HasValue;
 
-        public TimeSpan RetryInterval { get; set; }
+        public TimeSpan RetryInterval
+        {
+            get { return retryInterval ?? RetrySettings.Interval; }
+            set { retryInterval = value; }
+        }
+
+        public bool IsRetryIntervalSet => retryInterval.HasValue;
 
         /// <summary>
         /// Gets or sets the visibility of the search element. The default value is Visible.
         /// </summary>
-        public Visibility Visibility { get; set; }
+        public Visibility Visibility
+        {
+            get { return visibility ?? Visibility.Visible; }
+            set { visibility = value; }
+        }
+
+        public bool IsVisibilitySet => visibility.HasValue;
 
         /// <summary>
         /// Gets or sets a value indicating whether the search element is safely searching. If it is true then null is returned after the search, otherwise an exception is thrown. The default value is false.
         /// </summary>
-        public bool IsSafely { get; set; }
+        public bool IsSafely
+        {
+            get { return isSafely ?? false; }
+            set { isSafely = value; }
+        }
+
+        public bool IsSafelySet => isSafely.HasValue;
 
         public static SearchOptions Safely(bool isSafely = true)
         {
@@ -41,6 +65,16 @@ namespace Atata
             return new SearchOptions { IsSafely = isSafely, Timeout = TimeSpan.Zero };
         }
 
+        public static SearchOptions OfVisibility(Visibility visibility)
+        {
+            return new SearchOptions { Visibility = visibility };
+        }
+
+        public static SearchOptions Visible()
+        {
+            return new SearchOptions { Visibility = Visibility.Visible };
+        }
+
         public static SearchOptions Hidden()
         {
             return new SearchOptions { Visibility = Visibility.Hidden };
@@ -53,22 +87,42 @@ namespace Atata
 
         public static SearchOptions Within(TimeSpan timeout, TimeSpan? retryInterval = null)
         {
-            return new SearchOptions { Timeout = timeout, RetryInterval = retryInterval ?? RetrySettings.Interval };
+            SearchOptions options = new SearchOptions { Timeout = timeout };
+
+            if (retryInterval.HasValue)
+                options.RetryInterval = retryInterval.Value;
+
+            return options;
         }
 
         public static SearchOptions Within(double timeoutSeconds, double? retryIntervalSeconds)
         {
-            return new SearchOptions { Timeout = TimeSpan.FromSeconds(timeoutSeconds), RetryInterval = retryIntervalSeconds.HasValue ? TimeSpan.FromSeconds(retryIntervalSeconds.Value) : RetrySettings.Interval };
+            SearchOptions options = new SearchOptions { Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
+
+            if (retryIntervalSeconds.HasValue)
+                options.RetryInterval = TimeSpan.FromSeconds(retryIntervalSeconds.Value);
+
+            return options;
         }
 
         public static SearchOptions SafelyWithin(TimeSpan timeout, TimeSpan? retryInterval = null)
         {
-            return new SearchOptions { IsSafely = true, Timeout = timeout, RetryInterval = retryInterval ?? RetrySettings.Interval };
+            SearchOptions options = new SearchOptions { IsSafely = true, Timeout = timeout };
+
+            if (retryInterval.HasValue)
+                options.RetryInterval = retryInterval.Value;
+
+            return options;
         }
 
         public static SearchOptions SafelyWithin(double timeoutSeconds, double? retryIntervalSeconds)
         {
-            return new SearchOptions { IsSafely = true, Timeout = TimeSpan.FromSeconds(timeoutSeconds), RetryInterval = retryIntervalSeconds.HasValue ? TimeSpan.FromSeconds(retryIntervalSeconds.Value) : RetrySettings.Interval };
+            SearchOptions options = new SearchOptions { IsSafely = true, Timeout = TimeSpan.FromSeconds(timeoutSeconds) };
+
+            if (retryIntervalSeconds.HasValue)
+                options.RetryInterval = TimeSpan.FromSeconds(retryIntervalSeconds.Value);
+
+            return options;
         }
 
         public static SearchOptions AtOnce()

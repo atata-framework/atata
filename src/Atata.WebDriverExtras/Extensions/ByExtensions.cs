@@ -78,13 +78,22 @@ namespace Atata
 
         public static By With(this By by, SearchOptions options)
         {
-            options = options ?? SearchOptions.Unsafely();
+            options = options ?? new SearchOptions();
 
             ExtendedBy extendedBy = new ExtendedBy(by);
-            extendedBy.Options.Timeout = options.Timeout;
-            extendedBy.Options.RetryInterval = options.RetryInterval;
-            extendedBy.Options.Visibility = options.Visibility;
-            extendedBy.Options.IsSafely = options.IsSafely;
+
+            if (options.IsTimeoutSet)
+                extendedBy.Options.Timeout = options.Timeout;
+
+            if (options.IsRetryIntervalSet)
+                extendedBy.Options.RetryInterval = options.RetryInterval;
+
+            if (options.IsVisibilitySet)
+                extendedBy.Options.Visibility = options.Visibility;
+
+            if (options.IsSafelySet)
+                extendedBy.Options.IsSafely = options.IsSafely;
+
             return extendedBy;
         }
 
