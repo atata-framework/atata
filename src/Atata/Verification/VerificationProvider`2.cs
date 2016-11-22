@@ -68,5 +68,13 @@ namespace Atata
         {
             return isNegation ? "should not" : "should";
         }
+
+        internal TVerificationProvider ApplySettings(IVerificationProvider<TOwner> verificationProvider)
+        {
+            Timeout = verificationProvider.Timeout;
+            RetryInterval = verificationProvider.RetryInterval;
+
+            return (TVerificationProvider)this;
+        }
     }
 }

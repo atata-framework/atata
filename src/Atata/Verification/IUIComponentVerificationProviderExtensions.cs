@@ -37,7 +37,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsEnabled.Should;
+            var dataShould = should.Component.IsEnabled.Should.ApplySettings(should);
             return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
         }
 
@@ -47,7 +47,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsEnabled.Should;
+            var dataShould = should.Component.IsEnabled.Should.ApplySettings(should);
             return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
 
@@ -57,7 +57,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsReadOnly.Should;
+            var dataShould = should.Component.IsReadOnly.Should.ApplySettings(should);
             return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
         }
 
@@ -67,7 +67,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.Should;
+            var dataShould = should.Component.Should.ApplySettings(should);
             return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
         }
 
@@ -77,7 +77,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.Should;
+            var dataShould = should.Component.Should.ApplySettings(should);
             return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
 
