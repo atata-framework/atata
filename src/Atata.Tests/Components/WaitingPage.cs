@@ -15,19 +15,19 @@ namespace Atata.Tests
         public ButtonDelegate<_> ButtonWithMissingOrHiddenWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Class, "processing-block", WaitUntil.VisibleAndHidden)]
+        [WaitForElement(WaitBy.Class, "processing-block", WaitUntil.VisibleThenHidden)]
         public ButtonDelegate<_> ButtonWithVisibleAndHiddenWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Css, ".nonexistent-block", WaitUntil.VisibleAndMissing, PresenceTimeout = 2, ThrowOnPresenceFailure = false)]
+        [WaitForElement(WaitBy.Css, ".nonexistent-block", WaitUntil.VisibleThenMissing, PresenceTimeout = 2, ThrowOnPresenceFailure = false)]
         public ButtonDelegate<_> ButtonWithVisibleAndMissingWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Css, ".nonexistent-block", WaitUntil.VisibleAndMissing, PresenceTimeout = 1)]
+        [WaitForElement(WaitBy.Css, ".nonexistent-block", WaitUntil.VisibleThenMissing, PresenceTimeout = 1)]
         public ButtonDelegate<_> ButtonWithVisibleAndMissingNonExistentWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Class, "result-block", WaitUntil.HiddenAndVisible)]
+        [WaitForElement(WaitBy.Class, "result-block", WaitUntil.HiddenThenVisible)]
         public ButtonDelegate<_> ButtonWithHiddenAndVisibleWait { get; private set; }
 
         [FindByClass("result-block")]

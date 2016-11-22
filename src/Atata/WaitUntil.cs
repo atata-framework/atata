@@ -26,28 +26,38 @@
         Visible,
 
         /// <summary>
-        /// Waits until the element will exist.
+        /// Waits until the element will be visible or hidden.
         /// </summary>
-        Exists,
+        VisibleOrHidden,
 
         /// <summary>
-        /// Waits until the element will be visible and than until it will be hidden.
+        /// Waits until the element will be visible and then until it will be hidden.
         /// </summary>
-        VisibleAndHidden,
+        VisibleThenHidden,
 
         /// <summary>
-        /// Waits until the element will be visible and than until it will be missing.
+        /// Waits until the element will be visible and then until it will be missing.
         /// </summary>
-        VisibleAndMissing,
+        VisibleThenMissing,
 
         /// <summary>
-        /// Waits until the element will be missing and than until it will be visible.
+        /// Waits until the element will be visible and then until it will be missing or hidden.
         /// </summary>
-        MissingAndVisible,
+        VisibleThenMissingOrHidden,
 
         /// <summary>
-        /// Waits until the element will be hidden and than until it will be visible.
+        /// Waits until the element will be missing and then until it will be visible.
         /// </summary>
-        HiddenAndVisible
+        MissingThenVisible,
+
+        /// <summary>
+        /// Waits until the element will be hidden and then until it will be visible.
+        /// </summary>
+        HiddenThenVisible,
+
+        /// <summary>
+        /// Waits until the element will be missing or hidden and then until it will be visible.
+        /// </summary>
+        MissingOrHiddenThenVisible
     }
 }

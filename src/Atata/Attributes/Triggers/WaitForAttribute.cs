@@ -70,33 +70,45 @@ namespace Atata
                     {
                         CreatePresenceUnit(Visibility.Visible)
                     };
-                case WaitUntil.Exists:
+                case WaitUntil.VisibleOrHidden:
                     return new[]
                     {
                         CreatePresenceUnit(Visibility.Any)
                     };
-                case WaitUntil.VisibleAndHidden:
+                case WaitUntil.VisibleThenHidden:
                     return new[]
                     {
                         CreatePresenceUnit(Visibility.Visible),
                         CreatePresenceUnit(Visibility.Hidden)
                     };
-                case WaitUntil.VisibleAndMissing:
+                case WaitUntil.VisibleThenMissing:
                     return new[]
                     {
                         CreatePresenceUnit(Visibility.Visible),
                         CreateAbsenceUnit(Visibility.Any)
                     };
-                case WaitUntil.MissingAndVisible:
+                case WaitUntil.VisibleThenMissingOrHidden:
+                    return new[]
+                    {
+                        CreatePresenceUnit(Visibility.Visible),
+                        CreateAbsenceUnit(Visibility.Visible)
+                    };
+                case WaitUntil.MissingThenVisible:
                     return new[]
                     {
                         CreateAbsenceUnit(Visibility.Any),
                         CreatePresenceUnit(Visibility.Visible)
                     };
-                case WaitUntil.HiddenAndVisible:
+                case WaitUntil.HiddenThenVisible:
                     return new[]
                     {
                         CreatePresenceUnit(Visibility.Hidden),
+                        CreatePresenceUnit(Visibility.Visible)
+                    };
+                case WaitUntil.MissingOrHiddenThenVisible:
+                    return new[]
+                    {
+                        CreateAbsenceUnit(Visibility.Visible),
                         CreatePresenceUnit(Visibility.Visible)
                     };
                 default:
