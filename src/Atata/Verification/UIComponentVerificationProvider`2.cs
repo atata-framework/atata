@@ -9,5 +9,15 @@
             : base(component)
         {
         }
+
+        public NegationUIComponentVerificationProvider Not => new NegationUIComponentVerificationProvider(Component, this);
+
+        public class NegationUIComponentVerificationProvider : NegationUIComponentVerificationProvider<NegationUIComponentVerificationProvider>
+        {
+            internal NegationUIComponentVerificationProvider(TComponent component, IVerificationProvider<TOwner> verificationProvider)
+                : base(component, verificationProvider)
+            {
+            }
+        }
     }
 }

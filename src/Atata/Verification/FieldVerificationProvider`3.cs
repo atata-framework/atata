@@ -11,12 +11,12 @@
         {
         }
 
-        public new NegationFieldVerificationProvider Not => new NegationFieldVerificationProvider(Component, this);
+        public NegationFieldVerificationProvider Not => new NegationFieldVerificationProvider(Component, this);
 
         IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => Component;
 
         public class NegationFieldVerificationProvider :
-            NegationControlVerificationProvider,
+            NegationUIComponentVerificationProvider<NegationFieldVerificationProvider>,
             IFieldVerificationProvider<TData, TField, TOwner>
         {
             internal NegationFieldVerificationProvider(TField control, IVerificationProvider<TOwner> verificationProvider)

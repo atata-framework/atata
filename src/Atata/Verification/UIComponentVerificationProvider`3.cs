@@ -1,13 +1,13 @@
 ﻿namespace Atata
 {
-    public class UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner> :
+    public abstract class UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner> :
         VerificationProvider<TVerificationProvider, TOwner>,
         IUIComponentVerificationProvider<TComponent, TOwner>
         where TComponent : UIComponent<TOwner>
         where TVerificationProvider : UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public UIComponentVerificationProvider(TComponent component)
+        protected UIComponentVerificationProvider(TComponent component)
         {
             Component = component;
         }
@@ -21,13 +21,12 @@
             get { return Component.Owner; }
         }
 
-        public NegationControlVerificationProvider Not => new NegationControlVerificationProvider(Component, this);
-
-        public class NegationControlVerificationProvider :
-            NegationVerificationProvider<TVerificationProvider, TOwner>,
+        public abstract class NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider> :
+            NegationVerificationProvider<TNegationUIComponentVerificationProvider, TOwner>,
             IUIComponentVerificationProvider<TComponent, TOwner>
+            where TNegationUIComponentVerificationProvider : NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider>
         {
-            internal NegationControlVerificationProvider(TComponent component, IVerificationProvider<TOwner> verificationProvider)
+            protected NegationUIComponentVerificationProvider(TComponent component, IVerificationProvider<TOwner> verificationProvider)
                 : base(verificationProvider)
             {
                 Component = component;
