@@ -128,7 +128,8 @@ namespace Atata
                 return Properties.Get(
                     nameof(CutEnding),
                     true,
-                    termGetter);
+                    termGetter,
+                    termFindSettingsGetter);
             }
 
             set
