@@ -20,6 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Tests", "Atata.Tests\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5262AF3A-5A4A-458E-8C38-B133972D058F}"
 	ProjectSection(SolutionItems) = preProject
+		Atata.nuspec = Atata.nuspec
 		Atata.ruleset = Atata.ruleset
 		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		GenerateControlDelegates.ps1 = GenerateControlDelegates.ps1
