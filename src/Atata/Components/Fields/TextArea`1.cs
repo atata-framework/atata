@@ -12,7 +12,7 @@ namespace Atata
     {
         protected override string GetValue()
         {
-            return Scope.GetValue();
+            return Attributes.Value;
         }
 
         protected override void SetValue(string value)

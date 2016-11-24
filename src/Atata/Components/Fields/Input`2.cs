@@ -13,7 +13,7 @@ namespace Atata
     {
         protected override T GetValue()
         {
-            string value = Scope.GetValue();
+            string value = Attributes.Value;
             return ConvertStringToValue(value);
         }
 
