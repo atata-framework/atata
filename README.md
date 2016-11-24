@@ -36,7 +36,6 @@ namespace SampleApp.AutoTests
         public Button<_> SignIn { get; private set; }
     }
 }
-
 ```
 
 Usage in the test method:
