@@ -80,6 +80,8 @@
     <Compile Include="Components\Fields\Content\Date`1.cs" />
     <Compile Include="Components\Fields\Content\Currency`1.cs" />
     <Compile Include="Components\Fields\Content\Number`1.cs" />
+    <Compile Include="Components\Fields\HiddenInput`1.cs" />
+    <Compile Include="Components\Fields\HiddenInput`2.cs" />
     <Compile Include="Context\AtataBuildingContext.cs" />
     <Compile Include="Context\AtataContextBuilder.cs" />
     <Compile Include="Components\UIComponentAttributeProvider`1.cs" />
