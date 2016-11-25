@@ -2,6 +2,7 @@
 <package>
   <metadata>
     <id>Atata</id>
+    <title>Atata</title>
     <version>0.11.0</version>
     <authors>Yevgeniy Shunevych</authors>
     <owners>Yevgeniy Shunevych</owners>
@@ -9,6 +10,7 @@
     <projectUrl>https://atata-framework.github.io/</projectUrl>
     <iconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>Test automation full featured framework based on Selenium WebDriver.</summary>
     <description>Test automation full featured framework based on Selenium WebDriver.
     
 Features
@@ -27,10 +29,10 @@ Features
 0.11.0 - Initial release.
     </releaseNotes>
     <copyright>Copyright © Yevgeniy Shunevych 2016</copyright>
-    <tags>atata automation testing selenium webdriver browser</tags>
+    <tags>atata automation testing test selenium webdriver browser</tags>
     <dependencies>
-      <dependency id="Selenium.WebDriver" version="3.0.0" />
-      <dependency id="Selenium.Support" version="3.0.0" />
+      <dependency id="Selenium.WebDriver" version="3.0.1" />
+      <dependency id="Selenium.Support" version="3.0.1" />
     </dependencies>
   </metadata>
   <files>
