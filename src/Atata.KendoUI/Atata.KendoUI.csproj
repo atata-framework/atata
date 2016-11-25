@@ -34,6 +34,10 @@
     <CodeAnalysisRuleSet>..\Atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Atata.WebDriverExtras, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Atata.WebDriverExtras.0.11.0\lib\net40\Atata.WebDriverExtras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -69,10 +73,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Atata.WebDriverExtras\Atata.WebDriverExtras.csproj">
-      <Project>{a08c24d1-7904-4a0c-bf07-5aef4a520d82}</Project>
-      <Name>Atata.WebDriverExtras</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Atata\Atata.csproj">
       <Project>{9d876d23-607a-45dc-979a-01da1d34189c}</Project>
       <Name>Atata</Name>

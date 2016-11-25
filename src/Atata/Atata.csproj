@@ -38,6 +38,10 @@
     <DocumentationFile>bin\Release\Atata.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Atata.WebDriverExtras, Version=0.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Atata.WebDriverExtras.0.11.0\lib\net40\Atata.WebDriverExtras.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -382,12 +386,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Atata.WebDriverExtras\Atata.WebDriverExtras.csproj">
-      <Project>{a08c24d1-7904-4a0c-bf07-5aef4a520d82}</Project>
-      <Name>Atata.WebDriverExtras</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\Newtonsoft.Json.dll" />
