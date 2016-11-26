@@ -16,7 +16,7 @@ namespace Atata.Tests
                     WithArguments("disable-extensions", "no-sandbox", "start-maximized").
                 UseBaseUrl(baseUrl).
                 UseNUnitTestName().
-                UseNUnitTestContextLogging().
+                AddNUnitTestContextLogging().
                     WithMinLevel(LogLevel.Info).
                 LogNUnitError().
                 SetUp();

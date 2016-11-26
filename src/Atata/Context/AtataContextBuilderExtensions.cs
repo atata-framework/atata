@@ -150,9 +150,9 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> UseTraceLogging(this AtataContextBuilder builder)
+        public static AtataContextBuilder<ILogConsumer> AddTraceLogging(this AtataContextBuilder builder)
         {
-            return builder.UseLogConsumer<ILogConsumer>(new TraceLogConsumer());
+            return builder.AddLogConsumer<ILogConsumer>(new TraceLogConsumer());
         }
 
         /// <summary>
@@ -160,9 +160,9 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> UseDebugLogging(this AtataContextBuilder builder)
+        public static AtataContextBuilder<ILogConsumer> AddDebugLogging(this AtataContextBuilder builder)
         {
-            return builder.UseLogConsumer<ILogConsumer>(new DebugLogConsumer());
+            return builder.AddLogConsumer<ILogConsumer>(new DebugLogConsumer());
         }
 
         /// <summary>
@@ -170,9 +170,9 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> UseNUnitTestContextLogging(this AtataContextBuilder builder)
+        public static AtataContextBuilder<ILogConsumer> AddNUnitTestContextLogging(this AtataContextBuilder builder)
         {
-            return builder.UseLogConsumer<ILogConsumer>(new NUnitTestContextLogConsumer());
+            return builder.AddLogConsumer<ILogConsumer>(new NUnitTestContextLogConsumer());
         }
 
         /// <summary>
@@ -181,9 +181,9 @@ namespace Atata
         /// <param name="builder">The builder.</param>
         /// <param name="loggerName">Name of the logger.</param>
         /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> UseNLogLogging(this AtataContextBuilder builder, string loggerName = null)
+        public static AtataContextBuilder<ILogConsumer> AddNLogLogging(this AtataContextBuilder builder, string loggerName = null)
         {
-            return builder.UseLogConsumer<ILogConsumer>(new NLogConsumer(loggerName));
+            return builder.AddLogConsumer<ILogConsumer>(new NLogConsumer(loggerName));
         }
 
         /// <summary>
@@ -192,9 +192,9 @@ namespace Atata
         /// <param name="builder">The builder.</param>
         /// <param name="folderPath">The folder path.</param>
         /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> UseScreenshotFileSaving(this AtataContextBuilder builder, string folderPath)
+        public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, string folderPath)
         {
-            return builder.UseScreenshotConsumer(new FileScreenshotConsumer(folderPath));
+            return builder.AddScreenshotConsumer(new FileScreenshotConsumer(folderPath));
         }
 
         /// <summary>
@@ -203,9 +203,9 @@ namespace Atata
         /// <param name="builder">The builder.</param>
         /// <param name="folderPathCreator">The folder path creator.</param>
         /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> UseScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathCreator)
+        public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathCreator)
         {
-            return builder.UseScreenshotConsumer(new FileScreenshotConsumer(folderPathCreator));
+            return builder.AddScreenshotConsumer(new FileScreenshotConsumer(folderPathCreator));
         }
 
         /// <summary>

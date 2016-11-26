@@ -32,7 +32,7 @@ namespace Atata
         /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
         /// <param name="consumer">The log consumer.</param>
         /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
-        public AtataContextBuilder<TLogConsumer> UseLogConsumer<TLogConsumer>(TLogConsumer consumer)
+        public AtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>(TLogConsumer consumer)
             where TLogConsumer : ILogConsumer
         {
             consumer.CheckNotNull(nameof(consumer));
@@ -47,7 +47,7 @@ namespace Atata
         /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
         /// <param name="consumer">The screenshot consumer.</param>
         /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
-        public AtataContextBuilder<TScreenshotConsumer> UseScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
+        public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
             where TScreenshotConsumer : IScreenshotConsumer
         {
             consumer.CheckNotNull(nameof(consumer));
