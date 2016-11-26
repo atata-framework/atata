@@ -34,22 +34,22 @@ namespace Atata.Tests
         [FindLast]
         public RadioButton<_> OptionDAsLast { get; private set; }
 
-        [FindById(CutEnding = false)]
+        [FindById]
         public TextInput<_> VisibleInput { get; private set; }
 
-        [FindById(CutEnding = false, Visibility = Visibility.Hidden)]
+        [FindById(Visibility = Visibility.Hidden)]
         public TextInput<_> DisplayNoneInput { get; private set; }
 
         [FindById("display-none-input")]
         public TextInput<_> FailDisplayNoneInput { get; private set; }
 
-        [FindById(CutEnding = false, Visibility = Visibility.Hidden)]
+        [FindById(Visibility = Visibility.Hidden)]
         public TextInput<_> HiddenInput { get; private set; }
 
-        [FindById(CutEnding = false, Visibility = Visibility.Hidden)]
+        [FindById(Visibility = Visibility.Hidden)]
         public TextInput<_> CollapseInput { get; private set; }
 
-        [FindById(CutEnding = false, Visibility = Visibility.Hidden)]
-        public Input<string, _> TypeHiddenInput { get; private set; }
+        [FindById]
+        public HiddenInput<_> TypeHiddenInput { get; private set; }
     }
 }
