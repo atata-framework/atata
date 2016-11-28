@@ -31,6 +31,7 @@ Features
     <copyright>Copyright © Yevgeniy Shunevych 2016</copyright>
     <tags>atata automation testing test selenium webdriver browser</tags>
     <dependencies>
+      <dependency id="Atata.WebDriverExtras" version="0.11.0" />
       <dependency id="Selenium.WebDriver" version="3.0.1" />
       <dependency id="Selenium.Support" version="3.0.1" />
     </dependencies>
