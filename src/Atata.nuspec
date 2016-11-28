@@ -11,7 +11,9 @@
     <iconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Test automation full featured framework based on Selenium WebDriver.</summary>
-    <description>Test automation full featured framework based on Selenium WebDriver.
+    <description>
+Test automation full featured framework based on Selenium WebDriver.
+
 Features:
 - WebDriver. Based on Selenium WebDriver and preserves all its features.
 - Page Object. Provides unique fluent page object pattern that is easy to implement and maintain.
