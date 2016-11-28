@@ -1,6 +1,7 @@
 # [Atata](https://atata-framework.github.io/)
 
-[![Gitter](https://badges.gitter.im/atata-framework/atata.svg)](https://gitter.im/atata-framework/atata?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![NuGet](http://img.shields.io/nuget/v/Atata.svg?style=flat)](https://www.nuget.org/packages/Atata/)
+[![Gitter](https://badges.gitter.im/atata-framework/atata.svg)](https://gitter.im/atata-framework/atata)
 
 C#/.NET test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern.
 
