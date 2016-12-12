@@ -105,6 +105,7 @@ namespace Atata
         {
             PropertyInfo[] suitableProperties = type.
                 GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty | BindingFlags.SetProperty).
+                Where(x => x.CanWrite && x.GetIndexParameters().Length == 0).
                 Where(x => x.GetCustomAttribute<IgnoreInitAttribute>() == null).
                 ToArray();
 
