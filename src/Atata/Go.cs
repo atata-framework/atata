@@ -101,10 +101,7 @@ namespace Atata
                 pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
                 AtataContext.Current.PageObject = pageObject;
 
-                if (!string.IsNullOrWhiteSpace(options.Url))
-                {
-                    ToUrl(options.Url);
-                }
+                ToUrl(options.Url);
 
                 pageObject.NavigateOnInit = options.Navigate;
                 pageObject.Init();
@@ -160,12 +157,15 @@ namespace Atata
             string baseUrl = AtataContext.Current.BaseUrl;
             string fullUrl = baseUrl;
 
-            if (baseUrl.EndsWith("/") && relativeUri.StartsWith("/"))
-                fullUrl += relativeUri.Substring(1);
-            else if (!baseUrl.EndsWith("/") && !relativeUri.StartsWith("/"))
-                fullUrl += "/" + relativeUri;
-            else
-                fullUrl += relativeUri;
+            if (!string.IsNullOrWhiteSpace(relativeUri))
+            {
+                if (baseUrl.EndsWith("/") && relativeUri.StartsWith("/"))
+                    fullUrl += relativeUri.Substring(1);
+                else if (!baseUrl.EndsWith("/") && !relativeUri.StartsWith("/"))
+                    fullUrl += "/" + relativeUri;
+                else
+                    fullUrl += relativeUri;
+            }
 
             return new Uri(fullUrl);
         }
