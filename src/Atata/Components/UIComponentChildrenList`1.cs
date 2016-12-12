@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Atata
 {
-    public class UIComponentChildrenList<TOwner> : List<Control<TOwner>>
+    public class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
         where TOwner : PageObject<TOwner>
     {
         private readonly UIComponent<TOwner> component;

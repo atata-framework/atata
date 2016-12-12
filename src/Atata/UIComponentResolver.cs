@@ -142,7 +142,7 @@ namespace Atata
             UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(property);
 
             UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
-            parentComponent.Children.Add(component);
+            parentComponent.Controls.Add(component);
 
             property.SetValue(parentComponent, component, null);
         }
@@ -157,7 +157,7 @@ namespace Atata
                 UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(property, controlType);
 
                 UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
-                parentComponent.Children.Add(component);
+                parentComponent.Controls.Add(component);
 
                 Delegate clickDelegate = CreateDelegatePropertyDelegate(property, component);
 
@@ -233,7 +233,7 @@ namespace Atata
 
             var component = (TComponent)CreateComponent<TOwner>(parentComponent, metadata);
 
-            parentComponent.Children.Add(component);
+            parentComponent.Controls.Add(component);
 
             return component;
         }

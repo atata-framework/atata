@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
@@ -23,8 +22,6 @@ namespace Atata
         /// Gets the parent component.
         /// </summary>
         protected internal UIComponent Parent { get; internal set; }
-
-        protected internal List<UIComponent> Children { get; private set; } = new List<UIComponent>();
 
         protected internal ILogManager Log { get; internal set; }
 

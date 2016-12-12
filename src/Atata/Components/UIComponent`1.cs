@@ -123,7 +123,7 @@ namespace Atata
 
             if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
             {
-                foreach (UIComponent<TOwner> child in Children.Cast<UIComponent<TOwner>>())
+                foreach (UIComponent<TOwner> child in Controls)
                 {
                     child.ExecuteTriggers(on);
                 }
@@ -156,10 +156,10 @@ namespace Atata
 
         protected internal override void CleanUp()
         {
-            foreach (var item in Children)
-                item.CleanUp();
+            foreach (var control in Controls)
+                control.CleanUp();
 
-            Children.Clear();
+            Controls.Clear();
         }
     }
 }
