@@ -14,7 +14,7 @@ namespace Atata
 
         protected FindAttribute()
         {
-            findSettingsGetter = md => md.GetDeclaringAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType());
+            findSettingsGetter = md => md.GetDeclaredAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType());
         }
 
         public PropertyBag Properties { get; } = new PropertyBag();

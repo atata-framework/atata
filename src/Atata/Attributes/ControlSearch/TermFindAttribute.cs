@@ -37,8 +37,8 @@ namespace Atata
             if (values != null && values.Any())
                 Values = values;
 
-            termGetter = md => md.GetDeclaringAttributes<TermAttribute>();
-            termFindSettingsGetter = md => md.GetDeclaringAndGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType());
+            termGetter = md => md.GetDeclaredAttributes<TermAttribute>();
+            termFindSettingsGetter = md => md.GetDeclaredAndGlobalAttributes<TermFindSettingsAttribute>(x => x.FindAttributeType == GetType());
         }
 
         /// <summary>

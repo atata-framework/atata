@@ -11,7 +11,7 @@ namespace Atata
             string name,
             Type componentType,
             Type parentComponentType,
-            Attribute[] declaringAttributes,
+            Attribute[] declaredAttributes,
             Attribute[] componentAttributes,
             Attribute[] parentComponentAttributes,
             Attribute[] assemblyAttributes)
@@ -19,13 +19,13 @@ namespace Atata
             Name = name;
             ComponentType = componentType;
             ParentComponentType = parentComponentType;
-            DeclaringAttributes = declaringAttributes;
+            DeclaredAttributes = declaredAttributes;
             ComponentAttributes = componentAttributes;
             ParentComponentAttributes = parentComponentAttributes;
             AssemblyAttributes = assemblyAttributes;
 
             GlobalAttributes = ParentComponentAttributes.Concat(AssemblyAttributes).ToArray();
-            AllAttributes = DeclaringAttributes.Concat(GlobalAttributes).Concat(ComponentAttributes).ToArray();
+            AllAttributes = DeclaredAttributes.Concat(GlobalAttributes).Concat(ComponentAttributes).ToArray();
         }
 
         public string Name { get; private set; }
@@ -34,7 +34,7 @@ namespace Atata
 
         public Type ParentComponentType { get; private set; }
 
-        public Attribute[] DeclaringAttributes { get; private set; }
+        public Attribute[] DeclaredAttributes { get; private set; }
 
         public Attribute[] ComponentAttributes { get; private set; }
 
@@ -48,9 +48,9 @@ namespace Atata
 
         public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }
 
-        public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null)
+        public T GetFirstOrDefaultDeclaredAttribute<T>(Func<T, bool> predicate = null)
         {
-            return GetFirstOrDefaultAttribute(DeclaringAttributes, predicate);
+            return GetFirstOrDefaultAttribute(DeclaredAttributes, predicate);
         }
 
         public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate = null)
@@ -73,9 +73,9 @@ namespace Atata
             return GetFirstOrDefaultAttribute(AllAttributes, predicate);
         }
 
-        public T GetFirstOrDefaultDeclaringOrComponentAttribute<T>(Func<T, bool> predicate = null)
+        public T GetFirstOrDefaultDeclaredOrComponentAttribute<T>(Func<T, bool> predicate = null)
         {
-            return GetFirstOrDefaultAttribute(DeclaringAttributes.Concat(ComponentAttributes), predicate);
+            return GetFirstOrDefaultAttribute(DeclaredAttributes.Concat(ComponentAttributes), predicate);
         }
 
         private T GetFirstOrDefaultAttribute<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null)
@@ -84,14 +84,14 @@ namespace Atata
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
         }
 
-        public IEnumerable<T> GetDeclaringAttributes<T>(Func<T, bool> predicate = null)
+        public IEnumerable<T> GetDeclaredAttributes<T>(Func<T, bool> predicate = null)
         {
-            return FilterAttributes(DeclaringAttributes, predicate);
+            return FilterAttributes(DeclaredAttributes, predicate);
         }
 
-        public IEnumerable<T> GetDeclaringAndGlobalAttributes<T>(Func<T, bool> predicate = null)
+        public IEnumerable<T> GetDeclaredAndGlobalAttributes<T>(Func<T, bool> predicate = null)
         {
-            return FilterAttributes(DeclaringAttributes.Concat(GlobalAttributes), predicate);
+            return FilterAttributes(DeclaredAttributes.Concat(GlobalAttributes), predicate);
         }
 
         public IEnumerable<T> GetGlobalAttributes<T>(Func<T, bool> predicate = null)
@@ -117,7 +117,7 @@ namespace Atata
 
         public TermAttribute GetTerm(Func<TermAttribute, bool> predicate = null)
         {
-            return GetFirstOrDefaultDeclaringAttribute<TermAttribute>(predicate);
+            return GetFirstOrDefaultDeclaredAttribute<TermAttribute>(predicate);
         }
 
         public CultureInfo GetCulture()
@@ -127,7 +127,7 @@ namespace Atata
 
         public string GetFormat()
         {
-            return GetFirstOrDefaultDeclaringAttribute<FormatAttribute>()?.Value
+            return GetFirstOrDefaultDeclaredAttribute<FormatAttribute>()?.Value
                 ?? GetFirstOrDefaultGlobalAttribute<FormatSettingsAttribute>(x => ComponentType.IsSubclassOfRawGeneric(x.ControlType))?.Value
                 ?? GetFirstOrDefaultComponentAttribute<FormatAttribute>()?.Value;
         }

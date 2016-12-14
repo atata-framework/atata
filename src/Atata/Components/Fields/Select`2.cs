@@ -41,8 +41,8 @@ namespace Atata
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)
         {
-            selectByAttribute = metadata.GetFirstOrDefaultDeclaringAttribute<SelectByTextAttribute>()
-                ?? (TermSettingsAttribute)metadata.GetFirstOrDefaultDeclaringAttribute<SelectByValueAttribute>()
+            selectByAttribute = metadata.GetFirstOrDefaultDeclaredAttribute<SelectByTextAttribute>()
+                ?? (TermSettingsAttribute)metadata.GetFirstOrDefaultDeclaredAttribute<SelectByValueAttribute>()
                 ?? new SelectByTextAttribute();
 
             by = selectByAttribute is SelectByTextAttribute ? SelectBy.Text : SelectBy.Value;
