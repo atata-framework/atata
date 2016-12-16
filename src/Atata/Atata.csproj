@@ -132,6 +132,7 @@
     <Compile Include="ScopeSearch\Strategies\FindFirstDescendantStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindLastDescendantStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\UseParentScopeStrategy.cs" />
+    <Compile Include="UIComponentTriggerSet`1.cs" />
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Attributes\CellIndexToClickAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\ControlFindingAttribute.cs" />

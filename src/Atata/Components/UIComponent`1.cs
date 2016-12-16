@@ -75,6 +75,8 @@ namespace Atata
 
         ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
+        public UIComponentTriggerSet<TOwner> TriggerSet { get; internal set; }
+
         protected internal virtual void InitComponent()
         {
             UIComponentResolver.Resolve<TOwner>(this);
