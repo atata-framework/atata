@@ -12,7 +12,7 @@ namespace Atata
         public InvokeMethodAttribute(string methodName, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
-            MethodName = methodName;
+            MethodName = methodName.CheckNotNullOrWhitespace(nameof(methodName));
         }
 
         /// <summary>

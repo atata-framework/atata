@@ -27,17 +27,20 @@ namespace Atata.Tests
         [InvokeMethod(nameof(OnAfterPerform), TriggerEvents.AfterClick)]
         public Button<_> Perform { get; private set; }
 
-        private static void OnStaticInit()
+        [Term("Perform")]
+        public Button<_> PerformWithoutTriggers { get; private set; }
+
+        public static void OnStaticInit()
         {
             isOnInitInvoked = true;
         }
 
-        private void OnBeforePerform()
+        public void OnBeforePerform()
         {
             IsBeforePerformInvoked = true;
         }
 
-        private void OnAfterPerform()
+        public void OnAfterPerform()
         {
             IsAfterPerformInvoked = true;
         }

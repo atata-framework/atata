@@ -25,5 +25,16 @@ namespace Atata.Tests
         {
             Assert.That(TriggersPage.IsOnInitInvoked, Is.True);
         }
+
+        [Test]
+        public void Trigger_Add_ToControl()
+        {
+            page.PerformWithoutTriggers.Triggers.Add(new InvokeMethodAttribute(nameof(TriggersPage.OnBeforePerform), TriggerEvents.BeforeClick));
+
+            page.PerformWithoutTriggers.Click();
+
+            Assert.That(page.IsBeforePerformInvoked, Is.True);
+            Assert.That(page.IsAfterPerformInvoked, Is.False);
+        }
     }
 }
