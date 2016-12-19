@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -19,6 +18,7 @@ namespace Atata
             Controls = new UIComponentChildrenList<TOwner>(this);
             Attributes = new UIComponentAttributeProvider<TOwner>() { Component = this };
             Css = new UIComponentCssProvider<TOwner>() { Component = this };
+            Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
 
         protected internal new TOwner Owner
@@ -75,11 +75,11 @@ namespace Atata
 
         ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
-        public UIComponentTriggerSet<TOwner> TriggerSet { get; internal set; }
+        public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
         protected internal virtual void InitComponent()
         {
-            UIComponentResolver.Resolve<TOwner>(this);
+            UIComponentResolver.Resolve(this);
         }
 
         private string GetContent()
@@ -107,29 +107,7 @@ namespace Atata
 
         protected void ExecuteTriggers(TriggerEvents on)
         {
-            if (Triggers == null || Triggers.Length == 0 || on == TriggerEvents.None)
-                return;
-
-            TriggerContext<TOwner> context = new TriggerContext<TOwner>
-            {
-                Event = on,
-                Driver = Driver,
-                Log = Log,
-                Component = this
-            };
-
-            var triggers = Triggers.Where(x => x.On.HasFlag(on));
-
-            foreach (var trigger in triggers)
-                trigger.Execute(context);
-
-            if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
-            {
-                foreach (UIComponent<TOwner> child in Controls)
-                {
-                    child.ExecuteTriggers(on);
-                }
-            }
+            Triggers.Execute(on);
         }
 
         protected internal TComponentToFind GetAncestor<TComponentToFind>()

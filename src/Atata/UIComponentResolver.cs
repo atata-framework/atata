@@ -65,28 +65,28 @@ namespace Atata
             where TPageObject : PageObject<TPageObject>
         {
             pageObject.Owner = (TPageObject)pageObject;
-            InitPageObjectTriggers(pageObject);
 
             UIComponentMetadata metadata = CreatePageObjectMetadata<TPageObject>();
+            InitPageObjectTriggers(pageObject, metadata);
+
             ApplyMetadata(pageObject, metadata);
         }
 
-        // TODO: Review InitPageObjectTriggers method.
-        private static void InitPageObjectTriggers<TOwner>(PageObject<TOwner> pageObject)
+        private static void InitPageObjectTriggers<TOwner>(PageObject<TOwner> pageObject, UIComponentMetadata metadata)
             where TOwner : PageObject<TOwner>
         {
-            Type pageObjectType = pageObject.GetType();
+            var componentTriggers = metadata.ComponentAttributes.
+                OfType<TriggerAttribute>().
+                Where(x => x.AppliesTo == TriggerScope.Self);
 
-            var classTriggers = GetClassAttributes(pageObjectType).OfType<TriggerAttribute>().Where(x => x.AppliesTo == TriggerScope.Self);
-            foreach (TriggerAttribute trigger in classTriggers)
-                trigger.IsDefinedAtComponentLevel = true;
+            pageObject.Triggers.ComponentTriggersList.AddRange(componentTriggers);
 
-            var assemblyTriggers = GetAssemblyAttributes(pageObjectType.Assembly).OfType<TriggerAttribute>();
+            var assemblyTriggers = metadata.AssemblyAttributes.
+                OfType<TriggerAttribute>();
 
-            pageObject.Triggers = classTriggers.
-                Concat(assemblyTriggers).
-                OrderBy(x => x.Priority).
-                ToArray();
+            pageObject.Triggers.AssemblyTriggersList.AddRange(assemblyTriggers);
+
+            pageObject.Triggers.Reorder();
         }
 
         private static IEnumerable<Type> GetAllInheritedTypes(Type type)
@@ -264,7 +264,7 @@ namespace Atata
             component.ComponentName = ResolveControlName(metadata, findAttribute);
             component.ComponentTypeName = ResolveControlTypeName(component.GetType());
             component.CacheScopeElement = false;
-            component.Triggers = GetControlTriggers(metadata);
+            InitControlTriggers(component, metadata);
 
             ApplyMetadata(component, metadata);
         }
@@ -277,11 +277,7 @@ namespace Atata
 
             component.Metadata = metadata;
             component.ApplyMetadata(metadata);
-
-            foreach (TriggerAttribute trigger in component.Triggers)
-            {
-                trigger.ApplyMetadata(metadata);
-            }
+            component.Triggers.ApplyMetadata(metadata);
         }
 
         private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
@@ -457,37 +453,33 @@ namespace Atata
             return options;
         }
 
-        private static TriggerAttribute[] GetControlTriggers(UIComponentMetadata metadata)
+        private static void InitControlTriggers<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)
+            where TOwner : PageObject<TOwner>
         {
-            List<TriggerAttribute> resultTriggers = metadata.ComponentAttributes.
+            var componentTriggers = metadata.ComponentAttributes.
                 OfType<TriggerAttribute>().
-                Where(x => x.AppliesTo == TriggerScope.Self).
-                OrderBy(x => x.Priority).
-                ToList();
+                Where(x => x.AppliesTo == TriggerScope.Self);
 
-            foreach (TriggerAttribute trigger in resultTriggers)
-                trigger.IsDefinedAtComponentLevel = true;
+            component.Triggers.ComponentTriggersList.AddRange(componentTriggers);
 
-            List<TriggerAttribute> allOtherTriggers = metadata.DeclaredAttributes.
-                Concat(metadata.ParentComponentAttributes.OfType<TriggerAttribute>().Where(x => x.AppliesTo == TriggerScope.Children)).
-                Concat(metadata.AssemblyAttributes).
+            var parentComponentTriggers = metadata.ParentComponentAttributes.
                 OfType<TriggerAttribute>().
-                ToList();
+                Where(x => x.AppliesTo == TriggerScope.Children);
 
-            while (allOtherTriggers.Count > 0)
-            {
-                TriggerAttribute currentTrigger = allOtherTriggers[0];
-                Type currentTriggerType = currentTrigger.GetType();
-                TriggerAttribute[] currentTriggersOfSameType = allOtherTriggers.Where(x => x.GetType() == currentTriggerType && x.On == currentTrigger.On).ToArray();
+            component.Triggers.ParentComponentTriggersList.AddRange(parentComponentTriggers);
 
-                if (currentTriggersOfSameType.First().On != TriggerEvents.None)
-                    resultTriggers.Add(currentTriggersOfSameType.First());
+            var assemblyTriggers = metadata.AssemblyAttributes.
+                OfType<TriggerAttribute>();
 
-                foreach (TriggerAttribute trigger in currentTriggersOfSameType)
-                    allOtherTriggers.Remove(trigger);
-            }
+            component.Triggers.ParentComponentTriggersList.AddRange(assemblyTriggers);
 
-            return resultTriggers.OrderBy(x => x.Priority).ToArray();
+            var declaredTriggers = metadata.DeclaredAttributes.
+                OfType<TriggerAttribute>().
+                Where(x => x.AppliesTo == TriggerScope.Self);
+
+            component.Triggers.DeclaredTriggersList.AddRange(declaredTriggers);
+
+            component.Triggers.Reorder();
         }
 
         private static Attribute[] ResolveAndCacheAttributes(Dictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)

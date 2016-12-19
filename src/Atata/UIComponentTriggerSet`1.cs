@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Atata
 {
@@ -7,66 +9,88 @@ namespace Atata
     {
         private readonly UIComponent<TOwner> component;
 
-        private readonly List<TriggerAttribute> componentTriggers = new List<TriggerAttribute>();
+        private TriggerAttribute[] orderedTriggers;
 
-        private readonly List<TriggerAttribute> parentComponentTriggers = new List<TriggerAttribute>();
-
-        private readonly List<TriggerAttribute> assemblyTriggers = new List<TriggerAttribute>();
-
-        private readonly List<TriggerAttribute> declaredTriggers = new List<TriggerAttribute>();
-
-        private UIComponentTriggerSet(UIComponent<TOwner> component)
+        internal UIComponentTriggerSet(UIComponent<TOwner> component)
         {
             this.component = component;
         }
 
-        public IEnumerable<TriggerAttribute> ComponentTriggers => componentTriggers;
+        internal List<TriggerAttribute> ComponentTriggersList { get; } = new List<TriggerAttribute>();
 
-        public IEnumerable<TriggerAttribute> ParentComponentTriggers => parentComponentTriggers;
+        internal List<TriggerAttribute> ParentComponentTriggersList { get; } = new List<TriggerAttribute>();
 
-        public IEnumerable<TriggerAttribute> AssemblyTriggers => assemblyTriggers;
+        internal List<TriggerAttribute> AssemblyTriggersList { get; } = new List<TriggerAttribute>();
 
-        public IEnumerable<TriggerAttribute> DeclaredTriggers => declaredTriggers;
+        internal List<TriggerAttribute> DeclaredTriggersList { get; } = new List<TriggerAttribute>();
 
-        internal static UIComponentTriggerSet<TOwner> CreateForPageObject(
-            UIComponent<TOwner> pageObject,
-            TriggerAttribute[] componentTriggers,
-            TriggerAttribute[] assemblyTriggers)
+        public IEnumerable<TriggerAttribute> ComponentTriggers => ComponentTriggersList.AsEnumerable();
+
+        public IEnumerable<TriggerAttribute> ParentComponentTriggers => ParentComponentTriggersList.AsEnumerable();
+
+        public IEnumerable<TriggerAttribute> AssemblyTriggers => AssemblyTriggersList.AsEnumerable();
+
+        public IEnumerable<TriggerAttribute> DeclaredTriggers => DeclaredTriggersList.AsEnumerable();
+
+        internal void ApplyMetadata(UIComponentMetadata metadata)
         {
-            UIComponentTriggerSet<TOwner> manager = new UIComponentTriggerSet<TOwner>(pageObject);
-
-            manager.componentTriggers.AddRange(componentTriggers);
-            manager.assemblyTriggers.AddRange(assemblyTriggers);
-
-            return manager;
-        }
-
-        internal static UIComponentTriggerSet<TOwner> CreateForControl(
-            UIComponent<TOwner> control,
-            TriggerAttribute[] componentTriggers,
-            TriggerAttribute[] parentComponentTriggers,
-            TriggerAttribute[] assemblyTriggers,
-            TriggerAttribute[] declaredTriggers)
-        {
-            UIComponentTriggerSet<TOwner> manager = new UIComponentTriggerSet<TOwner>(control);
-
-            manager.componentTriggers.AddRange(componentTriggers);
-            manager.parentComponentTriggers.AddRange(parentComponentTriggers);
-            manager.assemblyTriggers.AddRange(assemblyTriggers);
-            manager.declaredTriggers.AddRange(declaredTriggers);
-
-            return manager;
+            foreach (TriggerAttribute trigger in ComponentTriggersList.Concat(ParentComponentTriggersList).Concat(AssemblyTriggersList).Concat(DeclaredTriggersList))
+            {
+                trigger.ApplyMetadata(metadata);
+            }
         }
 
         public void Add(params TriggerAttribute[] triggers)
         {
-            declaredTriggers.AddRange(triggers);
+            DeclaredTriggersList.AddRange(triggers);
+
+            if (component.Metadata != null)
+            {
+                foreach (TriggerAttribute trigger in triggers)
+                    trigger.ApplyMetadata(component.Metadata);
+            }
+
+            Reorder();
         }
 
-        public void Execute(TriggerEvents on)
+        internal void Reorder()
         {
-            ////if (Triggers == null || Triggers.Length == 0 || on == TriggerEvents.None)
-            ////    return;
+            List<TriggerAttribute> resultTriggers = ComponentTriggersList.
+                Where(x => x.AppliesTo == TriggerScope.Self).
+                OrderBy(x => x.Priority).
+                ToList();
+
+            foreach (TriggerAttribute trigger in resultTriggers)
+                trigger.IsDefinedAtComponentLevel = true;
+
+            List<TriggerAttribute> allOtherTriggers = DeclaredTriggersList.
+                OrderBy(x => x.Priority).
+                Concat(ParentComponentTriggersList.Where(x => x.AppliesTo == TriggerScope.Children).OrderBy(x => x.Priority)).
+                Concat(AssemblyTriggersList.OrderBy(x => x.Priority)).
+                ToList();
+
+            while (allOtherTriggers.Count > 0)
+            {
+                TriggerAttribute currentTrigger = allOtherTriggers[0];
+                Type currentTriggerType = currentTrigger.GetType();
+                TriggerAttribute[] currentTriggersOfSameType = allOtherTriggers.Where(x => x.GetType() == currentTriggerType && x.On == currentTrigger.On).ToArray();
+
+                if (currentTriggersOfSameType.First().On != TriggerEvents.None)
+                    resultTriggers.Add(currentTriggersOfSameType.First());
+
+                foreach (TriggerAttribute trigger in currentTriggersOfSameType)
+                    allOtherTriggers.Remove(trigger);
+            }
+
+            orderedTriggers = resultTriggers.OrderBy(x => x.Priority).ToArray();
+        }
+
+        internal void Execute(TriggerEvents on)
+        {
+            if (orderedTriggers == null || orderedTriggers.Length == 0 || on == TriggerEvents.None)
+                return;
+
+            var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
 
             TriggerContext<TOwner> context = new TriggerContext<TOwner>
             {
@@ -76,16 +100,14 @@ namespace Atata
                 Component = component
             };
 
-            ////var triggers = Triggers.Where(x => x.On.HasFlag(on));
-
-            ////foreach (var trigger in triggers)
-            ////    trigger.Execute(context);
+            foreach (var trigger in triggers)
+                trigger.Execute(context);
 
             if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
             {
                 foreach (UIComponent<TOwner> child in component.Controls)
                 {
-                    child.TriggerSet.Execute(on);
+                    child.Triggers.Execute(on);
                 }
             }
         }

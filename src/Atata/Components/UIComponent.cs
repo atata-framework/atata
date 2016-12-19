@@ -44,8 +44,6 @@ namespace Atata
 
         protected internal UIComponentMetadata Metadata { get; internal set; }
 
-        protected internal TriggerAttribute[] Triggers { get; internal set; }
-
         protected internal IWebElement Scope
         {
             get
