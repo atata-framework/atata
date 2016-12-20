@@ -30,6 +30,8 @@ namespace Atata.Tests
         [Term("Perform")]
         public Button<_> PerformWithoutTriggers { get; private set; }
 
+        public Link<GoTo1Page, _> GoTo1 { get; private set; }
+
         public static void OnStaticInit()
         {
             isOnInitInvoked = true;

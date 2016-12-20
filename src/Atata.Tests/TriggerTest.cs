@@ -36,5 +36,17 @@ namespace Atata.Tests
             Assert.That(page.IsBeforePerformInvoked, Is.True);
             Assert.That(page.IsAfterPerformInvoked, Is.False);
         }
+
+        [Test]
+        public void Trigger_Add_ToPageObject()
+        {
+            bool isDeInitInvoked = false;
+
+            page.Triggers.Add(new InvokeDelegateAttribute(() => isDeInitInvoked = true, TriggerEvents.DeInit));
+
+            page.GoTo1.ClickAndGo();
+
+            Assert.That(isDeInitInvoked, Is.True);
+        }
     }
 }
