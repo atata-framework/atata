@@ -34,6 +34,9 @@ namespace Atata
 
         public Type ParentComponentType { get; private set; }
 
+        [Obsolete("Use DeclaredAttributes instead.")]
+        public Attribute[] DeclaringAttributes => DeclaredAttributes;
+
         public Attribute[] DeclaredAttributes { get; private set; }
 
         public Attribute[] ComponentAttributes { get; private set; }
@@ -47,6 +50,12 @@ namespace Atata
         public Attribute[] AllAttributes { get; private set; }
 
         public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }
+
+        [Obsolete("Use GetFirstOrDefaultDeclaredAttribute instead.")]
+        public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null)
+        {
+            return GetFirstOrDefaultDeclaredAttribute(predicate);
+        }
 
         public T GetFirstOrDefaultDeclaredAttribute<T>(Func<T, bool> predicate = null)
         {
@@ -73,6 +82,12 @@ namespace Atata
             return GetFirstOrDefaultAttribute(AllAttributes, predicate);
         }
 
+        [Obsolete("Use GetFirstOrDefaultDeclaredOrComponentAttribute instead.")]
+        public T GetFirstOrDefaultDeclaringOrComponentAttribute<T>(Func<T, bool> predicate = null)
+        {
+            return GetFirstOrDefaultDeclaredOrComponentAttribute(predicate);
+        }
+
         public T GetFirstOrDefaultDeclaredOrComponentAttribute<T>(Func<T, bool> predicate = null)
         {
             return GetFirstOrDefaultAttribute(DeclaredAttributes.Concat(ComponentAttributes), predicate);
@@ -84,9 +99,21 @@ namespace Atata
             return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
         }
 
+        [Obsolete("Use GetDeclaredAttributes instead.")]
+        public IEnumerable<T> GetDeclaringAttributes<T>(Func<T, bool> predicate = null)
+        {
+            return GetDeclaredAttributes(predicate);
+        }
+
         public IEnumerable<T> GetDeclaredAttributes<T>(Func<T, bool> predicate = null)
         {
             return FilterAttributes(DeclaredAttributes, predicate);
+        }
+
+        [Obsolete("Use GetDeclaredAndGlobalAttributes instead.")]
+        public IEnumerable<T> GetDeclaringAndGlobalAttributes<T>(Func<T, bool> predicate = null)
+        {
+            return GetDeclaredAndGlobalAttributes(predicate);
         }
 
         public IEnumerable<T> GetDeclaredAndGlobalAttributes<T>(Func<T, bool> predicate = null)
