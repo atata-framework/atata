@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 
 [assembly: AssemblyCompany("Yevgeniy Shunevych")]
-[assembly: AssemblyProduct("Atata")]
+[assembly: AssemblyProduct("Atata Framework")]
 [assembly: AssemblyCopyright("Copyright © Yevgeniy Shunevych 2016")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]
