@@ -3,25 +3,25 @@
 namespace Atata
 {
     /// <summary>
-    /// Defines the action to invoke on the specified event.
+    /// Defines the delegate to invoke on the specified event.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
-    public class InvokeActionAttribute : TriggerAttribute
+    public class InvokeDelegateAttribute : TriggerAttribute
     {
-        public InvokeActionAttribute(Action action, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+        public InvokeDelegateAttribute(Action actionDelegate, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
-            Action = action.CheckNotNull(nameof(action));
+            ActionDelegate = actionDelegate.CheckNotNull(nameof(actionDelegate));
         }
 
         /// <summary>
         /// Gets the action delegate.
         /// </summary>
-        public Action Action { get; private set; }
+        public Action ActionDelegate { get; private set; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            Action();
+            ActionDelegate.Invoke();
         }
     }
 }
