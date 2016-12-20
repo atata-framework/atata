@@ -41,12 +41,12 @@ namespace Atata
 
         public void Add(params TriggerAttribute[] triggers)
         {
-            DeclaredTriggersList.AddRange(triggers);
+            var triggersListToAddTo = component.Metadata != null ? DeclaredTriggersList : ComponentTriggersList;
+
+            triggersListToAddTo.AddRange(triggers);
 
             if (component.Metadata != null)
-            {
                 ApplyMetadataToTriggers(component.Metadata, triggers);
-            }
 
             Reorder();
         }
@@ -75,7 +75,7 @@ namespace Atata
 
             List<TriggerAttribute> allOtherTriggers = DeclaredTriggersList.
                 OrderBy(x => x.Priority).
-                Concat(ParentComponentTriggersList.Where(x => x.AppliesTo == TriggerScope.Children).OrderBy(x => x.Priority)).
+                Concat(ParentComponentTriggersList.OrderBy(x => x.Priority)).
                 Concat(AssemblyTriggersList.OrderBy(x => x.Priority)).
                 ToList();
 

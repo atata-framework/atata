@@ -471,7 +471,7 @@ namespace Atata
             var assemblyTriggers = metadata.AssemblyAttributes.
                 OfType<TriggerAttribute>();
 
-            component.Triggers.ParentComponentTriggersList.AddRange(assemblyTriggers);
+            component.Triggers.AssemblyTriggersList.AddRange(assemblyTriggers);
 
             var declaredTriggers = metadata.DeclaredAttributes.
                 OfType<TriggerAttribute>().
