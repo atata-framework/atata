@@ -34,10 +34,9 @@ namespace Atata
 
         internal void ApplyMetadata(UIComponentMetadata metadata)
         {
-            foreach (TriggerAttribute trigger in ComponentTriggersList.Concat(ParentComponentTriggersList).Concat(AssemblyTriggersList).Concat(DeclaredTriggersList))
-            {
-                trigger.ApplyMetadata(metadata);
-            }
+            var allTriggers = ComponentTriggersList.Concat(ParentComponentTriggersList).Concat(AssemblyTriggersList).Concat(DeclaredTriggersList);
+
+            ApplyMetadataToTriggers(metadata, allTriggers);
         }
 
         public void Add(params TriggerAttribute[] triggers)
@@ -46,11 +45,22 @@ namespace Atata
 
             if (component.Metadata != null)
             {
-                foreach (TriggerAttribute trigger in triggers)
-                    trigger.ApplyMetadata(component.Metadata);
+                ApplyMetadataToTriggers(component.Metadata, triggers);
             }
 
             Reorder();
+        }
+
+        private void ApplyMetadataToTriggers(UIComponentMetadata metadata, IEnumerable<TriggerAttribute> triggers)
+        {
+            foreach (TriggerAttribute trigger in triggers)
+            {
+                trigger.ApplyMetadata(metadata);
+
+                IPropertySettings triggerAsPropertySettings = trigger as IPropertySettings;
+                if (triggerAsPropertySettings != null)
+                    triggerAsPropertySettings.Properties.Metadata = metadata;
+            }
         }
 
         internal void Reorder()
