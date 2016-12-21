@@ -19,8 +19,7 @@ namespace Atata
 
         protected override void OnClick()
         {
-            var columnIndexToClickAttribute = Parent.Metadata.GetFirstOrDefaultDeclaredAttribute<CellIndexToClickAttribute>()
-                ?? Metadata.GetFirstOrDefaultComponentAttribute<CellIndexToClickAttribute>();
+            var columnIndexToClickAttribute = Parent.Metadata.Get<CellIndexToClickAttribute>(AttributeLevels.DeclaredAndComponent);
 
             if (columnIndexToClickAttribute != null)
             {

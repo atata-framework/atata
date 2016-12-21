@@ -64,6 +64,7 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="AttributeLevels.cs" />
     <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\IFindItemAttribute.cs" />

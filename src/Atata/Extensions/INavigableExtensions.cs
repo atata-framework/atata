@@ -18,11 +18,11 @@ namespace Atata
             navigableControl.Click();
 
             bool temporarily = navigableControl.Metadata.
-                GetFirstOrDefaultDeclaredOrComponentAttribute<GoTemporarilyAttribute>()?.
+                Get<GoTemporarilyAttribute>(AttributeLevels.DeclaredAndComponent)?.
                 IsTemporarily ?? false;
 
             Func<object> navigationPageObjectCreator = navigableControl.Metadata.
-                GetFirstOrDefaultDeclaredOrComponentAttribute<NavigationPageObjectCreatorAttribute>()?.
+                Get<NavigationPageObjectCreatorAttribute>(AttributeLevels.DeclaredAndComponent)?.
                 Creator;
 
             TNavigateTo pageObject = navigationPageObjectCreator != null

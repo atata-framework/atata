@@ -40,7 +40,7 @@ namespace Atata
 
         private static string RandomizeString(UIComponentMetadata metadata)
         {
-            var attribute = metadata.GetFirstOrDefaultDeclaredAttribute<RandomizeStringSettingsAttribute>() ?? new RandomizeStringSettingsAttribute();
+            var attribute = metadata.Get<RandomizeStringSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeStringSettingsAttribute();
 
             string format = NormalizeStringFormat(attribute.Format);
             return Randomizer.GetString(format, attribute.NumberOfCharacters);
@@ -48,7 +48,7 @@ namespace Atata
 
         private static T RandomizeNumber<T>(UIComponentMetadata metadata)
         {
-            var attribute = metadata.GetFirstOrDefaultDeclaredAttribute<RandomizeNumberSettingsAttribute>() ?? new RandomizeNumberSettingsAttribute();
+            var attribute = metadata.Get<RandomizeNumberSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeNumberSettingsAttribute();
 
             decimal value = Randomizer.GetDecimal(attribute.Min, attribute.Max, attribute.Precision);
             return (T)Convert.ChangeType(value, typeof(T));

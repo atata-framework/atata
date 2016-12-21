@@ -31,7 +31,7 @@ namespace Atata
 
         protected override IEnumerable<IPropertySettings> GetPropertySettings(UIComponentMetadata metadata)
         {
-            return metadata.GetAssemblyAttributes<VerifyTitleSettingsAttribute>();
+            return metadata.GetAll<VerifyTitleSettingsAttribute>(AttributeLevels.Assembly | AttributeLevels.Global);
         }
 
         protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)

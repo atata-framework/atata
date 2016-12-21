@@ -14,7 +14,7 @@ namespace Atata
 
         protected FindAttribute()
         {
-            findSettingsGetter = md => md.GetDeclaredAndGlobalAttributes<FindSettingsAttribute>(x => x.FindAttributeType == GetType());
+            findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(AttributeLevels.NonComponent, x => x.FindAttributeType == GetType());
         }
 
         public PropertyBag Properties { get; } = new PropertyBag();
@@ -49,7 +49,7 @@ namespace Atata
                     nameof(Visibility),
                     Visibility.Visible,
                     findSettingsGetter,
-                    md => md.GetComponentAttributes<ControlDefinitionAttribute>());
+                    md => md.GetAll<ControlDefinitionAttribute>(AttributeLevels.Component));
             }
 
             set

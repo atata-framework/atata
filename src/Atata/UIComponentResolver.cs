@@ -301,7 +301,7 @@ namespace Atata
 
         private static string ResolveControlName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            NameAttribute nameAttribute = metadata.GetFirstOrDefaultDeclaredAttribute<NameAttribute>();
+            NameAttribute nameAttribute = metadata.Get<NameAttribute>(AttributeLevels.Declared);
             if (nameAttribute != null && !string.IsNullOrWhiteSpace(nameAttribute.Value))
             {
                 return nameAttribute.Value;
@@ -316,7 +316,7 @@ namespace Atata
                 }
                 else
                 {
-                    TermAttribute termAttribute = metadata.GetTerm();
+                    TermAttribute termAttribute = metadata.Get<TermAttribute>(AttributeLevels.Declared);
                     if (termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any())
                         return string.Join("/", termAttribute.Values);
                 }
@@ -361,18 +361,19 @@ namespace Atata
                 name,
                 componentType,
                 parentComponentType,
-                declaredAttributes,
-                GetClassAttributes(componentType),
-                GetClassAttributes(parentComponentType),
-                GetAssemblyAttributes(typeof(TOwner).Assembly))
+                componentDefinitonAttribute)
             {
-                ComponentDefinitonAttribute = componentDefinitonAttribute
+                DeclaredAttributesList = declaredAttributes.ToList(),
+                ParentComponentAttributesList = GetClassAttributes(parentComponentType).ToList(),
+                AssemblyAttributesList = GetAssemblyAttributes(typeof(TOwner).Assembly).ToList(),
+                GlobalAttributesList = new List<Attribute>(),
+                ComponentAttributesList = GetClassAttributes(componentType).ToList()
             };
         }
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
         {
-            FindAttribute findAttribute = metadata.GetFirstOrDefaultDeclaredAttribute<FindAttribute>();
+            FindAttribute findAttribute = metadata.Get<FindAttribute>(AttributeLevels.Declared);
             if (findAttribute != null)
             {
                 return findAttribute;
@@ -424,7 +425,7 @@ namespace Atata
 
         private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
-            return metadata.GetFirstOrDefaultDeclaredAttribute<IFindItemAttribute>() ?? (IFindItemAttribute)new FindItemByLabelAttribute();
+            return metadata.Get<IFindItemAttribute>(AttributeLevels.Declared) ?? new FindItemByLabelAttribute();
         }
 
         private static ComponentScopeLocateOptions CreateScopeLocateOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
