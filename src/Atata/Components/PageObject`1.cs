@@ -84,9 +84,9 @@ namespace Atata
         {
             UrlAttribute attribute;
 
-            if (GetType().TryGetCustomAttribute(out attribute))
+            if (GetType().TryGetCustomAttribute(out attribute) || !AtataContext.Current.IsNavigated)
             {
-                Go.ToUrl(attribute.Url);
+                Go.ToUrl(attribute?.Url);
             }
         }
 

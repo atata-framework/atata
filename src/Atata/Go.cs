@@ -101,7 +101,8 @@ namespace Atata
                 pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
                 AtataContext.Current.PageObject = pageObject;
 
-                ToUrl(options.Url);
+                if (!string.IsNullOrWhiteSpace(options.Url))
+                    ToUrl(options.Url);
 
                 pageObject.NavigateOnInit = options.Navigate;
                 pageObject.Init();
@@ -130,7 +131,12 @@ namespace Atata
             if (!Uri.TryCreate(url, UriKind.Absolute, out absoluteUri))
             {
                 if (!AtataContext.Current.IsNavigated && AtataContext.Current.BaseUrl == null)
-                    throw new InvalidOperationException("Cannot navigate to relative URL \"{0}\". ATContext.Current.BaseUrl can be set with base URL.".FormatWith(absoluteUri));
+                {
+                    if (string.IsNullOrWhiteSpace(url))
+                        throw new InvalidOperationException("Cannot navigate to empty or null URL. AtataContext.Current.BaseUrl can be set with base URL.");
+                    else
+                        throw new InvalidOperationException($"Cannot navigate to relative URL \"{url}\". AtataContext.Current.BaseUrl can be set with base URL.");
+                }
 
                 if (AtataContext.Current.BaseUrl == null)
                 {
@@ -147,8 +153,13 @@ namespace Atata
                 }
             }
 
-            AtataContext.Current.Log.Info("Go to URL \"{0}\"", absoluteUri);
-            AtataContext.Current.Driver.Navigate().GoToUrl(absoluteUri);
+            Navigate(absoluteUri);
+        }
+
+        private static void Navigate(Uri uri)
+        {
+            AtataContext.Current.Log.Info($"Go to URL \"{uri}\"");
+            AtataContext.Current.Driver.Navigate().GoToUrl(uri);
             AtataContext.Current.IsNavigated = true;
         }
 
