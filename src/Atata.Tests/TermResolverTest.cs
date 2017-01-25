@@ -55,7 +55,7 @@ namespace Atata.Tests
                 Add(Options.C, "X", "00000002");
                 Add(Options.A, "_{0:G}_", "_A_");
 
-                DateTime date = new DateTime(2016, 3, 28);
+                DateTime date = new DateTime(DateTime.Today.Year, 3, 28);
                 Add(date, "date: '{0:d}'");
                 Add(date, "date: '{0:yyyy-MM-dd}'");
                 Add(date, "MM/dd", "03/28");
