@@ -15,7 +15,7 @@ namespace Atata
         {
         }
 
-        public T Value => GetValue();
+        public T Value => Get();
 
         protected TermOptions ValueTermOptions { get; private set; }
 
@@ -48,7 +48,16 @@ namespace Atata
 
         protected abstract T GetValue();
 
-        public T Get() => GetValue();
+        public T Get()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeGet);
+
+            T value = GetValue();
+
+            ExecuteTriggers(TriggerEvents.AfterGet);
+
+            return value;
+        }
 
         protected internal virtual string ConvertValueToString(T value)
         {
@@ -85,7 +94,7 @@ namespace Atata
 
         public bool Equals(T other)
         {
-            T value = GetValue();
+            T value = Get();
             return Equals(value, other);
         }
 
