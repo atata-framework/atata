@@ -60,17 +60,15 @@ namespace Atata
             if (ScopeLocator == null)
                 throw new InvalidOperationException($"{nameof(ScopeLocator)} is missing.");
 
-            searchOptions = searchOptions ?? new SearchOptions();
-
-            IWebElement element = ScopeLocator.GetElement(searchOptions);
-            if (!searchOptions.IsSafely && element == null)
-                throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
+            IWebElement element = OnGetScopeElement(searchOptions ?? new SearchOptions());
 
             if (CacheScopeElement)
                 cachedScope = element;
 
             return element;
         }
+
+        internal abstract IWebElement OnGetScopeElement(SearchOptions searchOptions);
 
         protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
         {

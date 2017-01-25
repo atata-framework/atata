@@ -20,7 +20,14 @@ namespace Atata
         {
             string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter, ValueTermOptions);
             itemConditionXPath += xPathCondition;
-            return ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
+
+            ExecuteTriggers(TriggerEvents.BeforeAccess);
+
+            IWebElement element = ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
+
+            ExecuteTriggers(TriggerEvents.AfterAccess);
+
+            return element;
         }
 
         protected IWebElement[] GetItemElements()
