@@ -48,5 +48,45 @@ namespace Atata.Tests
 
             Assert.That(isDeInitInvoked, Is.True);
         }
+
+        [Test]
+        public void Trigger_Events()
+        {
+            Assert.That(page.InputEvents, Is.EquivalentTo(new[] { TriggerEvents.Init }));
+            page.InputEvents.Clear();
+
+            page.Input.Set("asd");
+            VerifyInputEvents(TriggerEvents.BeforeSet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterSet);
+
+            page.Input.Get();
+            VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
+
+            page.Input.Should.Equal("asd");
+            VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
+
+            page.Input.Click();
+            VerifyInputEvents(TriggerEvents.BeforeClick, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterClick);
+
+            page.Input.Hover();
+            VerifyInputEvents(TriggerEvents.BeforeHover, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterHover);
+
+            page.Input.Focus();
+            VerifyInputEvents(TriggerEvents.BeforeFocus, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterFocus);
+
+            page.Input.DoubleClick();
+            VerifyInputEvents(TriggerEvents.BeforeClick, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterClick);
+
+            page.Input.RightClick();
+            VerifyInputEvents(TriggerEvents.BeforeClick, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterClick);
+
+            page.GoTo1.ClickAndGo();
+            VerifyInputEvents(TriggerEvents.DeInit);
+        }
+
+        private void VerifyInputEvents(params TriggerEvents[] triggerEvents)
+        {
+            Assert.That(page.InputEvents, Is.EqualTo(triggerEvents));
+            page.InputEvents.Clear();
+        }
     }
 }

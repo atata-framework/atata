@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using _ = Atata.Tests.TriggersPage;
 
@@ -16,8 +17,6 @@ namespace Atata.Tests
         public TriggersPage()
         {
             isOnInitInvoked = false;
-
-            Input.Triggers.Add(new WriteTriggerEventAttribute(TriggerEvents.Init));
         }
 
         public static bool IsOnInitInvoked => isOnInitInvoked;
@@ -37,7 +36,16 @@ namespace Atata.Tests
 
         public Link<GoTo1Page, _> GoTo1 { get; private set; }
 
+        [FindFirst]
         public TextInput<_> Input { get; private set; }
+
+        protected override void InitComponent()
+        {
+            base.InitComponent();
+
+            TriggerEvents allEvents = typeof(TriggerEvents).GetIndividualEnumFlags().Cast<TriggerEvents>().Aggregate((a, b) => a | b);
+            Input.Triggers.Add(new WriteTriggerEventAttribute(allEvents));
+        }
 
         public static void OnStaticInit()
         {

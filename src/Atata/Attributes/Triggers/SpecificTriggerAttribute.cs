@@ -17,8 +17,11 @@ namespace Atata
             {
                 Type ownerType = context.Component.Owner.GetType();
 
-                MethodInfo genericMethod = declaredMethod.MakeGenericMethod(ownerType);
-                genericMethod.Invoke(this, new object[] { context });
+                MethodInfo actualMethod = declaredMethod.IsGenericMethodDefinition
+                    ? declaredMethod.MakeGenericMethod(ownerType)
+                    : declaredMethod;
+
+                actualMethod.Invoke(this, new object[] { context });
             }
         }
     }
