@@ -9,57 +9,67 @@
     {
         public DataProvider<string, TOwner> Id
         {
-            get { return GetAttibuteProvider(nameof(Id)); }
+            get { return Get<string>(nameof(Id)); }
         }
 
         public DataProvider<string, TOwner> Name
         {
-            get { return GetAttibuteProvider(nameof(Name)); }
+            get { return Get<string>(nameof(Name)); }
         }
 
         public DataProvider<string, TOwner> Value
         {
-            get { return GetAttibuteProvider(nameof(Value)); }
+            get { return Get<string>(nameof(Value)); }
         }
 
         public DataProvider<string, TOwner> Title
         {
-            get { return GetAttibuteProvider(nameof(Title)); }
+            get { return Get<string>(nameof(Title)); }
         }
 
         public DataProvider<string, TOwner> Class
         {
-            get { return GetAttibuteProvider(nameof(Class)); }
+            get { return Get<string>(nameof(Class)); }
         }
 
         public DataProvider<string, TOwner> Href
         {
-            get { return GetAttibuteProvider(nameof(Href)); }
+            get { return Get<string>(nameof(Href)); }
         }
 
         public DataProvider<string, TOwner> For
         {
-            get { return GetAttibuteProvider(nameof(For)); }
+            get { return Get<string>(nameof(For)); }
         }
 
         public DataProvider<string, TOwner> Type
         {
-            get { return GetAttibuteProvider(nameof(Type)); }
+            get { return Get<string>(nameof(Type)); }
         }
 
         public DataProvider<string, TOwner> Style
         {
-            get { return GetAttibuteProvider(nameof(Style)); }
+            get { return Get<string>(nameof(Style)); }
         }
 
         public DataProvider<string, TOwner> Alt
         {
-            get { return GetAttibuteProvider(nameof(Alt)); }
+            get { return Get<string>(nameof(Alt)); }
         }
 
         public DataProvider<string, TOwner> Placeholder
         {
-            get { return GetAttibuteProvider(nameof(Placeholder)); }
+            get { return Get<string>(nameof(Placeholder)); }
+        }
+
+        public DataProvider<bool, TOwner> Disabled
+        {
+            get { return Get<bool>(nameof(Disabled)); }
+        }
+
+        public DataProvider<bool, TOwner> ReadOnly
+        {
+            get { return Get<bool>(nameof(ReadOnly)); }
         }
 
         /// <summary>
@@ -69,7 +79,19 @@
         /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
         public DataProvider<string, TOwner> this[string attributeName]
         {
-            get { return Component.GetOrCreateDataProvider(attributeName, () => GetValue(attributeName)); }
+            get { return Get<string>(attributeName); }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value of the specified control's scope element attribute.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the attribute value.</typeparam>
+        /// <param name="attributeName">The name of the attribute.</param>
+        /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
+        public DataProvider<TValue, TOwner> Get<TValue>(string attributeName)
+        {
+            string lowerCaseName = attributeName.ToLower();
+            return Component.GetOrCreateDataProvider($"{lowerCaseName} attribute", () => GetValue<TValue>(lowerCaseName));
         }
 
         /// <summary>
@@ -82,10 +104,20 @@
             return Component.Scope.GetAttribute(attributeName);
         }
 
-        private DataProvider<string, TOwner> GetAttibuteProvider(string name)
+        /// <summary>
+        /// Gets the value of the specified control's scope element attribute.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the attribute value.</typeparam>
+        /// <param name="attributeName">The name of the attribute.</param>
+        /// <returns>The attribute's current value. Returns a null if the value is not set.</returns>
+        public TValue GetValue<TValue>(string attributeName)
         {
-            string lowerCaseName = name.ToLower();
-            return Component.GetOrCreateDataProvider(lowerCaseName, () => GetValue(lowerCaseName));
+            string valueAsString = Component.Scope.GetAttribute(attributeName);
+
+            if (string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool))
+                return default(TValue);
+
+            return TermResolver.FromString<TValue>(valueAsString);
         }
     }
 }

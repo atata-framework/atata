@@ -119,10 +119,10 @@ namespace Atata
         protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             object dataProvider;
-            if (dataProviders.TryGetValue(providerName, out dataProvider))
+            if (dataProviders.TryGetValue(providerName, out dataProvider) && dataProvider is DataProvider<TValue, TOwner>)
                 return (DataProvider<TValue, TOwner>)dataProvider;
-            else
-                return CreateDataProvider(providerName, valueGetFunction);
+
+            return CreateDataProvider(providerName, valueGetFunction);
         }
 
         DataProvider<TValue, TOwner> IUIComponent<TOwner>.GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction) => GetOrCreateDataProvider(providerName, valueGetFunction);

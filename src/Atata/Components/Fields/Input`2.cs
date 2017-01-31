@@ -13,8 +13,8 @@ namespace Atata
     {
         protected override T GetValue()
         {
-            string value = Attributes.Value;
-            return ConvertStringToValue(value);
+            string valueAsString = Attributes.Value;
+            return ConvertStringToValue(valueAsString);
         }
 
         protected override void SetValue(T value)

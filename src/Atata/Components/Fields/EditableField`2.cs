@@ -18,7 +18,7 @@
 
         protected virtual bool GetIsReadOnly()
         {
-            return Attributes.GetValue("readonly") != null;
+            return Attributes.ReadOnly;
         }
 
         protected abstract void SetValue(T value);
