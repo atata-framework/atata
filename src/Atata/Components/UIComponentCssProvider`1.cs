@@ -14,7 +14,7 @@
         /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the CSS property's current value.</returns>
         public DataProvider<string, TOwner> this[string propertyName]
         {
-            get { return Component.GetOrCreateDataProvider(propertyName + "CSS property", () => GetValue(propertyName)); }
+            get { return Component.GetOrCreateDataProvider(propertyName + " CSS property", () => GetValue(propertyName)); }
         }
 
         /// <summary>
