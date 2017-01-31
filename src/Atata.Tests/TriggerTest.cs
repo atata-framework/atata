@@ -52,8 +52,14 @@ namespace Atata.Tests
         [Test]
         public void Trigger_Events()
         {
-            Assert.That(page.InputEvents, Is.EquivalentTo(new[] { TriggerEvents.Init }));
+            VerifyInputEvents(TriggerEvents.Init);
             page.InputEvents.Clear();
+
+            page.Input.Exists();
+            VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
+
+            page.Input.Should.Exist();
+            VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
             page.Input.Set("asd");
             VerifyInputEvents(TriggerEvents.BeforeSet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterSet);

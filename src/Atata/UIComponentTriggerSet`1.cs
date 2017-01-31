@@ -7,9 +7,22 @@ namespace Atata
     public class UIComponentTriggerSet<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        private static readonly Dictionary<TriggerEvents, TriggerEvents[]> DenyTriggersMap;
+
         private readonly UIComponent<TOwner> component;
 
+        private readonly List<TriggerEvents> currentDeniedTriggers = new List<TriggerEvents>();
+
         private TriggerAttribute[] orderedTriggers;
+
+        static UIComponentTriggerSet()
+        {
+            DenyTriggersMap = new Dictionary<TriggerEvents, TriggerEvents[]>
+            {
+                [TriggerEvents.BeforeAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess },
+                [TriggerEvents.AfterAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess }
+            };
+        }
 
         internal UIComponentTriggerSet(UIComponent<TOwner> component)
         {
@@ -97,21 +110,33 @@ namespace Atata
 
         internal void Execute(TriggerEvents on)
         {
-            if (orderedTriggers == null || orderedTriggers.Length == 0 || on == TriggerEvents.None)
+            if (orderedTriggers == null || orderedTriggers.Length == 0 || on == TriggerEvents.None || currentDeniedTriggers.Contains(on))
                 return;
 
-            var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
+            TriggerEvents[] denyTriggers;
+            if (DenyTriggersMap.TryGetValue(on, out denyTriggers))
+                currentDeniedTriggers.AddRange(denyTriggers);
 
-            TriggerContext<TOwner> context = new TriggerContext<TOwner>
+            try
             {
-                Event = on,
-                Driver = component.Driver,
-                Log = component.Log,
-                Component = component
-            };
+                var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
 
-            foreach (var trigger in triggers)
-                trigger.Execute(context);
+                TriggerContext<TOwner> context = new TriggerContext<TOwner>
+                {
+                    Event = on,
+                    Driver = component.Driver,
+                    Log = component.Log,
+                    Component = component
+                };
+
+                foreach (var trigger in triggers)
+                    trigger.Execute(context);
+            }
+            finally
+            {
+                if (denyTriggers != null)
+                    currentDeniedTriggers.RemoveAll(x => denyTriggers.Contains(x));
+            }
 
             if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
             {

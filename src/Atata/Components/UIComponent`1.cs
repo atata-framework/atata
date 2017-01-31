@@ -13,8 +13,6 @@ namespace Atata
     {
         private readonly Dictionary<string, object> dataProviders = new Dictionary<string, object>();
 
-        private bool isAccessingScope;
-
         protected UIComponent()
         {
             Controls = new UIComponentChildrenList<TOwner>(this);
@@ -86,29 +84,15 @@ namespace Atata
 
         internal sealed override IWebElement OnGetScopeElement(SearchOptions searchOptions)
         {
-            bool isInitialAccessingScope = !isAccessingScope;
+            ExecuteTriggers(TriggerEvents.BeforeAccess);
 
-            isAccessingScope = true;
+            IWebElement element = ScopeLocator.GetElement(searchOptions);
+            if (!searchOptions.IsSafely && element == null)
+                throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
 
-            try
-            {
-                if (isInitialAccessingScope)
-                    ExecuteTriggers(TriggerEvents.BeforeAccess);
+            ExecuteTriggers(TriggerEvents.AfterAccess);
 
-                IWebElement element = ScopeLocator.GetElement(searchOptions);
-                if (!searchOptions.IsSafely && element == null)
-                    throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
-
-                if (isInitialAccessingScope)
-                    ExecuteTriggers(TriggerEvents.AfterAccess);
-
-                return element;
-            }
-            finally
-            {
-                if (isInitialAccessingScope)
-                    isAccessingScope = false;
-            }
+            return element;
         }
 
         private string GetContent()
