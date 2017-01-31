@@ -95,6 +95,17 @@ namespace Atata
             return element;
         }
 
+        internal sealed override bool OnMissing(SearchOptions options)
+        {
+            ExecuteTriggers(TriggerEvents.BeforeAccess);
+
+            bool result = ScopeLocator.IsMissing(options);
+
+            ExecuteTriggers(TriggerEvents.AfterAccess);
+
+            return result;
+        }
+
         private string GetContent()
         {
             return Scope.Text;

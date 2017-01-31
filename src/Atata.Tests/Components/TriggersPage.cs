@@ -39,6 +39,10 @@ namespace Atata.Tests
         [FindFirst]
         public TextInput<_> Input { get; private set; }
 
+        [FindById]
+        [WriteTriggerEvent(TriggerEvents.BeforeAccess | TriggerEvents.AfterAccess)]
+        public TextInput<_> MissingInput { get; private set; }
+
         protected override void InitComponent()
         {
             base.InitComponent();

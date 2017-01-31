@@ -110,7 +110,12 @@ namespace Atata
         /// <exception cref="NotMissingElementException">The <paramref name="options"/> has IsSafely property equal to false value and the component exists.</exception>
         public bool Missing(SearchOptions options = null)
         {
-            return ScopeLocator.IsMissing(options ?? SearchOptions.Safely());
+            return OnMissing(options ?? SearchOptions.Safely());
+        }
+
+        internal virtual bool OnMissing(SearchOptions options)
+        {
+            return ScopeLocator.IsMissing(options);
         }
 
         public override string ToString()

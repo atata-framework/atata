@@ -58,7 +58,13 @@ namespace Atata.Tests
             page.Input.Exists();
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
+            page.MissingInput.Missing();
+            VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
+
             page.Input.Should.Exist();
+            VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
+
+            page.MissingInput.Should.Not.Exist();
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
             page.Input.Set("asd");
