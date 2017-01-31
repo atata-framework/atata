@@ -1,4 +1,7 @@
-﻿namespace Atata
+﻿using System;
+using System.Collections.Generic;
+
+namespace Atata
 {
     /// <summary>
     /// Allows to access the component scope element's attribute values.
@@ -7,70 +10,33 @@
     public class UIComponentAttributeProvider<TOwner> : UIComponentPart<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public DataProvider<string, TOwner> Id
-        {
-            get { return Get<string>(nameof(Id)); }
-        }
+        public DataProvider<string, TOwner> Id => Get<string>(nameof(Id));
 
-        public DataProvider<string, TOwner> Name
-        {
-            get { return Get<string>(nameof(Name)); }
-        }
+        public DataProvider<string, TOwner> Name => Get<string>(nameof(Name));
 
-        public DataProvider<string, TOwner> Value
-        {
-            get { return Get<string>(nameof(Value)); }
-        }
+        public DataProvider<string, TOwner> Value => Get<string>(nameof(Value));
 
-        public DataProvider<string, TOwner> Title
-        {
-            get { return Get<string>(nameof(Title)); }
-        }
+        public DataProvider<string, TOwner> Title => Get<string>(nameof(Title));
 
-        public DataProvider<string, TOwner> Class
-        {
-            get { return Get<string>(nameof(Class)); }
-        }
+        public DataProvider<string, TOwner> Href => Get<string>(nameof(Href));
 
-        public DataProvider<string, TOwner> Href
-        {
-            get { return Get<string>(nameof(Href)); }
-        }
+        public DataProvider<string, TOwner> For => Get<string>(nameof(For));
 
-        public DataProvider<string, TOwner> For
-        {
-            get { return Get<string>(nameof(For)); }
-        }
+        public DataProvider<string, TOwner> Type => Get<string>(nameof(Type));
 
-        public DataProvider<string, TOwner> Type
-        {
-            get { return Get<string>(nameof(Type)); }
-        }
+        public DataProvider<string, TOwner> Style => Get<string>(nameof(Style));
 
-        public DataProvider<string, TOwner> Style
-        {
-            get { return Get<string>(nameof(Style)); }
-        }
+        public DataProvider<string, TOwner> Alt => Get<string>(nameof(Alt));
 
-        public DataProvider<string, TOwner> Alt
-        {
-            get { return Get<string>(nameof(Alt)); }
-        }
+        public DataProvider<string, TOwner> Placeholder => Get<string>(nameof(Placeholder));
 
-        public DataProvider<string, TOwner> Placeholder
-        {
-            get { return Get<string>(nameof(Placeholder)); }
-        }
+        public DataProvider<bool, TOwner> Disabled => Get<bool>(nameof(Disabled));
 
-        public DataProvider<bool, TOwner> Disabled
-        {
-            get { return Get<bool>(nameof(Disabled)); }
-        }
+        public DataProvider<bool, TOwner> ReadOnly => Get<bool>(nameof(ReadOnly));
 
-        public DataProvider<bool, TOwner> ReadOnly
-        {
-            get { return Get<bool>(nameof(ReadOnly)); }
-        }
+        public DataProvider<IEnumerable<string>, TOwner> Class => Component.GetOrCreateDataProvider<IEnumerable<string>>(
+            "class attribute",
+            () => GetValue("class").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries));
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value of the specified control's scope element attribute.
