@@ -11,7 +11,7 @@
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}" /> instance of the checked state value.
         /// </summary>
-        public DataProvider<bool, TOwner> IsChecked => GetOrCreateDataProvider("checked", () => Get());
+        public DataProvider<bool, TOwner> IsChecked => GetOrCreateDataProvider("checked", () => Value);
 
         public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> Should => new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner>(this);
 

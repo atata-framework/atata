@@ -27,7 +27,7 @@ namespace Atata
             bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
                 _ =>
                 {
-                    actual = should.DataProvider.Get();
+                    actual = should.DataProvider.Value;
                     return predicate(actual) != should.IsNegation;
                 },
                 should.Timeout,

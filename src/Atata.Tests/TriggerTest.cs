@@ -72,7 +72,8 @@ namespace Atata.Tests
             page.Input.Set("asd");
             VerifyInputEvents(TriggerEvents.BeforeSet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterSet);
 
-            page.Input.Get();
+            string value;
+            page.Input.Get(out value);
             VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
 
             page.Input.Should.Equal("asd");

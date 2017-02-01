@@ -43,7 +43,7 @@ namespace Atata.Tests
             {
                 control.Set(values[i]);
                 control.Should.Equal(values[i]);
-                Assert.That(control.Get(), Is.EqualTo(values[i]));
+                Assert.That(control.Value, Is.EqualTo(values[i]));
 
                 if (i > 0 && !Equals(values[i], values[i - 1]))
                     control.Should.Not.Equal(values[i - 1]);
@@ -61,7 +61,7 @@ namespace Atata.Tests
             where TPage : PageObject<TPage>
         {
             control.Should.Equal(value);
-            Assert.That(control.Get(), Is.EqualTo(value));
+            Assert.That(control.Value, Is.EqualTo(value));
         }
 
         protected void VerifyDoesNotEqual<T, TPage>(Field<T, TPage> control, T value)
