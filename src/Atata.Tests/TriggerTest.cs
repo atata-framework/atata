@@ -53,7 +53,6 @@ namespace Atata.Tests
         public void Trigger_Events()
         {
             VerifyInputEvents(TriggerEvents.Init);
-            page.InputEvents.Clear();
 
             page.Input.Exists();
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
@@ -65,6 +64,9 @@ namespace Atata.Tests
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
             page.MissingInput.Should.Not.Exist();
+            VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
+
+            page.Input.Attributes.Class.Should.HaveCount(1);
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
             page.Input.Set("asd");
