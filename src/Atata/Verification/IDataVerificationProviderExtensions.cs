@@ -78,6 +78,11 @@ namespace Atata
             return new AssertionException(errorMessage);
         }
 
+        private static string CollectionToString(IEnumerable collection)
+        {
+            return CollectionToString(collection.Cast<object>());
+        }
+
         private static string CollectionToString(IEnumerable<object> collection)
         {
             if (!collection.Any())
@@ -97,7 +102,7 @@ namespace Atata
             else if (value is ValueType)
                 return value.ToString();
             else if (value is IEnumerable)
-                return CollectionToString(((IEnumerable)value).Cast<object>());
+                return CollectionToString((IEnumerable)value);
             else
                 return "{{{0}}}".FormatWith(value.ToString());
         }
@@ -336,6 +341,36 @@ namespace Atata
             return should.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
         }
 
+        public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return should.Satisfy(
+                actual => actual != null && actual.Count() == expected.Count() && actual.All(expected.Contains),
+                $"be equivalent to {CollectionToString(expected)}");
+        }
+
+        public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return should.Satisfy(
+                actual => actual != null && actual.SequenceEqual(expected),
+                $"equal sequence {CollectionToString(expected)}");
+        }
+
+        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return should.Satisfy(
+                actual => actual != null && actual.Intersect(expected).Count() == expected.Count(),
+                $"contain {CollectionToString(expected)}");
+        }
+
         public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch match, params string[] expected)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
@@ -360,8 +395,8 @@ namespace Atata
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
-                actual => actual != null && actual.Select(x => x.Get()).Intersect(expected).Count() == expected.Count(),
-                $"contain {CollectionToString(expected.Cast<object>())}");
+                actual => actual != null && actual.Select(x => x.Value).Intersect(expected).Count() == expected.Count(),
+                $"contain {CollectionToString(expected)}");
         }
 
         public static TOwner Contain<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, Expression<Func<TControl, bool>> predicateExpression)
