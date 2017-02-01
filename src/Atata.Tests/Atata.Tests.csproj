@@ -77,6 +77,7 @@
     <Compile Include="Components\GoTo2Page.cs" />
     <Compile Include="Components\GoTo3Page.cs" />
     <Compile Include="Components\InputPage.cs" />
+    <Compile Include="Components\LabelPage.cs" />
     <Compile Include="Components\MessageBoxPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
     <Compile Include="Components\SelectPage.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="ControlListTest.cs" />
     <Compile Include="GoTest.cs" />
     <Compile Include="InputTest.cs" />
+    <Compile Include="LabelTest.cs" />
     <Compile Include="NUnitSettings.cs" />
     <Compile Include="TriggerTest.cs" />
     <Compile Include="MessageBoxTest.cs" />
