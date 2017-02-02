@@ -34,7 +34,12 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the DataProvider instance for the text content.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is visible.
+        /// </summary>
+        public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible", GetIsVisible);
+
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
         /// </summary>
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
@@ -106,7 +111,12 @@ namespace Atata
             return result;
         }
 
-        private string GetContent()
+        protected virtual bool GetIsVisible()
+        {
+            return Scope.Displayed;
+        }
+
+        protected virtual string GetContent()
         {
             return Scope.Text;
         }
