@@ -27,6 +27,9 @@ namespace Atata
 
         protected delegate bool ClickItemPredicate(bool isInValue, bool isSelected);
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public new FieldVerificationProvider<T, CheckBoxList<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, CheckBoxList<T, TOwner>, TOwner>(this);
 
         protected override T GetValue()

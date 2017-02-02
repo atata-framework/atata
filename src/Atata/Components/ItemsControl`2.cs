@@ -11,7 +11,7 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the items' ControlList.
+        /// Gets the items' <see cref="ControlList{TItem, TOwner}"/> instance.
         /// </summary>
         public ControlList<TItem, TOwner> Items { get; private set; }
     }

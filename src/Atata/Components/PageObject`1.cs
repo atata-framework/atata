@@ -28,12 +28,12 @@ namespace Atata
         protected UIComponent PreviousPageObject { get; private set; }
 
         /// <summary>
-        /// Gets the DataProvider instance for the title of the current HTML page.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the title of the current HTML page.
         /// </summary>
         public DataProvider<string, TOwner> PageTitle => GetOrCreateDataProvider("title", GetTitle);
 
         /// <summary>
-        /// Gets the DataProvider instance for the URL of the current HTML page.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the URL of the current HTML page.
         /// </summary>
         public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 

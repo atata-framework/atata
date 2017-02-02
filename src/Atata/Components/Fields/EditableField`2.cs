@@ -12,8 +12,14 @@
         {
         }
 
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is read-only.
+        /// </summary>
         public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only", GetIsReadOnly);
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner>(this);
 
         protected virtual bool GetIsReadOnly()

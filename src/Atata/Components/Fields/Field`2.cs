@@ -29,6 +29,9 @@ namespace Atata
 
         TermOptions IDataProvider<T, TOwner>.ValueTermOptions => ValueTermOptions;
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, Field<T, TOwner>, TOwner>(this);
 
         public static explicit operator T(Field<T, TOwner> field)

@@ -38,6 +38,9 @@ namespace Atata
             get { return valueGetFunction(); }
         }
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public DataVerificationProvider<TData, TOwner> Should => new DataVerificationProvider<TData, TOwner>(this);
 
         public static implicit operator TData(DataProvider<TData, TOwner> field)

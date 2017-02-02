@@ -13,8 +13,14 @@ namespace Atata
     {
         protected ControlDefinitionAttribute ItemDefinition { get; } = UIComponentResolver.GetControlDefinition(typeof(TItem));
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public DataVerificationProvider<IEnumerable<TItem>, TOwner> Should => new DataVerificationProvider<IEnumerable<TItem>, TOwner>(this);
 
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls count.
+        /// </summary>
         public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} count", GetCount);
 
         UIComponent IDataProvider<IEnumerable<TItem>, TOwner>.Component => (UIComponent)Component;

@@ -15,6 +15,9 @@ namespace Atata
         /// </summary>
         public DataProvider<bool, TOwner> IsChecked => GetOrCreateDataProvider("checked", () => Value);
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public new FieldVerificationProvider<bool, CheckBox<TOwner>, TOwner> Should => new FieldVerificationProvider<bool, CheckBox<TOwner>, TOwner>(this);
 
         protected override bool GetValue()

@@ -9,10 +9,13 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the DataProvider instance for the value indicating whether the control is enabled.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is enabled.
         /// </summary>
         public DataProvider<bool, TOwner> IsEnabled => GetOrCreateDataProvider("enabled", GetIsEnabled);
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should => new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
 
         protected virtual bool GetIsEnabled()

@@ -13,6 +13,9 @@
         /// </summary>
         public DataProvider<bool, TOwner> IsChecked => GetOrCreateDataProvider("checked", () => Value);
 
+        /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
         public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> Should => new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner>(this);
 
         protected override bool GetValue()
