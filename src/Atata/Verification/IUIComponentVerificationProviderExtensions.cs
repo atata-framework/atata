@@ -6,8 +6,8 @@ namespace Atata
 {
     public static class IUIComponentVerificationProviderExtensions
     {
-        public static TOwner Exist<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
-            where TControl : UIComponent<TOwner>
+        public static TOwner Exist<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+            where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
             should.CheckNotNull(nameof(should));
@@ -29,6 +29,26 @@ namespace Atata
             AtataContext.Current.Log.EndSection();
 
             return should.Owner;
+        }
+
+        public static TOwner BeVisible<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            should.CheckNotNull(nameof(should));
+
+            var dataShould = should.Component.IsVisible.Should.ApplySettings(should);
+            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+        }
+
+        public static TOwner BeHidden<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            should.CheckNotNull(nameof(should));
+
+            var dataShould = should.Component.IsVisible.Should.ApplySettings(should);
+            return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
         }
 
         public static TOwner BeEnabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
