@@ -70,6 +70,7 @@ namespace Atata.Tests
         public void Find_Visible()
         {
             page.VisibleInput.Should.Exist().
+                VisibleInput.Should.BeVisible().
                 FailDisplayNoneInput.Should.Not.Exist();
 
             Assert.Throws<NoSuchElementException>(() =>
@@ -80,9 +81,13 @@ namespace Atata.Tests
         public void Find_Hidden()
         {
             page.DisplayNoneInput.Should.Exist().
+                DisplayNoneInput.Should.BeHidden().
                 HiddenInput.Should.Exist().
+                HiddenInput.Should.BeHidden().
                 CollapseInput.Should.Exist().
-                TypeHiddenInput.Should.Exist();
+                CollapseInput.Should.BeHidden().
+                TypeHiddenInput.Should.Exist().
+                TypeHiddenInput.Should.BeHidden();
 
             Assert.That(page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
         }
