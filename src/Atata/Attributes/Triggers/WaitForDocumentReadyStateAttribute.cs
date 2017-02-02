@@ -15,7 +15,7 @@ namespace Atata
                 x => (bool)context.Driver.ExecuteScript("return document.readyState === 'complete'"));
 
             if (!completed)
-                throw new Exception("Timed out waiting for document to be loaded/ready.");
+                throw new TimeoutException("Timed out waiting for document to be loaded/ready.");
         }
     }
 }

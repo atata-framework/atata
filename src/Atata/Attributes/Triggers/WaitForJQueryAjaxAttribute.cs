@@ -18,7 +18,7 @@ namespace Atata
                 x => (bool)context.Driver.ExecuteScript("return jQuery.active == 0"));
 
             if (!completed)
-                throw new Exception("Timed out waiting for the jQuery AJAX call to complete.");
+                throw new TimeoutException("Timed out waiting for the jQuery AJAX call to complete.");
         }
     }
 }
