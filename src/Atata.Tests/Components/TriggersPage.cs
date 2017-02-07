@@ -39,6 +39,16 @@ namespace Atata.Tests
         [FindFirst]
         public TextInput<_> Input { get; private set; }
 
+        [FindFirst]
+        [LogInfo("AfterSet-Highest", TriggerEvents.AfterSet, TriggerPriority.Highest)]
+        [CustomLogInfo("AfterSet-Higher", TriggerEvents.AfterSet, TriggerPriority.Higher)]
+        [LogInfo("AfterSet-High", TriggerEvents.AfterSet, TriggerPriority.High)]
+        [CustomLogInfo("AfterSet-Medium", TriggerEvents.AfterSet, TriggerPriority.Medium)]
+        [LogInfo("AfterSet-Low", TriggerEvents.AfterSet, TriggerPriority.Low)]
+        [CustomLogInfo("AfterSet-Lower", TriggerEvents.AfterSet, TriggerPriority.Lower)]
+        [LogInfo("AfterSet-Lowest", TriggerEvents.AfterSet, TriggerPriority.Lowest)]
+        public TextInput<_> InputWithLogging { get; private set; }
+
         [FindById]
         [WriteTriggerEvent(TriggerEvents.BeforeAccess | TriggerEvents.AfterAccess)]
         public TextInput<_> MissingInput { get; private set; }
@@ -76,6 +86,22 @@ namespace Atata.Tests
             private void Execute(TriggerContext<_> context)
             {
                 context.Component.Owner.InputEvents.Add(context.Event);
+            }
+        }
+
+        public class CustomLogInfoAttribute : TriggerAttribute
+        {
+            public CustomLogInfoAttribute(string message, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+                : base(on, priority)
+            {
+                Message = message;
+            }
+
+            public string Message { get; private set; }
+
+            protected override void Execute<TOwner>(TriggerContext<TOwner> context)
+            {
+                context.Log.Info(Message);
             }
         }
     }

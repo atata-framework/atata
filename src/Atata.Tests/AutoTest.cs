@@ -1,4 +1,5 @@
-﻿using System.Configuration;
+﻿using System.Collections.Generic;
+using System.Configuration;
 using NUnit.Framework;
 
 namespace Atata.Tests
@@ -6,10 +7,16 @@ namespace Atata.Tests
     [TestFixture]
     public abstract class AutoTest
     {
+        private StringListLogConsumer stringListLogConsumer;
+
+        public IEnumerable<LogEventInfo> LogEntries => stringListLogConsumer.Items;
+
         [SetUp]
         public void SetUp()
         {
             string baseUrl = ConfigurationManager.AppSettings["TestAppUrl"];
+
+            stringListLogConsumer = new StringListLogConsumer();
 
             AtataContext.Build().
                 UseChrome().
@@ -18,6 +25,7 @@ namespace Atata.Tests
                 UseNUnitTestName().
                 AddNUnitTestContextLogging().
                     WithMinLevel(LogLevel.Info).
+                AddLogConsumer(stringListLogConsumer).
                 LogNUnitError().
                 SetUp();
 

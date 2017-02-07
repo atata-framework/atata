@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using NUnit.Framework;
 
 namespace Atata.Tests
 {
@@ -102,6 +103,25 @@ namespace Atata.Tests
         {
             Assert.That(page.InputEvents, Is.EqualTo(triggerEvents));
             page.InputEvents.Clear();
+        }
+
+        [Test]
+        public void Trigger_LogInfo()
+        {
+            page.InputWithLogging.Set("abc");
+
+            Assert.That(
+                LogEntries.Reverse().Take(7).Reverse().Select(x => x.Message).ToArray(),
+                Is.EqualTo(new[]
+                {
+                    "AfterSet-Highest",
+                    "AfterSet-Higher",
+                    "AfterSet-High",
+                    "AfterSet-Medium",
+                    "AfterSet-Low",
+                    "AfterSet-Lower",
+                    "AfterSet-Lowest"
+                }));
         }
     }
 }
