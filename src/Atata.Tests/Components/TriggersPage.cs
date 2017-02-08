@@ -14,11 +14,6 @@ namespace Atata.Tests
         [ThreadStatic]
         private static bool isOnInitInvoked;
 
-        public TriggersPage()
-        {
-            isOnInitInvoked = false;
-        }
-
         public static bool IsOnInitInvoked => isOnInitInvoked;
 
         public bool IsBeforePerformInvoked { get; private set; }
@@ -83,7 +78,7 @@ namespace Atata.Tests
             {
             }
 
-            private void Execute(TriggerContext<_> context)
+            protected void Execute(TriggerContext<_> context)
             {
                 context.Component.Owner.InputEvents.Add(context.Event);
             }
