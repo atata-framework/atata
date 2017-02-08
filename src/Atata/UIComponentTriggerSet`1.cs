@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -78,34 +77,15 @@ namespace Atata
 
         internal void Reorder()
         {
-            List<TriggerAttribute> resultTriggers = ComponentTriggersList.
-                Where(x => x.AppliesTo == TriggerScope.Self).
-                OrderBy(x => x.Priority).
-                ToList();
-
-            foreach (TriggerAttribute trigger in resultTriggers)
+            foreach (TriggerAttribute trigger in ComponentTriggersList)
                 trigger.IsDefinedAtComponentLevel = true;
 
-            List<TriggerAttribute> allOtherTriggers = DeclaredTriggersList.
+            orderedTriggers = DeclaredTriggersList.
+                Concat(ParentComponentTriggersList).
+                Concat(AssemblyTriggersList).
+                Concat(ComponentTriggersList).
                 OrderBy(x => x.Priority).
-                Concat(ParentComponentTriggersList.OrderBy(x => x.Priority)).
-                Concat(AssemblyTriggersList.OrderBy(x => x.Priority)).
-                ToList();
-
-            while (allOtherTriggers.Count > 0)
-            {
-                TriggerAttribute currentTrigger = allOtherTriggers[0];
-                Type currentTriggerType = currentTrigger.GetType();
-                TriggerAttribute[] currentTriggersOfSameType = allOtherTriggers.Where(x => x.GetType() == currentTriggerType && x.On == currentTrigger.On).ToArray();
-
-                if (currentTriggersOfSameType.First().On != TriggerEvents.None)
-                    resultTriggers.Add(currentTriggersOfSameType.First());
-
-                foreach (TriggerAttribute trigger in currentTriggersOfSameType)
-                    allOtherTriggers.Remove(trigger);
-            }
-
-            orderedTriggers = resultTriggers.OrderBy(x => x.Priority).ToArray();
+                ToArray();
         }
 
         internal void Execute(TriggerEvents on)
