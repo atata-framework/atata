@@ -70,6 +70,7 @@
     <Compile Include="Attributes\ControlSearch\IFindItemAttribute.cs" />
     <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
     <Compile Include="Attributes\Triggers\InvokeDelegateAttribute.cs" />
+    <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
     <Compile Include="Components\Fields\Content\Label`1.cs" />
     <Compile Include="IPropertySettings.cs" />
     <Compile Include="PropertyBag.cs" />
