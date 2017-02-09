@@ -106,7 +106,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Trigger_LogInfo()
+        public void Trigger_Priority()
         {
             page.InputWithLogging.Set("abc");
 
@@ -120,6 +120,62 @@ namespace Atata.Tests
                     "AfterSet-Medium",
                     "AfterSet-Low",
                     "AfterSet-Lower",
+                    "AfterSet-Lowest"
+                }));
+        }
+
+        [Test]
+        public void Trigger_Get()
+        {
+            Assert.That(page.InputWithLogging.Triggers.AllTriggers.Count(), Is.EqualTo(8));
+            Assert.That(page.InputWithLogging.Triggers.AllTriggers, Is.Ordered.By(nameof(TriggerAttribute.Priority)));
+
+            Assert.That(page.InputWithLogging.Triggers.ParentComponentTriggers.Count(), Is.EqualTo(1));
+            Assert.That(page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(7));
+        }
+
+        [Test]
+        public void Trigger_Remove()
+        {
+            bool isRemoved = page.InputWithLogging.Triggers.Remove(
+                page.InputWithLogging.Triggers.DeclaredTriggers.OfType<LogInfoAttribute>().Single(x => x.Message == "AfterSet-Low"));
+
+            Assert.That(isRemoved);
+            Assert.That(page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(6));
+
+            page.InputWithLogging.Set("abc");
+
+            Assert.That(
+                LogEntries.Reverse().Take(6).Reverse().Select(x => x.Message).ToArray(),
+                Is.EqualTo(new[]
+                {
+                    "AfterSet-Highest",
+                    "AfterSet-Higher",
+                    "AfterSet-High",
+                    "AfterSet-Medium",
+                    "AfterSet-Lower",
+                    "AfterSet-Lowest"
+                }));
+        }
+
+        [Test]
+        public void Trigger_RemoveAll()
+        {
+            int countOfRemoved = page.InputWithLogging.Triggers.RemoveAll(
+                x => x is TriggersPage.CustomLogInfoAttribute);
+
+            Assert.That(countOfRemoved, Is.EqualTo(3));
+            Assert.That(page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(4));
+
+            page.InputWithLogging.Set("abc");
+
+            Assert.That(
+                LogEntries.Reverse().Take(4).Reverse().Select(x => x.Message).ToArray(),
+                Is.EqualTo(new[]
+                {
+                    "AfterSet-Highest",
+                    "AfterSet-High",
+                    "AfterSet-Low",
                     "AfterSet-Lowest"
                 }));
         }

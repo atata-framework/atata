@@ -9,6 +9,7 @@ namespace Atata.Tests
     [VerifyTitle]
     [VerifyH1]
     [InvokeMethod(nameof(OnStaticInit), TriggerEvents.Init)]
+    [LogInfo("BeforeGet-Medium", TriggerEvents.BeforeGet, AppliesTo = TriggerScope.Children)]
     public class TriggersPage : Page<_>
     {
         [ThreadStatic]
