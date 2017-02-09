@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -44,6 +45,16 @@ namespace Atata
 
         public IEnumerable<TriggerAttribute> DeclaredTriggers => DeclaredTriggersList.AsEnumerable();
 
+        public IEnumerable<TriggerAttribute> AllTriggers => orderedTriggers.AsEnumerable();
+
+        private List<TriggerAttribute>[] AllTriggersLists => new[]
+        {
+            DeclaredTriggersList,
+            ParentComponentTriggersList,
+            AssemblyTriggersList,
+            ComponentTriggersList
+        };
+
         internal void ApplyMetadata(UIComponentMetadata metadata)
         {
             var allTriggers = ComponentTriggersList.Concat(ParentComponentTriggersList).Concat(AssemblyTriggersList).Concat(DeclaredTriggersList);
@@ -61,6 +72,30 @@ namespace Atata
                 ApplyMetadataToTriggers(component.Metadata, triggers);
 
             Reorder();
+        }
+
+        public bool Remove(params TriggerAttribute[] triggers)
+        {
+            var allTriggersLists = AllTriggersLists;
+            bool isRemoved = false;
+
+            foreach (TriggerAttribute trigger in triggers)
+            {
+                isRemoved |= allTriggersLists.Select(list => list.Remove(trigger)).ToArray().Any(x => x);
+            }
+
+            Reorder();
+            return isRemoved;
+        }
+
+        public int RemoveAll(Predicate<TriggerAttribute> match)
+        {
+            match.CheckNotNull(nameof(match));
+
+            int count = AllTriggersLists.Sum(list => list.RemoveAll(match));
+
+            Reorder();
+            return count;
         }
 
         private void ApplyMetadataToTriggers(UIComponentMetadata metadata, IEnumerable<TriggerAttribute> triggers)
