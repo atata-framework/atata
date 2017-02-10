@@ -132,7 +132,7 @@ namespace Atata
                 dynamic testContext = GetNUnitTestContext();
                 var testResult = testContext.Result;
 
-                if ((int)testResult.Outcome.Status == 3)
+                if ((bool)testResult.Outcome.Status.ToString().Contains("Fail"))
                     AtataContext.Current.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
             });
         }
