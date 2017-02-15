@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace Atata.Tests
 {
-    public class StopwatchAsserter : IDisposable
+    public sealed class StopwatchAsserter : IDisposable
     {
         private readonly Stopwatch watch;
         private readonly TimeSpan expectedTime;
