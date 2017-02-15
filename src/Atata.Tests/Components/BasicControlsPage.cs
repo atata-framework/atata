@@ -70,6 +70,9 @@ namespace Atata.Tests
 
         public ControlList<TextInput<_>, _> AllTextInputs { get; private set; }
 
+        [IgnoreInit]
+        public TextInput<_> IgnoredInput { get; private set; }
+
         [ControlDefinition("*")]
         public class FindByLabel : Control<_>
         {

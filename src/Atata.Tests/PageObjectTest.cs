@@ -15,6 +15,12 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void PageObject_IgnoreInit()
+        {
+            Assert.That(Go.To<BasicControlsPage>().IgnoredInput, Is.Null);
+        }
+
+        [Test]
         public void PageObject_GoBack()
         {
             Go.To<GoTo1Page>().

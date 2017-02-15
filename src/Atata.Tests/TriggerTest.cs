@@ -39,6 +39,20 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Trigger_Add_ToDynamicControl()
+        {
+            page.DynamicInput.Triggers.Add(new LogInfoAttribute("AfterGet-Lowest", TriggerEvents.AfterGet, TriggerPriority.Lowest));
+
+            page.DynamicInput.Get();
+
+            VerifyLastLogMessages(
+                "AfterGet-Medium",
+                "AfterGet-Low",
+                "AfterGet-Lower",
+                "AfterGet-Lowest");
+        }
+
+        [Test]
         public void Trigger_Add_ToPageObject()
         {
             bool isDeInitInvoked = false;
@@ -108,29 +122,30 @@ namespace Atata.Tests
         [Test]
         public void Trigger_Priority()
         {
+            VerifyLastLogMessages(
+                "Init-Low",
+                "Init-Lower",
+                "Init-Lowest");
+
             page.InputWithLogging.Set("abc");
 
-            Assert.That(
-                LogEntries.Reverse().Take(7).Reverse().Select(x => x.Message).ToArray(),
-                Is.EqualTo(new[]
-                {
-                    "AfterSet-Highest",
-                    "AfterSet-Higher",
-                    "AfterSet-High",
-                    "AfterSet-Medium",
-                    "AfterSet-Low",
-                    "AfterSet-Lower",
-                    "AfterSet-Lowest"
-                }));
+            VerifyLastLogMessages(
+                "AfterSet-Highest",
+                "AfterSet-Higher",
+                "AfterSet-High",
+                "AfterSet-Medium",
+                "AfterSet-Low",
+                "AfterSet-Lower",
+                "AfterSet-Lowest");
         }
 
         [Test]
         public void Trigger_Get()
         {
-            Assert.That(page.InputWithLogging.Triggers.AllTriggers.Count(), Is.EqualTo(8));
+            Assert.That(page.InputWithLogging.Triggers.AllTriggers.Count(), Is.EqualTo(9));
             Assert.That(page.InputWithLogging.Triggers.AllTriggers, Is.Ordered.By(nameof(TriggerAttribute.Priority)));
 
-            Assert.That(page.InputWithLogging.Triggers.ParentComponentTriggers.Count(), Is.EqualTo(1));
+            Assert.That(page.InputWithLogging.Triggers.ParentComponentTriggers.Count(), Is.EqualTo(2));
             Assert.That(page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(7));
         }
 
@@ -145,17 +160,13 @@ namespace Atata.Tests
 
             page.InputWithLogging.Set("abc");
 
-            Assert.That(
-                LogEntries.Reverse().Take(6).Reverse().Select(x => x.Message).ToArray(),
-                Is.EqualTo(new[]
-                {
-                    "AfterSet-Highest",
-                    "AfterSet-Higher",
-                    "AfterSet-High",
-                    "AfterSet-Medium",
-                    "AfterSet-Lower",
-                    "AfterSet-Lowest"
-                }));
+            VerifyLastLogMessages(
+                "AfterSet-Highest",
+                "AfterSet-Higher",
+                "AfterSet-High",
+                "AfterSet-Medium",
+                "AfterSet-Lower",
+                "AfterSet-Lowest");
         }
 
         [Test]
@@ -169,15 +180,18 @@ namespace Atata.Tests
 
             page.InputWithLogging.Set("abc");
 
+            VerifyLastLogMessages(
+                "AfterSet-Highest",
+                "AfterSet-High",
+                "AfterSet-Low",
+                "AfterSet-Lowest");
+        }
+
+        private void VerifyLastLogMessages(params string[] expectedMessages)
+        {
             Assert.That(
-                LogEntries.Reverse().Take(4).Reverse().Select(x => x.Message).ToArray(),
-                Is.EqualTo(new[]
-                {
-                    "AfterSet-Highest",
-                    "AfterSet-High",
-                    "AfterSet-Low",
-                    "AfterSet-Lowest"
-                }));
+                LogEntries.Reverse().Take(expectedMessages.Length).Reverse().Select(x => x.Message).ToArray(),
+                Is.EqualTo(expectedMessages));
         }
     }
 }
