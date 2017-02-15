@@ -14,6 +14,8 @@ namespace Atata
 
         protected UIComponent()
         {
+            Driver = AtataContext.Current.Driver;
+            Log = AtataContext.Current.Log;
         }
 
         protected internal UIComponent Owner { get; internal set; }

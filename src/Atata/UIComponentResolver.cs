@@ -254,8 +254,6 @@ namespace Atata
         {
             component.Owner = parentComponent.Owner ?? (TOwner)parentComponent;
             component.Parent = parentComponent;
-            component.Log = parentComponent.Log;
-            component.Driver = parentComponent.Driver;
 
             FindAttribute findAttribute = GetPropertyFindAttribute(metadata);
             findAttribute.Properties.Metadata = metadata;

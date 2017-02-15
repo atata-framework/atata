@@ -56,27 +56,34 @@ namespace Atata
 
         internal void Init()
         {
-            Log = AtataContext.Current.Log;
-            Driver = AtataContext.Current.Driver;
-
             ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
             ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
 
-            Log.Info("Go to {0}", ComponentFullName);
+            Log.Info($"Go to {ComponentFullName}");
 
-            OnInit();
+            InitComponent();
 
             if (NavigateOnInit)
                 Navigate();
 
-            InitComponent();
+            OnInit();
 
             ExecuteTriggers(TriggerEvents.Init);
+
+            OnInitCompleted();
 
             OnVerify();
         }
 
         protected virtual void OnInit()
+        {
+        }
+
+        protected virtual void OnInitCompleted()
+        {
+        }
+
+        protected virtual void OnVerify()
         {
         }
 
@@ -88,10 +95,6 @@ namespace Atata
             {
                 Go.ToUrl(attribute?.Url);
             }
-        }
-
-        protected virtual void OnVerify()
-        {
         }
 
         TOther IPageObject.GoTo<TOther>(TOther pageObject, GoOptions options)
