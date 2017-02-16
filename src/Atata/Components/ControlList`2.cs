@@ -87,6 +87,30 @@ namespace Atata
             return CreateItem(scopeLocator, name);
         }
 
+        public DataProvider<int, TOwner> IndexOf(Expression<Func<TItem, bool>> predicateExpression)
+        {
+            predicateExpression.CheckNotNull(nameof(predicateExpression));
+
+            string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
+
+            return Component.GetOrCreateDataProvider($"index of \"{itemName}\" {ItemDefinition.ComponentTypeName}", () =>
+            {
+                return IndexOf(itemName, predicateExpression);
+            });
+        }
+
+        protected virtual int IndexOf(string name, Expression<Func<TItem, bool>> predicateExpression)
+        {
+            By itemBy = CreateItemBy();
+            var predicate = predicateExpression.Compile();
+
+            return Component.Scope.GetAll(itemBy.SafelyAtOnce()).
+                Select((element, index) => new { Element = element, Index = index }).
+                Where(x => predicate(CreateItem(new DefinedScopeLocator(x.Element), name))).
+                Select(x => (int?)x.Index).
+                FirstOrDefault() ?? -1;
+        }
+
         protected virtual By CreateItemBy()
         {
             return By.XPath($".//{ItemDefinition.ScopeXPath}").OfKind(ItemDefinition.ComponentTypeName);
