@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 
 namespace Atata.Tests
 {
@@ -27,6 +28,7 @@ namespace Atata.Tests
                     x.Should.Exist();
                     x.Content.Should.Contain("Jameson");
                 }).
+                SimpleTable.Rows.IndexOf(x => x.Content == "Sam Jackson").Should.Equal(3).
                 SimpleTable.Rows["Jack", "Jameson"].Should.Exist().
                 SimpleTable.Rows.Should.ContainHavingContent(TermMatch.Contains, "Jameson").
                 SimpleTable.Rows["Jack Jameson"].Should.Not.Exist().
@@ -48,6 +50,8 @@ namespace Atata.Tests
                     x.Should.Exist();
                     x.LastName.Should.Equal("Jameson");
                 }).
+                ComplexTable.Rows.IndexOf(r => r.FirstName == "Jack" && r.LastName == "Jameson").Should.Equal(2).
+                ComplexTable.Rows.IndexOf(r => r.FirstName == "Unknown").Should.Equal(-1).
                 ComplexTable.Rows[r => r.FirstName == "Jack" && r.LastName == "Jameson"].Should.Exist().
                 ComplexTable.Rows.Should.Contain(r => r.FirstName == "Jack" && r.LastName == "Jameson").
                 ComplexTable.Rows.Should.Not.Contain(r => r.FirstName == "Jason").
@@ -74,6 +78,8 @@ namespace Atata.Tests
                 CountryTable.Should.Exist().
                 CountryTable.Rows.Count.Should.Equal(3).
                 CountryTable.Rows[0].Capital.Should.Equal("London").
+                CountryTable.Rows.IndexOf(r => r.Capital.Value.StartsWith("london", StringComparison.CurrentCultureIgnoreCase)).Should.Equal(0).
+                CountryTable.Rows.IndexOf(r => r.Capital == "Paris").Should.Equal(1).
                 Do(x => x.CountryTable.Rows[r => r.Capital == "Paris"], x =>
                 {
                     x.Should.Exist();
