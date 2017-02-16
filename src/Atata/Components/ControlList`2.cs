@@ -65,6 +65,10 @@ namespace Atata
             }
         }
 
+        /// <summary>
+        /// Gets the controls count.
+        /// </summary>
+        /// <returns>The count of controls.</returns>
         protected virtual int GetCount()
         {
             By itemBy = CreateItemBy();
@@ -97,6 +101,12 @@ namespace Atata
             return CreateItem(scopeLocator, name);
         }
 
+        /// <summary>
+        /// Searches for the item that matches the conditions defined by the specified predicate expression
+        /// and returns the zero-based index of the first occurrence.
+        /// </summary>
+        /// <param name="predicateExpression">The predicate expression to test each item.</param>
+        /// <returns>The zero-based index of the first occurrence of item, if found; otherwise, –1.</returns>
         public DataProvider<int, TOwner> IndexOf(Expression<Func<TItem, bool>> predicateExpression)
         {
             predicateExpression.CheckNotNull(nameof(predicateExpression));
