@@ -240,6 +240,7 @@ namespace Atata
 
         public TOwner Do<TComponent>(Func<TOwner, TComponent> childControlGetter, Action<TComponent> action)
         {
+            childControlGetter.CheckNotNull(nameof(childControlGetter));
             action.CheckNotNull(nameof(action));
 
             TComponent component = childControlGetter((TOwner)this);
@@ -247,6 +248,17 @@ namespace Atata
             action(component);
 
             return (TOwner)this;
+        }
+
+        public TNavigateTo Do<TComponent, TNavigateTo>(Func<TOwner, TComponent> childControlGetter, Func<TComponent, TNavigateTo> navigationAction)
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            childControlGetter.CheckNotNull(nameof(childControlGetter));
+            navigationAction.CheckNotNull(nameof(navigationAction));
+
+            TComponent component = childControlGetter((TOwner)this);
+
+            return navigationAction(component);
         }
 
         public TOwner Do(Action<TOwner> action)
