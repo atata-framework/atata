@@ -33,6 +33,11 @@ namespace Atata
 
         IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Value => GetAll();
 
+        /// <summary>
+        /// Gets the item at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index of the item to get.</param>
+        /// <returns>The item at the specified index.</returns>
         public TItem this[int index]
         {
             get
@@ -43,6 +48,11 @@ namespace Atata
             }
         }
 
+        /// <summary>
+        /// Gets the item that matches the conditions defined by the specified predicate expression.
+        /// </summary>
+        /// <param name="predicateExpression">The predicate expression to test each item.</param>
+        /// <returns>The first item that matches the conditions of the specified predicate.</returns>
         public TItem this[Expression<Func<TItem, bool>> predicateExpression]
         {
             get
