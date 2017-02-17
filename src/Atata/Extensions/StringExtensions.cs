@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace Atata
@@ -9,6 +10,16 @@ namespace Atata
         internal static string FormatWith(this string format, params object[] args)
         {
             return string.Format(format, args);
+        }
+
+        public static string Prepend(this string value, string valueToPrepend)
+        {
+            return string.Concat(valueToPrepend, value);
+        }
+
+        public static string Append(this string value, string valueToAppend)
+        {
+            return string.Concat(value, valueToAppend);
         }
 
         public static bool IsUpper(this string value)
@@ -87,6 +98,26 @@ namespace Atata
             endWord();
 
             return words.ToArray();
+        }
+
+        public static string Sanitize(this string value, IEnumerable<char> invalidChars, string replaceWith = null)
+        {
+            invalidChars.CheckNotNull(nameof(invalidChars));
+
+            if (string.IsNullOrEmpty(value))
+                return value;
+
+            return invalidChars.Aggregate(value, (current, c) => current.Replace(c.ToString(), replaceWith));
+        }
+
+        public static string SanitizeForFileName(this string value, string replaceWith = null)
+        {
+            return value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
+        }
+
+        public static string SanitizeForPath(this string value, string replaceWith = null)
+        {
+            return value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
         }
     }
 }
