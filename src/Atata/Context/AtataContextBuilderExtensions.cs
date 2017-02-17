@@ -121,7 +121,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Defines that an error occured during the NUnit test execution should be added to the log upon the clean up.
+        /// Defines that an error occured during the NUnit test execution should be added to the log during the cleanup.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -129,20 +129,47 @@ namespace Atata
         {
             return builder.OnCleanUp(() =>
             {
-                dynamic testContext = GetNUnitTestContext();
-                var testResult = testContext.Result;
+                dynamic testResult = GetNUnitTestResult();
 
-                if ((bool)testResult.Outcome.Status.ToString().Contains("Fail"))
+                if (IsNUnitTestResultFailed(testResult))
                     AtataContext.Current.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
             });
         }
 
-        private static object GetNUnitTestContext()
+        /// <summary>
+        /// Defines that an error occured during the NUnit test execution should be captured by a screenshot during the cleanup.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="title">The screenshot title.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public static AtataContextBuilder TakeScreenshotOnNUnitError(this AtataContextBuilder builder, string title = "Failed")
+        {
+            return builder.OnCleanUp(() =>
+            {
+                dynamic testResult = GetNUnitTestResult();
+
+                if (IsNUnitTestResultFailed(testResult))
+                    AtataContext.Current.Log.Screenshot(title);
+            });
+        }
+
+        private static dynamic GetNUnitTestContext()
         {
             Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
             PropertyInfo currentContextProperty = testContextType.GetPropertyWithThrowOnError("CurrentContext");
 
             return currentContextProperty.GetStaticValue();
+        }
+
+        private static dynamic GetNUnitTestResult()
+        {
+            dynamic testContext = GetNUnitTestContext();
+            return testContext.Result;
+        }
+
+        private static bool IsNUnitTestResultFailed(dynamic testResult)
+        {
+            return testResult.Outcome.Status.ToString().Contains("Fail");
         }
 
         /// <summary>

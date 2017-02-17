@@ -128,7 +128,7 @@ namespace Atata
 
             TimeSpan cleanTestExecutionTime = DateTime.Now - CleanExecutionStartDateTime;
 
-            Log.Start("Clean-up test context");
+            Log.Start("Clean up test context");
 
             if (quitDriver)
                 Driver.Quit();
@@ -142,7 +142,7 @@ namespace Atata
 
             TimeSpan testExecutionTime = DateTime.Now - TestStart;
             Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
-            Log.InfoWithExecutionTime("Сlean test execution time: ", cleanTestExecutionTime);
+            Log.InfoWithExecutionTime("Pure test execution time: ", cleanTestExecutionTime);
 
             Log = null;
 
@@ -168,7 +168,7 @@ namespace Atata
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Clean-up action failure.", e);
+                    Log.Error("Clean up action failure.", e);
                 }
             }
         }

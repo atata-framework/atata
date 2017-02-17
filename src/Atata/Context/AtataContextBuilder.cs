@@ -104,7 +104,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds the action to perform on <see cref="AtataContext"/> clean up.
+        /// Adds the action to perform during <see cref="AtataContext"/> cleanup.
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
