@@ -214,25 +214,37 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the <see cref="FileScreenshotConsumer"/> instance for the screenshot saving to file.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder)
+        {
+            return builder.AddScreenshotConsumer(new FileScreenshotConsumer());
+        }
+
+        /// <summary>
         /// Adds the <see cref="FileScreenshotConsumer"/> instance with the specified folder path.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="folderPath">The folder path.</param>
         /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        [Obsolete("Use AddScreenshotFileSaving().WithFolder(() => folderPath) instead.")]
         public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, string folderPath)
         {
-            return builder.AddScreenshotConsumer(new FileScreenshotConsumer(folderPath));
+            return builder.AddScreenshotConsumer(new FileScreenshotConsumer { FolderPathBuilder = () => folderPath });
         }
 
         /// <summary>
-        /// Adds the <see cref="FileScreenshotConsumer"/> instance with the specified folder path creator.
+        /// Adds the <see cref="FileScreenshotConsumer"/> instance with the specified folder path builder.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="folderPathCreator">The folder path creator.</param>
+        /// <param name="folderPathBuilder">The folder path builder.</param>
         /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathCreator)
+        [Obsolete("Use AddScreenshotFileSaving().WithFolder(folderPathBuilder) instead.")]
+        public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathBuilder)
         {
-            return builder.AddScreenshotConsumer(new FileScreenshotConsumer(folderPathCreator));
+            return builder.AddScreenshotConsumer(new FileScreenshotConsumer { FolderPathBuilder = folderPathBuilder });
         }
 
         /// <summary>
@@ -244,6 +256,42 @@ namespace Atata
         public static AtataContextBuilder<FileScreenshotConsumer> With(this AtataContextBuilder<FileScreenshotConsumer> builder, ImageFormat imageFormat)
         {
             builder.Context.ImageFormat = imageFormat;
+            return builder;
+        }
+
+        /// <summary>
+        /// Specifies the folder path builder of the log consumer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="folderPathBuilder">The folder path builder function.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<FileScreenshotConsumer> WithFolderPath(this AtataContextBuilder<FileScreenshotConsumer> builder, Func<string> folderPathBuilder)
+        {
+            builder.Context.FolderPathBuilder = folderPathBuilder;
+            return builder;
+        }
+
+        /// <summary>
+        /// Specifies the file name builder of the log consumer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="fileNameBuilder">The file name builder function that takes an instance of <see cref="ScreenshotInfo"/>.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<FileScreenshotConsumer> WithFileName(this AtataContextBuilder<FileScreenshotConsumer> builder, Func<ScreenshotInfo, string> fileNameBuilder)
+        {
+            builder.Context.FileNameBuilder = fileNameBuilder;
+            return builder;
+        }
+
+        /// <summary>
+        /// Specifies the file path builder of the log consumer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="filePathBuilder">The file path builder function that takes an instance of <see cref="ScreenshotInfo"/>.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<FileScreenshotConsumer> WithFilePath(this AtataContextBuilder<FileScreenshotConsumer> builder, Func<ScreenshotInfo, string> filePathBuilder)
+        {
+            builder.Context.FilePathBuilder = filePathBuilder;
             return builder;
         }
 

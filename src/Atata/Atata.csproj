@@ -72,7 +72,9 @@
     <Compile Include="Attributes\Triggers\InvokeDelegateAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
     <Compile Include="Components\Fields\Content\Label`1.cs" />
+    <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="IPropertySettings.cs" />
+    <Compile Include="Logging\FileScreenshotConsumerBase.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />

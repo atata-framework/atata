@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 
 namespace Atata
 {
@@ -9,85 +7,35 @@ namespace Atata
     /// Represents the screenshot consumer that saves the screenshot to the file.
     /// </summary>
     /// <seealso cref="Atata.IScreenshotConsumer" />
-    public class FileScreenshotConsumer : IScreenshotConsumer
+    public class FileScreenshotConsumer : FileScreenshotConsumerBase
     {
-        private readonly Func<string> folderPathCreator;
+        public Func<string> FolderPathBuilder { get; set; }
 
-        private string folderPath;
-        private bool isInitialized;
+        public Func<ScreenshotInfo, string> FileNameBuilder { get; set; }
 
-        public FileScreenshotConsumer(string folderPath)
-        {
-            this.folderPath = folderPath;
-        }
-
-        public FileScreenshotConsumer(Func<string> folderPathCreator)
-        {
-            this.folderPathCreator = folderPathCreator;
-        }
+        public Func<ScreenshotInfo, string> FilePathBuilder { get; set; }
 
         /// <summary>
-        /// Gets or sets the image format. The default format is Png.
-        /// </summary>
-        public ImageFormat ImageFormat { get; set; } = ImageFormat.Png;
-
-        protected static string SanitizeFileName(string name)
-        {
-            return Path.GetInvalidFileNameChars().Aggregate(name, (current, c) => current.Replace(c.ToString(), string.Empty));
-        }
-
-        private static string GetImageFormatExtension(ImageFormat format)
-        {
-            return ImageCodecInfo.GetImageEncoders().
-                First(x => x.FormatID == format.Guid).
-                FilenameExtension.
-                Split(';').
-                First().
-                TrimStart('*').
-                ToLower();
-        }
-
-        private void Initialize()
-        {
-            if (folderPathCreator != null)
-                folderPath = folderPathCreator();
-
-            if (!Path.IsPathRooted(folderPath))
-                folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, folderPath);
-
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
-
-            isInitialized = true;
-        }
-
-        /// <summary>
-        /// Takes the specified screenshot.
+        /// Builds the path of the file without the extension.
         /// </summary>
         /// <param name="screenshotInfo">The screenshot information.</param>
-        public void Take(ScreenshotInfo screenshotInfo)
+        /// <returns>The file path without the extension.</returns>
+        protected override string BuildFilePath(ScreenshotInfo screenshotInfo)
         {
-            if (!isInitialized)
-                Initialize();
+            if (FilePathBuilder != null)
+                return FilePathBuilder(screenshotInfo);
 
-            string fileName = string.Concat(BuildFileName(screenshotInfo), GetImageFormatExtension(ImageFormat));
-            string filePath = Path.Combine(folderPath, fileName);
+            string folderPath = FolderPathBuilder?.Invoke()
+                ?? $@"Logs\{AtataContext.BuildStart:yyyy-MM-dd HH_mm_ss}\{AtataContext.Current.TestName}";
 
-            screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
-        }
+            folderPath = folderPath.SanitizeForPath();
 
-        /// <summary>
-        /// Builds the name of the file without the extension.
-        /// </summary>
-        /// <param name="screenshotInfo">The screenshot information.</param>
-        /// <returns>The file name without the extension.</returns>
-        protected virtual string BuildFileName(ScreenshotInfo screenshotInfo)
-        {
-            string fileName = $"{screenshotInfo.Number:D2} - {SanitizeFileName(screenshotInfo.PageObjectFullName)}";
+            string fileName = FileNameBuilder?.Invoke(screenshotInfo)
+                ?? $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectFullName}{screenshotInfo.Title?.Prepend(" - ")}";
 
-            return string.IsNullOrWhiteSpace(screenshotInfo.Title)
-                ? fileName
-                : string.Concat(fileName, $" - {SanitizeFileName(screenshotInfo.Title)}");
+            fileName = fileName.SanitizeForFileName();
+
+            return Path.Combine(folderPath, fileName);
         }
     }
 }
