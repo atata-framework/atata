@@ -197,6 +197,7 @@ namespace Atata
                     Number = screenshotNumber,
                     Title = title,
                     PageObjectName = AtataContext.Current.PageObject.ComponentName,
+                    PageObjectTypeName = AtataContext.Current.PageObject.ComponentTypeName,
                     PageObjectFullName = AtataContext.Current.PageObject.ComponentFullName
                 };
 

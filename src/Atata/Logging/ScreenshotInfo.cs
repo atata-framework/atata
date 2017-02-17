@@ -28,6 +28,11 @@ namespace Atata
         public string PageObjectName { get; internal set; }
 
         /// <summary>
+        /// Gets the type name of the page object that was shot.
+        /// </summary>
+        public string PageObjectTypeName { get; internal set; }
+
+        /// <summary>
         /// Gets the full name of the page object that was shot.
         /// </summary>
         public string PageObjectFullName { get; internal set; }
