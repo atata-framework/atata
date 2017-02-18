@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Drawing.Imaging;
 using System.IO;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -9,7 +9,7 @@ namespace Atata
         /// <summary>
         /// Gets or sets the image format. The default format is Png.
         /// </summary>
-        public ImageFormat ImageFormat { get; set; } = ImageFormat.Png;
+        public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
 
         /// <summary>
         /// Takes the specified screenshot.

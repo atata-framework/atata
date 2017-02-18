@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -253,7 +254,20 @@ namespace Atata
         /// <param name="builder">The builder.</param>
         /// <param name="imageFormat">The image format.</param>
         /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        [Obsolete("Use With(ScreenshotImageFormat imageFormat) instead.")]
         public static AtataContextBuilder<FileScreenshotConsumer> With(this AtataContextBuilder<FileScreenshotConsumer> builder, ImageFormat imageFormat)
+        {
+            builder.Context.ImageFormat = imageFormat.ToScreenshotImageFormat();
+            return builder;
+        }
+
+        /// <summary>
+        /// Specifies the image format of the log consumer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="imageFormat">The image format.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<FileScreenshotConsumer> With(this AtataContextBuilder<FileScreenshotConsumer> builder, ScreenshotImageFormat imageFormat)
         {
             builder.Context.ImageFormat = imageFormat;
             return builder;

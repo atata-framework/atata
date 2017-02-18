@@ -73,6 +73,7 @@
     <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
     <Compile Include="Components\Fields\Content\Label`1.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
+    <Compile Include="Extensions\ScreenshotImageFormatExtensions.cs" />
     <Compile Include="IPropertySettings.cs" />
     <Compile Include="Logging\FileScreenshotConsumerBase.cs" />
     <Compile Include="PropertyBag.cs" />
