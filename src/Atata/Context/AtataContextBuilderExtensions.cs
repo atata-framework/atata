@@ -230,7 +230,7 @@ namespace Atata
         /// <param name="builder">The builder.</param>
         /// <param name="folderPath">The folder path.</param>
         /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        [Obsolete("Use AddScreenshotFileSaving().WithFolder(() => folderPath) instead.")]
+        [Obsolete("Use AddScreenshotFileSaving().WithFolderPath(() => folderPath) instead.")]
         public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, string folderPath)
         {
             return builder.AddScreenshotConsumer(new FileScreenshotConsumer { FolderPathBuilder = () => folderPath });
@@ -242,7 +242,7 @@ namespace Atata
         /// <param name="builder">The builder.</param>
         /// <param name="folderPathBuilder">The folder path builder.</param>
         /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        [Obsolete("Use AddScreenshotFileSaving().WithFolder(folderPathBuilder) instead.")]
+        [Obsolete("Use AddScreenshotFileSaving().WithFolderPath(folderPathBuilder) instead.")]
         public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathBuilder)
         {
             return builder.AddScreenshotConsumer(new FileScreenshotConsumer { FolderPathBuilder = folderPathBuilder });
