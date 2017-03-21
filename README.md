@@ -91,6 +91,13 @@ public void User_Create()
 
 Find out more on [Atata Docs](https://atata-framework.github.io/) and on [Getting Started](https://atata-framework.github.io/getting-started/) page in particular.
 
+## Articles
+
+You can also check the following articles:
+
+* [Atata - New Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework)
+* [Test Automation Using Atata: Verification of Web Pages](https://www.codeproject.com/Articles/1173435/Test-Automation-Using-Atata-Verification-of-Pages)
+
 ## License
 
 Atata is an open source software, licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
