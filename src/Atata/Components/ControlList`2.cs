@@ -23,6 +23,11 @@ namespace Atata
         /// </summary>
         public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} count", GetCount);
 
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls contents.
+        /// </summary>
+        public DataProvider<IEnumerable<string>, TOwner> Contents => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} contents", GetContents);
+
         UIComponent IDataProvider<IEnumerable<TItem>, TOwner>.Component => (UIComponent)Component;
 
         string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => $"{ItemDefinition.ComponentTypeName} list";
@@ -73,6 +78,15 @@ namespace Atata
         {
             By itemBy = CreateItemBy();
             return Component.Scope.GetAll(itemBy.AtOnce()).Count;
+        }
+
+        /// <summary>
+        /// Gets the controls contents.
+        /// </summary>
+        /// <returns>The contents of controls.</returns>
+        protected virtual IEnumerable<string> GetContents()
+        {
+            return GetAll().Select(x => (string)x.Content);
         }
 
         protected TItem GetItemByIndex(int index)
@@ -166,6 +180,15 @@ namespace Atata
             }
 
             return $"{number}{ending}";
+        }
+
+        public DataProvider<IEnumerable<TData>, TOwner> SelectData<TData>(Expression<Func<TItem, TData>> selector)
+        {
+            string dataPathName = ControlNameExpressionStringBuilder.ExpressionToString(selector);
+
+            return Component.GetOrCreateDataProvider(
+                $"\"{dataPathName}\" items",
+                () => GetAll().Select(selector.Compile()));
         }
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();

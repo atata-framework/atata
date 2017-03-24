@@ -32,7 +32,8 @@ namespace Atata.Tests
                 SimpleTable.Rows["Jack", "Jameson"].Should.Exist().
                 SimpleTable.Rows.Should.ContainHavingContent(TermMatch.Contains, "Jameson").
                 SimpleTable.Rows["Jack Jameson"].Should.Not.Exist().
-                SimpleTable.Rows.Should.Not.ContainHavingContent(TermMatch.Equals, "Jameson");
+                SimpleTable.Rows.Should.Not.ContainHavingContent(TermMatch.Equals, "Jameson").
+                SimpleTable.Rows.Contents.Should.Contain("John Smith");
         }
 
         [Test]
@@ -57,7 +58,8 @@ namespace Atata.Tests
                 ComplexTable.Rows.Should.Not.Contain(r => r.FirstName == "Jason").
                 ComplexTable.Rows[r => r.FirstName == "Jason"].Should.Not.Exist().
                 ComplexTable.Rows["Jack", "Jameson"].Should.Exist().
-                ComplexTable.Rows["Jack Jameson"].Should.Not.Exist();
+                ComplexTable.Rows["Jack Jameson"].Should.Not.Exist().
+                ComplexTable.Rows.SelectData(x => x.FirstName).Should.Contain("John", "Jane", "Jack");
         }
 
         [Test]
