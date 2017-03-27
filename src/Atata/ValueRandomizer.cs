@@ -28,14 +28,14 @@ namespace Atata
 
         public static void RegisterRandomizer<T>(Func<UIComponentMetadata, T> randomizeFunction)
         {
-            randomizeFunction.CheckNotNull("randomizeFunction");
+            randomizeFunction.CheckNotNull(nameof(randomizeFunction));
 
-            Randomizers[typeof(T)] = m => randomizeFunction(m);
+            Randomizers[typeof(T)] = md => randomizeFunction(md);
         }
 
         private static void RegisterNumberRandomizer<T>()
         {
-            Randomizers[typeof(T)] = m => RandomizeNumber<T>(m);
+            Randomizers[typeof(T)] = md => RandomizeNumber<T>(md);
         }
 
         private static string RandomizeString(UIComponentMetadata metadata)
@@ -66,13 +66,15 @@ namespace Atata
 
         public static T GetRandom<T>(UIComponentMetadata metadata)
         {
-            Type type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+            Type type = typeof(T);
+            type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+
             RandomizeFunc randomizeFunction;
 
             if (Randomizers.TryGetValue(type, out randomizeFunction))
                 return (T)randomizeFunction(metadata);
             else
-                throw new InvalidOperationException("Cannot get random value for '{0}' type. There is no registered randomizer for this type.".FormatWith(typeof(T).FullName));
+                throw new InvalidOperationException($"Cannot get random value for '{type.FullName}' type. There is no registered randomizer for this type. Use {nameof(ValueRandomizer)}.{nameof(RegisterRandomizer)} method to register custom randomizer.");
         }
     }
 }
