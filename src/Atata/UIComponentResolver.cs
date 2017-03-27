@@ -306,16 +306,16 @@ namespace Atata
             }
 
             FindByLabelAttribute findByLabelAttribute = findAttribute as FindByLabelAttribute;
-            if (findByLabelAttribute != null)
+            if (findByLabelAttribute != null && findByLabelAttribute.Match == TermMatch.Equals)
             {
-                if (findByLabelAttribute.Values != null && findByLabelAttribute.Values.Any())
+                if (findByLabelAttribute.Values?.Any() ?? false)
                 {
                     return string.Join("/", findByLabelAttribute.Values);
                 }
                 else
                 {
                     TermAttribute termAttribute = metadata.Get<TermAttribute>(AttributeLevels.Declared);
-                    if (termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any())
+                    if (termAttribute?.Values?.Any() ?? false)
                         return string.Join("/", termAttribute.Values);
                 }
             }
