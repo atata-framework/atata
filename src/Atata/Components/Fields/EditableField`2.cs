@@ -44,14 +44,19 @@
 
         public TOwner SetRandom()
         {
-            T value = ValueRandomizer.GetRandom<T>(Metadata);
+            T value = GenerateRandomValue();
             return Set(value);
         }
 
         public TOwner SetRandom(out T value)
         {
-            value = ValueRandomizer.GetRandom<T>(Metadata);
+            value = GenerateRandomValue();
             return Set(value);
+        }
+
+        protected virtual T GenerateRandomValue()
+        {
+            return ValueRandomizer.GetRandom<T>(Metadata);
         }
     }
 }
