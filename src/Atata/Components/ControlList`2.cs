@@ -30,7 +30,9 @@ namespace Atata
 
         UIComponent IDataProvider<IEnumerable<TItem>, TOwner>.Component => (UIComponent)Component;
 
-        string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => $"{ItemDefinition.ComponentTypeName} list";
+        protected string ProviderName => $"{ItemDefinition.ComponentTypeName} list";
+
+        string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => ProviderName;
 
         TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
@@ -187,7 +189,7 @@ namespace Atata
             string dataPathName = ControlNameExpressionStringBuilder.ExpressionToString(selector);
 
             return Component.GetOrCreateDataProvider(
-                $"\"{dataPathName}\" items",
+                $"\"{dataPathName}\" {ProviderName}",
                 () => GetAll().Select(selector.Compile()));
         }
 
