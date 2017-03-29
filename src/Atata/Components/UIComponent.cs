@@ -126,7 +126,7 @@ namespace Atata
             IWebElement scope = GetScopeElement(SearchOptions.SafelyAtOnce());
 
             if (scope != null)
-                builder.AppendLine().Append(scope.ToString());
+                builder.AppendLine().Append(scope.ToDetailedString());
 
             return builder.ToString();
         }
