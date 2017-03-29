@@ -41,6 +41,36 @@ namespace Atata
             return should.Owner;
         }
 
+        public static TOwner Satisfy<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, Predicate<IEnumerable<TData>> predicate, string message, params TData[] args)
+            where TOwner : PageObject<TOwner>
+        {
+            should.CheckNotNull(nameof(should));
+            predicate.CheckNotNull(nameof(predicate));
+
+            string expectedMessage = (args != null && args.Any()) ? message?.FormatWith(CollectionToString(args)) : message;
+            string verificationConstraintMessage = $"{should.GetShouldText()} {expectedMessage}";
+
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
+
+            IEnumerable<TData> actual = null;
+
+            bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
+                _ =>
+                {
+                    actual = should.DataProvider.Value.Select(x => x.Value).ToArray();
+                    return predicate(actual) != should.IsNegation;
+                },
+                should.Timeout,
+                should.RetryInterval);
+
+            if (!doesSatisfy)
+                throw should.CreateAssertionException(expectedMessage, CollectionToString(actual));
+
+            AtataContext.Current.Log.EndSection();
+
+            return should.Owner;
+        }
+
         private static string BuildVerificationConstraintMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string message, params TData[] args)
             where TOwner : PageObject<TOwner>
         {
@@ -395,7 +425,7 @@ namespace Atata
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
-                actual => actual != null && actual.Select(x => x.Value).Intersect(expected).Count() == expected.Count(),
+                actual => actual != null && actual.Intersect(expected).Count() == expected.Count(),
                 $"contain {CollectionToString(expected)}");
         }
 
