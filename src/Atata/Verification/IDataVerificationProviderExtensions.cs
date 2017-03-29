@@ -419,7 +419,9 @@ namespace Atata
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
-                actual => actual != null && actual.Intersect(expected).Count() == expected.Count(),
+                actual => actual != null && should.IsNegation
+                    ? actual.Intersect(expected).Count() > 0
+                    : actual.Intersect(expected).Count() == expected.Count(),
                 $"contain {CollectionToString(expected)}");
         }
 
@@ -429,7 +431,9 @@ namespace Atata
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
-                actual => actual != null && actual.Intersect(expected).Count() == expected.Count(),
+                actual => actual != null && should.IsNegation
+                    ? actual.Intersect(expected).Count() > 0
+                    : actual.Intersect(expected).Count() == expected.Count(),
                 $"contain {CollectionToString(expected)}");
         }
 
@@ -439,7 +443,9 @@ namespace Atata
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
-                actual => actual != null && expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
+                actual => actual != null && should.IsNegation
+                    ? expected.Any(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
+                    : expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {CollectionToString(expected)}");
         }
 
@@ -449,7 +455,9 @@ namespace Atata
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
-                actual => actual != null && expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
+                actual => actual != null && should.IsNegation
+                    ? expected.Any(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
+                    : expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {CollectionToString(expected)}");
         }
 
@@ -478,7 +486,9 @@ namespace Atata
                         return false;
 
                     var actualValues = actual.Select(x => x.Content.Value).ToArray();
-                    return expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
+                    return should.IsNegation
+                        ? expected.Any(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
+                        : expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
                 },
                 $"contain having content that {match.ToString(TermCase.MidSentence)} {CollectionToString(expected)}");
         }
