@@ -91,6 +91,7 @@
     <Compile Include="InputTest.cs" />
     <Compile Include="LabelTest.cs" />
     <Compile Include="NUnitSettings.cs" />
+    <Compile Include="ShouldTest.cs" />
     <Compile Include="StringListLogConsumer.cs" />
     <Compile Include="TriggerTest.cs" />
     <Compile Include="MessageBoxTest.cs" />
