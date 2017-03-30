@@ -23,7 +23,7 @@ namespace Atata.Tests
             return new StopwatchAsserter(time, toleranceTime);
         }
 
-        public static StopwatchAsserter Within(double seconds, double toleranceSeconds = 0.4)
+        public static StopwatchAsserter Within(double seconds, double toleranceSeconds = 0.8)
         {
             return new StopwatchAsserter(TimeSpan.FromSeconds(seconds), TimeSpan.FromSeconds(toleranceSeconds));
         }
