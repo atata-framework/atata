@@ -68,5 +68,75 @@ namespace Atata.Tests
             Assert.Throws<AssertionException>(() =>
                 should.Not.Contain(Country3Name, Country1Name, Country2Name));
         }
+
+        [Test]
+        public void Should_ContainHavingContent()
+        {
+            var should = Go.To<TablePage>().
+                CountryTable.Rows.SelectData(x => x.Country).Should.AtOnce;
+
+            should.ContainHavingContent(TermMatch.Equals, Country1Name, Country2Name, Country3Name);
+            should.ContainHavingContent(TermMatch.StartsWith, Country2Name, Country1Name);
+            should.ContainHavingContent(TermMatch.Contains, "a", "e");
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainHavingContent(TermMatch.Equals, Country1Name, MissingCountryName));
+            Assert.Throws<AssertionException>(() =>
+                should.ContainHavingContent(TermMatch.Contains, "a", "v"));
+
+            should.Not.ContainHavingContent(TermMatch.Contains, MissingCountryName);
+            should.Not.ContainHavingContent(TermMatch.Contains, "v", "w");
+
+            Assert.Throws<AssertionException>(() =>
+                should.Not.ContainHavingContent(TermMatch.EndsWith, Country1Name, MissingCountryName));
+            Assert.Throws<AssertionException>(() =>
+                should.Not.ContainHavingContent(TermMatch.StartsWith, Country3Name, Country1Name, Country2Name));
+            Assert.Throws<AssertionException>(() =>
+                should.Not.ContainHavingContent(TermMatch.Contains, "a", "v"));
+        }
+
+        [Test]
+        public void Should_Contain_TermMatch()
+        {
+            var should = Go.To<TablePage>().
+                CountryTable.Rows.SelectData(x => x.Country).Should.AtOnce;
+
+            should.Contain(TermMatch.Equals, Country1Name, Country2Name, Country3Name);
+            should.Contain(TermMatch.StartsWith, Country2Name, Country1Name);
+            should.Contain(TermMatch.Contains, "a", "e");
+
+            Assert.Throws<AssertionException>(() =>
+                should.Contain(TermMatch.Equals, Country1Name, MissingCountryName));
+            Assert.Throws<AssertionException>(() =>
+                should.Contain(TermMatch.Contains, "a", "v"));
+
+            should.Not.Contain(TermMatch.Contains, MissingCountryName);
+            should.Not.Contain(TermMatch.Contains, "v", "w");
+
+            Assert.Throws<AssertionException>(() =>
+                should.Not.Contain(TermMatch.EndsWith, Country1Name, MissingCountryName));
+            Assert.Throws<AssertionException>(() =>
+                should.Not.Contain(TermMatch.StartsWith, Country3Name, Country1Name, Country2Name));
+            Assert.Throws<AssertionException>(() =>
+                should.Not.Contain(TermMatch.Contains, "a", "v"));
+        }
+
+        [Test]
+        public void Should_Contain_Predicate()
+        {
+            var should = Go.To<TablePage>().
+                CountryTable.Rows.SelectData(x => x.Country).Should.AtOnce;
+
+            should.Contain(x => x == Country1Name);
+            should.Contain(x => x.Value == MissingCountryName || x.Value == Country3Name);
+
+            Assert.Throws<AssertionException>(() =>
+                should.Contain(x => x == MissingCountryName));
+
+            should.Not.Contain(x => x == MissingCountryName);
+
+            Assert.Throws<AssertionException>(() =>
+                should.Not.Contain(x => x == Country1Name));
+        }
     }
 }
