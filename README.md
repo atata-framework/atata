@@ -97,6 +97,7 @@ You can also check the following articles:
 
 * [Atata - New Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework)
 * [Test Automation Using Atata: Verification of Web Pages](https://www.codeproject.com/Articles/1173435/Test-Automation-Using-Atata-Verification-of-Pages)
+* [Test Automation Using Atata: Verification of Validation Messages](https://www.codeproject.com/Articles/1177317/Test-Automation-Using-Atata-Validation-Messages)
 
 ## License
 
