@@ -10,13 +10,11 @@ namespace Atata
         public UIComponentMetadata(
             string name,
             Type componentType,
-            Type parentComponentType,
-            UIComponentDefinitionAttribute componentDefinitonAttribute)
+            Type parentComponentType)
         {
             Name = name;
             ComponentType = componentType;
             ParentComponentType = parentComponentType;
-            ComponentDefinitonAttribute = componentDefinitonAttribute;
         }
 
         public string Name { get; private set; }
@@ -25,7 +23,7 @@ namespace Atata
 
         public Type ParentComponentType { get; private set; }
 
-        public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; private set; }
+        public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }
 
         internal List<Attribute> DeclaredAttributesList { get; set; }
 

@@ -139,7 +139,7 @@ namespace Atata
         private static void InitControlProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
             where TOwner : PageObject<TOwner>
         {
-            UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(property);
+            UIComponentMetadata metadata = CreateStaticControlMetadata<TOwner>(property);
 
             UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
             parentComponent.Controls.Add(component);
@@ -154,7 +154,7 @@ namespace Atata
 
             if (controlType != null)
             {
-                UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(property, controlType);
+                UIComponentMetadata metadata = CreateStaticControlMetadata<TOwner>(property, controlType);
 
                 UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
                 parentComponent.Controls.Add(component);
@@ -210,7 +210,15 @@ namespace Atata
             return null;
         }
 
+        [Obsolete("Use CreateControl(...) instead.")]
         public static TComponent CreateComponent<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            return CreateControl<TComponent, TOwner>(parentComponent, name, attributes);
+        }
+
+        public static TComponent CreateControl<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
@@ -228,8 +236,7 @@ namespace Atata
                 name,
                 typeof(TComponent),
                 parentComponent.GetType(),
-                attributes,
-                GetControlDefinition(typeof(TComponent)));
+                attributes);
 
             var component = (TComponent)CreateComponent<TOwner>(parentComponent, metadata);
 
@@ -260,7 +267,7 @@ namespace Atata
 
             InitComponentLocator(component, metadata, findAttribute);
             component.ComponentName = ResolveControlName(metadata, findAttribute);
-            component.ComponentTypeName = ResolveControlTypeName(component.GetType());
+            component.ComponentTypeName = ResolveControlTypeName(metadata);
             component.CacheScopeElement = false;
             InitControlTriggers(component, metadata);
 
@@ -334,32 +341,25 @@ namespace Atata
                 type.Name,
                 type,
                 null,
-                new Attribute[0],
-                GetPageObjectDefinition(type));
+                new Attribute[0]);
         }
 
-        private static UIComponentMetadata CreateComponentMetadata<TOwner>(PropertyInfo property, Type propertyType = null)
+        private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(PropertyInfo property, Type propertyType = null)
         {
             return CreateComponentMetadata<TOwner>(
                 property.Name,
                 propertyType ?? property.PropertyType,
                 property.DeclaringType,
-                GetPropertyAttributes(property),
-                GetControlDefinition(propertyType ?? property.PropertyType));
+                GetPropertyAttributes(property));
         }
 
         private static UIComponentMetadata CreateComponentMetadata<TOwner>(
             string name,
             Type componentType,
             Type parentComponentType,
-            Attribute[] declaredAttributes,
-            UIComponentDefinitionAttribute componentDefinitonAttribute)
+            Attribute[] declaredAttributes)
         {
-            return new UIComponentMetadata(
-                name,
-                componentType,
-                parentComponentType,
-                componentDefinitonAttribute)
+            UIComponentMetadata metadata = new UIComponentMetadata(name, componentType, parentComponentType)
             {
                 DeclaredAttributesList = declaredAttributes.ToList(),
                 ParentComponentAttributesList = GetClassAttributes(parentComponentType).ToList(),
@@ -367,6 +367,13 @@ namespace Atata
                 GlobalAttributesList = new List<Attribute>(),
                 ComponentAttributesList = GetClassAttributes(componentType).ToList()
             };
+
+            if (parentComponentType == null)
+                metadata.ComponentDefinitonAttribute = GetPageObjectDefinition(metadata);
+            else
+                metadata.ComponentDefinitonAttribute = GetControlDefinition(metadata);
+
+            return metadata;
         }
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
@@ -435,7 +442,7 @@ namespace Atata
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
                 Metadata = metadata,
-                ElementXPath = definition != null ? definition.ScopeXPath : "*",
+                ElementXPath = definition?.ScopeXPath ?? "*",
                 Index = index >= 0 ? (int?)index : null,
                 Visibility = findAttribute.Visibility
             };
@@ -556,7 +563,19 @@ namespace Atata
 
         public static string ResolveControlTypeName(Type type)
         {
-            return GetControlDefinition(type).ComponentTypeName ?? NormalizeTypeName(type).ToString(TermCase.Lower);
+            ControlDefinitionAttribute controlDefinitionAttribute = GetControlDefinition(type);
+            return ResolveControlTypeName(controlDefinitionAttribute, type);
+        }
+
+        public static string ResolveControlTypeName(UIComponentMetadata metadata)
+        {
+            ControlDefinitionAttribute controlDefinitionAttribute = GetControlDefinition(metadata);
+            return ResolveControlTypeName(controlDefinitionAttribute, metadata.ComponentType);
+        }
+
+        public static string ResolveControlTypeName(ControlDefinitionAttribute controlDefinitionAttribute, Type controlType)
+        {
+            return controlDefinitionAttribute.ComponentTypeName ?? NormalizeTypeName(controlType).ToString(TermCase.MidSentence);
         }
 
         public static string ResolveControlName<TControl, TOwner>(Expression<Func<TControl, bool>> predicateExpression)
@@ -579,9 +598,19 @@ namespace Atata
             return GetClassAttributes(type).OfType<ControlDefinitionAttribute>().FirstOrDefault() ?? new ControlDefinitionAttribute();
         }
 
-        private static PageObjectDefinitionAttribute GetPageObjectDefinition(Type type)
+        public static ControlDefinitionAttribute GetControlDefinition(UIComponentMetadata metadata)
+        {
+            return metadata.Get<ControlDefinitionAttribute>(AttributeLevels.Declared | AttributeLevels.Component) ?? new ControlDefinitionAttribute();
+        }
+
+        public static PageObjectDefinitionAttribute GetPageObjectDefinition(Type type)
         {
             return GetClassAttributes(type).OfType<PageObjectDefinitionAttribute>().FirstOrDefault() ?? new PageObjectDefinitionAttribute();
+        }
+
+        public static PageObjectDefinitionAttribute GetPageObjectDefinition(UIComponentMetadata metadata)
+        {
+            return metadata.Get<PageObjectDefinitionAttribute>(AttributeLevels.Declared | AttributeLevels.Component) ?? new PageObjectDefinitionAttribute();
         }
 
         internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)

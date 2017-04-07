@@ -468,6 +468,7 @@ namespace Atata
             predicateExpression.CheckNotNull(nameof(predicateExpression));
             var predicate = predicateExpression.Compile();
 
+            // TODO: Change code: UIComponentResolver.ResolveControlTypeName<TControl>().
             return should.Satisfy(
                 actual => actual != null && actual.Any(predicate),
                 $"contain \"{UIComponentResolver.ResolveControlName<TControl, TOwner>(predicateExpression)}\" {UIComponentResolver.ResolveControlTypeName<TControl>()}");

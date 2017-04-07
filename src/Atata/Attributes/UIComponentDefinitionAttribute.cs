@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
     public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute, IPropertySettings
     {
         protected UIComponentDefinitionAttribute(string scopeXPath = null)

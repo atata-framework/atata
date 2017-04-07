@@ -17,7 +17,7 @@ namespace Atata
         public TControl Create<TControl>(string name, params Attribute[] attributes)
             where TControl : Control<TOwner>
         {
-            return UIComponentResolver.CreateComponent<TControl, TOwner>(component, name, attributes);
+            return UIComponentResolver.CreateControl<TControl, TOwner>(component, name, attributes);
         }
 
         public TControl Create<TControl>(string name, IScopeLocator scopeLocator, params Attribute[] attributes)
