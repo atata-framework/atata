@@ -75,6 +75,7 @@
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="Extensions\ScreenshotImageFormatExtensions.cs" />
     <Compile Include="IPropertySettings.cs" />
+    <Compile Include="ISupportsDeclaredAttributes.cs" />
     <Compile Include="Logging\FileScreenshotConsumerBase.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />

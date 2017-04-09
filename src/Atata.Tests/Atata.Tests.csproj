@@ -78,6 +78,7 @@
     <Compile Include="Components\GoTo3Page.cs" />
     <Compile Include="Components\InputPage.cs" />
     <Compile Include="Components\LabelPage.cs" />
+    <Compile Include="Components\ListPage.cs" />
     <Compile Include="Components\MessageBoxPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
     <Compile Include="Components\SelectPage.cs" />

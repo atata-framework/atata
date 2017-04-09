@@ -94,6 +94,7 @@
   <ItemGroup>
     <Content Include="BasicControls.html" />
     <Content Include="Label.html" />
+    <Content Include="List.html" />
     <Content Include="Triggers.html" />
     <Content Include="GoTo2.html" />
     <Content Include="GoTo1.html" />

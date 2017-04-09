@@ -52,5 +52,17 @@ namespace Atata.Tests
                 IntegerItemsControl.Items[3].IsChecked.Should.BeFalse().
                 IntegerItemsControl.Items[1].Should.BeChecked();
         }
+
+        [Test]
+        public void ControlList_WithDeclaredAttributes()
+        {
+            Go.To<ListPage>().
+                ProductNameTextContolList[0].Should.Equal("Phone").
+                ProductNameTextContolList[1].Should.Equal("Book").
+                ProductNameTextContolList.Count.Should.Equal(3).
+                ProductNameTextContolList.Should.EqualSequence("Phone", "Book", "Table").
+                ProductPercentNumberContolList.Should.EqualSequence(0.05m, 0.10m, 0.15m).
+                ProductPercentNumberContolList[1].Should.Equal(0.10m);
+        }
     }
 }

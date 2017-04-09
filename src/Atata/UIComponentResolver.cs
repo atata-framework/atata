@@ -193,6 +193,11 @@ namespace Atata
         {
             UIComponentPart<TOwner> componentPart = (UIComponentPart<TOwner>)ActivatorEx.CreateInstance(property.PropertyType);
             componentPart.Component = parentComponent;
+
+            ISupportsDeclaredAttributes supportsDeclaredAttributes = componentPart as ISupportsDeclaredAttributes;
+            if (supportsDeclaredAttributes != null)
+                supportsDeclaredAttributes.DeclaredAttributes.AddRange(GetPropertyAttributes(property));
+
             property.SetValue(parentComponent, componentPart, null);
         }
 

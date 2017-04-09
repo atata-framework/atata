@@ -7,11 +7,17 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IDataProvider<IEnumerable<TItem>, TOwner>, IEnumerable<TItem>
+    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IDataProvider<IEnumerable<TItem>, TOwner>, IEnumerable<TItem>, ISupportsDeclaredAttributes
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected ControlDefinitionAttribute ItemDefinition { get; } = UIComponentResolver.GetControlDefinition(typeof(TItem));
+        private ControlDefinitionAttribute itemDefinition;
+
+        protected ControlDefinitionAttribute ItemDefinition => itemDefinition ?? (itemDefinition = ResolveItemDefinition());
+
+        protected internal List<Attribute> DeclaredAttributes { get; internal set; } = new List<Attribute>();
+
+        List<Attribute> ISupportsDeclaredAttributes.DeclaredAttributes => DeclaredAttributes;
 
         /// <summary>
         /// Gets the verification provider that gives a set of verification extension methods.
@@ -70,6 +76,12 @@ namespace Atata
 
                 return GetItem(itemName, predicateExpression);
             }
+        }
+
+        private ControlDefinitionAttribute ResolveItemDefinition()
+        {
+            ControlDefinitionAttribute definition = DeclaredAttributes?.OfType<ControlDefinitionAttribute>().FirstOrDefault();
+            return definition ?? UIComponentResolver.GetControlDefinition(typeof(TItem));
         }
 
         /// <summary>
@@ -154,7 +166,11 @@ namespace Atata
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
         {
-            return Component.Controls.Create<TItem>(name, attributes);
+            var itemAttributes = attributes != null
+                ? attributes.Concat(GetItemDeclaredAttributes())
+                : GetItemDeclaredAttributes();
+
+            return Component.Controls.Create<TItem>(name, itemAttributes.ToArray());
         }
 
         protected TItem CreateItem(IScopeLocator scopeLocator, string name)
@@ -163,6 +179,11 @@ namespace Atata
             item.ScopeLocator = scopeLocator;
 
             return item;
+        }
+
+        protected virtual IEnumerable<Attribute> GetItemDeclaredAttributes()
+        {
+            return DeclaredAttributes.Where(x => !(x is FindAttribute));
         }
 
         private string OrdinalizeNumber(int number)
