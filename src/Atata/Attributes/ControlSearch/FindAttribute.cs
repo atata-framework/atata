@@ -49,7 +49,7 @@ namespace Atata
                     nameof(Visibility),
                     Visibility.Visible,
                     findSettingsGetter,
-                    md => md.GetAll<ControlDefinitionAttribute>(AttributeLevels.Component));
+                    md => new[] { md.ComponentDefinitonAttribute });
             }
 
             set

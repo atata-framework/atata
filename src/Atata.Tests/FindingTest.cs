@@ -87,7 +87,9 @@ namespace Atata.Tests
                 CollapseInput.Should.Exist().
                 CollapseInput.Should.BeHidden().
                 TypeHiddenInput.Should.Exist().
-                TypeHiddenInput.Should.BeHidden();
+                TypeHiddenInput.Should.BeHidden().
+                TypeHiddenInputWithDeclaredDefinition.Should.Exist().
+                TypeHiddenInputWithDeclaredDefinition.Should.BeHidden();
 
             Assert.That(page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
         }
