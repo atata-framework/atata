@@ -91,6 +91,7 @@
     <Compile Include="GoTest.cs" />
     <Compile Include="InputTest.cs" />
     <Compile Include="LabelTest.cs" />
+    <Compile Include="ListTest.cs" />
     <Compile Include="NUnitSettings.cs" />
     <Compile Include="ShouldTest.cs" />
     <Compile Include="StringListLogConsumer.cs" />
