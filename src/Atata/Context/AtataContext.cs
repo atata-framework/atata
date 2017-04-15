@@ -130,13 +130,13 @@ namespace Atata
 
             Log.Start("Clean up test context");
 
-            if (quitDriver)
-                Driver.Quit();
-
             CleanUpTemporarilyPreservedPageObjectList();
 
             if (PageObject != null)
                 UIComponentResolver.CleanUpPageObject(PageObject);
+
+            if (quitDriver)
+                Driver.Quit();
 
             Log.EndSection();
 

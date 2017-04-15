@@ -26,9 +26,6 @@ namespace Atata.Tests
             Go.To<FrameInnerPage>().
                 Header.Should.Equal("Frame Inner").
                 TextInput.Should.Equal("abc");
-
-            // TODO: Remove this line. Test will fail.
-            Go.To<FramePage>(navigate: false);
         }
     }
 }
