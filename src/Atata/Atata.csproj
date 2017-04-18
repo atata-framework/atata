@@ -71,6 +71,7 @@
     <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
     <Compile Include="Attributes\Triggers\InvokeDelegateAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
+    <Compile Include="Attributes\Triggers\WaitForAngularJSAjaxAttribute.cs" />
     <Compile Include="Components\Fields\Content\Label`1.cs" />
     <Compile Include="Components\ListItem`1.cs" />
     <Compile Include="Components\OrderedList`2.cs" />
