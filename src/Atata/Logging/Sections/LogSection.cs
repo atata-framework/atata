@@ -4,10 +4,10 @@ namespace Atata
 {
     public class LogSection
     {
-        public LogSection(string message = null)
+        public LogSection(string message = null, LogLevel level = LogLevel.Info)
         {
             Message = message;
-            Level = LogLevel.Info;
+            Level = level;
         }
 
         public string Message { get; protected set; }

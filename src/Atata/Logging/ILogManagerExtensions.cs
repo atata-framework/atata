@@ -10,6 +10,11 @@ namespace Atata
             logger.Start(new LogSection(sectionMessage));
         }
 
+        public static void Start(this ILogManager logger, string sectionMessage, LogLevel level)
+        {
+            logger.Start(new LogSection(sectionMessage, level));
+        }
+
         public static void Error(this ILogManager logger, string message, string stackTrace)
         {
             StringBuilder builder = new StringBuilder(message).
