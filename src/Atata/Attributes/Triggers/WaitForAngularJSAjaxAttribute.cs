@@ -16,7 +16,7 @@ namespace Atata
         {
             context.Log.Start("Wait for AngularJS AJAX execution", LogLevel.Trace);
 
-            bool completed = context.Driver.Try().Until(
+            bool isCompleted = context.Driver.Try().Until(
                 x => (bool)context.Driver.ExecuteScript(@"
 try {
     if (document.readyState !== 'complete') {
@@ -27,8 +27,7 @@ try {
     
         var $rootScope = injector.get('$rootScope');
         var $http = injector.get('$http');
-        var $timeout = injector.get('$timeout');
-    
+
         if ($rootScope.$$phase === '$apply' || $rootScope.$$phase === '$digest' || $http.pendingRequests.length !== 0) {
             return false;
         }
@@ -39,7 +38,8 @@ try {
 }"));
 
             context.Log.EndSection();
-            if (!completed)
+
+            if (!isCompleted)
                 throw new TimeoutException("Timed out waiting for AngularJS AJAX call to complete.");
         }
     }
