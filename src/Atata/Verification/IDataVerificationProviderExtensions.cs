@@ -309,14 +309,14 @@ namespace Atata
             where TData : IComparable<TData>, IComparable
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual != null && (actual.CompareTo(from) >= 0 || actual.CompareTo(to) <= 0), "be in range {0} - {1}", from, to);
+            return should.Satisfy(actual => actual != null && actual.CompareTo(from) >= 0 && actual.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
         }
 
         public static TOwner BeInRange<TData, TOwner>(this IDataVerificationProvider<TData?, TOwner> should, TData from, TData to)
             where TData : struct, IComparable<TData>, IComparable
             where TOwner : PageObject<TOwner>
         {
-            return should.Satisfy(actual => actual != null && (actual.Value.CompareTo(from) >= 0 || actual.Value.CompareTo(to) <= 0), "be in range {0} - {1}", from, to);
+            return should.Satisfy(actual => actual != null && actual.Value.CompareTo(from) >= 0 && actual.Value.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
         }
 
         public static TOwner EqualDate<TOwner>(this IDataVerificationProvider<DateTime, TOwner> should, DateTime expected)
