@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Atata
 {
@@ -71,6 +70,15 @@ namespace Atata
             return value;
         }
 
+        internal static T CheckLessOrEqual<T>(this T value, string argumentName, T checkValue, string errorMessage = null)
+            where T : struct, IComparable<T>
+        {
+            if (value.CompareTo(checkValue) > 0)
+                throw new ArgumentOutOfRangeException(argumentName, value, ConcatMessage($"Invalid {typeof(T).FullName} value: {value}. Should be less or equal to: {checkValue}.", errorMessage));
+
+            return value;
+        }
+
         internal static int CheckIndexNonNegative(this int value)
         {
             if (value < 0)
@@ -81,12 +89,9 @@ namespace Atata
 
         private static string ConcatMessage(string primaryMessage, string secondaryMessage)
         {
-            StringBuilder builder = new StringBuilder(primaryMessage);
-
-            if (!string.IsNullOrEmpty(secondaryMessage))
-                builder.AppendFormat(" {0}", secondaryMessage);
-
-            return builder.ToString();
+            return string.IsNullOrEmpty(secondaryMessage)
+                ? primaryMessage
+                : $"{primaryMessage} {secondaryMessage}";
         }
     }
 }

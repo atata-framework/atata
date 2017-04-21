@@ -69,6 +69,9 @@
     <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\IFindItemAttribute.cs" />
     <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
+    <Compile Include="Attributes\Randomization\RandomizeCountAttribute.cs" />
+    <Compile Include="Attributes\Randomization\RandomizeExcludeAttribute.cs" />
+    <Compile Include="Attributes\Randomization\RandomizeIncludeAttribute.cs" />
     <Compile Include="Attributes\Triggers\InvokeDelegateAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForAngularJSAjaxAttribute.cs" />
@@ -173,7 +176,7 @@
     <Compile Include="Attributes\GoTemporarilyAttribute.cs" />
     <Compile Include="Attributes\NavigationPageObjectCreatorAttribute.cs" />
     <Compile Include="Attributes\ItemValueXPathAttribute.cs" />
-    <Compile Include="Attributes\RandomizeNumberSettingsAttribute.cs" />
+    <Compile Include="Attributes\Randomization\RandomizeNumberSettingsAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\ITermFindAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\ITermMatchFindAttribute.cs" />
     <Compile Include="Attributes\ValueXPathAttribute.cs" />
@@ -243,7 +246,7 @@
     <Compile Include="Attributes\ControlSearch\FindAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindByContentAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindByLabelAttribute.cs" />
-    <Compile Include="Attributes\RandomizeStringSettingsAttribute.cs" />
+    <Compile Include="Attributes\Randomization\RandomizeStringSettingsAttribute.cs" />
     <Compile Include="Attributes\IgnoreInitAttribute.cs" />
     <Compile Include="Attributes\FormatSettingsAttribute.cs" />
     <Compile Include="Attributes\UIComponentDefinitionAttribute.cs" />

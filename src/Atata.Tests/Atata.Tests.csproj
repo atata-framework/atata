@@ -83,6 +83,7 @@
     <Compile Include="Components\ListPage.cs" />
     <Compile Include="Components\MessageBoxPage.cs" />
     <Compile Include="Components\RadioButtonListPage.cs" />
+    <Compile Include="Components\RandomizationPage.cs" />
     <Compile Include="Components\SelectPage.cs" />
     <Compile Include="Components\TablePage.cs" />
     <Compile Include="Components\FindingPage.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="LabelTest.cs" />
     <Compile Include="ListTest.cs" />
     <Compile Include="NUnitSettings.cs" />
+    <Compile Include="RandomizationTest.cs" />
     <Compile Include="ShouldTest.cs" />
     <Compile Include="StringListLogConsumer.cs" />
     <Compile Include="TriggerTest.cs" />
