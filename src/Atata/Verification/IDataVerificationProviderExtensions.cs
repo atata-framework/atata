@@ -102,7 +102,7 @@ namespace Atata
             string errorMessage = new StringBuilder().
                 AppendLine($"Invalid {should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
                 AppendLine($"Expected: {should.GetShouldText()} {expected}").
-                AppendLine($"But was: {actual}").
+                AppendLine($"Actual: {actual}").
                 ToString();
 
             return new AssertionException(errorMessage);
