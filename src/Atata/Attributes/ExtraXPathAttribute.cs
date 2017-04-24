@@ -9,10 +9,19 @@ namespace Atata
         {
             if (xPath != null)
             {
-                XPath = xPath.StartsWith("/") ? xPath : "/" + xPath;
+                RawXPath = xPath;
+                XPath = (xPath.StartsWith("/") || xPath.StartsWith("[")) ? xPath : "/" + xPath;
             }
         }
 
+        /// <summary>
+        /// Gets the raw XPath.
+        /// </summary>
+        public string RawXPath { get; private set; }
+
+        /// <summary>
+        /// Gets the XPath prepended with '/', if it can be applied.
+        /// </summary>
         public string XPath { get; private set; }
     }
 }
