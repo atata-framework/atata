@@ -174,6 +174,51 @@ namespace Atata
         }
 
         /// <summary>
+        /// Switches to frame page object using <see cref="By"/> instance.
+        /// </summary>
+        /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
+        /// <param name="frameBy">The frame <see cref="By"/> instance.</param>
+        /// <param name="framePageObject">The frame page object. If equals null, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
+        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
+        /// <returns>The instance of the frame page object.</returns>
+        public TFramePageObject SwitchToFrame<TFramePageObject>(By frameBy, TFramePageObject framePageObject = null, bool temporarily = false)
+            where TFramePageObject : PageObject<TFramePageObject>
+        {
+            IWebElement frameElement = Scope.Get(frameBy);
+            return SwitchToFrame(frameElement, framePageObject, temporarily);
+        }
+
+        /// <summary>
+        /// Switches to frame page object using <see cref="IWebElement"/> instance that represents &lt;iframe&gt; tag element.
+        /// </summary>
+        /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
+        /// <param name="frameElement">The frame element.</param>
+        /// <param name="framePageObject">The frame page object. If equals null, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
+        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
+        /// <returns>The instance of the frame page object.</returns>
+        public virtual TFramePageObject SwitchToFrame<TFramePageObject>(IWebElement frameElement, TFramePageObject framePageObject = null, bool temporarily = false)
+            where TFramePageObject : PageObject<TFramePageObject>
+        {
+            Log.Info("Switch to frame");
+            Driver.SwitchTo().Frame(frameElement);
+            return Go.To(framePageObject, navigate: false, temporarily: temporarily);
+        }
+
+        /// <summary>
+        /// Switches to the root page using WebDriver's <code>SwitchTo().DefaultContent()</code> method.
+        /// </summary>
+        /// <typeparam name="TPageObject">The type of the root page object.</typeparam>
+        /// <param name="rootPageObject">The root page object.</param>
+        /// <returns>The instance of the root page object.</returns>
+        public virtual TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
+            where TPageObject : PageObject<TPageObject>
+        {
+            Log.Info("Switch to root page");
+            Driver.SwitchTo().DefaultContent();
+            return Go.To(rootPageObject, navigate: false);
+        }
+
+        /// <summary>
         /// Refreshes the current page.
         /// </summary>
         /// <returns>The instance of this page object.</returns>
