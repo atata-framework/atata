@@ -73,7 +73,9 @@
     <Compile Include="Components\BasicControlsPage.cs" />
     <Compile Include="Components\CheckBoxListPage.cs" />
     <Compile Include="Components\ContentPage.cs" />
-    <Compile Include="Components\FrameInnerPage.cs" />
+    <Compile Include="Components\FrameInner2Page.cs" />
+    <Compile Include="Components\FrameInner1Page.cs" />
+    <Compile Include="Components\FrameInner1SelfSwitchingPage.cs" />
     <Compile Include="Components\FramePage.cs" />
     <Compile Include="Components\GoTo1Page.cs" />
     <Compile Include="Components\GoTo2Page.cs" />

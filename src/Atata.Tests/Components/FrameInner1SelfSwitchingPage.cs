@@ -1,10 +1,11 @@
 ﻿using OpenQA.Selenium;
-using _ = Atata.Tests.FrameInnerPage;
+using _ = Atata.Tests.FrameInner1SelfSwitchingPage;
 
 namespace Atata.Tests
 {
+    [Name("Frame Inner 1")]
     [VerifyH1]
-    public class FrameInnerPage : Page<_>
+    public class FrameInner1SelfSwitchingPage : Page<_>
     {
         public H1<_> Header { get; private set; }
 
@@ -14,7 +15,7 @@ namespace Atata.Tests
         {
             base.OnInit();
 
-            IWebElement iframe = Driver.Get(By.XPath(".//iframe[@id='primary-iframe']"));
+            IWebElement iframe = Driver.Get(By.XPath(".//iframe[@id='iframe-1']"));
             Driver.SwitchTo().Frame(iframe);
         }
 
