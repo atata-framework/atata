@@ -208,7 +208,7 @@ namespace Atata
         /// Switches to the root page using WebDriver's <code>SwitchTo().DefaultContent()</code> method.
         /// </summary>
         /// <typeparam name="TPageObject">The type of the root page object.</typeparam>
-        /// <param name="rootPageObject">The root page object.</param>
+        /// <param name="rootPageObject">The root page object. If equals null, creates an instance of <typeparamref name="TPageObject"/> using the default constructor.</param>
         /// <returns>The instance of the root page object.</returns>
         public virtual TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
             where TPageObject : PageObject<TPageObject>
