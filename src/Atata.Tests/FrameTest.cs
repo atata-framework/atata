@@ -70,6 +70,50 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Frame_DoWithin()
+        {
+            page.
+                Frame1.DoWithin(
+                    x => x.TextInput.Set("abc")).
+                Header.Should.Equal("Frame").
+                Frame2.DoWithin(
+                    x => x.Select.Set(4)).
+
+                Header.Should.Equal("Frame").
+                Frame1.DoWithin(x => x.
+                    Header.Should.Equal("Frame Inner 1").
+                    TextInput.Should.Equal("abc")).
+                Frame2.DoWithin(x => x.
+                    Header.Should.Equal("Frame Inner 2").
+                    Select.Should.Equal(4));
+        }
+
+        [Test]
+        public void Frame_DoWithin_Temporarily()
+        {
+            page.
+                SetState(1).
+                Frame1Temporarily.DoWithin(
+                    x => x.TextInput.Set("abc")).
+                State.Should.Equal(1).
+                SetState(2).
+                Frame1Generic.DoWithin<FrameInner1Page>(
+                    x => x.TextInput.Should.Equal("abc"),
+                    temporarily: true).
+                State.Should.Equal(2).
+                SetState(3).
+                Frame2.DoWithin(
+                    x => x.Select.Set(2),
+                    temporarily: true).
+                State.Should.Equal(3).
+                SetState(4).
+                Frame1Temporarily.DoWithin(
+                    x => x.TextInput.Should.Equal("abc"),
+                    temporarily: false).
+                State.Should.Equal(0);
+        }
+
+        [Test]
         public void Frame_PageObject_NavigateViaSwitchTo()
         {
             page.

@@ -37,6 +37,12 @@ namespace Atata.Tests
             return this;
         }
 
+        protected override void OnInit()
+        {
+            base.OnInit();
+            state = 0;
+        }
+
         public FrameInner1Page SwitchToFrame1()
         {
             return SwitchToFrame<FrameInner1Page>(By.Id("iframe-1"));

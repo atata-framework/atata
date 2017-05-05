@@ -99,7 +99,7 @@ namespace Atata
 
         TOther IPageObject.GoTo<TOther>(TOther pageObject, GoOptions options)
         {
-            bool isReturnedFromTemporary = pageObject == null && TryResolvePreviousPageObjectNavigatedTemporarily(out pageObject);
+            bool isReturnedFromTemporary = TryResolvePreviousPageObjectNavigatedTemporarily(ref pageObject);
 
             pageObject = pageObject ?? ActivatorEx.CreateInstance<TOther>();
 
@@ -144,18 +144,24 @@ namespace Atata
             return pageObject;
         }
 
-        private bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(out TOther pageObject)
+        private bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(ref TOther pageObject)
             where TOther : PageObject<TOther>
         {
-            UIComponent foundPageObject = AtataContext.Current.TemporarilyPreservedPageObjects.
+            var tempPageObjectsEnumerable = AtataContext.Current.TemporarilyPreservedPageObjects.
                 AsEnumerable().
                 Reverse().
-                FirstOrDefault(x => x is TOther);
+                OfType<TOther>();
 
-            pageObject = (TOther)foundPageObject;
+            TOther pageObjectReferenceCopy = pageObject;
+
+            TOther foundPageObject = pageObject == null
+                ? tempPageObjectsEnumerable.FirstOrDefault(x => x.GetType() == typeof(TOther))
+                : tempPageObjectsEnumerable.FirstOrDefault(x => x == pageObjectReferenceCopy);
 
             if (foundPageObject == null)
                 return false;
+
+            pageObject = foundPageObject;
 
             var tempPageObjectsToRemove = AtataContext.Current.TemporarilyPreservedPageObjects.
                 SkipWhile(x => x != foundPageObject).
