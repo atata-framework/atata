@@ -62,8 +62,6 @@ namespace Atata
 
         IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;
 
-        IWebElement IUIComponent<TOwner>.Scope => Scope;
-
         IScopeLocator IUIComponent<TOwner>.ScopeLocator => ScopeLocator;
 
         string IUIComponent<TOwner>.ComponentName => ComponentName;

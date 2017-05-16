@@ -46,7 +46,7 @@ namespace Atata
 
         protected internal UIComponentMetadata Metadata { get; internal set; }
 
-        protected internal IWebElement Scope
+        public IWebElement Scope
         {
             get
             {
