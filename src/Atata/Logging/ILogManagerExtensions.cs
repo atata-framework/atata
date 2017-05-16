@@ -7,7 +7,7 @@ namespace Atata
     {
         public static void Start(this ILogManager logger, string sectionMessage)
         {
-            logger.Start(new LogSection(sectionMessage));
+            Start(logger, sectionMessage, LogLevel.Info);
         }
 
         public static void Start(this ILogManager logger, string sectionMessage, LogLevel level)

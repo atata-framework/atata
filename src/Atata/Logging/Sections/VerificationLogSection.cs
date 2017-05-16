@@ -17,6 +17,8 @@ namespace Atata
                 AppendIf(!string.IsNullOrWhiteSpace(dataProviderName), $" {dataProviderName}").
                 AppendIf(!string.IsNullOrWhiteSpace(verificationConstraint), $" {verificationConstraint}").
                 ToString();
+
+            Level = LogLevel.Info;
         }
     }
 }

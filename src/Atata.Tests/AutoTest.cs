@@ -24,7 +24,6 @@ namespace Atata.Tests
                 UseBaseUrl(baseUrl).
                 UseNUnitTestName().
                 AddNUnitTestContextLogging().
-                    WithMinLevel(LogLevel.Info).
                 AddLogConsumer(stringListLogConsumer).
                 LogNUnitError().
                 SetUp();
