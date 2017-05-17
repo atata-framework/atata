@@ -180,7 +180,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Switches to frame page object using <see cref="By"/> instance.
+        /// Switches to frame page object using <see cref="By"/> instance that represents the selector for &lt;iframe&gt; tag element.
         /// </summary>
         /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
         /// <param name="frameBy">The frame <see cref="By"/> instance.</param>
