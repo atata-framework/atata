@@ -7,6 +7,11 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the list of controls of <typeparamref name="TItem"/> type.
+    /// </summary>
+    /// <typeparam name="TItem">The type of the item control.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IDataProvider<IEnumerable<TItem>, TOwner>, IEnumerable<TItem>, ISupportsDeclaredAttributes
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
@@ -47,7 +52,7 @@ namespace Atata
         IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Value => GetAll();
 
         /// <summary>
-        /// Gets the item at the specified index.
+        /// Gets the control at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index of the item to get.</param>
         /// <returns>The item at the specified index.</returns>
@@ -62,7 +67,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the item that matches the conditions defined by the specified predicate expression.
+        /// Gets the control that matches the conditions defined by the specified predicate expression.
         /// </summary>
         /// <param name="predicateExpression">The predicate expression to test each item.</param>
         /// <returns>The first item that matches the conditions of the specified predicate.</returns>
@@ -205,6 +210,12 @@ namespace Atata
             return $"{number}{ending}";
         }
 
+        /// <summary>
+        /// Selects the specified data (property) set of each control. Data can be a sub-control, an instance of <see cref="DataProvider{TData, TOwner}"/>, etc.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <param name="selector">The data selector.</param>
+        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
         public DataProvider<IEnumerable<TData>, TOwner> SelectData<TData>(Expression<Func<TItem, TData>> selector)
         {
             string dataPathName = ControlNameExpressionStringBuilder.ExpressionToString(selector);
