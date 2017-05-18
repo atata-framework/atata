@@ -8,7 +8,7 @@ namespace Atata.Tests
     public class RandomizationPage : Page<_>
     {
         [Flags]
-        public enum Options
+        public enum CheckBoxOptions
         {
             None = 0,
             OptionA = 1 << 0,
@@ -21,26 +21,35 @@ namespace Atata.Tests
             OptionsAE = OptionA | OptionE
         }
 
+        [TermSettings(TermCase.Title)]
+        public enum SelectOption
+        {
+            OptionA,
+            OptionB,
+            OptionC,
+            OptionD
+        }
+
         [FindById("enum-checkboxes")]
         [FindItemByLabel]
-        public CheckBoxList<Options, _> SimpleEnum { get; private set; }
+        public CheckBoxList<CheckBoxOptions, _> SimpleEnum { get; private set; }
 
         [FindById("enum-checkboxes")]
         [FindItemByLabel]
         [RandomizeCount(2, 4)]
-        public CheckBoxList<Options, _> MultipleEnums { get; private set; }
+        public CheckBoxList<CheckBoxOptions, _> MultipleEnums { get; private set; }
 
         [FindById("enum-checkboxes")]
         [FindItemByLabel]
         [RandomizeCount(2)]
-        [RandomizeExclude(Options.None, Options.OptionB, Options.OptionD, Options.OptionF)]
-        public CheckBoxList<Options, _> MultipleEnumsExcludingNoneBDF { get; private set; }
+        [RandomizeExclude(CheckBoxOptions.None, CheckBoxOptions.OptionB, CheckBoxOptions.OptionD, CheckBoxOptions.OptionF)]
+        public CheckBoxList<CheckBoxOptions, _> MultipleEnumsExcludingNoneBDF { get; private set; }
 
         [FindById("enum-checkboxes")]
         [FindItemByLabel]
         [RandomizeCount(3)]
-        [RandomizeInclude(Options.OptionA, Options.OptionB, Options.OptionD, Options.OptionE, Options.OptionF)]
-        public CheckBoxList<Options, _> MultipleEnumsIncludingABDEF { get; private set; }
+        [RandomizeInclude(CheckBoxOptions.OptionA, CheckBoxOptions.OptionB, CheckBoxOptions.OptionD, CheckBoxOptions.OptionE, CheckBoxOptions.OptionF)]
+        public CheckBoxList<CheckBoxOptions, _> MultipleEnumsIncludingABDEF { get; private set; }
 
         [FindById("enum-checkboxes")]
         public ItemsControl<CheckBox<_>, _> AllCheckBoxes { get; private set; }
@@ -49,5 +58,16 @@ namespace Atata.Tests
             GetOrCreateDataProvider(
                 nameof(CheckedItemsCount),
                 () => AllCheckBoxes.Items.Where(x => x.IsChecked).Count());
+
+        [FindById("text-select")]
+        [RandomizeInclude("Option A", "Option B", "Option C")]
+        public Select<_> TextSelect { get; private set; }
+
+        [FindById("text-select")]
+        public Select<SelectOption?, _> EnumSelect { get; private set; }
+
+        [FindById("int-select")]
+        [RandomizeInclude(1, 2, 3)]
+        public Select<int?, _> IntSelect { get; private set; }
     }
 }
