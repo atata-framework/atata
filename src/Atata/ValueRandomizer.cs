@@ -41,18 +41,30 @@ namespace Atata
 
         private static string RandomizeString(UIComponentMetadata metadata)
         {
-            var attribute = metadata.Get<RandomizeStringSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeStringSettingsAttribute();
+            string value;
+            if (!TryRandomizeOneOfIncluded(metadata, out value))
+            {
+                var attribute = metadata.Get<RandomizeStringSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeStringSettingsAttribute();
 
-            string format = NormalizeStringFormat(attribute.Format);
-            return Randomizer.GetString(format, attribute.NumberOfCharacters);
+                string format = NormalizeStringFormat(attribute.Format);
+                value = Randomizer.GetString(format, attribute.NumberOfCharacters);
+            }
+
+            return value;
         }
 
         private static T RandomizeNumber<T>(UIComponentMetadata metadata)
         {
-            var attribute = metadata.Get<RandomizeNumberSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeNumberSettingsAttribute();
+            T value;
+            if (!TryRandomizeOneOfIncluded(metadata, out value))
+            {
+                var attribute = metadata.Get<RandomizeNumberSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeNumberSettingsAttribute();
 
-            decimal value = Randomizer.GetDecimal(attribute.Min, attribute.Max, attribute.Precision);
-            return (T)Convert.ChangeType(value, typeof(T));
+                decimal valueAsDecimal = Randomizer.GetDecimal(attribute.Min, attribute.Max, attribute.Precision);
+                value = (T)Convert.ChangeType(valueAsDecimal, typeof(T));
+            }
+
+            return value;
         }
 
         private static string NormalizeStringFormat(string format)
@@ -94,12 +106,11 @@ namespace Atata
 
         private static T[] GetEnumOptionValues<T>(Type enumType, UIComponentMetadata metadata)
         {
-            var includeAttribute = metadata.Get<RandomizeIncludeAttribute>(AttributeLevels.Declared);
-            var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>(AttributeLevels.Declared);
-
-            T[] values = includeAttribute?.Values?.Cast<T>()?.ToArray();
+            T[] values = GetRandomizeIncludeValues<T>(metadata);
             if (values == null || values.Length == 0)
                 values = enumType.GetIndividualEnumFlags().Cast<T>().ToArray();
+
+            var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>(AttributeLevels.Declared);
 
             if (excludeAttribute?.Values?.Any() ?? false)
             {
@@ -108,6 +119,28 @@ namespace Atata
             }
 
             return values;
+        }
+
+        private static bool TryRandomizeOneOfIncluded<T>(UIComponentMetadata metadata, out T value)
+        {
+            T[] includeValues = GetRandomizeIncludeValues<T>(metadata);
+            if (includeValues == null || includeValues.Length == 0)
+            {
+                value = default(T);
+                return false;
+            }
+            else
+            {
+                value = Randomizer.GetOneOf(includeValues);
+                return true;
+            }
+        }
+
+        private static T[] GetRandomizeIncludeValues<T>(UIComponentMetadata metadata)
+        {
+            var includeAttribute = metadata.Get<RandomizeIncludeAttribute>(AttributeLevels.Declared);
+
+            return includeAttribute?.Values?.Cast<T>()?.ToArray();
         }
 
         public static T GetRandom<T>(UIComponentMetadata metadata)
