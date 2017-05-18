@@ -99,6 +99,20 @@ You can also check the following articles:
 * [Test Automation Using Atata: Verification of Web Pages](https://www.codeproject.com/Articles/1173435/Test-Automation-Using-Atata-Verification-of-Pages)
 * [Test Automation Using Atata: Verification of Validation Messages](https://www.codeproject.com/Articles/1177317/Test-Automation-Using-Atata-Validation-Messages)
 
+## Contact
+
+Feel free to ask any questions regarding Atata framework. Any feedback, issues and feature requests are welcome.
+
+* Atata Issues: [https://github.com/atata-framework/atata/issues](https://github.com/atata-framework/atata/issues)
+* Atata Gitter: [https://gitter.im/atata-framework/atata](https://gitter.im/atata-framework/atata)
+
+### Author
+
+* Email: yevgeniy.shunevych@gmail.com
+* Skype: e.shunevich
+* LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
+
+
 ## License
 
 Atata is an open source software, licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
