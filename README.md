@@ -111,6 +111,7 @@ Feel free to ask any questions regarding Atata framework. Any feedback, issues a
 * Email: yevgeniy.shunevych@gmail.com
 * Skype: e.shunevich
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
+* Gitter: https://gitter.im/YevgeniyShunevych
 
 
 ## License
