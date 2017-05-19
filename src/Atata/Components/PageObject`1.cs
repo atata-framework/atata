@@ -21,10 +21,19 @@ namespace Atata
             Owner = (TOwner)this;
         }
 
+        /// <summary>
+        /// Gets a value indicating whether the navigation should be performed upon initialization.
+        /// </summary>
         protected internal bool NavigateOnInit { get; internal set; }
 
+        /// <summary>
+        /// Gets a value indicating whether this instance is temporarily navigated using <see cref="GoTemporarilyAttribute"/> or other approach.
+        /// </summary>
         protected bool IsTemporarilyNavigated { get; private set; }
 
+        /// <summary>
+        /// Gets the previous page object.
+        /// </summary>
         protected UIComponent PreviousPageObject { get; private set; }
 
         /// <summary>
@@ -37,6 +46,10 @@ namespace Atata
         /// </summary>
         public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
 
+        /// <summary>
+        /// Creates the <see cref="By"/> instance for Scope search.
+        /// </summary>
+        /// <returns>The <see cref="By"/> instance.</returns>
         protected virtual By CreateScopeBy()
         {
             string scopeXPath = Metadata.ComponentDefinitonAttribute?.ScopeXPath ?? "body";
@@ -75,10 +88,16 @@ namespace Atata
             OnVerify();
         }
 
+        /// <summary>
+        /// Called upon initialization.
+        /// </summary>
         protected virtual void OnInit()
         {
         }
 
+        /// <summary>
+        /// Called when initialization is completed.
+        /// </summary>
         protected virtual void OnInitCompleted()
         {
         }
@@ -174,6 +193,10 @@ namespace Atata
             return true;
         }
 
+        /// <summary>
+        /// Switches to the browser window using the window name.
+        /// </summary>
+        /// <param name="windowName">Name of the window.</param>
         protected virtual void SwitchTo(string windowName)
         {
             Driver.SwitchTo().Window(windowName);
@@ -289,29 +312,49 @@ namespace Atata
                 return null;
         }
 
-        public TOwner Do<TComponent>(Func<TOwner, TComponent> childControlGetter, Action<TComponent> action)
+        /// <summary>
+        /// Executes the action(s) passing specified parent's component.
+        /// </summary>
+        /// <typeparam name="TComponent">The type of the component.</typeparam>
+        /// <param name="componentSelector">The component selector.</param>
+        /// <param name="action">The action.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner Do<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action)
         {
-            childControlGetter.CheckNotNull(nameof(childControlGetter));
+            componentSelector.CheckNotNull(nameof(componentSelector));
             action.CheckNotNull(nameof(action));
 
-            TComponent component = childControlGetter((TOwner)this);
+            TComponent component = componentSelector((TOwner)this);
 
             action(component);
 
             return (TOwner)this;
         }
 
-        public TNavigateTo Do<TComponent, TNavigateTo>(Func<TOwner, TComponent> childControlGetter, Func<TComponent, TNavigateTo> navigationAction)
+        /// <summary>
+        /// Executes the navigation action(s) passing specified parent's component.
+        /// </summary>
+        /// <typeparam name="TComponent">The type of the component.</typeparam>
+        /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
+        /// <param name="componentSelector">The component selector.</param>
+        /// <param name="navigationAction">The navigation action.</param>
+        /// <returns>The instance of the page object to navigate to.</returns>
+        public TNavigateTo Do<TComponent, TNavigateTo>(Func<TOwner, TComponent> componentSelector, Func<TComponent, TNavigateTo> navigationAction)
             where TNavigateTo : PageObject<TNavigateTo>
         {
-            childControlGetter.CheckNotNull(nameof(childControlGetter));
+            componentSelector.CheckNotNull(nameof(componentSelector));
             navigationAction.CheckNotNull(nameof(navigationAction));
 
-            TComponent component = childControlGetter((TOwner)this);
+            TComponent component = componentSelector((TOwner)this);
 
             return navigationAction(component);
         }
 
+        /// <summary>
+        /// Executes the action(s) passing current page object.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The instance of this page object.</returns>
         public TOwner Do(Action<TOwner> action)
         {
             action.CheckNotNull(nameof(action));
@@ -321,6 +364,12 @@ namespace Atata
             return (TOwner)this;
         }
 
+        /// <summary>
+        /// Executes the navigation action(s) passing current page object.
+        /// </summary>
+        /// <typeparam name="TNavigateTo">The type of the navigate to.</typeparam>
+        /// <param name="navigationAction">The navigation action.</param>
+        /// <returns>The instance of the page object to navigate to.</returns>
         public TNavigateTo Do<TNavigateTo>(Func<TOwner, TNavigateTo> navigationAction)
             where TNavigateTo : PageObject<TNavigateTo>
         {
