@@ -101,18 +101,21 @@ You can also check the following articles:
 
 ## Contact
 
-Feel free to ask any questions regarding Atata framework. Any feedback, issues and feature requests are welcome.
+Feel free to ask any questions regarding Atata Framework. Any feedback, issues and feature requests are welcome.
 
-* Atata Issues: [https://github.com/atata-framework/atata/issues](https://github.com/atata-framework/atata/issues)
-* Atata Gitter: [https://gitter.im/atata-framework/atata](https://gitter.im/atata-framework/atata)
+* Atata Issues: https://github.com/atata-framework/atata/issues
+* Atata Gitter: https://gitter.im/atata-framework/atata
+* Stack Overflow http://stackoverflow.com/questions/tagged/atata
 
 ### Author
+
+Contact me if you need a help in test automation using Atata Framework, or if you are looking for a quality test automation implementation for your project.
 
 * Email: yevgeniy.shunevych@gmail.com
 * Skype: e.shunevich
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
+* Facebook: https://www.facebook.com/YevgeniyShunevych
 * Gitter: https://gitter.im/YevgeniyShunevych
-
 
 ## License
 
