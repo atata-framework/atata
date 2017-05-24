@@ -12,9 +12,13 @@ namespace Atata
 
         void Warn(string message, params object[] args);
 
-        void Error(string message, Exception exception);
+        void Error(Exception exception);
 
-        void Fatal(string message, Exception exception);
+        void Error(string message, Exception exception = null);
+
+        void Fatal(Exception exception);
+
+        void Fatal(string message, Exception exception = null);
 
         void Start(LogSection section);
 

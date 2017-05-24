@@ -79,7 +79,16 @@ namespace Atata
             Log(LogLevel.Warn, message, args);
         }
 
-        public void Error(string message, Exception exception)
+        public void Error(Exception exception)
+        {
+            Log(new LogEventInfo
+            {
+                Level = LogLevel.Error,
+                Exception = exception
+            });
+        }
+
+        public void Error(string message, Exception exception = null)
         {
             Log(new LogEventInfo
             {
@@ -89,7 +98,16 @@ namespace Atata
             });
         }
 
-        public void Fatal(string message, Exception exception)
+        public void Fatal(Exception exception)
+        {
+            Log(new LogEventInfo
+            {
+                Level = LogLevel.Fatal,
+                Exception = exception
+            });
+        }
+
+        public void Fatal(string message, Exception exception = null)
         {
             Log(new LogEventInfo
             {

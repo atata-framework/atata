@@ -21,7 +21,7 @@ namespace Atata
                 AppendLine().
                 Append(stackTrace);
 
-            logger.Error(builder.ToString(), null);
+            logger.Error(builder.ToString());
         }
 
         internal static void InfoWithExecutionTime(this ILogManager logger, string message, TimeSpan executionTime)
