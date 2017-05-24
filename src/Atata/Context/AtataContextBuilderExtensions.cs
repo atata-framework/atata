@@ -122,7 +122,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Defines that an error occured during the NUnit test execution should be added to the log during the cleanup.
+        /// Defines that an error occurred during the NUnit test execution should be added to the log during the cleanup.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -138,7 +138,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Defines that an error occured during the NUnit test execution should be captured by a screenshot during the cleanup.
+        /// Defines that an error occurred during the NUnit test execution should be captured by a screenshot during the cleanup.
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="title">The screenshot title.</param>
