@@ -78,6 +78,9 @@ namespace Atata
 
         ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
+        /// <summary>
+        /// Gets the set of triggers. Provides the functionality to get/add/remove triggers dynamically.
+        /// </summary>
         public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
         protected internal virtual void InitComponent()
