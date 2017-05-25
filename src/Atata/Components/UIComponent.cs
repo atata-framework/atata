@@ -46,6 +46,9 @@ namespace Atata
 
         protected internal UIComponentMetadata Metadata { get; internal set; }
 
+        /// <summary>
+        /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element. Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
+        /// </summary>
         public IWebElement Scope
         {
             get

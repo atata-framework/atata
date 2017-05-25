@@ -24,7 +24,7 @@
         }
 
         /// <summary>
-        /// Clicks the control.
+        /// Clicks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner Click()
@@ -46,7 +46,7 @@
         }
 
         /// <summary>
-        /// Hovers the control.
+        /// Hovers the control. Also executes <see cref="TriggerEvents.BeforeHover" /> and <see cref="TriggerEvents.AfterHover" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner Hover()
@@ -68,7 +68,7 @@
         }
 
         /// <summary>
-        /// Focuses the control.
+        /// Focuses the control. Also executes <see cref="TriggerEvents.BeforeFocus" /> and <see cref="TriggerEvents.AfterFocus" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner Focus()
@@ -90,7 +90,7 @@
         }
 
         /// <summary>
-        /// Double-clicks the control.
+        /// Double-clicks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner DoubleClick()
@@ -112,7 +112,7 @@
         }
 
         /// <summary>
-        /// Right-clicks the control.
+        /// Right-clicks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner RightClick()

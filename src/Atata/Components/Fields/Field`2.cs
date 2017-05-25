@@ -16,7 +16,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the value.
+        /// Gets the value. Also executes <see cref="TriggerEvents.BeforeGet"/> and <see cref="TriggerEvents.AfterGet"/> triggers.
         /// </summary>
         public T Value => Get();
 

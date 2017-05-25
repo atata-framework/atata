@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 namespace Atata
 {
     /// <summary>
-    /// Represents the base class for the page objects.
+    /// Represents the base class for the page objects. Also executes <see cref="TriggerEvents.Init"/> and <see cref="TriggerEvents.DeInit"/> triggers.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject

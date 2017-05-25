@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the base class for the editable field controls.
+    /// Represents the base class for editable field controls. It can be used for controls like &lt;input&gt;, &lt;select&gt; and other editable controls.
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
@@ -13,7 +13,7 @@
         }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is read-only.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is read-only. By default checks "readonly" attribute of scope element. Override <see cref="GetIsReadOnly"/> method to change the behavior.
         /// </summary>
         public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only", GetIsReadOnly);
 
@@ -29,6 +29,11 @@
 
         protected abstract void SetValue(T value);
 
+        /// <summary>
+        /// Sets the value. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// </summary>
+        /// <param name="value">The value to set.</param>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner Set(T value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
@@ -42,12 +47,21 @@
             return Owner;
         }
 
+        /// <summary>
+        /// Sets the random value. For value generation uses randomization attributes, for example: <see cref="RandomizeStringSettingsAttribute"/>, <see cref="RandomizeNumberSettingsAttribute"/>, <see cref="RandomizeIncludeAttribute"/>, etc.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner SetRandom()
         {
             T value = GenerateRandomValue();
             return Set(value);
         }
 
+        /// <summary>
+        /// Sets the random value and records it to <paramref name="value"/> parameter. For value generation uses randomization attributes, for example: <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// </summary>
+        /// <param name="value">The generated value.</param>
+        /// <returns>The instance of the owner page object.</returns>
         public TOwner SetRandom(out T value)
         {
             value = GenerateRandomValue();
