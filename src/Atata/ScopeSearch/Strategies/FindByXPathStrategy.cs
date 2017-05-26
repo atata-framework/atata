@@ -24,22 +24,25 @@ namespace Atata
             }
 
             string conditionalXPath = conditionalXPathSelectors.Any()
-                ? builder.WrapWithIndex(x => x.Descendant.ComponentXPath[y => y.JoinOr(conditionalXPathSelectors)])
+                ? builder.WrapWithIndex(x => x.OuterXPath.ComponentXPath[y => y.JoinOr(conditionalXPathSelectors)])
                 : null;
 
-            string[] outerXPathSelectors = builder.Options.Terms.
+            string[] completeXPathSelectors = builder.Options.Terms.
                 Except(conditionalXPathTerms).
-                Select(x => acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix)) ? x : ".//" + x).
+                Select(x =>
+                    acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix))
+                        ? (options.OuterXPath?.Append(x) ?? x)
+                        : ((options.OuterXPath ?? ".//") + x)).
                 ToArray();
 
-            string outerXPath = outerXPathSelectors.Any()
-                ? builder.WrapWithIndex(x => x._($"({string.Join(" | ", outerXPathSelectors)})")).DescendantOrSelf.ComponentXPath
+            string completeXPath = completeXPathSelectors.Any()
+                ? builder.WrapWithIndex(x => x._($"({string.Join(" | ", completeXPathSelectors)})")).DescendantOrSelf.ComponentXPath
                 : null;
 
-            if (conditionalXPath != null && outerXPath != null)
-                return $"(({outerXPath}) | ({conditionalXPath}))";
+            if (conditionalXPath != null && completeXPath != null)
+                return $"(({completeXPath}) | ({conditionalXPath}))";
             else
-                return outerXPath ?? conditionalXPath;
+                return completeXPath ?? conditionalXPath;
         }
     }
 }

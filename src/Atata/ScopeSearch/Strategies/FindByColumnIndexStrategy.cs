@@ -12,7 +12,7 @@
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
             return builder.
-                WrapWithIndex(x => x.Descendant._("td").WhereIndex(columnIndex).DescendantOrSelf.ComponentXPath);
+                WrapWithIndex(x => x.OuterXPath._("td").WhereIndex(columnIndex).DescendantOrSelf.ComponentXPath);
         }
     }
 }

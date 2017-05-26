@@ -10,7 +10,7 @@ namespace Atata
                 ? options.Terms.Select(x => $"({x})").ToArray()
                 : options.Terms;
 
-            return builder.WrapWithIndex(x => x.Descendant.ComponentXPath[y => y.JoinOr(conditions)]);
+            return builder.WrapWithIndex(x => x.OuterXPath.ComponentXPath[y => y.JoinOr(conditions)]);
         }
     }
 }

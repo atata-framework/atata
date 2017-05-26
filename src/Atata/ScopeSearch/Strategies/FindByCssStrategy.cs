@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 namespace Atata
 {
@@ -9,6 +10,9 @@ namespace Atata
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             By by = By.CssSelector(string.Join(",", options.Terms));
+
+            if (options.OuterXPath != null)
+                by = new ByChained(By.XPath(options.OuterXPath + "*"), by);
 
             if (options.Index.HasValue)
             {

@@ -5,7 +5,7 @@
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
             return builder.
-                WrapWithIndex(x => x.Descendant.Any[y => y.TermsConditionOf("id")]).
+                WrapWithIndex(x => x.OuterXPath.Any[y => y.TermsConditionOf("id")]).
                 DescendantOrSelf.ComponentXPath;
         }
     }

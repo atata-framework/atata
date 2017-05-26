@@ -11,6 +11,11 @@ namespace Atata
 
         public ComponentScopeLocateOptions Options { get; private set; }
 
+        public ComponentScopeXPathBuilder OuterXPath
+        {
+            get { return Options.OuterXPath != null ? _(Options.OuterXPath) : Descendant; }
+        }
+
         public ComponentScopeXPathBuilder ComponentXPath
         {
             get { return _(Options.ElementXPath); }

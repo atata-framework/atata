@@ -4,7 +4,7 @@
     {
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            return builder.Wrap(x => x.Descendant.ComponentXPath)["last()"];
+            return builder.Wrap(x => x.OuterXPath.ComponentXPath)["last()"];
         }
     }
 }

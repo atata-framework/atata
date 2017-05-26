@@ -4,7 +4,7 @@
     {
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
-            return builder.Descendant.ComponentXPath;
+            return builder.OuterXPath.ComponentXPath;
         }
     }
 }

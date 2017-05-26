@@ -7,7 +7,7 @@ namespace Atata
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             string labelXPath = new ComponentScopeXPathBuilder(options).
-                WrapWithIndex(x => x.Descendant._("label")[y => y.TermsConditionOfContent]);
+                WrapWithIndex(x => x.OuterXPath._("label")[y => y.TermsConditionOfContent]);
 
             IWebElement label = scope.Get(By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
 
