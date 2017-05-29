@@ -41,7 +41,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the visibility. The default value is Visible.
+        /// Gets or sets the visibility. The default value is <see cref="Visibility.Visible"/>.
         /// </summary>
         public Visibility Visibility
         {
@@ -61,7 +61,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the scope source. The default value is Parent.
+        /// Gets or sets the scope source. The default value is <see cref="ScopeSource.Parent"/>.
         /// </summary>
         public ScopeSource ScopeSource
         {
@@ -80,7 +80,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the outer XPath. The default value is null.
+        /// Gets or sets the outer XPath. The default value is null, meaning that the control is searchable as descendant (using ".//" XPath) in scope source.
         /// </summary>
         public string OuterXPath
         {
