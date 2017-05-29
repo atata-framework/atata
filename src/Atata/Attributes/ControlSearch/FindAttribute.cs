@@ -11,10 +11,12 @@ namespace Atata
     public abstract class FindAttribute : Attribute, IPropertySettings
     {
         private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> findSettingsGetter;
+        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> findSettingsByFindAttributeGetter;
 
         protected FindAttribute()
         {
-            findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(AttributeLevels.NonComponent, x => x.FindAttributeType == GetType());
+            findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(AttributeLevels.NonComponent, x => x.FindAttributeType == GetType() || x.FindAttributeType == null);
+            findSettingsByFindAttributeGetter = md => md.GetAll<FindSettingsAttribute>(AttributeLevels.NonComponent, x => x.FindAttributeType == GetType());
         }
 
         public PropertyBag Properties { get; } = new PropertyBag();
@@ -78,6 +80,24 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets or sets the outer XPath. The default value is null.
+        /// </summary>
+        public string OuterXPath
+        {
+            get
+            {
+                return Properties.Get<string>(
+                    nameof(OuterXPath),
+                    findSettingsGetter);
+            }
+
+            set
+            {
+                Properties[nameof(OuterXPath)] = value;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
         /// </summary>
         public Type Strategy
@@ -87,7 +107,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(Strategy),
                     DefaultStrategy,
-                    findSettingsGetter);
+                    findSettingsByFindAttributeGetter);
             }
 
             set

@@ -8,6 +8,10 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
     public class FindSettingsAttribute : Attribute, IPropertySettings
     {
+        public FindSettingsAttribute()
+        {
+        }
+
         public FindSettingsAttribute(FindTermBy by)
             : this(by.ResolveFindAttributeType())
         {
@@ -41,6 +45,15 @@ namespace Atata
         {
             get { return Properties.Get(nameof(ScopeSource), ScopeSource.Parent); }
             set { Properties[nameof(ScopeSource)] = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the outer XPath. The default value is null.
+        /// </summary>
+        public string OuterXPath
+        {
+            get { return Properties.Get<string>(nameof(OuterXPath)); }
+            set { Properties[nameof(OuterXPath)] = value; }
         }
 
         /// <summary>

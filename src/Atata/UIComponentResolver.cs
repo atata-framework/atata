@@ -295,9 +295,9 @@ namespace Atata
             ComponentScopeLocateOptions locateOptions = CreateScopeLocateOptions(metadata, findAttribute);
             IComponentScopeLocateStrategy strategy = findAttribute.CreateStrategy(metadata);
 
-            IItemsControl itemsControl = component as IItemsControl;
-
             component.ScopeSource = findAttribute.ScopeSource;
+
+            IItemsControl itemsControl = component as IItemsControl;
 
             if (itemsControl != null)
             {
@@ -449,7 +449,8 @@ namespace Atata
                 Metadata = metadata,
                 ElementXPath = definition?.ScopeXPath ?? "*",
                 Index = index >= 0 ? (int?)index : null,
-                Visibility = findAttribute.Visibility
+                Visibility = findAttribute.Visibility,
+                OuterXPath = findAttribute.OuterXPath
             };
 
             ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;
