@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
 using OpenQA.Selenium;
@@ -12,17 +13,15 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TItem">The type of the item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IDataProvider<IEnumerable<TItem>, TOwner>, IEnumerable<TItem>, ISupportsDeclaredAttributes
+    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IDataProvider<IEnumerable<TItem>, TOwner>, IEnumerable<TItem>, ISupportsMetadata
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private ControlDefinitionAttribute itemDefinition;
+        private FindAttribute itemFindAttribute;
 
-        protected ControlDefinitionAttribute ItemDefinition => itemDefinition ?? (itemDefinition = ResolveItemDefinition());
+        protected ControlDefinitionAttribute ItemDefinition => (ControlDefinitionAttribute)Metadata.ComponentDefinitonAttribute;
 
-        protected internal List<Attribute> DeclaredAttributes { get; internal set; } = new List<Attribute>();
-
-        List<Attribute> ISupportsDeclaredAttributes.DeclaredAttributes => DeclaredAttributes;
+        protected FindAttribute ItemFindAttribute => itemFindAttribute ?? (itemFindAttribute = ResolveItemFindAttribute());
 
         /// <summary>
         /// Gets the verification provider that gives a set of verification extension methods.
@@ -50,6 +49,19 @@ namespace Atata
         TermOptions IDataProvider<IEnumerable<TItem>, TOwner>.ValueTermOptions { get; }
 
         IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Value => GetAll();
+
+        UIComponentMetadata ISupportsMetadata.Metadata
+        {
+            get { return Metadata; }
+            set { Metadata = value; }
+        }
+
+        public UIComponentMetadata Metadata { get; private set; }
+
+        Type ISupportsMetadata.ComponentType
+        {
+            get { return typeof(TItem); }
+        }
 
         /// <summary>
         /// Gets the control at the specified index.
@@ -83,10 +95,11 @@ namespace Atata
             }
         }
 
-        private ControlDefinitionAttribute ResolveItemDefinition()
+        private FindAttribute ResolveItemFindAttribute()
         {
-            ControlDefinitionAttribute definition = DeclaredAttributes?.OfType<ControlDefinitionAttribute>().FirstOrDefault();
-            return definition ?? UIComponentResolver.GetControlDefinition(typeof(TItem));
+            FindAttribute findAttribute = new FindControlListItemAttribute();
+            findAttribute.Properties.Metadata = Metadata;
+            return findAttribute;
         }
 
         /// <summary>
@@ -96,7 +109,7 @@ namespace Atata
         protected virtual int GetCount()
         {
             By itemBy = CreateItemBy();
-            return Component.Scope.GetAll(itemBy.AtOnce()).Count;
+            return GetItemElements(itemBy.AtOnce()).Count;
         }
 
         /// <summary>
@@ -127,7 +140,7 @@ namespace Atata
 
             ControlListScopeLocator scopeLocator = new ControlListScopeLocator(options =>
             {
-                return Component.Scope.GetAll(itemBy.With(options).SafelyAtOnce()).
+                return GetItemElements(itemBy.With(options).SafelyAtOnce()).
                     Where(element => predicate(CreateItem(new DefinedScopeLocator(element), name)));
             });
 
@@ -157,7 +170,7 @@ namespace Atata
             By itemBy = CreateItemBy();
             var predicate = predicateExpression.Compile();
 
-            return Component.Scope.GetAll(itemBy.SafelyAtOnce()).
+            return GetItemElements(itemBy.SafelyAtOnce()).
                 Select((element, index) => new { Element = element, Index = index }).
                 Where(x => predicate(CreateItem(new DefinedScopeLocator(x.Element), name))).
                 Select(x => (int?)x.Index).
@@ -166,14 +179,22 @@ namespace Atata
 
         protected virtual By CreateItemBy()
         {
-            return By.XPath($".//{ItemDefinition.ScopeXPath}").OfKind(ItemDefinition.ComponentTypeName);
+            string outerXPath = ItemFindAttribute.OuterXPath ?? ".//";
+
+            By by = By.XPath($"{outerXPath}{ItemDefinition.ScopeXPath}").OfKind(ItemDefinition.ComponentTypeName);
+
+            // TODO: Review/remake this Visibility processing.
+            if (ItemFindAttribute.Visibility == Visibility.Any)
+                by = by.OfAnyVisibility();
+            else if (ItemFindAttribute.Visibility == Visibility.Hidden)
+                by = by.Hidden();
+
+            return by;
         }
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
         {
-            var itemAttributes = attributes != null
-                ? attributes.Concat(GetItemDeclaredAttributes())
-                : GetItemDeclaredAttributes();
+            var itemAttributes = attributes?.Concat(GetItemDeclaredAttributes()) ?? GetItemDeclaredAttributes();
 
             return Component.Controls.Create<TItem>(name, itemAttributes.ToArray());
         }
@@ -188,7 +209,7 @@ namespace Atata
 
         protected virtual IEnumerable<Attribute> GetItemDeclaredAttributes()
         {
-            return DeclaredAttributes.Where(x => !(x is FindAttribute));
+            return Metadata.DeclaredAttributes.Where(x => !(x is FindAttribute));
         }
 
         private string OrdinalizeNumber(int number)
@@ -236,9 +257,14 @@ namespace Atata
         {
             By itemBy = CreateItemBy();
 
-            return Component.Scope.GetAll(itemBy.AtOnce()).
+            return GetItemElements(itemBy.AtOnce()).
                 Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1))).
                 ToArray();
+        }
+
+        protected ReadOnlyCollection<IWebElement> GetItemElements(By itemBy)
+        {
+            return ItemFindAttribute.ScopeSource.GetScopeElementUsingParent(Component).GetAll(itemBy);
         }
 
         IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Get() => GetAll();

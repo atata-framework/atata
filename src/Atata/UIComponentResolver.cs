@@ -194,9 +194,9 @@ namespace Atata
             UIComponentPart<TOwner> componentPart = (UIComponentPart<TOwner>)ActivatorEx.CreateInstance(property.PropertyType);
             componentPart.Component = parentComponent;
 
-            ISupportsDeclaredAttributes supportsDeclaredAttributes = componentPart as ISupportsDeclaredAttributes;
-            if (supportsDeclaredAttributes != null)
-                supportsDeclaredAttributes.DeclaredAttributes.AddRange(GetPropertyAttributes(property));
+            ISupportsMetadata supportsMetadata = componentPart as ISupportsMetadata;
+            if (supportsMetadata != null)
+                supportsMetadata.Metadata = CreateStaticControlMetadata<TOwner>(property, supportsMetadata.ComponentType);
 
             property.SetValue(parentComponent, componentPart, null);
         }

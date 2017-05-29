@@ -37,6 +37,14 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void UnorderedList_Hierarchical()
+        {
+            var list = page.HierarchicalUnorderedList;
+
+            list.Items.Count.Should.Equal(2);
+        }
+
+        [Test]
         public void OrderedList_Simple()
         {
             var list = page.SimpleOrderedList;

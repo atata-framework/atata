@@ -8,9 +8,11 @@ namespace Atata.Tests
     public class ListPage : Page<_>
     {
         [ControlDefinition("li[parent::ul]/span[1]", ComponentTypeName = "product name")]
+        [FindSettings(OuterXPath = ".//div[@id='simple-list-section']//")]
         public ControlList<Text<_>, _> ProductNameTextContolList { get; private set; }
 
         [ControlDefinition("li[parent::ul]/span[2]", ComponentTypeName = "product percent")]
+        [FindSettings(OuterXPath = ".//div[@id='simple-list-section']//")]
         [Format("p")]
         public ControlList<Number<_>, _> ProductPercentNumberContolList { get; private set; }
 
@@ -21,6 +23,9 @@ namespace Atata.Tests
         public OrderedList<ListItem<_>, _> SimpleOrderedList { get; private set; }
 
         public OrderedList<OrderedListItem, _> ComplexOrderedList { get; private set; }
+
+        [FindById]
+        public UnorderedList<ListItem<_>, _> HierarchicalUnorderedList { get; private set; }
 
         public class UnorderedListItem : ListItem<_>
         {

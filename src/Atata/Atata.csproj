@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="ActivatorEx.cs" />
     <Compile Include="AttributeLevels.cs" />
+    <Compile Include="Attributes\ControlSearch\FindControlListItemAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\IFindItemAttribute.cs" />
@@ -85,7 +86,7 @@
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="Extensions\ScreenshotImageFormatExtensions.cs" />
     <Compile Include="IPropertySettings.cs" />
-    <Compile Include="ISupportsDeclaredAttributes.cs" />
+    <Compile Include="ISupportsMetadata.cs" />
     <Compile Include="Logging\FileScreenshotConsumerBase.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />

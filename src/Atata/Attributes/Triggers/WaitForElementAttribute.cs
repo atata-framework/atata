@@ -35,7 +35,7 @@ namespace Atata
         public string Selector { get; private set; }
 
         /// <summary>
-        /// Gets or sets the scope source.
+        /// Gets or sets the scope source. The default value is <see cref="ScopeSource.Parent"/>.
         /// </summary>
         public ScopeSource ScopeSource
         {
@@ -46,7 +46,7 @@ namespace Atata
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             ScopeSource actualScopeSource = scopeSource ?? context.Component.ScopeSource;
-            IWebElement scopeElement = actualScopeSource.GetScopeElement((UIComponent)context.Component);
+            IWebElement scopeElement = actualScopeSource.GetScopeElement(context.Component);
 
             WaitUnit[] waitUnits = GetWaitUnits(Until);
 
