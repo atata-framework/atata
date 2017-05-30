@@ -8,6 +8,7 @@
     /// <seealso cref="Atata.ItemsControl{TItem, TOwner}" />
     /// <seealso cref="Atata.ListItem{TOwner}" />
     [ControlDefinition("ul", ComponentTypeName = "unordered list")]
+    [FindSettings(OuterXPath = "./")]
     public class UnorderedList<TItem, TOwner> : ItemsControl<TItem, TOwner>
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
