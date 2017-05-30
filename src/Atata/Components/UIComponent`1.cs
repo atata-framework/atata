@@ -16,8 +16,9 @@ namespace Atata
         protected UIComponent()
         {
             Controls = new UIComponentChildrenList<TOwner>(this);
-            Attributes = new UIComponentAttributeProvider<TOwner>() { Component = this };
-            Css = new UIComponentCssProvider<TOwner>() { Component = this };
+            Attributes = new UIComponentAttributeProvider<TOwner> { Component = this };
+            Css = new UIComponentCssProvider<TOwner> { Component = this };
+            Size = new UIComponentSizeProvider<TOwner> { Component = this };
             Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
 
@@ -57,6 +58,11 @@ namespace Atata
         /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.
         /// </summary>
         public UIComponentCssProvider<TOwner> Css { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
+        /// </summary>
+        public UIComponentSizeProvider<TOwner> Size { get; private set; }
 
         TOwner IUIComponent<TOwner>.Owner => Owner;
 

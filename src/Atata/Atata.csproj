@@ -83,6 +83,7 @@
     <Compile Include="Components\ListItem`1.cs" />
     <Compile Include="Components\OrderedList`2.cs" />
     <Compile Include="Components\UnorderedList`2.cs" />
+    <Compile Include="Components\UIComponentSizeProvider`1.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="Extensions\ScreenshotImageFormatExtensions.cs" />
     <Compile Include="IPropertySettings.cs" />
