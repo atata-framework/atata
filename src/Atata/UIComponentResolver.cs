@@ -139,7 +139,7 @@ namespace Atata
         private static void InitControlProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
             where TOwner : PageObject<TOwner>
         {
-            UIComponentMetadata metadata = CreateStaticControlMetadata<TOwner>(property);
+            UIComponentMetadata metadata = CreateStaticControlMetadata(parentComponent, property);
 
             UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
             parentComponent.Controls.Add(component);
@@ -154,7 +154,7 @@ namespace Atata
 
             if (controlType != null)
             {
-                UIComponentMetadata metadata = CreateStaticControlMetadata<TOwner>(property, controlType);
+                UIComponentMetadata metadata = CreateStaticControlMetadata(parentComponent, property, controlType);
 
                 UIComponent<TOwner> component = CreateComponent(parentComponent, metadata);
                 parentComponent.Controls.Add(component);
@@ -196,7 +196,7 @@ namespace Atata
 
             ISupportsMetadata supportsMetadata = componentPart as ISupportsMetadata;
             if (supportsMetadata != null)
-                supportsMetadata.Metadata = CreateStaticControlMetadata<TOwner>(property, supportsMetadata.ComponentType);
+                supportsMetadata.Metadata = CreateStaticControlMetadata(parentComponent, property, supportsMetadata.ComponentType);
 
             property.SetValue(parentComponent, componentPart, null);
         }
@@ -349,12 +349,13 @@ namespace Atata
                 new Attribute[0]);
         }
 
-        private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(PropertyInfo property, Type propertyType = null)
+        private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property, Type propertyType = null)
+            where TOwner : PageObject<TOwner>
         {
             return CreateComponentMetadata<TOwner>(
                 property.Name,
                 propertyType ?? property.PropertyType,
-                property.DeclaringType,
+                parentComponent.GetType(),
                 GetPropertyAttributes(property));
         }
 
