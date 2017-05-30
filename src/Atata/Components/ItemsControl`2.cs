@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="TItem">The type of the item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition(IgnoreNameEndings = "ItemsControl,Items,Control")]
+    [ControlDefinition(ComponentTypeName = "items control", IgnoreNameEndings = "ItemsControl,Control")]
     public class ItemsControl<TItem, TOwner> : Control<TOwner>
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
