@@ -18,9 +18,16 @@ namespace Atata
             {
                 var elements = scope.GetAll(by.With(searchOptions));
                 if (elements.Count <= options.Index.Value)
-                    throw ExceptionFactory.CreateForNoSuchElement(by: by, searchContext: scope);
+                {
+                    if (searchOptions.IsSafely)
+                        return new MissingComponentScopeLocateResult();
+                    else
+                        throw ExceptionFactory.CreateForNoSuchElement(by: by, searchContext: scope);
+                }
                 else
+                {
                     return new SequalComponentScopeLocateResult(elements[options.Index.Value], sequalStrategy);
+                }
             }
             else
             {
