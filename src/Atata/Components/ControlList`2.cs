@@ -19,9 +19,16 @@ namespace Atata
     {
         private FindAttribute itemFindAttribute;
 
-        protected ControlDefinitionAttribute ItemDefinition => (ControlDefinitionAttribute)Metadata.ComponentDefinitonAttribute;
+        private string itemComponentTypeName;
 
-        protected FindAttribute ItemFindAttribute => itemFindAttribute ?? (itemFindAttribute = ResolveItemFindAttribute());
+        protected ControlDefinitionAttribute ItemDefinition =>
+            (ControlDefinitionAttribute)Metadata.ComponentDefinitonAttribute;
+
+        protected FindAttribute ItemFindAttribute =>
+            itemFindAttribute ?? (itemFindAttribute = ResolveItemFindAttribute());
+
+        protected string ItemComponentTypeName =>
+            itemComponentTypeName ?? (itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
 
         /// <summary>
         /// Gets the verification provider that gives a set of verification extension methods.
@@ -31,16 +38,16 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls count.
         /// </summary>
-        public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} count", GetCount);
+        public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemComponentTypeName} count", GetCount);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls contents.
         /// </summary>
-        public DataProvider<IEnumerable<string>, TOwner> Contents => Component.GetOrCreateDataProvider($"{ItemDefinition.ComponentTypeName} contents", GetContents);
+        public DataProvider<IEnumerable<string>, TOwner> Contents => Component.GetOrCreateDataProvider($"{ItemComponentTypeName} contents", GetContents);
 
         UIComponent IDataProvider<IEnumerable<TItem>, TOwner>.Component => (UIComponent)Component;
 
-        protected string ProviderName => $"{ItemDefinition.ComponentTypeName} list";
+        protected string ProviderName => $"{ItemComponentTypeName} list";
 
         string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => ProviderName;
 
@@ -159,7 +166,7 @@ namespace Atata
 
             string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
-            return Component.GetOrCreateDataProvider($"index of \"{itemName}\" {ItemDefinition.ComponentTypeName}", () =>
+            return Component.GetOrCreateDataProvider($"index of \"{itemName}\" {ItemComponentTypeName}", () =>
             {
                 return IndexOf(itemName, predicateExpression);
             });
@@ -181,7 +188,7 @@ namespace Atata
         {
             string outerXPath = ItemFindAttribute.OuterXPath ?? ".//";
 
-            By by = By.XPath($"{outerXPath}{ItemDefinition.ScopeXPath}").OfKind(ItemDefinition.ComponentTypeName);
+            By by = By.XPath($"{outerXPath}{ItemDefinition.ScopeXPath}").OfKind(ItemComponentTypeName);
 
             // TODO: Review/remake this Visibility processing.
             if (ItemFindAttribute.Visibility == Visibility.Any)
