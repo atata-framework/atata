@@ -10,6 +10,11 @@ namespace Atata
 
         IUIComponent<TOwner> Parent { get; }
 
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is visible.
+        /// </summary>
+        DataProvider<bool, TOwner> IsVisible { get; }
+
         DataProvider<string, TOwner> Content { get; }
 
         ScopeSource ScopeSource { get; }
@@ -41,6 +46,11 @@ namespace Atata
         UIComponentChildrenList<TOwner> Controls { get; }
 
         UIComponentMetadata Metadata { get; }
+
+        /// <summary>
+        /// Gets the set of triggers. Provides the functionality to get/add/remove triggers dynamically.
+        /// </summary>
+        UIComponentTriggerSet<TOwner> Triggers { get; }
 
         UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should { get; }
 
