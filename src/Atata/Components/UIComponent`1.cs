@@ -18,6 +18,7 @@ namespace Atata
             Controls = new UIComponentChildrenList<TOwner>(this);
             Attributes = new UIComponentAttributeProvider<TOwner> { Component = this };
             Css = new UIComponentCssProvider<TOwner> { Component = this };
+            ComponentLocation = new UIComponentLocationProvider<TOwner> { Component = this };
             ComponentSize = new UIComponentSizeProvider<TOwner> { Component = this };
             Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
@@ -48,6 +49,11 @@ namespace Atata
         /// Gets the verification provider that gives a set of verification extension methods.
         /// </summary>
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentLocationProvider{TOwner}"/> instance that provides an access to the scope element's location (X and Y).
+        /// </summary>
+        public UIComponentLocationProvider<TOwner> ComponentLocation { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).

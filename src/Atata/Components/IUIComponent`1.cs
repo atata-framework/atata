@@ -25,6 +25,11 @@ namespace Atata
         string ComponentFullName { get; }
 
         /// <summary>
+        /// Gets the <see cref="UIComponentLocationProvider{TOwner}"/> instance that provides an access to the scope element's location (X and Y).
+        /// </summary>
+        UIComponentLocationProvider<TOwner> ComponentLocation { get; }
+
+        /// <summary>
         /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
         /// </summary>
         UIComponentSizeProvider<TOwner> ComponentSize { get; }
