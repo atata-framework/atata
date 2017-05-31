@@ -24,6 +24,11 @@ namespace Atata
 
         string ComponentFullName { get; }
 
+        /// <summary>
+        /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
+        /// </summary>
+        UIComponentSizeProvider<TOwner> ComponentSize { get; }
+
         UIComponentAttributeProvider<TOwner> Attributes { get; }
 
         UIComponentCssProvider<TOwner> Css { get; }
