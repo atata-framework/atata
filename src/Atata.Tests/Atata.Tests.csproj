@@ -117,6 +117,7 @@
     <Compile Include="AutoTest.cs" />
     <Compile Include="TestCaseDataSource.cs" />
     <Compile Include="FindingTest.cs" />
+    <Compile Include="UIComponentTest.cs" />
     <Compile Include="WaitingTest.cs" />
   </ItemGroup>
   <ItemGroup>
