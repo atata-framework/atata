@@ -5,6 +5,18 @@ namespace Atata.Tests
     public class UIComponentTest : AutoTest
     {
         [Test]
+        public void UIComponent_ComponentLocation()
+        {
+            int y;
+
+            Go.To<InputPage>().
+                TextInput.ComponentLocation.X.Should.BeGreater(10).
+                TextInput.ComponentLocation.Y.Should.BeInRange(10, 1000).
+                TextInput.ComponentLocation.Y.Get(out y).
+                TextInput.ComponentLocation.Y.Should.Equal(y);
+        }
+
+        [Test]
         public void UIComponent_ComponentSize()
         {
             int height;
