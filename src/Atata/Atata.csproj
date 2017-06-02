@@ -80,6 +80,8 @@
     <Compile Include="Components\Fields\Content\Label`1.cs" />
     <Compile Include="Components\Frame`1.cs" />
     <Compile Include="Components\Frame`2.cs" />
+    <Compile Include="Components\HierarchicalControl`2.cs" />
+    <Compile Include="Components\HierarchicalItem`2.cs" />
     <Compile Include="Components\ListItem`1.cs" />
     <Compile Include="Components\OrderedList`2.cs" />
     <Compile Include="Components\UIComponentLocationProvider`1.cs" />
