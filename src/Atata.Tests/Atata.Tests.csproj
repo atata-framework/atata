@@ -73,6 +73,7 @@
     <Compile Include="Components\BasicControlsPage.cs" />
     <Compile Include="Components\CheckBoxListPage.cs" />
     <Compile Include="Components\ContentPage.cs" />
+    <Compile Include="Components\FindingWithSettingsPage.cs" />
     <Compile Include="Components\FrameInner2Page.cs" />
     <Compile Include="Components\FrameInner1Page.cs" />
     <Compile Include="Components\FrameInner1SelfSwitchingPage.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Components\WaitingPage.cs" />
     <Compile Include="ContentTest.cs" />
     <Compile Include="ControlListTest.cs" />
+    <Compile Include="FindingWithSettingsTest.cs" />
     <Compile Include="FrameTest.cs" />
     <Compile Include="GoTest.cs" />
     <Compile Include="InputTest.cs" />

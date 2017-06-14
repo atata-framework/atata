@@ -1,0 +1,43 @@
+﻿namespace Atata.Tests
+{
+    using _ = FindingWithSettingsPage;
+
+    [Url("Finding.html")]
+    [Name("Finding")]
+    [VerifyTitle]
+    [VerifyH1]
+    [ControlFinding(FindTermBy.Value, ControlType = typeof(RadioButton<>))]
+    [ControlFinding(typeof(FindFirstAttribute), ControlType = typeof(RadioFieldSet), ParentComponentType = typeof(_))]
+    [TermFindSettings(FindTermBy.Value, Case = TermCase.Pascal, TargetType = typeof(RadioButton<>))]
+    [FindSettings(OuterXPath = "unknown", TargetType = typeof(RadioButton<>))]
+    [FindSettings(OuterXPath = ".//", TargetType = typeof(RadioButton<>), TargetName = nameof(OptionB))]
+    [FindSettings(OuterXPath = null, TargetName = nameof(OptionC))]
+    public class FindingWithSettingsPage : Page<_>
+    {
+        public RadioButton<_> OptionA { get; private set; }
+
+        public RadioButton<_> OptionB { get; private set; }
+
+        public RadioButton<_> OptionC { get; private set; }
+
+        public RadioButton<_> OptionD { get; private set; }
+
+        public RadioFieldSet RadioSet { get; private set; }
+
+        [ControlFinding(FindTermBy.DescriptionTerm)]
+        [ControlFinding(FindTermBy.Value, ControlType = typeof(RadioButton<>))]
+        [TermFindSettings(FindTermBy.Value, Case = TermCase.Pascal)]
+        [FindSettings(Visibility = Visibility.Hidden, TargetType = typeof(Field<,>))]
+        [FindSettings(Visibility = Visibility.Visible, TargetTypes = new[] { typeof(Field<,>), typeof(Label<>) }, TargetNames = new[] { nameof(OptionB), nameof(OptionD), "Missing" })]
+        public class RadioFieldSet : Control<_>
+        {
+            public RadioButton<_> OptionA { get; private set; }
+
+            public RadioButton<_> OptionB { get; private set; }
+
+            public RadioButton<_> OptionC { get; private set; }
+
+            public RadioButton<_> OptionD { get; private set; }
+        }
+    }
+}
