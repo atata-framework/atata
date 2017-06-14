@@ -65,5 +65,34 @@ namespace Atata
 
             return property;
         }
+
+        public static int? GetDepthOfInheritance(this Type type, Type baseType)
+        {
+            type.CheckNotNull(nameof(type));
+
+            if (baseType == null)
+                return null;
+            else if (baseType.IsGenericTypeDefinition)
+                return type.GetDepthOfInheritanceOfRawGeneric(baseType);
+            else
+                return GetDepthOfInheritanceOfRegularType(type, baseType);
+        }
+
+        private static int? GetDepthOfInheritanceOfRegularType(Type type, Type baseType)
+        {
+            Type typeToCheck = type;
+            int depth = 0;
+
+            while (typeToCheck != null && typeToCheck != typeof(object))
+            {
+                if (typeToCheck == baseType)
+                    return depth;
+
+                typeToCheck = typeToCheck.BaseType;
+                depth++;
+            }
+
+            return null;
+        }
     }
 }

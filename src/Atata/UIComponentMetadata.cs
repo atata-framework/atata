@@ -60,11 +60,11 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
+        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="TargetAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="TargetAttribute"/>.</param>
         /// <returns>The first attribute found or null.</returns>
-        public TAttribute Get<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null)
+        public TAttribute Get<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
         {
-            var attributes = GetAllAttributes(levels);
-            return GetFirstOrDefaultAttribute(attributes, predicate);
+            return GetAll(levels, predicate, filterByTarget).FirstOrDefault();
         }
 
         /// <summary>
@@ -73,45 +73,62 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
+        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="TargetAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="TargetAttribute"/>.</param>
         /// <returns>The sequence of attributes found.</returns>
-        public IEnumerable<TAttribute> GetAll<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null)
+        public IEnumerable<TAttribute> GetAll<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
         {
-            var attributes = GetAllAttributes(levels);
-            return FilterAttributes(attributes, predicate);
+            var attributeSets = GetAllAttributeSets(levels);
+            return FilterAttributeSets(attributeSets, predicate, filterByTarget);
         }
 
-        private IEnumerable<Attribute> GetAllAttributes(AttributeLevels level)
+        private IEnumerable<IEnumerable<Attribute>> GetAllAttributeSets(AttributeLevels level)
         {
             IEnumerable<Attribute> result = Enumerable.Empty<Attribute>();
 
             if (level.HasFlag(AttributeLevels.Declared))
-                result = result.Concat(DeclaredAttributesList);
+                yield return DeclaredAttributesList;
 
             if (level.HasFlag(AttributeLevels.ParentComponent))
-                result = result.Concat(ParentComponentAttributes);
+                yield return ParentComponentAttributes;
 
             if (level.HasFlag(AttributeLevels.Assembly))
-                result = result.Concat(AssemblyAttributesList);
+                yield return AssemblyAttributesList;
 
             if (level.HasFlag(AttributeLevels.Global))
-                result = result.Concat(GlobalAttributesList);
+                yield return GlobalAttributesList;
 
             if (level.HasFlag(AttributeLevels.Component))
-                result = result.Concat(ComponentAttributesList);
-
-            return result;
+                yield return ComponentAttributesList;
         }
 
-        private T GetFirstOrDefaultAttribute<T>(IEnumerable<Attribute> attributes, Func<T, bool> predicate = null)
+        private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(IEnumerable<IEnumerable<Attribute>> attributeSets, Func<TAttribute, bool> predicate, bool filterByTarget)
         {
-            var query = attributes.OfType<T>();
-            return predicate == null ? query.FirstOrDefault() : query.FirstOrDefault(predicate);
+            bool shouldFilterByTarget = filterByTarget && typeof(TargetAttribute).IsAssignableFrom(typeof(TAttribute));
+
+            foreach (IEnumerable<Attribute> set in attributeSets)
+            {
+                var query = set.OfType<TAttribute>();
+
+                if (predicate != null)
+                    query = query.Where(predicate);
+
+                if (shouldFilterByTarget)
+                    query = FilterAndOrderByTarget(query);
+
+                foreach (TAttribute attribute in query)
+                    yield return attribute;
+            }
         }
 
-        private IEnumerable<TAttribute> FilterAttributes<TAttribute>(IEnumerable<Attribute> attributes, Func<TAttribute, bool> predicate = null)
+        private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes)
         {
-            var query = attributes.OfType<TAttribute>();
-            return predicate != null ? query.Where(predicate) : query;
+            return attributes.OfType<TargetAttribute>().
+                Select(x => new { Attribute = x, Rank = x.CalculateTargetRank(this) }).
+                ToArray().
+                Where(x => x.Rank.HasValue).
+                OrderByDescending(x => x.Rank.Value).
+                Select(x => x.Attribute).
+                Cast<TAttribute>();
         }
 
         [Obsolete("Use Get(AttributeLevels.Declared, predicate) instead.")]

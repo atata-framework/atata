@@ -73,6 +73,7 @@
     <Compile Include="Attributes\Randomization\RandomizeCountAttribute.cs" />
     <Compile Include="Attributes\Randomization\RandomizeExcludeAttribute.cs" />
     <Compile Include="Attributes\Randomization\RandomizeIncludeAttribute.cs" />
+    <Compile Include="Attributes\TargetAttribute.cs" />
     <Compile Include="Attributes\TraceLogAttribute.cs" />
     <Compile Include="Attributes\Triggers\InvokeDelegateAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
