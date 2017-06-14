@@ -38,7 +38,10 @@ namespace Atata
                 Values = values;
 
             termGetter = md => md.GetAll<TermAttribute>(AttributeLevels.Declared);
-            termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(AttributeLevels.NonComponent, x => x.FindAttributeType == GetType());
+
+            termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(
+                AttributeLevels.NonComponent,
+                x => x.FindAttributeType == GetType());
         }
 
         /// <summary>
