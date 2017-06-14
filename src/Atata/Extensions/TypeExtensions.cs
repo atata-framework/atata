@@ -94,5 +94,17 @@ namespace Atata
 
             return null;
         }
+
+        public static bool IsInheritedFromOrIs(this Type type, Type baseType)
+        {
+            type.CheckNotNull(nameof(type));
+
+            if (baseType == null)
+                return false;
+            else if (baseType.IsGenericTypeDefinition)
+                return type.GetDepthOfInheritanceOfRawGeneric(baseType) != null;
+            else
+                return baseType.IsAssignableFrom(type);
+        }
     }
 }

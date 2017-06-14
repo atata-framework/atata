@@ -408,18 +408,18 @@ namespace Atata
         private static ControlFindingAttribute GetNearestControlFindingAttribute(Type controlType, Type parentComponentType, IEnumerable<Attribute> attributes)
         {
             return attributes.OfType<ControlFindingAttribute>().
-                Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritanceOfRawGeneric(attr.ControlType) }).
+                Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritance(attr.ControlType) }).
                 Where(x => x.Depth != null).
                 OrderBy(x => x.Depth).
                 Select(x => x.Attribute).
-                FirstOrDefault(attr => attr.ParentComponentType == null || parentComponentType.IsSubclassOfRawGeneric(attr.ParentComponentType));
+                FirstOrDefault(attr => attr.ParentComponentType == null || parentComponentType.IsInheritedFromOrIs(attr.ParentComponentType));
         }
 
         private static ControlFindingAttribute GetNearestDefaultControlFindingAttribute(Type parentComponentType, IEnumerable<Attribute> attributes)
         {
             var allFindingAttributes = attributes.OfType<ControlFindingAttribute>().
                 Where(x => x.ControlType == null).
-                Select(attr => new { Attribute = attr, Depth = parentComponentType.GetDepthOfInheritanceOfRawGeneric(attr.ParentComponentType) }).
+                Select(attr => new { Attribute = attr, Depth = parentComponentType.GetDepthOfInheritance(attr.ParentComponentType) }).
                 ToArray();
 
             return allFindingAttributes.Where(x => x.Depth != null).OrderBy(x => x.Depth).Select(x => x.Attribute).FirstOrDefault() ??
