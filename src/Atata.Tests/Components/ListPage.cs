@@ -24,8 +24,22 @@ namespace Atata.Tests
 
         public OrderedList<OrderedListItem, _> ComplexOrderedList { get; private set; }
 
-        [FindById]
-        public UnorderedList<ListItem<_>, _> HierarchicalUnorderedList { get; private set; }
+        [FindById("hierarchical-unordered-list")]
+        public UnorderedList<ListItem<_>, _> UnorderedListForHierarchy { get; private set; }
+
+        public HierarchicalUnorderedList<HierarchicalListItem<_>, _> PlainHierarchicalUnorderedList { get; private set; }
+
+        [FindById("hierarchical-unordered-list")]
+        public HierarchicalUnorderedList<HierarchicalListItem<_>, _> SimpleHierarchicalUnorderedList { get; private set; }
+
+        [FindById("hierarchical-unordered-list")]
+        public HierarchicalUnorderedList<HierarchicalUnorderedListItem, _> ComplexHierarchicalUnorderedList { get; private set; }
+
+        [FindById("hierarchical-ordered-list")]
+        public HierarchicalOrderedList<HierarchicalOrderedListItem, _> ComplexHierarchicalOrderedList { get; private set; }
+
+        [FindById("hierarchical-ordered-list")]
+        public HierarchicalOrderedList<HierarchicalOrderedListItemWithAnyVisibilityUsingControlDefinition, _> ComplexHierarchicalOrderedListWithAnyVisibilityUsingControlDefinition { get; private set; }
 
         public class UnorderedListItem : ListItem<_>
         {
@@ -44,6 +58,31 @@ namespace Atata.Tests
 
             [FindByXPath("span[2]")]
             public Number<_> Amount { get; private set; }
+        }
+
+        public class HierarchicalUnorderedListItem : HierarchicalListItem<HierarchicalUnorderedListItem, _>
+        {
+            [FindByXPath("./span[1]")]
+            public Text<_> Name { get; private set; }
+        }
+
+        public class HierarchicalOrderedListItem : HierarchicalListItem<HierarchicalOrderedListItem, _>
+        {
+            [FindByXPath("./span[1]")]
+            public Text<_> Name { get; private set; }
+
+            [FindByClass]
+            public Number<_> Number { get; private set; }
+        }
+
+        [ControlDefinition("li", ComponentTypeName = "list item", Visibility = Visibility.Any)]
+        public class HierarchicalOrderedListItemWithAnyVisibilityUsingControlDefinition : HierarchicalListItem<HierarchicalOrderedListItemWithAnyVisibilityUsingControlDefinition, _>
+        {
+            [FindByXPath("./span[1]")]
+            public Text<_> Name { get; private set; }
+
+            [FindByClass]
+            public Number<_> Number { get; private set; }
         }
     }
 }
