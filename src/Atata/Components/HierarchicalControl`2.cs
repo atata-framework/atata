@@ -8,6 +8,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TItem">The type of the item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
+    [FindSettings(OuterXPath = "./", TargetName = nameof(Children))]
     public class HierarchicalControl<TItem, TOwner> : Control<TOwner>
         where TItem : HierarchicalItem<TItem, TOwner>
         where TOwner : PageObject<TOwner>
@@ -15,13 +16,11 @@ namespace Atata
         /// <summary>
         /// Gets the children <see cref="ControlList{TItem, TOwner}"/> instance.
         /// </summary>
-        [FindSettings(OuterXPath = "./")]
         public ControlList<TItem, TOwner> Children { get; private set; }
 
         /// <summary>
         /// Gets the descendants (all items at any level of hierarchy) <see cref="ControlList{TItem, TOwner}"/> instance.
         /// </summary>
-        [FindSettings(OuterXPath = ".//")]
         public ControlList<TItem, TOwner> Descendants { get; private set; }
 
         /// <summary>

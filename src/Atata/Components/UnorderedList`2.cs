@@ -5,8 +5,8 @@
     /// </summary>
     /// <typeparam name="TItem">The type of the list item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    /// <seealso cref="Atata.ItemsControl{TItem, TOwner}" />
-    /// <seealso cref="Atata.ListItem{TOwner}" />
+    /// <seealso cref="ItemsControl{TItem, TOwner}" />
+    /// <seealso cref="ListItem{TOwner}" />
     [ControlDefinition("ul", ComponentTypeName = "unordered list")]
     [FindSettings(OuterXPath = "./")]
     public class UnorderedList<TItem, TOwner> : ItemsControl<TItem, TOwner>

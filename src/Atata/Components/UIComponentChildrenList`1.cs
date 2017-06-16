@@ -23,9 +23,25 @@ namespace Atata
         public TControl Create<TControl>(string name, IScopeLocator scopeLocator, params Attribute[] attributes)
             where TControl : Control<TOwner>
         {
+            name.CheckNotNullOrWhitespace(nameof(name));
+
             var control = Create<TControl>(name, attributes);
             control.ScopeLocator = scopeLocator;
             return control;
+        }
+
+        public TControl Resolve<TControl>(string propertyName, Func<IEnumerable<Attribute>> additionalAttributesFactory = null)
+            where TControl : Control<TOwner>
+        {
+            propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
+
+            TControl control = component.Controls.OfType<TControl>().FirstOrDefault(x => x.Metadata.Name == propertyName);
+
+            if (control != null)
+                return control;
+
+            var additionalAttributes = additionalAttributesFactory?.Invoke()?.ToArray();
+            return UIComponentResolver.CreateControlForProperty<TControl, TOwner>(component, propertyName, additionalAttributes);
         }
 
         public Clickable<TOwner> CreateClickable(string name, params Attribute[] attributes)

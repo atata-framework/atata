@@ -66,6 +66,26 @@ namespace Atata
             return property;
         }
 
+        internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, Type propertyType, BindingFlags bindingFlags = BindingFlags.Default)
+        {
+            type.CheckNotNull(nameof(type));
+            name.CheckNotNullOrWhitespace(nameof(name));
+
+            if (propertyType == null)
+                return type.GetPropertyWithThrowOnError(name, bindingFlags);
+
+            PropertyInfo[] properties = bindingFlags == BindingFlags.Default
+                ? type.GetProperties()
+                : type.GetProperties(bindingFlags);
+
+            PropertyInfo property = properties.FirstOrDefault(x => x.Name == name && x.PropertyType.IsAssignableFrom(propertyType));
+
+            if (property == null)
+                throw new MissingMemberException(type.FullName, name);
+
+            return property;
+        }
+
         public static int? GetDepthOfInheritance(this Type type, Type baseType)
         {
             type.CheckNotNull(nameof(type));

@@ -13,8 +13,8 @@
         /// <summary>
         /// Gets the parent control of <typeparamref name="TItem"/> type.
         /// </summary>
-        [FindFirst(OuterXPath = "ancestor::")]
-        public new TItem Parent { get; private set; }
+        [FindLast(OuterXPath = "ancestor::")]
+        public new TItem Parent => Controls.Resolve<TItem>(nameof(Parent));
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control has parent.

@@ -38,16 +38,16 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls count.
         /// </summary>
-        public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ItemComponentTypeName} count", GetCount);
+        public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ComponentPartName} count", GetCount);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls contents.
         /// </summary>
-        public DataProvider<IEnumerable<string>, TOwner> Contents => Component.GetOrCreateDataProvider($"{ItemComponentTypeName} contents", GetContents);
+        public DataProvider<IEnumerable<string>, TOwner> Contents => Component.GetOrCreateDataProvider($"{ComponentPartName} contents", GetContents);
 
         UIComponent IDataProvider<IEnumerable<TItem>, TOwner>.Component => (UIComponent)Component;
 
-        protected string ProviderName => $"{ItemComponentTypeName} list";
+        protected string ProviderName => $"{ComponentPartName}";
 
         string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => ProviderName;
 
@@ -166,7 +166,7 @@ namespace Atata
 
             string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
-            return Component.GetOrCreateDataProvider($"index of \"{itemName}\" {ItemComponentTypeName}", () =>
+            return Component.GetOrCreateDataProvider($"{ComponentPartName} index of \"{itemName}\" {ItemComponentTypeName}", () =>
             {
                 return IndexOf(itemName, predicateExpression);
             });
@@ -201,9 +201,22 @@ namespace Atata
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
         {
+            if (attributes != null)
+            {
+                foreach (var attribute in attributes.OfType<FindAttribute>())
+                    InitItemFindAttribute(attribute);
+            }
+
             var itemAttributes = attributes?.Concat(GetItemDeclaredAttributes()) ?? GetItemDeclaredAttributes();
 
             return Component.Controls.Create<TItem>(name, itemAttributes.ToArray());
+        }
+
+        private void InitItemFindAttribute(FindAttribute findAttribute)
+        {
+            findAttribute.Visibility = ItemFindAttribute.Visibility;
+            findAttribute.ScopeSource = ItemFindAttribute.ScopeSource;
+            findAttribute.OuterXPath = ItemFindAttribute.OuterXPath;
         }
 
         protected TItem CreateItem(IScopeLocator scopeLocator, string name)

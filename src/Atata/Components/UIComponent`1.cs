@@ -16,10 +16,10 @@ namespace Atata
         protected UIComponent()
         {
             Controls = new UIComponentChildrenList<TOwner>(this);
-            Attributes = new UIComponentAttributeProvider<TOwner> { Component = this };
-            Css = new UIComponentCssProvider<TOwner> { Component = this };
-            ComponentLocation = new UIComponentLocationProvider<TOwner> { Component = this };
-            ComponentSize = new UIComponentSizeProvider<TOwner> { Component = this };
+            Attributes = new UIComponentAttributeProvider<TOwner> { Component = this, ComponentPartName = "attributes" };
+            Css = new UIComponentCssProvider<TOwner> { Component = this, ComponentPartName = "CSS" };
+            ComponentLocation = new UIComponentLocationProvider<TOwner> { Component = this, ComponentPartName = "location" };
+            ComponentSize = new UIComponentSizeProvider<TOwner> { Component = this, ComponentPartName = "size" };
             Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
 

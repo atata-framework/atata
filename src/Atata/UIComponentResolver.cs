@@ -193,6 +193,7 @@ namespace Atata
         {
             UIComponentPart<TOwner> componentPart = (UIComponentPart<TOwner>)ActivatorEx.CreateInstance(property.PropertyType);
             componentPart.Component = parentComponent;
+            componentPart.ComponentPartName = property.Name.ToString(TermCase.MidSentence);
 
             ISupportsMetadata supportsMetadata = componentPart as ISupportsMetadata;
             if (supportsMetadata != null)
@@ -243,7 +244,24 @@ namespace Atata
                 parentComponent.GetType(),
                 attributes);
 
-            var component = (TComponent)CreateComponent<TOwner>(parentComponent, metadata);
+            var component = (TComponent)CreateComponent(parentComponent, metadata);
+
+            parentComponent.Controls.Add(component);
+
+            return component;
+        }
+
+        public static TComponent CreateControlForProperty<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string propertyName, params Attribute[] attributes)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            PropertyInfo property = parentComponent.GetType().GetPropertyWithThrowOnError(propertyName, typeof(TComponent), BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            UIComponentMetadata metadata = CreateStaticControlMetadata(parentComponent, property);
+
+            if (attributes != null)
+                metadata.DeclaredAttributesList.AddRange(attributes);
+
+            var component = (TComponent)CreateComponent(parentComponent, metadata);
 
             parentComponent.Controls.Add(component);
 
