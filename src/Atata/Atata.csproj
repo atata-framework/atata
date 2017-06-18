@@ -65,6 +65,7 @@
     </Compile>
     <Compile Include="ActivatorEx.cs" />
     <Compile Include="AttributeLevels.cs" />
+    <Compile Include="Attributes\ContentSourceAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindControlListItemAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="Attributes\Triggers\InvokeDelegateAttribute.cs" />
     <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
     <Compile Include="Attributes\Triggers\WaitForAngularJSAjaxAttribute.cs" />
+    <Compile Include="ContentSource.cs" />
     <Compile Include="Components\Fields\Content\Label`1.cs" />
     <Compile Include="Components\Frame`1.cs" />
     <Compile Include="Components\Frame`2.cs" />

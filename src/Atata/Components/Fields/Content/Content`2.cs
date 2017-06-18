@@ -16,7 +16,7 @@
 
         protected override T GetValue()
         {
-            string value = Scope.Text;
+            string value = GetContent();
             return ConvertStringToValue(value);
         }
     }

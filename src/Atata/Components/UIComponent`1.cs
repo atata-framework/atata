@@ -95,6 +95,8 @@ namespace Atata
         /// </summary>
         public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
+        protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>(AttributeLevels.All);
+
         protected internal virtual void InitComponent()
         {
             UIComponentResolver.Resolve(this);
@@ -131,7 +133,11 @@ namespace Atata
 
         protected virtual string GetContent()
         {
-            return Scope.Text;
+            var contentSourceAttribute = ContentSourceAttribute;
+
+            return contentSourceAttribute != null
+                ? contentSourceAttribute.GetContent(Scope)
+                : Scope.Text;
         }
 
         protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
