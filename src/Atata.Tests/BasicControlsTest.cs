@@ -35,10 +35,14 @@ namespace Atata.Tests
                 ByLabel.ReadonlyField.Should.Exist().
                 ByLabel.ReadonlyField.Should.BeEnabled().
                 ByLabel.ReadonlyField.Should.BeReadOnly().
+                ByLabel.ReadonlyField.IsReadOnly.Should.BeTrue().
+                ByLabel.ReadonlyField.Attributes.ReadOnly.Should.BeTrue().
                 ByLabel.ReadonlyField.Should.Equal("readme").
 
                 ByLabel.DisabledField.Should.Exist().
                 ByLabel.DisabledField.Should.Not.BeEnabled().
+                ByLabel.DisabledField.IsEnabled.Should.Not.BeTrue().
+                ByLabel.DisabledField.Attributes.Disabled.Should.BeTrue().
                 ByLabel.DisabledField.Should.Not.BeReadOnly().
                 ByLabel.DisabledField.Should.Equal("readme").
 
