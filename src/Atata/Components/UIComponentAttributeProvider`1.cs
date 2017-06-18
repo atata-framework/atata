@@ -10,6 +10,8 @@ namespace Atata
     public class UIComponentAttributeProvider<TOwner> : UIComponentPart<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        private const string AttributeProviderNameFormat = "{0} attribute";
+
         public DataProvider<string, TOwner> Id => Get<string>(nameof(Id));
 
         public DataProvider<string, TOwner> Name => Get<string>(nameof(Name));
@@ -30,9 +32,29 @@ namespace Atata
 
         public DataProvider<string, TOwner> Placeholder => Get<string>(nameof(Placeholder));
 
+        public DataProvider<string, TOwner> Target => Get<string>(nameof(Target));
+
+        public DataProvider<string, TOwner> Pattern => Get<string>(nameof(Pattern));
+
+        public DataProvider<string, TOwner> Accept => Get<string>(nameof(Accept));
+
+        public DataProvider<string, TOwner> Src => Get<string>(nameof(Src));
+
+        public DataProvider<string, TOwner> TextContent => Component.GetOrCreateDataProvider(
+            AttributeProviderNameFormat.FormatWith("textContent"),
+            () => GetValue("textContent")?.Trim());
+
+        public DataProvider<string, TOwner> InnerHtml => Component.GetOrCreateDataProvider(
+            AttributeProviderNameFormat.FormatWith("innerHTML"),
+            () => GetValue("innerHTML")?.Trim());
+
         public DataProvider<bool, TOwner> Disabled => Get<bool>(nameof(Disabled));
 
         public DataProvider<bool, TOwner> ReadOnly => Get<bool>(nameof(ReadOnly));
+
+        public DataProvider<bool, TOwner> Checked => Get<bool>(nameof(Checked));
+
+        public DataProvider<bool, TOwner> Required => Get<bool>(nameof(Required));
 
         public DataProvider<IEnumerable<string>, TOwner> Class => Component.GetOrCreateDataProvider<IEnumerable<string>>(
             "class attribute",
@@ -57,7 +79,7 @@ namespace Atata
         public DataProvider<TValue, TOwner> Get<TValue>(string attributeName)
         {
             string lowerCaseName = attributeName.ToLower();
-            return Component.GetOrCreateDataProvider($"{lowerCaseName} attribute", () => GetValue<TValue>(lowerCaseName));
+            return Component.GetOrCreateDataProvider(AttributeProviderNameFormat.FormatWith(lowerCaseName), () => GetValue<TValue>(lowerCaseName));
         }
 
         /// <summary>

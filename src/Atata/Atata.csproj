@@ -87,6 +87,7 @@
     <Compile Include="Components\HierarchicalListItem`2.cs" />
     <Compile Include="Components\HierarchicalOrderedList`2.cs" />
     <Compile Include="Components\HierarchicalUnorderedList`2.cs" />
+    <Compile Include="Components\LinkTarget.cs" />
     <Compile Include="Components\ListItem`1.cs" />
     <Compile Include="Components\OrderedList`2.cs" />
     <Compile Include="Components\UIComponentLocationProvider`1.cs" />
