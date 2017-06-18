@@ -52,5 +52,20 @@ namespace Atata.Tests
         [Term("DateTime With Format")]
         [Format("f")]
         public DateTime<_> DateTimeWithFormat { get; private set; }
+
+        [FindById]
+        [FindSettings(Visibility = Visibility.Any)]
+        public Content<string, _> HiddenDiv { get; private set; }
+
+        [FindById("hidden-div", Visibility = Visibility.Hidden)]
+        [ContentSource(ContentSource.TextContent)]
+        public Content<string, _> HiddenDivUsingTextContent { get; private set; }
+
+        [FindById("hidden-div", Visibility = Visibility.Any)]
+        [ContentSource(ContentSource.InnerHtml)]
+        public Content<string, _> HiddenDivUsingInnerHtml { get; private set; }
+
+        [FindById]
+        public Content<string, _> VisibleDiv { get; private set; }
     }
 }

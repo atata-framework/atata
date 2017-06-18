@@ -27,5 +27,26 @@ namespace Atata.Tests
                 TextInput.ComponentSize.Height.Get(out height).
                 TextInput.ComponentSize.Height.Should.Equal(height);
         }
+
+        [Test]
+        public void UIComponent_Content()
+        {
+            Go.To<ContentPage>().
+                VisibleDiv.Should.Equal("Some text").
+                VisibleDiv.Content.Should.Equal("Some text");
+        }
+
+        [Test]
+        public void UIComponent_Content_Invisible()
+        {
+            Go.To<ContentPage>().
+                HiddenDiv.Should.Not.BeVisible().
+                HiddenDiv.Should.BeNull().
+                HiddenDiv.Content.Should.BeEmpty().
+                HiddenDivUsingTextContent.Should.Equal("Some text").
+                HiddenDivUsingTextContent.Content.Should.Equal("Some text").
+                HiddenDivUsingInnerHtml.Should.Equal("Some <b>text</b>").
+                HiddenDivUsingInnerHtml.Content.Should.Equal("Some <b>text</b>");
+        }
     }
 }
