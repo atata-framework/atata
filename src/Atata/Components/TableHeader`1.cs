@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the table header cell control (&lt;th&gt;).
+    /// Represents the table header cell control (&lt;th&gt;). Default search finds the first occurring &lt;th&gt; element.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("th", ComponentTypeName = "header")]

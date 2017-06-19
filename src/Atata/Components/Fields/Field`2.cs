@@ -7,7 +7,6 @@ namespace Atata
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlFinding(FindTermBy.Label)]
     public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IDataProvider<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

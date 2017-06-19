@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents any HTML element containing content. Default search is performed by the label.
+    /// Represents any HTML element containing content. Default search finds the first occurring element.
     /// </summary>
     /// <typeparam name="T">The type of the content.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
