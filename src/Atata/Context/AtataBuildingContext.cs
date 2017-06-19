@@ -37,5 +37,10 @@ namespace Atata
         /// Gets the retry interval. The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan RetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
+
+        /// <summary>
+        /// Gets or sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// </summary>
+        public Type AssertionExceptionType { get; set; } = typeof(AssertionException);
     }
 }

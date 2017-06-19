@@ -88,7 +88,7 @@ namespace Atata
             }
         }
 
-        private static AssertionException CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, TData actual, string message, params TData[] args)
+        private static Exception CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, TData actual, string message, params TData[] args)
             where TOwner : PageObject<TOwner>
         {
             return should.CreateAssertionException(
@@ -96,7 +96,7 @@ namespace Atata
                 ObjectToString(actual));
         }
 
-        internal static AssertionException CreateAssertionException<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
+        internal static Exception CreateAssertionException<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
             where TOwner : PageObject<TOwner>
         {
             string errorMessage = new StringBuilder().
@@ -105,7 +105,11 @@ namespace Atata
                 AppendLine($"Actual: {actual}").
                 ToString();
 
-            return new AssertionException(errorMessage);
+            var exceptionType = AtataContext.Current.AssertionExceptionType;
+
+            return exceptionType != null
+                ? (Exception)Activator.CreateInstance(exceptionType, errorMessage)
+                : new AssertionException(errorMessage);
         }
 
         private static string CollectionToString(IEnumerable collection)

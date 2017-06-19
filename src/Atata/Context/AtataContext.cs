@@ -71,6 +71,11 @@ namespace Atata
         /// </summary>
         public TimeSpan RetryInterval { get; internal set; }
 
+        /// <summary>
+        /// Gets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// </summary>
+        public Type AssertionExceptionType { get; internal set; }
+
         internal List<Action> CleanUpActions { get; set; }
 
         public UIComponent PageObject { get; internal set; }

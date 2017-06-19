@@ -104,6 +104,30 @@ namespace Atata
         }
 
         /// <summary>
+        /// Sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// </summary>
+        /// <param name="exceptionType">The type of the exception.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAssertionExceptionType(Type exceptionType)
+        {
+            exceptionType.Check(typeof(Exception).IsAssignableFrom, nameof(exceptionType), $"The type should be inherited from {nameof(Exception)}.");
+
+            BuildingContext.AssertionExceptionType = exceptionType;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// </summary>
+        /// <typeparam name="TException">The type of the exception.</typeparam>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAssertionExceptionType<TException>()
+            where TException : Exception
+        {
+            return UseAssertionExceptionType(typeof(TException));
+        }
+
+        /// <summary>
         /// Adds the action to perform during <see cref="AtataContext"/> cleanup.
         /// </summary>
         /// <param name="action">The action.</param>
@@ -137,7 +161,8 @@ namespace Atata
                 Log = logManager,
                 CleanUpActions = BuildingContext.CleanUpActions,
                 RetryTimeout = BuildingContext.RetryTimeout,
-                RetryInterval = BuildingContext.RetryInterval
+                RetryInterval = BuildingContext.RetryInterval,
+                AssertionExceptionType = BuildingContext.AssertionExceptionType
             };
 
             AtataContext.Current = context;
