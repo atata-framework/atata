@@ -56,6 +56,11 @@ namespace Atata
             return GetOneOf(values);
         }
 
+        public static bool GetBool()
+        {
+            return new Random().Next(2) == 0;
+        }
+
         public static T GetOneOf<T>(params T[] values)
         {
             return GetOneOf((IEnumerable<T>)values);

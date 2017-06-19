@@ -14,6 +14,7 @@ namespace Atata
             Randomizers = new Dictionary<Type, RandomizeFunc>();
 
             RegisterRandomizer(RandomizeString);
+            RegisterRandomizer(RandomizeBool);
             RegisterNumberRandomizer<sbyte>();
             RegisterNumberRandomizer<byte>();
             RegisterNumberRandomizer<short>();
@@ -65,6 +66,11 @@ namespace Atata
             }
 
             return value;
+        }
+
+        private static bool RandomizeBool(UIComponentMetadata metadata)
+        {
+            return Randomizer.GetBool();
         }
 
         private static string NormalizeStringFormat(string format)
@@ -146,7 +152,7 @@ namespace Atata
         public static T GetRandom<T>(UIComponentMetadata metadata)
         {
             Type type = typeof(T);
-            type = Nullable.GetUnderlyingType(typeof(T)) ?? typeof(T);
+            type = Nullable.GetUnderlyingType(type) ?? type;
 
             RandomizeFunc randomizeFunction;
 
