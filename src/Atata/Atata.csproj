@@ -100,6 +100,8 @@
     <Compile Include="IPropertySettings.cs" />
     <Compile Include="ISupportsMetadata.cs" />
     <Compile Include="Logging\FileScreenshotConsumerBase.cs" />
+    <Compile Include="Logging\Sections\DragAndDropToComponentLogSection.cs" />
+    <Compile Include="Logging\Sections\DragAndDropToOffsetLogSection.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />

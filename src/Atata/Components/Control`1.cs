@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the base class for the controls.
@@ -131,6 +133,69 @@
         protected virtual void OnRightClick()
         {
             Driver.Perform(actions => actions.ContextClick(Scope));
+        }
+
+        /// <summary>
+        /// Drags and drops the control to the target control returned by <paramref name="targetControlGetter"/>.
+        /// </summary>
+        /// <param name="targetControlGetter">The target control getter.</param>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner DragAndDropTo(Func<TOwner, UIComponent> targetControlGetter)
+        {
+            targetControlGetter.CheckNotNull(nameof(targetControlGetter));
+
+            UIComponent targetControl = targetControlGetter(Owner);
+
+            return DragAndDropTo(targetControl);
+        }
+
+        /// <summary>
+        /// Drags and drops the control to the target control.
+        /// </summary>
+        /// <param name="targetControl">The target control.</param>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner DragAndDropTo(UIComponent targetControl)
+        {
+            targetControl.CheckNotNull(nameof(targetControl));
+
+            ExecuteTriggers(TriggerEvents.BeforeClick);
+            Log.Start(new DragAndDropToComponentLogSection(this, targetControl));
+
+            OnDragAndDropTo(targetControl);
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterClick);
+
+            return Owner;
+        }
+
+        protected virtual void OnDragAndDropTo(UIComponent targetControl)
+        {
+            Driver.Perform(x => x.DragAndDrop(Scope, targetControl.Scope));
+        }
+
+        /// <summary>
+        /// Drags and drops the control to the specified offset.
+        /// </summary>
+        /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
+        /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner DragAndDropTo(int offsetX, int offsetY)
+        {
+            ExecuteTriggers(TriggerEvents.BeforeClick);
+            Log.Start(new DragAndDropToOffsetLogSection(this, offsetX, offsetY));
+
+            OnDragAndDropTo(offsetX, offsetY);
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterClick);
+
+            return Owner;
+        }
+
+        protected virtual void OnDragAndDropTo(int offsetX, int offsetY)
+        {
+            Driver.Perform(x => x.DragAndDropToOffset(Scope, offsetX, offsetY));
         }
     }
 }
