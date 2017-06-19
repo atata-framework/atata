@@ -28,7 +28,7 @@ namespace Atata
 
         public static int GetInt(int min, int max)
         {
-            return new Random().Next(min, max);
+            return new Random().Next(min, max + 1);
         }
 
         public static decimal GetDecimal(decimal min, decimal max, int precision)
