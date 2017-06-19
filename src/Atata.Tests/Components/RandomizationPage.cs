@@ -51,6 +51,8 @@ namespace Atata.Tests
         [RandomizeInclude(CheckBoxOptions.OptionA, CheckBoxOptions.OptionB, CheckBoxOptions.OptionD, CheckBoxOptions.OptionE, CheckBoxOptions.OptionF)]
         public CheckBoxList<CheckBoxOptions, _> MultipleEnumsIncludingABDEF { get; private set; }
 
+        public CheckBox<_> OptionA { get; private set; }
+
         [FindById("enum-checkboxes")]
         public ItemsControl<CheckBox<_>, _> AllCheckBoxes { get; private set; }
 

@@ -180,5 +180,27 @@ namespace Atata.Tests
 
             Assert.Fail();
         }
+
+        [Test]
+        public void Randomization_Bool()
+        {
+            var control = page.OptionA;
+
+            bool value;
+            control.SetRandom(out value);
+
+            for (int i = 0; i < MaxTriesNumber; i++)
+            {
+                bool newValue;
+
+                control.SetRandom(out newValue);
+                control.Should.Equal(newValue);
+
+                if (newValue != value)
+                    return;
+            }
+
+            Assert.Fail();
+        }
     }
 }
