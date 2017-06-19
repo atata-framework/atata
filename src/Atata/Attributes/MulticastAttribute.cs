@@ -3,8 +3,11 @@ using System.Linq;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base class for attributes that can be applied to component at any level (declared, parent component, assembly, global and component).
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
-    public abstract class TargetAttribute : Attribute
+    public abstract class MulticastAttribute : Attribute
     {
         /// <summary>
         /// Gets or sets the target component names.
@@ -55,7 +58,7 @@ namespace Atata
         /// <returns>
         ///   <c>true</c> if the name applies the criteria; otherwise, <c>false</c>.
         /// </returns>
-        public bool IsNameApplies(string name)
+        public bool IsNameApplicable(string name)
         {
             return TargetNames == null || !TargetNames.Any() || TargetNames.Contains(name);
         }
@@ -67,7 +70,7 @@ namespace Atata
         /// <returns>The rank.</returns>
         public virtual int? CalculateTargetRank(UIComponentMetadata metadata)
         {
-            if (!IsNameApplies(metadata.Name))
+            if (!IsNameApplicable(metadata.Name))
                 return null;
 
             int? depthOfTypeInheritance = GetDepthOfInheritance(TargetTypes, metadata.ComponentType);

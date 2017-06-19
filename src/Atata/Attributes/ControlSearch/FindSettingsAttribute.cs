@@ -5,7 +5,7 @@ namespace Atata
     /// <summary>
     /// Defines the settings to apply for the specified finding strategy of a control.
     /// </summary>
-    public class FindSettingsAttribute : TargetAttribute, IPropertySettings
+    public class FindSettingsAttribute : MulticastAttribute, IPropertySettings
     {
         public FindSettingsAttribute()
         {

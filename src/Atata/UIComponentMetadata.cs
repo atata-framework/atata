@@ -60,7 +60,7 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="TargetAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="TargetAttribute"/>.</param>
+        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
         /// <returns>The first attribute found or null.</returns>
         public TAttribute Get<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
         {
@@ -73,7 +73,7 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="TargetAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="TargetAttribute"/>.</param>
+        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
         /// <returns>The sequence of attributes found.</returns>
         public IEnumerable<TAttribute> GetAll<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
         {
@@ -103,7 +103,7 @@ namespace Atata
 
         private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(IEnumerable<IEnumerable<Attribute>> attributeSets, Func<TAttribute, bool> predicate, bool filterByTarget)
         {
-            bool shouldFilterByTarget = filterByTarget && typeof(TargetAttribute).IsAssignableFrom(typeof(TAttribute));
+            bool shouldFilterByTarget = filterByTarget && typeof(MulticastAttribute).IsAssignableFrom(typeof(TAttribute));
 
             foreach (IEnumerable<Attribute> set in attributeSets)
             {
@@ -122,7 +122,7 @@ namespace Atata
 
         private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes)
         {
-            return attributes.OfType<TargetAttribute>().
+            return attributes.OfType<MulticastAttribute>().
                 Select(x => new { Attribute = x, Rank = x.CalculateTargetRank(this) }).
                 ToArray().
                 Where(x => x.Rank.HasValue).

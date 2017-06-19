@@ -6,7 +6,7 @@ namespace Atata
     /// <summary>
     /// Specifies the content source of a component.
     /// </summary>
-    public class ContentSourceAttribute : TargetAttribute
+    public class ContentSourceAttribute : MulticastAttribute
     {
         public ContentSourceAttribute(ContentSource source)
         {
