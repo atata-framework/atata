@@ -18,8 +18,8 @@ namespace Atata.Tests
 
             list.Items.Count.Should.Equal(3);
             list.Items[0].Content.Should.Equal("Phone 5%");
-            list.Items[1].Content.Should.Equal("Book 10%");
-            list.Items[2].Content.Should.Equal("Table 15%");
+            list[1].Content.Should.Equal("Book 10%");
+            list[2].Content.Should.Equal("Table 15%");
             list.Items.Contents.Should.BeEquivalent("Phone 5%", "Book 10%", "Table 15%");
         }
 
