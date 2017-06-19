@@ -3,6 +3,9 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
+    /// <summary>
+    /// Specifies the content source of a component.
+    /// </summary>
     public class ContentSourceAttribute : TargetAttribute
     {
         public ContentSourceAttribute(ContentSource source)
@@ -15,6 +18,9 @@ namespace Atata
             GetContent = element => element.GetAttribute(attributeName);
         }
 
+        /// <summary>
+        /// Gets the method that returns a content for specified <see cref="IWebElement"/> element.
+        /// </summary>
         public Func<IWebElement, string> GetContent { get; }
 
         private Func<IWebElement, string> CreateGetContentDelegate(ContentSource source)

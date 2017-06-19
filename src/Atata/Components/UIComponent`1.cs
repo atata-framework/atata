@@ -36,12 +36,12 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is visible.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible.
         /// </summary>
         public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible", GetIsVisible);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content. Gets content using <see cref="Atata.ContentSourceAttribute"/> or, by default, uses Text property of component scope <see cref="IWebElement"/> element.
         /// </summary>
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
@@ -95,6 +95,9 @@ namespace Atata
         /// </summary>
         public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
+        /// <summary>
+        /// Gets the instance of <see cref="Atata.ContentSourceAttribute"/> or null, if not found.
+        /// </summary>
         protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>(AttributeLevels.All);
 
         protected internal virtual void InitComponent()
