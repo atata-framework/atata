@@ -69,7 +69,11 @@ namespace Atata.Tests
         public Select<SelectOption?, _> EnumSelect { get; private set; }
 
         [FindById("int-select")]
-        [RandomizeInclude(1, 2, 3)]
+        [RandomizeNumberSettings(1, 2)]
         public Select<int?, _> IntSelect { get; private set; }
+
+        [FindById("int-select")]
+        [RandomizeInclude(1, 2, 3)]
+        public Select<int?, _> IntSelectUsingInclude { get; private set; }
     }
 }

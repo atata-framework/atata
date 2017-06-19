@@ -159,9 +159,32 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Randomization_Int_WithIncluding()
+        public void Randomization_Int()
         {
             var control = page.IntSelect;
+
+            int value;
+            control.SetRandom(out value);
+
+            for (int i = 0; i < MaxTriesNumber; i++)
+            {
+                int newValue;
+
+                control.SetRandom(out newValue);
+                control.Should.Equal(newValue);
+                control.Should.BeInRange(1, 2);
+
+                if (newValue != value)
+                    return;
+            }
+
+            Assert.Fail();
+        }
+
+        [Test]
+        public void Randomization_Int_WithIncluding()
+        {
+            var control = page.IntSelectUsingInclude;
 
             int value;
             control.SetRandom(out value);
