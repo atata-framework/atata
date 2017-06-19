@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    public class WaitingTest : AutoTest
+    public class WaitingTests : UITestFixture
     {
         private WaitingPage page;
 

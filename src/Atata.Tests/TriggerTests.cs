@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Atata.Tests
 {
-    public class TriggerTest : AutoTest
+    public class TriggerTests : UITestFixture
     {
         private TriggersPage page;
 

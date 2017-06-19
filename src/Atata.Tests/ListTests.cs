@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class ListTest : AutoTest
+    public class ListTests : UITestFixture
     {
         private ListPage page;
 

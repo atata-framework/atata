@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class PageObjectTest : AutoTest
+    public class PageObjectTests : UITestFixture
     {
         [Test]
         public void PageObject_RefreshPage()

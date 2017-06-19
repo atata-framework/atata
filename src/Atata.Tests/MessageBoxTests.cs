@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class MessageBoxTest : AutoTest
+    public class MessageBoxTests : UITestFixture
     {
         [Test]
         public void CloseAlertBox()

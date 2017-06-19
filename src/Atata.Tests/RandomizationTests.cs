@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class RandomizationTest : AutoTest
+    public class RandomizationTests : UITestFixture
     {
         private const int MaxTriesNumber = 100;
 

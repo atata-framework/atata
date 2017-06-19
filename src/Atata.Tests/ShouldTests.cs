@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class ShouldTest : AutoTest
+    public class ShouldTests : UITestFixture
     {
         private const string Country1Name = "England";
         private const string Country2Name = "France";

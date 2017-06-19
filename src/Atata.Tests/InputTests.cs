@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class InputTest : AutoTest
+    public class InputTests : UITestFixture
     {
         private InputPage page;
 

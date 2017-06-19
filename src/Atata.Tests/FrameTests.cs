@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class FrameTest : AutoTest
+    public class FrameTests : UITestFixture
     {
         private FramePage page;
 

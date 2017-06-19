@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class UIComponentTest : AutoTest
+    public class UIComponentTests : UITestFixture
     {
         [Test]
         public void UIComponent_ComponentLocation()

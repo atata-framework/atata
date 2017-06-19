@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class CheckBoxTest : AutoTest
+    public class CheckBoxTests : UITestFixture
     {
         private CheckBoxListPage page;
 

@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    public class FindingTest : AutoTest
+    public class FindingTests : UITestFixture
     {
         private FindingPage page;
 

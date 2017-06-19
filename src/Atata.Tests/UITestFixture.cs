@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace Atata.Tests
 {
     [TestFixture]
-    public abstract class AutoTest
+    public abstract class UITestFixture
     {
         private StringListLogConsumer stringListLogConsumer;
 

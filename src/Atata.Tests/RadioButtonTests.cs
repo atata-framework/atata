@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class RadioButtonTest : AutoTest
+    public class RadioButtonTests : UITestFixture
     {
         private RadioButtonListPage page;
 

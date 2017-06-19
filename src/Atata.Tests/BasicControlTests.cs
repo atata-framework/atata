@@ -2,10 +2,10 @@
 
 namespace Atata.Tests
 {
-    public class BasicControlsTest : AutoTest
+    public class BasicControlTests : UITestFixture
     {
         [Test]
-        public void BasicControlsInteraction()
+        public void BasicControlInteraction()
         {
             string firstName;
 

@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class FindingWithSettingsTest : AutoTest
+    public class FindingWithSettingsTests : UITestFixture
     {
         private FindingWithSettingsPage page;
 

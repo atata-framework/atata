@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class GoTest : AutoTest
+    public class GoTests : UITestFixture
     {
         [Test]
         public void Go_To_SimpleNavigation()

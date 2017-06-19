@@ -6,7 +6,7 @@ namespace Atata.Tests
 {
     [TestFixture]
     [SetCulture("en-us")]
-    public class TermResolverTest
+    public class TermResolverTests
     {
         [TermSettings(Format = ">>{0}")]
         public enum Options

@@ -3,7 +3,7 @@
 namespace Atata.Tests
 {
     [TestFixture]
-    public class TermCaseTest
+    public class TermCaseTests
     {
         [TestCase(Atata.TermCase.None, "SimpleText", ExpectedResult = "SimpleText")]
         [TestCase(Atata.TermCase.None, "IsHTML5Text?", ExpectedResult = "IsHTML5Text?")]

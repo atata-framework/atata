@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class ControlListTest : AutoTest
+    public class ControlListTests : UITestFixture
     {
         [Test]
         public void ControlList_TextInput()

@@ -3,7 +3,7 @@
 namespace Atata.Tests
 {
     [TestFixture]
-    public class ClickableTest : AutoTest
+    public class ClickableTests : UITestFixture
     {
         [Test]
         public void ControlDelegates()

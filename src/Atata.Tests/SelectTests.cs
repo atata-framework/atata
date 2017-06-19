@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    public class SelectTest : AutoTest
+    public class SelectTests : UITestFixture
     {
         private SelectPage page;
 
