@@ -73,6 +73,7 @@
     <Compile Include="Components\BasicControlsPage.cs" />
     <Compile Include="Components\CheckBoxListPage.cs" />
     <Compile Include="Components\ContentPage.cs" />
+    <Compile Include="Components\DragAndDropPage.cs" />
     <Compile Include="Components\FindingWithSettingsPage.cs" />
     <Compile Include="Components\FrameInner2Page.cs" />
     <Compile Include="Components\FrameInner1Page.cs" />
@@ -94,6 +95,7 @@
     <Compile Include="Components\WaitingPage.cs" />
     <Compile Include="ContentTests.cs" />
     <Compile Include="ControlListTests.cs" />
+    <Compile Include="ControlTests.cs" />
     <Compile Include="FindingWithSettingsTests.cs" />
     <Compile Include="FrameTests.cs" />
     <Compile Include="GoTests.cs" />
@@ -146,7 +148,7 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.0\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="..\packages\WebDriver.ChromeDriver.win32.2.29.0.0\content\chromedriver.exe">
+    <Content Include="..\packages\WebDriver.ChromeDriver.win32.2.30.0.0\content\chromedriver.exe">
       <Link>chromedriver.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
