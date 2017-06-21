@@ -169,9 +169,17 @@ namespace Atata
 
             context.LogTestStart();
 
-            context.Log.Start("Init WebDriver");
+            context.Log.Start("Set up AtataContext", LogLevel.Trace);
+
+            if (context.BaseUrl != null)
+                context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
+
+            context.Log.Trace($"Set: RetryTimeout={context.RetryTimeout.ToIntervalString()}; RetryInterval={context.RetryInterval.ToIntervalString()}");
 
             context.Driver = BuildingContext.DriverCreator?.Invoke() ?? new FirefoxDriver();
+
+            context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}");
+
             context.Driver.Manage().Timeouts().SetRetryTimeout(BuildingContext.RetryTimeout, BuildingContext.RetryInterval);
 
             context.Log.EndSection();

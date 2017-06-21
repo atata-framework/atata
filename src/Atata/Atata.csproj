@@ -100,6 +100,7 @@
     <Compile Include="Components\UIComponentSizeProvider`1.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="Extensions\ScreenshotImageFormatExtensions.cs" />
+    <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="IPropertySettings.cs" />
     <Compile Include="ISupportsMetadata.cs" />
     <Compile Include="Logging\FileScreenshotConsumerBase.cs" />

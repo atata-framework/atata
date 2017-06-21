@@ -165,7 +165,7 @@ namespace Atata
                 LogEventInfo eventInfo = new LogEventInfo
                 {
                     Level = section.Level,
-                    Message = $"Finished: {section.Message} ({Math.Floor(duration.TotalSeconds)}.{duration:fff}s)",
+                    Message = $"Finished: {section.Message} ({duration.ToIntervalString()})",
                     SectionEnd = section
                 };
 
