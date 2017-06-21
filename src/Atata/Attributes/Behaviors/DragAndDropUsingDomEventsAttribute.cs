@@ -4,7 +4,7 @@
     /// Represents the behavior for drag and drop using JavaScript.
     /// The script simulates drag and drop by dispatching DOM events: 'dragstart', 'dragenter', 'dragover', 'drop' and 'dragend'.
     /// </summary>
-    public class DragAndDropUsingScriptAttribute : DragAndDropBehaviorAttribute
+    public class DragAndDropUsingDomEventsAttribute : DragAndDropBehaviorAttribute
     {
         private const string Script =
 @"var src=arguments[0],tgt=arguments[1];var dataTransfer={dropEffect:'',effectAllowed:'all',files:[],items:{},types:[],

@@ -67,7 +67,7 @@
     <Compile Include="AttributeLevels.cs" />
     <Compile Include="Attributes\Behaviors\DragAndDropBehaviorAttribute.cs" />
     <Compile Include="Attributes\Behaviors\DragAndDropUsingActionsAttribute.cs" />
-    <Compile Include="Attributes\Behaviors\DragAndDropUsingScriptAttribute.cs" />
+    <Compile Include="Attributes\Behaviors\DragAndDropUsingDomEventsAttribute.cs" />
     <Compile Include="Attributes\ContentSourceAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindControlListItemAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />
