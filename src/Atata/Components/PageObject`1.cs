@@ -379,6 +379,18 @@ namespace Atata
         }
 
         /// <summary>
+        /// Presses the specified keystrokes.
+        /// </summary>
+        /// <param name="keys">The keystrokes to send to the browser.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner Press(string keys)
+        {
+            Driver.Perform(x => x.SendKeys(keys));
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
         /// Waits the specified time.
         /// </summary>
         /// <param name="time">The time to wait.</param>
