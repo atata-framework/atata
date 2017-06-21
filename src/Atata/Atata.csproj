@@ -65,6 +65,9 @@
     </Compile>
     <Compile Include="ActivatorEx.cs" />
     <Compile Include="AttributeLevels.cs" />
+    <Compile Include="Attributes\Behaviors\DragAndDropBehaviorAttribute.cs" />
+    <Compile Include="Attributes\Behaviors\DragAndDropUsingActionsBehaviorAttribute.cs" />
+    <Compile Include="Attributes\Behaviors\DragAndDropUsingScriptBehaviorAttribute.cs" />
     <Compile Include="Attributes\ContentSourceAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindControlListItemAttribute.cs" />
     <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />

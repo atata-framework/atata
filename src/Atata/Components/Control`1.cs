@@ -136,32 +136,32 @@ namespace Atata
         }
 
         /// <summary>
-        /// Drags and drops the control to the target control returned by <paramref name="targetControlGetter"/>.
+        /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>. By default uses <see cref="DragAndDropUsingActionsBehaviorAttribute"/>.
         /// </summary>
-        /// <param name="targetControlGetter">The target control getter.</param>
+        /// <param name="targetSelector">The target control selector.</param>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner DragAndDropTo(Func<TOwner, UIComponent> targetControlGetter)
+        public TOwner DragAndDropTo(Func<TOwner, Control<TOwner>> targetSelector)
         {
-            targetControlGetter.CheckNotNull(nameof(targetControlGetter));
+            targetSelector.CheckNotNull(nameof(targetSelector));
 
-            UIComponent targetControl = targetControlGetter(Owner);
+            var target = targetSelector(Owner);
 
-            return DragAndDropTo(targetControl);
+            return DragAndDropTo(target);
         }
 
         /// <summary>
-        /// Drags and drops the control to the target control.
+        /// Drags and drops the control to the target control. By default uses <see cref="DragAndDropUsingActionsBehaviorAttribute"/>.
         /// </summary>
-        /// <param name="targetControl">The target control.</param>
+        /// <param name="target">The target control.</param>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner DragAndDropTo(UIComponent targetControl)
+        public TOwner DragAndDropTo(Control<TOwner> target)
         {
-            targetControl.CheckNotNull(nameof(targetControl));
+            target.CheckNotNull(nameof(target));
 
             ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.Start(new DragAndDropToComponentLogSection(this, targetControl));
+            Log.Start(new DragAndDropToComponentLogSection(this, target));
 
-            OnDragAndDropTo(targetControl);
+            OnDragAndDropTo(target);
 
             Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
@@ -169,9 +169,12 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnDragAndDropTo(UIComponent targetControl)
+        protected virtual void OnDragAndDropTo(Control<TOwner> target)
         {
-            Driver.Perform(x => x.DragAndDrop(Scope, targetControl.Scope));
+            var behavior = Metadata.Get<DragAndDropBehaviorAttribute>(AttributeLevels.All)
+                ?? new DragAndDropUsingActionsBehaviorAttribute();
+
+            behavior.Execute(this, target);
         }
 
         /// <summary>
@@ -180,12 +183,12 @@ namespace Atata
         /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
         /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner DragAndDropTo(int offsetX, int offsetY)
+        public TOwner DragAndDropToOffset(int offsetX, int offsetY)
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
             Log.Start(new DragAndDropToOffsetLogSection(this, offsetX, offsetY));
 
-            OnDragAndDropTo(offsetX, offsetY);
+            OnDragAndDropToOffset(offsetX, offsetY);
 
             Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
@@ -193,7 +196,7 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnDragAndDropTo(int offsetX, int offsetY)
+        protected virtual void OnDragAndDropToOffset(int offsetX, int offsetY)
         {
             Driver.Perform(x => x.DragAndDropToOffset(Scope, offsetX, offsetY));
         }
