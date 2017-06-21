@@ -41,7 +41,12 @@
                         </tr>
                     </tbody>
                 </table>
-                <table class="table table-hover">
+                <div>
+                    <button class="btn btn-default" onclick="addUsa()">Add USA</button>
+                    <button class="btn btn-default" onclick="addChina()">Add China (with delay)</button>
+                    <button class="btn btn-default" onclick="clearChina()">Clear China</button>
+                </div>
+                <table id="country-table" class="table table-hover">
                     <thead>
                         <tr>
                             <th>Country</th>
@@ -75,9 +80,24 @@
             </div>
         </div>
     </div>
+    <script src="Scripts/jquery-3.1.1.min.js"></script>
     <script>
         function goTo() {
             window.document.location = '/GoTo1.html';
+        }
+
+        function addUsa() {
+            $('#country-table > tbody:last-child').append('<tr><td>USA</td><td>Washington</td></tr>');
+        }
+
+        function addChina() {
+            setTimeout(function () {
+                $('#country-table > tbody:last-child').append('<tr class="china-row"><td>China</td><td>Beijing</td></tr>');
+            }, 2000);
+        }
+
+        function clearChina() {
+            $('#country-table tr.china-row').remove();
         }
     </script>
 </body>

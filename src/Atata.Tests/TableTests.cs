@@ -114,5 +114,46 @@ namespace Atata.Tests
                 EmptyTable.Rows.Should.BeEmpty().
                 EmptyTable.Rows[x => x.Name == "missing"].Should.Not.Exist();
         }
+
+        [Test]
+        public void Table_RowAppends()
+        {
+            page.
+                CountryTable.Rows.Count.Should.Equal(3).
+                AddUsa.Click().
+                CountryTable.Rows[x => x.Country == "USA"].Capital.Should.Equal("Washington").
+                CountryTable.Rows.Count.Should.Equal(4);
+        }
+
+        [Test]
+        public void Table_RowAppends_WithDelay()
+        {
+            page.
+                CountryTable.Rows.Count.Should.Equal(3).
+                AddChina.Click().
+                CountryTable.Rows[x => x.Country == "China"].Capital.Should.Equal("Beijing").
+                ClearChina.Click().
+
+                CountryTable.Rows.Count.Should.Equal(3).
+                AddChina.Click().
+                CountryTable.Rows[3].Capital.Click().
+                CountryTable.Rows.Count.Should.Equal(4).
+                ClearChina.Click().
+
+                CountryTable.Rows.Count.Should.Equal(3).
+                AddChina.Click().
+                CountryTable.Rows.Count.Should.Equal(4).
+                ClearChina.Click().
+
+                CountryTable.Rows.Count.Should.Equal(3).
+                AddChina.Click().
+                CountryTable.Rows.IndexOf(x => x.Capital == "Beijing").Should.Equal(3).
+                ClearChina.Click().
+
+                CountryTable.Rows.Count.Should.Equal(3).
+                AddChina.Click().
+                CountryTable.Rows.Count.Should.AtOnce.Equal(3).
+                CountryTable.Rows.SelectData(x => x.Capital).Should.Contain("Beijing");
+        }
     }
 }

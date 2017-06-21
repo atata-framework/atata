@@ -12,6 +12,14 @@ namespace Atata.Tests
 
         public Table<UserNavigatableTableRow, _> NavigatableTable { get; private set; }
 
+        [Term("Add USA")]
+        public Button<_> AddUsa { get; private set; }
+
+        [Term(TermMatch.StartsWith)]
+        public Button<_> AddChina { get; private set; }
+
+        public Button<_> ClearChina { get; private set; }
+
         [FindByIndex(1)]
         public Table<CountryTableRow, _> CountryTable { get; private set; }
 
