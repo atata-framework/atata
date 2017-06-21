@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -58,6 +59,18 @@ namespace Atata.Tests
 
             Assert.Throws<AssertionException>(
                 () => page1.GoForward<GoTo3Page>());
+        }
+
+        [Test]
+        public void PageObject_Press()
+        {
+            Go.To<InputPage>().
+                TextInput.Focus().
+                Press("abc").
+                Press("d").
+                Press(Keys.Tab).
+                Press("e").
+                TextInput.Should.Equal("abcd");
         }
     }
 }
