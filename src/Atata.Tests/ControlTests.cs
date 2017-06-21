@@ -1,10 +1,11 @@
-﻿using Atata.Tests.Components;
+﻿using NUnit.Framework;
 
 namespace Atata.Tests
 {
     public class ControlTests : UITestFixture
     {
-        public void Control_DragAndDrop()
+        [Test]
+        public void Control_DragAndDrop_UsingDragAndDropUsingScriptBehavior()
         {
             Go.To<DragAndDropPage>().
                 DropContainer.Items.Should.BeEmpty().

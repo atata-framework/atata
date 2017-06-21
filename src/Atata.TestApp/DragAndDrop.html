@@ -20,11 +20,11 @@
         }
 
             .drag-item:hover {
-                background-color: red;
+                background-color: lightblue;
             }
 
             .drag-item:active {
-                background-color: blue;
+                background-color: deepskyblue;
             }
     </style>
 </head>
@@ -47,12 +47,10 @@
         }
 
         function drag(ev) {
-            console.log("drag started");
             ev.dataTransfer.setData("text", ev.target.id);
         }
 
         function drop(ev) {
-            console.log("drop started");
             ev.preventDefault();
             var data = ev.dataTransfer.getData("text");
             ev.target.appendChild(document.getElementById(data));

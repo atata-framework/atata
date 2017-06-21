@@ -1,4 +1,4 @@
-﻿namespace Atata.Tests.Components
+﻿namespace Atata.Tests
 {
     using _ = DragAndDropPage;
 
@@ -12,6 +12,7 @@
         public ItemsControl<DragItem, _> DragItems { get; private set; }
 
         [ControlDefinition("span", ContainingClass = "drag-item")]
+        [DragAndDropUsingScriptBehavior]
         public class DragItem : Control<_>
         {
         }
