@@ -21,7 +21,7 @@
         Sentence,
 
         /// <summary>
-        /// Uses mid-sentence case where the first word is not capitalised (e.g. "some term").
+        /// Uses mid-sentence case where the first word is not capitalized (e.g. "some term").
         /// </summary>
         MidSentence,
 
@@ -76,7 +76,7 @@
         PascalHyphenKebab,
 
         /// <summary>
-        /// Uses undersore ('_') and lower case (e.g. "some_term").
+        /// Uses underscore ('_') and lower case (e.g. "some_term").
         /// </summary>
         Snake
     }
