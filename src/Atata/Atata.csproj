@@ -106,6 +106,7 @@
     <Compile Include="Logging\FileScreenshotConsumerBase.cs" />
     <Compile Include="Logging\Sections\DragAndDropToComponentLogSection.cs" />
     <Compile Include="Logging\Sections\DragAndDropToOffsetLogSection.cs" />
+    <Compile Include="Logging\Sections\PressKeysLogSection.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="ScopeSearch\Strategies\FindFirstDescendantStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\FindLastDescendantStrategy.cs" />
     <Compile Include="ScopeSearch\Strategies\UseParentScopeStrategy.cs" />
+    <Compile Include="SpecialKeys.cs" />
     <Compile Include="UIComponentTriggerSet`1.cs" />
     <Compile Include="Verification\AssertionException.cs" />
     <Compile Include="Attributes\CellIndexToClickAttribute.cs" />

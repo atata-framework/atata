@@ -17,7 +17,11 @@
         {
             if (!string.IsNullOrEmpty(Keys))
             {
+                context.Log.Start(new PressKeysLogSection((UIComponent)context.Component, Keys));
+
                 context.Driver.Perform(x => x.SendKeys(Keys));
+
+                context.Log.EndSection();
             }
         }
     }

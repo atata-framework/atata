@@ -385,7 +385,14 @@ namespace Atata
         /// <returns>The instance of this page object.</returns>
         public TOwner Press(string keys)
         {
-            Driver.Perform(x => x.SendKeys(keys));
+            if (!string.IsNullOrEmpty(keys))
+            {
+                Log.Start(new PressKeysLogSection(this, keys));
+
+                Driver.Perform(x => x.SendKeys(keys));
+
+                Log.EndSection();
+            }
 
             return (TOwner)this;
         }
