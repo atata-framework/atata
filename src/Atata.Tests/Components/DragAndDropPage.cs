@@ -12,7 +12,7 @@
         public ItemsControl<DragItem, _> DragItems { get; private set; }
 
         [ControlDefinition("span", ContainingClass = "drag-item")]
-        [DragAndDropUsingScriptBehavior]
+        [DragAndDropUsingScript]
         public class DragItem : Control<_>
         {
         }

@@ -7,7 +7,7 @@ namespace Atata
     /// Represents the behavior for drag and drop using WebDriver's <see cref="Actions"/>.
     /// Performs <see cref="Actions.ClickAndHold(IWebElement)"/>, <see cref="Actions.MoveToElement(IWebElement)"/> and <see cref="Actions.Release(IWebElement)"/> actions.
     /// </summary>
-    public class DragAndDropUsingActionsBehaviorAttribute : DragAndDropBehaviorAttribute
+    public class DragAndDropUsingActionsAttribute : DragAndDropBehaviorAttribute
     {
         public override void Execute<TOwner>(IControl<TOwner> component, IControl<TOwner> target)
         {

@@ -136,7 +136,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>. By default uses <see cref="DragAndDropUsingActionsBehaviorAttribute"/>.
+        /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>. By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
         /// </summary>
         /// <param name="targetSelector">The target control selector.</param>
         /// <returns>The instance of the owner page object.</returns>
@@ -150,7 +150,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Drags and drops the control to the target control. By default uses <see cref="DragAndDropUsingActionsBehaviorAttribute"/>.
+        /// Drags and drops the control to the target control. By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
         /// </summary>
         /// <param name="target">The target control.</param>
         /// <returns>The instance of the owner page object.</returns>
@@ -172,7 +172,7 @@ namespace Atata
         protected virtual void OnDragAndDropTo(Control<TOwner> target)
         {
             var behavior = Metadata.Get<DragAndDropBehaviorAttribute>(AttributeLevels.All)
-                ?? new DragAndDropUsingActionsBehaviorAttribute();
+                ?? new DragAndDropUsingActionsAttribute();
 
             behavior.Execute(this, target);
         }
