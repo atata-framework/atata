@@ -160,7 +160,15 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets'))" />
   </Target>
+  <ItemGroup>
+    <Content Include="..\packages\WebDriver.IEDriverServer.win32.3.4.0\content\IEDriverServer.exe">
+      <Link>IEDriverServer.exe</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets" Condition="Exists('..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
