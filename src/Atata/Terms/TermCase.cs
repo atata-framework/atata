@@ -11,9 +11,14 @@
         None,
 
         /// <summary>
-        /// Uses title case (e.g. "Some Term").
+        /// Uses title case (e.g. "Some of the Terms").
         /// </summary>
         Title,
+
+        /// <summary>
+        /// Uses title case with all words capitalized (e.g. "Some Of The Terms").
+        /// </summary>
+        Capitalized,
 
         /// <summary>
         /// Uses sentence case (e.g. "Some term").

@@ -12,6 +12,7 @@ namespace Atata.TermFormatting
             Formatters = new Dictionary<TermCase, FormatterItem>
             {
                 { TermCase.Title, FormatterItem.For<TitleTermFormatter>() },
+                { TermCase.Capitalized, FormatterItem.For<CapitalizedTermFormatter>() },
                 { TermCase.Sentence, FormatterItem.For<SentenceTermFormatter>() },
                 { TermCase.MidSentence, FormatterItem.For<MidSentenceTermFormatter>() },
                 { TermCase.Lower, FormatterItem.For<LowerTermFormatter>() },
