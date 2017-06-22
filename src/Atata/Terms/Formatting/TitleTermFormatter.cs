@@ -23,7 +23,8 @@ namespace Atata.TermFormatting
             "from",
             "by",
             "to",
-            "as"
+            "as",
+            "with"
             ////"up",
             ////"down",
         };
