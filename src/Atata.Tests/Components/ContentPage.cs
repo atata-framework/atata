@@ -49,7 +49,7 @@ namespace Atata.Tests
         [Term(TermCase.Pascal)]
         public DateTime<_> DateTime { get; private set; }
 
-        [Term("DateTime With Format")]
+        [Term("DateTime with Format")]
         [Format("f")]
         public DateTime<_> DateTimeWithFormat { get; private set; }
 
