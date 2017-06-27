@@ -19,7 +19,7 @@ namespace Atata
         /// </summary>
         public string TargetName
         {
-            get { return TargetNames.Single(); }
+            get { return TargetNames?.SingleOrDefault(); }
             set { TargetNames = new[] { value }; }
         }
 
@@ -33,7 +33,7 @@ namespace Atata
         /// </summary>
         public Type TargetType
         {
-            get { return TargetTypes.Single(); }
+            get { return TargetTypes?.SingleOrDefault(); }
             set { TargetTypes = new[] { value }; }
         }
 
@@ -47,7 +47,7 @@ namespace Atata
         /// </summary>
         public Type TargetParentType
         {
-            get { return TargetParentTypes.Single(); }
+            get { return TargetParentTypes?.SingleOrDefault(); }
             set { TargetParentTypes = new[] { value }; }
         }
 
