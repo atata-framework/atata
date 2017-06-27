@@ -3,12 +3,12 @@
   <metadata>
     <id>Atata</id>
     <title>Atata</title>
-    <version>0.12.0</version>
+    <version>0.13.0</version>
     <authors>Yevgeniy Shunevych</authors>
     <owners>Yevgeniy Shunevych</owners>
     <licenseUrl>https://raw.githubusercontent.com/atata-framework/atata/master/LICENSE</licenseUrl>
     <projectUrl>https://atata-framework.github.io/</projectUrl>
-    <iconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png</iconUrl>
+    <iconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png?v2</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Test automation full featured framework based on Selenium WebDriver.</summary>
     <description>
@@ -26,6 +26,7 @@ Features:
 - Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components.
 </description>
     <releaseNotes>
+0.13.0 - https://atata-framework.github.io/blog/2017/06/27/atata-0.13.0-released/
 0.12.0 - https://github.com/atata-framework/atata/releases/tag/v0.12.0
 0.11.4 - https://github.com/atata-framework/atata/releases/tag/v0.11.4
 0.11.3 - https://github.com/atata-framework/atata/releases/tag/v0.11.3
