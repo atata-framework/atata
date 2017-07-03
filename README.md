@@ -4,7 +4,9 @@
 [![GitHub release](https://img.shields.io/github/release/atata-framework/atata.svg)](https://github.com/atata-framework/atata/releases)
 [![Gitter](https://badges.gitter.im/atata-framework/atata.svg)](https://gitter.im/atata-framework/atata)
 
-C#/.NET test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern.
+C#/.NET web UI test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern.
+
+**[What's new in v0.13.0](https://atata-framework.github.io/blog/2017/06/27/atata-0.13.0-released/)**
 
 ## Features
 
