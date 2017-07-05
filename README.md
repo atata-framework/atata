@@ -22,27 +22,34 @@ C#/.NET web UI test automation full featured framework based on Selenium WebDriv
 
 ## Usage
 
-Simple sign-in page object:
+### Page Object
+
+Simple sign-in page object for http://atata-framework.github.io/atata-sample-app/#!/signin page:
 
 ```C#
 using Atata;
-using _ = SampleApp.AutoTests.SignInPage;
 
-namespace SampleApp.AutoTests
+namespace SampleApp.UITests
 {
-    [Url("signin")]
-    [VerifyTitle]
-    [VerifyH1]
+    using _ = SignInPage;
+
+    [Url("signin")] // Relative URL of the page.
+    [VerifyH1] // Verifies that H1 header text equals "Sign In" upon page object initialization.
     public class SignInPage : Page<_>
     {
+        [FindByLabel] // Finds <label> element containing "Email" (<label for="email">Email</label>), then finds text <input> element by "id" that equals label's "for" attribute value.
         public TextInput<_> Email { get; private set; }
 
+        [FindById("password")] // Finds password <input> element by id that equals "password" (<input id="password" type="password">).
         public PasswordInput<_> Password { get; private set; }
 
+        [FindByValue(TermCase.Title)] // Finds button element by value that equals "Sign In" (<input value="Sign In" type="submit">).
         public Button<_> SignIn { get; private set; }
     }
 }
 ```
+
+### Test
 
 Usage in the test method:
 
@@ -109,7 +116,8 @@ Feel free to ask any questions regarding Atata Framework. Any feedback, issues a
 
 * Atata Issues: https://github.com/atata-framework/atata/issues
 * Atata Gitter: https://gitter.im/atata-framework/atata
-* Stack Overflow http://stackoverflow.com/questions/tagged/atata
+* Twitter: https://twitter.com/AtataFramework
+* YouTube: https://www.youtube.com/channel/UCSNfv8sKpUR3a6dqPVy54KQ
 
 ### Author
 
@@ -118,6 +126,7 @@ Contact me if you need a help in test automation using Atata Framework, or if yo
 * Email: yevgeniy.shunevych@gmail.com
 * Skype: e.shunevich
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
+* Twitter: https://twitter.com/YevgenShunevych
 * Facebook: https://www.facebook.com/YevgeniyShunevych
 * Gitter: https://gitter.im/YevgeniyShunevych
 
