@@ -64,6 +64,8 @@ public void SignIn()
 }
 ```
 
+Find out more on [Atata usage](https://atata-framework.github.io/getting-started/#usage). Check [atata-framework/atata-samples](https://github.com/atata-framework/atata-samples) for different Atata test scenario samples.
+
 ## Demo
 
 [The Demo Project](https://github.com/atata-framework/atata-sample-app-tests) tests application demonstrates different testing approaches and features of the Atata Framework. It covers main Atata features: page navigation, data input and verification, interaction with pop-ups and tables, logging, screenshot capture, etc.
