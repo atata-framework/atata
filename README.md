@@ -104,7 +104,7 @@ public void User_Create()
 
 Find out more on [Atata Docs](https://atata-framework.github.io/) and on [Getting Started](https://atata-framework.github.io/getting-started/) page in particular.
 
-## Articles
+## Tutorials/Articles
 
 You can also check the following articles:
 
@@ -112,6 +112,7 @@ You can also check the following articles:
 * [Test Automation Using Atata: Verification of Web Pages](https://www.codeproject.com/Articles/1173435/Test-Automation-Using-Atata-Verification-of-Pages)
 * [Test Automation Using Atata: Verification of Validation Messages](https://www.codeproject.com/Articles/1177317/Test-Automation-Using-Atata-Validation-Messages)
 * [Test Automation Using Atata: Visual Studio Team Services Configuration](https://www.codeproject.com/Articles/1190753/Test-Automation-Using-Atata-VS-Team-Services)
+* [Test Automation Using Atata: Handle Confirmation Popups](https://www.codeproject.com/Articles/1194445/Test-Automation-Using-Atata-Confirmation-Popups)
 
 ## Contact
 
