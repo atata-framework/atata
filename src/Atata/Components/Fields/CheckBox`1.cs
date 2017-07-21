@@ -34,7 +34,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Checks the control.
+        /// Checks the control. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
         public TOwner Check()
@@ -43,7 +43,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Unchecks the control.
+        /// Unchecks the control. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
         public TOwner Uncheck()

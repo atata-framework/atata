@@ -38,6 +38,11 @@ namespace Atata
         {
         }
 
+        /// <summary>
+        /// Executes the specified trigger action.
+        /// </summary>
+        /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
+        /// <param name="context">The trigger context.</param>
         protected internal abstract void Execute<TOwner>(TriggerContext<TOwner> context)
             where TOwner : PageObject<TOwner>, IPageObject<TOwner>;
     }

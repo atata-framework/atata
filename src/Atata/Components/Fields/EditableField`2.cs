@@ -27,6 +27,10 @@
             return Attributes.ReadOnly;
         }
 
+        /// <summary>
+        /// Sets the value.
+        /// </summary>
+        /// <param name="value">The value.</param>
         protected abstract void SetValue(T value);
 
         /// <summary>
@@ -68,6 +72,10 @@
             return Set(value);
         }
 
+        /// <summary>
+        /// Generates the random value.
+        /// </summary>
+        /// <returns>The generated value.</returns>
         protected virtual T GenerateRandomValue()
         {
             return ValueRandomizer.GetRandom<T>(Metadata);

@@ -25,7 +25,7 @@
         }
 
         /// <summary>
-        /// Checks the control.
+        /// Checks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
         public TOwner Check()
