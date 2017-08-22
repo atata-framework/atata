@@ -8,24 +8,37 @@ namespace Atata
 {
     public class NLogConsumer : ILogConsumer
     {
-        private readonly dynamic logger;
         private readonly Type logEventInfoType;
         private readonly Dictionary<LogLevel, dynamic> logLevelsMap = new Dictionary<LogLevel, dynamic>();
 
-        public NLogConsumer(string loggerName = null)
+        private string loggerName;
+        private dynamic logger;
+
+        public NLogConsumer()
+            : this(null)
         {
-            Type logManagerType = Type.GetType("NLog.LogManager,NLog", true);
+        }
 
-            logger = loggerName != null
-                ? logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string)).Invoke(null, new[] { loggerName })
-                : logManagerType.GetMethodWithThrowOnError("GetCurrentClassLogger").Invoke(null, new object[0]);
-
-            if (logger == null)
-                throw new InvalidOperationException("Failed to create NLog logger.");
+        public NLogConsumer(string loggerName)
+        {
+            LoggerName = loggerName;
 
             logEventInfoType = Type.GetType("NLog.LogEventInfo,NLog", true);
 
             InitLogLevelsMap();
+        }
+
+        public string LoggerName
+        {
+            get
+            {
+                return loggerName;
+            }
+            set
+            {
+                loggerName = value;
+                InitLogger(value);
+            }
         }
 
         private void InitLogLevelsMap()
@@ -41,6 +54,18 @@ namespace Atata
                     Cast<dynamic>().
                     First(x => x.Name == Enum.GetName(typeof(LogLevel), level));
             }
+        }
+
+        private void InitLogger(string loggerName)
+        {
+            Type logManagerType = Type.GetType("NLog.LogManager,NLog", true);
+
+            logger = loggerName != null
+                ? logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string)).InvokeStatic(loggerName)
+                : logManagerType.GetMethodWithThrowOnError("GetCurrentClassLogger").InvokeStatic();
+
+            if (logger == null)
+                throw new InvalidOperationException("Failed to create NLog logger.");
         }
 
         public void Log(LogEventInfo eventInfo)
