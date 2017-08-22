@@ -5,6 +5,15 @@ namespace Atata
 {
     internal static class ActivatorEx
     {
+        internal static T CreateInstance<T>(string typeName)
+        {
+            typeName.CheckNotNullOrEmpty(nameof(typeName));
+
+            Type type = Type.GetType(typeName, true);
+
+            return CreateInstance<T>(type);
+        }
+
         internal static T CreateInstance<T>(Type type = null)
         {
             return (T)CreateInstance(type ?? typeof(T));
