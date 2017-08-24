@@ -424,7 +424,7 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && should.IsNegation
-                    ? actual.Intersect(expected).Count() > 0
+                    ? actual.Intersect(expected).Any()
                     : actual.Intersect(expected).Count() == expected.Count(),
                 $"contain {CollectionToString(expected)}");
         }
@@ -436,7 +436,7 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && should.IsNegation
-                    ? actual.Intersect(expected).Count() > 0
+                    ? actual.Intersect(expected).Any()
                     : actual.Intersect(expected).Count() == expected.Count(),
                 $"contain {CollectionToString(expected)}");
         }

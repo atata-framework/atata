@@ -2,6 +2,7 @@
 <RuleSet Name="Rules for Atata" Description="Code analysis rules for Atata.csproj." ToolsVersion="14.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
+    <Rule Id="CA1008" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
     <Rule Id="CA1016" Action="Warning" />
     <Rule Id="CA1040" Action="Warning" />
@@ -79,16 +80,27 @@
     <Rule Id="S104" Action="Warning" />
     <Rule Id="S105" Action="Warning" />
     <Rule Id="S107" Action="Warning" />
+    <Rule Id="S110" Action="None" />
     <Rule Id="S1109" Action="Warning" />
+    <Rule Id="S1145" Action="Warning" />
     <Rule Id="S122" Action="Warning" />
     <Rule Id="S1227" Action="Warning" />
+    <Rule Id="S1244" Action="Warning" />
+    <Rule Id="S127" Action="Warning" />
     <Rule Id="S131" Action="Warning" />
     <Rule Id="S134" Action="Warning" />
-    <Rule Id="S1449" Action="None" />
+    <Rule Id="S1541" Action="Warning" />
     <Rule Id="S2225" Action="None" />
     <Rule Id="S2357" Action="Warning" />
-    <Rule Id="S2360" Action="None" />
+    <Rule Id="S2436" Action="None" />
+    <Rule Id="S3242" Action="None" />
     <Rule Id="S3249" Action="None" />
+    <Rule Id="S4004" Action="Warning" />
+    <Rule Id="S4023" Action="Warning" />
+    <Rule Id="S4035" Action="None" />
+    <Rule Id="S4041" Action="Warning" />
+    <Rule Id="S4047" Action="Warning" />
+    <Rule Id="S818" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1101" Action="None" />

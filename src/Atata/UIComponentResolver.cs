@@ -330,12 +330,14 @@ namespace Atata
         private static string ResolveControlName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             NameAttribute nameAttribute = metadata.Get<NameAttribute>(AttributeLevels.Declared);
-            if (nameAttribute != null && !string.IsNullOrWhiteSpace(nameAttribute.Value))
+
+            if (!string.IsNullOrWhiteSpace(nameAttribute?.Value))
             {
                 return nameAttribute.Value;
             }
 
             FindByLabelAttribute findByLabelAttribute = findAttribute as FindByLabelAttribute;
+
             if (findByLabelAttribute != null && findByLabelAttribute.Match == TermMatch.Equals)
             {
                 if (findByLabelAttribute.Values?.Any() ?? false)

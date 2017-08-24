@@ -83,8 +83,6 @@ namespace Atata
 
         private IEnumerable<IEnumerable<Attribute>> GetAllAttributeSets(AttributeLevels level)
         {
-            IEnumerable<Attribute> result = Enumerable.Empty<Attribute>();
-
             if (level.HasFlag(AttributeLevels.Declared))
                 yield return DeclaredAttributesList;
 
