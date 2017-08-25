@@ -81,7 +81,7 @@ namespace Atata
 
             foreach (TriggerAttribute trigger in triggers)
             {
-                isRemoved |= allTriggersLists.Select(list => list.Remove(trigger)).ToArray().Any(x => x);
+                isRemoved |= allTriggersLists.Aggregate(false, (removed, list) => list.Remove(trigger) || removed);
             }
 
             Reorder();
