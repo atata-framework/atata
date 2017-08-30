@@ -68,6 +68,18 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the screenshot consumer.
+        /// </summary>
+        /// <param name="typeNameOrAlias">The type name or alias of the log consumer.</param>
+        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<IScreenshotConsumer> AddScreenshotConsumer(string typeNameOrAlias)
+        {
+            IScreenshotConsumer consumer = ScreenshotConsumerAliases.Resolve(typeNameOrAlias);
+
+            return AddScreenshotConsumer(consumer);
+        }
+
+        /// <summary>
         /// Sets the name of the test.
         /// </summary>
         /// <param name="name">The name of the test.</param>
