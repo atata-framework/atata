@@ -39,6 +39,8 @@ namespace Atata
 
         public static ILogConsumer Resolve(string typeNameOrAlias)
         {
+            typeNameOrAlias.CheckNotNullOrWhitespace(nameof(typeNameOrAlias));
+
             Func<ILogConsumer> factory;
 
             return AliasFactoryMap.TryGetValue(typeNameOrAlias, out factory)
