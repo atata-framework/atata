@@ -27,7 +27,31 @@ namespace Atata
                 propertyName,
                 BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
 
-            property.SetValue(destination, propertyValue, null);
+            Type propertyValueType = propertyValue?.GetType();
+            Type propertyType = property.PropertyType;
+            Type underlyingPropertyType = Nullable.GetUnderlyingType(propertyType) ?? propertyType;
+
+            object valueToSet = propertyValue != null && !(propertyType.IsAssignableFrom(propertyValueType) || underlyingPropertyType.IsAssignableFrom(propertyValueType))
+                ? ConvertValue(propertyValue, underlyingPropertyType)
+                : propertyValue;
+
+            property.SetValue(destination, valueToSet, null);
+        }
+
+        private static object ConvertValue(object sourceValue, Type destinationType)
+        {
+            if (destinationType.IsEnum)
+                return ConvertToEnum(destinationType, sourceValue);
+            else
+                return sourceValue;
+        }
+
+        private static object ConvertToEnum(Type enumType, object value)
+        {
+            if (value is string)
+                return Enum.Parse(enumType, (string)value, true);
+            else
+                return Enum.ToObject(enumType, value);
         }
     }
 }
