@@ -36,7 +36,7 @@ namespace Atata
         {
             if (value == null)
                 throw new ArgumentNullException(argumentName, errorMessage);
-            if (value == string.Empty)
+            if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException(ConcatMessage("Should not be empty string or whitespace.", errorMessage), argumentName);
 
             return value;
