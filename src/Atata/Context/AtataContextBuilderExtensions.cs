@@ -87,28 +87,6 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds arguments to be appended to the Chrome.exe command line.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="arguments">The arguments.</param>
-        /// <returns>The <see cref="ChromeAtataContextBuilder"/> instance.</returns>
-        public static ChromeAtataContextBuilder WithArguments(this ChromeAtataContextBuilder builder, params string[] arguments)
-        {
-            return builder.WithOptions(options => options.AddArguments(arguments));
-        }
-
-        /// <summary>
-        /// Adds arguments to be appended to the Opera.exe command line.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="arguments">The arguments.</param>
-        /// <returns>The <see cref="OperaAtataContextBuilder"/> instance.</returns>
-        public static OperaAtataContextBuilder WithArguments(this OperaAtataContextBuilder builder, params string[] arguments)
-        {
-            return builder.WithOptions(options => options.AddArguments(arguments));
-        }
-
-        /// <summary>
         /// Defines that the name of the test should be taken from the NUnit test.
         /// </summary>
         /// <param name="builder">The builder.</param>

@@ -22,5 +22,15 @@ namespace Atata
 
         protected override RemoteWebDriver CreateDriver(OperaDriverService service, OperaOptions options, TimeSpan commandTimeout)
             => new OperaDriver(service, options, commandTimeout);
+
+        /// <summary>
+        /// Adds arguments to be appended to the Opera.exe command line.
+        /// </summary>
+        /// <param name="arguments">The arguments.</param>
+        /// <returns>The same builder instance.</returns>
+        public OperaAtataContextBuilder WithArguments(params string[] arguments)
+        {
+            return WithOptions(options => options.AddArguments(arguments));
+        }
     }
 }

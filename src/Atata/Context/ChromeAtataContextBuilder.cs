@@ -22,5 +22,15 @@ namespace Atata
 
         protected override RemoteWebDriver CreateDriver(ChromeDriverService service, ChromeOptions options, TimeSpan commandTimeout)
             => new ChromeDriver(service, options, commandTimeout);
+
+        /// <summary>
+        /// Adds arguments to be appended to the Chrome.exe command line.
+        /// </summary>
+        /// <param name="arguments">The arguments.</param>
+        /// <returns>The same builder instance.</returns>
+        public ChromeAtataContextBuilder WithArguments(params string[] arguments)
+        {
+            return WithOptions(options => options.AddArguments(arguments));
+        }
     }
 }
