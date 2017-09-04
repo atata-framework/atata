@@ -93,6 +93,18 @@ namespace Atata
         }
 
         /// <summary>
+        /// Specifies the properties map for the driver options.
+        /// </summary>
+        /// <param name="optionsPropertiesMap">The properties map.</param>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithOptions(Dictionary<string, object> optionsPropertiesMap)
+        {
+            optionsPropertiesMap.CheckNotNull(nameof(optionsPropertiesMap));
+
+            return WithOptions(opt => AtataMapper.Map(optionsPropertiesMap, opt));
+        }
+
+        /// <summary>
         /// Adds additional capability to the driver options.
         /// </summary>
         /// <param name="capabilityName">The name of the capability to add.</param>
@@ -129,6 +141,18 @@ namespace Atata
 
             serviceInitializers.Add(serviceInitializer);
             return (TBuilder)this;
+        }
+
+        /// <summary>
+        /// Specifies the properties map for the driver service.
+        /// </summary>
+        /// <param name="servicePropertiesMap">The properties map.</param>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithDriverService(Dictionary<string, object> servicePropertiesMap)
+        {
+            servicePropertiesMap.CheckNotNull(nameof(servicePropertiesMap));
+
+            return WithDriverService(srv => AtataMapper.Map(servicePropertiesMap, srv));
         }
 
         /// <summary>
