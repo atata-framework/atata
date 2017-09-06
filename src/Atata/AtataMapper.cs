@@ -42,6 +42,8 @@ namespace Atata
         {
             if (destinationType.IsEnum)
                 return ConvertToEnum(destinationType, sourceValue);
+            else if (destinationType == typeof(TimeSpan))
+                return ConvertToTimeSpan(sourceValue);
             else
                 return sourceValue;
         }
@@ -52,6 +54,14 @@ namespace Atata
                 return Enum.Parse(enumType, (string)value, true);
             else
                 return Enum.ToObject(enumType, value);
+        }
+
+        private static TimeSpan ConvertToTimeSpan(object value)
+        {
+            if (value is double || value is int || value is float)
+                return TimeSpan.FromSeconds(Convert.ToDouble(value));
+            else
+                return TimeSpan.Parse(value.ToString());
         }
     }
 }
