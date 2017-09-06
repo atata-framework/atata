@@ -6,7 +6,7 @@ namespace Atata
 {
     public class InternetExplorerAtataContextBuilder : DriverAtataContextBuilder<InternetExplorerAtataContextBuilder, InternetExplorerDriverService, InternetExplorerOptions>
     {
-        internal InternetExplorerAtataContextBuilder(AtataBuildingContext buildingContext)
+        public InternetExplorerAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
         }

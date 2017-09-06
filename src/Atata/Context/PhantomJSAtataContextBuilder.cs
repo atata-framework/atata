@@ -6,7 +6,7 @@ namespace Atata
 {
     public class PhantomJSAtataContextBuilder : DriverAtataContextBuilder<PhantomJSAtataContextBuilder, PhantomJSDriverService, PhantomJSOptions>
     {
-        internal PhantomJSAtataContextBuilder(AtataBuildingContext buildingContext)
+        public PhantomJSAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
         }

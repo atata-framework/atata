@@ -6,7 +6,7 @@ namespace Atata
 {
     public class OperaAtataContextBuilder : DriverAtataContextBuilder<OperaAtataContextBuilder, OperaDriverService, OperaOptions>
     {
-        internal OperaAtataContextBuilder(AtataBuildingContext buildingContext)
+        public OperaAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
         }

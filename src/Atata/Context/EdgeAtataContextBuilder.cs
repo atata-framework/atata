@@ -6,7 +6,7 @@ namespace Atata
 {
     public class EdgeAtataContextBuilder : DriverAtataContextBuilder<EdgeAtataContextBuilder, EdgeDriverService, EdgeOptions>
     {
-        internal EdgeAtataContextBuilder(AtataBuildingContext buildingContext)
+        public EdgeAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
         }

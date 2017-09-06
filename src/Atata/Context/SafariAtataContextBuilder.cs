@@ -6,7 +6,7 @@ namespace Atata
 {
     public class SafariAtataContextBuilder : DriverAtataContextBuilder<SafariAtataContextBuilder, SafariDriverService, SafariOptions>
     {
-        internal SafariAtataContextBuilder(AtataBuildingContext buildingContext)
+        public SafariAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
         }
