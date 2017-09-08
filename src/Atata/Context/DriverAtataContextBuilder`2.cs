@@ -39,7 +39,7 @@ namespace Atata
             foreach (var serviceInitializer in serviceInitializers)
                 serviceInitializer(service);
 
-            return CreateDriver(service, options, commandTimeout ?? TimeSpan.FromSeconds(60));
+            return CreateDriver(service, options, commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
         }
 
         private TService CreateDefaultService()

@@ -27,6 +27,15 @@ namespace Atata
         }
 
         /// <summary>
+        /// Use the <see cref="RemoteWebDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="RemoteDriverAtataContextBuilder"/> instance.</returns>
+        public RemoteDriverAtataContextBuilder UseRemoteDriver()
+        {
+            return new RemoteDriverAtataContextBuilder(BuildingContext);
+        }
+
+        /// <summary>
         /// Adds the log consumer.
         /// </summary>
         /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
