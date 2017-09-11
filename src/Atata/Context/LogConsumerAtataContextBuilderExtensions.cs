@@ -32,5 +32,17 @@ namespace Atata
             consumerInfo.MinLevel = level;
             return builder;
         }
+
+        /// <summary>
+        /// Specifies the name of NLog logger.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="loggerName">The name of the logger.</param>
+        /// <returns>The <see cref="AtataContextBuilder{NLogConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<NLogConsumer> WithLoggerName(this AtataContextBuilder<NLogConsumer> builder, string loggerName)
+        {
+            builder.Context.LoggerName = loggerName;
+            return builder;
+        }
     }
 }
