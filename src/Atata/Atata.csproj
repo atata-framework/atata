@@ -132,7 +132,6 @@
     <Compile Include="Context\AtataContextBuilder.cs" />
     <Compile Include="Components\UIComponentAttributeProvider`1.cs" />
     <Compile Include="Components\UIComponentCssProvider`1.cs" />
-    <Compile Include="Context\AtataContextBuilderExtensions.cs" />
     <Compile Include="Context\AtataContextBuilder`1.cs" />
     <Compile Include="Context\ChromeAtataContextBuilder.cs" />
     <Compile Include="Context\EdgeAtataContextBuilder.cs" />

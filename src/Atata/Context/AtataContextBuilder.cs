@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Opera;
+using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Safari;
 
 namespace Atata
 {
@@ -26,6 +32,69 @@ namespace Atata
 
             BuildingContext.DriverCreator = driverCreator;
             return this;
+        }
+
+        /// <summary>
+        /// Use the <see cref="ChromeDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="ChromeAtataContextBuilder"/> instance.</returns>
+        public ChromeAtataContextBuilder UseChrome()
+        {
+            return new ChromeAtataContextBuilder(BuildingContext);
+        }
+
+        /// <summary>
+        /// Use the <see cref="FirefoxDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="FirefoxAtataContextBuilder"/> instance.</returns>
+        public FirefoxAtataContextBuilder UseFirefox()
+        {
+            return new FirefoxAtataContextBuilder(BuildingContext);
+        }
+
+        /// <summary>
+        /// Use the <see cref="InternetExplorerDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="InternetExplorerAtataContextBuilder"/> instance.</returns>
+        public InternetExplorerAtataContextBuilder UseInternetExplorer()
+        {
+            return new InternetExplorerAtataContextBuilder(BuildingContext);
+        }
+
+        /// <summary>
+        /// Use the <see cref="EdgeDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="EdgeAtataContextBuilder"/> instance.</returns>
+        public EdgeAtataContextBuilder UseEdge()
+        {
+            return new EdgeAtataContextBuilder(BuildingContext);
+        }
+
+        /// <summary>
+        /// Use the <see cref="OperaDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="OperaAtataContextBuilder"/> instance.</returns>
+        public OperaAtataContextBuilder UseOpera()
+        {
+            return new OperaAtataContextBuilder(BuildingContext);
+        }
+
+        /// <summary>
+        /// Use the <see cref="PhantomJSDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="PhantomJSAtataContextBuilder"/> instance.</returns>
+        public PhantomJSAtataContextBuilder UsePhantomJS()
+        {
+            return new PhantomJSAtataContextBuilder(BuildingContext);
+        }
+
+        /// <summary>
+        /// Use the <see cref="SafariDriver"/>.
+        /// </summary>
+        /// <returns>The <see cref="SafariAtataContextBuilder"/> instance.</returns>
+        public SafariAtataContextBuilder UseSafari()
+        {
+            return new SafariAtataContextBuilder(BuildingContext);
         }
 
         /// <summary>
