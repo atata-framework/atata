@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public static class ScreenshotAtataContextBuilderExtensions
+    public static class ScreenshotConsumerAtataContextBuilderExtensions
     {
         /// <summary>
         /// Specifies the image format of the file screenshot consumer.

@@ -103,7 +103,7 @@
     <Compile Include="Context\LogConsumerAtataContextBuilderExtensions.cs" />
     <Compile Include="Context\LogConsumerAliases.cs" />
     <Compile Include="Context\RemoteDriverAtataContextBuilder.cs" />
-    <Compile Include="Context\ScreenshotAtataContextBuilderExtensions.cs" />
+    <Compile Include="Context\ScreenshotConsumerAtataContextBuilderExtensions.cs" />
     <Compile Include="Context\ScreenshotConsumerAliases.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />
     <Compile Include="Extensions\ScreenshotImageFormatExtensions.cs" />
