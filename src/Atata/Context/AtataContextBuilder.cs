@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
@@ -231,6 +232,71 @@ namespace Atata
             if (action != null)
                 BuildingContext.CleanUpActions.Add(action);
             return this;
+        }
+
+        /// <summary>
+        /// Defines that the name of the test should be taken from the NUnit test.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseNUnitTestName()
+        {
+            return UseTestName(ResolveNUnitTestName);
+        }
+
+        private static string ResolveNUnitTestName()
+        {
+            dynamic testContext = GetNUnitTestContext();
+            return testContext.Test.Name;
+        }
+
+        /// <summary>
+        /// Defines that an error occurred during the NUnit test execution should be added to the log during the cleanup.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder LogNUnitError()
+        {
+            return OnCleanUp(() =>
+            {
+                dynamic testResult = GetNUnitTestResult();
+
+                if (IsNUnitTestResultFailed(testResult))
+                    AtataContext.Current.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
+            });
+        }
+
+        /// <summary>
+        /// Defines that an error occurred during the NUnit test execution should be captured by a screenshot during the cleanup.
+        /// </summary>
+        /// <param name="title">The screenshot title.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder TakeScreenshotOnNUnitError(string title = "Failed")
+        {
+            return OnCleanUp(() =>
+            {
+                dynamic testResult = GetNUnitTestResult();
+
+                if (IsNUnitTestResultFailed(testResult))
+                    AtataContext.Current.Log.Screenshot(title);
+            });
+        }
+
+        private static dynamic GetNUnitTestContext()
+        {
+            Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
+            PropertyInfo currentContextProperty = testContextType.GetPropertyWithThrowOnError("CurrentContext");
+
+            return currentContextProperty.GetStaticValue();
+        }
+
+        private static dynamic GetNUnitTestResult()
+        {
+            dynamic testContext = GetNUnitTestContext();
+            return testContext.Result;
+        }
+
+        private static bool IsNUnitTestResultFailed(dynamic testResult)
+        {
+            return testResult.Outcome.Status.ToString().Contains("Fail");
         }
 
         /// <summary>

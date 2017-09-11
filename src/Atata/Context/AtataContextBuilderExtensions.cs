@@ -1,6 +1,4 @@
-﻿using System;
-using System.Reflection;
-using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
@@ -80,74 +78,6 @@ namespace Atata
         public static SafariAtataContextBuilder UseSafari(this AtataContextBuilder builder)
         {
             return new SafariAtataContextBuilder(builder.BuildingContext);
-        }
-
-        /// <summary>
-        /// Defines that the name of the test should be taken from the NUnit test.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public static AtataContextBuilder UseNUnitTestName(this AtataContextBuilder builder)
-        {
-            return builder.UseTestName(ResolveNUnitTestName);
-        }
-
-        private static string ResolveNUnitTestName()
-        {
-            dynamic testContext = GetNUnitTestContext();
-            return testContext.Test.Name;
-        }
-
-        /// <summary>
-        /// Defines that an error occurred during the NUnit test execution should be added to the log during the cleanup.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public static AtataContextBuilder LogNUnitError(this AtataContextBuilder builder)
-        {
-            return builder.OnCleanUp(() =>
-            {
-                dynamic testResult = GetNUnitTestResult();
-
-                if (IsNUnitTestResultFailed(testResult))
-                    AtataContext.Current.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
-            });
-        }
-
-        /// <summary>
-        /// Defines that an error occurred during the NUnit test execution should be captured by a screenshot during the cleanup.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="title">The screenshot title.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public static AtataContextBuilder TakeScreenshotOnNUnitError(this AtataContextBuilder builder, string title = "Failed")
-        {
-            return builder.OnCleanUp(() =>
-            {
-                dynamic testResult = GetNUnitTestResult();
-
-                if (IsNUnitTestResultFailed(testResult))
-                    AtataContext.Current.Log.Screenshot(title);
-            });
-        }
-
-        private static dynamic GetNUnitTestContext()
-        {
-            Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
-            PropertyInfo currentContextProperty = testContextType.GetPropertyWithThrowOnError("CurrentContext");
-
-            return currentContextProperty.GetStaticValue();
-        }
-
-        private static dynamic GetNUnitTestResult()
-        {
-            dynamic testContext = GetNUnitTestContext();
-            return testContext.Result;
-        }
-
-        private static bool IsNUnitTestResultFailed(dynamic testResult)
-        {
-            return testResult.Outcome.Status.ToString().Contains("Fail");
         }
     }
 }
