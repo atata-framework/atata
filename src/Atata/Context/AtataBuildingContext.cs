@@ -15,9 +15,9 @@ namespace Atata
         public List<IScreenshotConsumer> ScreenshotConsumers { get; private set; } = new List<IScreenshotConsumer>();
 
         /// <summary>
-        /// Gets or sets the name of the test.
+        /// Gets or sets the factory method of the test name.
         /// </summary>
-        public string TestName { get; set; }
+        public Func<string> TestNameFactory { get; set; }
 
         /// <summary>
         /// Gets or sets the base URL.

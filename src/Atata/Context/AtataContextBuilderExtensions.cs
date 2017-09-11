@@ -93,10 +93,13 @@ namespace Atata
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public static AtataContextBuilder UseNUnitTestName(this AtataContextBuilder builder)
         {
-            dynamic testContext = GetNUnitTestContext();
-            string testName = testContext.Test.Name;
+            return builder.UseTestName(ResolveNUnitTestName);
+        }
 
-            return builder.UseTestName(testName);
+        private static string ResolveNUnitTestName()
+        {
+            dynamic testContext = GetNUnitTestContext();
+            return testContext.Test.Name;
         }
 
         /// <summary>

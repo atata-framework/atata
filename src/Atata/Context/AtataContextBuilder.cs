@@ -89,13 +89,28 @@ namespace Atata
         }
 
         /// <summary>
+        /// Sets the factory method of the test name.
+        /// </summary>
+        /// <param name="testNameFactory">The factory method of the test name.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseTestName(Func<string> testNameFactory)
+        {
+            testNameFactory.CheckNotNull(nameof(testNameFactory));
+
+            BuildingContext.TestNameFactory = testNameFactory;
+            return this;
+        }
+
+        /// <summary>
         /// Sets the name of the test.
         /// </summary>
-        /// <param name="name">The name of the test.</param>
+        /// <param name="testName">The name of the test.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseTestName(string name)
+        public AtataContextBuilder UseTestName(string testName)
         {
-            BuildingContext.TestName = name;
+            testName.CheckNotNull(nameof(testName));
+
+            BuildingContext.TestNameFactory = () => testName;
             return this;
         }
 
@@ -188,7 +203,7 @@ namespace Atata
 
             AtataContext context = new AtataContext
             {
-                TestName = BuildingContext.TestName,
+                TestName = BuildingContext.TestNameFactory?.Invoke(),
                 BaseUrl = BuildingContext.BaseUrl,
                 Log = logManager,
                 CleanUpActions = BuildingContext.CleanUpActions,
