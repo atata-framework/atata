@@ -102,6 +102,7 @@
     <Compile Include="Context\DriverAtataContextBuilder`2.cs" />
     <Compile Include="Context\LogConsumerAliases.cs" />
     <Compile Include="Context\RemoteDriverAtataContextBuilder.cs" />
+    <Compile Include="Context\ScreenshotAtataContextBuilderExtensions.cs" />
     <Compile Include="Context\ScreenshotConsumerAliases.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="Extensions\MethodInfoExtensions.cs" />

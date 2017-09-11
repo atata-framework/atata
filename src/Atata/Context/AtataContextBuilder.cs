@@ -89,6 +89,15 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the <see cref="FileScreenshotConsumer"/> instance for the screenshot saving to file.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        public AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving()
+        {
+            return AddScreenshotConsumer(new FileScreenshotConsumer());
+        }
+
+        /// <summary>
         /// Sets the factory method of the test name.
         /// </summary>
         /// <param name="testNameFactory">The factory method of the test name.</param>
