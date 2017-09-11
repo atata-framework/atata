@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
@@ -150,76 +148,6 @@ namespace Atata
         private static bool IsNUnitTestResultFailed(dynamic testResult)
         {
             return testResult.Outcome.Status.ToString().Contains("Fail");
-        }
-
-        /// <summary>
-        /// Adds the <see cref="TraceLogConsumer"/> instance that uses <see cref="Trace"/> class for logging.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> AddTraceLogging(this AtataContextBuilder builder)
-        {
-            return builder.AddLogConsumer<ILogConsumer>(new TraceLogConsumer());
-        }
-
-        /// <summary>
-        /// Adds the <see cref="DebugLogConsumer"/> instance that uses <see cref="Debug"/> class for logging.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> AddDebugLogging(this AtataContextBuilder builder)
-        {
-            return builder.AddLogConsumer<ILogConsumer>(new DebugLogConsumer());
-        }
-
-        /// <summary>
-        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses NUnit.Framework.TestContext class for logging.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> AddNUnitTestContextLogging(this AtataContextBuilder builder)
-        {
-            return builder.AddLogConsumer<ILogConsumer>(new NUnitTestContextLogConsumer());
-        }
-
-        /// <summary>
-        /// Adds the <see cref="NLogConsumer"/> instance that uses NLog.Logger class for logging.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="loggerName">Name of the logger.</param>
-        /// <returns>The <see cref="AtataContextBuilder{ILogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<ILogConsumer> AddNLogLogging(this AtataContextBuilder builder, string loggerName = null)
-        {
-            return builder.AddLogConsumer<ILogConsumer>(new NLogConsumer(loggerName));
-        }
-
-        /// <summary>
-        /// Defines that the logging should not use section-like pair messages (not "Starting: {action}" and "Finished: {action}", but just "{action}").
-        /// </summary>
-        /// <typeparam name="TTLogConsumer">The type of the log consumer.</typeparam>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TTLogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<TTLogConsumer> WithoutSectionFinish<TTLogConsumer>(this AtataContextBuilder<TTLogConsumer> builder)
-            where TTLogConsumer : ILogConsumer
-        {
-            LogConsumerInfo consumerInfo = builder.BuildingContext.LogConsumers.Single(x => Equals(x.Consumer, builder.Context));
-            consumerInfo.LogSectionFinish = false;
-            return builder;
-        }
-
-        /// <summary>
-        /// Specifies the minimum level of the log event to write to the log.
-        /// </summary>
-        /// <typeparam name="TTLogConsumer">The type of the log consumer.</typeparam>
-        /// <param name="builder">The builder.</param>
-        /// <param name="level">The level.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TTLogConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<TTLogConsumer> WithMinLevel<TTLogConsumer>(this AtataContextBuilder<TTLogConsumer> builder, LogLevel level)
-            where TTLogConsumer : ILogConsumer
-        {
-            LogConsumerInfo consumerInfo = builder.BuildingContext.LogConsumers.Single(x => Equals(x.Consumer, builder.Context));
-            consumerInfo.MinLevel = level;
-            return builder;
         }
     }
 }

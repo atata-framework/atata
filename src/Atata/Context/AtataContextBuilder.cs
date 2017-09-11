@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
@@ -59,6 +60,43 @@ namespace Atata
         {
             ILogConsumer consumer = LogConsumerAliases.Resolve(typeNameOrAlias);
             return AddLogConsumer(consumer);
+        }
+
+        /// <summary>
+        /// Adds the <see cref="TraceLogConsumer"/> instance that uses <see cref="Trace"/> class for logging.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder{TraceLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<TraceLogConsumer> AddTraceLogging()
+        {
+            return AddLogConsumer(new TraceLogConsumer());
+        }
+
+        /// <summary>
+        /// Adds the <see cref="DebugLogConsumer"/> instance that uses <see cref="Debug"/> class for logging.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder{DebugLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<DebugLogConsumer> AddDebugLogging()
+        {
+            return AddLogConsumer(new DebugLogConsumer());
+        }
+
+        /// <summary>
+        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses NUnit.Framework.TestContext class for logging.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder{NUnitTestContextLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<NUnitTestContextLogConsumer> AddNUnitTestContextLogging()
+        {
+            return AddLogConsumer(new NUnitTestContextLogConsumer());
+        }
+
+        /// <summary>
+        /// Adds the <see cref="NLogConsumer"/> instance that uses NLog.Logger class for logging.
+        /// </summary>
+        /// <param name="loggerName">The name of the logger.</param>
+        /// <returns>The <see cref="AtataContextBuilder{NLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<NLogConsumer> AddNLogLogging(string loggerName = null)
+        {
+            return AddLogConsumer(new NLogConsumer(loggerName));
         }
 
         /// <summary>
