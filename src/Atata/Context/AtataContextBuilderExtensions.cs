@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Reflection;
 using OpenQA.Selenium.Chrome;
@@ -192,43 +191,6 @@ namespace Atata
         public static AtataContextBuilder<ILogConsumer> AddNLogLogging(this AtataContextBuilder builder, string loggerName = null)
         {
             return builder.AddLogConsumer<ILogConsumer>(new NLogConsumer(loggerName));
-        }
-
-        /// <summary>
-        /// Adds the <see cref="FileScreenshotConsumer"/> instance with the specified folder path.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="folderPath">The folder path.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        [Obsolete("Use AddScreenshotFileSaving().WithFolderPath(() => folderPath) instead.")]
-        public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, string folderPath)
-        {
-            return builder.AddScreenshotConsumer(new FileScreenshotConsumer { FolderPathBuilder = () => folderPath });
-        }
-
-        /// <summary>
-        /// Adds the <see cref="FileScreenshotConsumer"/> instance with the specified folder path builder.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="folderPathBuilder">The folder path builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        [Obsolete("Use AddScreenshotFileSaving().WithFolderPath(folderPathBuilder) instead.")]
-        public static AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving(this AtataContextBuilder builder, Func<string> folderPathBuilder)
-        {
-            return builder.AddScreenshotConsumer(new FileScreenshotConsumer { FolderPathBuilder = folderPathBuilder });
-        }
-
-        /// <summary>
-        /// Specifies the image format of the file screenshot consumer.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="imageFormat">The image format.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        [Obsolete("Use With(ScreenshotImageFormat imageFormat) instead.")]
-        public static AtataContextBuilder<FileScreenshotConsumer> With(this AtataContextBuilder<FileScreenshotConsumer> builder, ImageFormat imageFormat)
-        {
-            builder.Context.ImageFormat = imageFormat.ToScreenshotImageFormat();
-            return builder;
         }
 
         /// <summary>
