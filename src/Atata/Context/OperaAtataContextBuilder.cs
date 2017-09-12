@@ -7,7 +7,7 @@ namespace Atata
     public class OperaAtataContextBuilder : DriverAtataContextBuilder<OperaAtataContextBuilder, OperaDriverService, OperaOptions>
     {
         public OperaAtataContextBuilder(AtataBuildingContext buildingContext)
-            : base(buildingContext)
+            : base(buildingContext, DriverAliases.Opera)
         {
         }
 

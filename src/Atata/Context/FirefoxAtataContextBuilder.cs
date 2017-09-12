@@ -7,7 +7,7 @@ namespace Atata
     public class FirefoxAtataContextBuilder : DriverAtataContextBuilder<FirefoxAtataContextBuilder, FirefoxDriverService, FirefoxOptions>
     {
         public FirefoxAtataContextBuilder(AtataBuildingContext buildingContext)
-            : base(buildingContext)
+            : base(buildingContext, DriverAliases.Firefox)
         {
         }
 

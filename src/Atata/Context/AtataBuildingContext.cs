@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -10,9 +9,13 @@ namespace Atata
         {
         }
 
+        public List<IDriverFactory> DriverFactories { get; private set; } = new List<IDriverFactory>();
+
         public List<LogConsumerInfo> LogConsumers { get; private set; } = new List<LogConsumerInfo>();
 
         public List<IScreenshotConsumer> ScreenshotConsumers { get; private set; } = new List<IScreenshotConsumer>();
+
+        public IDriverFactory DriverFactoryToUse { get; internal set; }
 
         /// <summary>
         /// Gets or sets the factory method of the test name.
@@ -23,8 +26,6 @@ namespace Atata
         /// Gets or sets the base URL.
         /// </summary>
         public string BaseUrl { get; set; }
-
-        public Func<RemoteWebDriver> DriverCreator { get; set; }
 
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
 

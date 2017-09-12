@@ -8,5 +8,10 @@
 
             return TermResolver.ToString(value, new TermOptions { Case = termCase });
         }
+
+        internal static string ToFormattedString(this object value, string format)
+        {
+            return string.Format(format, value);
+        }
     }
 }

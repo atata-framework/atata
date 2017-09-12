@@ -5,7 +5,7 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
-    public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions> : AtataContextBuilder
+    public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions> : AtataContextBuilder, IDriverFactory
         where TBuilder : DriverAtataContextBuilder<TBuilder, TService, TOptions>
         where TService : DriverService
         where TOptions : DriverOptions, new()
@@ -21,13 +21,15 @@ namespace Atata
 
         private TimeSpan? commandTimeout;
 
-        protected DriverAtataContextBuilder(AtataBuildingContext buildingContext)
+        protected DriverAtataContextBuilder(AtataBuildingContext buildingContext, string alias)
             : base(buildingContext)
         {
-            BuildingContext.DriverCreator = CreateDriver;
+            Alias = alias;
         }
 
-        private RemoteWebDriver CreateDriver()
+        public string Alias { get; private set; }
+
+        RemoteWebDriver IDriverFactory.Create()
         {
             var options = optionsFactory?.Invoke() ?? new TOptions();
 
@@ -65,6 +67,19 @@ namespace Atata
         /// <param name="commandTimeout">The command timeout.</param>
         /// <returns>The driver instance.</returns>
         protected abstract RemoteWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
+
+        /// <summary>
+        /// Specifies the driver alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithAlias(string alias)
+        {
+            alias.CheckNotNullOrWhitespace(nameof(alias));
+
+            Alias = alias;
+            return (TBuilder)this;
+        }
 
         /// <summary>
         /// Specifies the driver options factory method.

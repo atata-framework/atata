@@ -6,7 +6,7 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
-    public class RemoteDriverAtataContextBuilder : AtataContextBuilder
+    public class RemoteDriverAtataContextBuilder : AtataContextBuilder, IDriverFactory
     {
         public const string DefaultRemoteServerUrl = "http://127.0.0.1:4444/wd/hub";
 
@@ -28,10 +28,12 @@ namespace Atata
         public RemoteDriverAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
-            BuildingContext.DriverCreator = CreateDriver;
+            Alias = DriverAliases.Remote;
         }
 
-        private RemoteWebDriver CreateDriver()
+        public string Alias { get; private set; }
+
+        RemoteWebDriver IDriverFactory.Create()
         {
             ICapabilities capabilities = CreateCapabilities();
 
@@ -54,6 +56,19 @@ namespace Atata
             return optionsFactory?.Invoke()?.ToCapabilities()
                 ?? capabilitiesFactory?.Invoke()
                 ?? new FirefoxOptions().ToCapabilities();
+        }
+
+        /// <summary>
+        /// Specifies the driver alias.
+        /// </summary>
+        /// <param name="alias">The alias.</param>
+        /// <returns>The same builder instance.</returns>
+        public RemoteDriverAtataContextBuilder WithAlias(string alias)
+        {
+            alias.CheckNotNullOrWhitespace(nameof(alias));
+
+            Alias = alias;
+            return this;
         }
 
         /// <summary>

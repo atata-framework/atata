@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
@@ -12,26 +13,90 @@ using OpenQA.Selenium.Safari;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the builder of <see cref="AtataContext"/>.
+    /// </summary>
     public class AtataContextBuilder
     {
-        internal AtataContextBuilder(AtataBuildingContext buildingContext)
+        public AtataContextBuilder(AtataBuildingContext buildingContext)
         {
-            BuildingContext = buildingContext;
+            BuildingContext = buildingContext.CheckNotNull(nameof(buildingContext));
         }
 
+        /// <summary>
+        /// Gets the building context.
+        /// </summary>
         public AtataBuildingContext BuildingContext { get; internal set; }
 
         /// <summary>
-        /// Use custom driver creator function.
+        /// Use the driver factory.
         /// </summary>
-        /// <param name="driverCreator">The builder.</param>
-        /// <returns>The <see cref="FirefoxAtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseDriver(Func<RemoteWebDriver> driverCreator)
+        /// <typeparam name="TDriverFactory">The type of the driver factory.</typeparam>
+        /// <param name="driverFactory">The driver factory.</param>
+        /// <returns>The <typeparamref name="TDriverFactory"/> instance.</returns>
+        public TDriverFactory UseDriver<TDriverFactory>(TDriverFactory driverFactory)
+            where TDriverFactory : AtataContextBuilder, IDriverFactory
         {
-            driverCreator.CheckNotNull(nameof(driverCreator));
+            driverFactory.CheckNotNull(nameof(driverFactory));
 
-            BuildingContext.DriverCreator = driverCreator;
+            BuildingContext.DriverFactories.Add(driverFactory);
+            BuildingContext.DriverFactoryToUse = driverFactory;
+
+            return driverFactory;
+        }
+
+        /// <summary>
+        /// Sets the alias of the driver to use.
+        /// </summary>
+        /// <param name="alias">The alias of the driver.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseDriver(string alias)
+        {
+            alias.CheckNotNullOrWhitespace(nameof(alias));
+
+            IDriverFactory driverFactory = BuildingContext.DriverFactories.LastOrDefault(x => alias.Equals(x.Alias, StringComparison.CurrentCultureIgnoreCase));
+
+            if (driverFactory != null)
+                BuildingContext.DriverFactoryToUse = driverFactory;
+            else if (UsePredefinedDriver(alias) == null)
+                throw new ArgumentException($"No driver with \"{alias}\" alias defined.", nameof(alias));
+
             return this;
+        }
+
+        private IDriverFactory UsePredefinedDriver(string alias)
+        {
+            switch (alias.ToLowerInvariant())
+            {
+                case DriverAliases.Chrome:
+                    return UseChrome();
+                case DriverAliases.Firefox:
+                    return UseFirefox();
+                case DriverAliases.InternetExplorer:
+                    return UseInternetExplorer();
+                case DriverAliases.Safari:
+                    return UseSafari();
+                case DriverAliases.Opera:
+                    return UseOpera();
+                case DriverAliases.Edge:
+                    return UseEdge();
+                case DriverAliases.PhantomJS:
+                    return UsePhantomJS();
+                default:
+                    return null;
+            }
+        }
+
+        /// <summary>
+        /// Use custom driver factory method.
+        /// </summary>
+        /// <param name="driverFactory">The driver factory method.</param>
+        /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
+        public CustomDriverAtataContextBuilder UseDriver(Func<RemoteWebDriver> driverFactory)
+        {
+            driverFactory.CheckNotNull(nameof(driverFactory));
+
+            return UseDriver(new CustomDriverAtataContextBuilder(BuildingContext, driverFactory));
         }
 
         /// <summary>
@@ -40,7 +105,7 @@ namespace Atata
         /// <returns>The <see cref="ChromeAtataContextBuilder"/> instance.</returns>
         public ChromeAtataContextBuilder UseChrome()
         {
-            return new ChromeAtataContextBuilder(BuildingContext);
+            return UseDriver(new ChromeAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -49,7 +114,7 @@ namespace Atata
         /// <returns>The <see cref="FirefoxAtataContextBuilder"/> instance.</returns>
         public FirefoxAtataContextBuilder UseFirefox()
         {
-            return new FirefoxAtataContextBuilder(BuildingContext);
+            return UseDriver(new FirefoxAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -58,7 +123,7 @@ namespace Atata
         /// <returns>The <see cref="InternetExplorerAtataContextBuilder"/> instance.</returns>
         public InternetExplorerAtataContextBuilder UseInternetExplorer()
         {
-            return new InternetExplorerAtataContextBuilder(BuildingContext);
+            return UseDriver(new InternetExplorerAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -67,7 +132,7 @@ namespace Atata
         /// <returns>The <see cref="EdgeAtataContextBuilder"/> instance.</returns>
         public EdgeAtataContextBuilder UseEdge()
         {
-            return new EdgeAtataContextBuilder(BuildingContext);
+            return UseDriver(new EdgeAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -76,7 +141,7 @@ namespace Atata
         /// <returns>The <see cref="OperaAtataContextBuilder"/> instance.</returns>
         public OperaAtataContextBuilder UseOpera()
         {
-            return new OperaAtataContextBuilder(BuildingContext);
+            return UseDriver(new OperaAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -85,7 +150,7 @@ namespace Atata
         /// <returns>The <see cref="PhantomJSAtataContextBuilder"/> instance.</returns>
         public PhantomJSAtataContextBuilder UsePhantomJS()
         {
-            return new PhantomJSAtataContextBuilder(BuildingContext);
+            return UseDriver(new PhantomJSAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -94,7 +159,7 @@ namespace Atata
         /// <returns>The <see cref="SafariAtataContextBuilder"/> instance.</returns>
         public SafariAtataContextBuilder UseSafari()
         {
-            return new SafariAtataContextBuilder(BuildingContext);
+            return UseDriver(new SafariAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -103,7 +168,7 @@ namespace Atata
         /// <returns>The <see cref="RemoteDriverAtataContextBuilder"/> instance.</returns>
         public RemoteDriverAtataContextBuilder UseRemoteDriver()
         {
-            return new RemoteDriverAtataContextBuilder(BuildingContext);
+            return UseDriver(new RemoteDriverAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>
@@ -405,9 +470,9 @@ namespace Atata
 
             context.Log.Trace($"Set: RetryTimeout={context.RetryTimeout.ToIntervalString()}; RetryInterval={context.RetryInterval.ToIntervalString()}");
 
-            context.Driver = BuildingContext.DriverCreator?.Invoke() ?? new FirefoxDriver();
+            context.Driver = BuildingContext.DriverFactoryToUse?.Create() ?? new FirefoxDriver();
 
-            context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}");
+            context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
 
             context.Driver.Manage().Timeouts().SetRetryTimeout(BuildingContext.RetryTimeout, BuildingContext.RetryInterval);
 
