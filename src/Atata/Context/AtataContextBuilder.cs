@@ -446,7 +446,17 @@ namespace Atata
         /// <summary>
         /// Sets up the context.
         /// </summary>
+        [Obsolete("Use Build() instead.")] // Obsolete since v0.14.0.
         public void SetUp()
+        {
+            Build();
+        }
+
+        /// <summary>
+        /// Builds the <see cref="AtataContext" /> instance and sets it to <see cref="AtataContext.Current" /> property.
+        /// </summary>
+        /// <returns>The created <see cref="AtataContext"/> instance.</returns>
+        public AtataContext Build()
         {
             AtataContext.InitGlobalVariables();
 
@@ -489,6 +499,8 @@ namespace Atata
             context.Log.EndSection();
 
             context.CleanExecutionStartDateTime = DateTime.Now;
+
+            return context;
         }
     }
 }

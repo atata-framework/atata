@@ -157,7 +157,7 @@ namespace Atata
         private static void CheckAtataContext()
         {
             if (AtataContext.Current == null)
-                AtataContext.Configure().SetUp();
+                AtataContext.Configure().Build();
         }
 
         private static void Navigate(Uri uri)

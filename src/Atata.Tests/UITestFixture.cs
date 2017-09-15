@@ -26,7 +26,7 @@ namespace Atata.Tests
                 AddNUnitTestContextLogging().
                 AddLogConsumer(stringListLogConsumer).
                 LogNUnitError().
-                SetUp();
+                Build();
 
             OnSetUp();
         }
