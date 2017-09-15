@@ -434,6 +434,16 @@ namespace Atata
         }
 
         /// <summary>
+        /// Clears the <see cref="BuildingContext"/>.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder Clear()
+        {
+            BuildingContext = new AtataBuildingContext();
+            return this;
+        }
+
+        /// <summary>
         /// Sets up the context.
         /// </summary>
         public void SetUp()
