@@ -32,6 +32,11 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets the global configuration.
+        /// </summary>
+        public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
+
+        /// <summary>
         /// Gets the build start date and time. Contains the same value for all the tests being executed within one build.
         /// </summary>
         public static DateTime? BuildStart { get; private set; }
@@ -91,9 +96,20 @@ namespace Atata
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
         }
 
+        [Obsolete("Use Configure() instead.")] // Obsolete since v0.14.0.
         public static AtataContextBuilder Build()
         {
-            return new AtataContextBuilder(new AtataBuildingContext());
+            return Configure();
+        }
+
+        /// <summary>
+        /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration. Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
+        /// </summary>
+        /// <returns>The created <see cref="AtataContextBuilder"/> instance.</returns>
+        public static AtataContextBuilder Configure()
+        {
+            AtataBuildingContext buildingContext = GlobalConfiguration.BuildingContext.Clone();
+            return new AtataContextBuilder(buildingContext);
         }
 
         internal static void InitGlobalVariables()

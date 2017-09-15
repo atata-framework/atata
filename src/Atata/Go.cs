@@ -93,8 +93,7 @@ namespace Atata
         private static T To<T>(T pageObject, GoOptions options)
             where T : PageObject<T>
         {
-            if (AtataContext.Current == null)
-                AtataContext.Build().SetUp();
+            CheckAtataContext();
 
             if (AtataContext.Current.PageObject == null)
             {
@@ -123,8 +122,7 @@ namespace Atata
         /// <param name="url">The URL.</param>
         public static void ToUrl(string url)
         {
-            if (AtataContext.Current == null)
-                AtataContext.Build().SetUp();
+            CheckAtataContext();
 
             Uri absoluteUri;
 
@@ -154,6 +152,12 @@ namespace Atata
             }
 
             Navigate(absoluteUri);
+        }
+
+        private static void CheckAtataContext()
+        {
+            if (AtataContext.Current == null)
+                AtataContext.Configure().SetUp();
         }
 
         private static void Navigate(Uri uri)

@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Atata
 {
-    public class AtataBuildingContext
+    public class AtataBuildingContext : ICloneable
     {
         internal AtataBuildingContext()
         {
@@ -43,5 +44,26 @@ namespace Atata
         /// Gets or sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
         /// </summary>
         public Type AssertionExceptionType { get; set; } = typeof(AssertionException);
+
+        object ICloneable.Clone()
+        {
+            return Clone();
+        }
+
+        /// <summary>
+        /// Creates a copy of the current instance.
+        /// </summary>
+        /// <returns>The copied <see cref="AtataBuildingContext"/> instance.</returns>
+        public AtataBuildingContext Clone()
+        {
+            AtataBuildingContext copy = (AtataBuildingContext)MemberwiseClone();
+
+            copy.DriverFactories = DriverFactories.ToList();
+            copy.LogConsumers = LogConsumers.ToList();
+            copy.ScreenshotConsumers = ScreenshotConsumers.ToList();
+            copy.CleanUpActions = CleanUpActions.ToList();
+
+            return copy;
+        }
     }
 }

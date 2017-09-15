@@ -18,7 +18,7 @@ namespace Atata.Tests
 
             stringListLogConsumer = new StringListLogConsumer();
 
-            AtataContext.Build().
+            AtataContext.Configure().
                 UseChrome().
                     WithArguments("disable-extensions", "no-sandbox", "start-maximized").
                 UseBaseUrl(baseUrl).
