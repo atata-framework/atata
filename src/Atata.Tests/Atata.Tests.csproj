@@ -94,6 +94,7 @@
     <Compile Include="Components\FindingPage.cs" />
     <Compile Include="Components\TriggersPage.cs" />
     <Compile Include="Components\WaitingPage.cs" />
+    <Compile Include="ConfigurationTests.cs" />
     <Compile Include="ContentTests.cs" />
     <Compile Include="ControlListTests.cs" />
     <Compile Include="ControlTests.cs" />
