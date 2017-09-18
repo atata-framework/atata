@@ -14,7 +14,9 @@ namespace Atata
         private static readonly object LockObject = new object();
 
         [ThreadStatic]
-        private static AtataContext current;
+        private static AtataContext currentThreadStaticContext;
+
+        private static AtataContext currentStaticContext;
 
         private bool disposed;
 
@@ -27,9 +29,26 @@ namespace Atata
         /// </summary>
         public static AtataContext Current
         {
-            get { return current; }
-            internal set { current = value; }
+            get
+            {
+                if (Mode == AtataContextMode.ThreadStatic)
+                    return currentThreadStaticContext;
+                else
+                    return currentStaticContext;
+            }
+            internal set
+            {
+                if (Mode == AtataContextMode.ThreadStatic)
+                    currentThreadStaticContext = value;
+                else
+                    currentStaticContext = value;
+            }
         }
+
+        /// <summary>
+        /// Gets or sets the mode. The default value is <see cref="AtataContextMode.ThreadStatic"/>.
+        /// </summary>
+        public static AtataContextMode Mode { get; set; }
 
         /// <summary>
         /// Gets the global configuration.
