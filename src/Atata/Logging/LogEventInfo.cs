@@ -10,15 +10,16 @@ namespace Atata
         internal LogEventInfo()
         {
             Timestamp = DateTime.Now;
-            BuildStart = AtataContext.BuildStart.Value;
+            BuildStart = AtataContext.BuildStart ?? DateTime.MinValue;
             TestName = AtataContext.Current?.TestName;
             TestStart = AtataContext.Current?.TestStart ?? DateTime.MinValue;
+            DriverAlias = AtataContext.Current?.DriverAlias;
         }
 
         /// <summary>
         /// Gets the timestamp of the logging event.
         /// </summary>
-        public DateTime Timestamp { get; internal set; }
+        public DateTime Timestamp { get; private set; }
 
         /// <summary>
         /// Gets the level of the logging event.
@@ -48,16 +49,21 @@ namespace Atata
         /// <summary>
         /// Gets the build start date and time. Contains the same value for all the tests being executed within one build.
         /// </summary>
-        public DateTime BuildStart { get; internal set; }
+        public DateTime BuildStart { get; private set; }
 
         /// <summary>
         /// Gets the name of the test.
         /// </summary>
-        public string TestName { get; internal set; }
+        public string TestName { get; private set; }
 
         /// <summary>
         /// Gets the test start date and time.
         /// </summary>
-        public DateTime TestStart { get; internal set; }
+        public DateTime TestStart { get; private set; }
+
+        /// <summary>
+        /// Gets the alias of the driver.
+        /// </summary>
+        public string DriverAlias { get; private set; }
     }
 }
