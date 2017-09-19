@@ -5,7 +5,7 @@ namespace Atata.Tests
     public class ControlTests : UITestFixture
     {
         [Test]
-        public void Control_DragAndDrop_UsingDragAndDropUsingScriptBehavior()
+        public void Control_DragAndDrop_UsingDomEvents()
         {
             Go.To<DragAndDropPage>().
                 DropContainer.Items.Should.BeEmpty().
