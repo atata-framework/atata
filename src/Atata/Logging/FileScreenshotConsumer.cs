@@ -22,6 +22,8 @@ namespace Atata
                 ["test-name"] = scr => AtataContext.Current.TestName,
                 ["test-start"] = scr => AtataContext.Current.TestStart,
 
+                ["driver-alias"] = scr => AtataContext.Current.DriverAlias,
+
                 ["screenshot-number"] = scr => scr.Number,
                 ["screenshot-title"] = scr => scr.Title,
                 ["screenshot-pageobjectname"] = scr => scr.PageObjectName,
