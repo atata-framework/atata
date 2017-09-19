@@ -79,6 +79,7 @@ namespace Atata
             otherEventInfo.Properties["build-start"] = eventInfo.BuildStart;
             otherEventInfo.Properties["test-name"] = eventInfo.TestName;
             otherEventInfo.Properties["test-start"] = eventInfo.TestStart;
+            otherEventInfo.Properties["driver-alias"] = eventInfo.DriverAlias;
 
             logger.Log(otherEventInfo);
         }
