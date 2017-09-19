@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Drawing;
+using NUnit.Framework;
 
 namespace Atata.Tests
 {
@@ -15,6 +16,32 @@ namespace Atata.Tests
                 DropContainer.Items.Should.HaveCount(2).
                 DragItems.Items.Should.BeEmpty().
                 DropContainer[1].Content.Should.Equal("Drag item 2");
+        }
+
+        [Test]
+        public void Control_ScrollTo_UsingMoveToElement()
+        {
+            AtataContext.Current.Driver.Manage().Window.Size = new Size(400, 400);
+
+            Go.To<BasicControlsPage>().
+                OptionBWithScrollUsingMoveToElement.ScrollTo();
+
+            long yOffset = (long)AtataContext.Current.Driver.ExecuteScript("return window.pageYOffset;");
+
+            Assert.That(yOffset, Is.GreaterThan(200));
+        }
+
+        [Test]
+        public void Control_ScrollTo_UsingScrollIntoView()
+        {
+            AtataContext.Current.Driver.Manage().Window.Size = new Size(400, 400);
+
+            Go.To<BasicControlsPage>().
+                OptionBWithScrollUsingScrollIntoView.ScrollTo();
+
+            long yOffset = (long)AtataContext.Current.Driver.ExecuteScript("return window.pageYOffset;");
+
+            Assert.That(yOffset, Is.GreaterThan(200));
         }
     }
 }
