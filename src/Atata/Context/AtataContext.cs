@@ -66,6 +66,11 @@ namespace Atata
         public RemoteWebDriver Driver { get; internal set; }
 
         /// <summary>
+        /// Gets the driver alias.
+        /// </summary>
+        public string DriverAlias { get; internal set; }
+
+        /// <summary>
         /// Gets the instance of the log manager.
         /// </summary>
         public ILogManager Log { get; internal set; }

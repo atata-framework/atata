@@ -491,6 +491,7 @@ namespace Atata
             context.Log.Trace($"Set: RetryTimeout={context.RetryTimeout.ToIntervalString()}; RetryInterval={context.RetryInterval.ToIntervalString()}");
 
             context.Driver = BuildingContext.DriverFactoryToUse?.Create() ?? new FirefoxDriver();
+            context.DriverAlias = BuildingContext.DriverFactoryToUse?.Alias ?? DriverAliases.Firefox;
 
             context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
 
