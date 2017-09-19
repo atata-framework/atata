@@ -83,17 +83,27 @@ namespace Atata
         /// </summary>
         AfterFocus = 1 << 13,
 
+        /// <summary>
+        /// Occurs before the scrolling to control.
+        /// </summary>
+        BeforeScroll = 1 << 14,
+
+        /// <summary>
+        /// Occurs after the scrolling to control.
+        /// </summary>
+        AfterScroll = 1 << 15,
+
         BeforeGetOrSet = BeforeGet | BeforeSet,
         BeforeClickOrHover = BeforeClick | BeforeHover,
         BeforeClickOrFocus = BeforeClick | BeforeFocus,
         BeforeClickOrHoverOrFocus = BeforeClick | BeforeHover | BeforeFocus,
-        BeforeAnyAction = BeforeClick | BeforeGet | BeforeSet | BeforeFocus,
+        BeforeAnyAction = BeforeClick | BeforeGet | BeforeSet | BeforeFocus | BeforeScroll,
 
         AfterGetOrSet = AfterGet | AfterSet,
         AfterClickOrHover = AfterClick | AfterHover,
         AfterClickOrFocus = AfterClick | AfterFocus,
         AfterClickOrHoverOrFocus = AfterClick | AfterHover | AfterFocus,
-        AfterAnyAction = AfterClick | AfterGet | AfterSet | AfterFocus,
+        AfterAnyAction = AfterClick | AfterGet | AfterSet | AfterFocus | AfterScroll,
         AfterClickOrSet = AfterClick | AfterSet,
 
         BeforeAndAfterClick = BeforeClick | AfterClick

@@ -64,6 +64,9 @@
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="ActivatorEx.cs" />
+    <Compile Include="Attributes\Behaviors\ScrollBehaviorAttribute.cs" />
+    <Compile Include="Attributes\Behaviors\ScrollUsingMoveToElementAttribute.cs" />
+    <Compile Include="Attributes\Behaviors\ScrollUsingScrollIntoViewAttribute.cs" />
     <Compile Include="Context\AtataContextMode.cs" />
     <Compile Include="AtataMapper.cs" />
     <Compile Include="AttributeLevels.cs" />
@@ -119,6 +122,7 @@
     <Compile Include="Logging\Sections\DragAndDropToComponentLogSection.cs" />
     <Compile Include="Logging\Sections\DragAndDropToOffsetLogSection.cs" />
     <Compile Include="Logging\Sections\PressKeysLogSection.cs" />
+    <Compile Include="Logging\Sections\ScrollToComponentLogSection.cs" />
     <Compile Include="PropertyBag.cs" />
     <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
     <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />

@@ -151,6 +151,7 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the target control. By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="target">The target control.</param>
         /// <returns>The instance of the owner page object.</returns>
@@ -175,6 +176,32 @@ namespace Atata
                 ?? new DragAndDropUsingActionsAttribute();
 
             behavior.Execute(this, target);
+        }
+
+        /// <summary>
+        /// Scrolls to the control. By default uses <see cref="ScrollUsingMoveToElementAttribute"/>.
+        /// Also executes <see cref="TriggerEvents.BeforeScroll" /> and <see cref="TriggerEvents.AfterScroll" /> triggers.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner ScrollTo()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeScroll);
+            Log.Start(new ScrollToComponentLogSection(this));
+
+            OnScrollTo();
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterScroll);
+
+            return Owner;
+        }
+
+        protected virtual void OnScrollTo()
+        {
+            var behavior = Metadata.Get<ScrollBehaviorAttribute>(AttributeLevels.All)
+                ?? new ScrollUsingMoveToElementAttribute();
+
+            behavior.Execute(this);
         }
 
         /// <summary>
