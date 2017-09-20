@@ -64,7 +64,6 @@
     <Compile Include="Attributes\Behaviors\ScrollBehaviorAttribute.cs" />
     <Compile Include="Attributes\Behaviors\ScrollUsingMoveToElementAttribute.cs" />
     <Compile Include="Attributes\Behaviors\ScrollUsingScrollIntoViewAttribute.cs" />
-    <Compile Include="Context\AtataContextMode.cs" />
     <Compile Include="AtataMapper.cs" />
     <Compile Include="AttributeLevels.cs" />
     <Compile Include="Attributes\Behaviors\DragAndDropBehaviorAttribute.cs" />

@@ -13,6 +13,8 @@ namespace Atata
     {
         private static readonly object LockObject = new object();
 
+        private static bool isThreadStatic = true;
+
         [ThreadStatic]
         private static AtataContext currentThreadStaticContext;
 
@@ -29,16 +31,10 @@ namespace Atata
         /// </summary>
         public static AtataContext Current
         {
-            get
-            {
-                if (Mode == AtataContextMode.ThreadStatic)
-                    return currentThreadStaticContext;
-                else
-                    return currentStaticContext;
-            }
+            get => isThreadStatic ? currentThreadStaticContext : currentStaticContext;
             internal set
             {
-                if (Mode == AtataContextMode.ThreadStatic)
+                if (isThreadStatic)
                     currentThreadStaticContext = value;
                 else
                     currentStaticContext = value;
@@ -46,9 +42,17 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the mode. The default value is <see cref="AtataContextMode.ThreadStatic"/>.
+        /// Gets or sets a value indicating whether the <see cref="Current"/> property use thread-static approach (value unique for each thread). The default value is <c>true</c>.
         /// </summary>
-        public static AtataContextMode Mode { get; set; }
+        public static bool IsThreadStatic
+        {
+            get => isThreadStatic;
+            set
+            {
+                isThreadStatic = value;
+                RetrySettings.IsThreadStatic = value;
+            }
+        }
 
         /// <summary>
         /// Gets the global configuration.
