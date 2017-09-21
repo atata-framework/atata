@@ -95,7 +95,7 @@ namespace Atata
         public string BaseUrl { get; internal set; }
 
         /// <summary>
-        /// Gets the retry timeout. The default value is 10 seconds.
+        /// Gets the retry timeout. The default value is 5 seconds.
         /// </summary>
         public TimeSpan RetryTimeout { get; internal set; }
 

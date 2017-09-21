@@ -103,7 +103,7 @@ namespace Atata.Tests
             Assert.That(context.ScreenshotConsumers, Is.Empty);
             Assert.That(context.BaseUrl, Is.Null);
             Assert.That(context.CleanUpActions, Is.Empty);
-            Assert.That(context.RetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(10)));
+            Assert.That(context.RetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));
             Assert.That(context.RetryInterval, Is.EqualTo(TimeSpan.FromSeconds(0.5)));
         }
     }

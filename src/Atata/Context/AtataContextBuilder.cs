@@ -311,7 +311,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the retry timeout for a search of element/control. The default value is 10 seconds.
+        /// Sets the retry timeout for a search of element/control. The default value is 5 seconds.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>

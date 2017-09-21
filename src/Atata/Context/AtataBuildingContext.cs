@@ -31,9 +31,9 @@ namespace Atata
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
 
         /// <summary>
-        /// Gets the retry timeout. The default value is 10 seconds.
+        /// Gets the retry timeout. The default value is 5 seconds.
         /// </summary>
-        public TimeSpan RetryTimeout { get; internal set; } = TimeSpan.FromSeconds(10);
+        public TimeSpan RetryTimeout { get; internal set; } = TimeSpan.FromSeconds(5);
 
         /// <summary>
         /// Gets the retry interval. The default value is 500 milliseconds.
