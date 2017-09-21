@@ -171,9 +171,7 @@ namespace Atata
         {
             return Parent is TComponentToFind ?
                 (TComponentToFind)Parent :
-                Parent != null ?
-                    Parent.GetAncestor<TComponentToFind>() :
-                    null;
+                Parent?.GetAncestor<TComponentToFind>();
         }
 
         TComponentToFind IUIComponent<TOwner>.GetAncestor<TComponentToFind>() => GetAncestor<TComponentToFind>();

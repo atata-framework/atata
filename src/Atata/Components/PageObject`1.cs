@@ -108,9 +108,7 @@ namespace Atata
 
         protected virtual void Navigate()
         {
-            UrlAttribute attribute;
-
-            if (GetType().TryGetCustomAttribute(out attribute) || !AtataContext.Current.IsNavigated)
+            if (GetType().TryGetCustomAttribute(out UrlAttribute attribute) || !AtataContext.Current.IsNavigated)
             {
                 Go.ToUrl(attribute?.Url);
             }

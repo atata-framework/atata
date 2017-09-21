@@ -110,9 +110,8 @@ namespace Atata
             {
                 return ReferenceEquals(this, objAsField);
             }
-            else if (obj is T)
+            else if (obj is T objAsValue)
             {
-                T objAsValue = (T)obj;
                 return Equals(objAsValue);
             }
             else

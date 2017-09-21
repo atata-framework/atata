@@ -205,9 +205,8 @@ namespace Atata
         private static Type ResolveDelegateControlType(Type delegateType)
         {
             Type delegateGenericTypeDefinition = delegateType.GetGenericTypeDefinition();
-            Type controlGenericTypeDefinition;
 
-            if (DelegateControlsTypeMapping.TryGetValue(delegateGenericTypeDefinition, out controlGenericTypeDefinition))
+            if (DelegateControlsTypeMapping.TryGetValue(delegateGenericTypeDefinition, out Type controlGenericTypeDefinition))
             {
                 Type[] genericArguments = delegateType.GetGenericArguments();
                 return controlGenericTypeDefinition.MakeGenericType(genericArguments);
@@ -645,8 +644,7 @@ namespace Atata
         {
             controlDelegate.CheckNotNull(nameof(controlDelegate));
 
-            UIComponent control;
-            if (DelegateControls.TryGetValue(controlDelegate, out control))
+            if (DelegateControls.TryGetValue(controlDelegate, out UIComponent control))
                 return (Control<TOwner>)control;
             else
                 throw new ArgumentException($"Failed to find mapped control by specified '{nameof(controlDelegate)}'.", nameof(controlDelegate));
