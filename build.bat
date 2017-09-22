@@ -1,5 +1,5 @@
 @Echo OFF
-SET PATH=C:\Program Files (x86)\MSBuild\14.0\Bin
+SET PATH=D:\Program Files (x86)\Microsoft Visual Studio\2017\Community\MSBuild\15.0\Bin
 
 MSbuild "src\Atata\Atata.csproj" /p:Configuration=Release
 Echo Build process completed
