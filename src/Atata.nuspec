@@ -3,7 +3,7 @@
   <metadata>
     <id>Atata</id>
     <title>Atata</title>
-    <version>0.13.0</version>
+    <version>0.14.0</version>
     <authors>Yevgeniy Shunevych</authors>
     <owners>Yevgeniy Shunevych</owners>
     <licenseUrl>https://raw.githubusercontent.com/atata-framework/atata/master/LICENSE</licenseUrl>
@@ -12,7 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>Test automation full featured framework based on Selenium WebDriver.</summary>
     <description>
-Test automation full featured framework based on Selenium WebDriver.
+C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
 
 Features:
 - WebDriver. Based on Selenium WebDriver and preserves all its features.
@@ -26,6 +26,7 @@ Features:
 - Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components.
 </description>
     <releaseNotes>
+0.14.0 - https://atata-framework.github.io/blog/2017/09/22/atata-0.14.0-released/
 0.13.0 - https://atata-framework.github.io/blog/2017/06/27/atata-0.13.0-released/
 0.12.0 - https://github.com/atata-framework/atata/releases/tag/v0.12.0
 0.11.4 - https://github.com/atata-framework/atata/releases/tag/v0.11.4
@@ -34,12 +35,12 @@ Features:
 0.11.1 - https://github.com/atata-framework/atata/releases/tag/v0.11.1
 0.11.0 - Initial release
     </releaseNotes>
-    <copyright>Copyright © Yevgeniy Shunevych 2017</copyright>
+    <copyright>© Yevgeniy Shunevych</copyright>
     <tags>atata automation testing test selenium webdriver browser</tags>
     <dependencies>
-      <dependency id="Atata.WebDriverExtras" version="0.11.0" />
-      <dependency id="Selenium.WebDriver" version="3.4.0" />
-      <dependency id="Selenium.Support" version="3.4.0" />
+      <dependency id="Atata.WebDriverExtras" version="0.12.0" />
+      <dependency id="Selenium.WebDriver" version="3.5.2" />
+      <dependency id="Selenium.Support" version="3.5.2" />
     </dependencies>
   </metadata>
   <files>
