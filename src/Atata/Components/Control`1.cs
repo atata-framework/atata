@@ -179,7 +179,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Scrolls to the control. By default uses <see cref="ScrollUsingMoveToElementAttribute"/>.
+        /// Scrolls to the control. By default uses <see cref="ScrollUsingMoveToElementAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeScroll" /> and <see cref="TriggerEvents.AfterScroll" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
