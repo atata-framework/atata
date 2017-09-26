@@ -111,12 +111,16 @@ You can also check the following articles:
 * [Atata - New Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework)
 * [Test Automation Using Atata: Verification of Web Pages](https://www.codeproject.com/Articles/1173435/Test-Automation-Using-Atata-Verification-of-Pages)
 * [Test Automation Using Atata: Verification of Validation Messages](https://www.codeproject.com/Articles/1177317/Test-Automation-Using-Atata-Validation-Messages)
-* [Test Automation Using Atata: Visual Studio Team Services Configuration](https://www.codeproject.com/Articles/1190753/Test-Automation-Using-Atata-VS-Team-Services)
+<!--* [Test Automation Using Atata: Visual Studio Team Services Configuration](https://www.codeproject.com/Articles/1190753/Test-Automation-Using-Atata-VS-Team-Services)-->
 * [Test Automation Using Atata: Handle Confirmation Popups](https://www.codeproject.com/Articles/1194445/Test-Automation-Using-Atata-Confirmation-Popups)
 
 ## Contact
 
 Feel free to ask any questions regarding Atata Framework. Any feedback, issues and feature requests are welcome.
+
+If you faced an issue please report it to [Atata Issues](https://github.com/atata-framework/atata/issues), write to [Atata Gitter](https://gitter.im/atata-framework/atata) or just mail to yevgeniy.shunevych@gmail.com.
+
+### Links
 
 * Atata Issues: https://github.com/atata-framework/atata/issues
 * Atata Gitter: https://gitter.im/atata-framework/atata
@@ -130,8 +134,6 @@ Contact me if you need a help in test automation using Atata Framework, or if yo
 * Email: yevgeniy.shunevych@gmail.com
 * Skype: e.shunevich
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
-* Twitter: https://twitter.com/YevgenShunevych
-* Facebook: https://www.facebook.com/YevgeniyShunevych
 * Gitter: https://gitter.im/YevgeniyShunevych
 
 ## License
