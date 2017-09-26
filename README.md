@@ -111,7 +111,6 @@ You can also check the following articles:
 * [Atata - New Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework)
 * [Test Automation Using Atata: Verification of Web Pages](https://www.codeproject.com/Articles/1173435/Test-Automation-Using-Atata-Verification-of-Pages)
 * [Test Automation Using Atata: Verification of Validation Messages](https://www.codeproject.com/Articles/1177317/Test-Automation-Using-Atata-Validation-Messages)
-<!--* [Test Automation Using Atata: Visual Studio Team Services Configuration](https://www.codeproject.com/Articles/1190753/Test-Automation-Using-Atata-VS-Team-Services)-->
 * [Test Automation Using Atata: Handle Confirmation Popups](https://www.codeproject.com/Articles/1194445/Test-Automation-Using-Atata-Confirmation-Popups)
 
 ## Contact
