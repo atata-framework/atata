@@ -137,6 +137,7 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>. By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="targetSelector">The target control selector.</param>
         /// <returns>The instance of the owner page object.</returns>
@@ -179,6 +180,31 @@ namespace Atata
         }
 
         /// <summary>
+        /// Drags and drops the control to the specified offset.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// </summary>
+        /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
+        /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner DragAndDropToOffset(int offsetX, int offsetY)
+        {
+            ExecuteTriggers(TriggerEvents.BeforeClick);
+            Log.Start(new DragAndDropToOffsetLogSection(this, offsetX, offsetY));
+
+            OnDragAndDropToOffset(offsetX, offsetY);
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterClick);
+
+            return Owner;
+        }
+
+        protected virtual void OnDragAndDropToOffset(int offsetX, int offsetY)
+        {
+            Driver.Perform(x => x.DragAndDropToOffset(Scope, offsetX, offsetY));
+        }
+
+        /// <summary>
         /// Scrolls to the control. By default uses <see cref="ScrollUsingMoveToElementAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeScroll" /> and <see cref="TriggerEvents.AfterScroll" /> triggers.
         /// </summary>
@@ -202,30 +228,6 @@ namespace Atata
                 ?? new ScrollUsingMoveToElementAttribute();
 
             behavior.Execute(this);
-        }
-
-        /// <summary>
-        /// Drags and drops the control to the specified offset.
-        /// </summary>
-        /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
-        /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
-        /// <returns>The instance of the owner page object.</returns>
-        public TOwner DragAndDropToOffset(int offsetX, int offsetY)
-        {
-            ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.Start(new DragAndDropToOffsetLogSection(this, offsetX, offsetY));
-
-            OnDragAndDropToOffset(offsetX, offsetY);
-
-            Log.EndSection();
-            ExecuteTriggers(TriggerEvents.AfterClick);
-
-            return Owner;
-        }
-
-        protected virtual void OnDragAndDropToOffset(int offsetX, int offsetY)
-        {
-            Driver.Perform(x => x.DragAndDropToOffset(Scope, offsetX, offsetY));
         }
     }
 }
