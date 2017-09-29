@@ -54,6 +54,13 @@ namespace Atata
 
         UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should { get; }
 
+        /// <summary>
+        /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element. Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
+        /// </summary>
+        /// <param name="options">The options. If set to null, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
+        IWebElement GetScope(SearchOptions options = null);
+
         bool Exists(SearchOptions options = null);
 
         bool Missing(SearchOptions options = null);
