@@ -125,34 +125,42 @@ namespace Atata
 
         internal void Execute(TriggerEvents on)
         {
-            if (orderedTriggers == null || orderedTriggers.Length == 0 || on == TriggerEvents.None || currentDeniedTriggers.Contains(on))
+            if (on == TriggerEvents.None || currentDeniedTriggers.Contains(on))
                 return;
 
-            TriggerEvents[] denyTriggers;
-            if (DenyTriggersMap.TryGetValue(on, out denyTriggers))
-                currentDeniedTriggers.AddRange(denyTriggers);
-
-            try
+            if (orderedTriggers?.Length > 0)
             {
-                var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
+                TriggerEvents[] denyTriggers;
+                if (DenyTriggersMap.TryGetValue(on, out denyTriggers))
+                    currentDeniedTriggers.AddRange(denyTriggers);
 
-                TriggerContext<TOwner> context = new TriggerContext<TOwner>
+                try
                 {
-                    Event = on,
-                    Driver = component.Driver,
-                    Log = component.Log,
-                    Component = component
-                };
+                    var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
 
-                foreach (var trigger in triggers)
-                    trigger.Execute(context);
-            }
-            finally
-            {
-                if (denyTriggers != null)
-                    currentDeniedTriggers.RemoveAll(x => denyTriggers.Contains(x));
+                    TriggerContext<TOwner> context = new TriggerContext<TOwner>
+                    {
+                        Event = on,
+                        Driver = component.Driver,
+                        Log = component.Log,
+                        Component = component
+                    };
+
+                    foreach (var trigger in triggers)
+                        trigger.Execute(context);
+                }
+                finally
+                {
+                    if (denyTriggers != null)
+                        currentDeniedTriggers.RemoveAll(x => denyTriggers.Contains(x));
+                }
             }
 
+            ExecuteForChildren(on);
+        }
+
+        private void ExecuteForChildren(TriggerEvents on)
+        {
             if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
             {
                 foreach (UIComponent<TOwner> child in component.Controls)
