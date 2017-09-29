@@ -12,6 +12,10 @@
                 <button class="btn btn-default" onclick="wait()">Wait</button>
                 <span class="processing-block" style="display: none">Processing...</span>
                 <span class="result-block" style="display: none">Result</span>
+                <br>
+                <br>
+                <a href="/WaitingOnInit.html">Go to WaitingOnInit page</a>
+                <button onclick="waitAndGo()">Wait and go to WaitingOnInit page</button>
             </div>
         </div>
     </div>
@@ -23,6 +27,12 @@
             setTimeout(function () {
                 $(".processing-block").hide();
                 $(".result-block").show();
+            }, 2000);
+        }
+
+        function waitAndGo() {
+            setTimeout(function () {
+                document.location.href = '/WaitingOnInit.html';
             }, 2000);
         }
     </script>

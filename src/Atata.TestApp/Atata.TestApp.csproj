@@ -22,6 +22,7 @@
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -114,6 +115,7 @@
     <Content Include="RadioButtonList.html" />
     <None Include="Scripts\jquery-2.2.0.intellisense.js" />
     <Content Include="Finding.html" />
+    <Content Include="WaitingOnInit.html" />
     <Content Include="Waiting.html" />
     <Content Include="Select.html" />
     <Content Include="Table.html" />

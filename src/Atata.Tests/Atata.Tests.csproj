@@ -89,6 +89,7 @@
     <Compile Include="Components\TablePage.cs" />
     <Compile Include="Components\FindingPage.cs" />
     <Compile Include="Components\TriggersPage.cs" />
+    <Compile Include="Components\WaitingOnInitPage.cs" />
     <Compile Include="Components\WaitingPage.cs" />
     <Compile Include="ConfigurationTests.cs" />
     <Compile Include="ContentTests.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="TestCaseDataSource.cs" />
     <Compile Include="FindingTests.cs" />
     <Compile Include="UIComponentTests.cs" />
+    <Compile Include="WaitingOnInitTests.cs" />
     <Compile Include="WaitingTests.cs" />
   </ItemGroup>
   <ItemGroup>

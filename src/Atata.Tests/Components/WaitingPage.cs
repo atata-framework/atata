@@ -32,5 +32,11 @@ namespace Atata.Tests
 
         [FindByClass("result-block")]
         public Text<_> Result { get; private set; }
+
+        [Term("Go to WaitingOnInit page")]
+        public Link<WaitingOnInitPage, _> GoToWaitingOnInitPage { get; private set; }
+
+        [Term("Wait and go to WaitingOnInit page")]
+        public Button<WaitingOnInitPage, _> WaitAndGoToWaitingOnInitPage { get; private set; }
     }
 }
