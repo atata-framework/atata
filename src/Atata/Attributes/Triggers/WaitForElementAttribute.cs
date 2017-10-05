@@ -45,25 +45,30 @@ namespace Atata
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            ScopeSource actualScopeSource = scopeSource ?? context.Component.ScopeSource;
-            IWebElement scopeElement = actualScopeSource.GetScopeElement(context.Component);
-
             WaitUnit[] waitUnits = GetWaitUnits(Until);
 
-            Wait(scopeElement, waitUnits);
+            foreach (WaitUnit unit in waitUnits)
+                Wait(context.Component, unit);
         }
 
-        protected virtual void Wait(IWebElement scopeElement, WaitUnit[] waitUnits)
+        protected virtual void Wait<TOwner>(IUIComponent<TOwner> scopeComponent, WaitUnit waitUnit)
+            where TOwner : PageObject<TOwner>
         {
-            foreach (WaitUnit unit in waitUnits)
-            {
-                By by = WaitBy.GetBy(Selector).With(unit.Options);
+            ScopeSource actualScopeSource = scopeSource ?? scopeComponent.ScopeSource;
 
-                if (unit.Method == WaitMethod.Presence)
-                    scopeElement.Exists(by);
-                else
-                    scopeElement.Missing(by);
-            }
+            StaleSafely.Execute(
+                options =>
+                {
+                    IWebElement scopeElement = actualScopeSource.GetScopeElement(scopeComponent, SearchOptions.Within(options.Timeout));
+
+                    By by = WaitBy.GetBy(Selector).With(options);
+
+                    if (waitUnit.Method == WaitMethod.Presence)
+                        scopeElement.Exists(by);
+                    else
+                        scopeElement.Missing(by);
+                },
+                waitUnit.Options);
         }
     }
 }
