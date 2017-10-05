@@ -4,24 +4,26 @@ namespace Atata
 {
     public static class ScopeSourceExtensions
     {
-        public static IWebElement GetScopeElement<TOwner>(this ScopeSource scopeSource, IUIComponent<TOwner> component)
+        public static IWebElement GetScopeElement<TOwner>(this ScopeSource scopeSource, IUIComponent<TOwner> component, SearchOptions options = null)
             where TOwner : PageObject<TOwner>
         {
-            return GetScopeElement(scopeSource, (UIComponent)component);
+            return GetScopeElement(scopeSource, (UIComponent)component, options);
         }
 
-        public static IWebElement GetScopeElement(this ScopeSource scopeSource, UIComponent component)
+        public static IWebElement GetScopeElement(this ScopeSource scopeSource, UIComponent component, SearchOptions options = null)
         {
+            options = options ?? new SearchOptions();
+
             switch (scopeSource)
             {
                 case ScopeSource.Parent:
-                    return component.Parent.Scope;
+                    return component.Parent.GetScope(options);
                 case ScopeSource.Grandparent:
-                    return component.Parent.Parent.Scope;
+                    return component.Parent.Parent.GetScope(options);
                 case ScopeSource.PageObject:
-                    return component.Owner.Scope;
+                    return component.Owner.GetScope(options);
                 case ScopeSource.Page:
-                    return component.Driver.Get(By.TagName("body"));
+                    return component.Driver.Get(By.TagName("body").With(options));
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource));
             }
