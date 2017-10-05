@@ -14,5 +14,7 @@ namespace Atata
         TimeSpan? RetryInterval { get; }
 
         string GetShouldText();
+
+        RetryOptions GetRetryOptions();
     }
 }

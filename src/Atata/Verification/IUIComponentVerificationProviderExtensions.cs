@@ -130,8 +130,7 @@ namespace Atata
                     int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
                     return should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
                 },
-                should.Timeout,
-                should.RetryInterval);
+                should.GetRetryOptions());
 
             if (!doesSatisfy)
             {

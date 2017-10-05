@@ -30,8 +30,7 @@ namespace Atata
                     actual = should.DataProvider.Value;
                     return predicate(actual) != should.IsNegation;
                 },
-                should.Timeout,
-                should.RetryInterval);
+                should.GetRetryOptions());
 
             if (!doesSatisfy)
                 throw CreateAssertionException(should, actual, message, args);
@@ -60,8 +59,7 @@ namespace Atata
                     actual = should.DataProvider.Value?.Select(x => x.Value).ToArray();
                     return predicate(actual) != should.IsNegation;
                 },
-                should.Timeout,
-                should.RetryInterval);
+                should.GetRetryOptions());
 
             if (!doesSatisfy)
                 throw should.CreateAssertionException(expectedMessage, CollectionToString(actual));
