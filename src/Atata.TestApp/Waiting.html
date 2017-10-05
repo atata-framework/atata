@@ -16,6 +16,7 @@
                 <br>
                 <a href="/WaitingOnInit.html">Go to WaitingOnInit page</a>
                 <button onclick="waitAndGo()">Wait and go to WaitingOnInit page</button>
+                <span class="navigating-block" style="display: none">Navigating...</span>
             </div>
         </div>
     </div>
@@ -24,6 +25,7 @@
         function wait() {
             $(".result-block").hide();
             $(".processing-block").show();
+
             setTimeout(function () {
                 $(".processing-block").hide();
                 $(".result-block").show();
@@ -31,7 +33,10 @@
         }
 
         function waitAndGo() {
+            $(".navigating-block").show();
+
             setTimeout(function () {
+                $(".navigating-block").hide();
                 document.location.href = '/WaitingOnInit.html';
             }, 2000);
         }

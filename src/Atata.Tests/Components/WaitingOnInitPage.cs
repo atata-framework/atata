@@ -1,19 +1,17 @@
-﻿namespace Atata.Tests
+﻿using NUnit.Framework;
+
+namespace Atata.Tests
 {
     using _ = WaitingOnInitPage;
 
-    [Url("WaitingOnInit.html")]
+    [Url(Url)]
     public class WaitingOnInitPage : Page<_>
     {
-        private readonly WaitKind waitKind;
-
-        public WaitingOnInitPage(WaitKind waitKind = WaitKind.WaitForElement)
-        {
-            this.waitKind = waitKind;
-        }
+        public const string Url = "WaitingOnInit.html";
 
         public enum WaitKind
         {
+            None,
             WaitForElement,
             VerifyExists,
             VerifyMissing
@@ -25,20 +23,22 @@
         [FindByClass]
         public Text<_> ContentBlock { get; private set; }
 
+        public WaitKind OnInitWaitKind { get; set; }
+
         protected override void OnInit()
         {
-            switch (waitKind)
-            {
-                case WaitKind.WaitForElement:
-                    Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "content-block", WaitUntil.Visible, TriggerEvents.Init));
-                    break;
-                case WaitKind.VerifyExists:
-                    ContentBlock.Triggers.Add(new VerifyExistsAttribute());
-                    break;
-                case WaitKind.VerifyMissing:
-                    LoadingBlock.Triggers.Add(new VerifyMissingAttribute());
-                    break;
-            }
+            if (OnInitWaitKind == WaitKind.WaitForElement)
+                Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "content-block", WaitUntil.Visible, TriggerEvents.Init));
+            else if (OnInitWaitKind == WaitKind.VerifyExists)
+                ContentBlock.Triggers.Add(new VerifyExistsAttribute());
+            else if (OnInitWaitKind == WaitKind.VerifyMissing)
+                LoadingBlock.Triggers.Add(new VerifyMissingAttribute());
+        }
+
+        public _ VerifyContentBlockIsLoaded()
+        {
+            Assert.That(ContentBlock.GetScope(SearchOptions.UnsafelyAtOnce()).Text, Is.EqualTo("Loaded"));
+            return this;
         }
     }
 }
