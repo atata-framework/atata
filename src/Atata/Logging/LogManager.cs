@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.Extensions;
 
 namespace Atata
 {
@@ -18,11 +16,6 @@ namespace Atata
         private readonly Stack<LogSection> sectionEndStack = new Stack<LogSection>();
 
         private int screenshotNumber;
-
-        protected IWebDriver Driver
-        {
-            get { return AtataContext.Current.Driver; }
-        }
 
         /// <summary>
         /// Use the specified consumer for logging.
@@ -195,7 +188,7 @@ namespace Atata
 
         public void Screenshot(string title = null)
         {
-            if (Driver == null || !screenshotConsumers.Any())
+            if (AtataContext.Current?.Driver == null || !screenshotConsumers.Any())
                 return;
 
             try
@@ -211,7 +204,7 @@ namespace Atata
 
                 ScreenshotInfo screenshotInfo = new ScreenshotInfo
                 {
-                    Screenshot = Driver.TakeScreenshot(),
+                    Screenshot = AtataContext.Current.Driver.GetScreenshot(),
                     Number = screenshotNumber,
                     Title = title,
                     PageObjectName = AtataContext.Current.PageObject.ComponentName,

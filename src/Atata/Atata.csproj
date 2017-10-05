@@ -1,463 +1,85 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9D876D23-607A-45DC-979A-01DA1D34189C}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
     <RootNamespace>Atata</RootNamespace>
-    <AssemblyName>Atata</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <TargetFrameworkProfile />
+    <Version>0.15.0</Version>
+    <Authors>Yevgeniy Shunevych</Authors>
+    <Company>Yevgeniy Shunevych</Company>
+    <Product>Atata Framework</Product>
+    <Description>C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
+
+Features:
+- WebDriver. Based on Selenium WebDriver and preserves all its features.
+- Page Object. Provides unique fluent page object pattern that is easy to implement and maintain.
+- Components. Supports a rich set of HTML components.
+- Integration. Works on any .NET test engine (e.g. NUnit, xUnit) as well as on CI systems like TeamCity or TFS.
+- Triggers. A bunch of triggers to bind with different component events.
+- Verification. A set of methods and triggers for the component and data verification.
+- Configurable. Defines the default component search strategies as well as additional settings.
+- Logging. Built-in customizable logging and screenshot capturing functionality.
+- Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components.</Description>
+    <Copyright>© Yevgeniy Shunevych 2017</Copyright>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/atata-framework/atata/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://atata-framework.github.io/</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png?v2</PackageIconUrl>
+    <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
+    <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
+    <PackageReleaseNotes>0.14.0 - https://atata-framework.github.io/blog/2017/09/22/atata-0.14.0-released/
+0.13.0 - https://atata-framework.github.io/blog/2017/06/27/atata-0.13.0-released/
+0.12.0 - https://github.com/atata-framework/atata/releases/tag/v0.12.0
+0.11.4 - https://github.com/atata-framework/atata/releases/tag/v0.11.4
+0.11.3 - https://github.com/atata-framework/atata/releases/tag/v0.11.3
+0.11.2 - https://github.com/atata-framework/atata/releases/tag/v0.11.2
+0.11.1 - https://github.com/atata-framework/atata/releases/tag/v0.11.1
+0.11.0 - Initial release</PackageReleaseNotes>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\Atata.xml</DocumentationFile>
-    <NoWarn>1591</NoWarn>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
+    <DocumentationFile>bin\Debug\net40\Atata.xml</DocumentationFile>
     <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
+    <DocumentationFile>bin\Release\net40\Atata.xml</DocumentationFile>
     <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
-    <DocumentationFile>bin\Release\Atata.xml</DocumentationFile>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
+    <DocumentationFile>bin\Debug\net45\Atata.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
+    <DocumentationFile>bin\Release\net45\Atata.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <DocumentationFile>bin\Debug\netstandard2.0\Atata.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <DocumentationFile>bin\Release\netstandard2.0\Atata.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="Atata.WebDriverExtras, Version=0.13.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Atata.WebDriverExtras.0.13.0\lib\net40\Atata.WebDriverExtras.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
+    <PackageReference Include="Atata.WebDriverExtras" Version="0.13.0" />
+    <PackageReference Include="Selenium.Support" Version="3.6.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.6.0" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>All</PrivateAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WebDriver, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.WebDriver.3.6.0\lib\net40\WebDriver.dll</HintPath>
-    </Reference>
-    <Reference Include="WebDriver.Support, Version=3.6.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.Support.3.6.0\lib\net40\WebDriver.Support.dll</HintPath>
-    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="ActivatorEx.cs" />
-    <Compile Include="Attributes\Behaviors\ScrollBehaviorAttribute.cs" />
-    <Compile Include="Attributes\Behaviors\ScrollUsingMoveToElementAttribute.cs" />
-    <Compile Include="Attributes\Behaviors\ScrollUsingScrollIntoViewAttribute.cs" />
-    <Compile Include="AtataMapper.cs" />
-    <Compile Include="AttributeLevels.cs" />
-    <Compile Include="Attributes\Behaviors\DragAndDropBehaviorAttribute.cs" />
-    <Compile Include="Attributes\Behaviors\DragAndDropUsingActionsAttribute.cs" />
-    <Compile Include="Attributes\Behaviors\DragAndDropUsingDomEventsAttribute.cs" />
-    <Compile Include="Attributes\ContentSourceAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindControlListItemAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindLastAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindSettingsAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\IFindItemAttribute.cs" />
-    <Compile Include="Attributes\IdXPathForLabelAttribute.cs" />
-    <Compile Include="Attributes\Randomization\RandomizeCountAttribute.cs" />
-    <Compile Include="Attributes\Randomization\RandomizeExcludeAttribute.cs" />
-    <Compile Include="Attributes\Randomization\RandomizeIncludeAttribute.cs" />
-    <Compile Include="Attributes\MulticastAttribute.cs" />
-    <Compile Include="Attributes\TraceLogAttribute.cs" />
-    <Compile Include="Attributes\Triggers\InvokeDelegateAttribute.cs" />
-    <Compile Include="Attributes\Triggers\PressEscapeAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForAngularJSAjaxAttribute.cs" />
-    <Compile Include="ContentSource.cs" />
-    <Compile Include="Components\Fields\Content\Label`1.cs" />
-    <Compile Include="Components\Frame`1.cs" />
-    <Compile Include="Components\Frame`2.cs" />
-    <Compile Include="Components\HierarchicalControl`2.cs" />
-    <Compile Include="Components\HierarchicalItem`2.cs" />
-    <Compile Include="Components\HierarchicalListItem`1.cs" />
-    <Compile Include="Components\HierarchicalListItem`2.cs" />
-    <Compile Include="Components\HierarchicalOrderedList`2.cs" />
-    <Compile Include="Components\HierarchicalUnorderedList`2.cs" />
-    <Compile Include="Components\LinkTarget.cs" />
-    <Compile Include="Components\ListItem`1.cs" />
-    <Compile Include="Components\OrderedList`2.cs" />
-    <Compile Include="Components\UIComponentLocationProvider`1.cs" />
-    <Compile Include="Components\UnorderedList`2.cs" />
-    <Compile Include="Components\UIComponentSizeProvider`1.cs" />
-    <Compile Include="Context\CustomDriverAtataContextBuilder.cs" />
-    <Compile Include="Context\DriverAliases.cs" />
-    <Compile Include="Context\DriverAtataContextBuilder`2.cs" />
-    <Compile Include="Context\IDriverFactory.cs" />
-    <Compile Include="Context\LogConsumerAtataContextBuilderExtensions.cs" />
-    <Compile Include="Context\LogConsumerAliases.cs" />
-    <Compile Include="Context\RemoteDriverAtataContextBuilder.cs" />
-    <Compile Include="Context\ScreenshotConsumerAtataContextBuilderExtensions.cs" />
-    <Compile Include="Context\ScreenshotConsumerAliases.cs" />
-    <Compile Include="Extensions\MethodInfoExtensions.cs" />
-    <Compile Include="Extensions\ScreenshotImageFormatExtensions.cs" />
-    <Compile Include="Extensions\TimeSpanExtensions.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="IPropertySettings.cs" />
-    <Compile Include="ISupportsMetadata.cs" />
-    <Compile Include="Logging\FileScreenshotConsumerBase.cs" />
-    <Compile Include="Logging\Sections\DragAndDropToComponentLogSection.cs" />
-    <Compile Include="Logging\Sections\DragAndDropToOffsetLogSection.cs" />
-    <Compile Include="Logging\Sections\PressKeysLogSection.cs" />
-    <Compile Include="Logging\Sections\ScrollToComponentLogSection.cs" />
-    <Compile Include="PropertyBag.cs" />
-    <Compile Include="Attributes\ScopeDefinitionAttribute.cs" />
-    <Compile Include="Attributes\Triggers\HoverParentAttribute.cs" />
-    <Compile Include="Attributes\Triggers\InvokeMethodAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForAttribute.cs" />
-    <Compile Include="Attributes\WindowTitleElementDefinitionAttribute.cs" />
-    <Compile Include="Components\Fields\Content\DateTime`1.cs" />
-    <Compile Include="Components\Fields\Content\Time`1.cs" />
-    <Compile Include="Components\Fields\Content\Date`1.cs" />
-    <Compile Include="Components\Fields\Content\Currency`1.cs" />
-    <Compile Include="Components\Fields\Content\Number`1.cs" />
-    <Compile Include="Components\Fields\HiddenInput`1.cs" />
-    <Compile Include="Components\Fields\HiddenInput`2.cs" />
-    <Compile Include="Context\AtataBuildingContext.cs" />
-    <Compile Include="Context\AtataContextBuilder.cs" />
-    <Compile Include="Components\UIComponentAttributeProvider`1.cs" />
-    <Compile Include="Components\UIComponentCssProvider`1.cs" />
-    <Compile Include="Context\AtataContextBuilder`1.cs" />
-    <Compile Include="Context\ChromeAtataContextBuilder.cs" />
-    <Compile Include="Context\EdgeAtataContextBuilder.cs" />
-    <Compile Include="Context\FirefoxAtataContextBuilder.cs" />
-    <Compile Include="Context\InternetExplorerAtataContextBuilder.cs" />
-    <Compile Include="Context\OperaAtataContextBuilder.cs" />
-    <Compile Include="Context\PhantomJSAtataContextBuilder.cs" />
-    <Compile Include="Context\SafariAtataContextBuilder.cs" />
-    <Compile Include="Extensions\EditableFieldExtensions.cs" />
-    <Compile Include="Extensions\PropertyInfoExtensions.cs" />
-    <Compile Include="Extensions\WaitByExtensions.cs" />
-    <Compile Include="Logging\FileScreenshotConsumer.cs" />
-    <Compile Include="Logging\IScreenshotConsumer.cs" />
-    <Compile Include="Logging\LogConsumerInfo.cs" />
-    <Compile Include="Logging\ScreenshotInfo.cs" />
-    <Compile Include="Logging\Sections\RightClickLogSection.cs" />
-    <Compile Include="Logging\Sections\DataAdditionLogSection.cs" />
-    <Compile Include="Logging\Sections\DataClearingLogSection.cs" />
-    <Compile Include="Logging\Sections\ClickLogSection.cs" />
-    <Compile Include="Logging\Sections\DataInsertionLogSection.cs" />
-    <Compile Include="Logging\Sections\DataRemovalLogSection.cs" />
-    <Compile Include="Logging\Sections\DoubleClickLogSection.cs" />
-    <Compile Include="Logging\Sections\FocusLogSection.cs" />
-    <Compile Include="Logging\Sections\HoverLogSection.cs" />
-    <Compile Include="Logging\Sections\UIComponentLogSection.cs" />
-    <Compile Include="Logging\DebugLogConsumer.cs" />
-    <Compile Include="Logging\ILogConsumer.cs" />
-    <Compile Include="Logging\LogEventInfo.cs" />
-    <Compile Include="Logging\LogLevel.cs" />
-    <Compile Include="Logging\LogManager.cs" />
-    <Compile Include="Logging\Sections\LogSection.cs" />
-    <Compile Include="Logging\NLogConsumer.cs" />
-    <Compile Include="Logging\NUnitTestContextLogConsumer.cs" />
-    <Compile Include="Logging\TextOutputLogConsumer.cs" />
-    <Compile Include="Logging\TraceLogConsumer.cs" />
-    <Compile Include="Logging\Sections\DataSettingLogSection.cs" />
-    <Compile Include="Logging\Sections\VerificationLogSection.cs" />
-    <Compile Include="ScopeSearch\ComponentScopeXPathBuilder.cs" />
-    <Compile Include="ScopeSearch\ControlListScopeLocator.cs" />
-    <Compile Include="ScopeSearch\PlainScopeLocator.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByIndexStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindFirstDescendantOrSelfStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindFirstDescendantStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindLastDescendantStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\UseParentScopeStrategy.cs" />
-    <Compile Include="SpecialKeys.cs" />
-    <Compile Include="Terms\Formatting\CapitalizedTermFormatter.cs" />
-    <Compile Include="UIComponentTriggerSet`1.cs" />
-    <Compile Include="Verification\AssertionException.cs" />
-    <Compile Include="Attributes\CellIndexToClickAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\ControlFindingAttribute.cs" />
-    <Compile Include="Attributes\CultureAttribute.cs" />
-    <Compile Include="Attributes\ExtraXPathAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByAttributeAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByChildContentAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByClassAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByColumnHeaderAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByColumnIndexAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByContentOrValueAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByCssAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByDescriptionTermAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByFieldSetAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByIndexAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByNameAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByPlaceholderAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByTitleAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByValueAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByInnerXPathAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByXPathAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindFirstAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindItemByValueAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindItemByLabelAttribute.cs" />
-    <Compile Include="Attributes\FormatAttribute.cs" />
-    <Compile Include="Attributes\GoTemporarilyAttribute.cs" />
-    <Compile Include="Attributes\NavigationPageObjectCreatorAttribute.cs" />
-    <Compile Include="Attributes\ItemValueXPathAttribute.cs" />
-    <Compile Include="Attributes\Randomization\RandomizeNumberSettingsAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\ITermFindAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\ITermMatchFindAttribute.cs" />
-    <Compile Include="Attributes\ValueXPathAttribute.cs" />
-    <Compile Include="Components\IControl`1.cs" />
-    <Compile Include="Components\INavigable`2.cs" />
-    <Compile Include="Components\ItemsControl`2.cs" />
-    <Compile Include="Components\TableHeader`1.cs" />
-    <Compile Include="Components\TableRowList`2.cs" />
-    <Compile Include="Components\Table`3.cs" />
-    <Compile Include="Components\UIComponentChildrenList`1.cs" />
-    <Compile Include="Components\UIComponentPart`1.cs" />
-    <Compile Include="Components\ControlList`2.cs" />
-    <Compile Include="Components\IPageObject`1.cs" />
-    <Compile Include="Components\Fields\PasswordInput`2.cs" />
-    <Compile Include="Expressions\ControlNameExpressionStringBuilder.cs" />
-    <Compile Include="Expressions\ExpressionStringBuilder.cs" />
-    <Compile Include="Extensions\INavigableExtensions.cs" />
-    <Compile Include="Extensions\NavigableExtensions.cs" />
-    <Compile Include="Extensions\ITermDataProviderExtensions.cs" />
-    <Compile Include="Extensions\StringBuilderExtensions.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByInnerXPathStrategy.cs" />
-    <Compile Include="Terms\ITermDataProvider.cs" />
-    <Compile Include="Terms\ITermSettings.cs" />
-    <Compile Include="Attributes\NameAttribute.cs" />
-    <Compile Include="Attributes\PageObjectDefinitionAttribute.cs" />
-    <Compile Include="Attributes\SelectByTextAttribute.cs" />
-    <Compile Include="Attributes\SelectByValueAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\TermFindSettingsAttribute.cs" />
-    <Compile Include="Attributes\UrlAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\TermFindAttribute.cs" />
-    <Compile Include="Attributes\TermAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByIdAttribute.cs" />
-    <Compile Include="Attributes\TermSettingsAttribute.cs" />
-    <Compile Include="Attributes\Triggers\ClearValueAttribute.cs" />
-    <Compile Include="Attributes\Triggers\ClickParentAttribute.cs" />
-    <Compile Include="Attributes\Triggers\CloseAlertBoxAttribute.cs" />
-    <Compile Include="Attributes\Triggers\CloseConfirmBoxAttribute.cs" />
-    <Compile Include="Attributes\Triggers\CompositeTriggerAttribute.cs" />
-    <Compile Include="Attributes\Triggers\LogInfoAttribute.cs" />
-    <Compile Include="Attributes\Triggers\PressEnterAttribute.cs" />
-    <Compile Include="Attributes\Triggers\PressTabAttribute.cs" />
-    <Compile Include="Attributes\Triggers\ScreenshotAttribute.cs" />
-    <Compile Include="Attributes\Triggers\ScrollDownAttribute.cs" />
-    <Compile Include="Attributes\Triggers\ScrollUpAttribute.cs" />
-    <Compile Include="Attributes\Triggers\PressKeysAttribute.cs" />
-    <Compile Include="Attributes\Triggers\SpecificTriggerAttribute.cs" />
-    <Compile Include="Attributes\Triggers\TermVerificationTriggerAttribute.cs" />
-    <Compile Include="Attributes\Triggers\TriggerAttribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyContentMatchesAttribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyContentAttribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyExistsAttribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyH1Attribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyH2Attribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyH3Attribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyH4Attribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyH5Attribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyH6Attribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyHeadingTriggerAttribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyMissingAttribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyTitleAttribute.cs" />
-    <Compile Include="Attributes\Triggers\VerifyTitleSettingsAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForDocumentReadyStateAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForElementAttribute.cs" />
-    <Compile Include="Attributes\Triggers\WaitForJQueryAjaxAttribute.cs" />
-    <Compile Include="Attributes\ControlDefinitionAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByContentAttribute.cs" />
-    <Compile Include="Attributes\ControlSearch\FindByLabelAttribute.cs" />
-    <Compile Include="Attributes\Randomization\RandomizeStringSettingsAttribute.cs" />
-    <Compile Include="Attributes\IgnoreInitAttribute.cs" />
-    <Compile Include="Attributes\FormatSettingsAttribute.cs" />
-    <Compile Include="Attributes\UIComponentDefinitionAttribute.cs" />
-    <Compile Include="Attributes\UseParentScopeAttribute.cs" />
-    <Compile Include="Attributes\WindowTitleAttribute.cs" />
-    <Compile Include="Components\Button`1.cs" />
-    <Compile Include="Components\Button`2.cs" />
-    <Compile Include="Components\Clickable`2.cs" />
-    <Compile Include="Components\Control`1.cs" />
-    <Compile Include="Components\ControlDelegates.cs" />
-    <Compile Include="Components\Fields\CheckBoxList`2.cs" />
-    <Compile Include="Components\Fields\CheckBox`1.cs" />
-    <Compile Include="Components\Fields\Content\Content`2.cs" />
-    <Compile Include="Components\Fields\Content\H1`1.cs" />
-    <Compile Include="Components\Fields\Content\H2`1.cs" />
-    <Compile Include="Components\Fields\Content\H3`1.cs" />
-    <Compile Include="Components\Fields\Content\H4`1.cs" />
-    <Compile Include="Components\Fields\Content\H5`1.cs" />
-    <Compile Include="Components\Fields\Content\H6`1.cs" />
-    <Compile Include="Components\Fields\DateInput`1.cs" />
-    <Compile Include="Components\Fields\EditableField`2.cs" />
-    <Compile Include="Components\Fields\ICheckable`1.cs" />
-    <Compile Include="Components\Fields\RadioButtonList`2.cs" />
-    <Compile Include="Components\Fields\RadioButton`1.cs" />
-    <Compile Include="Components\Fields\Input`2.cs" />
-    <Compile Include="Components\Fields\TextArea`1.cs" />
-    <Compile Include="Components\Fields\TimeInput`1.cs" />
-    <Compile Include="Components\Fields\OptionList`2.cs" />
-    <Compile Include="Components\IItemsControl.cs" />
-    <Compile Include="Components\IPageObject.cs" />
-    <Compile Include="Components\IUIComponent`1.cs" />
-    <Compile Include="Components\Link`1.cs" />
-    <Compile Include="Components\Link`2.cs" />
-    <Compile Include="Context\AtataContext.cs" />
-    <Compile Include="Components\TableRow`1.cs" />
-    <Compile Include="Components\Table`2.cs" />
-    <Compile Include="Components\Fields\Content\Text`1.cs" />
-    <Compile Include="Extensions\ButtonDelegate1Extensions.cs" />
-    <Compile Include="Extensions\ButtonDelegate2Extensions.cs" />
-    <Compile Include="Extensions\ClickableDelegate2Extensions.cs" />
-    <Compile Include="Extensions\EnumExtensions.cs" />
-    <Compile Include="Extensions\IEnumerableExtensions.cs" />
-    <Compile Include="Extensions\ITermSettingsExtensions.cs" />
-    <Compile Include="Extensions\ClickableDelegate1Extensions.cs" />
-    <Compile Include="DataProvision\IDataProviderExtensions.cs" />
-    <Compile Include="Extensions\LinkDelegate1Extensions.cs" />
-    <Compile Include="Extensions\LinkDelegate2Extensions.cs" />
-    <Compile Include="Extensions\CheckExtensions.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
-    <Compile Include="Extensions\ScopeSourceExtensions.cs" />
-    <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\FindTermByExtensions.cs" />
-    <Compile Include="Extensions\TermCaseExtensions.cs" />
-    <Compile Include="Extensions\TermMatchExtensions.cs" />
-    <Compile Include="Extensions\TypeExtensions.cs" />
-    <Compile Include="Go.cs" />
-    <Compile Include="GoOptions.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByChildContentStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByDescriptionTermStrategy.cs" />
-    <Compile Include="Terms\Formatting\LowerMergedTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\MidSentenceTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\UpperMergedTermFormatter.cs" />
-    <Compile Include="DataProvision\IDataProvider`2.cs" />
-    <Compile Include="ScopeSearch\ComponentScopeLocateResult.cs" />
-    <Compile Include="ScopeSearch\DefinedScopeLocator.cs" />
-    <Compile Include="ScopeSearch\DynamicScopeLocator.cs" />
-    <Compile Include="ScopeSearch\Strategies\IComponentScopeLocateStrategy.cs" />
-    <Compile Include="ScopeSearch\MissingComponentScopeLocateResult.cs" />
-    <Compile Include="ScopeSearch\SequalComponentScopeLocateResult.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByClassStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByColumnHeaderStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByColumnIndexStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByContentOrValueStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByCssStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByFieldSetStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByNameStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByAttributeStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByXPathStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindItemByLabelStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindItemByValueStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\IItemElementFindStrategy.cs" />
-    <Compile Include="Components\Page`1.cs" />
-    <Compile Include="Components\PopupWindow`1.cs" />
-    <Compile Include="ScopeSearch\IScopeLocator.cs" />
-    <Compile Include="ScopeSearch\Strategies\TermItemElementFindStrategy.cs" />
-    <Compile Include="ScopeSearch\StrategyScopeLocator.cs" />
-    <Compile Include="ScopeSearch\XPathComponentScopeLocateResult.cs" />
-    <Compile Include="ScopeSource.cs" />
-    <Compile Include="Components\Clickable`1.cs" />
-    <Compile Include="Components\Fields\Select`2.cs" />
-    <Compile Include="Components\UIComponent.cs" />
-    <Compile Include="Components\UIComponent`1.cs" />
-    <Compile Include="Components\Table`1.cs" />
-    <Compile Include="Extensions\CustomAttributeExtensions.cs" />
-    <Compile Include="Components\Fields\NumberInput`1.cs" />
-    <Compile Include="ScopeSearch\ComponentScopeLocateOptions.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByContentStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByIdStrategy.cs" />
-    <Compile Include="ScopeSearch\Strategies\FindByLabelStrategy.cs" />
-    <Compile Include="Components\Fields\Field`2.cs" />
-    <Compile Include="Components\Fields\Select`1.cs" />
-    <Compile Include="ScopeSearch\Strategies\XPathComponentScopeLocateStrategy.cs" />
-    <Compile Include="Logging\ILogManager.cs" />
-    <Compile Include="Logging\ILogManagerExtensions.cs" />
-    <Compile Include="Components\PageObject`1.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Terms\FindTermBy.cs" />
-    <Compile Include="Terms\Formatting\CamelTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\KebabTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\HyphenKebabTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\ITermFormatter.cs" />
-    <Compile Include="Terms\Formatting\LowerTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\PascalKebabTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\PascalHyphenKebabTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\PascalTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\SentenceTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\TermCaseResolver.cs" />
-    <Compile Include="Terms\Formatting\TitleTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\SnakeTermFormatter.cs" />
-    <Compile Include="Terms\Formatting\UpperTermFormatter.cs" />
-    <Compile Include="Terms\TermOptions.cs" />
-    <Compile Include="Terms\TermResolver.cs" />
-    <Compile Include="TriggerContext`1.cs" />
-    <Compile Include="TriggerEvents.cs" />
-    <Compile Include="TriggerPriority.cs" />
-    <Compile Include="TriggerScope.cs" />
-    <Compile Include="UIComponentMetadata.cs" />
-    <Compile Include="Terms\TermCase.cs" />
-    <Compile Include="Terms\TermMatch.cs" />
-    <Compile Include="UIComponentResolver.cs" />
-    <Compile Include="Randomizer.cs" />
-    <Compile Include="Components\Fields\TextInput`1.cs" />
-    <Compile Include="DataProvision\DataProvider`2.cs" />
-    <Compile Include="ValueRandomizer.cs" />
-    <Compile Include="Verification\IFieldVerificationProvider`3.cs" />
-    <Compile Include="Verification\UIComponentVerificationProvider`2.cs" />
-    <Compile Include="Verification\UIComponentVerificationProvider`3.cs" />
-    <Compile Include="Verification\DataVerificationProvider`2.cs" />
-    <Compile Include="Verification\FieldVerificationProvider`3.cs" />
-    <Compile Include="Verification\IUIComponentVerificationProviderExtensions.cs" />
-    <Compile Include="Verification\IUIComponentVerificationProvider`2.cs" />
-    <Compile Include="Verification\IDataVerificationProviderExtensions.cs" />
-    <Compile Include="Verification\IDataVerificationProvider`2.cs" />
-    <Compile Include="Verification\IVerificationProvider`1.cs" />
-    <Compile Include="Verification\NegationVerificationProvider`2.cs" />
-    <Compile Include="Verification\VerificationProvider`2.cs" />
-    <Compile Include="WaitBy.cs" />
-    <Compile Include="WaitUntil.cs" />
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Atata.ruleset">
-      <Link>Properties\Atata.ruleset</Link>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>
