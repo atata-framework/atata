@@ -21,10 +21,15 @@ namespace Atata
                 RetryInterval = should.RetryInterval ?? AtataContext.Current.RetryInterval
             };
 
-            if (should.IsNegation)
-                should.Component.Missing(searchOptions);
-            else
-                should.Component.Exists(searchOptions);
+            StaleSafely.Execute(
+                options =>
+                {
+                    if (should.IsNegation)
+                        should.Component.Missing(options);
+                    else
+                        should.Component.Exists(options);
+                },
+                searchOptions);
 
             AtataContext.Current.Log.EndSection();
 
