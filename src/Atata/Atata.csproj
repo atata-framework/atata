@@ -38,8 +38,8 @@
     <DocumentationFile>bin\Release\Atata.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Atata.WebDriverExtras, Version=0.12.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Atata.WebDriverExtras.0.12.0\lib\net40\Atata.WebDriverExtras.dll</HintPath>
+    <Reference Include="Atata.WebDriverExtras, Version=0.13.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Atata.WebDriverExtras.0.13.0\lib\net40\Atata.WebDriverExtras.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
