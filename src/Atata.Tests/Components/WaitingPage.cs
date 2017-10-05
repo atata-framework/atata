@@ -49,6 +49,14 @@ namespace Atata.Tests
         [FindByClass]
         public Control<_> NavigatingBlock { get; private set; }
 
+        public Button<_> WaitAndUpdateValue { get; private set; }
+
+        [FindById]
+        public Text<_> ValueBlock { get; private set; }
+
+        [FindByClass("value-container")]
+        public ValueContainerControl ValueContainer { get; private set; }
+
         public WaitingOnInitPage.WaitKind NavigatingPageWaitKind { get; set; }
 
         public WaitKind NavigatingWaitKind { get; set; }
@@ -71,6 +79,12 @@ namespace Atata.Tests
                 Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "navigating-block", WaitUntil.MissingOrHidden, TriggerEvents.DeInit));
             else if (NavigatingWaitKind == WaitKind.VerifyMissing)
                 NavigatingBlock.Triggers.Add(new VerifyMissingAttribute(TriggerEvents.DeInit));
+        }
+
+        public class ValueContainerControl : Control<_>
+        {
+            [FindById]
+            public Text<_> ValueBlock { get; private set; }
         }
     }
 }

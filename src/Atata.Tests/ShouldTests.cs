@@ -138,5 +138,21 @@ namespace Atata.Tests
             Assert.Throws<AssertionException>(() =>
                 should.Not.Contain(x => x == Country1Name));
         }
+
+        [Test]
+        public void Should_Equal_Delayed()
+        {
+            Go.To<WaitingPage>().
+                WaitAndUpdateValue.Click().
+                ValueBlock.Should.Equal("New value");
+        }
+
+        [Test]
+        public void Should_Equal_Delayed_WithParentReset()
+        {
+            Go.To<WaitingPage>().
+                WaitAndUpdateValue.Click().
+                ValueContainer.ValueBlock.Should.Equal("New value");
+        }
     }
 }
