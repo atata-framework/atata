@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -47,6 +48,63 @@ namespace Atata.Tests
                 HiddenDivUsingTextContent.Content.Should.Equal("Some text").
                 HiddenDivUsingInnerHtml.Should.Equal("Some <b>text</b>").
                 HiddenDivUsingInnerHtml.Content.Should.Equal("Some <b>text</b>");
+        }
+
+        [Test]
+        public void UIComponent_Wait_Until_Visible()
+        {
+            Go.To<WaitingOnInitPage>().
+                ContentBlock.Wait(Until.Visible).
+                VerifyContentBlockIsLoaded();
+        }
+
+        [Test]
+        public void UIComponent_Wait_Until_Hidden()
+        {
+            Go.To<WaitingOnInitPage>().
+                LoadingBlock.Wait(Until.Hidden).
+                VerifyContentBlockIsLoaded();
+        }
+
+        [Test]
+        public void UIComponent_Wait_Until_MissingOrHidden()
+        {
+            Go.To<WaitingOnInitPage>().
+                LoadingBlock.Wait(Until.MissingOrHidden).
+                VerifyContentBlockIsLoaded();
+        }
+
+        [Test]
+        public void UIComponent_Wait_Until_VisibleThenHidden()
+        {
+            Go.To<WaitingOnInitPage>().
+                LoadingBlock.Wait(Until.VisibleThenHidden).
+                VerifyContentBlockIsLoaded();
+        }
+
+        [Test]
+        public void UIComponent_Wait_Until_HiddenThenVisible()
+        {
+            Go.To<WaitingOnInitPage>().
+                ContentBlock.Wait(Until.HiddenThenVisible).
+                VerifyContentBlockIsLoaded();
+        }
+
+        [Test]
+        public void UIComponent_Wait_WithTimeout()
+        {
+            var page = Go.To<WaitingOnInitPage>();
+
+            Assert.Throws<NoSuchElementException>(() =>
+                page.ContentBlock.Wait(Until.Visible, new WaitOptions(1)));
+        }
+
+        [Test]
+        public void UIComponent_Wait_WithoutThrow()
+        {
+            Go.To<WaitingOnInitPage>().
+                ContentBlock.Wait(Until.Visible, new WaitOptions(1) { ThrowOnPresenceFailure = false }).
+                LoadingBlock.Should.AtOnce.BeVisible();
         }
     }
 }

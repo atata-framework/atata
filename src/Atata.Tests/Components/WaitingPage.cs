@@ -10,7 +10,8 @@ namespace Atata.Tests
         public enum WaitKind
         {
             None,
-            WaitForElementHidden,
+            WaitForElementHiddenOrMissing,
+            WaitForMissing,
             VerifyMissing
         }
 
@@ -22,19 +23,19 @@ namespace Atata.Tests
         public ButtonDelegate<_> ButtonWithMissingOrHiddenWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Class, "processing-block", WaitUntil.VisibleThenHidden)]
+        [WaitForElement(WaitBy.Class, "processing-block", Until.VisibleThenHidden)]
         public ButtonDelegate<_> ButtonWithVisibleAndHiddenWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Css, ".nonexistent-block", WaitUntil.VisibleThenMissing, PresenceTimeout = 2, ThrowOnPresenceFailure = false)]
+        [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 2, ThrowOnPresenceFailure = false)]
         public ButtonDelegate<_> ButtonWithVisibleAndMissingWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Css, ".nonexistent-block", WaitUntil.VisibleThenMissing, PresenceTimeout = 1)]
+        [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 1)]
         public ButtonDelegate<_> ButtonWithVisibleAndMissingNonExistentWait { get; private set; }
 
         [Term("Wait")]
-        [WaitForElement(WaitBy.Class, "result-block", WaitUntil.HiddenThenVisible)]
+        [WaitForElement(WaitBy.Class, "result-block", Until.HiddenThenVisible)]
         public ButtonDelegate<_> ButtonWithHiddenAndVisibleWait { get; private set; }
 
         [FindByClass("result-block")]
@@ -75,8 +76,10 @@ namespace Atata.Tests
                 () => new WaitingOnInitPage { OnInitWaitKind = NavigatingPageWaitKind },
                 new TermAttribute("Wait and go to WaitingOnInit page"));
 
-            if (NavigatingWaitKind == WaitKind.WaitForElementHidden)
-                Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "navigating-block", WaitUntil.MissingOrHidden, TriggerEvents.DeInit));
+            if (NavigatingWaitKind == WaitKind.WaitForElementHiddenOrMissing)
+                Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "navigating-block", Until.MissingOrHidden, TriggerEvents.DeInit));
+            else if (NavigatingWaitKind == WaitKind.WaitForMissing)
+                NavigatingBlock.Triggers.Add(new WaitForAttribute(Until.Missing, TriggerEvents.DeInit));
             else if (NavigatingWaitKind == WaitKind.VerifyMissing)
                 NavigatingBlock.Triggers.Add(new VerifyMissingAttribute(TriggerEvents.DeInit));
         }

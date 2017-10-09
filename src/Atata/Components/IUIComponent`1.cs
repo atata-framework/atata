@@ -61,6 +61,14 @@ namespace Atata
         /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
         IWebElement GetScope(SearchOptions options = null);
 
+        /// <summary>
+        /// Waits until the specified component condition is met.
+        /// </summary>
+        /// <param name="until">The waiting condition.</param>
+        /// <param name="options">The options.</param>
+        /// <returns>The instance of the owner page object.</returns>
+        TOwner Wait(Until until, WaitOptions options = null);
+
         bool Exists(SearchOptions options = null);
 
         bool Missing(SearchOptions options = null);

@@ -56,14 +56,14 @@ namespace Atata.Tests
         [Test]
         public void Trigger_WaitForElement_OnInit_AtPageObject()
         {
-            Go.To(new WaitingOnInitPage { OnInitWaitKind = WaitingOnInitPage.WaitKind.WaitForElement }).
+            Go.To(new WaitingOnInitPage { OnInitWaitKind = WaitingOnInitPage.WaitKind.WaitForElementVisible }).
                 VerifyContentBlockIsLoaded();
         }
 
         [Test]
         public void Trigger_WaitForElement_OnInit_AtPageObject_AfterGo()
         {
-            Go.To(new WaitingPage { NavigatingPageWaitKind = WaitingOnInitPage.WaitKind.WaitForElement }).
+            Go.To(new WaitingPage { NavigatingPageWaitKind = WaitingOnInitPage.WaitKind.WaitForElementVisible }).
                 GoToWaitingOnInitPage.ClickAndGo().
                 VerifyContentBlockIsLoaded();
         }
@@ -71,7 +71,7 @@ namespace Atata.Tests
         [Test]
         public void Trigger_WaitForElement_OnInit_AtPageObject_AfterDelayedGo()
         {
-            Go.To(new WaitingPage { NavigatingPageWaitKind = WaitingOnInitPage.WaitKind.WaitForElement }).
+            Go.To(new WaitingPage { NavigatingPageWaitKind = WaitingOnInitPage.WaitKind.WaitForElementVisible }).
                 WaitAndGoToWaitingOnInitPage.ClickAndGo().
                 VerifyContentBlockIsLoaded();
         }
@@ -79,7 +79,7 @@ namespace Atata.Tests
         [Test]
         public void Trigger_WaitForElement_OnDeInit()
         {
-            Go.To(new WaitingPage { NavigatingWaitKind = WaitingPage.WaitKind.WaitForElementHidden }).
+            Go.To(new WaitingPage { NavigatingWaitKind = WaitingPage.WaitKind.WaitForElementHiddenOrMissing }).
                 WaitAndGoToWaitingOnInitPage.ClickAndGo().
                 PageUrl.Should.AtOnce.EndWith(WaitingOnInitPage.Url);
         }

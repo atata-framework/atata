@@ -1,23 +1,44 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
     /// <summary>
     /// Specifies the waiting for the element. By default occurs after the click.
     /// </summary>
-    public class WaitForElementAttribute : WaitForAttribute
+    public class WaitForElementAttribute : WaitUntilAttribute
     {
         private ScopeSource? scopeSource;
+
+        // TODO: Remove it when the following constructor is removed.
+        public WaitForElementAttribute(WaitBy waitBy, string selector)
+            : this(waitBy, selector, Until.MissingOrHidden)
+        {
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WaitForElementAttribute" /> class.
         /// </summary>
         /// <param name="waitBy">The kind of the element selector to wait for.</param>
         /// <param name="selector">The selector.</param>
-        /// <param name="until">The waiting approach.</param>
+        /// <param name="until">The waiting condition.</param>
         /// <param name="on">The trigger events.</param>
         /// <param name="priority">The priority.</param>
+        [Obsolete("Use another constructor that uses 'Until' type instead of 'WaitUntil'.")] // Obsolete since v0.15.0.
         public WaitForElementAttribute(WaitBy waitBy, string selector, WaitUntil until = WaitUntil.MissingOrHidden, TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
+            : this(waitBy, selector, (Until)(int)until, on, priority)
+        {
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WaitForElementAttribute" /> class.
+        /// </summary>
+        /// <param name="waitBy">The kind of the element selector to wait for.</param>
+        /// <param name="selector">The selector.</param>
+        /// <param name="until">The waiting condition.</param>
+        /// <param name="on">The trigger events.</param>
+        /// <param name="priority">The priority.</param>
+        public WaitForElementAttribute(WaitBy waitBy, string selector, Until until = Until.MissingOrHidden, TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
             : base(until, on, priority)
         {
             WaitBy = waitBy;
@@ -45,9 +66,7 @@ namespace Atata
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            WaitUnit[] waitUnits = GetWaitUnits(Until);
-
-            foreach (WaitUnit unit in waitUnits)
+            foreach (WaitUnit unit in Until.GetWaitUnits(WaitOptions))
                 Wait(context.Component, unit);
         }
 
@@ -63,12 +82,12 @@ namespace Atata
 
                     By by = WaitBy.GetBy(Selector).With(options);
 
-                    if (waitUnit.Method == WaitMethod.Presence)
+                    if (waitUnit.Method == WaitUnit.WaitMethod.Presence)
                         scopeElement.Exists(by);
                     else
                         scopeElement.Missing(by);
                 },
-                waitUnit.Options);
+                waitUnit.SearchOptions);
         }
     }
 }

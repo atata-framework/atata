@@ -125,6 +125,7 @@
     <Compile Include="VerifyMissingTests.cs" />
     <Compile Include="WaitForElementTests.cs" />
     <Compile Include="VerifyExistsTests.cs" />
+    <Compile Include="WaitForTests.cs" />
     <Compile Include="WaitingTests.cs" />
   </ItemGroup>
   <ItemGroup>

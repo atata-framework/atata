@@ -12,7 +12,8 @@ namespace Atata.Tests
         public enum WaitKind
         {
             None,
-            WaitForElement,
+            WaitForElementVisible,
+            WaitForVisible,
             VerifyExists,
             VerifyMissing
         }
@@ -27,8 +28,10 @@ namespace Atata.Tests
 
         protected override void OnInit()
         {
-            if (OnInitWaitKind == WaitKind.WaitForElement)
-                Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "content-block", WaitUntil.Visible, TriggerEvents.Init));
+            if (OnInitWaitKind == WaitKind.WaitForElementVisible)
+                Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "content-block", Until.Visible, TriggerEvents.Init));
+            else if (OnInitWaitKind == WaitKind.WaitForVisible)
+                ContentBlock.Triggers.Add(new WaitForAttribute(Until.Visible));
             else if (OnInitWaitKind == WaitKind.VerifyExists)
                 ContentBlock.Triggers.Add(new VerifyExistsAttribute());
             else if (OnInitWaitKind == WaitKind.VerifyMissing)

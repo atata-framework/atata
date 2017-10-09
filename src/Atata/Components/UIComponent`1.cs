@@ -118,6 +118,39 @@ namespace Atata
             return element;
         }
 
+        /// <summary>
+        /// Waits until the specified component condition is met.
+        /// </summary>
+        /// <param name="until">The waiting condition.</param>
+        /// <param name="options">The options.</param>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner Wait(Until until, WaitOptions options = null)
+        {
+            foreach (WaitUnit unit in until.GetWaitUnits(options))
+            {
+                Log.Start(new WaitForComponentLogSection(this, unit));
+
+                OnWait(unit);
+
+                Log.EndSection();
+            }
+
+            return Owner;
+        }
+
+        protected virtual void OnWait(WaitUnit waitUnit)
+        {
+            StaleSafely.Execute(
+                options =>
+                {
+                    if (waitUnit.Method == WaitUnit.WaitMethod.Presence)
+                        Exists(options);
+                    else
+                        Missing(options);
+                },
+                waitUnit.SearchOptions);
+        }
+
         internal sealed override bool OnMissing(SearchOptions options)
         {
             ExecuteTriggers(TriggerEvents.BeforeAccess);
