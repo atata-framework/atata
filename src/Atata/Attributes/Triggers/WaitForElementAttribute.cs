@@ -67,7 +67,13 @@ namespace Atata
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
             foreach (WaitUnit unit in Until.GetWaitUnits(WaitOptions))
+            {
+                context.Log.Start(new WaitForElementLogSection((UIComponent)context.Component, WaitBy, Selector, unit));
+
                 Wait(context.Component, unit);
+
+                context.Log.EndSection();
+            }
         }
 
         protected virtual void Wait<TOwner>(IUIComponent<TOwner> scopeComponent, WaitUnit waitUnit)
