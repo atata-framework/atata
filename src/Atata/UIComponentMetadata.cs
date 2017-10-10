@@ -35,9 +35,6 @@ namespace Atata
 
         internal List<Attribute> ComponentAttributesList { get; set; }
 
-        [Obsolete("Use DeclaredAttributes instead.")]
-        public IEnumerable<Attribute> DeclaringAttributes => DeclaredAttributes;
-
         public IEnumerable<Attribute> DeclaredAttributes => DeclaredAttributesList.AsEnumerable();
 
         public IEnumerable<Attribute> ComponentAttributes => ComponentAttributesList.AsEnumerable();
@@ -127,78 +124,6 @@ namespace Atata
                 OrderByDescending(x => x.Rank.Value).
                 Select(x => x.Attribute).
                 Cast<TAttribute>();
-        }
-
-        [Obsolete("Use Get(AttributeLevels.Declared, predicate) instead.")]
-        public T GetFirstOrDefaultDeclaringAttribute<T>(Func<T, bool> predicate = null)
-        {
-            return Get(AttributeLevels.Declared, predicate);
-        }
-
-        [Obsolete("Use Get(AttributeLevels.ParentComponent | AttributeLevels.Assembly | AttributeLevels.Global, predicate) instead.")]
-        public T GetFirstOrDefaultGlobalAttribute<T>(Func<T, bool> predicate = null)
-        {
-            return Get(AttributeLevels.ParentComponent | AttributeLevels.Assembly | AttributeLevels.Global, predicate);
-        }
-
-        [Obsolete("Use Get(AttributeLevels.Assembly, predicate) instead.")]
-        public T GetFirstOrDefaultAssemblyAttribute<T>(Func<T, bool> predicate = null)
-        {
-            return Get(AttributeLevels.Assembly, predicate);
-        }
-
-        [Obsolete("Use Get(AttributeLevels.Component, predicate) instead.")]
-        public T GetFirstOrDefaultComponentAttribute<T>(Func<T, bool> predicate = null)
-        {
-            return Get(AttributeLevels.Component, predicate);
-        }
-
-        [Obsolete("Use Get(AttributeLevels.All, predicate) instead.")]
-        public T GetFirstOrDefaultAttribute<T>(Func<T, bool> predicate = null)
-        {
-            return Get(AttributeLevels.All, predicate);
-        }
-
-        [Obsolete("Use Get(AttributeLevels.DeclaredAndComponent, predicate) instead.")]
-        public T GetFirstOrDefaultDeclaringOrComponentAttribute<T>(Func<T, bool> predicate = null)
-        {
-            return Get(AttributeLevels.DeclaredAndComponent, predicate);
-        }
-
-        [Obsolete("Use GetAll(AttributeLevels.Declared, predicate) instead.")]
-        public IEnumerable<T> GetDeclaringAttributes<T>(Func<T, bool> predicate = null)
-        {
-            return GetAll(AttributeLevels.Declared, predicate);
-        }
-
-        [Obsolete("Use GetAll(AttributeLevels.NonComponent, predicate) instead.")]
-        public IEnumerable<T> GetDeclaringAndGlobalAttributes<T>(Func<T, bool> predicate = null)
-        {
-            return GetAll(AttributeLevels.NonComponent, predicate);
-        }
-
-        [Obsolete("Use GetAll(AttributeLevels.ParentComponent | AttributeLevels.Assembly | AttributeLevels.Global, predicate) instead.")]
-        public IEnumerable<T> GetGlobalAttributes<T>(Func<T, bool> predicate = null)
-        {
-            return GetAll(AttributeLevels.ParentComponent | AttributeLevels.Assembly | AttributeLevels.Global, predicate);
-        }
-
-        [Obsolete("Use GetAll(AttributeLevels.Assembly, predicate) instead.")]
-        public IEnumerable<T> GetAssemblyAttributes<T>(Func<T, bool> predicate = null)
-        {
-            return GetAll(AttributeLevels.Assembly, predicate);
-        }
-
-        [Obsolete("Use GetAll(AttributeLevels.Component, predicate) instead.")]
-        public IEnumerable<T> GetComponentAttributes<T>(Func<T, bool> predicate = null)
-        {
-            return GetAll(AttributeLevels.Component, predicate);
-        }
-
-        [Obsolete("Use Get<TermAttribute>(AttributeLevels.Declared, predicate) instead.")]
-        public TermAttribute GetTerm(Func<TermAttribute, bool> predicate = null)
-        {
-            return Get(AttributeLevels.Declared, predicate);
         }
 
         /// <summary>
