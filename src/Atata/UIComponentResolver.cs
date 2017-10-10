@@ -215,14 +215,6 @@ namespace Atata
             return null;
         }
 
-        [Obsolete("Use CreateControl(...) instead.")]
-        public static TComponent CreateComponent<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
-            where TComponent : UIComponent<TOwner>
-            where TOwner : PageObject<TOwner>
-        {
-            return CreateControl<TComponent, TOwner>(parentComponent, name, attributes);
-        }
-
         public static TComponent CreateControl<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
