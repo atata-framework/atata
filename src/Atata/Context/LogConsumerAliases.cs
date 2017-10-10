@@ -5,6 +5,14 @@ namespace Atata
 {
     public static class LogConsumerAliases
     {
+        public const string Debug = "debug";
+
+        public const string Trace = "trace";
+
+        public const string NUnit = "nunit";
+
+        public const string NLog = "nlog";
+
         private static readonly Dictionary<string, Func<ILogConsumer>> AliasFactoryMap = new Dictionary<string, Func<ILogConsumer>>(StringComparer.OrdinalIgnoreCase);
 
         static LogConsumerAliases()
@@ -14,14 +22,6 @@ namespace Atata
             Register<NUnitTestContextLogConsumer>(NUnit);
             Register<NLogConsumer>(NLog);
         }
-
-        public static string Debug => nameof(Debug);
-
-        public static string Trace => nameof(Trace);
-
-        public static string NUnit => nameof(NUnit);
-
-        public static string NLog => nameof(NLog);
 
         public static void Register<T>(string typeAlias)
             where T : ILogConsumer, new()

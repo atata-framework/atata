@@ -5,14 +5,14 @@ namespace Atata
 {
     public static class ScreenshotConsumerAliases
     {
+        public const string File = "file";
+
         private static readonly Dictionary<string, Func<IScreenshotConsumer>> AliasFactoryMap = new Dictionary<string, Func<IScreenshotConsumer>>(StringComparer.OrdinalIgnoreCase);
 
         static ScreenshotConsumerAliases()
         {
             Register<FileScreenshotConsumer>(File);
         }
-
-        public static string File => nameof(File);
 
         public static void Register<T>(string typeAlias)
             where T : IScreenshotConsumer, new()
