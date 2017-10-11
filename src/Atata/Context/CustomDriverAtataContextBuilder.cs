@@ -3,7 +3,7 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
-    public class CustomDriverAtataContextBuilder : AtataContextBuilder, IDriverFactory
+    public class CustomDriverAtataContextBuilder : DriverAtataContextBuilder<CustomDriverAtataContextBuilder>
     {
         private readonly Func<RemoteWebDriver> driverFactory;
 
@@ -13,24 +13,9 @@ namespace Atata
             this.driverFactory = driverFactory.CheckNotNull(nameof(driverFactory));
         }
 
-        public string Alias { get; private set; }
-
-        RemoteWebDriver IDriverFactory.Create()
+        protected override RemoteWebDriver CreateDriver()
         {
             return driverFactory();
-        }
-
-        /// <summary>
-        /// Specifies the driver alias.
-        /// </summary>
-        /// <param name="alias">The alias.</param>
-        /// <returns>The same builder instance.</returns>
-        public CustomDriverAtataContextBuilder WithAlias(string alias)
-        {
-            alias.CheckNotNullOrWhitespace(nameof(alias));
-
-            Alias = alias;
-            return this;
         }
     }
 }
