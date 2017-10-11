@@ -5,7 +5,6 @@ using NUnit.Framework;
 namespace Atata.Tests
 {
     [TestFixture]
-    [SetCulture("en-us")]
     public class TermResolverTests
     {
         [TermSettings(Format = ">>{0}")]
