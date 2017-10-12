@@ -26,7 +26,7 @@ namespace Atata.Tests
                     WithArguments("disable-extensions", "no-sandbox", "start-maximized").
 #if NETCOREAPP2_0
                     WithFixOfCommandExecutionDelay().
-                    WithDriverPath(System.AppDomain.CurrentDomain.BaseDirectory).
+                    WithLocalDriverPath().
 #endif
                 UseBaseUrl(baseUrl).
                 UseNUnitTestName().

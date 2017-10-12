@@ -20,10 +20,10 @@ namespace Atata.Tests
 #if NETCOREAPP2_0
                 UseChrome().
                     WithFixOfCommandExecutionDelay().
-                    WithDriverPath(System.AppDomain.CurrentDomain.BaseDirectory).
+                    WithLocalDriverPath().
                 UseInternetExplorer().
                     WithFixOfCommandExecutionDelay().
-                    WithDriverPath(System.AppDomain.CurrentDomain.BaseDirectory).
+                    WithLocalDriverPath().
 #endif
                 UseDriver(driverAlias).
                 UseTestName(() => $"[{driverAlias}]{TestContext.CurrentContext.Test.Name}").

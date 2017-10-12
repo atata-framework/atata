@@ -166,6 +166,17 @@ namespace Atata
         }
 
         /// <summary>
+        /// Specifies that local/current directory should be used as the directory containing the driver executable file.
+        /// Uses <c>AppDomain.CurrentDomain.BaseDirectory</c> as driver folder path.
+        /// This configuration options makes sense for .NET Core 2.0 project that uses driver as a project package (hosted in the same build directory).
+        /// </summary>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithLocalDriverPath()
+        {
+            return WithDriverPath(AppDomain.CurrentDomain.BaseDirectory);
+        }
+
+        /// <summary>
         /// Specifies the name of the driver executable file.
         /// </summary>
         /// <param name="driverExecutableFileName">The name of the driver executable file.</param>
