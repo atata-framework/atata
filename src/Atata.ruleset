@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rules for Atata" Description="Code analysis rules for Atata.csproj." ToolsVersion="14.0">
+<RuleSet Name="Rules for Atata" Description="Code analysis rules for Atata.csproj." ToolsVersion="15.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1008" Action="Warning" />
@@ -90,6 +90,7 @@
     <Rule Id="S131" Action="Warning" />
     <Rule Id="S134" Action="Warning" />
     <Rule Id="S1541" Action="Warning" />
+    <Rule Id="S2187" Action="None" />
     <Rule Id="S2225" Action="None" />
     <Rule Id="S2357" Action="Warning" />
     <Rule Id="S2436" Action="None" />
