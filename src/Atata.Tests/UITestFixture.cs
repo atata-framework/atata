@@ -29,6 +29,7 @@ namespace Atata.Tests
                     WithLocalDriverPath().
 #endif
                 UseBaseUrl(baseUrl).
+                UseCulture("en-us").
                 UseNUnitTestName().
                 AddNUnitTestContextLogging().
                 AddLogConsumer(stringListLogConsumer).

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Atata
@@ -39,6 +40,11 @@ namespace Atata
         /// Gets the retry interval. The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan RetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
+
+        /// <summary>
+        /// Gets the culture.
+        /// </summary>
+        public CultureInfo Culture { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).

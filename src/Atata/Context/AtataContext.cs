@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Text;
 using OpenQA.Selenium.Remote;
 
@@ -103,6 +104,11 @@ namespace Atata
         /// Gets the retry interval. The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan RetryInterval { get; internal set; }
+
+        /// <summary>
+        /// Gets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// </summary>
+        public CultureInfo Culture { get; internal set; }
 
         /// <summary>
         /// Gets the type of the assertion exception. The default value is typeof(Atata.AssertionException).

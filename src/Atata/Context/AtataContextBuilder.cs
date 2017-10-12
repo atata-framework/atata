@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -333,6 +335,27 @@ namespace Atata
         }
 
         /// <summary>
+        /// Sets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// </summary>
+        /// <param name="culture">The culture.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseCulture(CultureInfo culture)
+        {
+            BuildingContext.Culture = culture;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the culture by the name. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// </summary>
+        /// <param name="cultureName">The name of the culture.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseCulture(string cultureName)
+        {
+            return UseCulture(new CultureInfo(cultureName));
+        }
+
+        /// <summary>
         /// Sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
         /// </summary>
         /// <param name="exceptionType">The type of the exception.</param>
@@ -476,6 +499,7 @@ namespace Atata
                 CleanUpActions = BuildingContext.CleanUpActions,
                 RetryTimeout = BuildingContext.RetryTimeout,
                 RetryInterval = BuildingContext.RetryInterval,
+                Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture,
                 AssertionExceptionType = BuildingContext.AssertionExceptionType
             };
 
@@ -489,6 +513,24 @@ namespace Atata
                 context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
 
             context.Log.Trace($"Set: RetryTimeout={context.RetryTimeout.ToIntervalString()}; RetryInterval={context.RetryInterval.ToIntervalString()}");
+
+            if (BuildingContext.Culture != null)
+            {
+                if (AtataContext.IsThreadStatic)
+                {
+                    Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = BuildingContext.Culture;
+                }
+                else
+                {
+#if NET40
+                    Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = BuildingContext.Culture;
+#else
+                    CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = BuildingContext.Culture;
+#endif
+                }
+
+                context.Log.Trace($"Set: Culture={BuildingContext.Culture.Name}");
+            }
 
             context.Driver = BuildingContext.DriverFactoryToUse?.Create() ?? new FirefoxDriver();
             context.DriverAlias = BuildingContext.DriverFactoryToUse?.Alias ?? DriverAliases.Firefox;
