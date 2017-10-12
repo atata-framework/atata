@@ -17,6 +17,14 @@ namespace Atata.Tests
         public void SetUp()
         {
             AtataContext.Configure().
+#if NETCOREAPP2_0
+                UseChrome().
+                    WithFixOfCommandExecutionDelay().
+                    WithDriverPath(System.AppDomain.CurrentDomain.BaseDirectory).
+                UseInternetExplorer().
+                    WithFixOfCommandExecutionDelay().
+                    WithDriverPath(System.AppDomain.CurrentDomain.BaseDirectory).
+#endif
                 UseDriver(driverAlias).
                 UseTestName(() => $"[{driverAlias}]{TestContext.CurrentContext.Test.Name}").
                 AddNUnitTestContextLogging().

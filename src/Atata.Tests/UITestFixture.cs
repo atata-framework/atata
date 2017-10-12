@@ -25,6 +25,7 @@ namespace Atata.Tests
                 UseChrome().
                     WithArguments("disable-extensions", "no-sandbox", "start-maximized").
 #if NETCOREAPP2_0
+                    WithFixOfCommandExecutionDelay().
                     WithDriverPath(System.AppDomain.CurrentDomain.BaseDirectory).
 #endif
                 UseBaseUrl(baseUrl).
