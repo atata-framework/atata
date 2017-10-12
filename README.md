@@ -5,9 +5,9 @@
 [![Gitter](https://badges.gitter.im/atata-framework/atata.svg)](https://gitter.im/atata-framework/atata)
 [![Twitter](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://twitter.com/AtataFramework)
 
-C#/.NET web UI test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern.
+C#/.NET web UI test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern. Supports .NET Framework 4.0+ and .NET Core/Standard 2.0.
 
-**[What's new in v0.14.0](https://atata-framework.github.io/blog/2017/09/22/atata-0.14.0-released/)**
+**[What's new in v0.15.0](https://atata-framework.github.io/blog/2017/10/12/atata-0.15.0-released/)**
 
 ## Features
 
@@ -112,6 +112,7 @@ You can also check the following articles:
 * [Test Automation Using Atata: Verification of Web Pages](https://www.codeproject.com/Articles/1173435/Test-Automation-Using-Atata-Verification-of-Pages)
 * [Test Automation Using Atata: Verification of Validation Messages](https://www.codeproject.com/Articles/1177317/Test-Automation-Using-Atata-Validation-Messages)
 * [Test Automation Using Atata: Handle Confirmation Popups](https://www.codeproject.com/Articles/1194445/Test-Automation-Using-Atata-Confirmation-Popups)
+* [Multi-Browser Configuration via Fixture Arguments](https://atata-framework.github.io/tutorials/multi-browser-configuration-via-fixture-arguments/)
 
 ## Contact
 
