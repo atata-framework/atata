@@ -5,13 +5,6 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata", "Atata\Atata.csproj", "{9D876D23-607A-45DC-979A-01DA1D34189C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{751C2E2B-45FE-426B-AACE-7B70B812CB6B}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.TestApp", "Atata.TestApp\Atata.TestApp.csproj", "{147EA0C6-A26A-4720-B1B8-8DCA11D53B31}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Tests", "Atata.Tests\Atata.Tests.csproj", "{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}"
