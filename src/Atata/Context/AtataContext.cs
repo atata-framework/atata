@@ -197,7 +197,7 @@ namespace Atata
 
             TimeSpan testExecutionTime = DateTime.Now - TestStart;
             Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
-            Log.InfoWithExecutionTime("Pure test execution time: ", cleanTestExecutionTime);
+            Log.InfoWithExecutionTime("Pure test execution time:", cleanTestExecutionTime);
 
             Log = null;
 
