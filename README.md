@@ -104,13 +104,16 @@ public void User_Create()
 
 Find out more on [Atata Docs](https://atata-framework.github.io/) and on [Getting Started](https://atata-framework.github.io/getting-started/) page in particular.
 
-## Tutorials
+### Tutorials
 
 You can also check the following tutorials:
 
-* [Atata - New Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework)
-* [Verification of Page](https://atata-framework.github.io/tutorials/verification-of-page/)
-* [Multi-Browser Configuration via Fixture Arguments](https://atata-framework.github.io/tutorials/multi-browser-configuration-via-fixture-arguments/)
+* [Atata - New Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework) - an introduction to Atata Framework.
+* [Verification of Page](https://atata-framework.github.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
+* [Verification of Validation Messages](https://atata-framework.github.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
+* [Handle Confirmation Popups](https://atata-framework.github.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
+* [Multi-Browser Configuration via Fixture Arguments](https://atata-framework.github.io/tutorials/multi-browser-configuration-via-fixture-arguments/) - how to configure multi-browser tests application using NUnit fixture arguments.
+* [Visual Studio Team Services Configuration](https://atata-framework.github.io/tutorials/vs-team-services-configuration/) - how to configure Atata test automation build on Visual Studio Team Services using any browser.
 
 ## Contact
 
