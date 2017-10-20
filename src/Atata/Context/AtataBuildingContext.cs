@@ -42,7 +42,7 @@ namespace Atata
         public TimeSpan RetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
 
         /// <summary>
-        /// Gets the culture.
+        /// Gets or sets the culture.
         /// </summary>
         public CultureInfo Culture { get; set; }
 
