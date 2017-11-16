@@ -21,6 +21,9 @@ namespace Atata.Tests
         [FindById]
         public Number<_> NumberNull { get; private set; }
 
+        [Term("Number")]
+        public Text<_> NumberAsText { get; private set; }
+
         [Format("count: {0}")]
         public Number<_> NumberWithFormat { get; private set; }
 

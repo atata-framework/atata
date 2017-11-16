@@ -74,11 +74,22 @@ namespace Atata
         {
             if (!string.IsNullOrWhiteSpace(message))
             {
-                string[] convertedArgs = args?.
-                    Select(x => "\"{0}\"".FormatWith(should.DataProvider.ConvertValueToString(x) ?? NullString)).
-                    ToArray();
+                string formattedMessage;
 
-                return $"{should.GetShouldText()} {message.FormatWith(convertedArgs)}";
+                if (args != null && args.Any())
+                {
+                    string[] convertedArgs = args.
+                        Select(x => $"\"{should.DataProvider.ConvertValueToString(x) ?? NullString}\"").
+                        ToArray();
+
+                    formattedMessage = message.FormatWith(convertedArgs);
+                }
+                else
+                {
+                    formattedMessage = message;
+                }
+
+                return $"{should.GetShouldText()} {formattedMessage}";
             }
             else
             {
@@ -89,9 +100,11 @@ namespace Atata
         private static Exception CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, TData actual, string message, params TData[] args)
             where TOwner : PageObject<TOwner>
         {
-            return should.CreateAssertionException(
-                message.FormatWith(args?.Select(x => ObjectToString(x)).ToArray()),
-                ObjectToString(actual));
+            string formattedMessage = args != null && args.Any()
+                ? message.FormatWith(args.Select(x => ObjectToString(x)).ToArray())
+                : message;
+
+            return should.CreateAssertionException(formattedMessage, ObjectToString(actual));
         }
 
         internal static Exception CreateAssertionException<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
@@ -248,7 +261,7 @@ namespace Atata
         {
             pattern.CheckNotNull(nameof(pattern));
 
-            return should.Satisfy(actual => actual != null && Regex.IsMatch(actual, pattern), "match pattern {0}".FormatWith(ObjectToString(pattern)));
+            return should.Satisfy(actual => actual != null && Regex.IsMatch(actual, pattern), $"match pattern \"{pattern}\"");
         }
 
         public static TOwner BeGreater<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected)

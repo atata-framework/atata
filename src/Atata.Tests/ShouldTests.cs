@@ -154,5 +154,20 @@ namespace Atata.Tests
                 WaitAndUpdateValue.Click().
                 ValueContainer.ValueBlock.Should.Equal("New value");
         }
+
+        [Test]
+        public void Should_Match()
+        {
+            var should = Go.To<ContentPage>().
+                NumberAsText.Should.AtOnce;
+
+            should.Match(@"^\d{3}.\d{2}$");
+
+            Assert.Throws<AssertionException>(() =>
+                should.Not.Match(@"^\d{3}.\d{2}$"));
+
+            Assert.Throws<AssertionException>(() =>
+                should.Match(@"^\d{4}.\d{2}$"));
+        }
     }
 }
