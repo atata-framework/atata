@@ -26,6 +26,11 @@ namespace Atata
             get { return _(Options.Match.CreateXPathCondition(Options.Terms)); }
         }
 
+        public ComponentScopeXPathBuilder TermsConditionOfText
+        {
+            get { return _(Options.Match.CreateXPathCondition(Options.Terms, "text()")); }
+        }
+
         public static implicit operator string(ComponentScopeXPathBuilder builder)
         {
             return builder?.XPath;
