@@ -50,5 +50,41 @@ namespace Atata.Tests
             Assert.Throws<NoSuchElementException>(() =>
                 page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));
         }
+
+        [Test]
+        public void CheckBoxList_Enum_LabelById()
+        {
+            var control = page.ByFieldsetAndLabelUsingId;
+
+            control.Should.Equal(CheckBoxListPage.Options.None);
+
+            SetAndVerifyValues(
+                control,
+                CheckBoxListPage.Options.OptionC | CheckBoxListPage.Options.OptionD,
+                CheckBoxListPage.Options.OptionB);
+
+            control.Should.Not.HaveChecked(CheckBoxListPage.Options.OptionA);
+            control.Should.HaveChecked(CheckBoxListPage.Options.OptionB);
+
+            SetAndVerifyValues(
+                control,
+                CheckBoxListPage.Options.None,
+                CheckBoxListPage.Options.OptionA);
+
+            control.Check(CheckBoxListPage.Options.OptionD);
+            control.Should.Equal(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
+
+            control.Uncheck(CheckBoxListPage.Options.OptionA);
+            control.Should.HaveChecked(CheckBoxListPage.Options.OptionD);
+
+            Assert.Throws<AssertionException>(() =>
+                control.Should.AtOnce.Not.HaveChecked(CheckBoxListPage.Options.OptionD));
+
+            Assert.Throws<AssertionException>(() =>
+                control.Should.AtOnce.HaveChecked(CheckBoxListPage.Options.OptionA));
+
+            Assert.Throws<NoSuchElementException>(() =>
+                control.Set(CheckBoxListPage.Options.MissingValue));
+        }
     }
 }

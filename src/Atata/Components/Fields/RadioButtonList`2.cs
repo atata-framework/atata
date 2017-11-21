@@ -24,7 +24,7 @@ namespace Atata
 
         protected override void SetValue(T value)
         {
-            value.CheckNotNull("value", "Cannot set \"null\" to RadioButtonList control.");
+            value.CheckNotNull(nameof(value), $"Cannot set \"null\" value to {nameof(RadioButtonList<T, TOwner>)} control.");
 
             IWebElement element = GetItemElement(value);
             if (!element.Selected)

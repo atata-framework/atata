@@ -24,7 +24,7 @@ namespace Atata
         {
         }
 
-        public IItemElementFindStrategy CreateStrategy(UIComponentMetadata metadata)
+        public IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata)
         {
             return new FindItemByValueStrategy();
         }

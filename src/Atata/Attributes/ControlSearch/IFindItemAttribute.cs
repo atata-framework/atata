@@ -2,6 +2,6 @@
 {
     public interface IFindItemAttribute
     {
-        IItemElementFindStrategy CreateStrategy(UIComponentMetadata metadata);
+        IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata);
     }
 }

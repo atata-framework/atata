@@ -18,10 +18,10 @@ namespace Atata
 
         protected IWebElement GetItemElement(object parameter, bool isSafely = false, string xPathCondition = null)
         {
+            ExecuteTriggers(TriggerEvents.BeforeAccess);
+
             string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter, ValueTermOptions);
             itemConditionXPath += xPathCondition;
-
-            ExecuteTriggers(TriggerEvents.BeforeAccess);
 
             IWebElement element = ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
 

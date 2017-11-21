@@ -22,7 +22,7 @@ namespace Atata
         public CheckBoxList()
         {
             if (!typeof(T).IsEnum)
-                throw new InvalidOperationException("Incorrect generic parameter type '{0}'. CheckBoxList control supports only Enum types.".FormatWith(typeof(T).FullName));
+                throw new InvalidOperationException($"Incorrect generic parameter '{typeof(T).FullName}' type. {nameof(CheckBoxList<T, TOwner>)} control supports only Enum types.");
         }
 
         protected delegate bool ClickItemPredicate(bool isInValue, bool isSelected);

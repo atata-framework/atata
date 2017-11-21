@@ -305,7 +305,7 @@ namespace Atata
             if (component is IItemsControl itemsControl)
             {
                 IFindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
-                IItemElementFindStrategy itemElementFindStrategy = findItemAttribute.CreateStrategy(metadata);
+                IItemElementFindStrategy itemElementFindStrategy = findItemAttribute.CreateStrategy(component, metadata);
                 itemsControl.Apply(itemElementFindStrategy);
             }
 

@@ -29,6 +29,10 @@ namespace Atata.Tests
         [FindItemByValue(TermCase.Pascal)]
         public CheckBoxList<Options, _> ByXPathAndValue { get; private set; }
 
+        [FindByFieldSet("String List Using ID")]
+        [FindItemByLabel]
+        public CheckBoxList<Options, _> ByFieldsetAndLabelUsingId { get; private set; }
+
         public CheckBox<_> OptionA { get; private set; }
 
         public ControlList<CheckBox<_>, _> AllItems { get; private set; }
