@@ -54,11 +54,8 @@ namespace Atata
             foreach (Type type in allTypes)
                 InitComponentTypeMembers<TOwner>(component, type);
 
-            TOwner componentAsPageObject = component as TOwner;
-            if (componentAsPageObject != null)
-            {
+            if (component is TOwner componentAsPageObject)
                 InitPageObject(componentAsPageObject);
-            }
         }
 
         private static void InitPageObject<TPageObject>(PageObject<TPageObject> pageObject)
@@ -195,8 +192,7 @@ namespace Atata
             componentPart.Component = parentComponent;
             componentPart.ComponentPartName = property.Name.ToString(TermCase.MidSentence);
 
-            ISupportsMetadata supportsMetadata = componentPart as ISupportsMetadata;
-            if (supportsMetadata != null)
+            if (componentPart is ISupportsMetadata supportsMetadata)
                 supportsMetadata.Metadata = CreateStaticControlMetadata(parentComponent, property, supportsMetadata.ComponentType);
 
             property.SetValue(parentComponent, componentPart, null);
@@ -306,9 +302,7 @@ namespace Atata
 
             component.ScopeSource = findAttribute.ScopeSource;
 
-            IItemsControl itemsControl = component as IItemsControl;
-
-            if (itemsControl != null)
+            if (component is IItemsControl itemsControl)
             {
                 IFindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
                 IItemElementFindStrategy itemElementFindStrategy = findItemAttribute.CreateStrategy(metadata);
@@ -327,9 +321,7 @@ namespace Atata
                 return nameAttribute.Value;
             }
 
-            FindByLabelAttribute findByLabelAttribute = findAttribute as FindByLabelAttribute;
-
-            if (findByLabelAttribute != null && findByLabelAttribute.Match == TermMatch.Equals)
+            if (findAttribute is FindByLabelAttribute findByLabelAttribute && findByLabelAttribute.Match == TermMatch.Equals)
             {
                 if (findByLabelAttribute.Values?.Any() ?? false)
                 {
@@ -544,9 +536,10 @@ namespace Atata
             where TPageObject : PageObject<TPageObject>
         {
             Type type = typeof(TPageObject);
-            string name;
-            if (PageObjectNames.TryGetValue(type, out name))
+
+            if (PageObjectNames.TryGetValue(type, out string name))
                 return name;
+
             return PageObjectNames[type] = ResolvePageObjectNameFromMetadata(type);
         }
 

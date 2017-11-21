@@ -148,8 +148,8 @@ namespace Atata
                 return "\"{0}\"".FormatWith(value);
             else if (value is ValueType)
                 return value.ToString();
-            else if (value is IEnumerable)
-                return CollectionToString((IEnumerable)value);
+            else if (value is IEnumerable enumerableValue)
+                return CollectionToString(enumerableValue);
             else
                 return "{{{0}}}".FormatWith(value.ToString());
         }

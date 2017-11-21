@@ -41,9 +41,7 @@ namespace Atata
         {
             typeNameOrAlias.CheckNotNullOrWhitespace(nameof(typeNameOrAlias));
 
-            Func<ILogConsumer> factory;
-
-            return AliasFactoryMap.TryGetValue(typeNameOrAlias, out factory)
+            return AliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<ILogConsumer> factory)
                 ? factory()
                 : ActivatorEx.CreateInstance<ILogConsumer>(typeNameOrAlias);
         }

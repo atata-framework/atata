@@ -32,9 +32,7 @@ namespace Atata
         {
             typeNameOrAlias.CheckNotNullOrWhitespace(nameof(typeNameOrAlias));
 
-            Func<IScreenshotConsumer> factory;
-
-            return AliasFactoryMap.TryGetValue(typeNameOrAlias, out factory)
+            return AliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<IScreenshotConsumer> factory)
                 ? factory()
                 : ActivatorEx.CreateInstance<IScreenshotConsumer>(typeNameOrAlias);
         }

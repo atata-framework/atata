@@ -178,9 +178,8 @@ namespace Atata
 
         protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
-            object dataProvider;
-            if (dataProviders.TryGetValue(providerName, out dataProvider) && dataProvider is DataProvider<TValue, TOwner>)
-                return (DataProvider<TValue, TOwner>)dataProvider;
+            if (dataProviders.TryGetValue(providerName, out object dataProviderAsObject) && dataProviderAsObject is DataProvider<TValue, TOwner> dataProvider)
+                return dataProvider;
 
             return CreateDataProvider(providerName, valueGetFunction);
         }
@@ -214,9 +213,7 @@ namespace Atata
         {
             return this is TComponentToFind ?
                 (TComponentToFind)this :
-                Parent != null ?
-                    Parent.GetAncestorOrSelf<TComponentToFind>() :
-                    null;
+                Parent?.GetAncestorOrSelf<TComponentToFind>();
         }
 
         TComponentToFind IUIComponent<TOwner>.GetAncestorOrSelf<TComponentToFind>() => GetAncestorOrSelf<TComponentToFind>();
