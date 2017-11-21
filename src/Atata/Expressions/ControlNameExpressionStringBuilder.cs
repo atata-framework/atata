@@ -104,8 +104,10 @@ namespace Atata
                     Out("null");
                 else if (value is string)
                     Out($"\"{value}\"");
-                else
+                else if (node.Type.IsPrimitive)
                     Out(value.ToString());
+                else
+                    Out(node.Member.Name);
 
                 return node;
             }
@@ -114,10 +116,45 @@ namespace Atata
                 Out(node.Member.Name);
                 return node;
             }
-            else
+            else if (node.NodeType == ExpressionType.MemberAccess && node.Expression?.NodeType == ExpressionType.MemberAccess && !IsParameterExpression(node.Expression))
             {
-                return base.VisitMember(node);
+                try
+                {
+                    object value = Expression.Lambda(node).Compile().DynamicInvoke();
+
+                    if (value == null)
+                    {
+                        Out("null");
+                        return node;
+                    }
+                    else if (value is string)
+                    {
+                        Out($"\"{value}\"");
+                        return node;
+                    }
+                    else if (node.Type.IsPrimitive)
+                    {
+                        Out(value.ToString());
+                        return node;
+                    }
+                }
+                catch
+                {
+                    // Don't do anything. Let default behavior process the node.
+                }
             }
+
+            return base.VisitMember(node);
+        }
+
+        private bool IsParameterExpression(Expression expression)
+        {
+            if (expression is ParameterExpression)
+                return true;
+            else if (expression is MemberExpression memberExpression)
+                return IsParameterExpression(memberExpression.Expression);
+            else
+                return false;
         }
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
@@ -126,25 +163,66 @@ namespace Atata
 
             if (node.Object?.NodeType == ExpressionType.Parameter || (isExtensionMethod && node.Arguments[0].NodeType == ExpressionType.Parameter))
             {
-                Out(node.Method.Name);
-                Out("(");
-
-                int firstArgumentIndex = isExtensionMethod ? 1 : 0;
-
-                for (int i = firstArgumentIndex, n = node.Arguments.Count; i < n; i++)
-                {
-                    if (i > firstArgumentIndex)
-                        Out(", ");
-                    Visit(node.Arguments[i]);
-                }
-
-                Out(")");
-                return node;
+                return VisitMethodCallOfParameter(node, isExtensionMethod);
             }
-            else
+            else if (node.Method.IsStatic)
             {
-                return base.VisitMethodCall(node);
+                OutStaticClass(node.Method.DeclaringType);
             }
+            else if (node.Method.IsSpecialName && node.Method.Name == "get_Item" && node.Arguments.Any())
+            {
+                return VisitIndexerAsMethodCall(node);
+            }
+
+            return base.VisitMethodCall(node);
+        }
+
+        private Expression VisitMethodCallOfParameter(MethodCallExpression node, bool isExtensionMethod)
+        {
+            Out(node.Method.Name);
+            Out("(");
+
+            int firstArgumentIndex = isExtensionMethod ? 1 : 0;
+
+            for (int i = firstArgumentIndex, n = node.Arguments.Count; i < n; i++)
+            {
+                if (i > firstArgumentIndex)
+                    Out(", ");
+                Visit(node.Arguments[i]);
+            }
+
+            Out(")");
+            return node;
+        }
+
+        private Expression VisitIndexerAsMethodCall(MethodCallExpression node)
+        {
+            if (node.Object != null)
+            {
+                Visit(node.Object);
+            }
+
+            Out("[");
+
+            for (int i = 0; i < node.Arguments.Count; i++)
+            {
+                if (i > 0)
+                    Out(", ");
+
+                Visit(node.Arguments[i]);
+            }
+
+            Out("]");
+            return node;
+        }
+
+        private void OutStaticClass(Type type)
+        {
+            if (type.DeclaringType != null)
+                OutStaticClass(type.DeclaringType);
+
+            Out(type.Name);
+            Out(".");
         }
 
         protected override Expression VisitBinary(BinaryExpression node)
@@ -169,6 +247,17 @@ namespace Atata
                 default:
                     return base.VisitUnary(node);
             }
+        }
+
+        protected override Expression VisitConstant(ConstantExpression node)
+        {
+            if (node.Value is bool boolValue)
+            {
+                Out(boolValue.ToString().ToLower());
+                return node;
+            }
+
+            return base.VisitConstant(node);
         }
     }
 }

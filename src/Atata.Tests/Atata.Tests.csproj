@@ -119,6 +119,7 @@
     <Compile Include="TableTests.cs" />
     <Compile Include="TermCaseTests.cs" />
     <Compile Include="TermResolverTests.cs" />
+    <Compile Include="UIComponentResolverTests.cs" />
     <Compile Include="UITestFixture.cs" />
     <Compile Include="TestCaseDataSource.cs" />
     <Compile Include="FindingTests.cs" />
