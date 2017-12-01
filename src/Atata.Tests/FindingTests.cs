@@ -94,6 +94,36 @@ namespace Atata.Tests
             Assert.That(page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
         }
 
+        [Test]
+        public void Find_ByCss_Missing()
+        {
+            VerifyNotExist(page.MissingOptionByCss);
+        }
+
+        [Test]
+        public void Find_ByLabel_Missing()
+        {
+            VerifyNotExist(page.MissingOptionByLabel);
+        }
+
+        [Test]
+        public void Find_ByXPath_Missing()
+        {
+            VerifyNotExist(page.MissingOptionByXPath);
+        }
+
+        [Test]
+        public void Find_ById_Missing()
+        {
+            VerifyNotExist(page.MissingOptionById);
+        }
+
+        [Test]
+        public void Find_ByColumnHeader_Missing()
+        {
+            VerifyNotExist(page.MissingOptionByColumnHeader);
+        }
+
         private void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")
         {
             VerifyValue(radioButton, expectedValue);
@@ -106,6 +136,15 @@ namespace Atata.Tests
             where TOwner : PageObject<TOwner>
         {
             Assert.That(component.Attributes.GetValue("value"), Is.EqualTo(expectedValue));
+        }
+
+        private void VerifyNotExist<TOwner>(UIComponent<TOwner> component)
+            where TOwner : PageObject<TOwner>
+        {
+            component.Should.Not.Exist();
+
+            Assert.Throws<NoSuchElementException>(() =>
+                component.Should.AtOnce.Exist());
         }
     }
 }

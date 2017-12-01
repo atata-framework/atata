@@ -19,7 +19,7 @@ namespace Atata
 
         public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            var headers = scope.GetAll(By.XPath(headerXPath).OfAnyVisibility());
+            var headers = scope.GetAll(By.XPath(headerXPath).With(searchOptions).OfAnyVisibility());
             var headerNamePredicate = options.Match.GetPredicate();
 
             int? columnIndex = headers.

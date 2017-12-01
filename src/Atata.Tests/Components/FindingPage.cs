@@ -55,5 +55,20 @@ namespace Atata.Tests
         [ControlDefinition("input[@type='hidden']", Visibility = Visibility.Hidden)]
         [FindById("type-hidden-input")]
         public Input<string, _> TypeHiddenInputWithDeclaredDefinition { get; private set; }
+
+        [FindByCss("[name='unknown']")]
+        public RadioButton<_> MissingOptionByCss { get; private set; }
+
+        [FindByLabel("unknown")]
+        public RadioButton<_> MissingOptionByLabel { get; private set; }
+
+        [FindByXPath("*[@name='unknown']")]
+        public RadioButton<_> MissingOptionByXPath { get; private set; }
+
+        [FindById("unknown")]
+        public RadioButton<_> MissingOptionById { get; private set; }
+
+        [FindByColumnHeader("unknown")]
+        public RadioButton<_> MissingOptionByColumnHeader { get; private set; }
     }
 }
