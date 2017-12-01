@@ -20,12 +20,14 @@ namespace Atata.Tests
         [Test]
         public void ControlList_CheckBox()
         {
+            int actualCount = 12;
+
             Go.To<CheckBoxListPage>().
-                AllItems.Should.HaveCount(6).
+                AllItems.Should.HaveCount(actualCount).
                 AllItems.Should.Not.HaveCount(1).
-                AllItems.Count.Should.Equal(6).
-                AllItems.Count.Should.BeGreaterOrEqual(6).
-                AllItems.Count.Should.Not.BeLess(6).
+                AllItems.Count.Should.Equal(actualCount).
+                AllItems.Count.Should.BeGreaterOrEqual(actualCount).
+                AllItems.Count.Should.Not.BeLess(actualCount).
                 AllItems.Should.Not.Contain(true).
                 AllItems.Should.Not.Contain(x => x.IsChecked).
                 AllItems[x => x.IsChecked].Should.Not.Exist().
