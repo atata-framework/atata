@@ -171,20 +171,20 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Should_ContainClass()
+        public void Should_HaveClass()
         {
             var should = Go.To<TablePage>().
                 CountryTable.Should.AtOnce;
 
-            should.ContainClass("table");
+            should.HaveClass("table");
 
             Assert.Throws<AssertionException>(() =>
-                should.ContainClass("missing"));
+                should.HaveClass("missing"));
 
-            should.Not.ContainClass("missing");
+            should.Not.HaveClass("missing");
 
             Assert.Throws<AssertionException>(() =>
-                should.Not.ContainClass("table"));
+                should.Not.HaveClass("table"));
         }
     }
 }

@@ -137,7 +137,7 @@ namespace Atata
             return should.Owner;
         }
 
-        public static TOwner ContainClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should, params string[] classNames)
+        public static TOwner HaveClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should, params string[] classNames)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
