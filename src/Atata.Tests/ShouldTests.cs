@@ -169,5 +169,22 @@ namespace Atata.Tests
             Assert.Throws<AssertionException>(() =>
                 should.Match(@"^\d{4}.\d{2}$"));
         }
+
+        [Test]
+        public void Should_ContainClass()
+        {
+            var should = Go.To<TablePage>().
+                CountryTable.Should.AtOnce;
+
+            should.ContainClass("table");
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainClass("missing"));
+
+            should.Not.ContainClass("missing");
+
+            Assert.Throws<AssertionException>(() =>
+                should.Not.ContainClass("table"));
+        }
     }
 }

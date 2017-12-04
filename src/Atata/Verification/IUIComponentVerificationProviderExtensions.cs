@@ -136,5 +136,14 @@ namespace Atata
 
             return should.Owner;
         }
+
+        public static TOwner ContainClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should, params string[] classNames)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            should.CheckNotNull(nameof(should));
+
+            return should.Component.Attributes.Class.Should.WithSettings(should).Contain(classNames);
+        }
     }
 }
