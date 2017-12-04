@@ -42,8 +42,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsVisible.Should.ApplySettings(should);
-            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+            return should.Component.IsVisible.Should.WithSettings(should).BeTrue();
         }
 
         public static TOwner BeHidden<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
@@ -52,8 +51,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsVisible.Should.ApplySettings(should);
-            return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
+            return should.Component.IsVisible.Should.WithSettings(should).BeFalse();
         }
 
         public static TOwner BeEnabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
@@ -62,8 +60,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsEnabled.Should.ApplySettings(should);
-            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+            return should.Component.IsEnabled.Should.WithSettings(should).BeTrue();
         }
 
         public static TOwner BeDisabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
@@ -72,8 +69,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsEnabled.Should.ApplySettings(should);
-            return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
+            return should.Component.IsEnabled.Should.WithSettings(should).BeFalse();
         }
 
         public static TOwner BeReadOnly<TData, TControl, TOwner>(this IFieldVerificationProvider<TData, TControl, TOwner> should)
@@ -82,8 +78,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.IsReadOnly.Should.ApplySettings(should);
-            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+            return should.Component.IsReadOnly.Should.WithSettings(should).BeTrue();
         }
 
         public static TOwner BeChecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
@@ -92,8 +87,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.Should.ApplySettings(should);
-            return should.IsNegation ? dataShould.Not.BeTrue() : dataShould.BeTrue();
+            return should.Component.Should.WithSettings(should).BeTrue();
         }
 
         public static TOwner BeUnchecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
@@ -102,8 +96,7 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            var dataShould = should.Component.Should.ApplySettings(should);
-            return should.IsNegation ? dataShould.Not.BeFalse() : dataShould.BeFalse();
+            return should.Component.Should.WithSettings(should).BeFalse();
         }
 
         public static TOwner HaveChecked<TData, TOwner>(this IFieldVerificationProvider<TData, CheckBoxList<TData, TOwner>, TOwner> should, TData value)

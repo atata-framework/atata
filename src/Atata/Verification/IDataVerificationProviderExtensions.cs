@@ -154,6 +154,32 @@ namespace Atata
                 return "{{{0}}}".FormatWith(value.ToString());
         }
 
+        public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, IVerificationProvider<TOwner> sourceVerificationProvider)
+            where TOwner : PageObject<TOwner>
+        {
+            should.CheckNotNull(nameof(should));
+            sourceVerificationProvider.CheckNotNull(nameof(sourceVerificationProvider));
+
+            IDataVerificationProvider<TData, TOwner> resultVerificationProvider =
+                sourceVerificationProvider.IsNegation && !should.IsNegation
+                    ? GetNegationVerificationProvider(should)
+                    : should;
+
+            resultVerificationProvider.Timeout = sourceVerificationProvider.Timeout;
+            resultVerificationProvider.RetryInterval = sourceVerificationProvider.RetryInterval;
+
+            return resultVerificationProvider;
+        }
+
+        private static IDataVerificationProvider<TData, TOwner> GetNegationVerificationProvider<TData, TOwner>(IDataVerificationProvider<TData, TOwner> verificationProvider)
+            where TOwner : PageObject<TOwner>
+        {
+            if (verificationProvider is DataVerificationProvider<TData, TOwner> dataVerificationProvider)
+                return dataVerificationProvider.Not;
+            else
+                return (IDataVerificationProvider<TData, TOwner>)verificationProvider.GetType().GetPropertyWithThrowOnError("Not").GetValue(verificationProvider);
+        }
+
         public static TOwner Equal<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected)
             where TOwner : PageObject<TOwner>
         {

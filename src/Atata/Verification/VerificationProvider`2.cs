@@ -26,9 +26,17 @@ namespace Atata
 
         protected internal TimeSpan? RetryInterval { get; internal set; }
 
-        TimeSpan? IVerificationProvider<TOwner>.Timeout => Timeout;
+        TimeSpan? IVerificationProvider<TOwner>.Timeout
+        {
+            get => Timeout;
+            set => Timeout = value;
+        }
 
-        TimeSpan? IVerificationProvider<TOwner>.RetryInterval => RetryInterval;
+        TimeSpan? IVerificationProvider<TOwner>.RetryInterval
+        {
+            get => RetryInterval;
+            set => RetryInterval = value;
+        }
 
         public TVerificationProvider WithRetry
         {
@@ -84,14 +92,6 @@ namespace Atata
             options.IgnoringStaleElementReferenceException();
 
             return options;
-        }
-
-        internal TVerificationProvider ApplySettings(IVerificationProvider<TOwner> verificationProvider)
-        {
-            Timeout = verificationProvider.Timeout;
-            RetryInterval = verificationProvider.RetryInterval;
-
-            return (TVerificationProvider)this;
         }
     }
 }
