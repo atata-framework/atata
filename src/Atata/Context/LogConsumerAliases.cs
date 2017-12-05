@@ -5,9 +5,11 @@ namespace Atata
 {
     public static class LogConsumerAliases
     {
+        public const string Trace = "trace";
+
         public const string Debug = "debug";
 
-        public const string Trace = "trace";
+        public const string Console = "console";
 
         public const string NUnit = "nunit";
 
@@ -17,8 +19,9 @@ namespace Atata
 
         static LogConsumerAliases()
         {
-            Register<DebugLogConsumer>(Debug);
             Register<TraceLogConsumer>(Trace);
+            Register<DebugLogConsumer>(Debug);
+            Register<ConsoleLogConsumer>(Console);
             Register<NUnitTestContextLogConsumer>(NUnit);
             Register<NLogConsumer>(NLog);
         }

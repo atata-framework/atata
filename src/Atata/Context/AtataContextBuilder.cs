@@ -218,6 +218,15 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the <see cref="ConsoleLogConsumer"/> instance that uses <see cref="Console"/> class for logging.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder{ConsoleLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<ConsoleLogConsumer> AddConsoleLogging()
+        {
+            return AddLogConsumer(new ConsoleLogConsumer());
+        }
+
+        /// <summary>
         /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses NUnit.Framework.TestContext class for logging.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder{NUnitTestContextLogConsumer}"/> instance.</returns>
