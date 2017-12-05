@@ -64,6 +64,7 @@
   <ItemGroup>
     <Content Include="FrameInner2.html" />
     <Content Include="DragAndDrop.html" />
+    <Content Include="Heading.html" />
     <Content Include="Randomization.html" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />

@@ -25,6 +25,10 @@
         /// <summary>
         /// Gets or sets the index of header. The default value is -1, meaning that the index is not used.
         /// </summary>
-        public int Index { get; set; } = -1;
+        public int Index
+        {
+            get => Properties.Get(nameof(Index), -1, GetPropertySettings);
+            set => Properties[nameof(Index)] = value;
+        }
     }
 }

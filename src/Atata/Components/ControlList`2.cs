@@ -130,7 +130,7 @@ namespace Atata
 
         protected TItem GetItemByIndex(int index)
         {
-            string itemName = OrdinalizeNumber(index + 1);
+            string itemName = (index + 1).Ordinalize();
 
             return CreateItem(itemName, new FindByIndexAttribute(index));
         }
@@ -232,25 +232,6 @@ namespace Atata
             return Metadata.DeclaredAttributes.Where(x => !(x is FindAttribute));
         }
 
-        private string OrdinalizeNumber(int number)
-        {
-            string ending = "th";
-
-            int tensDigit = (number % 100) / 10;
-
-            if (tensDigit != 1)
-            {
-                int unitDigit = number % 10;
-
-                ending = unitDigit == 1 ? "st"
-                    : unitDigit == 2 ? "nd"
-                    : unitDigit == 3 ? "rd"
-                    : ending;
-            }
-
-            return $"{number}{ending}";
-        }
-
         /// <summary>
         /// Selects the specified data (property) set of each control. Data can be a sub-control, an instance of <see cref="DataProvider{TData, TOwner}"/>, etc.
         /// </summary>
@@ -278,7 +259,7 @@ namespace Atata
             By itemBy = CreateItemBy();
 
             return GetItemElements(itemBy.AtOnce()).
-                Select((element, index) => CreateItem(new DefinedScopeLocator(element), OrdinalizeNumber(index + 1))).
+                Select((element, index) => CreateItem(new DefinedScopeLocator(element), (index + 1).Ordinalize())).
                 ToArray();
         }
 

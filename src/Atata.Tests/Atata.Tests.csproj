@@ -80,6 +80,7 @@
     <Compile Include="Components\GoTo1Page.cs" />
     <Compile Include="Components\GoTo2Page.cs" />
     <Compile Include="Components\GoTo3Page.cs" />
+    <Compile Include="Components\HeadingPage.cs" />
     <Compile Include="Components\InputPage.cs" />
     <Compile Include="Components\LabelPage.cs" />
     <Compile Include="Components\ListPage.cs" />
@@ -124,6 +125,7 @@
     <Compile Include="TestCaseDataSource.cs" />
     <Compile Include="FindingTests.cs" />
     <Compile Include="UIComponentTests.cs" />
+    <Compile Include="VerifyHeadingTests.cs" />
     <Compile Include="VerifyMissingTests.cs" />
     <Compile Include="WaitForElementTests.cs" />
     <Compile Include="VerifyExistsTests.cs" />

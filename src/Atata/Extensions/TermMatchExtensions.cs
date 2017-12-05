@@ -72,5 +72,32 @@ namespace Atata
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
             }
         }
+
+        internal static string FormatComponentName(this TermMatch match, string[] values)
+        {
+            string format;
+
+            switch (match)
+            {
+                case TermMatch.Contains:
+                    format = "Containing '{0}'";
+                    break;
+                case TermMatch.Equals:
+                    format = "{0}";
+                    break;
+                case TermMatch.StartsWith:
+                    format = "Starting with '{0}'";
+                    break;
+                case TermMatch.EndsWith:
+                    format = "Ending with '{0}'";
+                    break;
+                default:
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
+            }
+
+            string combinedValues = TermResolver.ToDisplayString(values);
+
+            return string.Format(format, combinedValues);
+        }
     }
 }
