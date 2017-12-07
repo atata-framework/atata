@@ -69,7 +69,7 @@ Features:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atata.WebDriverExtras" Version="0.13.0" />
+    <PackageReference Include="Atata.WebDriverExtras" Version="0.14.0" />
     <PackageReference Include="Selenium.Support" Version="3.8.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.8.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
