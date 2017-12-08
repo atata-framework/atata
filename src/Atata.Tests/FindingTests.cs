@@ -95,6 +95,18 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Find_ByCss_OuterXPath()
+        {
+            VerifyRadioButton(page.OptionCByCssWithOuterXPath);
+        }
+
+        [Test]
+        public void Find_ByCss_OuterXPath_Missing()
+        {
+            VerifyNotExist(page.MissingOptionByCssWithOuterXPath);
+        }
+
+        [Test]
         public void Find_ByCss_Missing()
         {
             VerifyNotExist(page.MissingOptionByCss);

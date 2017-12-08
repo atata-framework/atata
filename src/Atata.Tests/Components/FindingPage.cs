@@ -56,6 +56,12 @@ namespace Atata.Tests
         [FindById("type-hidden-input")]
         public Input<string, _> TypeHiddenInputWithDeclaredDefinition { get; private set; }
 
+        [FindByCss("[value='OptionC']", OuterXPath = ".//*[@class='x-radio-container']/")]
+        public RadioButton<_> OptionCByCssWithOuterXPath { get; private set; }
+
+        [FindByCss("[value='OptionC']", OuterXPath = ".//*[@class='unknown']/")]
+        public RadioButton<_> MissingOptionByCssWithOuterXPath { get; private set; }
+
         [FindByCss("[name='unknown']")]
         public RadioButton<_> MissingOptionByCss { get; private set; }
 
