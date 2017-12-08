@@ -4,7 +4,10 @@ using OpenQA.Selenium.Support.UI;
 namespace Atata
 {
     /// <summary>
-    /// Represents the select control (&lt;select&gt;). Property can be marked with <see cref="SelectByValueAttribute"/> or <see cref="SelectByTextAttribute"/>. Default selection is performed by text.
+    /// Represents the select control (&lt;select&gt;).
+    /// Default search is performed by the label.
+    /// Control property can be marked with <see cref="SelectByValueAttribute"/> or <see cref="SelectByTextAttribute"/>.
+    /// Default option selection is performed by text using <see cref="SelectByTextAttribute"/>.
     /// </summary>
     /// <typeparam name="T">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
