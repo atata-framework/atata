@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+using System.IO;
+using NUnit.Framework;
 
 namespace Atata.Tests
 {
@@ -14,70 +16,95 @@ namespace Atata.Tests
         [Test]
         public void TextInput()
         {
-            VerifyEquals(page.TextInput, null);
+            var control = page.TextInput;
 
-            SetAndVerifyValues(page.TextInput, "Text1", null, "Text2");
+            VerifyEquals(control, null);
 
-            VerifyDoesNotEqual(page.TextInput, "Text3");
+            SetAndVerifyValues(control, "Text1", null, "Text2");
 
-            page.TextInput.Append("0").
-                TextInput.Should.Equal("Text20").
-                TextInput.Clear().
-                TextInput.Should.BeNull();
+            VerifyDoesNotEqual(control, "Text3");
+
+            control.Append("0");
+            control.Should.Equal("Text20");
+            control.Clear();
+            control.Should.BeNull();
         }
 
         [Test]
         public void Input_Enum()
         {
-            SetAndVerifyValues(page.EnumTextInput, InputPage.Option.OptionA, InputPage.Option.OptionC);
+            var control = page.EnumTextInput;
 
-            VerifyDoesNotEqual(page.EnumTextInput, InputPage.Option.OptionD);
+            SetAndVerifyValues(control, InputPage.Option.OptionA, InputPage.Option.OptionC);
+
+            VerifyDoesNotEqual(control, InputPage.Option.OptionD);
         }
 
         [Test]
         public void Input_NullableEnum()
         {
-            VerifyEquals(page.NullableEnumTextInput, null);
+            var control = page.NullableEnumTextInput;
 
-            SetAndVerifyValues(page.NullableEnumTextInput, InputPage.Option.OptionD, InputPage.Option.OptionA);
+            VerifyEquals(control, null);
 
-            VerifyDoesNotEqual(page.NullableEnumTextInput, InputPage.Option.OptionB);
+            SetAndVerifyValues(control, InputPage.Option.OptionD, InputPage.Option.OptionA);
+
+            VerifyDoesNotEqual(control, InputPage.Option.OptionB);
         }
 
         [Test]
         public void Input_Int()
         {
-            VerifyEquals(page.IntTextInput, null);
+            var control = page.IntTextInput;
 
-            SetAndVerifyValues(page.IntTextInput, 45, null, 57);
+            VerifyEquals(control, null);
 
-            VerifyDoesNotEqual(page.IntTextInput, 59);
+            SetAndVerifyValues(control, 45, null, 57);
 
-            page.IntTextInput.Should.BeGreater(55).
-                IntTextInput.Should.BeLess(60).
-                IntTextInput.Should.BeInRange(50, 60);
+            VerifyDoesNotEqual(control, 59);
+
+            control.Should.BeGreater(55);
+            control.Should.BeLess(60);
+            control.Should.BeInRange(50, 60);
         }
 
         [Test]
         public void NumberInput()
         {
-            VerifyEquals(page.NumberInput, null);
+            var control = page.NumberInput;
 
-            SetAndVerifyValues(page.NumberInput, 45, null, 57);
+            VerifyEquals(control, null);
 
-            VerifyDoesNotEqual(page.NumberInput, 59);
+            SetAndVerifyValues(control, 45, null, 57);
 
-            int? intNumber;
+            VerifyDoesNotEqual(control, 59);
 
-            page.NumberInput.Should.BeGreater(55).
-                NumberInput.Should.BeLess(60).
-                NumberInput.Should.BeInRange(50, 60).
-                NumberInput.Get(out intNumber);
+            control.Should.BeGreater(55);
+            control.Should.BeLess(60);
+            control.Should.BeInRange(50, 60);
+            control.Get(out int? intNumber);
 
             Assert.That(intNumber, Is.EqualTo(57));
 
-            page.NumberInput.SetRandom(out intNumber).
-                NumberInput.Should.Equal(intNumber);
+            control.SetRandom(out intNumber);
+            control.Should.Equal(intNumber);
+        }
+
+        [Test]
+        public void Input_File()
+        {
+            var control = page.FileInput;
+
+            VerifyEquals(control, null);
+
+            string assemblyName = $"{GetType().Assembly.GetName().Name}.dll";
+
+            control.Set(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assemblyName));
+
+            control.Should.EndWith(assemblyName);
+
+            control.Clear();
+            control.Should.BeNull();
         }
     }
 }
