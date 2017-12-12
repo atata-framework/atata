@@ -102,6 +102,17 @@ namespace Atata
             }
         }
 
+        /// <summary>
+        /// Gets the control that matches the specified XPath condition.
+        /// </summary>
+        /// <param name="itemName">Name of the item.</param>
+        /// <param name="xPathCondition">The XPath condition. For example: "@some-attr='some value'".</param>
+        /// <returns>The first item that matches the XPath condition.</returns>
+        public TItem GetByXPathCondition(string itemName, string xPathCondition)
+        {
+            return GetItemByInnerXPath(itemName, xPathCondition);
+        }
+
         private FindAttribute ResolveItemFindAttribute()
         {
             FindAttribute findAttribute = new FindControlListItemAttribute();
