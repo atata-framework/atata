@@ -2,6 +2,9 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Specifies the term settings.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct | AttributeTargets.Enum)]
     public class TermSettingsAttribute : MulticastAttribute, ITermSettings
     {
