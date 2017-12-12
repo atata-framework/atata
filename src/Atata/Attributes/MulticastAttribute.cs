@@ -7,7 +7,7 @@ namespace Atata
     /// Represents the base class for attributes that can be applied to component at any level (declared, parent component, assembly, global and component).
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
-    public abstract class MulticastAttribute : Attribute
+    public abstract class MulticastAttribute : Attribute, IPropertySettings
     {
         /// <summary>
         /// Gets or sets the target component names.
@@ -50,6 +50,11 @@ namespace Atata
             get { return TargetParentTypes?.SingleOrDefault(); }
             set { TargetParentTypes = new[] { value }; }
         }
+
+        /// <summary>
+        /// Gets the properties bag.
+        /// </summary>
+        public PropertyBag Properties { get; } = new PropertyBag();
 
         /// <summary>
         /// Determines whether the component name applies the name criteria.

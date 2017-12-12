@@ -21,7 +21,11 @@ namespace Atata
         /// <summary>
         /// Gets the method that returns a content for specified <see cref="IWebElement"/> element.
         /// </summary>
-        public Func<IWebElement, string> GetContent { get; }
+        public Func<IWebElement, string> GetContent
+        {
+            get { return Properties.Get<Func<IWebElement, string>>(nameof(GetContent)); }
+            private set { Properties[nameof(GetContent)] = value; }
+        }
 
         private Func<IWebElement, string> CreateGetContentDelegate(ContentSource source)
         {

@@ -5,7 +5,7 @@ namespace Atata
     /// <summary>
     /// Defines the settings to apply for the specified finding strategy of a control.
     /// </summary>
-    public class FindSettingsAttribute : MulticastAttribute, IPropertySettings
+    public class FindSettingsAttribute : MulticastAttribute
     {
         public FindSettingsAttribute()
         {
@@ -20,8 +20,6 @@ namespace Atata
         {
             FindAttributeType = findAttributeType;
         }
-
-        public PropertyBag Properties { get; } = new PropertyBag();
 
         /// <summary>
         /// Gets the type of the attribute to use for the control finding. Type should be inherited from <see cref="FindAttribute"/>.
