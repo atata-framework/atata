@@ -20,23 +20,27 @@ namespace Atata.Tests
         [Term(CutEnding = false)]
         public Select<_> TextSelect { get; private set; }
 
-        [Term("Text Select", CutEnding = false)]
+        [Term("Text Select")]
         [Format("Option {0}")]
-        public Select<_> FormattedTextSelect { get; private set; }
+        public Select<_> TextSelectWithFromat { get; private set; }
 
-        [Term("Text Select", CutEnding = false)]
+        [Term("Text Select")]
+        [SelectByText(TermMatch.Contains)]
+        public Select<_> TextSelectWithContainsMatch { get; private set; }
+
+        [Term("Text Select")]
         [SelectByText]
         public Select<Option, _> EnumSelectByText { get; private set; }
 
-        [Term("Text Select", CutEnding = false)]
+        [Term("Text Select")]
         [SelectByValue(TermCase.Pascal)]
         public Select<Option, _> EnumSelectByValue { get; private set; }
 
-        [Term("Int Select", CutEnding = false)]
-        [Format("0{0}")]
+        [Term("Int Select")]
+        [SelectByText(Format = "0{0}")]
         public Select<int, _> IntSelectByText { get; private set; }
 
-        [Term("Int Select", CutEnding = false)]
+        [Term("Int Select")]
         [SelectByValue]
         public Select<int, _> IntSelectByValue { get; private set; }
     }

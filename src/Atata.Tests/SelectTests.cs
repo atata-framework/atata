@@ -15,22 +15,48 @@ namespace Atata.Tests
         [Test]
         public void Select_String()
         {
-            VerifyEquals(page.TextSelect, "--select--");
+            var control = page.TextSelect;
 
-            SetAndVerifyValues(page.TextSelect, "Option A", "Option B");
+            VerifyEquals(control, "--select--");
+            control.SelectedIndex.Should.Equal(0);
 
-            VerifyDoesNotEqual(page.TextSelect, "Option C");
+            SetAndVerifyValues(control, "Option A", "Option B");
+            control.SelectedIndex.Should.Equal(2);
+            control.SelectedOption.Should.Equal("Option B");
+            control.Options[2].IsSelected.Should.BeTrue();
+            control.Options[0].IsSelected.Should.BeFalse();
+
+            VerifyDoesNotEqual(control, "Option C");
 
             Assert.Throws<NoSuchElementException>(() =>
-                page.TextSelect.Set("Missing Value"));
+                control.Set("Missing Value"));
+
+            control.Options.Should.EqualSequence("--select--", "Option A", "Option B", "Option C", "Option D");
         }
 
         [Test]
-        public void Select_String_Formatted()
+        public void Select_String_WithFormat()
         {
-            SetAndVerifyValues(page.FormattedTextSelect, "A", "B");
+            var control = page.TextSelectWithFromat;
 
-            VerifyDoesNotEqual(page.FormattedTextSelect, "C");
+            SetAndVerifyValues(control, "A", "B");
+
+            VerifyDoesNotEqual(control, "C");
+
+            control.Options[1].Should.Equal("A");
+            control.Options[4].Should.Equal("D");
+        }
+
+        [Test]
+        public void Select_String_WithMatch()
+        {
+            var control = page.TextSelectWithContainsMatch;
+
+            control.Set("A");
+            control.Should.Equal("Option A");
+
+            control.Set("C");
+            control.SelectedOption.Should.Equal("Option C");
         }
 
         [Test]
