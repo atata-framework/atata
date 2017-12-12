@@ -3,7 +3,7 @@
 namespace Atata
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Struct | AttributeTargets.Enum)]
-    public class TermSettingsAttribute : Attribute, ITermSettings, IPropertySettings
+    public class TermSettingsAttribute : MulticastAttribute, ITermSettings
     {
         public TermSettingsAttribute()
         {
@@ -24,8 +24,6 @@ namespace Atata
             Match = match;
             Case = termCase;
         }
-
-        public PropertyBag Properties { get; } = new PropertyBag();
 
         /// <summary>
         /// Gets the match.
