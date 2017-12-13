@@ -123,6 +123,12 @@ namespace Atata.Tests
             VerifyStringInput(page.EmailInput);
         }
 
+        [Test]
+        public void UrlInput()
+        {
+            VerifyStringInput(page.UrlInput);
+        }
+
         private void VerifyStringInput(Input<string, InputPage> control)
         {
             VerifyEquals(control, null);

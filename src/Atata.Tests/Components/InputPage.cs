@@ -37,5 +37,8 @@ namespace Atata.Tests
         public SearchInput<_> SearchInput { get; private set; }
 
         public EmailInput<_> EmailInput { get; private set; }
+
+        [Term("URL Input")]
+        public UrlInput<_> UrlInput { get; private set; }
     }
 }
