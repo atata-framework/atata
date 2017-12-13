@@ -106,5 +106,20 @@ namespace Atata.Tests
             control.Clear();
             control.Should.BeNull();
         }
+
+        [Test]
+        public void TelInput()
+        {
+            var control = page.TelInput;
+
+            VerifyEquals(control, null);
+
+            SetAndVerifyValues(control, "152-154-1456", null, "+11521541456");
+
+            VerifyDoesNotEqual(control, "2345325523");
+
+            control.Clear();
+            control.Should.BeNull();
+        }
     }
 }
