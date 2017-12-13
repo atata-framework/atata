@@ -32,7 +32,6 @@ namespace Atata.Tests
 
         public TelInput<_> TelInput { get; private set; }
 
-        [Term(CutEnding = false)]
-        public Input<string, _> FileInput { get; private set; }
+        public FileInput<_> FileInput { get; private set; }
     }
 }

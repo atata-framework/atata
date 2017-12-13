@@ -91,7 +91,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Input_File()
+        public void FileInput()
         {
             var control = page.FileInput;
 
