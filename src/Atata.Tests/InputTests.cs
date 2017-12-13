@@ -16,18 +16,7 @@ namespace Atata.Tests
         [Test]
         public void TextInput()
         {
-            var control = page.TextInput;
-
-            VerifyEquals(control, null);
-
-            SetAndVerifyValues(control, "Text1", null, "Text2");
-
-            VerifyDoesNotEqual(control, "Text3");
-
-            control.Append("0");
-            control.Should.Equal("Text20");
-            control.Clear();
-            control.Should.BeNull();
+            VerifyStringInput(page.TextInput);
         }
 
         [Test]
@@ -125,8 +114,17 @@ namespace Atata.Tests
         [Test]
         public void SearchInput()
         {
-            var control = page.SearchInput;
+            VerifyStringInput(page.SearchInput);
+        }
 
+        [Test]
+        public void EmailInput()
+        {
+            VerifyStringInput(page.EmailInput);
+        }
+
+        private void VerifyStringInput(Input<string, InputPage> control)
+        {
             VerifyEquals(control, null);
 
             SetAndVerifyValues(control, "Text1", null, "Text2");

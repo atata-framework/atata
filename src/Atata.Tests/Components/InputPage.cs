@@ -35,5 +35,7 @@ namespace Atata.Tests
         public FileInput<_> FileInput { get; private set; }
 
         public SearchInput<_> SearchInput { get; private set; }
+
+        public EmailInput<_> EmailInput { get; private set; }
     }
 }
