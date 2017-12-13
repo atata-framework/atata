@@ -33,5 +33,7 @@ namespace Atata.Tests
         public TelInput<_> TelInput { get; private set; }
 
         public FileInput<_> FileInput { get; private set; }
+
+        public SearchInput<_> SearchInput { get; private set; }
     }
 }

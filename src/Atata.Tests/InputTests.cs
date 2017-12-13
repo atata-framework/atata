@@ -121,5 +121,22 @@ namespace Atata.Tests
             control.Clear();
             control.Should.BeNull();
         }
+
+        [Test]
+        public void SearchInput()
+        {
+            var control = page.SearchInput;
+
+            VerifyEquals(control, null);
+
+            SetAndVerifyValues(control, "Text1", null, "Text2");
+
+            VerifyDoesNotEqual(control, "Text3");
+
+            control.Append("0");
+            control.Should.Equal("Text20");
+            control.Clear();
+            control.Should.BeNull();
+        }
     }
 }
