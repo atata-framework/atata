@@ -5,18 +5,34 @@ using System.Linq;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the building context for <see cref="AtataContext"/> creation.
+    /// It is used by <see cref="AtataContextBuilder"/>.
+    /// </summary>
     public class AtataBuildingContext : ICloneable
     {
         internal AtataBuildingContext()
         {
         }
 
+        /// <summary>
+        /// Gets the driver factories.
+        /// </summary>
         public List<IDriverFactory> DriverFactories { get; private set; } = new List<IDriverFactory>();
 
+        /// <summary>
+        /// Gets the log consumers.
+        /// </summary>
         public List<LogConsumerInfo> LogConsumers { get; private set; } = new List<LogConsumerInfo>();
 
+        /// <summary>
+        /// Gets the screenshot consumers.
+        /// </summary>
         public List<IScreenshotConsumer> ScreenshotConsumers { get; private set; } = new List<IScreenshotConsumer>();
 
+        /// <summary>
+        /// Gets the driver factory to use.
+        /// </summary>
         public IDriverFactory DriverFactoryToUse { get; internal set; }
 
         /// <summary>
