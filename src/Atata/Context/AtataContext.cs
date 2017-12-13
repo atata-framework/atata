@@ -65,6 +65,8 @@ namespace Atata
         /// </summary>
         public static DateTime? BuildStart { get; private set; }
 
+        internal IDriverFactory DriverFactory { get; set; }
+
         /// <summary>
         /// Gets the driver.
         /// </summary>
@@ -191,7 +193,7 @@ namespace Atata
                 UIComponentResolver.CleanUpPageObject(PageObject);
 
             if (quitDriver)
-                Driver.Quit();
+                Driver.Dispose();
 
             Log.EndSection();
 
@@ -205,6 +207,28 @@ namespace Atata
                 Current = null;
 
             disposed = true;
+        }
+
+        /// <summary>
+        /// Restarts the driver.
+        /// </summary>
+        public void RestartDriver()
+        {
+            Log.Start("Restart driver");
+
+            CleanUpTemporarilyPreservedPageObjectList();
+
+            if (PageObject != null)
+            {
+                UIComponentResolver.CleanUpPageObject(PageObject);
+                PageObject = null;
+            }
+
+            Driver.Dispose();
+
+            Driver = DriverFactory.Create();
+
+            Log.EndSection();
         }
 
         internal void CleanUpTemporarilyPreservedPageObjectList()

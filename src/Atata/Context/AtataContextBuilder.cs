@@ -541,6 +541,7 @@ namespace Atata
                 context.Log.Trace($"Set: Culture={BuildingContext.Culture.Name}");
             }
 
+            context.DriverFactory = BuildingContext.DriverFactoryToUse;
             context.Driver = BuildingContext.DriverFactoryToUse?.Create() ?? new FirefoxDriver();
             context.DriverAlias = BuildingContext.DriverFactoryToUse?.Alias ?? DriverAliases.Firefox;
 
