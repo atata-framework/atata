@@ -492,6 +492,8 @@ namespace Atata
         {
             AtataContext.InitGlobalVariables();
 
+            ValidateBuildingContextBeforeBuild();
+
             LogManager logManager = new LogManager();
 
             foreach (var logConsumerItem in BuildingContext.LogConsumers)
@@ -542,8 +544,12 @@ namespace Atata
             }
 
             context.DriverFactory = BuildingContext.DriverFactoryToUse;
-            context.Driver = BuildingContext.DriverFactoryToUse?.Create() ?? new FirefoxDriver();
-            context.DriverAlias = BuildingContext.DriverFactoryToUse?.Alias ?? DriverAliases.Firefox;
+            context.Driver = BuildingContext.DriverFactoryToUse.Create();
+
+            if (context.Driver == null)
+                throw new InvalidOperationException($"Failed to build {nameof(AtataContext)} as driver factory returned 'null' as a driver.");
+
+            context.DriverAlias = BuildingContext.DriverFactoryToUse.Alias;
 
             context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
 
@@ -554,6 +560,12 @@ namespace Atata
             context.CleanExecutionStartDateTime = DateTime.Now;
 
             return context;
+        }
+
+        private void ValidateBuildingContextBeforeBuild()
+        {
+            if (BuildingContext.DriverFactoryToUse == null)
+                throw new InvalidOperationException($"Cannot build {nameof(AtataContext)} as no driver is specified. Use one of 'Use*' methods to specify which to driver to use, e.g.: AtataContext.Configure().UseChrome().Build();");
         }
     }
 }

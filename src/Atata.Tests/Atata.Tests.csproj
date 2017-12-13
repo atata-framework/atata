@@ -61,6 +61,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AtataContextBuilderTests.cs" />
     <Compile Include="AtataContextTests.cs" />
     <Compile Include="AtataSettings.cs" />
     <Compile Include="CheckBoxListTests.cs" />
