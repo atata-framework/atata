@@ -104,6 +104,7 @@
     <Compile Include="ListTests.cs" />
     <Compile Include="MultiDriverTests.cs" />
     <Compile Include="NUnitSettings.cs" />
+    <Compile Include="OrdinaryPageTests.cs" />
     <Compile Include="RandomizationTests.cs" />
     <Compile Include="ShouldTests.cs" />
     <Compile Include="StringListLogConsumer.cs" />

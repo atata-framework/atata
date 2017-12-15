@@ -69,7 +69,9 @@ namespace Atata
 
         internal void Init()
         {
-            ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
+            if (string.IsNullOrEmpty(ComponentName))
+                ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
+
             ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
 
             Log.Info($"Go to {ComponentFullName}");
