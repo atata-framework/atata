@@ -169,7 +169,9 @@
       <Link>chromedriver.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\packages\WebDriver.IEDriverServer.win32.3.6.0\content\IEDriverServer.exe">
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\packages\WebDriver.IEDriverServer.win32.3.8.0\content\IEDriverServer.exe">
       <Link>IEDriverServer.exe</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
