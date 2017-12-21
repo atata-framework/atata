@@ -6,9 +6,17 @@ using OpenQA.Selenium;
 namespace Atata
 {
     /// <summary>
-    /// Represents the checkbox list control (a set of &lt;input type="checkbox"&gt;). Default search is performed by the name. Specified checkbox items can be found by label or value. By default finds the items by the label. Use <see cref="FindItemByValueAttribute"/> to find the items by the value.
+    /// Represents the checkbox list control (a set of &lt;input type="checkbox"&gt;).
+    /// Default search is performed by the name.
+    /// Specific checkbox items can be found by label or value.
+    /// By default items are searched by label using <see cref="FindItemByLabelAttribute"/>.
+    /// Use <see cref="FindItemByValueAttribute"/> to find items by value.
+    /// Currently as a data type supports only enum (with <c>[Flags]</c>) types.
     /// </summary>
-    /// <typeparam name="T">The type of the control's data. Supports only enum types currently.</typeparam>
+    /// <typeparam name="T">
+    /// The type of the control's data.
+    /// Supports only enum (with <c>[Flags]</c>) types.
+    /// </typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='checkbox']", ComponentTypeName = "checkbox list", IgnoreNameEndings = "CheckBoxes,CheckBoxList,CheckBoxGroup,Options,OptionGroup")]
     [ControlFinding(FindTermBy.Name)]
