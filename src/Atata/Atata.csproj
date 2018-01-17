@@ -21,7 +21,7 @@ Features:
 - Configurable. Defines the default component search strategies as well as additional settings.
 - Logging. Built-in customizable logging and screenshot capturing functionality.
 - Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components.</Description>
-    <Copyright>© Yevgeniy Shunevych 2017</Copyright>
+    <Copyright>© Yevgeniy Shunevych 2018</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/atata-framework/atata/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://atata-framework.github.io/</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png?v2</PackageIconUrl>
