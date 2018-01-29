@@ -75,7 +75,26 @@ namespace Atata
             if (ScopeLocator == null)
                 throw new InvalidOperationException($"{nameof(ScopeLocator)} is missing.");
 
-            IWebElement element = OnGetScopeElement(searchOptions ?? new SearchOptions());
+            SearchOptions actualSearchOptions = searchOptions ?? new SearchOptions();
+
+            var cache = AtataContext.Current.UIComponentScopeCache;
+            bool isActivatedAccessChainCache = cache.AcquireActivationOfAccessChain();
+
+            IWebElement element;
+
+            try
+            {
+                if (!cache.TryGet(this, actualSearchOptions.Visibility, out element))
+                    element = OnGetScopeElement(actualSearchOptions);
+
+                if (!isActivatedAccessChainCache)
+                    cache.AddToAccessChain(this, actualSearchOptions.Visibility, element);
+            }
+            finally
+            {
+                if (isActivatedAccessChainCache)
+                    cache.ReleaseAccessChain();
+            }
 
             if (CacheScopeElement)
                 cachedScope = element;

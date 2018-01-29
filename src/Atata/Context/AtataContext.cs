@@ -132,6 +132,8 @@ namespace Atata
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
         }
 
+        internal UIComponentScopeCache UIComponentScopeCache { get; } = new UIComponentScopeCache();
+
         [Obsolete("Use Configure() instead.")] // Obsolete since v0.14.0.
         public static AtataContextBuilder Build()
         {
@@ -191,6 +193,8 @@ namespace Atata
 
             if (PageObject != null)
                 UIComponentResolver.CleanUpPageObject(PageObject);
+
+            UIComponentScopeCache.Clear();
 
             if (quitDriver)
                 Driver.Dispose();
