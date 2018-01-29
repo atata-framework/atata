@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 
 namespace Atata.Tests
@@ -86,6 +87,26 @@ namespace Atata.Tests
 
             Assert.Throws<AssertionException>(() =>
                 control.Should.AtOnce.Equal(value));
+        }
+
+        protected void VerifyLastLogMessages(params string[] expectedMessages)
+        {
+            Assert.That(GetLastLogMessages(expectedMessages.Length), Is.EqualTo(expectedMessages));
+        }
+
+        protected void VerifyLastLogMessagesContain(params string[] expectedMessages)
+        {
+            string[] actualMessages = GetLastLogMessages(expectedMessages.Length);
+
+            for (int i = 0; i < expectedMessages.Length; i++)
+            {
+                Assert.That(actualMessages[i], Does.Contain(expectedMessages[i]));
+            }
+        }
+
+        protected string[] GetLastLogMessages(int count)
+        {
+            return LogEntries.Reverse().Take(count).Reverse().Select(x => x.Message).ToArray();
         }
     }
 }

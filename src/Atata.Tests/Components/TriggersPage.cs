@@ -65,6 +65,9 @@ namespace Atata.Tests
         [WriteTriggerEvent(TriggerEvents.BeforeAccess | TriggerEvents.AfterAccess)]
         public TextInput<_> MissingInput { get; private set; }
 
+        [FindById]
+        public HierarchyControl Hierarchy { get; private set; }
+
         protected override void OnInit()
         {
             Triggers.Add(new LogInfoAttribute("Init-Lower", TriggerEvents.Init, TriggerPriority.Lower));
@@ -115,6 +118,37 @@ namespace Atata.Tests
             {
                 context.Log.Info(Message);
             }
+        }
+
+        public class HierarchyControl : Control<_>
+        {
+            public LevelItem1 Level1 { get; private set; }
+
+            public class LevelItem1 : LevelItem
+            {
+                public LevelItem2 Level2 { get; private set; }
+
+                public class LevelItem2 : LevelItem
+                {
+                    public LevelItem3 Level3 { get; private set; }
+
+                    public class LevelItem3 : LevelItem
+                    {
+                        public LevelItem4 Level4 { get; private set; }
+
+                        public class LevelItem4 : LevelItem
+                        {
+                        }
+                    }
+                }
+            }
+        }
+
+        [ControlDefinition("li", ComponentTypeName = "item")]
+        [ControlFinding(FindTermBy.Id)]
+        [HoverParent(AppliesTo = TriggerScope.Children)]
+        public class LevelItem : Control<_>
+        {
         }
     }
 }

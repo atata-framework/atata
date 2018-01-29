@@ -186,11 +186,20 @@ namespace Atata.Tests
                 "AfterSet-Lowest");
         }
 
-        private void VerifyLastLogMessages(params string[] expectedMessages)
+        [Test]
+        public void Trigger_ChainExecution()
         {
-            Assert.That(
-                LogEntries.Reverse().Take(expectedMessages.Length).Reverse().Select(x => x.Message).ToArray(),
-                Is.EqualTo(expectedMessages));
+            page.Hierarchy.Level1.Level2.Level3.Level4.Click();
+
+            VerifyLastLogMessagesContain(
+                "Starting: Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item",
+                "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
+                "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
+                "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item",
+                "Finished: Hover on \"Hierarchy\" control's \"Level 1\" item",
+                "Finished: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
+                "Finished: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
+                "Finished: Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item");
         }
     }
 }
