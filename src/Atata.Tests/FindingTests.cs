@@ -71,10 +71,14 @@ namespace Atata.Tests
         {
             page.VisibleInput.Should.Exist().
                 VisibleInput.Should.BeVisible().
-                FailDisplayNoneInput.Should.Not.Exist();
+                FailDisplayNoneInput.Should.Not.Exist().
+                FailOpacity0Input.Should.Not.Exist();
 
             Assert.Throws<NoSuchElementException>(() =>
                 page.FailDisplayNoneInput.Should.AtOnce.Exist());
+
+            Assert.Throws<NoSuchElementException>(() =>
+                page.FailOpacity0Input.Should.AtOnce.Exist());
         }
 
         [Test]
@@ -86,6 +90,8 @@ namespace Atata.Tests
                 HiddenInput.Should.BeHidden().
                 CollapseInput.Should.Exist().
                 CollapseInput.Should.BeHidden().
+                Opacity0Input.Should.Exist().
+                Opacity0Input.Should.BeHidden().
                 TypeHiddenInput.Should.Exist().
                 TypeHiddenInput.Should.BeHidden().
                 TypeHiddenInputWithDeclaredDefinition.Should.Exist().

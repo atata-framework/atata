@@ -49,6 +49,12 @@ namespace Atata.Tests
         [FindById(Visibility = Visibility.Hidden)]
         public TextInput<_> CollapseInput { get; private set; }
 
+        [FindById(Visibility = Visibility.Hidden)]
+        public TextInput<_> Opacity0Input { get; private set; }
+
+        [FindById("opacity-0-input")]
+        public TextInput<_> FailOpacity0Input { get; private set; }
+
         [FindById]
         public HiddenInput<_> TypeHiddenInput { get; private set; }
 
