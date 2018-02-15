@@ -155,5 +155,12 @@ namespace Atata.Tests
                 CountryTable.Rows.Count.Should.AtOnce.Equal(3).
                 CountryTable.Rows.SelectData(x => x.Capital).Should.Contain("Beijing");
         }
+
+        [Test]
+        public void Table_Rows_GetByXPathCondition()
+        {
+            page.
+                CountryTable.Rows.GetByXPathCondition("Paris", @"td[2][.='Paris']").Country.Should.Equal("France");
+        }
     }
 }
