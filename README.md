@@ -120,10 +120,13 @@ You can also check the following tutorials:
 
 Feel free to ask any questions regarding Atata Framework. Any feedback, issues and feature requests are welcome.
 
+You can [ask a question on Stack Overflow](https://stackoverflow.com/questions/ask?tags=atata) using [atata](https://stackoverflow.com/questions/tagged/atata) tag.
+
 If you faced an issue please report it to [Atata Issues](https://github.com/atata-framework/atata/issues), write to [Atata Gitter](https://gitter.im/atata-framework/atata) or just mail to yevgeniy.shunevych@gmail.com.
 
 ### Links
 
+* Stack Overflow: https://stackoverflow.com/questions/tagged/atata
 * Atata Issues: https://github.com/atata-framework/atata/issues
 * Atata Gitter: https://gitter.im/atata-framework/atata
 * Twitter: https://twitter.com/AtataFramework
