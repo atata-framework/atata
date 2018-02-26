@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the format of a control.
+    /// Specifies the data format of a control.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface)]
-    public class FormatAttribute : Attribute
+    public class FormatAttribute : MulticastAttribute
     {
         public FormatAttribute(string value)
         {

@@ -138,16 +138,12 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the format by searching the <see cref="FormatAttribute"/> and <see cref="FormatSettingsAttribute"/> at any attribute level or null if not found.
+        /// Gets the format by searching the <see cref="FormatAttribute"/> at any attribute level or null if not found.
         /// </summary>
         /// <returns>The format or null if not found.</returns>
         public string GetFormat()
         {
-            return Get<FormatAttribute>(AttributeLevels.Declared)?.Value
-                ?? Get<FormatSettingsAttribute>(
-                    AttributeLevels.ParentComponent | AttributeLevels.Assembly | AttributeLevels.Global,
-                    x => ComponentType.IsSubclassOfRawGeneric(x.ControlType))?.Value
-                ?? Get<FormatAttribute>(AttributeLevels.Component)?.Value;
+            return Get<FormatAttribute>(AttributeLevels.All)?.Value;
         }
     }
 }
