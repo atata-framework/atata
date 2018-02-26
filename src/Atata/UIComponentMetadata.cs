@@ -132,7 +132,9 @@ namespace Atata
         /// <returns>The <see cref="CultureInfo"/> instance.</returns>
         public CultureInfo GetCulture()
         {
-            return (Get<CultureAttribute>(AttributeLevels.All, x => x.HasValue) ?? new CultureAttribute()).GetCultureInfo();
+            string cultureName = Get<CultureAttribute>(AttributeLevels.All)?.Value;
+
+            return cultureName != null ? CultureInfo.GetCultureInfo(cultureName) : CultureInfo.CurrentCulture;
         }
 
         /// <summary>

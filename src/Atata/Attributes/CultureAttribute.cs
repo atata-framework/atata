@@ -1,15 +1,11 @@
-﻿using System;
-using System.Globalization;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Specifies the culture of a component.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Assembly)]
-    public class CultureAttribute : Attribute
+    public class CultureAttribute : MulticastAttribute
     {
-        public CultureAttribute(string value = null)
+        public CultureAttribute(string value)
         {
             Value = value;
         }
@@ -18,15 +14,5 @@ namespace Atata
         /// Gets the culture value.
         /// </summary>
         public string Value { get; private set; }
-
-        public bool HasValue
-        {
-            get { return !string.IsNullOrWhiteSpace(Value); }
-        }
-
-        public CultureInfo GetCultureInfo()
-        {
-            return HasValue ? new CultureInfo(Value) : CultureInfo.CurrentCulture;
-        }
     }
 }
