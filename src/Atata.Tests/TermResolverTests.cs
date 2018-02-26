@@ -50,8 +50,8 @@ namespace Atata.Tests
                 Add(1234.56f);
                 Add(1234.56, "C2", "$1,234.56");
                 Add(1234.5, "asw {0:N1}_", "asw 1,234.5_");
-                Add(0.25, "P0", "25 %");
-                Add(-0.257f, "tax {0:P1}", "tax -25.7 %");
+                Add(0.25, "P0", "25%");
+                Add(-0.257f, "tax {0:P1}", "tax -25.7%");
                 Add(15, "Percent: {0}%");
                 Add(Options.B);
                 Add(Options.D, null, "--d--");
