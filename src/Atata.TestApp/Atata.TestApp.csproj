@@ -62,6 +62,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="FrameSet.html" />
     <Content Include="FrameInner2.html" />
     <Content Include="DragAndDrop.html" />
     <Content Include="Heading.html" />

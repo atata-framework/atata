@@ -76,6 +76,7 @@
     <Compile Include="Components\FrameInner1Page.cs" />
     <Compile Include="Components\FrameInner1SelfSwitchingPage.cs" />
     <Compile Include="Components\FramePage.cs" />
+    <Compile Include="Components\FrameSetPage.cs" />
     <Compile Include="Components\GoTo1Page.cs" />
     <Compile Include="Components\GoTo2Page.cs" />
     <Compile Include="Components\GoTo3Page.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="ControlListTests.cs" />
     <Compile Include="ControlTests.cs" />
     <Compile Include="FindingWithSettingsTests.cs" />
+    <Compile Include="FrameSetTests.cs" />
     <Compile Include="FrameTests.cs" />
     <Compile Include="GoTests.cs" />
     <Compile Include="InputTests.cs" />
