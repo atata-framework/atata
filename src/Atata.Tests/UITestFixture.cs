@@ -18,7 +18,7 @@ namespace Atata.Tests
 
             AtataContext.Configure().
                 UseChrome().
-                    WithArguments("disable-extensions", "no-sandbox", "start-maximized", "disable-infobars").
+                    WithArguments("disable-extensions", "start-maximized", "disable-infobars").
 #if NETCOREAPP2_0
                     WithFixOfCommandExecutionDelay().
                     WithLocalDriverPath().
