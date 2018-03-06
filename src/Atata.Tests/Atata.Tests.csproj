@@ -61,6 +61,7 @@
     <Compile Include="..\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="AppConfig.cs" />
     <Compile Include="AtataContextBuilderTests.cs" />
     <Compile Include="AtataContextTests.cs" />
     <Compile Include="AtataSettings.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="ContentTests.cs" />
     <Compile Include="ControlListTests.cs" />
     <Compile Include="ControlTests.cs" />
+    <Compile Include="FileScreenshotConsumerTests.cs" />
     <Compile Include="FindingWithSettingsTests.cs" />
     <Compile Include="FrameSetTests.cs" />
     <Compile Include="FrameTests.cs" />

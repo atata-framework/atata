@@ -14,22 +14,16 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-#if NETCOREAPP2_0
-            string baseUrl = "http://localhost:50549";
-#else
-            string baseUrl = System.Configuration.ConfigurationManager.AppSettings["TestAppUrl"];
-#endif
-
             stringListLogConsumer = new StringListLogConsumer();
 
             AtataContext.Configure().
                 UseChrome().
-                    WithArguments("disable-extensions", "no-sandbox", "start-maximized").
+                    WithArguments("disable-extensions", "no-sandbox", "start-maximized", "disable-infobars").
 #if NETCOREAPP2_0
                     WithFixOfCommandExecutionDelay().
                     WithLocalDriverPath().
 #endif
-                UseBaseUrl(baseUrl).
+                UseBaseUrl(AppConfig.BaseUrl).
                 UseCulture("en-us").
                 UseNUnitTestName().
                 AddNUnitTestContextLogging().
