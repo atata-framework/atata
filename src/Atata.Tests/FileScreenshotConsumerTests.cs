@@ -6,19 +6,16 @@ using NUnit.Framework;
 namespace Atata.Tests
 {
     [TestFixture]
-    public class FileScreenshotConsumerTests
+    public class FileScreenshotConsumerTests : UITestFixtureBase
     {
-        private AtataContextBuilder<FileScreenshotConsumer> consumer;
+        private AtataContextBuilder<FileScreenshotConsumer> consumerBuilder;
+
         private List<string> foldersToDelete;
 
         [SetUp]
         public void SetUp()
         {
-            consumer = AtataContext.Configure().
-                UseChrome().
-                UseBaseUrl(AppConfig.BaseUrl).
-                UseNUnitTestName().
-                AddNUnitTestContextLogging().
+            consumerBuilder = ConfigureBaseAtataContext().
                 AddScreenshotFileSaving();
 
             foldersToDelete = new List<string>();
@@ -27,7 +24,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FolderPath_Relative()
         {
-            consumer.
+            consumerBuilder.
                 WithFolderPath(@"TestLogs\{build-start}\{test-name}").
                 Build();
 
@@ -49,7 +46,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FolderPath_Absolute()
         {
-            consumer.
+            consumerBuilder.
                 WithFolderPath(@"C:\TestLogs\{build-start}\{test-name}").
                 Build();
 
@@ -70,7 +67,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FolderPathBuilder()
         {
-            consumer.
+            consumerBuilder.
                 WithFolderPath(() => $@"TestLogs\{AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat)}\{AtataContext.Current.TestName}").
                 Build();
 
@@ -92,7 +89,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FileName()
         {
-            consumer.
+            consumerBuilder.
                 WithFileName(@"{screenshot-number:d3} {screenshot-title:* - }{screenshot-pageobjectname}").
                 Build();
 
@@ -116,7 +113,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FilePath()
         {
-            consumer.
+            consumerBuilder.
                 WithFilePath(@"TestLogs\{build-start}\Test {test-name}\{screenshot-number:d2}{screenshot-title: - *}").
                 Build();
 
@@ -137,10 +134,9 @@ namespace Atata.Tests
             FileAssert.Exists(Path.Combine(folderPath, "02 - Some title.png"));
         }
 
-        [TearDown]
-        public void TearDown()
+        public override void TearDown()
         {
-            AtataContext.Current?.CleanUp();
+            base.TearDown();
 
             foreach (string folderPath in foldersToDelete)
                 Directory.Delete(folderPath, true);

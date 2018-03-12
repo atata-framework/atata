@@ -129,6 +129,7 @@
     <Compile Include="TestCaseDataSource.cs" />
     <Compile Include="FindingTests.cs" />
     <Compile Include="UIComponentTests.cs" />
+    <Compile Include="UITestFixtureBase.cs" />
     <Compile Include="VerifyHeadingTests.cs" />
     <Compile Include="VerifyMissingTests.cs" />
     <Compile Include="WaitForElementTests.cs" />
