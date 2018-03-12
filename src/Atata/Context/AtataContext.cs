@@ -120,6 +120,16 @@ namespace Atata
         public TimeSpan BaseRetryInterval { get; internal set; }
 
         /// <summary>
+        /// Gets the element find timeout. The default value is 5 seconds.
+        /// </summary>
+        public TimeSpan ElementFindTimeout { get; internal set; }
+
+        /// <summary>
+        /// Gets the element find retry interval. The default value is 500 milliseconds.
+        /// </summary>
+        public TimeSpan ElementFindRetryInterval { get; internal set; }
+
+        /// <summary>
         /// Gets the waiting timeout. The default value is 5 seconds.
         /// </summary>
         public TimeSpan WaitingTimeout { get; internal set; }

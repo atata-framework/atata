@@ -372,6 +372,30 @@ namespace Atata
         }
 
         /// <summary>
+        /// Sets the element find timeout.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// </summary>
+        /// <param name="timeout">The retry timeout.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseElementFindTimeout(TimeSpan timeout)
+        {
+            BuildingContext.ElementFindTimeout = timeout;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the element find retry interval.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// </summary>
+        /// <param name="interval">The retry interval.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseElementFindRetryInterval(TimeSpan interval)
+        {
+            BuildingContext.ElementFindRetryInterval = interval;
+            return this;
+        }
+
+        /// <summary>
         /// Sets the waiting timeout.
         /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
         /// </summary>
@@ -562,6 +586,8 @@ namespace Atata
                 CleanUpActions = BuildingContext.CleanUpActions,
                 BaseRetryTimeout = BuildingContext.BaseRetryTimeout,
                 BaseRetryInterval = BuildingContext.BaseRetryInterval,
+                ElementFindTimeout = BuildingContext.ElementFindTimeout,
+                ElementFindRetryInterval = BuildingContext.ElementFindRetryInterval,
                 WaitingTimeout = BuildingContext.WaitingTimeout,
                 WaitingRetryInterval = BuildingContext.WaitingRetryInterval,
                 Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture,
@@ -577,10 +603,7 @@ namespace Atata
             if (context.BaseUrl != null)
                 context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
 
-            LogRetrySettings(context.BaseRetryTimeout, context.BaseRetryInterval);
-
-            if (context.WaitingTimeout != context.BaseRetryTimeout || context.WaitingRetryInterval != context.BaseRetryTimeout)
-                LogRetrySettings(context.WaitingTimeout, context.WaitingRetryInterval, "Waiting");
+            LogRetrySettings(context);
 
             if (BuildingContext.Culture != null)
             {
@@ -610,7 +633,7 @@ namespace Atata
 
             context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
 
-            context.Driver.Manage().Timeouts().SetRetryTimeout(BuildingContext.BaseRetryTimeout, BuildingContext.BaseRetryInterval);
+            context.Driver.Manage().Timeouts().SetRetryTimeout(BuildingContext.ElementFindTimeout, BuildingContext.ElementFindRetryInterval);
 
             context.Log.EndSection();
 
@@ -619,9 +642,11 @@ namespace Atata
             return context;
         }
 
-        private void LogRetrySettings(TimeSpan timeout, TimeSpan retryInterval, string groupName = null)
+        private void LogRetrySettings(AtataContext context)
         {
-            AtataContext.Current.Log.Trace($"Set: {groupName ?? "BaseRetry"}Timeout={timeout.ToIntervalString()}; {groupName ?? "Base"}RetryInterval={retryInterval.ToIntervalString()}");
+            string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
+            context.Log.Trace(messageFormat, "ElementFind", context.ElementFindTimeout.ToIntervalString(), context.ElementFindRetryInterval.ToIntervalString());
+            context.Log.Trace(messageFormat, "Waiting", context.WaitingTimeout.ToIntervalString(), context.WaitingRetryInterval.ToIntervalString());
         }
 
         private void ValidateBuildingContextBeforeBuild()

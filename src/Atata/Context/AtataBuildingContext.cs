@@ -11,6 +11,10 @@ namespace Atata
     /// </summary>
     public class AtataBuildingContext : ICloneable
     {
+        private TimeSpan? elementFindTimeout;
+
+        private TimeSpan? elementFindRetryInterval;
+
         private TimeSpan? waitingTimeout;
 
         private TimeSpan? waitingRetryInterval;
@@ -74,6 +78,26 @@ namespace Atata
         public TimeSpan BaseRetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
 
         /// <summary>
+        /// Gets the element find timeout.
+        /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// </summary>
+        public TimeSpan ElementFindTimeout
+        {
+            get => elementFindTimeout ?? BaseRetryTimeout;
+            internal set => elementFindTimeout = value;
+        }
+
+        /// <summary>
+        /// Gets the element find retry interval.
+        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// </summary>
+        public TimeSpan ElementFindRetryInterval
+        {
+            get => elementFindRetryInterval ?? BaseRetryInterval;
+            internal set => elementFindRetryInterval = value;
+        }
+
+        /// <summary>
         /// Gets the waiting timeout.
         /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to 5 seconds by default.
         /// </summary>
@@ -84,7 +108,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the waiting retry timeout.
+        /// Gets the waiting retry interval.
         /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
         /// </summary>
         public TimeSpan WaitingRetryInterval
