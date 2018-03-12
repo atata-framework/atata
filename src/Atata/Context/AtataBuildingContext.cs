@@ -11,6 +11,10 @@ namespace Atata
     /// </summary>
     public class AtataBuildingContext : ICloneable
     {
+        private TimeSpan? waitingTimeout;
+
+        private TimeSpan? waitingRetryInterval;
+
         internal AtataBuildingContext()
         {
         }
@@ -48,14 +52,34 @@ namespace Atata
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
 
         /// <summary>
-        /// Gets the retry timeout. The default value is 5 seconds.
+        /// Gets the base retry timeout. The default value is 5 seconds.
         /// </summary>
         public TimeSpan RetryTimeout { get; internal set; } = TimeSpan.FromSeconds(5);
 
         /// <summary>
-        /// Gets the retry interval. The default value is 500 milliseconds.
+        /// Gets the base retry interval. The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan RetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
+
+        /// <summary>
+        /// Gets the waiting timeout.
+        /// The default value is taken from <see cref="RetryTimeout"/>, which is equal to 5 seconds by default.
+        /// </summary>
+        public TimeSpan WaitingTimeout
+        {
+            get => waitingTimeout ?? RetryTimeout;
+            internal set => waitingTimeout = value;
+        }
+
+        /// <summary>
+        /// Gets the waiting retry timeout.
+        /// The default value is taken from <see cref="RetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// </summary>
+        public TimeSpan WaitingRetryInterval
+        {
+            get => waitingRetryInterval ?? RetryInterval;
+            internal set => waitingRetryInterval = value;
+        }
 
         /// <summary>
         /// Gets or sets the culture.

@@ -28,29 +28,29 @@
         public bool ThrowOnAbsenceFailure { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets the presence (exists or visible) timeout in seconds. The default value is taken from <c>AtataContext.Current.RetryTimeout.TotalSeconds</c>.
+        /// Gets or sets the presence (exists or visible) timeout in seconds. The default value is taken from <c>AtataContext.Current.WaitingTimeout.TotalSeconds</c>.
         /// </summary>
         public double PresenceTimeout
         {
-            get => presenceTimeout ?? (AtataContext.Current?.RetryTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            get => presenceTimeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
             set => presenceTimeout = value;
         }
 
         /// <summary>
-        /// Gets or sets the absence (missing or hidden) timeout in seconds. The default value is taken from <c>AtataContext.Current.RetryTimeout.TotalSeconds</c>.
+        /// Gets or sets the absence (missing or hidden) timeout in seconds. The default value is taken from <c>AtataContext.Current.WaitingTimeout.TotalSeconds</c>.
         /// </summary>
         public double AbsenceTimeout
         {
-            get => absenceTimeout ?? (AtataContext.Current?.RetryTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            get => absenceTimeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
             set => absenceTimeout = value;
         }
 
         /// <summary>
-        /// Gets or sets the retry interval. The default value is taken from <c>AtataContext.Current.RetryInterval.TotalSeconds</c>.
+        /// Gets or sets the retry interval. The default value is taken from <c>AtataContext.Current.WaitingRetryInterval.TotalSeconds</c>.
         /// </summary>
         public double RetryInterval
         {
-            get => retryInterval ?? (AtataContext.Current?.RetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            get => retryInterval ?? (AtataContext.Current?.WaitingRetryInterval ?? RetrySettings.Interval).TotalSeconds;
             set => retryInterval = value;
         }
     }

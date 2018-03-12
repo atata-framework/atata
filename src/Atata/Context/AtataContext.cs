@@ -98,14 +98,24 @@ namespace Atata
         public string BaseUrl { get; internal set; }
 
         /// <summary>
-        /// Gets the retry timeout. The default value is 5 seconds.
+        /// Gets the base retry timeout. The default value is 5 seconds.
         /// </summary>
         public TimeSpan RetryTimeout { get; internal set; }
 
         /// <summary>
-        /// Gets the retry interval. The default value is 500 milliseconds.
+        /// Gets the base retry interval. The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan RetryInterval { get; internal set; }
+
+        /// <summary>
+        /// Gets the waiting timeout. The default value is 5 seconds.
+        /// </summary>
+        public TimeSpan WaitingTimeout { get; internal set; }
+
+        /// <summary>
+        /// Gets the waiting retry interval. The default value is 500 milliseconds.
+        /// </summary>
+        public TimeSpan WaitingRetryInterval { get; internal set; }
 
         /// <summary>
         /// Gets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
