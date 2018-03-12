@@ -112,6 +112,7 @@
     <Compile Include="RandomizationTests.cs" />
     <Compile Include="ShouldTests.cs" />
     <Compile Include="StringListLogConsumer.cs" />
+    <Compile Include="DefaultTimeoutTests.cs" />
     <Compile Include="TriggerTests.cs" />
     <Compile Include="MessageBoxTests.cs" />
     <Compile Include="PageObjectTests.cs" />

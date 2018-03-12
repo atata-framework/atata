@@ -62,6 +62,9 @@ namespace Atata.Tests
 
         public WaitKind NavigatingWaitKind { get; set; }
 
+        [FindById("missing-id")]
+        public Control<_> MissingControl { get; private set; }
+
         protected override void OnInit()
         {
             base.OnInit();
