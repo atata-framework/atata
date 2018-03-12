@@ -49,6 +49,20 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void DefaultTimeout_ElementFindTimeout()
+        {
+            ConfigureBaseAtataContext().
+                UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
+                UseElementFindTimeout(TimeSpan.FromSeconds(3)).
+                Build();
+
+            var page = Go.To<WaitingPage>();
+
+            using (StopwatchAsserter.Within(3))
+                page.MissingControl.GetScope();
+        }
+
+        [Test]
         public void DefaultTimeout_WaitingTimeout()
         {
             ConfigureBaseAtataContext().
