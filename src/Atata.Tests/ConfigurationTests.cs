@@ -29,8 +29,8 @@ namespace Atata.Tests
                 UseBaseUrl("http://localhost:50549").
                 TakeScreenshotOnNUnitError().
                 AddScreenshotFileSaving().
-                UseRetryTimeout(TimeSpan.FromSeconds(100)).
-                UseRetryInterval(TimeSpan.FromSeconds(1)).
+                UseBaseRetryTimeout(TimeSpan.FromSeconds(100)).
+                UseBaseRetryInterval(TimeSpan.FromSeconds(1)).
                 BuildingContext;
 
             Assert.That(globalContext.TestNameFactory(), Is.EqualTo(nameof(Configuration_Mixed)));
@@ -48,8 +48,8 @@ namespace Atata.Tests
             Assert.That(currentContext.ScreenshotConsumers.First(), Is.TypeOf<FileScreenshotConsumer>());
             Assert.That(currentContext.BaseUrl, Is.EqualTo("http://localhost:50549"));
             Assert.That(currentContext.CleanUpActions, Has.Count.EqualTo(2));
-            Assert.That(currentContext.RetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
-            Assert.That(currentContext.RetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));
+            Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
+            Assert.That(currentContext.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));
         }
 
         [Test]
@@ -91,8 +91,8 @@ namespace Atata.Tests
                 UseBaseUrl("http://localhost:50549").
                 TakeScreenshotOnNUnitError().
                 AddScreenshotFileSaving().
-                UseRetryTimeout(TimeSpan.FromSeconds(100)).
-                UseRetryInterval(TimeSpan.FromSeconds(1)).
+                UseBaseRetryTimeout(TimeSpan.FromSeconds(100)).
+                UseBaseRetryInterval(TimeSpan.FromSeconds(1)).
                 Clear().
                 BuildingContext;
 
@@ -103,8 +103,8 @@ namespace Atata.Tests
             Assert.That(context.ScreenshotConsumers, Is.Empty);
             Assert.That(context.BaseUrl, Is.Null);
             Assert.That(context.CleanUpActions, Is.Empty);
-            Assert.That(context.RetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));
-            Assert.That(context.RetryInterval, Is.EqualTo(TimeSpan.FromSeconds(0.5)));
+            Assert.That(context.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));
+            Assert.That(context.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(0.5)));
         }
     }
 }

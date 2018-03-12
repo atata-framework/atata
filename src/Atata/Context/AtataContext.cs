@@ -100,12 +100,24 @@ namespace Atata
         /// <summary>
         /// Gets the base retry timeout. The default value is 5 seconds.
         /// </summary>
-        public TimeSpan RetryTimeout { get; internal set; }
+        [Obsolete("Use BaseRetryTimeout instead.")] // Obsolete since v0.17.0.
+        public TimeSpan RetryTimeout => BaseRetryTimeout;
 
         /// <summary>
         /// Gets the base retry interval. The default value is 500 milliseconds.
         /// </summary>
-        public TimeSpan RetryInterval { get; internal set; }
+        [Obsolete("Use BaseRetryInterval instead.")] // Obsolete since v0.17.0.
+        public TimeSpan RetryInterval => BaseRetryInterval;
+
+        /// <summary>
+        /// Gets the base retry timeout. The default value is 5 seconds.
+        /// </summary>
+        public TimeSpan BaseRetryTimeout { get; internal set; }
+
+        /// <summary>
+        /// Gets the base retry interval. The default value is 500 milliseconds.
+        /// </summary>
+        public TimeSpan BaseRetryInterval { get; internal set; }
 
         /// <summary>
         /// Gets the waiting timeout. The default value is 5 seconds.

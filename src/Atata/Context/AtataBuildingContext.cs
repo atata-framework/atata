@@ -54,30 +54,42 @@ namespace Atata
         /// <summary>
         /// Gets the base retry timeout. The default value is 5 seconds.
         /// </summary>
-        public TimeSpan RetryTimeout { get; internal set; } = TimeSpan.FromSeconds(5);
+        [Obsolete("Use BaseRetryTimeout instead.")] // Obsolete since v0.17.0.
+        public TimeSpan RetryTimeout => BaseRetryTimeout;
 
         /// <summary>
         /// Gets the base retry interval. The default value is 500 milliseconds.
         /// </summary>
-        public TimeSpan RetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
+        [Obsolete("Use BaseRetryInterval instead.")] // Obsolete since v0.17.0.
+        public TimeSpan RetryInterval => BaseRetryInterval;
+
+        /// <summary>
+        /// Gets the base retry timeout. The default value is 5 seconds.
+        /// </summary>
+        public TimeSpan BaseRetryTimeout { get; internal set; } = TimeSpan.FromSeconds(5);
+
+        /// <summary>
+        /// Gets the base retry interval. The default value is 500 milliseconds.
+        /// </summary>
+        public TimeSpan BaseRetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
 
         /// <summary>
         /// Gets the waiting timeout.
-        /// The default value is taken from <see cref="RetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to 5 seconds by default.
         /// </summary>
         public TimeSpan WaitingTimeout
         {
-            get => waitingTimeout ?? RetryTimeout;
+            get => waitingTimeout ?? BaseRetryTimeout;
             internal set => waitingTimeout = value;
         }
 
         /// <summary>
         /// Gets the waiting retry timeout.
-        /// The default value is taken from <see cref="RetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
         /// </summary>
         public TimeSpan WaitingRetryInterval
         {
-            get => waitingRetryInterval ?? RetryInterval;
+            get => waitingRetryInterval ?? BaseRetryInterval;
             internal set => waitingRetryInterval = value;
         }
 
