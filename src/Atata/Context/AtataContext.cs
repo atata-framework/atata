@@ -140,6 +140,16 @@ namespace Atata
         public TimeSpan WaitingRetryInterval { get; internal set; }
 
         /// <summary>
+        /// Gets the verification timeout. The default value is 5 seconds.
+        /// </summary>
+        public TimeSpan VerificationTimeout { get; internal set; }
+
+        /// <summary>
+        /// Gets the verification retry interval. The default value is 500 milliseconds.
+        /// </summary>
+        public TimeSpan VerificationRetryInterval { get; internal set; }
+
+        /// <summary>
         /// Gets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
         public CultureInfo Culture { get; internal set; }

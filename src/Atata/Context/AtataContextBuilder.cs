@@ -420,6 +420,30 @@ namespace Atata
         }
 
         /// <summary>
+        /// Sets the verification timeout.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// </summary>
+        /// <param name="timeout">The retry timeout.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseVerificationTimeout(TimeSpan timeout)
+        {
+            BuildingContext.VerificationTimeout = timeout;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the verification retry interval.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// </summary>
+        /// <param name="interval">The retry interval.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseVerificationRetryInterval(TimeSpan interval)
+        {
+            BuildingContext.VerificationRetryInterval = interval;
+            return this;
+        }
+
+        /// <summary>
         /// Sets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
         /// <param name="culture">The culture.</param>
@@ -590,6 +614,8 @@ namespace Atata
                 ElementFindRetryInterval = BuildingContext.ElementFindRetryInterval,
                 WaitingTimeout = BuildingContext.WaitingTimeout,
                 WaitingRetryInterval = BuildingContext.WaitingRetryInterval,
+                VerificationTimeout = BuildingContext.VerificationTimeout,
+                VerificationRetryInterval = BuildingContext.VerificationRetryInterval,
                 Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture,
                 AssertionExceptionType = BuildingContext.AssertionExceptionType
             };
@@ -647,6 +673,7 @@ namespace Atata
             string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
             context.Log.Trace(messageFormat, "ElementFind", context.ElementFindTimeout.ToIntervalString(), context.ElementFindRetryInterval.ToIntervalString());
             context.Log.Trace(messageFormat, "Waiting", context.WaitingTimeout.ToIntervalString(), context.WaitingRetryInterval.ToIntervalString());
+            context.Log.Trace(messageFormat, "Verification", context.VerificationTimeout.ToIntervalString(), context.VerificationRetryInterval.ToIntervalString());
         }
 
         private void ValidateBuildingContextBeforeBuild()

@@ -1,4 +1,5 @@
 ﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -42,8 +43,8 @@ namespace Atata
         {
             get
             {
-                Timeout = AtataContext.Current.BaseRetryTimeout;
-                RetryInterval = AtataContext.Current.BaseRetryInterval;
+                Timeout = AtataContext.Current.VerificationTimeout;
+                RetryInterval = AtataContext.Current.VerificationRetryInterval;
 
                 return (TVerificationProvider)this;
             }
@@ -81,17 +82,13 @@ namespace Atata
 
         protected virtual RetryOptions GetRetryOptions()
         {
-            RetryOptions options = new RetryOptions();
-
-            if (Timeout.HasValue)
-                options.Timeout = Timeout.Value;
-
-            if (RetryInterval.HasValue)
-                options.Interval = RetryInterval.Value;
-
-            options.IgnoringStaleElementReferenceException();
-
-            return options;
+            return new RetryOptions
+            {
+                Timeout = Timeout ?? AtataContext.Current.VerificationTimeout,
+                Interval = RetryInterval ?? AtataContext.Current.VerificationRetryInterval
+            }.
+            IgnoringStaleElementReferenceException().
+            IgnoringExceptionType(typeof(NoSuchElementException));
         }
     }
 }

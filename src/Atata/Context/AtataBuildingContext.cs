@@ -19,6 +19,10 @@ namespace Atata
 
         private TimeSpan? waitingRetryInterval;
 
+        private TimeSpan? verificationTimeout;
+
+        private TimeSpan? verificationRetryInterval;
+
         internal AtataBuildingContext()
         {
         }
@@ -115,6 +119,26 @@ namespace Atata
         {
             get => waitingRetryInterval ?? BaseRetryInterval;
             internal set => waitingRetryInterval = value;
+        }
+
+        /// <summary>
+        /// Gets the verification timeout.
+        /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// </summary>
+        public TimeSpan VerificationTimeout
+        {
+            get => verificationTimeout ?? BaseRetryTimeout;
+            internal set => verificationTimeout = value;
+        }
+
+        /// <summary>
+        /// Gets the verification retry interval.
+        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// </summary>
+        public TimeSpan VerificationRetryInterval
+        {
+            get => verificationRetryInterval ?? BaseRetryInterval;
+            internal set => verificationRetryInterval = value;
         }
 
         /// <summary>

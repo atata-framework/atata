@@ -41,11 +41,9 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            Assert.Throws<NoSuchElementException>(() =>
-            {
-                using (StopwatchAsserter.Within(2))
-                    page.MissingControl.Should.BeEnabled();
-            });
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.MissingControl.Should.BeEnabled());
         }
 
         [Test]
@@ -74,6 +72,37 @@ namespace Atata.Tests
 
             using (StopwatchAsserter.Within(3))
                 page.MissingControl.Wait(Until.Visible, new WaitOptions { ThrowOnPresenceFailure = false });
+        }
+
+        [Test]
+        public void DefaultTimeout_VerificationTimeout_DoesExist()
+        {
+            ConfigureBaseAtataContext().
+                UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
+                UseVerificationTimeout(TimeSpan.FromSeconds(3)).
+                Build();
+
+            var page = Go.To<WaitingPage>();
+
+            using (StopwatchAsserter.Within(3))
+                Assert.Throws<NoSuchElementException>(() => // TODO: Should expect AssertionException.
+                    page.MissingControl.Should.Exist());
+        }
+
+        [Test]
+        public void DefaultTimeout_VerificationTimeout_CheckDataProperty()
+        {
+            ConfigureBaseAtataContext().
+                UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
+                UseVerificationTimeout(TimeSpan.FromSeconds(3)).
+                UseVerificationRetryInterval(TimeSpan.FromSeconds(0)).// TODO: Remove after Atata.WebDriverExtras update to v1.0.0.
+                Build();
+
+            var page = Go.To<WaitingPage>();
+
+            using (StopwatchAsserter.Within(3))
+                Assert.Throws<AssertionException>(() =>
+                    page.MissingControl.IsEnabled.Should.BeTrue());
         }
     }
 }
