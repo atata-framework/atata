@@ -43,5 +43,12 @@ namespace Atata.Tests
 
             Assert.That(yOffset, Is.GreaterThan(200));
         }
+
+        [Test]
+        public void Control_ClickAndGo()
+        {
+            Go.To<GoTo1Page>().
+                GoTo2Control.ClickAndGo<GoTo2Page>();
+        }
     }
 }
