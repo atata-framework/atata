@@ -26,7 +26,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Clicks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// Clicks the control.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner Click()
@@ -48,7 +49,37 @@ namespace Atata
         }
 
         /// <summary>
-        /// Hovers the control. Also executes <see cref="TriggerEvents.BeforeHover" /> and <see cref="TriggerEvents.AfterHover" /> triggers.
+        /// Clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// </summary>
+        /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
+        /// <param name="navigateToPageObject">The page object instance to navigate to.</param>
+        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state. If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
+        /// <returns>The instance of <typeparamref name="TNavigateTo"/>.</returns>
+        public TNavigateTo ClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            Click();
+
+            return OnGo(navigateToPageObject, temporarily);
+        }
+
+        protected virtual TNavigateTo OnGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            bool isTemporarily = temporarily
+                ?? Metadata.Get<GoTemporarilyAttribute>(AttributeLevels.DeclaredAndComponent)?.IsTemporarily
+                ?? false;
+
+            TNavigateTo pageObject = navigateToPageObject
+                ?? (TNavigateTo)Metadata.Get<NavigationPageObjectCreatorAttribute>(AttributeLevels.DeclaredAndComponent)?.Creator?.Invoke();
+
+            return Go.To(pageObject: pageObject, navigate: false, temporarily: isTemporarily);
+        }
+
+        /// <summary>
+        /// Hovers the control.
+        /// Also executes <see cref="TriggerEvents.BeforeHover" /> and <see cref="TriggerEvents.AfterHover" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner Hover()
@@ -70,7 +101,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Focuses the control. Also executes <see cref="TriggerEvents.BeforeFocus" /> and <see cref="TriggerEvents.AfterFocus" /> triggers.
+        /// Focuses the control.
+        /// Also executes <see cref="TriggerEvents.BeforeFocus" /> and <see cref="TriggerEvents.AfterFocus" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner Focus()
@@ -92,7 +124,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Double-clicks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// Double-clicks the control.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner DoubleClick()
@@ -114,7 +147,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Right-clicks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// Right-clicks the control.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner RightClick()
@@ -136,7 +170,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>. By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
+        /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>.
+        /// By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="targetSelector">The target control selector.</param>
@@ -151,7 +186,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Drags and drops the control to the target control. By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
+        /// Drags and drops the control to the target control.
+        /// By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="target">The target control.</param>
@@ -205,7 +241,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Scrolls to the control. By default uses <see cref="ScrollUsingMoveToElementAttribute"/> behavior.
+        /// Scrolls to the control.
+        /// By default uses <see cref="ScrollUsingMoveToElementAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeScroll" /> and <see cref="TriggerEvents.AfterScroll" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>

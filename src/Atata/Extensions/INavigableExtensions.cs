@@ -1,11 +1,10 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     public static class INavigableExtensions
     {
         /// <summary>
         /// Clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
@@ -15,21 +14,7 @@ namespace Atata
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
         {
-            navigableControl.Click();
-
-            bool temporarily = navigableControl.Metadata.
-                Get<GoTemporarilyAttribute>(AttributeLevels.DeclaredAndComponent)?.
-                IsTemporarily ?? false;
-
-            Func<object> navigationPageObjectCreator = navigableControl.Metadata.
-                Get<NavigationPageObjectCreatorAttribute>(AttributeLevels.DeclaredAndComponent)?.
-                Creator;
-
-            TNavigateTo pageObject = navigationPageObjectCreator != null
-                ? (TNavigateTo)navigationPageObjectCreator()
-                : null;
-
-            return Go.To(pageObject: pageObject, navigate: false, temporarily: temporarily);
+            return navigableControl.ClickAndGo<TNavigateTo>();
         }
     }
 }

@@ -5,6 +5,9 @@
     {
         TOwner Click();
 
+        TNavigateTo ClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+            where TNavigateTo : PageObject<TNavigateTo>;
+
         TOwner Hover();
 
         TOwner Focus();
