@@ -147,6 +147,22 @@ namespace Atata
         }
 
         /// <summary>
+        /// Double-clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// </summary>
+        /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
+        /// <param name="navigateToPageObject">The page object instance to navigate to.</param>
+        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state. If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
+        /// <returns>The instance of <typeparamref name="TNavigateTo"/>.</returns>
+        public TNavigateTo DoubleClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+            where TNavigateTo : PageObject<TNavigateTo>
+        {
+            DoubleClick();
+
+            return OnGo(navigateToPageObject, temporarily);
+        }
+
+        /// <summary>
         /// Right-clicks the control.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
