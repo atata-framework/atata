@@ -18,17 +18,20 @@
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to throw the exception on the presence (exists or visible) failure. The default value is true.
+        /// Gets or sets a value indicating whether to throw the exception on the presence (exists or visible) failure.
+        /// The default value is <c>true</c>.
         /// </summary>
         public bool ThrowOnPresenceFailure { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets a value indicating whether to throw the exception on the absence (missing or hidden) failure. The default value is true.
+        /// Gets or sets a value indicating whether to throw the exception on the absence (missing or hidden) failure.
+        /// The default value is <c>true</c>.
         /// </summary>
         public bool ThrowOnAbsenceFailure { get; set; } = true;
 
         /// <summary>
-        /// Gets or sets the presence (exists or visible) timeout in seconds. The default value is taken from <c>AtataContext.Current.WaitingTimeout.TotalSeconds</c>.
+        /// Gets or sets the presence (exists or visible) timeout in seconds.
+        /// The default value is taken from <c>AtataContext.Current.WaitingTimeout.TotalSeconds</c>.
         /// </summary>
         public double PresenceTimeout
         {
@@ -37,7 +40,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the absence (missing or hidden) timeout in seconds. The default value is taken from <c>AtataContext.Current.WaitingTimeout.TotalSeconds</c>.
+        /// Gets or sets the absence (missing or hidden) timeout in seconds.
+        /// The default value is taken from <c>AtataContext.Current.WaitingTimeout.TotalSeconds</c>.
         /// </summary>
         public double AbsenceTimeout
         {
@@ -46,7 +50,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the retry interval. The default value is taken from <c>AtataContext.Current.WaitingRetryInterval.TotalSeconds</c>.
+        /// Gets or sets the retry interval in seconds.
+        /// The default value is taken from <c>AtataContext.Current.WaitingRetryInterval.TotalSeconds</c>.
         /// </summary>
         public double RetryInterval
         {
