@@ -78,7 +78,12 @@ namespace Atata
                 StringBuilder errorMessageBuilder = new StringBuilder("Timed out waiting for script.");
 
                 if (message != DefaultReportMessage)
-                    errorMessageBuilder.AppendLine().Append(message);
+                {
+                    errorMessageBuilder.Append(" ").Append(message);
+
+                    if (!message.EndsWith("."))
+                        errorMessageBuilder.Append(".");
+                }
 
                 throw new TimeoutException(errorMessageBuilder.ToString());
             }
