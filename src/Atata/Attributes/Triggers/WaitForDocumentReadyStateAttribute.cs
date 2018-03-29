@@ -1,21 +1,20 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    public class WaitForDocumentReadyStateAttribute : TriggerAttribute
+    /// <summary>
+    /// Indicates that the waiting should be performed until the document is ready/loaded.
+    /// By default occurs upon the page object initialization.
+    /// </summary>
+    public class WaitForDocumentReadyStateAttribute : WaitForScriptAttribute
     {
         public WaitForDocumentReadyStateAttribute(TriggerEvents on = TriggerEvents.Init, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
         }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
-            bool completed = context.Driver.Try().Until(
-                x => (bool)context.Driver.ExecuteScript("return document.readyState === 'complete'"));
+        protected override string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
+            => "Wait for document to be ready";
 
-            if (!completed)
-                throw new TimeoutException("Timed out waiting for document to be loaded/ready.");
-        }
+        protected override string BuildScript<TOwner>(TriggerContext<TOwner> context)
+            => "return document.readyState === 'complete'";
     }
 }
