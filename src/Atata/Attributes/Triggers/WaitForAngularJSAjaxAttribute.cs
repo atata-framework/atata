@@ -1,23 +1,21 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the waiting should be performed until the AngularJS (v1.*) AJAX is completed. By default occurs after the click.
+    /// Indicates that the waiting should be performed until the AngularJS (v1.*) AJAX is completed.
+    /// By default occurs after the click.
     /// </summary>
-    public class WaitForAngularJSAjaxAttribute : TriggerAttribute
+    public class WaitForAngularJSAjaxAttribute : WaitForScriptAttribute
     {
         public WaitForAngularJSAjaxAttribute(TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
         }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
-            context.Log.Start("Wait for AngularJS AJAX execution", LogLevel.Trace);
+        protected override string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
+            => "Wait for AngularJS AJAX execution";
 
-            bool isCompleted = context.Driver.Try().Until(
-                x => (bool)context.Driver.ExecuteScript(@"
+        protected override string BuildScript<TOwner>(TriggerContext<TOwner> context)
+            => @"
 try {
     if (document.readyState !== 'complete') {
         return false;
@@ -35,12 +33,6 @@ try {
     return true;
 } catch (err) {
   return false;
-}"));
-
-            context.Log.EndSection();
-
-            if (!isCompleted)
-                throw new TimeoutException("Timed out waiting for AngularJS AJAX call to complete.");
-        }
+}";
     }
 }
