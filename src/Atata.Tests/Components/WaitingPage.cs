@@ -38,6 +38,14 @@ namespace Atata.Tests
         [WaitForElement(WaitBy.Class, "result-block", Until.HiddenThenVisible)]
         public ButtonDelegate<_> ButtonWithHiddenAndVisibleWait { get; private set; }
 
+        [Term("Wait and Update Value")]
+        [CustomWaitForScript("New value", TriggerEvents.AfterClick)]
+        public ButtonDelegate<_> ButtonWithSuccessfullScriptWait { get; private set; }
+
+        [Term("Wait and Update Value")]
+        [CustomWaitForScript("New value", TriggerEvents.AfterClick, Timeout = 1)]
+        public ButtonDelegate<_> ButtonWithTimeoutScriptWait { get; private set; }
+
         [FindByClass("result-block")]
         public Text<_> Result { get; private set; }
 
@@ -91,6 +99,23 @@ namespace Atata.Tests
         {
             [FindById]
             public Text<_> ValueBlock { get; private set; }
+        }
+
+        public class CustomWaitForScriptAttribute : WaitForScriptAttribute
+        {
+            public CustomWaitForScriptAttribute(string expectedValue, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+                : base(on, priority)
+            {
+                ExpectedValue = expectedValue;
+            }
+
+            public string ExpectedValue { get; }
+
+            protected override string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
+                => $"Wait for result value to equal '{ExpectedValue}'";
+
+            protected override string BuildScript<TOwner>(TriggerContext<TOwner> context)
+                => $"return $('#value-block').text() == '{ExpectedValue}'";
         }
     }
 }
