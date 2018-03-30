@@ -15,11 +15,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="packages.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.3.0" />
     <PackageReference Include="NUnit" Version="3.8.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.8.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.37.0" />
-    <PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.6.0" />
+    <PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.11.1" />
   </ItemGroup>
 
   <ItemGroup>
