@@ -76,10 +76,13 @@ namespace Atata
             otherEventInfo.Level = logLevelsMap[eventInfo.Level];
             otherEventInfo.Message = eventInfo.Message;
             otherEventInfo.Exception = eventInfo.Exception;
-            otherEventInfo.Properties["build-start"] = eventInfo.BuildStart;
-            otherEventInfo.Properties["test-name"] = eventInfo.TestName;
-            otherEventInfo.Properties["test-start"] = eventInfo.TestStart;
-            otherEventInfo.Properties["driver-alias"] = eventInfo.DriverAlias;
+
+            var properties = (IDictionary<object, object>)otherEventInfo.Properties;
+
+            properties["build-start"] = eventInfo.BuildStart;
+            properties["test-name"] = eventInfo.TestName;
+            properties["test-start"] = eventInfo.TestStart;
+            properties["driver-alias"] = eventInfo.DriverAlias;
 
             logger.Log(otherEventInfo);
         }
