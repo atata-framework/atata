@@ -95,7 +95,6 @@ namespace Atata.Tests
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
                 UseVerificationTimeout(TimeSpan.FromSeconds(3)).
-                UseVerificationRetryInterval(TimeSpan.FromSeconds(0)).// TODO: Remove after Atata.WebDriverExtras update to v1.0.0.
                 Build();
 
             var page = Go.To<WaitingPage>();

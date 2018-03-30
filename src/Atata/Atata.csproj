@@ -70,8 +70,8 @@ Features:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atata.WebDriverExtras" Version="0.14.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.8.0" />
+    <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.11.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
