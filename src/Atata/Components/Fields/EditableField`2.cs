@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the base class for editable field controls. It can be used for controls like &lt;input&gt;, &lt;select&gt; and other editable controls.
+    /// Represents the base class for editable field controls.
+    /// It can be used for controls like &lt;input&gt;, &lt;select&gt; and other editable controls.
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
@@ -15,7 +16,9 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is read-only. By default checks "readonly" attribute of scope element. Override <see cref="GetIsReadOnly"/> method to change the behavior.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is read-only.
+        /// By default checks "readonly" attribute of scope element.
+        /// Override <see cref="GetIsReadOnly"/> method to change the behavior.
         /// </summary>
         public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only", GetIsReadOnly);
 
@@ -58,6 +61,7 @@ namespace Atata
         /// Sets the random value.
         /// For value generation uses randomization attributes, for example:
         /// <see cref="RandomizeStringSettingsAttribute"/>, <see cref="RandomizeNumberSettingsAttribute"/>, <see cref="RandomizeIncludeAttribute"/>, etc.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner SetRandom()
@@ -70,6 +74,7 @@ namespace Atata
         /// Sets the random value and records it to <paramref name="value"/> parameter.
         /// For value generation uses randomization attributes, for example:
         /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="value">The generated value.</param>
         /// <returns>The instance of the owner page object.</returns>
@@ -83,6 +88,7 @@ namespace Atata
         /// Sets the random value and invokes <paramref name="callback"/>.
         /// For value generation uses randomization attributes, for example:
         /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="callback">The callback to be invoked after the value is set.</param>
         /// <returns>The instance of the owner page object.</returns>

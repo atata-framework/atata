@@ -4,6 +4,9 @@
     {
         /// <summary>
         /// Sets the random value and records it to <paramref name="value"/> parameter.
+        /// For value generation uses randomization attributes, for example:
+        /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
         /// <param name="field">The editable field control.</param>
@@ -22,6 +25,9 @@
 
         /// <summary>
         /// Sets the random value and records it to <paramref name="value"/> parameter.
+        /// For value generation uses randomization attributes, for example:
+        /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
         /// <param name="field">The editable field control.</param>
@@ -40,6 +46,9 @@
 
         /// <summary>
         /// Sets the random value and records it to <paramref name="value"/> parameter.
+        /// For value generation uses randomization attributes, for example:
+        /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <typeparam name="TData">The type of the control's data.</typeparam>
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
