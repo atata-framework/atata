@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the base class for editable field controls. It can be used for controls like &lt;input&gt;, &lt;select&gt; and other editable controls.
@@ -34,7 +36,8 @@
         protected abstract void SetValue(T value);
 
         /// <summary>
-        /// Sets the value. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// Sets the value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="value">The value to set.</param>
         /// <returns>The instance of the owner page object.</returns>
@@ -52,7 +55,9 @@
         }
 
         /// <summary>
-        /// Sets the random value. For value generation uses randomization attributes, for example: <see cref="RandomizeStringSettingsAttribute"/>, <see cref="RandomizeNumberSettingsAttribute"/>, <see cref="RandomizeIncludeAttribute"/>, etc.
+        /// Sets the random value.
+        /// For value generation uses randomization attributes, for example:
+        /// <see cref="RandomizeStringSettingsAttribute"/>, <see cref="RandomizeNumberSettingsAttribute"/>, <see cref="RandomizeIncludeAttribute"/>, etc.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner SetRandom()
@@ -62,7 +67,9 @@
         }
 
         /// <summary>
-        /// Sets the random value and records it to <paramref name="value"/> parameter. For value generation uses randomization attributes, for example: <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// Sets the random value and records it to <paramref name="value"/> parameter.
+        /// For value generation uses randomization attributes, for example:
+        /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
         /// </summary>
         /// <param name="value">The generated value.</param>
         /// <returns>The instance of the owner page object.</returns>
@@ -70,6 +77,21 @@
         {
             value = GenerateRandomValue();
             return Set(value);
+        }
+
+        /// <summary>
+        /// Sets the random value and invokes <paramref name="callback"/>.
+        /// For value generation uses randomization attributes, for example:
+        /// <see cref="RandomizeStringSettingsAttribute" />, <see cref="RandomizeNumberSettingsAttribute" />, <see cref="RandomizeIncludeAttribute" />, etc.
+        /// </summary>
+        /// <param name="callback">The callback to be invoked after the value is set.</param>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner SetRandom(Action<T> callback)
+        {
+            T value = GenerateRandomValue();
+            Set(value);
+            callback?.Invoke(value);
+            return Owner;
         }
 
         /// <summary>
