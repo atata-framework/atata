@@ -142,6 +142,18 @@ namespace Atata.Tests
             VerifyNotExist(page.MissingOptionByColumnHeader);
         }
 
+        [Test]
+        public void Find_ControlDefinition_MultipleClasses()
+        {
+            page.SpanWithMultipleClasses.Should.Equal("Span with multiple classes");
+        }
+
+        [Test]
+        public void Find_ControlDefinition_MultipleClasses_Missing()
+        {
+            VerifyNotExist(page.MissingSpanWithMultipleClasses);
+        }
+
         private void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")
         {
             VerifyValue(radioButton, expectedValue);

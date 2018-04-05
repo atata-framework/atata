@@ -82,5 +82,11 @@ namespace Atata.Tests
 
         [FindByColumnHeader("unknown")]
         public RadioButton<_> MissingOptionByColumnHeader { get; private set; }
+
+        [ControlDefinition("span", ContainingClasses = new[] { "class-a", "class-c" })]
+        public Text<_> SpanWithMultipleClasses { get; private set; }
+
+        [ControlDefinition("span", ContainingClasses = new[] { "class-a", "class-d" })]
+        public Text<_> MissingSpanWithMultipleClasses { get; private set; }
     }
 }
