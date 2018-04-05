@@ -1,7 +1,12 @@
 ﻿using System;
+using System.Linq;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the base attribute class for component scope definition.
+    /// The basic definition is represented with XPath.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class ScopeDefinitionAttribute : Attribute
     {
@@ -12,18 +17,43 @@ namespace Atata
             baseScopeXPath = scopeXPath;
         }
 
-        public string ScopeXPath
+        /// <summary>
+        /// Gets the XPath of the scope element which is a combination of XPath passed through the constructor and <c>ContainingClasses</c> property values.
+        /// </summary>
+        public string ScopeXPath => BuildScopeXPath();
+
+        /// <summary>
+        /// Gets or sets the containing CSS class name.
+        /// </summary>
+        public string ContainingClass
         {
-            get
-            {
-                string scopeXPath = baseScopeXPath ?? "*";
-                if (string.IsNullOrWhiteSpace(ContainingClass))
-                    return scopeXPath;
-                else
-                    return string.Format("{0}[contains(concat(' ', normalize-space(@class), ' '), ' {1} ')]", scopeXPath, ContainingClass.Trim());
-            }
+            get => ContainingClasses?.SingleOrDefault();
+            set => ContainingClasses = new[] { value };
         }
 
-        public string ContainingClass { get; set; }
+        /// <summary>
+        /// Gets or sets the containing CSS class names.
+        /// Multiple class names are used in XPath as conditions with 'and' operator.
+        /// </summary>
+        public string[] ContainingClasses { get; set; }
+
+        /// <summary>
+        /// Builds the complete XPath of the scope element which is a combination of XPath passed through the constructor and <c>ContainingClasses</c> property values.
+        /// </summary>
+        /// <returns>The built XPath.</returns>
+        protected virtual string BuildScopeXPath()
+        {
+            string scopeXPath = baseScopeXPath ?? "*";
+
+            if (ContainingClasses?.Any() ?? false)
+            {
+                var classConditions = ContainingClasses.Select(x => $"contains(concat(' ', normalize-space(@class), ' '), ' {x.Trim()} ')");
+                return $"{scopeXPath}[{string.Join(" and ", classConditions)}]";
+            }
+            else
+            {
+                return scopeXPath;
+            }
+        }
     }
 }
