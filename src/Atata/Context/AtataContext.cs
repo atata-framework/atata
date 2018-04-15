@@ -159,6 +159,8 @@ namespace Atata
         /// </summary>
         public Type AssertionExceptionType { get; internal set; }
 
+        internal List<Action<RemoteWebDriver>> OnDriverCreatedActions { get; set; }
+
         internal List<Action> CleanUpActions { get; set; }
 
         public UIComponent PageObject { get; internal set; }
@@ -255,6 +257,29 @@ namespace Atata
             disposed = true;
         }
 
+        internal void InitDriver()
+        {
+            Driver = DriverFactory.Create()
+                ?? throw new InvalidOperationException($"Failed to create an instance of {nameof(RemoteWebDriver)} as driver factory returned 'null' as a driver.");
+
+            Driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
+
+            if (OnDriverCreatedActions != null)
+            {
+                foreach (Action<RemoteWebDriver> action in OnDriverCreatedActions)
+                {
+                    try
+                    {
+                        action(Driver);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Error($"On {nameof(AtataContext)} driver created action failure.", e);
+                    }
+                }
+            }
+        }
+
         /// <summary>
         /// Restarts the driver.
         /// </summary>
@@ -272,7 +297,7 @@ namespace Atata
 
             Driver.Dispose();
 
-            Driver = DriverFactory.Create();
+            InitDriver();
 
             Log.EndSection();
         }

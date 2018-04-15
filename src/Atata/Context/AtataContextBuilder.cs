@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
@@ -515,6 +516,18 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the action to perform after the driver is created.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder OnDriverCreated(Action<RemoteWebDriver> action)
+        {
+            if (action != null)
+                BuildingContext.OnDriverCreatedActions.Add(action);
+            return this;
+        }
+
+        /// <summary>
         /// Adds the action to perform during <see cref="AtataContext"/> cleanup.
         /// </summary>
         /// <param name="action">The action.</param>
@@ -633,7 +646,8 @@ namespace Atata
                 TestName = BuildingContext.TestNameFactory?.Invoke(),
                 BaseUrl = BuildingContext.BaseUrl,
                 Log = logManager,
-                CleanUpActions = BuildingContext.CleanUpActions,
+                OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>(),
+                CleanUpActions = BuildingContext.CleanUpActions?.ToList() ?? new List<Action>(),
                 BaseRetryTimeout = BuildingContext.BaseRetryTimeout,
                 BaseRetryInterval = BuildingContext.BaseRetryInterval,
                 ElementFindTimeout = BuildingContext.ElementFindTimeout,
@@ -674,16 +688,11 @@ namespace Atata
             }
 
             context.DriverFactory = BuildingContext.DriverFactoryToUse;
-            context.Driver = BuildingContext.DriverFactoryToUse.Create();
-
-            if (context.Driver == null)
-                throw new InvalidOperationException($"Failed to build {nameof(AtataContext)} as driver factory returned 'null' as a driver.");
-
             context.DriverAlias = BuildingContext.DriverFactoryToUse.Alias;
 
-            context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
+            context.InitDriver();
 
-            context.Driver.Manage().Timeouts().SetRetryTimeout(BuildingContext.ElementFindTimeout, BuildingContext.ElementFindRetryInterval);
+            context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
 
             OnBuilt(context);
 

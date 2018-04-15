@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -66,6 +67,11 @@ namespace Atata
         /// Gets the actions to perform after <see cref="AtataContext"/> building.
         /// </summary>
         public List<Action> OnBuiltActions { get; private set; } = new List<Action>();
+
+        /// <summary>
+        /// Gets the actions to perform after the driver is created.
+        /// </summary>
+        public List<Action<RemoteWebDriver>> OnDriverCreatedActions { get; private set; } = new List<Action<RemoteWebDriver>>();
 
         /// <summary>
         /// Gets the actions to perform during <see cref="AtataContext"/> cleanup.
