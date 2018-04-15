@@ -489,6 +489,32 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the action to perform during <see cref="AtataContext"/> building.
+        /// It will be executed at the beginning of the build after the log is set up.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder OnBuilding(Action action)
+        {
+            if (action != null)
+                BuildingContext.OnBuildingActions.Add(action);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the action to perform after <see cref="AtataContext"/> building.
+        /// It will be executed at the end of the build after the driver is created.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder OnBuilt(Action action)
+        {
+            if (action != null)
+                BuildingContext.OnBuiltActions.Add(action);
+            return this;
+        }
+
+        /// <summary>
         /// Adds the action to perform during <see cref="AtataContext"/> cleanup.
         /// </summary>
         /// <param name="action">The action.</param>
@@ -622,9 +648,7 @@ namespace Atata
 
             AtataContext.Current = context;
 
-            context.LogTestStart();
-
-            context.Log.Start("Set up AtataContext", LogLevel.Trace);
+            OnBuilding(context);
 
             if (context.BaseUrl != null)
                 context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
@@ -661,11 +685,53 @@ namespace Atata
 
             context.Driver.Manage().Timeouts().SetRetryTimeout(BuildingContext.ElementFindTimeout, BuildingContext.ElementFindRetryInterval);
 
+            OnBuilt(context);
+
+            return context;
+        }
+
+        private void OnBuilding(AtataContext context)
+        {
+            context.LogTestStart();
+
+            context.Log.Start("Set up AtataContext", LogLevel.Trace);
+
+            if (BuildingContext.OnBuildingActions != null)
+            {
+                foreach (Action action in BuildingContext.OnBuildingActions)
+                {
+                    try
+                    {
+                        action();
+                    }
+                    catch (Exception e)
+                    {
+                        context.Log.Error($"On {nameof(AtataContext)} building action failure.", e);
+                    }
+                }
+            }
+        }
+
+        private void OnBuilt(AtataContext context)
+        {
+            if (BuildingContext.OnBuiltActions != null)
+            {
+                foreach (Action action in BuildingContext.OnBuiltActions)
+                {
+                    try
+                    {
+                        action();
+                    }
+                    catch (Exception e)
+                    {
+                        context.Log.Error($"On {nameof(AtataContext)} built action failure.", e);
+                    }
+                }
+            }
+
             context.Log.EndSection();
 
             context.CleanExecutionStartDateTime = DateTime.Now;
-
-            return context;
         }
 
         private void LogRetrySettings(AtataContext context)

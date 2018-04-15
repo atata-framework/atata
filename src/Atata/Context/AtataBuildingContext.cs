@@ -57,6 +57,19 @@ namespace Atata
         /// </summary>
         public string BaseUrl { get; set; }
 
+        /// <summary>
+        /// Gets the actions to perform during <see cref="AtataContext"/> building.
+        /// </summary>
+        public List<Action> OnBuildingActions { get; private set; } = new List<Action>();
+
+        /// <summary>
+        /// Gets the actions to perform after <see cref="AtataContext"/> building.
+        /// </summary>
+        public List<Action> OnBuiltActions { get; private set; } = new List<Action>();
+
+        /// <summary>
+        /// Gets the actions to perform during <see cref="AtataContext"/> cleanup.
+        /// </summary>
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
 
         /// <summary>
@@ -168,6 +181,8 @@ namespace Atata
             copy.LogConsumers = LogConsumers.ToList();
             copy.ScreenshotConsumers = ScreenshotConsumers.ToList();
             copy.CleanUpActions = CleanUpActions.ToList();
+            copy.OnBuildingActions = OnBuildingActions.ToList();
+            copy.OnBuiltActions = OnBuiltActions.ToList();
 
             return copy;
         }
