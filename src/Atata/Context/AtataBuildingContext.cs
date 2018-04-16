@@ -186,9 +186,10 @@ namespace Atata
             copy.DriverFactories = DriverFactories.ToList();
             copy.LogConsumers = LogConsumers.ToList();
             copy.ScreenshotConsumers = ScreenshotConsumers.ToList();
-            copy.CleanUpActions = CleanUpActions.ToList();
             copy.OnBuildingActions = OnBuildingActions.ToList();
             copy.OnBuiltActions = OnBuiltActions.ToList();
+            copy.OnDriverCreatedActions = OnDriverCreatedActions.ToList();
+            copy.CleanUpActions = CleanUpActions.ToList();
 
             return copy;
         }
