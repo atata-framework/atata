@@ -451,7 +451,7 @@ namespace Atata
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
                 Metadata = metadata,
-                ElementXPath = definition?.ScopeXPath ?? "*",
+                ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath,
                 Index = index >= 0 ? (int?)index : null,
                 Visibility = findAttribute.Visibility,
                 OuterXPath = findAttribute.OuterXPath

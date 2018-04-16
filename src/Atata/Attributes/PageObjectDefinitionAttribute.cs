@@ -2,7 +2,7 @@
 {
     public class PageObjectDefinitionAttribute : UIComponentDefinitionAttribute
     {
-        public PageObjectDefinitionAttribute(string scopeXPath = null)
+        public PageObjectDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
             : base(scopeXPath)
         {
         }

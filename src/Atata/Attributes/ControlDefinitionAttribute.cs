@@ -2,7 +2,7 @@
 {
     public class ControlDefinitionAttribute : UIComponentDefinitionAttribute
     {
-        public ControlDefinitionAttribute(string scopeXPath = null)
+        public ControlDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
             : base(scopeXPath)
         {
         }

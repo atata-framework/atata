@@ -6,7 +6,7 @@ namespace Atata
     /// Represents the base class for the controls.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("*", ComponentTypeName = "control")]
+    [ControlDefinition(ComponentTypeName = "control")]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {

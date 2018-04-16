@@ -10,9 +10,11 @@ namespace Atata
     [AttributeUsage(AttributeTargets.Class)]
     public abstract class ScopeDefinitionAttribute : Attribute
     {
+        public const string DefaultScopeXPath = "*";
+
         private readonly string baseScopeXPath;
 
-        protected ScopeDefinitionAttribute(string scopeXPath = null)
+        protected ScopeDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
         {
             baseScopeXPath = scopeXPath;
         }
@@ -43,7 +45,7 @@ namespace Atata
         /// <returns>The built XPath.</returns>
         protected virtual string BuildScopeXPath()
         {
-            string scopeXPath = baseScopeXPath ?? "*";
+            string scopeXPath = baseScopeXPath ?? DefaultScopeXPath;
 
             if (ContainingClasses?.Any() ?? false)
             {

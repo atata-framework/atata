@@ -2,7 +2,7 @@
 {
     public class WindowTitleElementDefinitionAttribute : ScopeDefinitionAttribute
     {
-        public WindowTitleElementDefinitionAttribute(string scopeXPath = null)
+        public WindowTitleElementDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
             : base(scopeXPath)
         {
         }
