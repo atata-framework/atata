@@ -1,5 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
+using OpenQA.Selenium.Chrome;
 
 namespace Atata.Tests
 {
@@ -21,7 +22,12 @@ namespace Atata.Tests
 
             AtataContext.Configure().
                 UseChrome().
-                OnBuilding(() => executionsCount++).
+                OnBuilding(() =>
+                {
+                    Assert.That(AtataContext.Current.Log, Is.Not.Null);
+                    Assert.That(AtataContext.Current.Driver, Is.Null);
+                    executionsCount++;
+                }).
                 Build();
 
             Assert.That(executionsCount, Is.EqualTo(1));
@@ -42,13 +48,36 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void AtataContextBuilder_OnBuilt()
+        {
+            int executionsCount = 0;
+
+            AtataContext.Configure().
+                UseChrome().
+                OnBuilt(() =>
+                {
+                    Assert.That(AtataContext.Current.Log, Is.Not.Null);
+                    Assert.That(AtataContext.Current.Driver, Is.InstanceOf<ChromeDriver>());
+                    executionsCount++;
+                }).
+                Build();
+
+            Assert.That(executionsCount, Is.EqualTo(1));
+        }
+
+        [Test]
         public void AtataContextBuilder_OnDriverCreated()
         {
             int executionsCount = 0;
 
             AtataContext.Configure().
                 UseChrome().
-                OnDriverCreated(driver => executionsCount++).
+                OnDriverCreated(driver =>
+                {
+                    Assert.That(AtataContext.Current.Log, Is.Not.Null);
+                    Assert.That(driver, Is.Not.Null.And.EqualTo(AtataContext.Current.Driver));
+                    executionsCount++;
+                }).
                 Build();
 
             Assert.That(executionsCount, Is.EqualTo(1));
