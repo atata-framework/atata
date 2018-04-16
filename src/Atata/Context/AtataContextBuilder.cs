@@ -528,6 +528,16 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the action to perform after the driver is created.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder OnDriverCreated(Action action)
+        {
+            return action != null ? OnDriverCreated(x => action()) : this;
+        }
+
+        /// <summary>
         /// Adds the action to perform during <see cref="AtataContext"/> cleanup.
         /// </summary>
         /// <param name="action">The action.</param>
