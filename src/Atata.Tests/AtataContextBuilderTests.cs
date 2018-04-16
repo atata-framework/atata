@@ -3,8 +3,7 @@ using NUnit.Framework;
 
 namespace Atata.Tests
 {
-    [TestFixture]
-    public class AtataContextBuilderTests
+    public class AtataContextBuilderTests : UITestFixtureBase
     {
         [Test]
         public void AtataContextBuilder_Build_WithoutDriver()
@@ -13,6 +12,40 @@ namespace Atata.Tests
                AtataContext.Configure().Build());
 
             Assert.That(exception.Message, Does.Contain("no driver is specified"));
+        }
+
+        [Test]
+        public void AtataContextBuilder_OnDriverCreated()
+        {
+            int executionsCount = 0;
+
+            AtataContext.Configure().
+                UseChrome().
+                OnDriverCreated(driver =>
+                {
+                    executionsCount++;
+                }).
+                Build();
+
+            Assert.That(executionsCount, Is.EqualTo(1));
+        }
+
+        [Test]
+        public void AtataContextBuilder_OnDriverCreated_RestartDriver()
+        {
+            int executionsCount = 0;
+
+            AtataContext.Configure().
+                UseChrome().
+                OnDriverCreated(() =>
+                {
+                    executionsCount++;
+                }).
+                Build();
+
+            AtataContext.Current.RestartDriver();
+
+            Assert.That(executionsCount, Is.EqualTo(2));
         }
     }
 }
