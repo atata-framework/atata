@@ -241,7 +241,7 @@ namespace Atata
             UIComponentScopeCache.Clear();
 
             if (quitDriver)
-                Driver.Dispose();
+                Driver?.Dispose();
 
             Log.EndSection();
 
