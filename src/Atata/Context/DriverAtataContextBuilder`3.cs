@@ -168,7 +168,7 @@ namespace Atata
         /// <summary>
         /// Specifies that local/current directory should be used as the directory containing the driver executable file.
         /// Uses <c>AppDomain.CurrentDomain.BaseDirectory</c> as driver folder path.
-        /// This configuration options makes sense for .NET Core 2.0 project that uses driver as a project package (hosted in the same build directory).
+        /// This configuration option makes sense for .NET Core 2.0+ project that uses driver as a project package (hosted in the same build directory).
         /// </summary>
         /// <returns>The same builder instance.</returns>
         public TBuilder WithLocalDriverPath()
@@ -185,6 +185,19 @@ namespace Atata
         {
             this.driverExecutableFileName = driverExecutableFileName.CheckNotNullOrWhitespace(nameof(driverExecutableFileName));
             return (TBuilder)this;
+        }
+
+        /// <summary>
+        /// Specifies the host name of the service.
+        /// The default value is "localhost".
+        /// This configuration option makes sense for .NET Core 2.0 to be set to <c>"127.0.0.1"</c> for IPv4 and <c>"[::1]"</c> for IPv6.
+        /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra 1 second.
+        /// </summary>
+        /// <param name="hostName">The host name.</param>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithHostName(string hostName)
+        {
+            return WithDriverService(x => x.HostName = hostName);
         }
 
         /// <summary>
