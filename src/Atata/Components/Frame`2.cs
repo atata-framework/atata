@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the inline frame control (&lt;iframe&gt;). Default search finds the first occurring &lt;iframe&gt; element.
+    /// Represents the frame control (&lt;iframe&gt; or &lt;frame&gt;).
+    /// Default search finds the first occurring &lt;iframe&gt; or &lt;frame&gt; element.
     /// </summary>
     /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
