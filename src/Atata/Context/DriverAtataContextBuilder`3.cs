@@ -201,6 +201,18 @@ namespace Atata
         }
 
         /// <summary>
+        /// Specifies that the fix of driver's HTTP command execution delay should be applied.
+        /// Invokes <c>WithHostName("127.0.0.1")</c> method.
+        /// This configuration option makes sense for .NET Core 2.0 that works within IPv4.
+        /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra 1 second.
+        /// </summary>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithFixOfCommandExecutionDelay()
+        {
+            return WithHostName("127.0.0.1");
+        }
+
+        /// <summary>
         /// Specifies the command timeout (the maximum amount of time to wait for each command).
         /// </summary>
         /// <param name="commandTimeout">The maximum amount of time to wait for each command.</param>
