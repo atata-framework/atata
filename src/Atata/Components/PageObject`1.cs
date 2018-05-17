@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 
 namespace Atata
 {
@@ -408,6 +409,18 @@ namespace Atata
 
                 Log.EndSection();
             }
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
+        /// Performs the specified set of actions.
+        /// </summary>
+        /// <param name="actionsBuilder">The actions builder.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner PerformActions(Func<Actions, Actions> actionsBuilder)
+        {
+            Driver.Perform(actionsBuilder);
 
             return (TOwner)this;
         }
