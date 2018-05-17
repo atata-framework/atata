@@ -72,5 +72,15 @@ namespace Atata.Tests
                 Press("e").
                 TextInput.Should.Equal("abcd");
         }
+
+        [Test]
+        public void PageObject_ActiveControl()
+        {
+            Go.To<InputPage>().
+                TelInput.Set("123").
+                ActiveControl.Attributes.Value.Should.Equal("123").
+                IntTextInput.Focus().
+                ActiveControl.Attributes.Id.Should.Equal("int-text-input");
+        }
     }
 }
