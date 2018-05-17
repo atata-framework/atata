@@ -12,6 +12,8 @@ namespace Atata
     public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
         where TOwner : PageObject<TOwner>
     {
+        private Control<TOwner> activeControl;
+
         protected PageObject()
         {
             NavigateOnInit = true;
@@ -45,6 +47,19 @@ namespace Atata
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the URL of the current HTML page.
         /// </summary>
         public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
+
+        /// <summary>
+        /// Gets the active control.
+        /// </summary>
+        public Control<TOwner> ActiveControl
+        {
+            get
+            {
+                return activeControl ?? (activeControl = Controls.Create<Control<TOwner>>(
+                    "<Active>",
+                    new DynamicScopeLocator(so => Driver.SwitchTo().ActiveElement())));
+            }
+        }
 
         /// <summary>
         /// Creates the <see cref="By"/> instance for Scope search.
