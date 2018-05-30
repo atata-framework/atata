@@ -71,7 +71,7 @@ Features:
 
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.11.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.12.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
