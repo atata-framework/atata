@@ -20,8 +20,7 @@ namespace Atata.Tests
         {
             int executionsCount = 0;
 
-            AtataContext.Configure().
-                UseChrome().
+            ConfigureBaseAtataContext().
                 OnBuilding(() =>
                 {
                     Assert.That(AtataContext.Current.Log, Is.Not.Null);
@@ -52,8 +51,7 @@ namespace Atata.Tests
         {
             int executionsCount = 0;
 
-            AtataContext.Configure().
-                UseChrome().
+            ConfigureBaseAtataContext().
                 OnBuilt(() =>
                 {
                     Assert.That(AtataContext.Current.Log, Is.Not.Null);
@@ -70,8 +68,7 @@ namespace Atata.Tests
         {
             int executionsCount = 0;
 
-            AtataContext.Configure().
-                UseChrome().
+            ConfigureBaseAtataContext().
                 OnDriverCreated(driver =>
                 {
                     Assert.That(AtataContext.Current.Log, Is.Not.Null);
@@ -88,8 +85,7 @@ namespace Atata.Tests
         {
             int executionsCount = 0;
 
-            AtataContext.Configure().
-                UseChrome().
+            ConfigureBaseAtataContext().
                 OnDriverCreated(() => executionsCount++).
                 Build();
 
