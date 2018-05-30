@@ -182,6 +182,7 @@
     <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props'))" />
     <Error Condition="!Exists('..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets'))" />
     <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
+    <Error Condition="!Exists('..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets'))" />
   </Target>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
@@ -195,10 +196,5 @@
     </Content>
   </ItemGroup>
   <Import Project="..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets" Condition="Exists('..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets')" />
-  <ItemGroup>
-    <Content Include="..\packages\WebDriver.IEDriverServer.win32.3.9.0\content\IEDriverServer.exe">
-      <Link>IEDriverServer.exe</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+  <Import Project="..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets')" />
 </Project>
