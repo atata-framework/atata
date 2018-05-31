@@ -9,7 +9,10 @@
     <Product>Atata Framework</Product>
     <Description>C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
 
-Supports .NET Framework 4.0+ and .NET Core/Standard 2.0.
+Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
+
+Atata on GitHub: https://github.com/atata-framework/atata
+Atata Framework documentation: https://atata-framework.github.io
 
 Features:
 - WebDriver. Based on Selenium WebDriver and preserves all its features.
