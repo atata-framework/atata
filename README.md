@@ -8,7 +8,7 @@
 
 C#/.NET web UI test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern. Supports .NET Framework 4.0+ and .NET Core/Standard 2.0.
 
-**[What's new in v0.16.0](https://atata-framework.github.io/blog/2017/12/18/atata-0.16.0-released/)**
+**[What's new in v0.17.0](https://atata-framework.github.io/blog/2018/05/31/atata-0.17.0-released/)**
 
 ## Features
 
