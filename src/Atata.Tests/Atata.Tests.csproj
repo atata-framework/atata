@@ -90,6 +90,7 @@
     <Compile Include="Components\GoTo2Page.cs" />
     <Compile Include="Components\GoTo3Page.cs" />
     <Compile Include="Components\HeadingPage.cs" />
+    <Compile Include="Components\ImagePage.cs" />
     <Compile Include="Components\InputPage.cs" />
     <Compile Include="Components\LabelPage.cs" />
     <Compile Include="Components\ListPage.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="FrameSetTests.cs" />
     <Compile Include="FrameTests.cs" />
     <Compile Include="GoTests.cs" />
+    <Compile Include="ImageTests.cs" />
     <Compile Include="InputTests.cs" />
     <Compile Include="LabelTests.cs" />
     <Compile Include="ListTests.cs" />
