@@ -235,6 +235,14 @@ namespace Atata
                 return value;
 
             string[] formatParts = format.Split(new[] { "{0" }, 2, StringSplitOptions.None);
+
+            if (formatParts.Length != 2)
+            {
+                throw new ArgumentException(
+                    $"Incorrect \"{format}\" format for \"{value}\" string. Format should match regular expression: \".*{{0}}.*\".",
+                    nameof(format));
+            }
+
             formatParts[1] = formatParts[1].Substring(formatParts[1].IndexOf('}') + 1);
 
             string formatStart = formatParts[0];
