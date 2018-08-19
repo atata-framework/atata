@@ -244,7 +244,7 @@ namespace Atata
         public virtual TFramePageObject SwitchToFrame<TFramePageObject>(IWebElement frameElement, TFramePageObject framePageObject = null, bool temporarily = false)
             where TFramePageObject : PageObject<TFramePageObject>
         {
-            Log.Info("Switch to frame");
+            Log.Trace("Switch to frame");
             Driver.SwitchTo().Frame(frameElement);
             return Go.To(framePageObject, navigate: false, temporarily: temporarily);
         }
@@ -258,7 +258,7 @@ namespace Atata
         public virtual TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
             where TPageObject : PageObject<TPageObject>
         {
-            Log.Info("Switch to root page");
+            Log.Trace("Switch to root page");
             Driver.SwitchTo().DefaultContent();
             return Go.To(rootPageObject, navigate: false);
         }
