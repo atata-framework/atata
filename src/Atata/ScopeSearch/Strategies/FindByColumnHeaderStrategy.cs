@@ -23,7 +23,7 @@ namespace Atata
             var headerNamePredicate = options.Match.GetPredicate();
 
             int? columnIndex = headers.
-                Select((x, i) => new { Text = x.Text, Index = i }).
+                Select((x, i) => new { x.Text, Index = i }).
                 Where(x => options.Terms.Any(term => headerNamePredicate(x.Text, term))).
                 Select(x => (int?)x.Index).
                 FirstOrDefault();
