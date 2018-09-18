@@ -1,7 +1,9 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the right click on the parent component should occur on the specified event. By default occurs before any access to the component. Is useful for the context menu item controls.
+    /// Indicates that the right click on the parent component should occur on the specified event.
+    /// By default occurs before any access to the component.
+    /// Is useful for the context menu item controls.
     /// </summary>
     public class RightClickParentAttribute : TriggerAttribute
     {
