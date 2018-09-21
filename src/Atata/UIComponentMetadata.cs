@@ -82,16 +82,40 @@ namespace Atata
             Concat(ComponentAttributesList);
 
         /// <summary>
-        /// Gets the first attribute of the specified type or null if no such attribute is found.
+        /// Gets the first attribute of the specified type or <c>null</c> if no such attribute is found.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
+        /// <returns>The first attribute found or <c>null</c>.</returns>
+        public TAttribute Get<TAttribute>(Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
+        {
+            return Get(AttributeLevels.All, predicate, filterByTarget);
+        }
+
+        /// <summary>
+        /// Gets the first attribute of the specified type or <c>null</c> if no such attribute is found.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
         /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
-        /// <returns>The first attribute found or null.</returns>
+        /// <returns>The first attribute found or <c>null</c>.</returns>
         public TAttribute Get<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
         {
             return GetAll(levels, predicate, filterByTarget).FirstOrDefault();
+        }
+
+        /// <summary>
+        /// Gets the sequence of attributes of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
+        /// <returns>The sequence of attributes found.</returns>
+        public IEnumerable<TAttribute> GetAll<TAttribute>(Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
+        {
+            return GetAll(AttributeLevels.All, predicate, filterByTarget);
         }
 
         /// <summary>
