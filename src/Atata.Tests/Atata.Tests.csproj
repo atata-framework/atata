@@ -107,6 +107,7 @@
     <Compile Include="ContentTests.cs" />
     <Compile Include="ControlListTests.cs" />
     <Compile Include="ControlTests.cs" />
+    <Compile Include="CustomControlTests.cs" />
     <Compile Include="FileScreenshotConsumerTests.cs" />
     <Compile Include="FindingWithSettingsTests.cs" />
     <Compile Include="FrameSetTests.cs" />
