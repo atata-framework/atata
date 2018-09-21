@@ -4,6 +4,7 @@ namespace Atata
 {
     /// <summary>
     /// Defines the term settings to apply for the specified finding strategy of a control.
+    /// By default has its <see cref="MulticastAttribute.TargetAnyType"/> property set to <c>true</c>.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
     public class TermFindSettingsAttribute : FindSettingsAttribute, ITermSettings

@@ -4,10 +4,12 @@ namespace Atata
 {
     /// <summary>
     /// Defines the settings to apply for the specified finding strategy of a control.
+    /// By default has its <see cref="MulticastAttribute.TargetAnyType"/> property set to <c>true</c>.
     /// </summary>
     public class FindSettingsAttribute : MulticastAttribute
     {
         public FindSettingsAttribute()
+            : this(null)
         {
         }
 
@@ -19,6 +21,7 @@ namespace Atata
         public FindSettingsAttribute(Type findAttributeType)
         {
             FindAttributeType = findAttributeType;
+            TargetAnyType = true;
         }
 
         /// <summary>

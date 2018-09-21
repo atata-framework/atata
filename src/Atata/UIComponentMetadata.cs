@@ -7,6 +7,16 @@ namespace Atata
 {
     public class UIComponentMetadata
     {
+        private AttributeSearchSet declaredAttributeSet;
+
+        private AttributeSearchSet parentComponentAttributeSet;
+
+        private AttributeSearchSet assemblyAttributeSet;
+
+        private AttributeSearchSet globalAttributeSet;
+
+        private AttributeSearchSet componentAttributeSet;
+
         public UIComponentMetadata(
             string name,
             Type componentType,
@@ -25,15 +35,35 @@ namespace Atata
 
         public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }
 
-        internal List<Attribute> DeclaredAttributesList { get; set; }
+        internal List<Attribute> DeclaredAttributesList
+        {
+            get => declaredAttributeSet.Attributes;
+            set => declaredAttributeSet = new AttributeSearchSet(value);
+        }
 
-        internal List<Attribute> ParentComponentAttributesList { get; set; }
+        internal List<Attribute> ParentComponentAttributesList
+        {
+            get => parentComponentAttributeSet.Attributes;
+            set => parentComponentAttributeSet = new AttributeSearchSet(value) { IsOnlyTargeted = true };
+        }
 
-        internal List<Attribute> AssemblyAttributesList { get; set; }
+        internal List<Attribute> AssemblyAttributesList
+        {
+            get => assemblyAttributeSet.Attributes;
+            set => assemblyAttributeSet = new AttributeSearchSet(value);
+        }
 
-        internal List<Attribute> GlobalAttributesList { get; set; }
+        internal List<Attribute> GlobalAttributesList
+        {
+            get => globalAttributeSet.Attributes;
+            set => globalAttributeSet = new AttributeSearchSet(value);
+        }
 
-        internal List<Attribute> ComponentAttributesList { get; set; }
+        internal List<Attribute> ComponentAttributesList
+        {
+            get => componentAttributeSet.Attributes;
+            set => componentAttributeSet = new AttributeSearchSet(value);
+        }
 
         public IEnumerable<Attribute> DeclaredAttributes => DeclaredAttributesList.AsEnumerable();
 
@@ -78,46 +108,51 @@ namespace Atata
             return FilterAttributeSets(attributeSets, predicate, filterByTarget);
         }
 
-        private IEnumerable<IEnumerable<Attribute>> GetAllAttributeSets(AttributeLevels level)
+        private IEnumerable<AttributeSearchSet> GetAllAttributeSets(AttributeLevels level)
         {
             if (level.HasFlag(AttributeLevels.Declared))
-                yield return DeclaredAttributesList;
+                yield return declaredAttributeSet;
 
             if (level.HasFlag(AttributeLevels.ParentComponent))
-                yield return ParentComponentAttributes;
+                yield return parentComponentAttributeSet;
 
             if (level.HasFlag(AttributeLevels.Assembly))
-                yield return AssemblyAttributesList;
+                yield return assemblyAttributeSet;
 
             if (level.HasFlag(AttributeLevels.Global))
-                yield return GlobalAttributesList;
+                yield return globalAttributeSet;
 
             if (level.HasFlag(AttributeLevels.Component))
-                yield return ComponentAttributesList;
+                yield return componentAttributeSet;
         }
 
-        private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(IEnumerable<IEnumerable<Attribute>> attributeSets, Func<TAttribute, bool> predicate, bool filterByTarget)
+        private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(IEnumerable<AttributeSearchSet> attributeSets, Func<TAttribute, bool> predicate, bool filterByTarget)
         {
             bool shouldFilterByTarget = filterByTarget && typeof(MulticastAttribute).IsAssignableFrom(typeof(TAttribute));
 
-            foreach (IEnumerable<Attribute> set in attributeSets)
+            foreach (AttributeSearchSet set in attributeSets)
             {
-                var query = set.OfType<TAttribute>();
+                var query = set.Attributes.OfType<TAttribute>();
 
                 if (predicate != null)
                     query = query.Where(predicate);
 
                 if (shouldFilterByTarget)
-                    query = FilterAndOrderByTarget(query);
+                    query = FilterAndOrderByTarget(query, set.IsOnlyTargeted);
 
                 foreach (TAttribute attribute in query)
                     yield return attribute;
             }
         }
 
-        private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes)
+        private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes, bool isOnlyTargeted)
         {
-            return attributes.OfType<MulticastAttribute>().
+            var query = attributes.OfType<MulticastAttribute>();
+
+            if (isOnlyTargeted)
+                query = query.Where(x => x.IsTargetSpecified);
+
+            return query.
                 Select(x => new { Attribute = x, Rank = x.CalculateTargetRank(this) }).
                 ToArray().
                 Where(x => x.Rank.HasValue).
@@ -144,6 +179,16 @@ namespace Atata
         public string GetFormat()
         {
             return Get<FormatAttribute>(AttributeLevels.All)?.Value;
+        }
+
+        private class AttributeSearchSet
+        {
+            public AttributeSearchSet(List<Attribute> attributes) =>
+                Attributes = attributes;
+
+            public List<Attribute> Attributes { get; private set; }
+
+            public bool IsOnlyTargeted { get; set; }
         }
     }
 }
