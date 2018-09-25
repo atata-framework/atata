@@ -103,7 +103,7 @@ namespace Atata
             Type typeToCheck = type;
             int depth = 0;
 
-            while (typeToCheck != null && typeToCheck != typeof(object))
+            while (typeToCheck != null)
             {
                 if (typeToCheck == baseType)
                     return depth;
