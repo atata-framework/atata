@@ -27,6 +27,15 @@ namespace Atata
             ParentComponentType = parentComponentType;
         }
 
+        [Flags]
+        private enum AttributeTargetFilterOptions
+        {
+            None = 0,
+            Targeted = 1 << 0,
+            NonTargeted = 1 << 1,
+            All = Targeted | NonTargeted
+        }
+
         public string Name { get; private set; }
 
         public Type ComponentType { get; private set; }
@@ -38,13 +47,13 @@ namespace Atata
         internal List<Attribute> DeclaredAttributesList
         {
             get => declaredAttributeSet.Attributes;
-            set => declaredAttributeSet = new AttributeSearchSet(value);
+            set => declaredAttributeSet = new AttributeSearchSet(value) { TargetFilterOptions = AttributeTargetFilterOptions.NonTargeted };
         }
 
         internal List<Attribute> ParentComponentAttributesList
         {
             get => parentComponentAttributeSet.Attributes;
-            set => parentComponentAttributeSet = new AttributeSearchSet(value) { IsOnlyTargeted = true };
+            set => parentComponentAttributeSet = new AttributeSearchSet(value) { TargetFilterOptions = AttributeTargetFilterOptions.Targeted };
         }
 
         internal List<Attribute> AssemblyAttributesList
@@ -62,7 +71,7 @@ namespace Atata
         internal List<Attribute> ComponentAttributesList
         {
             get => componentAttributeSet.Attributes;
-            set => componentAttributeSet = new AttributeSearchSet(value);
+            set => componentAttributeSet = new AttributeSearchSet(value) { TargetFilterOptions = AttributeTargetFilterOptions.NonTargeted };
         }
 
         public IEnumerable<Attribute> DeclaredAttributes => DeclaredAttributesList.AsEnumerable();
@@ -158,23 +167,28 @@ namespace Atata
             {
                 var query = set.Attributes.OfType<TAttribute>();
 
+                if (shouldFilterByTarget)
+                    query = FilterAndOrderByTarget(query, set.TargetFilterOptions);
+
                 if (predicate != null)
                     query = query.Where(predicate);
-
-                if (shouldFilterByTarget)
-                    query = FilterAndOrderByTarget(query, set.IsOnlyTargeted);
 
                 foreach (TAttribute attribute in query)
                     yield return attribute;
             }
         }
 
-        private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes, bool isOnlyTargeted)
+        private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes, AttributeTargetFilterOptions targetFilterOptions)
         {
+            if (targetFilterOptions == AttributeTargetFilterOptions.None)
+                return Enumerable.Empty<TAttribute>();
+
             var query = attributes.OfType<MulticastAttribute>();
 
-            if (isOnlyTargeted)
+            if (targetFilterOptions == AttributeTargetFilterOptions.Targeted)
                 query = query.Where(x => x.IsTargetSpecified);
+            else if (targetFilterOptions == AttributeTargetFilterOptions.NonTargeted)
+                query = query.Where(x => !x.IsTargetSpecified);
 
             return query.
                 Select(x => new { Attribute = x, Rank = x.CalculateTargetRank(this) }).
@@ -191,7 +205,7 @@ namespace Atata
         /// <returns>The <see cref="CultureInfo"/> instance.</returns>
         public CultureInfo GetCulture()
         {
-            string cultureName = Get<CultureAttribute>(AttributeLevels.All)?.Value;
+            string cultureName = Get<CultureAttribute>()?.Value;
 
             return cultureName != null ? CultureInfo.GetCultureInfo(cultureName) : CultureInfo.CurrentCulture;
         }
@@ -202,7 +216,7 @@ namespace Atata
         /// <returns>The format or null if not found.</returns>
         public string GetFormat()
         {
-            return Get<FormatAttribute>(AttributeLevels.All)?.Value;
+            return Get<FormatAttribute>()?.Value;
         }
 
         private class AttributeSearchSet
@@ -212,7 +226,7 @@ namespace Atata
 
             public List<Attribute> Attributes { get; private set; }
 
-            public bool IsOnlyTargeted { get; set; }
+            public AttributeTargetFilterOptions TargetFilterOptions { get; set; } = AttributeTargetFilterOptions.All;
         }
     }
 }
