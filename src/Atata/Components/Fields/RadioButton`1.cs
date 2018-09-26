@@ -30,7 +30,14 @@
         /// <returns>The owner page object.</returns>
         public TOwner Check()
         {
-            return Click();
+            OnCheck();
+
+            return Owner;
+        }
+
+        protected virtual void OnCheck()
+        {
+            Click();
         }
     }
 }

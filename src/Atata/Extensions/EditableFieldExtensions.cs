@@ -15,8 +15,7 @@
         public static TOwner SetRandom<TOwner>(this EditableField<decimal?, TOwner> field, out int? value)
             where TOwner : PageObject<TOwner>
         {
-            decimal? decimalValue;
-            field.SetRandom(out decimalValue);
+            field.SetRandom(out decimal? decimalValue);
 
             value = (int?)decimalValue;
 
@@ -36,8 +35,7 @@
         public static TOwner SetRandom<TOwner>(this EditableField<decimal?, TOwner> field, out int value)
             where TOwner : PageObject<TOwner>
         {
-            decimal? decimalValue;
-            field.SetRandom(out decimalValue);
+            field.SetRandom(out decimal? decimalValue);
 
             value = (int)decimalValue;
 
@@ -59,8 +57,7 @@
             where TData : struct
             where TOwner : PageObject<TOwner>
         {
-            TData? nullableValue;
-            field.SetRandom(out nullableValue);
+            field.SetRandom(out TData? nullableValue);
 
             value = (TData)nullableValue;
 

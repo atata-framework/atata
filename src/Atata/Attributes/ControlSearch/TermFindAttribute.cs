@@ -37,11 +37,10 @@ namespace Atata
             if (values != null && values.Any())
                 Values = values;
 
-            termGetter = md => md.GetAll<TermAttribute>(AttributeLevels.Declared);
+            termGetter = md => md.GetAll<TermAttribute>();
 
             termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(
-                AttributeLevels.NonComponent,
-                x => x.FindAttributeType == GetType());
+                x => x.TargetAttributeTypes?.Contains(GetType()) ?? false);
         }
 
         /// <summary>

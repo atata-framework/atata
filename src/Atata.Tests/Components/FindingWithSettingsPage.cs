@@ -8,7 +8,7 @@
     [VerifyH1]
     [ControlFinding(FindTermBy.Value, ControlType = typeof(RadioButton<>))]
     [ControlFinding(typeof(FindFirstAttribute), ControlType = typeof(RadioFieldSet), ParentComponentType = typeof(_))]
-    [TermFindSettings(FindTermBy.Value, Case = TermCase.Pascal, TargetType = typeof(RadioButton<>))]
+    [TermFindSettings(Case = TermCase.Pascal, TargetType = typeof(RadioButton<>), TargetAttributeType = typeof(FindByValueAttribute))]
     [FindSettings(OuterXPath = "unknown", TargetType = typeof(RadioButton<>))]
     [FindSettings(OuterXPath = ".//", TargetType = typeof(RadioButton<>), TargetName = nameof(OptionB))]
     [FindSettings(OuterXPath = null, TargetName = nameof(OptionC))]
@@ -26,7 +26,7 @@
 
         [ControlFinding(FindTermBy.DescriptionTerm)]
         [ControlFinding(FindTermBy.Value, ControlType = typeof(RadioButton<>))]
-        [TermFindSettings(FindTermBy.Value, Case = TermCase.Pascal)]
+        [TermFindSettings(Case = TermCase.Pascal, TargetAttributeType = typeof(FindByValueAttribute))]
         [FindSettings(Visibility = Visibility.Hidden, TargetType = typeof(Field<,>))]
         [FindSettings(Visibility = Visibility.Visible, TargetTypes = new[] { typeof(Field<,>), typeof(Label<>) }, TargetNames = new[] { nameof(OptionB), nameof(OptionD), "Missing" })]
         public class RadioFieldSet : Control<_>

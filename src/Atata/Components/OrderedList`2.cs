@@ -8,7 +8,7 @@
     /// <seealso cref="ItemsControl{TItem, TOwner}" />
     /// <seealso cref="ListItem{TOwner}" />
     [ControlDefinition("ol", ComponentTypeName = "ordered list")]
-    [FindSettings(OuterXPath = "./")]
+    [FindSettings(OuterXPath = "./", TargetName = nameof(Items))]
     public class OrderedList<TItem, TOwner> : ItemsControl<TItem, TOwner>
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>

@@ -52,6 +52,25 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets a value indicating whether this instance has any target specified.
+        /// </summary>
+        public virtual bool IsTargetSpecified =>
+            (TargetNames?.Any() ?? false) ||
+            (TargetTypes?.Any() ?? false) ||
+            (TargetParentTypes?.Any() ?? false);
+
+        /// <summary>
+        /// Gets or sets a value indicating whether any type is targeted.
+        /// When is set to <c>true</c>, sets <c>typeof(object)</c> to <see cref="TargetType"/> property.
+        /// When is set to <c>false</c>, sets <c>null</c> to <see cref="TargetType"/> property.
+        /// </summary>
+        public bool TargetAnyType
+        {
+            get => TargetTypes?.SingleOrDefault() == typeof(object);
+            set => TargetTypes = value ? new[] { typeof(object) } : null;
+        }
+
+        /// <summary>
         /// Gets the properties bag.
         /// </summary>
         public PropertyBag Properties { get; } = new PropertyBag();

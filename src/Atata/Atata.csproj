@@ -3,13 +3,16 @@
   <PropertyGroup>
     <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
     <RootNamespace>Atata</RootNamespace>
-    <Version>0.16.0</Version>
+    <Version>0.17.0</Version>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Description>C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
 
-Supports .NET Framework 4.0+ and .NET Core/Standard 2.0.
+Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
+
+Atata on GitHub: https://github.com/atata-framework/atata
+Atata Framework documentation: https://atata-framework.github.io
 
 Features:
 - WebDriver. Based on Selenium WebDriver and preserves all its features.
@@ -27,7 +30,8 @@ Features:
     <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png?v2</PackageIconUrl>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>0.16.0 - https://atata-framework.github.io/blog/2017/12/18/atata-0.16.0-released/
+    <PackageReleaseNotes>0.17.0 - https://atata-framework.github.io/blog/2018/05/31/atata-0.17.0-released/
+0.16.0 - https://atata-framework.github.io/blog/2017/12/18/atata-0.16.0-released/
 0.15.0 - https://atata-framework.github.io/blog/2017/10/12/atata-0.15.0-released/
 0.14.0 - https://atata-framework.github.io/blog/2017/09/22/atata-0.14.0-released/
 0.13.0 - https://atata-framework.github.io/blog/2017/06/27/atata-0.13.0-released/
@@ -71,7 +75,7 @@ Features:
 
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="3.11.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.12.1" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>

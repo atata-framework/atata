@@ -1,4 +1,5 @@
-﻿using _ = Atata.Tests.InputPage;
+﻿using System;
+using _ = Atata.Tests.InputPage;
 
 namespace Atata.Tests
 {
@@ -40,5 +41,30 @@ namespace Atata.Tests
 
         [Term("URL Input")]
         public UrlInput<_> UrlInput { get; private set; }
+
+        [FindFirst]
+        public CustomDatePicker DatePicker { get; private set; }
+
+        [ControlDefinition(ContainingClass = "custom-datepicker")]
+        [Format("d")]
+        public class CustomDatePicker : EditableField<DateTime?, _>
+        {
+            [FindFirst]
+            [TraceLog]
+            [Name("Associated")]
+            private TextInput<_> AssociatedInput { get; set; }
+
+            protected override DateTime? GetValue()
+            {
+                string valueAsString = AssociatedInput.Value;
+                return ConvertStringToValue(valueAsString);
+            }
+
+            protected override void SetValue(DateTime? value)
+            {
+                string valueAsString = ConvertValueToString(value);
+                AssociatedInput.Set(valueAsString);
+            }
+        }
     }
 }

@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the text area control (&lt;textarea&gt;). Default search is performed by the label.
+    /// Represents the text area control (&lt;textarea&gt;).
+    /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("textarea", IgnoreNameEndings = "TextArea")]
@@ -23,6 +24,7 @@ namespace Atata
 
         /// <summary>
         /// Appends the specified value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The owner page object.</returns>
@@ -41,6 +43,7 @@ namespace Atata
 
         /// <summary>
         /// Clears the value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
         public TOwner Clear()

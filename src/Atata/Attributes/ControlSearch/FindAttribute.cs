@@ -16,12 +16,13 @@ namespace Atata
         protected FindAttribute()
         {
             findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(
-                AttributeLevels.NonComponent,
-                x => x.FindAttributeType == GetType() || x.FindAttributeType == null);
+                x =>
+                x.TargetAttributeTypes == null ||
+                x.TargetAttributeTypes.Length == 0 ||
+                x.TargetAttributeTypes.Contains(GetType()));
 
             findSettingsByFindAttributeGetter = md => md.GetAll<FindSettingsAttribute>(
-                AttributeLevels.NonComponent,
-                x => x.FindAttributeType == GetType());
+                x => x.TargetAttributeTypes?.Contains(GetType()) ?? false);
         }
 
         public PropertyBag Properties { get; } = new PropertyBag();
