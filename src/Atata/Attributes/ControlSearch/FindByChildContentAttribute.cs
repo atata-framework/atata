@@ -4,7 +4,9 @@ using System.Collections.Generic;
 namespace Atata
 {
     /// <summary>
-    /// Specifies that a control should be found by the child content text. Finds the control having the child with the specified content. Uses <c>Title</c> as the default term case.
+    /// Specifies that a control should be found by the child content text.
+    /// Finds the control having the child with the specified content.
+    /// Uses <c>Title</c> as the default term case.
     /// </summary>
     public class FindByChildContentAttribute : TermFindAttribute
     {
@@ -34,7 +36,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the index of the child element. The default value is 0.
+        /// Gets or sets the index of the child element.
+        /// The default value is <c>0</c>.
         /// </summary>
         public int ChildIndex { get; set; }
 

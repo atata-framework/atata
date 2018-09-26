@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies that a control should be found by CSS selector. Finds the descendant or self control in the scope of the element found by the specified CSS selector.
+    /// Specifies that a control should be found by CSS selector.
+    /// Finds the descendant or self control in the scope of the element found by the specified CSS selector.
     /// </summary>
     public class FindByCssAttribute : FindAttribute, ITermFindAttribute
     {

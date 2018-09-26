@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the behavior for option selection of <see cref="Select{T, TOwner}"/> control using option "value" attribute.
+    /// Represents the behavior for option selection of <see cref="Select{T, TOwner}"/> control using option <c>value</c> attribute.
     /// </summary>
     public class SelectByValueAttribute : SelectByAttribute
     {

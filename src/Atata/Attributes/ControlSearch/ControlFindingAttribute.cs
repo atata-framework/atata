@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies the default finding strategy of a control. Can be applied to the control class and assembly.
+    /// Specifies the default finding strategy of a control.
+    /// Can be applied to the control class and assembly.
     /// </summary>
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
     public class ControlFindingAttribute : Attribute
@@ -21,7 +22,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the type of the attribute to use for the control finding. Type should be inherited from <see cref="FindAttribute"/>.
+        /// Gets the type of the attribute to use for the control finding.
+        /// Type should be inherited from <see cref="FindAttribute"/>.
         /// </summary>
         public Type FindAttributeType { get; private set; }
 
