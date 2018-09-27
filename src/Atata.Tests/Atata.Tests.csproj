@@ -42,6 +42,9 @@
     <Reference Include="Atata.WebDriverExtras, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Atata.WebDriverExtras.1.0.0\lib\net45\Atata.WebDriverExtras.dll</HintPath>
     </Reference>
+    <Reference Include="FluentAssertions, Version=5.4.2.0, Culture=neutral, PublicKeyToken=33f2691a05b67b6a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentAssertions.5.4.2\lib\net45\FluentAssertions.dll</HintPath>
+    </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
       <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
     </Reference>
@@ -56,6 +59,9 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -108,6 +114,7 @@
     <Compile Include="ControlListTests.cs" />
     <Compile Include="ControlTests.cs" />
     <Compile Include="CustomControlTests.cs" />
+    <Compile Include="Extensions\GenericCollectionAssertionsExtensions.cs" />
     <Compile Include="FileScreenshotConsumerTests.cs" />
     <Compile Include="FindingWithSettingsTests.cs" />
     <Compile Include="FrameSetTests.cs" />
@@ -137,6 +144,7 @@
     <Compile Include="TableTests.cs" />
     <Compile Include="TermCaseTests.cs" />
     <Compile Include="TermResolverTests.cs" />
+    <Compile Include="UIComponentMetadataTests.cs" />
     <Compile Include="UIComponentResolverTests.cs" />
     <Compile Include="UITestFixture.cs" />
     <Compile Include="TestCaseDataSource.cs" />
@@ -192,6 +200,7 @@
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets" Condition="Exists('..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets')" />
   <Import Project="..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets" Condition="Exists('..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets')" />
   <Import Project="..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets')" />
