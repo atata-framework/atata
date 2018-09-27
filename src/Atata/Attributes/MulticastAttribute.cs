@@ -122,7 +122,7 @@ namespace Atata
             return rank;
         }
 
-        private static int? GetDepthOfInheritance(Type[] targetTypes, Type typeToCheck)
+        protected static int? GetDepthOfInheritance(Type[] targetTypes, Type typeToCheck)
         {
             if (targetTypes == null || !targetTypes.Any())
                 return -1;

@@ -94,12 +94,21 @@ namespace Atata
         /// Gets the first attribute of the specified type or <c>null</c> if no such attribute is found.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
-        /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
         /// <returns>The first attribute found or <c>null</c>.</returns>
-        public TAttribute Get<TAttribute>(Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
+        public TAttribute Get<TAttribute>()
         {
-            return Get(AttributeLevels.All, predicate, filterByTarget);
+            return Get<TAttribute>(null);
+        }
+
+        /// <summary>
+        /// Gets the first attribute of the specified type or <c>null</c> if no such attribute is found.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <param name="filterConfiguration">The filter configuration function.</param>
+        /// <returns>The first attribute found or <c>null</c>.</returns>
+        public TAttribute Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration)
+        {
+            return GetAll(filterConfiguration).FirstOrDefault();
         }
 
         /// <summary>
@@ -119,12 +128,26 @@ namespace Atata
         /// Gets the sequence of attributes of the specified type.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
-        /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
         /// <returns>The sequence of attributes found.</returns>
-        public IEnumerable<TAttribute> GetAll<TAttribute>(Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
+        public IEnumerable<TAttribute> GetAll<TAttribute>()
         {
-            return GetAll(AttributeLevels.All, predicate, filterByTarget);
+            return GetAll<TAttribute>(null);
+        }
+
+        /// <summary>
+        /// Gets the sequence of attributes of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <param name="filterConfiguration">The filter configuration function.</param>
+        /// <returns>The sequence of attributes found.</returns>
+        public IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration)
+        {
+            AttributeFilter<TAttribute> defaultFilter = new AttributeFilter<TAttribute>();
+
+            AttributeFilter<TAttribute> filter = filterConfiguration?.Invoke(defaultFilter) ?? defaultFilter;
+
+            var attributeSets = GetAllAttributeSets(filter.Levels);
+            return FilterAttributeSets(attributeSets, filter, true);
         }
 
         /// <summary>
@@ -137,8 +160,10 @@ namespace Atata
         /// <returns>The sequence of attributes found.</returns>
         public IEnumerable<TAttribute> GetAll<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
         {
-            var attributeSets = GetAllAttributeSets(levels);
-            return FilterAttributeSets(attributeSets, predicate, filterByTarget);
+            AttributeFilter<TAttribute> filter = new AttributeFilter<TAttribute>().At(levels).Where(predicate);
+
+            var attributeSets = GetAllAttributeSets(filter.Levels);
+            return FilterAttributeSets(attributeSets, filter, filterByTarget);
         }
 
         private IEnumerable<AttributeSearchSet> GetAllAttributeSets(AttributeLevels level)
@@ -159,7 +184,8 @@ namespace Atata
                 yield return componentAttributeSet;
         }
 
-        private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(IEnumerable<AttributeSearchSet> attributeSets, Func<TAttribute, bool> predicate, bool filterByTarget)
+        // TODO: filterByTarget should be removed.
+        private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(IEnumerable<AttributeSearchSet> attributeSets, AttributeFilter<TAttribute> filter, bool filterByTarget)
         {
             bool shouldFilterByTarget = filterByTarget && typeof(MulticastAttribute).IsAssignableFrom(typeof(TAttribute));
 
@@ -168,9 +194,9 @@ namespace Atata
                 var query = set.Attributes.OfType<TAttribute>();
 
                 if (shouldFilterByTarget)
-                    query = FilterAndOrderByTarget(query, set.TargetFilterOptions);
+                    query = FilterAndOrderByTarget(query, filter, set.TargetFilterOptions);
 
-                if (predicate != null)
+                foreach (var predicate in filter.Predicates)
                     query = query.Where(predicate);
 
                 foreach (TAttribute attribute in query)
@@ -178,7 +204,7 @@ namespace Atata
             }
         }
 
-        private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes, AttributeTargetFilterOptions targetFilterOptions)
+        private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes, AttributeFilter<TAttribute> filter, AttributeTargetFilterOptions targetFilterOptions)
         {
             if (targetFilterOptions == AttributeTargetFilterOptions.None)
                 return Enumerable.Empty<TAttribute>();
@@ -190,17 +216,33 @@ namespace Atata
             else if (targetFilterOptions == AttributeTargetFilterOptions.NonTargeted)
                 query = query.Where(x => !x.IsTargetSpecified);
 
-            return query.
-                Select(x => new { Attribute = x, Rank = x.CalculateTargetRank(this) }).
+            var rankedQuery = query.
+                Select(x => new { Attribute = x, TargetRank = x.CalculateTargetRank(this) }).
                 ToArray().
-                Where(x => x.Rank.HasValue).
-                OrderByDescending(x => x.Rank.Value).
-                Select(x => x.Attribute).
-                Cast<TAttribute>();
+                Where(x => x.TargetRank.HasValue);
+
+            if (filter.TargetAttributeType != null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute)))
+            {
+                return rankedQuery.
+                    Select(x => new { x.Attribute, x.TargetRank, TargetAttributeRank = ((AttributeSettingsAttribute)x.Attribute).CalculateTargetAttributeRank(filter.TargetAttributeType) }).
+                    ToArray().
+                    Where(x => x.TargetAttributeRank.HasValue).
+                    OrderByDescending(x => x.TargetRank.Value).
+                    ThenByDescending(x => x.TargetAttributeRank.Value).
+                    Select(x => x.Attribute).
+                    Cast<TAttribute>();
+            }
+            else
+            {
+                return rankedQuery.
+                    OrderByDescending(x => x.TargetRank.Value).
+                    Select(x => x.Attribute).
+                    Cast<TAttribute>();
+            }
         }
 
         /// <summary>
-        /// Gets the culture by searching the <see cref="CultureAttribute"/> at any attribute level or current culture if not found.
+        /// Gets the culture by searching the <see cref="CultureAttribute"/> at all attribute levels or current culture if not found.
         /// </summary>
         /// <returns>The <see cref="CultureInfo"/> instance.</returns>
         public CultureInfo GetCulture()
@@ -211,9 +253,9 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the format by searching the <see cref="FormatAttribute"/> at any attribute level or null if not found.
+        /// Gets the format by searching the <see cref="FormatAttribute"/> at all attribute levels or <c>null</c> if not found.
         /// </summary>
-        /// <returns>The format or null if not found.</returns>
+        /// <returns>The format or <c>null</c> if not found.</returns>
         public string GetFormat()
         {
             return Get<FormatAttribute>()?.Value;
