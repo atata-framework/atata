@@ -98,7 +98,7 @@ namespace Atata
         /// <summary>
         /// Gets the instance of <see cref="Atata.ContentSourceAttribute"/> or null, if not found.
         /// </summary>
-        protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>(AttributeLevels.All);
+        protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>();
 
         protected internal virtual void InitComponent()
         {

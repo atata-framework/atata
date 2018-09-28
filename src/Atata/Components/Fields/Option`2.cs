@@ -47,11 +47,11 @@
         {
             if (Parent is Select<T, TOwner> select)
             {
-                var formatAttribute = Parent.Metadata.Get<FormatAttribute>(AttributeLevels.Declared);
+                var formatAttribute = Parent.Metadata.Get<FormatAttribute>(x => x.At(AttributeLevels.Declared));
                 if (formatAttribute != null)
                     Metadata.DeclaredAttributesList.Add(formatAttribute);
 
-                var cultureAttribute = Parent.Metadata.Get<CultureAttribute>(AttributeLevels.Declared);
+                var cultureAttribute = Parent.Metadata.Get<CultureAttribute>(x => x.At(AttributeLevels.Declared));
                 if (cultureAttribute != null)
                     Metadata.DeclaredAttributesList.Add(cultureAttribute);
 
@@ -59,7 +59,7 @@
             }
             else
             {
-                SelectOptionBehavior = Metadata.Get<SelectOptionBehaviorAttribute>(AttributeLevels.All)
+                SelectOptionBehavior = Metadata.Get<SelectOptionBehaviorAttribute>()
                     ?? new SelectByTextAttribute();
             }
 

@@ -314,7 +314,7 @@ namespace Atata
 
         private static string ResolveControlName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            NameAttribute nameAttribute = metadata.Get<NameAttribute>(AttributeLevels.Declared);
+            NameAttribute nameAttribute = metadata.Get<NameAttribute>(x => x.At(AttributeLevels.Declared));
 
             if (!string.IsNullOrWhiteSpace(nameAttribute?.Value))
             {
@@ -329,7 +329,7 @@ namespace Atata
                 }
                 else
                 {
-                    TermAttribute termAttribute = metadata.Get<TermAttribute>(AttributeLevels.Declared);
+                    TermAttribute termAttribute = metadata.Get<TermAttribute>(x => x.At(AttributeLevels.Declared));
                     if (termAttribute?.Values?.Any() ?? false)
                         return string.Join("/", termAttribute.Values);
                 }
@@ -387,7 +387,7 @@ namespace Atata
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
         {
-            FindAttribute findAttribute = metadata.Get<FindAttribute>(AttributeLevels.Declared);
+            FindAttribute findAttribute = metadata.Get<FindAttribute>(x => x.At(AttributeLevels.Declared));
             if (findAttribute != null)
             {
                 return findAttribute;
@@ -439,7 +439,7 @@ namespace Atata
 
         private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
-            return metadata.Get<IFindItemAttribute>(AttributeLevels.Declared) ?? new FindItemByLabelAttribute();
+            return metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) ?? new FindItemByLabelAttribute();
         }
 
         private static ComponentScopeLocateOptions CreateScopeLocateOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
@@ -611,7 +611,7 @@ namespace Atata
 
         public static ControlDefinitionAttribute GetControlDefinition(UIComponentMetadata metadata)
         {
-            return metadata.Get<ControlDefinitionAttribute>(AttributeLevels.Declared | AttributeLevels.Component) ?? new ControlDefinitionAttribute();
+            return metadata.Get<ControlDefinitionAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent)) ?? new ControlDefinitionAttribute();
         }
 
         public static PageObjectDefinitionAttribute GetPageObjectDefinition(Type type)
@@ -621,7 +621,7 @@ namespace Atata
 
         public static PageObjectDefinitionAttribute GetPageObjectDefinition(UIComponentMetadata metadata)
         {
-            return metadata.Get<PageObjectDefinitionAttribute>(AttributeLevels.Declared | AttributeLevels.Component) ?? new PageObjectDefinitionAttribute();
+            return metadata.Get<PageObjectDefinitionAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent)) ?? new PageObjectDefinitionAttribute();
         }
 
         internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)

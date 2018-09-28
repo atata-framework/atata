@@ -68,11 +68,11 @@ namespace Atata
             where TNavigateTo : PageObject<TNavigateTo>
         {
             bool isTemporarily = temporarily
-                ?? Metadata.Get<GoTemporarilyAttribute>(AttributeLevels.DeclaredAndComponent)?.IsTemporarily
+                ?? Metadata.Get<GoTemporarilyAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent))?.IsTemporarily
                 ?? false;
 
             TNavigateTo pageObject = navigateToPageObject
-                ?? (TNavigateTo)Metadata.Get<NavigationPageObjectCreatorAttribute>(AttributeLevels.DeclaredAndComponent)?.Creator?.Invoke();
+                ?? (TNavigateTo)Metadata.Get<NavigationPageObjectCreatorAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent))?.Creator?.Invoke();
 
             return Go.To(pageObject: pageObject, navigate: false, temporarily: isTemporarily);
         }
@@ -225,7 +225,7 @@ namespace Atata
 
         protected virtual void OnDragAndDropTo(Control<TOwner> target)
         {
-            var behavior = Metadata.Get<DragAndDropBehaviorAttribute>(AttributeLevels.All)
+            var behavior = Metadata.Get<DragAndDropBehaviorAttribute>()
                 ?? new DragAndDropUsingActionsAttribute();
 
             behavior.Execute(this, target);
@@ -277,8 +277,7 @@ namespace Atata
 
         protected virtual void OnScrollTo()
         {
-            var behavior = Metadata.Get<ScrollBehaviorAttribute>(AttributeLevels.All)
-                ?? new ScrollUsingMoveToElementAttribute();
+            var behavior = Metadata.Get<ScrollBehaviorAttribute>() ?? new ScrollUsingMoveToElementAttribute();
 
             behavior.Execute(this);
         }

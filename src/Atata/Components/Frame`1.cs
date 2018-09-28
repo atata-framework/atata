@@ -22,7 +22,7 @@ namespace Atata
             where TFramePageObject : PageObject<TFramePageObject>
         {
             bool isTemporarily = temporarily
-                ?? Metadata.Get<GoTemporarilyAttribute>(AttributeLevels.DeclaredAndComponent)?.IsTemporarily
+                ?? Metadata.Get<GoTemporarilyAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent))?.IsTemporarily
                 ?? false;
 
             return Owner.SwitchToFrame(Scope, framePageObject, isTemporarily);

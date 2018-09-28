@@ -50,7 +50,7 @@ namespace Atata
         {
             base.InitValueTermOptions(termOptions, metadata);
 
-            IPropertySettings findItemAttributeAsSettings = metadata.Get<IFindItemAttribute>(AttributeLevels.Declared) as IPropertySettings;
+            IPropertySettings findItemAttributeAsSettings = metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) as IPropertySettings;
             if (findItemAttributeAsSettings != null)
                 termOptions.MergeWith(findItemAttributeAsSettings);
         }

@@ -6,7 +6,7 @@
         {
             Component = component;
 
-            TraceLogAttribute traceLogAttribute = component.Metadata.Get<TraceLogAttribute>(AttributeLevels.DeclaredAndComponent);
+            TraceLogAttribute traceLogAttribute = component.Metadata.Get<TraceLogAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent));
 
             if (traceLogAttribute != null)
                 Level = LogLevel.Trace;
