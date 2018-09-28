@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("Select.html")]
+    [Url("select")]
     [VerifyTitle]
     public class SelectPage : Page<_>
     {

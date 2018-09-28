@@ -1,0 +1,36 @@
+﻿@page
+@{
+    ViewBag.Title = "Finding";
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div class="form-group">
+            <fieldset class="x-radio-container">
+                <legend>Radio Buttons</legend>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" class="radio-options" value="OptionA" />Option A
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" class="radio-options" value="OptionB" />Option B
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" class="radio-options" value="OptionC" />Option C
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" class="radio-options" value="OptionD" />Option D
+                </label>
+            </fieldset>
+        </div>
+        <div class="form-group">
+            <input type="text" id="visible-input" class="form-control" />
+            <input type="text" id="display-none-input" style="display: none" class="form-control" />
+            <input type="text" id="hidden-input" style="visibility: hidden" class="form-control" />
+            <input type="text" id="collapse-input" style="visibility: collapse" class="form-control" />
+            <input type="text" id="opacity-0-input" style="opacity: 0" class="form-control" />
+            <input type="hidden" id="type-hidden-input" class="form-control" />
+        </div>
+        <div class="form-group">
+            <span class="class-a class-b class-c">Span with multiple classes</span>
+        </div>
+    </div>
+</div>

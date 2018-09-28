@@ -5,7 +5,7 @@ using _ = Atata.Tests.TriggersPage;
 
 namespace Atata.Tests
 {
-    [Url("Triggers.html")]
+    [Url("triggers")]
     [VerifyTitle]
     [VerifyH1]
     [InvokeMethod(nameof(OnStaticInit), TriggerEvents.Init)]

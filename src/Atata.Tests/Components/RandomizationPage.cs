@@ -4,7 +4,7 @@ using _ = Atata.Tests.RandomizationPage;
 
 namespace Atata.Tests
 {
-    [Url("Randomization.html")]
+    [Url("randomization")]
     public class RandomizationPage : Page<_>
     {
         [Flags]

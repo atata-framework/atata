@@ -8,7 +8,7 @@ namespace Atata.Tests
         [Test]
         public void OrdinaryPage()
         {
-            var page = Go.To<OrdinaryPage>(url: "Input.html");
+            var page = Go.To<OrdinaryPage>(url: "input");
 
             Assert.That(LogEntries.Last().Message, Is.EqualTo("Go to \"<ordinary>\" page"));
 
@@ -18,7 +18,7 @@ namespace Atata.Tests
         [Test]
         public void OrdinaryPage_WithComponentName()
         {
-            Go.To(new OrdinaryPage("Custom name"), url: "Input.html");
+            Go.To(new OrdinaryPage("Custom name"), url: "input");
 
             Assert.That(LogEntries.Last().Message, Is.EqualTo("Go to \"Custom name\" page"));
         }

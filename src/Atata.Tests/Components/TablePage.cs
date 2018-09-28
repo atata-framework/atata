@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("Table.html")]
+    [Url("table")]
     [VerifyTitle]
     public class TablePage : Page<_>
     {

@@ -3,7 +3,7 @@ using _ = Atata.Tests.InputPage;
 
 namespace Atata.Tests
 {
-    [Url("Input.html")]
+    [Url("input")]
     [VerifyTitle]
     public class InputPage : Page<_>
     {

@@ -1,0 +1,99 @@
+﻿@page
+@{
+    ViewBag.Title = "RadioButtonList";
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-2">
+        <div class="form-group">
+            <fieldset class="x-radio-container">
+                <legend>String List</legend>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" value="OptionA" />Option A
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" value="OptionB" />Option B
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" value="OptionC" />Option C
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="radio-options" value="OptionD" />Option D
+                </label>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend>Integer List</legend>
+                <label class="radio-inline">
+                    <input type="radio" class="integer_items" name="int-options" value="Option1" />1
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="integer_items" name="int-options" value="Option2" />2
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="integer_items" name="int-options" value="Option3" />3
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" class="integer_items" name="int-options" value="Option4" />4
+                </label>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend>Decimal List</legend>
+                <label class="radio-inline">
+                    <input type="radio" name="decimal-items" value="Option1" />$1,000.00
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="decimal-items" value="Option2" />$2,500.00
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="decimal-items" value="Option3" />$3,210.50
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" name="decimal-items" value="Option4" />$4,310.10
+                </label>
+            </fieldset>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <fieldset>
+                <legend>Vertical List</legend>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="vertical-items" checked>Item 1
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="vertical-items">Item 2
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="vertical-items">Item 3
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="vertical-items">Item 4
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="vertical-items">Item 5
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="vertical-items">Item 6
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="vertical-items">Item 7
+                    </label>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+</div>

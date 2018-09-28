@@ -2,7 +2,7 @@
 {
     using _ = FindingWithSettingsPage;
 
-    [Url("Finding.html")]
+    [Url("finding")]
     [Name("Finding")]
     [VerifyTitle]
     [VerifyH1]

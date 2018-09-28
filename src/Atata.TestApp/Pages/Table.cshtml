@@ -1,0 +1,96 @@
+﻿@page
+@{
+    ViewBag.Title = "Table";
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tfoot class="text-muted">
+                <tr>
+                    <td>User count:</td>
+                    <td>4</td>
+                </tr>
+            </tfoot>
+            <tbody>
+                <tr onclick="goTo();">
+                    <td>John</td>
+                    <td>Smith</td>
+                </tr>
+                <tr onclick="goTo();">
+                    <td>Jane</td>
+                    <td>Smith</td>
+                </tr>
+                <tr onclick="goTo();">
+                    <td>Jack</td>
+                    <td>Jameson</td>
+                </tr>
+                <tr onclick="goTo();">
+                    <td>Sam</td>
+                    <td>Jackson</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <button class="btn btn-default" onclick="addUsa();">Add USA</button>
+            <button class="btn btn-default" onclick="addChina();">Add China (with delay)</button>
+            <button class="btn btn-default" onclick="clearChina();">Clear China</button>
+        </div>
+        <table id="country-table" class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Country</th>
+                    <th>Capital</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>England</td>
+                    <td>London</td>
+                </tr>
+                <tr>
+                    <td>France</td>
+                    <td>Paris</td>
+                </tr>
+                <tr>
+                    <td>Germany</td>
+                    <td>Berlin</td>
+                </tr>
+            </tbody>
+        </table>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    function goTo() {
+        window.document.location = '/goto1';
+    }
+
+    function addUsa() {
+        $('#country-table > tbody:last-child').append('<tr><td>USA</td><td>Washington</td></tr>');
+    }
+
+    function addChina() {
+        setTimeout(function () {
+            $('#country-table > tbody:last-child').append('<tr class="china-row"><td>China</td><td>Beijing</td></tr>');
+        }, 2000);
+    }
+
+    function clearChina() {
+        $('#country-table tr.china-row').remove();
+    }
+</script>

@@ -3,7 +3,7 @@ using _ = Atata.Tests.FramePage;
 
 namespace Atata.Tests
 {
-    [Url("Frame.html")]
+    [Url("frame")]
     [VerifyTitle]
     [VerifyH1]
     public class FramePage : Page<_>

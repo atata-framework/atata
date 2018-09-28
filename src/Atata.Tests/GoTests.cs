@@ -33,7 +33,7 @@ namespace Atata.Tests
         public void Go_To_AbsoluteUrlNavigation()
         {
             Go.To<GoTo1Page>();
-            string url = "http://localhost:50549/GoTo2.html?somearg=1";
+            string url = "http://localhost:50549/goto2?somearg=1";
             Go.To<GoTo2Page>(url: url);
 
             AssertNoTemporarilyPreservedPageObjects();
@@ -44,7 +44,7 @@ namespace Atata.Tests
         public void Go_To_RelativeUrlNavigation()
         {
             Go.To<GoTo1Page>();
-            string url = "GoTo2.html?somearg=1";
+            string url = "goto2?somearg=1";
             Go.To<GoTo2Page>(url: url);
 
             AssertNoTemporarilyPreservedPageObjects();
