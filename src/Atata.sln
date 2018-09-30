@@ -5,12 +5,9 @@ VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata", "Atata\Atata.csproj", "{9D876D23-607A-45DC-979A-01DA1D34189C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Tests", "Atata.Tests\Atata.Tests.csproj", "{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5262AF3A-5A4A-458E-8C38-B133972D058F}"
 	ProjectSection(SolutionItems) = preProject
 		Atata.ruleset = Atata.ruleset
-		CommonAssemblyInfo.cs = CommonAssemblyInfo.cs
 		GenerateControlDelegates.ps1 = GenerateControlDelegates.ps1
 		GenerateDriverAtataContextBuilders.ps1 = GenerateDriverAtataContextBuilders.ps1
 		GenerateHeadingVerificationTriggers.ps1 = GenerateHeadingVerificationTriggers.ps1
@@ -18,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.TestApp", "Atata.TestApp\Atata.TestApp.csproj", "{C31D92C7-3E33-4904-9C53-B067551F1472}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.Tests", "Atata.Tests\Atata.Tests.csproj", "{B13F2FA3-A802-4BCB-929D-8915B2291F99}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,14 +28,14 @@ Global
 		{9D876D23-607A-45DC-979A-01DA1D34189C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D876D23-607A-45DC-979A-01DA1D34189C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D876D23-607A-45DC-979A-01DA1D34189C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C31D92C7-3E33-4904-9C53-B067551F1472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C31D92C7-3E33-4904-9C53-B067551F1472}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C31D92C7-3E33-4904-9C53-B067551F1472}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C31D92C7-3E33-4904-9C53-B067551F1472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
