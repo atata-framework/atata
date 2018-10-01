@@ -8,7 +8,7 @@ variables:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    projects: '**\*.sln'
+    projects: '**\Atata.sln'
     arguments: '-c $(buildConfiguration)'
 
 - task: VSTest@2
