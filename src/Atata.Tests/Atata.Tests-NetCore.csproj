@@ -21,7 +21,7 @@
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
 	<PackageReference Include="FluentAssertions" Version="5.4.2" />
-	<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1">
+	<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
