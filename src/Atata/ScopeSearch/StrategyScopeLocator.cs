@@ -42,10 +42,10 @@ namespace Atata
             searchOptions = ResolveSearchOptions(searchOptions);
 
             XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
-            if (xPathResults.Any())
-                return xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray();
-            else
-                return new IWebElement[0];
+
+            return xPathResults.Any()
+                ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray()
+                : new IWebElement[0];
         }
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)

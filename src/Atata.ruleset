@@ -2,6 +2,11 @@
 <RuleSet Name="Atata Framework Rules" Description="Code analysis rules for Atata Framework" ToolsVersion="15.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1034" Action="None" />
+	<Rule Id="CA1307" Action="None" />
+	<Rule Id="CA1710" Action="None" />
+	<Rule Id="CA1716" Action="None" />
+	<Rule Id="CA1721" Action="None" />
+	<Rule Id="CA2208" Action="None" />
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
     <Rule Id="CS1591" Action="None" />
@@ -52,6 +57,7 @@
     <Rule Id="S2302" Action="Warning" />
     <Rule Id="S2357" Action="Warning" />
     <Rule Id="S2387" Action="Warning" />
+	<Rule Id="S2583" Action="None" />
     <Rule Id="S3052" Action="Warning" />
     <Rule Id="S3235" Action="Warning" />
     <Rule Id="S3240" Action="Warning" />
