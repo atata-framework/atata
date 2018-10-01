@@ -17,7 +17,7 @@ namespace Atata
 
         private AttributeSearchSet componentAttributeSet;
 
-        public UIComponentMetadata(
+        internal UIComponentMetadata(
             string name,
             Type componentType,
             Type parentComponentType)
