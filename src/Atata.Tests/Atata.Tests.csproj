@@ -2,12 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>net45</TargetFramework>
+	<IsPackable>false</IsPackable>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Copyright>© Yevgeniy Shunevych 2018</Copyright>
     <CodeAnalysisRuleSet>..\Atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Update="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
@@ -33,12 +40,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Atata\Atata.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="NLog.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

@@ -2,38 +2,43 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-
     <IsPackable>false</IsPackable>
-
+	<Authors>Yevgeniy Shunevych</Authors>
+    <Company>Yevgeniy Shunevych</Company>
+    <Product>Atata Framework</Product>
+    <Copyright>© Yevgeniy Shunevych 2018</Copyright>
+    <CodeAnalysisRuleSet>..\Atata.ruleset</CodeAnalysisRuleSet>
     <RootNamespace>Atata.Tests</RootNamespace>
-
     <AssemblyName>Atata.Tests</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Properties\AssemblyInfo.cs" />
+    <None Include="NLog.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="NLog.config" />
-    <None Remove="packages.config" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="NLog.config">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.7.2" />
+    <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
+	<PackageReference Include="FluentAssertions" Version="5.4.2" />
+	<PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
     <PackageReference Include="NLog" Version="4.5.6" />
-    <PackageReference Include="NLog.Config" Version="4.5.6" />
-    <PackageReference Include="NLog.Schema" Version="4.5.6" />
     <PackageReference Include="NUnit" Version="3.10.1" />
     <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
-    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.38.0.1" />
-    <PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.12.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.12.1" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.42.0.1" />
+	<PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.12.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.5.0.6605">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
