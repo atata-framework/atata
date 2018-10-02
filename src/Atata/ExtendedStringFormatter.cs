@@ -11,10 +11,7 @@ namespace Atata
 
         public object GetFormat(Type formatType)
         {
-            if (formatType == typeof(ICustomFormatter))
-                return this;
-            else
-                return null;
+            return formatType == typeof(ICustomFormatter) ? this : null;
         }
 
         public string Format(string format, object arg, IFormatProvider formatProvider)
