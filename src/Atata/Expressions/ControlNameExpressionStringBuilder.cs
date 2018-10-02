@@ -252,7 +252,7 @@ namespace Atata
         {
             if (node.Value is bool boolValue)
             {
-                Out(boolValue.ToString().ToLower());
+                Out(boolValue.ToString().ToLowerInvariant());
                 return node;
             }
 
