@@ -19,7 +19,7 @@ namespace Atata
         public Type TargetAttributeType
         {
             get { return TargetAttributeTypes?.SingleOrDefault(); }
-            set { TargetAttributeTypes = new[] { value }; }
+            set { TargetAttributeTypes = value == null ? null : new[] { value }; }
         }
 
         public virtual int? CalculateTargetAttributeRank(Type targetAttributeType)
