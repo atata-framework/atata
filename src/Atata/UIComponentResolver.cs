@@ -246,7 +246,7 @@ namespace Atata
             UIComponentMetadata metadata = CreateStaticControlMetadata(parentComponent, property);
 
             if (attributes != null)
-                metadata.DeclaredAttributesList.AddRange(attributes);
+                metadata.Push(attributes);
 
             var component = (TComponent)CreateComponent(parentComponent, metadata);
 
