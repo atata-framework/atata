@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the source scope.
+    /// Specifies the source of the scope.
     /// </summary>
     public enum ScopeSource
     {
