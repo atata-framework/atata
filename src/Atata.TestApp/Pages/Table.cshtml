@@ -4,6 +4,7 @@
 }
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
+        <h2>Regular</h2>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -36,6 +37,8 @@
                 </tr>
             </tbody>
         </table>
+
+        <h2>Dynamic</h2>
         <div>
             <button class="btn btn-default" onclick="addUsa();">Add USA</button>
             <button class="btn btn-default" onclick="addChina();">Add China (with delay)</button>
@@ -63,6 +66,8 @@
                 </tr>
             </tbody>
         </table>
+
+        <h2>Empty</h2>
         <table class="table table-hover">
             <thead>
                 <tr>
@@ -71,6 +76,36 @@
                 </tr>
             </thead>
             <tbody></tbody>
+        </table>
+
+        <h2>Inside Another Table</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Root</th>
+                    <th>Table</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <table id="inside-another-table" class="table">
+                            <thead>
+                                <tr>
+                                    <th>Key</th>
+                                    <th>Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>A</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
         </table>
     </div>
 </div>
