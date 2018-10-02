@@ -3,6 +3,7 @@
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1034" Action="None" />
 	<Rule Id="CA1307" Action="None" />
+	<Rule Id="CA1308" Action="None" />
 	<Rule Id="CA1710" Action="None" />
 	<Rule Id="CA1716" Action="None" />
 	<Rule Id="CA1721" Action="None" />
@@ -74,7 +75,7 @@
     <Rule Id="S4047" Action="Warning" />
     <Rule Id="S4049" Action="None" />
     <Rule Id="S4052" Action="Warning" />
-    <Rule Id="S4059" Action="Warning" />
+    <Rule Id="S4059" Action="None" />
     <Rule Id="S4261" Action="Warning" />
     <Rule Id="S881" Action="Warning" />
   </Rules>
