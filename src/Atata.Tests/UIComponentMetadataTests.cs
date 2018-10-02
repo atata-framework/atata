@@ -136,6 +136,44 @@ namespace Atata.Tests
                 Should().BeSameSequenceAs(Declared[1], Declared[0], Declared[4], Declared[2]);
         }
 
+        [Test]
+        public void UIComponentMetadata_Push_Single()
+        {
+            Assembly.Add(new FindSettingsAttribute { });
+
+            var pushed = new FindSettingsAttribute { };
+
+            metadata.Push(pushed);
+
+            metadata.DeclaredAttributes.
+                Should().BeSameSequenceAs(pushed);
+
+            metadata.GetAll<FindSettingsAttribute>().
+                Should().BeSameSequenceAs(pushed, Assembly[0]);
+
+            metadata.Get<FindSettingsAttribute>().
+                Should().BeSameAs(pushed);
+        }
+
+        [Test]
+        public void UIComponentMetadata_Push_Multiple()
+        {
+            Assembly.Add(new FindSettingsAttribute { });
+
+            var pushed = new List<FindSettingsAttribute> { new FindSettingsAttribute { }, new FindSettingsAttribute { } };
+
+            metadata.Push(pushed);
+
+            metadata.DeclaredAttributes.
+                Should().BeSameSequenceAs(pushed);
+
+            metadata.GetAll<FindSettingsAttribute>().
+                Should().BeSameSequenceAs(pushed[0], pushed[1], Assembly[0]);
+
+            metadata.Get<FindSettingsAttribute>().
+                Should().BeSameAs(pushed[0]);
+        }
+
         private IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
         {
             if (attributeCollections == null || attributeCollections.Length == 0)

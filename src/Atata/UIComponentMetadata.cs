@@ -244,6 +244,25 @@ namespace Atata
         }
 
         /// <summary>
+        /// Inserts the specified attributes into <see cref="DeclaredAttributes"/> collection at the beginning.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        public void Push(params Attribute[] attributes)
+        {
+            Push(attributes as IEnumerable<Attribute>);
+        }
+
+        /// <summary>
+        /// Inserts the specified attributes into <see cref="DeclaredAttributes"/> collection at the beginning.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        public void Push(IEnumerable<Attribute> attributes)
+        {
+            if (attributes != null)
+                DeclaredAttributesList.InsertRange(0, attributes);
+        }
+
+        /// <summary>
         /// Gets the culture by searching the <see cref="CultureAttribute"/> at all attribute levels or current culture if not found.
         /// </summary>
         /// <returns>The <see cref="CultureInfo"/> instance.</returns>
