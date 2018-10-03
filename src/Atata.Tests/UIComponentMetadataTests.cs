@@ -174,6 +174,42 @@ namespace Atata.Tests
                 Should().BeSameAs(pushed[0]);
         }
 
+        [Test]
+        public void UIComponentMetadata_ComponentDefinitionAttribute_ForControl()
+        {
+            metadata.ComponentDefinitionAttribute.Should().BeNull();
+
+            var componentDefinition = new ControlDefinitionAttribute("component");
+            Component.Add(componentDefinition);
+
+            metadata.ComponentDefinitionAttribute.Should().BeSameAs(componentDefinition);
+
+            var globalDefinition = new ControlDefinitionAttribute("global");
+            Global.Add(globalDefinition);
+
+            metadata.ComponentDefinitionAttribute.Should().BeSameAs(globalDefinition);
+
+            var assemblyDefinition = new ControlDefinitionAttribute("assembly");
+            Assembly.Add(assemblyDefinition);
+
+            metadata.ComponentDefinitionAttribute.Should().BeSameAs(assemblyDefinition);
+
+            var parentComponentDefinition = new ControlDefinitionAttribute("parent-component");
+            ParentComponent.Add(parentComponentDefinition);
+
+            metadata.ComponentDefinitionAttribute.Should().BeSameAs(assemblyDefinition);
+
+            var targetedParentComponentDefinition = new ControlDefinitionAttribute("parent-component-targeted") { TargetAnyType = true };
+            ParentComponent.Add(targetedParentComponentDefinition);
+
+            metadata.ComponentDefinitionAttribute.Should().BeSameAs(targetedParentComponentDefinition);
+
+            var declaredDefinition = new ControlDefinitionAttribute("declared");
+            Declared.Add(declaredDefinition);
+
+            metadata.ComponentDefinitionAttribute.Should().BeSameAs(declaredDefinition);
+        }
+
         private IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
         {
             if (attributeCollections == null || attributeCollections.Length == 0)
