@@ -52,7 +52,7 @@ namespace Atata
                     nameof(Visibility),
                     Visibility.Visible,
                     findSettingsGetter,
-                    md => new[] { md.ComponentDefinitonAttribute });
+                    md => new[] { md.ComponentDefinitionAttribute });
             }
 
             set

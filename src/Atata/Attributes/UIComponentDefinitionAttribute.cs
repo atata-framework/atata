@@ -1,9 +1,7 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class)]
     public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute, IPropertySettings
     {
         protected UIComponentDefinitionAttribute(string scopeXPath = DefaultScopeXPath)

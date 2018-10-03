@@ -335,7 +335,7 @@ namespace Atata
                 }
             }
 
-            return metadata.ComponentDefinitonAttribute.
+            return metadata.ComponentDefinitionAttribute.
                 NormalizeNameIgnoringEnding(metadata.Name).
                 ToString(TermCase.Title);
         }
@@ -368,7 +368,7 @@ namespace Atata
             Type parentComponentType,
             Attribute[] declaredAttributes)
         {
-            UIComponentMetadata metadata = new UIComponentMetadata(name, componentType, parentComponentType)
+            return new UIComponentMetadata(name, componentType, parentComponentType)
             {
                 DeclaredAttributesList = declaredAttributes.ToList(),
                 ParentComponentAttributesList = GetClassAttributes(parentComponentType).ToList(),
@@ -376,13 +376,6 @@ namespace Atata
                 GlobalAttributesList = new List<Attribute>(),
                 ComponentAttributesList = GetClassAttributes(componentType).ToList()
             };
-
-            if (parentComponentType == null)
-                metadata.ComponentDefinitonAttribute = GetPageObjectDefinition(metadata);
-            else
-                metadata.ComponentDefinitonAttribute = GetControlDefinition(metadata);
-
-            return metadata;
         }
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
@@ -431,7 +424,7 @@ namespace Atata
 
         private static FindAttribute GetDefaultFindAttribute(UIComponentMetadata metadata)
         {
-            if (metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
+            if (metadata.ComponentDefinitionAttribute.ScopeXPath == ScopeDefinitionAttribute.DefaultScopeXPath)
                 return new UseParentScopeAttribute();
 
             return new FindFirstAttribute();
@@ -444,7 +437,7 @@ namespace Atata
 
         private static ComponentScopeLocateOptions CreateScopeLocateOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            ControlDefinitionAttribute definition = metadata.ComponentDefinitonAttribute as ControlDefinitionAttribute;
+            ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 
             int index = findAttribute.Index;
 
@@ -611,7 +604,7 @@ namespace Atata
 
         public static ControlDefinitionAttribute GetControlDefinition(UIComponentMetadata metadata)
         {
-            return metadata.Get<ControlDefinitionAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent)) ?? new ControlDefinitionAttribute();
+            return (metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute) ?? new ControlDefinitionAttribute();
         }
 
         public static PageObjectDefinitionAttribute GetPageObjectDefinition(Type type)
@@ -621,7 +614,7 @@ namespace Atata
 
         public static PageObjectDefinitionAttribute GetPageObjectDefinition(UIComponentMetadata metadata)
         {
-            return metadata.Get<PageObjectDefinitionAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent)) ?? new PageObjectDefinitionAttribute();
+            return (metadata.ComponentDefinitionAttribute as PageObjectDefinitionAttribute) ?? new PageObjectDefinitionAttribute();
         }
 
         internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)

@@ -42,7 +42,10 @@ namespace Atata
 
         public Type ParentComponentType { get; private set; }
 
-        public UIComponentDefinitionAttribute ComponentDefinitonAttribute { get; internal set; }
+        public UIComponentDefinitionAttribute ComponentDefinitionAttribute =>
+            ParentComponentType == null
+                ? Get<PageObjectDefinitionAttribute>() as UIComponentDefinitionAttribute
+                : Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute;
 
         internal List<Attribute> DeclaredAttributesList
         {

@@ -179,7 +179,7 @@ namespace Atata
         private string GetPropertyName(UIComponentMetadata metadata)
         {
             return CutEnding
-                ? metadata.ComponentDefinitonAttribute.NormalizeNameIgnoringEnding(metadata.Name)
+                ? metadata.ComponentDefinitionAttribute.NormalizeNameIgnoringEnding(metadata.Name)
                 : metadata.Name;
         }
     }

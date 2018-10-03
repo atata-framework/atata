@@ -22,7 +22,7 @@ namespace Atata
         private string itemComponentTypeName;
 
         protected ControlDefinitionAttribute ItemDefinition =>
-            (ControlDefinitionAttribute)Metadata.ComponentDefinitonAttribute;
+            (ControlDefinitionAttribute)Metadata.ComponentDefinitionAttribute;
 
         protected FindAttribute ItemFindAttribute =>
             itemFindAttribute ?? (itemFindAttribute = ResolveItemFindAttribute());

@@ -37,7 +37,7 @@ namespace Atata
 
         protected override By CreateScopeBy()
         {
-            string scopeXPath = Metadata.ComponentDefinitonAttribute?.ScopeXPath ?? "body";
+            string scopeXPath = Metadata.ComponentDefinitionAttribute?.ScopeXPath ?? "body";
 
             StringBuilder xPathBuilder = new StringBuilder($".//{scopeXPath}");
 

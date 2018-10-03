@@ -8,7 +8,8 @@
         }
 
         /// <summary>
-        /// Gets or sets the visibility. The default value is Visible.
+        /// Gets or sets the visibility.
+        /// The default value is <see cref="Visibility.Visible"/>.
         /// </summary>
         public Visibility Visibility
         {
