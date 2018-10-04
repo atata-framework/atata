@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the UI component metadata which consists of component name, type, attributes, etc.
+    /// </summary>
     public class UIComponentMetadata
     {
         private AttributeSearchSet declaredAttributeSet;
@@ -36,12 +39,24 @@ namespace Atata
             All = Targeted | NonTargeted
         }
 
+        /// <summary>
+        /// Gets the name of the component.
+        /// </summary>
         public string Name { get; private set; }
 
+        /// <summary>
+        /// Gets the type of the component.
+        /// </summary>
         public Type ComponentType { get; private set; }
 
+        /// <summary>
+        /// Gets the type of the parent component.
+        /// </summary>
         public Type ParentComponentType { get; private set; }
 
+        /// <summary>
+        /// Gets the component definition attribute.
+        /// </summary>
         public UIComponentDefinitionAttribute ComponentDefinitionAttribute =>
             ParentComponentType == null
                 ? Get<PageObjectDefinitionAttribute>() as UIComponentDefinitionAttribute
@@ -77,16 +92,39 @@ namespace Atata
             set => componentAttributeSet = new AttributeSearchSet(value) { TargetFilterOptions = AttributeTargetFilterOptions.NonTargeted };
         }
 
+        /// <summary>
+        /// Gets the attributes hosted at the declared level.
+        /// </summary>
         public IEnumerable<Attribute> DeclaredAttributes => DeclaredAttributesList.AsEnumerable();
 
+        /// <summary>
+        /// Gets the attributes hosted at the component level.
+        /// </summary>
+
+        /// <summary>
+        /// Gets the attributes hosted at the component level.
+        /// </summary>
         public IEnumerable<Attribute> ComponentAttributes => ComponentAttributesList.AsEnumerable();
 
+        /// <summary>
+        /// Gets the attributes hosted at the component level.
+        /// </summary>
         public IEnumerable<Attribute> ParentComponentAttributes => ParentComponentAttributesList.AsEnumerable();
 
+        /// <summary>
+        /// Gets the attributes hosted at the component level.
+        /// </summary>
         public IEnumerable<Attribute> AssemblyAttributes => AssemblyAttributesList.AsEnumerable();
 
+        /// <summary>
+        /// Gets the attributes hosted at the component level.
+        /// </summary>
         public IEnumerable<Attribute> GlobalAttributes => GlobalAttributesList.AsEnumerable();
 
+        /// <summary>
+        /// Gets all attributes in the following order of levels:
+        /// decalred, parent component, assembly, global, component.
+        /// </summary>
         public IEnumerable<Attribute> AllAttributes => DeclaredAttributesList.
             Concat(ParentComponentAttributesList).
             Concat(AssemblyAttributesList).
