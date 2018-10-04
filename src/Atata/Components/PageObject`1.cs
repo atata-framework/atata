@@ -329,7 +329,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Executes the action(s) passing specified parent's component.
+        /// Executes the action passing specified owner's component.
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <param name="componentSelector">The component selector.</param>
@@ -348,7 +348,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Executes the navigation action(s) passing specified parent's component.
+        /// Executes the navigation action passing specified owner's component.
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
@@ -367,7 +367,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Executes the action(s) passing current page object.
+        /// Executes the action passing current page object.
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The instance of this page object.</returns>
@@ -381,7 +381,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Executes the navigation action(s) passing current page object.
+        /// Executes the navigation action passing current page object.
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the navigate to.</typeparam>
         /// <param name="navigationAction">The navigation action.</param>
@@ -392,6 +392,20 @@ namespace Atata
             navigationAction.CheckNotNull(nameof(navigationAction));
 
             return navigationAction((TOwner)this);
+        }
+
+        /// <summary>
+        /// Executes the action.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner Do(Action action)
+        {
+            action.CheckNotNull(nameof(action));
+
+            action();
+
+            return (TOwner)this;
         }
 
         /// <summary>
