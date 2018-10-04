@@ -1,0 +1,18 @@
+queue:
+  name: Hosted VS2017
+  demands: vstest
+  
+variables:
+  buildConfiguration: 'Debug'
+  
+steps:
+- task: DotNetCoreCLI@2
+  inputs:
+    projects: '**\Atata.sln'
+    arguments: '-c $(buildConfiguration)'
+
+- task: VSTest@2
+  inputs:
+    testAssemblyVer2: |
+      **\*.Tests*.dll
+      !**\obj\**

@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("Content.html")]
+    [Url("content")]
     [VerifyTitle]
     [ControlFinding(FindTermBy.DescriptionTerm, ControlType = typeof(Content<,>))]
     public class ContentPage : Page<_>

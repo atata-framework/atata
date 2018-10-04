@@ -3,7 +3,7 @@ using _ = Atata.Tests.CheckBoxListPage;
 
 namespace Atata.Tests
 {
-    [Url("CheckBoxList.html")]
+    [Url("checkboxlist")]
     [VerifyTitle(TermCase.Pascal)]
     public class CheckBoxListPage : Page<_>
     {

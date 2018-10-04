@@ -38,35 +38,34 @@ namespace Atata
                 (s, opt) =>
                 {
                     string stringValue = RetrieveValueFromString(s, opt.Format);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
+                    string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                    if (concreteFormat == null)
-                        return DateTime.Parse(stringValue, opt.Culture);
-                    else
-                        return DateTime.ParseExact(stringValue, concreteFormat, opt.Culture);
+                    return specificFormat == null
+                        ? DateTime.Parse(stringValue, opt.Culture)
+                        : DateTime.ParseExact(stringValue, specificFormat, opt.Culture);
                 });
 
             RegisterConverter<TimeSpan>(
                 (s, opt) =>
                 {
                     string stringValue = RetrieveValueFromString(s, opt.Format);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
+                    string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                    if (concreteFormat == null)
+                    if (specificFormat == null)
                         return TimeSpan.Parse(stringValue, opt.Culture);
-                    else if (concreteFormat.Contains("t"))
-                        return DateTime.ParseExact(stringValue, concreteFormat, opt.Culture).TimeOfDay;
+                    else if (specificFormat.Contains("t"))
+                        return DateTime.ParseExact(stringValue, specificFormat, opt.Culture).TimeOfDay;
                     else
-                        return TimeSpan.ParseExact(stringValue, concreteFormat, opt.Culture);
+                        return TimeSpan.ParseExact(stringValue, specificFormat, opt.Culture);
                 },
                 (v, opt) =>
                 {
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
+                    string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                    if (concreteFormat != null && concreteFormat.Contains("t"))
+                    if (specificFormat != null && specificFormat.Contains("t"))
                     {
                         return FormatValue(
-                            DateTime.Today.Add(v).ToString(concreteFormat, opt.Culture),
+                            DateTime.Today.Add(v).ToString(specificFormat, opt.Culture),
                             opt.Format,
                             opt.Culture);
                     }
@@ -80,12 +79,11 @@ namespace Atata
                 (s, opt) =>
                 {
                     string stringValue = RetrieveValueFromString(s, opt.Format);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
+                    string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                    if (concreteFormat == null)
-                        return Guid.Parse(stringValue);
-                    else
-                        return Guid.ParseExact(stringValue, concreteFormat);
+                    return specificFormat == null
+                        ? Guid.Parse(stringValue)
+                        : Guid.ParseExact(stringValue, specificFormat);
                 });
         }
 
@@ -98,9 +96,9 @@ namespace Atata
                 (s, opt) =>
                 {
                     string stringValue = RetrieveValueFromString(s, opt.Format);
-                    string concreteFormat = RetrieveConcreteFormatFromStringFormat(opt.Format);
+                    string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                    bool isPercentageFormat = concreteFormat != null && concreteFormat.StartsWith("P", StringComparison.InvariantCultureIgnoreCase);
+                    bool isPercentageFormat = specificFormat != null && specificFormat.StartsWith("P", StringComparison.InvariantCultureIgnoreCase);
 
                     if (isPercentageFormat)
                     {
@@ -148,10 +146,9 @@ namespace Atata
 
         public static string ToDisplayString(object value, TermOptions termOptions = null)
         {
-            if (value is IEnumerable<object>)
-                return string.Join("/", ((IEnumerable<object>)value).Select(x => ToDisplayString(x, termOptions)));
-            else
-                return ToString(value, termOptions);
+            return value is IEnumerable<object>
+                ? string.Join("/", ((IEnumerable<object>)value).Select(x => ToDisplayString(x, termOptions)))
+                : ToString(value, termOptions);
         }
 
         public static string ToString(object value, TermOptions termOptions = null)
@@ -208,7 +205,7 @@ namespace Atata
             return IsComplexStringFormat(format) ? RetrieveValuePart(value, format) : value;
         }
 
-        private static string RetrieveConcreteFormatFromStringFormat(string format)
+        private static string RetrieveSpecificFormatFromStringFormat(string format)
         {
             if (string.IsNullOrEmpty(format))
             {
@@ -252,14 +249,14 @@ namespace Atata
             {
                 throw new ArgumentException(
                     "\"{0}\" value doesn't match format \"{1}\". Should start with \"{2}\"".FormatWith(value, format, formatStart),
-                    "value");
+                    nameof(value));
             }
 
             if (!value.EndsWith(formatEnd))
             {
                 throw new ArgumentException(
                     "\"{0}\" value doesn't match format \"{1}\". Should end with \"{2}\"".FormatWith(value, format, formatEnd),
-                    "value");
+                    nameof(value));
             }
 
             return value.Substring(formatStart.Length, value.Length - formatStart.Length - formatEnd.Length);

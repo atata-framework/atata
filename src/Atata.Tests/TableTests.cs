@@ -162,5 +162,17 @@ namespace Atata.Tests
             page.
                 CountryTable.Rows.GetByXPathCondition("Paris", @"td[2][.='Paris']").Country.Should.Equal("France");
         }
+
+        [Test]
+        public void Table_InsideAnotherTable()
+        {
+            var component = page.InsideAnotherTable;
+
+            component.Should.Exist();
+            component.Rows.Count.Should.Equal(1);
+            component.Rows[0].Key.Should.Equal("A");
+            component.Rows[0].Value.Should.Equal(1);
+            component.Rows[x => x.Key == "A"].Value.Should.Equal(1);
+        }
     }
 }

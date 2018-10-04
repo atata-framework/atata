@@ -39,8 +39,7 @@ namespace Atata
 
             termGetter = md => md.GetAll<TermAttribute>();
 
-            termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(
-                x => x.TargetAttributeTypes?.Contains(GetType()) ?? false);
+            termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(x => x.ForAttribute(GetType()));
         }
 
         /// <summary>
@@ -182,7 +181,7 @@ namespace Atata
         private string GetPropertyName(UIComponentMetadata metadata)
         {
             return CutEnding
-                ? metadata.ComponentDefinitonAttribute.NormalizeNameIgnoringEnding(metadata.Name)
+                ? metadata.ComponentDefinitionAttribute.NormalizeNameIgnoringEnding(metadata.Name)
                 : metadata.Name;
         }
     }

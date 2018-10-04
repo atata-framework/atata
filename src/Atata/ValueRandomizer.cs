@@ -45,7 +45,7 @@ namespace Atata
             string value;
             if (!TryRandomizeOneOfIncluded(metadata, out value))
             {
-                var attribute = metadata.Get<RandomizeStringSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeStringSettingsAttribute();
+                var attribute = metadata.Get<RandomizeStringSettingsAttribute>(x => x.At(AttributeLevels.Declared)) ?? new RandomizeStringSettingsAttribute();
 
                 string format = NormalizeStringFormat(attribute.Format);
                 value = Randomizer.GetString(format, attribute.NumberOfCharacters);
@@ -59,7 +59,7 @@ namespace Atata
             T value;
             if (!TryRandomizeOneOfIncluded(metadata, out value))
             {
-                var attribute = metadata.Get<RandomizeNumberSettingsAttribute>(AttributeLevels.Declared) ?? new RandomizeNumberSettingsAttribute();
+                var attribute = metadata.Get<RandomizeNumberSettingsAttribute>(x => x.At(AttributeLevels.Declared)) ?? new RandomizeNumberSettingsAttribute();
 
                 decimal valueAsDecimal = Randomizer.GetDecimal(attribute.Min, attribute.Max, attribute.Precision);
                 value = (T)Convert.ChangeType(valueAsDecimal, typeof(T));
@@ -92,7 +92,7 @@ namespace Atata
         private static T RandomizeFlagsEnum<T>(Type enumType, UIComponentMetadata metadata)
         {
             var optionValues = GetEnumOptionValues<T>(enumType, metadata);
-            var countAttribute = metadata.Get<RandomizeCountAttribute>(AttributeLevels.Declared);
+            var countAttribute = metadata.Get<RandomizeCountAttribute>(x => x.At(AttributeLevels.Declared));
 
             int minCount = countAttribute?.Min ?? 1;
             int maxCount = countAttribute?.Max ?? 1;
@@ -116,7 +116,7 @@ namespace Atata
             if (values == null || values.Length == 0)
                 values = enumType.GetIndividualEnumFlags().Cast<T>().ToArray();
 
-            var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>(AttributeLevels.Declared);
+            var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>(x => x.At(AttributeLevels.Declared));
 
             if (excludeAttribute?.Values?.Any() ?? false)
             {
@@ -144,7 +144,7 @@ namespace Atata
 
         private static T[] GetRandomizeIncludeValues<T>(UIComponentMetadata metadata)
         {
-            var includeAttribute = metadata.Get<RandomizeIncludeAttribute>(AttributeLevels.Declared);
+            var includeAttribute = metadata.Get<RandomizeIncludeAttribute>(x => x.At(AttributeLevels.Declared));
 
             return includeAttribute?.Values?.Cast<T>()?.ToArray();
         }

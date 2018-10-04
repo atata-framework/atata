@@ -68,7 +68,7 @@ namespace Atata
         /// <returns>The <see cref="By"/> instance.</returns>
         protected virtual By CreateScopeBy()
         {
-            string scopeXPath = Metadata.ComponentDefinitonAttribute?.ScopeXPath ?? "body";
+            string scopeXPath = Metadata.ComponentDefinitionAttribute?.ScopeXPath ?? "body";
 
             return By.XPath($".//{scopeXPath}");
         }

@@ -20,7 +20,7 @@ namespace Atata
         public string TargetName
         {
             get { return TargetNames?.SingleOrDefault(); }
-            set { TargetNames = new[] { value }; }
+            set { TargetNames = value == null ? null : new[] { value }; }
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Atata
         public Type TargetType
         {
             get { return TargetTypes?.SingleOrDefault(); }
-            set { TargetTypes = new[] { value }; }
+            set { TargetTypes = value == null ? null : new[] { value }; }
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Atata
         public Type TargetParentType
         {
             get { return TargetParentTypes?.SingleOrDefault(); }
-            set { TargetParentTypes = new[] { value }; }
+            set { TargetParentTypes = value == null ? null : new[] { value }; }
         }
 
         /// <summary>
@@ -122,7 +122,7 @@ namespace Atata
             return rank;
         }
 
-        private static int? GetDepthOfInheritance(Type[] targetTypes, Type typeToCheck)
+        protected static int? GetDepthOfInheritance(Type[] targetTypes, Type typeToCheck)
         {
             if (targetTypes == null || !targetTypes.Any())
                 return -1;

@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Collections.Generic;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -11,6 +12,13 @@ namespace Atata
             ScopeLocateOptions = scopeLocateOptions;
         }
 
+        public SequalComponentScopeLocateResult(IEnumerable<IWebElement> scopeSources, IComponentScopeLocateStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions = null)
+        {
+            ScopeSources = scopeSources;
+            Strategy = strategy;
+            ScopeLocateOptions = scopeLocateOptions;
+        }
+
         public SequalComponentScopeLocateResult(By scopeSourceBy, IComponentScopeLocateStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions = null)
         {
             ScopeSourceBy = scopeSourceBy;
@@ -19,6 +27,8 @@ namespace Atata
         }
 
         public IWebElement ScopeSource { get; private set; }
+
+        public IEnumerable<IWebElement> ScopeSources { get; private set; }
 
         public By ScopeSourceBy { get; private set; }
 

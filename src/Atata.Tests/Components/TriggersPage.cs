@@ -5,7 +5,7 @@ using _ = Atata.Tests.TriggersPage;
 
 namespace Atata.Tests
 {
-    [Url("Triggers.html")]
+    [Url("triggers")]
     [VerifyTitle]
     [VerifyH1]
     [InvokeMethod(nameof(OnStaticInit), TriggerEvents.Init)]
@@ -114,7 +114,7 @@ namespace Atata.Tests
 
             public string Message { get; private set; }
 
-            protected override void Execute<TOwner>(TriggerContext<TOwner> context)
+            protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
             {
                 context.Log.Info(Message);
             }

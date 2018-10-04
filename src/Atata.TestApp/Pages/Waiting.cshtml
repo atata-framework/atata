@@ -1,0 +1,52 @@
+﻿@page
+@{
+    ViewBag.Title = "Waiting";
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3 content">
+        <button class="btn btn-default" onclick="wait();">Wait</button>
+        <span class="processing-block" style="display: none">Processing...</span>
+        <span class="result-block" style="display: none">Result</span>
+        <br>
+        <br>
+        <a href="/waitingoninit">Go to WaitingOnInit page</a>
+        <button onclick="waitAndGo();">Wait and go to WaitingOnInit page</button>
+        <span class="navigating-block" style="display: none">Navigating...</span>
+        <br>
+        <br>
+        <button onclick="waitAndUpdateValue();">Wait and Update Value</button>
+        <div class="value-container">
+            <span id="value-block">Initial value</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function wait() {
+        $(".result-block").hide();
+        $(".processing-block").show();
+
+        setTimeout(function () {
+            $(".processing-block").hide();
+            $(".result-block").show();
+        }, 2000);
+    }
+
+    function waitAndGo() {
+        $(".navigating-block").show();
+
+        setTimeout(function () {
+            $(".navigating-block").hide();
+            document.location.href = '/waitingoninit';
+        }, 2000);
+    }
+
+    function waitAndUpdateValue() {
+        setTimeout(function () {
+            $('.value-container').remove();
+
+            $('.content').append('<div class="value-container"><span id="value-block">New value</span></div>');
+        }, 2000);
+        $('#value-block').remove();
+    }
+</script>

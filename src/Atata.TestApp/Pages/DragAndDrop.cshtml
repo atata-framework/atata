@@ -1,0 +1,54 @@
+﻿@page
+@{
+    ViewBag.Title = "Drag and Drop";
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div id="drop-container" ondrop="drop(event);" ondragover="allowDrop(event);"></div>
+        <div id="drag-items">
+            <span id="item1" class="drag-item" draggable="true" ondragstart="drag(event);" width="336" height="69">Drag item 1</span>
+            <span id="item2" class="drag-item" draggable="true" ondragstart="drag(event);" width="336" height="69">Drag item 2</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    function allowDrop(ev) {
+        ev.preventDefault();
+    }
+
+    function drag(ev) {
+        ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+        ev.preventDefault();
+        var data = ev.dataTransfer.getData("text");
+        ev.target.appendChild(document.getElementById(data));
+    }
+</script>
+
+<style>
+    #drop-container {
+        width: 350px;
+        height: 70px;
+        padding: 10px;
+        border: 1px solid #aaaaaa;
+        margin-bottom: 10px;
+    }
+
+    .drag-item {
+        padding: 10px;
+        border: 1px solid #aaaaaa;
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+        .drag-item:hover {
+            background-color: lightblue;
+        }
+
+        .drag-item:active {
+            background-color: deepskyblue;
+        }
+</style>

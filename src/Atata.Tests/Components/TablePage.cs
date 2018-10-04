@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("Table.html")]
+    [Url("table")]
     [VerifyTitle]
     public class TablePage : Page<_>
     {
@@ -28,6 +28,9 @@ namespace Atata.Tests
 
         [FindByInnerXPath(".//th[.='Name'] and .//th[.='Description']")]
         public Table<EmptyTableRow, _> EmptyTable { get; private set; }
+
+        [FindById(CutEnding = false)]
+        public Table<InsideAnotherTableRow, _> InsideAnotherTable { get; private set; }
 
         public class UserTableRow : TableRow<_>
         {
@@ -64,6 +67,13 @@ namespace Atata.Tests
             public Text<_> Name { get; private set; }
 
             public Text<_> Description { get; private set; }
+        }
+
+        public class InsideAnotherTableRow : TableRow<_>
+        {
+            public Text<_> Key { get; private set; }
+
+            public Number<_> Value { get; private set; }
         }
     }
 }

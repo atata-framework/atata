@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("RadioButtonList.html")]
+    [Url("radiobuttonlist")]
     [VerifyTitle(TermCase.Pascal)]
     public class RadioButtonListPage : Page<_>
     {

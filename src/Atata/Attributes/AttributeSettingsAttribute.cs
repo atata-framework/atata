@@ -19,14 +19,20 @@ namespace Atata
         public Type TargetAttributeType
         {
             get { return TargetAttributeTypes?.SingleOrDefault(); }
-            set { TargetAttributeTypes = new[] { value }; }
+            set { TargetAttributeTypes = value == null ? null : new[] { value }; }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether this instance has any target specified.
-        /// </summary>
-        public override bool IsTargetSpecified =>
-            base.IsTargetSpecified ||
-            (TargetAttributeTypes?.Any() ?? false);
+        public virtual int? CalculateTargetAttributeRank(Type targetAttributeType)
+        {
+            int? depthOfTypeInheritance = GetDepthOfInheritance(TargetAttributeTypes, targetAttributeType);
+            if (depthOfTypeInheritance == null)
+                return null;
+
+            int rankFactor = 100000;
+
+            return depthOfTypeInheritance >= 0
+                ? Math.Max(rankFactor - (depthOfTypeInheritance.Value * 100), 0)
+                : 0;
+        }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("List.html")]
+    [Url("list")]
     [VerifyTitle]
     [VerifyH1]
     public class ListPage : Page<_>
