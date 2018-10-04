@@ -8,6 +8,7 @@ namespace Atata.Tests
     public class ConfigurationTests
     {
         [Test]
+        [Parallelizable(ParallelScope.None)]
         public void Configuration_Mixed()
         {
             var globalContext = AtataContext.GlobalConfiguration.BuildingContext;
@@ -32,6 +33,8 @@ namespace Atata.Tests
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(100)).
                 UseBaseRetryInterval(TimeSpan.FromSeconds(1)).
                 BuildingContext;
+
+            AtataContext.GlobalConfiguration.Clear();
 
             Assert.That(globalContext.TestNameFactory(), Is.EqualTo(nameof(Configuration_Mixed)));
             Assert.That(globalContext.DriverFactories, Is.Empty);
