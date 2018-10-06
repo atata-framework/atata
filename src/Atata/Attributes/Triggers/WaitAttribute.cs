@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies the waiting period in seconds. By default occurs after any action.
+    /// Specifies the waiting period in seconds.
+    /// By default occurs after any action.
     /// </summary>
     public class WaitAttribute : TriggerAttribute
     {

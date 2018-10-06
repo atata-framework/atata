@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the component should be verified whether it is missing on the specified event. By default occurs upon the page object initialization.
+    /// Indicates that the component should be verified whether it is missing on the specified event.
+    /// By default occurs upon the page object initialization.
     /// </summary>
     public class VerifyMissingAttribute : TriggerAttribute
     {
