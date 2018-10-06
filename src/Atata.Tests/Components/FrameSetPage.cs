@@ -2,7 +2,7 @@
 {
     using _ = FrameSetPage;
 
-    [Url("FrameSet.html")]
+    [Url("frameset")]
     [VerifyTitle(TermCase.Pascal)]
     public class FrameSetPage : FrameSetPage<_>
     {

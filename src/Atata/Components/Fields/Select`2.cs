@@ -35,8 +35,7 @@
         /// By default uses <see cref="SelectByTextAttribute"/>.
         /// </summary>
         protected internal SelectOptionBehaviorAttribute SelectOptionBehavior =>
-            Metadata.Get<SelectOptionBehaviorAttribute>(AttributeLevels.All)
-            ?? new SelectByTextAttribute();
+            Metadata.Get<SelectOptionBehaviorAttribute>() ?? new SelectByTextAttribute();
 
         protected override T GetValue()
         {

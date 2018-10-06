@@ -19,7 +19,7 @@ namespace Atata.Tests
             Driver.SwitchTo().Frame(iframe);
         }
 
-        protected override void CleanUp()
+        protected internal override void CleanUp()
         {
             base.CleanUp();
 

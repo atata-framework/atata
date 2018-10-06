@@ -37,11 +37,11 @@ namespace Atata
 
         protected override By CreateScopeBy()
         {
-            string scopeXPath = Metadata.ComponentDefinitonAttribute?.ScopeXPath ?? "body";
+            string scopeXPath = Metadata.ComponentDefinitionAttribute?.ScopeXPath ?? "body";
 
             StringBuilder xPathBuilder = new StringBuilder($".//{scopeXPath}");
 
-            string titleElementXPath = Metadata.Get<WindowTitleElementDefinitionAttribute>(AttributeLevels.Component)?.ScopeXPath;
+            string titleElementXPath = Metadata.Get<WindowTitleElementDefinitionAttribute>(x => x.At(AttributeLevels.Component))?.ScopeXPath;
 
             if (CanFindByWindowTitle && !string.IsNullOrWhiteSpace(titleElementXPath))
             {
@@ -56,7 +56,7 @@ namespace Atata
         {
             base.ApplyMetadata(metadata);
 
-            WindowTitleAttribute titleAttribute = metadata.Get<WindowTitleAttribute>(AttributeLevels.Component);
+            WindowTitleAttribute titleAttribute = metadata.Get<WindowTitleAttribute>(x => x.At(AttributeLevels.Component));
             if (titleAttribute != null)
             {
                 WindowTitleValues = titleAttribute.GetActualValues(ComponentName);

@@ -82,10 +82,9 @@ namespace Atata
 
         private static string TrimBrackets(string expression)
         {
-            if (expression.StartsWith("(") && expression.EndsWith(")"))
-                return expression.Substring(1, expression.Length - 2);
-            else
-                return expression;
+            return expression.StartsWith("(") && expression.EndsWith(")")
+                 ? expression.Substring(1, expression.Length - 2)
+                 : expression;
         }
 
         protected override Expression VisitLambda<T>(Expression<T> node)
@@ -253,7 +252,7 @@ namespace Atata
         {
             if (node.Value is bool boolValue)
             {
-                Out(boolValue.ToString().ToLower());
+                Out(boolValue.ToString().ToLowerInvariant());
                 return node;
             }
 

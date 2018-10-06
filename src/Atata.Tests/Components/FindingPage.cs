@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("Finding.html")]
+    [Url("finding")]
     [VerifyTitle]
     [VerifyH1]
     public class FindingPage : Page<_>

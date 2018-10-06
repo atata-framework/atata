@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Atata
 {
@@ -7,8 +6,7 @@ namespace Atata
     /// Represents the base attribute class for component scope definition.
     /// The basic definition is represented with XPath.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public abstract class ScopeDefinitionAttribute : Attribute
+    public abstract class ScopeDefinitionAttribute : MulticastAttribute
     {
         public const string DefaultScopeXPath = "*";
 
@@ -30,7 +28,7 @@ namespace Atata
         public string ContainingClass
         {
             get => ContainingClasses?.SingleOrDefault();
-            set => ContainingClasses = new[] { value };
+            set => ContainingClasses = value == null ? null : new[] { value };
         }
 
         /// <summary>

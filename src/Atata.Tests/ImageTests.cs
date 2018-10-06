@@ -16,7 +16,7 @@ namespace Atata.Tests
         {
             var control = page.LoadedImage;
 
-            control.Source.Should.EndWith("/Images/350x150.png");
+            control.Source.Should.EndWith("/images/350x150.png");
             control.IsLoaded.Should.BeTrue();
         }
 
@@ -25,7 +25,7 @@ namespace Atata.Tests
         {
             var control = page.NotLoadedImage;
 
-            control.Source.Should.EndWith("/Images/missing.png");
+            control.Source.Should.EndWith("/images/missing.png");
             control.IsLoaded.Should.BeFalse();
         }
     }

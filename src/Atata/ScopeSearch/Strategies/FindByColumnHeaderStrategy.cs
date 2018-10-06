@@ -8,7 +8,7 @@ namespace Atata
         private readonly string headerXPath;
 
         public FindByColumnHeaderStrategy()
-            : this("(ancestor::table)[1]//th")
+            : this("(ancestor::table)[position() = last()]//th")
         {
         }
 

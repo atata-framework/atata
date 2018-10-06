@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("Label.html")]
+    [Url("label")]
     [VerifyTitle]
     [VerifyH1]
     public class LabelPage : Page<_>

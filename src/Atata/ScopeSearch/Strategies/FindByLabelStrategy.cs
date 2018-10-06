@@ -26,7 +26,7 @@ namespace Atata
             {
                 return new SequalComponentScopeLocateResult(label, new FindFirstDescendantStrategy());
             }
-            else if ((idXPathForLabelAttribute = options.Metadata.Get<IdXPathForLabelAttribute>(AttributeLevels.Component)) != null)
+            else if ((idXPathForLabelAttribute = options.Metadata.Get<IdXPathForLabelAttribute>(x => x.At(AttributeLevels.Component))) != null)
             {
                 ComponentScopeLocateOptions idOptions = options.Clone();
                 idOptions.Terms = new[] { idXPathForLabelAttribute.XPathFormat.FormatWith(elementId) };

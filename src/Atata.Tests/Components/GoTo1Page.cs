@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    [Url("GoTo1.html")]
+    [Url("goto1")]
     [VerifyTitle("GoTo 1")]
     public class GoTo1Page : Page<_>
     {

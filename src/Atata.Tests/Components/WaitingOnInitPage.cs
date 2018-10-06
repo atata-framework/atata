@@ -7,7 +7,7 @@ namespace Atata.Tests
     [Url(Url)]
     public class WaitingOnInitPage : Page<_>
     {
-        public const string Url = "WaitingOnInit.html";
+        public const string Url = "waitingoninit";
 
         public enum WaitKind
         {

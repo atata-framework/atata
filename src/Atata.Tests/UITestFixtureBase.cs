@@ -7,6 +7,8 @@ namespace Atata.Tests
     [TestFixture]
     public abstract class UITestFixtureBase
     {
+        public const string BaseUrl = "http://localhost:50549";
+
         private StringListLogConsumer stringListLogConsumer;
 
         protected IEnumerable<LogEventInfo> LogEntries => stringListLogConsumer.Items;
@@ -22,7 +24,7 @@ namespace Atata.Tests
                     WithFixOfCommandExecutionDelay().
                     WithLocalDriverPath().
 #endif
-                UseBaseUrl(AppConfig.BaseUrl).
+                UseBaseUrl(BaseUrl).
                 UseCulture("en-us").
                 UseNUnitTestName().
                 AddNUnitTestContextLogging().

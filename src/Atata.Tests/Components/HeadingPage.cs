@@ -2,7 +2,7 @@
 {
     using _ = HeadingPage;
 
-    [Url("Heading.html")]
+    [Url("heading")]
     [VerifyH1("Heading 1")]
     [VerifyH2("Heading 1.1", Index = 0)]
     [VerifyH2(TermMatch.Contains, "Heading 1_2", "Heading 1.2", Index = 1)]

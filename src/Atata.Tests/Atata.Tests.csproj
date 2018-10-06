@@ -1,199 +1,46 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\NUnit.3.10.1\build\NUnit.props" Condition="Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" />
-  <Import Project="..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props" Condition="Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" />
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E7BDDA9C-BE09-4350-B077-43F5C8C776ED}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Atata.Tests</RootNamespace>
-    <AssemblyName>Atata.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\net45\</OutputPath>
-    <BaseIntermediateOutputPath>obj\net45</BaseIntermediateOutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFramework>net45</TargetFramework>
+	<IsPackable>false</IsPackable>
+    <Authors>Yevgeniy Shunevych</Authors>
+    <Company>Yevgeniy Shunevych</Company>
+    <Product>Atata Framework</Product>
+    <Copyright>© Yevgeniy Shunevych 2018</Copyright>
     <CodeAnalysisRuleSet>..\Atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\net45\</OutputPath>
-    <BaseIntermediateOutputPath>obj\net45</BaseIntermediateOutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>..\Atata.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
+  
   <ItemGroup>
-    <Reference Include="Atata.WebDriverExtras, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Atata.WebDriverExtras.1.0.0\lib\net45\Atata.WebDriverExtras.dll</HintPath>
-    </Reference>
-    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
-    </Reference>
-    <Reference Include="nunit.framework, Version=3.10.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
-      <HintPath>..\packages\NUnit.3.10.1\lib\net45\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WebDriver, Version=3.12.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Selenium.WebDriver.3.12.1\lib\net45\WebDriver.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="AppConfig.cs" />
-    <Compile Include="AtataContextBuilderTests.cs" />
-    <Compile Include="AtataContextTests.cs" />
-    <Compile Include="AtataSettings.cs" />
-    <Compile Include="CheckBoxListTests.cs" />
-    <Compile Include="CheckBoxTests.cs" />
-    <Compile Include="ClickableTests.cs" />
-    <Compile Include="Components\BasicControlsPage.cs" />
-    <Compile Include="Components\CheckBoxListPage.cs" />
-    <Compile Include="Components\ContentPage.cs" />
-    <Compile Include="Components\DragAndDropPage.cs" />
-    <Compile Include="Components\FindingWithSettingsPage.cs" />
-    <Compile Include="Components\FrameInner2Page.cs" />
-    <Compile Include="Components\FrameInner1Page.cs" />
-    <Compile Include="Components\FrameInner1SelfSwitchingPage.cs" />
-    <Compile Include="Components\FramePage.cs" />
-    <Compile Include="Components\FrameSetPage.cs" />
-    <Compile Include="Components\GoTo1Page.cs" />
-    <Compile Include="Components\GoTo2Page.cs" />
-    <Compile Include="Components\GoTo3Page.cs" />
-    <Compile Include="Components\HeadingPage.cs" />
-    <Compile Include="Components\ImagePage.cs" />
-    <Compile Include="Components\InputPage.cs" />
-    <Compile Include="Components\LabelPage.cs" />
-    <Compile Include="Components\ListPage.cs" />
-    <Compile Include="Components\MessageBoxPage.cs" />
-    <Compile Include="Components\RadioButtonListPage.cs" />
-    <Compile Include="Components\RandomizationPage.cs" />
-    <Compile Include="Components\SelectPage.cs" />
-    <Compile Include="Components\TablePage.cs" />
-    <Compile Include="Components\FindingPage.cs" />
-    <Compile Include="Components\TriggersPage.cs" />
-    <Compile Include="Components\WaitingOnInitPage.cs" />
-    <Compile Include="Components\WaitingPage.cs" />
-    <Compile Include="ConfigurationTests.cs" />
-    <Compile Include="ContentTests.cs" />
-    <Compile Include="ControlListTests.cs" />
-    <Compile Include="ControlTests.cs" />
-    <Compile Include="CustomControlTests.cs" />
-    <Compile Include="FileScreenshotConsumerTests.cs" />
-    <Compile Include="FindingWithSettingsTests.cs" />
-    <Compile Include="FrameSetTests.cs" />
-    <Compile Include="FrameTests.cs" />
-    <Compile Include="GoTests.cs" />
-    <Compile Include="ImageTests.cs" />
-    <Compile Include="InputTests.cs" />
-    <Compile Include="LabelTests.cs" />
-    <Compile Include="ListTests.cs" />
-    <Compile Include="MultiDriverTests.cs" />
-    <Compile Include="NLogConsumerTests.cs" />
-    <Compile Include="NUnitSettings.cs" />
-    <Compile Include="OrdinaryPageTests.cs" />
-    <Compile Include="RandomizationTests.cs" />
-    <Compile Include="ShouldTests.cs" />
-    <Compile Include="StringListLogConsumer.cs" />
-    <Compile Include="DefaultTimeoutTests.cs" />
-    <Compile Include="TriggerTests.cs" />
-    <Compile Include="MessageBoxTests.cs" />
-    <Compile Include="PageObjectTests.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BasicControlTests.cs" />
-    <Compile Include="RadioButtonListTests.cs" />
-    <Compile Include="RadioButtonTests.cs" />
-    <Compile Include="SelectTests.cs" />
-    <Compile Include="StopwatchAsserter.cs" />
-    <Compile Include="TableTests.cs" />
-    <Compile Include="TermCaseTests.cs" />
-    <Compile Include="TermResolverTests.cs" />
-    <Compile Include="UIComponentResolverTests.cs" />
-    <Compile Include="UITestFixture.cs" />
-    <Compile Include="TestCaseDataSource.cs" />
-    <Compile Include="FindingTests.cs" />
-    <Compile Include="UIComponentTests.cs" />
-    <Compile Include="UITestFixtureBase.cs" />
-    <Compile Include="VerifyHeadingTests.cs" />
-    <Compile Include="VerifyMissingTests.cs" />
-    <Compile Include="WaitForElementTests.cs" />
-    <Compile Include="VerifyExistsTests.cs" />
-    <Compile Include="WaitForScriptTests.cs" />
-    <Compile Include="WaitForTests.cs" />
-    <Compile Include="WaitingTests.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\Atata.ruleset">
-      <Link>Properties\Atata.ruleset</Link>
-    </None>
-    <None Include="App.config" />
-    <Content Include="NLog.config">
-      <SubType>Designer</SubType>
+    <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <None Include="NLog.xsd">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Atata\Atata.csproj">
-      <Project>{9d876d23-607a-45dc-979a-01da1d34189c}</Project>
-      <Name>Atata</Name>
-    </ProjectReference>
+    <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
+	<PackageReference Include="FluentAssertions" Version="5.4.2" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+	<PackageReference Include="NLog" Version="4.5.6" />
+    <PackageReference Include="NUnit" Version="3.10.1" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" />
+    <PackageReference Include="RetryHelper" Version="2.1.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.12.1" />
+    <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.42.0.1" />
+	<PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.12.0" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.5.0.6605">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
+
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\Atata\Atata.csproj" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets'))" />
-    <Error Condition="!Exists('..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit3TestAdapter.3.10.0\build\net35\NUnit3TestAdapter.props'))" />
-    <Error Condition="!Exists('..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets'))" />
-    <Error Condition="!Exists('..\packages\NUnit.3.10.1\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.10.1\build\NUnit.props'))" />
-    <Error Condition="!Exists('..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets'))" />
-    <Error Condition="!Exists('..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets'))" />
-  </Target>
-  <ItemGroup>
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
-    <Analyzer Include="..\packages\StyleCop.Analyzers.1.0.2\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
-  </ItemGroup>
-  <Import Project="..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets" Condition="Exists('..\packages\Selenium.PhantomJS.WebDriver.2.1.1\build\Selenium.PhantomJS.WebDriver.targets')" />
-  <Import Project="..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets" Condition="Exists('..\packages\Selenium.Firefox.WebDriver.0.20.0\build\Selenium.Firefox.WebDriver.targets')" />
-  <Import Project="..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.IEDriver.3.12.0\build\Selenium.WebDriver.IEDriver.targets')" />
-  <Import Project="..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets" Condition="Exists('..\packages\Selenium.WebDriver.ChromeDriver.2.38.0.1\build\Selenium.WebDriver.ChromeDriver.targets')" />
+
 </Project>

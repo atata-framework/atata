@@ -79,12 +79,12 @@ namespace Atata
             return value;
         }
 
-        internal static int CheckIndexNonNegative(this int value)
+        internal static int CheckIndexNonNegative(this int index)
         {
-            if (value < 0)
-                throw new ArgumentOutOfRangeException("index", value, "Index was out of range. Must be non-negative.");
+            if (index < 0)
+                throw new ArgumentOutOfRangeException(nameof(index), index, "Index was out of range. Must be non-negative.");
 
-            return value;
+            return index;
         }
 
         private static string ConcatMessage(string primaryMessage, string secondaryMessage)

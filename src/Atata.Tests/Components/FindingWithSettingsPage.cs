@@ -2,7 +2,7 @@
 {
     using _ = FindingWithSettingsPage;
 
-    [Url("Finding.html")]
+    [Url("finding")]
     [Name("Finding")]
     [VerifyTitle]
     [VerifyH1]
@@ -26,7 +26,7 @@
 
         [ControlFinding(FindTermBy.DescriptionTerm)]
         [ControlFinding(FindTermBy.Value, ControlType = typeof(RadioButton<>))]
-        [TermFindSettings(Case = TermCase.Pascal, TargetAttributeType = typeof(FindByValueAttribute))]
+        [TermFindSettings(Case = TermCase.Pascal, TargetAttributeType = typeof(FindByValueAttribute), TargetAnyType = true)]
         [FindSettings(Visibility = Visibility.Hidden, TargetType = typeof(Field<,>))]
         [FindSettings(Visibility = Visibility.Visible, TargetTypes = new[] { typeof(Field<,>), typeof(Label<>) }, TargetNames = new[] { nameof(OptionB), nameof(OptionD), "Missing" })]
         public class RadioFieldSet : Control<_>

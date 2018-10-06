@@ -2,7 +2,7 @@
 {
     using _ = ImagePage;
 
-    [Url("Image.html")]
+    [Url("image")]
     [VerifyTitle]
     public class ImagePage : Page<_>
     {

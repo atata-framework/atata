@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,38 +9,33 @@ namespace Atata
 {
     public static class UIComponentResolver
     {
-        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> PropertyAttributes;
-        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> ClassAttributes;
-        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> AssemblyAttributes;
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> PropertyAttributes =
+            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        private static readonly Dictionary<Type, string> PageObjectNames;
-        private static readonly Dictionary<Type, Type> DelegateControlsTypeMapping;
-        private static readonly Dictionary<Delegate, UIComponent> DelegateControls;
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> ClassAttributes =
+            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        static UIComponentResolver()
-        {
-            PropertyAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
-            ClassAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
-            AssemblyAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> AssemblyAttributes =
+            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-            PageObjectNames = new Dictionary<Type, string>();
-            DelegateControlsTypeMapping = new Dictionary<Type, Type>();
-            DelegateControls = new Dictionary<Delegate, UIComponent>();
+        private static readonly ConcurrentDictionary<Type, string> PageObjectNames =
+            new ConcurrentDictionary<Type, string>();
 
-            InitDelegateControlMappings();
-        }
+        private static readonly ConcurrentDictionary<Type, Type> DelegateControlsTypeMapping =
+            new ConcurrentDictionary<Type, Type>
+            {
+                [typeof(ClickableDelegate<>)] = typeof(Clickable<>),
+                [typeof(ClickableDelegate<,>)] = typeof(Clickable<,>),
 
-        private static void InitDelegateControlMappings()
-        {
-            RegisterDelegateControlMapping(typeof(ClickableDelegate<>), typeof(Clickable<>));
-            RegisterDelegateControlMapping(typeof(ClickableDelegate<,>), typeof(Clickable<,>));
+                [typeof(LinkDelegate<>)] = typeof(Link<>),
+                [typeof(LinkDelegate<,>)] = typeof(Link<,>),
 
-            RegisterDelegateControlMapping(typeof(LinkDelegate<>), typeof(Link<>));
-            RegisterDelegateControlMapping(typeof(LinkDelegate<,>), typeof(Link<,>));
+                [typeof(ButtonDelegate<>)] = typeof(Button<>),
+                [typeof(ButtonDelegate<,>)] = typeof(Button<,>)
+            };
 
-            RegisterDelegateControlMapping(typeof(ButtonDelegate<>), typeof(Button<>));
-            RegisterDelegateControlMapping(typeof(ButtonDelegate<,>), typeof(Button<,>));
-        }
+        private static readonly ConcurrentDictionary<Delegate, UIComponent> DelegateControls =
+            new ConcurrentDictionary<Delegate, UIComponent>();
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
         {
@@ -246,7 +242,7 @@ namespace Atata
             UIComponentMetadata metadata = CreateStaticControlMetadata(parentComponent, property);
 
             if (attributes != null)
-                metadata.DeclaredAttributesList.AddRange(attributes);
+                metadata.Push(attributes);
 
             var component = (TComponent)CreateComponent(parentComponent, metadata);
 
@@ -314,7 +310,7 @@ namespace Atata
 
         private static string ResolveControlName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            NameAttribute nameAttribute = metadata.Get<NameAttribute>(AttributeLevels.Declared);
+            NameAttribute nameAttribute = metadata.Get<NameAttribute>(x => x.At(AttributeLevels.Declared));
 
             if (!string.IsNullOrWhiteSpace(nameAttribute?.Value))
             {
@@ -329,13 +325,13 @@ namespace Atata
                 }
                 else
                 {
-                    TermAttribute termAttribute = metadata.Get<TermAttribute>(AttributeLevels.Declared);
+                    TermAttribute termAttribute = metadata.Get<TermAttribute>(x => x.At(AttributeLevels.Declared));
                     if (termAttribute?.Values?.Any() ?? false)
                         return string.Join("/", termAttribute.Values);
                 }
             }
 
-            return metadata.ComponentDefinitonAttribute.
+            return metadata.ComponentDefinitionAttribute.
                 NormalizeNameIgnoringEnding(metadata.Name).
                 ToString(TermCase.Title);
         }
@@ -368,7 +364,7 @@ namespace Atata
             Type parentComponentType,
             Attribute[] declaredAttributes)
         {
-            UIComponentMetadata metadata = new UIComponentMetadata(name, componentType, parentComponentType)
+            return new UIComponentMetadata(name, componentType, parentComponentType)
             {
                 DeclaredAttributesList = declaredAttributes.ToList(),
                 ParentComponentAttributesList = GetClassAttributes(parentComponentType).ToList(),
@@ -376,18 +372,11 @@ namespace Atata
                 GlobalAttributesList = new List<Attribute>(),
                 ComponentAttributesList = GetClassAttributes(componentType).ToList()
             };
-
-            if (parentComponentType == null)
-                metadata.ComponentDefinitonAttribute = GetPageObjectDefinition(metadata);
-            else
-                metadata.ComponentDefinitonAttribute = GetControlDefinition(metadata);
-
-            return metadata;
         }
 
         private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
         {
-            FindAttribute findAttribute = metadata.Get<FindAttribute>(AttributeLevels.Declared);
+            FindAttribute findAttribute = metadata.Get<FindAttribute>(x => x.At(AttributeLevels.Declared));
             if (findAttribute != null)
             {
                 return findAttribute;
@@ -431,7 +420,7 @@ namespace Atata
 
         private static FindAttribute GetDefaultFindAttribute(UIComponentMetadata metadata)
         {
-            if (metadata.ComponentDefinitonAttribute.ScopeXPath == "*")
+            if (metadata.ComponentDefinitionAttribute.ScopeXPath == ScopeDefinitionAttribute.DefaultScopeXPath)
                 return new UseParentScopeAttribute();
 
             return new FindFirstAttribute();
@@ -439,12 +428,12 @@ namespace Atata
 
         private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
-            return metadata.Get<IFindItemAttribute>(AttributeLevels.Declared) ?? new FindItemByLabelAttribute();
+            return metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) ?? new FindItemByLabelAttribute();
         }
 
         private static ComponentScopeLocateOptions CreateScopeLocateOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            ControlDefinitionAttribute definition = metadata.ComponentDefinitonAttribute as ControlDefinitionAttribute;
+            ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 
             int index = findAttribute.Index;
 
@@ -498,23 +487,12 @@ namespace Atata
             component.Triggers.Reorder();
         }
 
-        private static Attribute[] ResolveAndCacheAttributes(Dictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
+        private static Attribute[] ResolveAndCacheAttributes(ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
         {
             if (attributeProvider == null)
                 return new Attribute[0];
 
-            Attribute[] attributes;
-
-            if (cache.TryGetValue(attributeProvider, out attributes))
-                return attributes;
-
-            lock (cache)
-            {
-                if (cache.TryGetValue(attributeProvider, out attributes))
-                    return attributes;
-                else
-                    return cache[attributeProvider] = attributeProvider.GetCustomAttributes(true).Cast<Attribute>().ToArray();
-            }
+            return cache.GetOrAdd(attributeProvider, x => x.GetCustomAttributes(true).Cast<Attribute>().ToArray());
         }
 
         private static Attribute[] GetPropertyAttributes(PropertyInfo property)
@@ -535,12 +513,7 @@ namespace Atata
         public static string ResolvePageObjectName<TPageObject>()
             where TPageObject : PageObject<TPageObject>
         {
-            Type type = typeof(TPageObject);
-
-            if (PageObjectNames.TryGetValue(type, out string name))
-                return name;
-
-            return PageObjectNames[type] = ResolvePageObjectNameFromMetadata(type);
+            return PageObjectNames.GetOrAdd(typeof(TPageObject), ResolvePageObjectNameFromMetadata);
         }
 
         private static string ResolvePageObjectNameFromMetadata(Type type)
@@ -611,7 +584,7 @@ namespace Atata
 
         public static ControlDefinitionAttribute GetControlDefinition(UIComponentMetadata metadata)
         {
-            return metadata.Get<ControlDefinitionAttribute>(AttributeLevels.Declared | AttributeLevels.Component) ?? new ControlDefinitionAttribute();
+            return (metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute) ?? new ControlDefinitionAttribute();
         }
 
         public static PageObjectDefinitionAttribute GetPageObjectDefinition(Type type)
@@ -621,7 +594,7 @@ namespace Atata
 
         public static PageObjectDefinitionAttribute GetPageObjectDefinition(UIComponentMetadata metadata)
         {
-            return metadata.Get<PageObjectDefinitionAttribute>(AttributeLevels.Declared | AttributeLevels.Component) ?? new PageObjectDefinitionAttribute();
+            return (metadata.ComponentDefinitionAttribute as PageObjectDefinitionAttribute) ?? new PageObjectDefinitionAttribute();
         }
 
         internal static Control<TOwner> GetControlByDelegate<TOwner>(Delegate controlDelegate)
@@ -655,8 +628,9 @@ namespace Atata
         public static void CleanUpPageObject(UIComponent pageObject)
         {
             var delegatesToRemove = DelegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key).ToArray();
+
             foreach (var item in delegatesToRemove)
-                DelegateControls.Remove(item);
+                DelegateControls.TryRemove(item, out var removed);
 
             pageObject.CleanUp();
         }

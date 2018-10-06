@@ -8,6 +8,7 @@ namespace Atata.Tests
     public class ConfigurationTests
     {
         [Test]
+        [Parallelizable(ParallelScope.None)]
         public void Configuration_Mixed()
         {
             var globalContext = AtataContext.GlobalConfiguration.BuildingContext;
@@ -26,12 +27,14 @@ namespace Atata.Tests
 
             var currentContext = AtataContext.Configure().
                 UsePhantomJS().
-                UseBaseUrl("http://localhost:50549").
+                UseBaseUrl(UITestFixtureBase.BaseUrl).
                 TakeScreenshotOnNUnitError().
                 AddScreenshotFileSaving().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(100)).
                 UseBaseRetryInterval(TimeSpan.FromSeconds(1)).
                 BuildingContext;
+
+            AtataContext.GlobalConfiguration.Clear();
 
             Assert.That(globalContext.TestNameFactory(), Is.EqualTo(nameof(Configuration_Mixed)));
             Assert.That(globalContext.DriverFactories, Is.Empty);
@@ -46,7 +49,7 @@ namespace Atata.Tests
             Assert.That(currentContext.LogConsumers, Has.Count.EqualTo(1));
             Assert.That(currentContext.ScreenshotConsumers, Has.Count.EqualTo(1));
             Assert.That(currentContext.ScreenshotConsumers.First(), Is.TypeOf<FileScreenshotConsumer>());
-            Assert.That(currentContext.BaseUrl, Is.EqualTo("http://localhost:50549"));
+            Assert.That(currentContext.BaseUrl, Is.EqualTo(UITestFixtureBase.BaseUrl));
             Assert.That(currentContext.CleanUpActions, Has.Count.EqualTo(2));
             Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
             Assert.That(currentContext.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));
@@ -88,7 +91,7 @@ namespace Atata.Tests
         {
             var context = AtataContext.Configure().
                 UsePhantomJS().
-                UseBaseUrl("http://localhost:50549").
+                UseBaseUrl(UITestFixtureBase.BaseUrl).
                 TakeScreenshotOnNUnitError().
                 AddScreenshotFileSaving().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(100)).

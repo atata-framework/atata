@@ -23,13 +23,19 @@ namespace Atata
             Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
 
-        protected internal new TOwner Owner
+        /// <summary>
+        /// Gets the owner page object.
+        /// </summary>
+        public new TOwner Owner
         {
             get { return (TOwner)base.Owner; }
             internal set { base.Owner = value; }
         }
 
-        protected internal new UIComponent<TOwner> Parent
+        /// <summary>
+        /// Gets the parent component.
+        /// </summary>
+        public new UIComponent<TOwner> Parent
         {
             get { return (UIComponent<TOwner>)base.Parent; }
             internal set { base.Parent = value; }
@@ -41,12 +47,13 @@ namespace Atata
         public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible", GetIsVisible);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content. Gets content using <see cref="Atata.ContentSourceAttribute"/> or, by default, uses Text property of component scope <see cref="IWebElement"/> element.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
+        /// Gets content using <see cref="ContentSourceAttribute"/> or, by default, uses <see cref="IWebElement.Text"/> property of component scope <see cref="IWebElement"/> element.
         /// </summary>
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
 
         /// <summary>
-        /// Gets the verification provider that gives a set of verification extension methods.
+        /// Gets the verification provider that provides a set of verification extension methods.
         /// </summary>
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
 
@@ -70,35 +77,27 @@ namespace Atata
         /// </summary>
         public UIComponentCssProvider<TOwner> Css { get; private set; }
 
-        TOwner IUIComponent<TOwner>.Owner => Owner;
-
         IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;
 
         IScopeLocator IUIComponent<TOwner>.ScopeLocator => ScopeLocator;
 
-        string IUIComponent<TOwner>.ComponentName => ComponentName;
-
-        string IUIComponent<TOwner>.ComponentTypeName => ComponentTypeName;
-
-        string IUIComponent<TOwner>.ComponentFullName => ComponentFullName;
-
-        protected internal UIComponentChildrenList<TOwner> Controls { get; private set; }
-
-        UIComponentChildrenList<TOwner> IUIComponent<TOwner>.Controls => Controls;
-
-        UIComponentMetadata IUIComponent<TOwner>.Metadata => Metadata;
-
         ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
         /// <summary>
-        /// Gets the set of triggers. Provides the functionality to get/add/remove triggers dynamically.
+        /// Gets the list of child controls.
+        /// </summary>
+        public UIComponentChildrenList<TOwner> Controls { get; private set; }
+
+        /// <summary>
+        /// Gets the set of triggers.
+        /// Provides the functionality to get/add/remove triggers dynamically.
         /// </summary>
         public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
         /// <summary>
-        /// Gets the instance of <see cref="Atata.ContentSourceAttribute"/> or null, if not found.
+        /// Gets an instance of <see cref="Atata.ContentSourceAttribute"/> or <c>null</c> if not found.
         /// </summary>
-        protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>(AttributeLevels.All);
+        protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>();
 
         protected internal virtual void InitComponent()
         {
@@ -176,6 +175,13 @@ namespace Atata
                 : Scope.Text;
         }
 
+        /// <summary>
+        /// Gets the data provider by name or creates and stores a new instance with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="providerName">Name of the provider.</param>
+        /// <param name="valueGetFunction">The function that gets a value.</param>
+        /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type or already stored one.</returns>
         protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             if (dataProviders.TryGetValue(providerName, out object dataProviderAsObject) && dataProviderAsObject is DataProvider<TValue, TOwner> dataProvider)
@@ -186,6 +192,13 @@ namespace Atata
 
         DataProvider<TValue, TOwner> IUIComponent<TOwner>.GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction) => GetOrCreateDataProvider(providerName, valueGetFunction);
 
+        /// <summary>
+        /// Creates and stores a new instance with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="providerName">Name of the provider.</param>
+        /// <param name="valueGetFunction">The function that gets a value.</param>
+        /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type.</returns>
         protected internal DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
@@ -193,31 +206,40 @@ namespace Atata
             return dataProvider;
         }
 
+        /// <summary>
+        /// Executes the triggers.
+        /// </summary>
+        /// <param name="on">The event to trigger.</param>
         protected void ExecuteTriggers(TriggerEvents on)
         {
             Triggers.Execute(on);
         }
 
-        protected internal TComponentToFind GetAncestor<TComponentToFind>()
+        /// <summary>
+        /// Gets the ancestor component of specified type.
+        /// </summary>
+        /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
+        /// <returns>The component or <c>null</c> if not found.</returns>
+        public TComponentToFind GetAncestor<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>
         {
-            return Parent is TComponentToFind ?
-                (TComponentToFind)Parent :
-                Parent?.GetAncestor<TComponentToFind>();
+            return (Parent as TComponentToFind) ?? Parent?.GetAncestor<TComponentToFind>();
         }
 
-        TComponentToFind IUIComponent<TOwner>.GetAncestor<TComponentToFind>() => GetAncestor<TComponentToFind>();
-
-        protected internal TComponentToFind GetAncestorOrSelf<TComponentToFind>()
+        /// <summary>
+        /// Gets the ancestor component of specified type or self.
+        /// </summary>
+        /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
+        /// <returns>The component or <c>null</c> if not found.</returns>
+        public TComponentToFind GetAncestorOrSelf<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>
         {
-            return this is TComponentToFind ?
-                (TComponentToFind)this :
-                Parent?.GetAncestorOrSelf<TComponentToFind>();
+            return (this as TComponentToFind) ?? Parent?.GetAncestorOrSelf<TComponentToFind>();
         }
 
-        TComponentToFind IUIComponent<TOwner>.GetAncestorOrSelf<TComponentToFind>() => GetAncestorOrSelf<TComponentToFind>();
-
+        /// <summary>
+        /// Cleans up the current instance.
+        /// </summary>
         protected internal override void CleanUp()
         {
             foreach (var control in Controls)
