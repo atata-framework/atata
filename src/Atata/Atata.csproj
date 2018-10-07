@@ -79,7 +79,7 @@ Features:
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Selenium.WebDriver" Version="3.12.1" />
+    <PackageReference Include="Selenium.WebDriver" Version="3.14.0" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="7.5.0.6605">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
