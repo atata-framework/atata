@@ -13,7 +13,7 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is enabled.
         /// </summary>
-        public DataProvider<bool, TOwner> IsEnabled => GetOrCreateDataProvider("enabled", GetIsEnabled);
+        public DataProvider<bool, TOwner> IsEnabled => GetOrCreateDataProvider("enabled state", GetIsEnabled);
 
         /// <summary>
         /// Gets the verification provider that gives a set of verification extension methods.
