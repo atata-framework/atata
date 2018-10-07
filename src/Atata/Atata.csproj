@@ -74,7 +74,7 @@ Features:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atata.WebDriverExtras" Version="1.0.0" />
+    <PackageReference Include="Atata.WebDriverExtras" Version="1.1.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.6.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
