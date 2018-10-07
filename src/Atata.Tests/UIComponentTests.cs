@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Atata.Tests
@@ -44,6 +45,39 @@ namespace Atata.Tests
                 HiddenDivUsingTextContent.Content.Should.Equal("Some text").
                 HiddenDivUsingInnerHtml.Should.Equal("Some <b>text</b>").
                 HiddenDivUsingInnerHtml.Content.Should.Equal("Some <b>text</b>");
+        }
+
+        [Test]
+        public void UIComponent_IsVisible()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsVisible.Value.Should().BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsVisible.Should.BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.Should.BeVisible();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsVisible.Value.Should().BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsVisible.Should.BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.Should.BeHidden();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsVisible.Value.Should().BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsVisible.Should.BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.Should.BeHidden();
         }
 
         [Test]

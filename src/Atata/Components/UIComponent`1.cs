@@ -163,7 +163,7 @@ namespace Atata
 
         protected virtual bool GetIsVisible()
         {
-            return Scope.Displayed;
+            return GetScope(SearchOptions.SafelyAtOnce())?.Displayed ?? false;
         }
 
         protected virtual string GetContent()
