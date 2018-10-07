@@ -48,6 +48,57 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void UIComponent_IsPresent()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsPresent.Value.Should().BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsPresent.Should.BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.Should.Exist();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsPresent.Value.Should().BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsPresent.Should.BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.Should.Exist();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsPresent.Value.Should().BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsPresent.Should.BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.Should.Not.Exist();
+        }
+
+        [Test]
+        public void UIComponent_IsPresent_Should_Fail()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.VisibleDiv.IsPresent.Should.Within(2).BeFalse());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDiv.IsPresent.Should.Within(2).BeFalse());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDivWithVisibleVisibility.IsPresent.Should.Within(2).BeTrue());
+        }
+
+        [Test]
         public void UIComponent_IsVisible()
         {
             var page = Go.To<ContentPage>();

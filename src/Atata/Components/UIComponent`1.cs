@@ -42,6 +42,11 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is present considering the <see cref="Visibility"/> of component.
+        /// </summary>
+        public DataProvider<bool, TOwner> IsPresent => GetOrCreateDataProvider("presence state", GetIsPresent);
+
+        /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible.
         /// </summary>
         public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible", GetIsVisible);
@@ -159,6 +164,11 @@ namespace Atata
             ExecuteTriggers(TriggerEvents.AfterAccess);
 
             return result;
+        }
+
+        protected virtual bool GetIsPresent()
+        {
+            return GetScope(SearchOptions.SafelyAtOnce()) != null;
         }
 
         protected virtual bool GetIsVisible()

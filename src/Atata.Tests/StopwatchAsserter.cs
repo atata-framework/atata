@@ -18,9 +18,9 @@ namespace Atata.Tests
             watch = Stopwatch.StartNew();
         }
 
-        public static StopwatchAsserter Within(TimeSpan time, TimeSpan toleranceTime)
+        public static StopwatchAsserter Within(TimeSpan time, TimeSpan? toleranceTime = null)
         {
-            return new StopwatchAsserter(time, toleranceTime);
+            return new StopwatchAsserter(time, toleranceTime ?? TimeSpan.FromSeconds(0.8));
         }
 
         public static StopwatchAsserter Within(double seconds, double toleranceSeconds = 0.8)
