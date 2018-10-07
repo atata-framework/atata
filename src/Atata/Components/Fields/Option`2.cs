@@ -14,7 +14,7 @@
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is selected.
         /// </summary>
-        public DataProvider<bool, TOwner> IsSelected => GetOrCreateDataProvider("selected", GetIsSelected);
+        public DataProvider<bool, TOwner> IsSelected => GetOrCreateDataProvider("selected state", GetIsSelected);
 
         /// <summary>
         /// Gets the <see cref="SelectOptionBehaviorAttribute"/> instance.
