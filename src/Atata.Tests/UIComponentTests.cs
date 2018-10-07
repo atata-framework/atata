@@ -132,6 +132,24 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void UIComponent_IsVisible_Should_Fail()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.VisibleDiv.IsVisible.Should.Within(2).BeFalse());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDiv.IsVisible.Should.Within(2).BeTrue());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDivWithVisibleVisibility.IsVisible.Should.Within(2).BeTrue());
+        }
+
+        [Test]
         public void UIComponent_Wait_Until_Visible()
         {
             Go.To<WaitingOnInitPage>().
