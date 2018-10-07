@@ -49,7 +49,7 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible.
         /// </summary>
-        public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible", GetIsVisible);
+        public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible state", GetIsVisible);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
