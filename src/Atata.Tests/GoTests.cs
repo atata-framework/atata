@@ -52,6 +52,17 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Go_To_RelativeUrlWithLeadingSlashNavigation()
+        {
+            Go.To<GoTo1Page>();
+            string url = "/goto2?somearg=1";
+            Go.To<GoTo2Page>(url: url);
+
+            AssertNoTemporarilyPreservedPageObjects();
+            Assert.That(AtataContext.Current.Driver.Url, Does.EndWith(url));
+        }
+
+        [Test]
         public void Go_To_Temporarily()
         {
             var page1 = Go.To<GoTo1Page>();
