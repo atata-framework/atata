@@ -124,9 +124,9 @@ namespace Atata
         {
             CheckAtataContext();
 
-            Uri absoluteUri;
+            Uri absoluteUrl;
 
-            if (!Uri.TryCreate(url, UriKind.Absolute, out absoluteUri))
+            if (!UriUtils.TryCreateAbsoluteUrl(url, out absoluteUrl))
             {
                 if (!AtataContext.Current.IsNavigated && AtataContext.Current.BaseUrl == null)
                 {
@@ -143,15 +143,15 @@ namespace Atata
                     string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
                     Uri domainUri = new Uri(domainPart);
 
-                    absoluteUri = new Uri(domainUri, url);
+                    absoluteUrl = new Uri(domainUri, url);
                 }
                 else
                 {
-                    absoluteUri = ConcatWithBaseUrl(url);
+                    absoluteUrl = UriUtils.Concat(AtataContext.Current.BaseUrl, url);
                 }
             }
 
-            Navigate(absoluteUri);
+            Navigate(absoluteUrl);
         }
 
         private static void CheckAtataContext()
@@ -165,24 +165,6 @@ namespace Atata
             AtataContext.Current.Log.Info($"Go to URL \"{uri}\"");
             AtataContext.Current.Driver.Navigate().GoToUrl(uri);
             AtataContext.Current.IsNavigated = true;
-        }
-
-        private static Uri ConcatWithBaseUrl(string relativeUri)
-        {
-            string baseUrl = AtataContext.Current.BaseUrl;
-            string fullUrl = baseUrl;
-
-            if (!string.IsNullOrWhiteSpace(relativeUri))
-            {
-                if (baseUrl.EndsWith("/") && relativeUri.StartsWith("/"))
-                    fullUrl += relativeUri.Substring(1);
-                else if (!baseUrl.EndsWith("/") && !relativeUri.StartsWith("/"))
-                    fullUrl += "/" + relativeUri;
-                else
-                    fullUrl += relativeUri;
-            }
-
-            return new Uri(fullUrl);
         }
     }
 }
