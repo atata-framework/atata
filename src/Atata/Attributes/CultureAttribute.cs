@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the culture of a component.
+    /// Specifies the culture of the component.
     /// </summary>
     public class CultureAttribute : MulticastAttribute
     {
