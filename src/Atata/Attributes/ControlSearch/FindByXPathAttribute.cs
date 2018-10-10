@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies that a control should be found by XPath. Finds the descendant or self control in the scope of the element found by the specified XPath.
+    /// Specifies that a control should be found by XPath.
+    /// Finds the descendant or self control in the scope of the element found by the specified XPath.
     /// </summary>
     public class FindByXPathAttribute : FindAttribute, ITermFindAttribute
     {

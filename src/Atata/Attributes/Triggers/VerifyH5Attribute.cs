@@ -1,7 +1,9 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies the verification of the &lt;h5&gt; element content. By default occurs upon the page object initialization. If no value is specified, it uses the class name as the expected value with the <c>TermCase.Title</c> casing applied.
+    /// Specifies the verification of the &lt;h5&gt; element content.
+    /// By default occurs upon the page object initialization.
+    /// If no value is specified, it uses the class name as the expected value with the <c>TermCase.Title</c> casing applied.
     /// </summary>
     public class VerifyH5Attribute : VerifyHeadingTriggerAttribute
     {

@@ -20,12 +20,14 @@ namespace Atata
         public TriggerEvents On { get; set; }
 
         /// <summary>
-        /// Gets or sets the priority. The default value is Medium.
+        /// Gets or sets the priority.
+        /// The default value is Medium.
         /// </summary>
         public TriggerPriority Priority { get; set; }
 
         /// <summary>
-        /// Gets or sets the scope to apply the trigger to. The default value is Self.
+        /// Gets or sets the scope to apply the trigger to.
+        /// The default value is Self.
         /// </summary>
         public TriggerScope AppliesTo { get; set; } = TriggerScope.Self;
 

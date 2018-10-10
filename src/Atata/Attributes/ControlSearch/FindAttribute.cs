@@ -23,7 +23,8 @@ namespace Atata
         public PropertyBag Properties { get; } = new PropertyBag();
 
         /// <summary>
-        /// Gets or sets the index of the control. The default value is -1, meaning that the index is not used.
+        /// Gets or sets the index of the control.
+        /// The default value is -1, meaning that the index is not used.
         /// </summary>
         public int Index
         {
@@ -42,7 +43,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the visibility. The default value is <see cref="Visibility.Visible"/>.
+        /// Gets or sets the visibility.
+        /// The default value is <see cref="Visibility.Visible"/>.
         /// </summary>
         public Visibility Visibility
         {
@@ -62,7 +64,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the scope source. The default value is <see cref="ScopeSource.Parent"/>.
+        /// Gets or sets the scope source.
+        /// The default value is <see cref="ScopeSource.Parent"/>.
         /// </summary>
         public ScopeSource ScopeSource
         {
@@ -81,7 +84,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the outer XPath. The default value is null, meaning that the control is searchable as descendant (using ".//" XPath) in scope source.
+        /// Gets or sets the outer XPath.
+        /// The default value is null, meaning that the control is searchable as descendant (using ".//" XPath) in scope source.
         /// </summary>
         public string OuterXPath
         {
@@ -99,7 +103,9 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>. The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
+        /// Gets or sets the strategy type for the control search.
+        /// Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
+        /// The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
         /// </summary>
         public Type Strategy
         {
@@ -118,7 +124,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the default strategy type for the control search. Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
+        /// Gets the default strategy type for the control search.
+        /// Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
         /// </summary>
         protected abstract Type DefaultStrategy { get; }
 

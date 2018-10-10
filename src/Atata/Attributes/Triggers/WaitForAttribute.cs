@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the condition of the component to wait for. By default occurs upon the page object initialization.
+    /// Specifies the condition of the component to wait for.
+    /// By default occurs upon the page object initialization.
     /// </summary>
     public class WaitForAttribute : WaitUntilAttribute
     {

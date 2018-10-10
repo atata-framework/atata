@@ -3,7 +3,9 @@
 namespace Atata
 {
     /// <summary>
-    /// Indicates that the confirm box should be closed on the specified event. Be default occurs after the click. By default accepts the confirm box.
+    /// Indicates that the confirm box should be closed on the specified event.
+    /// Be default occurs after the click.
+    /// By default accepts the confirm box.
     /// </summary>
     public class CloseConfirmBoxAttribute : TriggerAttribute
     {

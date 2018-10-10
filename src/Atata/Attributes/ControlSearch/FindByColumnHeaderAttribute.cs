@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies that a control should be found within the table column (&lt;td&gt;) that has the header (&lt;th&gt;) matching the specified term(s). Uses <c>Title</c> as the default term case.
+    /// Specifies that a control should be found within the table column (&lt;td&gt;) that has the header (&lt;th&gt;) matching the specified term(s).
+    /// Uses <c>Title</c> as the default term case.
     /// </summary>
     public class FindByColumnHeaderAttribute : TermFindAttribute
     {

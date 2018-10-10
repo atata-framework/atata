@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies the waiting for the element. By default occurs after the click.
+    /// Specifies the waiting for the element.
+    /// By default occurs after the click.
     /// </summary>
     public class WaitForElementAttribute : WaitUntilAttribute
     {
@@ -41,7 +42,8 @@ namespace Atata
         public string Selector { get; private set; }
 
         /// <summary>
-        /// Gets or sets the scope source. The default value is <see cref="ScopeSource.Parent"/>.
+        /// Gets or sets the scope source.
+        /// The default value is <see cref="ScopeSource.Parent"/>.
         /// </summary>
         public ScopeSource ScopeSource
         {
