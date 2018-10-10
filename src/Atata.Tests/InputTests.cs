@@ -84,13 +84,45 @@ namespace Atata.Tests
         {
             var control = page.FileInput;
 
+            control.Should.Exist();
+            control.Should.BeVisible();
+
+            TestFileInput(control);
+        }
+
+        [Test]
+        public void FileInput_Hidden()
+        {
+            var control = page.HiddenFileInput;
+
+            control.Should.Exist();
+            control.Should.BeHidden();
+
+            TestFileInput(control);
+        }
+
+        [Test]
+        public void FileInput_Transparent()
+        {
+            var control = page.TransparentFileInput;
+
+            control.Should.Exist();
+            control.Should.BeHidden();
+
+            TestFileInput(control);
+        }
+
+        private void TestFileInput(FileInput<InputPage> control)
+        {
             VerifyEquals(control, null);
 
-            string assemblyName = $"{GetType().Assembly.GetName().Name}.dll";
+            string file1Name = $"{GetType().Assembly.GetName().Name}.dll";
+            control.Set(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, file1Name));
+            control.Should.EndWith(file1Name);
 
-            control.Set(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, assemblyName));
-
-            control.Should.EndWith(assemblyName);
+            string file2Name = $"{typeof(OrdinaryPage).Assembly.GetName().Name}.dll";
+            control.Set(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, file2Name));
+            control.Should.EndWith(file2Name);
 
             control.Clear();
             control.Should.BeNull();

@@ -35,6 +35,12 @@ namespace Atata.Tests
 
         public FileInput<_> FileInput { get; private set; }
 
+        [FindById(CutEnding = false)]
+        public FileInput<_> HiddenFileInput { get; private set; }
+
+        [FindById(CutEnding = false)]
+        public FileInput<_> TransparentFileInput { get; private set; }
+
         public SearchInput<_> SearchInput { get; private set; }
 
         public EmailInput<_> EmailInput { get; private set; }
