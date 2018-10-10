@@ -8,6 +8,9 @@ namespace Atata
     /// </summary>
     public abstract class ScopeDefinitionAttribute : MulticastAttribute
     {
+        /// <summary>
+        /// The default scope XPath, which is <c>"*"</c>.
+        /// </summary>
         public const string DefaultScopeXPath = "*";
 
         private readonly string baseScopeXPath;
@@ -18,7 +21,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the XPath of the scope element which is a combination of XPath passed through the constructor and <c>ContainingClasses</c> property values.
+        /// Gets the XPath of the scope element which is a combination of XPath passed through the constructor and <see cref="ContainingClasses"/> property values.
         /// </summary>
         public string ScopeXPath => BuildScopeXPath();
 
@@ -38,7 +41,7 @@ namespace Atata
         public string[] ContainingClasses { get; set; }
 
         /// <summary>
-        /// Builds the complete XPath of the scope element which is a combination of XPath passed through the constructor and <c>ContainingClasses</c> property values.
+        /// Builds the complete XPath of the scope element which is a combination of XPath passed through the constructor and <see cref="ContainingClasses"/> property values.
         /// </summary>
         /// <returns>The built XPath.</returns>
         protected virtual string BuildScopeXPath()
