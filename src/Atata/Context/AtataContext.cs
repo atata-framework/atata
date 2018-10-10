@@ -178,12 +178,6 @@ namespace Atata
 
         internal UIComponentScopeCache UIComponentScopeCache { get; } = new UIComponentScopeCache();
 
-        [Obsolete("Use Configure() instead.")] // Obsolete since v0.14.0.
-        public static AtataContextBuilder Build()
-        {
-            return Configure();
-        }
-
         /// <summary>
         /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration. Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
         /// </summary>
