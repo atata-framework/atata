@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Defines the keys to press on the specified event. By default occurs after the set.
+    /// Defines the keys to press on the specified event.
+    /// By default occurs after the set.
     /// </summary>
     public class PressKeysAttribute : TriggerAttribute
     {

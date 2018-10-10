@@ -3,7 +3,9 @@
 namespace Atata
 {
     /// <summary>
-    /// Specifies the verification of the page content. Verifies whether the component content matches any of the specified values. By default occurs upon the page object initialization.
+    /// Specifies the verification of the page content.
+    /// Verifies whether the component content matches any of the specified values.
+    /// By default occurs upon the page object initialization.
     /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
     public class VerifyContentMatchesAttribute : TriggerAttribute

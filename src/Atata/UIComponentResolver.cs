@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -8,38 +9,33 @@ namespace Atata
 {
     public static class UIComponentResolver
     {
-        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> PropertyAttributes;
-        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> ClassAttributes;
-        private static readonly Dictionary<ICustomAttributeProvider, Attribute[]> AssemblyAttributes;
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> PropertyAttributes =
+            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        private static readonly Dictionary<Type, string> PageObjectNames;
-        private static readonly Dictionary<Type, Type> DelegateControlsTypeMapping;
-        private static readonly Dictionary<Delegate, UIComponent> DelegateControls;
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> ClassAttributes =
+            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        static UIComponentResolver()
-        {
-            PropertyAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
-            ClassAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
-            AssemblyAttributes = new Dictionary<ICustomAttributeProvider, Attribute[]>();
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> AssemblyAttributes =
+            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-            PageObjectNames = new Dictionary<Type, string>();
-            DelegateControlsTypeMapping = new Dictionary<Type, Type>();
-            DelegateControls = new Dictionary<Delegate, UIComponent>();
+        private static readonly ConcurrentDictionary<Type, string> PageObjectNames =
+            new ConcurrentDictionary<Type, string>();
 
-            InitDelegateControlMappings();
-        }
+        private static readonly ConcurrentDictionary<Type, Type> DelegateControlsTypeMapping =
+            new ConcurrentDictionary<Type, Type>
+            {
+                [typeof(ClickableDelegate<>)] = typeof(Clickable<>),
+                [typeof(ClickableDelegate<,>)] = typeof(Clickable<,>),
 
-        private static void InitDelegateControlMappings()
-        {
-            RegisterDelegateControlMapping(typeof(ClickableDelegate<>), typeof(Clickable<>));
-            RegisterDelegateControlMapping(typeof(ClickableDelegate<,>), typeof(Clickable<,>));
+                [typeof(LinkDelegate<>)] = typeof(Link<>),
+                [typeof(LinkDelegate<,>)] = typeof(Link<,>),
 
-            RegisterDelegateControlMapping(typeof(LinkDelegate<>), typeof(Link<>));
-            RegisterDelegateControlMapping(typeof(LinkDelegate<,>), typeof(Link<,>));
+                [typeof(ButtonDelegate<>)] = typeof(Button<>),
+                [typeof(ButtonDelegate<,>)] = typeof(Button<,>)
+            };
 
-            RegisterDelegateControlMapping(typeof(ButtonDelegate<>), typeof(Button<>));
-            RegisterDelegateControlMapping(typeof(ButtonDelegate<,>), typeof(Button<,>));
-        }
+        private static readonly ConcurrentDictionary<Delegate, UIComponent> DelegateControls =
+            new ConcurrentDictionary<Delegate, UIComponent>();
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
         {
@@ -491,23 +487,12 @@ namespace Atata
             component.Triggers.Reorder();
         }
 
-        private static Attribute[] ResolveAndCacheAttributes(Dictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
+        private static Attribute[] ResolveAndCacheAttributes(ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
         {
             if (attributeProvider == null)
                 return new Attribute[0];
 
-            Attribute[] attributes;
-
-            if (cache.TryGetValue(attributeProvider, out attributes))
-                return attributes;
-
-            lock (cache)
-            {
-                if (cache.TryGetValue(attributeProvider, out attributes))
-                    return attributes;
-                else
-                    return cache[attributeProvider] = attributeProvider.GetCustomAttributes(true).Cast<Attribute>().ToArray();
-            }
+            return cache.GetOrAdd(attributeProvider, x => x.GetCustomAttributes(true).Cast<Attribute>().ToArray());
         }
 
         private static Attribute[] GetPropertyAttributes(PropertyInfo property)
@@ -528,12 +513,7 @@ namespace Atata
         public static string ResolvePageObjectName<TPageObject>()
             where TPageObject : PageObject<TPageObject>
         {
-            Type type = typeof(TPageObject);
-
-            if (PageObjectNames.TryGetValue(type, out string name))
-                return name;
-
-            return PageObjectNames[type] = ResolvePageObjectNameFromMetadata(type);
+            return PageObjectNames.GetOrAdd(typeof(TPageObject), ResolvePageObjectNameFromMetadata);
         }
 
         private static string ResolvePageObjectNameFromMetadata(Type type)
@@ -648,8 +628,9 @@ namespace Atata
         public static void CleanUpPageObject(UIComponent pageObject)
         {
             var delegatesToRemove = DelegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key).ToArray();
+
             foreach (var item in delegatesToRemove)
-                DelegateControls.Remove(item);
+                DelegateControls.TryRemove(item, out var removed);
 
             pageObject.CleanUp();
         }

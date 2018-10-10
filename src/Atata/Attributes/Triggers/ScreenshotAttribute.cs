@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the screenshot should be captured with an optional title. By default occurs before the click.
+    /// Indicates that the screenshot should be captured with an optional title.
+    /// By default occurs before the click.
     /// </summary>
     public class ScreenshotAttribute : TriggerAttribute
     {

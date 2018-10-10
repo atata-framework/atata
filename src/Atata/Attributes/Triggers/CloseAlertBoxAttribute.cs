@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the alert box should be closed on the specified event. Be default occurs after the click.
+    /// Indicates that the alert box should be closed on the specified event.
+    /// Be default occurs after the click.
     /// </summary>
     public class CloseAlertBoxAttribute : TriggerAttribute
     {

@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the scroll down should be performed on the specified event. By default occurs before any access to the component.
+    /// Indicates that the scroll down should be performed on the specified event.
+    /// By default occurs before any access to the component.
     /// </summary>
     public class ScrollDownAttribute : TriggerAttribute
     {

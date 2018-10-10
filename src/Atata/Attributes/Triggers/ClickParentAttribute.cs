@@ -1,7 +1,9 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the click on the parent component should occur on the specified event. By default occurs before any access to the component. Is useful for the drop-down button/menu controls.
+    /// Indicates that the click on the parent component should occur on the specified event.
+    /// By default occurs before any access to the component.
+    /// Is useful for the drop-down button/menu controls.
     /// </summary>
     public class ClickParentAttribute : TriggerAttribute
     {
