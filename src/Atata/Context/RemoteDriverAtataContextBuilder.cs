@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
 namespace Atata
@@ -15,7 +14,7 @@ namespace Atata
         /// </summary>
         public static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(60);
 
-        private readonly List<Action<DesiredCapabilities>> capabilitiesInitializers = new List<Action<DesiredCapabilities>>();
+        private readonly List<Action<DriverOptions>> optionsInitializers = new List<Action<DriverOptions>>();
 
         private Uri remoteAddress;
 
@@ -34,12 +33,6 @@ namespace Atata
         {
             ICapabilities capabilities = CreateCapabilities();
 
-            if (capabilities is DesiredCapabilities desiredCapabilities)
-            {
-                foreach (var initializer in capabilitiesInitializers)
-                    initializer(desiredCapabilities);
-            }
-
             return CreateDriver(remoteAddress, capabilities, commandTimeout ?? DefaultCommandTimeout);
         }
 
@@ -50,9 +43,20 @@ namespace Atata
 
         protected virtual ICapabilities CreateCapabilities()
         {
-            return optionsFactory?.Invoke()?.ToCapabilities()
-                ?? capabilitiesFactory?.Invoke()
-                ?? new FirefoxOptions().ToCapabilities();
+            var options = optionsFactory?.Invoke();
+
+            if (options != null)
+            {
+                foreach (var optionsInitializer in optionsInitializers)
+                    optionsInitializer(options);
+
+                return options.ToCapabilities();
+            }
+            else
+            {
+                return capabilitiesFactory?.Invoke()
+                    ?? throw new InvalidOperationException($"Type or instance of {nameof(DriverOptions)} is not set. Use one of {nameof(RemoteDriverAtataContextBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
+            }
         }
 
         /// <summary>
@@ -76,6 +80,18 @@ namespace Atata
             remoteAddress.CheckNotNullOrWhitespace(nameof(remoteAddress));
 
             this.remoteAddress = new Uri(remoteAddress);
+            return this;
+        }
+
+        /// <summary>
+        /// Specifies the type of the driver options.
+        /// </summary>
+        /// <typeparam name="TOptions">The type of the options.</typeparam>
+        /// <returns>The same builder instance.</returns>
+        public RemoteDriverAtataContextBuilder WithOptions<TOptions>()
+            where TOptions : DriverOptions, new()
+        {
+            optionsFactory = () => new TOptions();
             return this;
         }
 
@@ -106,6 +122,19 @@ namespace Atata
         }
 
         /// <summary>
+        /// Specifies the driver options initialization method.
+        /// </summary>
+        /// <param name="optionsInitializer">The initialization method of the driver options.</param>
+        /// <returns>The same builder instance.</returns>
+        public RemoteDriverAtataContextBuilder WithOptions(Action<DriverOptions> optionsInitializer)
+        {
+            optionsInitializer.CheckNotNull(nameof(optionsInitializer));
+
+            optionsInitializers.Add(optionsInitializer);
+            return this;
+        }
+
+        /// <summary>
         /// Specifies the capabilities.
         /// </summary>
         /// <param name="capabilities">The driver capabilities.</param>
@@ -132,19 +161,6 @@ namespace Atata
         }
 
         /// <summary>
-        /// Specifies the capabilities initialization method.
-        /// </summary>
-        /// <param name="capabilitiesInitializer">The initialization method of the driver capabilities.</param>
-        /// <returns>The same builder instance.</returns>
-        public RemoteDriverAtataContextBuilder WithCapabilities(Action<DesiredCapabilities> capabilitiesInitializer)
-        {
-            capabilitiesInitializer.CheckNotNull(nameof(capabilitiesInitializer));
-
-            capabilitiesInitializers.Add(capabilitiesInitializer);
-            return this;
-        }
-
-        /// <summary>
         /// Adds the capability.
         /// </summary>
         /// <param name="capabilityName">The name of the capability to add.</param>
@@ -154,7 +170,7 @@ namespace Atata
         {
             capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
 
-            return WithCapabilities(caps => caps.SetCapability(capabilityName, capabilityValue));
+            return WithOptions(options => options.AddAdditionalCapability(capabilityName, capabilityValue));
         }
 
         /// <summary>
