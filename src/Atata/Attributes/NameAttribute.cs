@@ -2,6 +2,9 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Specifies the name of the component.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Field)]
     public class NameAttribute : Attribute
     {
@@ -10,6 +13,9 @@ namespace Atata
             Value = value;
         }
 
+        /// <summary>
+        /// Gets the name value.
+        /// </summary>
         public string Value { get; private set; }
     }
 }
