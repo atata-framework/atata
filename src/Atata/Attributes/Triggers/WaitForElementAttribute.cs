@@ -10,12 +10,6 @@ namespace Atata
     {
         private ScopeSource? scopeSource;
 
-        // TODO: Remove it when the following constructor is removed.
-        public WaitForElementAttribute(WaitBy waitBy, string selector)
-            : this(waitBy, selector, Until.MissingOrHidden)
-        {
-        }
-
         /// <summary>
         /// Initializes a new instance of the <see cref="WaitForElementAttribute" /> class.
         /// </summary>
