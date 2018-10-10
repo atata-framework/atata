@@ -2,14 +2,12 @@
 
 namespace Atata
 {
-    public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute, IPropertySettings
+    public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute
     {
         protected UIComponentDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
             : base(scopeXPath)
         {
         }
-
-        public PropertyBag Properties { get; } = new PropertyBag();
 
         public string ComponentTypeName { get; set; }
 
