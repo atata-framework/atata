@@ -20,7 +20,7 @@ namespace Atata
         /// By default checks "readonly" attribute of scope element.
         /// Override <see cref="GetIsReadOnly"/> method to change the behavior.
         /// </summary>
-        public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only", GetIsReadOnly);
+        public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only state", GetIsReadOnly);
 
         /// <summary>
         /// Gets the verification provider that gives a set of verification extension methods.

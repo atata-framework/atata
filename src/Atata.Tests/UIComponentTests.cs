@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Atata.Tests
@@ -44,6 +45,108 @@ namespace Atata.Tests
                 HiddenDivUsingTextContent.Content.Should.Equal("Some text").
                 HiddenDivUsingInnerHtml.Should.Equal("Some <b>text</b>").
                 HiddenDivUsingInnerHtml.Content.Should.Equal("Some <b>text</b>");
+        }
+
+        [Test]
+        public void UIComponent_IsPresent()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsPresent.Value.Should().BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsPresent.Should.BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.Should.Exist();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsPresent.Value.Should().BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsPresent.Should.BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.Should.Exist();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsPresent.Value.Should().BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsPresent.Should.BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.Should.Not.Exist();
+        }
+
+        [Test]
+        public void UIComponent_IsPresent_Should_Fail()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.VisibleDiv.IsPresent.Should.Within(2).BeFalse());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDiv.IsPresent.Should.Within(2).BeFalse());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDivWithVisibleVisibility.IsPresent.Should.Within(2).BeTrue());
+        }
+
+        [Test]
+        public void UIComponent_IsVisible()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsVisible.Value.Should().BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.IsVisible.Should.BeTrue();
+
+            using (StopwatchAsserter.Within(0))
+                page.VisibleDiv.Should.BeVisible();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsVisible.Value.Should().BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.IsVisible.Should.BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDiv.Should.BeHidden();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsVisible.Value.Should().BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.IsVisible.Should.BeFalse();
+
+            using (StopwatchAsserter.Within(0))
+                page.HiddenDivWithVisibleVisibility.Should.BeHidden();
+        }
+
+        [Test]
+        public void UIComponent_IsVisible_Should_Fail()
+        {
+            var page = Go.To<ContentPage>();
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.VisibleDiv.IsVisible.Should.Within(2).BeFalse());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDiv.IsVisible.Should.Within(2).BeTrue());
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<AssertionException>(() =>
+                    page.HiddenDivWithVisibleVisibility.IsVisible.Should.Within(2).BeTrue());
         }
 
         [Test]

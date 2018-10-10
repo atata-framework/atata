@@ -60,6 +60,9 @@ namespace Atata.Tests
         [FindSettings(Visibility = Visibility.Any)]
         public Content<string, _> HiddenDiv { get; private set; }
 
+        [FindById("hidden-div")]
+        public Content<string, _> HiddenDivWithVisibleVisibility { get; private set; }
+
         [FindById("hidden-div", Visibility = Visibility.Hidden)]
         [ContentSource(ContentSource.TextContent)]
         public Content<string, _> HiddenDivUsingTextContent { get; private set; }

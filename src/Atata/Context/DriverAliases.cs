@@ -15,7 +15,5 @@
         public const string Opera = "opera";
 
         public const string Edge = "edge";
-
-        public const string PhantomJS = "phantomjs";
     }
 }

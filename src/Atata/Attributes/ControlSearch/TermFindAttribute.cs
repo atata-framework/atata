@@ -120,8 +120,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the name should be cut considering the IgnoreNameEndings property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>.
-        /// The default value is true.
+        /// Gets or sets a value indicating whether the name should be cut considering the <see cref="UIComponentDefinitionAttribute.IgnoreNameEndings"/> property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>.
+        /// The default value is <c>true</c>.
         /// </summary>
         public bool CutEnding
         {
@@ -147,7 +147,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the default match.
-        /// The default value is Equals.
+        /// The default value is <see cref="TermMatch.Equals"/>.
         /// </summary>
         protected virtual TermMatch DefaultMatch
         {

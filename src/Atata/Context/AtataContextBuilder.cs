@@ -10,7 +10,6 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Opera;
-using OpenQA.Selenium.PhantomJS;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Safari;
 
@@ -83,8 +82,6 @@ namespace Atata
                     return UseOpera();
                 case DriverAliases.Edge:
                     return UseEdge();
-                case DriverAliases.PhantomJS:
-                    return UsePhantomJS();
                 default:
                     return null;
             }
@@ -145,15 +142,6 @@ namespace Atata
         public OperaAtataContextBuilder UseOpera()
         {
             return UseDriver(new OperaAtataContextBuilder(BuildingContext));
-        }
-
-        /// <summary>
-        /// Use the <see cref="PhantomJSDriver"/>.
-        /// </summary>
-        /// <returns>The <see cref="PhantomJSAtataContextBuilder"/> instance.</returns>
-        public PhantomJSAtataContextBuilder UsePhantomJS()
-        {
-            return UseDriver(new PhantomJSAtataContextBuilder(BuildingContext));
         }
 
         /// <summary>

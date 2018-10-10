@@ -20,11 +20,6 @@ $sourceContent.
 	replace("Chrome", "Opera") |
 	Set-Content ($folderPath + "OperaAtataContextBuilder.cs") -force;
 
-New-Item ($folderPath + "PhantomJSAtataContextBuilder.cs") -type file -force;
-$sourceContent.
-	replace("Chrome", "PhantomJS") |
-	Set-Content ($folderPath + "PhantomJSAtataContextBuilder.cs") -force;
-
 New-Item ($folderPath + "SafariAtataContextBuilder.cs") -type file -force;
 $sourceContent.
 	replace("Chrome", "Safari") |

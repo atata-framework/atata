@@ -26,7 +26,7 @@ namespace Atata.Tests
                 LogNUnitError();
 
             var currentContext = AtataContext.Configure().
-                UsePhantomJS().
+                UseEdge().
                 UseBaseUrl(UITestFixtureBase.BaseUrl).
                 TakeScreenshotOnNUnitError().
                 AddScreenshotFileSaving().
@@ -45,7 +45,7 @@ namespace Atata.Tests
             Assert.That(globalContext.CleanUpActions, Has.Count.EqualTo(1));
 
             Assert.That(currentContext.DriverFactories, Has.Count.EqualTo(1));
-            Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.PhantomJS));
+            Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
             Assert.That(currentContext.LogConsumers, Has.Count.EqualTo(1));
             Assert.That(currentContext.ScreenshotConsumers, Has.Count.EqualTo(1));
             Assert.That(currentContext.ScreenshotConsumers.First(), Is.TypeOf<FileScreenshotConsumer>());
@@ -59,7 +59,7 @@ namespace Atata.Tests
         public void Configuration_MultiDriver()
         {
             var contextBuilder = AtataContext.Configure().
-                UsePhantomJS().
+                UseEdge().
                 UseChrome();
 
             var context = contextBuilder.BuildingContext;
@@ -74,10 +74,10 @@ namespace Atata.Tests
             Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Firefox));
 
             contextBuilder.
-                UseDriver(DriverAliases.PhantomJS);
+                UseDriver(DriverAliases.Edge);
 
             Assert.That(context.DriverFactories, Has.Count.EqualTo(3));
-            Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.PhantomJS));
+            Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
 
             contextBuilder.
                 UseDriver(DriverAliases.InternetExplorer);
@@ -90,7 +90,7 @@ namespace Atata.Tests
         public void Configuration_Clear()
         {
             var context = AtataContext.Configure().
-                UsePhantomJS().
+                UseInternetExplorer().
                 UseBaseUrl(UITestFixtureBase.BaseUrl).
                 TakeScreenshotOnNUnitError().
                 AddScreenshotFileSaving().

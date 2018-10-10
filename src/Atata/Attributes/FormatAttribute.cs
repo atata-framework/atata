@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the data format of a control.
+    /// Specifies the data format of the control.
     /// </summary>
     public class FormatAttribute : MulticastAttribute
     {
