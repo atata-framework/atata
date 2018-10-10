@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     public interface IDataProvider<out TData, TOwner>
         where TOwner : PageObject<TOwner>
@@ -15,9 +13,5 @@ namespace Atata
 
         // TODO: Extract ValueTermOptions to another interface.
         TermOptions ValueTermOptions { get; }
-
-        // TODO: Remove Get method.
-        [Obsolete("Use Value instead.")]
-        TData Get();
     }
 }

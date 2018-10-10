@@ -66,6 +66,19 @@ namespace Atata
         protected abstract RemoteWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
 
         /// <summary>
+        /// Specifies the driver options.
+        /// </summary>
+        /// <param name="options">The driver options.</param>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithOptions(TOptions options)
+        {
+            options.CheckNotNull(nameof(options));
+
+            optionsFactory = () => options;
+            return (TBuilder)this;
+        }
+
+        /// <summary>
         /// Specifies the driver options factory method.
         /// </summary>
         /// <param name="optionsFactory">The factory method of the driver options.</param>

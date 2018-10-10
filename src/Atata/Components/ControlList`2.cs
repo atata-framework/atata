@@ -278,7 +278,5 @@ namespace Atata
         {
             return ItemFindAttribute.ScopeSource.GetScopeElementUsingParent(Component).GetAll(itemBy);
         }
-
-        IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Get() => GetAll();
     }
 }

@@ -43,14 +43,15 @@ namespace Atata
         /// </summary>
         public DataVerificationProvider<TData, TOwner> Should => new DataVerificationProvider<TData, TOwner>(this);
 
-        public static implicit operator TData(DataProvider<TData, TOwner> field)
+        public static implicit operator TData(DataProvider<TData, TOwner> dataProvider)
         {
-            return field.Get();
+            return dataProvider.Value;
         }
 
+        [Obsolete("Use Value instead.")] // Obsolete since v1.0.0.
         public TData Get()
         {
-            return valueGetFunction();
+            return Value;
         }
     }
 }

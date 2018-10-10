@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using System;
 
 namespace Atata
 {
@@ -14,20 +13,6 @@ namespace Atata
         // TODO: Remove it when the following constructor is removed.
         public WaitForElementAttribute(WaitBy waitBy, string selector)
             : this(waitBy, selector, Until.MissingOrHidden)
-        {
-        }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WaitForElementAttribute" /> class.
-        /// </summary>
-        /// <param name="waitBy">The kind of the element selector to wait for.</param>
-        /// <param name="selector">The selector.</param>
-        /// <param name="until">The waiting condition.</param>
-        /// <param name="on">The trigger events.</param>
-        /// <param name="priority">The priority.</param>
-        [Obsolete("Use another constructor that uses 'Until' type instead of 'WaitUntil'.")] // Obsolete since v0.15.0.
-        public WaitForElementAttribute(WaitBy waitBy, string selector, WaitUntil until = WaitUntil.MissingOrHidden, TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
-            : this(waitBy, selector, (Until)(int)until, on, priority)
         {
         }
 

@@ -5,7 +5,7 @@ namespace Atata
     /// <summary>
     /// Defines the data format to apply for the specified control.
     /// </summary>
-    [Obsolete("Use [Format({FORMAT}, TargetType = typeof({CONTROL}))] instead.")]
+    [Obsolete("Use [Format({FORMAT}, TargetType = typeof({CONTROL}))] instead.")] // Obsolete since v0.17.0.
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Assembly, AllowMultiple = true)]
     public class FormatSettingsAttribute : FormatAttribute
     {
