@@ -1,5 +1,8 @@
 ﻿namespace Atata
 {
+    /// <summary>
+    /// Specifies the definition of the control, like scope XPath, visibility, component type name, etc.
+    /// </summary>
     public class ControlDefinitionAttribute : UIComponentDefinitionAttribute
     {
         public ControlDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
