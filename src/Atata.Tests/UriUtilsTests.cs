@@ -15,6 +15,7 @@ namespace Atata.Tests
         [TestCase("//something", false)]
         [TestCase("/something", false)]
         [TestCase("something", false)]
+        [TestCase(null, false)]
         public void UriUtils_TryCreateAbsoluteUrl(string url, bool isAbsolute)
         {
             var isActuallyAbsolute = UriUtils.TryCreateAbsoluteUrl(url, out Uri result);
