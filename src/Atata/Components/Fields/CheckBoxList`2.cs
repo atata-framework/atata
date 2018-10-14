@@ -95,7 +95,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Checks the checkbox by specified value. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// Checks the checkbox by specified value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>
@@ -116,7 +117,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Unchecks the checkbox by specified value. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// Unchecks the checkbox by specified value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>
