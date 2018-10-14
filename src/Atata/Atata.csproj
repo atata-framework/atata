@@ -16,18 +16,18 @@ Atata Framework documentation: https://atata-framework.github.io
 
 Features:
 - WebDriver. Based on Selenium WebDriver and preserves all its features.
-- Page Object. Provides unique fluent page object pattern that is easy to implement and maintain.
-- Components. Supports a rich set of HTML components.
-- Integration. Works on any .NET test engine (e.g. NUnit, xUnit) as well as on CI systems like TeamCity or TFS.
-- Triggers. A bunch of triggers to bind with different component events.
-- Verification. A set of methods and triggers for the component and data verification.
-- Configurable. Defines the default component search strategies as well as additional settings.
-- Logging. Built-in customizable logging and screenshot capturing functionality.
-- Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components.</Description>
+- Page Object Model. Provides unique fluent page object pattern that is easy to implement and maintain.
+- Components. Contains a rich set of ready to use components for inputs, tables, lists, etc.
+- Integration. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, Azure DevOps or TeamCity.
+- Triggers. A bunch of triggers to bind with different events to extend component behavior.
+- Verification. A set of fluent assertion methods and triggers for the component and data verification.
+- Configurable. Defines the default component search strategies as well as additional settings. Atata.Configuration.Json provides flexible JSON configurations.
+- Reporting/Logging. Built-in customizable logging and screenshot capturing functionality.
+- Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components. Framework supports any kind of extending.</Description>
     <Copyright>© Yevgeniy Shunevych 2018</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/atata-framework/atata/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://atata-framework.github.io/</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo.png?v2</PackageIconUrl>
+    <PackageProjectUrl>https://atata-framework.github.io</PackageProjectUrl>
+    <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo_68.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
     <PackageReleaseNotes>0.17.0 - https://atata-framework.github.io/blog/2018/05/31/atata-0.17.0-released/
@@ -41,6 +41,7 @@ Features:
 0.11.2 - https://github.com/atata-framework/atata/releases/tag/v0.11.2
 0.11.1 - https://github.com/atata-framework/atata/releases/tag/v0.11.1
 0.11.0 - Initial release</PackageReleaseNotes>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">

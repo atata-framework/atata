@@ -22,6 +22,8 @@ namespace Atata
 
             ScopeSource = ScopeSource.PageObject;
             Owner = (TOwner)this;
+
+            Report = new Report<TOwner>((TOwner)this, Log);
         }
 
         /// <summary>
@@ -38,6 +40,11 @@ namespace Atata
         /// Gets the previous page object.
         /// </summary>
         protected UIComponent PreviousPageObject { get; private set; }
+
+        /// <summary>
+        /// Gets the instance that provides reporting functionality.
+        /// </summary>
+        public Report<TOwner> Report { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the title of the current HTML page.

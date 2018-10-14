@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -92,9 +93,26 @@ namespace Atata.Tests
             }
         }
 
+        protected void VerifyLastLogEntries(params (LogLevel Level, string Message, Exception Exception)[] expectedLogEntries)
+        {
+            LogEventInfo[] actualLogEntries = GetLastLogEntries(expectedLogEntries.Length);
+
+            for (int i = 0; i < expectedLogEntries.Length; i++)
+            {
+                Assert.That(actualLogEntries[i].Level, Is.EqualTo(expectedLogEntries[i].Level));
+                Assert.That(actualLogEntries[i].Message, Is.EqualTo(expectedLogEntries[i].Message));
+                Assert.That(actualLogEntries[i].Exception, Is.EqualTo(expectedLogEntries[i].Exception));
+            }
+        }
+
+        protected LogEventInfo[] GetLastLogEntries(int count)
+        {
+            return LogEntries.Reverse().Take(count).Reverse().ToArray();
+        }
+
         protected string[] GetLastLogMessages(int count)
         {
-            return LogEntries.Reverse().Take(count).Reverse().Select(x => x.Message).ToArray();
+            return GetLastLogEntries(count).Select(x => x.Message).ToArray();
         }
     }
 }

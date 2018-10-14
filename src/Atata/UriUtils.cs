@@ -9,7 +9,7 @@ namespace Atata
 
         internal static bool TryCreateAbsoluteUrl(string urlString, out Uri result)
         {
-            if (UrlSchemaRegex.IsMatch(urlString))
+            if (urlString != null && UrlSchemaRegex.IsMatch(urlString))
             {
                 return Uri.TryCreate(urlString, UriKind.Absolute, out result);
             }
