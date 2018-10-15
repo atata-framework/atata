@@ -6,21 +6,24 @@
 [![Atata Framework documentation](https://img.shields.io/badge/docs-Atata_Framework-orange.svg)](https://atata-framework.github.io/)
 [![Twitter](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://twitter.com/AtataFramework)
 
-C#/.NET web UI test automation full featured framework based on Selenium WebDriver. It uses fluent page object pattern. Supports .NET Framework 4.0+ and .NET Core/Standard 2.0.
+C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
+It uses fluent page object pattern.
+
+Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
 
 **[What's new in v1.0.0](https://atata-framework.github.io/blog/2018/10/15/atata-1.0.0-released/)**
 
 ## Features
 
 * **WebDriver**. Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
-* **Page Object**. Provides unique fluent page object pattern that is easy to implement and maintain.
-* **Components**. Supports a rich set of HTML [components](https://atata-framework.github.io/components/).
-* **Integration**. Works on any .NET test engine (e.g. NUnit, xUnit) as well as on CI systems like TeamCity or TFS.
-* **Triggers**. A bunch of [triggers](https://atata-framework.github.io/triggers/) to bind with different component events.
-* **Verification**. A set of methods and triggers for the component and data verification.
-* **Configurable**. Defines the default component search strategies as well as additional settings.
-* **Logging**. Built-in customizable logging and screenshot capturing functionality.
-* **Extensible**. [Atata.Bootstrap](https://github.com/atata-framework/atata-bootstrap) and [Atata.KendoUI](https://github.com/atata-framework/atata-kendoui) packages have a set of ready to use components.
+* **Page Object Model**. Provides unique fluent page object pattern that is easy to implement and maintain.
+* **Components**. Contains a rich set of ready to use [components](https://atata-framework.github.io/components/) for inputs, tables, lists, etc.
+* **Integration**. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, Azure DevOps or TeamCity.
+* **Triggers**. A bunch of [triggers](https://atata-framework.github.io/triggers/) to bind with different events to extend component behavior.
+* **Verification**. A set of fluent assertion methods and triggers for the component and data verification.
+* **Configurable**. Defines the default component search strategies as well as additional settings. [Atata.Configuration.Json](https://github.com/atata-framework/atata-configuration-json) provides flexible JSON configurations.
+* **Reporting/Logging**. Built-in customizable logging and screenshot capturing functionality.
+* **Extensible**. [Atata.Bootstrap](https://github.com/atata-framework/atata-bootstrap) and [Atata.KendoUI](https://github.com/atata-framework/atata-kendoui) packages have a set of ready to use components. Framework supports any kind of extending.
 
 ## Usage
 
@@ -63,6 +66,19 @@ public void SignIn()
         Email.Set("admin@mail.com").
         Password.Set("abc123").
         SignIn.Click();
+}
+```
+
+### Setup
+
+```C#
+[SetUp]
+public void SetUp()
+{
+    AtataContext.Configure().
+        UseChrome().
+        UseBaseUrl("http://atata-framework.github.io/atata-sample-app/#!/").
+        Build();
 }
 ```
 
@@ -127,6 +143,7 @@ If you faced an issue please report it to [Atata Issues](https://github.com/atat
 ### Links
 
 * Stack Overflow: https://stackoverflow.com/questions/tagged/atata
+* Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/enQtNDMzMzk3OTY5NjgzLTJlNzAyN2E3MzY3MDE4ZGE1ZDQzOGY2NThiYWExZTNkNDc5YjdlNzFjYmUwYjZmNDI2MDJlMGQ3ODNlMDljMzU)
 * Atata Issues: https://github.com/atata-framework/atata/issues
 * Atata Gitter: https://gitter.im/atata-framework/atata
 * Twitter: https://twitter.com/AtataFramework
@@ -143,4 +160,5 @@ Contact me if you need a help in test automation using Atata Framework, or if yo
 
 ## License
 
-Atata is an open source software, licensed under the Apache License 2.0. See [LICENSE](LICENSE) for details.
+Atata is an open source software, licensed under the Apache License 2.0.
+See [LICENSE](LICENSE) for details.
