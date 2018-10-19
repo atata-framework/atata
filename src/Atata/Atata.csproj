@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
     <RootNamespace>Atata</RootNamespace>
-    <Version>0.17.0</Version>
+    <Version>1.0.0</Version>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
@@ -30,7 +30,8 @@ Features:
     <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo_68.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>0.17.0 - https://atata-framework.github.io/blog/2018/05/31/atata-0.17.0-released/
+    <PackageReleaseNotes>1.0.0 - https://atata-framework.github.io/blog/2018/10/15/atata-1.0.0-released/
+0.17.0 - https://atata-framework.github.io/blog/2018/05/31/atata-0.17.0-released/
 0.16.0 - https://atata-framework.github.io/blog/2017/12/18/atata-0.16.0-released/
 0.15.0 - https://atata-framework.github.io/blog/2017/10/12/atata-0.15.0-released/
 0.14.0 - https://atata-framework.github.io/blog/2017/09/22/atata-0.14.0-released/
