@@ -24,12 +24,14 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the text parts separator. The default value is " ".
+        /// Gets or sets the text parts separator.
+        /// The default value is " ".
         /// </summary>
         public string Separator { get; set; } = " ";
 
         /// <summary>
-        /// Gets or sets the timestamp format. The default value is "yyyy-MM-dd HH:mm:ss.ffff".
+        /// Gets or sets the timestamp format.
+        /// The default value is "yyyy-MM-dd HH:mm:ss.ffff".
         /// </summary>
         public string TimestampFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.ffff";
 

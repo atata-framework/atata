@@ -47,7 +47,8 @@ namespace Atata
         public LogSection SectionEnd { get; internal set; }
 
         /// <summary>
-        /// Gets the build start date and time. Contains the same value for all the tests being executed within one build.
+        /// Gets the build start date and time.
+        /// Contains the same value for all the tests being executed within one build.
         /// </summary>
         public DateTime BuildStart { get; private set; }
 

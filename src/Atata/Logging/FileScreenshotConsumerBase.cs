@@ -7,7 +7,8 @@ namespace Atata
     public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
     {
         /// <summary>
-        /// Gets or sets the image format. The default format is Png.
+        /// Gets or sets the image format.
+        /// The default format is Png.
         /// </summary>
         public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
 
