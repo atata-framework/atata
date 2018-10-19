@@ -9,7 +9,9 @@ namespace Atata
         /// Navigates to the specified page object.
         /// </summary>
         /// <typeparam name="T">The type of the page object.</typeparam>
-        /// <param name="pageObject">The page object. If set to <c>null</c> creates an instance using the default constructor.</param>
+        /// <param name="pageObject">
+        /// The page object.
+        /// If set to <c>null</c> creates an instance using the default constructor.</param>
         /// <param name="url">The URL.</param>
         /// <param name="navigate">If set to <c>true</c> executes page object navigation functionality.</param>
         /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
@@ -24,7 +26,9 @@ namespace Atata
         /// Navigates to the window with the specified page object by name.
         /// </summary>
         /// <typeparam name="T">The type of the page object.</typeparam>
-        /// <param name="pageObject">The page object. If set to <c>null</c> creates an instance using the default constructor.</param>
+        /// <param name="pageObject">
+        /// The page object.
+        /// If set to <c>null</c> creates an instance using the default constructor.</param>
         /// <param name="windowName">Name of the browser window.</param>
         /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
         /// <returns>The page object.</returns>
@@ -55,7 +59,9 @@ namespace Atata
         /// Navigates to the next window with the specified page object.
         /// </summary>
         /// <typeparam name="T">The type of the page object.</typeparam>
-        /// <param name="pageObject">The page object. If set to <c>null</c> creates an instance using the default constructor.</param>
+        /// <param name="pageObject">
+        /// The page object.
+        /// If set to <c>null</c> creates an instance using the default constructor.</param>
         /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
         /// <returns>The page object.</returns>
         public static T ToNextWindow<T>(T pageObject = null, bool temporarily = false)
@@ -74,7 +80,9 @@ namespace Atata
         /// Navigates to the previous window with the specified page object.
         /// </summary>
         /// <typeparam name="T">The type of the page object.</typeparam>
-        /// <param name="pageObject">The page object. If set to <c>null</c> creates an instance using the default constructor.</param>
+        /// <param name="pageObject">
+        /// The page object.
+        /// If set to <c>null</c> creates an instance using the default constructor.</param>
         /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
         /// <returns>The page object.</returns>
         public static T ToPreviousWindow<T>(T pageObject = null, bool temporarily = false)
