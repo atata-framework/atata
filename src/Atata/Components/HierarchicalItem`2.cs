@@ -1,7 +1,9 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the hierarchical item control (a control containing structured hierarchy of controls of <typeparamref name="TItem" /> type). Can have parent control of <typeparamref name="TItem" /> type. Default search finds the first occurring element.
+    /// Represents the hierarchical item control (a control containing structured hierarchy of controls of <typeparamref name="TItem" /> type).
+    /// Can have parent control of <typeparamref name="TItem" /> type.
+    /// Default search finds the first occurring element.
     /// </summary>
     /// <typeparam name="TItem">The type of the item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>

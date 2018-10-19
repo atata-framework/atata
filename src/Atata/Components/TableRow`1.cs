@@ -3,7 +3,9 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the table row component (&lt;tr&gt;). Default search finds the first occurring &lt;tr&gt; element. By default every its control of type (or inherited from) <see cref="Content{T, TOwner}" /> is searched by the column header.
+    /// Represents the table row component (&lt;tr&gt;).
+    /// Default search finds the first occurring &lt;tr&gt; element.
+    /// By default every its control of type (or inherited from) <see cref="Content{T, TOwner}" /> is searched by the column header.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("tr[parent::table or parent::tbody]", ComponentTypeName = "row")]

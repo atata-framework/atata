@@ -106,7 +106,9 @@ namespace Atata
         /// Gets the control that matches the specified XPath condition.
         /// </summary>
         /// <param name="itemName">Name of the item.</param>
-        /// <param name="xPathCondition">The XPath condition. For example: "@some-attr='some value'".</param>
+        /// <param name="xPathCondition">
+        /// The XPath condition.
+        /// For example: "@some-attr='some value'".</param>
         /// <returns>The first item that matches the XPath condition.</returns>
         public TItem GetByXPathCondition(string itemName, string xPathCondition)
         {
@@ -244,7 +246,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Selects the specified data (property) set of each control. Data can be a sub-control, an instance of <see cref="DataProvider{TData, TOwner}"/>, etc.
+        /// Selects the specified data (property) set of each control.
+        /// Data can be a sub-control, an instance of <see cref="DataProvider{TData, TOwner}"/>, etc.
         /// </summary>
         /// <typeparam name="TData">The type of the data.</typeparam>
         /// <param name="selector">The data selector.</param>

@@ -23,7 +23,8 @@ namespace Atata
         protected string[] WindowTitleValues { get; set; }
 
         /// <summary>
-        /// Gets or sets the match that should be used for the window search by the title. The default value is <c>TermMatch.Equals</c>.
+        /// Gets or sets the match that should be used for the window search by the title.
+        /// The default value is <c>TermMatch.Equals</c>.
         /// </summary>
         protected TermMatch WindowTitleMatch { get; set; } = TermMatch.Equals;
 
