@@ -54,7 +54,9 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
         /// <param name="navigateToPageObject">The page object instance to navigate to.</param>
-        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state. If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
+        /// <param name="temporarily">
+        /// If set to <c>true</c> navigates temporarily preserving current page object state.
+        /// If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
         /// <returns>The instance of <typeparamref name="TNavigateTo"/>.</returns>
         public TNavigateTo ClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
             where TNavigateTo : PageObject<TNavigateTo>
@@ -152,7 +154,9 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
         /// <param name="navigateToPageObject">The page object instance to navigate to.</param>
-        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state. If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
+        /// <param name="temporarily">
+        /// If set to <c>true</c> navigates temporarily preserving current page object state.
+        /// If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
         /// <returns>The instance of <typeparamref name="TNavigateTo"/>.</returns>
         public TNavigateTo DoubleClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
             where TNavigateTo : PageObject<TNavigateTo>
