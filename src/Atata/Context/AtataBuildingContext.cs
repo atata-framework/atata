@@ -79,24 +79,28 @@ namespace Atata
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
 
         /// <summary>
-        /// Gets the base retry timeout. The default value is 5 seconds.
+        /// Gets the base retry timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         [Obsolete("Use BaseRetryTimeout instead.")] // Obsolete since v0.17.0.
         public TimeSpan RetryTimeout => BaseRetryTimeout;
 
         /// <summary>
-        /// Gets the base retry interval. The default value is 500 milliseconds.
+        /// Gets the base retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         [Obsolete("Use BaseRetryInterval instead.")] // Obsolete since v0.17.0.
         public TimeSpan RetryInterval => BaseRetryInterval;
 
         /// <summary>
-        /// Gets the base retry timeout. The default value is 5 seconds.
+        /// Gets the base retry timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         public TimeSpan BaseRetryTimeout { get; internal set; } = TimeSpan.FromSeconds(5);
 
         /// <summary>
-        /// Gets the base retry interval. The default value is 500 milliseconds.
+        /// Gets the base retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan BaseRetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
 
@@ -166,7 +170,8 @@ namespace Atata
         public CultureInfo Culture { get; set; }
 
         /// <summary>
-        /// Gets or sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// Gets or sets the type of the assertion exception.
+        /// The default value is typeof(Atata.AssertionException).
         /// </summary>
         public Type AssertionExceptionType { get; set; } = typeof(AssertionException);
 

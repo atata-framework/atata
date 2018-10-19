@@ -43,7 +43,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="Current"/> property use thread-static approach (value unique for each thread). The default value is <c>true</c>.
+        /// Gets or sets a value indicating whether the <see cref="Current"/> property use thread-static approach (value unique for each thread).
+        /// The default value is <c>true</c>.
         /// </summary>
         public static bool IsThreadStatic
         {
@@ -61,7 +62,8 @@ namespace Atata
         public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
 
         /// <summary>
-        /// Gets the build start date and time. Contains the same value for all the tests being executed within one build.
+        /// Gets the build start date and time.
+        /// Contains the same value for all the tests being executed within one build.
         /// </summary>
         public static DateTime? BuildStart { get; private set; }
 
@@ -98,64 +100,76 @@ namespace Atata
         public string BaseUrl { get; internal set; }
 
         /// <summary>
-        /// Gets the base retry timeout. The default value is 5 seconds.
+        /// Gets the base retry timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         [Obsolete("Use BaseRetryTimeout instead.")] // Obsolete since v0.17.0.
         public TimeSpan RetryTimeout => BaseRetryTimeout;
 
         /// <summary>
-        /// Gets the base retry interval. The default value is 500 milliseconds.
+        /// Gets the base retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         [Obsolete("Use BaseRetryInterval instead.")] // Obsolete since v0.17.0.
         public TimeSpan RetryInterval => BaseRetryInterval;
 
         /// <summary>
-        /// Gets the base retry timeout. The default value is 5 seconds.
+        /// Gets the base retry timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         public TimeSpan BaseRetryTimeout { get; internal set; }
 
         /// <summary>
-        /// Gets the base retry interval. The default value is 500 milliseconds.
+        /// Gets the base retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan BaseRetryInterval { get; internal set; }
 
         /// <summary>
-        /// Gets the element find timeout. The default value is 5 seconds.
+        /// Gets the element find timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         public TimeSpan ElementFindTimeout { get; internal set; }
 
         /// <summary>
-        /// Gets the element find retry interval. The default value is 500 milliseconds.
+        /// Gets the element find retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan ElementFindRetryInterval { get; internal set; }
 
         /// <summary>
-        /// Gets the waiting timeout. The default value is 5 seconds.
+        /// Gets the waiting timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         public TimeSpan WaitingTimeout { get; internal set; }
 
         /// <summary>
-        /// Gets the waiting retry interval. The default value is 500 milliseconds.
+        /// Gets the waiting retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan WaitingRetryInterval { get; internal set; }
 
         /// <summary>
-        /// Gets the verification timeout. The default value is 5 seconds.
+        /// Gets the verification timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         public TimeSpan VerificationTimeout { get; internal set; }
 
         /// <summary>
-        /// Gets the verification retry interval. The default value is 500 milliseconds.
+        /// Gets the verification retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         public TimeSpan VerificationRetryInterval { get; internal set; }
 
         /// <summary>
-        /// Gets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// Gets the culture.
+        /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
         public CultureInfo Culture { get; internal set; }
 
         /// <summary>
-        /// Gets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// Gets the type of the assertion exception.
+        /// The default value is typeof(Atata.AssertionException).
         /// </summary>
         public Type AssertionExceptionType { get; internal set; }
 
@@ -179,7 +193,8 @@ namespace Atata
         internal UIComponentScopeCache UIComponentScopeCache { get; } = new UIComponentScopeCache();
 
         /// <summary>
-        /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration. Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
+        /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
+        /// Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
         /// </summary>
         /// <returns>The created <see cref="AtataContextBuilder"/> instance.</returns>
         public static AtataContextBuilder Configure()

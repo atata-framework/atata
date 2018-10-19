@@ -317,7 +317,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry timeout. The default value is 5 seconds.
+        /// Sets the base retry timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -328,7 +329,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry interval. The default value is 500 milliseconds.
+        /// Sets the base retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -339,7 +341,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry timeout. The default value is 5 seconds.
+        /// Sets the base retry timeout.
+        /// The default value is 5 seconds.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -350,7 +353,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry interval. The default value is 500 milliseconds.
+        /// Sets the base retry interval.
+        /// The default value is 500 milliseconds.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -433,7 +437,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// Sets the culture.
+        /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
         /// <param name="culture">The culture.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -444,7 +449,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the culture by the name. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// Sets the culture by the name.
+        /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
         /// <param name="cultureName">The name of the culture.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -454,7 +460,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// Sets the type of the assertion exception.
+        /// The default value is typeof(Atata.AssertionException).
         /// </summary>
         /// <param name="exceptionType">The type of the exception.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -467,7 +474,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// Sets the type of the assertion exception.
+        /// The default value is typeof(Atata.AssertionException).
         /// </summary>
         /// <typeparam name="TException">The type of the exception.</typeparam>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
