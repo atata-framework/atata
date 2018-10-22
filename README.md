@@ -11,7 +11,8 @@ It uses fluent page object pattern.
 
 Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
 
-**[What's new in v1.0.0](https://atata-framework.github.io/blog/2018/10/15/atata-1.0.0-released/)**
+- **[What's new in v1.0.0](https://atata-framework.github.io/blog/2018/10/15/atata-1.0.0-released/)**
+- **[Upgrading Atata to v1.0.0](https://atata-framework.github.io/blog/2018/10/21/upgrading-atata-to-1.0.0/)**
 
 ## Features
 
