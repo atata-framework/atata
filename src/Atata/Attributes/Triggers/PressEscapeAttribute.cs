@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the Escape key should be pressed on the specified event.
+    /// Indicates that the <c>Escape</c> key should be pressed on the specified event.
     /// By default occurs after the set.
     /// </summary>
     public class PressEscapeAttribute : PressKeysAttribute
