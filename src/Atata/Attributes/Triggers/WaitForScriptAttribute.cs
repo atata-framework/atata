@@ -42,7 +42,7 @@ namespace Atata
 
         /// <summary>
         /// Builds the report message.
-        /// The default message is <c>Wait for script</c>.
+        /// The default message is <c>"Wait for script"</c>.
         /// </summary>
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
         /// <param name="context">The trigger context.</param>
