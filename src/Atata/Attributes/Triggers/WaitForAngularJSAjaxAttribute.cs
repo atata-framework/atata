@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the waiting should be performed until the AngularJS (v1.*) AJAX is completed.
+    /// Indicates that the waiting should be performed until the <c>AngularJS (v1.*)</c> AJAX is completed.
     /// By default occurs after the click.
     /// </summary>
     public class WaitForAngularJSAjaxAttribute : WaitForScriptAttribute
