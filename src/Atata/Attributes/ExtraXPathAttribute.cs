@@ -20,7 +20,7 @@ namespace Atata
         public string RawXPath { get; private set; }
 
         /// <summary>
-        /// Gets the XPath prepended with '/', if it can be applied.
+        /// Gets the XPath prepended with <c>/</c>, if it can be applied.
         /// </summary>
         public string XPath { get; private set; }
     }
