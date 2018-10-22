@@ -52,7 +52,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets a value indicating whether the name should be cut considering the IgnoreNameEndings property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>.
-        /// The default value is true.
+        /// The default value is <see langword="true"/>.
         /// </summary>
         public bool CutEnding
         {
