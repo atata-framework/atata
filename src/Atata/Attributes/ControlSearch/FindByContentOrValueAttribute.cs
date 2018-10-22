@@ -5,7 +5,7 @@ namespace Atata
     /// <summary>
     /// Specifies that a control should be found by the content text or value attribute.
     /// Finds the control that has the content or value attribute matching the specified term(s).
-    /// Uses <c>Title</c> as the default term case.
+    /// Uses <see cref="TermCase.Title"/> as the default term case.
     /// </summary>
     public class FindByContentOrValueAttribute : TermFindAttribute
     {
