@@ -15,7 +15,7 @@
 
         /// <summary>
         /// Gets or sets a value indicating whether to throw the exception on the presence (exists or visible) failure.
-        /// The default value is true.
+        /// The default value is <see langword="true"/>.
         /// </summary>
         public bool ThrowOnPresenceFailure
         {
@@ -25,7 +25,7 @@
 
         /// <summary>
         /// Gets or sets a value indicating whether to throw the exception on the absence (missing or hidden) failure.
-        /// The default value is true.
+        /// The default value is <see langword="true"/>.
         /// </summary>
         public bool ThrowOnAbsenceFailure
         {
