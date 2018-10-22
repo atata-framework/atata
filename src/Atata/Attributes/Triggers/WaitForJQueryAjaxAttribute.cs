@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the waiting should be performed until the <c>jQuery</c> AJAX is completed.
+    /// Indicates that the waiting should be performed until the jQuery AJAX is completed.
     /// By default occurs after the click.
     /// </summary>
     public class WaitForJQueryAjaxAttribute : WaitForScriptAttribute
