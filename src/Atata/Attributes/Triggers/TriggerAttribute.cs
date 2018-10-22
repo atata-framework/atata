@@ -21,13 +21,13 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the priority.
-        /// The default value is Medium.
+        /// The default value is <see cref="TriggerPriority.Medium"/>.
         /// </summary>
         public TriggerPriority Priority { get; set; }
 
         /// <summary>
         /// Gets or sets the scope to apply the trigger to.
-        /// The default value is Self.
+        /// The default value is <see cref="TriggerScope.Self"/>.
         /// </summary>
         public TriggerScope AppliesTo { get; set; } = TriggerScope.Self;
 
