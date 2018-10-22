@@ -24,7 +24,7 @@
 
         /// <summary>
         /// Gets or sets the index of header.
-        /// The default value is -1, meaning that the index is not used.
+        /// The default value is <c>-1</c>, meaning that the index is not used.
         /// </summary>
         public int Index
         {
