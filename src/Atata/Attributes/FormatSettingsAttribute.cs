@@ -16,7 +16,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the type of the control (e.g.: typeof(DateInput&lt;&gt;), typeof(TimeInput&lt;&gt;)).
+        /// Gets or sets the type of the control (e.g.: <c>typeof(DateInput&lt;&gt;)</c>, <c>typeof(TimeInput&lt;&gt;)</c>).
         /// </summary>
         public Type ControlType
         {
