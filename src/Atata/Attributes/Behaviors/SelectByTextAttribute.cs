@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the behavior for option selection of <see cref="Select{T, TOwner}"/> control using option text.
+    /// Represents the behavior for option selection of <see cref="Select{T, TOwner}"/> control using option <c>text</c>.
     /// </summary>
     public class SelectByTextAttribute : SelectOptionBehaviorAttribute
     {
