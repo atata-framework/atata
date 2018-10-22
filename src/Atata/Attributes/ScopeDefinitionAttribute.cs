@@ -36,7 +36,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the containing CSS class names.
-        /// Multiple class names are used in XPath as conditions with <c>and</c> operator.
+        /// Multiple class names are used in XPath as conditions joined with <c>and</c> operator.
         /// </summary>
         public string[] ContainingClasses { get; set; }
 
