@@ -44,7 +44,7 @@
         }
 
         /// <summary>
-        /// Gets or sets the absence (missing or hidden) timeout in seconds. 
+        /// Gets or sets the absence (missing or hidden) timeout in seconds.
         /// The default value is taken from <c>AtataContext.Current.RetryTimeout.TotalSeconds</c>.
         /// </summary>
         public double AbsenceTimeout
