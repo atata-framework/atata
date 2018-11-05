@@ -4,7 +4,6 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using NUnit.Framework;
-using Retry;
 
 namespace Atata.Tests
 {
@@ -45,16 +44,22 @@ namespace Atata.Tests
 
             Thread.Sleep(5000);
 
-            RetryHelper.Instance.Try(() => PingTestApp()).
-                WithTryInterval(1000).
-                WithTimeLimit(40000).
-                UntilNoException();
+            var testAppWait = new SafeWait<SetUpFixture>(this)
+            {
+                Timeout = TimeSpan.FromSeconds(40),
+                PollingInterval = TimeSpan.FromSeconds(1)
+            };
+
+            testAppWait.IgnoreExceptionTypes(typeof(WebException));
+
+            testAppWait.Until(x => PingTestApp());
         }
 
         [OneTimeTearDown]
         public void GlobalTearDown()
         {
             coreRunProcess?.CloseMainWindow();
+            coreRunProcess?.Dispose();
         }
     }
 }
