@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the <c>label</c> element.
+    /// Represents the <c>"label"</c> element.
     /// Default search is performed by the content.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
