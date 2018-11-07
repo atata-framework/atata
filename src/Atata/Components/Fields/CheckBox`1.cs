@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the checkbox control (&lt;input type="checkbox"&gt;).
+    /// Represents the checkbox control (<c>&lt;input type="checkbox"&gt;</c>).
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
