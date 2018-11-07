@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 namespace Atata
 {
     /// <summary>
-    /// Represents the checkbox list control (a set of &lt;input type="checkbox"&gt;).
+    /// Represents the checkbox list control (a set of <c>&lt;input type="checkbox"&gt;</c>).
     /// Default search is performed by the name.
     /// Specific checkbox items can be found by label or value.
     /// By default items are searched by label using <see cref="FindItemByLabelAttribute"/>.
