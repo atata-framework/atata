@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the password input control (&lt;input type="password"&gt;).
+    /// Represents the password input control (<c>&lt;input type="password"&gt;</c>).
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
