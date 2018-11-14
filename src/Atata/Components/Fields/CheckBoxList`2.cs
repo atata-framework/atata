@@ -1,7 +1,7 @@
-﻿using System;
+﻿using OpenQA.Selenium;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -26,7 +26,7 @@ namespace Atata
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckBoxList{T, TOwner}"/> class.
         /// </summary>
-        /// <exception cref="InvalidOperationException">generic 'T'  parameter is not an Enum type.</exception>
+        /// <exception cref="InvalidOperationException">generic 'T' parameter is not an Enum type.</exception>
         public CheckBoxList()
         {
             if (!typeof(T).IsEnum)
