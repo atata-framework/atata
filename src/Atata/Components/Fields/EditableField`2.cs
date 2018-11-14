@@ -4,7 +4,7 @@ namespace Atata
 {
     /// <summary>
     /// Represents the base class for editable field controls.
-    /// It can be used for controls like &lt;input&gt;, &lt;select&gt; and other editable controls.
+    /// It can be used for controls like <c>&lt;input&gt;</c>, <c>&lt;select&gt;</c> and other editable controls.
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
@@ -17,7 +17,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is read-only.
-        /// By default checks "readonly" attribute of scope element.
+        /// By default checks <c>"readonly"</c> attribute of scope element.
         /// Override <see cref="GetIsReadOnly"/> method to change the behavior.
         /// </summary>
         public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only state", GetIsReadOnly);
