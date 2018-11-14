@@ -12,6 +12,7 @@ steps:
     arguments: '-c $(buildConfiguration)'
 
 - task: VSTest@2
+  timeoutInMinutes: 20
   inputs:
     testAssemblyVer2: |
       **\*.Tests*.dll
