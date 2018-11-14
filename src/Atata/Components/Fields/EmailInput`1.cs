@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the email input control (&lt;input type="email"&gt;).
+    /// Represents the email input control (<c>&lt;input type="email"&gt;</c>).
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
