@@ -4,7 +4,7 @@ namespace Atata
 {
     /// <summary>
     /// Represents the base class for the field controls.
-    /// It can be used for HTML elements containing content (like &lt;h1&gt;, &lt;span&gt;, etc.) representing content as a field value, as well as for &lt;input&gt; and other elements.
+    /// It can be used for HTML elements containing content (like <c>&lt;h1&gt;</c>, <c>&lt;span&gt;</c>, etc.) representing content as a field value, as well as for <c>&lt;input&gt;</c> and other elements.
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
@@ -30,7 +30,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the name of the data provider.
-        /// The default value is "value".
+        /// The default value is <c>"value"</c>.
         /// </summary>
         protected virtual string DataProviderName => "value";
 
