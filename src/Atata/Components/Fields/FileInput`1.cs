@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the file input control (&lt;input type="file"&gt;).
+    /// Represents the file input control (<c>&lt;input type="file"&gt;</c>).
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
