@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the radio button control (&lt;input type="radio"&gt;).
+    /// Represents the radio button control (<c>&lt;input type="radio"&gt;</c>).
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
