@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the button control.
     /// Default search is performed by the content and value (button by content text and input by value attribute).
-    /// Handles any input element with type="button", type="submit", type="reset" or button element.
+    /// Handles any input element with <c>type="button"</c>, <c>type="submit"</c>, <c>type="reset"</c> or <c>button</c> element.
     /// </summary>
     /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
