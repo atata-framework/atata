@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Represents the frameset-based HTML page.
-    /// Uses the root &lt;frameset&gt; tag as a scope.
+    /// Uses the root <c>&lt;frameset&gt;</c> tag as a scope.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     /// <seealso cref="PageObject{T}" />
