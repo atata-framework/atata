@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the hierarchical list item control (&lt;li&gt;).
-    /// Default search finds the first occurring &lt;li&gt; element.
+    /// Represents the hierarchical list item control (<c>&lt;li&gt;</c>).
+    /// Default search finds the first occurring <c>&lt;li&gt;</c> element.
     /// It is recommended to use with <see cref="HierarchicalUnorderedList{TItem, TOwner}"/> and <see cref="HierarchicalOrderedList{TItem, TOwner}"/>.
     /// </summary>
     /// <typeparam name="TItem">The type of the list item control.</typeparam>
