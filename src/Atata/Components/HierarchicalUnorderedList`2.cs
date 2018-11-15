@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the hierarchical unordered list control (&lt;ul&gt;).
-    /// Default search finds the first occurring &lt;ul&gt; element.
+    /// Represents the hierarchical unordered list control (<c>&lt;ul&gt;</c>).
+    /// Default search finds the first occurring <c>&lt;ul&gt;</c> element.
     /// </summary>
     /// <typeparam name="TItem">The type of the list item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
