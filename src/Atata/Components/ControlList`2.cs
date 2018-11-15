@@ -108,7 +108,7 @@ namespace Atata
         /// <param name="itemName">Name of the item.</param>
         /// <param name="xPathCondition">
         /// The XPath condition.
-        /// For example: "@some-attr='some value'".</param>
+        /// For example: <c>"@some-attr='some value'"</c>.</param>
         /// <returns>The first item that matches the XPath condition.</returns>
         public TItem GetByXPathCondition(string itemName, string xPathCondition)
         {
@@ -172,7 +172,7 @@ namespace Atata
         /// and returns the zero-based index of the first occurrence.
         /// </summary>
         /// <param name="predicateExpression">The predicate expression to test each item.</param>
-        /// <returns>The zero-based index of the first occurrence of item, if found; otherwise, –1.</returns>
+        /// <returns>The zero-based index of the first occurrence of item, if found; otherwise, <c>–1</c>.</returns>
         public DataProvider<int, TOwner> IndexOf(Expression<Func<TItem, bool>> predicateExpression)
         {
             predicateExpression.CheckNotNull(nameof(predicateExpression));
