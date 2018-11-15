@@ -3,8 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the frame control (&lt;iframe&gt; or &lt;frame&gt;).
-    /// Default search finds the first occurring &lt;iframe&gt; or &lt;frame&gt; element.
+    /// Represents the frame control (<c>&lt;iframe&gt;</c> or <c>&lt;frame&gt;</c>).
+    /// Default search finds the first occurring <c>&lt;iframe&gt;</c> or <c>&lt;frame&gt;</c> element.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("*[self::iframe or self::frame]", ComponentTypeName = "frame")]
