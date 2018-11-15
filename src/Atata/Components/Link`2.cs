@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the link control (&lt;a&gt;).
+    /// Represents the link control (<c>&lt;a&gt;</c>).
     /// Default search is performed by the content.
     /// </summary>
     /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
