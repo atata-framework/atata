@@ -10,7 +10,7 @@ namespace Atata
         public const string DefaultRemoteServerUrl = "http://127.0.0.1:4444/wd/hub";
 
         /// <summary>
-        /// The default command timeout is 60 seconds.
+        /// The default command timeout is <c>60</c> seconds.
         /// </summary>
         public static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(60);
 
@@ -62,7 +62,7 @@ namespace Atata
         /// <summary>
         /// Specifies the remote address URI.
         /// </summary>
-        /// <param name="remoteAddress">URI containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
+        /// <param name="remoteAddress">URI containing the address of the WebDriver remote server (e.g. <c>http://127.0.0.1:4444/wd/hub</c>).</param>
         /// <returns>The same builder instance.</returns>
         public RemoteDriverAtataContextBuilder WithRemoteAddress(Uri remoteAddress)
         {
@@ -73,7 +73,7 @@ namespace Atata
         /// <summary>
         /// Specifies the remote address URI.
         /// </summary>
-        /// <param name="remoteAddress">URI string containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
+        /// <param name="remoteAddress">URI string containing the address of the WebDriver remote server (e.g. <c>http://127.0.0.1:4444/wd/hub</c>).</param>
         /// <returns>The same builder instance.</returns>
         public RemoteDriverAtataContextBuilder WithRemoteAddress(string remoteAddress)
         {
