@@ -17,7 +17,7 @@ namespace Atata
         /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
         /// <param name="framePageObject">The frame page object.</param>
         /// <param name="temporarily">
-        /// If set to <c>true</c> navigates temporarily preserving current page object state.
+        /// If set to <see langword="true"/> navigates temporarily preserving current page object state.
         /// If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
         /// <returns>The instance of the frame page object.</returns>
         public virtual TFramePageObject SwitchTo<TFramePageObject>(TFramePageObject framePageObject = null, bool? temporarily = null)
@@ -36,7 +36,7 @@ namespace Atata
         /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
         /// <param name="action">The action to do in scope of frame.</param>
         /// <param name="temporarily">
-        /// If set to <c>true</c> navigates temporarily preserving current page object state.
+        /// If set to <see langword="true"/> navigates temporarily preserving current page object state.
         /// If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
         /// <returns>The instance of the owner page object.</returns>
         public TOwner DoWithin<TFramePageObject>(Action<TFramePageObject> action, bool? temporarily = null)
