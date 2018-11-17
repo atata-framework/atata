@@ -87,7 +87,7 @@ namespace Atata
         /// </summary>
         /// <param name="options">
         /// The search options.
-        /// If set to <c>null</c>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
         public IWebElement GetScope(SearchOptions options = null)
         {
@@ -158,9 +158,9 @@ namespace Atata
         /// </summary>
         /// <param name="options">
         /// The search options.
-        /// If set to <c>null</c>, then it uses <c>SearchOptions.Safely()</c>.</param>
-        /// <returns><c>true</c> if the component exists; otherwise, <c>false</c>.</returns>
-        /// <exception cref="NoSuchElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <c>false</c> value and the component doesn't exist.</exception>
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// <returns><see langword="true"/> if the component exists; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="NoSuchElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <see langword="false"/> value and the component doesn't exist.</exception>
         public bool Exists(SearchOptions options = null)
         {
             return GetScopeElement(options ?? SearchOptions.Safely()) != null;
@@ -171,9 +171,9 @@ namespace Atata
         /// </summary>
         /// <param name="options">
         /// The search options.
-        /// If set to <c>null</c>, then it uses <c>SearchOptions.Safely()</c>.</param>
-        /// <returns><c>true</c> if the component is missing; otherwise, <c>false</c>.</returns>
-        /// <exception cref="NotMissingElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <c>false</c> value and the component exists.</exception>
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// <returns><see langword="true"/> if the component is missing; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="NotMissingElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <see langword="false"/> value and the component exists.</exception>
         public bool Missing(SearchOptions options = null)
         {
             return OnMissing(options ?? SearchOptions.Safely());
