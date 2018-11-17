@@ -24,7 +24,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the match that should be used for the window search by the title.
-        /// The default value is <c>TermMatch.Equals</c>.
+        /// The default value is <see cref="TermMatch.Equals"/>.
         /// </summary>
         protected TermMatch WindowTitleMatch { get; set; } = TermMatch.Equals;
 

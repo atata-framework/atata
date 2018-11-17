@@ -233,8 +233,8 @@ namespace Atata
         /// <param name="frameBy">The frame <see cref="By"/> instance.</param>
         /// <param name="framePageObject">
         /// The frame page object.
-        /// If equals <c>null</c>, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
-        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
+        /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
+        /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
         /// <returns>The instance of the frame page object.</returns>
         public TFramePageObject SwitchToFrame<TFramePageObject>(By frameBy, TFramePageObject framePageObject = null, bool temporarily = false)
             where TFramePageObject : PageObject<TFramePageObject>
@@ -250,8 +250,8 @@ namespace Atata
         /// <param name="frameElement">The frame element.</param>
         /// <param name="framePageObject">
         /// The frame page object.
-        /// If equals <c>null</c>, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
-        /// <param name="temporarily">If set to <c>true</c> navigates temporarily preserving current page object state.</param>
+        /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
+        /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
         /// <returns>The instance of the frame page object.</returns>
         public virtual TFramePageObject SwitchToFrame<TFramePageObject>(IWebElement frameElement, TFramePageObject framePageObject = null, bool temporarily = false)
             where TFramePageObject : PageObject<TFramePageObject>
@@ -267,7 +267,7 @@ namespace Atata
         /// <typeparam name="TPageObject">The type of the root page object.</typeparam>
         /// <param name="rootPageObject">
         /// The root page object.
-        /// If equals <c>null</c>, creates an instance of <typeparamref name="TPageObject"/> using the default constructor.</param>
+        /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TPageObject"/> using the default constructor.</param>
         /// <returns>The instance of the root page object.</returns>
         public virtual TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
             where TPageObject : PageObject<TPageObject>
@@ -294,7 +294,7 @@ namespace Atata
         /// <typeparam name="TOther">The type of the page object that represents the previous page.</typeparam>
         /// <param name="previousPageObject">
         /// The instance of the previous page object.
-        /// If equals <c>null</c>, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
+        /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
         /// <returns>The instance of the previous page object.</returns>
         public virtual TOther GoBack<TOther>(TOther previousPageObject = null)
             where TOther : PageObject<TOther>
@@ -310,7 +310,7 @@ namespace Atata
         /// <typeparam name="TOther">The type of the page object that represents the next page.</typeparam>
         /// <param name="nextPageObject">
         /// The instance of the next page object.
-        /// If equals <c>null</c>, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
+        /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
         /// <returns>The instance of the next page object.</returns>
         public virtual TOther GoForward<TOther>(TOther nextPageObject = null)
             where TOther : PageObject<TOther>
