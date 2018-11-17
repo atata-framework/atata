@@ -26,7 +26,7 @@ namespace Atata
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckBoxList{T, TOwner}"/> class.
         /// </summary>
-        /// <exception cref="InvalidOperationException">generic 'T' parameter is not an Enum type.</exception>
+        /// <exception cref="InvalidOperationException">generic <typeparamref name="T"/> parameter is not an Enum type.</exception>
         public CheckBoxList()
         {
             if (!typeof(T).IsEnum)
