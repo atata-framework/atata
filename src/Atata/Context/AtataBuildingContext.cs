@@ -80,33 +80,33 @@ namespace Atata
 
         /// <summary>
         /// Gets the base retry timeout.
-        /// The default value is 5 seconds.
+        /// The default value is <c>5</c> seconds.
         /// </summary>
         [Obsolete("Use BaseRetryTimeout instead.")] // Obsolete since v0.17.0.
         public TimeSpan RetryTimeout => BaseRetryTimeout;
 
         /// <summary>
         /// Gets the base retry interval.
-        /// The default value is 500 milliseconds.
+        /// The default value is <c>500</c> milliseconds.
         /// </summary>
         [Obsolete("Use BaseRetryInterval instead.")] // Obsolete since v0.17.0.
         public TimeSpan RetryInterval => BaseRetryInterval;
 
         /// <summary>
         /// Gets the base retry timeout.
-        /// The default value is 5 seconds.
+        /// The default value is <c>5</c> seconds.
         /// </summary>
         public TimeSpan BaseRetryTimeout { get; internal set; } = TimeSpan.FromSeconds(5);
 
         /// <summary>
         /// Gets the base retry interval.
-        /// The default value is 500 milliseconds.
+        /// The default value is <c>500</c> milliseconds.
         /// </summary>
         public TimeSpan BaseRetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
 
         /// <summary>
         /// Gets the element find timeout.
-        /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         public TimeSpan ElementFindTimeout
         {
@@ -116,7 +116,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the element find retry interval.
-        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         public TimeSpan ElementFindRetryInterval
         {
@@ -136,7 +136,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the waiting retry interval.
-        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         public TimeSpan WaitingRetryInterval
         {
@@ -146,7 +146,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the verification timeout.
-        /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         public TimeSpan VerificationTimeout
         {
@@ -156,7 +156,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the verification retry interval.
-        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         public TimeSpan VerificationRetryInterval
         {
