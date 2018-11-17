@@ -216,7 +216,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses NUnit.Framework.TestContext class for logging.
+        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses <c>NUnit.Framework.TestContext</c> class for logging.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder{NUnitTestContextLogConsumer}"/> instance.</returns>
         public AtataContextBuilder<NUnitTestContextLogConsumer> AddNUnitTestContextLogging()
@@ -225,7 +225,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds the <see cref="NLogConsumer"/> instance that uses NLog.Logger class for logging.
+        /// Adds the <see cref="NLogConsumer"/> instance that uses <c>NLog.Logger</c> class for logging.
         /// </summary>
         /// <param name="loggerName">The name of the logger.</param>
         /// <returns>The <see cref="AtataContextBuilder{NLogConsumer}"/> instance.</returns>
@@ -318,7 +318,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the base retry timeout.
-        /// The default value is 5 seconds.
+        /// The default value is <c>5</c> seconds.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -330,7 +330,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the base retry interval.
-        /// The default value is 500 milliseconds.
+        /// The default value is <c>500</c> milliseconds.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -342,7 +342,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the base retry timeout.
-        /// The default value is 5 seconds.
+        /// The default value is <c>5</c> seconds.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -354,7 +354,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the base retry interval.
-        /// The default value is 500 milliseconds.
+        /// The default value is <c>500</c> milliseconds.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -366,7 +366,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the element find timeout.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -378,7 +378,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the element find retry interval.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -390,7 +390,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the waiting timeout.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -402,7 +402,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the waiting retry interval.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -414,7 +414,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the verification timeout.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -426,7 +426,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the verification retry interval.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
