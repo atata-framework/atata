@@ -110,7 +110,7 @@ namespace Atata
         /// Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
         /// </summary>
         /// <param name="options">The search options.
-        /// If set to <c>null</c>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
         IWebElement GetScope(SearchOptions options = null);
 
@@ -126,18 +126,18 @@ namespace Atata
         /// Determines whether the component exists.
         /// </summary>
         /// <param name="options">The search options.
-        /// If set to <c>null</c>, then it uses <c>SearchOptions.Safely()</c>.</param>
-        /// <returns><c>true</c> if the component exists; otherwise, <c>false</c>.</returns>
-        /// <exception cref="NoSuchElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <c>false</c> value and the component doesn't exist.</exception>
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// <returns><see langword="true"/> if the component exists; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="NoSuchElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <see langword="false"/> value and the component doesn't exist.</exception>
         bool Exists(SearchOptions options = null);
 
         /// <summary>
         /// Determines whether the component is missing.
         /// </summary>
         /// <param name="options">The search options.
-        /// If set to <c>null</c>, then it uses <c>SearchOptions.Safely()</c>.</param>
-        /// <returns><c>true</c> if the component is missing; otherwise, <c>false</c>.</returns>
-        /// <exception cref="NotMissingElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <c>false</c> value and the component exists.</exception>
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// <returns><see langword="true"/> if the component is missing; otherwise, <see langword="false"/>.</returns>
+        /// <exception cref="NotMissingElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <see langword="false"/> value and the component exists.</exception>
         bool Missing(SearchOptions options = null);
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace Atata
         /// Gets the ancestor component of specified type.
         /// </summary>
         /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
-        /// <returns>The component or <c>null</c> if not found.</returns>
+        /// <returns>The component or <see langword="null"/> if not found.</returns>
         TComponentToFind GetAncestor<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>;
 
@@ -161,7 +161,7 @@ namespace Atata
         /// Gets the ancestor component of specified type or self.
         /// </summary>
         /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
-        /// <returns>The component or <c>null</c> if not found.</returns>
+        /// <returns>The component or <see langword="null"/> if not found.</returns>
         TComponentToFind GetAncestorOrSelf<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>;
     }
