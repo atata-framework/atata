@@ -26,7 +26,7 @@ namespace Atata
             }
             catch
             {
-                // For the case when something will change in OpenQA.Selenium.Keys class.
+                // For the case when something will change in <c>OpenQA.Selenium.Keys</c> class.
                 return new Dictionary<char, string>();
             }
         }
