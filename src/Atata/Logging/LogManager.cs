@@ -22,7 +22,7 @@ namespace Atata
         /// </summary>
         /// <param name="consumer">The log consumer.</param>
         /// <param name="minLevel">The minimum level of the log message.</param>
-        /// <param name="logSectionFinish">If set to <c>true</c> logs the section finish messages with elapsed time span.</param>
+        /// <param name="logSectionFinish">If set to <see langword="true"/> logs the section finish messages with elapsed time span.</param>
         /// <returns>
         /// The same <see cref="LogManager" /> instance.
         /// </returns>
@@ -116,10 +116,10 @@ namespace Atata
         /// <param name="section">The log section.</param>
         /// <example>This sample shows how to log the data insertion to some control in the scope of the control.
         /// <code>
-        /// string value = "new_value";
-        /// Log.Start(new DataAdditionLogSection(this, value));
+        /// string value = <c>"new_value"</c>;
+        /// <c>Log.Start(new DataAdditionLogSection(this, value));</c>
         /// // TODO: Add a value to the control.
-        /// Log.EndSection();
+        /// <c>Log.EndSection();</c>
         /// </code>
         /// </example>
         public void Start(LogSection section)
