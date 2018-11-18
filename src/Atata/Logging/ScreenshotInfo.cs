@@ -19,7 +19,7 @@ namespace Atata
         public int Number { get; internal set; }
 
         /// <summary>
-        /// Gets the title. Can be null.
+        /// Gets the title. Can be <see langword="null"/>.
         /// </summary>
         public string Title { get; internal set; }
 
