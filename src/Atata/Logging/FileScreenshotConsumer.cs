@@ -18,7 +18,7 @@ namespace Atata
     public class FileScreenshotConsumer : FileScreenshotConsumerBase
     {
         /// <summary>
-        /// The default DateTime format for "build-start" and "test-start" path variables is "yyyy-MM-dd HH_mm_ss".
+        /// The default DateTime format for <c>"build-start"</c> and <c>"test-start"</c> path variables is <c>"yyyy-MM-dd HH_mm_ss"</c>.
         /// </summary>
         public const string DefaultDateTimeFormat = "yyyy-MM-dd HH_mm_ss";
 
