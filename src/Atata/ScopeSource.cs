@@ -21,7 +21,7 @@
         PageObject,
 
         /// <summary>
-        /// Uses the page's scope (&lt;body&gt; element).
+        /// Uses the page's scope (<c>&lt;body&gt;</c> element).
         /// </summary>
         Page
     }
