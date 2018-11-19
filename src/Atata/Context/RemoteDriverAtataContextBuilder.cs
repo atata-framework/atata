@@ -62,7 +62,7 @@ namespace Atata
         /// <summary>
         /// Specifies the remote address URI.
         /// </summary>
-        /// <param name="remoteAddress">URI containing the address of the WebDriver remote server (e.g. <c>http://127.0.0.1:4444/wd/hub</c>).</param>
+        /// <param name="remoteAddress">URI containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
         /// <returns>The same builder instance.</returns>
         public RemoteDriverAtataContextBuilder WithRemoteAddress(Uri remoteAddress)
         {
@@ -73,7 +73,7 @@ namespace Atata
         /// <summary>
         /// Specifies the remote address URI.
         /// </summary>
-        /// <param name="remoteAddress">URI string containing the address of the WebDriver remote server (e.g. <c>http://127.0.0.1:4444/wd/hub</c>).</param>
+        /// <param name="remoteAddress">URI string containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
         /// <returns>The same builder instance.</returns>
         public RemoteDriverAtataContextBuilder WithRemoteAddress(string remoteAddress)
         {
