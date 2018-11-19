@@ -265,7 +265,7 @@ namespace Atata
         /// Adds the <see cref="FileScreenshotConsumer"/> instance for the screenshot saving to file.
         /// By default uses <c>"Logs\{build-start}\{test-name}"</c> as folder path format,
         /// <c>"{screenshot-number:D2} - {screenshot-pageobjectfullname}{screenshot-title: - *}"</c> as file name format
-        /// and <c>Png</c> as image format.
+        /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
         /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
         /// Available path variables: <c>{build-start}</c>, <c>{test-name}</c>, <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>, <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>, <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
         /// Path variables support the formatting.
@@ -461,7 +461,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the type of the assertion exception.
-        /// The default value is typeof(Atata.AssertionException).
+        /// The default value is <c>typeof(Atata.AssertionException)</c>.
         /// </summary>
         /// <param name="exceptionType">The type of the exception.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -475,7 +475,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the type of the assertion exception.
-        /// The default value is typeof(Atata.AssertionException).
+        /// The default value is <c>typeof(Atata.AssertionException)</c>.
         /// </summary>
         /// <typeparam name="TException">The type of the exception.</typeparam>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
