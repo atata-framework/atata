@@ -8,7 +8,7 @@ namespace Atata
     {
         /// <summary>
         /// Gets or sets the image format.
-        /// The default format is Png.
+        /// The default format is <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/>.
         /// </summary>
         public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
 
