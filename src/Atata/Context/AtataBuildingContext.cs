@@ -171,7 +171,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the type of the assertion exception.
-        /// The default value is typeof(Atata.AssertionException).
+        /// The default value is <c>typeof(Atata.AssertionException)</c>.
         /// </summary>
         public Type AssertionExceptionType { get; set; } = typeof(AssertionException);
 
