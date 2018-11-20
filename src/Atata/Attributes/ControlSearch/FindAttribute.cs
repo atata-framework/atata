@@ -85,7 +85,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the outer XPath.
-        /// The default value is <see langword="null"/>, meaning that the control is searchable as descendant (using <c>.//</c> XPath) in scope source.
+        /// The default value is <see langword="null"/>, meaning that the control is searchable as descendant (using <c>".//"</c> XPath) in scope source.
         /// </summary>
         public string OuterXPath
         {
