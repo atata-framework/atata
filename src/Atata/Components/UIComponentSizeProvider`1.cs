@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Allows to access the component scope element's size (Width and Height).
+    /// Allows to access the component scope element's size (width and height).
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public class UIComponentSizeProvider<TOwner> : UIComponentPart<TOwner>

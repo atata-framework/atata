@@ -100,7 +100,7 @@ namespace Atata
         public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
         /// <summary>
-        /// Gets an instance of <see cref="Atata.ContentSourceAttribute"/> or <c>null</c> if not found.
+        /// Gets an instance of <see cref="Atata.ContentSourceAttribute"/> or <see langword="null"/> if not found.
         /// </summary>
         protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>();
 
@@ -229,7 +229,7 @@ namespace Atata
         /// Gets the ancestor component of specified type.
         /// </summary>
         /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
-        /// <returns>The component or <c>null</c> if not found.</returns>
+        /// <returns>The component or <see langword="null"/> if not found.</returns>
         public TComponentToFind GetAncestor<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>
         {
@@ -240,7 +240,7 @@ namespace Atata
         /// Gets the ancestor component of specified type or self.
         /// </summary>
         /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
-        /// <returns>The component or <c>null</c> if not found.</returns>
+        /// <returns>The component or <see langword="null"/> if not found.</returns>
         public TComponentToFind GetAncestorOrSelf<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>
         {

@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the option control (&lt;option&gt;).
-    /// Default search finds the first occurring &lt;option&gt; element.
+    /// Represents the option control (<c>&lt;option&gt;</c>).
+    /// Default search finds the first occurring <c>&lt;option&gt;</c> element.
     /// </summary>
     /// <typeparam name="T">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>

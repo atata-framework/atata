@@ -10,7 +10,7 @@ namespace Atata
         public const string DefaultRemoteServerUrl = "http://127.0.0.1:4444/wd/hub";
 
         /// <summary>
-        /// The default command timeout is 60 seconds.
+        /// The default command timeout is <c>60</c> seconds.
         /// </summary>
         public static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(60);
 

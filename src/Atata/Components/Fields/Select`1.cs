@@ -1,9 +1,9 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the text select control (&lt;select&gt;).
+    /// Represents the text select control (<c>&lt;select&gt;</c>).
     /// Default search is performed by the label.
-    /// Selects an option using string.
+    /// Selects an option using text.
     /// Option selection is configured via <see cref="SelectOptionBehaviorAttribute"/>.
     /// Possible selection behavior attributes are: <see cref="SelectByTextAttribute"/>, <see cref="SelectByValueAttribute"/>, <see cref="SelectByLabelAttribute"/> and <see cref="SelectByAttribute"/>.
     /// Default option selection is performed by text using <see cref="SelectByTextAttribute"/>.

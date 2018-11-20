@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the checkbox control (&lt;input type="checkbox"&gt;). Default search is performed by the label.
+    /// Represents the checkbox control (<c>&lt;input type="checkbox"&gt;</c>).
+    /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='checkbox']", ComponentTypeName = "checkbox", IgnoreNameEndings = "Checkbox,CheckBox,Option")]
@@ -34,7 +35,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Checks the control. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// Checks the control.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
         public TOwner Check()
@@ -43,7 +45,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Unchecks the control. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// Unchecks the control.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
         public TOwner Uncheck()

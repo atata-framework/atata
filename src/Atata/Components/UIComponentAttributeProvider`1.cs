@@ -86,7 +86,8 @@ namespace Atata
         /// Gets the value of the specified control's scope element attribute.
         /// </summary>
         /// <param name="attributeName">The name of the attribute.</param>
-        /// <returns>The attribute's current value. Returns a null if the value is not set.</returns>
+        /// <returns>The attribute's current value.
+        /// Returns <see langword="null"/> if the value is not set.</returns>
         public string GetValue(string attributeName)
         {
             return Component.Scope.GetAttribute(attributeName);
@@ -97,7 +98,8 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TValue">The type of the attribute value.</typeparam>
         /// <param name="attributeName">The name of the attribute.</param>
-        /// <returns>The attribute's current value. Returns a null if the value is not set.</returns>
+        /// <returns>The attribute's current value.
+        /// Returns <see langword="null"/> if the value is not set.</returns>
         public TValue GetValue<TValue>(string attributeName)
         {
             string valueAsString = Component.Scope.GetAttribute(attributeName);

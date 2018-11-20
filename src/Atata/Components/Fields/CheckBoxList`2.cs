@@ -6,7 +6,7 @@ using OpenQA.Selenium;
 namespace Atata
 {
     /// <summary>
-    /// Represents the checkbox list control (a set of &lt;input type="checkbox"&gt;).
+    /// Represents the checkbox list control (a set of <c>&lt;input type="checkbox"&gt;</c>).
     /// Default search is performed by the name.
     /// Specific checkbox items can be found by label or value.
     /// By default items are searched by label using <see cref="FindItemByLabelAttribute"/>.
@@ -26,7 +26,7 @@ namespace Atata
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckBoxList{T, TOwner}"/> class.
         /// </summary>
-        /// <exception cref="InvalidOperationException">generic 'T'  parameter is not an Enum type.</exception>
+        /// <exception cref="InvalidOperationException">generic <typeparamref name="T"/> parameter is not an Enum type.</exception>
         public CheckBoxList()
         {
             if (!typeof(T).IsEnum)
@@ -95,7 +95,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Checks the checkbox by specified value. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// Checks the checkbox by specified value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>
@@ -116,7 +117,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Unchecks the checkbox by specified value. Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// Unchecks the checkbox by specified value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>

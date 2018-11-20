@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the input control (&lt;input&gt;).
+    /// Represents the input control (<c>&lt;input&gt;</c>).
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>

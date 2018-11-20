@@ -61,8 +61,8 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets a value indicating whether any type is targeted.
-        /// When is set to <c>true</c>, sets <c>typeof(object)</c> to <see cref="TargetType"/> property.
-        /// When is set to <c>false</c>, sets <c>null</c> to <see cref="TargetType"/> property.
+        /// When is set to <see langword="true"/>, sets <c>typeof(object)</c> to <see cref="TargetType"/> property.
+        /// When is set to <see langword="false"/>, sets <see langword="null"/> to <see cref="TargetType"/> property.
         /// </summary>
         public bool TargetAnyType
         {
@@ -80,7 +80,7 @@ namespace Atata
         /// </summary>
         /// <param name="name">The component name.</param>
         /// <returns>
-        ///   <c>true</c> if the name applies the criteria; otherwise, <c>false</c>.
+        ///   <c>true</c> if the name applies the criteria; otherwise, <see langword="false"/>.
         /// </returns>
         public bool IsNameApplicable(string name)
         {

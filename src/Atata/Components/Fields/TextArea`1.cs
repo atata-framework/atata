@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the text area control (&lt;textarea&gt;).
+    /// Represents the text area control (<c>&lt;textarea&gt;</c>).
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>

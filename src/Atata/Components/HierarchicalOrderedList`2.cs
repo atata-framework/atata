@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the hierarchical ordered list control (&lt;ol&gt;). Default search finds the first occurring &lt;ol&gt; element.
+    /// Represents the hierarchical ordered list control (<c>&lt;ol&gt;</c>).
+    /// Default search finds the first occurring <c>&lt;ol&gt;</c> element.
     /// </summary>
     /// <typeparam name="TItem">The type of the list item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>

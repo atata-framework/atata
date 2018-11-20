@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the select control (&lt;select&gt;).
+    /// Represents the select control (<c>&lt;select&gt;</c>).
     /// Default search is performed by the label.
     /// Option selection is configured via <see cref="SelectOptionBehaviorAttribute"/>.
     /// Possible selection behavior attributes are: <see cref="SelectByTextAttribute"/>, <see cref="SelectByValueAttribute"/>, <see cref="SelectByLabelAttribute"/> and <see cref="SelectByAttribute"/>.

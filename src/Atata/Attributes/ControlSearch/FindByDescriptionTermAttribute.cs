@@ -4,8 +4,8 @@ namespace Atata
 {
     /// <summary>
     /// Specifies that a control should be found by the description list term element.
-    /// Finds the descendant control of the &lt;dd&gt; element in the scope of the &lt;dl&gt; element that has the &lt;dt&gt; element matching the specified term(s).
-    /// Uses <c>Title</c> as the default term case.
+    /// Finds the descendant control of the <c>&lt;dd&gt;</c> element in the scope of the <c>&lt;dl&gt;</c> element that has the <c>&lt;dt&gt;</c> element matching the specified term(s).
+    /// Uses <see cref="TermCase.Title"/> as the default term case.
     /// </summary>
     public class FindByDescriptionTermAttribute : TermFindAttribute
     {

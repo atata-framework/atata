@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the screenshot information. Is used by the classes that implement <see cref="IScreenshotConsumer"/>.
+    /// Represents the screenshot information.
+    /// Is used by the classes that implement <see cref="IScreenshotConsumer"/>.
     /// </summary>
     public class ScreenshotInfo
     {
@@ -18,7 +19,7 @@ namespace Atata
         public int Number { get; internal set; }
 
         /// <summary>
-        /// Gets the title. Can be null.
+        /// Gets the title. Can be <see langword="null"/>.
         /// </summary>
         public string Title { get; internal set; }
 

@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the radio button control (&lt;input type="radio"&gt;). Default search is performed by the label.
+    /// Represents the radio button control (<c>&lt;input type="radio"&gt;</c>).
+    /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButton,Radio,Button,Option")]
@@ -25,7 +26,8 @@
         }
 
         /// <summary>
-        /// Checks the control. Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// Checks the control.
+        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
         public TOwner Check()

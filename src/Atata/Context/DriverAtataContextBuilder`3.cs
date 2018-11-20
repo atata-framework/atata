@@ -202,9 +202,9 @@ namespace Atata
 
         /// <summary>
         /// Specifies the host name of the service.
-        /// The default value is "localhost".
+        /// The default value is <c>"localhost"</c>.
         /// This configuration option makes sense for .NET Core 2.0 to be set to <c>"127.0.0.1"</c> for IPv4 and <c>"[::1]"</c> for IPv6.
-        /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra 1 second.
+        /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra <c>1</c> second.
         /// </summary>
         /// <param name="hostName">The host name.</param>
         /// <returns>The same builder instance.</returns>
@@ -217,7 +217,7 @@ namespace Atata
         /// Specifies that the fix of driver's HTTP command execution delay should be applied.
         /// Invokes <c>WithHostName("127.0.0.1")</c> method.
         /// This configuration option makes sense for .NET Core 2.0 that works within IPv4.
-        /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra 1 second.
+        /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra <c>1</c> second.
         /// </summary>
         /// <returns>The same builder instance.</returns>
         public TBuilder WithFixOfCommandExecutionDelay()

@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the image control (&lt;img&gt;).
-    /// Default search finds the first occurring &lt;img&gt; element.
+    /// Represents the image control (<c>&lt;img&gt;</c>).
+    /// Default search finds the first occurring <c>&lt;img&gt;</c> element.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("img")]

@@ -5,7 +5,7 @@ namespace Atata
     /// <summary>
     /// Specifies that a control should be found by name attribute.
     /// Finds the descendant or self control in the scope of the element having the specified name.
-    /// Uses <c>Kebab</c> as the default term case.
+    /// Uses <see cref="TermCase.Kebab"/> as the default term case.
     /// </summary>
     public class FindByNameAttribute : TermFindAttribute
     {

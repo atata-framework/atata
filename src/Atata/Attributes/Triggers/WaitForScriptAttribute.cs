@@ -42,11 +42,11 @@ namespace Atata
 
         /// <summary>
         /// Builds the report message.
-        /// The default message is "Wait for script".
+        /// The default message is <c>"Wait for script"</c>.
         /// </summary>
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
         /// <param name="context">The trigger context.</param>
-        /// <returns>The message or <c>null</c>.</returns>
+        /// <returns>The message or <see langword="null"/>.</returns>
         protected virtual string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
             where TOwner : PageObject<TOwner>, IPageObject<TOwner>
         {
@@ -55,7 +55,7 @@ namespace Atata
 
         /// <summary>
         /// Builds the script to wait until it returns <c>true</c>.
-        /// The script should return <c>true</c> or <c>false</c>.
+        /// The script should return <see langword="true"/> or <see langword="false"/>.
         /// </summary>
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
         /// <param name="context">The trigger context.</param>

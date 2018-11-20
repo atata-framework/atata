@@ -32,7 +32,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the index of the control.
-        /// The default value is -1, meaning that the index is not used.
+        /// The default value is <c>-1</c>, meaning that the index is not used.
         /// </summary>
         public int Index
         {
@@ -73,7 +73,7 @@ namespace Atata
         /// <summary>
         /// Gets or sets the strategy type for the control search.
         /// Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
-        /// The default value is null, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
+        /// The default value is <see langword="null"/>, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
         /// </summary>
         public Type Strategy
         {

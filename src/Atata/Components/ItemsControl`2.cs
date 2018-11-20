@@ -4,7 +4,8 @@ using System.Linq.Expressions;
 namespace Atata
 {
     /// <summary>
-    /// Represents the items control (a control containing a set of any control of <typeparamref name="TItem"/> type). Default search finds the first occurring element.
+    /// Represents the items control (a control containing a set of any control of <typeparamref name="TItem"/> type).
+    /// Default search finds the first occurring element.
     /// </summary>
     /// <typeparam name="TItem">The type of the item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>

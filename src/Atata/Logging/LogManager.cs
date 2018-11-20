@@ -22,7 +22,7 @@ namespace Atata
         /// </summary>
         /// <param name="consumer">The log consumer.</param>
         /// <param name="minLevel">The minimum level of the log message.</param>
-        /// <param name="logSectionFinish">If set to <c>true</c> logs the section finish messages with elapsed time span.</param>
+        /// <param name="logSectionFinish">If set to <see langword="true"/> logs the section finish messages with elapsed time span.</param>
         /// <returns>
         /// The same <see cref="LogManager" /> instance.
         /// </returns>

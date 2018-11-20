@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Represents the behavior for scrolling to control using JavaScript.
-    /// Performs "element.scrollIntoView(true)" function.
+    /// Performs <c>element.scrollIntoView(true)</c> function.
     /// </summary>
     public class ScrollUsingScrollIntoViewAttribute : ScrollBehaviorAttribute
     {

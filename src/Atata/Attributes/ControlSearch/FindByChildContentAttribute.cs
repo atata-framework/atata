@@ -6,7 +6,7 @@ namespace Atata
     /// <summary>
     /// Specifies that a control should be found by the child content text.
     /// Finds the control having the child with the specified content.
-    /// Uses <c>Title</c> as the default term case.
+    /// Uses <see cref="TermCase.Title"/> as the default term case.
     /// </summary>
     public class FindByChildContentAttribute : TermFindAttribute
     {

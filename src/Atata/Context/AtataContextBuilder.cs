@@ -216,7 +216,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses NUnit.Framework.TestContext class for logging.
+        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses <c>NUnit.Framework.TestContext</c> class for logging.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder{NUnitTestContextLogConsumer}"/> instance.</returns>
         public AtataContextBuilder<NUnitTestContextLogConsumer> AddNUnitTestContextLogging()
@@ -225,7 +225,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds the <see cref="NLogConsumer"/> instance that uses NLog.Logger class for logging.
+        /// Adds the <see cref="NLogConsumer"/> instance that uses <c>NLog.Logger</c> class for logging.
         /// </summary>
         /// <param name="loggerName">The name of the logger.</param>
         /// <returns>The <see cref="AtataContextBuilder{NLogConsumer}"/> instance.</returns>
@@ -265,7 +265,7 @@ namespace Atata
         /// Adds the <see cref="FileScreenshotConsumer"/> instance for the screenshot saving to file.
         /// By default uses <c>"Logs\{build-start}\{test-name}"</c> as folder path format,
         /// <c>"{screenshot-number:D2} - {screenshot-pageobjectfullname}{screenshot-title: - *}"</c> as file name format
-        /// and <c>Png</c> as image format.
+        /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
         /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
         /// Available path variables: <c>{build-start}</c>, <c>{test-name}</c>, <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>, <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>, <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
         /// Path variables support the formatting.
@@ -317,7 +317,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry timeout. The default value is 5 seconds.
+        /// Sets the base retry timeout.
+        /// The default value is <c>5</c> seconds.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -328,7 +329,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry interval. The default value is 500 milliseconds.
+        /// Sets the base retry interval.
+        /// The default value is <c>500</c> milliseconds.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -339,7 +341,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry timeout. The default value is 5 seconds.
+        /// Sets the base retry timeout.
+        /// The default value is <c>5</c> seconds.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -350,7 +353,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the base retry interval. The default value is 500 milliseconds.
+        /// Sets the base retry interval.
+        /// The default value is <c>500</c> milliseconds.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -362,7 +366,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the element find timeout.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -374,7 +378,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the element find retry interval.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -386,7 +390,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the waiting timeout.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -398,7 +402,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the waiting retry interval.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -410,7 +414,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the verification timeout.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -422,7 +426,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the verification retry interval.
-        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to 500 milliseconds by default.
+        /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
         /// </summary>
         /// <param name="interval">The retry interval.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -433,7 +437,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the culture. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// Sets the culture.
+        /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
         /// <param name="culture">The culture.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -444,7 +449,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the culture by the name. The default value is <see cref="CultureInfo.CurrentCulture"/>.
+        /// Sets the culture by the name.
+        /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>
         /// <param name="cultureName">The name of the culture.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -454,7 +460,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// Sets the type of the assertion exception.
+        /// The default value is <c>typeof(Atata.AssertionException)</c>.
         /// </summary>
         /// <param name="exceptionType">The type of the exception.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -467,7 +474,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the type of the assertion exception. The default value is typeof(Atata.AssertionException).
+        /// Sets the type of the assertion exception.
+        /// The default value is <c>typeof(Atata.AssertionException)</c>.
         /// </summary>
         /// <typeparam name="TException">The type of the exception.</typeparam>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>

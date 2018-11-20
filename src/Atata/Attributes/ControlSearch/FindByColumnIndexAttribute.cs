@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Atata
 {
     /// <summary>
-    /// Specifies that a control should be found within the table column (&lt;td&gt;) that has the nth index.
+    /// Specifies that a control should be found within the table column (<c>&lt;td&gt;</c>) that has the nth index.
     /// </summary>
     public class FindByColumnIndexAttribute : FindAttribute
     {

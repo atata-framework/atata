@@ -132,34 +132,34 @@ namespace Atata
             Concat(ComponentAttributesList);
 
         /// <summary>
-        /// Gets the first attribute of the specified type or <c>null</c> if no such attribute is found.
+        /// Gets the first attribute of the specified type or <see langword="null"/> if no such attribute is found.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
-        /// <returns>The first attribute found or <c>null</c>.</returns>
+        /// <returns>The first attribute found or <see langword="null"/>.</returns>
         public TAttribute Get<TAttribute>()
         {
             return Get<TAttribute>(null);
         }
 
         /// <summary>
-        /// Gets the first attribute of the specified type or <c>null</c> if no such attribute is found.
+        /// Gets the first attribute of the specified type or <see langword="null"/> if no such attribute is found.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="filterConfiguration">The filter configuration function.</param>
-        /// <returns>The first attribute found or <c>null</c>.</returns>
+        /// <returns>The first attribute found or <see langword="null"/>.</returns>
         public TAttribute Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration)
         {
             return GetAll(filterConfiguration).FirstOrDefault();
         }
 
         /// <summary>
-        /// Gets the first attribute of the specified type or <c>null</c> if no such attribute is found.
+        /// Gets the first attribute of the specified type or <see langword="null"/> if no such attribute is found.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
-        /// <returns>The first attribute found or <c>null</c>.</returns>
+        /// <param name="filterByTarget">If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
+        /// <returns>The first attribute found or <see langword="null"/>.</returns>
         [Obsolete("Use Get() or Get(filterConfiguration) instead.")] // Obsolete since v1.0.0.
         public TAttribute Get<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
         {
@@ -198,7 +198,7 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <c>true</c>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
+        /// <param name="filterByTarget">If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
         /// <returns>The sequence of attributes found.</returns>
         [Obsolete("Use GetAll() or GetAll(filterConfiguration) instead.")] // Obsolete since v1.0.0.
         public IEnumerable<TAttribute> GetAll<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
@@ -315,9 +315,9 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the format by searching the <see cref="FormatAttribute"/> at all attribute levels or <c>null</c> if not found.
+        /// Gets the format by searching the <see cref="FormatAttribute"/> at all attribute levels or <see langword="null"/> if not found.
         /// </summary>
-        /// <returns>The format or <c>null</c> if not found.</returns>
+        /// <returns>The format or <see langword="null"/> if not found.</returns>
         public string GetFormat()
         {
             return Get<FormatAttribute>()?.Value;

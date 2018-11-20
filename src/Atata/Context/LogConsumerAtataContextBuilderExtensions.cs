@@ -5,7 +5,7 @@ namespace Atata
     public static class LogConsumerAtataContextBuilderExtensions
     {
         /// <summary>
-        /// Defines that the logging should not use section-like pair messages (not "Starting: {action}" and "Finished: {action}", but just "{action}").
+        /// Defines that the logging should not use section-like pair messages (not <c>"Starting: {action}"</c> and <c>"Finished: {action}"</c>, but just <c>"{action}"</c>).
         /// </summary>
         /// <typeparam name="TTLogConsumer">The type of the log consumer.</typeparam>
         /// <param name="builder">The builder.</param>

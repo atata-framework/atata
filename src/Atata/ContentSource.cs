@@ -13,17 +13,17 @@ namespace Atata
         Text,
 
         /// <summary>
-        /// Uses 'textContent' attribute of component scope <see cref="IWebElement"/> element.
+        /// Uses <c>textContent</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
         TextContent,
 
         /// <summary>
-        /// Uses 'innerHTML' attribute of component scope <see cref="IWebElement"/> element.
+        /// Uses <c>innerHTML</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
         InnerHtml,
 
         /// <summary>
-        /// Uses 'value' attribute of component scope <see cref="IWebElement"/> element.
+        /// Uses <c>value</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
         Value
     }

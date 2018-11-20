@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the &lt;h2&gt; heading tag. Default search finds the first occurring &lt;h2&gt; element.
+    /// Represents the <c>&lt;h2&gt;</c> heading tag.
+    /// Default search finds the first occurring <c>&lt;h2&gt;</c> element.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("h2", ComponentTypeName = "<h2> heading", IgnoreNameEndings = "Header,Heading")]

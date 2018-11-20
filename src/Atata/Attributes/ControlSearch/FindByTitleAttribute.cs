@@ -6,7 +6,7 @@ namespace Atata
     /// <summary>
     /// Specifies that a control should be found by the title attribute.
     /// Finds the control that has the title attribute matching the specified term(s).
-    /// Uses <c>Title</c> as the default term case.
+    /// Uses <see cref="TermCase.Title"/> as the default term case.
     /// </summary>
     public class FindByTitleAttribute : TermFindAttribute
     {
