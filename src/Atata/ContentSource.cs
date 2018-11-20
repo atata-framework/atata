@@ -23,7 +23,7 @@ namespace Atata
         InnerHtml,
 
         /// <summary>
-        /// Uses <c>'value'</c> attribute of component scope <see cref="IWebElement"/> element.
+        /// Uses <c>value</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
         Value
     }
