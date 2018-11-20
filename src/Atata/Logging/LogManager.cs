@@ -116,7 +116,7 @@ namespace Atata
         /// <param name="section">The log section.</param>
         /// <example>This sample shows how to log the data insertion to some control in the scope of the control.
         /// <code>
-        /// string value = <c>"new_value"</c>;
+        /// string value = "new_value";
         /// <c>Log.Start(new DataAdditionLogSection(this, value));</c>
         /// // TODO: Add a value to the control.
         /// <c>Log.EndSection();</c>
