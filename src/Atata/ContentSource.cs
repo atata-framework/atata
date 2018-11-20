@@ -13,7 +13,7 @@ namespace Atata
         Text,
 
         /// <summary>
-        /// Uses <c>'textContent'</c> attribute of component scope <see cref="IWebElement"/> element.
+        /// Uses <c>textContent</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
         TextContent,
 
