@@ -18,7 +18,7 @@ namespace Atata
         TextContent,
 
         /// <summary>
-        /// Uses <c>'innerHTML'</c> attribute of component scope <see cref="IWebElement"/> element.
+        /// Uses <c>innerHTML</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
         InnerHtml,
 
