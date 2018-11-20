@@ -87,7 +87,7 @@ namespace Atata
         /// </summary>
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The attribute's current value.
-        /// Returns a <see langword="null"/> if the value is not set.</returns>
+        /// Returns <see langword="null"/> if the value is not set.</returns>
         public string GetValue(string attributeName)
         {
             return Component.Scope.GetAttribute(attributeName);
