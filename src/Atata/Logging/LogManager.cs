@@ -119,7 +119,7 @@ namespace Atata
         /// string value = "new_value";
         /// Log.Start(new DataAdditionLogSection(this, value));
         /// // TODO: Add a value to the control.
-        /// <c>Log.EndSection();</c>
+        /// Log.EndSection();
         /// </code>
         /// </example>
         public void Start(LogSection section)
