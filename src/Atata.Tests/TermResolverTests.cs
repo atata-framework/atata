@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Globalization;
-using System.Threading;
 using NUnit.Framework;
 
 namespace Atata.Tests
 {
     [TestFixture]
+    [SetCulture("en-US")]
     public class TermResolverTests
     {
         [TermSettings(Format = ">>{0}")]
@@ -17,12 +17,6 @@ namespace Atata.Tests
             C,
             [Term(TermCase.Lower, Format = "--{0}--")]
             D
-        }
-
-        [SetUp]
-        public void SetUp()
-        {
-            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-us");
         }
 
         [TestCaseSource(typeof(TermResolverFormatTestCaseSource))]
