@@ -1,19 +1,28 @@
-queue:
-  name: Hosted VS2017
-  demands: vstest
-  
 variables:
-  buildConfiguration: 'Debug'
-  
-steps:
-- task: DotNetCoreCLI@2
-  inputs:
-    projects: '**\Atata.sln'
-    arguments: '-c $(buildConfiguration)'
+  buildConfiguration: 'Release'
 
-- task: VSTest@2
-  timeoutInMinutes: 20
-  inputs:
-    testAssemblyVer2: |
-      **\*.Tests*.dll
-      !**\obj\**
+jobs:
+- job: BuildAndRunTests
+  displayName: Build and run tests
+  pool:
+    name: Hosted VS2017
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build solution
+    inputs:
+      command: build
+      projects: **\Atata.sln
+      arguments: -c $(buildConfiguration) /p:RunCodeAnalysis=true /warnaserror
+  - task: VSTest@2
+    displayName: Run tests
+    timeoutInMinutes: 30
+    inputs:
+      testAssemblyVer2: |
+        **\*.Tests*.dll
+        !**\obj\**
+  - task: PublishPipelineArtifact@0
+    displayName: Publish test results
+    inputs:
+      artifactName: Test results
+      targetPath: src/Atata.Tests/bin/$(buildConfiguration)/net45/Logs
+    condition: succeededOrFailed()
