@@ -12,6 +12,10 @@
     <AssemblyName>Atata.Tests</AssemblyName>
   </PropertyGroup>
 
+  <PropertyGroup Condition="$(Configuration)=='Debug'">
+    <DefineConstants>DEBUG</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Include="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -9,7 +9,11 @@
     <Copyright>© Yevgeniy Shunevych 2018</Copyright>
     <CodeAnalysisRuleSet>..\Atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  
+
+  <PropertyGroup Condition="$(Configuration)=='Debug'">
+    <DefineConstants>DEBUG</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Update="NLog.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
