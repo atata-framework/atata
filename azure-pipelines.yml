@@ -11,7 +11,7 @@ jobs:
     displayName: Build solution
     inputs:
       command: build
-      projects: **\Atata.sln
+      projects: '**\Atata.sln'
       arguments: -c $(buildConfiguration) /p:RunCodeAnalysis=true /warnaserror
   - task: VSTest@2
     displayName: Run tests
