@@ -17,6 +17,7 @@ jobs:
     displayName: Run tests
     timeoutInMinutes: 30
     inputs:
+      testFilterCriteria: TestCategory!=Unstable
       testAssemblyVer2: |
         **\*.Tests*.dll
         !**\obj\**
