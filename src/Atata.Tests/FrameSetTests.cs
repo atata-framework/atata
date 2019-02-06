@@ -2,6 +2,7 @@
 
 namespace Atata.Tests
 {
+    [Category("Unstable")]
     public class FrameSetTests : UITestFixture
     {
         private FrameSetPage page;
