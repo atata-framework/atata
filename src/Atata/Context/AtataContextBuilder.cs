@@ -456,7 +456,7 @@ namespace Atata
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseCulture(string cultureName)
         {
-            return UseCulture(new CultureInfo(cultureName));
+            return UseCulture(CultureInfo.GetCultureInfo(cultureName));
         }
 
         /// <summary>
