@@ -5,9 +5,11 @@ using NUnit.Framework;
 namespace Atata.Tests
 {
     [TestFixture]
-    [SetCulture("en-US")]
+    [SetCulture(CultureName)]
     public class TermResolverTests
     {
+        private const string CultureName = "en-GB";
+
         [TermSettings(Format = ">>{0}")]
         public enum Options
         {
@@ -42,7 +44,7 @@ namespace Atata.Tests
                 Add((byte)126);
                 Add(50);
                 Add(1234.56f);
-                Add(1234.56, "C2", "$1,234.56");
+                Add(1234.56, "C2", "£1,234.56");
                 Add(1234.5, "asw {0:N1}_", "asw 1,234.5_");
                 Add(0.25, "P0", "25%");
                 Add(-0.257f, "tax {0:P1}", "tax -25.7%");
@@ -75,7 +77,7 @@ namespace Atata.Tests
 
             private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null)
             {
-                base.Add(value, format, expectedFormattedValue ?? string.Format(new CultureInfo("en-us"), format, value));
+                base.Add(value, format, expectedFormattedValue ?? string.Format(CultureInfo.GetCultureInfo(CultureName), format, value));
             }
         }
     }
