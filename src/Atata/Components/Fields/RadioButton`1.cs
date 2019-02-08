@@ -39,7 +39,8 @@
 
         protected virtual void OnCheck()
         {
-            Click();
+            if (!IsChecked)
+                Click();
         }
     }
 }
