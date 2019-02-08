@@ -109,9 +109,9 @@ namespace Atata
             {
                 ComponentScopeLocateOptions nextScopeLocateOptions = sequalResult.ScopeLocateOptions ?? scopeLocateOptions;
 
-                if (sequalResult.ScopeSource != null)
+                if (sequalResult.ScopeSources?.Count() == 1)
                 {
-                    return ExecuteStrategyAndResolveResults(sequalResult.Strategy, sequalResult.ScopeSource, nextScopeLocateOptions, searchOptions);
+                    return ExecuteStrategyAndResolveResults(sequalResult.Strategy, sequalResult.ScopeSources.First(), nextScopeLocateOptions, searchOptions);
                 }
                 else
                 {
