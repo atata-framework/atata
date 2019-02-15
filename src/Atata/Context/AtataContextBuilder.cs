@@ -751,7 +751,7 @@ namespace Atata
         private void ValidateBuildingContextBeforeBuild()
         {
             if (BuildingContext.DriverFactoryToUse == null)
-                throw new InvalidOperationException($"Cannot build {nameof(AtataContext)} as no driver is specified. Use one of 'Use*' methods to specify which to driver to use, e.g.: AtataContext.Configure().UseChrome().Build();");
+                throw new InvalidOperationException($"Cannot build {nameof(AtataContext)} as no driver is specified. Use one of \"Use*\" methods to specify the driver to use, e.g.: AtataContext.Configure().UseChrome().Build();");
         }
     }
 }
