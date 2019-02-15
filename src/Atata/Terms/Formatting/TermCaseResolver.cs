@@ -5,29 +5,24 @@ namespace Atata.TermFormatting
 {
     public static class TermCaseResolver
     {
-        private static readonly Dictionary<TermCase, FormatterItem> Formatters;
-
-        static TermCaseResolver()
+        private static readonly Dictionary<TermCase, FormatterItem> Formatters = new Dictionary<TermCase, FormatterItem>
         {
-            Formatters = new Dictionary<TermCase, FormatterItem>
-            {
-                { TermCase.Title, FormatterItem.For<TitleTermFormatter>() },
-                { TermCase.Capitalized, FormatterItem.For<CapitalizedTermFormatter>() },
-                { TermCase.Sentence, FormatterItem.For<SentenceTermFormatter>() },
-                { TermCase.MidSentence, FormatterItem.For<MidSentenceTermFormatter>() },
-                { TermCase.Lower, FormatterItem.For<LowerTermFormatter>() },
-                { TermCase.LowerMerged, FormatterItem.For<LowerMergedTermFormatter>() },
-                { TermCase.Upper, FormatterItem.For<UpperTermFormatter>() },
-                { TermCase.UpperMerged, FormatterItem.For<UpperMergedTermFormatter>() },
-                { TermCase.Camel, FormatterItem.For<CamelTermFormatter>() },
-                { TermCase.Pascal, FormatterItem.For<PascalTermFormatter>() },
-                { TermCase.Kebab, FormatterItem.For<KebabTermFormatter>() },
-                { TermCase.HyphenKebab, FormatterItem.For<HyphenKebabTermFormatter>() },
-                { TermCase.Snake, FormatterItem.For<SnakeTermFormatter>() },
-                { TermCase.PascalKebab, FormatterItem.For<PascalKebabTermFormatter>() },
-                { TermCase.PascalHyphenKebab, FormatterItem.For<PascalHyphenKebabTermFormatter>() }
-            };
-        }
+            [TermCase.Title] = FormatterItem.For<TitleTermFormatter>(),
+            [TermCase.Capitalized] = FormatterItem.For<CapitalizedTermFormatter>(),
+            [TermCase.Sentence] = FormatterItem.For<SentenceTermFormatter>(),
+            [TermCase.MidSentence] = FormatterItem.For<MidSentenceTermFormatter>(),
+            [TermCase.Lower] = FormatterItem.For<LowerTermFormatter>(),
+            [TermCase.LowerMerged] = FormatterItem.For<LowerMergedTermFormatter>(),
+            [TermCase.Upper] = FormatterItem.For<UpperTermFormatter>(),
+            [TermCase.UpperMerged] = FormatterItem.For<UpperMergedTermFormatter>(),
+            [TermCase.Camel] = FormatterItem.For<CamelTermFormatter>(),
+            [TermCase.Pascal] = FormatterItem.For<PascalTermFormatter>(),
+            [TermCase.Kebab] = FormatterItem.For<KebabTermFormatter>(),
+            [TermCase.HyphenKebab] = FormatterItem.For<HyphenKebabTermFormatter>(),
+            [TermCase.Snake] = FormatterItem.For<SnakeTermFormatter>(),
+            [TermCase.PascalKebab] = FormatterItem.For<PascalKebabTermFormatter>(),
+            [TermCase.PascalHyphenKebab] = FormatterItem.For<PascalHyphenKebabTermFormatter>()
+        };
 
         public static string ApplyCase(string value, TermCase termCase)
         {

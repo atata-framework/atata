@@ -11,7 +11,7 @@ namespace Atata.Tests
         private const string CultureName = "en-GB";
 
         [TermSettings(Format = ">>{0}")]
-        public enum Options
+        public enum Option
         {
             [Term(TermCase.Title, Format = ">>{0}:")]
             A,
@@ -49,13 +49,13 @@ namespace Atata.Tests
                 Add(0.25, "P0", "25%");
                 Add(-0.257f, "tax {0:P1}", "tax -25.7%");
                 Add(15, "Percent: {0}%");
-                Add(Options.B);
-                Add(Options.D, null, "--d--");
-                Add(Options.A, null, ">>A:");
-                Add(Options.C, "D", "2");
-                Add(Options.C, "{0:D}.", "2.");
-                Add(Options.C, "X", "00000002");
-                Add(Options.A, "_{0:G}_", "_A_");
+                Add(Option.B);
+                Add(Option.D, null, "--d--");
+                Add(Option.A, null, ">>A:");
+                Add(Option.C, "D", "2");
+                Add(Option.C, "{0:D}.", "2.");
+                Add(Option.C, "X", "00000002");
+                Add(Option.A, "_{0:G}_", "_A_");
 
                 DateTime date = new DateTime(DateTime.Today.Year, 3, 28);
                 Add(date, "date: '{0:d}'");
