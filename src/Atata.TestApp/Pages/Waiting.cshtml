@@ -18,10 +18,24 @@
         <div class="value-container">
             <span id="value-block">Initial value</span>
         </div>
+        <div>
+            <label for="current-time">Current time:</label>
+            <span id="current-time"></span>
+        </div>
     </div>
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var currentDate = new Date();
+
+        function addZero(value) {
+            return (value < 10) ? "0" + value : value;
+        }
+
+        $('#current-time').text(addZero(currentDate.getHours()) + ':' + addZero(currentDate.getMinutes()) + ':' + addZero(currentDate.getSeconds()));
+    });
+
     function wait() {
         $(".result-block").hide();
         $(".processing-block").show();

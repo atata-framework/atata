@@ -73,6 +73,10 @@ namespace Atata.Tests
         [FindById("missing-id")]
         public Control<_> MissingControl { get; private set; }
 
+        [FindById]
+        [Culture("ua")]
+        public Time<_> CurrentTime { get; private set; }
+
         protected override void OnInit()
         {
             base.OnInit();
