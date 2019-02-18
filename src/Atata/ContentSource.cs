@@ -8,7 +8,7 @@ namespace Atata
     public enum ContentSource
     {
         /// <summary>
-        /// Uses Text property of component scope <see cref="IWebElement"/> element.
+        /// Uses <see cref="IWebElement.Text"/> property of component scope <see cref="IWebElement"/> element.
         /// </summary>
         Text,
 
