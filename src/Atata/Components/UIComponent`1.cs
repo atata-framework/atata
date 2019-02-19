@@ -8,6 +8,7 @@ namespace Atata
     /// Represents the base class for UI components.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
+    [ContentSource(ContentSource.Text)]
     public abstract class UIComponent<TOwner> : UIComponent, IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -53,9 +54,10 @@ namespace Atata
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
-        /// Gets content using <see cref="ContentSourceAttribute"/> or, by default, uses <see cref="IWebElement.Text"/> property of component scope <see cref="IWebElement"/> element.
+        /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component, which by default is <see cref="ContentSourceAttribute"/> with <see cref="ContentSource.Text"/> argument.
+        /// Meaning that be default it returns <see cref="IWebElement.Text"/> property of component scope's <see cref="IWebElement"/> element.
         /// </summary>
-        public DataProvider<string, TOwner> Content => GetOrCreateDataProvider(nameof(Content).ToString(TermCase.Lower), GetContent);
+        public DataProvider<string, TOwner> Content => GetOrCreateDataProvider("content", GetContent);
 
         /// <summary>
         /// Gets the verification provider that provides a set of verification extension methods.
@@ -100,9 +102,15 @@ namespace Atata
         public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
         /// <summary>
-        /// Gets an instance of <see cref="Atata.ContentSourceAttribute"/> or <see langword="null"/> if not found.
+        /// Gets an instance of <see cref="ContentSourceAttribute"/> or <see langword="null"/> if not found.
         /// </summary>
+        [Obsolete("Use ContentGetBehavior instead.")] // Obsolete since v1.1.0.
         protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>();
+
+        /// <summary>
+        /// Gets an instance of <see cref="ContentGetBehaviorAttribute"/> associated with the component.
+        /// </summary>
+        public ContentGetBehaviorAttribute ContentGetBehavior => Metadata.Get<ContentGetBehaviorAttribute>();
 
         protected internal virtual void InitComponent()
         {
@@ -178,11 +186,7 @@ namespace Atata
 
         protected virtual string GetContent()
         {
-            var contentSourceAttribute = ContentSourceAttribute;
-
-            return contentSourceAttribute != null
-                ? contentSourceAttribute.GetContent(Scope)
-                : Scope.Text;
+            return ContentGetBehavior.Execute(this);
         }
 
         /// <summary>
