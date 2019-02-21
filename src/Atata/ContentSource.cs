@@ -37,6 +37,12 @@ namespace Atata
         /// Executes the script that gets <c>childNodes</c> of component scope <see cref="IWebElement"/> element, filters only <c>Node.TEXT_NODE</c>, gets <c>textContent</c> of each node, trims each value and concatenates them.
         /// Basically gets only child nested text trimming each part.
         /// </summary>
-        ChildTextNodesTrimmed
+        ChildTextNodesTrimmed,
+
+        /// <summary>
+        /// Uses the concatenation of child nested text values trimming each text part and joining with <c>" "</c> separator.
+        /// Executes the script that gets <c>childNodes</c> of component scope <see cref="IWebElement"/> element, filters only <c>Node.TEXT_NODE</c>, gets <c>textContent</c> of each node, trims each value and concatenates them delimiting with <c>" "</c> character.
+        /// </summary>
+        ChildTextNodesTrimmedAndSpaceJoined
     }
 }
