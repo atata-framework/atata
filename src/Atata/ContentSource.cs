@@ -25,6 +25,12 @@ namespace Atata
         /// <summary>
         /// Uses <c>value</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
-        Value
+        Value,
+
+        /// <summary>
+        /// Executes the script that gets <c>childNodes</c> of component scope <see cref="IWebElement"/> element, filters only <c>Node.TEXT_NODE</c> and concatenates the <c>textContent</c> values of these nodes.
+        /// Basically gets only child nested text.
+        /// </summary>
+        ChildTextNodes
     }
 }

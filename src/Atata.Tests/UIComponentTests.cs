@@ -27,27 +27,6 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void UIComponent_Content()
-        {
-            Go.To<ContentPage>().
-                VisibleDiv.Should.Equal("Some text").
-                VisibleDiv.Content.Should.Equal("Some text");
-        }
-
-        [Test]
-        public void UIComponent_Content_Invisible()
-        {
-            Go.To<ContentPage>().
-                HiddenDiv.Should.Not.BeVisible().
-                HiddenDiv.Should.BeNull().
-                HiddenDiv.Content.Should.BeEmpty().
-                HiddenDivUsingTextContent.Should.Equal("Some text").
-                HiddenDivUsingTextContent.Content.Should.Equal("Some text").
-                HiddenDivUsingInnerHtml.Should.Equal("Some <b>text</b>").
-                HiddenDivUsingInnerHtml.Content.Should.Equal("Some <b>text</b>");
-        }
-
-        [Test]
         public void UIComponent_IsPresent()
         {
             var page = Go.To<ContentPage>();

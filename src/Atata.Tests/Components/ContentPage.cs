@@ -73,5 +73,13 @@ namespace Atata.Tests
 
         [FindById]
         public Content<string, _> VisibleDiv { get; private set; }
+
+        public Text<_> GetComplexText(ContentSource contentSource)
+        {
+            return Controls.Create<Text<_>>(
+                $"Complex Text Using {contentSource} Source",
+                new TermAttribute("Complex Text"),
+                new ContentSourceAttribute(contentSource));
+        }
     }
 }
