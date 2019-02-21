@@ -15,6 +15,16 @@ for (var i = 0; i < element.childNodes.length; i++) {
 }
 return text.trim();";
 
+        public const string GetTextContentOfChildTextNodesTrimmedScript =
+@"var element = arguments[0];
+var text = '';
+for (var i = 0; i < element.childNodes.length; i++) {
+    var child = element.childNodes[i];
+    if (child.nodeType == Node.TEXT_NODE)
+        text += child.textContent.trim();
+}
+return text;";
+
         /// <summary>
         /// Gets the content of the component using <see cref="ContentSource"/> value.
         /// </summary>
@@ -39,6 +49,8 @@ return text.trim();";
                     return component.Attributes.Value;
                 case ContentSource.ChildTextNodes:
                     return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfChildTextNodesScript, component.Scope);
+                case ContentSource.ChildTextNodesTrimmed:
+                    return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfChildTextNodesTrimmedScript, component.Scope);
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource));
             }

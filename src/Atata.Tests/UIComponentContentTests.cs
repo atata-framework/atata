@@ -11,7 +11,8 @@ namespace Atata.Tests
                 new TestCaseData(ContentSource.Text).Returns("The quick brown fox jumps over the lazy dog."),
                 new TestCaseData(ContentSource.TextContent).Returns("The quick brown fox jumps over the lazy dog."),
                 new TestCaseData(ContentSource.InnerHtml).Returns("The quick <strong>brown</strong> fox <span><span>jumps</span> over</span> the lazy dog."),
-                new TestCaseData(ContentSource.ChildTextNodes).Returns("The quick  fox  the lazy dog.")
+                new TestCaseData(ContentSource.ChildTextNodes).Returns("The quick  fox  the lazy dog."),
+                new TestCaseData(ContentSource.ChildTextNodesTrimmed).Returns("The quickfoxthe lazy dog.")
             };
 
         [Test]
