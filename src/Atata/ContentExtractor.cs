@@ -47,6 +47,15 @@ for (var i = 0; i < element.childNodes.length; i++) {
 }
 return ''";
 
+        public const string GetTextContentOfLastChildTextNodeScript =
+@"var element = arguments[0];
+for (var i = element.childNodes.length - 1; i >= 0; i--) {
+    var child = element.childNodes[i];
+    if (child.nodeType == Node.TEXT_NODE)
+        return child.textContent.trim();
+}
+return ''";
+
         /// <summary>
         /// Gets the content of the component using <see cref="ContentSource"/> value.
         /// </summary>
@@ -77,6 +86,8 @@ return ''";
                     return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript, component.Scope);
                 case ContentSource.FirstChildTextNode:
                     return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfFirstChildTextNodeScript, component.Scope);
+                case ContentSource.LastChildTextNode:
+                    return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfLastChildTextNodeScript, component.Scope);
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource));
             }

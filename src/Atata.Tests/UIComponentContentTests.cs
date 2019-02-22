@@ -14,7 +14,8 @@ namespace Atata.Tests
                 new TestCaseData(ContentSource.ChildTextNodes).Returns("The quick  fox  the lazy dog."),
                 new TestCaseData(ContentSource.ChildTextNodesTrimmed).Returns("The quickfoxthe lazy dog."),
                 new TestCaseData(ContentSource.ChildTextNodesTrimmedAndSpaceJoined).Returns("The quick fox the lazy dog."),
-                new TestCaseData(ContentSource.FirstChildTextNode).Returns("The quick")
+                new TestCaseData(ContentSource.FirstChildTextNode).Returns("The quick"),
+                new TestCaseData(ContentSource.LastChildTextNode).Returns("the lazy dog.")
             };
 
         [Test]

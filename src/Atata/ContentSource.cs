@@ -50,6 +50,13 @@ namespace Atata
         /// Executes the script that gets <c>childNodes</c> of component scope <see cref="IWebElement"/> element, finds the first <c>Node.TEXT_NODE</c> and returns the <c>textContent</c> value of this node.
         /// Returns an empty string if there are no text nodes.
         /// </summary>
-        FirstChildTextNode
+        FirstChildTextNode,
+
+        /// <summary>
+        /// Uses the last child nested text value.
+        /// Executes the script that gets <c>childNodes</c> of component scope <see cref="IWebElement"/> element, finds the last <c>Node.TEXT_NODE</c> and returns the <c>textContent</c> value of this node.
+        /// Returns an empty string if there are no text nodes.
+        /// </summary>
+        LastChildTextNode
     }
 }
