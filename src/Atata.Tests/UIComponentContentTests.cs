@@ -45,5 +45,12 @@ namespace Atata.Tests
             return Go.To<ContentPage>().
                 GetComplexText(contentSource).Value;
         }
+
+        [TestCaseSource(nameof(ComplexTextTestCaseSource))]
+        public string UIComponent_GetContent(ContentSource contentSource)
+        {
+            return Go.To<ContentPage>().
+                ComplexTextControl.GetContent(contentSource);
+        }
     }
 }

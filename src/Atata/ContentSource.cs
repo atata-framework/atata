@@ -15,11 +15,13 @@ namespace Atata
         /// <summary>
         /// Uses <c>textContent</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
+        [Term("textContent")]
         TextContent,
 
         /// <summary>
         /// Uses <c>innerHTML</c> attribute of component scope <see cref="IWebElement"/> element.
         /// </summary>
+        [Term("Inner HTML")]
         InnerHtml,
 
         /// <summary>

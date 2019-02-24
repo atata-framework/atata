@@ -55,7 +55,7 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
         /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component, which by default is <see cref="ContentSourceAttribute"/> with <see cref="ContentSource.Text"/> argument.
-        /// Meaning that be default it returns <see cref="IWebElement.Text"/> property of component scope's <see cref="IWebElement"/> element.
+        /// Meaning that be default it returns <see cref="IWebElement.Text"/> property value of component scope's <see cref="IWebElement"/> element.
         /// </summary>
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider("content", GetContent);
 
@@ -187,6 +187,16 @@ namespace Atata
         protected virtual string GetContent()
         {
             return ContentGetBehavior.Execute(this);
+        }
+
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content using <paramref name="source"/> argument.
+        /// </summary>
+        /// <param name="source">The source of the content.</param>
+        /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the text content.</returns>
+        public DataProvider<string, TOwner> GetContent(ContentSource source)
+        {
+            return GetOrCreateDataProvider($"content ({source.ToString(TermCase.MidSentence)})", () => ContentExtractor.Get(this, source));
         }
 
         /// <summary>

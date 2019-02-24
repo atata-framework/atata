@@ -56,6 +56,9 @@ namespace Atata.Tests
         [Format("f")]
         public DateTime<_> DateTimeWithFormat { get; private set; }
 
+        [FindByDescriptionTerm("Complex Text")]
+        public Control<_> ComplexTextControl { get; private set; }
+
         [FindById]
         [FindSettings(Visibility = Visibility.Any)]
         public Content<string, _> HiddenDiv { get; private set; }
