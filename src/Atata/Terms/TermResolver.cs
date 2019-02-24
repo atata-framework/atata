@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Atata.TermFormatting;
 
 namespace Atata
 {
     public static class TermResolver
     {
-        private const TermCase DefaultFormat = TermCase.Title;
+        private const TermCase DefaultCase = TermCase.Title;
+
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
         private static readonly Dictionary<Type, TermConverter> TypeTermConverters;
@@ -167,10 +169,10 @@ namespace Atata
             termOptions = termOptions ?? new TermOptions();
             TermConverter termConverter;
 
-            if (value is string)
-                return new[] { FormatStringValue((string)value, termOptions) };
-            else if (value is Enum)
-                return GetEnumTerms((Enum)value, termOptions);
+            if (value is string stringValue)
+                return new[] { FormatStringValue(stringValue, termOptions) };
+            else if (value is Enum enumValue)
+                return GetEnumTerms(enumValue, termOptions);
             else if (TypeTermConverters.TryGetValue(value.GetType(), out termConverter) && termConverter.ToStringConverter != null)
                 return new[] { termConverter.ToStringConverter(value, termOptions) };
             else
@@ -179,20 +181,19 @@ namespace Atata
 
         private static string FormatStringValue(string value, TermOptions termOptions)
         {
-            if (termOptions.GetCaseOrNull() != null)
-                value = termOptions.GetCaseOrNull().Value.ApplyTo(value);
+            string valueToFormat = termOptions.GetCaseOrNull()?.ApplyTo(value) ?? value;
 
-            return FormatValue(value, termOptions.Format, termOptions.Culture);
+            return FormatValue(valueToFormat, termOptions.Format, termOptions.Culture);
         }
 
         private static string FormatValue(object value, string format, CultureInfo culture)
         {
             if (IsComplexStringFormat(format))
                 return string.Format(culture, format, value);
-            else if (value is IFormattable)
-                return ((IFormattable)value).ToString(format, culture);
+            else if (value is IFormattable formattableValue)
+                return formattableValue.ToString(format, culture);
             else
-                return value.ToString();
+                return value?.ToString();
         }
 
         private static bool IsComplexStringFormat(string format)
@@ -314,6 +315,8 @@ namespace Atata
 
         public static string[] GetEnumTerms(Enum value, TermOptions termOptions = null)
         {
+            termOptions = termOptions ?? new TermOptions();
+
             return value.GetType().IsDefined(typeof(FlagsAttribute), false)
                 ? GetFlagsEnumTerms(value, termOptions)
                 : GetIndividualEnumTerms(value, termOptions);
@@ -327,40 +330,56 @@ namespace Atata
         private static string[] GetIndividualEnumTerms(Enum value, TermOptions termOptions)
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);
-            bool hasTermValue = termAttribute != null && termAttribute.Values != null && termAttribute.Values.Any();
+            ITermSettings termSettings = GetTermSettings(value.GetType());
 
-            string termFormat = termOptions.GetFormatOrNull()
-                ?? termAttribute.GetFormatOrNull()
-                ?? GetTermSettings(value.GetType()).GetFormatOrNull()
-                ?? null;
+            TermCase? termCase = termOptions.GetCaseOrNull();
+            string termFormat = termOptions.GetFormatOrNull();
 
-            if (hasTermValue)
+            if (termAttribute != null || termSettings != null)
             {
-                return termAttribute.Values.Select(x => FormatValue(x, termFormat, termOptions.Culture)).ToArray();
+                string[] terms = GetIndividualEnumTerms(value, termAttribute, termSettings, termOptions.Culture);
+
+                if (termCase.HasValue)
+                    terms = terms.Select(x => ApplyCaseWithoutWordBreak(x, termCase.Value)).ToArray();
+
+                return terms.Select(x => FormatValue(x, termFormat, termOptions.Culture)).ToArray();
+            }
+            else if (termCase == null && (termFormat != null && !termFormat.Contains("{0}")))
+            {
+                return new[] { FormatValue(value, termFormat, termOptions.Culture) };
             }
             else
             {
-                TermCase termCase = termOptions.GetCaseOrNull()
-                    ?? termAttribute.GetCaseOrNull()
-                    ?? GetTermSettings(value.GetType()).GetCaseOrNull()
-                    ?? DefaultFormat;
-
-                if (termFormat == null || termFormat.Contains("{0}"))
-                {
-                    string term = termCase.ApplyTo(value.ToString());
-                    return new[] { FormatValue(term, termFormat, termOptions.Culture) };
-                }
-                else
-                {
-                    return new[] { FormatValue(value, termFormat, termOptions.Culture) };
-                }
+                string term = TermCaseResolver.ApplyCase(value.ToString(), termCase ?? DefaultCase);
+                return new[] { FormatValue(term, termFormat, termOptions.Culture) };
             }
+        }
+
+        private static string[] GetIndividualEnumTerms(Enum value, TermAttribute termAttribute, ITermSettings termSettings, CultureInfo culture)
+        {
+            string[] values = termAttribute?.Values?.Any() ?? false
+                ? termAttribute.Values
+                : new[] { TermCaseResolver.ApplyCase(
+                    value.ToString(),
+                    termAttribute.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultCase)};
+
+            string termFormat = termAttribute.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
+
+            return termFormat != null
+                ? values.Select(x => FormatValue(x, termFormat, culture)).ToArray()
+                : values;
+        }
+
+        private static string ApplyCaseWithoutWordBreak(string value, TermCase termCase)
+        {
+            string[] words = value.Split(' ');
+            return TermCaseResolver.ApplyCase(words, termCase);
         }
 
         public static TermMatch GetMatch(object value, ITermSettings termSettings = null)
         {
-            if (value is Enum)
-                return GetEnumMatch((Enum)value, termSettings);
+            if (value is Enum enumValue)
+                return GetEnumMatch(enumValue, termSettings);
             else
                 return termSettings.GetMatchOrNull() ?? DefaultMatch;
         }

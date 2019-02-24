@@ -26,13 +26,25 @@ namespace Atata.TermFormatting
 
         public static string ApplyCase(string value, TermCase termCase)
         {
+            value.CheckNotNull(nameof(value));
+
             if (termCase == TermCase.None)
                 return value;
 
             string[] words = value.SplitIntoWords();
 
+            return ApplyCase(words, termCase);
+        }
+
+        public static string ApplyCase(string[] words, TermCase termCase)
+        {
+            words.CheckNotNull(nameof(words));
+
             if (!words.Any())
                 return string.Empty;
+
+            if (termCase == TermCase.None)
+                return string.Concat(words);
 
             FormatterItem formatterItem;
             if (!Formatters.TryGetValue(termCase, out formatterItem))

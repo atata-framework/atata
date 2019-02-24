@@ -10,7 +10,6 @@ namespace Atata.Tests
     {
         private const string CultureName = "en-GB";
 
-        [TermSettings(Format = ">>{0}")]
         public enum Option
         {
             [Term(TermCase.Title, Format = ">>{0}:")]
@@ -21,8 +20,54 @@ namespace Atata.Tests
             D
         }
 
+        [TermSettings(Format = "++{0}")]
+        public enum OptionWithTermSettingsFormat
+        {
+            [Term(TermCase.Title, Format = "+{0}:")]
+            SA,
+            SB,
+            SC,
+            [Term(TermCase.Lower, Format = "--{0}--")]
+            SD
+        }
+
+        public enum TermCasedOption
+        {
+            RegularValue,
+
+            [Term(TermCase.Camel)]
+            CamelUsingCase,
+
+            [Term("camelUsingTerm")]
+            CamelUsingTerm,
+
+            [Term(TermCase.Pascal)]
+            PascalUsingCase,
+
+            [Term("PascalUsingTerm")]
+            PascalUsingTerm,
+
+            [Term(TermCase.Title)]
+            TitleUsingCase,
+
+            [Term("Title Using Term")]
+            TitleUsingTerm,
+
+            [Term(TermCase.Sentence)]
+            SentenceUsingCase,
+
+            [Term("Sentence using term")]
+            SentenceUsingTerm,
+
+            [Term(TermCase.MidSentence)]
+            MidSentenceUsingCase,
+
+            [Term("mid-sentence using term")]
+            MidSentenceUsingTerm
+        }
+
         [TestCaseSource(typeof(TermResolverFormatTestCaseSource))]
-        public void TermResolver_Format(object value, string format, string expectedFormattedValue)
+        public void TermResolver_WithFormat(object value, string format, string expectedFormattedValue)
         {
             TermOptions options = new TermOptions { Format = format };
             string formatted = TermResolver.ToString(value, options);
@@ -31,6 +76,49 @@ namespace Atata.Tests
 
             object unformatted = TermResolver.FromString(formatted, value.GetType(), options);
             Assert.That(unformatted, Is.EqualTo(value));
+        }
+
+        [TestCase(TermCasedOption.RegularValue, "Regular Value")]
+        [TestCase(TermCasedOption.CamelUsingCase, "camelUsingCase")]
+        [TestCase(TermCasedOption.CamelUsingTerm, "camelUsingTerm")]
+        [TestCase(TermCasedOption.PascalUsingCase, "PascalUsingCase")]
+        [TestCase(TermCasedOption.PascalUsingTerm, "PascalUsingTerm")]
+        [TestCase(TermCasedOption.TitleUsingCase, "Title Using Case")]
+        [TestCase(TermCasedOption.TitleUsingTerm, "Title Using Term")]
+        [TestCase(TermCasedOption.SentenceUsingCase, "Sentence using case")]
+        [TestCase(TermCasedOption.SentenceUsingTerm, "Sentence using term")]
+        [TestCase(TermCasedOption.MidSentenceUsingCase, "mid sentence using case")]
+        [TestCase(TermCasedOption.MidSentenceUsingTerm, "mid-sentence using term")]
+        public void TermResolver_Enum(TermCasedOption value, string expectedValue)
+        {
+            string resolvedString = TermResolver.ToString(value);
+
+            Assert.That(resolvedString, Is.EqualTo(expectedValue));
+
+            TermCasedOption resolvedBack = TermResolver.FromString<TermCasedOption>(resolvedString);
+            Assert.That(resolvedBack, Is.EqualTo(value));
+        }
+
+        [TestCase(TermCasedOption.RegularValue, TermCase.MidSentence, "regular value")]
+        [TestCase(TermCasedOption.CamelUsingCase, TermCase.MidSentence, "camelUsingCase")]
+        [TestCase(TermCasedOption.CamelUsingTerm, TermCase.MidSentence, "camelUsingTerm")]
+        [TestCase(TermCasedOption.PascalUsingCase, TermCase.MidSentence, "pascalUsingCase")]
+        [TestCase(TermCasedOption.PascalUsingTerm, TermCase.MidSentence, "pascalUsingTerm")]
+        [TestCase(TermCasedOption.TitleUsingCase, TermCase.MidSentence, "title using case")]
+        [TestCase(TermCasedOption.TitleUsingTerm, TermCase.MidSentence, "title using term")]
+        [TestCase(TermCasedOption.SentenceUsingCase, TermCase.MidSentence, "sentence using case")]
+        [TestCase(TermCasedOption.SentenceUsingTerm, TermCase.MidSentence, "sentence using term")]
+        [TestCase(TermCasedOption.MidSentenceUsingCase, TermCase.MidSentence, "mid sentence using case")]
+        [TestCase(TermCasedOption.MidSentenceUsingTerm, TermCase.MidSentence, "mid-sentence using term")]
+        public void TermResolver_Enum_WithCase(TermCasedOption value, TermCase termCase, string expectedValue)
+        {
+            TermOptions options = new TermOptions { Case = termCase };
+            string resolvedString = TermResolver.ToString(value, options);
+
+            Assert.That(resolvedString, Is.EqualTo(expectedValue));
+
+            TermCasedOption resolvedBack = TermResolver.FromString<TermCasedOption>(resolvedString, options);
+            Assert.That(resolvedBack, Is.EqualTo(value));
         }
 
         private class TermResolverFormatTestCaseSource : TestCaseDataSource
@@ -49,13 +137,21 @@ namespace Atata.Tests
                 Add(0.25, "P0", "25%");
                 Add(-0.257f, "tax {0:P1}", "tax -25.7%");
                 Add(15, "Percent: {0}%");
+
                 Add(Option.B);
                 Add(Option.D, null, "--d--");
                 Add(Option.A, null, ">>A:");
                 Add(Option.C, "D", "2");
                 Add(Option.C, "{0:D}.", "2.");
                 Add(Option.C, "X", "00000002");
-                Add(Option.A, "_{0:G}_", "_A_");
+                Add(Option.A, "_{0:G}_", "_>>A:_");
+
+                Add(OptionWithTermSettingsFormat.SB, "<{0}>", "<++SB>");
+                Add(OptionWithTermSettingsFormat.SD, null, "--sd--");
+                Add(OptionWithTermSettingsFormat.SA, null, "+SA:");
+                Add(OptionWithTermSettingsFormat.SC, "D", "++SC");
+                Add(OptionWithTermSettingsFormat.SC, "{0:D}.", "++SC.");
+                Add(OptionWithTermSettingsFormat.SA, "_{0:G}_", "_+SA:_");
 
                 DateTime date = new DateTime(DateTime.Today.Year, 3, 28);
                 Add(date, "date: '{0:d}'");
