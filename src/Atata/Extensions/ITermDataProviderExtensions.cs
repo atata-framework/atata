@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -6,9 +7,13 @@ namespace Atata
     {
         public static string[] GetActualValues(this ITermDataProvider provider, string fallbackValue)
         {
-            string[] rawValues = (provider.Values != null && provider.Values.Any()) ? provider.Values : new[] { provider.Case.ApplyTo(fallbackValue) };
+            string[] rawValues = provider.Values != null && provider.Values.Any()
+                ? provider.Values
+                : new[] { provider.Case.ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue))) };
 
-            return !string.IsNullOrEmpty(provider.Format) ? rawValues.Select(x => string.Format(provider.Format, x)).ToArray() : rawValues;
+            return !string.IsNullOrEmpty(provider.Format)
+                ? rawValues.Select(x => string.Format(provider.Format, x)).ToArray()
+                : rawValues;
         }
     }
 }
