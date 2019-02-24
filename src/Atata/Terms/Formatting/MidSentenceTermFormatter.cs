@@ -8,7 +8,7 @@ namespace Atata.TermFormatting
         {
             return string.Join(
                 " ",
-                words.Select(x => x.Length >= 2 && x.IsUpper() ? x : x.ToLower()));
+                words.Select(x => x.Length >= 2 && x.IsUpper() ? x : x.ToLowerFirstLetter()));
         }
     }
 }
