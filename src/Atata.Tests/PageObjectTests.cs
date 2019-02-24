@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Atata.Tests
@@ -13,6 +14,25 @@ namespace Atata.Tests
                 ById.FirstName.Should.Equal("test").
                 RefreshPage().
                 ById.FirstName.Should.BeNull();
+        }
+
+        [Test]
+        public void PageObject_RefreshPageUntil()
+        {
+            Go.To<WaitingPage>().
+                CurrentTime.Get(out TimeSpan? time).
+                RefreshPageUntil(x => x.CurrentTime.Value > time.Value.Add(TimeSpan.FromSeconds(15)), timeout: 20, retryInterval: 2);
+        }
+
+        [Test]
+        public void PageObject_RefreshPageUntil_Timeout()
+        {
+            var page = Go.To<WaitingPage>().
+                CurrentTime.Get(out TimeSpan? time);
+
+            using (StopwatchAsserter.Within(2))
+                Assert.Throws<TimeoutException>(() =>
+                    page.RefreshPageUntil(x => x.CurrentTime.Value > time.Value.Add(TimeSpan.FromSeconds(15)), timeout: 1));
         }
 
         [Test]

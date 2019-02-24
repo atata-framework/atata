@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
@@ -286,6 +287,53 @@ namespace Atata
             Log.Info("Refresh page");
             Driver.Navigate().Refresh();
             return Go.To<TOwner>(navigate: false);
+        }
+
+        /// <summary>
+        /// Refreshes the current page until the condition specified by <paramref name="predicateExpression"/> argument is met.
+        /// </summary>
+        /// <param name="predicateExpression">The predicate expression to test the page.</param>
+        /// <param name="timeout">The timeout in seconds.</param>
+        /// <param name="retryInterval">The retry interval in seconds.</param>
+        /// <returns>The instance of this page object.</returns>
+        /// <example>
+        /// <code>
+        /// PageObject.RefreshPageUntil(x => x.SomeControl.IsVisible, timeout: 60, retryInterval: 5);
+        /// </code>
+        /// </example>
+        public TOwner RefreshPageUntil(Expression<Func<TOwner, bool>> predicateExpression, double? timeout = null, double? retryInterval = null)
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            TimeSpan timeoutTime = timeout.HasValue
+                ? TimeSpan.FromSeconds(timeout.Value)
+                : AtataContext.Current.WaitingTimeout;
+
+            TimeSpan retryIntervalTime = retryInterval.HasValue
+                ? TimeSpan.FromSeconds(retryInterval.Value)
+                : AtataContext.Current.WaitingRetryInterval;
+
+            TOwner activePageObject = (TOwner)this;
+
+            string predicateMessage = ControlNameExpressionStringBuilder.ExpressionToString(predicateExpression);
+
+            string actionMessage = $"Refresh page until \"{predicateMessage}\" within {timeoutTime.ToIntervalString()} with {retryIntervalTime.ToIntervalString()} retry interval";
+            AtataContext.Current.Log.Start(actionMessage);
+
+            bool isOk = Driver.
+                Try(timeoutTime, retryIntervalTime).
+                Until(x =>
+                {
+                    activePageObject = activePageObject.RefreshPage();
+                    return predicate(activePageObject);
+                });
+
+            if (!isOk)
+                throw new TimeoutException($"Timed out after {timeoutTime.ToIntervalString()} waiting for: {actionMessage.ToLowerFirstLetter()}.");
+
+            AtataContext.Current.Log.EndSection();
+
+            return activePageObject;
         }
 
         /// <summary>
