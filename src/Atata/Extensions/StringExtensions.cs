@@ -40,6 +40,16 @@ namespace Atata
                 return value.ToUpper();
         }
 
+        public static string ToLowerFirstLetter(this string value)
+        {
+            if (value == null)
+                return null;
+            else if (value.Length > 1)
+                return char.ToLower(value[0]) + value.Substring(1);
+            else
+                return value.ToLower();
+        }
+
         public static string PascalDasherize(this string underscoredWord)
         {
             string[] parts = underscoredWord.Split('-');
