@@ -39,10 +39,9 @@ namespace Atata
                 ? builder.WrapWithIndex(x => x._($"({string.Join(" | ", completeXPathSelectors)})")).DescendantOrSelf.ComponentXPath
                 : null;
 
-            if (conditionalXPath != null && completeXPath != null)
-                return $"(({completeXPath}) | ({conditionalXPath}))";
-            else
-                return completeXPath ?? conditionalXPath;
+            return conditionalXPath != null && completeXPath != null
+                ? $"(({completeXPath}) | ({conditionalXPath}))"
+                : completeXPath ?? conditionalXPath;
         }
     }
 }

@@ -70,16 +70,10 @@ namespace Atata
         /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element.
         /// Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
         /// </summary>
-        public IWebElement Scope
-        {
-            get
-            {
-                if (CacheScopeElement && cachedScope != null)
-                    return cachedScope;
-                else
-                    return GetScopeElement();
-            }
-        }
+        public IWebElement Scope =>
+            CacheScopeElement && cachedScope != null
+                ? cachedScope
+                : GetScopeElement();
 
         /// <summary>
         /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element.

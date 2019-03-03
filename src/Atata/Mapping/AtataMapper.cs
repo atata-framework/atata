@@ -64,18 +64,16 @@ namespace Atata
 
         private static object ConvertToEnum(Type enumType, object value)
         {
-            if (value is string stringValue)
-                return Enum.Parse(enumType, stringValue, true);
-            else
-                return Enum.ToObject(enumType, value);
+            return value is string stringValue
+                ? Enum.Parse(enumType, stringValue, true)
+                : Enum.ToObject(enumType, value);
         }
 
         private static TimeSpan ConvertToTimeSpan(object value)
         {
-            if (value is double || value is int || value is float)
-                return TimeSpan.FromSeconds(Convert.ToDouble(value));
-            else
-                return TimeSpan.Parse(value.ToString());
+            return value is double || value is int || value is float
+                ? TimeSpan.FromSeconds(Convert.ToDouble(value))
+                : TimeSpan.Parse(value.ToString());
         }
     }
 }

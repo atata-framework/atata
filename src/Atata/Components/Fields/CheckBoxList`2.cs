@@ -47,10 +47,9 @@ namespace Atata
                 Select(x => ItemElementFindStrategy.GetParameter<T>(x, ValueTermOptions)).
                 ToArray();
 
-            if (selectedValues.Any())
-                return JoinValues(selectedValues);
-            else
-                return default(T);
+            return selectedValues.Any()
+                ? JoinValues(selectedValues)
+                : default(T);
         }
 
         private T JoinValues(T[] values)

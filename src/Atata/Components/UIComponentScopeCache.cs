@@ -21,8 +21,9 @@ namespace Atata
         {
             if (IsAccessChainActive)
                 return false;
-            else
-                return IsAccessChainActive = true;
+
+            IsAccessChainActive = true;
+            return true;
         }
 
         public void AddToAccessChain(UIComponent component, Visibility visibility, IWebElement scope)

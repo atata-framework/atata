@@ -6,10 +6,9 @@ namespace Atata
     {
         public static string GetExtension(this ScreenshotImageFormat format)
         {
-            if (format == ScreenshotImageFormat.Jpeg)
-                return ".jpg";
-            else
-                return format.ToString().ToLower().Prepend(".");
+            return format == ScreenshotImageFormat.Jpeg
+                ? ".jpg"
+                : format.ToString().ToLower().Prepend(".");
         }
     }
 }

@@ -24,10 +24,10 @@ namespace Atata
         protected override T GetValue()
         {
             IWebElement selectedItem = GetItemElements().FirstOrDefault(x => x.Selected);
-            if (selectedItem != null)
-                return GetElementValue(selectedItem);
-            else
-                return default(T);
+
+            return selectedItem != null
+                ? GetElementValue(selectedItem)
+                : default(T);
         }
 
         protected override void SetValue(T value)

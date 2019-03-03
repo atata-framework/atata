@@ -162,10 +162,9 @@ namespace Atata
             }
             else if (type.IsEnum)
             {
-                if (type.IsDefined(typeof(FlagsAttribute), false))
-                    return RandomizeFlagsEnum<T>(type, metadata);
-                else
-                    return RandomizeNonFlagEnum<T>(type, metadata);
+                return type.IsDefined(typeof(FlagsAttribute), false)
+                    ? RandomizeFlagsEnum<T>(type, metadata)
+                    : RandomizeNonFlagEnum<T>(type, metadata);
             }
             else
             {

@@ -23,10 +23,9 @@ namespace Atata
                 Select(qps => string.Join(" and ", qps.Select(qp => conditionFormat.FormatWith(qp)))).
                 ToArray();
 
-            if (conditionOrParts.Count() == 1)
-                return conditionOrParts.First();
-            else
-                return string.Join(" or ", conditionOrParts.Select(x => "({0})".FormatWith(x)));
+            return conditionOrParts.Count() == 1
+                ? conditionOrParts.First()
+                : string.Join(" or ", conditionOrParts.Select(x => "({0})".FormatWith(x)));
         }
     }
 }

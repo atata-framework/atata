@@ -64,17 +64,12 @@ namespace Atata
                 {
                     string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                    if (specificFormat != null && specificFormat.Contains("t"))
-                    {
-                        return FormatValue(
+                    return specificFormat != null && specificFormat.Contains("t")
+                        ? FormatValue(
                             DateTime.Today.Add(v).ToString(specificFormat, opt.Culture),
                             opt.Format,
-                            opt.Culture);
-                    }
-                    else
-                    {
-                        return FormatValue(v, opt.Format, opt.Culture);
-                    }
+                            opt.Culture)
+                        : FormatValue(v, opt.Format, opt.Culture);
                 });
 
             RegisterConverter<Guid>(
@@ -216,10 +211,10 @@ namespace Atata
             {
                 int startIndex = format.IndexOf("{0");
                 int endIndex = format.IndexOf('}', startIndex + 2);
-                if (endIndex - startIndex == 2)
-                    return null;
-                else
-                    return format.Substring(startIndex + 3, endIndex - startIndex - 3);
+
+                return endIndex - startIndex == 2
+                    ? null
+                    : format.Substring(startIndex + 3, endIndex - startIndex - 3);
             }
             else
             {
@@ -359,9 +354,12 @@ namespace Atata
         {
             string[] values = termAttribute?.Values?.Any() ?? false
                 ? termAttribute.Values
-                : new[] { TermCaseResolver.ApplyCase(
-                    value.ToString(),
-                    termAttribute.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultCase)};
+                : new[]
+                {
+                    TermCaseResolver.ApplyCase(
+                        value.ToString(),
+                        termAttribute.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultCase)
+                };
 
             string termFormat = termAttribute.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
 
@@ -378,10 +376,9 @@ namespace Atata
 
         public static TermMatch GetMatch(object value, ITermSettings termSettings = null)
         {
-            if (value is Enum enumValue)
-                return GetEnumMatch(enumValue, termSettings);
-            else
-                return termSettings.GetMatchOrNull() ?? DefaultMatch;
+            return value is Enum enumValue
+                ? GetEnumMatch(enumValue, termSettings)
+                : termSettings.GetMatchOrNull() ?? DefaultMatch;
         }
 
         public static TermMatch GetEnumMatch(Enum value, ITermSettings termSettings = null)
