@@ -131,7 +131,7 @@ namespace Atata
 
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            return ComponentFullName.GetHashCode();
         }
 
         protected internal override void ApplyMetadata(UIComponentMetadata metadata)

@@ -7,12 +7,10 @@ namespace Atata
 {
     public static class ValueRandomizer
     {
-        private static readonly Dictionary<Type, RandomizeFunc> Randomizers;
+        private static readonly Dictionary<Type, RandomizeFunc> Randomizers = new Dictionary<Type, RandomizeFunc>();
 
         static ValueRandomizer()
         {
-            Randomizers = new Dictionary<Type, RandomizeFunc>();
-
             RegisterRandomizer(RandomizeString);
             RegisterRandomizer(RandomizeBool);
             RegisterNumberRandomizer<sbyte>();

@@ -7,22 +7,17 @@ namespace Atata
     public class UIComponentTriggerSet<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private static readonly Dictionary<TriggerEvents, TriggerEvents[]> DenyTriggersMap;
+        private static readonly Dictionary<TriggerEvents, TriggerEvents[]> DenyTriggersMap = new Dictionary<TriggerEvents, TriggerEvents[]>
+        {
+            [TriggerEvents.BeforeAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess },
+            [TriggerEvents.AfterAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess }
+        };
 
         private readonly UIComponent<TOwner> component;
 
         private readonly List<TriggerEvents> currentDeniedTriggers = new List<TriggerEvents>();
 
         private TriggerAttribute[] orderedTriggers;
-
-        static UIComponentTriggerSet()
-        {
-            DenyTriggersMap = new Dictionary<TriggerEvents, TriggerEvents[]>
-            {
-                [TriggerEvents.BeforeAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess },
-                [TriggerEvents.AfterAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess }
-            };
-        }
 
         internal UIComponentTriggerSet(UIComponent<TOwner> component)
         {
@@ -98,7 +93,7 @@ namespace Atata
             return count;
         }
 
-        private void ApplyMetadataToTriggers(UIComponentMetadata metadata, IEnumerable<TriggerAttribute> triggers)
+        private static void ApplyMetadataToTriggers(UIComponentMetadata metadata, IEnumerable<TriggerAttribute> triggers)
         {
             foreach (TriggerAttribute trigger in triggers)
             {

@@ -1,0 +1,1 @@
+﻿[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:Opening parenthesis must be spaced correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.UITestFixtureBase.VerifyLastLogEntries(System.[])")]

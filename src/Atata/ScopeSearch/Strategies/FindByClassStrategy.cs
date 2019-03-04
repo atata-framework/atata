@@ -13,7 +13,7 @@ namespace Atata
                 DescendantOrSelf.ComponentXPath;
         }
 
-        private string GetClassCondition(ComponentScopeLocateOptions options)
+        private static string GetClassCondition(ComponentScopeLocateOptions options)
         {
             string conditionFormat = "contains(concat(' ', normalize-space(@class), ' '), ' {0} ')";
 

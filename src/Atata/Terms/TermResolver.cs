@@ -13,12 +13,10 @@ namespace Atata
 
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
-        private static readonly Dictionary<Type, TermConverter> TypeTermConverters;
+        private static readonly Dictionary<Type, TermConverter> TypeTermConverters = new Dictionary<Type, TermConverter>();
 
         static TermResolver()
         {
-            TypeTermConverters = new Dictionary<Type, TermConverter>();
-
             RegisterStandardConverters();
         }
 
