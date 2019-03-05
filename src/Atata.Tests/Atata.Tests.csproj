@@ -33,7 +33,7 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.14.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.42.0.1" />
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.14.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.5.0.6605">
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.11.0.8083">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
