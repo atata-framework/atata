@@ -188,17 +188,17 @@ namespace Atata.Tests
             AssertCurrentPageObject(page1);
         }
 
-        private void AssertCurrentPageObject(UIComponent pageObject)
+        private static void AssertCurrentPageObject(UIComponent pageObject)
         {
             Assert.That(AtataContext.Current.PageObject, Is.EqualTo(pageObject));
         }
 
-        private void AssertNoTemporarilyPreservedPageObjects()
+        private static void AssertNoTemporarilyPreservedPageObjects()
         {
             Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.Empty);
         }
 
-        private void AssertTemporarilyPreservedPageObjects(params UIComponent[] pageObjects)
+        private static void AssertTemporarilyPreservedPageObjects(params UIComponent[] pageObjects)
         {
             Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
             Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));

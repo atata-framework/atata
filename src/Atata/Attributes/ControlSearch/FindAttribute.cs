@@ -129,6 +129,7 @@ namespace Atata
         /// </summary>
         protected abstract Type DefaultStrategy { get; }
 
+        // TODO: Review and probably remove metadata argument.
         public IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
             Type strategyType = Strategy ?? DefaultStrategy;

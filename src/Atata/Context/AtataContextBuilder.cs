@@ -740,7 +740,7 @@ namespace Atata
             context.CleanExecutionStartDateTime = DateTime.Now;
         }
 
-        private void LogRetrySettings(AtataContext context)
+        private static void LogRetrySettings(AtataContext context)
         {
             string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
             context.Log.Trace(messageFormat, "ElementFind", context.ElementFindTimeout.ToIntervalString(), context.ElementFindRetryInterval.ToIntervalString());

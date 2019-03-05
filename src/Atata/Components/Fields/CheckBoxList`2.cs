@@ -57,7 +57,7 @@ namespace Atata
             return (T)(object)JoinEnumValues(values.Cast<Enum>());
         }
 
-        private Enum JoinEnumValues(IEnumerable<Enum> values)
+        private static Enum JoinEnumValues(IEnumerable<Enum> values)
         {
             return values.Aggregate(EnumExtensions.AddFlag);
         }

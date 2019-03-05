@@ -39,7 +39,7 @@ namespace Atata.Tests
             AtataContext.Current?.CleanUp();
         }
 
-        protected void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
+        protected static void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
             where TPage : PageObject<TPage>
         {
             control.Should.Exist();
@@ -55,21 +55,21 @@ namespace Atata.Tests
             }
         }
 
-        protected void SetAndVerifyValue<T, TPage>(EditableField<T, TPage> control, T value)
+        protected static void SetAndVerifyValue<T, TPage>(EditableField<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
             control.Set(value);
             VerifyEquals(control, value);
         }
 
-        protected void VerifyEquals<T, TPage>(Field<T, TPage> control, T value)
+        protected static void VerifyEquals<T, TPage>(Field<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
             control.Should.Equal(value);
             Assert.That(control.Value, Is.EqualTo(value));
         }
 
-        protected void VerifyDoesNotEqual<T, TPage>(Field<T, TPage> control, T value)
+        protected static void VerifyDoesNotEqual<T, TPage>(Field<T, TPage> control, T value)
             where TPage : PageObject<TPage>
         {
             control.Should.Not.Equal(value);

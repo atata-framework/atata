@@ -210,7 +210,7 @@ namespace Atata.Tests
             metadata.ComponentDefinitionAttribute.Should().BeSameAs(declaredDefinition);
         }
 
-        private IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
+        private static IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
         {
             if (attributeCollections == null || attributeCollections.Length == 0)
                 return Enumerable.Empty<Attribute>();
