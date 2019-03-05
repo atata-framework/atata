@@ -98,7 +98,7 @@ namespace Atata.Tests
             {
             }
 
-            protected void Execute(TriggerContext<_> context)
+            private void Execute(TriggerContext<_> context)
             {
                 context.Component.Owner.InputEvents.Add(context.Event);
             }

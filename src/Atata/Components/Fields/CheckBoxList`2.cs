@@ -52,7 +52,7 @@ namespace Atata
                 : default(T);
         }
 
-        private T JoinValues(T[] values)
+        private static T JoinValues(T[] values)
         {
             return (T)(object)JoinEnumValues(values.Cast<Enum>());
         }

@@ -161,7 +161,7 @@ namespace Atata.Tests
             VerifyStringInput(page.UrlInput);
         }
 
-        private void VerifyStringInput(Input<string, InputPage> control)
+        private static void VerifyStringInput(Input<string, InputPage> control)
         {
             VerifyEquals(control, null);
 
