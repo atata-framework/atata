@@ -7,12 +7,6 @@ namespace Atata
     public class UIComponentTriggerSet<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private static readonly Dictionary<TriggerEvents, TriggerEvents[]> DenyTriggersMap = new Dictionary<TriggerEvents, TriggerEvents[]>
-        {
-            [TriggerEvents.BeforeAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess },
-            [TriggerEvents.AfterAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess }
-        };
-
         private readonly UIComponent<TOwner> component;
 
         private readonly List<TriggerEvents> currentDeniedTriggers = new List<TriggerEvents>();
@@ -125,8 +119,7 @@ namespace Atata
 
             if (orderedTriggers?.Length > 0)
             {
-                TriggerEvents[] denyTriggers;
-                if (DenyTriggersMap.TryGetValue(on, out denyTriggers))
+                if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[] denyTriggers))
                     currentDeniedTriggers.AddRange(denyTriggers);
 
                 try
