@@ -16,7 +16,7 @@ namespace Atata
             IWebElement scope = component.ScopeSource.GetScopeElement(component, SearchOptions.SafelyAtOnce());
 
             IWebElement label = scope.Get(
-                By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions, ".")}]").
+                By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]").
                     SafelyAtOnce().
                     Label(TermResolver.ToDisplayString(parameter)));
 
@@ -28,7 +28,7 @@ namespace Atata
                     return $"[@id='{elementId}']";
             }
 
-            return $"[ancestor::label[{TermResolver.CreateXPathCondition(parameter, termOptions, ".")}]]";
+            return $"[ancestor::label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]]";
         }
 
         protected override string GetParameterAsString(IWebElement element)
