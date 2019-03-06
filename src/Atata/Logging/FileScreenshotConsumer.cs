@@ -22,26 +22,21 @@ namespace Atata
         /// </summary>
         public const string DefaultDateTimeFormat = "yyyy-MM-dd HH_mm_ss";
 
-        private static readonly Dictionary<string, Func<ScreenshotInfo, object>> PathVariableFactoryMap;
-
-        static FileScreenshotConsumer()
+        private static readonly Dictionary<string, Func<ScreenshotInfo, object>> PathVariableFactoryMap = new Dictionary<string, Func<ScreenshotInfo, object>>
         {
-            PathVariableFactoryMap = new Dictionary<string, Func<ScreenshotInfo, object>>
-            {
-                ["build-start"] = scr => AtataContext.BuildStart,
+            ["build-start"] = scr => AtataContext.BuildStart,
 
-                ["test-name"] = scr => AtataContext.Current.TestName,
-                ["test-start"] = scr => AtataContext.Current.TestStart,
+            ["test-name"] = scr => AtataContext.Current.TestName,
+            ["test-start"] = scr => AtataContext.Current.TestStart,
 
-                ["driver-alias"] = scr => AtataContext.Current.DriverAlias,
+            ["driver-alias"] = scr => AtataContext.Current.DriverAlias,
 
-                ["screenshot-number"] = scr => scr.Number,
-                ["screenshot-title"] = scr => scr.Title,
-                ["screenshot-pageobjectname"] = scr => scr.PageObjectName,
-                ["screenshot-pageobjecttypename"] = scr => scr.PageObjectTypeName,
-                ["screenshot-pageobjectfullname"] = scr => scr.PageObjectFullName
-            };
-        }
+            ["screenshot-number"] = scr => scr.Number,
+            ["screenshot-title"] = scr => scr.Title,
+            ["screenshot-pageobjectname"] = scr => scr.PageObjectName,
+            ["screenshot-pageobjecttypename"] = scr => scr.PageObjectTypeName,
+            ["screenshot-pageobjectfullname"] = scr => scr.PageObjectFullName
+        };
 
         /// <summary>
         /// Gets or sets the builder of the folder path.
