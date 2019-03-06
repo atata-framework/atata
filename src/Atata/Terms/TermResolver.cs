@@ -149,7 +149,7 @@ namespace Atata
         public static string ToString(object value, TermOptions termOptions = null)
         {
             if (value == null || Equals(value, string.Empty))
-                return null;
+                return value as string;
 
             string[] terms = GetTerms(value, termOptions);
             return string.Join("/", terms);
