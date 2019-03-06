@@ -2,5 +2,8 @@
 {
     public class MissingComponentScopeLocateResult : ComponentScopeLocateResult
     {
+        public MissingComponentScopeLocateResult()
+        {
+        }
     }
 }

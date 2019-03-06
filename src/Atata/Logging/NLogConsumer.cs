@@ -34,7 +34,6 @@ namespace Atata
             {
                 return loggerName;
             }
-
             set
             {
                 loggerName = value;
