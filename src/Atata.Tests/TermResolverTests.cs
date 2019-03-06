@@ -121,9 +121,9 @@ namespace Atata.Tests
             Assert.That(resolvedBack, Is.EqualTo(value));
         }
 
+#pragma warning disable S1144, CA1812 // Unused private types or members should be removed
         private class TermResolverFormatTestCaseSource : TestCaseDataSource
         {
-#pragma warning disable S1144 // Unused private types or members should be removed
             public TermResolverFormatTestCaseSource()
             {
                 Add("test string");
@@ -169,12 +169,12 @@ namespace Atata.Tests
                 Add(guid, "P", "(9d0aa4f2-4987-4395-be95-76abc329b7a0)");
                 Add(guid, "<{0:B}>");
             }
-#pragma warning restore S1144 // Unused private types or members should be removed
 
             private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null)
             {
                 base.Add(value, format, expectedFormattedValue ?? string.Format(CultureInfo.GetCultureInfo(CultureName), format, value));
             }
         }
+#pragma warning restore S1144, CA1812 // Unused private types or members should be removed
     }
 }

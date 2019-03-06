@@ -667,22 +667,7 @@ namespace Atata
             LogRetrySettings(context);
 
             if (BuildingContext.Culture != null)
-            {
-                if (AtataContext.IsThreadStatic)
-                {
-                    Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = BuildingContext.Culture;
-                }
-                else
-                {
-#if NET40
-                    Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = BuildingContext.Culture;
-#else
-                    CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = BuildingContext.Culture;
-#endif
-                }
-
-                context.Log.Trace($"Set: Culture={BuildingContext.Culture.Name}");
-            }
+                ApplyCulture(context, BuildingContext.Culture);
 
             context.DriverFactory = BuildingContext.DriverFactoryToUse;
             context.DriverAlias = BuildingContext.DriverFactoryToUse.Alias;
@@ -743,9 +728,22 @@ namespace Atata
         private static void LogRetrySettings(AtataContext context)
         {
             string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
+
             context.Log.Trace(messageFormat, "ElementFind", context.ElementFindTimeout.ToIntervalString(), context.ElementFindRetryInterval.ToIntervalString());
             context.Log.Trace(messageFormat, "Waiting", context.WaitingTimeout.ToIntervalString(), context.WaitingRetryInterval.ToIntervalString());
             context.Log.Trace(messageFormat, "Verification", context.VerificationTimeout.ToIntervalString(), context.VerificationRetryInterval.ToIntervalString());
+        }
+
+        private static void ApplyCulture(AtataContext context, CultureInfo culture)
+        {
+            Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
+
+#if !NET40
+            if (!AtataContext.IsThreadStatic)
+                CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
+#endif
+
+            context.Log.Trace($"Set: Culture={culture.Name}");
         }
 
         private void ValidateBuildingContextBeforeBuild()
