@@ -50,14 +50,14 @@ jobs:
     displayName: Build solution
     inputs:
       command: build
-      projects: '**\Atata.sln'
+      projects: '**/Atata.sln'
       arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework)
   - task: DotNetCoreCLI@2
     displayName: Run tests
     timeoutInMinutes: 30
     inputs:
       command: test
-      projects: '**\Atata.Tests.csproj'
+      projects: '**/Atata.Tests.csproj'
       arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework) --no-build
   - task: PublishPipelineArtifact@0
     displayName: Publish test results
