@@ -50,7 +50,7 @@ jobs:
     displayName: Build solution
     inputs:
       command: build
-      projects: '**/Atata.sln'
+      projects: '**/Atata.Tests.csproj'
       arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework) /p:RunCodeAnalysis=false
   - task: DotNetCoreCLI@2
     displayName: Run tests
