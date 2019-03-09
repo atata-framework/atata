@@ -51,7 +51,7 @@ jobs:
     inputs:
       command: build
       projects: '**/Atata.sln'
-      arguments: -c $(buildConfiguration) -f /p:RunCodeAnalysis=false
+      arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework) /p:RunCodeAnalysis=false
   - task: DotNetCoreCLI@2
     displayName: Run tests
     timeoutInMinutes: 30
