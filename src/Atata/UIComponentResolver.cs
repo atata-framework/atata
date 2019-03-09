@@ -310,13 +310,22 @@ namespace Atata
 
         private static string ResolveControlName(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
+            return GetControlNameFromNameAttribute(metadata)
+                ?? GetControlNameFromFindAttribute(metadata, findAttribute)
+                ?? GetComponentNameFromMetadata(metadata);
+        }
+
+        private static string GetControlNameFromNameAttribute(UIComponentMetadata metadata)
+        {
             NameAttribute nameAttribute = metadata.Get<NameAttribute>(x => x.At(AttributeLevels.Declared));
 
-            if (!string.IsNullOrWhiteSpace(nameAttribute?.Value))
-            {
-                return nameAttribute.Value;
-            }
+            return !string.IsNullOrWhiteSpace(nameAttribute?.Value)
+                ? nameAttribute.Value
+                : null;
+        }
 
+        private static string GetControlNameFromFindAttribute(UIComponentMetadata metadata, FindAttribute findAttribute)
+        {
             if (findAttribute is FindByLabelAttribute findByLabelAttribute && findByLabelAttribute.Match == TermMatch.Equals)
             {
                 if (findByLabelAttribute.Values?.Any() ?? false)
@@ -331,6 +340,11 @@ namespace Atata
                 }
             }
 
+            return null;
+        }
+
+        private static string GetComponentNameFromMetadata(UIComponentMetadata metadata)
+        {
             return metadata.ComponentDefinitionAttribute.
                 NormalizeNameIgnoringEnding(metadata.Name).
                 ToString(TermCase.Title);
