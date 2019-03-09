@@ -1,5 +1,6 @@
 variables:
   buildConfiguration: 'Release'
+  linuxTestsRunFramework: 'netcoreapp2.0'
 
 jobs:
 - job: BuildAndRunCodeAnalysis
@@ -28,7 +29,6 @@ jobs:
   - task: VSTest@2
     displayName: Run tests
     timeoutInMinutes: 30
-    continueOnError: true
     inputs:
       testFilterCriteria: TestCategory!=Unstable
       testAssemblyVer2: |
@@ -36,6 +36,32 @@ jobs:
         !**\obj\**
   - task: PublishPipelineArtifact@0
     displayName: Publish test results
+    condition: succeededOrFailed()
     inputs:
       artifactName: Test results
       targetPath: src/Atata.Tests/bin/$(buildConfiguration)/net45/Logs
+
+- job: BuildAndRunTestsNetCore20
+  displayName: Build and run tests using .NET Core 2.0 on Linux
+  pool:
+    vmImage: ubuntu-16.04
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build solution
+    inputs:
+      command: build
+      projects: '**\Atata.sln'
+      arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework)
+  - task: DotNetCoreCLI@2
+    displayName: Run tests
+    timeoutInMinutes: 30
+    inputs:
+      command: test
+      projects: '**\Atata.Tests.csproj'
+      arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework) --no-build
+  - task: PublishPipelineArtifact@0
+    displayName: Publish test results
+    condition: succeededOrFailed()
+    inputs:
+      artifactName: Test results
+      targetPath: src/Atata.Tests/bin/$(buildConfiguration)/$(linuxTestsRunFramework)/Logs
