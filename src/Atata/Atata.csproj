@@ -43,36 +43,8 @@ Features:
 0.11.1 - https://github.com/atata-framework/atata/releases/tag/v0.11.1
 0.11.0 - Initial release</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net40|AnyCPU'">
-    <DocumentationFile>bin\Debug\net40\Atata.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net40|AnyCPU'">
-    <DocumentationFile>bin\Release\net40\Atata.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net45|AnyCPU'">
-    <DocumentationFile>bin\Debug\net45\Atata.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net45|AnyCPU'">
-    <DocumentationFile>bin\Release\net45\Atata.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-  
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard2.0\Atata.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
-    <DocumentationFile>bin\Release\netstandard2.0\Atata.xml</DocumentationFile>
-    <CodeAnalysisRuleSet>..\atata.ruleset</CodeAnalysisRuleSet>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <ItemGroup>

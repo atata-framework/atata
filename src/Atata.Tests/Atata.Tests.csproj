@@ -7,7 +7,7 @@
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Copyright>© Yevgeniy Shunevych 2018</Copyright>
-    <CodeAnalysisRuleSet>..\Atata.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(Configuration)=='Debug'">
