@@ -130,7 +130,9 @@ namespace Atata
         protected abstract Type DefaultStrategy { get; }
 
         // TODO: Review and probably remove metadata argument.
+#pragma warning disable CA1801
         public IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
+#pragma warning restore CA1801
         {
             Type strategyType = Strategy ?? DefaultStrategy;
             object[] strategyArguments = GetStrategyArguments().ToArray();
