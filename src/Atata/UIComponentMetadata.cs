@@ -261,14 +261,12 @@ namespace Atata
 
             var rankedQuery = query.
                 Select(x => new { Attribute = x, TargetRank = x.CalculateTargetRank(this) }).
-                ToArray().
                 Where(x => x.TargetRank.HasValue);
 
             if (filter.TargetAttributeType != null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute)))
             {
                 return rankedQuery.
                     Select(x => new { x.Attribute, x.TargetRank, TargetAttributeRank = ((AttributeSettingsAttribute)x.Attribute).CalculateTargetAttributeRank(filter.TargetAttributeType) }).
-                    ToArray().
                     Where(x => x.TargetAttributeRank.HasValue).
                     OrderByDescending(x => x.TargetRank.Value).
                     ThenByDescending(x => x.TargetAttributeRank.Value).
