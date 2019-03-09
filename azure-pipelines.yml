@@ -2,20 +2,33 @@ variables:
   buildConfiguration: 'Release'
 
 jobs:
-- job: BuildAndRunTests
-  displayName: Build and run tests
+- job: BuildAndRunCodeAnalysis
+  displayName: Build and run code analysis
   pool:
-    name: Hosted VS2017
+    vmImage: vs2017-win2016
+  steps:
+  - task: DotNetCoreCLI@2
+    displayName: Build solution and run code analysis
+    inputs:
+      command: build
+      projects: '**\Atata.sln'
+      arguments: -c $(buildConfiguration) /p:RunCodeAnalysis=true /warnaserror
+
+- job: BuildAndRunTestsNet45
+  displayName: Build and run tests using .NET 4.5 on Windows
+  pool:
+    vmImage: vs2017-win2016
   steps:
   - task: DotNetCoreCLI@2
     displayName: Build solution
     inputs:
       command: build
       projects: '**\Atata.sln'
-      arguments: -c $(buildConfiguration) # /p:RunCodeAnalysis=true /warnaserror
+      arguments: -c $(buildConfiguration)
   - task: VSTest@2
     displayName: Run tests
     timeoutInMinutes: 30
+    continueOnError: true
     inputs:
       testFilterCriteria: TestCategory!=Unstable
       testAssemblyVer2: |
@@ -26,4 +39,3 @@ jobs:
     inputs:
       artifactName: Test results
       targetPath: src/Atata.Tests/bin/$(buildConfiguration)/net45/Logs
-    condition: succeededOrFailed()
