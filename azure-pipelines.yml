@@ -38,7 +38,7 @@ jobs:
     displayName: Publish test results
     condition: succeededOrFailed()
     inputs:
-      artifactName: Test results
+      artifactName: Test results .NET 4.5
       targetPath: src/Atata.Tests/bin/$(buildConfiguration)/net45/Logs
 
 - job: RunTestsNetCore20
@@ -63,5 +63,5 @@ jobs:
     displayName: Publish test results
     condition: succeededOrFailed()
     inputs:
-      artifactName: Test results
+      artifactName: Test results .NET Core 2.0
       targetPath: src/Atata.Tests/bin/$(buildConfiguration)/$(linuxTestsRunFramework)/Logs
