@@ -30,22 +30,19 @@ namespace Atata.Tests
 
         private void RunTestApp()
         {
-            bool isLinux = false;
-
-#if NETCOREAPP2_0
-            isLinux = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux);
-#endif
-
             string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Atata.TestApp");
 
             coreRunProcess = new Process
             {
-                StartInfo = isLinux
+                StartInfo = UITestFixtureBase.IsOSLinux
                     ? new ProcessStartInfo
                     {
                         FileName = "/bin/bash",
-                        Arguments = "-c dotnet run",
-                        WorkingDirectory = testAppPath
+                        Arguments = "-c \"dotnet run\"",
+                        WorkingDirectory = testAppPath,
+                        RedirectStandardOutput = true,
+                        UseShellExecute = false,
+                        CreateNoWindow = true
                     }
                     : new ProcessStartInfo
                     {

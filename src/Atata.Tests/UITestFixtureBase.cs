@@ -14,13 +14,20 @@ namespace Atata.Tests
 
         protected IEnumerable<LogEventInfo> LogEntries => stringListLogConsumer.Items;
 
+        public static bool IsOSLinux =>
+#if NETCOREAPP2_0
+            System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux);
+#else
+            false;
+#endif
+
         protected AtataContextBuilder ConfigureBaseAtataContext()
         {
             stringListLogConsumer = new StringListLogConsumer();
 
             return AtataContext.Configure().
                 UseChrome().
-                    WithArguments("disable-extensions", "start-maximized", "disable-infobars").
+                    WithArguments(GetChromeArguments().ToArray()).
 #if NETCOREAPP2_0
                     WithFixOfCommandExecutionDelay().
                     WithLocalDriverPath().
@@ -31,6 +38,16 @@ namespace Atata.Tests
                 AddNUnitTestContextLogging().
                 AddLogConsumer(stringListLogConsumer).
                 LogNUnitError();
+        }
+
+        private IEnumerable<string> GetChromeArguments()
+        {
+            yield return "disable-extensions";
+            yield return "start-maximized";
+            yield return "disable-infobars";
+
+            if (IsOSLinux)
+                yield return "headless";
         }
 
         [TearDown]
