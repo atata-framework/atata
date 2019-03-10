@@ -36,7 +36,7 @@ namespace Atata.Tests
                 {
                     FileName = "cmd.exe",
                     Arguments = "/c dotnet run",
-                    WorkingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..\\..\\..\\..\\Atata.TestApp")
+                    WorkingDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Atata.TestApp")
                 }
             };
 

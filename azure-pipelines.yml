@@ -15,8 +15,8 @@ jobs:
       projects: '**\Atata.sln'
       arguments: -c $(buildConfiguration) /p:RunCodeAnalysis=true /warnaserror
 
-- job: BuildAndRunTestsNet45
-  displayName: Build and run tests using .NET 4.5 on Windows
+- job: RunTestsNet45
+  displayName: Run tests using .NET 4.5 on Windows
   pool:
     vmImage: vs2017-win2016
   steps:
@@ -41,8 +41,8 @@ jobs:
       artifactName: Test results
       targetPath: src/Atata.Tests/bin/$(buildConfiguration)/net45/Logs
 
-- job: BuildAndRunTestsNetCore20
-  displayName: Build and run tests using .NET Core 2.0 on Linux
+- job: RunTestsNetCore20
+  displayName: Run tests using .NET Core 2.0 on Linux
   pool:
     vmImage: ubuntu-16.04
   steps:
