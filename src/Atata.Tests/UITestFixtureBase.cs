@@ -40,7 +40,7 @@ namespace Atata.Tests
                 LogNUnitError();
         }
 
-        private IEnumerable<string> GetChromeArguments()
+        private static IEnumerable<string> GetChromeArguments()
         {
             yield return "disable-extensions";
             yield return "start-maximized";
