@@ -42,6 +42,7 @@ jobs:
       targetPath: src/Atata.Tests/bin/$(buildConfiguration)/net45/Logs
 
 - job: RunTestsNetCore20
+  condition: false
   displayName: Run tests using .NET Core 2.0 on Linux
   pool:
     vmImage: ubuntu-16.04
