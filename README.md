@@ -1,11 +1,11 @@
-# [Atata](https://atata-framework.github.io/)
+# [Atata](https://atata.io)
 
 [![NuGet](http://img.shields.io/nuget/v/Atata.svg?style=flat)](https://www.nuget.org/packages/Atata/)
 [![GitHub release](https://img.shields.io/github/release/atata-framework/atata.svg)](https://github.com/atata-framework/atata/releases)
 [![Build status](https://dev.azure.com/atata-framework/atata/_apis/build/status/atata-ci?branchName=master)](https://dev.azure.com/atata-framework/atata/_build/latest?definitionId=17&branchName=master)
 [![Gitter](https://badges.gitter.im/atata-framework/atata.svg)](https://gitter.im/atata-framework/atata)
 [![Slack](https://img.shields.io/badge/join-Slack-green.svg?colorB=4EB898)](https://join.slack.com/t/atata-framework/shared_invite/enQtNDMzMzk3OTY5NjgzLTJlNzAyN2E3MzY3MDE4ZGE1ZDQzOGY2NThiYWExZTNkNDc5YjdlNzFjYmUwYjZmNDI2MDJlMGQ3ODNlMDljMzU)
-[![Atata Framework documentation](https://img.shields.io/badge/docs-Atata_Framework-orange.svg)](https://atata-framework.github.io/)
+[![Atata docs](https://img.shields.io/badge/docs-Atata_Framework-orange.svg)](https://atata.io)
 [![Twitter](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://twitter.com/AtataFramework)
 [![Atata Templates](https://img.shields.io/badge/get-Atata_Templates-green.svg?color=4BC21F)](https://marketplace.visualstudio.com/items?itemName=YevgeniyShunevych.AtataTemplates)
 
@@ -14,16 +14,16 @@ It uses fluent page object pattern.
 
 Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
 
-- **[What's new in v1.0.0](https://atata-framework.github.io/blog/2018/10/15/atata-1.0.0-released/)**
-- **[Upgrading Atata to v1.0.0](https://atata-framework.github.io/blog/2018/10/21/upgrading-atata-to-1.0.0/)**
+- **[What's new in v1.0.0](https://atata.io/blog/2018/10/15/atata-1.0.0-released/)**
+- **[Upgrading Atata to v1.0.0](https://atata.io/blog/2018/10/21/upgrading-atata-to-1.0.0/)**
 
 ## Features
 
 * **WebDriver**. Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
 * **Page Object Model**. Provides unique fluent page object pattern that is easy to implement and maintain.
-* **Components**. Contains a rich set of ready to use [components](https://atata-framework.github.io/components/) for inputs, tables, lists, etc.
+* **Components**. Contains a rich set of ready to use [components](https://atata.io/components/) for inputs, tables, lists, etc.
 * **Integration**. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, Azure DevOps or TeamCity.
-* **Triggers**. A bunch of [triggers](https://atata-framework.github.io/triggers/) to bind with different events to extend component behavior.
+* **Triggers**. A bunch of [triggers](https://atata.io/triggers/) to bind with different events to extend component behavior.
 * **Verification**. A set of fluent assertion methods and triggers for the component and data verification.
 * **Configurable**. Defines the default component search strategies as well as additional settings. [Atata.Configuration.Json](https://github.com/atata-framework/atata-configuration-json) provides flexible JSON configurations.
 * **Reporting/Logging**. Built-in customizable logging and screenshot capturing functionality.
@@ -33,7 +33,7 @@ Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
 
 ### Page Object
 
-Simple sign-in page object for http://atata-framework.github.io/atata-sample-app/#!/signin page:
+Simple sign-in page object for https://demo.atata.io/signin page:
 
 ```C#
 using Atata;
@@ -81,12 +81,12 @@ public void SetUp()
 {
     AtataContext.Configure().
         UseChrome().
-        UseBaseUrl("http://atata-framework.github.io/atata-sample-app/#!/").
+        UseBaseUrl("http://demo.atata.io/").
         Build();
 }
 ```
 
-*Find out more on [Atata usage](https://atata-framework.github.io/getting-started/#usage). Check [atata-framework/atata-samples](https://github.com/atata-framework/atata-samples) for different Atata test scenario samples.*
+*Find out more on [Atata usage](https://atata.io/getting-started/#usage). Check [atata-framework/atata-samples](https://github.com/atata-framework/atata-samples) for different Atata test scenario samples.*
 
 ## Demo
 
@@ -123,18 +123,18 @@ public void User_Create()
 
 ## Documentation
 
-Find out more on [Atata Docs](https://atata-framework.github.io/) and on [Getting Started](https://atata-framework.github.io/getting-started/) page in particular.
+Find out more on [Atata Docs](https://atata.io) and on [Getting Started](https://atata.io/getting-started/) page in particular.
 
 ### Tutorials
 
 You can also check the following tutorials:
 
 * [Atata - C# Web Test Automation Framework](https://www.codeproject.com/Articles/1158365/Atata-New-Test-Automation-Framework) - an introduction to Atata Framework.
-* [Verification of Page](https://atata-framework.github.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
-* [Verification of Validation Messages](https://atata-framework.github.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
-* [Handle Confirmation Popups](https://atata-framework.github.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
-* [Multi-Browser Configuration via Fixture Arguments](https://atata-framework.github.io/tutorials/multi-browser-configuration-via-fixture-arguments/) - how to configure multi-browser tests application using NUnit fixture arguments.
-* [Visual Studio Team Services Configuration](https://atata-framework.github.io/tutorials/vs-team-services-configuration/) - how to configure Atata test automation build on Visual Studio Team Services using any browser.
+* [Verification of Page](https://atata.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
+* [Verification of Validation Messages](https://atata.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
+* [Handle Confirmation Popups](https://atata.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
+* [Multi-Browser Configuration via Fixture Arguments](https://atata.io/tutorials/multi-browser-configuration-via-fixture-arguments/) - how to configure multi-browser tests application using NUnit fixture arguments.
+* [Visual Studio Team Services Configuration](https://atata.io/tutorials/vs-team-services-configuration/) - how to configure Atata test automation build on Visual Studio Team Services using any browser.
 
 ## Contact
 
