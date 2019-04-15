@@ -3,11 +3,23 @@ using System.Text.RegularExpressions;
 
 namespace Atata
 {
-    internal static class UriUtils
+    /// <summary>
+    /// Provides a set of methods for URI manipulations.
+    /// </summary>
+    public static class UriUtils
     {
         private static readonly Regex UrlSchemaRegex = new Regex("^[a-z]+://");
 
-        internal static bool TryCreateAbsoluteUrl(string urlString, out Uri result)
+        /// <summary>
+        /// Tries to create an absolute <see cref="Uri"/>.
+        /// </summary>
+        /// <param name="urlString">The URL string.</param>
+        /// <param name="result">The result containing constructed <see cref="Uri"/>.</param>
+        /// <returns>
+        /// A <see cref="Boolean"/> value that is <see langword="true"/> if the <see cref="Uri"/> was successfully created;
+        /// otherwise, <see langword="false"/>.
+        /// </returns>
+        public static bool TryCreateAbsoluteUrl(string urlString, out Uri result)
         {
             if (urlString != null && UrlSchemaRegex.IsMatch(urlString))
             {
@@ -20,15 +32,21 @@ namespace Atata
             }
         }
 
-        internal static Uri Concat(string baseUrl, string relativeUri)
+        /// <summary>
+        /// Concatenates the specified base URI with the relative URI.
+        /// </summary>
+        /// <param name="baseUri">The base URI.</param>
+        /// <param name="relativeUri">The relative URI.</param>
+        /// <returns>The created <see cref="Uri"/>.</returns>
+        public static Uri Concat(string baseUri, string relativeUri)
         {
-            string fullUrl = baseUrl;
+            string fullUrl = baseUri;
 
             if (!string.IsNullOrWhiteSpace(relativeUri))
             {
-                if (baseUrl.EndsWith("/") && relativeUri.StartsWith("/"))
+                if (baseUri.EndsWith("/") && relativeUri.StartsWith("/"))
                     fullUrl += relativeUri.Substring(1);
-                else if (!baseUrl.EndsWith("/") && !relativeUri.StartsWith("/"))
+                else if (!baseUri.EndsWith("/") && !relativeUri.StartsWith("/"))
                     fullUrl += "/" + relativeUri;
                 else
                     fullUrl += relativeUri;
