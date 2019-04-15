@@ -19,7 +19,7 @@ namespace Atata.Tests
             {
                 PingTestApp();
             }
-            catch
+            catch (WebException)
             {
                 RunTestApp();
             }

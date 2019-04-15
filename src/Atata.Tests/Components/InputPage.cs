@@ -10,10 +10,12 @@ namespace Atata.Tests
         [TermSettings(TermCase.Lower)]
         public enum Option
         {
+#pragma warning disable CA1712 // Do not prefix enum values with type name
             OptionA,
             OptionB,
             OptionC,
             OptionD
+#pragma warning restore CA1712 // Do not prefix enum values with type name
         }
 
         [Term(CutEnding = false)]
@@ -42,6 +44,9 @@ namespace Atata.Tests
         public FileInput<_> TransparentFileInput { get; private set; }
 
         public SearchInput<_> SearchInput { get; private set; }
+
+        [ScrollUp(TriggerEvents.BeforeAnyAction)]
+        public RadioButton<_> SomeRadio { get; private set; }
 
         public EmailInput<_> EmailInput { get; private set; }
 

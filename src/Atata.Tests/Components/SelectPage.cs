@@ -9,12 +9,14 @@ namespace Atata.Tests
         [TermSettings(TermCase.Title)]
         public enum Option
         {
+#pragma warning disable CA1712 // Do not prefix enum values with type name
             [Term("--select--")]
             None,
             OptionA,
             OptionB,
             OptionC,
             OptionD
+#pragma warning restore CA1712 // Do not prefix enum values with type name
         }
 
         [Term(CutEnding = false)]
