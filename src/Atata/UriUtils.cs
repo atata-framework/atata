@@ -16,7 +16,7 @@ namespace Atata
         /// <param name="urlString">The URL string.</param>
         /// <param name="result">The result containing constructed <see cref="Uri"/>.</param>
         /// <returns>
-        /// A <see cref="Boolean"/> value that is <see langword="true"/> if the <see cref="Uri"/> was successfully created;
+        /// A <see cref="bool"/> value that is <see langword="true"/> if the <see cref="Uri"/> was successfully created;
         /// otherwise, <see langword="false"/>.
         /// </returns>
         public static bool TryCreateAbsoluteUrl(string urlString, out Uri result)
