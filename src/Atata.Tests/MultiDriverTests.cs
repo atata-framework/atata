@@ -1,10 +1,14 @@
-﻿using NUnit.Framework;
+﻿using System;
+using FluentAssertions;
+using NUnit.Framework;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.IE;
 
 namespace Atata.Tests
 {
     [TestFixture(DriverAliases.Chrome)]
     [TestFixture(DriverAliases.InternetExplorer)]
-    public class MultiDriverTests
+    public class MultiDriverTests : UITestFixtureBase
     {
         private readonly string driverAlias;
 
@@ -16,26 +20,15 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-            AtataContext.Configure().
-#if NETCOREAPP2_0
-                UseChrome().
-                    WithFixOfCommandExecutionDelay().
-                    WithLocalDriverPath().
+            ConfigureBaseAtataContext().
                 UseInternetExplorer().
+#if NETCOREAPP2_0
                     WithFixOfCommandExecutionDelay().
                     WithLocalDriverPath().
 #endif
                 UseDriver(driverAlias).
                 UseTestName(() => $"[{driverAlias}]{TestContext.CurrentContext.Test.Name}").
-                AddNUnitTestContextLogging().
-                LogNUnitError().
                 Build();
-        }
-
-        [TearDown]
-        public void TearDown()
-        {
-            AtataContext.Current.CleanUp();
         }
 
         [TestCase(4)]
@@ -44,6 +37,22 @@ namespace Atata.Tests
         {
             AtataContext.Current.Log.Info($"Driver alias: {driverAlias}");
             AtataContext.Current.Log.Info($"Parameter value: {parameter}");
+
+            AtataContext.Current.DriverAlias.Should().Be(driverAlias);
+            AtataContext.Current.Driver.Should().BeOfType(GetDriverTypeByAlias(driverAlias));
+        }
+
+        private static Type GetDriverTypeByAlias(string driverAlias)
+        {
+            switch (driverAlias)
+            {
+                case DriverAliases.Chrome:
+                    return typeof(ChromeDriver);
+                case DriverAliases.InternetExplorer:
+                    return typeof(InternetExplorerDriver);
+                default:
+                    throw new ArgumentException($"Unexpected \"{driverAlias}\" value.", nameof(driverAlias));
+            }
         }
     }
 }
