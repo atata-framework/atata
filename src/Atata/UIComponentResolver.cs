@@ -460,13 +460,10 @@ namespace Atata
                 OuterXPath = findAttribute.OuterXPath
             };
 
-            ITermFindAttribute termFindAttribute = findAttribute as ITermFindAttribute;
-            ITermMatchFindAttribute termMatchFindAttribute = findAttribute as ITermMatchFindAttribute;
-
-            if (termFindAttribute != null)
+            if (findAttribute is ITermFindAttribute termFindAttribute)
                 options.Terms = termFindAttribute.GetTerms(metadata);
 
-            if (termMatchFindAttribute != null)
+            if (findAttribute is ITermMatchFindAttribute termMatchFindAttribute)
                 options.Match = termMatchFindAttribute.GetTermMatch(metadata);
 
             return options;
