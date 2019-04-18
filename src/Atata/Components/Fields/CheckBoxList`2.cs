@@ -87,9 +87,10 @@ namespace Atata
             if (individualValues.Any())
             {
                 throw ExceptionFactory.CreateForNoSuchElement(
-                    "Unable to locate element{0}: {1}.".FormatWith(
-                        individualValues.Count > 1 ? "s" : null,
-                        ConvertIndividualValuesToString(individualValues, true)));
+                    new SearchFailureData
+                    {
+                        ElementName = $"{ConvertIndividualValuesToString(individualValues, true)} checkbox element{(individualValues.Count > 1 ? "s" : null)} of {ComponentFullName}"
+                    });
             }
         }
 
