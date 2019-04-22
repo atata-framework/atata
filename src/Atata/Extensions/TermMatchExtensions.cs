@@ -35,6 +35,7 @@ namespace Atata
             return string.Join(" or ", values.Select(x => match.CreateXPathCondition(x, operand)));
         }
 
+        [Obsolete("Use CreateXPathCondition instead.")] // Obsolete since v1.1.0.
         public static string GetXPathOperationFormat(this TermMatch match)
         {
             switch (match)
