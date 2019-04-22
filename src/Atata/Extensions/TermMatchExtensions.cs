@@ -7,13 +7,32 @@ namespace Atata
     {
         public static string CreateXPathCondition(this TermMatch match, string value, string operand = ".")
         {
-            return CreateXPathCondition(match, new[] { value }, operand);
+            value.CheckNotNullOrEmpty(nameof(value));
+            operand.CheckNotNullOrEmpty(nameof(operand));
+
+            string valueString = XPathString.ConvertTo(value);
+
+            switch (match)
+            {
+                case TermMatch.Contains:
+                    return $"contains({operand}, {valueString})";
+                case TermMatch.Equals:
+                    return $"normalize-space({operand}) = {valueString}";
+                case TermMatch.StartsWith:
+                    return $"starts-with(normalize-space({operand}), {valueString})";
+                case TermMatch.EndsWith:
+                    return $"substring(normalize-space({operand}), string-length(normalize-space({operand})) - {value.Length - 1}) = {valueString}";
+                default:
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
+            }
         }
 
         public static string CreateXPathCondition(this TermMatch match, string[] values, string operand = ".")
         {
-            string operationFormat = match.GetXPathOperationFormat();
-            return string.Join(" or ", values.Select(x => string.Format(operationFormat, operand, x)));
+            values.CheckNotNull(nameof(values));
+            operand.CheckNotNull(nameof(operand));
+
+            return string.Join(" or ", values.Select(x => match.CreateXPathCondition(x, operand)));
         }
 
         public static string GetXPathOperationFormat(this TermMatch match)
