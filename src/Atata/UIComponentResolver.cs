@@ -298,7 +298,10 @@ namespace Atata
 
             component.ScopeSource = findAttribute.ScopeSource;
 
+            // TODO: Remove this condition when IItemsControl will be removed.
+#pragma warning disable CS0618
             if (component is IItemsControl itemsControl)
+#pragma warning restore CS0618
             {
                 IFindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
                 IItemElementFindStrategy itemElementFindStrategy = findItemAttribute.CreateStrategy(component, metadata);
@@ -440,6 +443,7 @@ namespace Atata
             return new FindFirstAttribute();
         }
 
+        // TODO: Remove this method when IItemsControl will be removed.
         private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
             return metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) ?? new FindItemByLabelAttribute();
