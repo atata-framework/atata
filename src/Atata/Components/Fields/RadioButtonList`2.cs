@@ -18,6 +18,7 @@ namespace Atata
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup")]
     [ControlFinding(FindTermBy.Name)]
+    [FindItemByLabel]
     public class RadioButtonList<T, TOwner> : OptionList<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

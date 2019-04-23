@@ -2,19 +2,18 @@
 
 namespace Atata
 {
-    public abstract class OptionList<T, TOwner> : EditableField<T, TOwner>, IItemsControl
+    public abstract class OptionList<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected OptionList()
         {
         }
 
-        protected IItemElementFindStrategy ItemElementFindStrategy { get; private set; }
+        public IFindItemAttribute FindItemAttribute
+            => Metadata.Get<IFindItemAttribute>();
 
-        void IItemsControl.Apply(IItemElementFindStrategy itemElementFindStrategy)
-        {
-            ItemElementFindStrategy = itemElementFindStrategy;
-        }
+        protected IItemElementFindStrategy ItemElementFindStrategy
+            => FindItemAttribute.CreateStrategy(this, Metadata);
 
         protected IWebElement GetItemElement(object parameter, bool isSafely = false, string xPathCondition = null)
         {
@@ -50,8 +49,7 @@ namespace Atata
         {
             base.InitValueTermOptions(termOptions, metadata);
 
-            IPropertySettings findItemAttributeAsSettings = metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) as IPropertySettings;
-            if (findItemAttributeAsSettings != null)
+            if (FindItemAttribute is IPropertySettings findItemAttributeAsSettings)
                 termOptions.MergeWith(findItemAttributeAsSettings);
         }
     }
