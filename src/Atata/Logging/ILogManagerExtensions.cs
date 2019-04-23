@@ -26,12 +26,12 @@ namespace Atata
 
         internal static void InfoWithExecutionTime(this ILogManager logger, string message, TimeSpan executionTime)
         {
-            logger.Info($"{message} {executionTime.ToIntervalString()}");
+            logger.Info($"{message} {executionTime.ToLongIntervalString()}");
         }
 
         internal static void InfoWithExecutionTimeInBrackets(this ILogManager logger, string message, TimeSpan executionTime)
         {
-            logger.Info($"{message} ({executionTime.ToIntervalString()})");
+            logger.Info($"{message} ({executionTime.ToLongIntervalString()})");
         }
     }
 }

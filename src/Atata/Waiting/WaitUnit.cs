@@ -19,7 +19,7 @@
             string untilText = GetUntilText();
             string throwWord = SearchOptions.IsSafely ? "without" : "with";
 
-            return $"{untilText} within {SearchOptions.Timeout.ToIntervalString()} {throwWord} throw on failure with {SearchOptions.RetryInterval.ToIntervalString()} retry interval";
+            return $"{untilText} within {SearchOptions.Timeout.ToShortIntervalString()} {throwWord} throw on failure with {SearchOptions.RetryInterval.ToShortIntervalString()} retry interval";
         }
 
         private string GetUntilText()

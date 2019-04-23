@@ -729,9 +729,9 @@ namespace Atata
         {
             string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
 
-            context.Log.Trace(messageFormat, "ElementFind", context.ElementFindTimeout.ToIntervalString(), context.ElementFindRetryInterval.ToIntervalString());
-            context.Log.Trace(messageFormat, "Waiting", context.WaitingTimeout.ToIntervalString(), context.WaitingRetryInterval.ToIntervalString());
-            context.Log.Trace(messageFormat, "Verification", context.VerificationTimeout.ToIntervalString(), context.VerificationRetryInterval.ToIntervalString());
+            context.Log.Trace(messageFormat, "ElementFind", context.ElementFindTimeout.ToShortIntervalString(), context.ElementFindRetryInterval.ToShortIntervalString());
+            context.Log.Trace(messageFormat, "Waiting", context.WaitingTimeout.ToShortIntervalString(), context.WaitingRetryInterval.ToShortIntervalString());
+            context.Log.Trace(messageFormat, "Verification", context.VerificationTimeout.ToShortIntervalString(), context.VerificationRetryInterval.ToShortIntervalString());
         }
 
         private static void ApplyCulture(AtataContext context, CultureInfo culture)

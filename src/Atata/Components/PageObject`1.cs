@@ -317,7 +317,7 @@ namespace Atata
 
             string predicateMessage = ControlNameExpressionStringBuilder.ExpressionToString(predicateExpression);
 
-            string actionMessage = $"Refresh page until \"{predicateMessage}\" within {timeoutTime.ToIntervalString()} with {retryIntervalTime.ToIntervalString()} retry interval";
+            string actionMessage = $"Refresh page until \"{predicateMessage}\" within {timeoutTime.ToShortIntervalString()} with {retryIntervalTime.ToShortIntervalString()} retry interval";
             AtataContext.Current.Log.Start(actionMessage);
 
             bool isOk = Driver.
@@ -329,7 +329,7 @@ namespace Atata
                 });
 
             if (!isOk)
-                throw new TimeoutException($"Timed out after {timeoutTime.ToIntervalString()} waiting for: {actionMessage.ToLowerFirstLetter()}.");
+                throw new TimeoutException($"Timed out after {timeoutTime.ToShortIntervalString()} waiting for: {actionMessage.ToLowerFirstLetter()}.");
 
             AtataContext.Current.Log.EndSection();
 
