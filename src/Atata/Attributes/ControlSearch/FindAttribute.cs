@@ -11,13 +11,10 @@ namespace Atata
     public abstract class FindAttribute : Attribute, IPropertySettings
     {
         private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> findSettingsGetter;
-        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> findSettingsByFindAttributeGetter;
 
         protected FindAttribute()
         {
             findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));
-
-            findSettingsByFindAttributeGetter = md => md.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));
         }
 
         public PropertyBag Properties { get; } = new PropertyBag();
@@ -114,7 +111,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(Strategy),
                     DefaultStrategy,
-                    findSettingsByFindAttributeGetter);
+                    findSettingsGetter);
             }
 
             set
