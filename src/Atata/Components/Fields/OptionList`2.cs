@@ -31,7 +31,13 @@ namespace Atata
 
         protected IWebElement[] GetItemElements()
         {
-            return ScopeLocator.GetElements();
+            IWebElement[] elements = ScopeLocator.GetElements();
+
+            // TODO: Review to throw more detailed exception.
+            if (elements.Length == 0)
+                throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
+
+            return elements;
         }
 
         protected T GetElementValue(IWebElement element)
