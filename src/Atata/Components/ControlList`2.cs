@@ -235,6 +235,10 @@ namespace Atata
         protected TItem CreateItem(IScopeLocator scopeLocator, string name)
         {
             TItem item = CreateItem(name);
+
+            if (scopeLocator is ControlListScopeLocator controlListScopeLocator)
+                controlListScopeLocator.ElementName = item.ComponentFullName;
+
             item.ScopeLocator = scopeLocator;
 
             return item;

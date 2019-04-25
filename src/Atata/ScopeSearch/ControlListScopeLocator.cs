@@ -14,6 +14,8 @@ namespace Atata
             this.predicate = predicate;
         }
 
+        public string ElementName { get; set; }
+
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? new SearchOptions();
@@ -24,9 +26,18 @@ namespace Atata
             });
 
             if (element == null && !searchOptions.IsSafely)
-                throw ExceptionFactory.CreateForNoSuchElement();
+            {
+                throw ExceptionFactory.CreateForNoSuchElement(
+                    new SearchFailureData
+                    {
+                        ElementName = ElementName,
+                        SearchOptions = searchOptions
+                    });
+            }
             else
+            {
                 return element;
+            }
         }
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
@@ -49,9 +60,18 @@ namespace Atata
             });
 
             if (!isMissing && !searchOptions.IsSafely)
-                throw ExceptionFactory.CreateForNotMissingElement();
+            {
+                throw ExceptionFactory.CreateForNotMissingElement(
+                    new SearchFailureData
+                    {
+                        ElementName = ElementName,
+                        SearchOptions = searchOptions
+                    });
+            }
             else
+            {
                 return isMissing;
+            }
         }
     }
 }
