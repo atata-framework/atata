@@ -26,10 +26,21 @@ namespace Atata
             if (xPathResults != null && xPathResults.Any())
             {
                 IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).FirstOrDefault(x => x != null);
+
                 if (element == null && !searchOptions.IsSafely)
-                    throw ExceptionFactory.CreateForNoSuchElement(by: By.XPath(xPathResults.First().XPath + xPathCondition));
+                {
+                    throw ExceptionFactory.CreateForNoSuchElement(
+                        new SearchFailureData
+                        {
+                            ElementName = component.ComponentFullName,
+                            By = By.XPath(xPathResults.First().XPath + xPathCondition),
+                            SearchOptions = searchOptions
+                        });
+                }
                 else
+                {
                     return element;
+                }
             }
             else
             {
@@ -70,9 +81,18 @@ namespace Atata
             });
 
             if (!searchOptions.IsSafely && !isMissing)
-                throw ExceptionFactory.CreateForNotMissingElement(component.ComponentFullName);
+            {
+                throw ExceptionFactory.CreateForNotMissingElement(
+                    new SearchFailureData
+                    {
+                        ElementName = component.ComponentFullName,
+                        SearchOptions = searchOptions
+                    });
+            }
             else
+            {
                 return isMissing;
+            }
         }
 
         private SearchOptions ResolveSearchOptions(SearchOptions searchOptions)
@@ -128,11 +148,24 @@ namespace Atata
                         ToArray();
 
                     if (results.Any())
+                    {
                         return results;
+                    }
                     else if (searchOptions.IsSafely)
+                    {
                         return new XPathComponentScopeLocateResult[0];
+                    }
                     else
-                        throw ExceptionFactory.CreateForNoSuchElement(by: sequalResult.ScopeSourceBy);
+                    {
+                        throw ExceptionFactory.CreateForNoSuchElement(
+                            new SearchFailureData
+                            {
+                                ElementName = component.ComponentFullName,
+                                By = sequalResult.ScopeSourceBy,
+                                SearchOptions = searchOptions,
+                                SearchContext = scopeSource
+                            });
+                    }
                 }
             }
 
