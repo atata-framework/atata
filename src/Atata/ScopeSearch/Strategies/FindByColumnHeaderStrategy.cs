@@ -46,9 +46,19 @@ namespace Atata
             if (columnIndex == null)
             {
                 if (searchOptions.IsSafely)
+                {
                     return new MissingComponentScopeLocateResult();
+                }
                 else
-                    throw ExceptionFactory.CreateForNoSuchElement(options.GetTermsAsString(), searchContext: scope);
+                {
+                    throw ExceptionFactory.CreateForNoSuchElement(
+                        new SearchFailureData
+                        {
+                            ElementName = $"\"{options.GetTermsAsString()}\" column header",
+                            SearchOptions = searchOptions,
+                            SearchContext = scope
+                        });
+                }
             }
 
             IComponentScopeLocateStrategy nextStrategy = CreateColumnIndexStrategy(columnIndex.Value);
