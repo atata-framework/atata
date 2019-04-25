@@ -12,12 +12,7 @@ namespace Atata
             IWebElement label = scope.Get(By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
 
             if (label == null)
-            {
-                if (searchOptions.IsSafely)
-                    return new MissingComponentScopeLocateResult();
-                else
-                    throw ExceptionFactory.CreateForNoSuchElement(options.GetTermsAsString(), searchContext: scope);
-            }
+                return new MissingComponentScopeLocateResult();
 
             string elementId = label.GetAttribute("for");
             IdXPathForLabelAttribute idXPathForLabelAttribute;
