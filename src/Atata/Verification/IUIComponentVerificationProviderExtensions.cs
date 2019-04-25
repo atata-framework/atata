@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -115,13 +116,24 @@ namespace Atata
             AtataContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} {expectedMessage}"));
 
             IEnumerable<TData> actualIndividualValues = null;
+            Exception exception = null;
 
             bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
                 _ =>
                 {
-                    actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
-                    int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
-                    return should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
+                    try
+                    {
+                        actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
+                        int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
+                        bool result = should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
+                        exception = null;
+                        return result;
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e;
+                        return false;
+                    }
                 },
                 should.GetRetryOptions());
 
@@ -129,7 +141,8 @@ namespace Atata
             {
                 throw should.CreateAssertionException(
                     expectedMessage,
-                    should.Component.ConvertIndividualValuesToString(actualIndividualValues, true));
+                    should.Component.ConvertIndividualValuesToString(actualIndividualValues, true),
+                    exception);
             }
 
             AtataContext.Current.Log.EndSection();
