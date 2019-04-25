@@ -19,9 +19,20 @@ namespace Atata
                 if (elements.Count <= options.Index.Value)
                 {
                     if (searchOptions.IsSafely)
+                    {
                         return new MissingComponentScopeLocateResult();
+                    }
                     else
-                        throw ExceptionFactory.CreateForNoSuchElement(by: by, searchContext: scope);
+                    {
+                        throw ExceptionFactory.CreateForNoSuchElement(
+                            new SearchFailureData
+                            {
+                                ElementName = $"{(options.Index.Value + 1).Ordinalize()} matching selector",
+                                By = by,
+                                SearchOptions = searchOptions,
+                                SearchContext = scope
+                            });
+                    }
                 }
                 else
                 {
