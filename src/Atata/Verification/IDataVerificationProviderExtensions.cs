@@ -23,17 +23,31 @@ namespace Atata
             AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
             TData actual = default(TData);
+            Exception exception = null;
 
             bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
                 _ =>
                 {
-                    actual = should.DataProvider.Value;
-                    return predicate(actual) != should.IsNegation;
+                    try
+                    {
+                        actual = should.DataProvider.Value;
+                        bool result = predicate(actual) != should.IsNegation;
+                        exception = null;
+                        return result;
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e;
+                        return false;
+                    }
                 },
                 should.GetRetryOptions());
 
             if (!doesSatisfy)
-                throw CreateAssertionException(should, actual, message, args);
+            {
+                string expectedMessage = BuildExpectedMessage(message, args?.Cast<object>().ToArray());
+                throw should.CreateAssertionException(expectedMessage, ObjectToString(actual), exception);
+            }
 
             AtataContext.Current.Log.EndSection();
 
@@ -52,17 +66,28 @@ namespace Atata
             AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
             IEnumerable<TData> actual = null;
+            Exception exception = null;
 
             bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
                 _ =>
                 {
-                    actual = should.DataProvider.Value?.Select(x => x.Value).ToArray();
-                    return predicate(actual) != should.IsNegation;
+                    try
+                    {
+                        actual = should.DataProvider.Value?.Select(x => x.Value).ToArray();
+                        bool result = predicate(actual) != should.IsNegation;
+                        exception = null;
+                        return result;
+                    }
+                    catch (Exception e)
+                    {
+                        exception = e;
+                        return false;
+                    }
                 },
                 should.GetRetryOptions());
 
             if (!doesSatisfy)
-                throw should.CreateAssertionException(expectedMessage, CollectionToString(actual));
+                throw should.CreateAssertionException(expectedMessage, CollectionToString(actual), exception);
 
             AtataContext.Current.Log.EndSection();
 
@@ -97,35 +122,36 @@ namespace Atata
             }
         }
 
-        private static Exception CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, TData actual, string message, params TData[] args)
-            where TOwner : PageObject<TOwner>
+        private static string BuildExpectedMessage(string message, object[] args)
         {
-            string formattedMessage = args != null && args.Any()
+            return args != null && args.Any()
                 ? message.FormatWith(args.Select(x => ObjectToString(x)).ToArray())
                 : message;
-
-            return should.CreateAssertionException(formattedMessage, ObjectToString(actual));
         }
 
-        internal static Exception CreateAssertionException<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
+        internal static Exception CreateAssertionException<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, string expected, string actual, Exception exception)
             where TOwner : PageObject<TOwner>
         {
-            string errorMessage = new StringBuilder().
-                AppendLine($"Invalid {should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
-                AppendLine($"Expected: {should.GetShouldText()} {expected}").
-                AppendLine($"Actual: {actual}").
-                ToString();
+            StringBuilder builder = new StringBuilder().
+                Append($"Invalid {should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
+                AppendLine().
+                Append($"Expected: {should.GetShouldText()} {expected}");
+
+            if (exception == null)
+                builder.AppendLine().Append($"Actual: {actual}");
+
+            string errorMessage = builder.ToString();
 
             var exceptionType = AtataContext.Current.AssertionExceptionType;
 
             return exceptionType != null
-                ? (Exception)Activator.CreateInstance(exceptionType, errorMessage)
-                : new AssertionException(errorMessage);
+                ? (Exception)Activator.CreateInstance(exceptionType, errorMessage, exception)
+                : new AssertionException(errorMessage, exception);
         }
 
         private static string CollectionToString(IEnumerable collection)
         {
-            return CollectionToString(collection.Cast<object>());
+            return CollectionToString(collection?.Cast<object>());
         }
 
         private static string CollectionToString(IEnumerable<object> collection)
