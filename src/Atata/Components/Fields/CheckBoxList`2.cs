@@ -152,9 +152,9 @@ namespace Atata
 
         protected internal string ConvertIndividualValuesToString(IEnumerable<T> values, bool wrapWithDoubleQuotes)
         {
-            string[] stringValues = values.Select(x => TermResolver.ToString(x, ValueTermOptions)).ToArray();
+            string[] stringValues = values?.Select(x => TermResolver.ToString(x, ValueTermOptions)).ToArray();
 
-            if (stringValues.Length == 0)
+            if (stringValues == null || stringValues.Length == 0)
                 return "<none>";
             else if (wrapWithDoubleQuotes)
                 return stringValues.ToQuotedValuesListOfString(doubleQuotes: true);
