@@ -122,8 +122,16 @@ namespace Atata
             ExecuteTriggers(TriggerEvents.BeforeAccess);
 
             IWebElement element = ScopeLocator.GetElement(searchOptions);
+
             if (!searchOptions.IsSafely && element == null)
-                throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
+            {
+                throw ExceptionFactory.CreateForNoSuchElement(
+                    new SearchFailureData
+                    {
+                        ElementName = ComponentFullName,
+                        SearchOptions = searchOptions
+                    });
+            }
 
             ExecuteTriggers(TriggerEvents.AfterAccess);
 
