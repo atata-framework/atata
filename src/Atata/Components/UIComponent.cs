@@ -42,9 +42,9 @@ namespace Atata
         protected internal bool CacheScopeElement { get; set; }
 
         /// <summary>
-        /// Gets the name of the component.
+        /// Gets or sets the name of the component.
         /// </summary>
-        public string ComponentName { get; internal set; }
+        public string ComponentName { get; set; }
 
         /// <summary>
         /// Gets the name of the component type.

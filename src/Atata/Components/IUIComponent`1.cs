@@ -48,9 +48,9 @@ namespace Atata
         IScopeLocator ScopeLocator { get; }
 
         /// <summary>
-        /// Gets the name of the component.
+        /// Gets or sets the name of the component.
         /// </summary>
-        string ComponentName { get; }
+        string ComponentName { get; set; }
 
         /// <summary>
         /// Gets the name of the component type.
