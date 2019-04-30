@@ -30,12 +30,12 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the current context.
+        /// Gets or sets the current context.
         /// </summary>
         public static AtataContext Current
         {
             get => isThreadStatic ? currentThreadStaticContext : currentStaticContext;
-            internal set
+            set
             {
                 if (isThreadStatic)
                     currentThreadStaticContext = value;
