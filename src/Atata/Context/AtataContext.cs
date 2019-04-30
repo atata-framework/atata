@@ -95,6 +95,7 @@ namespace Atata
             {
                 return testName;
             }
+
             internal set
             {
                 testName = value;
