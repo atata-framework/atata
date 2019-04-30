@@ -4,9 +4,13 @@ using System.Reflection;
 
 namespace Atata
 {
-    internal static class ActivatorEx
+    /// <summary>
+    /// Contains methods to create types of objects.
+    /// To create an instance uses type's parameterless constructor or constructor containing only optional arguments.
+    /// </summary>
+    public static class ActivatorEx
     {
-        internal static T CreateInstance<T>(string typeName)
+        public static T CreateInstance<T>(string typeName)
         {
             typeName.CheckNotNullOrEmpty(nameof(typeName));
 
@@ -15,12 +19,12 @@ namespace Atata
             return CreateInstance<T>(type);
         }
 
-        internal static T CreateInstance<T>(Type type = null)
+        public static T CreateInstance<T>(Type type = null)
         {
             return (T)CreateInstance(type ?? typeof(T));
         }
 
-        internal static object CreateInstance(Type type)
+        public static object CreateInstance(Type type)
         {
             var constructorData = type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance).
                 Select(x => new { Constructor = x, Parameters = x.GetParameters() }).
