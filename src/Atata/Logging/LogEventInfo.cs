@@ -12,6 +12,7 @@ namespace Atata
             Timestamp = DateTime.Now;
             BuildStart = AtataContext.BuildStart ?? DateTime.MinValue;
             TestName = AtataContext.Current?.TestName;
+            TestNameSanitized = AtataContext.Current?.TestNameSanitized;
             TestStart = AtataContext.Current?.TestStart ?? DateTime.MinValue;
             DriverAlias = AtataContext.Current?.DriverAlias;
         }
@@ -56,6 +57,11 @@ namespace Atata
         /// Gets the name of the test.
         /// </summary>
         public string TestName { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the test sanitized for file path/name.
+        /// </summary>
+        public string TestNameSanitized { get; private set; }
 
         /// <summary>
         /// Gets the test start date and time.

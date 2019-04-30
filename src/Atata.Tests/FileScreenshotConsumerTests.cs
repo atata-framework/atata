@@ -25,7 +25,7 @@ namespace Atata.Tests
         public void FileScreenshotConsumer_FolderPath_Relative()
         {
             consumerBuilder.
-                WithFolderPath(@"TestLogs\{build-start}\{test-name}").
+                WithFolderPath(@"TestLogs\{build-start}\{test-name-sanitized}").
                 Build();
 
             Go.To<BasicControlsPage>();
@@ -47,7 +47,7 @@ namespace Atata.Tests
         public void FileScreenshotConsumer_FolderPath_Absolute()
         {
             consumerBuilder.
-                WithFolderPath(@"C:\TestLogs\{build-start}\{test-name}").
+                WithFolderPath(@"C:\TestLogs\{build-start}\{test-name-sanitized}").
                 Build();
 
             Go.To<BasicControlsPage>();
@@ -111,10 +111,34 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void FileScreenshotConsumer_FileName_Sanitizing()
+        {
+            consumerBuilder.
+                UseTestName("FileScreenshotConsumer_File\"Name\\_/Sanitizing").
+                Build();
+
+            Go.To<BasicControlsPage>();
+
+            AtataContext.Current.Log.Screenshot();
+            AtataContext.Current.Log.Screenshot("Some\\ /:title");
+
+            string folderPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Logs",
+                AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
+                nameof(FileScreenshotConsumer_FileName_Sanitizing));
+
+            foldersToDelete.Add(folderPath);
+
+            FileAssert.Exists(Path.Combine(folderPath, "01 - Basic Controls page.png"));
+            FileAssert.Exists(Path.Combine(folderPath, "02 - Basic Controls page - Some title.png"));
+        }
+
+        [Test]
         public void FileScreenshotConsumer_FilePath()
         {
             consumerBuilder.
-                WithFilePath(@"TestLogs\{build-start}\Test {test-name}\{screenshot-number:d2}{screenshot-title: - *}").
+                WithFilePath(@"TestLogs\{build-start}\Test {test-name-sanitized}\{screenshot-number:d2}{screenshot-title: - *}").
                 Build();
 
             Go.To<BasicControlsPage>();

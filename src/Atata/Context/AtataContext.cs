@@ -21,6 +21,8 @@ namespace Atata
 
         private static AtataContext currentStaticContext;
 
+        private string testName;
+
         private bool disposed;
 
         internal AtataContext()
@@ -87,7 +89,23 @@ namespace Atata
         /// <summary>
         /// Gets the name of the test.
         /// </summary>
-        public string TestName { get; internal set; }
+        public string TestName
+        {
+            get
+            {
+                return testName;
+            }
+            internal set
+            {
+                testName = value;
+                TestNameSanitized = value.SanitizeForFileName();
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the test sanitized for file path/name.
+        /// </summary>
+        public string TestNameSanitized { get; private set; }
 
         /// <summary>
         /// Gets the test start date and time.

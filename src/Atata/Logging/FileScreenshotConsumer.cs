@@ -7,11 +7,11 @@ namespace Atata
 {
     /// <summary>
     /// Represents the screenshot consumer that saves the screenshot to the file.
-    /// By default uses <c>"Logs\{build-start}\{test-name}"</c> as folder path format,
+    /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as folder path format,
     /// <c>"{screenshot-number:D2} - {screenshot-pageobjectfullname}{screenshot-title: - *}"</c> as file name format
     /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
     /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
-    /// Available path variables: <c>{build-start}</c>, <c>{test-name}</c>, <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>, <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>, <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
+    /// Available path variables: <c>{build-start}</c>, <c>{test-name}</c>, <c>{test-name-sanitized}</c>, <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>, <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>, <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
     /// Path variables support the formatting.
     /// </summary>
     /// <seealso cref="IScreenshotConsumer" />
@@ -26,6 +26,7 @@ namespace Atata
         {
             ["build-start"] = scr => AtataContext.BuildStart,
 
+            ["test-name-sanitized"] = scr => AtataContext.Current.TestNameSanitized,
             ["test-name"] = scr => AtataContext.Current.TestName,
             ["test-start"] = scr => AtataContext.Current.TestStart,
 
@@ -103,7 +104,7 @@ namespace Atata
             string folderPath = FolderPathBuilder?.Invoke()
                 ?? (!string.IsNullOrWhiteSpace(FolderPath)
                     ? FormatPath(FolderPath, screenshotInfo)
-                    : $@"Logs\{AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat)}\{AtataContext.Current.TestName}");
+                    : $@"Logs\{AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat)}\{AtataContext.Current.TestNameSanitized}");
 
             folderPath = folderPath.SanitizeForPath();
 
