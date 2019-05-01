@@ -18,7 +18,7 @@ namespace Atata
         /// </summary>
         public Type TargetAttributeType
         {
-            get { return TargetAttributeTypes?.SingleOrDefault(); }
+            get { return TargetAttributeTypes?.FirstOrDefault(); }
             set { TargetAttributeTypes = value == null ? null : new[] { value }; }
         }
 
