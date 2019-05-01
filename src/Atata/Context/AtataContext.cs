@@ -194,7 +194,10 @@ namespace Atata
 
         internal List<Action<RemoteWebDriver>> OnDriverCreatedActions { get; set; }
 
-        internal List<Action> CleanUpActions { get; set; }
+        /// <summary>
+        /// Gets the list of actions to perform during <see cref="AtataContext"/> cleanup.
+        /// </summary>
+        public List<Action> CleanUpActions { get; internal set; }
 
         public UIComponent PageObject { get; internal set; }
 
