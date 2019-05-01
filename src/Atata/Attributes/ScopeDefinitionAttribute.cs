@@ -30,7 +30,7 @@ namespace Atata
         /// </summary>
         public string ContainingClass
         {
-            get => ContainingClasses?.SingleOrDefault();
+            get => ContainingClasses?.FirstOrDefault();
             set => ContainingClasses = value == null ? null : new[] { value };
         }
 
