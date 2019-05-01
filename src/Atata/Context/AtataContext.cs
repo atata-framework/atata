@@ -114,9 +114,9 @@ namespace Atata
         public DateTime TestStart { get; private set; } = DateTime.Now;
 
         /// <summary>
-        /// Gets the base URL.
+        /// Gets or sets the base URL.
         /// </summary>
-        public string BaseUrl { get; internal set; }
+        public string BaseUrl { get; set; }
 
         /// <summary>
         /// Gets the base retry timeout.
