@@ -258,7 +258,7 @@ namespace Atata
         /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
         public DataProvider<IEnumerable<TData>, TOwner> SelectData<TData>(Expression<Func<TItem, TData>> selector)
         {
-            string dataPathName = ControlNameExpressionStringBuilder.ExpressionToString(selector);
+            string dataPathName = ObjectExpressionStringBuilder.ExpressionToString(selector);
 
             return Component.GetOrCreateDataProvider(
                 $"\"{dataPathName}\" {ProviderName}",

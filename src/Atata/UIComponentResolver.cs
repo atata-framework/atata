@@ -581,7 +581,7 @@ namespace Atata
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return ControlNameExpressionStringBuilder.ExpressionToString(predicateExpression);
+            return ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
         }
 
         private static string NormalizeTypeName(Type type)

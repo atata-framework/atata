@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Atata
 {
-    internal class ExpressionStringBuilder : ExpressionVisitor
+    public class ExpressionStringBuilder : ExpressionVisitor
     {
         private readonly StringBuilder builder;
 
