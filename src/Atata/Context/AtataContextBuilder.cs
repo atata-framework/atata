@@ -88,6 +88,18 @@ namespace Atata
         }
 
         /// <summary>
+        /// Use specified driver instance.
+        /// </summary>
+        /// <param name="driver">The driver to use.</param>
+        /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
+        public CustomDriverAtataContextBuilder UseDriver(RemoteWebDriver driver)
+        {
+            driver.CheckNotNull(nameof(driver));
+
+            return UseDriver(() => driver);
+        }
+
+        /// <summary>
         /// Use custom driver factory method.
         /// </summary>
         /// <param name="driverFactory">The driver factory method.</param>
