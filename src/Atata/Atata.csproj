@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
@@ -12,7 +12,7 @@
 Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
 
 Atata on GitHub: https://github.com/atata-framework/atata
-Atata Framework documentation: https://atata-framework.github.io
+Atata Framework documentation: https://atata.io
 
 Features:
 - WebDriver. Based on Selenium WebDriver and preserves all its features.
@@ -26,16 +26,16 @@ Features:
 - Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components. Framework supports any kind of extending.</Description>
     <Copyright>© Yevgeniy Shunevych 2019</Copyright>
     <PackageLicenseUrl>https://raw.githubusercontent.com/atata-framework/atata/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://atata-framework.github.io</PackageProjectUrl>
+    <PackageProjectUrl>https://atata.io</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo_68.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>1.0.0 - https://atata-framework.github.io/blog/2018/10/15/atata-1.0.0-released/
-0.17.0 - https://atata-framework.github.io/blog/2018/05/31/atata-0.17.0-released/
-0.16.0 - https://atata-framework.github.io/blog/2017/12/18/atata-0.16.0-released/
-0.15.0 - https://atata-framework.github.io/blog/2017/10/12/atata-0.15.0-released/
-0.14.0 - https://atata-framework.github.io/blog/2017/09/22/atata-0.14.0-released/
-0.13.0 - https://atata-framework.github.io/blog/2017/06/27/atata-0.13.0-released/
+    <PackageReleaseNotes>1.0.0 - https://atata.io/blog/2018/10/15/atata-1.0.0-released/
+0.17.0 - https://atata.io/blog/2018/05/31/atata-0.17.0-released/
+0.16.0 - https://atata.io/blog/2017/12/18/atata-0.16.0-released/
+0.15.0 - https://atata.io/blog/2017/10/12/atata-0.15.0-released/
+0.14.0 - https://atata.io/blog/2017/09/22/atata-0.14.0-released/
+0.13.0 - https://atata.io/blog/2017/06/27/atata-0.13.0-released/
 0.12.0 - https://github.com/atata-framework/atata/releases/tag/v0.12.0
 0.11.4 - https://github.com/atata-framework/atata/releases/tag/v0.11.4
 0.11.3 - https://github.com/atata-framework/atata/releases/tag/v0.11.3
