@@ -5,6 +5,8 @@ namespace Atata.Tests
 {
     public class ControlTests : UITestFixture
     {
+        protected override bool ReuseDriver => false;
+
         [Test]
         public void Control_DragAndDrop_UsingDomEvents()
         {

@@ -4,6 +4,8 @@ namespace Atata.Tests
 {
     public class AtataContextTests : UITestFixture
     {
+        protected override bool ReuseDriver => false;
+
         [Test]
         public void AtataContext_RestartDriver()
         {
