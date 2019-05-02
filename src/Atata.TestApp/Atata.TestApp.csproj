@@ -12,16 +12,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\BasicControls.cshtml" />
-    <Content Remove="Pages\CheckBoxList.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Pages\BasicControls.cshtml" />
-    <None Include="Pages\CheckBoxList.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="1.0.172" />
   </ItemGroup>
