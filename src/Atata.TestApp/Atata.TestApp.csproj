@@ -2,13 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
+    <IsPackable>false</IsPackable>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Copyright>© Yevgeniy Shunevych 2019</Copyright>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/atata-framework/atata/master/LICENSE</PackageLicenseUrl>
-    <PackageProjectUrl>https://github.com/atata-framework/atata</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
