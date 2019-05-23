@@ -29,6 +29,11 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets the verification provider that gives a set of verification extension methods.
+        /// </summary>
+        public new PageObjectVerificationProvider<TOwner> Should => new PageObjectVerificationProvider<TOwner>((TOwner)this);
+
+        /// <summary>
         /// Gets a value indicating whether the navigation should be performed upon initialization.
         /// </summary>
         protected internal bool NavigateOnInit { get; internal set; }
