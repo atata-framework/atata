@@ -91,8 +91,17 @@ namespace Atata.Tests
         [Test]
         public void RadioButtonList_String_FindItemByParentContentAttribute()
         {
-            var control = page.TextInParentItems;
+            VerifyRegularStringBasedRadioButtonList(page.TextInParentItems);
+        }
 
+        [Test]
+        public void RadioButtonList_String_FindItemByFollowingSiblingContentAttribute()
+        {
+            VerifyRegularStringBasedRadioButtonList(page.TextInFollowingSiblingItems);
+        }
+
+        private void VerifyRegularStringBasedRadioButtonList(RadioButtonList<string, RadioButtonListPage> control)
+        {
             control.Should.BeNull();
 
             SetAndVerifyValues(control, "Option B", "Option C");

@@ -54,6 +54,10 @@ namespace Atata.Tests
         [FindItemByParentContent]
         public RadioButtonList<string, _> TextInParentItems { get; private set; }
 
+        [FindById]
+        [FindItemByFollowingSiblingContent]
+        public RadioButtonList<string, _> TextInFollowingSiblingItems { get; private set; }
+
         [FindByName(TermCase.Kebab)]
         [FindItemByLabel]
         public RadioButtonList<string, _> VerticalItems { get; private set; }
