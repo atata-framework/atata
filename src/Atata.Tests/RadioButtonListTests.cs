@@ -87,5 +87,21 @@ namespace Atata.Tests
             Assert.Throws<ArgumentNullException>(() =>
                 page.VerticalItems.Set(null));
         }
+
+        [Test]
+        public void RadioButtonList_String_FindItemByParentContentAttribute()
+        {
+            var control = page.TextInParentItems;
+
+            control.Should.BeNull();
+
+            SetAndVerifyValues(control, "Option B", "Option C");
+
+            Assert.Throws<NoSuchElementException>(() =>
+                control.Set("Option Z"));
+
+            Assert.Throws<ArgumentNullException>(() =>
+                control.Set(null));
+        }
     }
 }

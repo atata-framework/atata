@@ -50,6 +50,10 @@ namespace Atata.Tests
         [Format("C")]
         public RadioButtonList<decimal?, _> DecimalItems { get; private set; }
 
+        [FindById]
+        [FindItemByParentContent]
+        public RadioButtonList<string, _> TextInParentItems { get; private set; }
+
         [FindByName(TermCase.Kebab)]
         [FindItemByLabel]
         public RadioButtonList<string, _> VerticalItems { get; private set; }
