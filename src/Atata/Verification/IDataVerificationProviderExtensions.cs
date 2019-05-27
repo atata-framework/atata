@@ -480,6 +480,12 @@ namespace Atata
                 $"equal sequence {CollectionToString(expected)}");
         }
 
+        public static TOwner ContainSingle<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Count() == 1, $"contain single item");
+        }
+
         public static TOwner ContainSingle<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, TData expected)
             where TOwner : PageObject<TOwner>
         {
