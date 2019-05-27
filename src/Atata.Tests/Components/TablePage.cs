@@ -26,6 +26,9 @@ namespace Atata.Tests
         [FindByIndex(1)]
         public Table<CountryByColumnIndexTableRow, _> CountryByColumnIndexTable { get; private set; }
 
+        [FindById(CutEnding = false)]
+        public Table<SingleItemTableRow, _> SingleItemTable { get; private set; }
+
         [FindByInnerXPath(".//th[.='Name'] and .//th[.='Description']")]
         public Table<EmptyTableRow, _> EmptyTable { get; private set; }
 
@@ -60,6 +63,13 @@ namespace Atata.Tests
 
             [FindByColumnIndex(1)]
             public Text<_> CapitalName { get; private set; }
+        }
+
+        public class SingleItemTableRow : TableRow<_>
+        {
+            public Text<_> Key { get; private set; }
+
+            public Text<_> Value { get; private set; }
         }
 
         public class EmptyTableRow : TableRow<_>

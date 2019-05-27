@@ -50,6 +50,35 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Should_ContainSingle_Equal_FromOne()
+        {
+            var should = Go.To<TablePage>().
+                SingleItemTable.Rows.SelectData(x => x.Key).Should.AtOnce;
+
+            should.ContainSingle("Some item");
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainSingle("Another item"));
+
+            should.Not.ContainSingle("Another item");
+
+            Assert.Throws<AssertionException>(() =>
+                should.Not.ContainSingle("Some item"));
+        }
+
+        [Test]
+        public void Should_ContainSingle_Equal_FromMany()
+        {
+            var should = Go.To<TablePage>().
+                CountryTable.Rows.SelectData(x => x.Country).Should.AtOnce;
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainSingle(Country1Name));
+
+            should.Not.ContainSingle(Country1Name);
+        }
+
+        [Test]
         public void Should_Contain()
         {
             var should = Go.To<TablePage>().
