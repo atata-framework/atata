@@ -103,6 +103,49 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Should_ContainSingle_Predicate_FromOne()
+        {
+            var should = Go.To<TablePage>().
+                SingleItemTable.Rows.Should.AtOnce;
+
+            should.ContainSingle(x => x.Key == "Some item");
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainSingle(x => x.Key == "Another item"));
+
+            should.Not.ContainSingle(x => x.Key == "Another item");
+
+            Assert.Throws<AssertionException>(() =>
+                should.Not.ContainSingle(x => x.Key == "Some item"));
+        }
+
+        [Test]
+        public void Should_ContainSingle_Predicate_FromMany_Single()
+        {
+            var should = Go.To<TablePage>().
+                CountryTable.Rows.Should.AtOnce;
+
+            should.ContainSingle(x => x.Country == Country1Name);
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainSingle(x => x.Country == MissingCountryName));
+
+            should.Not.ContainSingle(x => x.Country == MissingCountryName);
+        }
+
+        [Test]
+        public void Should_ContainSingle_Predicate_FromMany_Duplicate()
+        {
+            var should = Go.To<TablePage>().
+                DuplicateItemsTable.Rows.Should.AtOnce;
+
+            should.Not.ContainSingle(x => x.Key == "Some item");
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainSingle(x => x.Key == "Some item"));
+        }
+
+        [Test]
         public void Should_Contain()
         {
             var should = Go.To<TablePage>().

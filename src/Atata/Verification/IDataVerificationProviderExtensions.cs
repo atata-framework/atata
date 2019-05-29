@@ -502,6 +502,25 @@ namespace Atata
                 $"contain single {ObjectToString(expected)}");
         }
 
+        /// <summary>
+        /// Verifies that collection contains a single item matching <paramref name="predicateExpression"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="predicateExpression">The predicate expression.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainSingle<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, Expression<Func<TItem, bool>> predicateExpression)
+            where TOwner : PageObject<TOwner>
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+            string expressionAsText = ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
+
+            return should.Satisfy(
+                actual => actual != null && actual.Count(predicate) == 1,
+                $"contain single \"{expressionAsText}\" {GetObjectTypeName(typeof(TItem))}");
+        }
+
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
             where TOwner : PageObject<TOwner>
         {
@@ -581,6 +600,13 @@ namespace Atata
                         : expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
                 },
                 $"contain having content that {match.ToString(TermCase.MidSentence)} {CollectionToString(expected)}");
+        }
+
+        private static string GetObjectTypeName(Type type)
+        {
+            return type.IsInheritedFromOrIs(typeof(Control<>))
+                ? UIComponentResolver.ResolveControlTypeName(type)
+                : "item";
         }
     }
 }
