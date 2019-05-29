@@ -490,7 +490,7 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             return should.Satisfy(
-                actual => actual != null && actual.SequenceEqual(new[] { expected }),
+                actual => actual != null && actual.Count(x => Equals(x, expected)) == 1,
                 $"contain single {ObjectToString(expected)}");
         }
 
@@ -498,7 +498,7 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             return should.Satisfy(
-                actual => actual != null && actual.SequenceEqual(new[] { expected }),
+                actual => actual != null && actual.Count((TData x) => Equals(x, expected)) == 1,
                 $"contain single {ObjectToString(expected)}");
         }
 
