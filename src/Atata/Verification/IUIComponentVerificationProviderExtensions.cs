@@ -139,7 +139,8 @@ namespace Atata
 
             if (!doesSatisfy)
             {
-                throw should.CreateAssertionException(
+                throw VerificationUtils.CreateAssertionException(
+                    should,
                     expectedMessage,
                     should.Component.ConvertIndividualValuesToString(actualIndividualValues, true),
                     exception);

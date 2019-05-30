@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,15 +9,13 @@ namespace Atata
 {
     public static class IDataVerificationProviderExtensions
     {
-        private const string NullString = "null";
-
         public static TOwner Satisfy<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, Predicate<TData> predicate, string message, params TData[] args)
             where TOwner : PageObject<TOwner>
         {
             should.CheckNotNull(nameof(should));
             predicate.CheckNotNull(nameof(predicate));
 
-            string verificationConstraintMessage = BuildVerificationConstraintMessage(should, message, args);
+            string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(should, message, args);
 
             AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
@@ -45,8 +42,8 @@ namespace Atata
 
             if (!doesSatisfy)
             {
-                string expectedMessage = BuildExpectedMessage(message, args?.Cast<object>().ToArray());
-                throw should.CreateAssertionException(expectedMessage, ObjectToString(actual), exception);
+                string expectedMessage = VerificationUtils.BuildExpectedMessage(message, args?.Cast<object>().ToArray());
+                throw VerificationUtils.CreateAssertionException(should, expectedMessage, VerificationUtils.ToString(actual), exception);
             }
 
             AtataContext.Current.Log.EndSection();
@@ -60,7 +57,10 @@ namespace Atata
             should.CheckNotNull(nameof(should));
             predicate.CheckNotNull(nameof(predicate));
 
-            string expectedMessage = (args != null && args.Any()) ? message?.FormatWith(CollectionToString(args)) : message;
+            string expectedMessage = (args != null && args.Any())
+                ? message?.FormatWith(VerificationUtils.ToString(args))
+                : message;
+
             string verificationConstraintMessage = $"{should.GetShouldText()} {expectedMessage}";
 
             AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
@@ -87,97 +87,11 @@ namespace Atata
                 should.GetRetryOptions());
 
             if (!doesSatisfy)
-                throw should.CreateAssertionException(expectedMessage, CollectionToString(actual), exception);
+                throw VerificationUtils.CreateAssertionException(should, expectedMessage, VerificationUtils.ToString(actual), exception);
 
             AtataContext.Current.Log.EndSection();
 
             return should.Owner;
-        }
-
-        private static string BuildVerificationConstraintMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string message, params TData[] args)
-            where TOwner : PageObject<TOwner>
-        {
-            if (!string.IsNullOrWhiteSpace(message))
-            {
-                string formattedMessage;
-
-                if (args != null && args.Any())
-                {
-                    string[] convertedArgs = args.
-                        Select(x => $"\"{should.DataProvider.ConvertValueToString(x) ?? NullString}\"").
-                        ToArray();
-
-                    formattedMessage = message.FormatWith(convertedArgs);
-                }
-                else
-                {
-                    formattedMessage = message;
-                }
-
-                return $"{should.GetShouldText()} {formattedMessage}";
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        private static string BuildExpectedMessage(string message, object[] args)
-        {
-            return args != null && args.Any()
-                ? message.FormatWith(args.Select(x => ObjectToString(x)).ToArray())
-                : message;
-        }
-
-        internal static Exception CreateAssertionException<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, string expected, string actual, Exception exception)
-            where TOwner : PageObject<TOwner>
-        {
-            StringBuilder builder = new StringBuilder().
-                Append($"Invalid {should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
-                AppendLine().
-                Append($"Expected: {should.GetShouldText()} {expected}");
-
-            if (exception == null)
-                builder.AppendLine().Append($"Actual: {actual}");
-
-            string errorMessage = builder.ToString();
-
-            var exceptionType = AtataContext.Current.AssertionExceptionType;
-
-            return exceptionType != null
-                ? (Exception)Activator.CreateInstance(exceptionType, errorMessage, exception)
-                : new AssertionException(errorMessage, exception);
-        }
-
-        private static string CollectionToString(IEnumerable collection)
-        {
-            return CollectionToString(collection?.Cast<object>());
-        }
-
-        private static string CollectionToString(IEnumerable<object> collection)
-        {
-            if (collection == null)
-                return NullString;
-            if (!collection.Any())
-                return "<empty>";
-            else if (collection.Count() == 1)
-                return ObjectToString(collection.First());
-            else
-                return "<{0}>".FormatWith(string.Join(", ", collection.Select(ObjectToString).ToArray()));
-        }
-
-        private static string ObjectToString(object value)
-        {
-            if (Equals(value, null))
-                return NullString;
-            else if (value is string)
-                return "\"{0}\"".FormatWith(value);
-            else if (value is ValueType)
-                return value.ToString();
-            else if (value is IEnumerable enumerableValue)
-                return CollectionToString(enumerableValue);
-            else
-                return "{{{0}}}".FormatWith(value.ToString());
         }
 
         public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, IVerificationProvider<TOwner> sourceVerificationProvider)
@@ -447,7 +361,7 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && actual.Count() == expected.Count() && actual.All(expected.Contains),
-                $"be equivalent to {CollectionToString(expected)}");
+                $"be equivalent to {VerificationUtils.ToString(expected)}");
         }
 
         public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
@@ -457,7 +371,7 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && actual.Count() == expected.Count() && actual.All(expected.Contains),
-                $"be equivalent to {CollectionToString(expected)}");
+                $"be equivalent to {VerificationUtils.ToString(expected)}");
         }
 
         public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
@@ -467,7 +381,7 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && actual.SequenceEqual(expected),
-                $"equal sequence {CollectionToString(expected)}");
+                $"equal sequence {VerificationUtils.ToString(expected)}");
         }
 
         public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
@@ -477,7 +391,7 @@ namespace Atata
 
             return should.Satisfy(
                 actual => actual != null && actual.SequenceEqual(expected),
-                $"equal sequence {CollectionToString(expected)}");
+                $"equal sequence {VerificationUtils.ToString(expected)}");
         }
 
         /// <summary>
@@ -506,7 +420,7 @@ namespace Atata
         {
             return should.Satisfy(
                 actual => actual != null && actual.Count(x => Equals(x, expected)) == 1,
-                $"contain single {ObjectToString(expected)}");
+                $"contain single {VerificationUtils.ToString(expected)}");
         }
 
         /// <summary>
@@ -522,7 +436,7 @@ namespace Atata
         {
             return should.Satisfy(
                 actual => actual != null && actual.Count((TData x) => Equals(x, expected)) == 1,
-                $"contain single {ObjectToString(expected)}");
+                $"contain single {VerificationUtils.ToString(expected)}");
         }
 
         /// <summary>
@@ -537,11 +451,10 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
-            string expressionAsText = ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
 
             return should.Satisfy(
                 actual => actual != null && actual.Count(predicate) == 1,
-                $"contain single \"{expressionAsText}\" {GetObjectTypeName(typeof(TItem))}");
+                $"contain single {VerificationUtils.ToString(predicateExpression)}");
         }
 
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
@@ -553,7 +466,7 @@ namespace Atata
                 actual => actual != null && should.IsNegation
                     ? actual.Intersect(expected).Any()
                     : actual.Intersect(expected).Count() == expected.Count(),
-                $"contain {CollectionToString(expected)}");
+                $"contain {VerificationUtils.ToString(expected)}");
         }
 
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
@@ -565,7 +478,7 @@ namespace Atata
                 actual => actual != null && should.IsNegation
                     ? actual.Intersect(expected).Any()
                     : actual.Intersect(expected).Count() == expected.Count(),
-                $"contain {CollectionToString(expected)}");
+                $"contain {VerificationUtils.ToString(expected)}");
         }
 
         public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<string>, TOwner> should, TermMatch match, params string[] expected)
@@ -577,7 +490,7 @@ namespace Atata
                 actual => actual != null && should.IsNegation
                     ? expected.Any(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
                     : expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
-                $"contain having value that {match.ToString(TermCase.MidSentence)} {CollectionToString(expected)}");
+                $"contain having value that {match.ToString(TermCase.MidSentence)} {VerificationUtils.ToString(expected)}");
         }
 
         public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<string, TOwner>>, TOwner> should, TermMatch match, params string[] expected)
@@ -589,20 +502,18 @@ namespace Atata
                 actual => actual != null && should.IsNegation
                     ? expected.Any(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
                     : expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
-                $"contain having value that {match.ToString(TermCase.MidSentence)} {CollectionToString(expected)}");
+                $"contain having value that {match.ToString(TermCase.MidSentence)} {VerificationUtils.ToString(expected)}");
         }
 
         public static TOwner Contain<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, Expression<Func<TControl, bool>> predicateExpression)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            predicateExpression.CheckNotNull(nameof(predicateExpression));
-            var predicate = predicateExpression.Compile();
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
 
-            // TODO: Change code: UIComponentResolver.ResolveControlTypeName<TControl>().
             return should.Satisfy(
                 actual => actual != null && actual.Any(predicate),
-                $"contain \"{UIComponentResolver.ResolveControlName<TControl, TOwner>(predicateExpression)}\" {UIComponentResolver.ResolveControlTypeName<TControl>()}");
+                $"contain {VerificationUtils.ToString(predicateExpression)}");
         }
 
         public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch match, params string[] expected)
@@ -622,14 +533,7 @@ namespace Atata
                         ? expected.Any(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
                         : expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
                 },
-                $"contain having content that {match.ToString(TermCase.MidSentence)} {CollectionToString(expected)}");
-        }
-
-        private static string GetObjectTypeName(Type type)
-        {
-            return type.IsInheritedFromOrIs(typeof(Control<>))
-                ? UIComponentResolver.ResolveControlTypeName(type)
-                : "item";
+                $"contain having content that {match.ToString(TermCase.MidSentence)} {VerificationUtils.ToString(expected)}");
         }
     }
 }
