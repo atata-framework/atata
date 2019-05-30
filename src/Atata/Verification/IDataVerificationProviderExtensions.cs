@@ -505,8 +505,7 @@ namespace Atata
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {VerificationUtils.ToString(expected)}");
         }
 
-        public static TOwner Contain<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, Expression<Func<TControl, bool>> predicateExpression)
-            where TControl : Control<TOwner>
+        public static TOwner Contain<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, Expression<Func<TItem, bool>> predicateExpression)
             where TOwner : PageObject<TOwner>
         {
             var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
