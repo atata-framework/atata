@@ -457,7 +457,15 @@ namespace Atata
                 $"contain single {VerificationUtils.ToString(predicateExpression)}");
         }
 
-        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
+        /// <summary>
+        /// Verifies that collection contains expected items.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expected">An expected item values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Contain<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, params TItem[] expected)
             where TOwner : PageObject<TOwner>
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
@@ -469,6 +477,14 @@ namespace Atata
                 $"contain {VerificationUtils.ToString(expected)}");
         }
 
+        /// <summary>
+        /// Verifies that collection contains items equal to expected values.
+        /// </summary>
+        /// <typeparam name="TData">The type of the collection item data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expected">An expected data values.</param>
+        /// <returns>The owner instance.</returns>
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
             where TOwner : PageObject<TOwner>
         {
@@ -479,6 +495,24 @@ namespace Atata
                     ? actual.Intersect(expected).Any()
                     : actual.Intersect(expected).Count() == expected.Count(),
                 $"contain {VerificationUtils.ToString(expected)}");
+        }
+
+        /// <summary>
+        /// Verifies that collection contains at least one item matching <paramref name="predicateExpression"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="predicateExpression">The predicate expression.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Contain<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, Expression<Func<TItem, bool>> predicateExpression)
+            where TOwner : PageObject<TOwner>
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return should.Satisfy(
+                actual => actual != null && actual.Any(predicate),
+                $"contain {VerificationUtils.ToString(predicateExpression)}");
         }
 
         public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<string>, TOwner> should, TermMatch match, params string[] expected)
@@ -503,16 +537,6 @@ namespace Atata
                     ? expected.Any(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
                     : expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {VerificationUtils.ToString(expected)}");
-        }
-
-        public static TOwner Contain<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, Expression<Func<TItem, bool>> predicateExpression)
-            where TOwner : PageObject<TOwner>
-        {
-            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
-
-            return should.Satisfy(
-                actual => actual != null && actual.Any(predicate),
-                $"contain {VerificationUtils.ToString(predicateExpression)}");
         }
 
         public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch match, params string[] expected)
