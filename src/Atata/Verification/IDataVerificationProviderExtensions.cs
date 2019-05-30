@@ -480,13 +480,28 @@ namespace Atata
                 $"equal sequence {CollectionToString(expected)}");
         }
 
-        public static TOwner ContainSingle<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should)
+        /// <summary>
+        /// Verifies that collection contains only a single item.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainSingle<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should)
             where TOwner : PageObject<TOwner>
         {
             return should.Satisfy(actual => actual != null && actual.Count() == 1, $"contain single item");
         }
 
-        public static TOwner ContainSingle<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, TData expected)
+        /// <summary>
+        /// Verifies that collection contains a single item equal to <paramref name="expected"/> parameter.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expected">An expected item value.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainSingle<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, TItem expected)
             where TOwner : PageObject<TOwner>
         {
             return should.Satisfy(
@@ -494,6 +509,14 @@ namespace Atata
                 $"contain single {ObjectToString(expected)}");
         }
 
+        /// <summary>
+        /// Verifies that collection contains a single item equal to <paramref name="expected"/> parameter.
+        /// </summary>
+        /// <typeparam name="TData">The type of the collection item data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expected">An expected data value.</param>
+        /// <returns>The owner instance.</returns>
         public static TOwner ContainSingle<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, TData expected)
             where TOwner : PageObject<TOwner>
         {
