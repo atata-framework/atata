@@ -50,6 +50,14 @@ namespace Atata.Tests
         [Format("C")]
         public RadioButtonList<decimal?, _> DecimalItems { get; private set; }
 
+        [FindByFieldSet("Bool List")]
+        [FindItemByValue]
+        public RadioButtonList<bool?, _> BoolItems { get; private set; }
+
+        [FindByFieldSet("Bool List Lowered")]
+        [FindItemByValue(TermCase.Lower)]
+        public RadioButtonList<bool, _> BoolLoweredItems { get; private set; }
+
         [FindById]
         [FindItemByParentContent]
         public RadioButtonList<string, _> TextInParentItems { get; private set; }

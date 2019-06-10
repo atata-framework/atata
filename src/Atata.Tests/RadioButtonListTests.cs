@@ -89,6 +89,16 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void RadioButtonList_Bool()
+        {
+            var control = page.BoolItems;
+
+            control.Should.BeNull();
+
+            SetAndVerifyValues(control, false, true);
+        }
+
+        [Test]
         public void RadioButtonList_String_FindItemByParentContentAttribute()
         {
             VerifyRegularStringBasedRadioButtonList(page.TextInParentItems);
