@@ -1,7 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
     <RootNamespace>Atata</RootNamespace>
     <Version>1.1.0</Version>
     <Authors>Yevgeniy Shunevych</Authors>
@@ -44,25 +43,49 @@ Features:
 0.11.1 - https://github.com/atata-framework/atata/releases/tag/v0.11.1
 0.11.0 - Initial release</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
+    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="1.2.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.12.0.8217">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
+
+  <Choose>
+    <When Condition="$(Configuration) == 'SlimNet45'">
+      <PropertyGroup>
+        <TargetFramework>net45</TargetFramework>
+        <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </When>
+    <When Condition="$(Configuration) == 'SlimNetstandard2.0'">
+      <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
+        <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+      </PropertyGroup>
+      
+      <ItemGroup Label="Code analysis packages">
+        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="7.12.0.8217">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net40'">
     <Reference Include="Microsoft.CSharp" />

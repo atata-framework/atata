@@ -1,16 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
     <IsPackable>false</IsPackable>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Copyright>© Yevgeniy Shunevych 2019</Copyright>
-    <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
+    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0</Configurations>
   </PropertyGroup>
 
-  <PropertyGroup Condition="$(Configuration)=='Debug'">
+  <PropertyGroup Condition="$(Configuration) == 'Debug'">
     <DefineConstants>DEBUG</DefineConstants>
   </PropertyGroup>
 
@@ -23,10 +22,6 @@
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="1.2.0" />
     <PackageReference Include="FluentAssertions" Version="5.6.0" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1" />
     <PackageReference Include="NLog" Version="4.6.2" />
     <PackageReference Include="NUnit" Version="3.11.0" />
@@ -34,17 +29,45 @@
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
     <PackageReference Include="Selenium.WebDriver.ChromeDriver" Version="2.46.0" />
     <PackageReference Include="Selenium.WebDriver.IEDriver" Version="3.14.0" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.12.0.8217">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Atata\Atata.csproj" />
   </ItemGroup>
+
+  <Choose>
+    <When Condition="$(Configuration) == 'SlimNet45'">
+      <PropertyGroup>
+        <TargetFramework>net45</TargetFramework>
+        <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </When>
+    <When Condition="$(Configuration) == 'SlimNetstandard2.0'">
+      <PropertyGroup>
+        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+    </When>
+    <Otherwise>
+      <PropertyGroup>
+        <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
+        <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
+      </PropertyGroup>
+
+      <ItemGroup Label="Code analysis packages">
+        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.1">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="7.12.0.8217">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.0.2">
+          <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+      </ItemGroup>
+    </Otherwise>
+  </Choose>
 
 </Project>
