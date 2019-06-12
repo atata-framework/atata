@@ -85,7 +85,7 @@ namespace Atata.Tests
             var page = Go.To<WaitingPage>();
 
             using (StopwatchAsserter.Within(3))
-                Assert.Throws<NoSuchElementException>(() => // TODO: Should expect AssertionException.
+                AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
                     page.MissingControl.Should.Exist());
         }
 

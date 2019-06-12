@@ -95,6 +95,17 @@ namespace Atata.Tests
                 control.Should.AtOnce.Equal(value));
         }
 
+        protected static TException AssertThrowsWithInnerException<TException, TInnerException>(TestDelegate code)
+            where TException : Exception
+            where TInnerException : Exception
+        {
+            TException exception = Assert.Throws<TException>(code);
+
+            Assert.That(exception.InnerException, Is.InstanceOf<TInnerException>(), "Invalid inner exception.");
+
+            return exception;
+        }
+
         protected void VerifyLastLogMessages(params string[] expectedMessages)
         {
             Assert.That(GetLastLogMessages(expectedMessages.Length), Is.EqualTo(expectedMessages));

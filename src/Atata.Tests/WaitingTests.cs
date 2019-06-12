@@ -18,7 +18,7 @@ namespace Atata.Tests
             page.
                 ButtonWithoutWait.Click();
 
-            Assert.Throws<NoSuchElementException>(
+            AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(
                 () => page.Result.Should.AtOnce.Exist());
         }
 

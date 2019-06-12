@@ -13,7 +13,9 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} exist"));
+            string expectedMessage = "exist";
+
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} {expectedMessage}"));
 
             SearchOptions searchOptions = new SearchOptions
             {
@@ -22,15 +24,27 @@ namespace Atata
                 RetryInterval = should.RetryInterval ?? AtataContext.Current.VerificationRetryInterval
             };
 
-            StaleSafely.Execute(
-                options =>
-                {
-                    if (should.IsNegation)
-                        should.Component.Missing(options);
-                    else
-                        should.Component.Exists(options);
-                },
-                searchOptions);
+            try
+            {
+                StaleSafely.Execute(
+                    options =>
+                    {
+                        if (should.IsNegation)
+                            should.Component.Missing(options);
+                        else
+                            should.Component.Exists(options);
+                    },
+                    searchOptions);
+            }
+            catch (Exception exception)
+            {
+                StringBuilder messageBuilder = new StringBuilder().
+                    Append($"Invalid {should.Component.ComponentFullName} presence.").
+                    AppendLine().
+                    Append($"Expected: {should.GetShouldText()} {expectedMessage}");
+
+                throw VerificationUtils.CreateAssertionException(messageBuilder.ToString(), exception);
+            }
 
             AtataContext.Current.Log.EndSection();
 

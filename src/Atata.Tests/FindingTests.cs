@@ -74,10 +74,10 @@ namespace Atata.Tests
                 FailDisplayNoneInput.Should.Not.Exist().
                 FailOpacity0Input.Should.Not.Exist();
 
-            Assert.Throws<NoSuchElementException>(() =>
+            AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
                 page.FailDisplayNoneInput.Should.AtOnce.Exist());
 
-            Assert.Throws<NoSuchElementException>(() =>
+            AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
                 page.FailOpacity0Input.Should.AtOnce.Exist());
         }
 
@@ -173,7 +173,7 @@ namespace Atata.Tests
         {
             component.Should.Not.Exist();
 
-            Assert.Throws<NoSuchElementException>(() =>
+            AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
                 component.Should.AtOnce.Exist());
         }
     }
