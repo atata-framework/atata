@@ -31,7 +31,7 @@ namespace Atata
             if (method.IsStatic)
                 method.InvokeStaticAsLambda();
             else
-                method.Invoke(method.IsStatic ? null : methodOwner, new object[0]);
+                method.InvokeAsLambda(methodOwner);
         }
     }
 }

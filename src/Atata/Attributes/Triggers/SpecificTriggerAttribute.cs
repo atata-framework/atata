@@ -21,7 +21,7 @@ namespace Atata
                     ? declaredMethod.MakeGenericMethod(ownerType)
                     : declaredMethod;
 
-                actualMethod.Invoke(this, new object[] { context });
+                actualMethod.InvokeAsLambda(this, context);
             }
         }
     }
