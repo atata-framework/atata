@@ -51,6 +51,32 @@ namespace Atata
             return method;
         }
 
+        internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags)
+        {
+            type.CheckNotNull(nameof(type));
+            name.CheckNotNullOrWhitespace(nameof(name));
+
+            MethodInfo method = type.GetMethod(name, bindingFlags);
+
+            if (method == null)
+                throw new MissingMethodException(type.FullName, name);
+
+            return method;
+        }
+
+        internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags, params Type[] types)
+        {
+            type.CheckNotNull(nameof(type));
+            name.CheckNotNullOrWhitespace(nameof(name));
+
+            MethodInfo method = type.GetMethod(name, bindingFlags, null, types, null);
+
+            if (method == null)
+                throw new MissingMethodException(type.FullName, name);
+
+            return method;
+        }
+
         internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
         {
             type.CheckNotNull(nameof(type));
