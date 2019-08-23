@@ -7,7 +7,7 @@ namespace Atata
     /// <summary>
     /// Represents the log manager, the entry point for the Atata logging functionality.
     /// </summary>
-    /// <seealso cref="Atata.ILogManager" />
+    /// <seealso cref="ILogManager" />
     public class LogManager : ILogManager
     {
         private readonly List<LogConsumerInfo> logConsumers = new List<LogConsumerInfo>();
@@ -72,42 +72,34 @@ namespace Atata
             Log(LogLevel.Warn, message, args);
         }
 
+        public void Warn(Exception exception)
+        {
+            Log(LogLevel.Warn, null, exception);
+        }
+
+        public void Warn(string message, Exception exception = null)
+        {
+            Log(LogLevel.Warn, message, exception);
+        }
+
         public void Error(Exception exception)
         {
-            Log(new LogEventInfo
-            {
-                Level = LogLevel.Error,
-                Exception = exception
-            });
+            Log(LogLevel.Error, null, exception);
         }
 
         public void Error(string message, Exception exception = null)
         {
-            Log(new LogEventInfo
-            {
-                Level = LogLevel.Error,
-                Message = message,
-                Exception = exception
-            });
+            Log(LogLevel.Error, message, exception);
         }
 
         public void Fatal(Exception exception)
         {
-            Log(new LogEventInfo
-            {
-                Level = LogLevel.Fatal,
-                Exception = exception
-            });
+            Log(LogLevel.Fatal, null, exception);
         }
 
         public void Fatal(string message, Exception exception = null)
         {
-            Log(new LogEventInfo
-            {
-                Level = LogLevel.Fatal,
-                Message = message,
-                Exception = exception
-            });
+            Log(LogLevel.Fatal, message, exception);
         }
 
         /// <summary>
@@ -172,6 +164,16 @@ namespace Atata
             {
                 Level = level,
                 Message = message.FormatWith(args)
+            });
+        }
+
+        private void Log(LogLevel level, string message, Exception exception)
+        {
+            Log(new LogEventInfo
+            {
+                Level = level,
+                Message = message,
+                Exception = exception
             });
         }
 
