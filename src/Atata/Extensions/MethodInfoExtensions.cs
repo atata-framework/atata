@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿using System;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 
 namespace Atata
 {
@@ -12,6 +15,28 @@ namespace Atata
         public static TResult InvokeStatic<TResult>(this MethodInfo method, params object[] args)
         {
             return (TResult)method.Invoke(null, args);
+        }
+
+        public static void InvokeStaticAsLambda(this MethodInfo method, params object[] args)
+        {
+            var callExpression = method.ToStaticMethodCallExpression(args);
+
+            var lambda = Expression.Lambda<Action>(callExpression);
+            lambda.Compile().Invoke();
+        }
+
+        public static TResult InvokeStaticAsLambda<TResult>(this MethodInfo method, params object[] args)
+        {
+            var callExpression = method.ToStaticMethodCallExpression(args);
+
+            var lambda = Expression.Lambda<Func<TResult>>(callExpression);
+            return lambda.Compile().Invoke();
+        }
+
+        public static MethodCallExpression ToStaticMethodCallExpression(this MethodInfo method, params object[] args)
+        {
+            var parameterExpressions = args?.Select(x => Expression.Constant(x)) ?? new ConstantExpression[0];
+            return Expression.Call(method, parameterExpressions);
         }
     }
 }

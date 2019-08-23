@@ -28,7 +28,10 @@ namespace Atata
             if (method == null)
                 throw new MissingMethodException(methodOwner.GetType().FullName, MethodName);
 
-            method.Invoke(method.IsStatic ? null : methodOwner, new object[0]);
+            if (method.IsStatic)
+                method.InvokeStaticAsLambda();
+            else
+                method.Invoke(method.IsStatic ? null : methodOwner, new object[0]);
         }
     }
 }

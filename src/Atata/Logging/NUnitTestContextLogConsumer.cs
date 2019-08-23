@@ -16,7 +16,7 @@ namespace Atata
 
         protected override void Write(string completeMessage)
         {
-            writeMethod.InvokeStatic(completeMessage);
+            writeMethod.InvokeStaticAsLambda(completeMessage);
         }
     }
 }

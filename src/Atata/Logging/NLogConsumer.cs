@@ -62,8 +62,8 @@ namespace Atata
             Type logManagerType = Type.GetType("NLog.LogManager,NLog", true);
 
             logger = loggerName != null
-                ? logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string)).InvokeStatic(loggerName)
-                : logManagerType.GetMethodWithThrowOnError("GetCurrentClassLogger").InvokeStatic();
+                ? logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string)).InvokeStaticAsLambda<dynamic>(loggerName)
+                : logManagerType.GetMethodWithThrowOnError("GetCurrentClassLogger").InvokeStaticAsLambda<dynamic>();
 
             if (logger == null)
                 throw new InvalidOperationException("Failed to create NLog logger.");
