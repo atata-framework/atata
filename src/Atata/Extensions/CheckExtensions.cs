@@ -94,7 +94,7 @@ namespace Atata
             Type expectedType = typeof(T);
 
             if (!expectedType.IsAssignableFrom(value))
-                throw new ArgumentException($"{value.FullName} type should be assignable to {expectedType.FullName}.", argumentName);
+                throw new ArgumentException(ConcatMessage($"{value.FullName} type should be assignable to {expectedType.FullName}.", errorMessage), argumentName);
 
             return value;
         }
