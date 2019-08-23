@@ -72,6 +72,29 @@ namespace Atata
         }
 
         /// <summary>
+        /// Writes the exception at the <see cref="LogLevel.Warn"/> level.
+        /// </summary>
+        /// <param name="exception">The exception.</param>
+        /// <returns>The instance of the owner object.</returns>
+        public TOwner Warn(Exception exception)
+        {
+            logManager.Warn(exception);
+            return owner;
+        }
+
+        /// <summary>
+        /// Writes the log message and optionally exception at the <see cref="LogLevel.Warn"/> level.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        /// <param name="exception">The exception.</param>
+        /// <returns>The instance of the owner object.</returns>
+        public TOwner Warn(string message, Exception exception = null)
+        {
+            logManager.Warn(message, exception);
+            return owner;
+        }
+
+        /// <summary>
         /// Writes the exception at the <see cref="LogLevel.Error"/> level.
         /// </summary>
         /// <param name="exception">The exception.</param>
