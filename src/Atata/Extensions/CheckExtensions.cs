@@ -87,6 +87,18 @@ namespace Atata
             return index;
         }
 
+        internal static Type CheckIs<T>(this Type value, string argumentName, string errorMessage = null)
+        {
+            value.CheckNotNull(argumentName);
+
+            Type expectedType = typeof(T);
+
+            if (!expectedType.IsAssignableFrom(value))
+                throw new ArgumentException($"{value.FullName} type should be assignable to {expectedType.FullName}.", argumentName);
+
+            return value;
+        }
+
         private static string ConcatMessage(string primaryMessage, string secondaryMessage)
         {
             return string.IsNullOrEmpty(secondaryMessage)
