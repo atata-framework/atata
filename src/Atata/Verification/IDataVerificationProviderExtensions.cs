@@ -17,7 +17,7 @@ namespace Atata
 
             string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(should, message, args);
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
             TData actual = default(TData);
             Exception exception = null;
@@ -43,7 +43,11 @@ namespace Atata
             if (!doesSatisfy)
             {
                 string expectedMessage = VerificationUtils.BuildExpectedMessage(message, args?.Cast<object>().ToArray());
-                throw VerificationUtils.CreateAssertionException(should, expectedMessage, VerificationUtils.ToString(actual), exception);
+                string actualMessage = exception == null ? VerificationUtils.ToString(actual) : null;
+
+                string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                should.ReportFailure(failureMessage, exception);
             }
 
             AtataContext.Current.Log.EndSection();
@@ -63,7 +67,7 @@ namespace Atata
 
             string verificationConstraintMessage = $"{should.GetShouldText()} {expectedMessage}";
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
 
             IEnumerable<TData> actual = null;
             Exception exception = null;
@@ -87,7 +91,13 @@ namespace Atata
                 should.GetRetryOptions());
 
             if (!doesSatisfy)
-                throw VerificationUtils.CreateAssertionException(should, expectedMessage, VerificationUtils.ToString(actual), exception);
+            {
+                string actualMessage = exception == null ? VerificationUtils.ToString(actual) : null;
+
+                string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                should.ReportFailure(failureMessage, exception);
+            }
 
             AtataContext.Current.Log.EndSection();
 

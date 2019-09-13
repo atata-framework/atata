@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -61,18 +62,13 @@ namespace Atata
                 : "item";
         }
 
+        [Obsolete("Use CreateAssertionException(string, Exception) instead.")] // Obsolete since v1.3.0.
         public static Exception CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual, Exception exception)
             where TOwner : PageObject<TOwner>
         {
-            StringBuilder builder = new StringBuilder().
-                Append($"Invalid {should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
-                AppendLine().
-                Append($"Expected: {should.GetShouldText()} {expected}");
+            string message = BuildFailureMessage(should, expected, actual);
 
-            if (exception == null)
-                builder.AppendLine().Append($"Actual: {actual}");
-
-            return CreateAssertionException(builder.ToString(), exception);
+            return CreateAssertionException(message, exception);
         }
 
         public static Exception CreateAssertionException(string message, Exception innerException = null)
@@ -82,6 +78,15 @@ namespace Atata
             return exceptionType != null
                 ? (Exception)Activator.CreateInstance(exceptionType, message, innerException)
                 : new AssertionException(message, innerException);
+        }
+
+        public static Exception CreateAggregateAssertionException(IEnumerable<AssertionResult> assertionResults)
+        {
+            var exceptionType = AtataContext.Current?.AggregateAssertionExceptionType;
+
+            return exceptionType != null
+                ? (Exception)Activator.CreateInstance(exceptionType, assertionResults)
+                : new AggregateAssertionException(assertionResults);
         }
 
         public static string BuildExpectedMessage(string message, object[] args)
@@ -117,6 +122,61 @@ namespace Atata
             {
                 return null;
             }
+        }
+
+        public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
+            where TOwner : PageObject<TOwner>
+        {
+            StringBuilder builder = new StringBuilder().
+                Append($"{should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
+                AppendLine().
+                Append($"Expected: {should.GetShouldText()} {expected}");
+
+            if (actual != null)
+                builder.AppendLine().Append($"Actual: {actual}");
+
+            return builder.ToString();
+        }
+
+        internal static string AppendExceptionToFailureMessage(string message, Exception exception)
+        {
+            if (exception != null)
+            {
+                StringBuilder builder = new StringBuilder(message).
+                    AppendLine().
+                    Append("  ----> ").
+                    Append(exception.ToString());
+
+                return builder.ToString();
+            }
+            else
+            {
+                return message;
+            }
+        }
+
+        private static string BuildMessageForAggregateAssertion(Exception exception)
+        {
+            if (exception.InnerException != null)
+            {
+                StringBuilder builder = new StringBuilder(exception.Message).
+                    AppendLine().
+                    Append("  ----> ").
+                    Append(exception.InnerException.ToString());
+
+                return builder.ToString();
+            }
+            else
+            {
+                return exception.Message;
+            }
+        }
+
+        internal static string BuildStackTraceForAggregateAssertion()
+        {
+            string stackTrace = new StackTrace(1, true).ToString();
+
+            return StackTraceFilter.TakeBeforeInvokeMethodOfRuntimeMethodHandle(stackTrace);
         }
     }
 }

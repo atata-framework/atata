@@ -188,9 +188,43 @@ namespace Atata
 
         /// <summary>
         /// Gets the type of the assertion exception.
-        /// The default value is <c>typeof(Atata.AssertionException)</c>.
+        /// The default value is a type of <see cref="AssertionException"/>.
         /// </summary>
         public Type AssertionExceptionType { get; internal set; }
+
+        /// <summary>
+        /// Gets the type of the aggregate assertion exception.
+        /// The default value is a type of <see cref="AggregateAssertionException"/>.
+        /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
+        /// </summary>
+        public Type AggregateAssertionExceptionType { get; internal set; }
+
+        /// <summary>
+        /// Gets the aggregate assertion strategy.
+        /// The default value is an instance of <see cref="AtataAggregateAssertionStrategy"/>.
+        /// </summary>
+        public IAggregateAssertionStrategy AggregateAssertionStrategy { get; internal set; }
+
+        /// <summary>
+        /// Gets the aggregate assertion depth level.
+        /// </summary>
+        public int AggregateAssertionLevel { get; internal set; }
+
+        /// <summary>
+        /// Gets the strategy for warning assertion reporting.
+        /// The default value is an instance of <see cref="AtataWarningReportStrategy"/>.
+        /// </summary>
+        public IWarningReportStrategy WarningReportStrategy { get; internal set; }
+
+        /// <summary>
+        /// Gets the list of all assertion results.
+        /// </summary>
+        public List<AssertionResult> AssertionResults { get; } = new List<AssertionResult>();
+
+        /// <summary>
+        /// Gets the list of pending assertion results with <see cref="AssertionStatus.Failed"/> or <see cref="AssertionStatus.Warning"/> status.
+        /// </summary>
+        public List<AssertionResult> PendingFailureAssertionResults { get; } = new List<AssertionResult>();
 
         internal List<Action<RemoteWebDriver>> OnDriverCreatedActions { get; set; }
 
@@ -250,6 +284,38 @@ namespace Atata
         }
 
         /// <summary>
+        /// Executes aggregate assertion using <see cref="AggregateAssertionStrategy" />.
+        /// </summary>
+        /// <param name="action">The action to execute in scope of aggregate assertion.</param>
+        /// <param name="assertionScopeName">
+        /// Name of the scope being asserted (page object, control, etc.).
+        /// Is used to identify the assertion section in log.
+        /// Can be null.
+        /// </param>
+        public void AggregateAssert(Action action, string assertionScopeName = null)
+        {
+            action.CheckNotNull(nameof(action));
+
+            AggregateAssertionStrategy.Assert(() =>
+            {
+                AggregateAssertionLevel++;
+
+                try
+                {
+                    Log.Start(new AggregateAssertionLogSection(assertionScopeName));
+
+                    action();
+                }
+                finally
+                {
+                    AggregateAssertionLevel--;
+                }
+
+                Log.EndSection();
+            });
+        }
+
+        /// <summary>
         /// Cleans up the test context.
         /// </summary>
         /// <param name="quitDriver">if set to <see langword="true"/> quits WebDriver.</param>
@@ -286,6 +352,11 @@ namespace Atata
                 Current = null;
 
             disposed = true;
+
+            AssertionResults.Clear();
+
+            // TODO: Throw AggregateAssertionException for warnings.
+            PendingFailureAssertionResults.Clear();
         }
 
         internal void InitDriver()

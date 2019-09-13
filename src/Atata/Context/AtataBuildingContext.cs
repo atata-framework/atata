@@ -171,9 +171,28 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the type of the assertion exception.
-        /// The default value is <c>typeof(Atata.AssertionException)</c>.
+        /// The default value is a type of <see cref="AssertionException"/>.
         /// </summary>
         public Type AssertionExceptionType { get; set; } = typeof(AssertionException);
+
+        /// <summary>
+        /// Gets or sets the type of the aggregate assertion exception.
+        /// The default value is a type of <see cref="AggregateAssertionException"/>.
+        /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
+        /// </summary>
+        public Type AggregateAssertionExceptionType { get; set; } = typeof(AggregateAssertionException);
+
+        /// <summary>
+        /// Gets or sets the aggregate assertion strategy.
+        /// The default value is an instance of <see cref="AtataAggregateAssertionStrategy"/>.
+        /// </summary>
+        public IAggregateAssertionStrategy AggregateAssertionStrategy { get; set; } = new AtataAggregateAssertionStrategy();
+
+        /// <summary>
+        /// Gets or sets the strategy for warning assertion reporting.
+        /// The default value is an instance of <see cref="AtataWarningReportStrategy"/>.
+        /// </summary>
+        public IWarningReportStrategy WarningReportStrategy { get; internal set; } = new AtataWarningReportStrategy();
 
         object ICloneable.Clone()
         {

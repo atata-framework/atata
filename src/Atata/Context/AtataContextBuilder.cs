@@ -473,21 +473,7 @@ namespace Atata
 
         /// <summary>
         /// Sets the type of the assertion exception.
-        /// The default value is <c>typeof(Atata.AssertionException)</c>.
-        /// </summary>
-        /// <param name="exceptionType">The type of the exception.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseAssertionExceptionType(Type exceptionType)
-        {
-            exceptionType.Check(typeof(Exception).IsAssignableFrom, nameof(exceptionType), $"The type should be inherited from {nameof(Exception)}.");
-
-            BuildingContext.AssertionExceptionType = exceptionType;
-            return this;
-        }
-
-        /// <summary>
-        /// Sets the type of the assertion exception.
-        /// The default value is <c>typeof(Atata.AssertionException)</c>.
+        /// The default value is a type of <see cref="AssertionException"/>.
         /// </summary>
         /// <typeparam name="TException">The type of the exception.</typeparam>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -495,6 +481,48 @@ namespace Atata
             where TException : Exception
         {
             return UseAssertionExceptionType(typeof(TException));
+        }
+
+        /// <summary>
+        /// Sets the type of the assertion exception.
+        /// The default value is a type of <see cref="AssertionException"/>.
+        /// </summary>
+        /// <param name="exceptionType">The type of the exception.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAssertionExceptionType(Type exceptionType)
+        {
+            exceptionType.CheckIs<Exception>(nameof(exceptionType));
+
+            BuildingContext.AssertionExceptionType = exceptionType;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the type of aggregate assertion exception.
+        /// The default value is a type of <see cref="AggregateAssertionException"/>.
+        /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
+        /// </summary>
+        /// <typeparam name="TException">The type of the exception.</typeparam>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAggregateAssertionExceptionType<TException>()
+            where TException : Exception
+        {
+            return UseAggregateAssertionExceptionType(typeof(TException));
+        }
+
+        /// <summary>
+        /// Sets the type of aggregate assertion exception.
+        /// The default value is a type of <see cref="AggregateAssertionException"/>.
+        /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
+        /// </summary>
+        /// <param name="exceptionType">The type of the exception.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAggregateAssertionExceptionType(Type exceptionType)
+        {
+            exceptionType.CheckIs<Exception>(nameof(exceptionType));
+
+            BuildingContext.AggregateAssertionExceptionType = exceptionType;
+            return this;
         }
 
         /// <summary>
@@ -570,6 +598,63 @@ namespace Atata
         {
             dynamic testContext = GetNUnitTestContext();
             return testContext.Test.Name;
+        }
+
+        /// <summary>
+        /// Sets <see cref="NUnitAggregateAssertionStrategy"/> as the aggregate assertion strategy.
+        /// The <see cref="NUnitAggregateAssertionStrategy"/> uses NUnit's <c>Assert.Multiple</c> method for aggregate assertion.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseNUnitAggregateAssertionStrategy()
+        {
+            return UseAggregateAssertionStrategy(new NUnitAggregateAssertionStrategy());
+        }
+
+        /// <summary>
+        /// Sets the aggregate assertion strategy.
+        /// </summary>
+        /// <typeparam name="TAggregateAssertionStrategy">The type of the aggregate assertion strategy.</typeparam>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAggregateAssertionStrategy<TAggregateAssertionStrategy>()
+            where TAggregateAssertionStrategy : IAggregateAssertionStrategy, new()
+        {
+            IAggregateAssertionStrategy strategy = Activator.CreateInstance<TAggregateAssertionStrategy>();
+
+            return UseAggregateAssertionStrategy(strategy);
+        }
+
+        /// <summary>
+        /// Sets the aggregate assertion strategy.
+        /// </summary>
+        /// <param name="strategy">The aggregate assertion strategy.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAggregateAssertionStrategy(IAggregateAssertionStrategy strategy)
+        {
+            BuildingContext.AggregateAssertionStrategy = strategy;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets <see cref="NUnitWarningReportStrategy"/> as the strategy for warning assertion reporting.
+        /// </summary>
+        /// <param name="strategy">The warning report strategy.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseNUnitWarningReportStrategy()
+        {
+            return UseWarningReportStrategy(new NUnitWarningReportStrategy());
+        }
+
+        /// <summary>
+        /// Sets the strategy for warning assertion reporting.
+        /// </summary>
+        /// <param name="strategy">The warning report strategy.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseWarningReportStrategy(IWarningReportStrategy strategy)
+        {
+            BuildingContext.WarningReportStrategy = strategy;
+
+            return this;
         }
 
         /// <summary>
@@ -666,7 +751,10 @@ namespace Atata
                 VerificationTimeout = BuildingContext.VerificationTimeout,
                 VerificationRetryInterval = BuildingContext.VerificationRetryInterval,
                 Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture,
-                AssertionExceptionType = BuildingContext.AssertionExceptionType
+                AssertionExceptionType = BuildingContext.AssertionExceptionType,
+                AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType,
+                AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy(),
+                WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy()
             };
 
             AtataContext.Current = context;

@@ -9,6 +9,8 @@ namespace Atata
 
         TOwner Owner { get; }
 
+        string VerificationKind { get; }
+
         TimeSpan? Timeout { get; set; }
 
         TimeSpan? RetryInterval { get; set; }
@@ -16,5 +18,7 @@ namespace Atata
         string GetShouldText();
 
         RetryOptions GetRetryOptions();
+
+        void ReportFailure(string message, Exception exception = null);
     }
 }

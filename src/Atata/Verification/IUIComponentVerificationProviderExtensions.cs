@@ -15,7 +15,7 @@ namespace Atata
 
             string expectedMessage = "exist";
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} {expectedMessage}"));
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"));
 
             SearchOptions searchOptions = new SearchOptions
             {
@@ -38,12 +38,13 @@ namespace Atata
             }
             catch (Exception exception)
             {
-                StringBuilder messageBuilder = new StringBuilder().
-                    Append($"Invalid {should.Component.ComponentFullName} presence.").
+                string failureMessage = new StringBuilder().
+                    Append($"{should.Component.ComponentFullName} presence.").
                     AppendLine().
-                    Append($"Expected: {should.GetShouldText()} {expectedMessage}");
+                    Append($"Expected: {should.GetShouldText()} {expectedMessage}").
+                    ToString();
 
-                throw VerificationUtils.CreateAssertionException(messageBuilder.ToString(), exception);
+                should.ReportFailure(failureMessage, exception);
             }
 
             AtataContext.Current.Log.EndSection();
@@ -127,7 +128,7 @@ namespace Atata
                 AppendIf(expectedIndividualValues.Count() > 1, ":").
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.Component, $"{should.GetShouldText()} {expectedMessage}"));
+            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"));
 
             IEnumerable<TData> actualIndividualValues = null;
             Exception exception = null;
@@ -153,11 +154,11 @@ namespace Atata
 
             if (!doesSatisfy)
             {
-                throw VerificationUtils.CreateAssertionException(
-                    should,
-                    expectedMessage,
-                    should.Component.ConvertIndividualValuesToString(actualIndividualValues, true),
-                    exception);
+                string actualMessage = exception == null ? should.Component.ConvertIndividualValuesToString(actualIndividualValues, true) : null;
+
+                string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                should.ReportFailure(failureMessage, exception);
             }
 
             AtataContext.Current.Log.EndSection();

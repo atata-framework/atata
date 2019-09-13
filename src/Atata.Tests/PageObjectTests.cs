@@ -102,5 +102,37 @@ namespace Atata.Tests
                 IntTextInput.Focus().
                 ActiveControl.Attributes.Id.Should.Equal("int-text-input");
         }
+
+        [Test]
+        public void PageObject_AggregateAssert()
+        {
+            AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
+            {
+                Go.To<StubPage>().
+                    AggregateAssert(x => x.
+                        IsTrue.Should.AtOnce.BeFalse().
+                        IsTrue.Should.AtOnce.BeTrue().
+                        IsTrue.Should.AtOnce.BeFalse());
+            });
+
+            Assert.That(exception.Results, Has.Count.EqualTo(2));
+        }
+
+        [Test]
+        public void PageObject_AggregateAssert_Component()
+        {
+            AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
+            {
+                Go.To<StubPage>().
+                    AggregateAssert(_ => _.IsTrue, x =>
+                    {
+                        x.Should.AtOnce.BeFalse();
+                        x.Should.AtOnce.BeTrue();
+                        x.Should.AtOnce.BeFalse();
+                    });
+            });
+
+            Assert.That(exception.Results, Has.Count.EqualTo(2));
+        }
     }
 }

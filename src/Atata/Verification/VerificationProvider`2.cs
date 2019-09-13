@@ -16,12 +16,16 @@ namespace Atata
 
         bool IVerificationProvider<TOwner>.IsNegation => isNegation;
 
+        protected IVerificationReportStrategy ReportStrategy { get; set; } = new AssertionReportStrategy();
+
         TOwner IVerificationProvider<TOwner>.Owner
         {
             get { return Owner; }
         }
 
         protected abstract TOwner Owner { get; }
+
+        string IVerificationProvider<TOwner>.VerificationKind => ReportStrategy.VerificationKind;
 
         protected internal TimeSpan? Timeout { get; internal set; }
 
@@ -89,6 +93,11 @@ namespace Atata
             }.
             IgnoringStaleElementReferenceException().
             IgnoringExceptionType(typeof(NoSuchElementException));
+        }
+
+        void IVerificationProvider<TOwner>.ReportFailure(string message, Exception exception)
+        {
+            ReportStrategy.ReportFailure(message, exception);
         }
     }
 }

@@ -480,6 +480,41 @@ namespace Atata
         }
 
         /// <summary>
+        /// Executes aggregate assertion for the current page object using <see cref="AtataContext.AggregateAssert(Action, string)" /> method.
+        /// </summary>
+        /// <param name="action">The action to execute in scope of aggregate assertion.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner AggregateAssert(Action<TOwner> action)
+        {
+            action.CheckNotNull(nameof(action));
+
+            AtataContext.Current.AggregateAssert(() => action((TOwner)this), ComponentFullName);
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
+        /// Executes aggregate assertion for the component of the current page object using <see cref="AtataContext.AggregateAssert(Action, string)" /> method.
+        /// </summary>
+        /// <typeparam name="TComponent">The type of the component.</typeparam>
+        /// <param name="componentSelector">The component selector.</param>
+        /// <param name="action">The action to execute in scope of aggregate assertion.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner AggregateAssert<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action)
+        {
+            componentSelector.CheckNotNull(nameof(componentSelector));
+            action.CheckNotNull(nameof(action));
+
+            TComponent component = componentSelector((TOwner)this);
+
+            string componentName = UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
+
+            AtataContext.Current.AggregateAssert(() => action(component), componentName);
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
         /// Presses the specified keystrokes.
         /// </summary>
         /// <param name="keys">The keystrokes to send to the browser.</param>
