@@ -592,6 +592,18 @@ namespace Atata
                 : typeName;
         }
 
+        public static string ResolveComponentFullName<TOwner>(object component)
+            where TOwner : PageObject<TOwner>
+        {
+            return component is IUIComponent<TOwner> uiComponent
+                ? uiComponent.ComponentFullName
+                : component is UIComponentPart<TOwner> uiComponentPart
+                ? $"{uiComponentPart.Component.ComponentFullName} {uiComponentPart.ComponentPartName}"
+                : component is IDataProvider<object, TOwner> dataProvider
+                ? $"{dataProvider.Component.ComponentFullName} {dataProvider.ProviderName}"
+                : null;
+        }
+
         public static ControlDefinitionAttribute GetControlDefinition(Type type)
         {
             return GetClassAttributes(type).OfType<ControlDefinitionAttribute>().FirstOrDefault() ?? new ControlDefinitionAttribute();
