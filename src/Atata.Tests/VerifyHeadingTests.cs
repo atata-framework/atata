@@ -17,8 +17,8 @@ namespace Atata.Tests
                 "Heading 1_2",
                 "Heading 2.1.2.1.1.1",
                 "Heading 2.2",
-                "Verify \"4th\" <h2> heading content should equal \"Heading 2.2\"",
-                "Verify \"Heading_2/Heading 2\" <h1> heading should exist"
+                "Assert: \"4th\" <h2> heading content should equal \"Heading 2.2\"",
+                "Assert: \"Heading_2/Heading 2\" <h1> heading should exist"
             };
 
             foreach (var text in expectedLogMessageTexts)
