@@ -14,6 +14,7 @@
         FieldSet,
         Placeholder,
         DescriptionTerm,
-        ChildContent
+        ChildContent,
+        Alt
     }
 }
