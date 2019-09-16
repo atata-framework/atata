@@ -6,6 +6,11 @@
     /// </summary>
     public class ScreenshotAttribute : TriggerAttribute
     {
+        public ScreenshotAttribute(TriggerEvents on = TriggerEvents.BeforeClick, TriggerPriority priority = TriggerPriority.Medium)
+            : this(null, on, priority)
+        {
+        }
+
         public ScreenshotAttribute(string title = null, TriggerEvents on = TriggerEvents.BeforeClick, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
