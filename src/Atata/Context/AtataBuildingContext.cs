@@ -192,7 +192,7 @@ namespace Atata
         /// Gets or sets the strategy for warning assertion reporting.
         /// The default value is an instance of <see cref="AtataWarningReportStrategy"/>.
         /// </summary>
-        public IWarningReportStrategy WarningReportStrategy { get; internal set; } = new AtataWarningReportStrategy();
+        public IWarningReportStrategy WarningReportStrategy { get; set; } = new AtataWarningReportStrategy();
 
         object ICloneable.Clone()
         {

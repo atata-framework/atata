@@ -638,7 +638,6 @@ namespace Atata
         /// <summary>
         /// Sets <see cref="NUnitWarningReportStrategy"/> as the strategy for warning assertion reporting.
         /// </summary>
-        /// <param name="strategy">The warning report strategy.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseNUnitWarningReportStrategy()
         {
