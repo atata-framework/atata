@@ -11,5 +11,9 @@
     public class Label<T, TOwner> : Content<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the <c>for</c> attribute.
+        /// </summary>
+        public DataProvider<string, TOwner> For => Attributes.For;
     }
 }
