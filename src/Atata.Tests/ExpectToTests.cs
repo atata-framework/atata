@@ -16,7 +16,17 @@ namespace Atata.Tests
         [Test]
         public void ExpectTo_NoFailure()
         {
-            var expectTo = page.IsTrue.ExpectTo.AtOnce;
+            var expectTo = page.IsTrue.ExpectTo;
+
+            expectTo.BeTrue();
+
+            AtataContext.Current.CleanUp(false);
+        }
+
+        [Test]
+        public void ExpectTo_NoFailure_WithRetry()
+        {
+            var expectTo = page.IsTrueInASecond.ExpectTo;
 
             expectTo.BeTrue();
 
