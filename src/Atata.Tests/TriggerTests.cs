@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
+using System.Linq;
 
 namespace Atata.Tests
 {
@@ -87,7 +87,9 @@ namespace Atata.Tests
             page.Input.Set("asd");
             VerifyInputEvents(TriggerEvents.BeforeSet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterSet);
 
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
             page.Input.Get(out string value);
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
             VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
 
             page.Input.Should.Equal("asd");
