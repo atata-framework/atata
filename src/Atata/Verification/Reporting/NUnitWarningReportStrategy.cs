@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents NUnit strategy for warning assertion reporting.
+    /// Represents the NUnit strategy for warning assertion reporting.
+    /// Invokes <c>TestExecutionContext.CurrentContext.CurrentResult.RecordAssertion(AssertionStatus.Warning, message, stackTrace)</c>.
     /// </summary>
     public class NUnitWarningReportStrategy : IWarningReportStrategy
     {

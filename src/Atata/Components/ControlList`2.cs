@@ -31,9 +31,14 @@ namespace Atata
             itemComponentTypeName ?? (itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
 
         /// <summary>
-        /// Gets the verification provider that gives a set of verification extension methods.
+        /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public DataVerificationProvider<IEnumerable<TItem>, TOwner> Should => new DataVerificationProvider<IEnumerable<TItem>, TOwner>(this);
+
+        /// <summary>
+        /// Gets the expectation verification provider that has a set of verification extension methods.
+        /// </summary>
+        public DataVerificationProvider<IEnumerable<TItem>, TOwner> ExpectTo => Should.Using<ExpectationReportStrategy>();
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls count.

@@ -29,9 +29,14 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the verification provider that gives a set of verification extension methods.
+        /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public new PageObjectVerificationProvider<TOwner> Should => new PageObjectVerificationProvider<TOwner>((TOwner)this);
+
+        /// <summary>
+        /// Gets the expectation verification provider that has a set of verification extension methods.
+        /// </summary>
+        public new PageObjectVerificationProvider<TOwner> ExpectTo => Should.Using<ExpectationReportStrategy>();
 
         /// <summary>
         /// Gets a value indicating whether the navigation should be performed upon initialization.

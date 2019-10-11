@@ -42,7 +42,7 @@ namespace Atata
 
             IEnumerable<AssertionResult> exclusiveAssertions = allAssertionResults.
                 Where(x => !assertionResultsBefore.Contains(x)).
-                Where(x => x.Status == AssertionStatus.Failed).
+                Where(x => x.Status == AssertionStatus.Failed || x.Status == AssertionStatus.Warning).
                 ToArray();
 
             if (exclusiveAssertions.Any())

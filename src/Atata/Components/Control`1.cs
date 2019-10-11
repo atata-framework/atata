@@ -16,9 +16,14 @@ namespace Atata
         public DataProvider<bool, TOwner> IsEnabled => GetOrCreateDataProvider("enabled state", GetIsEnabled);
 
         /// <summary>
-        /// Gets the verification provider that gives a set of verification extension methods.
+        /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should => new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
+
+        /// <summary>
+        /// Gets the expectation verification provider that has a set of verification extension methods.
+        /// </summary>
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo => Should.Using<ExpectationReportStrategy>();
 
         protected virtual bool GetIsEnabled()
         {

@@ -23,9 +23,14 @@ namespace Atata
         public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only state", GetIsReadOnly);
 
         /// <summary>
-        /// Gets the verification provider that gives a set of verification extension methods.
+        /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner>(this);
+
+        /// <summary>
+        /// Gets the expectation verification provider that has a set of verification extension methods.
+        /// </summary>
+        public new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationReportStrategy>();
 
         protected virtual bool GetIsReadOnly()
         {

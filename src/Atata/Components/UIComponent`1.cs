@@ -60,9 +60,14 @@ namespace Atata
         public DataProvider<string, TOwner> Content => GetOrCreateDataProvider("content", GetContent);
 
         /// <summary>
-        /// Gets the verification provider that provides a set of verification extension methods.
+        /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
+
+        /// <summary>
+        /// Gets the expectation verification provider that has a set of verification extension methods.
+        /// </summary>
+        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> ExpectTo => Should.Using<ExpectationReportStrategy>();
 
         /// <summary>
         /// Gets the <see cref="UIComponentLocationProvider{TOwner}"/> instance that provides an access to the scope element's location (X and Y).

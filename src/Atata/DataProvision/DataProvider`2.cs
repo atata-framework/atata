@@ -39,9 +39,14 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the verification provider that gives a set of verification extension methods.
+        /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public DataVerificationProvider<TData, TOwner> Should => new DataVerificationProvider<TData, TOwner>(this);
+
+        /// <summary>
+        /// Gets the expectation verification provider that has a set of verification extension methods.
+        /// </summary>
+        public DataVerificationProvider<TData, TOwner> ExpectTo => Should.Using<ExpectationReportStrategy>();
 
         public static implicit operator TData(DataProvider<TData, TOwner> dataProvider)
         {

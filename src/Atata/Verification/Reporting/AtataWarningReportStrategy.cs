@@ -1,7 +1,8 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents native/default Atata strategy for warning assertion reporting.
+    /// Represents the native/default Atata strategy for warning assertion reporting.
+    /// Adds <see cref="AssertionResult"/> object of warning kind to <see cref="AtataContext.PendingFailureAssertionResults"/> collection of <see cref="AtataContext.Current"/>.
     /// </summary>
     public class AtataWarningReportStrategy : IWarningReportStrategy
     {

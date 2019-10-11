@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Linq;
 using System.Text;
 using OpenQA.Selenium.Remote;
 
@@ -355,8 +356,13 @@ namespace Atata
 
             AssertionResults.Clear();
 
-            // TODO: Throw AggregateAssertionException for warnings.
-            PendingFailureAssertionResults.Clear();
+            if (PendingFailureAssertionResults.Any())
+            {
+                var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
+                PendingFailureAssertionResults.Clear();
+
+                throw VerificationUtils.CreateAggregateAssertionException(copyOfPendingFailureAssertionResults);
+            }
         }
 
         internal void InitDriver()

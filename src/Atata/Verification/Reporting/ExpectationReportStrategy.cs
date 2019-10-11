@@ -2,6 +2,12 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents a core part of expectation verification functionality.
+    /// Its <see cref="ReportFailure(string, Exception)"/> method builds warning details, appends a warning into log,
+    /// adds assertion result to <see cref="AtataContext.AssertionResults"/> collection of <see cref="AtataContext.Current"/>
+    /// and finally reports a warning details to <see cref="AtataContext.WarningReportStrategy"/> of <see cref="AtataContext.Current"/>.
+    /// </summary>
     public class ExpectationReportStrategy : IVerificationReportStrategy
     {
         public string VerificationKind => "Expect";

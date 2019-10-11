@@ -64,6 +64,21 @@ namespace Atata
             }
         }
 
+        public TVerificationProvider Using(IVerificationReportStrategy reportStrategy)
+        {
+            ReportStrategy = reportStrategy;
+
+            return (TVerificationProvider)this;
+        }
+
+        public TVerificationProvider Using<TVerificationReportStrategy>()
+            where TVerificationReportStrategy : IVerificationReportStrategy, new()
+        {
+            ReportStrategy = new TVerificationReportStrategy();
+
+            return (TVerificationProvider)this;
+        }
+
         public TVerificationProvider Within(TimeSpan timeout, TimeSpan? retryInterval = null)
         {
             Timeout = timeout;
