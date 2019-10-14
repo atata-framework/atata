@@ -8,9 +8,13 @@ namespace Atata
     /// adds assertion result to <see cref="AtataContext.AssertionResults"/> collection of <see cref="AtataContext.Current"/>
     /// and finally reports a warning details to <see cref="AtataContext.WarningReportStrategy"/> of <see cref="AtataContext.Current"/>.
     /// </summary>
-    public class ExpectationReportStrategy : IVerificationReportStrategy
+    public class ExpectationVerificationStrategy : IVerificationStrategy
     {
         public string VerificationKind => "Expect";
+
+        public TimeSpan DefaultTimeout => AtataContext.Current.VerificationTimeout;
+
+        public TimeSpan DefaultRetryInterval => AtataContext.Current.VerificationRetryInterval;
 
         public void ReportFailure(string message, Exception exception)
         {

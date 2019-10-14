@@ -2,9 +2,13 @@
 
 namespace Atata
 {
-    public class AssertionReportStrategy : IVerificationReportStrategy
+    public class AssertionVerificationStrategy : IVerificationStrategy
     {
         public string VerificationKind => "Assert";
+
+        public TimeSpan DefaultTimeout => AtataContext.Current.VerificationTimeout;
+
+        public TimeSpan DefaultRetryInterval => AtataContext.Current.VerificationRetryInterval;
 
         public void ReportFailure(string message, Exception exception)
         {

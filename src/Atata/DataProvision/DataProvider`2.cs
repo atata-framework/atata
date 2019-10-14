@@ -46,7 +46,13 @@ namespace Atata
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public DataVerificationProvider<TData, TOwner> ExpectTo => Should.Using<ExpectationReportStrategy>();
+        public DataVerificationProvider<TData, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+
+        /// <summary>
+        /// Gets the waiting verification provider that has a set of verification extension methods.
+        /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
+        /// </summary>
+        public DataVerificationProvider<TData, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
         public static implicit operator TData(DataProvider<TData, TOwner> dataProvider)
         {

@@ -6,7 +6,7 @@ namespace Atata.Tests
 
     public class StubPage : Page<_>
     {
-        private bool isTrueInASecond = false;
+        private bool isTrueInASecond;
 
         private Timer isTrueInASecondTimer;
 
@@ -31,6 +31,7 @@ namespace Atata.Tests
                     isTrueInASecondTimer = null;
                 };
             }
+
             return isTrueInASecond;
         }
     }

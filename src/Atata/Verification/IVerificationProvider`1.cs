@@ -11,8 +11,10 @@ namespace Atata
 
         string VerificationKind { get; }
 
+        // TODO: Should be non-nullable.
         TimeSpan? Timeout { get; set; }
 
+        // TODO: Should be non-nullable.
         TimeSpan? RetryInterval { get; set; }
 
         string GetShouldText();

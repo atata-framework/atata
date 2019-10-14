@@ -16,7 +16,7 @@ namespace Atata
 
         bool IVerificationProvider<TOwner>.IsNegation => isNegation;
 
-        protected IVerificationReportStrategy ReportStrategy { get; set; } = new AssertionReportStrategy();
+        protected IVerificationStrategy Strategy { get; set; } = new AssertionVerificationStrategy();
 
         TOwner IVerificationProvider<TOwner>.Owner
         {
@@ -25,7 +25,7 @@ namespace Atata
 
         protected abstract TOwner Owner { get; }
 
-        string IVerificationProvider<TOwner>.VerificationKind => ReportStrategy.VerificationKind;
+        string IVerificationProvider<TOwner>.VerificationKind => Strategy.VerificationKind;
 
         protected internal TimeSpan? Timeout { get; internal set; }
 
@@ -47,8 +47,8 @@ namespace Atata
         {
             get
             {
-                Timeout = AtataContext.Current.VerificationTimeout;
-                RetryInterval = AtataContext.Current.VerificationRetryInterval;
+                Timeout = Strategy.DefaultTimeout;
+                RetryInterval = Strategy.DefaultRetryInterval;
 
                 return (TVerificationProvider)this;
             }
@@ -64,17 +64,17 @@ namespace Atata
             }
         }
 
-        public TVerificationProvider Using(IVerificationReportStrategy reportStrategy)
+        public TVerificationProvider Using(IVerificationStrategy strategy)
         {
-            ReportStrategy = reportStrategy;
+            Strategy = strategy;
 
             return (TVerificationProvider)this;
         }
 
-        public TVerificationProvider Using<TVerificationReportStrategy>()
-            where TVerificationReportStrategy : IVerificationReportStrategy, new()
+        public TVerificationProvider Using<TVerificationStrategy>()
+            where TVerificationStrategy : IVerificationStrategy, new()
         {
-            ReportStrategy = new TVerificationReportStrategy();
+            Strategy = new TVerificationStrategy();
 
             return (TVerificationProvider)this;
         }
@@ -103,8 +103,8 @@ namespace Atata
         {
             return new RetryOptions
             {
-                Timeout = Timeout ?? AtataContext.Current.VerificationTimeout,
-                Interval = RetryInterval ?? AtataContext.Current.VerificationRetryInterval
+                Timeout = Timeout ?? Strategy.DefaultTimeout,
+                Interval = RetryInterval ?? Strategy.DefaultRetryInterval
             }.
             IgnoringStaleElementReferenceException().
             IgnoringExceptionType(typeof(NoSuchElementException));
@@ -112,7 +112,7 @@ namespace Atata
 
         void IVerificationProvider<TOwner>.ReportFailure(string message, Exception exception)
         {
-            ReportStrategy.ReportFailure(message, exception);
+            Strategy.ReportFailure(message, exception);
         }
     }
 }
