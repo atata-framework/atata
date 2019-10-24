@@ -7,37 +7,13 @@ namespace Atata
     /// Represents the base trigger attribute for a waiting for script to be executed successfully.
     /// An inherited class should override <c>BuildScript</c> method and optionally <c>BuildReportMessage</c>.
     /// </summary>
-    public abstract class WaitForScriptAttribute : TriggerAttribute
+    public abstract class WaitForScriptAttribute : WaitingTriggerAttribute
     {
         private const string DefaultReportMessage = "Wait for script";
-
-        private double? timeout;
-
-        private double? retryInterval;
 
         protected WaitForScriptAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
-        }
-
-        /// <summary>
-        /// Gets or sets the waiting timeout in seconds.
-        /// The default value is taken from <c>AtataContext.Current.WaitingTimeout.TotalSeconds</c>.
-        /// </summary>
-        public double Timeout
-        {
-            get => timeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
-            set => timeout = value;
-        }
-
-        /// <summary>
-        /// Gets or sets the retry interval in seconds.
-        /// The default value is taken from <c>AtataContext.Current.WaitingRetryInterval.TotalSeconds</c>.
-        /// </summary>
-        public double RetryInterval
-        {
-            get => retryInterval ?? (AtataContext.Current?.WaitingRetryInterval ?? RetrySettings.Interval).TotalSeconds;
-            set => retryInterval = value;
         }
 
         /// <summary>
