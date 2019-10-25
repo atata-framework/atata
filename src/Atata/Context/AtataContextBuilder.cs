@@ -246,13 +246,24 @@ namespace Atata
             return AddLogConsumer(new NLogConsumer(loggerName));
         }
 
-        /// <summary>
-        /// Adds the screenshot consumer.
-        /// </summary>
-        /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
-        /// <param name="consumer">The screenshot consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
-        public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
+		/// <summary>
+		/// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.Logger</c> class for logging.
+		/// </summary>
+		/// <param name="repositoryName">The name of the logger repository.</param>		///
+		/// <param name="loggerName">The name of the logger.</param>
+		/// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
+		public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string repositoryName, string loggerName)
+        {
+            return AddLogConsumer(new Log4NetConsumer(repositoryName, loggerName));
+        }
+
+		/// <summary>
+		/// Adds the screenshot consumer.
+		/// </summary>
+		/// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
+		/// <param name="consumer">The screenshot consumer.</param>
+		/// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+		public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
             where TScreenshotConsumer : IScreenshotConsumer
         {
             consumer.CheckNotNull(nameof(consumer));
