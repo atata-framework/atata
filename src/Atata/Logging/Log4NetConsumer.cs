@@ -14,8 +14,8 @@ namespace Atata
 
         public Log4NetConsumer(string repositoryName, string loggerName)
         {
-			this.repositoryName = repositoryName;
-			LoggerName = loggerName;
+            this.repositoryName = repositoryName;
+            LoggerName = loggerName;
             InitLogLevelsMap();
         }
 
@@ -48,19 +48,19 @@ namespace Atata
         {
             Type logManagerType = Type.GetType("log4net.LogManager,log4net", true);
 
-			var _repository = logManagerType.GetMethodWithThrowOnError("GetRepository", typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName);
-			if (_repository.Configured)
-			{
-				var currentLoggers = (IEnumerable)logManagerType.GetMethodWithThrowOnError("GetCurrentLoggers", typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName);
-				logger = currentLoggers?.Cast<dynamic>().FirstOrDefault(a=>a.Logger.Name == loggerName);
-				logger = logger != null ? logger : logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string), typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName, loggerName);
-			}
-			else
-			{
-				throw new ArgumentException($"Log4Net repository '{repositoryName}' is not configured.");
-			}
+            var _repository = logManagerType.GetMethodWithThrowOnError("GetRepository", typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName);
+            if (_repository.Configured)
+            {
+                var currentLoggers = (IEnumerable)logManagerType.GetMethodWithThrowOnError("GetCurrentLoggers", typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName);
+                logger = currentLoggers?.Cast<dynamic>().FirstOrDefault(a => a.Logger.Name == loggerName);
+                logger = logger != null ? logger : logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string), typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName, loggerName);
+            }
+            else
+            {
+                throw new ArgumentException($"Log4Net repository '{repositoryName}' is not configured.");
+            }
 
-			if (logger == null)
+            if (logger == null)
                 throw new InvalidOperationException("Failed to create Log4Net logger.");
         }
 
