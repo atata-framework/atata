@@ -12,7 +12,7 @@ namespace Atata.Tests
         public void Log4NetConsumer()
         {
             var logRepository = log4net.LogManager.CreateRepository("Log4NetConsumer");
-            log4net.Config.XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+            log4net.Config.XmlConfigurator.Configure(logRepository, new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "log4net.config")));
 
             ConfigureBaseAtataContext().
                 AddLog4NetLogging(logRepository.Name, "AtataLog4Net").
@@ -67,7 +67,7 @@ namespace Atata.Tests
         {
             var incorrectLoggerName = "AtataatatA";
             var logRepository = log4net.LogManager.CreateRepository("AtataRepo");
-            log4net.Config.XmlConfigurator.Configure(logRepository, new FileInfo("log4net.config"));
+            log4net.Config.XmlConfigurator.Configure(logRepository, new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "log4net.config")));
             ConfigureBaseAtataContext().
                             AddLog4NetLogging(logRepository.Name, incorrectLoggerName).
                             Build();
