@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Atata.Tests
@@ -140,6 +141,58 @@ namespace Atata.Tests
         public void Find_ByColumnHeader_Missing()
         {
             VerifyNotExist(page.MissingOptionByColumnHeader);
+        }
+
+        [Test]
+        public void Find_ByScript()
+        {
+            VerifyRadioButton(page.OptionByScript, "OptionB");
+        }
+
+        [Test]
+        public void Find_ByScript_WithIndex()
+        {
+            VerifyRadioButton(page.OptionByScriptWithIndex, "OptionC");
+        }
+
+        [Test]
+        public void Find_ByScript_WithIncorrectIndex()
+        {
+            VerifyNotExist(page.OptionByScriptWithIncorrectIndex);
+        }
+
+        [Test]
+        public void Find_ByScript_Missing()
+        {
+            VerifyNotExist(page.OptionByScriptMissing);
+        }
+
+        [Test]
+        public void Find_ByScript_WithInvalidScript()
+        {
+            IWebElement element = null;
+
+            WebDriverException exception = Assert.Throws<WebDriverException>(() =>
+                element = page.OptionByScriptWithInvalidScript.Scope);
+
+            Assert.That(exception.Message, Does.StartWith("javascript error:"));
+
+            AssertThrowsWithInnerException<AssertionException, WebDriverException>(() =>
+                page.OptionByScriptWithInvalidScript.Should.AtOnce.Exist());
+        }
+
+        [Test]
+        public void Find_ByScript_WithIncorrectScriptResult()
+        {
+            IWebElement element = null;
+
+            InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() =>
+                element = page.OptionByScriptWithIncorrectScriptResult.Scope);
+
+            Assert.That(exception.Message, Does.Contain("I am not OK."));
+
+            AssertThrowsWithInnerException<AssertionException, InvalidOperationException>(() =>
+                page.OptionByScriptWithIncorrectScriptResult.Should.AtOnce.Exist());
         }
 
         [Test]

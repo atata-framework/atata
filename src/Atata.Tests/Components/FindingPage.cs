@@ -88,5 +88,23 @@ namespace Atata.Tests
 
         [ControlDefinition("span", ContainingClasses = new[] { "class-a", "class-d" })]
         public Text<_> MissingSpanWithMultipleClasses { get; private set; }
+
+        [FindByScript("return arguments[0].querySelector('input[type=radio][value=OptionB]')")]
+        public RadioButton<_> OptionByScript { get; private set; }
+
+        [FindByScript("return document.querySelectorAll('input[type=radio]')", Index = 2)]
+        public RadioButton<_> OptionByScriptWithIndex { get; private set; }
+
+        [FindByScript("return document.querySelectorAll('input[type=radio]')", Index = 9)]
+        public RadioButton<_> OptionByScriptWithIncorrectIndex { get; private set; }
+
+        [FindByScript("return document.querySelector('input[type=radio][value=OptionZ]')")]
+        public RadioButton<_> OptionByScriptMissing { get; private set; }
+
+        [FindByScript("return document.missingMethod()")]
+        public RadioButton<_> OptionByScriptWithInvalidScript { get; private set; }
+
+        [FindByScript("return 'I am not OK.'")]
+        public RadioButton<_> OptionByScriptWithIncorrectScriptResult { get; private set; }
     }
 }
