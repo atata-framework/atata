@@ -12,7 +12,7 @@ namespace Atata
     /// <example>
     /// <code>
     /// [FindByScript("return document.querySelector('input[type=radio][value=OptionA]')")]
-    /// public RadioButton<_> OptionA { get; private set; }
+    /// public RadioButton&lt;_&gt; OptionA { get; private set; }
     /// </code>
     /// </example>
     public class FindByScriptAttribute : FindAttribute
