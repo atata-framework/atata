@@ -170,6 +170,13 @@ namespace Atata
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
+            return should.HaveClass(classNames.AsEnumerable());
+        }
+
+        public static TOwner HaveClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should, IEnumerable<string> classNames)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
             should.CheckNotNull(nameof(should));
 
             return should.Component.Attributes.Class.Should.WithSettings(should).Contain(classNames);

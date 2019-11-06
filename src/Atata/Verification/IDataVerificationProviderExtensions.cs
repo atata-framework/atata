@@ -367,6 +367,12 @@ namespace Atata
         public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
             where TOwner : PageObject<TOwner>
         {
+            return should.BeEquivalent(expected.AsEnumerable());
+        }
+
+        public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, IEnumerable<TData> expected)
+            where TOwner : PageObject<TOwner>
+        {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
@@ -375,6 +381,12 @@ namespace Atata
         }
 
         public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.BeEquivalent(expected.AsEnumerable());
+        }
+
+        public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, IEnumerable<TData> expected)
             where TOwner : PageObject<TOwner>
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
@@ -387,6 +399,12 @@ namespace Atata
         public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
             where TOwner : PageObject<TOwner>
         {
+            return should.EqualSequence(expected.AsEnumerable());
+        }
+
+        public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, IEnumerable<TData> expected)
+            where TOwner : PageObject<TOwner>
+        {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
@@ -395,6 +413,12 @@ namespace Atata
         }
 
         public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.EqualSequence(expected.AsEnumerable());
+        }
+
+        public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, IEnumerable<TData> expected)
             where TOwner : PageObject<TOwner>
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
@@ -478,6 +502,20 @@ namespace Atata
         public static TOwner Contain<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, params TItem[] expected)
             where TOwner : PageObject<TOwner>
         {
+            return should.Contain(expected.AsEnumerable());
+        }
+
+        /// <summary>
+        /// Verifies that collection contains expected items.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expected">An expected item values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Contain<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should, IEnumerable<TItem> expected)
+            where TOwner : PageObject<TOwner>
+        {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
@@ -496,6 +534,20 @@ namespace Atata
         /// <param name="expected">An expected data values.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Contain(expected.AsEnumerable());
+        }
+
+        /// <summary>
+        /// Verifies that collection contains items equal to expected values.
+        /// </summary>
+        /// <typeparam name="TData">The type of the collection item data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expected">An expected data values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, IEnumerable<TData> expected)
             where TOwner : PageObject<TOwner>
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
@@ -528,6 +580,12 @@ namespace Atata
         public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<string>, TOwner> should, TermMatch match, params string[] expected)
             where TOwner : PageObject<TOwner>
         {
+            return should.Contain(match, expected.AsEnumerable());
+        }
+
+        public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<string>, TOwner> should, TermMatch match, IEnumerable<string> expected)
+            where TOwner : PageObject<TOwner>
+        {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
@@ -540,6 +598,12 @@ namespace Atata
         public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<string, TOwner>>, TOwner> should, TermMatch match, params string[] expected)
             where TOwner : PageObject<TOwner>
         {
+            return should.Contain(match, expected.AsEnumerable());
+        }
+
+        public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<string, TOwner>>, TOwner> should, TermMatch match, IEnumerable<string> expected)
+            where TOwner : PageObject<TOwner>
+        {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
             return should.Satisfy(
@@ -550,6 +614,13 @@ namespace Atata
         }
 
         public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch match, params string[] expected)
+            where TControl : Control<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            return should.ContainHavingContent(match, expected.AsEnumerable());
+        }
+
+        public static TOwner ContainHavingContent<TControl, TOwner>(this IDataVerificationProvider<IEnumerable<TControl>, TOwner> should, TermMatch match, IEnumerable<string> expected)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
