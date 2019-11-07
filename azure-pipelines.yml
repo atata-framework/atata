@@ -13,7 +13,7 @@ jobs:
     inputs:
       command: build
       projects: '**\Atata.sln'
-      arguments: -c $(buildConfiguration) /p:RunCodeAnalysis=true /warnaserror
+      arguments: -c $(buildConfiguration) -warnaserror
 
 - job: RunTestsNet45
   displayName: Run tests using .NET 4.5 on Windows
@@ -25,7 +25,7 @@ jobs:
     inputs:
       command: build
       projects: '**\Atata.sln'
-      arguments: -c $(buildConfiguration) /p:RunCodeAnalysis=false
+      arguments: -c $(buildConfiguration)
   - task: VSTest@2
     displayName: Run tests
     timeoutInMinutes: 30
@@ -52,7 +52,7 @@ jobs:
 #    inputs:
 #      command: build
 #      projects: '**/Atata.Tests.csproj'
-#      arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework) /p:RunCodeAnalysis=false
+#      arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework)
 #  - task: DotNetCoreCLI@2
 #    displayName: Run tests
 #    timeoutInMinutes: 30
