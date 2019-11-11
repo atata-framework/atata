@@ -164,7 +164,7 @@ namespace Atata
         /// Adds the capability.
         /// </summary>
         /// <param name="capabilityName">The name of the capability to add.</param>
-        /// <param name="capabilityValue">The value of the capability to add</param>
+        /// <param name="capabilityValue">The value of the capability to add.</param>
         /// <returns>The same builder instance.</returns>
         public RemoteDriverAtataContextBuilder WithCapability(string capabilityName, object capabilityValue)
         {

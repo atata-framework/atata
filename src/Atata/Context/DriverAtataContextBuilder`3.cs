@@ -120,7 +120,7 @@ namespace Atata
         /// Adds additional capability to the driver options.
         /// </summary>
         /// <param name="capabilityName">The name of the capability to add.</param>
-        /// <param name="capabilityValue">The value of the capability to add</param>
+        /// <param name="capabilityValue">The value of the capability to add.</param>
         /// <returns>The same builder instance.</returns>
         public TBuilder WithCapability(string capabilityName, object capabilityValue)
         {

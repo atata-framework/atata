@@ -84,11 +84,14 @@
     <Rule Id="S881" Action="Warning" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
+    <Rule Id="SA0001" Action="None" />
     <Rule Id="SA1101" Action="None" />
     <Rule Id="SA1200" Action="None" />
     <Rule Id="SA1202" Action="None" />
     <Rule Id="SA1404" Action="None" />
+    <Rule Id="SA1413" Action="None" />
     <Rule Id="SA1503" Action="None" />
+    <Rule Id="SA1519" Action="None" />
     <Rule Id="SA1600" Action="None" />
     <Rule Id="SA1602" Action="None" />
     <Rule Id="SA1633" Action="None" />
