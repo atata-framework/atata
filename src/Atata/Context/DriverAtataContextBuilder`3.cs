@@ -41,6 +41,15 @@ namespace Atata
             return CreateDriver(service, options, commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
         }
 
+        /// <summary>
+        /// Creates the driver instance.
+        /// </summary>
+        /// <param name="service">The driver service.</param>
+        /// <param name="options">The driver options.</param>
+        /// <param name="commandTimeout">The command timeout.</param>
+        /// <returns>The driver instance.</returns>
+        protected abstract RemoteWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
+
         private TService CreateDefaultService()
         {
             return driverPath != null && driverExecutableFileName != null
@@ -55,15 +64,6 @@ namespace Atata
         protected abstract TService CreateService(string driverPath);
 
         protected abstract TService CreateService(string driverPath, string driverExecutableFileName);
-
-        /// <summary>
-        /// Creates the driver instance.
-        /// </summary>
-        /// <param name="service">The driver service.</param>
-        /// <param name="options">The driver options.</param>
-        /// <param name="commandTimeout">The command timeout.</param>
-        /// <returns>The driver instance.</returns>
-        protected abstract RemoteWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
 
         /// <summary>
         /// Specifies the driver options.

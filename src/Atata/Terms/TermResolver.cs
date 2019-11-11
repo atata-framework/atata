@@ -230,7 +230,7 @@ namespace Atata
             if (formatParts.Length != 2)
             {
                 throw new ArgumentException(
-                    $"Incorrect \"{format}\" format for \"{value}\" string. Format should match regular expression: \".*{{0}}.*\".",
+                    $"Incorrect \"{format}\" {nameof(format)} for \"{value}\" string. Format should match regular expression: \".*{{0}}.*\".",
                     nameof(format));
             }
 
@@ -242,14 +242,14 @@ namespace Atata
             if (!value.StartsWith(formatStart))
             {
                 throw new ArgumentException(
-                    "\"{0}\" value doesn't match format \"{1}\". Should start with \"{2}\"".FormatWith(value, format, formatStart),
+                    $"\"{value}\" value doesn't match the \"{format}\" {nameof(format)}. Should start with \"{formatStart}\".",
                     nameof(value));
             }
 
             if (!value.EndsWith(formatEnd))
             {
                 throw new ArgumentException(
-                    "\"{0}\" value doesn't match format \"{1}\". Should end with \"{2}\"".FormatWith(value, format, formatEnd),
+                    $"\"{value}\" value doesn't match the \"{format}\" {nameof(format)}. Should end with \"{formatEnd}\".",
                     nameof(value));
             }
 

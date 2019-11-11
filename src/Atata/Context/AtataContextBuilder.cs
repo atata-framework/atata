@@ -66,27 +66,6 @@ namespace Atata
             return this;
         }
 
-        private IDriverFactory UsePredefinedDriver(string alias)
-        {
-            switch (alias.ToLowerInvariant())
-            {
-                case DriverAliases.Chrome:
-                    return UseChrome();
-                case DriverAliases.Firefox:
-                    return UseFirefox();
-                case DriverAliases.InternetExplorer:
-                    return UseInternetExplorer();
-                case DriverAliases.Safari:
-                    return UseSafari();
-                case DriverAliases.Opera:
-                    return UseOpera();
-                case DriverAliases.Edge:
-                    return UseEdge();
-                default:
-                    return null;
-            }
-        }
-
         /// <summary>
         /// Use specified driver instance.
         /// </summary>
@@ -109,6 +88,27 @@ namespace Atata
             driverFactory.CheckNotNull(nameof(driverFactory));
 
             return UseDriver(new CustomDriverAtataContextBuilder(BuildingContext, driverFactory));
+        }
+
+        private IDriverFactory UsePredefinedDriver(string alias)
+        {
+            switch (alias.ToLowerInvariant())
+            {
+                case DriverAliases.Chrome:
+                    return UseChrome();
+                case DriverAliases.Firefox:
+                    return UseFirefox();
+                case DriverAliases.InternetExplorer:
+                    return UseInternetExplorer();
+                case DriverAliases.Safari:
+                    return UseSafari();
+                case DriverAliases.Opera:
+                    return UseOpera();
+                case DriverAliases.Edge:
+                    return UseEdge();
+                default:
+                    return null;
+            }
         }
 
         /// <summary>

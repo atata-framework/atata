@@ -236,13 +236,6 @@ namespace Atata
             return Component.Controls.Create<TItem>(name, itemAttributes.ToArray());
         }
 
-        private void InitItemFindAttribute(FindAttribute findAttribute)
-        {
-            findAttribute.Visibility = ItemFindAttribute.Visibility;
-            findAttribute.ScopeSource = ItemFindAttribute.ScopeSource;
-            findAttribute.OuterXPath = ItemFindAttribute.OuterXPath;
-        }
-
         protected TItem CreateItem(IScopeLocator scopeLocator, string name)
         {
             TItem item = CreateItem(name);
@@ -253,6 +246,13 @@ namespace Atata
             item.ScopeLocator = scopeLocator;
 
             return item;
+        }
+
+        private void InitItemFindAttribute(FindAttribute findAttribute)
+        {
+            findAttribute.Visibility = ItemFindAttribute.Visibility;
+            findAttribute.ScopeSource = ItemFindAttribute.ScopeSource;
+            findAttribute.OuterXPath = ItemFindAttribute.OuterXPath;
         }
 
         protected virtual IEnumerable<Attribute> GetItemDeclaredAttributes()

@@ -22,22 +22,22 @@ namespace Atata
             return value;
         }
 
-        internal static string CheckNotNullOrEmpty(this string value, string argumentName, string errorMessage = null)
-        {
-            if (value == null)
-                throw new ArgumentNullException(argumentName, errorMessage);
-            if (value == string.Empty)
-                throw new ArgumentException(ConcatMessage("Should not be empty string.", errorMessage), argumentName);
-
-            return value;
-        }
-
         internal static string CheckNotNullOrWhitespace(this string value, string argumentName, string errorMessage = null)
         {
             if (value == null)
                 throw new ArgumentNullException(argumentName, errorMessage);
             if (string.IsNullOrWhiteSpace(value))
                 throw new ArgumentException(ConcatMessage("Should not be empty string or whitespace.", errorMessage), argumentName);
+
+            return value;
+        }
+
+        internal static string CheckNotNullOrEmpty(this string value, string argumentName, string errorMessage = null)
+        {
+            if (value == null)
+                throw new ArgumentNullException(argumentName, errorMessage);
+            if (value == string.Empty)
+                throw new ArgumentException(ConcatMessage("Should not be empty string.", errorMessage), argumentName);
 
             return value;
         }
