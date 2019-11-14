@@ -161,6 +161,12 @@ Contact me if you need a help in test automation using Atata Framework, or if yo
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
 * Gitter: https://gitter.im/YevgeniyShunevych
 
+## SemVer
+
+Atata Framework is following [Semantic Versioning 2.0](https://semver.org/).
+Thus backward compatibility is followed and updates within the same major version
+(e.g. from 1.3 to 1.4) should not require code changes.
+
 ## License
 
 Atata is an open source software, licensed under the Apache License 2.0.
