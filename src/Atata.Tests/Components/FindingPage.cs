@@ -106,5 +106,13 @@ namespace Atata.Tests
 
         [FindByScript("return 'I am not OK.'")]
         public RadioButton<_> OptionByScriptWithIncorrectScriptResult { get; private set; }
+
+        [ControlDefinition(ContainingClass = "custom-control")]
+        [FindByDescendantId("custom-control-inner-id")]
+        public Control<_> ControlByDescendantId { get; private set; }
+
+        [ControlDefinition(ContainingClass = "custom-control")]
+        [FindByDescendantId("custom-control-id")]
+        public Control<_> ControlByDescendantIdMissing { get; private set; }
     }
 }

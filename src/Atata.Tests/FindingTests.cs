@@ -196,6 +196,18 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Find_ByDescendantId()
+        {
+            page.ControlByDescendantId.Should.HaveClass("custom-control");
+        }
+
+        [Test]
+        public void Find_ByDescendantId_Missing()
+        {
+            VerifyNotExist(page.ControlByDescendantIdMissing);
+        }
+
+        [Test]
         public void Find_ControlDefinition_MultipleClasses()
         {
             page.SpanWithMultipleClasses.Should.Equal("Span with multiple classes");
