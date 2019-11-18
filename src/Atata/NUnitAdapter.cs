@@ -36,6 +36,8 @@ namespace Atata
             Error
         }
 
+        internal static Type AssertionExceptionType => GetType("NUnit.Framework.AssertionException");
+
         private static Type GetType(string typeName)
         {
             return Type.GetType($"{typeName},{NUnitAssemblyName}", true);

@@ -687,6 +687,16 @@ namespace Atata
             });
         }
 
+        /// <summary>
+        /// Sets the type of <c>NUnit.Framework.AssertionException</c> as the assertion exception type.
+        /// The default value is a type of <see cref="AssertionException"/>.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseNUnitAssertionExceptionType()
+        {
+            return UseAssertionExceptionType(NUnitAdapter.AssertionExceptionType);
+        }
+
         private static dynamic GetNUnitTestContext()
         {
             Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
