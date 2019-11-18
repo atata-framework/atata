@@ -112,6 +112,20 @@ namespace Atata
             return TermResolver.FromString<T>(value, ValueTermOptions);
         }
 
+        /// <summary>
+        /// Converts the string to value of <typeparamref name="T"/> type for <see cref="GetValue"/> method.
+        /// </summary>
+        /// <param name="value">The value as string.</param>
+        /// <returns>The value converted to <typeparamref name="T"/> type.</returns>
+        protected virtual T ConvertStringToValueUsingGetFormat(string value)
+        {
+            string getFormat = Metadata.Get<ValueGetFormatAttribute>()?.Value;
+
+            return getFormat != null
+                ? TermResolver.FromString<T>(value, new TermOptions().MergeWith(ValueTermOptions).WithFormat(getFormat))
+                : ConvertStringToValue(value);
+        }
+
         public override bool Equals(object obj)
         {
             if (obj == null)

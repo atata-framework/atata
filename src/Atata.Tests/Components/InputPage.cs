@@ -21,6 +21,10 @@ namespace Atata.Tests
         [Term(CutEnding = false)]
         public TextInput<_> TextInput { get; private set; }
 
+        [Term("Text Input")]
+        [Format("!{0}!")]
+        public TextInput<_> TextInputWithFormat { get; private set; }
+
         [Term(CutEnding = false)]
         public Input<Option, _> EnumTextInput { get; private set; }
 
@@ -68,12 +72,12 @@ namespace Atata.Tests
             protected override DateTime? GetValue()
             {
                 string valueAsString = AssociatedInput.Value;
-                return ConvertStringToValue(valueAsString);
+                return ConvertStringToValueUsingGetFormat(valueAsString);
             }
 
             protected override void SetValue(DateTime? value)
             {
-                string valueAsString = ConvertValueToString(value);
+                string valueAsString = ConvertValueToStringUsingSetFormat(value);
                 AssociatedInput.Set(valueAsString);
             }
         }

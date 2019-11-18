@@ -18,7 +18,7 @@
         protected override T GetValue()
         {
             string value = GetContent();
-            return ConvertStringToValue(value);
+            return ConvertStringToValueUsingGetFormat(value);
         }
     }
 }

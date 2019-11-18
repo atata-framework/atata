@@ -16,12 +16,12 @@ namespace Atata
         protected override T GetValue()
         {
             string valueAsString = Attributes.Value;
-            return ConvertStringToValue(valueAsString);
+            return ConvertStringToValueUsingGetFormat(valueAsString);
         }
 
         protected override void SetValue(T value)
         {
-            string valueAsString = ConvertValueToString(value);
+            string valueAsString = ConvertValueToStringUsingSetFormat(value);
             Scope.FillInWith(valueAsString);
         }
 

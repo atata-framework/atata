@@ -33,13 +33,16 @@ namespace Atata
             set { Properties[nameof(Format)] = value; }
         }
 
+        /// <summary>
+        /// Gets or sets the culture.
+        /// </summary>
         public CultureInfo Culture
         {
             get { return Properties.Get(nameof(Culture), CultureInfo.CurrentCulture); }
             set { Properties[nameof(Culture)] = value; }
         }
 
-        public void MergeWith(IPropertySettings settingsAttribute)
+        public TermOptions MergeWith(IPropertySettings settingsAttribute)
         {
             settingsAttribute.CheckNotNull(nameof(settingsAttribute));
 
@@ -51,6 +54,17 @@ namespace Atata
 
             if (settingsAttribute.Properties.Contains(nameof(Format)))
                 Format = (string)settingsAttribute.Properties[nameof(Format)];
+
+            if (settingsAttribute.Properties.Contains(nameof(Culture)))
+                Culture = (CultureInfo)settingsAttribute.Properties[nameof(Culture)];
+
+            return this;
+        }
+
+        public TermOptions WithFormat(string format)
+        {
+            Format = format;
+            return this;
         }
     }
 }

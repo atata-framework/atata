@@ -13,7 +13,7 @@ namespace Atata
     {
         protected override void SetValue(string value)
         {
-            string valueAsString = ConvertValueToString(value);
+            string valueAsString = ConvertValueToStringUsingSetFormat(value);
             Scope.SendKeys(valueAsString);
         }
 

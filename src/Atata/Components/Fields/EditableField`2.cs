@@ -44,6 +44,20 @@ namespace Atata
         }
 
         /// <summary>
+        /// Converts the value to string for <see cref="SetValue(T)"/> method.
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>The value converted to string.</returns>
+        protected virtual string ConvertValueToStringUsingSetFormat(T value)
+        {
+            string setFormat = Metadata.Get<ValueSetFormatAttribute>()?.Value;
+
+            return setFormat != null
+                ? TermResolver.ToString(value, new TermOptions().MergeWith(ValueTermOptions).WithFormat(setFormat))
+                : ConvertValueToString(value);
+        }
+
+        /// <summary>
         /// Sets the value.
         /// </summary>
         /// <param name="value">The value.</param>
