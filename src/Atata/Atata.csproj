@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Atata</RootNamespace>
-    <Version>1.3.0</Version>
+    <Version>1.4.0</Version>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
@@ -29,7 +29,8 @@ Features:
     <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo_68.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>1.3.0 - https://atata.io/blog/2019/09/17/atata-1.3.0-released/
+    <PackageReleaseNotes>1.4.0 - https://atata.io/blog/2019/11/19/atata-1.4.0-released/
+1.3.0 - https://atata.io/blog/2019/09/17/atata-1.3.0-released/
 1.2.0 - https://atata.io/blog/2019/06/13/atata-1.2.0-released/
 1.1.0 - https://atata.io/blog/2019/05/02/atata-1.1.0-released/
 1.0.0 - https://atata.io/blog/2018/10/15/atata-1.0.0-released/
