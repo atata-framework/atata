@@ -697,6 +697,31 @@ namespace Atata
             return UseAssertionExceptionType(NUnitAdapter.AssertionExceptionType);
         }
 
+        /// <summary>
+        /// Enables all NUnit features for Atata.
+        /// Executes the following methods:
+        /// <list type="bullet">
+        /// <item><see cref="UseNUnitTestName"/>,</item>
+        /// <item><see cref="UseNUnitAssertionExceptionType"/>,</item>
+        /// <item><see cref="UseNUnitAggregateAssertionStrategy"/>,</item>
+        /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
+        /// <item><see cref="AddNUnitTestContextLogging"/>,</item>
+        /// <item><see cref="LogNUnitError"/>,</item>
+        /// <item><see cref="TakeScreenshotOnNUnitError(string)"/>.</item>
+        /// </list>
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAllNUnitFeatures()
+        {
+            return UseNUnitTestName().
+                UseNUnitAssertionExceptionType().
+                UseNUnitAggregateAssertionStrategy().
+                UseNUnitWarningReportStrategy().
+                AddNUnitTestContextLogging().
+                LogNUnitError().
+                TakeScreenshotOnNUnitError();
+        }
+
         private static dynamic GetNUnitTestContext()
         {
             Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
