@@ -82,9 +82,11 @@ namespace Atata
             type.CheckNotNull(nameof(type));
             name.CheckNotNullOrWhitespace(nameof(name));
 
-            PropertyInfo property = bindingFlags == BindingFlags.Default
-                ? type.GetProperty(name)
-                : type.GetProperty(name, bindingFlags);
+            PropertyInfo[] properties = bindingFlags == BindingFlags.Default
+                ? type.GetProperties()
+                : type.GetProperties(bindingFlags);
+
+            PropertyInfo property = properties.FirstOrDefault(x => x.Name == name);
 
             if (property == null)
                 throw new MissingMemberException(type.FullName, name);
