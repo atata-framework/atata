@@ -24,6 +24,7 @@ Features:
 - Reporting/Logging. Built-in customizable logging and screenshot capturing functionality.
 - Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components. Framework supports any kind of extending.</Description>
     <Copyright>© Yevgeniy Shunevych 2019</Copyright>
+    <PackageId>Atata</PackageId>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
     <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo_68.png</PackageIconUrl>
