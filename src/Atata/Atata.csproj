@@ -23,7 +23,7 @@ Features:
 - Configurable. Defines the default component search strategies as well as additional settings. Atata.Configuration.Json provides flexible JSON configurations.
 - Reporting/Logging. Built-in customizable logging and screenshot capturing functionality.
 - Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components. Framework supports any kind of extending.</Description>
-    <Copyright>© Yevgeniy Shunevych 2019</Copyright>
+    <Copyright>© Yevgeniy Shunevych 2020</Copyright>
     <PackageId>Atata</PackageId>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
