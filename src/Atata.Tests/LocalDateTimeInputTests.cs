@@ -5,8 +5,6 @@ namespace Atata.Tests
 {
     public class LocalDateTimeInputTests : UITestFixture
     {
-        private const string ControlValueFormat = "yyyy-MM-ddTHH:mm";
-
         private LocalDateTimeInputPage page;
 
         protected override void OnSetUp()
