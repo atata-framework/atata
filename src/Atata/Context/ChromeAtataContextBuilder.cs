@@ -32,5 +32,18 @@ namespace Atata
         {
             return WithOptions(options => options.AddArguments(arguments));
         }
+
+        /// <summary>
+        /// Adds global additional capability to the driver options.
+        /// </summary>
+        /// <param name="capabilityName">The name of the capability to add.</param>
+        /// <param name="capabilityValue">The value of the capability to add.</param>
+        /// <returns>The same builder instance.</returns>
+        public ChromeAtataContextBuilder WithGlobalCapability(string capabilityName, object capabilityValue)
+        {
+            capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
+
+            return WithOptions(options => options.AddAdditionalCapability(capabilityName, capabilityValue, true));
+        }
     }
 }
