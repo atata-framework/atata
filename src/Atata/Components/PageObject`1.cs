@@ -65,14 +65,19 @@ namespace Atata
         public Report<TOwner> Report { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the title of the current HTML page.
+        /// Gets the title provider of the current HTML page.
         /// </summary>
         public DataProvider<string, TOwner> PageTitle => GetOrCreateDataProvider("title", GetTitle);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the URL of the current HTML page.
+        /// Gets the URL provider of the current HTML page.
         /// </summary>
         public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
+
+        /// <summary>
+        /// Gets the page source provider of the current HTML page.
+        /// </summary>
+        public DataProvider<string, TOwner> PageSource => GetOrCreateDataProvider("page source", GetPageSource);
 
         /// <summary>
         /// Gets the active control.
@@ -106,6 +111,11 @@ namespace Atata
         private string GetUrl()
         {
             return Driver.Url;
+        }
+
+        private string GetPageSource()
+        {
+            return Driver.PageSource;
         }
 
         internal void Init()

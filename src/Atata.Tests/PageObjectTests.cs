@@ -134,5 +134,12 @@ namespace Atata.Tests
 
             Assert.That(exception.Results, Has.Count.EqualTo(2));
         }
+
+        [Test]
+        public void PageObject_PageSource()
+        {
+            Go.To<BasicControlsPage>().
+                PageSource.Should.ContainAll("<head>", "</body>", "<input", "<button");
+        }
     }
 }
