@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Opera;
 using OpenQA.Selenium.Remote;
 
 namespace Atata
@@ -171,6 +175,31 @@ namespace Atata
             capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
 
             return WithOptions(options => options.AddAdditionalCapability(capabilityName, capabilityValue));
+        }
+
+        /// <summary>
+        /// Adds global additional capability to the driver options.
+        /// </summary>
+        /// <param name="capabilityName">The name of the capability to add.</param>
+        /// <param name="capabilityValue">The value of the capability to add.</param>
+        /// <returns>The same builder instance.</returns>
+        public RemoteDriverAtataContextBuilder WithGlobalCapability(string capabilityName, object capabilityValue)
+        {
+            capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
+
+            return WithOptions(options =>
+            {
+                if (options is ChromeOptions chromeOptions)
+                    chromeOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                else if (options is FirefoxOptions firefoxOptions)
+                    firefoxOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                else if (options is InternetExplorerOptions internetExplorerOptions)
+                    internetExplorerOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                else if (options is OperaOptions operaOptions)
+                    operaOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                else
+                    throw new InvalidOperationException($"Cannot add \"{capabilityName}\"={capabilityValue} global capability to options of {options.GetType()} type as it doesn't have AddAdditionalCapability(string, object, bool) method.");
+            });
         }
 
         /// <summary>
