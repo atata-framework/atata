@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 
@@ -29,6 +31,16 @@ namespace Atata
         /// <param name="arguments">The arguments.</param>
         /// <returns>The same builder instance.</returns>
         public ChromeAtataContextBuilder WithArguments(params string[] arguments)
+        {
+            return WithArguments(arguments.AsEnumerable());
+        }
+
+        /// <summary>
+        /// Adds arguments to be appended to the Chrome.exe command line.
+        /// </summary>
+        /// <param name="arguments">The arguments.</param>
+        /// <returns>The same builder instance.</returns>
+        public ChromeAtataContextBuilder WithArguments(IEnumerable<string> arguments)
         {
             return WithOptions(options => options.AddArguments(arguments));
         }

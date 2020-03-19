@@ -27,7 +27,7 @@ namespace Atata.Tests
 
             return AtataContext.Configure().
                 UseChrome().
-                    WithArguments(GetChromeArguments().ToArray()).
+                    WithArguments(GetChromeArguments()).
 #if NETCOREAPP2_0
                     WithFixOfCommandExecutionDelay().
                     WithLocalDriverPath().

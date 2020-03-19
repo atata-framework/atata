@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
@@ -29,6 +31,16 @@ namespace Atata
         /// <param name="arguments">The arguments.</param>
         /// <returns>The same builder instance.</returns>
         public FirefoxAtataContextBuilder WithArguments(params string[] arguments)
+        {
+            return WithArguments(arguments.AsEnumerable());
+        }
+
+        /// <summary>
+        /// Adds arguments to be used in launching the Firefox browser.
+        /// </summary>
+        /// <param name="arguments">The arguments.</param>
+        /// <returns>The same builder instance.</returns>
+        public FirefoxAtataContextBuilder WithArguments(IEnumerable<string> arguments)
         {
             return WithOptions(options => options.AddArguments(arguments));
         }
