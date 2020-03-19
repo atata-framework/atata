@@ -1,6 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using FluentAssertions;
 using log4net.Appender;
+using log4net.Config;
 using log4net.Core;
 using NUnit.Framework;
 
@@ -8,11 +11,22 @@ namespace Atata.Tests
 {
     public class Log4NetConsumerTests : UITestFixtureBase
     {
+        public override void TearDown()
+        {
+            base.TearDown();
+
+            foreach (var repository in log4net.LogManager.GetAllRepositories())
+            {
+                repository.ResetConfiguration();
+                repository.Shutdown();
+            }
+        }
+
         [Test]
         public void Log4NetConsumer()
         {
             var logRepository = log4net.LogManager.CreateRepository("Log4NetConsumer");
-            log4net.Config.XmlConfigurator.Configure(logRepository, new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "log4net.config")));
+            XmlConfigurator.Configure(logRepository, new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "log4net.config")));
 
             ConfigureBaseAtataContext().
                 AddLog4NetLogging(logRepository.Name, "AtataLog4Net").
@@ -21,84 +35,59 @@ namespace Atata.Tests
             string testMessage = Guid.NewGuid().ToString();
             AtataContext.Current.Log.Info(testMessage);
 
-            string filePath = null;
-            foreach (IAppender appender in logRepository.GetAppenders())
-            {
-                Type t = appender.GetType();
-                // Get the file name from the first FileAppender found and return
-                if (t.Equals(typeof(FileAppender)) || t.Equals(typeof(RollingFileAppender)))
-                {
-                    filePath = ((FileAppender)appender).File;
-                    break;
-                }
-            }
+            string filePath = logRepository.GetAppenders().OfType<FileAppender>().First().File;
 
             FileAssert.Exists(filePath);
-
             string fileContent = File.ReadAllText(filePath);
-
-            Assert.That(fileContent, Does.Contain(testMessage));
+            fileContent.Should().Contain(testMessage);
         }
 
         [Test]
-        public void Log4NetConsumerIncorrectParams()
+        public void Log4NetConsumer_MissingRepository()
         {
-            var repoName = "AtataRepo";
-            var ex = Assert.Throws<LogException>(() =>
+            string repositoryName = "AtataRepo";
+
+            var exception = Assert.Throws<LogException>(() =>
                 ConfigureBaseAtataContext().
-                    AddLog4NetLogging(repoName, "AtataLogger").
+                    AddLog4NetLogging(repositoryName, "AtataLogger").
                     Build());
-            Assert.That(ex.Message == $"Repository [{repoName}] is NOT defined.");
+
+            exception.Message.Should().Be($"Repository [{repositoryName}] is NOT defined.");
         }
 
         [Test]
-        public void Log4NetConsumerUnconfiguredRepo()
+        public void Log4NetConsumer_UnconfiguredRepository()
         {
-            var logRepository = log4net.LogManager.CreateRepository("Log4NetConsumerUnconfiguredRepo");
-            var ex = Assert.Throws<ArgumentException>(() =>
+            var repository = log4net.LogManager.CreateRepository("Log4NetConsumerUnconfiguredRepo");
+
+            var exception = Assert.Throws<InvalidOperationException>(() =>
                 ConfigureBaseAtataContext().
-                    AddLog4NetLogging(logRepository.Name, "AtataLogger").
+                    AddLog4NetLogging(repository.Name, "AtataLogger").
                     Build());
-            Assert.That(ex.Message == $"Log4Net repository '{logRepository.Name}' is not configured.");
+
+            exception.Message.Should().Be($"Log4Net '{repository.Name}' repository is not configured.");
         }
 
         [Test]
-        public void Log4NetConsumerNotConfiguredLogger()
+        public void Log4NetConsumer_UnconfiguredLogger()
         {
             var incorrectLoggerName = "AtataatatA";
             var logRepository = log4net.LogManager.CreateRepository("AtataRepo");
             log4net.Config.XmlConfigurator.Configure(logRepository, new FileInfo(Path.Combine(TestContext.CurrentContext.TestDirectory, "log4net.config")));
+
             ConfigureBaseAtataContext().
-                            AddLog4NetLogging(logRepository.Name, incorrectLoggerName).
-                            Build();
+                AddLog4NetLogging(logRepository.Name, incorrectLoggerName).
+                Build();
 
             string testMessage = Guid.NewGuid().ToString();
             AtataContext.Current.Log.Info(testMessage);
 
-            string filePath = null;
-            foreach (IAppender appender in logRepository.GetAppenders())
-            {
-                Type t = appender.GetType();
-                if ((t.Equals(typeof(FileAppender)) || t.Equals(typeof(RollingFileAppender))) && appender.Name == "LogFileAppender2")
-                {
-                    filePath = ((FileAppender)appender).File;
-                    break;
-                }
-            }
+            string filePath = logRepository.GetAppenders().OfType<FileAppender>().
+                First(x => x.Name == "LogFileAppender2").File;
 
             FileAssert.Exists(filePath);
             string fileContent = File.ReadAllText(filePath);
             Assert.That(fileContent, Does.Contain(testMessage));
-        }
-
-        [SetUp]
-        public void Cleanup()
-        {
-            foreach (var repo in log4net.LogManager.GetAllRepositories())
-            {
-                repo.ResetConfiguration();
-                repo.Shutdown();
-            }
         }
     }
 }

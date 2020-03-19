@@ -48,16 +48,21 @@ namespace Atata
         {
             Type logManagerType = Type.GetType("log4net.LogManager,log4net", true);
 
-            var _repository = logManagerType.GetMethodWithThrowOnError("GetRepository", typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName);
-            if (_repository.Configured)
+            dynamic repository = logManagerType.GetMethodWithThrowOnError("GetRepository", typeof(string)).
+                InvokeStaticAsLambda<dynamic>(repositoryName);
+
+            if (repository.Configured)
             {
-                var currentLoggers = (IEnumerable)logManagerType.GetMethodWithThrowOnError("GetCurrentLoggers", typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName);
+                var currentLoggers = (IEnumerable)logManagerType.GetMethodWithThrowOnError("GetCurrentLoggers", typeof(string)).
+                    InvokeStaticAsLambda<dynamic>(repositoryName);
+
                 logger = currentLoggers?.Cast<dynamic>().FirstOrDefault(a => a.Logger.Name == loggerName);
-                logger = logger != null ? logger : logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string), typeof(string)).InvokeStaticAsLambda<dynamic>(repositoryName, loggerName);
+                logger = logger ?? logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string), typeof(string)).
+                    InvokeStaticAsLambda<dynamic>(repositoryName, loggerName);
             }
             else
             {
-                throw new ArgumentException($"Log4Net repository '{repositoryName}' is not configured.");
+                throw new InvalidOperationException($"Log4Net '{repositoryName}' repository is not configured.");
             }
 
             if (logger == null)
