@@ -45,6 +45,9 @@ namespace Atata
 
         /// <summary>
         /// Converts the value to string for <see cref="SetValue(T)"/> method.
+        /// Can use format from <see cref="ValueSetFormatAttribute"/>,
+        /// otherwise from <see cref="FormatAttribute"/>.
+        /// Can use culture from <see cref="CultureAttribute"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value converted to string.</returns>

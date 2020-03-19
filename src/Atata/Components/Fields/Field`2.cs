@@ -94,6 +94,8 @@ namespace Atata
 
         /// <summary>
         /// Converts the value to string.
+        /// Can use format from <see cref="FormatAttribute"/>.
+        /// Can use culture from <see cref="CultureAttribute"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value converted to string.</returns>
@@ -104,6 +106,8 @@ namespace Atata
 
         /// <summary>
         /// Converts the string to value of <typeparamref name="T"/> type.
+        /// Can use format from <see cref="FormatAttribute"/>.
+        /// Can use culture from <see cref="CultureAttribute"/>.
         /// </summary>
         /// <param name="value">The value as string.</param>
         /// <returns>The value converted to <typeparamref name="T"/> type.</returns>
@@ -114,6 +118,9 @@ namespace Atata
 
         /// <summary>
         /// Converts the string to value of <typeparamref name="T"/> type for <see cref="GetValue"/> method.
+        /// Can use format from <see cref="ValueGetFormatAttribute"/>,
+        /// otherwise from <see cref="FormatAttribute"/>.
+        /// Can use culture from <see cref="CultureAttribute"/>.
         /// </summary>
         /// <param name="value">The value as string.</param>
         /// <returns>The value converted to <typeparamref name="T"/> type.</returns>
