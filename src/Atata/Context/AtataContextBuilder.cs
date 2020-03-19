@@ -247,6 +247,17 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.Logger</c> class for logging.
+        /// </summary>
+        /// <param name="repositoryName">The name of the logger repository.</param>		///
+        /// <param name="loggerName">The name of the logger.</param>
+        /// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
+        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string repositoryName, string loggerName)
+        {
+            return AddLogConsumer(new Log4NetConsumer(repositoryName, loggerName));
+        }
+
+        /// <summary>
         /// Adds the screenshot consumer.
         /// </summary>
         /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
