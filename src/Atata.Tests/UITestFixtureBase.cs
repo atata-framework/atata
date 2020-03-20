@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Atata.Tests
@@ -143,6 +145,13 @@ namespace Atata.Tests
         protected string[] GetLastLogMessages(int count)
         {
             return GetLastLogEntries(count).Select(x => x.Message).ToArray();
+        }
+
+        protected void AssertThatFileContainsText(string filePath, params string[] texts)
+        {
+            FileAssert.Exists(filePath);
+            string fileContent = File.ReadAllText(filePath);
+            fileContent.Should().ContainAll(texts);
         }
     }
 }

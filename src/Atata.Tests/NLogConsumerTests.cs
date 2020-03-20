@@ -24,11 +24,7 @@ namespace Atata.Tests
                 AtataContext.Current.TestName,
                 $"{AtataContext.Current.TestName}.log");
 
-            FileAssert.Exists(filePath);
-
-            string fileContent = File.ReadAllText(filePath);
-
-            Assert.That(fileContent, Does.Contain(testMessage));
+            AssertThatFileContainsText(filePath, testMessage);
         }
     }
 }
