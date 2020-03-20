@@ -6,7 +6,7 @@
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Copyright>© Yevgeniy Shunevych 2020</Copyright>
-    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0</Configurations>
+    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0;DevNet45</Configurations>
   </PropertyGroup>
 
   <PropertyGroup Condition="$(Configuration) == 'Debug'">
@@ -53,8 +53,20 @@
       </PropertyGroup>
     </When>
     <Otherwise>
+      <Choose>
+        <When Condition="$(Configuration) == 'DevNet45'">
+          <PropertyGroup>
+            <TargetFramework>net45</TargetFramework>
+          </PropertyGroup>
+        </When>
+        <Otherwise>
+          <PropertyGroup>
+            <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
+          </PropertyGroup>
+        </Otherwise>
+      </Choose>
+
       <PropertyGroup>
-        <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
         <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
 

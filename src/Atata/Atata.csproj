@@ -47,7 +47,7 @@ Features:
 0.11.1 - https://github.com/atata-framework/atata/releases/tag/v0.11.1
 0.11.0 - Initial release</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
-    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0</Configurations>
+    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0;DevNet45</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -69,8 +69,20 @@ Features:
       </PropertyGroup>
     </When>
     <Otherwise>
+      <Choose>
+        <When Condition="$(Configuration) == 'DevNet45'">
+          <PropertyGroup>
+            <TargetFramework>net45</TargetFramework>
+          </PropertyGroup>
+        </When>
+        <Otherwise>
+          <PropertyGroup>
+            <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
+          </PropertyGroup>
+        </Otherwise>
+      </Choose>
+
       <PropertyGroup>
-        <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
         <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
       </PropertyGroup>

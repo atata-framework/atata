@@ -7,7 +7,7 @@
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Copyright>© Yevgeniy Shunevych 2020</Copyright>
-    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0</Configurations>
+    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0;DevNet45</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
