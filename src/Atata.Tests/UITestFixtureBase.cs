@@ -108,6 +108,13 @@ namespace Atata.Tests
             return exception;
         }
 
+        protected static void AssertThatFileContainsText(string filePath, params string[] texts)
+        {
+            FileAssert.Exists(filePath);
+            string fileContent = File.ReadAllText(filePath);
+            fileContent.Should().ContainAll(texts);
+        }
+
         protected void VerifyLastLogMessages(params string[] expectedMessages)
         {
             Assert.That(GetLastLogMessages(expectedMessages.Length), Is.EqualTo(expectedMessages));
@@ -145,13 +152,6 @@ namespace Atata.Tests
         protected string[] GetLastLogMessages(int count)
         {
             return GetLastLogEntries(count).Select(x => x.Message).ToArray();
-        }
-
-        protected void AssertThatFileContainsText(string filePath, params string[] texts)
-        {
-            FileAssert.Exists(filePath);
-            string fileContent = File.ReadAllText(filePath);
-            fileContent.Should().ContainAll(texts);
         }
     }
 }

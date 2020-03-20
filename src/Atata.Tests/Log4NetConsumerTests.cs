@@ -11,10 +11,10 @@ namespace Atata.Tests
 {
     public class Log4NetConsumerTests : UITestFixtureBase
     {
-        private FileInfo ConfigFileInfo =>
+        private static FileInfo ConfigFileInfo =>
             new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config"));
 
-        private string LogsFolder =>
+        private static string LogsFolder =>
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", "Log4Net");
 
         public override void TearDown()
