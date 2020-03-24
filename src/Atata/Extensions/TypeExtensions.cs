@@ -114,6 +114,23 @@ namespace Atata
             return property;
         }
 
+        internal static FieldInfo GetFieldWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
+        {
+            type.CheckNotNull(nameof(type));
+            name.CheckNotNullOrWhitespace(nameof(name));
+
+            FieldInfo[] fields = bindingFlags == BindingFlags.Default
+                ? type.GetFields()
+                : type.GetFields(bindingFlags);
+
+            FieldInfo field = fields.FirstOrDefault(x => x.Name == name);
+
+            if (field == null)
+                throw new MissingMemberException(type.FullName, name);
+
+            return field;
+        }
+
         public static int? GetDepthOfInheritance(this Type type, Type baseType)
         {
             type.CheckNotNull(nameof(type));
