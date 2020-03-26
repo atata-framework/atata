@@ -11,45 +11,78 @@ namespace Atata.Tests
 {
     public class Log4NetConsumerTests : UITestFixtureBase
     {
+        private const string InfoLoggerName = "InfoLogger";
+
         private static FileInfo ConfigFileInfo =>
             new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config"));
 
         private static string LogsFolder =>
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", "Log4Net");
 
+        private static string TraceLogFilePath =>
+            Path.Combine(LogsFolder, "Trace.log");
+
+        [OneTimeSetUp]
+        public void OnSetUpFixture()
+        {
+            XmlConfigurator.Configure(ConfigFileInfo);
+        }
+
         public override void TearDown()
         {
             base.TearDown();
 
             foreach (var repository in log4net.LogManager.GetAllRepositories())
-            {
-                repository.ResetConfiguration();
                 repository.Shutdown();
-            }
 
             if (Directory.Exists(LogsFolder))
                 Directory.Delete(LogsFolder, recursive: true);
         }
 
         [Test]
-        public void Log4NetConsumer()
+        public void Log4NetConsumer_Default()
+        {
+            ConfigureBaseAtataContext().
+                AddLog4NetLogging().
+                Build();
+
+            string traceTestMessage = Guid.NewGuid().ToString();
+            string debugTestMessage = Guid.NewGuid().ToString();
+            string infoTestMessage = Guid.NewGuid().ToString();
+
+            AtataContext.Current.Log.Trace(traceTestMessage);
+            AtataContext.Current.Log.Debug(debugTestMessage);
+            AtataContext.Current.Log.Info(infoTestMessage);
+
+            AssertThatFileShouldContainText(TraceLogFilePath, traceTestMessage, debugTestMessage, infoTestMessage);
+        }
+
+        [Test]
+        public void Log4NetConsumer_WithRepositoryUsingInfoLevel()
         {
             var logRepository = log4net.LogManager.CreateRepository(Guid.NewGuid().ToString());
             XmlConfigurator.Configure(logRepository, ConfigFileInfo);
 
             ConfigureBaseAtataContext().
-                AddLog4NetLogging(logRepository.Name, "DebugLogger").
+                AddLog4NetLogging(logRepository.Name, InfoLoggerName).
                 Build();
 
-            string testMessage = Guid.NewGuid().ToString();
+            string traceTestMessage = Guid.NewGuid().ToString();
+            string debugTestMessage = Guid.NewGuid().ToString();
+            string infoTestMessage = Guid.NewGuid().ToString();
 
-            AtataContext.Current.Log.Info(testMessage);
+            AtataContext.Current.Log.Trace(traceTestMessage);
+            AtataContext.Current.Log.Debug(debugTestMessage);
+            AtataContext.Current.Log.Info(infoTestMessage);
 
             var fileAppenders = logRepository.GetAppenders().OfType<FileAppender>().ToArray();
             fileAppenders.Should().HaveCount(2);
 
-            foreach (FileAppender fileAppender in fileAppenders)
-                AssertThatFileContainsText(fileAppender.File, testMessage);
+            foreach (var fileAppender in fileAppenders)
+            {
+                AssertThatFileShouldContainText(fileAppender.File, infoTestMessage);
+                AssertThatFileShouldNotContainText(fileAppender.File, traceTestMessage, debugTestMessage);
+            }
         }
 
         [Test]
@@ -59,7 +92,7 @@ namespace Atata.Tests
 
             var exception = Assert.Throws<LogException>(() =>
                 ConfigureBaseAtataContext().
-                    AddLog4NetLogging(repositoryName, "DebugLogger").
+                    AddLog4NetLogging(repositoryName, InfoLoggerName).
                     Build());
 
             exception.Message.Should().Be($"Repository [{repositoryName}] is NOT defined.");
@@ -70,29 +103,9 @@ namespace Atata.Tests
         {
             var repository = log4net.LogManager.CreateRepository(Guid.NewGuid().ToString());
 
-            var exception = Assert.Throws<InvalidOperationException>(() =>
-                ConfigureBaseAtataContext().
-                    AddLog4NetLogging(repository.Name, "DebugLogger").
-                    Build());
-
-            exception.Message.Should().Be($"Log4Net '{repository.Name}' repository is not configured.");
-        }
-
-        [Test]
-        public void Log4NetConsumer_WithUnconfiguredLogger()
-        {
-            var logRepository = log4net.LogManager.CreateRepository(Guid.NewGuid().ToString());
-            XmlConfigurator.Configure(logRepository, ConfigFileInfo);
-
             ConfigureBaseAtataContext().
-                AddLog4NetLogging(logRepository.Name, "MissingLogger").
+                AddLog4NetLogging(repository.Name, InfoLoggerName).
                 Build();
-
-            string testMessage = Guid.NewGuid().ToString();
-            AtataContext.Current.Log.Info(testMessage);
-
-            var fileAppender = logRepository.GetAppenders().OfType<FileAppender>().First(x => x.Name == "DefaultInfoFileAppender");
-            AssertThatFileContainsText(fileAppender.File, testMessage);
         }
     }
 }

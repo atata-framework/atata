@@ -108,11 +108,18 @@ namespace Atata.Tests
             return exception;
         }
 
-        protected static void AssertThatFileContainsText(string filePath, params string[] texts)
+        protected static void AssertThatFileShouldContainText(string filePath, params string[] texts)
         {
             FileAssert.Exists(filePath);
             string fileContent = File.ReadAllText(filePath);
             fileContent.Should().ContainAll(texts);
+        }
+
+        protected static void AssertThatFileShouldNotContainText(string filePath, params string[] texts)
+        {
+            FileAssert.Exists(filePath);
+            string fileContent = File.ReadAllText(filePath);
+            fileContent.Should().NotContainAll(texts);
         }
 
         protected void VerifyLastLogMessages(params string[] expectedMessages)

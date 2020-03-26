@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace Atata
 {
-    public class NLogConsumer : ILogConsumer
+    public class NLogConsumer : INamedLogConsumer
     {
         private readonly Type logEventInfoType;
         private readonly Dictionary<LogLevel, dynamic> logLevelsMap = new Dictionary<LogLevel, dynamic>();

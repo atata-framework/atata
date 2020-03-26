@@ -247,14 +247,35 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.Logger</c> class for logging.
+        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
+        /// </summary>
+        /// <param name="loggerName">The name of the logger.</param>
+        /// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
+        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string loggerName = null)
+        {
+            return AddLogConsumer(new Log4NetConsumer { LoggerName = loggerName });
+        }
+
+        /// <summary>
+        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
         /// </summary>
         /// <param name="repositoryName">The name of the logger repository.</param>
         /// <param name="loggerName">The name of the logger.</param>
         /// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
-        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string repositoryName, string loggerName)
+        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string repositoryName, string loggerName = null)
         {
-            return AddLogConsumer(new Log4NetConsumer(repositoryName, loggerName));
+            return AddLogConsumer(new Log4NetConsumer { RepositoryName = repositoryName, LoggerName = loggerName });
+        }
+
+        /// <summary>
+        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
+        /// </summary>
+        /// <param name="repositoryAssembly">The assembly to use to lookup the repository.</param>
+        /// <param name="loggerName">The name of the logger.</param>
+        /// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
+        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(Assembly repositoryAssembly, string loggerName = null)
+        {
+            return AddLogConsumer(new Log4NetConsumer { RepositoryAssembly = repositoryAssembly, LoggerName = loggerName });
         }
 
         /// <summary>

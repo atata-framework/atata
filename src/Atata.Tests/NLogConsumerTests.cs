@@ -24,7 +24,7 @@ namespace Atata.Tests
                 AtataContext.Current.TestName,
                 $"{AtataContext.Current.TestName}.log");
 
-            AssertThatFileContainsText(filePath, testMessage);
+            AssertThatFileShouldContainText(filePath, testMessage);
         }
     }
 }

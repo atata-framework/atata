@@ -1,77 +1,124 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using System.Reflection;
 
 namespace Atata
 {
-    public class Log4NetConsumer : ILogConsumer
+    /// <summary>
+    /// Represents the log consumer for log4net.
+    /// </summary>
+    public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     {
-        private readonly Dictionary<LogLevel, dynamic> logLevelsMap = new Dictionary<LogLevel, dynamic>();
-        private readonly string repositoryName;
-        private string loggerName;
-        private dynamic logger;
+        private static readonly Lazy<Dictionary<LogLevel, dynamic>> LazyLogLevelsMap = new Lazy<Dictionary<LogLevel, dynamic>>(CreateLogLevelsMap);
 
-        public Log4NetConsumer(string repositoryName, string loggerName)
+        private static readonly Lazy<dynamic> LazyThreadContextProperties = new Lazy<dynamic>(GetThreadContextProperties);
+
+        private string repositoryName;
+
+        private Assembly repositoryAssembly;
+
+        /// <summary>
+        /// Gets or sets the name of the logger repository.
+        /// </summary>
+        public string RepositoryName
         {
-            this.repositoryName = repositoryName;
-            LoggerName = loggerName;
-            InitLogLevelsMap();
-        }
-
-        public string LoggerName
-        {
-            get
-            {
-                return loggerName;
-            }
-
+            get => repositoryName;
             set
             {
-                loggerName = value;
-                InitLogger(value);
+                repositoryName = value;
+                repositoryAssembly = null;
             }
         }
 
-        private void InitLogLevelsMap()
+        /// <summary>
+        /// Gets or sets the assembly to use to lookup the repository.
+        /// </summary>
+        public Assembly RepositoryAssembly
         {
-            var allLevels = (IEnumerable)logger.Logger.Repository.LevelMap.AllLevels;
+            get => repositoryAssembly;
+            set
+            {
+                repositoryAssembly = value;
+                repositoryName = null;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the name of the logger.
+        /// </summary>
+        public string LoggerName { get; set; }
+
+        private static Dictionary<LogLevel, dynamic> CreateLogLevelsMap()
+        {
+            Dictionary<LogLevel, dynamic> logLevelsMap = new Dictionary<LogLevel, dynamic>();
+            Type logLevelType = Type.GetType("log4net.Core.Level,log4net", true);
+
             foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
             {
-                logLevelsMap[level] = allLevels.
-                    Cast<dynamic>().
-                    First(x => x.Name == Enum.GetName(typeof(LogLevel), level).ToUpper());
+                FieldInfo levelField = logLevelType.GetFieldWithThrowOnError(
+                    level.ToString(),
+                    BindingFlags.Public | BindingFlags.Static | BindingFlags.GetField);
+
+                logLevelsMap[level] = levelField.GetValue(null);
             }
+
+            return logLevelsMap;
         }
 
-        private void InitLogger(string loggerName)
+        private static dynamic GetThreadContextProperties()
         {
-            Type logManagerType = Type.GetType("log4net.LogManager,log4net", true);
+            return Type.GetType("log4net.ThreadContext,log4net", true).
+                GetPropertyWithThrowOnError("Properties", BindingFlags.Public | BindingFlags.Static).
+                GetStaticValue();
+        }
 
-            dynamic repository = logManagerType.GetMethodWithThrowOnError("GetRepository", typeof(string)).
-                InvokeStaticAsLambda<dynamic>(repositoryName);
+        private static MethodInfo GetGetLoggerMethod(params Type[] argumentTypes)
+        {
+            return Type.GetType("log4net.LogManager,log4net", true).
+                GetMethodWithThrowOnError("GetLogger", BindingFlags.Public | BindingFlags.Static, argumentTypes);
+        }
 
-            if (repository.Configured)
+        protected override void OnLog(LogEventInfo eventInfo)
+        {
+            var properties = LazyThreadContextProperties.Value;
+
+            properties["build-start"] = eventInfo.BuildStart;
+            properties["test-name"] = eventInfo.TestName;
+            properties["test-name-sanitized"] = eventInfo.TestNameSanitized;
+            properties["test-start"] = eventInfo.TestStart;
+            properties["driver-alias"] = eventInfo.DriverAlias;
+
+            var level = LazyLogLevelsMap.Value[eventInfo.Level];
+
+            Logger.Log(null, level, eventInfo.Message, eventInfo.Exception);
+        }
+
+        protected override dynamic GetLogger()
+        {
+            string loggerName = LoggerName ?? GetType().FullName;
+
+            dynamic log = GetLog(loggerName);
+
+            return log.Logger;
+        }
+
+        private dynamic GetLog(string loggerName)
+        {
+            if (RepositoryName != null)
             {
-                var currentLoggers = (IEnumerable)logManagerType.GetMethodWithThrowOnError("GetCurrentLoggers", typeof(string)).
-                    InvokeStaticAsLambda<dynamic>(repositoryName);
-
-                logger = currentLoggers?.Cast<dynamic>().FirstOrDefault(a => a.Logger.Name == loggerName);
-                logger = logger ?? logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string), typeof(string)).
-                    InvokeStaticAsLambda<dynamic>(repositoryName, loggerName);
+                return GetGetLoggerMethod(typeof(string), typeof(string)).
+                    InvokeStaticAsLambda<dynamic>(RepositoryName, loggerName);
+            }
+            else if (RepositoryAssembly != null)
+            {
+                return GetGetLoggerMethod(typeof(Assembly), typeof(string)).
+                    InvokeStaticAsLambda<dynamic>(RepositoryAssembly, loggerName);
             }
             else
             {
-                throw new InvalidOperationException($"Log4Net '{repositoryName}' repository is not configured.");
+                return GetGetLoggerMethod(typeof(string)).
+                    InvokeStaticAsLambda<dynamic>(loggerName);
             }
-
-            if (logger == null)
-                throw new InvalidOperationException("Failed to create Log4Net logger.");
-        }
-
-        public void Log(LogEventInfo eventInfo)
-        {
-            logger.Logger.Log(null, logLevelsMap[eventInfo.Level], eventInfo.Message, eventInfo.Exception);
         }
     }
 }
