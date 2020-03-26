@@ -22,12 +22,6 @@ namespace Atata.Tests
         private static string TraceLogFilePath =>
             Path.Combine(LogsFolder, "Trace.log");
 
-        [OneTimeSetUp]
-        public void OnSetUpFixture()
-        {
-            XmlConfigurator.Configure(ConfigFileInfo);
-        }
-
         public override void TearDown()
         {
             base.TearDown();
@@ -39,9 +33,12 @@ namespace Atata.Tests
                 Directory.Delete(LogsFolder, recursive: true);
         }
 
+#if !NETCOREAPP2_0
         [Test]
         public void Log4NetConsumer_Default()
         {
+            XmlConfigurator.Configure(ConfigFileInfo);
+
             ConfigureBaseAtataContext().
                 AddLog4NetLogging().
                 Build();
@@ -56,6 +53,7 @@ namespace Atata.Tests
 
             AssertThatFileShouldContainText(TraceLogFilePath, traceTestMessage, debugTestMessage, infoTestMessage);
         }
+#endif
 
         [Test]
         public void Log4NetConsumer_WithRepositoryUsingInfoLevel()
