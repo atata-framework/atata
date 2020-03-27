@@ -268,11 +268,8 @@ namespace Atata
             component.Owner = parentComponent.Owner ?? (TOwner)parentComponent;
             component.Parent = parentComponent;
 
-            FindAttribute findAttribute = GetPropertyFindAttribute(metadata);
-            findAttribute.Properties.Metadata = metadata;
-
-            InitComponentLocator(component, metadata, findAttribute);
-            component.ComponentName = ResolveControlName(metadata, findAttribute);
+            InitComponentLocator(component, metadata);
+            component.ComponentName = ResolveControlName(metadata);
             component.ComponentTypeName = ResolveControlTypeName(metadata);
             component.CacheScopeElement = false;
             InitControlTriggers(component, metadata);
@@ -291,13 +288,8 @@ namespace Atata
             component.Triggers.ApplyMetadata(metadata);
         }
 
-        private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata)
         {
-            ComponentScopeLocateOptions locateOptions = CreateScopeLocateOptions(metadata, findAttribute);
-            IComponentScopeLocateStrategy strategy = findAttribute.CreateStrategy(metadata);
-
-            component.ScopeSource = findAttribute.ScopeSource;
-
             // TODO: Remove this condition when IItemsControl will be removed.
 #pragma warning disable CS0618
             if (component is IItemsControl itemsControl)
@@ -308,13 +300,13 @@ namespace Atata
                 itemsControl.Apply(itemElementFindStrategy);
             }
 
-            component.ScopeLocator = new StrategyScopeLocator(component, strategy, locateOptions);
+            component.ScopeLocator = new StrategyScopeLocator(component);
         }
 
-        private static string ResolveControlName(UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static string ResolveControlName(UIComponentMetadata metadata)
         {
             return GetControlNameFromNameAttribute(metadata)
-                ?? GetControlNameFromFindAttribute(metadata, findAttribute)
+                ?? GetControlNameFromFindAttribute(metadata)
                 ?? GetComponentNameFromMetadata(metadata);
         }
 
@@ -327,19 +319,17 @@ namespace Atata
                 : null;
         }
 
-        private static string GetControlNameFromFindAttribute(UIComponentMetadata metadata, FindAttribute findAttribute)
+        private static string GetControlNameFromFindAttribute(UIComponentMetadata metadata)
         {
+            FindAttribute findAttribute = metadata.ResolveFindAttribute();
+
             if (findAttribute is FindByLabelAttribute findByLabelAttribute && findByLabelAttribute.Match == TermMatch.Equals)
             {
-                if (findByLabelAttribute.Values?.Any() ?? false)
+                string[] terms = findByLabelAttribute.Values;
+
+                if (terms?.Any() ?? false)
                 {
-                    return string.Join("/", findByLabelAttribute.Values);
-                }
-                else
-                {
-                    TermAttribute termAttribute = metadata.Get<TermAttribute>(x => x.At(AttributeLevels.Declared));
-                    if (termAttribute?.Values?.Any() ?? false)
-                        return string.Join("/", termAttribute.Values);
+                    return string.Join("/", terms);
                 }
             }
 
@@ -391,86 +381,10 @@ namespace Atata
             };
         }
 
-        private static FindAttribute GetPropertyFindAttribute(UIComponentMetadata metadata)
-        {
-            FindAttribute findAttribute = metadata.Get<FindAttribute>(x => x.At(AttributeLevels.Declared));
-            if (findAttribute != null)
-            {
-                return findAttribute;
-            }
-            else
-            {
-                Type controlType = metadata.ComponentType;
-                Type parentComponentType = metadata.ParentComponentType;
-
-                ControlFindingAttribute controlFindingAttribute =
-                    GetNearestControlFindingAttribute(controlType, parentComponentType, metadata.ParentComponentAttributes) ??
-                    GetNearestControlFindingAttribute(controlType, parentComponentType, metadata.AssemblyAttributes) ??
-                    GetNearestDefaultControlFindingAttribute(parentComponentType, metadata.ComponentAttributes);
-
-                return controlFindingAttribute != null
-                    ? controlFindingAttribute.CreateFindAttribute()
-                    : GetDefaultFindAttribute(metadata);
-            }
-        }
-
-        private static ControlFindingAttribute GetNearestControlFindingAttribute(Type controlType, Type parentComponentType, IEnumerable<Attribute> attributes)
-        {
-            return attributes.OfType<ControlFindingAttribute>().
-                Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritance(attr.ControlType) }).
-                Where(x => x.Depth != null).
-                OrderBy(x => x.Depth).
-                Select(x => x.Attribute).
-                FirstOrDefault(attr => attr.ParentComponentType == null || parentComponentType.IsInheritedFromOrIs(attr.ParentComponentType));
-        }
-
-        private static ControlFindingAttribute GetNearestDefaultControlFindingAttribute(Type parentComponentType, IEnumerable<Attribute> attributes)
-        {
-            var allFindingAttributes = attributes.OfType<ControlFindingAttribute>().
-                Where(x => x.ControlType == null).
-                Select(attr => new { Attribute = attr, Depth = parentComponentType.GetDepthOfInheritance(attr.ParentComponentType) }).
-                ToArray();
-
-            return allFindingAttributes.Where(x => x.Depth != null).OrderBy(x => x.Depth).Select(x => x.Attribute).FirstOrDefault() ??
-                allFindingAttributes.Where(x => x.Depth == null && x.Attribute.ParentComponentType == null).Select(x => x.Attribute).FirstOrDefault();
-        }
-
-        private static FindAttribute GetDefaultFindAttribute(UIComponentMetadata metadata)
-        {
-            if (metadata.ComponentDefinitionAttribute.ScopeXPath == ScopeDefinitionAttribute.DefaultScopeXPath)
-                return new UseParentScopeAttribute();
-
-            return new FindFirstAttribute();
-        }
-
         // TODO: Remove this method when IItemsControl will be removed.
         private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
             return metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) ?? new FindItemByLabelAttribute();
-        }
-
-        private static ComponentScopeLocateOptions CreateScopeLocateOptions(UIComponentMetadata metadata, FindAttribute findAttribute)
-        {
-            ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
-
-            int index = findAttribute.Index;
-
-            ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
-            {
-                Metadata = metadata,
-                ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath,
-                Index = index >= 0 ? (int?)index : null,
-                Visibility = findAttribute.Visibility,
-                OuterXPath = findAttribute.OuterXPath
-            };
-
-            if (findAttribute is ITermFindAttribute termFindAttribute)
-                options.Terms = termFindAttribute.GetTerms(metadata);
-
-            if (findAttribute is ITermMatchFindAttribute termMatchFindAttribute)
-                options.Match = termMatchFindAttribute.GetTermMatch(metadata);
-
-            return options;
         }
 
         private static void InitControlTriggers<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)

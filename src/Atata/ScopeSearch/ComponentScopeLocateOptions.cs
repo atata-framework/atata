@@ -18,6 +18,31 @@ namespace Atata
 
         public Visibility Visibility { get; set; }
 
+        public static ComponentScopeLocateOptions CreateFromMetadata(UIComponentMetadata metadata)
+        {
+            FindAttribute findAttribute = metadata.ResolveFindAttribute();
+            ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
+
+            int index = findAttribute.Index;
+
+            ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
+            {
+                Metadata = metadata,
+                ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath,
+                Index = index >= 0 ? (int?)index : null,
+                Visibility = findAttribute.Visibility,
+                OuterXPath = findAttribute.OuterXPath
+            };
+
+            if (findAttribute is ITermFindAttribute termFindAttribute)
+                options.Terms = termFindAttribute.GetTerms(metadata);
+
+            if (findAttribute is ITermMatchFindAttribute termMatchFindAttribute)
+                options.Match = termMatchFindAttribute.GetTermMatch(metadata);
+
+            return options;
+        }
+
         public string GetTermsAsString()
         {
             return Terms != null ? string.Join("/", Terms) : null;

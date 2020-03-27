@@ -8,21 +8,21 @@ namespace Atata
     public class StrategyScopeLocator : IScopeLocator
     {
         private readonly UIComponent component;
-        private readonly IComponentScopeLocateStrategy strategy;
-        private readonly ComponentScopeLocateOptions scopeLocateOptions;
 
-        public StrategyScopeLocator(UIComponent component, IComponentScopeLocateStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions)
+        public StrategyScopeLocator(UIComponent component)
         {
             this.component = component;
-            this.strategy = strategy;
-            this.scopeLocateOptions = scopeLocateOptions;
         }
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = ResolveSearchOptions(searchOptions);
+            FindAttribute findAttribute = component.Metadata.ResolveFindAttribute();
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.CreateFromMetadata(component.Metadata);
 
-            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
+            searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
+
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, searchOptions);
+
             if (xPathResults != null && xPathResults.Any())
             {
                 IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).FirstOrDefault(x => x != null);
@@ -50,9 +50,12 @@ namespace Atata
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = ResolveSearchOptions(searchOptions);
+            FindAttribute findAttribute = component.Metadata.ResolveFindAttribute();
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.CreateFromMetadata(component.Metadata);
 
-            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(searchOptions);
+            searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
+
+            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, searchOptions);
 
             return xPathResults.Any()
                 ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray()
@@ -61,14 +64,18 @@ namespace Atata
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = ResolveSearchOptions(searchOptions);
+            FindAttribute findAttribute = component.Metadata.ResolveFindAttribute();
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.CreateFromMetadata(component.Metadata);
+
+            searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
 
             SearchOptions quickSearchOptions = SearchOptions.SafelyAtOnce();
             quickSearchOptions.Visibility = searchOptions.Visibility;
 
             bool isMissing = component.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
-                XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(quickSearchOptions);
+                XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, quickSearchOptions);
+
                 if (xPathResults.Any())
                 {
                     Dictionary<By, ISearchContext> byScopePairs = xPathResults.ToDictionary(x => x.CreateBy(xPathCondition), x => (ISearchContext)x.ScopeSource);
@@ -95,27 +102,28 @@ namespace Atata
             }
         }
 
-        private SearchOptions ResolveSearchOptions(SearchOptions searchOptions)
+        private SearchOptions ResolveSearchOptions(SearchOptions searchOptions, Visibility defaultVisibility)
         {
             searchOptions = searchOptions ?? new SearchOptions();
 
             if (!searchOptions.IsVisibilitySet)
-                searchOptions.Visibility = scopeLocateOptions.Visibility;
+                searchOptions.Visibility = defaultVisibility;
 
             return searchOptions;
         }
 
-        private XPathComponentScopeLocateResult[] GetScopeLocateResults(SearchOptions searchOptions)
+        private XPathComponentScopeLocateResult[] GetScopeLocateResults(FindAttribute findAttribute, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
         {
-            IWebElement scopeSource = component.ScopeSource.GetScopeElement(component);
+            IWebElement scopeSource = findAttribute.ScopeSource.GetScopeElement(component);
 
             if (scopeSource == null && searchOptions.IsSafely)
                 return new XPathComponentScopeLocateResult[0];
 
+            IComponentScopeLocateStrategy strategy = findAttribute.CreateStrategy();
             return ExecuteStrategyAndResolveResults(strategy, scopeSource, scopeLocateOptions, searchOptions);
         }
 
-        private XPathComponentScopeLocateResult[] ResolveScopeLocateResult(ComponentScopeLocateResult result, IWebElement scopeSource, SearchOptions searchOptions)
+        private XPathComponentScopeLocateResult[] ResolveScopeLocateResult(ComponentScopeLocateResult result, IWebElement scopeSource, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
         {
             result.CheckNotNull(nameof(result));
 
@@ -172,11 +180,11 @@ namespace Atata
             throw new ArgumentException($"Unsupported {nameof(ComponentScopeLocateResult)} type: {result.GetType().FullName}", nameof(result));
         }
 
-        private XPathComponentScopeLocateResult[] ExecuteStrategyAndResolveResults(IComponentScopeLocateStrategy strategy, IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        private XPathComponentScopeLocateResult[] ExecuteStrategyAndResolveResults(IComponentScopeLocateStrategy strategy, IWebElement scope, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
         {
-            ComponentScopeLocateResult result = strategy.Find(scope, options, searchOptions);
+            ComponentScopeLocateResult result = strategy.Find(scope, scopeLocateOptions, searchOptions);
 
-            return ResolveScopeLocateResult(result, scope, searchOptions);
+            return ResolveScopeLocateResult(result, scope, scopeLocateOptions, searchOptions);
         }
     }
 }

@@ -22,27 +22,36 @@ namespace Atata
             NavigateOnInit = true;
             ScopeLocator = new PlainScopeLocator(CreateScopeBy);
 
-            ScopeSource = ScopeSource.PageObject;
             Owner = (TOwner)this;
 
             Report = new Report<TOwner>((TOwner)this, Log);
         }
 
         /// <summary>
+        /// Gets the source of the scope.
+        /// The default value is <see cref="ScopeSource.PageObject"/>.
+        /// </summary>
+        public override ScopeSource ScopeSource
+            => ScopeSource.PageObject;
+
+        /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public new PageObjectVerificationProvider<TOwner> Should => new PageObjectVerificationProvider<TOwner>((TOwner)this);
+        public new PageObjectVerificationProvider<TOwner> Should
+            => new PageObjectVerificationProvider<TOwner>((TOwner)this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public new PageObjectVerificationProvider<TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        public new PageObjectVerificationProvider<TOwner> ExpectTo
+            => Should.Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public new PageObjectVerificationProvider<TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        public new PageObjectVerificationProvider<TOwner> WaitTo
+            => Should.Using<WaitingVerificationStrategy>();
 
         /// <summary>
         /// Gets a value indicating whether the navigation should be performed upon initialization.

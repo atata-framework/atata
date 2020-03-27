@@ -353,6 +353,67 @@ namespace Atata
                 : Get<FormatAttribute>()?.Value;
         }
 
+        public FindAttribute ResolveFindAttribute()
+        {
+            FindAttribute findAttribute = GetDefinedFindAttribute()
+                ?? ResolveNonDefinedFindAttribute();
+
+            findAttribute.Properties.Metadata = this;
+
+            return findAttribute;
+        }
+
+        private FindAttribute GetDefinedFindAttribute()
+        {
+            return Get<FindAttribute>(x => x.At(AttributeLevels.Declared));
+        }
+
+        private FindAttribute ResolveNonDefinedFindAttribute()
+        {
+            ControlFindingAttribute controlFindingAttribute =
+                GetNearestControlFindingAttribute(ParentComponentAttributes) ??
+                GetNearestControlFindingAttribute(AssemblyAttributes) ??
+                GetNearestDefaultControlFindingAttribute();
+
+            return controlFindingAttribute != null
+                ? controlFindingAttribute.CreateFindAttribute()
+                : GetDefaultFindAttribute();
+        }
+
+        private ControlFindingAttribute GetNearestControlFindingAttribute(IEnumerable<Attribute> attributes)
+        {
+            Type controlType = ComponentType;
+            Type parentComponentType = ParentComponentType;
+
+            return attributes.OfType<ControlFindingAttribute>().
+                Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritance(attr.ControlType) }).
+                Where(x => x.Depth != null).
+                OrderBy(x => x.Depth).
+                Select(x => x.Attribute).
+                FirstOrDefault(attr => attr.ParentComponentType == null || parentComponentType.IsInheritedFromOrIs(attr.ParentComponentType));
+        }
+
+        private ControlFindingAttribute GetNearestDefaultControlFindingAttribute()
+        {
+            Type parentComponentType = ParentComponentType;
+
+            var allFindingAttributes = ComponentAttributes.OfType<ControlFindingAttribute>().
+                Where(x => x.ControlType == null).
+                Select(attr => new { Attribute = attr, Depth = parentComponentType.GetDepthOfInheritance(attr.ParentComponentType) }).
+                ToArray();
+
+            return allFindingAttributes.Where(x => x.Depth != null).OrderBy(x => x.Depth).Select(x => x.Attribute).FirstOrDefault() ??
+                allFindingAttributes.Where(x => x.Depth == null && x.Attribute.ParentComponentType == null).Select(x => x.Attribute).FirstOrDefault();
+        }
+
+        private FindAttribute GetDefaultFindAttribute()
+        {
+            if (ComponentDefinitionAttribute.ScopeXPath == ScopeDefinitionAttribute.DefaultScopeXPath)
+                return new UseParentScopeAttribute();
+
+            return new FindFirstAttribute();
+        }
+
         private class AttributeSearchSet
         {
             public AttributeSearchSet(List<Attribute> attributes) =>

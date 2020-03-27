@@ -35,7 +35,7 @@ namespace Atata
         /// <summary>
         /// Gets the source of the scope.
         /// </summary>
-        public ScopeSource ScopeSource { get; internal set; }
+        public abstract ScopeSource ScopeSource { get; }
 
         protected internal IScopeLocator ScopeLocator { get; internal set; }
 

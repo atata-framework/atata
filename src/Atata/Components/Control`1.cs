@@ -11,25 +11,36 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
+        /// Gets the source of the scope.
+        /// The default value is <see cref="ScopeSource.Parent"/>.
+        /// </summary>
+        public sealed override ScopeSource ScopeSource
+            => Metadata?.ResolveFindAttribute()?.ScopeSource ?? ScopeSource.Parent;
+
+        /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is enabled.
         /// </summary>
-        public DataProvider<bool, TOwner> IsEnabled => GetOrCreateDataProvider("enabled state", GetIsEnabled);
+        public DataProvider<bool, TOwner> IsEnabled
+            => GetOrCreateDataProvider("enabled state", GetIsEnabled);
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should => new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should
+            => new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo
+            => Should.Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo
+            => Should.Using<WaitingVerificationStrategy>();
 
         protected virtual bool GetIsEnabled()
         {

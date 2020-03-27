@@ -219,6 +219,19 @@ namespace Atata.Tests
             VerifyNotExist(page.MissingSpanWithMultipleClasses);
         }
 
+        [Test]
+        public void Find_AfterPushToMetadata()
+        {
+            var control = page.OptionCByIndex;
+            VerifyValue(control, "OptionC");
+
+            control.Metadata.Push(new FindByValueAttribute("OptionB"));
+            VerifyValue(control, "OptionB");
+
+            control.Metadata.Push(new FindByValueAttribute("OptionC"));
+            VerifyValue(control, "OptionC");
+        }
+
         private void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")
         {
             VerifyValue(radioButton, expectedValue);
