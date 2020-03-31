@@ -4,6 +4,7 @@ namespace Atata
 {
     /// <summary>
     /// Defines the term settings to apply for the specified finding strategy of a control.
+    /// Adds to or overrides properties of <see cref="TermFindAttribute"/>.
     /// </summary>
     public class TermFindSettingsAttribute : FindSettingsAttribute, ITermSettings
     {
