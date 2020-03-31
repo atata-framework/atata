@@ -4,9 +4,9 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public class FindByScriptStrategy : IComponentScopeLocateStrategy
+    public class FindByScriptStrategy : IComponentScopeFindStrategy
     {
-        private static readonly IComponentScopeLocateStrategy SequalStrategy = new FindFirstDescendantOrSelfStrategy();
+        private static readonly IComponentScopeFindStrategy SequalStrategy = new FindFirstDescendantOrSelfStrategy();
 
         public FindByScriptStrategy(string script)
         {
@@ -18,7 +18,7 @@ namespace Atata
         /// </summary>
         public string Script { get; }
 
-        public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             object scriptResult = AtataContext.Current.Driver.ExecuteScript(Script, scope);
 
@@ -28,7 +28,7 @@ namespace Atata
             }
             else if (scriptResult is IWebElement element)
             {
-                return new SequalComponentScopeLocateResult(element, SequalStrategy);
+                return new SequalComponentScopeFindResult(element, SequalStrategy);
             }
             else if (scriptResult != null)
             {
@@ -36,7 +36,7 @@ namespace Atata
             }
             else if (searchOptions.IsSafely)
             {
-                return new MissingComponentScopeLocateResult();
+                return new MissingComponentScopeFindResult();
             }
             else
             {
@@ -50,7 +50,7 @@ namespace Atata
             }
         }
 
-        private ComponentScopeLocateResult ProcessCollectionOfElements(ReadOnlyCollection<IWebElement> elements, IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        private ComponentScopeLocateResult ProcessCollectionOfElements(ReadOnlyCollection<IWebElement> elements, ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             if (options.Index.HasValue)
             {
@@ -58,7 +58,7 @@ namespace Atata
                 {
                     if (searchOptions.IsSafely)
                     {
-                        return new MissingComponentScopeLocateResult();
+                        return new MissingComponentScopeFindResult();
                     }
                     else
                     {
@@ -76,12 +76,12 @@ namespace Atata
                     ComponentScopeLocateOptions sequalOptions = options.Clone();
                     sequalOptions.Index = null;
 
-                    return new SequalComponentScopeLocateResult(elements[options.Index.Value], SequalStrategy, sequalOptions);
+                    return new SequalComponentScopeFindResult(elements[options.Index.Value], SequalStrategy, sequalOptions);
                 }
             }
             else
             {
-                return new SequalComponentScopeLocateResult(elements, SequalStrategy);
+                return new SequalComponentScopeFindResult(elements, SequalStrategy);
             }
         }
     }

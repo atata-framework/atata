@@ -3,20 +3,20 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public class XPathComponentScopeLocateResult : ComponentScopeLocateResult
+    public class XPathComponentScopeFindResult : ComponentScopeLocateResult
     {
-        public XPathComponentScopeLocateResult(string xPath, IWebElement scopeSource, SearchOptions searchOptions)
+        public XPathComponentScopeFindResult(string xPath, ISearchContext scopeSource, SearchOptions searchOptions)
         {
             XPath = xPath;
             ScopeSource = scopeSource;
             SearchOptions = searchOptions;
         }
 
-        public string XPath { get; private set; }
+        public string XPath { get; }
 
-        public IWebElement ScopeSource { get; private set; }
+        public ISearchContext ScopeSource { get; }
 
-        public SearchOptions SearchOptions { get; private set; }
+        public SearchOptions SearchOptions { get; }
 
         public IWebElement Get(string xPathCondition = null)
         {

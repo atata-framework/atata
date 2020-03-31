@@ -2,11 +2,11 @@
 
 namespace Atata
 {
-    public class FindByCssStrategy : IComponentScopeLocateStrategy
+    public class FindByCssStrategy : IComponentScopeFindStrategy
     {
-        private readonly IComponentScopeLocateStrategy sequalStrategy = new FindFirstDescendantOrSelfStrategy();
+        private readonly IComponentScopeFindStrategy sequalStrategy = new FindFirstDescendantOrSelfStrategy();
 
-        public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             By by = By.CssSelector(string.Join(",", options.Terms));
 
@@ -20,7 +20,7 @@ namespace Atata
                 {
                     if (searchOptions.IsSafely)
                     {
-                        return new MissingComponentScopeLocateResult();
+                        return new MissingComponentScopeFindResult();
                     }
                     else
                     {
@@ -36,12 +36,12 @@ namespace Atata
                 }
                 else
                 {
-                    return new SequalComponentScopeLocateResult(elements[options.Index.Value], sequalStrategy);
+                    return new SequalComponentScopeFindResult(elements[options.Index.Value], sequalStrategy);
                 }
             }
             else
             {
-                return new SequalComponentScopeLocateResult(by, sequalStrategy);
+                return new SequalComponentScopeFindResult(by, sequalStrategy);
             }
         }
     }

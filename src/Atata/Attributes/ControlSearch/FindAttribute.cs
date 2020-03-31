@@ -101,7 +101,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the strategy type for the control search.
-        /// Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
+        /// Strategy type should implement <see cref="IComponentScopeFindStrategy"/>.
         /// The default value is <see langword="null"/>, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
         /// </summary>
         public Type Strategy
@@ -122,22 +122,27 @@ namespace Atata
 
         /// <summary>
         /// Gets the default strategy type for the control search.
-        /// Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
+        /// Strategy type should implement <see cref="IComponentScopeFindStrategy"/>.
         /// </summary>
         protected abstract Type DefaultStrategy { get; }
 
         [Obsolete("Use CreateStrategy() instead.")] // Obsolete since v1.5.0.
         public IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            return CreateStrategy();
+            return (IComponentScopeLocateStrategy)CreateStrategy();
         }
 
-        public IComponentScopeLocateStrategy CreateStrategy()
+        /// <summary>
+        /// Creates the strategy.
+        /// The type of strategy should be either <see cref="IComponentScopeFindStrategy"/> or <see cref="IComponentScopeLocateStrategy"/>.
+        /// </summary>
+        /// <returns>The strategy created.</returns>
+        public object CreateStrategy()
         {
             Type strategyType = Strategy ?? DefaultStrategy;
             object[] strategyArguments = GetStrategyArguments().ToArray();
 
-            return (IComponentScopeLocateStrategy)Activator.CreateInstance(strategyType, strategyArguments);
+            return Activator.CreateInstance(strategyType, strategyArguments);
         }
 
         protected virtual IEnumerable<object> GetStrategyArguments()

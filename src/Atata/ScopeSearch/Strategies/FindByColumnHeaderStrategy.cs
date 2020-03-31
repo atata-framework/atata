@@ -7,7 +7,7 @@ namespace Atata
     /// Represents a strategy that finds a control in a cell that corresponds the column searched by the column header text.
     /// First finds the index of the column header and then finds the cell by this index.
     /// </summary>
-    public class FindByColumnHeaderStrategy : IComponentScopeLocateStrategy
+    public class FindByColumnHeaderStrategy : IComponentScopeFindStrategy
     {
         /// <summary>
         /// The default XPath of the header, which is <c>"ancestor::table[1]//th"</c>.
@@ -39,7 +39,7 @@ namespace Atata
         /// </summary>
         public string HeaderXPath { get; set; }
 
-        public ComponentScopeLocateResult Find(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             int? columnIndex = GetColumnIndex(scope, options, searchOptions);
 
@@ -47,7 +47,7 @@ namespace Atata
             {
                 if (searchOptions.IsSafely)
                 {
-                    return new MissingComponentScopeLocateResult();
+                    return new MissingComponentScopeFindResult();
                 }
                 else
                 {
@@ -61,8 +61,8 @@ namespace Atata
                 }
             }
 
-            IComponentScopeLocateStrategy nextStrategy = CreateColumnIndexStrategy(columnIndex.Value);
-            return new SequalComponentScopeLocateResult(scope, nextStrategy);
+            IComponentScopeFindStrategy nextStrategy = CreateColumnIndexStrategy(columnIndex.Value);
+            return new SequalComponentScopeFindResult(scope, nextStrategy);
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Atata
         /// <param name="options">The component scope locate options.</param>
         /// <param name="searchOptions">The search options.</param>
         /// <returns>The index of the column or <see langword="null"/> if not found.</returns>
-        protected virtual int? GetColumnIndex(IWebElement scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        protected virtual int? GetColumnIndex(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
             var headers = scope.GetAll(By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
             var headerNamePredicate = options.Match.GetPredicate();
@@ -90,7 +90,7 @@ namespace Atata
         /// </summary>
         /// <param name="columnIndex">Index of the column.</param>
         /// <returns>An instance of <see cref="FindByColumnIndexStrategy"/>.</returns>
-        protected virtual IComponentScopeLocateStrategy CreateColumnIndexStrategy(int columnIndex)
+        protected virtual IComponentScopeFindStrategy CreateColumnIndexStrategy(int columnIndex)
         {
             return new FindByColumnIndexStrategy(columnIndex);
         }

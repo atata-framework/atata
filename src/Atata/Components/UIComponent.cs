@@ -76,6 +76,15 @@ namespace Atata
                 : GetScopeElement();
 
         /// <summary>
+        /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
+        /// (where to find the children of this component).
+        /// By default is the same as <see cref="Scope"/>.
+        /// Also can execute <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
+        /// </summary>
+        public ISearchContext ScopeContext =>
+            OnGetScopeContext(new SearchOptions());
+
+        /// <summary>
         /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element.
         /// Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
         /// </summary>
@@ -86,6 +95,25 @@ namespace Atata
         public IWebElement GetScope(SearchOptions options = null)
         {
             return GetScopeElement(options ?? SearchOptions.Safely());
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
+        /// (where to find the children of this component).
+        /// Also can execute <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
+        /// </summary>
+        /// <param name="options">
+        /// The search options.
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// <returns>The <see cref="ISearchContext"/> instance of the scope context.</returns>
+        public ISearchContext GetScopeContext(SearchOptions options = null)
+        {
+            return OnGetScopeContext(options ?? SearchOptions.Safely());
+        }
+
+        protected virtual ISearchContext OnGetScopeContext(SearchOptions searchOptions)
+        {
+            return GetScopeElement(searchOptions);
         }
 
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)

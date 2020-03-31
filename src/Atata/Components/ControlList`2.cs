@@ -294,7 +294,7 @@ namespace Atata
 
         protected ReadOnlyCollection<IWebElement> GetItemElements(By itemBy)
         {
-            return ItemFindAttribute.ScopeSource.GetScopeElementUsingParent(Component).GetAll(itemBy);
+            return ItemFindAttribute.ScopeSource.GetScopeContextUsingParent(Component).GetAll(itemBy);
         }
     }
 }

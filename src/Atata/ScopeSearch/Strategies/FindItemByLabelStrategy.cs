@@ -13,9 +13,9 @@ namespace Atata
 
         public override string GetXPathCondition(object parameter, TermOptions termOptions)
         {
-            IWebElement scope = component.ScopeSource.GetScopeElement(component, SearchOptions.SafelyAtOnce());
+            ISearchContext scopeContext = component.ScopeSource.GetScopeContext(component, SearchOptions.SafelyAtOnce());
 
-            IWebElement label = scope.Get(
+            IWebElement label = scopeContext.Get(
                 By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]").
                     SafelyAtOnce().
                     Label(TermResolver.ToDisplayString(parameter)));
@@ -37,9 +37,9 @@ namespace Atata
 
             if (!string.IsNullOrEmpty(elementId))
             {
-                IWebElement scope = component.ScopeSource.GetScopeElement(component, SearchOptions.SafelyAtOnce());
+                ISearchContext scopeContext = component.ScopeSource.GetScopeContext(component, SearchOptions.SafelyAtOnce());
 
-                IWebElement label = scope.Get(
+                IWebElement label = scopeContext.Get(
                     By.XPath($".//label[@for='{elementId}']").
                     SafelyAtOnce());
 

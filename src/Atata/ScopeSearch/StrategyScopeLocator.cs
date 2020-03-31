@@ -21,7 +21,7 @@ namespace Atata
 
             searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
 
-            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, searchOptions);
+            XPathComponentScopeFindResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, searchOptions);
 
             if (xPathResults != null && xPathResults.Any())
             {
@@ -55,7 +55,7 @@ namespace Atata
 
             searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
 
-            XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, searchOptions);
+            XPathComponentScopeFindResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, searchOptions);
 
             return xPathResults.Any()
                 ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray()
@@ -74,11 +74,11 @@ namespace Atata
 
             bool isMissing = component.Driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
-                XPathComponentScopeLocateResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, quickSearchOptions);
+                XPathComponentScopeFindResult[] xPathResults = GetScopeLocateResults(findAttribute, scopeLocateOptions, quickSearchOptions);
 
                 if (xPathResults.Any())
                 {
-                    Dictionary<By, ISearchContext> byScopePairs = xPathResults.ToDictionary(x => x.CreateBy(xPathCondition), x => (ISearchContext)x.ScopeSource);
+                    Dictionary<By, ISearchContext> byScopePairs = xPathResults.ToDictionary(x => x.CreateBy(xPathCondition), x => x.ScopeSource);
                     return component.Driver.Try(TimeSpan.Zero).MissingAll(byScopePairs);
                 }
                 else
@@ -112,28 +112,33 @@ namespace Atata
             return searchOptions;
         }
 
-        private XPathComponentScopeLocateResult[] GetScopeLocateResults(FindAttribute findAttribute, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
+        private XPathComponentScopeFindResult[] GetScopeLocateResults(FindAttribute findAttribute, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
         {
-            IWebElement scopeSource = findAttribute.ScopeSource.GetScopeElement(component);
+            object strategy = findAttribute.CreateStrategy();
+
+            ISearchContext scopeSource = strategy is IComponentScopeFindStrategy
+                ? findAttribute.ScopeSource.GetScopeContext(component)
+#pragma warning disable CS0618 // Type or member is obsolete
+                : findAttribute.ScopeSource.GetScopeElement(component);
+#pragma warning restore CS0618 // Type or member is obsolete
 
             if (scopeSource == null && searchOptions.IsSafely)
-                return new XPathComponentScopeLocateResult[0];
+                return new XPathComponentScopeFindResult[0];
 
-            IComponentScopeLocateStrategy strategy = findAttribute.CreateStrategy();
             return ExecuteStrategyAndResolveResults(strategy, scopeSource, scopeLocateOptions, searchOptions);
         }
 
-        private XPathComponentScopeLocateResult[] ResolveScopeLocateResult(ComponentScopeLocateResult result, IWebElement scopeSource, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
+        private XPathComponentScopeFindResult[] ResolveScopeLocateResult(ComponentScopeLocateResult result, ISearchContext scopeSource, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
         {
             result.CheckNotNull(nameof(result));
 
-            if (result is MissingComponentScopeLocateResult missingResult)
-                return new XPathComponentScopeLocateResult[0];
+            if (result is MissingComponentScopeFindResult missingResult)
+                return new XPathComponentScopeFindResult[0];
 
-            if (result is XPathComponentScopeLocateResult xPathResult)
+            if (result is XPathComponentScopeFindResult xPathResult)
                 return new[] { xPathResult };
 
-            if (result is SequalComponentScopeLocateResult sequalResult)
+            if (result is SequalComponentScopeFindResult sequalResult)
             {
                 ComponentScopeLocateOptions nextScopeLocateOptions = sequalResult.ScopeLocateOptions ?? scopeLocateOptions;
 
@@ -143,7 +148,7 @@ namespace Atata
                 }
                 else
                 {
-                    IEnumerable<IWebElement> nextScopeSources = sequalResult.ScopeSourceBy != null
+                    IEnumerable<ISearchContext> nextScopeSources = sequalResult.ScopeSourceBy != null
                         ? scopeSource.GetAll(sequalResult.ScopeSourceBy.With(searchOptions))
                         : sequalResult.ScopeSources;
 
@@ -161,7 +166,7 @@ namespace Atata
                     }
                     else if (searchOptions.IsSafely)
                     {
-                        return new XPathComponentScopeLocateResult[0];
+                        return new XPathComponentScopeFindResult[0];
                     }
                     else
                     {
@@ -180,9 +185,16 @@ namespace Atata
             throw new ArgumentException($"Unsupported {nameof(ComponentScopeLocateResult)} type: {result.GetType().FullName}", nameof(result));
         }
 
-        private XPathComponentScopeLocateResult[] ExecuteStrategyAndResolveResults(IComponentScopeLocateStrategy strategy, IWebElement scope, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
+        private XPathComponentScopeFindResult[] ExecuteStrategyAndResolveResults(object strategy, ISearchContext scope, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
         {
-            ComponentScopeLocateResult result = strategy.Find(scope, scopeLocateOptions, searchOptions);
+            ComponentScopeLocateResult result =
+#pragma warning disable CS0618 // Type or member is obsolete
+                strategy is IComponentScopeLocateStrategy componentScopeLocateStrategy
+#pragma warning restore CS0618 // Type or member is obsolete
+                ? componentScopeLocateStrategy.Find((IWebElement)scope, scopeLocateOptions, searchOptions)
+                : strategy is IComponentScopeFindStrategy componentScopeFindStrategy
+                ? componentScopeFindStrategy.Find(scope, scopeLocateOptions, searchOptions)
+                : throw new ArgumentException($"Unsupported {strategy.GetType().FullName} type of strategy. Strategy should be either {nameof(IComponentScopeFindStrategy)} or IComponentScopeLocateStrategy.", nameof(strategy));
 
             return ResolveScopeLocateResult(result, scope, scopeLocateOptions, searchOptions);
         }

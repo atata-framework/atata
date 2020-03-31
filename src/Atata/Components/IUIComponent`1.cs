@@ -43,6 +43,14 @@ namespace Atata
         IWebElement Scope { get; }
 
         /// <summary>
+        /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
+        /// (where to find the children of this component).
+        /// By default is the same as <see cref="Scope"/>.
+        /// Also can execute <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
+        /// </summary>
+        ISearchContext ScopeContext { get; }
+
+        /// <summary>
         /// Gets the scope locator.
         /// </summary>
         IScopeLocator ScopeLocator { get; }
@@ -113,6 +121,17 @@ namespace Atata
         /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
         IWebElement GetScope(SearchOptions options = null);
+
+        /// <summary>
+        /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
+        /// (where to find the children of this component).
+        /// Also can execute <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
+        /// </summary>
+        /// <param name="options">
+        /// The search options.
+        /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
+        /// <returns>The <see cref="ISearchContext"/> instance of the scope context.</returns>
+        ISearchContext GetScopeContext(SearchOptions options = null);
 
         /// <summary>
         /// Waits until the specified component condition is met.

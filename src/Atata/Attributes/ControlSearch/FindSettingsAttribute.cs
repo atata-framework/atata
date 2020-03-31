@@ -72,7 +72,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the strategy type for the control search.
-        /// Strategy type should implement <see cref="IComponentScopeLocateStrategy"/>.
+        /// Strategy type should implement <see cref="IComponentScopeFindStrategy"/>.
         /// The default value is <see langword="null"/>, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
         /// </summary>
         public Type Strategy

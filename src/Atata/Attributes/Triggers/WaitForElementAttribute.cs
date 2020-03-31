@@ -65,14 +65,14 @@ namespace Atata
             StaleSafely.Execute(
                 options =>
                 {
-                    IWebElement scopeElement = actualScopeSource.GetScopeElement(scopeComponent, SearchOptions.Within(options.Timeout));
+                    ISearchContext scopeContext = actualScopeSource.GetScopeContext(scopeComponent, SearchOptions.Within(options.Timeout));
 
                     By by = WaitBy.GetBy(Selector).With(options);
 
                     if (waitUnit.Method == WaitUnit.WaitMethod.Presence)
-                        scopeElement.Exists(by);
+                        scopeContext.Exists(by);
                     else
-                        scopeElement.Missing(by);
+                        scopeContext.Missing(by);
                 },
                 waitUnit.SearchOptions);
         }
