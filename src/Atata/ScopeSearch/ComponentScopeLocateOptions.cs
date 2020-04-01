@@ -18,9 +18,8 @@ namespace Atata
 
         public Visibility Visibility { get; set; }
 
-        public static ComponentScopeLocateOptions CreateFromMetadata(UIComponentMetadata metadata)
+        public static ComponentScopeLocateOptions Create(UIComponentMetadata metadata, FindAttribute findAttribute)
         {
-            FindAttribute findAttribute = metadata.ResolveFindAttribute();
             ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 
             int index = findAttribute.Index;

@@ -17,7 +17,7 @@ namespace Atata
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             FindAttribute findAttribute = component.Metadata.ResolveFindAttribute();
-            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.CreateFromMetadata(component.Metadata);
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component.Metadata, findAttribute);
 
             searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
 
@@ -51,7 +51,7 @@ namespace Atata
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             FindAttribute findAttribute = component.Metadata.ResolveFindAttribute();
-            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.CreateFromMetadata(component.Metadata);
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component.Metadata, findAttribute);
 
             searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
 
@@ -65,7 +65,7 @@ namespace Atata
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             FindAttribute findAttribute = component.Metadata.ResolveFindAttribute();
-            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.CreateFromMetadata(component.Metadata);
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component.Metadata, findAttribute);
 
             searchOptions = ResolveSearchOptions(searchOptions, scopeLocateOptions.Visibility);
 
