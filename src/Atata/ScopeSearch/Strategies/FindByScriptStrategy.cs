@@ -20,7 +20,7 @@ namespace Atata
 
         public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            object scriptResult = AtataContext.Current.Driver.ExecuteScript(Script, scope);
+            object scriptResult = ExecuteScript(scope);
 
             if (scriptResult is ReadOnlyCollection<IWebElement> elements)
             {
@@ -47,6 +47,25 @@ namespace Atata
                         SearchOptions = searchOptions,
                         SearchContext = scope
                     });
+            }
+        }
+
+        private object ExecuteScript(ISearchContext scope)
+        {
+            var driver = AtataContext.Current.Driver;
+
+            if (scope is IWebElement element)
+            {
+                return driver.ExecuteScript(Script, element);
+            }
+            else if (Script.Contains("arguments"))
+            {
+                var scopeElement = scope.Get(By.XPath("*").With(SearchOptions.OfAnyVisibility()));
+                return driver.ExecuteScript(Script, scopeElement);
+            }
+            else
+            {
+                return driver.ExecuteScript(Script);
             }
         }
 
