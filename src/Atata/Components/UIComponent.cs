@@ -102,22 +102,27 @@ namespace Atata
         /// (where to find the children of this component).
         /// Also can execute <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
         /// </summary>
-        /// <param name="options">
+        /// <param name="searchOptions">
         /// The search options.
         /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>The <see cref="ISearchContext"/> instance of the scope context.</returns>
-        public ISearchContext GetScopeContext(SearchOptions options = null)
+        public ISearchContext GetScopeContext(SearchOptions searchOptions = null)
         {
-            return OnGetScopeContext(options ?? SearchOptions.Safely());
+            return OnGetScopeContext(searchOptions ?? SearchOptions.Safely());
         }
 
         protected virtual ISearchContext OnGetScopeContext(SearchOptions searchOptions)
         {
-            return GetScopeElement(searchOptions);
+            return ShouldUseParentScope()
+                ? Parent.GetScopeContext(searchOptions)
+                : GetScopeElement(searchOptions);
         }
 
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
+            if (ShouldUseParentScope())
+                return Parent.GetScopeElement(searchOptions);
+
             if (ScopeLocator == null)
                 throw new InvalidOperationException($"{nameof(ScopeLocator)} is missing.");
 
@@ -149,6 +154,13 @@ namespace Atata
         }
 
         internal abstract IWebElement OnGetScopeElement(SearchOptions searchOptions);
+
+        private bool ShouldUseParentScope()
+        {
+            FindAttribute findAttribute = Metadata.ResolveFindAttribute();
+
+            return findAttribute is UseParentScopeAttribute;
+        }
 
         protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
         {
