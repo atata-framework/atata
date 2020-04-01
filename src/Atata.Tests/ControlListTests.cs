@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Linq;
+using FluentAssertions;
+using NUnit.Framework;
 
 namespace Atata.Tests
 {
@@ -65,6 +67,19 @@ namespace Atata.Tests
                 ProductNameTextContolList.Should.EqualSequence("Phone", "Book", "Table").
                 ProductPercentNumberContolList.Should.EqualSequence(0.05m, 0.10m, 0.15m).
                 ProductPercentNumberContolList[1].Should.Equal(0.10m);
+        }
+
+        [Test]
+        public void ControlList_OfDescendantsAsControls()
+        {
+            var control = Go.To<ListPage>().ItemsControlOfDescendantsAsControls;
+
+            control.Items.Should.HaveCount(6);
+
+            var tagNames = control.Items.Select(x => x.Scope.TagName).ToArray();
+
+            tagNames.Where(x => x == "li").Should().HaveCount(3);
+            tagNames.Where(x => x == "span").Should().HaveCount(3);
         }
     }
 }

@@ -41,6 +41,9 @@ namespace Atata.Tests
         [FindById("hierarchical-ordered-list")]
         public HierarchicalOrderedList<HierarchicalOrderedListItemWithAnyVisibilityUsingControlDefinition, _> ComplexHierarchicalOrderedListWithAnyVisibilityUsingControlDefinition { get; private set; }
 
+        [FindById("ul-of-li-span")]
+        public ItemsControl<Control<_>, _> ItemsControlOfDescendantsAsControls { get; private set; }
+
         public class UnorderedListItem : ListItem<_>
         {
             [FindByIndex(0)]
