@@ -157,6 +157,9 @@ namespace Atata
 
         private bool ShouldUseParentScope()
         {
+            if (!(ScopeLocator is StrategyScopeLocator))
+                return false;
+
             FindAttribute findAttribute = Metadata.ResolveFindAttribute();
 
             return findAttribute is UseParentScopeAttribute;
