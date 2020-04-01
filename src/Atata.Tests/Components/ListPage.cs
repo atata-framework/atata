@@ -8,7 +8,7 @@ namespace Atata.Tests
     public class ListPage : Page<_>
     {
         [ControlDefinition("li[parent::ul]/span[1]", ComponentTypeName = "product name")]
-        [FindSettings(OuterXPath = ".//div[@id='simple-list-section']//")]
+        [FindSettings(OuterXPath = ".//div[@id='simple-list-section']/div[1]//")]
         public ControlList<Text<_>, _> ProductNameTextContolList { get; private set; }
 
         [ControlDefinition("li[parent::ul]/span[2]", ComponentTypeName = "product percent")]
