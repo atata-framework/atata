@@ -6,7 +6,7 @@
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButton,Radio,Button,Option")]
-    [ControlFinding(FindTermBy.Label)]
+    [FindByLabel]
     public class RadioButton<TOwner> : Field<bool, TOwner>, ICheckable<TOwner>
         where TOwner : PageObject<TOwner>
     {

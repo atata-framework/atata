@@ -6,7 +6,7 @@
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("a", ComponentTypeName = "link", IgnoreNameEndings = "Button,Link")]
-    [ControlFinding(FindTermBy.Content)]
+    [FindByContent]
     public class Link<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {

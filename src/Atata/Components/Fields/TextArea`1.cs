@@ -8,7 +8,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("textarea", IgnoreNameEndings = "TextArea")]
-    [ControlFinding(FindTermBy.Label)]
+    [FindByLabel]
     public class TextArea<TOwner> : EditableField<string, TOwner>
         where TOwner : PageObject<TOwner>
     {

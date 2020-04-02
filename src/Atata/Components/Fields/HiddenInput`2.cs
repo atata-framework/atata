@@ -7,7 +7,7 @@
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='hidden']", Visibility = Visibility.Hidden)]
-    [ControlFinding(typeof(FindFirstAttribute))]
+    [FindFirst]
     public class HiddenInput<T, TOwner> : Input<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

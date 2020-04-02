@@ -10,7 +10,7 @@
     /// <typeparam name="T">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("select", IgnoreNameEndings = "Select")]
-    [ControlFinding(FindTermBy.Label)]
+    [FindByLabel]
     public class Select<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

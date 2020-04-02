@@ -145,7 +145,7 @@ namespace Atata.Tests
         }
 
         [ControlDefinition("li", ComponentTypeName = "item")]
-        [ControlFinding(FindTermBy.Id)]
+        [FindById]
         [HoverParent(AppliesTo = TriggerScope.Children)]
         public class LevelItem : Control<_>
         {

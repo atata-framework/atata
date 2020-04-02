@@ -4,7 +4,7 @@ namespace Atata.Tests
 {
     [Url("content")]
     [VerifyTitle]
-    [ControlFinding(FindTermBy.DescriptionTerm, ControlType = typeof(Content<,>))]
+    [FindByDescriptionTerm(TargetType = typeof(Content<,>))]
     public class ContentPage : Page<_>
     {
         public Text<_> Text { get; private set; }

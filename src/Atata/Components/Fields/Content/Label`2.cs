@@ -7,7 +7,7 @@
     /// <typeparam name="T">The type of the content.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("label", ComponentTypeName = "label", IgnoreNameEndings = "Label")]
-    [ControlFinding(FindTermBy.Content)]
+    [FindByContent]
     public class Label<T, TOwner> : Content<T, TOwner>
         where TOwner : PageObject<TOwner>
     {

@@ -356,7 +356,9 @@ namespace Atata
         public FindAttribute ResolveFindAttribute()
         {
             FindAttribute findAttribute = GetDefinedFindAttribute()
+#pragma warning disable CS0618 // Type or member is obsolete
                 ?? ResolveNonDefinedFindAttribute();
+#pragma warning restore CS0618 // Type or member is obsolete
 
             findAttribute.Properties.Metadata = this;
 
@@ -368,6 +370,7 @@ namespace Atata
             return Get<FindAttribute>();
         }
 
+        [Obsolete("Should be removed in v2.0.0")]
         private FindAttribute ResolveNonDefinedFindAttribute()
         {
             ControlFindingAttribute controlFindingAttribute =
@@ -380,6 +383,7 @@ namespace Atata
                 : GetDefaultFindAttribute();
         }
 
+        [Obsolete("Should be removed in v2.0.0")]
         private ControlFindingAttribute GetNearestControlFindingAttribute(IEnumerable<Attribute> attributes)
         {
             Type controlType = ComponentType;
@@ -393,6 +397,7 @@ namespace Atata
                 FirstOrDefault(attr => attr.ParentComponentType == null || parentComponentType.IsInheritedFromOrIs(attr.ParentComponentType));
         }
 
+        [Obsolete("Should be removed in v2.0.0")]
         private ControlFindingAttribute GetNearestDefaultControlFindingAttribute()
         {
             Type parentComponentType = ParentComponentType;

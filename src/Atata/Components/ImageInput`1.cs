@@ -6,7 +6,7 @@
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='image']", ComponentTypeName = "image input")]
-    [ControlFinding(FindTermBy.Alt)]
+    [FindByAlt]
     public class ImageInput<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
