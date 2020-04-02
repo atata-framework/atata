@@ -355,10 +355,15 @@ namespace Atata
 
         public FindAttribute ResolveFindAttribute()
         {
-            FindAttribute findAttribute = GetDefinedFindAttribute()
+            // TODO: Use the below aproach in v2.0.0.
+            ////FindAttribute findAttribute = GetDefinedFindAttribute();
+
+            FindAttribute findAttribute = Get<FindAttribute>(x => x.At(AttributeLevels.Declared))
 #pragma warning disable CS0618 // Type or member is obsolete
-                ?? ResolveNonDefinedFindAttribute();
+                ?? ResolveNonDefinedFindAttribute()
 #pragma warning restore CS0618 // Type or member is obsolete
+                ?? GetDefinedFindAttribute()
+                ?? GetDefaultFindAttribute();
 
             findAttribute.Properties.Metadata = this;
 
@@ -378,9 +383,7 @@ namespace Atata
                 GetNearestControlFindingAttribute(AssemblyAttributes) ??
                 GetNearestDefaultControlFindingAttribute();
 
-            return controlFindingAttribute != null
-                ? controlFindingAttribute.CreateFindAttribute()
-                : GetDefaultFindAttribute();
+            return controlFindingAttribute?.CreateFindAttribute();
         }
 
         [Obsolete("Should be removed in v2.0.0")]
