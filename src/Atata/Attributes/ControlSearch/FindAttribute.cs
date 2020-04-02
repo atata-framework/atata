@@ -7,8 +7,7 @@ namespace Atata
     /// <summary>
     /// Represents the base attribute class for the finding attributes.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property, Inherited = true)]
-    public abstract class FindAttribute : Attribute, IPropertySettings
+    public abstract class FindAttribute : MulticastAttribute
     {
         private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> findSettingsGetter;
 
@@ -16,8 +15,6 @@ namespace Atata
         {
             findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));
         }
-
-        public PropertyBag Properties { get; } = new PropertyBag();
 
         /// <summary>
         /// Gets or sets the index of the control.

@@ -5,6 +5,7 @@ namespace Atata.Tests
     [Url("finding")]
     [VerifyTitle]
     [VerifyH1]
+    [FindByValue("OptionC", TargetName = nameof(OptionCAsCustom))]
     public class FindingPage : Page<_>
     {
         [FindByIndex(2)]
@@ -33,6 +34,10 @@ namespace Atata.Tests
 
         [FindLast]
         public RadioButton<_> OptionDAsLast { get; private set; }
+
+        public CustomRadioButton OptionDAsCustom { get; private set; }
+
+        public CustomRadioButton OptionCAsCustom { get; private set; }
 
         [FindById]
         public TextInput<_> VisibleInput { get; private set; }
@@ -114,5 +119,10 @@ namespace Atata.Tests
         [ControlDefinition(ContainingClass = "custom-control")]
         [FindByDescendantId("custom-control-id")]
         public Control<_> ControlByDescendantIdMissing { get; private set; }
+
+        [FindByValue("OptionD")]
+        public class CustomRadioButton : RadioButton<_>
+        {
+        }
     }
 }

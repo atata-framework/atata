@@ -220,6 +220,13 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Find_FindAttributeAtParentLevel()
+        {
+            var control = page.OptionCAsCustom;
+            VerifyValue(control, "OptionC");
+        }
+
+        [Test]
         public void Find_AfterPushToMetadata()
         {
             var control = page.OptionCByIndex;
@@ -230,6 +237,20 @@ namespace Atata.Tests
 
             control.Metadata.Push(new FindByValueAttribute("OptionC"));
             VerifyValue(control, "OptionC");
+        }
+
+        [Test]
+        public void Find_AfterPushToDifferentLevelsOfMetadata()
+        {
+            var control = page.OptionDAsCustom;
+            VerifyValue(control, "OptionD");
+
+            // TODO: Uncomment the following block after metadata become more dynamic.
+            ////page.Metadata.Push(new FindByValueAttribute("OptionC"));
+            ////VerifyValue(control, "OptionC");
+
+            control.Metadata.Push(new FindByValueAttribute("OptionB"));
+            VerifyValue(control, "OptionB");
         }
 
         private void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")

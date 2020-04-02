@@ -365,7 +365,7 @@ namespace Atata
 
         private FindAttribute GetDefinedFindAttribute()
         {
-            return Get<FindAttribute>(x => x.At(AttributeLevels.Declared));
+            return Get<FindAttribute>();
         }
 
         private FindAttribute ResolveNonDefinedFindAttribute()
