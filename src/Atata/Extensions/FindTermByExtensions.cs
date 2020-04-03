@@ -2,6 +2,7 @@
 
 namespace Atata
 {
+    // TODO: Remove in Atata v2.0.0.
     public static class FindTermByExtensions
     {
         public static Type ResolveFindAttributeType(this FindTermBy by)
