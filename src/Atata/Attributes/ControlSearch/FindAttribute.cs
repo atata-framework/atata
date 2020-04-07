@@ -117,6 +117,36 @@ namespace Atata
             }
         }
 
+        public FindAs As
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(As),
+                    FindAs.Scope);
+            }
+
+            set
+            {
+                Properties[nameof(As)] = value;
+            }
+        }
+
+        public int Layer
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(Layer),
+                    0);
+            }
+
+            set
+            {
+                Properties[nameof(Layer)] = value;
+            }
+        }
+
         /// <summary>
         /// Gets the default strategy type for the control search.
         /// Strategy type should implement <see cref="IComponentScopeFindStrategy"/>.

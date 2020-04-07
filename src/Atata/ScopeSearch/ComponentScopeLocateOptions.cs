@@ -4,6 +4,8 @@ namespace Atata
 {
     public class ComponentScopeLocateOptions : ICloneable
     {
+        public UIComponent Component { get; private set; }
+
         public UIComponentMetadata Metadata { get; set; }
 
         public string[] Terms { get; set; }
@@ -18,7 +20,7 @@ namespace Atata
 
         public Visibility Visibility { get; set; }
 
-        public static ComponentScopeLocateOptions Create(UIComponentMetadata metadata, FindAttribute findAttribute)
+        public static ComponentScopeLocateOptions Create(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 
@@ -26,6 +28,7 @@ namespace Atata
 
             ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
             {
+                Component = component,
                 Metadata = metadata,
                 ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath,
                 Index = index >= 0 ? (int?)index : null,

@@ -358,7 +358,7 @@ namespace Atata
             // TODO: Use the below aproach in v2.0.0.
             ////FindAttribute findAttribute = GetDefinedFindAttribute();
 
-            FindAttribute findAttribute = Get<FindAttribute>(x => x.At(AttributeLevels.Declared))
+            FindAttribute findAttribute = Get<FindAttribute>(filter => filter.At(AttributeLevels.Declared).Where(x => x.As == FindAs.Scope))
 #pragma warning disable CS0618 // Type or member is obsolete
                 ?? ResolveNonDefinedFindAttribute()
 #pragma warning restore CS0618 // Type or member is obsolete
@@ -372,7 +372,7 @@ namespace Atata
 
         private FindAttribute GetDefinedFindAttribute()
         {
-            return Get<FindAttribute>();
+            return Get<FindAttribute>(filter => filter.Where(x => x.As == FindAs.Scope));
         }
 
         [Obsolete("Should be removed in v2.0.0")]
@@ -420,6 +420,37 @@ namespace Atata
                 return new UseParentScopeAttribute();
 
             return new FindFirstAttribute();
+        }
+
+        public IEnumerable<FindAttribute> ResolveLayerFindAttributes()
+        {
+            var attributes = GetAll<FindAttribute>(filter => filter.Where(x => x.As != FindAs.Scope))
+                .OrderBy(x => x.Layer)
+                .ToArray();
+
+            if (attributes.Any())
+            {
+                UIComponentMetadata metadata = CreateMetadataForLayerFindAttribute();
+
+                foreach (FindAttribute attribute in attributes)
+                    attribute.Properties.Metadata = metadata;
+            }
+
+            return attributes;
+        }
+
+        private UIComponentMetadata CreateMetadataForLayerFindAttribute()
+        {
+            Func<Attribute, bool> filter = a => a is TermAttribute;
+
+            return new UIComponentMetadata(Name, ComponentType, ParentComponentType)
+            {
+                DeclaredAttributesList = DeclaredAttributesList.Where(filter).ToList(),
+                ParentComponentAttributesList = ParentComponentAttributesList.Where(filter).ToList(),
+                AssemblyAttributesList = AssemblyAttributesList.Where(filter).ToList(),
+                GlobalAttributesList = GlobalAttributesList.Where(filter).ToList(),
+                ComponentAttributesList = ComponentAttributesList.Where(filter).ToList()
+            };
         }
 
         private class AttributeSearchSet

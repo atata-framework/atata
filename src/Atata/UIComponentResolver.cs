@@ -300,7 +300,9 @@ namespace Atata
                 itemsControl.Apply(itemElementFindStrategy);
             }
 
-            component.ScopeLocator = new StrategyScopeLocator(component);
+            component.ScopeLocator = new StrategyScopeLocator(
+                new StrategyScopeLocatorExecutionDataCollector(component),
+                StrategyScopeLocatorExecutor.Default);
         }
 
         private static string ResolveControlName(UIComponentMetadata metadata)
