@@ -44,7 +44,7 @@ namespace Atata
 
             ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component, component.Metadata, findAttribute);
 
-            return new StrategyScopeLocatorExecutionUnit(strategy, scopeLocateOptions, desiredSearchOptions);
+            return new StrategyScopeLocatorExecutionUnit(strategy, scopeLocateOptions, searchOptions);
         }
 
         private StrategyScopeLocatorExecutionUnit CreateExecutionUnitForLayerFindAttribute(FindAttribute findAttribute, SearchOptions desiredSearchOptions)
