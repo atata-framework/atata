@@ -17,7 +17,5 @@
         public ComponentScopeLocateOptions ScopeLocateOptions { get; }
 
         public SearchOptions SearchOptions { get; }
-
-        // TODO: Add IScopeLayerScopeContextGetter...
     }
 }

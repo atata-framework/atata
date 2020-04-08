@@ -8,7 +8,7 @@ namespace Atata
             UIComponent component,
             ScopeSource scopeSource,
             bool isSafely,
-            IEnumerable<StrategyScopeLocatorExecutionUnit> layerUnits,
+            IEnumerable<StrategyScopeLocatorLayerExecutionUnit> layerUnits,
             StrategyScopeLocatorExecutionUnit finalUnit)
         {
             Component = component;
@@ -24,7 +24,7 @@ namespace Atata
 
         public bool IsSafely { get; }
 
-        public IEnumerable<StrategyScopeLocatorExecutionUnit> LayerUnits { get; }
+        public IEnumerable<StrategyScopeLocatorLayerExecutionUnit> LayerUnits { get; }
 
         public StrategyScopeLocatorExecutionUnit FinalUnit { get; }
     }

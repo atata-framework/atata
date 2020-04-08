@@ -47,7 +47,7 @@ namespace Atata
             return new StrategyScopeLocatorExecutionUnit(strategy, scopeLocateOptions, searchOptions);
         }
 
-        private StrategyScopeLocatorExecutionUnit CreateExecutionUnitForLayerFindAttribute(FindAttribute findAttribute, SearchOptions desiredSearchOptions)
+        private StrategyScopeLocatorLayerExecutionUnit CreateExecutionUnitForLayerFindAttribute(FindAttribute findAttribute, SearchOptions desiredSearchOptions)
         {
             object strategy = findAttribute.CreateStrategy();
 
@@ -59,8 +59,9 @@ namespace Atata
             };
 
             ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component, findAttribute.Properties.Metadata, findAttribute);
+            ILayerScopeContextResolver scopeContextResolver = LayerScopeContextResolverFactory.Create(findAttribute.As);
 
-            return new StrategyScopeLocatorExecutionUnit(strategy, scopeLocateOptions, searchOptions);
+            return new StrategyScopeLocatorLayerExecutionUnit(strategy, scopeLocateOptions, searchOptions, scopeContextResolver);
         }
     }
 }

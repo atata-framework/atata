@@ -18,6 +18,7 @@ namespace Atata
 
         public TermMatch Match { get; set; }
 
+        // TODO: Probably remove, as Visibility is present in SearchOptions.
         public Visibility Visibility { get; set; }
 
         public static ComponentScopeLocateOptions Create(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)

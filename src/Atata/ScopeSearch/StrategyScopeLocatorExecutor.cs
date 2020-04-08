@@ -47,8 +47,7 @@ namespace Atata
                     }
                 }
 
-                // TODO: Execute unit's scope context extractor.
-                scopeContext = element;
+                scopeContext = unit.ScopeContextResolver.Resolve(element);
             }
 
             return Execute(executionData.FinalUnit.Strategy, scopeContext, executionData.FinalUnit.ScopeLocateOptions, executionData.FinalUnit.SearchOptions);
