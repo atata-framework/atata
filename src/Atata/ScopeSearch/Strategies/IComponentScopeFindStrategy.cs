@@ -17,7 +17,7 @@ namespace Atata
         /// Returns an instance of one of the following types:
         /// <list type="bullet">
         /// <item><see cref="XPathComponentScopeFindResult"/></item>
-        /// <item><see cref="SequalComponentScopeFindResult"/></item>
+        /// <item><see cref="SubsequentComponentScopeFindResult"/></item>
         /// <item><see cref="MissingComponentScopeFindResult"/></item>
         /// </list>
         /// </returns>

@@ -36,12 +36,12 @@ namespace Atata
                 }
                 else
                 {
-                    return new SequalComponentScopeFindResult(elements[options.Index.Value], sequalStrategy);
+                    return new SubsequentComponentScopeFindResult(elements[options.Index.Value], sequalStrategy);
                 }
             }
             else
             {
-                return new SequalComponentScopeFindResult(by, sequalStrategy);
+                return new SubsequentComponentScopeFindResult(by, sequalStrategy);
             }
         }
     }
