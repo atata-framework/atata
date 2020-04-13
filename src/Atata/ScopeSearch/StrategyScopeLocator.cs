@@ -138,7 +138,7 @@ namespace Atata
             if (result is XPathComponentScopeFindResult xPathResult)
                 return new[] { xPathResult };
 
-            if (result is SequalComponentScopeFindResult sequalResult)
+            if (result is SubsequentComponentScopeFindResult sequalResult)
             {
                 ComponentScopeLocateOptions nextScopeLocateOptions = sequalResult.ScopeLocateOptions ?? scopeLocateOptions;
 

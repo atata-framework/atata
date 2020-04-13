@@ -62,7 +62,7 @@ namespace Atata
             }
 
             IComponentScopeFindStrategy nextStrategy = CreateColumnIndexStrategy(columnIndex.Value);
-            return new SequalComponentScopeFindResult(scope, nextStrategy);
+            return new SubsequentComponentScopeFindResult(scope, nextStrategy);
         }
 
         /// <summary>

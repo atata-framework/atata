@@ -19,7 +19,7 @@ namespace Atata
 
             if (string.IsNullOrEmpty(elementId))
             {
-                return new SequalComponentScopeFindResult(label, new FindFirstDescendantStrategy());
+                return new SubsequentComponentScopeFindResult(label, new FindFirstDescendantStrategy());
             }
             else if ((idXPathForLabelAttribute = options.Metadata.Get<IdXPathForLabelAttribute>(x => x.At(AttributeLevels.Component))) != null)
             {
@@ -27,7 +27,7 @@ namespace Atata
                 idOptions.Terms = new[] { idXPathForLabelAttribute.XPathFormat.FormatWith(elementId) };
                 idOptions.Index = null;
 
-                return new SequalComponentScopeFindResult(scope, new FindByXPathStrategy(), idOptions);
+                return new SubsequentComponentScopeFindResult(scope, new FindByXPathStrategy(), idOptions);
             }
             else
             {
@@ -36,7 +36,7 @@ namespace Atata
                 idOptions.Index = null;
                 idOptions.Match = TermMatch.Equals;
 
-                return new SequalComponentScopeFindResult(scope, new FindByIdStrategy(), idOptions);
+                return new SubsequentComponentScopeFindResult(scope, new FindByIdStrategy(), idOptions);
             }
         }
     }

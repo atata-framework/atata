@@ -28,7 +28,7 @@ namespace Atata
             }
             else if (scriptResult is IWebElement element)
             {
-                return new SequalComponentScopeFindResult(element, SequalStrategy);
+                return new SubsequentComponentScopeFindResult(element, SequalStrategy);
             }
             else if (scriptResult != null)
             {
@@ -95,12 +95,12 @@ namespace Atata
                     ComponentScopeLocateOptions sequalOptions = options.Clone();
                     sequalOptions.Index = null;
 
-                    return new SequalComponentScopeFindResult(elements[options.Index.Value], SequalStrategy, sequalOptions);
+                    return new SubsequentComponentScopeFindResult(elements[options.Index.Value], SequalStrategy, sequalOptions);
                 }
             }
             else
             {
-                return new SequalComponentScopeFindResult(elements, SequalStrategy);
+                return new SubsequentComponentScopeFindResult(elements, SequalStrategy);
             }
         }
     }

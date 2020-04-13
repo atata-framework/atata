@@ -5,8 +5,8 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    [Obsolete("Use SequalComponentScopeFindResult class instead.")] // Obsolete since v1.5.0.
-    public class SequalComponentScopeLocateResult : SequalComponentScopeFindResult
+    [Obsolete("Use SubsequentComponentScopeFindResult class instead.")] // Obsolete since v1.5.0.
+    public class SequalComponentScopeLocateResult : SubsequentComponentScopeFindResult
     {
         public SequalComponentScopeLocateResult(IWebElement scopeSource, IComponentScopeLocateStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions = null)
             : this(new[] { scopeSource ?? throw new ArgumentNullException(nameof(scopeSource)) }, strategy, scopeLocateOptions)
