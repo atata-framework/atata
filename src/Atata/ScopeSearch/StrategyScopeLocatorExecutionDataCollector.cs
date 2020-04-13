@@ -59,7 +59,7 @@ namespace Atata
             };
 
             ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component, findAttribute.Properties.Metadata, findAttribute);
-            ILayerScopeContextResolver scopeContextResolver = LayerScopeContextResolverFactory.Create(findAttribute.As);
+            ILayerScopeContextResolver scopeContextResolver = LayerScopeContextResolverFactory.Create(findAttribute);
 
             return new StrategyScopeLocatorLayerExecutionUnit(strategy, scopeLocateOptions, searchOptions, scopeContextResolver);
         }

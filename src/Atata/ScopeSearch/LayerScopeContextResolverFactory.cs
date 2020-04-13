@@ -4,12 +4,10 @@
     {
         private static readonly ILayerScopeContextResolver PlainResolver = new PlainLayerScopeContextResolver();
 
-        private static readonly ILayerScopeContextResolver ShadowHostResolver = new ShadowHostLayerScopeContextResolver();
-
-        public static ILayerScopeContextResolver Create(FindAs findAs)
+        public static ILayerScopeContextResolver Create(FindAttribute findAttribute)
         {
-            return findAs == FindAs.ShadowHost
-                ? ShadowHostResolver
+            return findAttribute.As == FindAs.ShadowHost
+                ? new ShadowHostLayerScopeContextResolver(findAttribute.ShadowIndex)
                 : PlainResolver;
         }
     }

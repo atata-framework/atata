@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Linq;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -20,13 +19,20 @@ for (var i = 0; i < shadowChildren.length; i++) {
 
 return filteredChildren;";
 
+        public ShadowHostLayerScopeContextResolver(int shadowIndex)
+        {
+            ShadowIndex = shadowIndex;
+        }
+
+        public int ShadowIndex { get; }
+
         public ISearchContext Resolve(IWebElement element)
         {
             var shadowChildren = (ReadOnlyCollection<IWebElement>)AtataContext.Current.Driver.ExecuteScript(
                 GetShadowRootChildElementsScript,
                 element);
 
-            return shadowChildren.First();
+            return shadowChildren[ShadowIndex];
         }
     }
 }

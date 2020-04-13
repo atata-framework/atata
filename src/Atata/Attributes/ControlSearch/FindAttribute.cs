@@ -117,6 +117,14 @@ namespace Atata
             }
         }
 
+        /// <summary>
+        /// Gets or sets the way this find attribute should be used.
+        /// The default value is <see cref="FindAs.Scope"/>.
+        /// Each control can have 1 find attribute with <see cref="FindAs.Scope"/> value
+        /// and many other find attribute with another <see cref="FindAs"/> values, which are used as layers.
+        /// When several layer find attributes are used,
+        /// then <see cref="Layer"/> property can be used to specify an order of each attribute.
+        /// </summary>
         public FindAs As
         {
             get
@@ -132,6 +140,12 @@ namespace Atata
             }
         }
 
+        /// <summary>
+        /// Gets or sets the layer of find attribute.
+        /// It is useful to specify the order of layer when several layers are used.
+        /// This propery is used only in pair with <see cref="As"/> property set to any value except <see cref="FindAs.Scope"/>.
+        /// The default value is <c>0</c>.
+        /// </summary>
         public int Layer
         {
             get
@@ -144,6 +158,26 @@ namespace Atata
             set
             {
                 Properties[nameof(Layer)] = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the index of the shadow element inside shadow root.
+        /// This propery is used only in pair with <see cref="As"/> property set to <see cref="FindAs.ShadowHost"/>.
+        /// The default value is <c>0</c>.
+        /// </summary>
+        public int ShadowIndex
+        {
+            get
+            {
+                return Properties.Get(
+                    nameof(ShadowIndex),
+                    0);
+            }
+
+            set
+            {
+                Properties[nameof(ShadowIndex)] = value;
             }
         }
 
