@@ -92,24 +92,25 @@ namespace Atata
             if (result is XPathComponentScopeFindResult xPathResult)
                 return new[] { xPathResult };
 
-            if (result is SequalComponentScopeFindResult sequalResult)
+            if (result is SubsequentComponentScopeFindResult subsequentResult)
             {
-                ComponentScopeLocateOptions nextScopeLocateOptions = sequalResult.ScopeLocateOptions ?? scopeLocateOptions;
+                ComponentScopeLocateOptions nextScopeLocateOptions = subsequentResult.ScopeLocateOptions ?? scopeLocateOptions;
 
-                if (sequalResult.ScopeSources?.Count() == 1)
+                if (subsequentResult.ScopeSources?.Count() == 1)
                 {
-                    return Execute(sequalResult.Strategy, sequalResult.ScopeSources.First(), nextScopeLocateOptions, searchOptions);
+                    return Execute(subsequentResult.Strategy, subsequentResult.ScopeSources.First(), nextScopeLocateOptions, searchOptions);
                 }
                 else
                 {
-                    IEnumerable<ISearchContext> nextScopeSources = sequalResult.ScopeSourceBy != null
-                        ? scopeSource.GetAll(sequalResult.ScopeSourceBy.With(searchOptions))
-                        : sequalResult.ScopeSources;
+                    IEnumerable<ISearchContext> nextScopeSources = subsequentResult.ScopeSourceBy != null
+                        ? scopeSource.GetAll(subsequentResult.ScopeSourceBy.With(searchOptions))
+                        : subsequentResult.ScopeSources;
 
                     SearchOptions nextSearchOptions = SearchOptions.SafelyAtOnce();
 
+                    // TODO: When there are no results, do retry.
                     var results = nextScopeSources.
-                        Select(nextScopeSource => Execute(sequalResult.Strategy, nextScopeSource, nextScopeLocateOptions, nextSearchOptions)).
+                        Select(nextScopeSource => Execute(subsequentResult.Strategy, nextScopeSource, nextScopeLocateOptions, nextSearchOptions)).
                         Where(xPathResults => xPathResults != null).
                         SelectMany(xPathResults => xPathResults).
                         ToArray();
@@ -128,7 +129,7 @@ namespace Atata
                             new SearchFailureData
                             {
                                 ElementName = scopeLocateOptions.Component.ComponentFullName,
-                                By = sequalResult.ScopeSourceBy,
+                                By = subsequentResult.ScopeSourceBy,
                                 SearchOptions = searchOptions,
                                 SearchContext = scopeSource
                             });
