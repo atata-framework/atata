@@ -5,7 +5,7 @@
     [Url("shadowdom")]
     [VerifyTitle("Shadow DOM")]
 
-    [FindById("shadow-container-2", As = FindAs.ShadowHost, TargetName = nameof(Shadow2_1_1_1_AtDifferentLevels))]
+    [FindById("shadow-container-2-1", As = FindAs.ShadowHost, TargetName = nameof(Shadow2_1_1_1_AtDifferentLevels))]
 
     [FindById("shadow-container-2-1", As = FindAs.ShadowHost, Layer = 1, TargetName = nameof(Shadow2_1_1_1_AtDifferentLevelsWithSetLayers))]
 
@@ -35,10 +35,10 @@
         [FindById("shadow-container-2-1-1", As = FindAs.ShadowHost)]
         public Text<_> Shadow2_1_1_1 { get; private set; }
 
-        // The find attribute of first layer is declared at page object level.
-        [FindById("shadow-container-2-1", As = FindAs.ShadowHost)]
+        // The find attribute of first layer is declared at component level.
+        // The find attribute of second layer is declared at page object level.
         [FindById("shadow-container-2-1-1", As = FindAs.ShadowHost)]
-        public Text<_> Shadow2_1_1_1_AtDifferentLevels { get; private set; }
+        public Shadow2Control Shadow2_1_1_1_AtDifferentLevels { get; private set; }
 
         // The find attribute of second layer is declared at page object level.
         [FindById("shadow-container-2-1-1", As = FindAs.ShadowHost, Layer = 2)]
@@ -51,5 +51,10 @@
         [FindByXPath("span", As = FindAs.Ancestor, Layer = 3)]
         [FindFirst(OuterXPath = "following-sibling::")]
         public Text<_> Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers { get; private set; }
+
+        [FindById("shadow-container-2", As = FindAs.ShadowHost)]
+        public class Shadow2Control : Control<_>
+        {
+        }
     }
 }
