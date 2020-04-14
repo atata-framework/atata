@@ -37,6 +37,7 @@ namespace Atata
             {
                 IPropertySettings propertySettings = propertySettingsGetters.
                     SelectMany(x => x(Metadata)).
+                    Where(x => x != null).
                     FirstOrDefault(x => x.Properties.Contains(name));
 
                 if (propertySettings != null)
