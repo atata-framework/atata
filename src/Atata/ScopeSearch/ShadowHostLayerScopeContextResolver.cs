@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -19,12 +20,7 @@ for (var i = 0; i < shadowChildren.length; i++) {
 
 return filteredChildren;";
 
-        public ShadowHostLayerScopeContextResolver(int shadowIndex)
-        {
-            ShadowIndex = shadowIndex;
-        }
-
-        public int ShadowIndex { get; }
+        public string DefaultOuterXPath => "..//";
 
         public ISearchContext Resolve(IWebElement element)
         {
@@ -32,7 +28,7 @@ return filteredChildren;";
                 GetShadowRootChildElementsScript,
                 element);
 
-            return shadowChildren[ShadowIndex];
+            return shadowChildren.First();
         }
     }
 }

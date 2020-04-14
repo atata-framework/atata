@@ -1,0 +1,35 @@
+﻿@page
+@{
+    ViewBag.Title = "Shadow DOM";
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <h2>Shadow Container 1</h2>
+        <div id="shadow-container-1">
+        </div>
+        <h2>Shadow Container 2</h2>
+        <div id="shadow-container-2">
+        </div>
+    </div>
+</div>
+<script>
+    var shadowContainer1 = document.getElementById('shadow-container-1');
+
+    var shadow1 = shadowContainer1.attachShadow({ mode: 'open' });
+    shadow1.innerHTML = '<style>p { color: blue; }</style><p>Shadow 1.1</p><p>Shadow 1.2</p>';
+
+    var shadowContainer2 = document.getElementById('shadow-container-2');
+
+    var shadow2 = shadowContainer2.attachShadow({ mode: 'open' });
+    shadow2.innerHTML = '<div><span>Shadow 2.1</span><div id="shadow-container-2-1"></div></div>';
+
+    var shadowContainer2_1 = shadow2.getElementById('shadow-container-2-1');
+
+    var shadow2_1 = shadowContainer2_1.attachShadow({ mode: 'open' });
+    shadow2_1.innerHTML = '<div><span>Shadow </span><strong>2.1.1</strong><div id="shadow-container-2-1-1"></div></div>';
+
+    var shadowContainer2_1_1 = shadow2_1.getElementById('shadow-container-2-1-1');
+
+    var shadow2_1_1 = shadowContainer2_1_1.attachShadow({ mode: 'open' });
+    shadow2_1_1.innerHTML = '<div><span>Shadow </span><strong>2.1.1.1</strong></div>';
+</script>

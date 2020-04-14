@@ -29,7 +29,22 @@ namespace Atata
                 ? layerFindAttributes[0].ScopeSource
                 : findAttribute.ScopeSource;
 
+            PostProcessOuterXPath(layerExecutionUnits, finalExecutionUnit);
+
             return new StrategyScopeLocatorExecutionData(component, scopeSource, searchOptions.IsSafely, layerExecutionUnits, finalExecutionUnit);
+        }
+
+        private void PostProcessOuterXPath(StrategyScopeLocatorLayerExecutionUnit[] layerExecutionUnits, StrategyScopeLocatorExecutionUnit finalExecutionUnit)
+        {
+            for (int i = 0; i < layerExecutionUnits.Length; i++)
+            {
+                ComponentScopeLocateOptions scopeLocateOptions = i == layerExecutionUnits.Length - 1
+                    ? finalExecutionUnit.ScopeLocateOptions
+                    : layerExecutionUnits[i + 1].ScopeLocateOptions;
+
+                if (scopeLocateOptions.OuterXPath == null)
+                    scopeLocateOptions.OuterXPath = layerExecutionUnits[i].ScopeContextResolver.DefaultOuterXPath;
+            }
         }
 
         private StrategyScopeLocatorExecutionUnit CreateExecutionUnitForFinalFindAttribute(FindAttribute findAttribute, SearchOptions desiredSearchOptions)

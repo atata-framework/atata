@@ -184,11 +184,20 @@ namespace Atata
         /// <returns>The sequence of attributes found.</returns>
         public IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration)
         {
+            return GetAll(filterConfiguration, reverseAttributeSetOrder: false);
+        }
+
+        private IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration, bool reverseAttributeSetOrder)
+        {
             AttributeFilter<TAttribute> defaultFilter = new AttributeFilter<TAttribute>();
 
             AttributeFilter<TAttribute> filter = filterConfiguration?.Invoke(defaultFilter) ?? defaultFilter;
 
             var attributeSets = GetAllAttributeSets(filter.Levels);
+
+            if (reverseAttributeSetOrder)
+                attributeSets = attributeSets.Reverse();
+
             return FilterAttributeSets(attributeSets, filter, true);
         }
 
@@ -416,7 +425,7 @@ namespace Atata
 
         private FindAttribute GetDefaultFindAttribute()
         {
-            if (ComponentDefinitionAttribute.ScopeXPath == ScopeDefinitionAttribute.DefaultScopeXPath)
+            if (ComponentDefinitionAttribute.ScopeXPath == ScopeDefinitionAttribute.DefaultScopeXPath && !GetLayerFindAttributes().Any())
                 return new UseParentScopeAttribute();
 
             return new FindFirstAttribute();
@@ -424,7 +433,7 @@ namespace Atata
 
         public IEnumerable<FindAttribute> ResolveLayerFindAttributes()
         {
-            var attributes = GetAll<FindAttribute>(filter => filter.Where(x => x.As != FindAs.Scope))
+            var attributes = GetLayerFindAttributes()
                 .OrderBy(x => x.Layer)
                 .ToArray();
 
@@ -437,6 +446,13 @@ namespace Atata
             }
 
             return attributes;
+        }
+
+        private IEnumerable<FindAttribute> GetLayerFindAttributes()
+        {
+            return GetAll<FindAttribute>(
+                filter => filter.Where(x => x.As != FindAs.Scope),
+                reverseAttributeSetOrder: true);
         }
 
         private UIComponentMetadata CreateMetadataForLayerFindAttribute()

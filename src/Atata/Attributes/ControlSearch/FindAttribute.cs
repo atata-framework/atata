@@ -141,9 +141,9 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the layer of find attribute.
+        /// Gets or sets the layer order of find attribute.
         /// It is useful to specify the order of layer when several layers are used.
-        /// This propery is used only in pair with <see cref="As"/> property set to any value except <see cref="FindAs.Scope"/>.
+        /// This propery is used only in pair with <see cref="As"/> property set to any value except of <see cref="FindAs.Scope"/>.
         /// The default value is <c>0</c>.
         /// </summary>
         public int Layer
@@ -158,26 +158,6 @@ namespace Atata
             set
             {
                 Properties[nameof(Layer)] = value;
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the index of the shadow element inside shadow root.
-        /// This propery is used only in pair with <see cref="As"/> property set to <see cref="FindAs.ShadowHost"/>.
-        /// The default value is <c>0</c>.
-        /// </summary>
-        public int ShadowIndex
-        {
-            get
-            {
-                return Properties.Get(
-                    nameof(ShadowIndex),
-                    0);
-            }
-
-            set
-            {
-                Properties[nameof(ShadowIndex)] = value;
             }
         }
 
