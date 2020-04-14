@@ -189,7 +189,14 @@ namespace Atata
             componentPart.ComponentPartName = property.Name.ToString(TermCase.MidSentence);
 
             if (componentPart is ISupportsMetadata supportsMetadata)
+            {
                 supportsMetadata.Metadata = CreateStaticControlMetadata(parentComponent, property, supportsMetadata.ComponentType);
+
+                string nameFromMetadata = GetControlNameFromNameAttribute(supportsMetadata.Metadata);
+
+                if (nameFromMetadata != null)
+                    componentPart.ComponentPartName = nameFromMetadata;
+            }
 
             property.SetValue(parentComponent, componentPart, null);
         }
