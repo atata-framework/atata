@@ -118,5 +118,13 @@ namespace Atata.Tests
                 .Paragraphs.Should.EqualSequence("Shadow 1.1", "Shadow 1.2")
                 .Paragraph2.Should.Equal("Shadow 1.2"));
         }
+
+        [Test]
+        public void Find_InShadowHost_AsShadowHostPopupWindow()
+        {
+            Go.To<ShadowHostPopupWindow>().AggregateAssert(x => x
+                .Paragraphs.Should.EqualSequence("Shadow 1.1", "Shadow 1.2")
+                .Paragraph2.Should.Equal("Shadow 1.2"));
+        }
     }
 }
