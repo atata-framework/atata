@@ -76,7 +76,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Find_InShadowHost_TreeLayers()
+        public void Find_InShadowHost_ThreeLayers()
         {
             var control = page.Shadow2_1_1_1;
 
@@ -85,7 +85,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Find_InShadowHost_TreeLayers_AtDifferentLevels()
+        public void Find_InShadowHost_ThreeLayers_AtDifferentLevels()
         {
             var control = page.Shadow2_1_1_1_AtDifferentLevels;
 
@@ -94,7 +94,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Find_InShadowHost_TreeLayers_AtDifferentLevels_WithSetLayers()
+        public void Find_InShadowHost_ThreeLayers_AtDifferentLevels_WithSetLayers()
         {
             var control = page.Shadow2_1_1_1_AtDifferentLevelsWithSetLayers;
 
