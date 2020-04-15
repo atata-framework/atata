@@ -28,7 +28,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Find_InAncestor_TreeLayers_AtDifferentLevels()
+        public void Find_InAncestor_ThreeLayers_AtDifferentLevels()
         {
             var control = page.LegendInThreeLayersAtDifferentLevels;
 
