@@ -14,6 +14,10 @@
     public class ShadowDomPage : Page<_>
     {
         [FindById("shadow-container-1", As = FindAs.ShadowHost)]
+        [ControlDefinition("p")]
+        public ControlList<Text<_>, _> Shadow1Paragraphs { get; private set; }
+
+        [FindById("shadow-container-1", As = FindAs.ShadowHost)]
         [FindFirst(Visibility = Visibility.Any)]
         public Text<_> Shadow1_0 { get; private set; }
 

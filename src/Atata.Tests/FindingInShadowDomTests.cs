@@ -41,6 +41,19 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Find_InShadowHost_ControlList()
+        {
+            page.AggregateAssert(x => x.Shadow1Paragraphs, controls =>
+            {
+                controls[0].Should.Equal("Shadow 1.1");
+                controls[1].Should.Equal("Shadow 1.2");
+                controls.Count.Should.Equal(2);
+                controls.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
+                controls.Contents.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
+            });
+        }
+
+        [Test]
         public void Find_InShadowHost_TwoLayers()
         {
             var control = page.Shadow2_1_1;
@@ -83,6 +96,14 @@ namespace Atata.Tests
 
             control.Should.Exist();
             control.Content.Should.Equal("2.1.1.1");
+        }
+
+        [Test]
+        public void Find_InShadowHost_AsShadowHostPage()
+        {
+            var controls = Go.To<ShadowHostPage>().Paragraphs;
+
+            controls.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
         }
     }
 }

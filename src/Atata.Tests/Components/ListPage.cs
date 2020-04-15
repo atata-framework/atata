@@ -44,6 +44,10 @@ namespace Atata.Tests
         [FindById("ul-of-li-span")]
         public ItemsControl<Control<_>, _> ItemsControlOfDescendantsAsControls { get; private set; }
 
+        [FindById("ul-of-li-span")]
+        [FindSettings(OuterXPath = "./", TargetName = "Items")]
+        public ItemsControl<Control<_>, _> ItemsControlOfChildrenAsControls { get; private set; }
+
         public class UnorderedListItem : ListItem<_>
         {
             [FindByIndex(0)]

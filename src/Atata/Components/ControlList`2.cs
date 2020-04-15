@@ -17,15 +17,15 @@ namespace Atata
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private FindAttribute itemFindAttribute;
-
         private string itemComponentTypeName;
 
+        [Obsolete("This property is not used internally anymore, no sense to use it.")] // Obsolete since v1.5.0.
         protected ControlDefinitionAttribute ItemDefinition =>
             (ControlDefinitionAttribute)Metadata.ComponentDefinitionAttribute;
 
+        [Obsolete("This property is not used internally anymore, no sense to use it.")] // Obsolete since v1.5.0.
         protected FindAttribute ItemFindAttribute =>
-            itemFindAttribute ?? (itemFindAttribute = ResolveItemFindAttribute());
+            ResolveItemFindAttribute();
 
         protected string ItemComponentTypeName =>
             itemComponentTypeName ?? (itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
@@ -128,9 +128,7 @@ namespace Atata
 
         private FindAttribute ResolveItemFindAttribute()
         {
-            FindAttribute findAttribute = new FindControlListItemAttribute();
-            findAttribute.Properties.Metadata = Metadata;
-            return findAttribute;
+            return new FindControlListItemAttribute();
         }
 
         /// <summary>
@@ -139,8 +137,7 @@ namespace Atata
         /// <returns>The count of controls.</returns>
         protected virtual int GetCount()
         {
-            By itemBy = CreateItemBy();
-            return GetItemElements(itemBy.AtOnce()).Count;
+            return GetItemElements().Count;
         }
 
         /// <summary>
@@ -166,12 +163,11 @@ namespace Atata
 
         protected virtual TItem GetItem(string name, Expression<Func<TItem, bool>> predicateExpression)
         {
-            By itemBy = CreateItemBy();
             var predicate = predicateExpression.Compile();
 
-            ControlListScopeLocator scopeLocator = new ControlListScopeLocator(options =>
+            ControlListScopeLocator scopeLocator = new ControlListScopeLocator(searchOptions =>
             {
-                return GetItemElements(itemBy.With(options).SafelyAtOnce()).
+                return GetItemElements(searchOptions).
                     Where(element => predicate(CreateItem(new DefinedScopeLocator(element), name)));
             });
 
@@ -198,26 +194,29 @@ namespace Atata
 
         protected virtual int IndexOf(string name, Expression<Func<TItem, bool>> predicateExpression)
         {
-            By itemBy = CreateItemBy();
             var predicate = predicateExpression.Compile();
 
-            return GetItemElements(itemBy.SafelyAtOnce()).
+            return GetItemElements().
                 Select((element, index) => new { Element = element, Index = index }).
                 Where(x => predicate(CreateItem(new DefinedScopeLocator(x.Element), name))).
                 Select(x => (int?)x.Index).
                 FirstOrDefault() ?? -1;
         }
 
+        [Obsolete("This method is not used anymore, no sense to invoke or override it.")] // Obsolete since v1.5.0.
         protected virtual By CreateItemBy()
         {
-            string outerXPath = ItemFindAttribute.OuterXPath ?? ".//";
+            FindAttribute itemFindAttribute = ResolveItemFindAttribute();
+            itemFindAttribute.Properties.Metadata = Metadata;
+
+            string outerXPath = itemFindAttribute.OuterXPath ?? ".//";
 
             By by = By.XPath($"{outerXPath}{ItemDefinition.ScopeXPath}").OfKind(ItemComponentTypeName);
 
             // TODO: Review/remake this Visibility processing.
-            if (ItemFindAttribute.Visibility == Visibility.Any)
+            if (itemFindAttribute.Visibility == Visibility.Any)
                 by = by.OfAnyVisibility();
-            else if (ItemFindAttribute.Visibility == Visibility.Hidden)
+            else if (itemFindAttribute.Visibility == Visibility.Hidden)
                 by = by.Hidden();
 
             return by;
@@ -225,15 +224,10 @@ namespace Atata
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
         {
-            if (attributes != null)
-            {
-                foreach (var attribute in attributes.OfType<FindAttribute>())
-                    InitItemFindAttribute(attribute);
-            }
+            var itemAttributes = new Attribute[] { new NameAttribute(name) }.Concat(
+                attributes?.Concat(GetItemDeclaredAttributes()) ?? GetItemDeclaredAttributes());
 
-            var itemAttributes = attributes?.Concat(GetItemDeclaredAttributes()) ?? GetItemDeclaredAttributes();
-
-            return Component.Controls.Create<TItem>(name, itemAttributes.ToArray());
+            return CreateItem(itemAttributes);
         }
 
         protected TItem CreateItem(IScopeLocator scopeLocator, string name)
@@ -248,16 +242,21 @@ namespace Atata
             return item;
         }
 
-        private void InitItemFindAttribute(FindAttribute findAttribute)
+        private TItem CreateItem(IEnumerable<Attribute> itemAttributes)
         {
-            findAttribute.Visibility = ItemFindAttribute.Visibility;
-            findAttribute.ScopeSource = ItemFindAttribute.ScopeSource;
-            findAttribute.OuterXPath = ItemFindAttribute.OuterXPath;
+            TItem control = Component.Controls.Create<TItem>(Metadata.Name, itemAttributes.ToArray());
+
+            // TODO: Remove control removal.
+            Component.Controls.Remove(control);
+            return control;
         }
 
         protected virtual IEnumerable<Attribute> GetItemDeclaredAttributes()
         {
-            return Metadata.DeclaredAttributes.Where(x => !(x is FindAttribute));
+            yield return ResolveItemFindAttribute();
+
+            foreach (var item in Metadata.DeclaredAttributes)
+                yield return item;
         }
 
         /// <summary>
@@ -285,16 +284,22 @@ namespace Atata
 
         protected virtual IEnumerable<TItem> GetAll()
         {
-            By itemBy = CreateItemBy();
-
-            return GetItemElements(itemBy.AtOnce()).
+            return GetItemElements().
                 Select((element, index) => CreateItem(new DefinedScopeLocator(element), (index + 1).Ordinalize())).
                 ToArray();
         }
 
+        [Obsolete("Use GetItemElements() instead.")] // Obsolete since v1.5.0.
         protected ReadOnlyCollection<IWebElement> GetItemElements(By itemBy)
         {
-            return ItemFindAttribute.ScopeSource.GetScopeContextUsingParent(Component).GetAll(itemBy);
+            return GetItemElements();
+        }
+
+        protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null)
+        {
+            TItem control = CreateItem(GetItemDeclaredAttributes());
+
+            return control.ScopeLocator.GetElements(searchOptions).ToReadOnly();
         }
     }
 }

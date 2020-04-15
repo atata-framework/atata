@@ -4,9 +4,6 @@ namespace Atata
 {
     internal class FindControlListItemAttribute : FindAttribute
     {
-        protected override Type DefaultStrategy
-        {
-            get { return null; }
-        }
+        protected override Type DefaultStrategy => typeof(FindFirstDescendantStrategy);
     }
 }

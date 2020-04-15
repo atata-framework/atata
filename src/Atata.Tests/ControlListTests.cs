@@ -74,12 +74,24 @@ namespace Atata.Tests
         {
             var control = Go.To<ListPage>().ItemsControlOfDescendantsAsControls;
 
-            control.Items.Should.HaveCount(6);
+            control.Items.Count.Should.Equal(6);
 
             var tagNames = control.Items.Select(x => x.Scope.TagName).ToArray();
 
             tagNames.Where(x => x == "li").Should().HaveCount(3);
             tagNames.Where(x => x == "span").Should().HaveCount(3);
         }
+
+        // TODO: Uncomment this test when Metadata is enhanced to get ParentComponent attributes from property.
+        ////[Test]
+        ////public void ControlList_OfChildrenAsControls()
+        ////{
+        ////    var control = Go.To<ListPage>().ItemsControlOfChildrenAsControls;
+
+        ////    control.Items.Count.Should.Equal(3);
+
+        ////    foreach (var item in control.Items)
+        ////        item.Scope.TagName.Should().Be("li");
+        ////}
     }
 }
