@@ -54,6 +54,19 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Find_InShadowHost_RadioButtonList()
+        {
+            var control = page.YesNoRadios;
+
+            control.Should.Exist();
+            control.Should.BeNull();
+            control.Set("No");
+            control.Should.Equal("No");
+            control.Set("Yes");
+            control.Should.Equal("Yes");
+        }
+
+        [Test]
         public void Find_InShadowHost_TwoLayers()
         {
             var control = page.Shadow2_1_1;
@@ -101,9 +114,9 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_AsShadowHostPage()
         {
-            var controls = Go.To<ShadowHostPage>().Paragraphs;
-
-            controls.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
+            Go.To<ShadowHostPage>().AggregateAssert(x => x
+                .Paragraphs.Should.EqualSequence("Shadow 1.1", "Shadow 1.2")
+                .Paragraph2.Should.Equal("Shadow 1.2"));
         }
     }
 }

@@ -10,6 +10,9 @@
         <h2>Shadow Container 2</h2>
         <div id="shadow-container-2">
         </div>
+        <h2>Shadow Container 3</h2>
+        <div id="shadow-container-3">
+        </div>
     </div>
 </div>
 <script>
@@ -32,4 +35,9 @@
 
     var shadow2_1_1 = shadowContainer2_1_1.attachShadow({ mode: 'open' });
     shadow2_1_1.innerHTML = '<div><span>Shadow </span><strong>2.1.1.1</strong></div>';
+
+    var shadowContainer3 = document.getElementById('shadow-container-3');
+
+    var shadow3 = shadowContainer3.attachShadow({ mode: 'open' });
+    shadow3.innerHTML = '<div><label class="radio-inline"><input type="radio" name="bool-options" value="True" />Yes</label><label class="radio-inline"><input type="radio" name="bool-options" value="False" />No</label><div>';
 </script>

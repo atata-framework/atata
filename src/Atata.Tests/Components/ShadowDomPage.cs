@@ -56,6 +56,10 @@
         [FindFirst(OuterXPath = "following-sibling::")]
         public Text<_> Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers { get; private set; }
 
+        [FindById("shadow-container-3", As = FindAs.ShadowHost)]
+        [FindByName("bool-options")]
+        public RadioButtonList<string, _> YesNoRadios { get; private set; }
+
         [FindById("shadow-container-2", As = FindAs.ShadowHost)]
         public class Shadow2Control : Control<_>
         {

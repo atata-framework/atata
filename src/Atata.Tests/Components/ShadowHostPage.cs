@@ -6,5 +6,9 @@
     public class ShadowHostPage : Page<_>
     {
         public ControlList<Text<_>, _> Paragraphs { get; private set; }
+
+        [FindByIndex(1)]
+        [ControlDefinition("p")]
+        public Text<_> Paragraph2 { get; private set; }
     }
 }
