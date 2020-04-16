@@ -9,7 +9,7 @@
 
     [FindById("shadow-container-2-1", As = FindAs.ShadowHost, Layer = 1, TargetName = nameof(Shadow2_1_1_1_AtDifferentLevelsWithSetLayers))]
 
-    [FindByXPath("div[span[text() = 'Shadow 2.1']]", As = FindAs.Ancestor, Layer = 1, TargetName = nameof(Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers))]
+    [FindByXPath("div[span[text() = 'Shadow 2.1']]", As = FindAs.Parent, Layer = 1, TargetName = nameof(Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers))]
     [FindById("shadow-container-2-1", As = FindAs.ShadowHost, Layer = 1, TargetName = nameof(Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers))]
     public class ShadowDomPage : Page<_>
     {
@@ -51,6 +51,7 @@
 
         // The find attribute of second layer is declared at page object level.
         [FindById("shadow-container-2-1-1", As = FindAs.ShadowHost, Layer = 2)]
+        [FindById("shadow-container-1", As = FindAs.Sibling, Layer = 0)]
         [FindById("shadow-container-2", As = FindAs.ShadowHost, Layer = 0)]
         [FindByXPath("span", As = FindAs.Ancestor, Layer = 3)]
         [FindFirst(OuterXPath = "following-sibling::")]

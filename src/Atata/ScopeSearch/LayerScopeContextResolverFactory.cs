@@ -2,15 +2,29 @@
 {
     public static class LayerScopeContextResolverFactory
     {
-        private static readonly ILayerScopeContextResolver PlainResolver = new PlainLayerScopeContextResolver();
+        private static readonly ILayerScopeContextResolver ParentResolver = new PlainLayerScopeContextResolver("./");
+
+        private static readonly ILayerScopeContextResolver SiblingResolver = new PlainLayerScopeContextResolver("../");
+
+        private static readonly ILayerScopeContextResolver AncestorResolver = new PlainLayerScopeContextResolver(".//");
 
         private static readonly ILayerScopeContextResolver ShadowHostResolver = new ShadowHostLayerScopeContextResolver();
 
-        public static ILayerScopeContextResolver Create(FindAttribute findAttribute)
+        public static ILayerScopeContextResolver Create(FindAs findAs)
         {
-            return findAttribute.As == FindAs.ShadowHost
-                ? ShadowHostResolver
-                : PlainResolver;
+            switch (findAs)
+            {
+                case FindAs.Parent:
+                    return ParentResolver;
+                case FindAs.Sibling:
+                    return SiblingResolver;
+                case FindAs.Ancestor:
+                    return AncestorResolver;
+                case FindAs.ShadowHost:
+                    return ShadowHostResolver;
+                default:
+                    throw ExceptionFactory.CreateForUnsupportedEnumValue(findAs, nameof(findAs));
+            }
         }
     }
 }
