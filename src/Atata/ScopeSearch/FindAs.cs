@@ -24,7 +24,7 @@
 
         /// <summary>
         /// Use the attribute as a shadow host layer.
-        /// It means that the scope element or next layer element is located inside shadow root of this one in DOM.
+        /// It means that the scope element or next layer element is located inside the shadow root of this one in DOM.
         /// </summary>
         ShadowHost,
 
