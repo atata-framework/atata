@@ -118,11 +118,11 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets the way this find attribute should be used.
+        /// Gets or sets the way this <see cref="FindAttribute"/> should be used.
         /// The default value is <see cref="FindAs.Scope"/>.
-        /// Each control can have 1 find attribute with <see cref="FindAs.Scope"/> value
-        /// and many other find attribute with another <see cref="FindAs"/> values, which are used as layers.
-        /// When several layer find attributes are used,
+        /// Each control can have 1 <see cref="FindAttribute"/> with <see cref="FindAs.Scope"/> value
+        /// and many other <see cref="FindAttribute"/>s with another <see cref="FindAs"/> values, which are used as layers.
+        /// When several layer attributes are used,
         /// then <see cref="Layer"/> property can be used to specify an order of each attribute.
         /// </summary>
         public FindAs As
@@ -142,8 +142,8 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the layer order of find attribute.
-        /// It is useful to specify the order of layer when several layers are used.
-        /// This propery is used only in pair with <see cref="As"/> property set to any value except of <see cref="FindAs.Scope"/>.
+        /// It is useful to specify the order of the layer when several layers are used.
+        /// This property is used only paired with <see cref="As"/> property set to any value except <see cref="FindAs.Scope"/>.
         /// The default value is <c>0</c>.
         /// </summary>
         public int Layer
