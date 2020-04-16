@@ -6,7 +6,7 @@
     public enum FindAs
     {
         /// <summary>
-        /// The scope of the component.
+        /// Use the attribute as a scope element locator.
         /// </summary>
         Scope,
 
