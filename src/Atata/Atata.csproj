@@ -77,7 +77,7 @@ Features:
         </When>
         <Otherwise>
           <PropertyGroup>
-            <TargetFrameworks>net40;net45;netstandard2.0</TargetFrameworks>
+            <TargetFrameworks>net40;net45;net46;netstandard2.0</TargetFrameworks>
           </PropertyGroup>
         </Otherwise>
       </Choose>
@@ -108,6 +108,10 @@ Features:
   </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'net45'">
+    <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
 
