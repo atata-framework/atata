@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace Atata
@@ -132,7 +131,6 @@ namespace Atata
             return randomValues;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static Random CreateRandom()
         {
             return new Random(Guid.NewGuid().GetHashCode());
