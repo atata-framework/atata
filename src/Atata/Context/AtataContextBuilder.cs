@@ -905,7 +905,7 @@ namespace Atata
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
 
 #if !NET40
-            if (!AtataContext.IsThreadStatic)
+            if (AtataContext.ModeOfCurrent == AtataContextModeOfCurrent.Static)
                 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
 #endif
 

@@ -15,12 +15,16 @@ namespace Atata
     {
         private static readonly object LockObject = new object();
 
-        private static bool isThreadStatic = true;
+        private static AtataContextModeOfCurrent modeOfCurrent = AtataContextModeOfCurrent.ThreadStatic;
 
         [ThreadStatic]
         private static AtataContext currentThreadStaticContext;
 
         private static AtataContext currentStaticContext;
+
+#if NET46 || NETSTANDARD2_0
+        private static System.Threading.AsyncLocal<AtataContext> currentAsyncLocalContext = new System.Threading.AsyncLocal<AtataContext>();
+#endif
 
         private string testName;
 
@@ -35,13 +39,48 @@ namespace Atata
         /// </summary>
         public static AtataContext Current
         {
-            get => isThreadStatic ? currentThreadStaticContext : currentStaticContext;
+            get
+            {
+                return ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic
+                    ? currentThreadStaticContext
+#if NET46 || NETSTANDARD2_0
+                    : ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal
+                    ? currentAsyncLocalContext.Value
+#endif
+                    : currentStaticContext;
+            }
+
             set
             {
-                if (isThreadStatic)
+                if (ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
                     currentThreadStaticContext = value;
+#if NET46 || NETSTANDARD2_0
+                else if (ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
+                    currentAsyncLocalContext.Value = value;
+#endif
                 else
                     currentStaticContext = value;
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the mode of <see cref="Current"/> property.
+        /// The default value is <see cref="AtataContextModeOfCurrent.ThreadStatic"/>.
+        /// </summary>
+        public static AtataContextModeOfCurrent ModeOfCurrent
+        {
+            get => modeOfCurrent;
+            set
+            {
+                modeOfCurrent = value;
+
+                RetrySettings.ThreadBoundary = value == AtataContextModeOfCurrent.ThreadStatic
+                    ? RetrySettingsThreadBoundary.ThreadStatic
+#if NET46 || NETSTANDARD2_0
+                    : value == AtataContextModeOfCurrent.AsyncLocal
+                    ? RetrySettingsThreadBoundary.AsyncLocal
+#endif
+                    : RetrySettingsThreadBoundary.Static;
             }
         }
 
@@ -49,14 +88,11 @@ namespace Atata
         /// Gets or sets a value indicating whether the <see cref="Current"/> property use thread-static approach (value unique for each thread).
         /// The default value is <see langword="true"/>.
         /// </summary>
+        [Obsolete("Use ModeOfCurrent instead.")] // Obsolete since v1.5.0.
         public static bool IsThreadStatic
         {
-            get => isThreadStatic;
-            set
-            {
-                isThreadStatic = value;
-                RetrySettings.IsThreadStatic = value;
-            }
+            get => ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic;
+            set => ModeOfCurrent = value ? AtataContextModeOfCurrent.ThreadStatic : AtataContextModeOfCurrent.Static;
         }
 
         /// <summary>
