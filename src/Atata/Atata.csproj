@@ -27,7 +27,7 @@ Features:
     <PackageId>Atata</PackageId>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
-    <PackageIconUrl>https://raw.githubusercontent.com/atata-framework/atata/master/logo_68.png</PackageIconUrl>
+    <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
     <PackageReleaseNotes>1.5.0 - https://atata.io/blog/2020/04/23/atata-1.5.0-released/
@@ -94,6 +94,10 @@ Features:
 
   <ItemGroup Condition="$(TargetFramework) == 'net40' Or $(TargetFramework) == 'net45' Or $(TargetFramework) == 'net46'">
     <Reference Include="Microsoft.CSharp" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="icon.png" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
