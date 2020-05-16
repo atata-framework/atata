@@ -1,34 +1,38 @@
-﻿using NUnit.Framework;
+﻿using FluentAssertions;
+using NUnit.Framework;
 using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    public class PressTriggersTests : UITestFixture
+    public class PressTriggerTests : UITestFixture
     {
+        private PressTriggersPage page;
+
+        protected override void OnSetUp()
+        {
+            page = Go.To<PressTriggersPage>();
+        }
+
         [Test]
         public void PressEnd_BeforeClick()
         {
-            var page = Go.To<PressTriggersPage>();
-
-            Assert.That(IsVisibleInViewport(page.BottomText), Is.False);
+            IsVisibleInViewport(page.BottomText).Should().BeFalse();
 
             page.BottomText.Click();
 
-            Assert.That(IsVisibleInViewport(page.BottomText), Is.True);
+            IsVisibleInViewport(page.BottomText).Should().BeTrue();
         }
 
         [Test]
         public void PressHome_BeforeClick()
         {
-            var page = Go.To<PressTriggersPage>();
-
             page.Press(Keys.End);
 
-            Assert.That(IsVisibleInViewport(page.TopText), Is.False);
+            IsVisibleInViewport(page.TopText).Should().BeFalse();
 
             page.TopText.Click();
 
-            Assert.That(IsVisibleInViewport(page.TopText), Is.True);
+            IsVisibleInViewport(page.TopText).Should().BeTrue();
         }
 
         private static bool IsVisibleInViewport<T>(Control<T> element)

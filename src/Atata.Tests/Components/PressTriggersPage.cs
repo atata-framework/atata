@@ -1,15 +1,15 @@
-﻿using _ = Atata.Tests.PressTriggersPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
-    [Url("PressTriggers")]
+    using _ = PressTriggersPage;
+
+    [Url("presstriggers")]
     public class PressTriggersPage : Page<_>
     {
-        [FindById("bottom-text")]
+        [FindById]
         [PressEnd(on: TriggerEvents.BeforeClick)]
         public Text<_> BottomText { get; private set; }
 
-        [FindById("top-text")]
+        [FindById]
         [PressHome(on: TriggerEvents.BeforeClick)]
         public Text<_> TopText { get; private set; }
     }
