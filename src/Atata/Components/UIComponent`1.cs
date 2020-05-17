@@ -210,17 +210,17 @@ namespace Atata
 
         protected virtual bool GetIsDisplayedWithinViewPort()
         {
-            bool isWithinViewPort = false;
+            bool isDisplayeWithinViewPort = false;
             IWebElement scope = GetScope(SearchOptions.SafelyAtOnce());
 
             if (scope != null)
             {
-                isWithinViewPort = (bool)Owner.Driver.ExecuteScript(
+                isDisplayeWithinViewPort = (bool)Owner.Driver.ExecuteScript(
                     @"
                         let elem = arguments[0];                
                         const dde = document.documentElement
 
-                        let isWithinViewport = true
+                        let isDisplayeWithinViewPort = true
                         while (elem.parentNode && elem.parentNode.getBoundingClientRect) {
                             const elemDimension = elem.getBoundingClientRect()
                             const elemComputedStyle = window.getComputedStyle(elem)
@@ -229,7 +229,7 @@ namespace Atata
                                 height: dde.clientHeight
                             }
 
-                            isWithinViewport = isWithinViewport &&
+                            isDisplayeWithinViewPort = isDisplayeWithinViewPort &&
                                                (elemComputedStyle.display !== 'none' &&
                                                 elemComputedStyle.visibility === 'visible' &&
                                                 parseFloat(elemComputedStyle.opacity, 10) > 0 &&
@@ -241,12 +241,12 @@ namespace Atata
                             elem = elem.parentNode
                         }
 
-                        return isWithinViewport
+                        return isDisplayeWithinViewPort
                     ",
                     scope);
             }
 
-            return isWithinViewPort;
+            return isDisplayeWithinViewPort;
         }
 
         protected virtual string GetContent()
