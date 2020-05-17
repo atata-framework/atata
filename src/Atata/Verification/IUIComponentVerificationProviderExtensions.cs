@@ -61,6 +61,15 @@ namespace Atata
             return should.Component.IsVisible.Should.WithSettings(should).BeTrue();
         }
 
+        public static TOwner BeDisplayedWithinViewPort<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            should.CheckNotNull(nameof(should));
+
+            return should.Component.IsDisplayedWithinViewPort.Should.WithSettings(should).BeTrue();
+        }
+
         public static TOwner BeHidden<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>

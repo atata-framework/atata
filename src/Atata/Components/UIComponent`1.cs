@@ -53,6 +53,11 @@ namespace Atata
         public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible state", GetIsVisible);
 
         /// <summary>
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is located within viewport.
+        /// </summary>
+        public DataProvider<bool, TOwner> IsDisplayedWithinViewPort => GetOrCreateDataProvider("displayed within viewport state", GetIsDisplayedWithinViewPort);
+
+        /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
         /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component, which by default is <see cref="ContentSourceAttribute"/> with <see cref="ContentSource.Text"/> argument.
         /// Meaning that be default it returns <see cref="IWebElement.Text"/> property value of component scope's <see cref="IWebElement"/> element.
@@ -201,6 +206,47 @@ namespace Atata
         protected virtual bool GetIsVisible()
         {
             return GetScope(SearchOptions.SafelyAtOnce())?.Displayed ?? false;
+        }
+
+        protected virtual bool GetIsDisplayedWithinViewPort()
+        {
+            bool isWithinViewPort = false;
+            IWebElement scope = GetScope(SearchOptions.SafelyAtOnce());
+
+            if (scope != null)
+            {
+                isWithinViewPort = (bool)Owner.Driver.ExecuteScript(
+                    @"
+                        let elem = arguments[0];                
+                        const dde = document.documentElement
+
+                        let isWithinViewport = true
+                        while (elem.parentNode && elem.parentNode.getBoundingClientRect) {
+                            const elemDimension = elem.getBoundingClientRect()
+                            const elemComputedStyle = window.getComputedStyle(elem)
+                            const viewportDimension = {
+                                width: dde.clientWidth,
+                                height: dde.clientHeight
+                            }
+
+                            isWithinViewport = isWithinViewport &&
+                                               (elemComputedStyle.display !== 'none' &&
+                                                elemComputedStyle.visibility === 'visible' &&
+                                                parseFloat(elemComputedStyle.opacity, 10) > 0 &&
+                                                elemDimension.bottom > 0 &&
+                                                elemDimension.right > 0 &&
+                                                elemDimension.top < viewportDimension.height &&
+                                                elemDimension.left < viewportDimension.width)
+
+                            elem = elem.parentNode
+                        }
+
+                        return isWithinViewport
+                    ",
+                    scope);
+            }
+
+            return isWithinViewPort;
         }
 
         protected virtual string GetContent()

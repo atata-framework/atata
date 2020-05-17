@@ -16,40 +16,20 @@ namespace Atata.Tests
         [Test]
         public void PressEnd_BeforeClick()
         {
-            IsVisibleInViewport(page.BottomText).Should().BeFalse();
-
-            page.BottomText.Click();
-
-            IsVisibleInViewport(page.BottomText).Should().BeTrue();
+            page.
+                BottomText.Should.Not.BeDisplayedWithinViewPort().
+                BottomText.Click().
+                BottomText.Should.BeDisplayedWithinViewPort();
         }
 
         [Test]
         public void PressHome_BeforeClick()
         {
-            page.Press(Keys.End);
-
-            IsVisibleInViewport(page.TopText).Should().BeFalse();
-
-            page.TopText.Click();
-
-            IsVisibleInViewport(page.TopText).Should().BeTrue();
-        }
-
-        private static bool IsVisibleInViewport<T>(Control<T> element)
-            where T : PageObject<T>
-        {
-            return (bool)((IJavaScriptExecutor)AtataContext.Current.Driver).ExecuteScript(
-                "var elem = arguments[0],                 " +
-                "  box = elem.getBoundingClientRect(),    " +
-                "  cx = box.left + box.width / 2,         " +
-                "  cy = box.top + box.height / 2,         " +
-                "  e = document.elementFromPoint(cx, cy); " +
-                "for (; e; e = e.parentElement) {         " +
-                "  if (e === elem)                        " +
-                "    return true;                         " +
-                "}                                        " +
-                "return false;                            ",
-                element.Scope);
+            page.
+                Press(Keys.End).
+                TopText.Should.Not.BeDisplayedWithinViewPort().
+                TopText.Click().
+                TopText.Should.BeDisplayedWithinViewPort();
         }
     }
 }
