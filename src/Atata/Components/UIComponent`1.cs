@@ -13,16 +13,15 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         private const string IsInViewPortScript = @"
-                                                        const element = arguments[0];                
-                                                        const rect = element.getBoundingClientRect();
+const element = arguments[0];                
+const rect = element.getBoundingClientRect();
 
-                                                        return (
-                                                          rect.top >= 0 &&
-                                                          rect.left >= 0 &&
-                                                          rect.bottom <= (window.innerHeight || document. documentElement.clientHeight) &&
-                                                          rect.right <= (window.innerWidth || document. documentElement.clientWidth)
-                                                        );
-                                                   ";
+return (
+  rect.top >= 0 &&
+  rect.left >= 0 &&
+  rect.bottom <= (window.innerHeight || document. documentElement.clientHeight) &&
+  rect.right <= (window.innerWidth || document. documentElement.clientWidth)
+);";
 
         private readonly Dictionary<string, object> dataProviders = new Dictionary<string, object>();
 
