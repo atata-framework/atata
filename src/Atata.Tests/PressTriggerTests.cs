@@ -17,9 +17,9 @@ namespace Atata.Tests
         public void PressEnd_BeforeClick()
         {
             page.
-                BottomText.Should.Not.BeDisplayedWithinViewPort().
+                BottomText.Should.Not.BeVisibleInViewPort().
                 BottomText.Click().
-                BottomText.Should.BeDisplayedWithinViewPort();
+                BottomText.Should.BeVisibleInViewPort();
         }
 
         [Test]
@@ -27,9 +27,9 @@ namespace Atata.Tests
         {
             page.
                 Press(Keys.End).
-                TopText.Should.Not.BeDisplayedWithinViewPort().
+                TopText.Should.Not.BeVisibleInViewPort().
                 TopText.Click().
-                TopText.Should.BeDisplayedWithinViewPort();
+                TopText.Should.BeVisibleInViewPort();
         }
     }
 }

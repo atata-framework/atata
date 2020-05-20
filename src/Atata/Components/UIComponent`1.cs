@@ -12,6 +12,18 @@ namespace Atata
     public abstract class UIComponent<TOwner> : UIComponent, IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        private const string IsInViewPortScript = @"
+                                                        const element = arguments[0];                
+                                                        const rect = element.getBoundingClientRect();
+
+                                                        return (
+                                                          rect.top >= 0 &&
+                                                          rect.left >= 0 &&
+                                                          rect.bottom <= (window.innerHeight || document. documentElement.clientHeight) &&
+                                                          rect.right <= (window.innerWidth || document. documentElement.clientWidth)
+                                                        );
+                                                   ";
+
         private readonly Dictionary<string, object> dataProviders = new Dictionary<string, object>();
 
         protected UIComponent()
@@ -53,9 +65,9 @@ namespace Atata
         public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible state", GetIsVisible);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is located within viewport.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible in viewport.
         /// </summary>
-        public DataProvider<bool, TOwner> IsDisplayedWithinViewPort => GetOrCreateDataProvider("displayed within viewport state", GetIsDisplayedWithinViewPort);
+        public DataProvider<bool, TOwner> IsVisibleInViewPort => GetOrCreateDataProvider("visible in viewport state", GetIsVisibleInViewPort);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
@@ -208,45 +220,11 @@ namespace Atata
             return GetScope(SearchOptions.SafelyAtOnce())?.Displayed ?? false;
         }
 
-        protected virtual bool GetIsDisplayedWithinViewPort()
+        protected virtual bool GetIsVisibleInViewPort()
         {
-            bool isDisplayeWithinViewPort = false;
-            IWebElement scope = GetScope(SearchOptions.SafelyAtOnce());
+            IWebElement element = GetScope(SearchOptions.SafelyAtOnce());
 
-            if (scope != null)
-            {
-                isDisplayeWithinViewPort = (bool)Owner.Driver.ExecuteScript(
-                    @"
-                        let elem = arguments[0];                
-                        const dde = document.documentElement
-
-                        let isDisplayeWithinViewPort = true
-                        while (elem.parentNode && elem.parentNode.getBoundingClientRect) {
-                            const elemDimension = elem.getBoundingClientRect()
-                            const elemComputedStyle = window.getComputedStyle(elem)
-                            const viewportDimension = {
-                                width: dde.clientWidth,
-                                height: dde.clientHeight
-                            }
-
-                            isDisplayeWithinViewPort = isDisplayeWithinViewPort &&
-                                               (elemComputedStyle.display !== 'none' &&
-                                                elemComputedStyle.visibility === 'visible' &&
-                                                parseFloat(elemComputedStyle.opacity, 10) > 0 &&
-                                                elemDimension.bottom > 0 &&
-                                                elemDimension.right > 0 &&
-                                                elemDimension.top < viewportDimension.height &&
-                                                elemDimension.left < viewportDimension.width)
-
-                            elem = elem.parentNode
-                        }
-
-                        return isDisplayeWithinViewPort
-                    ",
-                    scope);
-            }
-
-            return isDisplayeWithinViewPort;
+            return element != null && element.Displayed && (bool)Owner.Driver.ExecuteScript(IsInViewPortScript, element);
         }
 
         protected virtual string GetContent()
