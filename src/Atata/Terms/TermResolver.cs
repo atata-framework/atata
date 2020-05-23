@@ -263,15 +263,15 @@ namespace Atata
             return match.CreateXPathCondition(terms, operand);
         }
 
-        public static T FromString<T>(string value, TermOptions termOptions = null)
+        public static T FromString<T>(string value, TermOptions termOptions = null, bool considerEmptyString = false)
         {
-            object result = FromString(value, typeof(T), termOptions);
+            object result = FromString(value, typeof(T), termOptions, considerEmptyString);
             return (T)result;
         }
 
-        public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
+        public static object FromString(string value, Type destinationType, TermOptions termOptions = null, bool considerEmptyString = false)
         {
-            object result = string.IsNullOrEmpty(value)
+            object result = string.IsNullOrEmpty(value) && !considerEmptyString
                 ? null
                 : RetrieveValueFromString(value, destinationType, termOptions ?? new TermOptions());
 

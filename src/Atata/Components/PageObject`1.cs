@@ -81,7 +81,7 @@ namespace Atata
         /// <summary>
         /// Gets the URL provider of the current HTML page.
         /// </summary>
-        public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
+        public UrlProvider<TOwner> PageUrl => new UrlProvider<TOwner>(this, GetUrl, "URL");
 
         /// <summary>
         /// Gets the page source provider of the current HTML page.
