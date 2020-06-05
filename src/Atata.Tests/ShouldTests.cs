@@ -296,5 +296,18 @@ namespace Atata.Tests
             Assert.Throws<AssertionException>(() =>
                 should.Not.HaveClass("table"));
         }
+
+        [Test]
+        public void Should_HaveLength()
+        {
+            var should = Go.To<WaitingPage>().
+                WaitAndUpdateValue.Click().
+                ValueBlock.Should;
+
+            should.HaveLength(9);
+            should.Not.HaveLength(8);
+
+            Assert.Throws<AssertionException>(() => should.HaveLength(10));
+        }
     }
 }
