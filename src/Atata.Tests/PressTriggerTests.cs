@@ -6,11 +6,11 @@ namespace Atata.Tests
 {
     public class PressTriggerTests : UITestFixture
     {
-        private PressTriggersPage page;
+        private ScrollablePage page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<PressTriggersPage>();
+            page = Go.To<ScrollablePage>();
         }
 
         [Test]

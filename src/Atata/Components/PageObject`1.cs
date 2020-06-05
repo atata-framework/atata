@@ -598,5 +598,23 @@ namespace Atata
 
             return (TOwner)this;
         }
+
+        public TOwner ScrollUp()
+        {
+            Log.Info("Scroll up");
+
+            Driver.ExecuteScript("scroll(0,0);");
+
+            return (TOwner)this;
+        }
+
+        public TOwner ScrollDown()
+        {
+            Log.Info("Scroll down");
+
+            Driver.ExecuteScript("window.scrollTo(0,document.body.scrollHeight);");
+
+            return (TOwner)this;
+        }
     }
 }
