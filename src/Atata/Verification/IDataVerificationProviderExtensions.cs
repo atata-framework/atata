@@ -367,8 +367,6 @@ namespace Atata
         public static TOwner HaveLength<TOwner>(this IDataVerificationProvider<string, TOwner> should, int expected)
             where TOwner : PageObject<TOwner>
         {
-            expected.CheckNotNull(nameof(expected));
-
             return should.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
         }
 
