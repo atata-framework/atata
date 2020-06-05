@@ -364,6 +364,12 @@ namespace Atata
             return should.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
         }
 
+        public static TOwner HaveLength<TOwner>(this IDataVerificationProvider<string, TOwner> should, int expected)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
+        }
+
         public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<TData>, TOwner> should, params TData[] expected)
             where TOwner : PageObject<TOwner>
         {
