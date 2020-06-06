@@ -2,37 +2,50 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the provider of data of <typeparamref name="TData"/> type owned by <typeparamref name="TOwner"/> object.
+    /// </summary>
+    /// <typeparam name="TData">The type of the data.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner.</typeparam>
     public class DataProvider<TData, TOwner> : IDataProvider<TData, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private readonly UIComponent<TOwner> component;
         private readonly Func<TData> valueGetFunction;
-        private readonly string providerName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataProvider{TData, TOwner}"/> class.
+        /// </summary>
+        /// <param name="component">The associated component.</param>
+        /// <param name="valueGetFunction">The function that gets the value.</param>
+        /// <param name="providerName">Name of the provider.</param>
         public DataProvider(UIComponent<TOwner> component, Func<TData> valueGetFunction, string providerName)
         {
-            this.component = component.CheckNotNull(nameof(component));
+            Component = component.CheckNotNull(nameof(component));
             this.valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
-            this.providerName = providerName.CheckNotNullOrWhitespace(nameof(providerName));
+            ProviderName = providerName.CheckNotNullOrWhitespace(nameof(providerName));
         }
 
-        UIComponent IDataProvider<TData, TOwner>.Component
-        {
-            get { return component; }
-        }
+        /// <summary>
+        /// Gets the associated component.
+        /// </summary>
+        protected UIComponent<TOwner> Component { get; }
 
-        TOwner IDataProvider<TData, TOwner>.Owner
-        {
-            get { return component.Owner; }
-        }
+        /// <summary>
+        /// Gets the name of the provider.
+        /// </summary>
+        protected string ProviderName { get; }
 
-        string IDataProvider<TData, TOwner>.ProviderName
-        {
-            get { return providerName; }
-        }
+        UIComponent IDataProvider<TData, TOwner>.Component => Component;
+
+        TOwner IDataProvider<TData, TOwner>.Owner => Component.Owner;
+
+        string IDataProvider<TData, TOwner>.ProviderName => ProviderName;
 
         TermOptions IDataProvider<TData, TOwner>.ValueTermOptions { get; }
 
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
         public TData Value
         {
             get { return valueGetFunction(); }
