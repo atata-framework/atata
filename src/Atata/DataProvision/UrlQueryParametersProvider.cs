@@ -82,14 +82,8 @@ namespace Atata
         /// <param name="parameterName">The name of the query parameter.</param>
         /// <returns>The query parameter's value.
         /// Returns <see langword="null"/> if the value is not set.</returns>
-        public string GetValue(string parameterName)
-        {
-            var parameter = Value.FirstOrDefault(x => x.Key == parameterName);
-
-            return parameter.Key == null
-                ? null
-                : parameter.Value ?? string.Empty;
-        }
+        public string GetValue(string parameterName) =>
+            GetValue<string>(parameterName);
 
         /// <summary>
         /// Gets the value of the specified query parameter.
@@ -100,9 +94,11 @@ namespace Atata
         /// Returns <see langword="null"/> if the value is not set.</returns>
         public TValue GetValue<TValue>(string parameterName)
         {
-            var valueAsString = GetValue(parameterName);
+            var parameter = Value.FirstOrDefault(x => x.Key == parameterName);
 
-            return TermResolver.FromString<TValue>(valueAsString, considerEmptyString: true);
+            return parameter.Key == null
+                ? default(TValue)
+                : Convert<TValue>(parameter.Value);
         }
 
         /// <summary>
@@ -116,8 +112,16 @@ namespace Atata
         /// </returns>
         public IEnumerable<TValue> GetAllValues<TValue>(string parameterName)
         {
-            return Value.Where(x => x.Key == parameterName)
-                .Select(x => TermResolver.FromString<TValue>(x.Value, considerEmptyString: true));
+            return Value
+                .Where(x => x.Key == parameterName)
+                .Select(x => Convert<TValue>(x.Value));
+        }
+
+        private TValue Convert<TValue>(string parameterValue)
+        {
+            return typeof(TValue) == typeof(string)
+                ? (TValue)(object)(parameterValue ?? string.Empty)
+                : TermResolver.FromString<TValue>(parameterValue);
         }
 
         private int GetCount() =>
