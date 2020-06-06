@@ -599,6 +599,10 @@ namespace Atata
             return (TOwner)this;
         }
 
+        /// <summary>
+        /// Scrolls up.
+        /// </summary>
+        /// <returns>The instance of this page object.</returns>
         public TOwner ScrollUp()
         {
             Log.Info("Scroll up");
@@ -608,6 +612,10 @@ namespace Atata
             return (TOwner)this;
         }
 
+        /// <summary>
+        /// Scrolls down.
+        /// </summary>
+        /// <returns>The instance of this page object.</returns>
         public TOwner ScrollDown()
         {
             Log.Info("Scroll down");
