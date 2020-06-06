@@ -25,6 +25,7 @@ namespace Atata
             Owner = (TOwner)this;
 
             Report = new Report<TOwner>((TOwner)this, Log);
+            PageUrl = new UrlProvider<TOwner>(this, GetUrl, "URL");
         }
 
         /// <summary>
@@ -81,7 +82,7 @@ namespace Atata
         /// <summary>
         /// Gets the URL provider of the current HTML page.
         /// </summary>
-        public UrlProvider<TOwner> PageUrl => new UrlProvider<TOwner>(this, GetUrl, "URL");
+        public UrlProvider<TOwner> PageUrl { get; }
 
         /// <summary>
         /// Gets the page source provider of the current HTML page.
