@@ -13,7 +13,7 @@
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            context.Driver.ExecuteScript("scroll(0,0);");
+            context.Component.Owner.ScrollUp();
         }
     }
 }

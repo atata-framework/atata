@@ -3,7 +3,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
-    public class PressTriggerTests : UITestFixture
+    public class ScrollTriggerTests : UITestFixture
     {
         private ScrollablePage page;
 
@@ -13,11 +13,11 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void PressEndAttribute()
+        public void ScrollDownAttribute()
         {
             page.
                 BottomText.Should.Not.BeVisibleInViewPort().
-                BottomText.Triggers.Add(new PressEndAttribute(TriggerEvents.BeforeGet));
+                BottomText.Triggers.Add(new ScrollDownAttribute(TriggerEvents.BeforeGet));
 
             page.
                 BottomText.Get(out string text).
@@ -25,12 +25,12 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void PressHomeAttribute()
+        public void ScrollUpAttribute()
         {
             page.
                 Press(Keys.End).
                 TopText.Should.Not.BeVisibleInViewPort().
-                TopText.Triggers.Add(new PressHomeAttribute(TriggerEvents.BeforeGet));
+                TopText.Triggers.Add(new ScrollUpAttribute(TriggerEvents.BeforeGet));
 
             page.
                 TopText.Get(out string text).

@@ -141,5 +141,24 @@ namespace Atata.Tests
             Go.To<BasicControlsPage>().
                 PageSource.Should.ContainAll("<head>", "</body>", "<input", "<button");
         }
+
+        [Test]
+        public void PageObject_ScrollDown()
+        {
+            Go.To<ScrollablePage>().
+                BottomText.Should.Not.BeVisibleInViewPort().
+                ScrollDown().
+                BottomText.Should.BeVisibleInViewPort();
+        }
+
+        [Test]
+        public void PageObject_ScrollUp()
+        {
+            Go.To<ScrollablePage>().
+                Press(Keys.End).
+                TopText.Should.Not.BeVisibleInViewPort().
+                ScrollUp().
+                TopText.Should.BeVisibleInViewPort();
+        }
     }
 }
