@@ -5,7 +5,7 @@
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='email']")]
+    [ControlDefinition("input[@type='email']", ComponentTypeName = "email input")]
     public class EmailInput<TOwner> : Input<string, TOwner>
         where TOwner : PageObject<TOwner>
     {

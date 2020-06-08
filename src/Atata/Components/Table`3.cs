@@ -7,7 +7,7 @@
     /// <typeparam name="THeader">The type of the table header control.</typeparam>
     /// <typeparam name="TRow">The type of the table row control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("table", IgnoreNameEndings = "Table")]
+    [ControlDefinition("table", IgnoreNameEndings = "Table", ComponentTypeName = "table")]
     public class Table<THeader, TRow, TOwner> : Control<TOwner>
         where THeader : TableHeader<TOwner>
         where TRow : TableRow<TOwner>

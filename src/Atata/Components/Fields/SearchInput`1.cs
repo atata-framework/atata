@@ -5,7 +5,7 @@
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='search']")]
+    [ControlDefinition("input[@type='search']", ComponentTypeName = "search input")]
     public class SearchInput<TOwner> : Input<string, TOwner>
         where TOwner : PageObject<TOwner>
     {

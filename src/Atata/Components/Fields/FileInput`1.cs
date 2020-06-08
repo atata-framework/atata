@@ -7,7 +7,7 @@ namespace Atata
     /// Default search is performed by the label.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='file']", Visibility = Visibility.Any)]
+    [ControlDefinition("input[@type='file']", Visibility = Visibility.Any, ComponentTypeName = "file input")]
     public class FileInput<TOwner> : Input<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
