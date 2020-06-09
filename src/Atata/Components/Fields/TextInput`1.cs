@@ -6,7 +6,7 @@
     /// Handles any <c>&lt;input&gt;</c> element with <c>type="text"</c> or without the defined <c>type</c> attribute.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='text' or not(@type)]")]
+    [ControlDefinition("input[@type='text' or not(@type)]", ComponentTypeName = "text input")]
     public class TextInput<TOwner> : Input<string, TOwner>
         where TOwner : PageObject<TOwner>
     {

@@ -6,7 +6,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("option", IgnoreNameEndings = "Option")]
+    [ControlDefinition("option", IgnoreNameEndings = "Option", ComponentTypeName = "option")]
     [FindFirst]
     public class Option<T, TOwner> : Field<T, TOwner>
         where TOwner : PageObject<TOwner>

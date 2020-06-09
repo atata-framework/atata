@@ -16,7 +16,7 @@ namespace Atata
     /// Supports enum, string, numeric and other types.
     /// </typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup")]
+    [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup", ComponentTypeName = "radio button list")]
     [FindByName]
     [FindItemByLabel]
     public class RadioButtonList<T, TOwner> : OptionList<T, TOwner>

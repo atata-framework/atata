@@ -9,7 +9,7 @@ namespace Atata
     /// Handles any <c>input</c> element with <c>type="date"</c>, <c>type="text"</c> or without the defined <c>type</c> attribute.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type='text' or @type='date' or not(@type)]")]
+    [ControlDefinition("input[@type='text' or @type='date' or not(@type)]", ComponentTypeName = "date input")]
     [Format("d")]
     public class DateInput<TOwner> : Input<DateTime?, TOwner>
         where TOwner : PageObject<TOwner>

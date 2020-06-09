@@ -8,7 +8,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition("input[@type!='button' and @type!='submit' and @type!='reset']")]
+    [ControlDefinition("input[@type!='button' and @type!='submit' and @type!='reset']", ComponentTypeName = "input")]
     [FindByLabel]
     public class Input<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
