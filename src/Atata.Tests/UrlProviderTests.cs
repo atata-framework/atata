@@ -7,11 +7,12 @@ namespace Atata.Tests
         [Test]
         public void UrlProvider_QueryParameters()
         {
-            Go.To<OrdinaryPage>(url: "/index?empty=&id=1&type=a&type=b&date=1&date=2&").
+            Go.To<OrdinaryPage>(url: "/index?empty1=&empty2&id=1&type=a&type=b&date=1&date=2&").
                 AggregateAssert(x => x
-                    .PageUrl.QueryParameters.Count.Should.Equal(6)
+                    .PageUrl.QueryParameters.Count.Should.Equal(7)
                     .PageUrl.QueryParameters["id"].Should.Equal("1")
-                    .PageUrl.QueryParameters["empty"].Should.BeEmpty()
+                    .PageUrl.QueryParameters["empty1"].Should.BeEmpty()
+                    .PageUrl.QueryParameters["empty2"].Should.BeEmpty()
                     .PageUrl.QueryParameters.Get<int>("id").Should.Equal(1)
                     .PageUrl.QueryParameters.GetAll("type").Should.EqualSequence("a", "b")
                     .PageUrl.QueryParameters.GetAll<int>("date").Should.EqualSequence(1, 2));

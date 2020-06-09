@@ -37,6 +37,13 @@ namespace Atata
         public DataProvider<string, TOwner> AbsolutePath =>
             Component.GetOrCreateDataProvider("URL absolute path", GetAbsolutePath);
 
+        private static KeyValuePair<string, string> ExtractParameterKeyValue(string quertyParameterString)
+        {
+            string[] parts = quertyParameterString.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+
+            return new KeyValuePair<string, string>(parts[0], parts.Length > 1 ? parts[1] : null);
+        }
+
         private IEnumerable<KeyValuePair<string, string>> GetQueryParameters()
         {
             var uri = GetUri();
@@ -46,8 +53,7 @@ namespace Atata
 
             return uri.Query.TrimStart('?')
                 .Split(new[] { '&', ';' }, StringSplitOptions.RemoveEmptyEntries)
-                .Select(parameter => parameter.Split(new[] { '=' }, StringSplitOptions.None))
-                .Select(c => new KeyValuePair<string, string>(c[0], c[1]));
+                .Select(ExtractParameterKeyValue);
         }
 
         private string GetFragment() =>
