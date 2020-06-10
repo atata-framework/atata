@@ -5,6 +5,8 @@
     {
         DataProvider<string, TOwner> PageTitle { get; }
 
-        UrlProvider<TOwner> PageUrl { get; }
+        DataProvider<string, TOwner> PageUrl { get; }
+
+        UriProvider<TOwner> PageUri { get; }
     }
 }

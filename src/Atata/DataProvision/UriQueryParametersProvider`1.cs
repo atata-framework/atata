@@ -8,20 +8,20 @@ namespace Atata
     /// Represents the provider of URL query parameters.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
-    public class UrlQueryParametersProvider<TOwner> : DataProvider<IEnumerable<KeyValuePair<string, string>>, TOwner>
+    public class UriQueryParametersProvider<TOwner> : DataProvider<IEnumerable<KeyValuePair<string, string>>, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private const string QueryParameterProviderNameFormat = "URL query \"{0}\" parameter value";
+        private const string QueryParameterProviderNameFormat = "URI query \"{0}\" parameter value";
 
-        private const string QueryParametersProviderNameFormat = "URL query \"{0}\" parameter values";
+        private const string QueryParametersProviderNameFormat = "URI query \"{0}\" parameter values";
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UrlQueryParametersProvider{TOwner}"/> class.
+        /// Initializes a new instance of the <see cref="UriQueryParametersProvider{TOwner}"/> class.
         /// </summary>
         /// <param name="component">The associated component.</param>
         /// <param name="valueGetFunction">The function that gets the value.</param>
         /// <param name="providerName">Name of the provider.</param>
-        public UrlQueryParametersProvider(UIComponent<TOwner> component, Func<IEnumerable<KeyValuePair<string, string>>> valueGetFunction, string providerName)
+        public UriQueryParametersProvider(UIComponent<TOwner> component, Func<IEnumerable<KeyValuePair<string, string>>> valueGetFunction, string providerName)
             : base(component, valueGetFunction, providerName)
         {
         }
@@ -30,7 +30,7 @@ namespace Atata
         /// Gets the count provider.
         /// </summary>
         public DataProvider<int, TOwner> Count =>
-            Component.GetOrCreateDataProvider("query parameters count", GetCount);
+            Component.GetOrCreateDataProvider($"{ProviderName} count", GetCount);
 
         /// <summary>
         /// Gets the provider of the parameter value specified by name.

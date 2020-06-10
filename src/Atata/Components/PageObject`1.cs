@@ -25,7 +25,8 @@ namespace Atata
             Owner = (TOwner)this;
 
             Report = new Report<TOwner>((TOwner)this, Log);
-            PageUrl = new UrlProvider<TOwner>(this, GetUrl, "URL");
+
+            PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
         }
 
         /// <summary>
@@ -82,7 +83,12 @@ namespace Atata
         /// <summary>
         /// Gets the URL provider of the current HTML page.
         /// </summary>
-        public UrlProvider<TOwner> PageUrl { get; }
+        public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
+
+        /// <summary>
+        /// Gets the URI provider of the current HTML page.
+        /// </summary>
+        public UriProvider<TOwner> PageUri { get; }
 
         /// <summary>
         /// Gets the page source provider of the current HTML page.
@@ -121,6 +127,12 @@ namespace Atata
         private string GetUrl()
         {
             return Driver.Url;
+        }
+
+        private Uri GetUri()
+        {
+            string url = GetUrl();
+            return new Uri(url);
         }
 
         private string GetPageSource()
