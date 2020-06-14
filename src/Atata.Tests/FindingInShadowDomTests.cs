@@ -54,6 +54,18 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Find_InShadowHost_UsingPropertyNameAsTerm()
+        {
+            page.ShadowContainer1.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
+        }
+
+        [Test]
+        public void Find_InShadowHost_UsingTerm()
+        {
+            page.ShadowContainer1UsingTerm.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
+        }
+
+        [Test]
         public void Find_InShadowHost_RadioButtonList()
         {
             var control = page.YesNoRadios;

@@ -17,6 +17,15 @@
         [ControlDefinition("p")]
         public ControlList<Text<_>, _> Shadow1Paragraphs { get; private set; }
 
+        [FindById(As = FindAs.ShadowHost)]
+        [ControlDefinition("p")]
+        public ControlList<Text<_>, _> ShadowContainer1 { get; private set; }
+
+        [FindById(As = FindAs.ShadowHost)]
+        [Term("shadow-container-1")]
+        [ControlDefinition("p")]
+        public ControlList<Text<_>, _> ShadowContainer1UsingTerm { get; private set; }
+
         [FindById("shadow-container-1", As = FindAs.ShadowHost)]
         [FindFirst(Visibility = Visibility.Any)]
         public Text<_> Shadow1_0 { get; private set; }

@@ -10,6 +10,9 @@ namespace Atata
     /// </summary>
     public class UIComponentMetadata
     {
+        private static readonly ControlDefinitionAttribute DefaultControlDefinitionAttribute =
+            new ControlDefinitionAttribute { ComponentTypeName = "control" };
+
         private AttributeSearchSet declaredAttributeSet;
 
         private AttributeSearchSet parentComponentAttributeSet;
@@ -60,7 +63,7 @@ namespace Atata
         public UIComponentDefinitionAttribute ComponentDefinitionAttribute =>
             ParentComponentType == null
                 ? Get<PageObjectDefinitionAttribute>() as UIComponentDefinitionAttribute
-                : Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute;
+                : (Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute ?? DefaultControlDefinitionAttribute);
 
         internal List<Attribute> DeclaredAttributesList
         {
