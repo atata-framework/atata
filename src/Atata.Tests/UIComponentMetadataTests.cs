@@ -177,7 +177,9 @@ namespace Atata.Tests
         [Test]
         public void UIComponentMetadata_ComponentDefinitionAttribute_ForControl()
         {
-            metadata.ComponentDefinitionAttribute.Should().BeNull();
+            var defaultComponentDefinition = metadata.ComponentDefinitionAttribute;
+            defaultComponentDefinition.ScopeXPath.Should().Be(ScopeDefinitionAttribute.DefaultScopeXPath);
+            defaultComponentDefinition.ComponentTypeName.Should().Be("control");
 
             var componentDefinition = new ControlDefinitionAttribute("component");
             Component.Add(componentDefinition);
