@@ -36,5 +36,17 @@ namespace Atata.Tests
                 TopText.Get(out string text).
                 TopText.Should.BeVisibleInViewPort();
         }
+
+        [Test]
+        public void ScrollToAttribute()
+        {
+            page.
+                BottomText.Should.Not.BeVisibleInViewPort().
+                BottomText.Triggers.Add(new ScrollToAttribute(TriggerEvents.BeforeGet));
+
+            page.
+                BottomText.Get(out string text).
+                BottomText.Should.BeVisibleInViewPort();
+        }
     }
 }
