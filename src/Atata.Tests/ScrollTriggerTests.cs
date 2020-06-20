@@ -7,6 +7,8 @@ namespace Atata.Tests
     {
         private ScrollablePage page;
 
+        protected override bool ReuseDriver => false;
+
         protected override void OnSetUp()
         {
             page = Go.To<ScrollablePage>();
