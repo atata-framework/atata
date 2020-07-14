@@ -59,7 +59,9 @@ namespace Atata
             else
             {
                 return capabilitiesFactory?.Invoke()
-                    ?? throw new InvalidOperationException($"Type or instance of {nameof(DriverOptions)} is not set. Use one of {nameof(RemoteDriverAtataContextBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
+                    ?? throw new InvalidOperationException(
+                        $"Type or instance of {nameof(DriverOptions)} is not set. " +
+                        $"Use one of {nameof(RemoteDriverAtataContextBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
             }
         }
 
@@ -198,7 +200,9 @@ namespace Atata
                 else if (options is OperaOptions operaOptions)
                     operaOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
                 else
-                    throw new InvalidOperationException($"Cannot add \"{capabilityName}\"={capabilityValue} global capability to options of {options.GetType()} type as it doesn't have AddAdditionalCapability(string, object, bool) method.");
+                    throw new InvalidOperationException(
+                        $"Cannot add \"{capabilityName}\"={capabilityValue} global capability to options " +
+                        $"of {options.GetType()} type as it doesn't have AddAdditionalCapability(string, object, bool) method.");
             });
         }
 

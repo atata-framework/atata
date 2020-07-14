@@ -161,7 +161,10 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
+        /// <param name="filterByTarget">
+        /// If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria
+        /// in case <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.
+        /// </param>
         /// <returns>The first attribute found or <see langword="null"/>.</returns>
         [Obsolete("Use Get() or Get(filterConfiguration) instead.")] // Obsolete since v1.0.0.
         public TAttribute Get<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
@@ -210,7 +213,10 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="levels">The attribute levels.</param>
         /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria if <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.</param>
+        /// <param name="filterByTarget">
+        /// If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria
+        /// in case <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.
+        /// </param>
         /// <returns>The sequence of attributes found.</returns>
         [Obsolete("Use GetAll() or GetAll(filterConfiguration) instead.")] // Obsolete since v1.0.0.
         public IEnumerable<TAttribute> GetAll<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)

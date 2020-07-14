@@ -12,13 +12,17 @@ namespace Atata
         {
         }
 
-        [Obsolete("Use default constructor instead and set target attribute via TargetAttributeType property, e.g.: [FindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
+        [Obsolete(
+            "Use default constructor instead and set target attribute via TargetAttributeType property, " +
+            "e.g.: [FindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
         public FindSettingsAttribute(FindTermBy by)
             : this(by.ResolveFindAttributeType())
         {
         }
 
-        [Obsolete("Use default constructor instead and set target attribute via TargetAttributeType property, e.g.: [FindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
+        [Obsolete(
+            "Use default constructor instead and set target attribute via TargetAttributeType property, " +
+            "e.g.: [FindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
         public FindSettingsAttribute(Type findAttributeType)
         {
             TargetAttributeType = findAttributeType;

@@ -197,7 +197,10 @@ namespace Atata
         /// The search options.
         /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns><see langword="true"/> if the component exists; otherwise, <see langword="false"/>.</returns>
-        /// <exception cref="NoSuchElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <see langword="false"/> value and the component doesn't exist.</exception>
+        /// <exception cref="NoSuchElementException">
+        /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
+        /// equal to <see langword="false"/> value and the component doesn't exist.
+        /// </exception>
         public bool Exists(SearchOptions options = null)
         {
             return GetScopeElement(options ?? SearchOptions.Safely()) != null;
@@ -210,7 +213,10 @@ namespace Atata
         /// The search options.
         /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns><see langword="true"/> if the component is missing; otherwise, <see langword="false"/>.</returns>
-        /// <exception cref="NotMissingElementException">The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property equal to <see langword="false"/> value and the component exists.</exception>
+        /// <exception cref="NotMissingElementException">
+        /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
+        /// equal to <see langword="false"/> value and the component exists.
+        /// </exception>
         public bool Missing(SearchOptions options = null)
         {
             return OnMissing(options ?? SearchOptions.Safely());

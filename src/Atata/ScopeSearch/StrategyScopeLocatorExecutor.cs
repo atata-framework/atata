@@ -78,11 +78,17 @@ namespace Atata
             }
             else
             {
-                throw new ArgumentException($"Unsupported {strategy.GetType().FullName} type of {nameof(strategy)}. Strategy should be either {nameof(IComponentScopeFindStrategy)} or IComponentScopeLocateStrategy.", nameof(strategy));
+                throw new ArgumentException(
+                    $"Unsupported {strategy.GetType().FullName} type of {nameof(strategy)}. Strategy should be either {nameof(IComponentScopeFindStrategy)} or IComponentScopeLocateStrategy.",
+                    nameof(strategy));
             }
         }
 
-        private static XPathComponentScopeFindResult[] ResolveResult(ComponentScopeLocateResult result, ISearchContext scopeSource, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
+        private static XPathComponentScopeFindResult[] ResolveResult(
+            ComponentScopeLocateResult result,
+            ISearchContext scopeSource,
+            ComponentScopeLocateOptions scopeLocateOptions,
+            SearchOptions searchOptions)
         {
             result.CheckNotNull(nameof(result));
 

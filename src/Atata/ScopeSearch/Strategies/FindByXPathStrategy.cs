@@ -4,7 +4,23 @@ namespace Atata
 {
     public class FindByXPathStrategy : XPathComponentScopeLocateStrategy
     {
-        private readonly string[] acceptableXPathPrefixValues = { ".", "/", "(", "ancestor::", "ancestor-or-self::", "descendant::", "descendant-or-self::", "child::", "following::", "following-sibling::", "parent::", "preceding::", "preceding-sibling::", "self::" };
+        private readonly string[] acceptableXPathPrefixValues =
+        {
+            ".",
+            "/",
+            "(",
+            "ancestor::",
+            "ancestor-or-self::",
+            "descendant::",
+            "descendant-or-self::",
+            "child::",
+            "following::",
+            "following-sibling::",
+            "parent::",
+            "preceding::",
+            "preceding-sibling::",
+            "self::"
+        };
 
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {

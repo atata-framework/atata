@@ -12,13 +12,16 @@ namespace Atata
         {
         }
 
-        [Obsolete("Use default constructor instead and set target attribute via TargetAttributeType property, e.g.: [TermFindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
+        [Obsolete(
+            "Use default constructor instead and set target attribute via TargetAttributeType property, " +
+            "e.g.: [TermFindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
         public TermFindSettingsAttribute(FindTermBy by)
             : base(by)
         {
         }
 
-        [Obsolete("Use default constructor instead and set target attribute via TargetAttributeType property, e.g.: [TermFindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
+        [Obsolete("Use default constructor instead and set target attribute via TargetAttributeType property, " +
+            "e.g.: [TermFindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
         public TermFindSettingsAttribute(Type findAttributeType)
             : base(findAttributeType)
         {
@@ -52,7 +55,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the name should be cut considering the IgnoreNameEndings property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>.
+        /// Gets or sets a value indicating whether the name should be cut
+        /// considering the <c>IgnoreNameEndings</c> property value of <see cref="ControlDefinitionAttribute"/> and <see cref="PageObjectDefinitionAttribute"/>.
         /// The default value is <see langword="true"/>.
         /// </summary>
         public bool CutEnding

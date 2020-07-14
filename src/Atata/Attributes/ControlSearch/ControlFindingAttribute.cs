@@ -6,7 +6,10 @@ namespace Atata
     /// Specifies the default finding strategy of a control.
     /// Can be applied to the control class and assembly.
     /// </summary>
-    [Obsolete("Use concrete FindAttribute instead. For example: [ControlFinding(FindTermBy.Id)] -> [FindById]; or [ControlFinding(FindTermBy.Value, ControlType = typeof(RadioButton<>))] -> [FindByValue(TargetType = typeof(RadioButton<>))].")] // Obsolete since v1.5.0.
+    [Obsolete(
+        "Use concrete FindAttribute instead. " +
+        "For example: [ControlFinding(FindTermBy.Id)] -> [FindById]; " +
+        "or [ControlFinding(FindTermBy.Value, ControlType = typeof(RadioButton<>))] -> [FindByValue(TargetType = typeof(RadioButton<>))].")] // Obsolete since v1.5.0.
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
     public class ControlFindingAttribute : Attribute
     {

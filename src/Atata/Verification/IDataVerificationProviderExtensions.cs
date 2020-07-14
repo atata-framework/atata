@@ -55,7 +55,11 @@ namespace Atata
             return should.Owner;
         }
 
-        public static TOwner Satisfy<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, Predicate<IEnumerable<TData>> predicate, string message, params TData[] args)
+        public static TOwner Satisfy<TData, TOwner>(
+            this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should,
+            Predicate<IEnumerable<TData>> predicate,
+            string message,
+            params TData[] args)
             where TOwner : PageObject<TOwner>
         {
             should.CheckNotNull(nameof(should));
@@ -104,7 +108,9 @@ namespace Atata
             return should.Owner;
         }
 
-        public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, IVerificationProvider<TOwner> sourceVerificationProvider)
+        public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(
+            this IDataVerificationProvider<TData, TOwner> should,
+            IVerificationProvider<TOwner> sourceVerificationProvider)
             where TOwner : PageObject<TOwner>
         {
             should.CheckNotNull(nameof(should));

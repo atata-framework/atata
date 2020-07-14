@@ -85,7 +85,10 @@ namespace Atata
         private static IEnumerable<Type> GetAllInheritedTypes(Type type)
         {
             Type typeToCheck = type;
-            while (typeToCheck != typeof(UIComponent) && (!typeToCheck.IsGenericType || (typeToCheck.GetGenericTypeDefinition() != typeof(UIComponent<>) && typeToCheck.GetGenericTypeDefinition() != typeof(PageObject<>))))
+
+            while (
+                typeToCheck != typeof(UIComponent) &&
+                (!typeToCheck.IsGenericType || (typeToCheck.GetGenericTypeDefinition() != typeof(UIComponent<>) && typeToCheck.GetGenericTypeDefinition() != typeof(PageObject<>))))
             {
                 yield return typeToCheck;
                 typeToCheck = typeToCheck.BaseType;

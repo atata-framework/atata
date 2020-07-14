@@ -18,7 +18,12 @@ namespace Atata
         /// <param name="until">The waiting condition.</param>
         /// <param name="on">The trigger events.</param>
         /// <param name="priority">The priority.</param>
-        public WaitForElementAttribute(WaitBy waitBy, string selector, Until until = Until.MissingOrHidden, TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
+        public WaitForElementAttribute(
+            WaitBy waitBy,
+            string selector,
+            Until until = Until.MissingOrHidden,
+            TriggerEvents on = TriggerEvents.AfterClick,
+            TriggerPriority priority = TriggerPriority.Medium)
             : base(until, on, priority)
         {
             WaitBy = waitBy;

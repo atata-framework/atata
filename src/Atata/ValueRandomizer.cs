@@ -166,7 +166,10 @@ namespace Atata
             }
             else
             {
-                throw new InvalidOperationException($"Cannot get random value for '{type.FullName}' type. There is no registered randomizer for this type. Use {nameof(ValueRandomizer)}.{nameof(RegisterRandomizer)} method to register custom randomizer.");
+                throw new InvalidOperationException(
+                    $"Cannot get random value for '{type.FullName}' type. " +
+                    $"There is no registered randomizer for this type. " +
+                    $"Use {nameof(ValueRandomizer)}.{nameof(RegisterRandomizer)} method to register custom randomizer.");
             }
         }
     }
