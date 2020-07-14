@@ -236,7 +236,7 @@ namespace Atata
             return pageObject;
         }
 
-        private bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(ref TOther pageObject)
+        private static bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(ref TOther pageObject)
             where TOther : PageObject<TOther>
         {
             var tempPageObjectsEnumerable = AtataContext.Current.TemporarilyPreservedPageObjects.

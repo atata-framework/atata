@@ -116,7 +116,7 @@ namespace Atata.Tests
             VerifyRegularStringBasedRadioButtonList(page.TextInPrecedingSiblingItems);
         }
 
-        private void VerifyRegularStringBasedRadioButtonList(RadioButtonList<string, RadioButtonListPage> control)
+        private static void VerifyRegularStringBasedRadioButtonList(RadioButtonList<string, RadioButtonListPage> control)
         {
             control.Should.BeNull();
 

@@ -302,10 +302,7 @@ namespace Atata
             {
                 lock (LockObject)
                 {
-                    if (BuildStart == null)
-                    {
-                        BuildStart = DateTime.Now;
-                    }
+                    BuildStart = BuildStart ?? DateTime.Now;
                 }
             }
         }

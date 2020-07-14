@@ -126,7 +126,7 @@ namespace Atata
             return GetItemByInnerXPath(itemName, xPathCondition);
         }
 
-        private FindAttribute ResolveItemFindAttribute()
+        private static FindAttribute ResolveItemFindAttribute()
         {
             return new FindControlListItemAttribute();
         }

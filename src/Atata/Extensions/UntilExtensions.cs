@@ -6,8 +6,7 @@ namespace Atata
     {
         public static WaitUnit[] GetWaitUnits(this Until until, WaitOptions options = null)
         {
-            if (options == null)
-                options = new WaitOptions();
+            options = options ?? new WaitOptions();
 
             switch (until)
             {

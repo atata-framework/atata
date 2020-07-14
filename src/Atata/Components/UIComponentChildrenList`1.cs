@@ -101,7 +101,7 @@ namespace Atata
                 ConcatWithNavigationPageObjectCreatorAttribute(attributes, navigationPageObjectCreator));
         }
 
-        private Attribute[] ConcatWithNavigationPageObjectCreatorAttribute<TNavigateTo>(Attribute[] attributes, Func<TNavigateTo> navigationPageObjectCreator)
+        private static Attribute[] ConcatWithNavigationPageObjectCreatorAttribute<TNavigateTo>(Attribute[] attributes, Func<TNavigateTo> navigationPageObjectCreator)
             where TNavigateTo : PageObject<TNavigateTo>
         {
             return attributes.Concat(new[] { new NavigationPageObjectCreatorAttribute(navigationPageObjectCreator) }).ToArray();

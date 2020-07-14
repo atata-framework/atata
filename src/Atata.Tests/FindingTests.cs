@@ -253,7 +253,7 @@ namespace Atata.Tests
             VerifyValue(control, "OptionB");
         }
 
-        private void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")
+        private static void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")
         {
             VerifyValue(radioButton, expectedValue);
             radioButton.Should.BeUnchecked();
@@ -261,13 +261,13 @@ namespace Atata.Tests
             radioButton.Should.BeChecked();
         }
 
-        private void VerifyValue<TOwner>(UIComponent<TOwner> component, string expectedValue)
+        private static void VerifyValue<TOwner>(UIComponent<TOwner> component, string expectedValue)
             where TOwner : PageObject<TOwner>
         {
             Assert.That(component.Attributes.GetValue("value"), Is.EqualTo(expectedValue));
         }
 
-        private void VerifyNotExist<TOwner>(UIComponent<TOwner> component)
+        private static void VerifyNotExist<TOwner>(UIComponent<TOwner> component)
             where TOwner : PageObject<TOwner>
         {
             component.Should.Not.Exist();

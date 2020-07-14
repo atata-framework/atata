@@ -3,11 +3,6 @@
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp" RuleNamespace="Microsoft.CodeAnalysis.CSharp">
     <Rule Id="CS1591" Action="None" />
   </Rules>
-  <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
-    <Rule Id="IDE0002" Action="Warning" />
-    <Rule Id="IDE0003" Action="Warning" />
-    <Rule Id="IDE1005" Action="Warning" />
-  </Rules>
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
     <Rule Id="CA1008" Action="Warning" />
     <Rule Id="CA1031" Action="None" />
@@ -98,8 +93,5 @@
     <Rule Id="SA1649" Action="None" />
     <Rule Id="SA1652" Action="None" />
     <Rule Id="SX1101" Action="Warning" />
-  </Rules>
-  <Rules AnalyzerId="Text.CSharp.Analyzers" RuleNamespace="Text.CSharp.Analyzers">
-    <Rule Id="CA1704" Action="Warning" />
   </Rules>
 </RuleSet>

@@ -117,7 +117,7 @@ namespace Atata
                 .Select(x => Convert<TValue>(x.Value));
         }
 
-        private TValue Convert<TValue>(string parameterValue)
+        private static TValue Convert<TValue>(string parameterValue)
         {
             return typeof(TValue) == typeof(string)
                 ? (TValue)(object)(parameterValue ?? string.Empty)
