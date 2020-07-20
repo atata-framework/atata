@@ -25,7 +25,7 @@ jobs:
     inputs:
       command: build
       projects: '**\Atata.sln'
-      arguments: -c $(buildConfiguration)
+      arguments: -c $(buildConfiguration) -p:RunCodeAnalysis=false
   - task: VSTest@2
     displayName: Run tests
     timeoutInMinutes: 30
