@@ -56,17 +56,20 @@ return (
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is present considering the <see cref="Visibility"/> of component.
         /// </summary>
-        public DataProvider<bool, TOwner> IsPresent => GetOrCreateDataProvider("presence state", GetIsPresent);
+        public DataProvider<bool, TOwner> IsPresent =>
+            GetOrCreateDataProvider("presence state", GetIsPresent);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible.
         /// </summary>
-        public DataProvider<bool, TOwner> IsVisible => GetOrCreateDataProvider("visible state", GetIsVisible);
+        public DataProvider<bool, TOwner> IsVisible =>
+            GetOrCreateDataProvider("visible state", GetIsVisible);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible in viewport.
         /// </summary>
-        public DataProvider<bool, TOwner> IsVisibleInViewPort => GetOrCreateDataProvider("visible in viewport state", GetIsVisibleInViewPort);
+        public DataProvider<bool, TOwner> IsVisibleInViewPort =>
+            GetOrCreateDataProvider("visible in viewport state", GetIsVisibleInViewPort);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
@@ -74,43 +77,47 @@ return (
         /// which by default is <see cref="Atata.ContentSourceAttribute"/> with <see cref="ContentSource.Text"/> argument.
         /// Meaning that be default it returns <see cref="IWebElement.Text"/> property value of component scope's <see cref="IWebElement"/> element.
         /// </summary>
-        public DataProvider<string, TOwner> Content => GetOrCreateDataProvider("content", GetContent);
+        public DataProvider<string, TOwner> Content =>
+            GetOrCreateDataProvider("content", GetContent);
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should => new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
+        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should =>
+            new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> ExpectTo =>
+            Should.Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> WaitTo =>
+            Should.Using<WaitingVerificationStrategy>();
 
         /// <summary>
         /// Gets the <see cref="UIComponentLocationProvider{TOwner}"/> instance that provides an access to the scope element's location (X and Y).
         /// </summary>
-        public UIComponentLocationProvider<TOwner> ComponentLocation { get; private set; }
+        public UIComponentLocationProvider<TOwner> ComponentLocation { get; }
 
         /// <summary>
         /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
         /// </summary>
-        public UIComponentSizeProvider<TOwner> ComponentSize { get; private set; }
+        public UIComponentSizeProvider<TOwner> ComponentSize { get; }
 
         /// <summary>
         /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's attributes.
         /// </summary>
-        public UIComponentAttributeProvider<TOwner> Attributes { get; private set; }
+        public UIComponentAttributeProvider<TOwner> Attributes { get; }
 
         /// <summary>
         /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.
         /// </summary>
-        public UIComponentCssProvider<TOwner> Css { get; private set; }
+        public UIComponentCssProvider<TOwner> Css { get; }
 
         IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;
 
@@ -121,7 +128,7 @@ return (
         /// <summary>
         /// Gets the list of child controls.
         /// </summary>
-        public UIComponentChildrenList<TOwner> Controls { get; private set; }
+        public UIComponentChildrenList<TOwner> Controls { get; }
 
         /// <summary>
         /// Gets the set of triggers.
@@ -133,12 +140,14 @@ return (
         /// Gets an instance of <see cref="ContentSourceAttribute"/> or <see langword="null"/> if not found.
         /// </summary>
         [Obsolete("Use ContentGetBehavior instead.")] // Obsolete since v1.1.0.
-        protected ContentSourceAttribute ContentSourceAttribute => Metadata.Get<ContentSourceAttribute>();
+        protected ContentSourceAttribute ContentSourceAttribute =>
+            Metadata.Get<ContentSourceAttribute>();
 
         /// <summary>
         /// Gets an instance of <see cref="ContentGetBehaviorAttribute"/> associated with the component.
         /// </summary>
-        public ContentGetBehaviorAttribute ContentGetBehavior => Metadata.Get<ContentGetBehaviorAttribute>();
+        public ContentGetBehaviorAttribute ContentGetBehavior =>
+            Metadata.Get<ContentGetBehaviorAttribute>();
 
         protected internal virtual void InitComponent()
         {
@@ -249,16 +258,13 @@ return (
         /// <param name="providerName">Name of the provider.</param>
         /// <param name="valueGetFunction">The function that gets a value.</param>
         /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type or already stored one.</returns>
-        protected internal DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
+        public DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             if (dataProviders.TryGetValue(providerName, out object dataProviderAsObject) && dataProviderAsObject is DataProvider<TValue, TOwner> dataProvider)
                 return dataProvider;
 
             return CreateDataProvider(providerName, valueGetFunction);
         }
-
-        DataProvider<TValue, TOwner> IUIComponent<TOwner>.GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction) =>
-            GetOrCreateDataProvider(providerName, valueGetFunction);
 
         /// <summary>
         /// Creates and stores a new instance with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
