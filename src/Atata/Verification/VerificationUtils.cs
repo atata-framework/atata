@@ -155,23 +155,6 @@ namespace Atata
             }
         }
 
-        private static string BuildMessageForAggregateAssertion(Exception exception)
-        {
-            if (exception.InnerException != null)
-            {
-                StringBuilder builder = new StringBuilder(exception.Message).
-                    AppendLine().
-                    Append("  ----> ").
-                    Append(exception.InnerException.ToString());
-
-                return builder.ToString();
-            }
-            else
-            {
-                return exception.Message;
-            }
-        }
-
         internal static string BuildStackTraceForAggregateAssertion()
         {
             string stackTrace = new StackTrace(1, true).ToString();
