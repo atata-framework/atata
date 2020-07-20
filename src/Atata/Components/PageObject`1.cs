@@ -73,7 +73,7 @@ namespace Atata
         /// <summary>
         /// Gets the instance that provides reporting functionality.
         /// </summary>
-        public Report<TOwner> Report { get; private set; }
+        public Report<TOwner> Report { get; }
 
         /// <summary>
         /// Gets the title provider of the current HTML page.
@@ -104,7 +104,7 @@ namespace Atata
             {
                 return activeControl ?? (activeControl = Controls.Create<Control<TOwner>>(
                     "<Active>",
-                    new DynamicScopeLocator(so => Driver.SwitchTo().ActiveElement())));
+                    new DynamicScopeLocator(_ => Driver.SwitchTo().ActiveElement())));
             }
         }
 

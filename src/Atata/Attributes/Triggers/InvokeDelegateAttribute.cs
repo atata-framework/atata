@@ -17,7 +17,7 @@ namespace Atata
         /// <summary>
         /// Gets the action delegate.
         /// </summary>
-        public Action ActionDelegate { get; private set; }
+        public Action ActionDelegate { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {

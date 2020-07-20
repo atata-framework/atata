@@ -11,7 +11,7 @@
         /// <summary>
         /// Gets the waiting approach.
         /// </summary>
-        public Until Until { get; private set; }
+        public Until Until { get; }
 
         /// <summary>
         /// Gets or sets a value indicating whether to throw the exception on the presence (exists or visible) failure.

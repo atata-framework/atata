@@ -15,7 +15,7 @@ namespace Atata
             Accept = accept;
         }
 
-        public bool Accept { get; private set; }
+        public bool Accept { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {

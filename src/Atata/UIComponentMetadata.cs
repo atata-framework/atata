@@ -45,17 +45,17 @@ namespace Atata
         /// <summary>
         /// Gets the name of the component.
         /// </summary>
-        public string Name { get; private set; }
+        public string Name { get; }
 
         /// <summary>
         /// Gets the type of the component.
         /// </summary>
-        public Type ComponentType { get; private set; }
+        public Type ComponentType { get; }
 
         /// <summary>
         /// Gets the type of the parent component.
         /// </summary>
-        public Type ParentComponentType { get; private set; }
+        public Type ParentComponentType { get; }
 
         /// <summary>
         /// Gets the component definition attribute.
@@ -466,15 +466,15 @@ namespace Atata
 
         private UIComponentMetadata CreateMetadataForLayerFindAttribute()
         {
-            Func<Attribute, bool> filter = a => a is TermAttribute;
+            bool LocalFilter(Attribute a) => a is TermAttribute;
 
             return new UIComponentMetadata(Name, ComponentType, ParentComponentType)
             {
-                DeclaredAttributesList = DeclaredAttributesList.Where(filter).ToList(),
-                ParentComponentAttributesList = ParentComponentAttributesList.Where(filter).ToList(),
-                AssemblyAttributesList = AssemblyAttributesList.Where(filter).ToList(),
-                GlobalAttributesList = GlobalAttributesList.Where(filter).ToList(),
-                ComponentAttributesList = ComponentAttributesList.Where(filter).ToList()
+                DeclaredAttributesList = DeclaredAttributesList.Where(LocalFilter).ToList(),
+                ParentComponentAttributesList = ParentComponentAttributesList.Where(LocalFilter).ToList(),
+                AssemblyAttributesList = AssemblyAttributesList.Where(LocalFilter).ToList(),
+                GlobalAttributesList = GlobalAttributesList.Where(LocalFilter).ToList(),
+                ComponentAttributesList = ComponentAttributesList.Where(LocalFilter).ToList()
             };
         }
 
@@ -483,7 +483,7 @@ namespace Atata
             public AttributeSearchSet(List<Attribute> attributes) =>
                 Attributes = attributes;
 
-            public List<Attribute> Attributes { get; private set; }
+            public List<Attribute> Attributes { get; }
 
             public AttributeTargetFilterOptions TargetFilterOptions { get; set; } = AttributeTargetFilterOptions.All;
         }

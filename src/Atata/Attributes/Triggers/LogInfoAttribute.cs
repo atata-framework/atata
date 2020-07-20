@@ -11,7 +11,7 @@
             Message = message;
         }
 
-        public string Message { get; private set; }
+        public string Message { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {

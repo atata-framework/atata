@@ -17,11 +17,11 @@ namespace Atata
         /// <summary>
         /// Gets the raw XPath.
         /// </summary>
-        public string RawXPath { get; private set; }
+        public string RawXPath { get; }
 
         /// <summary>
         /// Gets the XPath prepended with <c>"/"</c>, if it can be applied.
         /// </summary>
-        public string XPath { get; private set; }
+        public string XPath { get; }
     }
 }

@@ -10,6 +10,6 @@ namespace Atata
             Index = index;
         }
 
-        public int Index { get; private set; }
+        public int Index { get; }
     }
 }

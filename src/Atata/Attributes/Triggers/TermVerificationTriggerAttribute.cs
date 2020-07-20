@@ -36,7 +36,7 @@ namespace Atata
 
         public PropertyBag Properties { get; } = new PropertyBag();
 
-        public string[] Values { get; private set; }
+        public string[] Values { get; }
 
         public TermCase Case
         {

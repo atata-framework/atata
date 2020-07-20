@@ -9,8 +9,8 @@ namespace Atata
     /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     public class Frame<TFramePageObject, TOwner> : Frame<TOwner>
-        where TOwner : PageObject<TOwner>
         where TFramePageObject : PageObject<TFramePageObject>
+        where TOwner : PageObject<TOwner>
     {
         /// <summary>
         /// Switches to the frame page object represented by the instance of <typeparamref name="TFramePageObject"/> type.

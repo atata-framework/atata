@@ -16,7 +16,7 @@ namespace Atata
         /// <summary>
         /// Gets the XPath values.
         /// </summary>
-        public string[] Values { get; private set; }
+        public string[] Values { get; }
 
         protected override Type DefaultStrategy
         {

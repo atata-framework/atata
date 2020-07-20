@@ -10,7 +10,7 @@
             DataProvider = dataProvider;
         }
 
-        protected IDataProvider<TData, TOwner> DataProvider { get; private set; }
+        protected IDataProvider<TData, TOwner> DataProvider { get; }
 
         IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
 
@@ -31,7 +31,7 @@
                 DataProvider = dataProvider;
             }
 
-            protected IDataProvider<TData, TOwner> DataProvider { get; private set; }
+            protected IDataProvider<TData, TOwner> DataProvider { get; }
 
             IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
 

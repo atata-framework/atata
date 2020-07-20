@@ -186,10 +186,9 @@ namespace Atata
 
             string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
-            return Component.GetOrCreateDataProvider($"{ComponentPartName} index of \"{itemName}\" {ItemComponentTypeName}", () =>
-            {
-                return IndexOf(itemName, predicateExpression);
-            });
+            return Component.GetOrCreateDataProvider(
+                $"{ComponentPartName} index of \"{itemName}\" {ItemComponentTypeName}",
+                () => IndexOf(itemName, predicateExpression));
         }
 
         protected virtual int IndexOf(string name, Expression<Func<TItem, bool>> predicateExpression)

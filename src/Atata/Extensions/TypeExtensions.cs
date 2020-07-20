@@ -146,15 +146,13 @@ namespace Atata
         private static int? GetDepthOfInheritanceOfRegularType(Type type, Type baseType)
         {
             Type typeToCheck = type;
-            int depth = 0;
 
-            while (typeToCheck != null)
+            for (int depth = 0; typeToCheck != null; depth++)
             {
                 if (typeToCheck == baseType)
                     return depth;
 
                 typeToCheck = typeToCheck.BaseType;
-                depth++;
             }
 
             return null;

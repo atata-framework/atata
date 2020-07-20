@@ -10,6 +10,6 @@ namespace Atata
             XPathFormat = xPathFormat;
         }
 
-        public string XPathFormat { get; private set; }
+        public string XPathFormat { get; }
     }
 }

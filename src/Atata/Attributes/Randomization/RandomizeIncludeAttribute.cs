@@ -10,6 +10,6 @@ namespace Atata
             Values = values;
         }
 
-        public object[] Values { get; private set; }
+        public object[] Values { get; }
     }
 }

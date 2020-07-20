@@ -18,7 +18,7 @@ namespace Atata
         /// <summary>
         /// Gets the name of the method.
         /// </summary>
-        public string MethodName { get; private set; }
+        public string MethodName { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {

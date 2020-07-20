@@ -606,7 +606,7 @@ namespace Atata
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder OnDriverCreated(Action action)
         {
-            return action != null ? OnDriverCreated(x => action()) : this;
+            return action != null ? OnDriverCreated(_ => action()) : this;
         }
 
         /// <summary>

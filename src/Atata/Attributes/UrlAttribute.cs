@@ -17,6 +17,6 @@ namespace Atata
         /// <summary>
         /// Gets the URL to navigate to.
         /// </summary>
-        public string Url { get; private set; }
+        public string Url { get; }
     }
 }

@@ -13,7 +13,7 @@ namespace Atata
             ColumnIndex = columnIndex;
         }
 
-        public int ColumnIndex { get; private set; }
+        public int ColumnIndex { get; }
 
         protected override Type DefaultStrategy
         {

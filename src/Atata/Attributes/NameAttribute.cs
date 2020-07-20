@@ -16,6 +16,6 @@ namespace Atata
         /// <summary>
         /// Gets the name value.
         /// </summary>
-        public string Value { get; private set; }
+        public string Value { get; }
     }
 }

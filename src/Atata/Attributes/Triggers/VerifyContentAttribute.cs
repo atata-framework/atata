@@ -16,7 +16,7 @@ namespace Atata
             Values = values;
         }
 
-        public string[] Values { get; private set; }
+        public string[] Values { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {

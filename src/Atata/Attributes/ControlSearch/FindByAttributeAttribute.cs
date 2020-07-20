@@ -34,7 +34,7 @@ namespace Atata
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
         }
 
-        public string AttributeName { get; private set; }
+        public string AttributeName { get; }
 
         protected override TermCase DefaultCase
         {

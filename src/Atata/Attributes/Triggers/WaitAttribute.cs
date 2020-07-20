@@ -14,7 +14,7 @@ namespace Atata
             Seconds = seconds;
         }
 
-        public double Seconds { get; private set; }
+        public double Seconds { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {

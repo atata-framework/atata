@@ -13,6 +13,6 @@
         /// <summary>
         /// Gets the culture value.
         /// </summary>
-        public string Value { get; private set; }
+        public string Value { get; }
     }
 }

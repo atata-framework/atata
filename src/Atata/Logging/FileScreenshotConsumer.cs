@@ -28,13 +28,13 @@ namespace Atata
 
         private static readonly Dictionary<string, Func<ScreenshotInfo, object>> PathVariableFactoryMap = new Dictionary<string, Func<ScreenshotInfo, object>>
         {
-            ["build-start"] = scr => AtataContext.BuildStart,
+            ["build-start"] = _ => AtataContext.BuildStart,
 
-            ["test-name-sanitized"] = scr => AtataContext.Current.TestNameSanitized,
-            ["test-name"] = scr => AtataContext.Current.TestName,
-            ["test-start"] = scr => AtataContext.Current.TestStart,
+            ["test-name-sanitized"] = _ => AtataContext.Current.TestNameSanitized,
+            ["test-name"] = _ => AtataContext.Current.TestName,
+            ["test-start"] = _ => AtataContext.Current.TestStart,
 
-            ["driver-alias"] = scr => AtataContext.Current.DriverAlias,
+            ["driver-alias"] = _ => AtataContext.Current.DriverAlias,
 
             ["screenshot-number"] = scr => scr.Number,
             ["screenshot-title"] = scr => scr.Title,

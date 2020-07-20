@@ -11,8 +11,8 @@ namespace Atata
             NumberOfCharacters = numberOfCharacters;
         }
 
-        public string Format { get; private set; }
+        public string Format { get; }
 
-        public int NumberOfCharacters { get; private set; }
+        public int NumberOfCharacters { get; }
     }
 }

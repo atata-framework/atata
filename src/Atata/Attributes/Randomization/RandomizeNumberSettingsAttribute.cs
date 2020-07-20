@@ -22,10 +22,10 @@ namespace Atata
             Precision = precision;
         }
 
-        public decimal Min { get; private set; }
+        public decimal Min { get; }
 
-        public decimal Max { get; private set; }
+        public decimal Max { get; }
 
-        public int Precision { get; private set; }
+        public int Precision { get; }
     }
 }

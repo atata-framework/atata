@@ -29,7 +29,7 @@ namespace Atata
         /// Gets the type of the attribute to use for the control finding.
         /// Type should be inherited from <see cref="FindAttribute"/>.
         /// </summary>
-        public Type FindAttributeType { get; private set; }
+        public Type FindAttributeType { get; }
 
         /// <summary>
         /// Gets or sets the type of the control (e.g.: <c>typeof(Link&lt;&gt;)</c>, <c>typeof(EditableField&lt;,&gt;)</c>).

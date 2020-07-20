@@ -12,7 +12,7 @@
             Component = component;
         }
 
-        protected internal TComponent Component { get; private set; }
+        protected internal TComponent Component { get; }
 
         TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component => Component;
 
@@ -32,7 +32,7 @@
                 Component = component;
             }
 
-            protected internal TComponent Component { get; private set; }
+            protected internal TComponent Component { get; }
 
             TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component => Component;
 

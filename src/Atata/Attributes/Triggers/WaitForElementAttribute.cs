@@ -33,12 +33,12 @@ namespace Atata
         /// <summary>
         /// Gets the kind of the element selector to wait for.
         /// </summary>
-        public WaitBy WaitBy { get; private set; }
+        public WaitBy WaitBy { get; }
 
         /// <summary>
         /// Gets the selector.
         /// </summary>
-        public string Selector { get; private set; }
+        public string Selector { get; }
 
         /// <summary>
         /// Gets or sets the scope source.

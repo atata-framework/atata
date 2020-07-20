@@ -9,7 +9,7 @@ namespace Atata
             Values = values;
         }
 
-        public string[] Values { get; private set; }
+        public string[] Values { get; }
 
         protected override Type DefaultStrategy
         {

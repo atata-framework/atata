@@ -46,8 +46,9 @@ namespace Atata
 
             context.Log.Start(message, LogLevel.Trace);
 
-            bool isCompleted = context.Driver.Try(TimeSpan.FromSeconds(Timeout), TimeSpan.FromSeconds(RetryInterval)).Until(
-                x => (bool)context.Driver.ExecuteScript(script));
+            bool isCompleted = context.Driver
+                .Try(TimeSpan.FromSeconds(Timeout), TimeSpan.FromSeconds(RetryInterval))
+                .Until(_ => (bool)context.Driver.ExecuteScript(script));
 
             if (!isCompleted)
             {

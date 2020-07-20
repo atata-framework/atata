@@ -10,6 +10,6 @@ namespace Atata
             Creator = creator;
         }
 
-        public Func<object> Creator { get; private set; }
+        public Func<object> Creator { get; }
     }
 }

@@ -16,8 +16,8 @@ namespace Atata
             Max = max;
         }
 
-        public int Min { get; private set; }
+        public int Min { get; }
 
-        public int Max { get; private set; }
+        public int Max { get; }
     }
 }

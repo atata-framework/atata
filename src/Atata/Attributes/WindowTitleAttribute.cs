@@ -35,11 +35,11 @@ namespace Atata
             Case = termCase;
         }
 
-        public string[] Values { get; private set; }
+        public string[] Values { get; }
 
-        public TermCase Case { get; private set; }
+        public TermCase Case { get; }
 
-        public new TermMatch Match { get; private set; }
+        public new TermMatch Match { get; }
 
         public string Format { get; set; }
     }

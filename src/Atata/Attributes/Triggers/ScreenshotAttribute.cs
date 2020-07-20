@@ -17,7 +17,7 @@
             Title = title;
         }
 
-        public string Title { get; private set; }
+        public string Title { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
