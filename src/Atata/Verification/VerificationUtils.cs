@@ -26,7 +26,7 @@ namespace Atata
             else if (collection.Count() == 1)
                 return ToString(collection.First());
             else
-                return "<{0}>".FormatWith(string.Join(", ", collection.Select(x => x.ToString()).ToArray()));
+                return "<{0}>".FormatWith(string.Join(", ", collection.Select(x => ToString(x)).ToArray()));
         }
 
         public static string ToString<T>(Expression<Func<T, bool>> predicateExpression)
