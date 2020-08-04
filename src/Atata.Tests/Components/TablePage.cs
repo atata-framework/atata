@@ -38,6 +38,9 @@ namespace Atata.Tests
         [FindById(CutEnding = false)]
         public Table<InsideAnotherTableRow, _> InsideAnotherTable { get; private set; }
 
+        [FindById]
+        public Table<CarTableRow, _> CarsTable { get; private set; }
+
         public class UserTableRow : TableRow<_>
         {
             public Text<_> FirstName { get; private set; }
@@ -87,6 +90,23 @@ namespace Atata.Tests
             public Text<_> Key { get; private set; }
 
             public Number<_> Value { get; private set; }
+        }
+
+        public class CarTableRow : TableRow<_>
+        {
+            public Text<_> CarMake { get; private set; }
+
+            public Text<_> CarModel { get; private set; }
+
+            public Content<int, _> Year { get; private set; }
+
+            public Text<_> Category { get; private set; }
+
+            public Text<_> AirConditioner { get; private set; }
+
+            public DataProvider<bool?, _> HasAirConditioner => GetOrCreateDataProvider<bool?>(
+                "has air conditioner",
+                () => AirConditioner == "Yes");
         }
     }
 }

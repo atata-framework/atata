@@ -93,5 +93,50 @@ namespace Atata.Tests
         ////    foreach (var item in control.Items)
         ////        item.Scope.TagName.Should().Be("li");
         ////}
+
+        [Test]
+        public void ControlList_SelectContentsByExtraXPath()
+        {
+            var component = Go.To<TablePage>().CarsTable.Rows;
+
+            component.SelectContentsByExtraXPath("/td[4]").Should.Contain("Saloon");
+            component.SelectContentsByExtraXPath("/td[4]", "Categories").Should.HaveCount(18);
+            component.SelectContentsByExtraXPath<int>("/td[3]", "Years").Should.Contain(2001, 2007);
+        }
+
+        [Test]
+        public void ControlList_SelectData_JSPath()
+        {
+            var component = Go.To<TablePage>().CarsTable.Rows;
+
+            component.SelectData<string>("querySelector('td').getAttribute('data-id')").Should.Contain("2");
+            component.SelectData<int?>("querySelector('td').getAttribute('data-id')").Should.Contain(1, 2, null);
+        }
+
+        [Test]
+        public void ControlList_SelectDataByExtraXPath()
+        {
+            var component = Go.To<TablePage>().CarsTable.Rows;
+
+            component.SelectDataByExtraXPath<string>("/td[1]", "getAttribute('data-id')").Should.Contain("2");
+            component.SelectDataByExtraXPath<int?>("/td[1]", "getAttribute('data-id')").Should.Contain(1, 2, null);
+            component.SelectDataByExtraXPath<int?>("/td[1][@data-id]", "getAttribute('data-id')").Should.EqualSequence(1, 2, 3, 4);
+        }
+
+        [Test]
+        public void ControlList_GetByXPathCondition()
+        {
+            var component = Go.To<TablePage>().CarsTable.Rows;
+
+            component.GetByXPathCondition("Nissan", "td[1][text()='Nissan']").CarMake.Should.Equal("Nissan");
+        }
+
+        [Test]
+        public void ControlList_GetAllByXPathCondition()
+        {
+            var component = Go.To<TablePage>().CarsTable.Rows;
+
+            component.GetAllByXPathCondition("Nissan", "td[1][text()='Nissan']").Should.HaveCount(2);
+        }
     }
 }

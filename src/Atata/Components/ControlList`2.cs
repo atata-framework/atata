@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Text;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -17,6 +18,16 @@ namespace Atata
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        protected const string GetElementValuesScript = @"
+var elements = arguments[0];
+var textValues = [];
+
+for (var i = 0; i < elements.length; i++) {
+    textValues.push(elements[i].{0});
+}
+
+return textValues;";
+
         private string itemComponentTypeName;
 
         [Obsolete("This property is not used internally anymore, no sense to use it.")] // Obsolete since v1.5.0.
@@ -116,6 +127,16 @@ namespace Atata
         /// <summary>
         /// Gets the control that matches the specified XPath condition.
         /// </summary>
+        /// <param name="xPathCondition">
+        /// The XPath condition.
+        /// For example: <c>"@some-attr='some value'"</c>.</param>
+        /// <returns>The first item that matches the XPath condition.</returns>
+        public TItem GetByXPathCondition(string xPathCondition) =>
+            GetByXPathCondition(null, xPathCondition);
+
+        /// <summary>
+        /// Gets the control that matches the specified XPath condition.
+        /// </summary>
         /// <param name="itemName">Name of the item.</param>
         /// <param name="xPathCondition">
         /// The XPath condition.
@@ -123,7 +144,44 @@ namespace Atata
         /// <returns>The first item that matches the XPath condition.</returns>
         public TItem GetByXPathCondition(string itemName, string xPathCondition)
         {
+            xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
+
+            itemName = itemName ?? $"XPath: '{xPathCondition}'";
+
             return GetItemByInnerXPath(itemName, xPathCondition);
+        }
+
+        /// <summary>
+        /// Gets all controls of this list that match the specified XPath condition.
+        /// </summary>
+        /// <param name="xPathCondition">
+        /// The XPath condition.
+        /// For example: <c>"@some-attr='some value'"</c>.</param>
+        /// <returns>All items that match the XPath condition.</returns>
+        public DataProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string xPathCondition) =>
+            GetAllByXPathCondition(null, xPathCondition);
+
+        /// <summary>
+        /// Gets all controls of this list that match the specified XPath condition.
+        /// </summary>
+        /// <param name="itemsName">Name of the items to use in reporting.</param>
+        /// <param name="xPathCondition">
+        /// The XPath condition.
+        /// For example: <c>"@some-attr='some value'"</c>.</param>
+        /// <returns>All items that match the XPath condition.</returns>
+        public DataProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string itemsName, string xPathCondition)
+        {
+            xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
+
+            string extraXPath = xPathCondition.StartsWith("[")
+                ? xPathCondition
+                : $"[{xPathCondition}]";
+
+            itemsName = itemsName ?? $"XPath: '{extraXPath}'";
+
+            return Component.GetOrCreateDataProvider(
+                $"\"{itemsName}\" {ProviderName}",
+                () => GetAll(extraXPath, itemsName));
         }
 
         private static FindAttribute ResolveItemFindAttribute()
@@ -274,31 +332,147 @@ namespace Atata
                 () => GetAll().Select(selector.Compile()));
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        /// <summary>
+        /// Selects the data of each control using JavaScript path relative to control element.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <param name="elementValueJSPath">
+        /// The JavaScript path to the element value,
+        /// for example: <c>getAttribute('data-id')</c>.
+        /// </param>
+        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueTermOptions">The term options of value.</param>
+        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
+        public DataProvider<IEnumerable<TData>, TOwner> SelectData<TData>(
+            string elementValueJSPath,
+            string dataProviderName = null,
+            TermOptions valueTermOptions = null) =>
+            SelectDataByExtraXPath<TData>(null, elementValueJSPath, dataProviderName, valueTermOptions);
 
-        public IEnumerator<TItem> GetEnumerator()
+        /// <summary>
+        /// Selects the data of each control using JavaScript path relative to element
+        /// that is found using additional <paramref name="elementXPath"/>.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <param name="elementXPath">The element XPath.</param>
+        /// <param name="elementValueJSPath">
+        /// The JavaScript path to the element value,
+        /// for example: <c>getAttribute('data-id')</c>.
+        /// </param>
+        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueTermOptions">The term options of value.</param>
+        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
+        public DataProvider<IEnumerable<TData>, TOwner> SelectDataByExtraXPath<TData>(
+            string elementXPath,
+            string elementValueJSPath,
+            string dataProviderName = null,
+            TermOptions valueTermOptions = null)
         {
-            return GetAll().GetEnumerator();
+            elementValueJSPath.CheckNotNullOrEmpty(nameof(elementValueJSPath));
+
+            if (dataProviderName == null)
+            {
+                StringBuilder nameBuilder = new StringBuilder();
+
+                if (elementXPath != null)
+                    nameBuilder.Append($"XPath: '{elementXPath}', ");
+
+                nameBuilder.Append($"JSPath: '{elementValueJSPath}'");
+                dataProviderName = nameBuilder.ToString();
+            }
+
+            return Component.GetOrCreateDataProvider(
+                $"\"{dataProviderName}\" of {ProviderName}",
+                () => SelectElementValues<TData>(elementXPath, elementValueJSPath, valueTermOptions));
         }
 
-        protected virtual IEnumerable<TItem> GetAll()
+        /// <summary>
+        /// Selects the content of each control relative to element
+        /// that is found using additional <paramref name="elementXPath"/>.
+        /// </summary>
+        /// <param name="elementXPath">The element XPath.</param>
+        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueTermOptions">The term options of value.</param>
+        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
+        public DataProvider<IEnumerable<string>, TOwner> SelectContentsByExtraXPath(
+            string elementXPath,
+            string dataProviderName = null,
+            TermOptions valueTermOptions = null)
         {
-            return GetItemElements().
-                Select((element, index) => CreateItem(new DefinedScopeLocator(element), (index + 1).Ordinalize())).
+            return SelectContentsByExtraXPath<string>(elementXPath, dataProviderName, valueTermOptions);
+        }
+
+        /// <summary>
+        /// Selects the content of each control relative to element
+        /// that is found using additional <paramref name="elementXPath"/>.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <param name="elementXPath">The element XPath.</param>
+        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueTermOptions">The term options of value.</param>
+        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
+        public DataProvider<IEnumerable<TData>, TOwner> SelectContentsByExtraXPath<TData>(
+            string elementXPath,
+            string dataProviderName = null,
+            TermOptions valueTermOptions = null)
+        {
+            return SelectDataByExtraXPath<TData>(elementXPath, "textContent", dataProviderName, valueTermOptions);
+        }
+
+        protected IEnumerable<TData> SelectElementValues<TData>(
+            string elementXPath,
+            string elementValueJSPath,
+            TermOptions valueTermOptions)
+        {
+            var elements = GetItemElements(extraXPath: elementXPath);
+
+            return GetElementTextValues(elements, elementValueJSPath).
+                Select(x => TermResolver.FromString<TData>(x, valueTermOptions));
+        }
+
+        private static IEnumerable<string> GetElementTextValues(
+            IEnumerable<IWebElement> elements,
+            string elementValueJSPath)
+        {
+            string formattedScript = GetElementValuesScript.Replace("{0}", elementValueJSPath);
+
+            return ((IEnumerable<object>)AtataContext.Current.Driver.ExecuteScript(formattedScript, elements)).
+                Cast<string>().
+                Select(x => x?.Trim()).
                 ToArray();
         }
 
-        [Obsolete("Use GetItemElements() instead.")] // Obsolete since v1.5.0.
+        IEnumerator IEnumerable.GetEnumerator() =>
+            GetEnumerator();
+
+        public IEnumerator<TItem> GetEnumerator() =>
+            GetAll().GetEnumerator();
+
+        protected virtual IEnumerable<TItem> GetAll() =>
+            GetAll(null, null);
+
+        protected virtual IEnumerable<TItem> GetAll(string extraXPath, string nameSuffix)
+        {
+            string nameFormat = string.IsNullOrEmpty(nameSuffix)
+                ? "{0}"
+                : $"{{0}} of {nameSuffix}";
+
+            return GetItemElements(extraXPath: extraXPath).
+                Select((element, index) => CreateItem(new DefinedScopeLocator(element), string.Format(nameFormat, (index + 1).Ordinalize()))).
+                ToArray();
+        }
+
+        [Obsolete("Use GetItemElements() or GetItemElements(SearchOptions, string) instead.")] // Obsolete since v1.5.0.
         protected ReadOnlyCollection<IWebElement> GetItemElements(By itemBy)
         {
             return GetItemElements();
         }
 
-        protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null)
+        protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null, string extraXPath = null)
         {
             TItem control = CreateItem(GetItemDeclaredAttributes());
 
-            return control.ScopeLocator.GetElements(searchOptions).ToReadOnly();
+            return control.ScopeLocator.GetElements(searchOptions, extraXPath).ToReadOnly();
         }
     }
 }
