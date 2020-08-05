@@ -48,7 +48,7 @@
     </When>
     <When Condition="$(Configuration) == 'SlimNetstandard2.0'">
       <PropertyGroup>
-        <TargetFramework>netcoreapp2.0</TargetFramework>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
         <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
@@ -61,7 +61,7 @@
         </When>
         <Otherwise>
           <PropertyGroup>
-            <TargetFrameworks>net45;netcoreapp2.0</TargetFrameworks>
+            <TargetFrameworks>net45;netcoreapp2.1</TargetFrameworks>
           </PropertyGroup>
         </Otherwise>
       </Choose>

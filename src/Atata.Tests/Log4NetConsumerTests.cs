@@ -33,7 +33,7 @@ namespace Atata.Tests
                 Directory.Delete(LogsFolder, recursive: true);
         }
 
-#if !NETCOREAPP2_0
+#if !NETCOREAPP2_1
         [Test]
         public void Log4NetConsumer_Default()
         {

@@ -17,7 +17,7 @@ namespace Atata.Tests
         protected IEnumerable<LogEventInfo> LogEntries => stringListLogConsumer.Items;
 
         public static bool IsOSLinux =>
-#if NETCOREAPP2_0
+#if NETCOREAPP2_1
             System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux);
 #else
             false;
@@ -30,8 +30,7 @@ namespace Atata.Tests
             return AtataContext.Configure().
                 UseChrome().
                     WithArguments(GetChromeArguments()).
-#if NETCOREAPP2_0
-                    WithFixOfCommandExecutionDelay().
+#if NETCOREAPP2_1
                     WithLocalDriverPath().
 #endif
                 UseBaseUrl(BaseUrl).

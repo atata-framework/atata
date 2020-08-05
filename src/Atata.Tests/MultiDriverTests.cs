@@ -22,8 +22,7 @@ namespace Atata.Tests
         {
             ConfigureBaseAtataContext().
                 UseInternetExplorer().
-#if NETCOREAPP2_0
-                    WithFixOfCommandExecutionDelay().
+#if NETCOREAPP2_1
                     WithLocalDriverPath().
 #endif
                 UseDriver(driverAlias).
