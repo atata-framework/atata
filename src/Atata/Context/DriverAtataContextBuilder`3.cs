@@ -35,10 +35,18 @@ namespace Atata
 
             TService service = serviceFactory?.Invoke() ?? CreateDefaultService();
 
-            foreach (var serviceInitializer in serviceInitializers)
-                serviceInitializer(service);
+            try
+            {
+                foreach (var serviceInitializer in serviceInitializers)
+                    serviceInitializer(service);
 
-            return CreateDriver(service, options, commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
+                return CreateDriver(service, options, commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
+            }
+            catch
+            {
+                service?.Dispose();
+                throw;
+            }
         }
 
         /// <summary>
