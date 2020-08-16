@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -30,7 +31,17 @@ namespace Atata
 
         public By CreateBy(string xPathCondition)
         {
-            return By.XPath(XPath + xPathCondition).With(SearchOptions);
+            StringBuilder xPathBuilder = new StringBuilder(XPath);
+
+            if (!string.IsNullOrWhiteSpace(xPathCondition))
+            {
+                if (!xPathCondition.StartsWith("[") && !xPathCondition.StartsWith("/"))
+                    xPathBuilder.Append("/");
+
+                xPathBuilder.Append(xPathCondition);
+            }
+
+            return By.XPath(xPathBuilder.ToString()).With(SearchOptions);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Atata
                         new SearchFailureData
                         {
                             ElementName = executionData.Component.ComponentFullName,
-                            By = By.XPath(xPathResults.First().XPath + xPathCondition),
+                            By = xPathResults.First().CreateBy(xPathCondition),
                             SearchOptions = searchOptions
                         });
                 }

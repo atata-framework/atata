@@ -99,7 +99,7 @@ namespace Atata.Tests
         {
             var component = Go.To<TablePage>().CarsTable.Rows;
 
-            component.SelectContentsByExtraXPath("/td[4]").Should.Contain("Saloon");
+            component.SelectContentsByExtraXPath("td[4]").Should.Contain("Saloon");
             component.SelectContentsByExtraXPath("/td[4]", "Categories").Should.HaveCount(18);
             component.SelectContentsByExtraXPath<int>("/td[3]", "Years").Should.Contain(2001, 2007);
         }
@@ -118,7 +118,7 @@ namespace Atata.Tests
         {
             var component = Go.To<TablePage>().CarsTable.Rows;
 
-            component.SelectDataByExtraXPath<string>("/td[1]", "getAttribute('data-id')").Should.Contain("2");
+            component.SelectDataByExtraXPath<string>("td[1]", "getAttribute('data-id')").Should.Contain("2");
             component.SelectDataByExtraXPath<int?>("/td[1]", "getAttribute('data-id')").Should.Contain(1, 2, null);
             component.SelectDataByExtraXPath<int?>("/td[1][@data-id]", "getAttribute('data-id')").Should.EqualSequence(1, 2, 3, 4);
         }
