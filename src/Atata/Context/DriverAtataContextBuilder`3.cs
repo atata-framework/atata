@@ -40,6 +40,8 @@ namespace Atata
                 foreach (var serviceInitializer in serviceInitializers)
                     serviceInitializer(service);
 
+                AtataContext.Current?.Log.Trace($"Set: DriverService={service.GetType().Name} on port {service.Port}");
+
                 return CreateDriver(service, options, commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
             }
             catch
