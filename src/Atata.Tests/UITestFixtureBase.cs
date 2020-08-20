@@ -12,6 +12,11 @@ namespace Atata.Tests
     {
         public const string BaseUrl = "http://localhost:50549";
 
+        /// <summary>
+        /// Usage of 2046 on Azure DevOps pipeline port often leads to failure during WebDriver instance creation.
+        /// </summary>
+        private readonly int[] portsToIgnore = new[] { 2046 };
+
         private StringListLogConsumer stringListLogConsumer;
 
         protected IEnumerable<LogEventInfo> LogEntries => stringListLogConsumer.Items;
@@ -30,6 +35,7 @@ namespace Atata.Tests
             return AtataContext.Configure().
                 UseChrome().
                     WithArguments(GetChromeArguments()).
+                    WithPortsToIgnore(portsToIgnore).
 #if NETCOREAPP2_1
                     WithLocalDriverPath().
 #endif

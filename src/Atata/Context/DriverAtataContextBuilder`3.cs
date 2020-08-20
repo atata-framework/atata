@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 
@@ -12,6 +13,8 @@ namespace Atata
     {
         private readonly List<Action<TService>> serviceInitializers = new List<Action<TService>>();
         private readonly List<Action<TOptions>> optionsInitializers = new List<Action<TOptions>>();
+
+        private readonly List<int> portsToIgnore = new List<int>();
 
         private Func<TService> serviceFactory;
         private Func<TOptions> optionsFactory;
@@ -40,6 +43,8 @@ namespace Atata
                 foreach (var serviceInitializer in serviceInitializers)
                     serviceInitializer(service);
 
+                CheckPortForIgnoring(service);
+
                 AtataContext.Current?.Log.Trace($"Set: DriverService={service.GetType().Name} on port {service.Port}");
 
                 return CreateDriver(service, options, commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
@@ -48,6 +53,14 @@ namespace Atata
             {
                 service?.Dispose();
                 throw;
+            }
+        }
+
+        private void CheckPortForIgnoring(TService service)
+        {
+            if (portsToIgnore.Contains(service.Port))
+            {
+                service.Port = PortUtils.FindFreePortExcept(portsToIgnore);
             }
         }
 
@@ -243,6 +256,25 @@ namespace Atata
         public TBuilder WithCommandTimeout(TimeSpan commandTimeout)
         {
             this.commandTimeout = commandTimeout;
+            return (TBuilder)this;
+        }
+
+        /// <summary>
+        /// Specifies the ports to ignore.
+        /// </summary>
+        /// <param name="portsToIgnore">The ports to ignore.</param>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithPortsToIgnore(params int[] portsToIgnore) =>
+            WithPortsToIgnore(portsToIgnore.AsEnumerable());
+
+        /// <summary>
+        /// Specifies the ports to ignore.
+        /// </summary>
+        /// <param name="portsToIgnore">The ports to ignore.</param>
+        /// <returns>The same builder instance.</returns>
+        public TBuilder WithPortsToIgnore(IEnumerable<int> portsToIgnore)
+        {
+            this.portsToIgnore.AddRange(portsToIgnore);
             return (TBuilder)this;
         }
     }
