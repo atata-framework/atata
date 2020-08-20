@@ -177,6 +177,18 @@ namespace Atata
         /// <summary>
         /// Adds the log consumer.
         /// </summary>
+        /// <typeparam name="TLogConsumer">
+        /// The type of the log consumer.
+        /// Should have default constructor.
+        /// </typeparam>
+        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>()
+            where TLogConsumer : ILogConsumer, new() =>
+            AddLogConsumer(new TLogConsumer());
+
+        /// <summary>
+        /// Adds the log consumer.
+        /// </summary>
         /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
         /// <param name="consumer">The log consumer.</param>
         /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
