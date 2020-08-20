@@ -138,5 +138,23 @@ namespace Atata.Tests
 
             component.GetAllByXPathCondition("Nissan", "td[1][text()='Nissan']").Should.HaveCount(2);
         }
+
+        [Test]
+        public void ControlList_Empty()
+        {
+            var component = Go.To<TablePage>().EmptyTable.Rows;
+
+            using (StopwatchAsserter.Within(1, 1))
+                component.Should.BeEmpty();
+
+            using (StopwatchAsserter.Within(1, 1))
+                component.Count.Should.Equal(0);
+
+            using (StopwatchAsserter.Within(1, 1))
+                component.Should.HaveCount(0);
+
+            using (StopwatchAsserter.Within(1, 1))
+                component.AsEnumerable().Should().BeEmpty();
+        }
     }
 }

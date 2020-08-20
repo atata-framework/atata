@@ -58,6 +58,15 @@ namespace Atata
             var executionData = executionDataCollector.Get(searchOptions);
             XPathComponentScopeFindResult[] xPathResults = executor.Execute(executionData);
 
+            foreach (var xPathResult in xPathResults)
+            {
+                SearchOptions quickSearchOptions = xPathResult.SearchOptions.Clone();
+                quickSearchOptions.IsSafely = true;
+                quickSearchOptions.Timeout = TimeSpan.Zero;
+
+                xPathResult.SearchOptions = quickSearchOptions;
+            }
+
             return xPathResults.Any()
                 ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray()
                 : new IWebElement[0];

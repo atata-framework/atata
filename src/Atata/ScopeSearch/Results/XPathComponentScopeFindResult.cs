@@ -17,7 +17,7 @@ namespace Atata
 
         public ISearchContext ScopeSource { get; }
 
-        public SearchOptions SearchOptions { get; }
+        public SearchOptions SearchOptions { get; internal set; }
 
         public IWebElement Get(string xPathCondition = null)
         {
