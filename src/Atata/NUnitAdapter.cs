@@ -8,6 +8,8 @@ namespace Atata
     {
         private const string NUnitAssemblyName = "nunit.framework";
 
+        internal const string AssertionExceptionTypeName = "NUnit.Framework.AssertionException";
+
         private static readonly Lazy<Type> TestExecutionContextType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.TestExecutionContext"));
 
@@ -36,7 +38,7 @@ namespace Atata
             Error
         }
 
-        internal static Type AssertionExceptionType => GetType("NUnit.Framework.AssertionException");
+        internal static Type AssertionExceptionType => GetType(AssertionExceptionTypeName);
 
         private static Type GetType(string typeName)
         {

@@ -77,9 +77,12 @@ namespace Atata
         {
             var exceptionType = AtataContext.Current?.AssertionExceptionType;
 
-            return exceptionType != null
-                ? (Exception)Activator.CreateInstance(exceptionType, message, innerException)
-                : new AssertionException(message, innerException);
+            if (exceptionType == null)
+                return new AssertionException(message, innerException);
+            else if (exceptionType.FullName == NUnitAdapter.AssertionExceptionTypeName)
+                return (Exception)Activator.CreateInstance(exceptionType, AppendExceptionToFailureMessage(message, innerException));
+            else
+                return (Exception)Activator.CreateInstance(exceptionType, message, innerException);
         }
 
         public static Exception CreateAggregateAssertionException(IEnumerable<AssertionResult> assertionResults)
