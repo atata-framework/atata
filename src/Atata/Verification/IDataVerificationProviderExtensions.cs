@@ -121,6 +121,7 @@ namespace Atata
                     ? GetNegationVerificationProvider(should)
                     : should;
 
+            resultVerificationProvider.Strategy = sourceVerificationProvider.Strategy;
             resultVerificationProvider.Timeout = sourceVerificationProvider.Timeout;
             resultVerificationProvider.RetryInterval = sourceVerificationProvider.RetryInterval;
 

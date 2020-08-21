@@ -18,6 +18,12 @@ namespace Atata
 
         protected IVerificationStrategy Strategy { get; set; } = new AssertionVerificationStrategy();
 
+        IVerificationStrategy IVerificationProvider<TOwner>.Strategy
+        {
+            get => Strategy;
+            set => Strategy = value;
+        }
+
         TOwner IVerificationProvider<TOwner>.Owner
         {
             get { return Owner; }

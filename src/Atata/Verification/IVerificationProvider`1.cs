@@ -7,6 +7,8 @@ namespace Atata
     {
         bool IsNegation { get; }
 
+        IVerificationStrategy Strategy { get; set; }
+
         TOwner Owner { get; }
 
         string VerificationKind { get; }
