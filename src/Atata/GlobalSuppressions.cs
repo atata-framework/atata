@@ -3,12 +3,10 @@
 #pragma warning disable S103 // Lines should not be too long
 
 [assembly: SuppressMessage("Sonar Code Smell", "S4041:Type names should not match namespaces", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.Text`1")]
-[assembly: SuppressMessage("Sonar Code Smell", "S2971:\"IEnumerable\" LINQs should be simplified", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentMetadata.FilterAndOrderByTarget``1(System.Collections.Generic.IEnumerable{``0})~System.Collections.Generic.IEnumerable{``0}")]
 [assembly: SuppressMessage("Sonar Code Smell", "S4023:Interfaces should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.INavigable`2")]
 [assembly: SuppressMessage("Sonar Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.RemoteDriverAtataContextBuilder.DefaultRemoteServerUrl")]
 [assembly: SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1513:Closing brace must be followed by blank line", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.AtataContext.Current")]
 [assembly: SuppressMessage("Sonar Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UntilExtensions.GetWaitUnits(Atata.Until,Atata.WaitOptions)~Atata.WaitUnit[]")]
-[assembly: SuppressMessage("Sonar Code Smell", "S3427:Method overloads with default parameter values should not overlap ", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WaitForElementAttribute.#ctor(Atata.WaitBy,System.String,Atata.WaitUntil,Atata.TriggerEvents,Atata.TriggerPriority)")]
 [assembly: SuppressMessage("Sonar Code Smell", "S3427:Method overloads with default parameter values should not overlap ", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WaitForElementAttribute.#ctor(Atata.WaitBy,System.String,Atata.Until,Atata.TriggerEvents,Atata.TriggerPriority)")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ObjectExpressionStringBuilder.VisitMember(System.Linq.Expressions.MemberExpression)~System.Linq.Expressions.Expression")]
 [assembly: SuppressMessage("Sonar Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ExpressionStringBuilder.FormatBinder(System.Runtime.CompilerServices.CallSiteBinder)~System.String")]
@@ -32,5 +30,6 @@
 [assembly: SuppressMessage("Naming", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.FindAs")]
 [assembly: SuppressMessage("Design", "CA1008:Enums should have zero value", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.AtataContextModeOfCurrent")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.StringExtensions.SplitIntoWords(System.String)~System.String[]")]
+[assembly: SuppressMessage("Critical Code Smell", "S2302:\"nameof\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Randomizer.GetString(System.String,System.Int32)~System.String")]
 
 #pragma warning restore S103 // Lines should not be too long

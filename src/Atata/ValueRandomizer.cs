@@ -43,10 +43,10 @@ namespace Atata
             string value;
             if (!TryRandomizeOneOfIncluded(metadata, out value))
             {
-                var attribute = metadata.Get<RandomizeStringSettingsAttribute>(x => x.At(AttributeLevels.Declared)) ?? new RandomizeStringSettingsAttribute();
+                var attribute = metadata.Get<RandomizeStringSettingsAttribute>(x => x.At(AttributeLevels.Declared))
+                    ?? new RandomizeStringSettingsAttribute();
 
-                string format = NormalizeStringFormat(attribute.Format);
-                value = Randomizer.GetString(format, attribute.NumberOfCharacters);
+                value = Randomizer.GetString(attribute.Format, attribute.NumberOfCharacters);
             }
 
             return value;
@@ -69,16 +69,6 @@ namespace Atata
         private static bool RandomizeBool(UIComponentMetadata metadata)
         {
             return Randomizer.GetBool();
-        }
-
-        private static string NormalizeStringFormat(string format)
-        {
-            if (string.IsNullOrEmpty(format))
-                return "{0}";
-            else if (!format.Contains("{0}"))
-                return format + "{0}";
-            else
-                return format;
         }
 
         private static T RandomizeNonFlagEnum<T>(Type enumType, UIComponentMetadata metadata)

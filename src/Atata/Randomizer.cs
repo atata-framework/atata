@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -8,22 +7,57 @@ namespace Atata
 {
     public static class Randomizer
     {
-        public static string GetString(string format = "{0}", int numberOfCharacters = 15)
+        /// <summary>
+        /// The default random string length.
+        /// </summary>
+        public const int DefaultStringLength = 15;
+
+        /// <summary>
+        /// The default random string character set.
+        /// </summary>
+        public const string DefaultStringCharSet = "abcdefghijklmnopqrstuvwxyz";
+
+        /// <summary>
+        /// Gets the random string.
+        /// </summary>
+        /// <param name="format">The format, that can contain <c>{0}</c> for random value insertion.</param>
+        /// <param name="length">The length.</param>
+        /// <returns>The random string.</returns>
+        /// <exception cref="ArgumentException">
+        /// The length should be positive.
+        /// Or the length of string is not greater than the format length.
+        /// </exception>
+        public static string GetString(string format = "{0}", int length = DefaultStringLength)
         {
-            string uniqueValue = Guid.NewGuid().ToString("N").Substring(0, numberOfCharacters);
+            if (length < 1)
+                throw new ArgumentException($"The {nameof(length)} should be positive.", nameof(length));
 
-            StringBuilder stringBuilder = new StringBuilder();
-            int baseCharacter = 'a';
+            string normalizedFormat = NormalizeStringFormat(format);
 
-            for (int i = 0; i < uniqueValue.Length; i++)
+            int randomPartLength = length - normalizedFormat.Replace("{0}", string.Empty).Length;
+
+            if (randomPartLength <= 0)
+                throw new ArgumentException($"The {nameof(length)} {length} of string is not greater than the \"{format}\" {nameof(format)} length.", nameof(length));
+
+            StringBuilder builder = new StringBuilder();
+
+            for (int i = 0; i < randomPartLength; i++)
             {
-                string characterAsString = uniqueValue.Substring(i, 1);
-                int characterIntValue = int.Parse(characterAsString, NumberStyles.HexNumber);
-                char alphaCharacter = (char)(baseCharacter + characterIntValue);
-                stringBuilder.Append(alphaCharacter);
+                char randomChar = DefaultStringCharSet[CreateRandom().Next(0, DefaultStringCharSet.Length)];
+                builder.Append(randomChar);
             }
 
-            return string.Format(format, stringBuilder);
+            return string.Format(normalizedFormat, builder);
+        }
+
+        private static string NormalizeStringFormat(string format)
+        {
+            if (string.IsNullOrEmpty(format))
+                return "{0}";
+            else if (!format.Contains("{0}"))
+                return format + "{0}";
+            else
+                return format;
         }
 
         /// <summary>
