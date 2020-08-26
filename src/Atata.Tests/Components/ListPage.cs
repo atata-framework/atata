@@ -16,11 +16,11 @@ namespace Atata.Tests
         [Format("p")]
         public ControlList<Number<_>, _> ProductPercentNumberContolList { get; private set; }
 
-        public UnorderedList<ListItem<_>, _> SimpleUnorderedList { get; private set; }
+        public UnorderedList<_> SimpleUnorderedList { get; private set; }
 
         public UnorderedList<UnorderedListItem, _> ComplexUnorderedList { get; private set; }
 
-        public OrderedList<ListItem<_>, _> SimpleOrderedList { get; private set; }
+        public OrderedList<_> SimpleOrderedList { get; private set; }
 
         public OrderedList<OrderedListItem, _> ComplexOrderedList { get; private set; }
 
