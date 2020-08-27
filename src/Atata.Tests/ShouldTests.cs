@@ -309,5 +309,65 @@ namespace Atata.Tests
 
             Assert.Throws<AssertionException>(() => should.HaveLength(10));
         }
+
+        [Test]
+        public void Should_BeInAscendingOrder_Item()
+        {
+            var should = Go.To<TablePage>().
+                OrderedTable.Rows.SelectContentsByExtraXPath("td[1]").Should.AtOnce;
+
+            should.BeInAscendingOrder();
+
+            Assert.Throws<AssertionException>(
+                () => should.Not.BeInAscendingOrder());
+        }
+
+        [Test]
+        public void Should_BeInAscendingOrder_DataProvider()
+        {
+            var should = Go.To<TablePage>().
+                OrderedTable.Rows.SelectData(x => x.Letter).Should.AtOnce;
+
+            should.BeInAscendingOrder();
+
+            Assert.Throws<AssertionException>(
+                () => should.Not.BeInAscendingOrder());
+        }
+
+        [Test]
+        public void Should_BeInDescendingOrder_Item()
+        {
+            var should = Go.To<TablePage>().
+                OrderedTable.Rows.SelectContentsByExtraXPath<int>("td[2]").Should.AtOnce;
+
+            should.BeInDescendingOrder();
+
+            Assert.Throws<AssertionException>(
+                () => should.Not.BeInDescendingOrder());
+        }
+
+        [Test]
+        public void Should_BeInDescendingOrder_NullableItem()
+        {
+            var should = Go.To<TablePage>().
+                OrderedTable.Rows.SelectContentsByExtraXPath<int?>("td[2]").Should.AtOnce;
+
+            should.BeInDescendingOrder();
+
+            Assert.Throws<AssertionException>(
+                () => should.Not.BeInDescendingOrder());
+        }
+
+        [Test]
+        public void Should_BeInDescendingOrder_DataProvider()
+        {
+            var should = Go.To<TablePage>().
+                OrderedTable.Rows.SelectData(x => x.Number).Should.AtOnce;
+
+            should.BeInDescendingOrder();
+
+            Assert.Throws<AssertionException>(
+                () => should.Not.BeInDescendingOrder());
+        }
     }
 }

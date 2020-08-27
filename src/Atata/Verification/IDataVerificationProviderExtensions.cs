@@ -652,5 +652,99 @@ namespace Atata
                 },
                 $"contain having content that {match.ToString(TermCase.MidSentence)} {VerificationUtils.ToString(expected)}");
         }
+
+        /// <summary>
+        /// Verifies that collection is sorted in ascending order.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verificaton provider.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner BeInAscendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
+            where TItem : IComparable<TItem>
+            where TOwner : PageObject<TOwner>
+        {
+            return verifier.Satisfy(
+                actual => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
+                "be in ascending order");
+        }
+
+        /// <summary>
+        /// Verifies that collection is sorted in ascending order.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item of nullable value (struct) type.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verificaton provider.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner BeInAscendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
+            where TItem : struct, IComparable<TItem>
+            where TOwner : PageObject<TOwner>
+        {
+            return verifier.Satisfy(
+                actual => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
+                "be in ascending order");
+        }
+
+        /// <summary>
+        /// Verifies that collection is sorted in ascending order.
+        /// </summary>
+        /// <typeparam name="TData">The type of the collection item data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verificaton provider.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner BeInAscendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> verifier)
+            where TOwner : PageObject<TOwner>
+        {
+            return verifier.Satisfy(
+                (IEnumerable<TData> actual) => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
+                "be in ascending order");
+        }
+
+        /// <summary>
+        /// Verifies that collection is sorted in descending order.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verificaton provider.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner BeInDescendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
+            where TItem : IComparable<TItem>
+            where TOwner : PageObject<TOwner>
+        {
+            return verifier.Satisfy(
+                actual => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
+                "be in descending order");
+        }
+
+        /// <summary>
+        /// Verifies that collection is sorted in descending order.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item of nullable value (struct) type.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verificaton provider.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner BeInDescendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
+            where TItem : struct, IComparable<TItem>
+            where TOwner : PageObject<TOwner>
+        {
+            return verifier.Satisfy(
+                actual => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
+                "be in descending order");
+        }
+
+        /// <summary>
+        /// Verifies that collection is sorted in descending order.
+        /// </summary>
+        /// <typeparam name="TData">The type of the collection item data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verificaton provider.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner BeInDescendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> verifier)
+            where TOwner : PageObject<TOwner>
+        {
+            return verifier.Satisfy(
+                (IEnumerable<TData> actual) => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
+                "be in descending order");
+        }
     }
 }
