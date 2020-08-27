@@ -6,8 +6,8 @@
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     /// <seealso cref="ItemsControl{TItem, TOwner}" />
-    /// <seealso cref="ListItem{TOwner}" />
-    public class UnorderedList<TOwner> : UnorderedList<ListItem<TOwner>, TOwner>
+    /// <seealso cref="TextListItem{TOwner}" />
+    public class UnorderedList<TOwner> : UnorderedList<TextListItem<TOwner>, TOwner>
         where TOwner : PageObject<TOwner>
     {
     }

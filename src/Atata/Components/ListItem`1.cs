@@ -7,7 +7,7 @@
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     /// <seealso cref="OrderedList{TItem, TOwner}" />
     /// <seealso cref="UnorderedList{TItem, TOwner}" />
-    [ControlDefinition("li", ComponentTypeName = "list item")]
+    [ListItemDefinition]
     public class ListItem<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {

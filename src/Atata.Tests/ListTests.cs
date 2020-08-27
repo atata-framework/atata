@@ -17,10 +17,10 @@ namespace Atata.Tests
             var list = page.SimpleUnorderedList;
 
             list.Items.Count.Should.Equal(3);
-            list.Items[0].Content.Should.Equal("Phone 5%");
-            list[1].Content.Should.Equal("Book 10%");
-            list[2].Content.Should.Equal("Table 15%");
-            list.Items.Contents.Should.BeEquivalent("Phone 5%", "Book 10%", "Table 15%");
+            list.Items[0].Should.Equal("Phone 5%");
+            list[1].Should.Equal("Book 10%");
+            list[2].Should.Equal("Table 15%");
+            list.Items.Should.BeEquivalent("Phone 5%", "Book 10%", "Table 15%");
         }
 
         [Test]
@@ -50,10 +50,10 @@ namespace Atata.Tests
             var list = page.SimpleOrderedList;
 
             list.Items.Count.Should.Equal(3);
-            list.Items[0].Content.Should.Equal("Phone 20");
-            list.Items[1].Content.Should.Equal("Book 30");
-            list.Items[2].Content.Should.Equal("Table 40");
-            list.Items.Contents.Should.BeEquivalent("Phone 20", "Book 30", "Table 40");
+            list.Items[0].Should.Equal("Phone 20");
+            list.Items[1].Should.Equal("Book 30");
+            list.Items[2].Should.Equal("Table 40");
+            list.Items.Should.BeEquivalent("Phone 20", "Book 30", "Table 40");
         }
 
         [Test]
