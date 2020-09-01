@@ -149,23 +149,6 @@ namespace Atata
 
         /// <summary>
         /// <para>
-        /// Gets the value of the <see cref="UIComponent.Scope"/> element of the current component.
-        /// </para>
-        /// <para>
-        /// Executable script:
-        /// <code>
-        /// return arguments[0].value;
-        /// </code>
-        /// </para>
-        /// </summary>
-        /// <returns>An instance of the owner page object.</returns>
-        public DataProvider<string, TOwner> GetValue()
-        {
-            return ExecuteAgainst<string>("return arguments[0].value;");
-        }
-
-        /// <summary>
-        /// <para>
         /// Sets the value to the <see cref="UIComponent.Scope"/> element of the current component.
         /// </para>
         /// <para>
