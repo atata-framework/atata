@@ -27,7 +27,7 @@ namespace Atata
             }
             catch (InvalidElementStateException)
             {
-                Owner.Driver.ExecuteScript("arguments[0].value = null;", element);
+                Script.SetValue(null);
             }
         }
     }

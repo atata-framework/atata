@@ -21,7 +21,7 @@
 
         protected virtual bool GetIsLoaded()
         {
-            return (bool)Driver.ExecuteScript("return arguments[0].complete && typeof arguments[0].naturalWidth != \"undefined\" && arguments[0].naturalWidth > 0", Scope);
+            return Script.ExecuteAgainst<bool>("return arguments[0].complete && (typeof arguments[0].naturalWidth) != 'undefined' && arguments[0].naturalWidth > 0;");
         }
     }
 }

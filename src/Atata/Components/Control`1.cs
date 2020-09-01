@@ -144,7 +144,7 @@ namespace Atata
 
         protected virtual void OnFocus()
         {
-            Driver.ExecuteScript("arguments[0].focus();", Scope);
+            Script.Focus();
         }
 
         /// <summary>

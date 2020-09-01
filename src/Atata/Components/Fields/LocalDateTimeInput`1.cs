@@ -31,9 +31,7 @@ namespace Atata
         {
             string valueAsString = ConvertValueToStringUsingSetFormat(value);
 
-            Driver.ExecuteScript(
-                $"arguments[0].value = '{valueAsString}';" +
-                $"arguments[0].dispatchEvent(new Event('change'));", Scope);
+            Script.SetValueAndDispatchChangeEvent(valueAsString);
         }
     }
 }

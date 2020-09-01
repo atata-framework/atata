@@ -48,7 +48,7 @@ namespace Atata
 
             bool isCompleted = context.Driver
                 .Try(TimeSpan.FromSeconds(Timeout), TimeSpan.FromSeconds(RetryInterval))
-                .Until(_ => (bool)context.Driver.ExecuteScript(script));
+                .Until(_ => context.Component.Script.Execute<bool>(script).Value);
 
             if (!isCompleted)
             {

@@ -19,9 +19,8 @@ const rect = element.getBoundingClientRect();
 return (
   rect.top >= 0 &&
   rect.left >= 0 &&
-  rect.bottom <= (window.innerHeight || document. documentElement.clientHeight) &&
-  rect.right <= (window.innerWidth || document. documentElement.clientWidth)
-);";
+  rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+  rect.right <= (window.innerWidth || document.documentElement.clientWidth));";
 
         private readonly Dictionary<string, object> dataProviders = new Dictionary<string, object>();
 
@@ -30,6 +29,7 @@ return (
             Controls = new UIComponentChildrenList<TOwner>(this);
             Attributes = new UIComponentAttributeProvider<TOwner> { Component = this, ComponentPartName = "attributes" };
             Css = new UIComponentCssProvider<TOwner> { Component = this, ComponentPartName = "CSS" };
+            Script = new UIComponentScriptExecutor<TOwner>(this);
             ComponentLocation = new UIComponentLocationProvider<TOwner> { Component = this, ComponentPartName = "location" };
             ComponentSize = new UIComponentSizeProvider<TOwner> { Component = this, ComponentPartName = "size" };
             Triggers = new UIComponentTriggerSet<TOwner>(this);
@@ -118,6 +118,11 @@ return (
         /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.
         /// </summary>
         public UIComponentCssProvider<TOwner> Css { get; }
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentScriptExecutor{TOwner}"/> instance that provides a set of methods for JavaScript execution.
+        /// </summary>
+        public UIComponentScriptExecutor<TOwner> Script { get; }
 
         IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;
 
@@ -233,7 +238,7 @@ return (
         {
             IWebElement element = GetScope(SearchOptions.SafelyAtOnce());
 
-            return element != null && element.Displayed && (bool)Owner.Driver.ExecuteScript(IsInViewPortScript, element);
+            return element != null && element.Displayed && Script.Execute<bool>(IsInViewPortScript, element);
         }
 
         protected virtual string GetContent()

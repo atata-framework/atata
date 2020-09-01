@@ -79,15 +79,15 @@ return ''";
                 case ContentSource.Value:
                     return component.Attributes.Value;
                 case ContentSource.ChildTextNodes:
-                    return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfChildTextNodesScript, component.Scope);
+                    return component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesScript);
                 case ContentSource.ChildTextNodesTrimmed:
-                    return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfChildTextNodesTrimmedScript, component.Scope);
+                    return component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedScript);
                 case ContentSource.ChildTextNodesTrimmedAndSpaceJoined:
-                    return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript, component.Scope);
+                    return component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript);
                 case ContentSource.FirstChildTextNode:
-                    return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfFirstChildTextNodeScript, component.Scope);
+                    return component.Script.ExecuteAgainst<string>(GetTextContentOfFirstChildTextNodeScript);
                 case ContentSource.LastChildTextNode:
-                    return (string)component.Owner.Driver.ExecuteScript(GetTextContentOfLastChildTextNodeScript, component.Scope);
+                    return component.Script.ExecuteAgainst<string>(GetTextContentOfLastChildTextNodeScript);
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource));
             }

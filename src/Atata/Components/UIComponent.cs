@@ -67,9 +67,10 @@ namespace Atata
         public UIComponentMetadata Metadata { get; internal set; }
 
         /// <summary>
-        /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element.
+        /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element associated with this component.
         /// Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
         /// </summary>
+        /// <exception cref="NoSuchElementException">Element not found.</exception>
         public IWebElement Scope =>
             CacheScopeElement && cachedScope != null
                 ? cachedScope

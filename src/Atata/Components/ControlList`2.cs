@@ -430,13 +430,14 @@ return textValues;";
                 Select(x => TermResolver.FromString<TData>(x, valueTermOptions));
         }
 
-        private static IEnumerable<string> GetElementTextValues(
+        private IEnumerable<string> GetElementTextValues(
             IEnumerable<IWebElement> elements,
             string elementValueJSPath)
         {
             string formattedScript = GetElementValuesScript.Replace("{0}", elementValueJSPath);
 
-            return ((IEnumerable<object>)AtataContext.Current.Driver.ExecuteScript(formattedScript, elements)).
+            return Component.Script.Execute<IEnumerable<object>>(formattedScript, elements).
+                Value.
                 Cast<string>().
                 Select(x => x?.Trim()).
                 ToArray();

@@ -31,5 +31,7 @@
 [assembly: SuppressMessage("Design", "CA1008:Enums should have zero value", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.AtataContextModeOfCurrent")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.StringExtensions.SplitIntoWords(System.String)~System.String[]")]
 [assembly: SuppressMessage("Critical Code Smell", "S2302:\"nameof\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Randomizer.GetString(System.String,System.Int32)~System.String")]
+[assembly: SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentScriptExecutor`1.ExecuteAsync(System.String,System.Object[])~`0")]
+[assembly: SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentScriptExecutor`1.ExecuteAsync``1(System.String,System.Object[])~Atata.DataProvider{``0,`0}")]
 
 #pragma warning restore S103 // Lines should not be too long

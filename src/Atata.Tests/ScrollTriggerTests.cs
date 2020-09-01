@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -30,7 +29,7 @@ namespace Atata.Tests
         public void ScrollUpAttribute()
         {
             page.
-                Press(Keys.End).
+                ScrollDown().
                 TopText.Should.Not.BeVisibleInViewPort().
                 TopText.Triggers.Add(new ScrollUpAttribute(TriggerEvents.BeforeGet));
 

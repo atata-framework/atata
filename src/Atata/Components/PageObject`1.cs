@@ -620,9 +620,9 @@ namespace Atata
         {
             Log.Info("Scroll up");
 
-            Driver.ExecuteScript("scroll(0,0);");
-
-            return (TOwner)this;
+            return Script.Execute(
+                "document.body.scrollTop = 0;" +
+                "document.documentElement.scrollTop = 0;");
         }
 
         /// <summary>
@@ -633,9 +633,10 @@ namespace Atata
         {
             Log.Info("Scroll down");
 
-            Driver.ExecuteScript("window.scrollTo(0,document.body.scrollHeight);");
-
-            return (TOwner)this;
+            return Script.Execute(
+                "var height = document.body.scrollHeight;" +
+                "document.body.scrollTop = height;" +
+                "document.documentElement.scrollTop = height;");
         }
     }
 }

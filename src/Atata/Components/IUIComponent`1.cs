@@ -37,9 +37,10 @@ namespace Atata
         ScopeSource ScopeSource { get; }
 
         /// <summary>
-        /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element.
+        /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element associated with this component.
         /// Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
         /// </summary>
+        /// <exception cref="NoSuchElementException">Element not found.</exception>
         IWebElement Scope { get; }
 
         /// <summary>
@@ -91,6 +92,11 @@ namespace Atata
         /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.
         /// </summary>
         UIComponentCssProvider<TOwner> Css { get; }
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentScriptExecutor{TOwner}"/> instance that provides a set of methods for JavaScript execution.
+        /// </summary>
+        UIComponentScriptExecutor<TOwner> Script { get; }
 
         /// <summary>
         /// Gets the list of child controls.
