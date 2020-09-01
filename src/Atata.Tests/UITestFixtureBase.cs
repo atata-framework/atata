@@ -44,6 +44,8 @@ namespace Atata.Tests
                 UseNUnitTestName().
                 AddNUnitTestContextLogging().
                 AddLogConsumer(stringListLogConsumer).
+                TakeScreenshotOnNUnitError().
+                AddScreenshotFileSaving().
                 LogNUnitError();
         }
 
