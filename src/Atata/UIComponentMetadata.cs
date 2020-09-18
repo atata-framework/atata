@@ -13,15 +13,17 @@ namespace Atata
         private static readonly ControlDefinitionAttribute DefaultControlDefinitionAttribute =
             new ControlDefinitionAttribute { ComponentTypeName = "control" };
 
-        private AttributeSearchSet declaredAttributeSet;
+        private readonly AttributeSearchSet declaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
 
-        private AttributeSearchSet parentComponentAttributeSet;
+        private readonly AttributeSearchSet parentDeclaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
 
-        private AttributeSearchSet assemblyAttributeSet;
+        private readonly AttributeSearchSet parentComponentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
 
-        private AttributeSearchSet globalAttributeSet;
+        private readonly AttributeSearchSet assemblyAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
 
-        private AttributeSearchSet componentAttributeSet;
+        private readonly AttributeSearchSet globalAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
+
+        private readonly AttributeSearchSet componentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
 
         internal UIComponentMetadata(
             string name,
@@ -62,38 +64,28 @@ namespace Atata
         /// </summary>
         public UIComponentDefinitionAttribute ComponentDefinitionAttribute =>
             ParentComponentType == null
-                ? Get<PageObjectDefinitionAttribute>() as UIComponentDefinitionAttribute
+                ? Get<PageObjectDefinitionAttribute>()
                 : (Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute ?? DefaultControlDefinitionAttribute);
 
-        internal List<Attribute> DeclaredAttributesList
+        internal List<Attribute> DeclaredAttributesList => declaredAttributeSet.Attributes;
+
+        internal List<Attribute> ParentDeclaredAttributesList
         {
-            get => declaredAttributeSet.Attributes;
-            set => declaredAttributeSet = new AttributeSearchSet(value) { TargetFilterOptions = AttributeTargetFilterOptions.NonTargeted };
+            get => parentDeclaredAttributeSet.Attributes;
+            set => parentDeclaredAttributeSet.Attributes = value;
         }
 
-        internal List<Attribute> ParentComponentAttributesList
-        {
-            get => parentComponentAttributeSet.Attributes;
-            set => parentComponentAttributeSet = new AttributeSearchSet(value) { TargetFilterOptions = AttributeTargetFilterOptions.Targeted };
-        }
+        internal List<Attribute> ParentComponentAttributesList => parentComponentAttributeSet.Attributes;
 
-        internal List<Attribute> AssemblyAttributesList
-        {
-            get => assemblyAttributeSet.Attributes;
-            set => assemblyAttributeSet = new AttributeSearchSet(value);
-        }
+        internal List<Attribute> AssemblyAttributesList => assemblyAttributeSet.Attributes;
 
         internal List<Attribute> GlobalAttributesList
         {
             get => globalAttributeSet.Attributes;
-            set => globalAttributeSet = new AttributeSearchSet(value);
+            set => globalAttributeSet.Attributes = value;
         }
 
-        internal List<Attribute> ComponentAttributesList
-        {
-            get => componentAttributeSet.Attributes;
-            set => componentAttributeSet = new AttributeSearchSet(value) { TargetFilterOptions = AttributeTargetFilterOptions.NonTargeted };
-        }
+        internal List<Attribute> ComponentAttributesList => componentAttributeSet.Attributes;
 
         /// <summary>
         /// Gets the attributes hosted at the declared level.
@@ -101,8 +93,19 @@ namespace Atata
         public IEnumerable<Attribute> DeclaredAttributes => DeclaredAttributesList.AsEnumerable();
 
         /// <summary>
-        /// Gets the attributes hosted at the component level.
+        /// Gets the attributes hosted at the parent component level.
         /// </summary>
+        public IEnumerable<Attribute> ParentComponentAttributes => ParentDeclaredAttributesList.Concat(ParentComponentAttributesList);
+
+        /// <summary>
+        /// Gets the attributes hosted at the assembly level.
+        /// </summary>
+        public IEnumerable<Attribute> AssemblyAttributes => AssemblyAttributesList.AsEnumerable();
+
+        /// <summary>
+        /// Gets the attributes hosted at the global level.
+        /// </summary>
+        public IEnumerable<Attribute> GlobalAttributes => GlobalAttributesList.AsEnumerable();
 
         /// <summary>
         /// Gets the attributes hosted at the component level.
@@ -110,25 +113,17 @@ namespace Atata
         public IEnumerable<Attribute> ComponentAttributes => ComponentAttributesList.AsEnumerable();
 
         /// <summary>
-        /// Gets the attributes hosted at the component level.
-        /// </summary>
-        public IEnumerable<Attribute> ParentComponentAttributes => ParentComponentAttributesList.AsEnumerable();
-
-        /// <summary>
-        /// Gets the attributes hosted at the component level.
-        /// </summary>
-        public IEnumerable<Attribute> AssemblyAttributes => AssemblyAttributesList.AsEnumerable();
-
-        /// <summary>
-        /// Gets the attributes hosted at the component level.
-        /// </summary>
-        public IEnumerable<Attribute> GlobalAttributes => GlobalAttributesList.AsEnumerable();
-
-        /// <summary>
         /// Gets all attributes in the following order of levels:
-        /// decalred, parent component, assembly, global, component.
+        /// <list type="number">
+        /// <item>Declared</item>
+        /// <item>Parent component</item>
+        /// <item>Assembly</item>
+        /// <item>Global</item>
+        /// <item>Component</item>
+        /// </list>
         /// </summary>
         public IEnumerable<Attribute> AllAttributes => DeclaredAttributesList.
+            Concat(ParentDeclaredAttributesList).
             Concat(ParentComponentAttributesList).
             Concat(AssemblyAttributesList).
             Concat(GlobalAttributesList).
@@ -233,7 +228,10 @@ namespace Atata
                 yield return declaredAttributeSet;
 
             if (level.HasFlag(AttributeLevels.ParentComponent))
+            {
+                yield return parentDeclaredAttributeSet;
                 yield return parentComponentAttributeSet;
+            }
 
             if (level.HasFlag(AttributeLevels.Assembly))
                 yield return assemblyAttributeSet;
@@ -468,24 +466,26 @@ namespace Atata
         {
             bool LocalFilter(Attribute a) => a is TermAttribute;
 
-            return new UIComponentMetadata(Name, ComponentType, ParentComponentType)
-            {
-                DeclaredAttributesList = DeclaredAttributesList.Where(LocalFilter).ToList(),
-                ParentComponentAttributesList = ParentComponentAttributesList.Where(LocalFilter).ToList(),
-                AssemblyAttributesList = AssemblyAttributesList.Where(LocalFilter).ToList(),
-                GlobalAttributesList = GlobalAttributesList.Where(LocalFilter).ToList(),
-                ComponentAttributesList = ComponentAttributesList.Where(LocalFilter).ToList()
-            };
+            UIComponentMetadata metadata = new UIComponentMetadata(Name, ComponentType, ParentComponentType);
+
+            metadata.DeclaredAttributesList.AddRange(DeclaredAttributesList.Where(LocalFilter));
+            metadata.ParentDeclaredAttributesList.AddRange(ParentDeclaredAttributesList.Where(LocalFilter));
+            metadata.ParentComponentAttributesList.AddRange(ParentComponentAttributesList.Where(LocalFilter));
+            metadata.AssemblyAttributesList.AddRange(AssemblyAttributesList.Where(LocalFilter));
+            metadata.GlobalAttributesList.AddRange(GlobalAttributesList.Where(LocalFilter));
+            metadata.ComponentAttributesList.AddRange(ComponentAttributesList.Where(LocalFilter));
+
+            return metadata;
         }
 
         private class AttributeSearchSet
         {
-            public AttributeSearchSet(List<Attribute> attributes) =>
-                Attributes = attributes;
+            public AttributeSearchSet(AttributeTargetFilterOptions targetFilterOptions) =>
+                TargetFilterOptions = targetFilterOptions;
 
-            public List<Attribute> Attributes { get; }
+            public List<Attribute> Attributes { get; set; } = new List<Attribute>();
 
-            public AttributeTargetFilterOptions TargetFilterOptions { get; set; } = AttributeTargetFilterOptions.All;
+            public AttributeTargetFilterOptions TargetFilterOptions { get; }
         }
     }
 }

@@ -48,13 +48,10 @@ namespace Atata
             Type[] allTypes = GetAllInheritedTypes(component.GetType()).Reverse().ToArray();
 
             foreach (Type type in allTypes)
-                InitComponentTypeMembers<TOwner>(component, type);
-
-            if (component is TOwner componentAsPageObject)
-                InitPageObject(componentAsPageObject);
+                InitComponentTypeMembers(component, type);
         }
 
-        private static void InitPageObject<TPageObject>(PageObject<TPageObject> pageObject)
+        internal static void InitPageObject<TPageObject>(PageObject<TPageObject> pageObject)
             where TPageObject : PageObject<TPageObject>
         {
             pageObject.Owner = (TPageObject)pageObject;
@@ -113,7 +110,7 @@ namespace Atata
                 ToArray();
 
             foreach (var property in controlProperties)
-                InitControlProperty<TOwner>(component, property);
+                InitControlProperty(component, property);
 
             PropertyInfo[] componentPartProperties = suitableProperties.
                 Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(UIComponentPart<>))).
@@ -121,7 +118,7 @@ namespace Atata
                 ToArray();
 
             foreach (var property in componentPartProperties)
-                InitComponentPartProperty<TOwner>(component, property);
+                InitComponentPartProperty(component, property);
 
             PropertyInfo[] delegateProperties = suitableProperties.
                 Where(x => typeof(MulticastDelegate).IsAssignableFrom(x.PropertyType.BaseType) && x.PropertyType.IsGenericType).
@@ -129,7 +126,7 @@ namespace Atata
                 ToArray();
 
             foreach (var property in delegateProperties)
-                InitDelegateProperty<TOwner>(component, property);
+                InitDelegateProperty(component, property);
         }
 
         private static void InitControlProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
@@ -231,10 +228,10 @@ namespace Atata
                     }).ToArray();
             }
 
-            UIComponentMetadata metadata = CreateComponentMetadata<TOwner>(
+            UIComponentMetadata metadata = CreateComponentMetadata(
+                parentComponent,
                 name,
                 typeof(TComponent),
-                parentComponent.GetType(),
                 attributes);
 
             var component = (TComponent)CreateComponent(parentComponent, metadata);
@@ -356,41 +353,52 @@ namespace Atata
         }
 
         private static UIComponentMetadata CreatePageObjectMetadata<TPageObject>()
+            where TPageObject : PageObject<TPageObject>
         {
             Type type = typeof(TPageObject);
 
             // TODO: Review name set.
             return CreateComponentMetadata<TPageObject>(
+                null,
                 type.Name,
                 type,
-                null,
                 new Attribute[0]);
         }
 
-        private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property, Type propertyType = null)
+        private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(
+            UIComponent<TOwner> parentComponent,
+            PropertyInfo property,
+            Type propertyType = null)
             where TOwner : PageObject<TOwner>
         {
-            return CreateComponentMetadata<TOwner>(
+            return CreateComponentMetadata(
+                parentComponent,
                 property.Name,
                 propertyType ?? property.PropertyType,
-                parentComponent.GetType(),
                 GetPropertyAttributes(property));
         }
 
         private static UIComponentMetadata CreateComponentMetadata<TOwner>(
+            UIComponent<TOwner> parentComponent,
             string name,
             Type componentType,
-            Type parentComponentType,
             Attribute[] declaredAttributes)
+            where TOwner : PageObject<TOwner>
         {
-            return new UIComponentMetadata(name, componentType, parentComponentType)
-            {
-                DeclaredAttributesList = declaredAttributes.ToList(),
-                ParentComponentAttributesList = GetClassAttributes(parentComponentType).ToList(),
-                AssemblyAttributesList = GetAssemblyAttributes(typeof(TOwner).Assembly).ToList(),
-                GlobalAttributesList = new List<Attribute>(),
-                ComponentAttributesList = GetClassAttributes(componentType).ToList()
-            };
+            Type parentComponentType = parentComponent?.GetType();
+
+            UIComponentMetadata metadata = new UIComponentMetadata(name, componentType, parentComponentType);
+
+            metadata.DeclaredAttributesList.AddRange(declaredAttributes);
+
+            if (parentComponent != null)
+                metadata.ParentDeclaredAttributesList = parentComponent.Metadata.DeclaredAttributesList;
+
+            metadata.ParentComponentAttributesList.AddRange(GetClassAttributes(parentComponentType));
+            metadata.AssemblyAttributesList.AddRange(GetAssemblyAttributes(typeof(TOwner).Assembly));
+            metadata.ComponentAttributesList.AddRange(GetClassAttributes(componentType));
+
+            return metadata;
         }
 
         // TODO: Remove this method when IItemsControl will be removed.

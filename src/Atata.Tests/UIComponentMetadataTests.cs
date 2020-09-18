@@ -24,14 +24,7 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-            metadata = new UIComponentMetadata("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage))
-            {
-                DeclaredAttributesList = new List<Attribute>(),
-                ParentComponentAttributesList = new List<Attribute>(),
-                AssemblyAttributesList = new List<Attribute>(),
-                GlobalAttributesList = new List<Attribute>(),
-                ComponentAttributesList = new List<Attribute>()
-            };
+            metadata = new UIComponentMetadata("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage));
         }
 
         [Test]

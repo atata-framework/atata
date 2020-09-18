@@ -245,9 +245,11 @@ namespace Atata.Tests
             var control = page.OptionDAsCustom;
             VerifyValue(control, "OptionD");
 
-            // TODO: Uncomment the following block after metadata become more dynamic.
-            ////page.Metadata.Push(new FindByValueAttribute("OptionC"));
-            ////VerifyValue(control, "OptionC");
+            page.Metadata.Push(new FindByValueAttribute("OptionC"));
+            VerifyValue(control, "OptionD");
+
+            page.Metadata.Push(new FindByValueAttribute("OptionC") { TargetName = nameof(FindingPage.OptionDAsCustom) });
+            VerifyValue(control, "OptionC");
 
             control.Metadata.Push(new FindByValueAttribute("OptionB"));
             VerifyValue(control, "OptionB");

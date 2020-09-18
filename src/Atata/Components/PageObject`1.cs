@@ -27,6 +27,8 @@ namespace Atata
             Report = new Report<TOwner>((TOwner)this, Log);
 
             PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
+
+            UIComponentResolver.InitPageObject<TOwner>(this);
         }
 
         /// <summary>
