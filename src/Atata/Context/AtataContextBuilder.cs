@@ -294,6 +294,15 @@ namespace Atata
         /// Adds the screenshot consumer.
         /// </summary>
         /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
+        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>()
+            where TScreenshotConsumer : IScreenshotConsumer, new() =>
+            AddScreenshotConsumer(new TScreenshotConsumer());
+
+        /// <summary>
+        /// Adds the screenshot consumer.
+        /// </summary>
+        /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
         /// <param name="consumer">The screenshot consumer.</param>
         /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
         public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
