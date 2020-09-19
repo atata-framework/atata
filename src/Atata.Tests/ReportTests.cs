@@ -37,6 +37,20 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Report_EdgeCaseMessages()
+        {
+            Go.To<OrdinaryPage>().
+                Report.Info("{").
+                Report.Info("}").
+                Report.Info(null);
+
+            VerifyLastLogEntries(
+                (LogLevel.Info, "{", null),
+                (LogLevel.Info, "}", null),
+                (LogLevel.Info, null, null));
+        }
+
+        [Test]
         public void Report_Section()
         {
             Go.To<OrdinaryPage>().

@@ -160,10 +160,14 @@ namespace Atata
 
         private void Log(LogLevel level, string message, object[] args)
         {
+            string completeMessage = (args?.Length ?? 0) > 0
+                ? message.FormatWith(args)
+                : message;
+
             Log(new LogEventInfo
             {
                 Level = level,
-                Message = message.FormatWith(args)
+                Message = completeMessage
             });
         }
 

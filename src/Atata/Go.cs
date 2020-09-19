@@ -35,7 +35,7 @@ namespace Atata
         public static T ToWindow<T>(T pageObject, string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
-            AtataContext.Current.Log.Info("Switch to \"{0}\" window", windowName);
+            AtataContext.Current.Log.Info($"Switch to \"{windowName}\" window");
 
             return To(pageObject, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
@@ -50,7 +50,7 @@ namespace Atata
         public static T ToWindow<T>(string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
-            AtataContext.Current.Log.Info("Switch to \"{0}\" window", windowName);
+            AtataContext.Current.Log.Info($"Switch to \"{windowName}\" window");
 
             return To<T>(null, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
