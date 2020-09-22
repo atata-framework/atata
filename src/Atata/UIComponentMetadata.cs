@@ -185,19 +185,11 @@ namespace Atata
         /// <returns>The sequence of attributes found.</returns>
         public IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration)
         {
-            return GetAll(filterConfiguration, reverseAttributeSetOrder: false);
-        }
-
-        private IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration, bool reverseAttributeSetOrder)
-        {
             AttributeFilter<TAttribute> defaultFilter = new AttributeFilter<TAttribute>();
 
             AttributeFilter<TAttribute> filter = filterConfiguration?.Invoke(defaultFilter) ?? defaultFilter;
 
             var attributeSets = GetAllAttributeSets(filter.Levels);
-
-            if (reverseAttributeSetOrder)
-                attributeSets = attributeSets.Reverse();
 
             return FilterAttributeSets(attributeSets, filter, true);
         }
@@ -243,8 +235,21 @@ namespace Atata
                 yield return componentAttributeSet;
         }
 
+        private IEnumerable<AttributeSearchSet> GetAllAttributeSetsInLayersOrdered()
+        {
+            yield return globalAttributeSet;
+            yield return assemblyAttributeSet;
+            yield return parentDeclaredAttributeSet;
+            yield return parentComponentAttributeSet;
+            yield return declaredAttributeSet;
+            yield return componentAttributeSet;
+        }
+
         // TODO: filterByTarget should be removed.
-        private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(IEnumerable<AttributeSearchSet> attributeSets, AttributeFilter<TAttribute> filter, bool filterByTarget)
+        private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(
+            IEnumerable<AttributeSearchSet> attributeSets,
+            AttributeFilter<TAttribute> filter,
+            bool filterByTarget)
         {
             bool shouldFilterByTarget = filterByTarget && typeof(MulticastAttribute).IsAssignableFrom(typeof(TAttribute));
 
@@ -457,9 +462,12 @@ namespace Atata
 
         private IEnumerable<FindAttribute> GetLayerFindAttributes()
         {
-            return GetAll<FindAttribute>(
-                filter => filter.Where(x => x.As != FindAs.Scope),
-                reverseAttributeSetOrder: true);
+            var attributeSets = GetAllAttributeSetsInLayersOrdered();
+
+            var filter = new AttributeFilter<FindAttribute>()
+                .Where(x => x.As != FindAs.Scope);
+
+            return FilterAttributeSets(attributeSets, filter, true);
         }
 
         private UIComponentMetadata CreateMetadataForLayerFindAttribute()

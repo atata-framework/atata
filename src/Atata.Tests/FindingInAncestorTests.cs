@@ -28,9 +28,17 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Find_InAncestor_ThreeLayers_AtDifferentLevels()
+        public void Find_InAncestor_ThreeLayers_AtParentAndDeclared()
         {
-            var control = page.LegendInThreeLayersAtDifferentLevels;
+            var control = page.LegendInThreeLayersAtParentAndDeclared;
+
+            control.Should.Equal("Radio Buttons");
+        }
+
+        [Test]
+        public void Find_InAncestor_ThreeLayers_AtParentAndDeclaredAndComponent()
+        {
+            var control = page.LegendInThreeLayersAtParentAndDeclaredAndComponent;
 
             control.Should.Equal("Radio Buttons");
         }

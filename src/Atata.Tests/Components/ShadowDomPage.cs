@@ -5,7 +5,7 @@
     [Url("shadowdom")]
     [VerifyTitle("Shadow DOM")]
 
-    [FindById("shadow-container-2-1", As = FindAs.ShadowHost, TargetName = nameof(Shadow2_1_1_1_AtDifferentLevels))]
+    [FindById("shadow-container-2", As = FindAs.ShadowHost, TargetName = nameof(Shadow2_1_1_1_AtDifferentLevels))]
 
     [FindById("shadow-container-2-1", As = FindAs.ShadowHost, Layer = 1, TargetName = nameof(Shadow2_1_1_1_AtDifferentLevelsWithSetLayers))]
 
@@ -50,7 +50,7 @@
 
         // The find attribute of first layer is declared at component level.
         // The find attribute of second layer is declared at page object level.
-        [FindById("shadow-container-2-1-1", As = FindAs.ShadowHost)]
+        [FindById("shadow-container-2-1", As = FindAs.ShadowHost)]
         public Shadow2Control Shadow2_1_1_1_AtDifferentLevels { get; private set; }
 
         // The find attribute of second layer is declared at page object level.
@@ -70,7 +70,7 @@
         [FindByName("bool-options")]
         public RadioButtonList<string, _> YesNoRadios { get; private set; }
 
-        [FindById("shadow-container-2", As = FindAs.ShadowHost)]
+        [FindById("shadow-container-2-1-1", As = FindAs.ShadowHost)]
         public class Shadow2Control : Control<_>
         {
         }
