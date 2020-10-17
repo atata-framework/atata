@@ -270,6 +270,11 @@ namespace Atata
         /// </summary>
         public List<Action> CleanUpActions { get; internal set; }
 
+        /// <summary>
+        /// Gets the context of the attributes.
+        /// </summary>
+        public AtataAttributesContext Attributes { get; internal set; }
+
         public UIComponent PageObject { get; internal set; }
 
         internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; } = new List<UIComponent>();

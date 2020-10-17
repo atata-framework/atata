@@ -79,6 +79,29 @@ namespace Atata
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
 
         /// <summary>
+        /// Gets the context of the attributes.
+        /// </summary>
+        public AtataAttributesContext Attributes { get; private set; } = new AtataAttributesContext();
+
+        /// <summary>
+        /// Gets or sets the default assembly name pattern that is used to filter assemblies to find types in them.
+        /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>, which filters non-system assemlies.
+        /// </summary>
+        public string DefaultAssemblyNamePatternToFindTypes { get; set; } = @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
+
+        /// <summary>
+        /// Gets or sets the assembly name pattern that is used to filter assemblies to find component types in them.
+        /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
+        /// </summary>
+        public string AssemblyNamePatternToFindComponentTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assembly name pattern that is used to filter assemblies to find attribute types in them.
+        /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
+        /// </summary>
+        public string AssemblyNamePatternToFindAttributeTypes { get; set; }
+
+        /// <summary>
         /// Gets the base retry timeout.
         /// The default value is <c>5</c> seconds.
         /// </summary>
@@ -214,6 +237,7 @@ namespace Atata
             copy.OnBuiltActions = OnBuiltActions.ToList();
             copy.OnDriverCreatedActions = OnDriverCreatedActions.ToList();
             copy.CleanUpActions = CleanUpActions.ToList();
+            copy.Attributes = Attributes.Clone();
 
             return copy;
         }

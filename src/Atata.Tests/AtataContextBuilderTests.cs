@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Reflection;
+using FluentAssertions;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
 
@@ -92,6 +94,206 @@ namespace Atata.Tests
             AtataContext.Current.RestartDriver();
 
             Assert.That(executionsCount, Is.EqualTo(2));
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Global()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Global.Add(
+                    new FindByContentAttribute("_missing_")
+                    {
+                        TargetParentType = typeof(BasicControlsPage),
+                        TargetName = nameof(BasicControlsPage.MissingButtonControl)
+                    },
+                    new FindByContentAttribute("Raw Button")
+                    {
+                        TargetParentType = typeof(BasicControlsPage),
+                        TargetName = nameof(BasicControlsPage.MissingButtonControl)
+                    })
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Assembly()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Assembly(Assembly.GetAssembly(GetType())).Add(
+                    new FindByContentAttribute("_missing_")
+                    {
+                        TargetParentType = typeof(BasicControlsPage),
+                        TargetName = nameof(BasicControlsPage.MissingButtonControl)
+                    },
+                    new FindByContentAttribute("Raw Button")
+                    {
+                        TargetParentType = typeof(BasicControlsPage),
+                        TargetName = nameof(BasicControlsPage.MissingButtonControl)
+                    })
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_PageObject()
+        {
+            bool isDelegateInvoked = false;
+
+            ConfigureBaseAtataContext()
+                .Attributes.Component<BasicControlsPage>().Add(
+                    new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
+                .Build();
+
+            Go.To<BasicControlsPage>();
+
+            isDelegateInvoked.Should().BeTrue();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_PageObject_Base()
+        {
+            bool isDelegateInvoked = false;
+
+            ConfigureBaseAtataContext()
+                .Attributes.Component(typeof(Page<>)).Add(
+                    new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
+                .Build();
+
+            Go.To<StubPage>();
+
+            isDelegateInvoked.Should().BeTrue();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_PageObject_DoesNotApply()
+        {
+            bool isDelegateInvoked = false;
+
+            ConfigureBaseAtataContext()
+                .Attributes.Component<TablePage>().Add(
+                    new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
+                .Build();
+
+            Go.To<BasicControlsPage>();
+
+            isDelegateInvoked.Should().BeFalse();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_PageObject_TargetingChild()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component<BasicControlsPage>().Add(
+                    new FindByContentAttribute("_missing_")
+                    {
+                        TargetName = nameof(BasicControlsPage.MissingButtonControl)
+                    },
+                    new FindByContentAttribute("Raw Button")
+                    {
+                        TargetName = nameof(BasicControlsPage.MissingButtonControl)
+                    })
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_Control_Generic()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component<Button<BasicControlsPage>>().Add(
+                    new FindByContentAttribute("_missing_"),
+                    new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_Control_Generic_DoesNotApply()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component<Button<OrdinaryPage>>().Add(
+                    new FindByContentAttribute("_missing_"),
+                    new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.Not.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_Control_Type_Generic()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component(typeof(Button<>)).Add(
+                    new FindByContentAttribute("_missing_"),
+                    new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_Control_Type_NonGeneric()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component(typeof(Button<BasicControlsPage>)).Add(
+                    new FindByContentAttribute("_missing_"),
+                    new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Component_Control_TypeName()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component("button").Add(
+                    new FindByContentAttribute("_missing_"),
+                    new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Property_Expression()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component<BasicControlsPage>()
+                    .Property(x => x.MissingButtonControl).Add(
+                        new FindByContentAttribute("_missing_"),
+                        new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Property_Name()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component<BasicControlsPage>()
+                    .Property(nameof(BasicControlsPage.MissingButtonControl)).Add(
+                        new FindByContentAttribute("_missing_"),
+                        new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
+        }
+
+        [Test]
+        public void AtataContextBuilder_Attributes_Property_Name_DoesNotApply()
+        {
+            ConfigureBaseAtataContext()
+                .Attributes.Component<BasicControlsPage>()
+                    .Property("fwefwefwe").Add(new FindFirstAttribute())
+                .Build();
+
+            Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.Not.BeVisible();
         }
     }
 }

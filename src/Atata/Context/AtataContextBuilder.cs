@@ -31,6 +31,13 @@ namespace Atata
         public AtataBuildingContext BuildingContext { get; internal set; }
 
         /// <summary>
+        /// Gets the builder of context attributes,
+        /// which provides the functionality to add extra attributes to different metadata levels:
+        /// global, assembly, component and property.
+        /// </summary>
+        public AttributesAtataContextBuilder Attributes => new AttributesAtataContextBuilder(BuildingContext);
+
+        /// <summary>
         /// Use the driver factory.
         /// </summary>
         /// <typeparam name="TDriverFactory">The type of the driver factory.</typeparam>
@@ -583,6 +590,48 @@ namespace Atata
         }
 
         /// <summary>
+        /// Sets the default assembly name pattern that is used to filter assemblies to find types in them.
+        /// Modifies the <see cref="AtataBuildingContext.DefaultAssemblyNamePatternToFindTypes"/> property value of <see cref="BuildingContext"/>.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseDefaultAssemblyNamePatternToFindTypes(string pattern)
+        {
+            pattern.CheckNotNullOrWhitespace(nameof(pattern));
+
+            BuildingContext.DefaultAssemblyNamePatternToFindTypes = pattern;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the assembly name pattern that is used to filter assemblies to find component types in them.
+        /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindComponentTypes"/> property value of <see cref="BuildingContext"/>.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAssemblyNamePatternToFindComponentTypes(string pattern)
+        {
+            pattern.CheckNotNullOrWhitespace(nameof(pattern));
+
+            BuildingContext.AssemblyNamePatternToFindComponentTypes = pattern;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the assembly name pattern that is used to filter assemblies to find attribute types in them.
+        /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindAttributeTypes"/> property value of <see cref="BuildingContext"/>.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAssemblyNamePatternToFindAttributeTypes(string pattern)
+        {
+            pattern.CheckNotNullOrWhitespace(nameof(pattern));
+
+            BuildingContext.AssemblyNamePatternToFindAttributeTypes = pattern;
+            return this;
+        }
+
+        /// <summary>
         /// Adds the action to perform during <see cref="AtataContext"/> building.
         /// It will be executed at the beginning of the build after the log is set up.
         /// </summary>
@@ -833,6 +882,7 @@ namespace Atata
                 Log = logManager,
                 OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>(),
                 CleanUpActions = BuildingContext.CleanUpActions?.ToList() ?? new List<Action>(),
+                Attributes = BuildingContext.Attributes.Clone(),
                 BaseRetryTimeout = BuildingContext.BaseRetryTimeout,
                 BaseRetryInterval = BuildingContext.BaseRetryInterval,
                 ElementFindTimeout = BuildingContext.ElementFindTimeout,

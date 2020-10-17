@@ -75,15 +75,15 @@ namespace Atata
             set => parentDeclaredAttributeSet.Attributes = value;
         }
 
-        internal List<Attribute> ParentComponentAttributesList => parentComponentAttributeSet.Attributes;
+        internal List<Attribute> ParentComponentAttributesList
+        {
+            get => parentComponentAttributeSet.Attributes;
+            set => parentComponentAttributeSet.Attributes = value;
+        }
 
         internal List<Attribute> AssemblyAttributesList => assemblyAttributeSet.Attributes;
 
-        internal List<Attribute> GlobalAttributesList
-        {
-            get => globalAttributeSet.Attributes;
-            set => globalAttributeSet.Attributes = value;
-        }
+        internal List<Attribute> GlobalAttributesList => globalAttributeSet.Attributes;
 
         internal List<Attribute> ComponentAttributesList => componentAttributeSet.Attributes;
 

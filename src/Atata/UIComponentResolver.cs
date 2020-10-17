@@ -387,15 +387,47 @@ namespace Atata
         {
             Type parentComponentType = parentComponent?.GetType();
 
+            AtataAttributesContext contextAttributes = AtataContext.Current.Attributes;
             UIComponentMetadata metadata = new UIComponentMetadata(name, componentType, parentComponentType);
 
+            // Declared:
             metadata.DeclaredAttributesList.AddRange(declaredAttributes);
 
             if (parentComponent != null)
-                metadata.ParentDeclaredAttributesList = parentComponent.Metadata.DeclaredAttributesList;
+            {
+                var propertyContextAttributes = contextAttributes.PropertyMap
+                   .Where(x => x.Key.PropertyName == name)
+                   .Select(pair => new { Depth = parentComponentType.GetDepthOfInheritance(pair.Key.Type), Attributes = pair.Value })
+                   .Where(x => x.Depth != null)
+                   .OrderBy(x => x.Depth)
+                   .SelectMany(x => x.Attributes.AsEnumerable().Reverse());
 
-            metadata.ParentComponentAttributesList.AddRange(GetClassAttributes(parentComponentType));
-            metadata.AssemblyAttributesList.AddRange(GetAssemblyAttributes(typeof(TOwner).Assembly));
+                metadata.DeclaredAttributesList.InsertRange(0, propertyContextAttributes);
+
+                // Parent:
+                metadata.ParentDeclaredAttributesList = parentComponent.Metadata.DeclaredAttributesList;
+                metadata.ParentComponentAttributesList = parentComponent.Metadata.ComponentAttributesList;
+            }
+
+            // Assembly:
+            Assembly ownerAssembly = typeof(TOwner).Assembly;
+
+            if (contextAttributes.AssemblyMap.TryGetValue(ownerAssembly, out var contextAssemblyAttributes))
+                metadata.AssemblyAttributesList.AddRange(contextAssemblyAttributes.AsEnumerable().Reverse());
+
+            metadata.AssemblyAttributesList.AddRange(GetAssemblyAttributes(ownerAssembly));
+
+            // Global:
+            metadata.GlobalAttributesList.AddRange(contextAttributes.Global.AsEnumerable().Reverse());
+
+            // Component:
+            var componentContextAttributes = contextAttributes.ComponentMap
+               .Select(pair => new { Depth = componentType.GetDepthOfInheritance(pair.Key), Attributes = pair.Value })
+               .Where(x => x.Depth != null)
+               .OrderBy(x => x.Depth)
+               .SelectMany(x => x.Attributes.AsEnumerable().Reverse());
+
+            metadata.ComponentAttributesList.AddRange(componentContextAttributes);
             metadata.ComponentAttributesList.AddRange(GetClassAttributes(componentType));
 
             return metadata;

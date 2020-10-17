@@ -8,5 +8,7 @@
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.TriggersPage.WriteTriggerEventAttribute.Execute(Atata.TriggerContext{Atata.Tests.TriggersPage})")]
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.Tests.ListPage.ComplexHierarchicalOrderedListWithAnyVisibilityUsingControlDefinition")]
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.UIComponentResolverTests.GetResolveControlNameData~System.Collections.Generic.IEnumerable{NUnit.Framework.TestCaseData}")]
+[assembly: SuppressMessage("Critical Code Smell", "S3218:Inner class members should not shadow outer class \"static\" or type members", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.Tests.TypeFinderTests.StaticSubClass.SubClass")]
+[assembly: SuppressMessage("Major Code Smell", "S2326:Unused type parameters should be removed", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.Tests.TypeFinderTests.StaticSubClass.InnerSubClass`1")]
 
 #pragma warning restore S103 // Lines should not be too long

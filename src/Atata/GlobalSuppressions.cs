@@ -33,5 +33,7 @@
 [assembly: SuppressMessage("Critical Code Smell", "S2302:\"nameof\" should be used", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Randomizer.GetString(System.String,System.Int32)~System.String")]
 [assembly: SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentScriptExecutor`1.ExecuteAsync(System.String,System.Object[])~`0")]
 [assembly: SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentScriptExecutor`1.ExecuteAsync``1(System.String,System.Object[])~Atata.DataProvider{``0,`0}")]
+[assembly: SuppressMessage("Major Code Smell", "S1172:Unused method parameters should be removed", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TypeFinder.FilterByDeclaringTypeNames(System.Collections.Generic.IEnumerable{System.Type},System.Collections.Generic.IEnumerable{System.String})~System.Collections.Generic.IEnumerable{System.Type}")]
+[assembly: SuppressMessage("Minor Code Smell", "S1125:Boolean literals should not be redundant", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TypeFinder.FilterByDeclaringTypeNames(System.Collections.Generic.IEnumerable{System.Type},System.Collections.Generic.IEnumerable{System.String})~System.Collections.Generic.IEnumerable{System.Type}")]
 
 #pragma warning restore S103 // Lines should not be too long
