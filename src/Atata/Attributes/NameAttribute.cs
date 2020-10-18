@@ -1,12 +1,9 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Specifies the name of the component.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Field)]
-    public class NameAttribute : Attribute
+    public class NameAttribute : MulticastAttribute
     {
         public NameAttribute(string value)
         {

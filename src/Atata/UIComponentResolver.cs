@@ -321,7 +321,7 @@ namespace Atata
 
         private static string GetControlNameFromNameAttribute(UIComponentMetadata metadata)
         {
-            NameAttribute nameAttribute = metadata.Get<NameAttribute>(x => x.At(AttributeLevels.Declared));
+            NameAttribute nameAttribute = metadata.Get<NameAttribute>();
 
             return !string.IsNullOrWhiteSpace(nameAttribute?.Value)
                 ? nameAttribute.Value
