@@ -185,9 +185,11 @@ namespace Atata
 
         protected virtual void Navigate()
         {
-            if (GetType().TryGetCustomAttribute(out UrlAttribute attribute) || !AtataContext.Current.IsNavigated)
+            string url = Metadata.Get<UrlAttribute>()?.Url;
+
+            if (url != null || !AtataContext.Current.IsNavigated)
             {
-                Go.ToUrl(attribute?.Url);
+                Go.ToUrl(url);
             }
         }
 

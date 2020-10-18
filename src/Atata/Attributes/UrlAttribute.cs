@@ -1,13 +1,10 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Specifies the URL to navigate to during initialization of page object.
     /// Applies to page object types.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class)]
-    public class UrlAttribute : Attribute
+    public class UrlAttribute : MulticastAttribute
     {
         public UrlAttribute(string url)
         {
