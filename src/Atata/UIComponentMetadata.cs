@@ -130,6 +130,18 @@ namespace Atata
             Concat(ComponentAttributesList);
 
         /// <summary>
+        /// Tries to get the first attribute of the specified type.
+        /// </summary>
+        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
+        /// <param name="attribute">The attribute.</param>
+        /// <returns><see langword="true"/> if attribute is found; otherwise <see langword="false"/>.</returns>
+        public bool TryGet<TAttribute>(out TAttribute attribute)
+        {
+            attribute = Get<TAttribute>();
+            return attribute != null;
+        }
+
+        /// <summary>
         /// Gets the first attribute of the specified type or <see langword="null"/> if no such attribute is found.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
