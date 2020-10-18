@@ -1,9 +1,13 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class WindowTitleAttribute : Attribute, ITermDataProvider
+    /// <summary>
+    /// Specifies the window title of <see cref="PopupWindow{TOwner}"/> page object.
+    /// This title can be used to identify the popup window among others when there can be several opened popups at the same time.
+    /// It is used by <see cref="PopupWindow{TOwner}"/> together with <see cref="WindowTitleElementDefinitionAttribute"/>.
+    /// </summary>
+    /// <seealso cref="PopupWindow{TOwner}"/>
+    /// <seealso cref="WindowTitleElementDefinitionAttribute"/>
+    public class WindowTitleAttribute : MulticastAttribute, ITermDataProvider
     {
         private const TermCase DefaultCase = TermCase.Title;
         private const TermMatch DefaultMatch = TermMatch.Equals;
