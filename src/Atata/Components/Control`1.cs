@@ -96,7 +96,7 @@ namespace Atata
                 ?? false;
 
             TNavigateTo pageObject = navigateToPageObject
-                ?? (TNavigateTo)Metadata.Get<NavigationPageObjectCreatorAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent))?.Creator?.Invoke();
+                ?? (TNavigateTo)Metadata.Get<NavigationPageObjectCreatorAttribute>()?.Creator?.Invoke();
 
             return Go.To(pageObject: pageObject, navigate: false, temporarily: isTemporarily);
         }
