@@ -57,7 +57,7 @@ namespace Atata
             T value;
             if (!TryRandomizeOneOfIncluded(metadata, out value))
             {
-                var attribute = metadata.Get<RandomizeNumberSettingsAttribute>(x => x.At(AttributeLevels.Declared)) ?? new RandomizeNumberSettingsAttribute();
+                var attribute = metadata.Get<RandomizeNumberSettingsAttribute>() ?? new RandomizeNumberSettingsAttribute();
 
                 decimal valueAsDecimal = Randomizer.GetDecimal(attribute.Min, attribute.Max, attribute.Precision);
                 value = (T)Convert.ChangeType(valueAsDecimal, typeof(T));
