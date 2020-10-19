@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Class)]
-    public class IdXPathForLabelAttribute : Attribute
+    public class IdXPathForLabelAttribute : MulticastAttribute
     {
         public IdXPathForLabelAttribute(string xPathFormat)
         {

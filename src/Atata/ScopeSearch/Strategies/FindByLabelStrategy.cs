@@ -15,13 +15,12 @@ namespace Atata
                 return new MissingComponentScopeFindResult();
 
             string elementId = label.GetAttribute("for");
-            IdXPathForLabelAttribute idXPathForLabelAttribute;
 
             if (string.IsNullOrEmpty(elementId))
             {
                 return new SubsequentComponentScopeFindResult(label, new FindFirstDescendantStrategy());
             }
-            else if ((idXPathForLabelAttribute = options.Metadata.Get<IdXPathForLabelAttribute>(x => x.At(AttributeLevels.Component))) != null)
+            else if (options.Metadata.TryGet(out IdXPathForLabelAttribute idXPathForLabelAttribute))
             {
                 ComponentScopeLocateOptions idOptions = options.Clone();
                 idOptions.Terms = new[] { idXPathForLabelAttribute.XPathFormat.FormatWith(elementId) };
