@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class RandomizeStringSettingsAttribute : Attribute
+    /// <summary>
+    /// Specifies the settings for string randomization.
+    /// </summary>
+    public class RandomizeStringSettingsAttribute : MulticastAttribute
     {
         public RandomizeStringSettingsAttribute(string format = "{0}", int numberOfCharacters = 15)
         {
@@ -11,8 +11,14 @@ namespace Atata
             NumberOfCharacters = numberOfCharacters;
         }
 
+        /// <summary>
+        /// Gets the format.
+        /// </summary>
         public string Format { get; }
 
+        /// <summary>
+        /// Gets the number of characters to randomize.
+        /// </summary>
         public int NumberOfCharacters { get; }
     }
 }

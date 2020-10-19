@@ -40,10 +40,9 @@ namespace Atata
 
         private static string RandomizeString(UIComponentMetadata metadata)
         {
-            string value;
-            if (!TryRandomizeOneOfIncluded(metadata, out value))
+            if (!TryRandomizeOneOfIncluded(metadata, out string value))
             {
-                var attribute = metadata.Get<RandomizeStringSettingsAttribute>(x => x.At(AttributeLevels.Declared))
+                var attribute = metadata.Get<RandomizeStringSettingsAttribute>()
                     ?? new RandomizeStringSettingsAttribute();
 
                 value = Randomizer.GetString(attribute.Format, attribute.NumberOfCharacters);
@@ -54,10 +53,10 @@ namespace Atata
 
         private static T RandomizeNumber<T>(UIComponentMetadata metadata)
         {
-            T value;
-            if (!TryRandomizeOneOfIncluded(metadata, out value))
+            if (!TryRandomizeOneOfIncluded(metadata, out T value))
             {
-                var attribute = metadata.Get<RandomizeNumberSettingsAttribute>() ?? new RandomizeNumberSettingsAttribute();
+                var attribute = metadata.Get<RandomizeNumberSettingsAttribute>()
+                    ?? new RandomizeNumberSettingsAttribute();
 
                 decimal valueAsDecimal = Randomizer.GetDecimal(attribute.Min, attribute.Max, attribute.Precision);
                 value = (T)Convert.ChangeType(valueAsDecimal, typeof(T));
@@ -101,6 +100,7 @@ namespace Atata
         private static T[] GetEnumOptionValues<T>(Type enumType, UIComponentMetadata metadata)
         {
             T[] values = GetRandomizeIncludeValues<T>(metadata);
+
             if (values == null || values.Length == 0)
                 values = enumType.GetIndividualEnumFlags().Cast<T>().ToArray();
 
@@ -143,9 +143,7 @@ namespace Atata
             Type type = typeof(T);
             type = Nullable.GetUnderlyingType(type) ?? type;
 
-            RandomizeFunc randomizeFunction;
-
-            if (Randomizers.TryGetValue(type, out randomizeFunction))
+            if (Randomizers.TryGetValue(type, out RandomizeFunc randomizeFunction))
             {
                 return (T)randomizeFunction(metadata);
             }
