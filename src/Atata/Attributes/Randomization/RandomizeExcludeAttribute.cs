@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class RandomizeExcludeAttribute : Attribute
+    /// <summary>
+    /// Specifies the values to exlude during randomization.
+    /// </summary>
+    public class RandomizeExcludeAttribute : MulticastAttribute
     {
         public RandomizeExcludeAttribute(params object[] values)
         {

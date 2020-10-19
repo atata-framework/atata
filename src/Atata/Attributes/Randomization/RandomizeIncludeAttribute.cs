@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class RandomizeIncludeAttribute : Attribute
+    /// <summary>
+    /// Specifies the values to choose during randomization.
+    /// </summary>
+    public class RandomizeIncludeAttribute : MulticastAttribute
     {
         public RandomizeIncludeAttribute(params object[] values)
         {

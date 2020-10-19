@@ -104,7 +104,7 @@ namespace Atata
             if (values == null || values.Length == 0)
                 values = enumType.GetIndividualEnumFlags().Cast<T>().ToArray();
 
-            var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>(x => x.At(AttributeLevels.Declared));
+            var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>();
 
             if (excludeAttribute?.Values?.Any() ?? false)
             {
@@ -118,6 +118,7 @@ namespace Atata
         private static bool TryRandomizeOneOfIncluded<T>(UIComponentMetadata metadata, out T value)
         {
             T[] includeValues = GetRandomizeIncludeValues<T>(metadata);
+
             if (includeValues == null || includeValues.Length == 0)
             {
                 value = default(T);
@@ -132,7 +133,7 @@ namespace Atata
 
         private static T[] GetRandomizeIncludeValues<T>(UIComponentMetadata metadata)
         {
-            var includeAttribute = metadata.Get<RandomizeIncludeAttribute>(x => x.At(AttributeLevels.Declared));
+            var includeAttribute = metadata.Get<RandomizeIncludeAttribute>();
 
             return includeAttribute?.Values?.Cast<T>()?.ToArray();
         }
