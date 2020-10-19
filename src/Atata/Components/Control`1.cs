@@ -92,7 +92,7 @@ namespace Atata
             where TNavigateTo : PageObject<TNavigateTo>
         {
             bool isTemporarily = temporarily
-                ?? Metadata.Get<GoTemporarilyAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent))?.IsTemporarily
+                ?? Metadata.Get<GoTemporarilyAttribute>()?.IsTemporarily
                 ?? false;
 
             TNavigateTo pageObject = navigateToPageObject

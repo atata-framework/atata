@@ -1,9 +1,9 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class GoTemporarilyAttribute : Attribute
+    /// <summary>
+    /// Spicifies whether to temporarily navigate to page object.
+    /// </summary>
+    public class GoTemporarilyAttribute : MulticastAttribute
     {
         public GoTemporarilyAttribute(bool isTemporarily = true)
         {
