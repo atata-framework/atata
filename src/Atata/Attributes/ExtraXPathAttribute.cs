@@ -1,9 +1,6 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface)]
-    public abstract class ExtraXPathAttribute : Attribute
+    public abstract class ExtraXPathAttribute : MulticastAttribute
     {
         protected ExtraXPathAttribute(string xPath)
         {
