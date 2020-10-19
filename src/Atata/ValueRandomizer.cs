@@ -80,7 +80,7 @@ namespace Atata
         private static T RandomizeFlagsEnum<T>(Type enumType, UIComponentMetadata metadata)
         {
             var optionValues = GetEnumOptionValues<T>(enumType, metadata);
-            var countAttribute = metadata.Get<RandomizeCountAttribute>(x => x.At(AttributeLevels.Declared));
+            var countAttribute = metadata.Get<RandomizeCountAttribute>();
 
             int minCount = countAttribute?.Min ?? 1;
             int maxCount = countAttribute?.Max ?? 1;
