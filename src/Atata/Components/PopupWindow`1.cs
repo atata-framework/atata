@@ -59,7 +59,7 @@ namespace Atata
 
             StringBuilder xPathBuilder = new StringBuilder($".//{scopeXPath}");
 
-            string titleElementXPath = Metadata.Get<WindowTitleElementDefinitionAttribute>(x => x.At(AttributeLevels.Component))?.ScopeXPath;
+            string titleElementXPath = Metadata.Get<WindowTitleElementDefinitionAttribute>()?.ScopeXPath;
 
             if (CanFindByWindowTitle && !string.IsNullOrWhiteSpace(titleElementXPath))
             {
