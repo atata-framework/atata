@@ -329,10 +329,8 @@ namespace Atata
         /// Inserts the specified attributes into <see cref="DeclaredAttributes"/> collection at the beginning.
         /// </summary>
         /// <param name="attributes">The attributes.</param>
-        public void Push(params Attribute[] attributes)
-        {
-            Push(attributes as IEnumerable<Attribute>);
-        }
+        public void Push(params Attribute[] attributes) =>
+            Push(attributes.AsEnumerable());
 
         /// <summary>
         /// Inserts the specified attributes into <see cref="DeclaredAttributes"/> collection at the beginning.
@@ -342,6 +340,23 @@ namespace Atata
         {
             if (attributes != null)
                 DeclaredAttributesList.InsertRange(0, attributes);
+        }
+
+        /// <summary>
+        /// Adds the specified attributes to <see cref="DeclaredAttributes"/> collection at the end.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        public void Add(params Attribute[] attributes) =>
+            Add(attributes.AsEnumerable());
+
+        /// <summary>
+        /// Adds the specified attributes to <see cref="DeclaredAttributes"/> collection at the end.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        public void Add(IEnumerable<Attribute> attributes)
+        {
+            if (attributes != null)
+                DeclaredAttributesList.AddRange(attributes);
         }
 
         /// <summary>
