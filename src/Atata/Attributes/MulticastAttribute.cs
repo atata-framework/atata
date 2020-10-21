@@ -71,6 +71,16 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether all children are targeted.
+        /// Actually, is a wrapper over the <see cref="TargetAnyType"/> property.
+        /// </summary>
+        public bool TargetAllChildren
+        {
+            get => TargetAnyType;
+            set => TargetAnyType = value;
+        }
+
+        /// <summary>
         /// Gets the properties bag.
         /// </summary>
         public PropertyBag Properties { get; } = new PropertyBag();
