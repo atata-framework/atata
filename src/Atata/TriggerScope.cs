@@ -1,8 +1,11 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies the scope of the trigger application.
     /// </summary>
+    [Obsolete("There is no more need to use this enum.")] // Obsolete since v1.8.0.
     public enum TriggerScope
     {
         /// <summary>

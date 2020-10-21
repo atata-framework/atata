@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Atata
 {
@@ -8,7 +7,6 @@ namespace Atata
     /// By default occurs upon the page object initialization.
     /// If no value is specified, it uses the class name as the expected value with the <see cref="TermCase.Title"/> casing applied.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = false)]
     public class VerifyTitleAttribute : TermVerificationTriggerAttribute
     {
         public VerifyTitleAttribute(TermCase termCase)

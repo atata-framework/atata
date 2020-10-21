@@ -57,26 +57,8 @@ namespace Atata
             pageObject.Owner = (TPageObject)pageObject;
 
             UIComponentMetadata metadata = CreatePageObjectMetadata<TPageObject>();
-            InitPageObjectTriggers(pageObject, metadata);
 
             ApplyMetadata(pageObject, metadata);
-        }
-
-        private static void InitPageObjectTriggers<TOwner>(PageObject<TOwner> pageObject, UIComponentMetadata metadata)
-            where TOwner : PageObject<TOwner>
-        {
-            var componentTriggers = metadata.ComponentAttributes.
-                OfType<TriggerAttribute>().
-                Where(x => x.AppliesTo == TriggerScope.Self);
-
-            pageObject.Triggers.ComponentTriggersList.AddRange(componentTriggers);
-
-            var assemblyTriggers = metadata.AssemblyAttributes.
-                OfType<TriggerAttribute>();
-
-            pageObject.Triggers.AssemblyTriggersList.AddRange(assemblyTriggers);
-
-            pageObject.Triggers.Reorder();
         }
 
         private static IEnumerable<Type> GetAllInheritedTypes(Type type)
@@ -279,7 +261,6 @@ namespace Atata
             component.ComponentName = ResolveControlName(metadata);
             component.ComponentTypeName = ResolveControlTypeName(metadata);
             component.CacheScopeElement = false;
-            InitControlTriggers(component, metadata);
 
             ApplyMetadata(component, metadata);
         }
@@ -292,7 +273,6 @@ namespace Atata
 
             component.Metadata = metadata;
             component.ApplyMetadata(metadata);
-            component.Triggers.ApplyMetadata(metadata);
         }
 
         private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata)
@@ -437,35 +417,6 @@ namespace Atata
         private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
         {
             return metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) ?? new FindItemByLabelAttribute();
-        }
-
-        private static void InitControlTriggers<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)
-            where TOwner : PageObject<TOwner>
-        {
-            var componentTriggers = metadata.ComponentAttributes.
-                OfType<TriggerAttribute>().
-                Where(x => x.AppliesTo == TriggerScope.Self);
-
-            component.Triggers.ComponentTriggersList.AddRange(componentTriggers);
-
-            var parentComponentTriggers = metadata.ParentComponentAttributes.
-                OfType<TriggerAttribute>().
-                Where(x => x.AppliesTo == TriggerScope.Children);
-
-            component.Triggers.ParentComponentTriggersList.AddRange(parentComponentTriggers);
-
-            var assemblyTriggers = metadata.AssemblyAttributes.
-                OfType<TriggerAttribute>();
-
-            component.Triggers.AssemblyTriggersList.AddRange(assemblyTriggers);
-
-            var declaredTriggers = metadata.DeclaredAttributes.
-                OfType<TriggerAttribute>().
-                Where(x => x.AppliesTo == TriggerScope.Self);
-
-            component.Triggers.DeclaredTriggersList.AddRange(declaredTriggers);
-
-            component.Triggers.Reorder();
         }
 
         private static Attribute[] ResolveAndCacheAttributes(ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)

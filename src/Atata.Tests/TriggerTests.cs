@@ -30,7 +30,7 @@ namespace Atata.Tests
         [Test]
         public void Trigger_Add_ToControl()
         {
-            page.PerformWithoutTriggers.Triggers.Add(new InvokeMethodAttribute(nameof(TriggersPage.OnBeforePerform), TriggerEvents.BeforeClick));
+            page.PerformWithoutTriggers.Metadata.Add(new InvokeMethodAttribute(nameof(TriggersPage.OnBeforePerform), TriggerEvents.BeforeClick));
 
             page.PerformWithoutTriggers.Click();
 
@@ -41,7 +41,7 @@ namespace Atata.Tests
         [Test]
         public void Trigger_Add_ToDynamicControl()
         {
-            page.DynamicInput.Triggers.Add(new LogInfoAttribute("AfterGet-Lowest", TriggerEvents.AfterGet, TriggerPriority.Lowest));
+            page.DynamicInput.Metadata.Add(new LogInfoAttribute("AfterGet-Lowest", TriggerEvents.AfterGet, TriggerPriority.Lowest));
 
             page.DynamicInput.Get();
 
@@ -57,7 +57,7 @@ namespace Atata.Tests
         {
             bool isDeInitInvoked = false;
 
-            page.Triggers.Add(new InvokeDelegateAttribute(() => isDeInitInvoked = true, TriggerEvents.DeInit));
+            page.Metadata.Add(new InvokeDelegateAttribute(() => isDeInitInvoked = true, TriggerEvents.DeInit));
 
             page.GoTo1.ClickAndGo();
 
@@ -153,7 +153,7 @@ namespace Atata.Tests
         [Test]
         public void Trigger_Remove()
         {
-            bool isRemoved = page.InputWithLogging.Triggers.Remove(
+            bool isRemoved = page.InputWithLogging.Metadata.Remove(
                 page.InputWithLogging.Triggers.DeclaredTriggers.OfType<LogInfoAttribute>().Single(x => x.Message == "AfterSet-Low"));
 
             Assert.That(isRemoved);
@@ -173,7 +173,7 @@ namespace Atata.Tests
         [Test]
         public void Trigger_RemoveAll()
         {
-            int countOfRemoved = page.InputWithLogging.Triggers.RemoveAll(
+            int countOfRemoved = page.InputWithLogging.Metadata.RemoveAll(
                 x => x is TriggersPage.CustomLogInfoAttribute);
 
             Assert.That(countOfRemoved, Is.EqualTo(3));

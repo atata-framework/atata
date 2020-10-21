@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace Atata
@@ -6,7 +7,6 @@ namespace Atata
     /// <summary>
     /// Defines the method to invoke on the specified event.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
     public class InvokeMethodAttribute : TriggerAttribute
     {
         public InvokeMethodAttribute(string methodName, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
@@ -22,8 +22,10 @@ namespace Atata
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            var methodOwner = IsDefinedAtComponentLevel ? context.Component : context.Component.Parent;
-            MethodInfo method = methodOwner.GetType().GetMethod(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
+            bool isDefinedAtComponentLevel = context.Component.Metadata.ComponentAttributes.Contains(this);
+
+            var methodOwner = isDefinedAtComponentLevel ? context.Component : context.Component.Parent;
+            MethodInfo method = methodOwner.GetType().GetMethodWithThrowOnError(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
             if (method == null)
                 throw new MissingMethodException(methodOwner.GetType().FullName, MethodName);

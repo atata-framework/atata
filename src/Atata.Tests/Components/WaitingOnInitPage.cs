@@ -29,13 +29,13 @@ namespace Atata.Tests
         protected override void OnInit()
         {
             if (OnInitWaitKind == WaitKind.WaitForElementVisible)
-                Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "content-block", Until.Visible, TriggerEvents.Init));
+                Metadata.Add(new WaitForElementAttribute(WaitBy.Class, "content-block", Until.Visible, TriggerEvents.Init));
             else if (OnInitWaitKind == WaitKind.WaitForVisible)
-                ContentBlock.Triggers.Add(new WaitForAttribute(Until.Visible));
+                ContentBlock.Metadata.Add(new WaitForAttribute(Until.Visible));
             else if (OnInitWaitKind == WaitKind.VerifyExists)
-                ContentBlock.Triggers.Add(new VerifyExistsAttribute());
+                ContentBlock.Metadata.Add(new VerifyExistsAttribute());
             else if (OnInitWaitKind == WaitKind.VerifyMissing)
-                LoadingBlock.Triggers.Add(new VerifyMissingAttribute());
+                LoadingBlock.Metadata.Add(new VerifyMissingAttribute());
         }
 
         public _ VerifyContentBlockIsLoaded()

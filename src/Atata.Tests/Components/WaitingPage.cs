@@ -92,11 +92,11 @@ namespace Atata.Tests
                 new TermAttribute("Wait and go to WaitingOnInit page"));
 
             if (NavigatingWaitKind == WaitKind.WaitForElementHiddenOrMissing)
-                Triggers.Add(new WaitForElementAttribute(WaitBy.Class, "navigating-block", Until.MissingOrHidden, TriggerEvents.DeInit));
+                Metadata.Add(new WaitForElementAttribute(WaitBy.Class, "navigating-block", Until.MissingOrHidden, TriggerEvents.DeInit));
             else if (NavigatingWaitKind == WaitKind.WaitForMissing)
-                NavigatingBlock.Triggers.Add(new WaitForAttribute(Until.Missing, TriggerEvents.DeInit));
+                NavigatingBlock.Metadata.Add(new WaitForAttribute(Until.Missing, TriggerEvents.DeInit));
             else if (NavigatingWaitKind == WaitKind.VerifyMissing)
-                NavigatingBlock.Triggers.Add(new VerifyMissingAttribute(TriggerEvents.DeInit));
+                NavigatingBlock.Metadata.Add(new VerifyMissingAttribute(TriggerEvents.DeInit));
         }
 
         public class ValueContainerControl : Control<_>

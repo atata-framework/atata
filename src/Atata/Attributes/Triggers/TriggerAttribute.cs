@@ -5,8 +5,7 @@ namespace Atata
     /// <summary>
     /// Represents the base attribute class for the triggers.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
-    public abstract class TriggerAttribute : Attribute
+    public abstract class TriggerAttribute : MulticastAttribute
     {
         protected TriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
         {
@@ -29,13 +28,21 @@ namespace Atata
         /// Gets or sets the scope to apply the trigger to.
         /// The default value is <see cref="TriggerScope.Self"/>.
         /// </summary>
-        public TriggerScope AppliesTo { get; set; } = TriggerScope.Self;
+        [Obsolete("Use Target* properties instead. For example, 'TargetAllChildren = true' is an equivalent of 'AppliesTo = TriggerScope.Children'.")] // Obsolete since v1.8.0.
+        public TriggerScope AppliesTo
+        {
+            get => IsTargetSpecified ? TriggerScope.Children : TriggerScope.Self;
+            set => TargetAnyType = value == TriggerScope.Children;
+        }
 
         /// <summary>
         /// Gets a value indicating whether this trigger is defined at the component level.
         /// </summary>
+        [Obsolete("There is no more need to use this property. " +
+            "To detect whether trigger is located at component level: component.Metadata.ComponentAttributes.Contains(attribute)")] // Obsolete since v1.8.0.
         public bool IsDefinedAtComponentLevel { get; internal set; }
 
+        [Obsolete("Do not use this method. Metadata can be accessed in Execute method by: context.Component.Metadata.")] // Obsolete since v1.8.0.
         protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
         {
         }

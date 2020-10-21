@@ -5,7 +5,6 @@ namespace Atata
     /// <summary>
     /// Defines the delegate to invoke on the specified event.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
     public class InvokeDelegateAttribute : TriggerAttribute
     {
         public InvokeDelegateAttribute(Action actionDelegate, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)

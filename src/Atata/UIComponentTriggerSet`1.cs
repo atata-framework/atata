@@ -11,105 +11,45 @@ namespace Atata
 
         private readonly List<TriggerEvents> currentDeniedTriggers = new List<TriggerEvents>();
 
-        private TriggerAttribute[] orderedTriggers;
-
         internal UIComponentTriggerSet(UIComponent<TOwner> component)
         {
             this.component = component;
         }
 
-        internal List<TriggerAttribute> ComponentTriggersList { get; } = new List<TriggerAttribute>();
+        public IEnumerable<TriggerAttribute> ComponentTriggers =>
+            component.Metadata?.GetAll<TriggerAttribute>(x => x.At(AttributeLevels.Component)).OrderBy(x => x.Priority);
 
-        internal List<TriggerAttribute> ParentComponentTriggersList { get; } = new List<TriggerAttribute>();
+        public IEnumerable<TriggerAttribute> ParentComponentTriggers =>
+            component.Metadata?.GetAll<TriggerAttribute>(x => x.At(AttributeLevels.ParentComponent)).OrderBy(x => x.Priority);
 
-        internal List<TriggerAttribute> AssemblyTriggersList { get; } = new List<TriggerAttribute>();
+        public IEnumerable<TriggerAttribute> AssemblyTriggers =>
+            component.Metadata?.GetAll<TriggerAttribute>(x => x.At(AttributeLevels.Assembly)).OrderBy(x => x.Priority);
 
-        internal List<TriggerAttribute> DeclaredTriggersList { get; } = new List<TriggerAttribute>();
+        public IEnumerable<TriggerAttribute> GlobalTriggers =>
+            component.Metadata?.GetAll<TriggerAttribute>(x => x.At(AttributeLevels.Global)).OrderBy(x => x.Priority);
 
-        public IEnumerable<TriggerAttribute> ComponentTriggers => ComponentTriggersList.AsEnumerable();
+        public IEnumerable<TriggerAttribute> DeclaredTriggers =>
+            component.Metadata?.GetAll<TriggerAttribute>(x => x.At(AttributeLevels.Declared)).OrderBy(x => x.Priority);
 
-        public IEnumerable<TriggerAttribute> ParentComponentTriggers => ParentComponentTriggersList.AsEnumerable();
+        public IEnumerable<TriggerAttribute> AllTriggers =>
+            component.Metadata?.GetAll<TriggerAttribute>().OrderBy(x => x.Priority);
 
-        public IEnumerable<TriggerAttribute> AssemblyTriggers => AssemblyTriggersList.AsEnumerable();
-
-        public IEnumerable<TriggerAttribute> DeclaredTriggers => DeclaredTriggersList.AsEnumerable();
-
-        public IEnumerable<TriggerAttribute> AllTriggers => orderedTriggers.AsEnumerable();
-
-        private List<TriggerAttribute>[] AllTriggersLists => new[]
-        {
-            DeclaredTriggersList,
-            ParentComponentTriggersList,
-            AssemblyTriggersList,
-            ComponentTriggersList
-        };
-
-        internal void ApplyMetadata(UIComponentMetadata metadata)
-        {
-            var allTriggers = ComponentTriggersList.Concat(ParentComponentTriggersList).Concat(AssemblyTriggersList).Concat(DeclaredTriggersList);
-
-            ApplyMetadataToTriggers(metadata, allTriggers);
-        }
-
+        [Obsolete("Use component.Metadata.Add method instead.")] // Obsolete since v1.8.0.
         public void Add(params TriggerAttribute[] triggers)
         {
-            var triggersListToAddTo = component.Metadata != null ? DeclaredTriggersList : ComponentTriggersList;
-
-            triggersListToAddTo.AddRange(triggers);
-
-            if (component.Metadata != null)
-                ApplyMetadataToTriggers(component.Metadata, triggers);
-
-            Reorder();
+            component.Metadata.Add(triggers);
         }
 
+        [Obsolete("Use component.Metadata.Remove method instead.")] // Obsolete since v1.8.0.
         public bool Remove(params TriggerAttribute[] triggers)
         {
-            var allTriggersLists = AllTriggersLists;
-            bool isRemoved = false;
-
-            foreach (TriggerAttribute trigger in triggers)
-            {
-                isRemoved |= allTriggersLists.Aggregate(false, (removed, list) => list.Remove(trigger) || removed);
-            }
-
-            Reorder();
-            return isRemoved;
+            return component.Metadata.Remove(triggers);
         }
 
+        [Obsolete("Use component.Metadata.RemoveAll method instead.")] // Obsolete since v1.8.0.
         public int RemoveAll(Predicate<TriggerAttribute> match)
         {
-            match.CheckNotNull(nameof(match));
-
-            int count = AllTriggersLists.Sum(list => list.RemoveAll(match));
-
-            Reorder();
-            return count;
-        }
-
-        private static void ApplyMetadataToTriggers(UIComponentMetadata metadata, IEnumerable<TriggerAttribute> triggers)
-        {
-            foreach (TriggerAttribute trigger in triggers)
-            {
-                trigger.ApplyMetadata(metadata);
-
-                IPropertySettings triggerAsPropertySettings = trigger as IPropertySettings;
-                if (triggerAsPropertySettings != null)
-                    triggerAsPropertySettings.Properties.Metadata = metadata;
-            }
-        }
-
-        internal void Reorder()
-        {
-            foreach (TriggerAttribute trigger in ComponentTriggersList)
-                trigger.IsDefinedAtComponentLevel = true;
-
-            orderedTriggers = DeclaredTriggersList.
-                Concat(ParentComponentTriggersList).
-                Concat(AssemblyTriggersList).
-                Concat(ComponentTriggersList).
-                OrderBy(x => x.Priority).
-                ToArray();
+            return component.Metadata.RemoveAll(x => x is TriggerAttribute trigger && match(trigger));
         }
 
         internal void Execute(TriggerEvents on)
@@ -117,7 +57,9 @@ namespace Atata
             if (on == TriggerEvents.None || currentDeniedTriggers.Contains(on))
                 return;
 
-            if (orderedTriggers?.Length > 0)
+            var orderedTriggers = AllTriggers;
+
+            if (orderedTriggers.Any())
             {
                 if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[] denyTriggers))
                     currentDeniedTriggers.AddRange(denyTriggers);
@@ -135,7 +77,15 @@ namespace Atata
                     };
 
                     foreach (var trigger in triggers)
+                    {
+                        trigger.Properties.Metadata = component.Metadata;
+
+#pragma warning disable CS0618 // Type or member is obsolete
+                        trigger.ApplyMetadata(component.Metadata);
+#pragma warning restore CS0618 // Type or member is obsolete
+
                         trigger.Execute(context);
+                    }
                 }
                 finally
                 {

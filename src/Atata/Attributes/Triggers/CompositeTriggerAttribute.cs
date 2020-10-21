@@ -28,11 +28,14 @@ namespace Atata
         private void InitTriggers()
         {
             triggers = CreateTriggers().ToArray();
+
             foreach (TriggerAttribute trigger in triggers)
             {
                 trigger.On = On;
                 trigger.Priority = Priority;
-                trigger.AppliesTo = AppliesTo;
+                trigger.TargetNames = TargetNames;
+                trigger.TargetTypes = TargetTypes;
+                trigger.TargetParentTypes = TargetParentTypes;
             }
         }
     }

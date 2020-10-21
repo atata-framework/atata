@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Atata
 {
     /// <summary>
     /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface, AllowMultiple = true)]
-    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider, IPropertySettings
+    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
             : this()
@@ -33,8 +31,6 @@ namespace Atata
         {
             Values = values;
         }
-
-        public PropertyBag Properties { get; } = new PropertyBag();
 
         public string[] Values { get; }
 

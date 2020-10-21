@@ -9,8 +9,8 @@ namespace Atata.Tests
     [VerifyTitle]
     [VerifyH1]
     [InvokeMethod(nameof(OnStaticInit), TriggerEvents.Init)]
-    [LogInfo("BeforeGet-Medium", TriggerEvents.BeforeGet, AppliesTo = TriggerScope.Children)]
-    [LogInfo("AfterGet-Medium", TriggerEvents.AfterGet, AppliesTo = TriggerScope.Children)]
+    [LogInfo("BeforeGet-Medium", TriggerEvents.BeforeGet, TargetAllChildren = true)]
+    [LogInfo("AfterGet-Medium", TriggerEvents.AfterGet, TargetAllChildren = true)]
     public class TriggersPage : Page<_>
     {
         [ThreadStatic]
@@ -18,15 +18,15 @@ namespace Atata.Tests
 
         public TriggersPage()
         {
-            Triggers.Add(new LogInfoAttribute("Init-Lowest", TriggerEvents.Init, TriggerPriority.Lowest));
-            Triggers.Add(new LogInfoAttribute("Init-Low", TriggerEvents.Init, TriggerPriority.Low));
+            Metadata.Add(new LogInfoAttribute("Init-Lowest", TriggerEvents.Init, TriggerPriority.Lowest));
+            Metadata.Add(new LogInfoAttribute("Init-Low", TriggerEvents.Init, TriggerPriority.Low));
 
             DynamicInput = Controls.Create<TextInput<_>>(
                 nameof(DynamicInput).ToString(TermCase.MidSentence),
                 new FindFirstAttribute(),
                 new LogInfoAttribute("AfterGet-Lower", TriggerEvents.AfterGet, TriggerPriority.Lower));
 
-            DynamicInput.Triggers.Add(new LogInfoAttribute("AfterGet-Low", TriggerEvents.AfterGet, TriggerPriority.Low));
+            DynamicInput.Metadata.Add(new LogInfoAttribute("AfterGet-Low", TriggerEvents.AfterGet, TriggerPriority.Low));
         }
 
         public static bool IsOnInitInvoked => isOnInitInvoked;
@@ -70,10 +70,10 @@ namespace Atata.Tests
 
         protected override void OnInit()
         {
-            Triggers.Add(new LogInfoAttribute("Init-Lower", TriggerEvents.Init, TriggerPriority.Lower));
+            Metadata.Add(new LogInfoAttribute("Init-Lower", TriggerEvents.Init, TriggerPriority.Lower));
 
             TriggerEvents allEvents = typeof(TriggerEvents).GetIndividualEnumFlags().Cast<TriggerEvents>().Aggregate((a, b) => a | b);
-            Input.Triggers.Add(new WriteTriggerEventAttribute(allEvents));
+            Input.Metadata.Add(new WriteTriggerEventAttribute(allEvents));
         }
 
         public static void OnStaticInit()
@@ -146,7 +146,7 @@ namespace Atata.Tests
 
         [ControlDefinition("li", ComponentTypeName = "item")]
         [FindById]
-        [HoverParent(AppliesTo = TriggerScope.Children)]
+        [HoverParent(TargetAllChildren = true)]
         public class LevelItem : Control<_>
         {
         }

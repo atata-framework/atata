@@ -17,7 +17,7 @@ namespace Atata.Tests
         {
             page.
                 BottomText.Should.Not.BeVisibleInViewPort().
-                BottomText.Triggers.Add(new PressEndAttribute(TriggerEvents.BeforeGet));
+                BottomText.Metadata.Add(new PressEndAttribute(TriggerEvents.BeforeGet));
 
             page.
                 BottomText.Get(out string text).
@@ -30,7 +30,7 @@ namespace Atata.Tests
             page.
                 Press(Keys.End).
                 TopText.Should.Not.BeVisibleInViewPort().
-                TopText.Triggers.Add(new PressHomeAttribute(TriggerEvents.BeforeGet));
+                TopText.Metadata.Add(new PressHomeAttribute(TriggerEvents.BeforeGet));
 
             page.
                 TopText.Get(out string text).
