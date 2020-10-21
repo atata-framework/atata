@@ -360,6 +360,45 @@ namespace Atata
         }
 
         /// <summary>
+        /// Removes the specified attributes from <see cref="DeclaredAttributes" /> collection.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns><see langword="true"/> if at least one item is successfully removed; otherwise, <see langword="false"/>.</returns>
+        public bool Remove(params Attribute[] attributes) =>
+            Remove(attributes.AsEnumerable());
+
+        /// <summary>
+        /// Removes the specified attributes from <see cref="DeclaredAttributes"/> collection.
+        /// </summary>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns><see langword="true"/> if at least one item is successfully removed; otherwise, <see langword="false"/>.</returns>
+        public bool Remove(IEnumerable<Attribute> attributes)
+        {
+            attributes.CheckNotNull(nameof(attributes));
+
+            bool isRemoved = false;
+
+            foreach (Attribute attribute in attributes)
+            {
+                isRemoved |= DeclaredAttributesList.Remove(attribute);
+            }
+
+            return isRemoved;
+        }
+
+        /// <summary>
+        /// Removes all the attributes that match the conditions defined by the specified predicate.
+        /// </summary>
+        /// <param name="match">The match.</param>
+        /// <returns>The number of removed elements.</returns>
+        public int RemoveAll(Predicate<Attribute> match)
+        {
+            match.CheckNotNull(nameof(match));
+
+            return DeclaredAttributesList.RemoveAll(match);
+        }
+
+        /// <summary>
         /// Gets the culture by searching the <see cref="CultureAttribute"/> at all attribute levels or current culture if not found.
         /// </summary>
         /// <returns>The <see cref="CultureInfo"/> instance.</returns>
