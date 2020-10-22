@@ -6,7 +6,9 @@ namespace Atata
     /// <summary>
     /// Represents the base class for attributes that can be applied to component at any level (declared, parent component, assembly, global and component).
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
+    [AttributeUsage(
+        AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Assembly,
+        AllowMultiple = true)]
     public abstract class MulticastAttribute : Attribute, IPropertySettings
     {
         /// <summary>

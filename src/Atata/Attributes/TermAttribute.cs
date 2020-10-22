@@ -1,12 +1,10 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Atata
 {
     /// <summary>
     /// Specifies the term(s) to use for the control search.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
     public class TermAttribute : TermSettingsAttribute
     {
         public TermAttribute(TermCase termCase)

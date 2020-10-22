@@ -1,8 +1,5 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
     public class FindItemByLabelAttribute : TermSettingsAttribute, IFindItemAttribute
     {
         public FindItemByLabelAttribute()

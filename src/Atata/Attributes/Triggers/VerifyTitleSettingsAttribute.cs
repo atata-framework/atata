@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Defines the settings to apply for the <see cref="VerifyTitleAttribute"/> trigger.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly)]
     public class VerifyTitleSettingsAttribute : TermSettingsAttribute
     {
         public VerifyTitleSettingsAttribute()

@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Represents the behavior to find an item of <see cref="OptionList{T, TOwner}"/> control by relative element content using its XPath.
     /// </summary>
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface | AttributeTargets.Assembly, AllowMultiple = true)]
     public class FindItemByRelativeElementContentAttribute : TermSettingsAttribute, IFindItemAttribute
     {
         public FindItemByRelativeElementContentAttribute(string relativeElementXPath)
