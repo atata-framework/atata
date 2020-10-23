@@ -10,7 +10,7 @@ namespace Atata
         }
 
         public IFindItemAttribute FindItemAttribute
-            => Metadata.Get<IFindItemAttribute>();
+            => Metadata.Get<FindItemAttribute>();
 
         protected IItemElementFindStrategy ItemElementFindStrategy
             => FindItemAttribute.CreateStrategy(this, Metadata);

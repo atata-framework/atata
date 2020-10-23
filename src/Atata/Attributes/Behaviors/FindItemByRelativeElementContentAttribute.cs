@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents the behavior to find an item of <see cref="OptionList{T, TOwner}"/> control by relative element content using its XPath.
     /// </summary>
-    public class FindItemByRelativeElementContentAttribute : TermSettingsAttribute, IFindItemAttribute
+    public class FindItemByRelativeElementContentAttribute : TermFindItemAttribute
     {
         public FindItemByRelativeElementContentAttribute(string relativeElementXPath)
         {
@@ -33,7 +33,7 @@
         /// </summary>
         public string RelativeElementXPath { get; }
 
-        public IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata)
+        public override IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata)
         {
             return new FindItemByRelativeElementContentStrategy(RelativeElementXPath);
         }

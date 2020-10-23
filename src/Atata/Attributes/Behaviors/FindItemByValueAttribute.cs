@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public class FindItemByValueAttribute : TermSettingsAttribute, IFindItemAttribute
+    public class FindItemByValueAttribute : TermFindItemAttribute
     {
         public FindItemByValueAttribute()
         {
@@ -21,7 +21,7 @@
         {
         }
 
-        public IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata)
+        public override IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata)
         {
             return new FindItemByValueStrategy();
         }
