@@ -4,7 +4,7 @@ using System.Linq;
 namespace Atata
 {
     /// <summary>
-    /// Represents the base class for attributes that can be applied to component at any level (declared, parent component, assembly, global and component).
+    /// Represents the base class for Atata attributes that can be applied to component at any level (declared, parent component, assembly, global and component).
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Assembly,
@@ -21,8 +21,8 @@ namespace Atata
         /// </summary>
         public string TargetName
         {
-            get { return TargetNames?.FirstOrDefault(); }
-            set { TargetNames = value == null ? null : new[] { value }; }
+            get => TargetNames?.FirstOrDefault();
+            set => TargetNames = value == null ? null : new[] { value };
         }
 
         /// <summary>
@@ -35,8 +35,8 @@ namespace Atata
         /// </summary>
         public Type TargetType
         {
-            get { return TargetTypes?.FirstOrDefault(); }
-            set { TargetTypes = value == null ? null : new[] { value }; }
+            get => TargetTypes?.FirstOrDefault();
+            set => TargetTypes = value == null ? null : new[] { value };
         }
 
         /// <summary>
@@ -49,8 +49,8 @@ namespace Atata
         /// </summary>
         public Type TargetParentType
         {
-            get { return TargetParentTypes?.FirstOrDefault(); }
-            set { TargetParentTypes = value == null ? null : new[] { value }; }
+            get => TargetParentTypes?.FirstOrDefault();
+            set => TargetParentTypes = value == null ? null : new[] { value };
         }
 
         /// <summary>
