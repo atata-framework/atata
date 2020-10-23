@@ -184,7 +184,7 @@ namespace Atata
                 builder.
                     Append(parentFullName).
                     Append(parentFullName.EndsWith("s") ? "'" : "'s").
-                    Append(" ");
+                    Append(' ');
             }
 
             builder.AppendFormat("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component");

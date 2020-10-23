@@ -9,7 +9,7 @@ namespace Atata
             StringBuilder builder = new StringBuilder("Aggregate assert");
 
             if (!string.IsNullOrEmpty(assertionScopeName))
-                builder.Append(" ").Append(assertionScopeName);
+                builder.Append(' ').Append(assertionScopeName);
 
             Message = builder.ToString();
         }

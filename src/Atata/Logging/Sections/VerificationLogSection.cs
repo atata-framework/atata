@@ -23,7 +23,7 @@ namespace Atata
             : base(component)
         {
             Message = new StringBuilder(verificationKind ?? "Verify").
-                Append(":").
+                Append(':').
                 AppendIf(!component.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>)), $" {component.ComponentFullName}").
                 AppendIf(!string.IsNullOrWhiteSpace(dataProviderName), $" {dataProviderName}").
                 AppendIf(!string.IsNullOrWhiteSpace(verificationConstraint), $" {verificationConstraint}").

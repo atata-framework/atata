@@ -56,10 +56,10 @@ namespace Atata
 
                 if (message != DefaultReportMessage)
                 {
-                    errorMessageBuilder.Append(" ").Append(message);
+                    errorMessageBuilder.Append(' ').Append(message);
 
                     if (!message.EndsWith("."))
-                        errorMessageBuilder.Append(".");
+                        errorMessageBuilder.Append('.');
                 }
 
                 throw new TimeoutException(errorMessageBuilder.ToString());
