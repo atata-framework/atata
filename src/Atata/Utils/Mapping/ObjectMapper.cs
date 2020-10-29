@@ -4,9 +4,16 @@ using System.Reflection;
 
 namespace Atata
 {
-    public static class AtataMapper
+    public class ObjectMapper : IObjectMapper
     {
-        public static void Map(Dictionary<string, object> propertiesMap, object destination)
+        private readonly IObjectConverter objectConverter;
+
+        public ObjectMapper(IObjectConverter objectConverter)
+        {
+            this.objectConverter = objectConverter;
+        }
+
+        public void Map(Dictionary<string, object> propertiesMap, object destination)
         {
             Type destinationType = destination.GetType();
 
@@ -16,12 +23,12 @@ namespace Atata
             }
         }
 
-        public static void Map(string propertyName, object propertyValue, object destination)
+        public void Map(string propertyName, object propertyValue, object destination)
         {
             Map(propertyName, propertyValue, destination, destination.GetType());
         }
 
-        private static void Map(string propertyName, object propertyValue, object destination, Type destinationType)
+        private void Map(string propertyName, object propertyValue, object destination, Type destinationType)
         {
             PropertyInfo property = destinationType.GetProperty(
                 propertyName,
@@ -36,9 +43,7 @@ namespace Atata
 
             try
             {
-                object valueToSet = propertyValue != null && !(propertyType.IsAssignableFrom(propertyValueType) || underlyingPropertyType.IsAssignableFrom(propertyValueType))
-                    ? ConvertValue(propertyValue, underlyingPropertyType)
-                    : propertyValue;
+                object valueToSet = objectConverter.Convert(propertyValue, underlyingPropertyType);
 
                 property.SetValue(destination, valueToSet, null);
             }
@@ -50,30 +55,6 @@ namespace Atata
 
                 throw new MappingException($"Failed to map \"{propertyName}\" property for {destinationType.FullName} type. {additionalMessage}", exception);
             }
-        }
-
-        private static object ConvertValue(object sourceValue, Type destinationType)
-        {
-            if (destinationType.IsEnum)
-                return ConvertToEnum(destinationType, sourceValue);
-            else if (destinationType == typeof(TimeSpan))
-                return ConvertToTimeSpan(sourceValue);
-            else
-                return sourceValue;
-        }
-
-        private static object ConvertToEnum(Type enumType, object value)
-        {
-            return value is string stringValue
-                ? Enum.Parse(enumType, stringValue, true)
-                : Enum.ToObject(enumType, value);
-        }
-
-        private static TimeSpan ConvertToTimeSpan(object value)
-        {
-            return value is double || value is int || value is float
-                ? TimeSpan.FromSeconds(Convert.ToDouble(value))
-                : TimeSpan.Parse(value.ToString());
         }
     }
 }

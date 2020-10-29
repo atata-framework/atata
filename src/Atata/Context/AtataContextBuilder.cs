@@ -875,6 +875,14 @@ namespace Atata
             foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
                 logManager.Use(screenshotConsumer);
 
+            IObjectConverter objectConverter = new ObjectConverter
+            {
+                AssemblyNamePatternToFindTypes = BuildingContext.DefaultAssemblyNamePatternToFindTypes
+            };
+
+            IObjectMapper objectMapper = new ObjectMapper(objectConverter);
+            IObjectCreator objectCreator = new ObjectCreator(objectConverter, objectMapper);
+
             AtataContext context = new AtataContext
             {
                 TestName = BuildingContext.TestNameFactory?.Invoke(),
@@ -895,7 +903,10 @@ namespace Atata
                 AssertionExceptionType = BuildingContext.AssertionExceptionType,
                 AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType,
                 AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy(),
-                WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy()
+                WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy(),
+                ObjectConverter = objectConverter,
+                ObjectMapper = objectMapper,
+                ObjectCreator = objectCreator
             };
 
             AtataContext.Current = context;
@@ -995,6 +1006,16 @@ namespace Atata
                     $"Cannot build {nameof(AtataContext)} as no driver is specified. " +
                     $"Use one of \"Use*\" methods to specify the driver to use, e.g.: AtataContext.Configure().UseChrome().Build();");
             }
+        }
+
+        protected IObjectMapper CreateObjectMapper()
+        {
+            IObjectConverter objectConverter = new ObjectConverter
+            {
+                AssemblyNamePatternToFindTypes = BuildingContext.DefaultAssemblyNamePatternToFindTypes
+            };
+
+            return new ObjectMapper(objectConverter);
         }
     }
 }

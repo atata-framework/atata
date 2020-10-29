@@ -24,7 +24,7 @@ namespace Atata
         {
             propertiesMap.CheckNotNull(nameof(propertiesMap));
 
-            AtataMapper.Map(propertiesMap, Context);
+            CreateObjectMapper().Map(propertiesMap, Context);
 
             return this;
         }

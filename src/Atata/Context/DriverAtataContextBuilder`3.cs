@@ -136,7 +136,7 @@ namespace Atata
         {
             optionsPropertiesMap.CheckNotNull(nameof(optionsPropertiesMap));
 
-            return WithOptions(opt => AtataMapper.Map(optionsPropertiesMap, opt));
+            return WithOptions(opt => CreateObjectMapper().Map(optionsPropertiesMap, opt));
         }
 
         /// <summary>
@@ -187,7 +187,7 @@ namespace Atata
         {
             servicePropertiesMap.CheckNotNull(nameof(servicePropertiesMap));
 
-            return WithDriverService(srv => AtataMapper.Map(servicePropertiesMap, srv));
+            return WithDriverService(srv => CreateObjectMapper().Map(servicePropertiesMap, srv));
         }
 
         /// <summary>

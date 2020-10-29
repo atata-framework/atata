@@ -275,6 +275,9 @@ namespace Atata
         /// </summary>
         public AtataAttributesContext Attributes { get; internal set; }
 
+        /// <summary>
+        /// Gets the current page object.
+        /// </summary>
         public UIComponent PageObject { get; internal set; }
 
         internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; } = new List<UIComponent>();
@@ -289,6 +292,21 @@ namespace Atata
         }
 
         internal UIComponentScopeCache UIComponentScopeCache { get; } = new UIComponentScopeCache();
+
+        /// <summary>
+        /// Gets the object creator.
+        /// </summary>
+        public IObjectCreator ObjectCreator { get; internal set; }
+
+        /// <summary>
+        /// Gets the object converter.
+        /// </summary>
+        public IObjectConverter ObjectConverter { get; internal set; }
+
+        /// <summary>
+        /// Gets the object mapper.
+        /// </summary>
+        public IObjectMapper ObjectMapper { get; internal set; }
 
         /// <summary>
         /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
