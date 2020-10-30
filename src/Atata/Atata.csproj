@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Atata</RootNamespace>
-    <Version>1.7.0</Version>
+    <Version>1.8.0</Version>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
@@ -30,10 +30,10 @@ Features:
     <PackageIcon>icon.png</PackageIcon>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>1.7.0 - https://atata.io/blog/2020/08/27/atata-1.7.0-released/
+    <PackageReleaseNotes>1.8.0 - https://atata.io/blog/2020/10/30/atata-1.8.0-released/
+1.7.0 - https://atata.io/blog/2020/08/27/atata-1.7.0-released/
 1.6.0 - https://atata.io/blog/2020/08/05/atata-1.6.0-released/
-1.5.0 - https://atata.io/blog/2020/04/23/atata-1.5.0-released/
-1.4.0 - https://atata.io/blog/2019/11/19/atata-1.4.0-released/</PackageReleaseNotes>
+1.5.0 - https://atata.io/blog/2020/04/23/atata-1.5.0-released/</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0;DevNet45</Configurations>
   </PropertyGroup>
