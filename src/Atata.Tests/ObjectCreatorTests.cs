@@ -92,7 +92,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ObjectCreator_Create_WithAlternativeConstructorParameterName()
+        public void ObjectCreator_Create_WithAlternativeConstructorParameterName_Value()
         {
             object result = sut.Create(
                 typeof(FindByIdAttribute),
@@ -100,6 +100,11 @@ namespace Atata.Tests
                 {
                     ["match"] = TermMatch.EndsWith,
                     ["value"] = "val1"
+                },
+                new Dictionary<string, string>
+                {
+                    ["value"] = "values",
+                    ["case"] = "termCase"
                 });
 
             var castedResult = result.Should().BeOfType<FindByIdAttribute>().Subject;
@@ -108,6 +113,31 @@ namespace Atata.Tests
             {
                 castedResult.Match.Should().Be(TermMatch.EndsWith);
                 castedResult.Values.Should().Equal(new[] { "val1" });
+            }
+        }
+
+        [Test]
+        public void ObjectCreator_Create_WithAlternativeConstructorParameterName_Case()
+        {
+            object result = sut.Create(
+                typeof(FindByIdAttribute),
+                new Dictionary<string, object>
+                {
+                    ["case"] = TermCase.LowerMerged,
+                    ["match"] = TermMatch.EndsWith
+                },
+                new Dictionary<string, string>
+                {
+                    ["value"] = "values",
+                    ["case"] = "termCase"
+                });
+
+            var castedResult = result.Should().BeOfType<FindByIdAttribute>().Subject;
+
+            using (new AssertionScope())
+            {
+                castedResult.Match.Should().Be(TermMatch.EndsWith);
+                castedResult.Case.Should().Be(TermCase.LowerMerged);
             }
         }
     }

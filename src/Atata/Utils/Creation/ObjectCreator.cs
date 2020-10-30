@@ -11,11 +11,6 @@ namespace Atata
 
         private readonly IObjectMapper objectMapper;
 
-        private readonly Dictionary<string, string> alternativeParameterNamesMap = new Dictionary<string, string>
-        {
-            ["value"] = "values"
-        };
-
         public ObjectCreator(IObjectConverter objectConverter, IObjectMapper objectMapper)
         {
             this.objectConverter = objectConverter;
@@ -25,21 +20,31 @@ namespace Atata
         /// <inheritdoc/>
         public object Create(Type type, Dictionary<string, object> valuesMap)
         {
+            return Create(type, valuesMap, new Dictionary<string, string>());
+        }
+
+        /// <inheritdoc/>
+        public object Create(Type type, Dictionary<string, object> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
+        {
             type.CheckNotNull(nameof(type));
             valuesMap.CheckNotNull(nameof(valuesMap));
+            alternativeParameterNamesMap.CheckNotNull(nameof(alternativeParameterNamesMap));
 
             if (!valuesMap.Any())
                 return ActivatorEx.CreateInstance(type);
 
             string[] parameterNamesWithAlternatives = valuesMap.Keys
-                .Concat(GetAlternativeParameterNames(valuesMap.Keys))
+                .Concat(GetAlternativeParameterNames(valuesMap.Keys, alternativeParameterNamesMap))
                 .ToArray();
 
             ConstructorInfo constructor = FindMostAppropriateConstructor(type, parameterNamesWithAlternatives);
 
             var workingValuesMap = new Dictionary<string, object>(valuesMap);
 
-            object instance = CreateInstanceViaConstructorAndRemoveUsedValues(constructor, workingValuesMap);
+            object instance = CreateInstanceViaConstructorAndRemoveUsedValues(
+                constructor,
+                workingValuesMap,
+                alternativeParameterNamesMap);
 
             objectMapper.Map(workingValuesMap, instance);
 
@@ -65,16 +70,21 @@ namespace Atata
                     $"No appropriate constructor found for {type.FullName} type.");
         }
 
-        private IEnumerable<string> GetAlternativeParameterNames(IEnumerable<string> parameterNames)
+        private static IEnumerable<string> GetAlternativeParameterNames(
+            IEnumerable<string> parameterNames,
+            Dictionary<string, string> alternativeParameterNamesMap)
         {
             foreach (string parameterName in parameterNames)
             {
-                if (TryGetAlternativeParameterName(parameterName, out string alternativeParameterName))
+                if (TryGetAlternativeParameterName(alternativeParameterNamesMap, parameterName, out string alternativeParameterName))
                     yield return alternativeParameterName;
             }
         }
 
-        private bool TryGetAlternativeParameterName(string parameterName, out string alternativeParameterName)
+        private static bool TryGetAlternativeParameterName(
+            Dictionary<string, string> alternativeParameterNamesMap,
+            string parameterName,
+            out string alternativeParameterName)
         {
             KeyValuePair<string, string> alternativePair = alternativeParameterNamesMap.FirstOrDefault(x => x.Key.Equals(parameterName, StringComparison.OrdinalIgnoreCase));
 
@@ -90,12 +100,15 @@ namespace Atata
             }
         }
 
-        private object CreateInstanceViaConstructorAndRemoveUsedValues(ConstructorInfo constructor, Dictionary<string, object> valuesMap)
+        private object CreateInstanceViaConstructorAndRemoveUsedValues(
+            ConstructorInfo constructor,
+            Dictionary<string, object> valuesMap,
+            Dictionary<string, string> alternativeParameterNamesMap)
         {
             object[] arguments = constructor.GetParameters()
                 .Select(parameter =>
                 {
-                    KeyValuePair<string, object> valuePair = RetrievePairByName(valuesMap, parameter);
+                    KeyValuePair<string, object> valuePair = RetrievePairByName(valuesMap, alternativeParameterNamesMap, parameter);
 
                     valuesMap.Remove(valuePair.Key);
 
@@ -106,13 +119,16 @@ namespace Atata
             return constructor.Invoke(arguments);
         }
 
-        private KeyValuePair<string, object> RetrievePairByName(Dictionary<string, object> valuesMap, ParameterInfo parameter)
+        private static KeyValuePair<string, object> RetrievePairByName(
+            Dictionary<string, object> valuesMap,
+            Dictionary<string, string> alternativeParameterNamesMap,
+            ParameterInfo parameter)
         {
             KeyValuePair<string, object> valuePair = valuesMap.FirstOrDefault(pair =>
             {
                 if (pair.Key.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase))
                     return true;
-                else if (TryGetAlternativeParameterName(pair.Key, out string alternativeParameterName))
+                else if (TryGetAlternativeParameterName(alternativeParameterNamesMap, pair.Key, out string alternativeParameterName))
                     return alternativeParameterName.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase);
                 else
                     return false;

@@ -35,7 +35,12 @@ namespace Atata
                 BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
 
             if (property == null)
-                throw new MappingException($"Failed to map \"{propertyName}\" property for {destinationType.FullName} type. Property is not found.");
+                throw new MappingException(
+                    BuildMappingExceptionMessage(destinationType, propertyName, "Property is not found."));
+
+            if (!property.CanWrite)
+                throw new MappingException(
+                    BuildMappingExceptionMessage(destinationType, property.Name, "Property cannot be set."));
 
             Type propertyValueType = propertyValue?.GetType();
             Type propertyType = property.PropertyType;
@@ -53,8 +58,15 @@ namespace Atata
                     ? $"Property null value cannot be converted to {propertyType} type."
                     : $"Property \"{propertyValue}\" value of {propertyValueType} type cannot be converted to {propertyType} type.";
 
-                throw new MappingException($"Failed to map \"{propertyName}\" property for {destinationType.FullName} type. {additionalMessage}", exception);
+                throw new MappingException(
+                    BuildMappingExceptionMessage(destinationType, property.Name, additionalMessage),
+                    exception);
             }
+        }
+
+        private static string BuildMappingExceptionMessage(Type type, string propertyName, string additionalMessage)
+        {
+            return $"Failed to map \"{propertyName}\" property for {type.FullName} type. {additionalMessage}";
         }
     }
 }
