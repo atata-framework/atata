@@ -49,6 +49,7 @@ namespace Atata
 
         /// <summary>
         /// Clicks the control.
+        /// By default uses <see cref="ClickUsingClickMethodAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -67,7 +68,10 @@ namespace Atata
 
         protected virtual void OnClick()
         {
-            Scope.Click();
+            var behavior = Metadata.Get<ClickBehaviorAttribute>()
+                ?? new ClickUsingClickMethodAttribute();
+
+            behavior.Execute(this);
         }
 
         /// <summary>
@@ -213,7 +217,7 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>.
-        /// By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
+        /// By default uses <see cref="DragAndDropUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="targetSelector">The target control selector.</param>

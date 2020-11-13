@@ -17,19 +17,5 @@ namespace Atata
         {
             return Scope.Get(By.XPath($".//td[{index + 1}]").TableColumn());
         }
-
-        protected override void OnClick()
-        {
-            var columnIndexToClickAttribute = Parent.Metadata.Get<CellIndexToClickAttribute>(x => x.At(AttributeLevels.DeclaredAndComponent));
-
-            if (columnIndexToClickAttribute != null)
-            {
-                GetCell(columnIndexToClickAttribute.Index).Click();
-            }
-            else
-            {
-                base.OnClick();
-            }
-        }
     }
 }
