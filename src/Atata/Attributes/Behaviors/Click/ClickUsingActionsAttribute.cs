@@ -5,7 +5,7 @@ namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control clicking by using a set of actions:
-    /// <see cref="Actions.MoveToElement(IWebElement)"/> and <see cref="Actions.Click()"/>.
+    /// <see cref="Actions.MoveToElement(IWebElement)"/> or <see cref="Actions.MoveToElement(IWebElement, int, int, MoveToElementOffsetOrigin)"/> and <see cref="Actions.Click()"/>.
     /// </summary>
     public class ClickUsingActionsAttribute : ClickBehaviorAttribute
     {
