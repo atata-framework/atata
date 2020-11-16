@@ -11,6 +11,9 @@ namespace Atata.Tests
         [FindById]
         public Content<int, _> DoubleClickBlock { get; set; }
 
+        [FindById]
+        public Content<int, _> RightClickBlock { get; set; }
+
         public class ClickableCellsTableRow : TableRow<_>
         {
             public ControlList<Content<int, _>, _> Cells { get; private set; }

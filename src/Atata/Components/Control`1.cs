@@ -198,6 +198,7 @@ namespace Atata
 
         /// <summary>
         /// Right-clicks the control.
+        /// By default uses <see cref="RightClickUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -216,7 +217,10 @@ namespace Atata
 
         protected virtual void OnRightClick()
         {
-            Driver.Perform(actions => actions.ContextClick(Scope));
+            var behavior = Metadata.Get<RightClickBehaviorAttribute>()
+                ?? new RightClickUsingActionsAttribute();
+
+            behavior.Execute(this);
         }
 
         /// <summary>
