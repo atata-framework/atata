@@ -2,7 +2,7 @@
 {
     using _ = DragAndDropPage;
 
-    [Url("draganddrop")]
+    [Url("actions/draganddrop")]
     public class DragAndDropPage : Page<_>
     {
         [FindById]
