@@ -153,6 +153,7 @@ namespace Atata
 
         /// <summary>
         /// Double-clicks the control.
+        /// By default uses <see cref="DoubleClickUsingDoubleClickActionAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -171,7 +172,10 @@ namespace Atata
 
         protected virtual void OnDoubleClick()
         {
-            Driver.Perform(actions => actions.DoubleClick(Scope));
+            var behavior = Metadata.Get<DoubleClickBehaviorAttribute>()
+                ?? new DoubleClickUsingDoubleClickActionAttribute();
+
+            behavior.Execute(this);
         }
 
         /// <summary>
