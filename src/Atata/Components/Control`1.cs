@@ -153,7 +153,7 @@ namespace Atata
 
         /// <summary>
         /// Double-clicks the control.
-        /// By default uses <see cref="DoubleClickUsingDoubleClickActionAttribute"/> behavior.
+        /// By default uses <see cref="DoubleClickUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -173,13 +173,14 @@ namespace Atata
         protected virtual void OnDoubleClick()
         {
             var behavior = Metadata.Get<DoubleClickBehaviorAttribute>()
-                ?? new DoubleClickUsingDoubleClickActionAttribute();
+                ?? new DoubleClickUsingActionsAttribute();
 
             behavior.Execute(this);
         }
 
         /// <summary>
         /// Double-clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
+        /// By default uses <see cref="DoubleClickUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>

@@ -2,14 +2,14 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class DoubleClickUsingMoveToElementAndDoubleClickActionsAttributeTests : UITestFixture
+    public class DoubleClickUsingActionsAttributeTests : UITestFixture
     {
         [Test]
-        public void DoubleClickUsingMoveToElementAndDoubleClickActionsAttribute_Execute()
+        public void DoubleClickUsingActionsAttribute_Execute()
         {
             var table = Go.To<ClickPage>().ClickableCellsTable;
 
-            table.Metadata.Push(new DoubleClickUsingMoveToElementAndDoubleClickActionsAttribute
+            table.Metadata.Push(new DoubleClickUsingActionsAttribute
             {
                 OffsetX = 33,
                 OffsetY = 33

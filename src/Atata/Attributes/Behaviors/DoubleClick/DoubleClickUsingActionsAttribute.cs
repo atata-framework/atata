@@ -7,7 +7,7 @@ namespace Atata
     /// Represents the behavior for control double-clicking by using a set of actions:
     /// <see cref="Actions.MoveToElement(IWebElement)"/> or <see cref="Actions.MoveToElement(IWebElement, int, int, MoveToElementOffsetOrigin)"/> and <see cref="Actions.DoubleClick()"/>.
     /// </summary>
-    public class DoubleClickUsingMoveToElementAndDoubleClickActionsAttribute : DoubleClickBehaviorAttribute
+    public class DoubleClickUsingActionsAttribute : DoubleClickBehaviorAttribute
     {
         /// <summary>
         /// Gets or sets the kind of the offset.
