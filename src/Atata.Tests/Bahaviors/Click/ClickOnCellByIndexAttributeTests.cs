@@ -7,16 +7,18 @@ namespace Atata.Tests.Bahaviors
         [Test]
         public void ClickOnCellByIndexAttribute_Execute()
         {
-            var row = Go.To<TablePage>()
+            var row = Go.To<ClickPage>()
                 .ClickableCellsTable.Rows[1];
+
+            row.Metadata.Push(new ClickOnCellByIndexAttribute(2));
 
             row.Click();
 
             AtataContext.Current.AggregateAssert(() =>
             {
-                row.Cell1.Should.Equal(0);
-                row.Cell2.Should.Equal(0);
-                row.Cell3.Should.Equal(1);
+                row.Cells[0].Should.Equal(0);
+                row.Cells[1].Should.Equal(0);
+                row.Cells[2].Should.Equal(1);
             });
 
             row.Metadata.Push(new ClickOnCellByIndexAttribute(0));
@@ -24,9 +26,9 @@ namespace Atata.Tests.Bahaviors
 
             AtataContext.Current.AggregateAssert(() =>
             {
-                row.Cell1.Should.Equal(1);
-                row.Cell2.Should.Equal(0);
-                row.Cell3.Should.Equal(1);
+                row.Cells[0].Should.Equal(1);
+                row.Cells[1].Should.Equal(0);
+                row.Cells[2].Should.Equal(1);
             });
         }
     }

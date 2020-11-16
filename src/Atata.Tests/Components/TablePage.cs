@@ -44,9 +44,6 @@ namespace Atata.Tests
         [FindById(CutEnding = false)]
         public Table<OrderedTableRow, _> OrderedTable { get; private set; }
 
-        [FindById(CutEnding = false)]
-        public Table<ClickableCellsTableRow, _> ClickableCellsTable { get; private set; }
-
         public class UserTableRow : TableRow<_>
         {
             public Text<_> FirstName { get; private set; }
@@ -120,19 +117,6 @@ namespace Atata.Tests
             public Text<_> Letter { get; private set; }
 
             public Number<_> Number { get; private set; }
-        }
-
-        [ClickOnCellByIndex(2)]
-        public class ClickableCellsTableRow : TableRow<_>
-        {
-            [FindByIndex(0)]
-            public Content<int, _> Cell1 { get; private set; }
-
-            [FindByIndex(1)]
-            public Content<int, _> Cell2 { get; private set; }
-
-            [FindByIndex(2)]
-            public Content<int, _> Cell3 { get; private set; }
         }
     }
 }

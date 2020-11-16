@@ -7,15 +7,14 @@ namespace Atata.Tests.Bahaviors
         [Test]
         public void ClickUsingScriptAttribute_Execute()
         {
-            var cell = Go.To<TablePage>()
-                .ClickableCellsTable.Rows[1].Cell3;
+            var cell = Go.To<ClickPage>()
+                .ClickableCellsTable.Rows[1].Cells[2];
 
             cell.Metadata.Push(new ClickUsingScriptAttribute());
 
             cell.Click();
 
             cell.Should.Equal(1);
-            cell.Should.Not.BeVisibleInViewPort();
         }
     }
 }

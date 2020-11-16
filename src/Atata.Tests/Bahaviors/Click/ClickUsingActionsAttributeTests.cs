@@ -4,11 +4,11 @@ namespace Atata.Tests.Bahaviors
 {
     public class ClickUsingActionsAttributeTests : UITestFixture
     {
-        private Table<TablePage.ClickableCellsTableRow, TablePage> table;
+        private Table<ClickPage.ClickableCellsTableRow, ClickPage> table;
 
         protected override void OnSetUp()
         {
-            table = Go.To<TablePage>()
+            table = Go.To<ClickPage>()
                 .RefreshPage()
                 .ClickableCellsTable;
         }
@@ -24,7 +24,7 @@ namespace Atata.Tests.Bahaviors
             });
 
             table.Click();
-            table.Rows[2].Cell3.Should.Equal(1);
+            table.Rows[2].Cells[2].Should.Equal(1);
         }
 
         [Test]
@@ -38,7 +38,7 @@ namespace Atata.Tests.Bahaviors
             });
 
             table.Click();
-            table.Rows[0].Cell1.Should.Equal(1);
+            table.Rows[0].Cells[0].Should.Equal(1);
         }
 
         [Test]
@@ -52,7 +52,7 @@ namespace Atata.Tests.Bahaviors
             });
 
             table.Click();
-            table.Rows[0].Cell2.Should.Equal(1);
+            table.Rows[0].Cells[1].Should.Equal(1);
         }
 
         [Test]
@@ -66,7 +66,7 @@ namespace Atata.Tests.Bahaviors
             });
 
             table.Click();
-            table.Rows[2].Cell3.Should.Equal(1);
+            table.Rows[2].Cells[2].Should.Equal(1);
         }
     }
 }
