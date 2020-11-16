@@ -189,6 +189,28 @@ namespace Atata
 
         /// <summary>
         /// <para>
+        /// Dispatches the specified event.
+        /// </para>
+        /// <para>
+        /// Executable script:
+        /// <code>
+        /// arguments[0].dispatchEvent(new Event(arguments[1]));
+        /// </code>
+        /// </para>
+        /// </summary>
+        /// <param name="eventName">The name of the event.</param>
+        /// <returns>An instance of the owner page object.</returns>
+        public TOwner DispatchEvent(string eventName)
+        {
+            eventName.CheckNotNullOrWhitespace(nameof(eventName));
+
+            return ExecuteAgainst(
+                "arguments[0].dispatchEvent(new Event(arguments[1]));",
+                eventName);
+        }
+
+        /// <summary>
+        /// <para>
         /// Clicks the <see cref="UIComponent.Scope"/> element of the current component.
         /// </para>
         /// <para>
