@@ -17,9 +17,17 @@ namespace Atata
             return Attributes.Value;
         }
 
+        /// <summary>
+        /// Sets the value.
+        /// By default uses <see cref="ValueSetUsingClearAndSendKeysAttribute"/> behavior.
+        /// </summary>
+        /// <param name="value">The value.</param>
         protected override void SetValue(string value)
         {
-            Scope.FillInWith(value);
+            var behavior = Metadata.Get<ValueSetBehaviorAttribute>()
+                ?? new ValueSetUsingClearAndSendKeysAttribute();
+
+            behavior.Execute(this, value);
         }
 
         /// <summary>

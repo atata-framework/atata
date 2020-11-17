@@ -12,6 +12,7 @@ namespace Atata
     [Format("g")]
     [ValueGetFormat("yyyy-MM-ddTHH:mm")]
     [ValueSetFormat("yyyy-MM-ddTHH:mm")]
+    [ValueSetUsingScript]
     public class LocalDateTimeInput<TOwner> : Input<DateTime?, TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -25,13 +26,6 @@ namespace Atata
             {
                 return null;
             }
-        }
-
-        protected override void SetValue(DateTime? value)
-        {
-            string valueAsString = ConvertValueToStringUsingSetFormat(value);
-
-            Script.SetValueAndDispatchChangeEvent(valueAsString);
         }
     }
 }

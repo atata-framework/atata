@@ -19,10 +19,19 @@ namespace Atata
             return ConvertStringToValueUsingGetFormat(valueAsString);
         }
 
+        /// <summary>
+        /// Sets the value.
+        /// By default uses <see cref="ValueSetUsingClearAndSendKeysAttribute"/> behavior.
+        /// </summary>
+        /// <param name="value">The value.</param>
         protected override void SetValue(T value)
         {
             string valueAsString = ConvertValueToStringUsingSetFormat(value);
-            Scope.FillInWith(valueAsString);
+
+            var behavior = Metadata.Get<ValueSetBehaviorAttribute>()
+                ?? new ValueSetUsingClearAndSendKeysAttribute();
+
+            behavior.Execute(this, valueAsString);
         }
 
         /// <summary>

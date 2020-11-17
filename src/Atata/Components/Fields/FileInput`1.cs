@@ -8,15 +8,10 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='file']", Visibility = Visibility.Any, ComponentTypeName = "file input")]
+    [ValueSetUsingSendKeys]
     public class FileInput<TOwner> : Input<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected override void SetValue(string value)
-        {
-            string valueAsString = ConvertValueToStringUsingSetFormat(value);
-            Scope.SendKeys(valueAsString);
-        }
-
         protected override void OnClear()
         {
             var element = Scope;
