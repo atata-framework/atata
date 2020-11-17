@@ -30,7 +30,7 @@ namespace Atata.Tests
             var page = Go.To<WaitingPage>().
                 CurrentTime.Get(out TimeSpan? time);
 
-            using (StopwatchAsserter.Within(1, 1))
+            using (StopwatchAsserter.WithinSeconds(1))
                 Assert.Throws<TimeoutException>(() =>
                     page.RefreshPageUntil(x => x.CurrentTime.Value > time.Value.Add(TimeSpan.FromSeconds(15)), timeout: 1));
         }

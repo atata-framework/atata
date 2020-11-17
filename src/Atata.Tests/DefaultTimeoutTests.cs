@@ -15,7 +15,7 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(2))
+            using (StopwatchAsserter.WithinSeconds(2))
                 page.MissingControl.GetScope();
         }
 
@@ -28,7 +28,7 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(2))
+            using (StopwatchAsserter.WithinSeconds(2))
                 page.MissingControl.Wait(Until.Visible, new WaitOptions { ThrowOnPresenceFailure = false });
         }
 
@@ -41,7 +41,7 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(2))
+            using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
                     page.MissingControl.Should.BeEnabled());
         }
@@ -56,7 +56,7 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(3))
+            using (StopwatchAsserter.WithinSeconds(3))
                 page.MissingControl.GetScope();
         }
 
@@ -70,7 +70,7 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(3))
+            using (StopwatchAsserter.WithinSeconds(3))
                 page.MissingControl.Wait(Until.Visible, new WaitOptions { ThrowOnPresenceFailure = false });
         }
 
@@ -84,7 +84,7 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(3))
+            using (StopwatchAsserter.WithinSeconds(3))
                 AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
                     page.MissingControl.Should.Exist());
         }
@@ -99,7 +99,7 @@ namespace Atata.Tests
 
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(3))
+            using (StopwatchAsserter.WithinSeconds(3))
                 Assert.Throws<AssertionException>(() =>
                     page.MissingControl.IsEnabled.Should.BeTrue());
         }

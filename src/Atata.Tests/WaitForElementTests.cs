@@ -26,7 +26,7 @@ namespace Atata.Tests
         {
             WaitingPage page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(2))
+            using (StopwatchAsserter.WithinSeconds(2))
                 page.ButtonWithVisibleAndMissingWait.Click();
 
             page.Result.Should.AtOnce.Exist();
@@ -37,7 +37,7 @@ namespace Atata.Tests
         {
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(1))
+            using (StopwatchAsserter.WithinSeconds(1))
                 Assert.Throws<NoSuchElementException>(
                     () => page.ButtonWithVisibleAndMissingNonExistentWait.Click());
         }
@@ -47,7 +47,7 @@ namespace Atata.Tests
         {
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(2))
+            using (StopwatchAsserter.WithinSeconds(2))
                 page.ButtonWithHiddenAndVisibleWait.Click();
 
             page.Result.Should.AtOnce.Exist();

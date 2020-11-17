@@ -143,16 +143,16 @@ namespace Atata.Tests
         {
             var component = Go.To<TablePage>().EmptyTable.Rows;
 
-            using (StopwatchAsserter.Within(1, 1))
+            using (StopwatchAsserter.WithinSeconds(0))
                 component.Should.BeEmpty();
 
-            using (StopwatchAsserter.Within(1, 1))
+            using (StopwatchAsserter.WithinSeconds(0))
                 component.Count.Should.Equal(0);
 
-            using (StopwatchAsserter.Within(1, 1))
+            using (StopwatchAsserter.WithinSeconds(0))
                 component.Should.HaveCount(0);
 
-            using (StopwatchAsserter.Within(1, 1))
+            using (StopwatchAsserter.WithinSeconds(0))
                 component.AsEnumerable().Should().BeEmpty();
         }
     }

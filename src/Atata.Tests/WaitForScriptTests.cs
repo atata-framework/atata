@@ -18,7 +18,7 @@ namespace Atata.Tests
         {
             var page = Go.To<WaitingPage>();
 
-            using (StopwatchAsserter.Within(1))
+            using (StopwatchAsserter.WithinSeconds(1))
                 Assert.Throws<TimeoutException>(
                     () => page.ButtonWithTimeoutScriptWait());
         }
