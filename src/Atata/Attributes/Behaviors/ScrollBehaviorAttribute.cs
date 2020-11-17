@@ -6,6 +6,6 @@
     public abstract class ScrollBehaviorAttribute : MulticastAttribute
     {
         public abstract void Execute<TOwner>(IControl<TOwner> control)
-            where TOwner : PageObject<TOwner>, IPageObject<TOwner>;
+            where TOwner : PageObject<TOwner>;
     }
 }
