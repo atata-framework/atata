@@ -11,6 +11,6 @@
         /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
         /// <param name="component">The UI component.</param>
         public abstract void Execute<TOwner>(IUIComponent<TOwner> component)
-            where TOwner : PageObject<TOwner>, IPageObject<TOwner>;
+            where TOwner : PageObject<TOwner>;
     }
 }
