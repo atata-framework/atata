@@ -6,6 +6,6 @@
     public abstract class DragAndDropBehaviorAttribute : MulticastAttribute
     {
         public abstract void Execute<TOwner>(IControl<TOwner> component, IControl<TOwner> target)
-            where TOwner : PageObject<TOwner>, IPageObject<TOwner>;
+            where TOwner : PageObject<TOwner>;
     }
 }
