@@ -22,16 +22,24 @@ namespace Atata
         /// <summary>
         /// Sets the value by executing <see cref="ValueSetBehaviorAttribute"/> behavior.
         /// The default behavior is <see cref="ValueSetUsingClearAndSendKeysAttribute"/>.
+        /// If the value is null or empty, calls <see cref="OnClear()"/> method instead.
         /// </summary>
         /// <param name="value">The value.</param>
         protected override void SetValue(T value)
         {
             string valueAsString = ConvertValueToStringUsingSetFormat(value);
 
-            var behavior = Metadata.Get<ValueSetBehaviorAttribute>()
-                ?? new ValueSetUsingClearAndSendKeysAttribute();
+            if (string.IsNullOrEmpty(valueAsString))
+            {
+                OnClear();
+            }
+            else
+            {
+                var behavior = Metadata.Get<ValueSetBehaviorAttribute>()
+                    ?? new ValueSetUsingClearAndSendKeysAttribute();
 
-            behavior.Execute(this, valueAsString);
+                behavior.Execute(this, valueAsString);
+            }
         }
 
         /// <summary>
