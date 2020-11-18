@@ -20,8 +20,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the value.
-        /// By default uses <see cref="ValueSetUsingClearAndSendKeysAttribute"/> behavior.
+        /// Sets the value by executing <see cref="ValueSetBehaviorAttribute"/> behavior.
+        /// The default behavior is <see cref="ValueSetUsingClearAndSendKeysAttribute"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         protected override void SetValue(T value)
@@ -55,6 +55,7 @@ namespace Atata
 
         /// <summary>
         /// Clears the value.
+        /// By default uses <see cref="ValueClearUsingClearMethodAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
@@ -71,9 +72,16 @@ namespace Atata
             return Owner;
         }
 
+        /// <summary>
+        /// Clears the value by executing <see cref="ValueClearBehaviorAttribute"/> behavior.
+        /// The default behavior is <see cref="ValueClearUsingClearMethodAttribute"/>.
+        /// </summary>
         protected virtual void OnClear()
         {
-            Scope.Clear();
+            var behavior = Metadata.Get<ValueClearBehaviorAttribute>()
+                ?? new ValueClearUsingClearMethodAttribute();
+
+            behavior.Execute(this);
         }
     }
 }
