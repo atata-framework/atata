@@ -18,8 +18,8 @@ namespace Atata
         }
 
         /// <summary>
-        /// Sets the value.
-        /// By default uses <see cref="ValueSetUsingClearAndSendKeysAttribute"/> behavior.
+        /// Sets the value by executing <see cref="ValueSetBehaviorAttribute"/> behavior.
+        /// The default behavior is <see cref="ValueSetUsingClearAndSendKeysAttribute"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         protected override void SetValue(string value)
