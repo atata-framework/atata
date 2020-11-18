@@ -162,7 +162,9 @@ namespace Atata
         /// <returns>An instance of the owner page object.</returns>
         public TOwner SetValue(string value)
         {
-            return ExecuteAgainst("arguments[0].value = arguments[1];", value);
+            return ExecuteAgainst(
+                "arguments[0].value = arguments[1];",
+                value ?? string.Empty);
         }
 
         /// <summary>
@@ -184,7 +186,7 @@ namespace Atata
             return ExecuteAgainst(
                 "arguments[0].value = arguments[1];" +
                 "arguments[0].dispatchEvent(new Event('change'));",
-                value);
+                value ?? string.Empty);
         }
 
         /// <summary>
