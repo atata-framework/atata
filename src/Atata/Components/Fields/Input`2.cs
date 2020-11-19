@@ -13,9 +13,19 @@ namespace Atata
     public class Input<T, TOwner> : EditableField<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <summary>
+        /// Gets the value by executing <see cref="ValueGetBehaviorAttribute"/>.
+        /// The default behavior is <see cref="ValueGetFromValueAttribute"/>.
+        /// </summary>
+        /// <returns>
+        /// The value.
+        /// </returns>
         protected override T GetValue()
         {
-            string valueAsString = Attributes.Value;
+            var behavior = Metadata.Get<ValueGetBehaviorAttribute>()
+                ?? new ValueGetFromValueAttribute();
+
+            string valueAsString = behavior.Execute(this);
             return ConvertStringToValueUsingGetFormat(valueAsString);
         }
 

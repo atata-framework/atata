@@ -12,9 +12,19 @@ namespace Atata
     public class TextArea<TOwner> : EditableField<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <summary>
+        /// Gets the value by executing <see cref="ValueGetBehaviorAttribute"/>.
+        /// The default behavior is <see cref="ValueGetFromValueAttribute"/>.
+        /// </summary>
+        /// <returns>
+        /// The value.
+        /// </returns>
         protected override string GetValue()
         {
-            return Attributes.Value;
+            var behavior = Metadata.Get<ValueGetBehaviorAttribute>()
+                ?? new ValueGetFromValueAttribute();
+
+            return behavior.Execute(this);
         }
 
         /// <summary>
