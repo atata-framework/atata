@@ -1,0 +1,22 @@
+﻿@page
+@{
+    ViewBag.Title = "Summernote";
+}
+@section styles {
+    <link href="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <div id="basic"></div>
+    </div>
+</div>
+@section scripts {
+    <script src="//cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#basic').summernote({
+                placeholder: 'Enter the text...'
+            });
+        });
+    </script>
+}
