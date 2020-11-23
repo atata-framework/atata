@@ -21,6 +21,18 @@
         "fonts/glyphicons-halflings-regular.woff",
         "fonts/glyphicons-halflings-regular.woff2"
       ]
+    },
+    {
+      "library": "tinymce@5.5.1",
+      "destination": "wwwroot/lib/tinymce",
+      "files": [
+        "tinymce.min.js",
+        "themes/silver/theme.min.js",
+        "icons/default/icons.min.js",
+        "skins/ui/oxide/skin.min.css",
+        "skins/ui/oxide/content.min.css",
+        "skins/content/default/content.min.css"
+      ]
     }
   ]
 }

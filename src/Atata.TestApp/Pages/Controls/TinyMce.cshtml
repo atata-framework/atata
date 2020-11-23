@@ -1,0 +1,18 @@
+﻿@page
+@{
+    ViewBag.Title = "TinyMCE";
+}
+<div class="row">
+    <div class="col-md-6 col-md-offset-3">
+        <textarea id="basic"></textarea>
+    </div>
+</div>
+@section scripts {
+    <script src="~/lib/tinymce/tinymce.min.js"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#basic',
+            menubar: false
+        });
+    </script>
+}
