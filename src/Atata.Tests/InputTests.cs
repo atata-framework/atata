@@ -169,7 +169,7 @@ namespace Atata.Tests
 
             VerifyDoesNotEqual(control, "Text3");
 
-            control.Append("0");
+            control.Type("0");
             control.Should.Equal("Text20");
             control.Clear();
             control.Should.BeNull();

@@ -30,7 +30,7 @@ namespace Atata.Tests
             control.Should.BeNull();
             outputControl.Should.BeNull();
 
-            control.Append("invalid");
+            control.Type("invalid");
             control.Should.BeNull();
             outputControl.Should.BeNull();
 

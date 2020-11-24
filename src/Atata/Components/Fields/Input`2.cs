@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -19,6 +20,7 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The owner page object.</returns>
+        [Obsolete("Use Type(...) instead.")] // Obsolete since v1.9.0.
         public TOwner Append(string value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
