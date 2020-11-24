@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace Atata.Tests
+namespace Atata.Tests.Controls
 {
     public class LocalDateTimeInputTests : UITestFixture
     {
