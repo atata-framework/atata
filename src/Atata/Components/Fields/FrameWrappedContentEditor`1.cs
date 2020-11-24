@@ -55,6 +55,14 @@ namespace Atata
             });
         }
 
+        protected override void OnType(string value)
+        {
+            DoWithinFrame(() =>
+            {
+                ContentEditor.Type(value);
+            });
+        }
+
         /// <summary>
         /// Performs the action within the frame provided by <see cref="GetFrameControl()"/> method.
         /// </summary>

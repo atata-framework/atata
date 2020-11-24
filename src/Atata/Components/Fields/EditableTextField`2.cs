@@ -77,5 +77,37 @@
 
             behavior.Execute(this);
         }
+
+        /// <summary>
+        /// Types (appends) the specified text value.
+        /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
+        /// </summary>
+        /// <param name="value">The text value to type.</param>
+        /// <returns>The owner page object.</returns>
+        public TOwner Type(string value)
+        {
+            ExecuteTriggers(TriggerEvents.BeforeSet);
+            Log.Start(new ValueTypeLogSection(this, value));
+
+            OnType(value);
+
+            Log.EndSection();
+            ExecuteTriggers(TriggerEvents.AfterSet);
+
+            return Owner;
+        }
+
+        /// <summary>
+        /// Types the text value by executing <see cref="ValueTypeBehaviorAttribute" /> behavior.
+        /// The default behavior is <see cref="ValueTypeUsingSendKeysAttribute" />.
+        /// </summary>
+        /// <param name="value">The text value to type.</param>
+        protected virtual void OnType(string value)
+        {
+            var behavior = Metadata.Get<ValueTypeBehaviorAttribute>()
+                ?? new ValueTypeUsingSendKeysAttribute();
+
+            behavior.Execute(this, value);
+        }
     }
 }

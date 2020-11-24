@@ -18,6 +18,9 @@ namespace Atata.Tests.Controls
             sut.Set("Def");
             sut.Should.Equal("Def");
 
+            sut.Type("Ghi");
+            sut.Should.Equal("DefGhi");
+
             sut.Clear();
             sut.Should.BeNull();
         }
