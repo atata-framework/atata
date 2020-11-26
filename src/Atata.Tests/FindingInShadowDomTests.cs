@@ -1,5 +1,6 @@
 ﻿using FluentAssertions;
 using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -137,6 +138,16 @@ namespace Atata.Tests
             Go.To<ShadowHostPopupWindow>().AggregateAssert(x => x
                 .Paragraphs.Should.EqualSequence("Shadow 1.1", "Shadow 1.2")
                 .Paragraph2.Should.Equal("Shadow 1.2"));
+        }
+
+        [Test]
+        public void Find_InShadowHost_InvalidShadowHostLocator()
+        {
+            var control = page.InvalidShadowRoot;
+
+            AssertThrowsWithInnerException<AssertionException, WebDriverException>(() =>
+                control.Should.Exist())
+                .InnerException.Message.Should().Contain("Element doesn't have shadowRoot value");
         }
     }
 }

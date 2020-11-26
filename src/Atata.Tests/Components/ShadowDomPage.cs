@@ -70,6 +70,9 @@
         [FindByName("bool-options")]
         public RadioButtonList<string, _> YesNoRadios { get; private set; }
 
+        [FindByXPath("h1", As = FindAs.ShadowHost)]
+        public Text<_> InvalidShadowRoot { get; private set; }
+
         [FindById("shadow-container-2-1-1", As = FindAs.ShadowHost)]
         public class Shadow2Control : Control<_>
         {

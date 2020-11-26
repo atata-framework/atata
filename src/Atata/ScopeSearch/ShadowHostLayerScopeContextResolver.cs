@@ -7,7 +7,10 @@ namespace Atata
     public class ShadowHostLayerScopeContextResolver : ILayerScopeContextResolver
     {
         private const string GetShadowRootChildElementsScript =
-@"var shadowChildren = arguments[0].shadowRoot.children;
+@"if (!arguments[0].shadowRoot) {
+    throw 'Element doesn\'t have shadowRoot value. Element: ' + arguments[0].outerHTML.replace(arguments[0].innerHTML, '...');
+}
+var shadowChildren = arguments[0].shadowRoot.children;
 var filteredChildren = [];
 
 for (var i = 0; i < shadowChildren.length; i++) {
