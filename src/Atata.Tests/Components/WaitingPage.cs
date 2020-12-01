@@ -40,7 +40,7 @@ namespace Atata.Tests
 
         [Term("Wait and Update Value")]
         [CustomWaitForScript("New value", TriggerEvents.AfterClick)]
-        public ButtonDelegate<_> ButtonWithSuccessfullScriptWait { get; private set; }
+        public ButtonDelegate<_> ButtonWithSuccessfulScriptWait { get; private set; }
 
         [Term("Wait and Update Value")]
         [CustomWaitForScript("New value", TriggerEvents.AfterClick, Timeout = 1)]

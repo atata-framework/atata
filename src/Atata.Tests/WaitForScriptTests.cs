@@ -9,7 +9,7 @@ namespace Atata.Tests
         public void Trigger_WaitForScript()
         {
             Go.To<WaitingPage>().
-                ButtonWithSuccessfullScriptWait().
+                ButtonWithSuccessfulScriptWait().
                 ValueBlock.Should.AtOnce.Exist();
         }
 
