@@ -7,9 +7,11 @@
 <head>
     <title>FrameSet - Atata</title>
 </head>
-<frameset cols="*,*,*">
-    <frame src="frameinner1">
-    <frame src="frameinner2">
-    <frame src="frameinner1">
+<frameset cols="*,*">
+    <frame id="frame-1" src="frameinner1" />
+    <frameset rows="*,*">
+        <frame id="frame-2" src="frameinner2" />
+        <frame id="frame-3" src="frameinner1" />
+    </frameset>
 </frameset>
 </html>

@@ -6,13 +6,13 @@
     [VerifyTitle(TermCase.Pascal)]
     public class FrameSetPage : FrameSetPage<_>
     {
-        [FindByIndex(0)]
+        [FindFirst]
         public Frame<FrameInner1Page, _> Frame1 { get; private set; }
 
-        [FindByIndex(1)]
+        [FindById]
         public Frame<FrameInner2Page, _> Frame2 { get; private set; }
 
-        [FindByIndex(2)]
+        [FindById]
         public Frame<FrameInner1Page, _> Frame3 { get; private set; }
     }
 }
