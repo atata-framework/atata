@@ -10,53 +10,40 @@ namespace Atata
 {
     public static class VerificationUtils
     {
-        public const string NullString = "null";
+        [Obsolete("Use Stringifier.NullString instead.")] // Obsolete since v1.9.0.
+        public const string NullString = Stringifier.NullString;
 
+        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
         public static string ToString(IEnumerable collection)
         {
-            return ToString(collection?.Cast<object>());
+            return Stringifier.ToString(collection);
         }
 
+        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
         public static string ToString<T>(IEnumerable<T> collection)
         {
-            if (collection == null)
-                return NullString;
-            if (!collection.Any())
-                return "[]";
-            else if (collection.Count() == 1)
-                return ToString(collection.First());
-            else
-                return $"[{string.Join(", ", collection.Select(x => ToString(x)).ToArray())}]";
+            return Stringifier.ToString(collection);
         }
 
+        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
         public static string ToString<T>(Expression<Func<T, bool>> predicateExpression)
         {
-            return $"\"{ObjectExpressionStringBuilder.ExpressionToString(predicateExpression)}\" {GetItemTypeName(typeof(T))}";
+            return Stringifier.ToString(predicateExpression);
         }
 
+        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
         public static string ToString(Expression expression)
         {
-            return $"\"{ObjectExpressionStringBuilder.ExpressionToString(expression)}\"";
+            return Stringifier.ToString(expression);
         }
 
+        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
         public static string ToString(object value)
         {
-            if (Equals(value, null))
-                return NullString;
-            else if (value is string)
-                return $"\"{value}\"";
-            else if (value is bool)
-                return value.ToString().ToLower();
-            else if (value is ValueType)
-                return value.ToString();
-            else if (value is IEnumerable enumerableValue)
-                return ToString(enumerableValue);
-            else if (value is Expression expressionValue)
-                return ToString(expressionValue);
-            else
-                return $"{{{value}}}";
+            return Stringifier.ToString(value);
         }
 
+        [Obsolete("Don't use this method.")] // Obsolete since v1.9.0.
         public static string GetItemTypeName(Type type)
         {
             return type.IsInheritedFromOrIs(typeof(Control<>))
@@ -97,7 +84,7 @@ namespace Atata
         public static string BuildExpectedMessage(string message, object[] args)
         {
             return args != null && args.Any()
-                ? message.FormatWith(args.Select(x => ToString(x)).ToArray())
+                ? message.FormatWith(args.Select(x => Stringifier.ToString(x)).ToArray())
                 : message;
         }
 
@@ -111,7 +98,7 @@ namespace Atata
                 if (args != null && args.Any())
                 {
                     string[] convertedArgs = args.
-                        Select(x => $"\"{should.DataProvider.ConvertValueToString(x) ?? NullString}\"").
+                        Select(x => $"\"{should.DataProvider.ConvertValueToString(x) ?? Stringifier.NullString}\"").
                         ToArray();
 
                     formattedMessage = message.FormatWith(convertedArgs);
