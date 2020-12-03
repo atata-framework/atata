@@ -54,7 +54,7 @@ namespace Atata.Tests
             var expectTo = page.IsTrue.ExpectTo.AtOnce;
 
             expectTo.BeFalse();
-            expectTo.BeFalse();
+            expectTo.Not.BeTrue();
 
             AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
                 AtataContext.Current.CleanUp(false));

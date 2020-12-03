@@ -9,6 +9,7 @@
         {
             Timeout = verificationProvider.Timeout;
             RetryInterval = verificationProvider.RetryInterval;
+            Strategy = verificationProvider.Strategy;
         }
     }
 }

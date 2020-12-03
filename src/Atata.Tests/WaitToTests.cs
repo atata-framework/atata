@@ -30,12 +30,24 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void WaitTo_OneFailure()
+        public void WaitTo_Positive_Failure()
         {
             var waitTo = page.IsTrue.WaitTo.AtOnce;
 
             TimeoutException exception = Assert.Throws<TimeoutException>(() =>
                 waitTo.BeFalse());
+
+            Assert.That(exception.Message, Does.StartWith("Timed out waiting for "));
+            Assert.That(exception.InnerException, Is.Null);
+        }
+
+        [Test]
+        public void WaitTo_Negative_Failure()
+        {
+            var waitTo = page.IsTrue.WaitTo.Not.AtOnce;
+
+            TimeoutException exception = Assert.Throws<TimeoutException>(() =>
+                waitTo.BeTrue());
 
             Assert.That(exception.Message, Does.StartWith("Timed out waiting for "));
             Assert.That(exception.InnerException, Is.Null);
