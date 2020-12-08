@@ -46,6 +46,7 @@ namespace Atata.Tests
             page.DynamicInput.Get();
 
             VerifyLastLogMessages(
+                minLogLevel: LogLevel.Info,
                 "AfterGet-Medium",
                 "AfterGet-Low",
                 "AfterGet-Lower",
@@ -124,6 +125,7 @@ namespace Atata.Tests
         public void Trigger_Priority()
         {
             VerifyLastLogMessages(
+                minLogLevel: LogLevel.Info,
                 "Init-Low",
                 "Init-Lower",
                 "Init-Lowest");
@@ -131,6 +133,7 @@ namespace Atata.Tests
             page.InputWithLogging.Set("abc");
 
             VerifyLastLogMessages(
+                minLogLevel: LogLevel.Info,
                 "AfterSet-Highest",
                 "AfterSet-Higher",
                 "AfterSet-High",
@@ -162,6 +165,7 @@ namespace Atata.Tests
             page.InputWithLogging.Set("abc");
 
             VerifyLastLogMessages(
+                minLogLevel: LogLevel.Info,
                 "AfterSet-Highest",
                 "AfterSet-Higher",
                 "AfterSet-High",
@@ -182,6 +186,7 @@ namespace Atata.Tests
             page.InputWithLogging.Set("abc");
 
             VerifyLastLogMessages(
+                minLogLevel: LogLevel.Info,
                 "AfterSet-Highest",
                 "AfterSet-High",
                 "AfterSet-Low",
@@ -194,6 +199,7 @@ namespace Atata.Tests
             page.Hierarchy.Level1.Level2.Level3.Level4.Click();
 
             VerifyLastLogMessagesContain(
+                minLogLevel: LogLevel.Info,
                 "Starting: Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item",
                 "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
                 "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",

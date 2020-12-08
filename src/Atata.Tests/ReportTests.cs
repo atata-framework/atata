@@ -60,7 +60,7 @@ namespace Atata.Tests
                 Report.EndSection().
                 Report.EndSection();
 
-            var logEntries = GetLastLogEntries(5);
+            var logEntries = GetLastLogEntries(LogLevel.Trace, 5);
 
             logEntries[0].Level.Should().Be(LogLevel.Info);
             logEntries[0].Message.Should().Be("Starting: section1");
@@ -82,6 +82,7 @@ namespace Atata.Tests
                 Report.Screenshot("sometitle");
 
             VerifyLastLogMessagesContain(
+                minLogLevel: LogLevel.Trace,
                 "Go to");
         }
 
@@ -97,6 +98,7 @@ namespace Atata.Tests
                 Report.Screenshot("sometitle");
 
             VerifyLastLogMessages(
+                minLogLevel: LogLevel.Trace,
                 "Take screenshot #01",
                 "Take screenshot #02 - sometitle");
 

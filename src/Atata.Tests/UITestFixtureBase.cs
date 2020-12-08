@@ -127,14 +127,16 @@ namespace Atata.Tests
             fileContent.Should().NotContainAll(texts);
         }
 
-        protected void VerifyLastLogMessages(params string[] expectedMessages)
+        protected void VerifyLastLogMessages(LogLevel minLogLevel, params string[] expectedMessages)
         {
-            Assert.That(GetLastLogMessages(expectedMessages.Length), Is.EqualTo(expectedMessages));
+            string[] actualMessages = GetLastLogMessages(minLogLevel, expectedMessages.Length);
+
+            Assert.That(actualMessages, Is.EqualTo(expectedMessages));
         }
 
-        protected void VerifyLastLogMessagesContain(params string[] expectedMessages)
+        protected void VerifyLastLogMessagesContain(LogLevel minLogLevel, params string[] expectedMessages)
         {
-            string[] actualMessages = GetLastLogMessages(expectedMessages.Length);
+            string[] actualMessages = GetLastLogMessages(minLogLevel, expectedMessages.Length);
 
             for (int i = 0; i < expectedMessages.Length; i++)
             {
@@ -146,7 +148,7 @@ namespace Atata.Tests
         protected void VerifyLastLogEntries(params (LogLevel Level, string Message, Exception Exception)[] expectedLogEntries)
 #pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
         {
-            LogEventInfo[] actualLogEntries = GetLastLogEntries(expectedLogEntries.Length);
+            LogEventInfo[] actualLogEntries = GetLastLogEntries(LogLevel.Trace, expectedLogEntries.Length);
 
             for (int i = 0; i < expectedLogEntries.Length; i++)
             {
@@ -156,14 +158,14 @@ namespace Atata.Tests
             }
         }
 
-        protected LogEventInfo[] GetLastLogEntries(int count)
+        protected LogEventInfo[] GetLastLogEntries(LogLevel minLogLevel, int count)
         {
-            return LogEntries.Reverse().Take(count).Reverse().ToArray();
+            return LogEntries.Reverse().Where(x => x.Level >= minLogLevel).Take(count).Reverse().ToArray();
         }
 
-        protected string[] GetLastLogMessages(int count)
+        protected string[] GetLastLogMessages(LogLevel minLogLevel, int count)
         {
-            return GetLastLogEntries(count).Select(x => x.Message).ToArray();
+            return GetLastLogEntries(minLogLevel, count).Select(x => x.Message).ToArray();
         }
     }
 }
