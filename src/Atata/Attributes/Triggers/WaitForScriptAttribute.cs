@@ -44,28 +44,38 @@ namespace Atata
             string message = BuildReportMessage(context) ?? DefaultReportMessage;
             string script = BuildScript(context);
 
-            context.Log.Start(message, LogLevel.Trace);
-
-            bool isCompleted = context.Driver
-                .Try(TimeSpan.FromSeconds(Timeout), TimeSpan.FromSeconds(RetryInterval))
-                .Until(_ => context.Component.Script.Execute<bool>(script).Value);
-
-            if (!isCompleted)
+            void OnExecute()
             {
-                StringBuilder errorMessageBuilder = new StringBuilder("Timed out waiting for script.");
+                bool isCompleted = context.Driver
+                    .Try(TimeSpan.FromSeconds(Timeout), TimeSpan.FromSeconds(RetryInterval))
+                    .Until(_ => context.Component.Script.Execute<bool>(script).Value);
 
-                if (message != DefaultReportMessage)
+                if (!isCompleted)
                 {
-                    errorMessageBuilder.Append(' ').Append(message);
+                    StringBuilder errorMessageBuilder = new StringBuilder("Timed out waiting for script.");
 
-                    if (!message.EndsWith("."))
-                        errorMessageBuilder.Append('.');
+                    if (message != DefaultReportMessage)
+                    {
+                        errorMessageBuilder.Append(' ').Append(message);
+
+                        if (!message.EndsWith("."))
+                            errorMessageBuilder.Append('.');
+                    }
+
+                    throw new TimeoutException(errorMessageBuilder.ToString());
                 }
-
-                throw new TimeoutException(errorMessageBuilder.ToString());
             }
 
-            context.Log.EndSection();
+            if (message != DefaultReportMessage)
+            {
+                context.Log.ExecuteSection(
+                    new LogSection(message),
+                    OnExecute);
+            }
+            else
+            {
+                OnExecute();
+            }
         }
     }
 }

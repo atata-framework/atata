@@ -11,9 +11,6 @@
         {
         }
 
-        protected override string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
-            => "Wait for AngularJS AJAX execution";
-
         protected override string BuildScript<TOwner>(TriggerContext<TOwner> context)
             => @"
 try {

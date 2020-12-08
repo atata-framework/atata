@@ -5,7 +5,6 @@
         public WaitForElementLogSection(UIComponent component, WaitBy waitBy, string selector, WaitUnit waitUnit)
             : base(component)
         {
-            Level = LogLevel.Trace;
             Message = $"Wait until element by \"{selector}\" {ConvertToString(waitBy)} is {waitUnit.GetWaitingText()}";
         }
 

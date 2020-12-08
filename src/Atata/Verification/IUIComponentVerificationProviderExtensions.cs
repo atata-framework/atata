@@ -15,39 +15,40 @@ namespace Atata
 
             string expectedMessage = "exist";
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"));
-
-            SearchOptions searchOptions = new SearchOptions
-            {
-                IsSafely = false,
-                Timeout = should.Timeout ?? AtataContext.Current.VerificationTimeout,
-                RetryInterval = should.RetryInterval ?? AtataContext.Current.VerificationRetryInterval
-            };
-
-            try
-            {
-                StaleSafely.Execute(
-                    options =>
+            AtataContext.Current.Log.ExecuteSection(
+                new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"),
+                () =>
+                {
+                    SearchOptions searchOptions = new SearchOptions
                     {
-                        if (should.IsNegation)
-                            should.Component.Missing(options);
-                        else
-                            should.Component.Exists(options);
-                    },
-                    searchOptions);
-            }
-            catch (Exception exception)
-            {
-                string failureMessage = new StringBuilder().
-                    Append($"{should.Component.ComponentFullName} presence.").
-                    AppendLine().
-                    Append($"Expected: {should.GetShouldText()} {expectedMessage}").
-                    ToString();
+                        IsSafely = false,
+                        Timeout = should.Timeout ?? AtataContext.Current.VerificationTimeout,
+                        RetryInterval = should.RetryInterval ?? AtataContext.Current.VerificationRetryInterval
+                    };
 
-                should.ReportFailure(failureMessage, exception);
-            }
+                    try
+                    {
+                        StaleSafely.Execute(
+                            options =>
+                            {
+                                if (should.IsNegation)
+                                    should.Component.Missing(options);
+                                else
+                                    should.Component.Exists(options);
+                            },
+                            searchOptions);
+                    }
+                    catch (Exception exception)
+                    {
+                        string failureMessage = new StringBuilder().
+                            Append($"{should.Component.ComponentFullName} presence.").
+                            AppendLine().
+                            Append($"Expected: {should.GetShouldText()} {expectedMessage}").
+                            ToString();
 
-            AtataContext.Current.Log.EndSection();
+                        should.ReportFailure(failureMessage, exception);
+                    }
+                });
 
             return should.Owner;
         }
@@ -137,40 +138,41 @@ namespace Atata
                 AppendIf(expectedIndividualValues.Count() > 1, ":").
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"));
-
-            IEnumerable<TData> actualIndividualValues = null;
-            Exception exception = null;
-
-            bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
-                _ =>
+            AtataContext.Current.Log.ExecuteSection(
+                new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"),
+                () =>
                 {
-                    try
+                    IEnumerable<TData> actualIndividualValues = null;
+                    Exception exception = null;
+
+                    bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
+                        _ =>
+                        {
+                            try
+                            {
+                                actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
+                                int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
+                                bool result = should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
+                                exception = null;
+                                return result;
+                            }
+                            catch (Exception e)
+                            {
+                                exception = e;
+                                return false;
+                            }
+                        },
+                        should.GetRetryOptions());
+
+                    if (!doesSatisfy)
                     {
-                        actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
-                        int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
-                        bool result = should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
-                        exception = null;
-                        return result;
+                        string actualMessage = exception == null ? should.Component.ConvertIndividualValuesToString(actualIndividualValues, true) : null;
+
+                        string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                        should.ReportFailure(failureMessage, exception);
                     }
-                    catch (Exception e)
-                    {
-                        exception = e;
-                        return false;
-                    }
-                },
-                should.GetRetryOptions());
-
-            if (!doesSatisfy)
-            {
-                string actualMessage = exception == null ? should.Component.ConvertIndividualValuesToString(actualIndividualValues, true) : null;
-
-                string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
-
-                should.ReportFailure(failureMessage, exception);
-            }
-
-            AtataContext.Current.Log.EndSection();
+                });
 
             return should.Owner;
         }

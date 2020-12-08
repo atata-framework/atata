@@ -911,6 +911,19 @@ namespace Atata
 
             AtataContext.Current = context;
 
+            context.LogTestStart();
+
+            context.Log.ExecuteSection(
+                new LogSection("Set up AtataContext", LogLevel.Trace),
+                () => SetUp(context));
+
+            context.CleanExecutionStartDateTime = DateTime.Now;
+
+            return context;
+        }
+
+        private void SetUp(AtataContext context)
+        {
             OnBuilding(context);
 
             if (context.BaseUrl != null)
@@ -929,16 +942,10 @@ namespace Atata
             context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
 
             OnBuilt(context);
-
-            return context;
         }
 
         private void OnBuilding(AtataContext context)
         {
-            context.LogTestStart();
-
-            context.Log.Start("Set up AtataContext", LogLevel.Trace);
-
             if (BuildingContext.OnBuildingActions != null)
             {
                 foreach (Action action in BuildingContext.OnBuildingActions)
@@ -971,10 +978,6 @@ namespace Atata
                     }
                 }
             }
-
-            context.Log.EndSection();
-
-            context.CleanExecutionStartDateTime = DateTime.Now;
         }
 
         private static void LogRetrySettings(AtataContext context)

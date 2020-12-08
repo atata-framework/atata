@@ -11,9 +11,6 @@
         {
         }
 
-        protected override string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
-            => "Wait for jQuery AJAX execution";
-
         protected override string BuildScript<TOwner>(TriggerContext<TOwner> context)
             => "return jQuery.active == 0";
     }

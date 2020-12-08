@@ -11,9 +11,6 @@
         {
         }
 
-        protected override string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
-            => "Wait for document to be ready";
-
         protected override string BuildScript<TOwner>(TriggerContext<TOwner> context)
             => "return document.readyState === 'complete'";
     }

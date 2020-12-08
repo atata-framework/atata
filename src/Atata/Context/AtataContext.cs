@@ -359,16 +359,14 @@ namespace Atata
 
                 try
                 {
-                    Log.Start(new AggregateAssertionLogSection(assertionScopeName));
-
-                    action();
+                    Log.ExecuteSection(
+                        new AggregateAssertionLogSection(assertionScopeName),
+                        action);
                 }
                 finally
                 {
                     AggregateAssertionLevel--;
                 }
-
-                Log.EndSection();
             });
         }
 
@@ -385,19 +383,20 @@ namespace Atata
 
             TimeSpan cleanTestExecutionTime = DateTime.Now - CleanExecutionStartDateTime;
 
-            Log.Start("Clean up test context");
+            Log.ExecuteSection(
+                new LogSection("Clean up AtataContext"),
+                () =>
+                {
+                    CleanUpTemporarilyPreservedPageObjectList();
 
-            CleanUpTemporarilyPreservedPageObjectList();
+                    if (PageObject != null)
+                        UIComponentResolver.CleanUpPageObject(PageObject);
 
-            if (PageObject != null)
-                UIComponentResolver.CleanUpPageObject(PageObject);
+                    UIComponentScopeCache.Clear();
 
-            UIComponentScopeCache.Clear();
-
-            if (quitDriver)
-                Driver?.Dispose();
-
-            Log.EndSection();
+                    if (quitDriver)
+                        Driver?.Dispose();
+                });
 
             TimeSpan testExecutionTime = DateTime.Now - TestStart;
             Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
@@ -449,21 +448,22 @@ namespace Atata
         /// </summary>
         public void RestartDriver()
         {
-            Log.Start("Restart driver");
+            Log.ExecuteSection(
+                new LogSection("Restart driver"),
+                () =>
+                {
+                    CleanUpTemporarilyPreservedPageObjectList();
 
-            CleanUpTemporarilyPreservedPageObjectList();
+                    if (PageObject != null)
+                    {
+                        UIComponentResolver.CleanUpPageObject(PageObject);
+                        PageObject = null;
+                    }
 
-            if (PageObject != null)
-            {
-                UIComponentResolver.CleanUpPageObject(PageObject);
-                PageObject = null;
-            }
+                    Driver.Dispose();
 
-            Driver.Dispose();
-
-            InitDriver();
-
-            Log.EndSection();
+                    InitDriver();
+                });
         }
 
         internal void CleanUpTemporarilyPreservedPageObjectList()

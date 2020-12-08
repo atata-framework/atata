@@ -54,11 +54,9 @@ namespace Atata
         {
             foreach (WaitUnit unit in Until.GetWaitUnits(WaitOptions))
             {
-                context.Log.Start(new WaitForElementLogSection((UIComponent)context.Component, WaitBy, Selector, unit));
-
-                Wait(context.Component, unit);
-
-                context.Log.EndSection();
+                context.Log.ExecuteSection(
+                    new WaitForElementLogSection((UIComponent)context.Component, WaitBy, Selector, unit),
+                    () => Wait(context.Component, unit));
             }
         }
 

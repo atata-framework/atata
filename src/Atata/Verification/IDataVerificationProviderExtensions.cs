@@ -17,40 +17,41 @@ namespace Atata
 
             string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(should, message, args);
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
-
-            TData actual = default(TData);
-            Exception exception = null;
-
-            bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
-                _ =>
+            AtataContext.Current.Log.ExecuteSection(
+                new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage),
+                () =>
                 {
-                    try
+                    TData actual = default(TData);
+                    Exception exception = null;
+
+                    bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
+                        _ =>
+                        {
+                            try
+                            {
+                                actual = should.DataProvider.Value;
+                                bool result = predicate(actual) != should.IsNegation;
+                                exception = null;
+                                return result;
+                            }
+                            catch (Exception e)
+                            {
+                                exception = e;
+                                return false;
+                            }
+                        },
+                        should.GetRetryOptions());
+
+                    if (!doesSatisfy)
                     {
-                        actual = should.DataProvider.Value;
-                        bool result = predicate(actual) != should.IsNegation;
-                        exception = null;
-                        return result;
+                        string expectedMessage = VerificationUtils.BuildExpectedMessage(message, args?.Cast<object>().ToArray());
+                        string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
+
+                        string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                        should.ReportFailure(failureMessage, exception);
                     }
-                    catch (Exception e)
-                    {
-                        exception = e;
-                        return false;
-                    }
-                },
-                should.GetRetryOptions());
-
-            if (!doesSatisfy)
-            {
-                string expectedMessage = VerificationUtils.BuildExpectedMessage(message, args?.Cast<object>().ToArray());
-                string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
-
-                string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
-
-                should.ReportFailure(failureMessage, exception);
-            }
-
-            AtataContext.Current.Log.EndSection();
+                });
 
             return should.Owner;
         }
@@ -71,39 +72,40 @@ namespace Atata
 
             string verificationConstraintMessage = $"{should.GetShouldText()} {expectedMessage}";
 
-            AtataContext.Current.Log.Start(new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage));
-
-            IEnumerable<TData> actual = null;
-            Exception exception = null;
-
-            bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
-                _ =>
+            AtataContext.Current.Log.ExecuteSection(
+                new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage),
+                () =>
                 {
-                    try
+                    IEnumerable<TData> actual = null;
+                    Exception exception = null;
+
+                    bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
+                        _ =>
+                        {
+                            try
+                            {
+                                actual = should.DataProvider.Value?.Select(x => x.Value).ToArray();
+                                bool result = predicate(actual) != should.IsNegation;
+                                exception = null;
+                                return result;
+                            }
+                            catch (Exception e)
+                            {
+                                exception = e;
+                                return false;
+                            }
+                        },
+                        should.GetRetryOptions());
+
+                    if (!doesSatisfy)
                     {
-                        actual = should.DataProvider.Value?.Select(x => x.Value).ToArray();
-                        bool result = predicate(actual) != should.IsNegation;
-                        exception = null;
-                        return result;
+                        string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
+
+                        string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                        should.ReportFailure(failureMessage, exception);
                     }
-                    catch (Exception e)
-                    {
-                        exception = e;
-                        return false;
-                    }
-                },
-                should.GetRetryOptions());
-
-            if (!doesSatisfy)
-            {
-                string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
-
-                string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
-
-                should.ReportFailure(failureMessage, exception);
-            }
-
-            AtataContext.Current.Log.EndSection();
+                });
 
             return should.Owner;
         }
