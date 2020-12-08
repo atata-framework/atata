@@ -102,6 +102,50 @@ namespace Atata
             Log(LogLevel.Fatal, message, exception);
         }
 
+        public void ExecuteSection(LogSection section, Action action)
+        {
+            action.CheckNotNull(nameof(action));
+
+            Start(section);
+
+            try
+            {
+                action?.Invoke();
+            }
+            catch (Exception exception)
+            {
+                section.Exception = exception;
+                throw;
+            }
+            finally
+            {
+                EndSection();
+            }
+        }
+
+        public TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function)
+        {
+            function.CheckNotNull(nameof(function));
+
+            Start(section);
+
+            try
+            {
+                TResult result = function.Invoke();
+                section.Result = result;
+                return result;
+            }
+            catch (Exception exception)
+            {
+                section.Exception = exception;
+                throw;
+            }
+            finally
+            {
+                EndSection();
+            }
+        }
+
         /// <summary>
         /// Starts the specified log section.
         /// </summary>
@@ -147,15 +191,39 @@ namespace Atata
 
                 TimeSpan duration = section.GetDuration();
 
+                string message = $"Finished: {section.Message} ({duration.ToLongIntervalString()})";
+
+                if (section.IsResultSet)
+                {
+                    message = AppendSectionResultToMessage(message, section.Result);
+                }
+                else if (section.Exception != null)
+                {
+                    message = AppendSectionResultToMessage(message, section.Exception);
+                }
+
                 LogEventInfo eventInfo = new LogEventInfo
                 {
                     Level = section.Level,
-                    Message = $"Finished: {section.Message} ({duration.ToLongIntervalString()})",
+                    Message = message,
                     SectionEnd = section
                 };
 
                 Log(eventInfo, true);
             }
+        }
+
+        private static string AppendSectionResultToMessage(string message, object result)
+        {
+            string resultAsString = result is Exception resultAsException
+                ? $"{resultAsException.GetType().FullName}: {resultAsException.Message}"
+                : Stringifier.ToString(result);
+
+            string separator = resultAsString.Contains(Environment.NewLine)
+                ? Environment.NewLine
+                : " ";
+
+            return $"{message} >>{separator}{resultAsString}";
         }
 
         private void Log(LogLevel level, string message, object[] args)
@@ -183,13 +251,15 @@ namespace Atata
 
         private void Log(LogEventInfo eventInfo, bool? withLogSectionEnd = null)
         {
-            var appropriateConsumers = logConsumers.
+            var appropriateConsumerItems = logConsumers.
                 Where(x => eventInfo.Level >= x.MinLevel).
-                Where(x => withLogSectionEnd == null || x.LogSectionFinish == withLogSectionEnd).
-                Select(x => x.Consumer);
+                Where(x => withLogSectionEnd == null || x.LogSectionFinish == withLogSectionEnd);
 
-            foreach (ILogConsumer logConsumer in appropriateConsumers)
-                logConsumer.Log(eventInfo);
+            foreach (var consumerItem in appropriateConsumerItems)
+            {
+                eventInfo.NestingLevel = sectionEndStack.Count(x => x.Level >= consumerItem.MinLevel);
+                consumerItem.Consumer.Log(eventInfo);
+            }
         }
 
         public void Screenshot(string title = null)

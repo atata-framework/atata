@@ -72,5 +72,10 @@ namespace Atata
         /// Gets the alias of the driver.
         /// </summary>
         public string DriverAlias { get; private set; }
+
+        /// <summary>
+        /// Gets the nesting level.
+        /// </summary>
+        public int NestingLevel { get; internal set; }
     }
 }
