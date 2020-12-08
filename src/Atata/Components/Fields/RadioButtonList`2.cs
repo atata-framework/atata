@@ -37,7 +37,7 @@ namespace Atata
 
             IWebElement element = GetItemElement(value);
             if (!element.Selected)
-                element.Click();
+                element.ClickWithLogging();
         }
     }
 }

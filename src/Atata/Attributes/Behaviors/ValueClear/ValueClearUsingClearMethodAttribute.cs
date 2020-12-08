@@ -10,7 +10,7 @@ namespace Atata
         /// <inheritdoc/>
         public override void Execute<TOwner>(IUIComponent<TOwner> component)
         {
-            component.Scope.Clear();
+            component.Scope.ClearWithLogging();
         }
     }
 }

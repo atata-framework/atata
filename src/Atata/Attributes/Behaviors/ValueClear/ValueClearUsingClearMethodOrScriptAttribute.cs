@@ -14,7 +14,7 @@ namespace Atata
         {
             try
             {
-                component.Scope.Clear();
+                component.Scope.ClearWithLogging();
             }
             catch (InvalidElementStateException)
             {

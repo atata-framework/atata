@@ -41,8 +41,9 @@ namespace Atata
         protected override void SetValue(bool value)
         {
             IWebElement element = Scope;
+
             if (element.Selected != value)
-                element.Click();
+                element.ClickWithLogging();
         }
 
         /// <summary>

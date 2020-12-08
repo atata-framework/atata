@@ -12,7 +12,7 @@ namespace Atata
         public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
         {
             if (!string.IsNullOrEmpty(value))
-                component.Scope.SendKeys(value);
+                component.Scope.SendKeysWithLogging(value);
         }
     }
 }

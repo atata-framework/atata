@@ -14,10 +14,10 @@ namespace Atata
         {
             var scopeElement = component.Scope;
 
-            scopeElement.Clear();
+            scopeElement.ClearWithLogging();
 
             if (!string.IsNullOrEmpty(value))
-                scopeElement.SendKeys(value);
+                scopeElement.SendKeysWithLogging(value);
         }
     }
 }
