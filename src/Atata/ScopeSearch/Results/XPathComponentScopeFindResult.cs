@@ -21,12 +21,12 @@ namespace Atata
 
         public IWebElement Get(string xPathCondition = null)
         {
-            return ScopeSource.Get(CreateBy(xPathCondition));
+            return ScopeSource.GetWithLogging(CreateBy(xPathCondition));
         }
 
         public ReadOnlyCollection<IWebElement> GetAll(string xPathCondition = null)
         {
-            return ScopeSource.GetAll(CreateBy(xPathCondition));
+            return ScopeSource.GetAllWithLogging(CreateBy(xPathCondition));
         }
 
         public By CreateBy(string xPathCondition)

@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Defines the keys to press on the specified event.
@@ -18,11 +20,9 @@
         {
             if (!string.IsNullOrEmpty(Keys))
             {
-                context.Log.Start(new PressKeysLogSection((UIComponent)context.Component, Keys));
-
-                context.Driver.Perform(x => x.SendKeys(Keys));
-
-                context.Log.EndSection();
+                context.Log.ExecuteSection(
+                    new PressKeysLogSection((UIComponent)context.Component, Keys),
+                    (Action)(() => context.Driver.Perform(x => x.SendKeys(Keys))));
             }
         }
     }

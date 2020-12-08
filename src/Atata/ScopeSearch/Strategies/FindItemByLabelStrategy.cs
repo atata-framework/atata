@@ -15,7 +15,7 @@ namespace Atata
         {
             ISearchContext scopeContext = component.ScopeSource.GetScopeContext(component, SearchOptions.SafelyAtOnce());
 
-            IWebElement label = scopeContext.Get(
+            IWebElement label = scopeContext.GetWithLogging(
                 By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]").
                     SafelyAtOnce().
                     Label(TermResolver.ToDisplayString(parameter)));
@@ -39,7 +39,7 @@ namespace Atata
             {
                 ISearchContext scopeContext = component.ScopeSource.GetScopeContext(component, SearchOptions.SafelyAtOnce());
 
-                IWebElement label = scopeContext.Get(
+                IWebElement label = scopeContext.GetWithLogging(
                     By.XPath($".//label[@for='{elementId}']").
                     SafelyAtOnce());
 
@@ -47,7 +47,7 @@ namespace Atata
                     return label.Text;
             }
 
-            return element.Get(By.XPath("ancestor::label").AtOnce()).Text;
+            return element.GetWithLogging(By.XPath("ancestor::label").AtOnce()).Text;
         }
     }
 }

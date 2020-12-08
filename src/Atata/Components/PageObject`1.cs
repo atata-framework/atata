@@ -292,7 +292,7 @@ namespace Atata
         public TFramePageObject SwitchToFrame<TFramePageObject>(By frameBy, TFramePageObject framePageObject = null, bool temporarily = false)
             where TFramePageObject : PageObject<TFramePageObject>
         {
-            IWebElement frameElement = Scope.Get(frameBy);
+            IWebElement frameElement = Scope.GetWithLogging(frameBy);
             return SwitchToFrame(frameElement, framePageObject, temporarily);
         }
 
@@ -370,20 +370,22 @@ namespace Atata
             string predicateMessage = ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
 
             string actionMessage = $"Refresh page until \"{predicateMessage}\" within {timeoutTime.ToShortIntervalString()} with {retryIntervalTime.ToShortIntervalString()} retry interval";
-            AtataContext.Current.Log.Start(actionMessage);
 
-            bool isOk = Driver.
-                Try(timeoutTime, retryIntervalTime).
-                Until(x =>
+            AtataContext.Current.Log.ExecuteSection(
+                new LogSection(actionMessage),
+                () =>
                 {
-                    activePageObject = activePageObject.RefreshPage();
-                    return predicate(activePageObject);
+                    bool isOk = Driver.
+                        Try(timeoutTime, retryIntervalTime).
+                        Until(x =>
+                        {
+                            activePageObject = activePageObject.RefreshPage();
+                            return predicate(activePageObject);
+                        });
+
+                    if (!isOk)
+                        throw new TimeoutException($"Timed out after {timeoutTime.ToShortIntervalString()} waiting for: {actionMessage.ToLowerFirstLetter()}.");
                 });
-
-            if (!isOk)
-                throw new TimeoutException($"Timed out after {timeoutTime.ToShortIntervalString()} waiting for: {actionMessage.ToLowerFirstLetter()}.");
-
-            AtataContext.Current.Log.EndSection();
 
             return activePageObject;
         }
@@ -570,11 +572,9 @@ namespace Atata
         {
             if (!string.IsNullOrEmpty(keys))
             {
-                Log.Start(new PressKeysLogSection(this, keys));
-
-                Driver.Perform(x => x.SendKeys(keys));
-
-                Log.EndSection();
+                Log.ExecuteSection(
+                    new PressKeysLogSection(this, keys),
+                    () => Driver.Perform(x => x.SendKeys(keys)));
             }
 
             return (TOwner)this;

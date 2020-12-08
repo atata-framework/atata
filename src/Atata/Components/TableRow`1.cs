@@ -15,7 +15,7 @@ namespace Atata
     {
         protected IWebElement GetCell(int index)
         {
-            return Scope.Get(By.XPath($".//td[{index + 1}]").TableColumn());
+            return Scope.GetWithLogging(By.XPath($".//td[{index + 1}]").TableColumn());
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Atata
 #pragma warning restore CS0618 // Type or member is obsolete
             {
                 IWebElement scopeElement = (scope as IWebElement)
-                    ?? scope.Get(By.TagName("body").With(new SearchOptions()));
+                    ?? scope.GetWithLogging(By.TagName("body").With(new SearchOptions()));
 
                 return componentScopeLocateStrategy.Find(scopeElement, scopeLocateOptions, searchOptions);
             }
@@ -109,7 +109,7 @@ namespace Atata
                 else
                 {
                     IEnumerable<ISearchContext> nextScopeSources = subsequentResult.ScopeSourceBy != null
-                        ? scopeSource.GetAll(subsequentResult.ScopeSourceBy.With(searchOptions))
+                        ? scopeSource.GetAllWithLogging(subsequentResult.ScopeSourceBy.With(searchOptions))
                         : subsequentResult.ScopeSources;
 
                     SearchOptions nextSearchOptions = SearchOptions.SafelyAtOnce();

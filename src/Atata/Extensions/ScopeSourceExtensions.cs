@@ -27,7 +27,7 @@ namespace Atata
                 case ScopeSource.PageObject:
                     return component.Owner.GetScope(options);
                 case ScopeSource.Page:
-                    return component.Driver.Get(By.TagName("body").With(options));
+                    return component.Driver.GetWithLogging(By.TagName("body").With(options));
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource));
             }
@@ -46,7 +46,7 @@ namespace Atata
                 case ScopeSource.PageObject:
                     return parentComponent.Owner.Scope;
                 case ScopeSource.Page:
-                    return AtataContext.Current.Driver.Get(By.TagName("body"));
+                    return AtataContext.Current.Driver.GetWithLogging(By.TagName("body"));
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource));
             }

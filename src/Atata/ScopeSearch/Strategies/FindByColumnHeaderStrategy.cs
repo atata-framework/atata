@@ -74,7 +74,7 @@ namespace Atata
         /// <returns>The index of the column or <see langword="null"/> if not found.</returns>
         protected virtual int? GetColumnIndex(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            var headers = scope.GetAll(By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
+            var headers = scope.GetAllWithLogging(By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
             var headerNamePredicate = options.Match.GetPredicate();
 
             return headers.

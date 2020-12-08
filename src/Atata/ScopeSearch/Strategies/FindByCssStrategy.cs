@@ -15,7 +15,8 @@ namespace Atata
 
             if (options.Index.HasValue)
             {
-                var elements = scope.GetAll(by.With(searchOptions));
+                var elements = scope.GetAllWithLogging(by.With(searchOptions));
+
                 if (elements.Count <= options.Index.Value)
                 {
                     if (searchOptions.IsSafely)

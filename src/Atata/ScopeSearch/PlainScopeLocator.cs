@@ -35,14 +35,14 @@ namespace Atata
         {
             searchOptions = searchOptions ?? new SearchOptions();
 
-            return SearchContext.Get(By.With(searchOptions));
+            return SearchContext.GetWithLogging(By.With(searchOptions));
         }
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? new SearchOptions();
 
-            return SearchContext.GetAll(By.With(searchOptions)).ToArray();
+            return SearchContext.GetAllWithLogging(By.With(searchOptions)).ToArray();
         }
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)

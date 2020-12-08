@@ -60,7 +60,7 @@ namespace Atata
             }
             else if (Script.Contains("arguments"))
             {
-                var scopeElement = scope.Get(By.XPath("*").With(SearchOptions.OfAnyVisibility()));
+                var scopeElement = scope.GetWithLogging(By.XPath("*").With(SearchOptions.OfAnyVisibility()));
                 return driver.ExecuteScript(Script, scopeElement);
             }
             else

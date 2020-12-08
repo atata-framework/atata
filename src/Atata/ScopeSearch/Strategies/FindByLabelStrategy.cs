@@ -9,7 +9,7 @@ namespace Atata
             string labelXPath = new ComponentScopeXPathBuilder(options).
                 WrapWithIndex(x => x.OuterXPath._("label")[y => y.TermsConditionOfContent]);
 
-            IWebElement label = scope.Get(By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
+            IWebElement label = scope.GetWithLogging(By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
 
             if (label == null)
                 return new MissingComponentScopeFindResult();

@@ -21,7 +21,7 @@ namespace Atata
 
         protected override string GetParameterAsString(IWebElement element)
         {
-            return element.Get(By.XPath(RelativeElementXPath).AtOnce()).Text;
+            return element.GetWithLogging(By.XPath(RelativeElementXPath).AtOnce()).Text;
         }
     }
 }
