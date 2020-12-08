@@ -93,7 +93,7 @@ namespace Atata
                     individualValues.Remove(elementValue);
 
                 if (predicate(isInValue, element.Selected))
-                    element.Click();
+                    element.ClickWithLogging();
             }
 
             if (individualValues.Any())
@@ -117,11 +117,11 @@ namespace Atata
             if (!Equals(value, null))
             {
                 ExecuteTriggers(TriggerEvents.BeforeSet);
-                Log.Start(new DataSettingLogSection(this, ConvertValueToString(value)) { ActionText = "Check" });
 
-                ClickItems(value, (isInValue, isSelected) => isInValue && !isSelected);
+                Log.ExecuteSection(
+                    new ValueChangeLogSection(this, nameof(Check), ConvertValueToString(value)),
+                    () => ClickItems(value, (isInValue, isSelected) => isInValue && !isSelected));
 
-                Log.EndSection();
                 ExecuteTriggers(TriggerEvents.AfterSet);
             }
 
@@ -139,11 +139,11 @@ namespace Atata
             if (!Equals(value, null))
             {
                 ExecuteTriggers(TriggerEvents.BeforeSet);
-                Log.Start(new DataSettingLogSection(this, ConvertValueToString(value)) { ActionText = "Uncheck" });
 
-                ClickItems(value, (isInValue, isSelected) => isInValue && isSelected);
+                Log.ExecuteSection(
+                    new ValueChangeLogSection(this, nameof(Uncheck), ConvertValueToString(value)),
+                    () => ClickItems(value, (isInValue, isSelected) => isInValue && isSelected));
 
-                Log.EndSection();
                 ExecuteTriggers(TriggerEvents.AfterSet);
             }
 

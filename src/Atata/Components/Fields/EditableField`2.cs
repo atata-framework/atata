@@ -75,11 +75,11 @@ namespace Atata
         public TOwner Set(T value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.Start(new DataSettingLogSection(this, ConvertValueToString(value)));
 
-            SetValue(value);
+            Log.ExecuteSection(
+                new ValueSetLogSection(this, ConvertValueToString(value)),
+                () => SetValue(value));
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterSet);
 
             return Owner;

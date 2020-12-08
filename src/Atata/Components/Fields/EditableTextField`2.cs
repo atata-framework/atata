@@ -20,7 +20,10 @@
             var behavior = Metadata.Get<ValueGetBehaviorAttribute>()
                 ?? new ValueGetFromValueAttribute();
 
-            string valueAsString = behavior.Execute(this);
+            string valueAsString = Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this));
+
             return ConvertStringToValueUsingGetFormat(valueAsString);
         }
 
@@ -43,7 +46,9 @@
                 var behavior = Metadata.Get<ValueSetBehaviorAttribute>()
                     ?? new ValueSetUsingClearAndSendKeysAttribute();
 
-                behavior.Execute(this, valueAsString);
+                Log.ExecuteSection(
+                    new ExecuteBehaviorLogSection(this, behavior),
+                    () => behavior.Execute(this, valueAsString));
             }
         }
 
@@ -56,11 +61,11 @@
         public TOwner Clear()
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.Start(new DataClearingLogSection(this));
 
-            OnClear();
+            Log.ExecuteSection(
+                new ValueClearLogSection(this),
+                OnClear);
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterSet);
 
             return Owner;
@@ -75,7 +80,9 @@
             var behavior = Metadata.Get<ValueClearBehaviorAttribute>()
                 ?? new ValueClearUsingClearMethodAttribute();
 
-            behavior.Execute(this);
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this));
         }
 
         /// <summary>
@@ -87,11 +94,11 @@
         public TOwner Type(string value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.Start(new ValueTypeLogSection(this, value));
 
-            OnType(value);
+            Log.ExecuteSection(
+                new ValueChangeLogSection(this, nameof(Type), value),
+                () => OnType(value));
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterSet);
 
             return Owner;
@@ -107,7 +114,9 @@
             var behavior = Metadata.Get<ValueTypeBehaviorAttribute>()
                 ?? new ValueTypeUsingSendKeysAttribute();
 
-            behavior.Execute(this, value);
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this, value));
         }
     }
 }

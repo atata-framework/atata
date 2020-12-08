@@ -56,11 +56,11 @@ namespace Atata
         public TOwner Click()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.Start(new ClickLogSection(this));
 
-            OnClick();
+            Log.ExecuteSection(
+                new ClickLogSection(this),
+                OnClick);
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
 
             return Owner;
@@ -71,7 +71,9 @@ namespace Atata
             var behavior = Metadata.Get<ClickBehaviorAttribute>()
                 ?? new ClickUsingClickMethodAttribute();
 
-            behavior.Execute(this);
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this));
         }
 
         /// <summary>
@@ -114,11 +116,11 @@ namespace Atata
         public TOwner Hover()
         {
             ExecuteTriggers(TriggerEvents.BeforeHover);
-            Log.Start(new HoverLogSection(this));
 
-            OnHover();
+            Log.ExecuteSection(
+                new HoverLogSection(this),
+                OnHover);
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterHover);
 
             return Owner;
@@ -137,11 +139,11 @@ namespace Atata
         public TOwner Focus()
         {
             ExecuteTriggers(TriggerEvents.BeforeFocus);
-            Log.Start(new FocusLogSection(this));
 
-            OnFocus();
+            Log.ExecuteSection(
+                new FocusLogSection(this),
+                OnFocus);
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterFocus);
 
             return Owner;
@@ -161,11 +163,11 @@ namespace Atata
         public TOwner DoubleClick()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.Start(new DoubleClickLogSection(this));
 
-            OnDoubleClick();
+            Log.ExecuteSection(
+                new DoubleClickLogSection(this),
+                OnDoubleClick);
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
 
             return Owner;
@@ -176,7 +178,9 @@ namespace Atata
             var behavior = Metadata.Get<DoubleClickBehaviorAttribute>()
                 ?? new DoubleClickUsingActionsAttribute();
 
-            behavior.Execute(this);
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this));
         }
 
         /// <summary>
@@ -207,11 +211,11 @@ namespace Atata
         public TOwner RightClick()
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.Start(new RightClickLogSection(this));
 
-            OnRightClick();
+            Log.ExecuteSection(
+                new RightClickLogSection(this),
+                OnRightClick);
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
 
             return Owner;
@@ -222,7 +226,9 @@ namespace Atata
             var behavior = Metadata.Get<RightClickBehaviorAttribute>()
                 ?? new RightClickUsingActionsAttribute();
 
-            behavior.Execute(this);
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this));
         }
 
         /// <summary>
@@ -253,11 +259,11 @@ namespace Atata
             target.CheckNotNull(nameof(target));
 
             ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.Start(new DragAndDropToComponentLogSection(this, target));
 
-            OnDragAndDropTo(target);
+            Log.ExecuteSection(
+                new DragAndDropToComponentLogSection(this, target),
+                () => OnDragAndDropTo(target));
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
 
             return Owner;
@@ -268,7 +274,9 @@ namespace Atata
             var behavior = Metadata.Get<DragAndDropBehaviorAttribute>()
                 ?? new DragAndDropUsingActionsAttribute();
 
-            behavior.Execute(this, target);
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this, target));
         }
 
         /// <summary>
@@ -281,11 +289,11 @@ namespace Atata
         public TOwner DragAndDropToOffset(int offsetX, int offsetY)
         {
             ExecuteTriggers(TriggerEvents.BeforeClick);
-            Log.Start(new DragAndDropToOffsetLogSection(this, offsetX, offsetY));
 
-            OnDragAndDropToOffset(offsetX, offsetY);
+            Log.ExecuteSection(
+                new DragAndDropToOffsetLogSection(this, offsetX, offsetY),
+                () => OnDragAndDropToOffset(offsetX, offsetY));
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterClick);
 
             return Owner;
@@ -305,11 +313,11 @@ namespace Atata
         public TOwner ScrollTo()
         {
             ExecuteTriggers(TriggerEvents.BeforeScroll);
-            Log.Start(new ScrollToComponentLogSection(this));
 
-            OnScrollTo();
+            Log.ExecuteSection(
+                new ScrollToComponentLogSection(this),
+                OnScrollTo);
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterScroll);
 
             return Owner;
@@ -319,7 +327,9 @@ namespace Atata
         {
             var behavior = Metadata.Get<ScrollBehaviorAttribute>() ?? new ScrollUsingMoveToElementAttribute();
 
-            behavior.Execute(this);
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this));
         }
     }
 }

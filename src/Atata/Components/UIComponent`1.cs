@@ -190,11 +190,9 @@ return (
         {
             foreach (WaitUnit unit in until.GetWaitUnits(options))
             {
-                Log.Start(new WaitForComponentLogSection(this, unit));
-
-                OnWait(unit);
-
-                Log.EndSection();
+                Log.ExecuteSection(
+                    new WaitForComponentLogSection(this, unit),
+                    () => OnWait(unit));
             }
 
             return Owner;
@@ -243,7 +241,11 @@ return (
 
         protected virtual string GetContent()
         {
-            return ContentGetBehavior.Execute(this);
+            var behavior = ContentGetBehavior;
+
+            return Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behavior.Execute(this));
         }
 
         /// <summary>

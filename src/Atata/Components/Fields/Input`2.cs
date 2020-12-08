@@ -24,11 +24,11 @@ namespace Atata
         public TOwner Append(string value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
-            Log.Start(new DataAdditionLogSection(this, value) { ActionText = "Append" });
 
-            Scope.SendKeys(Keys.End + value);
+            Log.ExecuteSection(
+                new ValueChangeLogSection(this, "Append", value),
+                () => Scope.SendKeysWithLogging(Keys.End + value));
 
-            Log.EndSection();
             ExecuteTriggers(TriggerEvents.AfterSet);
 
             return Owner;
