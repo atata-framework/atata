@@ -56,16 +56,16 @@ namespace Atata
 
             if (scope is IWebElement element)
             {
-                return driver.ExecuteScript(Script, element);
+                return driver.ExecuteScriptWithLogging(Script, element);
             }
             else if (Script.Contains("arguments"))
             {
                 var scopeElement = scope.GetWithLogging(By.XPath("*").With(SearchOptions.OfAnyVisibility()));
-                return driver.ExecuteScript(Script, scopeElement);
+                return driver.ExecuteScriptWithLogging(Script, scopeElement);
             }
             else
             {
-                return driver.ExecuteScript(Script);
+                return driver.ExecuteScriptWithLogging(Script);
             }
         }
 

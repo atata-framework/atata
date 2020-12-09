@@ -129,5 +129,19 @@ namespace Atata
         {
             return value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
         }
+
+        public static string Truncate(this string value, int length, bool withEllipsis = true)
+        {
+            value.CheckNotNull(nameof(value));
+
+            const string ellipses = "...";
+            length.CheckGreaterOrEqual(nameof(length), 1 + (withEllipsis ? ellipses.Length : 0));
+
+            return value.Length <= length
+                ? value
+                : withEllipsis
+                ? value.Substring(0, length - ellipses.Length) + ellipses
+                : value.Substring(0, length);
+        }
     }
 }

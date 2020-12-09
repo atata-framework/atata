@@ -27,7 +27,7 @@ return filteredChildren;";
 
         public ISearchContext Resolve(IWebElement element)
         {
-            var shadowChildren = (ReadOnlyCollection<IWebElement>)AtataContext.Current.Driver.ExecuteScript(
+            var shadowChildren = (ReadOnlyCollection<IWebElement>)AtataContext.Current.Driver.ExecuteScriptWithLogging(
                 GetShadowRootChildElementsScript,
                 element);
 
