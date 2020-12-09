@@ -27,7 +27,9 @@ namespace Atata
                 ?? Metadata.Get<GoTemporarilyAttribute>()?.IsTemporarily
                 ?? false;
 
-            return Owner.SwitchToFrame(Scope, framePageObject, isTemporarily);
+            Owner.SwitchToFrame(this);
+
+            return Go.To(framePageObject, navigate: false, temporarily: isTemporarily);
         }
 
         /// <summary>

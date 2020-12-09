@@ -280,6 +280,38 @@ namespace Atata
         }
 
         /// <summary>
+        /// Switches to frame represented by <paramref name="component"/> parameter.
+        /// </summary>
+        /// <param name="component">The component representing frame element.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner SwitchToFrame(IUIComponent<TOwner> component)
+        {
+            string message = component is Frame<TOwner>
+                ? $"Switch to {component.ComponentFullName}"
+                : $"Switch to frame of {component.ComponentFullName}";
+
+            Log.ExecuteSection(
+                new LogSection(message, LogLevel.Trace),
+                (Action)(() => SwitchToFrame(component.Scope)));
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
+        /// Switches to frame represented by <paramref name="element"/> parameter.
+        /// </summary>
+        /// <param name="element">The frame element.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner SwitchToFrame(IWebElement element)
+        {
+            Log.ExecuteSection(
+                new LogSection($"Switch to frame of {Stringifier.ToString(element).ToLowerFirstLetter()}", LogLevel.Trace),
+                (Action)(() => Driver.SwitchTo().Frame(element)));
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
         /// Switches to frame page object using <see cref="By"/> instance that represents the selector for <c>&lt;iframe&gt;</c> tag element.
         /// </summary>
         /// <typeparam name="TFramePageObject">The type of the frame page object.</typeparam>
@@ -309,9 +341,22 @@ namespace Atata
         public virtual TFramePageObject SwitchToFrame<TFramePageObject>(IWebElement frameElement, TFramePageObject framePageObject = null, bool temporarily = false)
             where TFramePageObject : PageObject<TFramePageObject>
         {
-            Log.Trace("Switch to frame");
-            Driver.SwitchTo().Frame(frameElement);
+            SwitchToFrame(frameElement);
+
             return Go.To(framePageObject, navigate: false, temporarily: temporarily);
+        }
+
+        /// <summary>
+        /// Switches to the root page using WebDriver's <c>SwitchTo().DefaultContent()</c> method.
+        /// </summary>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner SwitchToRoot()
+        {
+            Log.ExecuteSection(
+                new LogSection($"Switch to page root", LogLevel.Trace),
+                (Action)(() => Driver.SwitchTo().DefaultContent()));
+
+            return (TOwner)this;
         }
 
         /// <summary>
@@ -325,8 +370,8 @@ namespace Atata
         public virtual TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
             where TPageObject : PageObject<TPageObject>
         {
-            Log.Trace("Switch to root page");
-            Driver.SwitchTo().DefaultContent();
+            SwitchToRoot();
+
             return Go.To(rootPageObject, navigate: false);
         }
 

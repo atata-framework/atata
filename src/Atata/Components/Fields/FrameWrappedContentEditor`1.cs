@@ -69,10 +69,9 @@ namespace Atata
         /// <param name="action">The action.</param>
         protected void DoWithinFrame(Action action)
         {
-            var frameScope = GetFrameControl().Scope;
+            var frameControl = GetFrameControl();
 
-            Log.Trace("Switch to frame");
-            Driver.SwitchTo().Frame(frameScope);
+            Owner.SwitchToFrame(frameControl);
 
             try
             {
@@ -80,8 +79,7 @@ namespace Atata
             }
             finally
             {
-                Log.Trace("Switch out of frame");
-                Driver.SwitchTo().DefaultContent();
+                Owner.SwitchToRoot();
             }
         }
     }
