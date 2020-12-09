@@ -225,7 +225,7 @@ namespace Atata
                 Go.ToUrl(options.Url);
 
             if (!string.IsNullOrWhiteSpace(options.WindowName))
-                SwitchTo(options.WindowName);
+                SwitchToWindow(options.WindowName);
 
             if (isReturnedFromTemporary)
             {
@@ -271,12 +271,27 @@ namespace Atata
         }
 
         /// <summary>
+        /// Switches to the browser window by the window handle.
+        /// </summary>
+        /// <param name="windowHandle">The handle of the window.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner SwitchToWindow(string windowHandle)
+        {
+            Log.ExecuteSection(
+                new LogSection($@"Switch to window ""{windowHandle}""", LogLevel.Trace),
+                (Action)(() => Driver.SwitchTo().Window(windowHandle)));
+
+            return (TOwner)this;
+        }
+
+        /// <summary>
         /// Switches to the browser window using the window name.
         /// </summary>
         /// <param name="windowName">Name of the window.</param>
+        [Obsolete("Use " + nameof(SwitchToWindow) + " instead.")] // Obsolete since v1.9.0.
         protected virtual void SwitchTo(string windowName)
         {
-            Driver.SwitchTo().Window(windowName);
+            SwitchToWindow(windowName);
         }
 
         /// <summary>
@@ -478,7 +493,7 @@ namespace Atata
             Driver.Close();
 
             if (nextWindowHandle != null)
-                SwitchTo(nextWindowHandle);
+                SwitchToWindow(nextWindowHandle);
         }
 
         private string ResolveWindowHandleToSwitchAfterClose()
