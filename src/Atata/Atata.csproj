@@ -36,6 +36,8 @@ Features:
 1.5.0 - https://atata.io/blog/2020/04/23/atata-1.5.0-released/</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
     <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0;DevNet45</Configurations>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
   <ItemGroup>
