@@ -200,14 +200,14 @@ namespace Atata.Tests
 
             VerifyLastLogMessagesContain(
                 minLogLevel: LogLevel.Info,
-                "Starting: Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item",
-                "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
-                "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
-                "Starting: Hover on \"Hierarchy\" control's \"Level 1\" item",
-                "Finished: Hover on \"Hierarchy\" control's \"Level 1\" item",
-                "Finished: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
-                "Finished: Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
-                "Finished: Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item");
+                "> Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item",
+                "> Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
+                "> Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
+                "> Hover on \"Hierarchy\" control's \"Level 1\" item",
+                "< Hover on \"Hierarchy\" control's \"Level 1\" item",
+                "< Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
+                "< Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
+                "< Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item");
         }
     }
 }

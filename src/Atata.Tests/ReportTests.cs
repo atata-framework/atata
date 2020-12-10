@@ -63,15 +63,15 @@ namespace Atata.Tests
             var logEntries = GetLastLogEntries(LogLevel.Trace, 5);
 
             logEntries[0].Level.Should().Be(LogLevel.Info);
-            logEntries[0].Message.Should().Be("Starting: section1");
+            logEntries[0].Message.Should().Be("> section1");
             logEntries[1].Level.Should().Be(LogLevel.Trace);
-            logEntries[1].Message.Should().Be("Starting: section2");
+            logEntries[1].Message.Should().Be("> section2");
             logEntries[2].Level.Should().Be(LogLevel.Debug);
             logEntries[2].Message.Should().Be("debugmessage");
             logEntries[3].Level.Should().Be(LogLevel.Trace);
-            logEntries[3].Message.Should().StartWith("Finished: section2");
+            logEntries[3].Message.Should().StartWith("< section2");
             logEntries[4].Level.Should().Be(LogLevel.Info);
-            logEntries[4].Message.Should().StartWith("Finished: section1");
+            logEntries[4].Message.Should().StartWith("< section1");
         }
 
         [Test]

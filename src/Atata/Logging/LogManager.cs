@@ -254,7 +254,11 @@ namespace Atata
                     builder.Append(logConsumerInfo.MessageEndSectionPrefix);
             }
 
-            return builder.Append(message).ToString();
+            string resultMessage = builder.Append(message).ToString();
+
+            return resultMessage.Length == 0 && message == null
+                ? null
+                : resultMessage;
         }
 
         private void Log(LogLevel level, string message, object[] args)

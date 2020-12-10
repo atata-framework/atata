@@ -44,6 +44,7 @@ namespace Atata.Tests
                 UseNUnitTestName().
                 AddNUnitTestContextLogging().
                 AddLogConsumer(stringListLogConsumer).
+                    WithMessageNestingLevelIndent(string.Empty).
                 LogNUnitError();
         }
 
