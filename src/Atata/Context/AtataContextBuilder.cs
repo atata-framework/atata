@@ -870,7 +870,7 @@ namespace Atata
             LogManager logManager = new LogManager();
 
             foreach (var logConsumerItem in BuildingContext.LogConsumers)
-                logManager.Use(logConsumerItem.Consumer, logConsumerItem.MinLevel, logConsumerItem.LogSectionFinish);
+                logManager.Use(logConsumerItem);
 
             foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
                 logManager.Use(screenshotConsumer);

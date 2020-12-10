@@ -54,19 +54,8 @@ namespace Atata
                 Append(eventInfo.Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture)).
                 Append(Separator).
                 Append($"{eventInfo.Level.ToString(TermCase.Upper),5}").
-                Append(Separator);
-
-            if (eventInfo.NestingLevel > 0)
-            {
-                for (int i = 1; i < eventInfo.NestingLevel; i++)
-                {
-                    builder.Append("- ");
-                }
-
-                builder.Append("> ");
-            }
-
-            builder.Append(eventInfo.Message);
+                Append(Separator).
+                Append(eventInfo.Message);
 
             if (eventInfo.Exception != null)
                 builder.AppendIf(!string.IsNullOrWhiteSpace(eventInfo.Message), Separator).Append(eventInfo.Exception.ToString());

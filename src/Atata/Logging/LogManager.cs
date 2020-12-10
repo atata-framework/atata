@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Atata
 {
@@ -26,6 +27,7 @@ namespace Atata
         /// <returns>
         /// The same <see cref="LogManager" /> instance.
         /// </returns>
+        [Obsolete("Use Use(LogConsumerInfo) instead.")] // Obsolete since v1.9.0.
         public LogManager Use(ILogConsumer consumer, LogLevel minLevel = LogLevel.Trace, bool logSectionFinish = true)
         {
             consumer.CheckNotNull(nameof(consumer));
@@ -33,9 +35,19 @@ namespace Atata
             return Use(new LogConsumerInfo(consumer, minLevel, logSectionFinish));
         }
 
-        internal LogManager Use(LogConsumerInfo consumerInfo)
+        /// <summary>
+        /// Use the specified consumer configuration for logging.
+        /// </summary>
+        /// <param name="consumerInfo">The consumer configuration.</param>
+        /// <returns>
+        /// The same <see cref="LogManager" /> instance.
+        /// </returns>
+        public LogManager Use(LogConsumerInfo consumerInfo)
         {
+            consumerInfo.CheckNotNull(nameof(consumerInfo));
+
             logConsumers.Add(consumerInfo);
+
             return this;
         }
 
@@ -171,11 +183,7 @@ namespace Atata
 
             section.StartedAt = eventInfo.Timestamp;
 
-            Log(eventInfo, false);
-
-            eventInfo.Message = $"Starting: {eventInfo.Message}";
-
-            Log(eventInfo, true);
+            Log(eventInfo);
 
             sectionEndStack.Push(section);
         }
@@ -191,7 +199,7 @@ namespace Atata
 
                 TimeSpan duration = section.GetDuration();
 
-                string message = $"Finished: {section.Message} ({duration.ToLongIntervalString()})";
+                string message = $"{section.Message} ({duration.ToLongIntervalString()})";
 
                 if (section.IsResultSet)
                 {
@@ -209,7 +217,7 @@ namespace Atata
                     SectionEnd = section
                 };
 
-                Log(eventInfo, true);
+                Log(eventInfo);
             }
         }
 
@@ -224,6 +232,29 @@ namespace Atata
                 : " ";
 
             return $"{message} >>{separator}{resultAsString}";
+        }
+
+        private static string PrependHierarchyPrefixesToMessage(string message, LogEventInfo eventInfo, LogConsumerInfo logConsumerInfo)
+        {
+            StringBuilder builder = new StringBuilder();
+
+            if (eventInfo.NestingLevel > 0)
+            {
+                for (int i = 0; i < eventInfo.NestingLevel; i++)
+                {
+                    builder.Append(logConsumerInfo.MessageNestingLevelIndent);
+                }
+            }
+
+            if (logConsumerInfo.LogSectionFinish)
+            {
+                if (eventInfo.SectionStart != null)
+                    builder.Append(logConsumerInfo.MessageStartSectionPrefix);
+                else if (eventInfo.SectionEnd != null)
+                    builder.Append(logConsumerInfo.MessageEndSectionPrefix);
+            }
+
+            return builder.Append(message).ToString();
         }
 
         private void Log(LogLevel level, string message, object[] args)
@@ -249,15 +280,24 @@ namespace Atata
             });
         }
 
-        private void Log(LogEventInfo eventInfo, bool? withLogSectionEnd = null)
+        private void Log(LogEventInfo eventInfo)
         {
-            var appropriateConsumerItems = logConsumers.
-                Where(x => eventInfo.Level >= x.MinLevel).
-                Where(x => withLogSectionEnd == null || x.LogSectionFinish == withLogSectionEnd);
+            var appropriateConsumerItems = logConsumers
+                .Where(x => eventInfo.Level >= x.MinLevel);
+
+            if (eventInfo.SectionEnd != null)
+            {
+                appropriateConsumerItems = appropriateConsumerItems
+                    .Where(x => x.LogSectionFinish);
+            }
+
+            string originalMessage = eventInfo.Message;
 
             foreach (var consumerItem in appropriateConsumerItems)
             {
                 eventInfo.NestingLevel = sectionEndStack.Count(x => x.Level >= consumerItem.MinLevel);
+                eventInfo.Message = PrependHierarchyPrefixesToMessage(originalMessage, eventInfo, consumerItem);
+
                 consumerItem.Consumer.Log(eventInfo);
             }
         }
