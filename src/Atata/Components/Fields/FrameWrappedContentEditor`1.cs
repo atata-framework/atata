@@ -55,11 +55,11 @@ namespace Atata
             });
         }
 
-        protected override void OnType(string value)
+        protected override void OnType(string text)
         {
             DoWithinFrame(() =>
             {
-                ContentEditor.Type(value);
+                ContentEditor.Type(text);
             });
         }
 
