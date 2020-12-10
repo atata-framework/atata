@@ -3,10 +3,10 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the behavior for control value typing by <see cref="IWebElement.SendKeys(string)"/> method.
+    /// Represents the behavior for control text typing by <see cref="IWebElement.SendKeys(string)"/> method.
     /// <see cref="IWebElement.SendKeys(string)"/> method is invoked only when the value is not null or empty.
     /// </summary>
-    public class ValueTypeUsingSendKeysAttribute : ValueTypeBehaviorAttribute
+    public class TextTypeUsingSendKeysAttribute : TextTypeBehaviorAttribute
     {
         /// <inheritdoc/>
         public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)

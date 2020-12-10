@@ -89,15 +89,15 @@
         /// Types (appends) the specified text value.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
-        /// <param name="value">The text value to type.</param>
+        /// <param name="text">The text to type.</param>
         /// <returns>The owner page object.</returns>
-        public TOwner Type(string value)
+        public TOwner Type(string text)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
 
             Log.ExecuteSection(
-                new ValueChangeLogSection(this, nameof(Type), value),
-                () => OnType(value));
+                new ValueChangeLogSection(this, nameof(Type), text),
+                () => OnType(text));
 
             ExecuteTriggers(TriggerEvents.AfterSet);
 
@@ -105,18 +105,18 @@
         }
 
         /// <summary>
-        /// Types the text value by executing <see cref="ValueTypeBehaviorAttribute" /> behavior.
-        /// The default behavior is <see cref="ValueTypeUsingSendKeysAttribute" />.
+        /// Types the text value by executing <see cref="TextTypeBehaviorAttribute" /> behavior.
+        /// The default behavior is <see cref="TextTypeUsingSendKeysAttribute" />.
         /// </summary>
-        /// <param name="value">The text value to type.</param>
-        protected virtual void OnType(string value)
+        /// <param name="text">The text to type.</param>
+        protected virtual void OnType(string text)
         {
-            var behavior = Metadata.Get<ValueTypeBehaviorAttribute>()
-                ?? new ValueTypeUsingSendKeysAttribute();
+            var behavior = Metadata.Get<TextTypeBehaviorAttribute>()
+                ?? new TextTypeUsingSendKeysAttribute();
 
             Log.ExecuteSection(
                 new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this, value));
+                () => behavior.Execute(this, text));
         }
     }
 }
