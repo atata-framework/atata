@@ -149,7 +149,13 @@ namespace Atata
         /// <summary>
         /// Gets the test start date and time.
         /// </summary>
-        public DateTime TestStart { get; private set; } = DateTime.Now;
+        [Obsolete("Use " + nameof(StartedAt) + " instead.")] // Obsolete since v1.9.0.
+        public DateTime TestStart => StartedAt;
+
+        /// <summary>
+        /// Gets the local date/time of the start.
+        /// </summary>
+        public DateTime StartedAt { get; private set; } = DateTime.Now;
 
         /// <summary>
         /// Gets or sets the base URL.
@@ -285,6 +291,8 @@ namespace Atata
 
         internal bool IsNavigated { get; set; }
 
+        internal Stopwatch ExecutionStopwatch { get; } = Stopwatch.StartNew();
+
         internal Stopwatch PureExecutionStopwatch { get; } = new Stopwatch();
 
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
@@ -399,8 +407,9 @@ namespace Atata
                         Driver?.Dispose();
                 });
 
-            TimeSpan testExecutionTime = DateTime.Now - TestStart;
-            Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
+            ExecutionStopwatch.Stop();
+
+            Log.InfoWithExecutionTimeInBrackets("Finished test", ExecutionStopwatch.Elapsed);
             Log.InfoWithExecutionTime("Pure test execution time:", PureExecutionStopwatch.Elapsed);
 
             Log = null;

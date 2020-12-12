@@ -32,7 +32,7 @@ namespace Atata
 
             ["test-name-sanitized"] = _ => AtataContext.Current.TestNameSanitized,
             ["test-name"] = _ => AtataContext.Current.TestName,
-            ["test-start"] = _ => AtataContext.Current.TestStart,
+            ["test-start"] = _ => AtataContext.Current.StartedAt,
 
             ["driver-alias"] = _ => AtataContext.Current.DriverAlias,
 

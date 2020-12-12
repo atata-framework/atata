@@ -13,7 +13,7 @@ namespace Atata
             BuildStart = AtataContext.BuildStart ?? DateTime.MinValue;
             TestName = AtataContext.Current?.TestName;
             TestNameSanitized = AtataContext.Current?.TestNameSanitized;
-            TestStart = AtataContext.Current?.TestStart ?? DateTime.MinValue;
+            TestStart = AtataContext.Current?.StartedAt ?? DateTime.MinValue;
             DriverAlias = AtataContext.Current?.DriverAlias;
         }
 
