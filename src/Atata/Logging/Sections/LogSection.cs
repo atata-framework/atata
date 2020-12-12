@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Atata
 {
@@ -31,6 +32,11 @@ namespace Atata
         public DateTime StartedAt { get; internal set; }
 
         /// <summary>
+        /// Gets the date/time of section start.
+        /// </summary>
+        internal Stopwatch Stopwatch { get; } = new Stopwatch();
+
+        /// <summary>
         /// Gets a value indicating whether the result is set.
         /// </summary>
         public bool IsResultSet { get; private set; }
@@ -53,9 +59,15 @@ namespace Atata
         /// </summary>
         public Exception Exception { get; set; }
 
+        /// <summary>
+        /// Gets the elapsed time of section execution.
+        /// </summary>
+        public TimeSpan ElapsedTime => Stopwatch.Elapsed;
+
+        [Obsolete("Use " + nameof(ElapsedTime) + " instead.")] // Obsolete since v1.9.0.
         public TimeSpan GetDuration()
         {
-            return DateTime.Now - StartedAt;
+            return ElapsedTime;
         }
     }
 }

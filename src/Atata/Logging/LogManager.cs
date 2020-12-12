@@ -182,6 +182,7 @@ namespace Atata
             };
 
             section.StartedAt = eventInfo.Timestamp;
+            section.Stopwatch.Start();
 
             Log(eventInfo);
 
@@ -197,18 +198,14 @@ namespace Atata
             {
                 LogSection section = sectionEndStack.Pop();
 
-                TimeSpan duration = section.GetDuration();
+                section.Stopwatch.Stop();
 
-                string message = $"{section.Message} ({duration.ToLongIntervalString()})";
+                string message = $"{section.Message} ({section.ElapsedTime.ToLongIntervalString()})";
 
                 if (section.IsResultSet)
-                {
                     message = AppendSectionResultToMessage(message, section.Result);
-                }
                 else if (section.Exception != null)
-                {
                     message = AppendSectionResultToMessage(message, section.Exception);
-                }
 
                 LogEventInfo eventInfo = new LogEventInfo
                 {
