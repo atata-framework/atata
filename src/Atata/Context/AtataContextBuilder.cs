@@ -917,7 +917,7 @@ namespace Atata
                 new LogSection("Set up AtataContext", LogLevel.Trace),
                 () => SetUp(context));
 
-            context.CleanExecutionStartDateTime = DateTime.Now;
+            context.PureExecutionStopwatch.Start();
 
             return context;
         }

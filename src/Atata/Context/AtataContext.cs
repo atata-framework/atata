@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -284,7 +285,7 @@ namespace Atata
 
         internal bool IsNavigated { get; set; }
 
-        internal DateTime CleanExecutionStartDateTime { get; set; }
+        internal Stopwatch PureExecutionStopwatch { get; } = new Stopwatch();
 
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
         {
@@ -379,9 +380,9 @@ namespace Atata
             if (disposed)
                 return;
 
-            ExecuteCleanUpActions();
+            PureExecutionStopwatch.Stop();
 
-            TimeSpan cleanTestExecutionTime = DateTime.Now - CleanExecutionStartDateTime;
+            ExecuteCleanUpActions();
 
             Log.ExecuteSection(
                 new LogSection("Clean up AtataContext"),
@@ -400,7 +401,7 @@ namespace Atata
 
             TimeSpan testExecutionTime = DateTime.Now - TestStart;
             Log.InfoWithExecutionTimeInBrackets("Finished test", testExecutionTime);
-            Log.InfoWithExecutionTime("Pure test execution time:", cleanTestExecutionTime);
+            Log.InfoWithExecutionTime("Pure test execution time:", PureExecutionStopwatch.Elapsed);
 
             Log = null;
 
