@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 
@@ -30,6 +31,8 @@ namespace Atata
                 return sourceValue;
             if (destinationType.IsArray)
                 return ConvertToArray(sourceValue, destinationType.GetElementType());
+            if (TryConvertToEnumerable(sourceValue, destinationType, out object result))
+                return result;
             if (underlyingDestinationType.IsEnum)
                 return ConvertToEnum(destinationType, sourceValue);
             else if (underlyingDestinationType == typeof(TimeSpan))
@@ -62,6 +65,15 @@ namespace Atata
             return array;
         }
 
+        private static object CreateEnumerable(Type type, object sourceEnumerable)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                ? CreateEnumerable(
+                    typeof(ReadOnlyCollection<>).MakeGenericType(type.GetGenericArguments().First()),
+                    sourceEnumerable)
+                : Activator.CreateInstance(type, sourceEnumerable);
+        }
+
         private static object ConvertToEnum(Type enumType, object value)
         {
             return value is string stringValue
@@ -78,7 +90,8 @@ namespace Atata
 
         private static bool TryGetIEnumerableElementType(Type type, out Type elementType)
         {
-            var enumerableType = type.GetInterfaces()
+            var enumerableType = new[] { type }
+                .Concat(type.GetInterfaces())
                 .FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
             elementType = enumerableType?.GetGenericArguments().First();
@@ -117,6 +130,33 @@ namespace Atata
 
                 return CreateArrayOfOneElement(elementType, convertedValue);
             }
+        }
+
+        private bool TryConvertToEnumerable(object value, Type destinationType, out object result)
+        {
+            if (typeof(IEnumerable).IsAssignableFrom(destinationType)
+                && TryGetIEnumerableElementType(destinationType, out Type destinationElementType)
+                && TryGetIEnumerableElementType(value.GetType(), out Type originalValueElementType))
+            {
+                if (originalValueElementType != destinationElementType)
+                {
+                    var valueAsEnumerable = ((IEnumerable)value)
+                        .Cast<object>()
+                        .Select(x => Convert(x, destinationElementType));
+
+                    Array valueAsArray = CreateArray(destinationElementType, valueAsEnumerable);
+                    result = CreateEnumerable(destinationType, valueAsArray);
+                }
+                else
+                {
+                    result = CreateEnumerable(destinationType, value);
+                }
+
+                return true;
+            }
+
+            result = null;
+            return false;
         }
 
         private Type ConvertToType(object value)
