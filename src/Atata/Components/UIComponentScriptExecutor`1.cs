@@ -45,7 +45,7 @@ namespace Atata
         {
             return new DataProvider<TResult, TOwner>(
                 (UIComponent<TOwner>)Component,
-                () => (TResult)ExecuteScript(script, arguments),
+                () => ConvertResult<TResult>(ExecuteScript(script, arguments)),
                 "script result");
         }
 
@@ -103,7 +103,7 @@ namespace Atata
         {
             return new DataProvider<TResult, TOwner>(
                 (UIComponent<TOwner>)Component,
-                () => (TResult)ExecuteAsyncScript(script, arguments),
+                () => ConvertResult<TResult>(ExecuteAsyncScript(script, arguments)),
                 "script result");
         }
 
@@ -260,6 +260,12 @@ namespace Atata
         public TOwner ScrollIntoView()
         {
             return ExecuteAgainst("arguments[0].scrollIntoView();");
+        }
+
+        private static TResult ConvertResult<TResult>(object result)
+        {
+            IObjectConverter objectConverter = AtataContext.Current?.ObjectConverter ?? new ObjectConverter();
+            return (TResult)objectConverter.Convert(result, typeof(TResult));
         }
     }
 }
