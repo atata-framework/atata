@@ -14,7 +14,7 @@ It uses fluent page object pattern.
 
 Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
 
-**[What's new in v1.8.0](https://atata.io/blog/2020/10/30/atata-1.8.0-released/)**
+**[What's new in v1.9.0](https://atata.io/blog/2020/12/15/atata-1.9.0-released/)**
 
 ## Features
 
