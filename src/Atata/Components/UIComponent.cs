@@ -139,7 +139,7 @@ namespace Atata
                 if (!cache.TryGet(this, actualSearchOptions.Visibility, out element))
                     element = OnGetScopeElement(actualSearchOptions);
 
-                if (!isActivatedAccessChainCache)
+                if (!isActivatedAccessChainCache && element != null)
                     cache.AddToAccessChain(this, actualSearchOptions.Visibility, element);
             }
             finally
