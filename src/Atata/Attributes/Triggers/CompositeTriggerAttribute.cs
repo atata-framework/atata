@@ -33,9 +33,14 @@ namespace Atata
             {
                 trigger.On = On;
                 trigger.Priority = Priority;
+
                 trigger.TargetNames = TargetNames;
                 trigger.TargetTypes = TargetTypes;
                 trigger.TargetParentTypes = TargetParentTypes;
+
+                trigger.ExcludeTargetNames = ExcludeTargetNames;
+                trigger.ExcludeTargetTypes = ExcludeTargetTypes;
+                trigger.ExcludeTargetParentTypes = ExcludeTargetParentTypes;
             }
         }
     }

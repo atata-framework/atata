@@ -54,12 +54,57 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets or sets the target component names to exlcude.
+        /// </summary>
+        public string[] ExcludeTargetNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target component name to exclude.
+        /// </summary>
+        public string ExcludeTargetName
+        {
+            get => ExcludeTargetNames?.FirstOrDefault();
+            set => ExcludeTargetNames = value == null ? null : new[] { value };
+        }
+
+        /// <summary>
+        /// Gets or sets the target component types to exclude.
+        /// </summary>
+        public Type[] ExcludeTargetTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target component type to exclude.
+        /// </summary>
+        public Type ExcludeTargetType
+        {
+            get => ExcludeTargetTypes?.FirstOrDefault();
+            set => ExcludeTargetTypes = value == null ? null : new[] { value };
+        }
+
+        /// <summary>
+        /// Gets or sets the target component's parent types to exclude.
+        /// </summary>
+        public Type[] ExcludeTargetParentTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target component's parent type to exclude.
+        /// </summary>
+        public Type ExcludeTargetParentType
+        {
+            get => ExcludeTargetParentTypes?.FirstOrDefault();
+            set => ExcludeTargetParentTypes = value == null ? null : new[] { value };
+        }
+
+        /// <summary>
         /// Gets a value indicating whether this instance has any target specified.
         /// </summary>
         public virtual bool IsTargetSpecified =>
             (TargetNames?.Any() ?? false) ||
             (TargetTypes?.Any() ?? false) ||
-            (TargetParentTypes?.Any() ?? false);
+            (TargetParentTypes?.Any() ?? false) ||
+            (ExcludeTargetNames?.Any() ?? false) ||
+            (ExcludeTargetTypes?.Any() ?? false) ||
+            (ExcludeTargetParentTypes?.Any() ?? false);
 
         /// <summary>
         /// Gets or sets a value indicating whether any type is targeted.
@@ -96,7 +141,8 @@ namespace Atata
         /// </returns>
         public bool IsNameApplicable(string name)
         {
-            return TargetNames == null || !TargetNames.Any() || TargetNames.Contains(name);
+            return (TargetNames == null || !TargetNames.Any() || TargetNames.Contains(name))
+                && (ExcludeTargetNames == null || !ExcludeTargetNames.Any() || !ExcludeTargetNames.Contains(name));
         }
 
         /// <summary>
@@ -109,11 +155,11 @@ namespace Atata
             if (!IsNameApplicable(metadata.Name))
                 return null;
 
-            int? depthOfTypeInheritance = GetDepthOfInheritance(TargetTypes, metadata.ComponentType);
+            int? depthOfTypeInheritance = GetDepthOfInheritance(metadata.ComponentType, TargetTypes, ExcludeTargetTypes);
             if (depthOfTypeInheritance == null)
                 return null;
 
-            int? depthOfParentTypeInheritance = GetDepthOfInheritance(TargetParentTypes, metadata.ParentComponentType);
+            int? depthOfParentTypeInheritance = GetDepthOfInheritance(metadata.ParentComponentType, TargetParentTypes, ExcludeTargetParentTypes);
             if (depthOfParentTypeInheritance == null)
                 return null;
 
@@ -134,12 +180,18 @@ namespace Atata
             return rank;
         }
 
-        protected static int? GetDepthOfInheritance(Type[] targetTypes, Type typeToCheck)
+        [Obsolete("Use GetDepthOfInheritance(Type, Type[], Type[]) instead.")] // Obsolete since v1.10.0.
+        protected static int? GetDepthOfInheritance(Type[] targetTypes, Type typeToCheck) =>
+            GetDepthOfInheritance(typeToCheck, targetTypes);
+
+        protected static int? GetDepthOfInheritance(Type typeToCheck, Type[] targetTypes, Type[] excludeTargetTypes = null)
         {
-            if (targetTypes == null || !targetTypes.Any())
-                return -1;
-            else
-                return targetTypes.Select(x => typeToCheck.GetDepthOfInheritance(x)).Where(x => x != null).Min();
+            if (excludeTargetTypes?.Any(x => typeToCheck.IsInheritedFromOrIs(x)) ?? false)
+                return null;
+
+            return targetTypes == null || !targetTypes.Any()
+                ? -1
+                : targetTypes.Select(x => typeToCheck.GetDepthOfInheritance(x)).Where(x => x != null).Min();
         }
     }
 }

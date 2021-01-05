@@ -18,13 +18,27 @@ namespace Atata
         /// </summary>
         public Type TargetAttributeType
         {
-            get { return TargetAttributeTypes?.FirstOrDefault(); }
-            set { TargetAttributeTypes = value == null ? null : new[] { value }; }
+            get => TargetAttributeTypes?.FirstOrDefault();
+            set => TargetAttributeTypes = value == null ? null : new[] { value };
+        }
+
+        /// <summary>
+        /// Gets or sets the target attribute types to exclude.
+        /// </summary>
+        public Type[] ExcludeTargetAttributeTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target attribute type to exclude.
+        /// </summary>
+        public Type ExcludeTargetAttributeType
+        {
+            get => ExcludeTargetAttributeTypes?.FirstOrDefault();
+            set => ExcludeTargetAttributeTypes = value == null ? null : new[] { value };
         }
 
         public virtual int? CalculateTargetAttributeRank(Type targetAttributeType)
         {
-            int? depthOfTypeInheritance = GetDepthOfInheritance(TargetAttributeTypes, targetAttributeType);
+            int? depthOfTypeInheritance = GetDepthOfInheritance(targetAttributeType, TargetAttributeTypes, ExcludeTargetAttributeTypes);
             if (depthOfTypeInheritance == null)
                 return null;
 
