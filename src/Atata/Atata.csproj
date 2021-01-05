@@ -23,7 +23,7 @@ Features:
 - Configurable. Defines the default component search strategies as well as additional settings. Atata.Configuration.Json provides flexible JSON configurations.
 - Reporting/Logging. Built-in customizable logging and screenshot capturing functionality.
 - Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components. Framework supports any kind of extending.</Description>
-    <Copyright>© Yevgeniy Shunevych 2020</Copyright>
+    <Copyright>© Yevgeniy Shunevych 2021</Copyright>
     <PackageId>Atata</PackageId>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
@@ -35,7 +35,7 @@ Features:
 1.7.0 - https://atata.io/blog/2020/08/27/atata-1.7.0-released/
 1.6.0 - https://atata.io/blog/2020/08/05/atata-1.6.0-released/</PackageReleaseNotes>
     <RepositoryType>git</RepositoryType>
-    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0;DevNet45</Configurations>
+    <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
@@ -46,13 +46,7 @@ Features:
   </ItemGroup>
 
   <Choose>
-    <When Condition="$(Configuration) == 'SlimNet45'">
-      <PropertyGroup>
-        <TargetFramework>net45</TargetFramework>
-        <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
-      </PropertyGroup>
-    </When>
-    <When Condition="$(Configuration) == 'SlimNetstandard2.0'">
+    <When Condition="$(Configuration) == 'SlimNetCore3.1'">
       <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
@@ -60,9 +54,9 @@ Features:
     </When>
     <Otherwise>
       <Choose>
-        <When Condition="$(Configuration) == 'DevNet45'">
+        <When Condition="$(Configuration) == 'DevNetCore3.1'">
           <PropertyGroup>
-            <TargetFramework>net45</TargetFramework>
+            <TargetFramework>netstandard2.0</TargetFramework>
           </PropertyGroup>
         </When>
         <Otherwise>
@@ -78,17 +72,9 @@ Features:
       </PropertyGroup>
       
       <ItemGroup Label="Code analysis packages">
-        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.14.0.22654">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-          <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" PrivateAssets="All" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.14.0.22654" PrivateAssets="All" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
       </ItemGroup>
     </Otherwise>
   </Choose>

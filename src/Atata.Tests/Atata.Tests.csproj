@@ -1,16 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <IsPackable>false</IsPackable>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
-    <Copyright>© Yevgeniy Shunevych 2020</Copyright>
-    <Configurations>Debug;Release;SlimNet45;SlimNetstandard2.0;DevNet45</Configurations>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="$(Configuration) == 'Debug'">
-    <DefineConstants>DEBUG</DefineConstants>
+    <Copyright>© Yevgeniy Shunevych 2021</Copyright>
+    <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -40,48 +36,20 @@
   </ItemGroup>
 
   <Choose>
-    <When Condition="$(Configuration) == 'SlimNet45'">
+    <When Condition="$(Configuration) == 'SlimNetCore3.1'">
       <PropertyGroup>
-        <TargetFramework>net45</TargetFramework>
-        <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
-      </PropertyGroup>
-    </When>
-    <When Condition="$(Configuration) == 'SlimNetstandard2.0'">
-      <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
         <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
     <Otherwise>
-      <Choose>
-        <When Condition="$(Configuration) == 'DevNet45'">
-          <PropertyGroup>
-            <TargetFramework>net45</TargetFramework>
-          </PropertyGroup>
-        </When>
-        <Otherwise>
-          <PropertyGroup>
-            <TargetFrameworks>net45;netcoreapp2.1</TargetFrameworks>
-          </PropertyGroup>
-        </Otherwise>
-      </Choose>
-
       <PropertyGroup>
         <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
 
       <ItemGroup Label="Code analysis packages">
-        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.14.0.22654">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
-          <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" PrivateAssets="All" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.14.0.22654" PrivateAssets="All" />
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
       </ItemGroup>
     </Otherwise>
   </Choose>

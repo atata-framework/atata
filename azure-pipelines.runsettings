@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+  <TestRunParameters>
+  </TestRunParameters>
+  <NUnit>
+    <DisplayName>FullName</DisplayName>
+    <Where>cat != 'Unstable'</Where>
+  </NUnit>
+</RunSettings>

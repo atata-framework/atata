@@ -1,68 +1,40 @@
 variables:
   buildConfiguration: 'Release'
-  linuxTestsRunFramework: 'netcoreapp2.0'
 
 jobs:
 - job: BuildAndRunCodeAnalysis
   displayName: Build and run code analysis
   pool:
-    vmImage: vs2017-win2016
+    vmImage: windows-latest
   steps:
   - task: DotNetCoreCLI@2
-    displayName: Build solution and run code analysis
+    displayName: Build solution with code analysis
     inputs:
       command: build
-      projects: '**\Atata.sln'
+      projects: '**\*.sln'
       arguments: -c $(buildConfiguration) -warnaserror
 
-- job: RunTestsNet45
-  displayName: Run tests using .NET 4.5 on Windows
+- job: RunTests
+  displayName: Run tests
   pool:
-    vmImage: vs2017-win2016
+    vmImage: windows-latest
   steps:
   - task: DotNetCoreCLI@2
     displayName: Build solution
     inputs:
       command: build
-      projects: '**\Atata.sln'
+      projects: '**\*.sln'
       arguments: -c $(buildConfiguration) -p:RunCodeAnalysis=false
-  - task: VSTest@2
-    displayName: Run tests
+  - task: DotNetCoreCLI@2
+    displayName: 'Run tests'
     timeoutInMinutes: 30
     inputs:
-      testFilterCriteria: TestCategory!=Unstable
-      testAssemblyVer2: |
-        **\*.Tests*.dll
-        !**\obj\**
-  - task: PublishPipelineArtifact@0
+      command: test
+      projects: '**\*Tests.csproj'
+      arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build
+  - task: PublishPipelineArtifact@1
     displayName: Publish test results
     condition: succeededOrFailed()
     inputs:
-      artifactName: Test results .NET 4.5
-      targetPath: src/Atata.Tests/bin/$(buildConfiguration)/net45/Logs
-
-#- job: RunTestsNetCore20
-#  condition: false
-#  displayName: Run tests using .NET Core 2.0 on Linux
-#  pool:
-#    vmImage: ubuntu-16.04
-#  steps:
-#  - task: DotNetCoreCLI@2
-#    displayName: Build solution
-#    inputs:
-#      command: build
-#      projects: '**/Atata.Tests.csproj'
-#      arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework)
-#  - task: DotNetCoreCLI@2
-#    displayName: Run tests
-#    timeoutInMinutes: 30
-#    inputs:
-#      command: test
-#      projects: '**/Atata.Tests.csproj'
-#      arguments: -c $(buildConfiguration) -f $(linuxTestsRunFramework) --no-build
-#  - task: PublishPipelineArtifact@0
-#    displayName: Publish test results
-#    condition: succeededOrFailed()
-#    inputs:
-#      artifactName: Test results .NET Core 2.0
-#      targetPath: src/Atata.Tests/bin/$(buildConfiguration)/$(linuxTestsRunFramework)/Logs
+      artifactName: Test results
+      targetPath: src/Atata.Tests/bin/$(buildConfiguration)/netcoreapp3.1/Logs
