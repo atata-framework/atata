@@ -20,14 +20,11 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-            ConfigureBaseAtataContext().
-                UseInternetExplorer().
-#if NETCOREAPP2_1
-                    WithLocalDriverPath().
-#endif
-                UseDriver(driverAlias).
-                UseTestName(() => $"[{driverAlias}]{TestContext.CurrentContext.Test.Name}").
-                Build();
+            ConfigureBaseAtataContext()
+                .UseInternetExplorer()
+                .UseDriver(driverAlias)
+                .UseTestName(() => $"[{driverAlias}]{TestContext.CurrentContext.Test.Name}")
+                .Build();
         }
 
         [TestCase(4)]

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -22,11 +23,7 @@ namespace Atata.Tests
         protected IEnumerable<LogEventInfo> LogEntries => stringListLogConsumer.Items;
 
         public static bool IsOSLinux =>
-#if NETCOREAPP2_1
-            System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(System.Runtime.InteropServices.OSPlatform.Linux);
-#else
-            false;
-#endif
+            RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
         protected AtataContextBuilder ConfigureBaseAtataContext()
         {
@@ -36,9 +33,6 @@ namespace Atata.Tests
                 UseChrome().
                     WithArguments(GetChromeArguments()).
                     WithPortsToIgnore(portsToIgnore).
-#if NETCOREAPP2_1
-                    WithLocalDriverPath().
-#endif
                 UseBaseUrl(BaseUrl).
                 UseCulture("en-us").
                 UseNUnitTestName().

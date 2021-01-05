@@ -33,7 +33,6 @@ namespace Atata.Tests
                 Directory.Delete(LogsFolder, recursive: true);
         }
 
-#if !NETCOREAPP2_1
         [Test]
         public void Log4NetConsumer_Default()
         {
@@ -53,7 +52,6 @@ namespace Atata.Tests
 
             AssertThatFileShouldContainText(TraceLogFilePath, traceTestMessage, debugTestMessage, infoTestMessage);
         }
-#endif
 
         [Test]
         public void Log4NetConsumer_WithRepositoryUsingInfoLevel()
