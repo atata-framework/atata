@@ -28,9 +28,7 @@ namespace Atata
 
         public T Get<T>(string name, T defaultValue, params Func<UIComponentMetadata, IEnumerable<IPropertySettings>>[] propertySettingsGetters)
         {
-            object value;
-
-            if (values.TryGetValue(name, out value))
+            if (values.TryGetValue(name, out object value))
                 return (T)value;
 
             if (Metadata != null && propertySettingsGetters.Any())

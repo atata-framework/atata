@@ -30,9 +30,7 @@ namespace Atata
         {
             if (IsAccessChainActive)
             {
-                Dictionary<Visibility, IWebElement> visibiltyElementMap;
-
-                if (!accessChainItems.TryGetValue(component, out visibiltyElementMap))
+                if (!accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap))
                 {
                     visibiltyElementMap = new Dictionary<Visibility, IWebElement>();
                     accessChainItems.Add(component, visibiltyElementMap);

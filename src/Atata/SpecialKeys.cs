@@ -35,11 +35,9 @@ namespace Atata
         {
             StringBuilder builder = new StringBuilder();
 
-            string specialKeyName;
-
             foreach (char key in keys)
             {
-                if (ValueNameMap.TryGetValue(key, out specialKeyName))
+                if (ValueNameMap.TryGetValue(key, out string specialKeyName))
                     builder.Append($"<{specialKeyName}>");
                 else
                     builder.Append(key);
