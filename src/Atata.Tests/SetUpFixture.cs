@@ -70,8 +70,11 @@ namespace Atata.Tests
         [OneTimeTearDown]
         public void GlobalTearDown()
         {
-            coreRunProcess?.CloseMainWindow();
-            coreRunProcess?.Dispose();
+            if (coreRunProcess != null)
+            {
+                coreRunProcess.Kill(true);
+                coreRunProcess.Dispose();
+            }
         }
     }
 }
