@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.Linq;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -11,27 +9,24 @@ namespace Atata
     throw 'Element doesn\'t have shadowRoot value. Element: ' + arguments[0].outerHTML.replace(arguments[0].innerHTML, '...');
 }
 var shadowChildren = arguments[0].shadowRoot.children;
-var filteredChildren = [];
 
 for (var i = 0; i < shadowChildren.length; i++) {
     var nodeName = shadowChildren[i].nodeName;
 
     if (nodeName !== 'STYLE' && nodeName !== 'SCRIPT') {
-        filteredChildren.push(shadowChildren[i]);
+        return shadowChildren[i];
     }
 }
 
-return filteredChildren;";
+throw 'Element\'s shadowRoot doesn\'t contain any elements.';";
 
         public string DefaultOuterXPath => "..//";
 
         public ISearchContext Resolve(IWebElement element)
         {
-            var shadowChildren = (ReadOnlyCollection<IWebElement>)AtataContext.Current.Driver.ExecuteScriptWithLogging(
+            return (IWebElement)AtataContext.Current.Driver.ExecuteScriptWithLogging(
                 GetShadowRootChildElementsScript,
                 element);
-
-            return shadowChildren.First();
         }
     }
 }
