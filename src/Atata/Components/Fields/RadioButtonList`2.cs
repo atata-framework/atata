@@ -28,7 +28,7 @@ namespace Atata
 
             return selectedItem != null
                 ? GetElementValue(selectedItem)
-                : default(T);
+                : default;
         }
 
         protected override void SetValue(T value)

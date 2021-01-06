@@ -20,7 +20,7 @@ namespace Atata.Tests
                 BottomText.Metadata.Add(new PressEndAttribute(TriggerEvents.BeforeGet));
 
             page.
-                BottomText.Get(out string text).
+                BottomText.Get(out _).
                 BottomText.Should.BeVisibleInViewPort();
         }
 
@@ -33,7 +33,7 @@ namespace Atata.Tests
                 TopText.Metadata.Add(new PressHomeAttribute(TriggerEvents.BeforeGet));
 
             page.
-                TopText.Get(out string text).
+                TopText.Get(out _).
                 TopText.Should.BeVisibleInViewPort();
         }
     }

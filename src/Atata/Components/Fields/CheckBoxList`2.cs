@@ -61,7 +61,7 @@ namespace Atata
 
             return selectedValues.Any()
                 ? JoinValues(selectedValues)
-                : default(T);
+                : default;
         }
 
         private static T JoinValues(T[] values)

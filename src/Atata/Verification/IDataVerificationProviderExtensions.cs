@@ -21,7 +21,7 @@ namespace Atata
                 new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage),
                 () =>
                 {
-                    TData actual = default(TData);
+                    TData actual = default;
                     Exception exception = null;
 
                     bool doesSatisfy = AtataContext.Current.Driver.Try().Until(

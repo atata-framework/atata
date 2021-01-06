@@ -121,7 +121,7 @@ namespace Atata
 
             if (includeValues == null || includeValues.Length == 0)
             {
-                value = default(T);
+                value = default;
                 return false;
             }
             else

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -72,14 +71,14 @@ namespace Atata
             if (char.IsLetterOrDigit(chars[0]))
                 wordChars.Add(chars[0]);
 
-            Action endWord = () =>
+            void EndWord()
             {
                 if (wordChars.Any())
                 {
                     words.Add(new string(wordChars.ToArray()));
                     wordChars.Clear();
                 }
-            };
+            }
 
             for (int i = 1; i < chars.Length; i++)
             {
@@ -89,14 +88,14 @@ namespace Atata
 
                 if (!char.IsLetterOrDigit(current))
                 {
-                    endWord();
+                    EndWord();
                 }
                 else if ((char.IsDigit(current) && char.IsLetter(prev)) ||
                     (char.IsLetter(current) && char.IsDigit(prev)) ||
                     (char.IsUpper(current) && char.IsLower(prev)) ||
                     (char.IsUpper(current) && next != null && char.IsLower(next.Value)))
                 {
-                    endWord();
+                    EndWord();
                     wordChars.Add(current);
                 }
                 else
@@ -105,7 +104,7 @@ namespace Atata
                 }
             }
 
-            endWord();
+            EndWord();
 
             return words.ToArray();
         }

@@ -21,7 +21,7 @@ namespace Atata.Tests
                 BottomText.Metadata.Add(new ScrollDownAttribute(TriggerEvents.BeforeGet));
 
             page.
-                BottomText.Get(out string text).
+                BottomText.Get(out _).
                 BottomText.Should.BeVisibleInViewPort();
         }
 
@@ -34,7 +34,7 @@ namespace Atata.Tests
                 TopText.Metadata.Add(new ScrollUpAttribute(TriggerEvents.BeforeGet));
 
             page.
-                TopText.Get(out string text).
+                TopText.Get(out _).
                 TopText.Should.BeVisibleInViewPort();
         }
 
@@ -46,7 +46,7 @@ namespace Atata.Tests
                 BottomText.Metadata.Add(new ScrollToAttribute(TriggerEvents.BeforeGet));
 
             page.
-                BottomText.Get(out string text).
+                BottomText.Get(out _).
                 BottomText.Should.BeVisibleInViewPort();
         }
     }
