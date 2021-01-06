@@ -18,10 +18,13 @@ namespace Atata.Tests
             if (ReuseDriver && PreservedDriver != null)
                 contextBuilder = contextBuilder.UseDriver(PreservedDriver);
 
-            contextBuilder.Build();
+            contextBuilder.OnDriverCreated(driver =>
+            {
+                if (ReuseDriver && PreservedDriver == null)
+                    PreservedDriver = driver;
+            });
 
-            if (ReuseDriver && PreservedDriver == null)
-                PreservedDriver = AtataContext.Current.Driver;
+            contextBuilder.Build();
 
             OnSetUp();
         }

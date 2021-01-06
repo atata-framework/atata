@@ -438,19 +438,8 @@ namespace Atata
             Driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
 
             if (OnDriverCreatedActions != null)
-            {
                 foreach (Action<RemoteWebDriver> action in OnDriverCreatedActions)
-                {
-                    try
-                    {
-                        action(Driver);
-                    }
-                    catch (Exception e)
-                    {
-                        Log.Error($"On {nameof(AtataContext)} driver created action failure.", e);
-                    }
-                }
-            }
+                    action(Driver);
         }
 
         /// <summary>

@@ -924,7 +924,7 @@ namespace Atata
 
         private void SetUp(AtataContext context)
         {
-            OnBuilding(context);
+            OnBuilding();
 
             if (context.BaseUrl != null)
                 context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
@@ -941,43 +941,21 @@ namespace Atata
 
             context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{BuildingContext.DriverFactoryToUse?.Alias?.ToFormattedString(" (alias={0})")}");
 
-            OnBuilt(context);
+            OnBuilt();
         }
 
-        private void OnBuilding(AtataContext context)
+        private void OnBuilding()
         {
             if (BuildingContext.OnBuildingActions != null)
-            {
                 foreach (Action action in BuildingContext.OnBuildingActions)
-                {
-                    try
-                    {
-                        action();
-                    }
-                    catch (Exception e)
-                    {
-                        context.Log.Error($"On {nameof(AtataContext)} building action failure.", e);
-                    }
-                }
-            }
+                    action();
         }
 
-        private void OnBuilt(AtataContext context)
+        private void OnBuilt()
         {
             if (BuildingContext.OnBuiltActions != null)
-            {
                 foreach (Action action in BuildingContext.OnBuiltActions)
-                {
-                    try
-                    {
-                        action();
-                    }
-                    catch (Exception e)
-                    {
-                        context.Log.Error($"On {nameof(AtataContext)} built action failure.", e);
-                    }
-                }
-            }
+                    action();
         }
 
         private static void LogRetrySettings(AtataContext context)
