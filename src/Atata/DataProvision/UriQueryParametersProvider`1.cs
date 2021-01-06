@@ -97,7 +97,7 @@ namespace Atata
             var parameter = Value.FirstOrDefault(x => x.Key == parameterName);
 
             return parameter.Key == null
-                ? default(TValue)
+                ? default
                 : Convert<TValue>(parameter.Value);
         }
 

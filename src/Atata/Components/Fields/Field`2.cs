@@ -138,22 +138,16 @@ namespace Atata
         public override bool Equals(object obj)
         {
             if (obj == null)
-            {
                 return false;
-            }
 
-            Field<T, TOwner> objAsField = obj as Field<T, TOwner>;
-            if (objAsField != null)
+            switch (obj)
             {
-                return ReferenceEquals(this, objAsField);
-            }
-            else if (obj is T objAsValue)
-            {
-                return Equals(objAsValue);
-            }
-            else
-            {
-                return false;
+                case Field<T, TOwner> objAsField:
+                    return ReferenceEquals(this, objAsField);
+                case T objAsValue:
+                    return Equals(objAsValue);
+                default:
+                    return false;
             }
         }
 

@@ -8,10 +8,10 @@
             if (termSettings == null)
                 return null;
 
-            IPropertySettings castedTermSettings = termSettings as IPropertySettings;
-
-            if (castedTermSettings != null)
-                return castedTermSettings.Properties.Contains(nameof(ITermSettings.Case)) ? termSettings.Case : (TermCase?)null;
+            if (termSettings is IPropertySettings castedTermSettings)
+                return castedTermSettings.Properties.Contains(nameof(ITermSettings.Case))
+                    ? termSettings.Case
+                    : (TermCase?)null;
             else
                 return termSettings.Case;
         }
@@ -21,9 +21,7 @@
             if (termSettings == null)
                 return null;
 
-            IPropertySettings castedTermSettings = termSettings as IPropertySettings;
-
-            if (castedTermSettings != null)
+            if (termSettings is IPropertySettings castedTermSettings)
                 return castedTermSettings.Properties.Contains(nameof(ITermSettings.Match)) ? termSettings.Match : (TermMatch?)null;
             else
                 return termSettings.Match;

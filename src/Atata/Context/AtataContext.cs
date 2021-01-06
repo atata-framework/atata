@@ -16,16 +16,16 @@ namespace Atata
     {
         private static readonly object LockObject = new object();
 
+#if NET46 || NETSTANDARD2_0
+        private static readonly System.Threading.AsyncLocal<AtataContext> CurrentAsyncLocalContext = new System.Threading.AsyncLocal<AtataContext>();
+
+#endif
         private static AtataContextModeOfCurrent modeOfCurrent = AtataContextModeOfCurrent.ThreadStatic;
 
         [ThreadStatic]
         private static AtataContext currentThreadStaticContext;
 
         private static AtataContext currentStaticContext;
-
-#if NET46 || NETSTANDARD2_0
-        private static System.Threading.AsyncLocal<AtataContext> currentAsyncLocalContext = new System.Threading.AsyncLocal<AtataContext>();
-#endif
 
         private string testName;
 
@@ -46,7 +46,7 @@ namespace Atata
                     ? currentThreadStaticContext
 #if NET46 || NETSTANDARD2_0
                     : ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal
-                    ? currentAsyncLocalContext.Value
+                    ? CurrentAsyncLocalContext.Value
 #endif
                     : currentStaticContext;
             }
@@ -57,7 +57,7 @@ namespace Atata
                     currentThreadStaticContext = value;
 #if NET46 || NETSTANDARD2_0
                 else if (ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
-                    currentAsyncLocalContext.Value = value;
+                    CurrentAsyncLocalContext.Value = value;
 #endif
                 else
                     currentStaticContext = value;

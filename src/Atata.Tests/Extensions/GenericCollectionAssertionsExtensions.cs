@@ -32,20 +32,14 @@ namespace Atata.Tests
         {
             private static IEqualityComparer<T> defaultComparer;
 
-            public static new IEqualityComparer<T> Default
-            {
-                get { return defaultComparer ?? (defaultComparer = new ReferenceEqualityComparer<T>()); }
-            }
+            public static new IEqualityComparer<T> Default =>
+                defaultComparer ??= new ReferenceEqualityComparer<T>();
 
-            public override bool Equals(T x, T y)
-            {
-                return ReferenceEquals(x, y);
-            }
+            public override bool Equals(T x, T y) =>
+                ReferenceEquals(x, y);
 
-            public override int GetHashCode(T obj)
-            {
-                return RuntimeHelpers.GetHashCode(obj);
-            }
+            public override int GetHashCode(T obj) =>
+                RuntimeHelpers.GetHashCode(obj);
         }
     }
 }

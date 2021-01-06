@@ -84,11 +84,12 @@ namespace Atata
                 Where(x => x.GetCustomAttribute<IgnoreInitAttribute>() == null).
                 ToArray();
 
-            Func<PropertyInfo, bool> isNullPropertyPredicate = x => x.GetValue(component) == null;
+            bool IsNullPropertyPredicate(PropertyInfo property) =>
+                property.GetValue(component) == null;
 
             PropertyInfo[] controlProperties = suitableProperties.
                 Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(Control<>))).
-                Where(isNullPropertyPredicate).
+                Where(IsNullPropertyPredicate).
                 ToArray();
 
             foreach (var property in controlProperties)
@@ -96,7 +97,7 @@ namespace Atata
 
             PropertyInfo[] componentPartProperties = suitableProperties.
                 Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(UIComponentPart<>))).
-                Where(isNullPropertyPredicate).
+                Where(IsNullPropertyPredicate).
                 ToArray();
 
             foreach (var property in componentPartProperties)
@@ -104,7 +105,7 @@ namespace Atata
 
             PropertyInfo[] delegateProperties = suitableProperties.
                 Where(x => typeof(MulticastDelegate).IsAssignableFrom(x.PropertyType.BaseType) && x.PropertyType.IsGenericType).
-                Where(isNullPropertyPredicate).
+                Where(IsNullPropertyPredicate).
                 ToArray();
 
             foreach (var property in delegateProperties)

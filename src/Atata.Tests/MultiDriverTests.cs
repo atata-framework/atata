@@ -40,15 +40,12 @@ namespace Atata.Tests
 
         private static Type GetDriverTypeByAlias(string driverAlias)
         {
-            switch (driverAlias)
+            return driverAlias switch
             {
-                case DriverAliases.Chrome:
-                    return typeof(ChromeDriver);
-                case DriverAliases.InternetExplorer:
-                    return typeof(InternetExplorerDriver);
-                default:
-                    throw new ArgumentException($"Unexpected \"{driverAlias}\" value.", nameof(driverAlias));
-            }
+                DriverAliases.Chrome => typeof(ChromeDriver),
+                DriverAliases.InternetExplorer => typeof(InternetExplorerDriver),
+                _ => throw new ArgumentException($"Unexpected \"{driverAlias}\" value.", nameof(driverAlias)),
+            };
         }
     }
 }

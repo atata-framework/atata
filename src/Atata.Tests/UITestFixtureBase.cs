@@ -139,9 +139,7 @@ namespace Atata.Tests
             }
         }
 
-#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
         protected void VerifyLastLogEntries(params (LogLevel Level, string Message, Exception Exception)[] expectedLogEntries)
-#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
         {
             LogEventInfo[] actualLogEntries = GetLastLogEntries(LogLevel.Trace, expectedLogEntries.Length);
 

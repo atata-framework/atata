@@ -105,7 +105,7 @@ namespace Atata
             string valueAsString = Component.Scope.GetAttribute(attributeName);
 
             if (string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool))
-                return default(TValue);
+                return default;
 
             return TermResolver.FromString<TValue>(valueAsString);
         }

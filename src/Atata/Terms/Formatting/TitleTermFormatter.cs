@@ -31,9 +31,10 @@ namespace Atata.TermFormatting
 
         public string Format(string[] words)
         {
-            List<string> updatedWords = new List<string>();
-
-            updatedWords.Add(CapitalizeFirstLetter(words[0]));
+            List<string> updatedWords = new List<string>
+            {
+                CapitalizeFirstLetter(words[0])
+            };
 
             if (words.Length > 2)
                 updatedWords.AddRange(words.Skip(1).Take(words.Length - 2).Select(CapitalizeFirstLetterExceptSpecial));
