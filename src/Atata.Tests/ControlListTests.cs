@@ -9,10 +9,8 @@ namespace Atata.Tests
         [Test]
         public void ControlList_TextInput()
         {
-            string lastName;
-
             Go.To<BasicControlsPage>().
-                AllTextInputs[1].SetRandom(out lastName).
+                AllTextInputs[1].SetRandom(out string lastName).
                 AllTextInputs[1].Should.Equal(lastName).
                 Do(x => x.AllTextInputs[0], x => VerifyDoesNotEqual(x, lastName)).
                 Do(x => x.AllTextInputs[2], x => VerifyDoesNotEqual(x, lastName)).

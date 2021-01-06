@@ -18,14 +18,11 @@ namespace Atata.Tests
         {
             var control = page.SimpleEnum;
 
-            RandomizationPage.CheckBoxOptions value;
-            control.SetRandom(out value);
+            control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                RandomizationPage.CheckBoxOptions newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
                 page.CheckedItemsCount.Should.BeInRange(0, 1);
 
@@ -41,14 +38,11 @@ namespace Atata.Tests
         {
             var control = page.MultipleEnums;
 
-            RandomizationPage.CheckBoxOptions value;
-            control.SetRandom(out value);
+            control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                RandomizationPage.CheckBoxOptions newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
                 page.CheckedItemsCount.Should.BeInRange(2, 4);
 
@@ -64,14 +58,11 @@ namespace Atata.Tests
         {
             var control = page.MultipleEnumsExcludingNoneBDF;
 
-            RandomizationPage.CheckBoxOptions value;
-            control.SetRandom(out value);
+            control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                RandomizationPage.CheckBoxOptions newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
                 page.CheckedItemsCount.Should.Equal(2);
                 control.Should.Not.HaveChecked(
@@ -92,14 +83,11 @@ namespace Atata.Tests
         {
             var control = page.MultipleEnumsIncludingABDEF;
 
-            RandomizationPage.CheckBoxOptions value;
-            control.SetRandom(out value);
+            control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                RandomizationPage.CheckBoxOptions newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
                 page.CheckedItemsCount.Should.Equal(3);
                 control.Should.Not.HaveChecked(
@@ -118,14 +106,11 @@ namespace Atata.Tests
         {
             var control = page.EnumSelect;
 
-            RandomizationPage.SelectOption value;
-            control.SetRandom(out value);
+            control.SetRandom(out RandomizationPage.SelectOption value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                RandomizationPage.SelectOption newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out RandomizationPage.SelectOption newValue);
                 control.Should.Equal(newValue);
 
                 if (newValue != value)
@@ -140,14 +125,11 @@ namespace Atata.Tests
         {
             var control = page.TextSelect;
 
-            string value;
-            control.SetRandom(out value);
+            control.SetRandom(out string value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                string newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out string newValue);
                 control.Should.Equal(newValue);
                 control.Should.Not.Equal("Option D");
 
@@ -163,14 +145,11 @@ namespace Atata.Tests
         {
             var control = page.IntSelect;
 
-            int value;
-            control.SetRandom(out value);
+            control.SetRandom(out int value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                int newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out int newValue);
                 control.Should.Equal(newValue);
                 control.Should.BeInRange(1, 2);
 
@@ -186,14 +165,11 @@ namespace Atata.Tests
         {
             var control = page.IntSelectUsingInclude;
 
-            int value;
-            control.SetRandom(out value);
+            control.SetRandom(out int value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                int newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out int newValue);
                 control.Should.Equal(newValue);
                 control.Should.BeLessOrEqual(3);
 
@@ -209,14 +185,11 @@ namespace Atata.Tests
         {
             var control = page.OptionA;
 
-            bool value;
-            control.SetRandom(out value);
+            control.SetRandom(out bool value);
 
             for (int i = 0; i < MaxTriesNumber; i++)
             {
-                bool newValue;
-
-                control.SetRandom(out newValue);
+                control.SetRandom(out bool newValue);
                 control.Should.Equal(newValue);
 
                 if (newValue != value)
