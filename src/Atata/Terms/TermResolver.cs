@@ -117,12 +117,15 @@ namespace Atata
         {
             fromStringConverter.CheckNotNull(nameof(fromStringConverter));
 
-            Func<string, TermOptions, object> castedFromStringConverter = (s, to) => fromStringConverter(s, to);
+            object CastedFromStringConverter(string s, TermOptions to) =>
+                fromStringConverter(s, to);
+
             Func<object, TermOptions, string> castedToStringConverter = null;
+
             if (toStringConverter != null)
                 castedToStringConverter = (v, to) => toStringConverter((T)v, to);
 
-            RegisterConverter(typeof(T), castedFromStringConverter, castedToStringConverter);
+            RegisterConverter(typeof(T), CastedFromStringConverter, castedToStringConverter);
         }
 
         public static void RegisterConverter(
@@ -141,8 +144,8 @@ namespace Atata
 
         public static string ToDisplayString(object value, TermOptions termOptions = null)
         {
-            return value is IEnumerable<object>
-                ? string.Join("/", ((IEnumerable<object>)value).Select(x => ToDisplayString(x, termOptions)))
+            return value is IEnumerable<object> enumerable
+                ? string.Join("/", enumerable.Select(x => ToDisplayString(x, termOptions)))
                 : ToString(value, termOptions);
         }
 
@@ -160,13 +163,12 @@ namespace Atata
             value.CheckNotNull(nameof(value));
 
             termOptions = termOptions ?? new TermOptions();
-            TermConverter termConverter;
 
             if (value is string stringValue)
                 return new[] { FormatStringValue(stringValue, termOptions) };
             else if (value is Enum enumValue)
                 return GetEnumTerms(enumValue, termOptions);
-            else if (TypeTermConverters.TryGetValue(value.GetType(), out termConverter) && termConverter.ToStringConverter != null)
+            else if (TypeTermConverters.TryGetValue(value.GetType(), out TermConverter termConverter) && termConverter.ToStringConverter != null)
                 return new[] { termConverter.ToStringConverter(value, termOptions) };
             else
                 return new[] { FormatValue(value, termOptions.Format, termOptions.Culture) };
@@ -290,11 +292,10 @@ namespace Atata
         private static object RetrieveValueFromString(string value, Type destinationType, TermOptions termOptions)
         {
             Type underlyingType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
-            TermConverter termConverter;
 
             if (underlyingType.IsEnum)
                 return StringToEnum(value, underlyingType, termOptions);
-            else if (TypeTermConverters.TryGetValue(underlyingType, out termConverter))
+            else if (TypeTermConverters.TryGetValue(underlyingType, out TermConverter termConverter))
                 return termConverter.FromStringConverter(value, termOptions);
             else
                 return Convert.ChangeType(RetrieveValuePart(value, termOptions.Format), underlyingType, termOptions.Culture);

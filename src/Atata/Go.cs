@@ -132,9 +132,7 @@ namespace Atata
         {
             CheckAtataContext();
 
-            Uri absoluteUrl;
-
-            if (!UriUtils.TryCreateAbsoluteUrl(url, out absoluteUrl))
+            if (!UriUtils.TryCreateAbsoluteUrl(url, out Uri absoluteUrl))
             {
                 if (!AtataContext.Current.IsNavigated && AtataContext.Current.BaseUrl == null)
                 {

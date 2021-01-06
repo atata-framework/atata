@@ -46,16 +46,19 @@ namespace Atata.TermFormatting
             if (termCase == TermCase.None)
                 return string.Concat(words);
 
-            FormatterItem formatterItem;
-            if (!Formatters.TryGetValue(termCase, out formatterItem))
+            if (Formatters.TryGetValue(termCase, out FormatterItem formatterItem))
+            {
+                string formattedValue = formatterItem.Formatter.Format(words);
+
+                if (!string.IsNullOrWhiteSpace(formatterItem.StringFormat))
+                    formattedValue = string.Format(formatterItem.StringFormat, formattedValue);
+
+                return formattedValue;
+            }
+            else
+            {
                 throw ExceptionFactory.CreateForUnsupportedEnumValue(termCase, nameof(termCase));
-
-            string formattedValue = formatterItem.Formatter.Format(words);
-
-            if (!string.IsNullOrWhiteSpace(formatterItem.StringFormat))
-                formattedValue = string.Format(formatterItem.StringFormat, formattedValue);
-
-            return formattedValue;
+            }
         }
 
         private class FormatterItem
