@@ -31,7 +31,7 @@ return (
             Attributes = new UIComponentAttributeProvider<TOwner> { Component = this, ComponentPartName = "attributes" };
             Css = new UIComponentCssProvider<TOwner> { Component = this, ComponentPartName = "CSS" };
             Script = new UIComponentScriptExecutor<TOwner>(this);
-            ComponentLocation = new UIComponentLocationProvider<TOwner> { Component = this, ComponentPartName = "location" };
+            ComponentLocation = new UIComponentLocationProvider<TOwner>(this, GetLocation);
             ComponentSize = new UIComponentSizeProvider<TOwner>(this, GetSize);
             Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
@@ -222,6 +222,13 @@ return (
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the location of the component.
+        /// </summary>
+        /// <returns>The size.</returns>
+        protected virtual Point GetLocation() =>
+            Scope.Location;
 
         /// <summary>
         /// Gets the size of the component.

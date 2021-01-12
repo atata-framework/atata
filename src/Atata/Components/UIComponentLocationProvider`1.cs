@@ -1,24 +1,36 @@
-﻿namespace Atata
+﻿using System;
+using System.Drawing;
+
+namespace Atata
 {
     /// <summary>
     /// Allows to access the component scope element's location (X and Y).
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public class UIComponentLocationProvider<TOwner> : UIComponentPart<TOwner>
+    public class UIComponentLocationProvider<TOwner> : DataProvider<Point, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public DataProvider<int, TOwner> X => Component.GetOrCreateDataProvider("X location", GetX);
-
-        public DataProvider<int, TOwner> Y => Component.GetOrCreateDataProvider("Y location", GetY);
-
-        private int GetX()
+        public UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction)
+            : base(component, valueGetFunction, "location")
         {
-            return Component.Scope.Location.X;
         }
 
-        private int GetY()
-        {
-            return Component.Scope.Location.Y;
-        }
+        /// <summary>
+        /// Gets the X location coordinate.
+        /// </summary>
+        public DataProvider<int, TOwner> X =>
+            Component.GetOrCreateDataProvider("X location", GetX);
+
+        /// <summary>
+        /// Gets the Y location coordinate.
+        /// </summary>
+        public DataProvider<int, TOwner> Y =>
+            Component.GetOrCreateDataProvider("Y location", GetY);
+
+        private int GetX() =>
+            Value.X;
+
+        private int GetY() =>
+            Value.Y;
     }
 }
