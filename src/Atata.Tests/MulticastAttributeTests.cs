@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 namespace Atata.Tests
 {
+    [TestFixture]
     public static class MulticastAttributeTests
     {
         public class TestMulticastAttribute : MulticastAttribute
@@ -13,8 +14,15 @@ namespace Atata.Tests
         [TestFixture]
         public class CalculateTargetRank
         {
-            private readonly UIComponentMetadata metadata = new UIComponentMetadata(
-                TargetNames.Some, TargetTypes.Some, TargetParentTypes.Some);
+            private UIComponentMetadata metadata;
+
+            [SetUp]
+            public void SetUp()
+            {
+                metadata = new UIComponentMetadata(
+                    TargetNames.Some, TargetTypes.Some, TargetParentTypes.Some);
+                metadata.Push(new TagAttribute(TargetTags.Some));
+            }
 
             [Test]
             public void Default() =>
@@ -39,6 +47,16 @@ namespace Atata.Tests
             [Test]
             public void TargetType_NoMatch() =>
                 Test(x => x.TargetType = TargetTypes.Other)
+                    .Should().BeNull();
+
+            [Test]
+            public void TargetTag_Match() =>
+                Test(x => x.TargetTag = TargetTags.Some)
+                    .Should().BePositive();
+
+            [Test]
+            public void TargetTag_NoMatch() =>
+                Test(x => x.TargetTag = TargetTags.Other)
                     .Should().BeNull();
 
             [Test]
@@ -69,6 +87,16 @@ namespace Atata.Tests
             [Test]
             public void ExcludeTargetType_NoMatch() =>
                 Test(x => x.ExcludeTargetType = TargetTypes.Other)
+                    .Should().Be(0);
+
+            [Test]
+            public void ExcludeTargetTag_Match() =>
+                Test(x => x.ExcludeTargetTag = TargetTags.Some)
+                    .Should().BeNull();
+
+            [Test]
+            public void ExcludeTargetTag_NoMatch() =>
+                Test(x => x.ExcludeTargetTag = TargetTags.Other)
                     .Should().Be(0);
 
             [Test]
@@ -104,12 +132,17 @@ namespace Atata.Tests
 
             [Test]
             public void TargetType() =>
-                Test(x => x.TargetType = TargetTypes.Other)
+                Test(x => x.TargetType = TargetTypes.Some)
+                    .Should().BeTrue();
+
+            [Test]
+            public void TargetTag() =>
+                Test(x => x.TargetTag = TargetTags.Some)
                     .Should().BeTrue();
 
             [Test]
             public void TargetParentType() =>
-                Test(x => x.TargetParentType = TargetParentTypes.Other)
+                Test(x => x.TargetParentType = TargetParentTypes.Some)
                     .Should().BeTrue();
 
             [Test]
@@ -119,12 +152,17 @@ namespace Atata.Tests
 
             [Test]
             public void ExcludeTargetType() =>
-                Test(x => x.ExcludeTargetType = TargetTypes.Other)
+                Test(x => x.ExcludeTargetType = TargetTypes.Some)
+                    .Should().BeTrue();
+
+            [Test]
+            public void ExcludeTargetTag() =>
+                Test(x => x.ExcludeTargetTag = TargetTags.Some)
                     .Should().BeTrue();
 
             [Test]
             public void ExcludeTargetParentType() =>
-                Test(x => x.ExcludeTargetParentType = TargetParentTypes.Other)
+                Test(x => x.ExcludeTargetParentType = TargetParentTypes.Some)
                     .Should().BeTrue();
 
             private static bool Test(Action<TestMulticastAttribute> sutInitializer)
@@ -147,6 +185,13 @@ namespace Atata.Tests
             public static readonly Type Some = typeof(Input<,>);
 
             public static readonly Type Other = typeof(Button<>);
+        }
+
+        private static class TargetTags
+        {
+            public const string Some = "sometag";
+
+            public const string Other = "othertag";
         }
 
         private static class TargetParentTypes

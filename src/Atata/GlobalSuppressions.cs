@@ -43,5 +43,7 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.MulticastAttribute.IsTargetSpecified")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.MulticastAttribute.IsNameApplicable(System.String)~System.Boolean")]
 [assembly: SuppressMessage("Style", "IDE0075:Simplify conditional expression", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TypeFinder.FilterByDeclaringTypeNames(System.Collections.Generic.IEnumerable{System.Type},System.Collections.Generic.IEnumerable{System.String})~System.Collections.Generic.IEnumerable{System.Type}")]
+[assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.MulticastAttribute.AreTagsApplicable(System.Collections.Generic.IEnumerable{System.String})~System.Boolean")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.MulticastAttribute.CalculateTargetRank(Atata.UIComponentMetadata)~System.Nullable{System.Int32}")]
 
 #pragma warning restore S103 // Lines should not be too long

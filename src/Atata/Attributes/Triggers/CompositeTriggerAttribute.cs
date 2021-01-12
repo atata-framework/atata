@@ -36,10 +36,12 @@ namespace Atata
 
                 trigger.TargetNames = TargetNames;
                 trigger.TargetTypes = TargetTypes;
+                trigger.TargetTags = TargetTags;
                 trigger.TargetParentTypes = TargetParentTypes;
 
                 trigger.ExcludeTargetNames = ExcludeTargetNames;
                 trigger.ExcludeTargetTypes = ExcludeTargetTypes;
+                trigger.ExcludeTargetTags = ExcludeTargetTags;
                 trigger.ExcludeTargetParentTypes = ExcludeTargetParentTypes;
             }
         }

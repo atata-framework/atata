@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -37,6 +38,20 @@ namespace Atata
         {
             get => TargetTypes?.FirstOrDefault();
             set => TargetTypes = value == null ? null : new[] { value };
+        }
+
+        /// <summary>
+        /// Gets or sets the target component tags.
+        /// </summary>
+        public string[] TargetTags { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target component tag.
+        /// </summary>
+        public string TargetTag
+        {
+            get => TargetTags?.FirstOrDefault();
+            set => TargetTags = value == null ? null : new[] { value };
         }
 
         /// <summary>
@@ -82,6 +97,20 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets or sets the target component tags to exclude.
+        /// </summary>
+        public string[] ExcludeTargetTags { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target component tag to exclude.
+        /// </summary>
+        public string ExcludeTargetTag
+        {
+            get => ExcludeTargetTags?.FirstOrDefault();
+            set => ExcludeTargetTags = value == null ? null : new[] { value };
+        }
+
+        /// <summary>
         /// Gets or sets the target component's parent types to exclude.
         /// </summary>
         public Type[] ExcludeTargetParentTypes { get; set; }
@@ -101,9 +130,11 @@ namespace Atata
         public virtual bool IsTargetSpecified =>
             (TargetNames?.Any() ?? false) ||
             (TargetTypes?.Any() ?? false) ||
+            (TargetTags?.Any() ?? false) ||
             (TargetParentTypes?.Any() ?? false) ||
             (ExcludeTargetNames?.Any() ?? false) ||
             (ExcludeTargetTypes?.Any() ?? false) ||
+            (ExcludeTargetTags?.Any() ?? false) ||
             (ExcludeTargetParentTypes?.Any() ?? false);
 
         /// <summary>
@@ -137,12 +168,27 @@ namespace Atata
         /// </summary>
         /// <param name="name">The component name.</param>
         /// <returns>
-        ///   <c>true</c> if the name applies the criteria; otherwise, <see langword="false"/>.
+        /// <see langword="true"/> if the name applies the criteria; otherwise, <see langword="false"/>.
         /// </returns>
         public bool IsNameApplicable(string name)
         {
             return (TargetNames == null || !TargetNames.Any() || TargetNames.Contains(name))
                 && (ExcludeTargetNames == null || !ExcludeTargetNames.Any() || !ExcludeTargetNames.Contains(name));
+        }
+
+        /// <summary>
+        /// Determines whether the component tags apply the tag criteria.
+        /// </summary>
+        /// <param name="tags">The component tags.</param>
+        /// <returns>
+        /// <see langword="true"/> if the tags apply the criteria; otherwise, <see langword="false"/>.
+        /// </returns>
+        public bool AreTagsApplicable(IEnumerable<string> tags)
+        {
+            tags.CheckNotNull(nameof(tags));
+
+            return (TargetTags == null || !TargetTags.Any() || TargetTags.Intersect(tags).Any())
+                && (ExcludeTargetTags == null || !ExcludeTargetTags.Any() || !ExcludeTargetTags.Intersect(tags).Any());
         }
 
         /// <summary>
@@ -159,6 +205,10 @@ namespace Atata
             if (depthOfTypeInheritance == null)
                 return null;
 
+            var tags = metadata.GetAll<TagAttribute>().SelectMany(x => x.Values).Distinct().ToArray();
+            if (!AreTagsApplicable(tags))
+                return null;
+
             int? depthOfParentTypeInheritance = GetDepthOfInheritance(metadata.ParentComponentType, TargetParentTypes, ExcludeTargetParentTypes);
             if (depthOfParentTypeInheritance == null)
                 return null;
@@ -172,6 +222,10 @@ namespace Atata
 
             if (depthOfTypeInheritance >= 0)
                 rank += Math.Max(rankFactor - (depthOfTypeInheritance.Value * 100), 0);
+            rankFactor /= 2;
+
+            if (TargetTags != null && TargetTags.Any())
+                rank += rankFactor;
             rankFactor /= 2;
 
             if (depthOfParentTypeInheritance >= 0)
