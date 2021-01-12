@@ -23,7 +23,10 @@ namespace Atata.Tests
                 TextInput.ComponentSize.Width.Should.BeGreater(20).
                 TextInput.ComponentSize.Height.Should.BeInRange(10, 100).
                 TextInput.ComponentSize.Height.Get(out int height).
-                TextInput.ComponentSize.Height.Should.Equal(height);
+                TextInput.ComponentSize.Height.Should.Equal(height).
+
+                TextInput.ComponentSize.Get(out var size).
+                TextInput.ComponentSize.Should.Equal(size);
         }
 
         [Test]

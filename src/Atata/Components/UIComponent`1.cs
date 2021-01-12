@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -31,7 +32,7 @@ return (
             Css = new UIComponentCssProvider<TOwner> { Component = this, ComponentPartName = "CSS" };
             Script = new UIComponentScriptExecutor<TOwner>(this);
             ComponentLocation = new UIComponentLocationProvider<TOwner> { Component = this, ComponentPartName = "location" };
-            ComponentSize = new UIComponentSizeProvider<TOwner> { Component = this, ComponentPartName = "size" };
+            ComponentSize = new UIComponentSizeProvider<TOwner>(this, GetSize);
             Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
 
@@ -221,6 +222,13 @@ return (
 
             return result;
         }
+
+        /// <summary>
+        /// Gets the size of the component.
+        /// </summary>
+        /// <returns>The size.</returns>
+        protected virtual Size GetSize() =>
+            Scope.Size;
 
         protected virtual bool GetIsPresent()
         {
