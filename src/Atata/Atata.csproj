@@ -28,14 +28,15 @@ Features:
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
     <PackageIcon>icon.png</PackageIcon>
-    <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
     <PackageReleaseNotes>1.9.0 - https://atata.io/blog/2020/12/15/atata-1.9.0-released/
 1.8.0 - https://atata.io/blog/2020/10/30/atata-1.8.0-released/
 1.7.0 - https://atata.io/blog/2020/08/27/atata-1.7.0-released/
 1.6.0 - https://atata.io/blog/2020/08/05/atata-1.6.0-released/</PackageReleaseNotes>
-    <RepositoryType>git</RepositoryType>
     <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
+    <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
