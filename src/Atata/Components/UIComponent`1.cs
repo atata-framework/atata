@@ -155,6 +155,26 @@ return (
         public ContentGetBehaviorAttribute ContentGetBehavior =>
             Metadata.Get<ContentGetBehaviorAttribute>();
 
+        /// <summary>
+        /// Called upon initialization before the <see cref="TriggerEvents.Init"/> triggers are executed.
+        /// Calls <see cref="OnInit"/> method for all child controls.
+        /// </summary>
+        protected virtual void OnInit()
+        {
+            foreach (UIComponent<TOwner> child in Controls)
+                child.OnInit();
+        }
+
+        /// <summary>
+        /// Called when initialization is completed after the <see cref="TriggerEvents.Init"/> triggers are executed.
+        /// Calls <see cref="OnInitCompleted"/> method for all child controls.
+        /// </summary>
+        protected virtual void OnInitCompleted()
+        {
+            foreach (UIComponent<TOwner> child in Controls)
+                child.OnInitCompleted();
+        }
+
         protected internal virtual void InitComponent()
         {
             UIComponentResolver.Resolve(this);

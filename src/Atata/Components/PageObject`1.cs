@@ -165,20 +165,6 @@ namespace Atata
             OnVerify();
         }
 
-        /// <summary>
-        /// Called upon initialization.
-        /// </summary>
-        protected virtual void OnInit()
-        {
-        }
-
-        /// <summary>
-        /// Called when initialization is completed.
-        /// </summary>
-        protected virtual void OnInitCompleted()
-        {
-        }
-
         protected virtual void OnVerify()
         {
         }
