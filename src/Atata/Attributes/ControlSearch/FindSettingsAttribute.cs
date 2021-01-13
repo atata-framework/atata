@@ -85,5 +85,27 @@ namespace Atata
             get { return Properties.Get<Type>(nameof(Strategy)); }
             set { Properties[nameof(Strategy)] = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the element find timeout in seconds.
+        /// The default value is taken from <see cref="AtataContext.ElementFindTimeout"/> property of <see cref="AtataContext.Current"/>.
+        /// </summary>
+        public double Timeout
+        {
+            get => Properties.Get<double?>(nameof(Timeout))
+                ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            set => Properties[nameof(Timeout)] = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the element find retry interval in seconds.
+        /// The default value is taken from <see cref="AtataContext.ElementFindRetryInterval"/> property of <see cref="AtataContext.Current"/>.
+        /// </summary>
+        public double RetryInterval
+        {
+            get => Properties.Get<double?>(nameof(RetryInterval))
+                ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            set => Properties[nameof(RetryInterval)] = value;
+        }
     }
 }

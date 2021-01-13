@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -53,9 +54,14 @@ namespace Atata
 
             SearchOptions searchOptions = desiredSearchOptions.Clone();
 
-            // TODO: Set Timeout and RetryInterval too.
             if (!desiredSearchOptions.IsVisibilitySet)
                 searchOptions.Visibility = findAttribute.Visibility;
+
+            if (!desiredSearchOptions.IsTimeoutSet)
+                searchOptions.Timeout = TimeSpan.FromSeconds(findAttribute.Timeout);
+
+            if (!desiredSearchOptions.IsRetryIntervalSet)
+                searchOptions.RetryInterval = TimeSpan.FromSeconds(findAttribute.RetryInterval);
 
             ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component, component.Metadata, findAttribute);
 
@@ -66,11 +72,12 @@ namespace Atata
         {
             object strategy = findAttribute.CreateStrategy();
 
-            // TODO: Set Timeout and RetryInterval too.
             SearchOptions searchOptions = new SearchOptions
             {
                 IsSafely = desiredSearchOptions.IsSafely,
-                Visibility = findAttribute.Visibility
+                Visibility = findAttribute.Visibility,
+                Timeout = TimeSpan.FromSeconds(findAttribute.Timeout),
+                RetryInterval = TimeSpan.FromSeconds(findAttribute.RetryInterval)
             };
 
             ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component, findAttribute.Properties.Metadata, findAttribute);

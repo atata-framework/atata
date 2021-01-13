@@ -118,6 +118,28 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets or sets the element find timeout in seconds.
+        /// The default value is taken from <see cref="AtataContext.ElementFindTimeout"/> property of <see cref="AtataContext.Current"/>.
+        /// </summary>
+        public double Timeout
+        {
+            get => Properties.Get<double?>(nameof(Timeout), findSettingsGetter)
+                ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            set => Properties[nameof(Timeout)] = value;
+        }
+
+        /// <summary>
+        /// Gets or sets the element find retry interval in seconds.
+        /// The default value is taken from <see cref="AtataContext.ElementFindRetryInterval"/> property of <see cref="AtataContext.Current"/>.
+        /// </summary>
+        public double RetryInterval
+        {
+            get => Properties.Get<double?>(nameof(RetryInterval), findSettingsGetter)
+                ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            set => Properties[nameof(RetryInterval)] = value;
+        }
+
+        /// <summary>
         /// Gets or sets the way this <see cref="FindAttribute"/> should be used.
         /// The default value is <see cref="FindAs.Scope"/>.
         /// Each control can have 1 <see cref="FindAttribute"/> with <see cref="FindAs.Scope"/> value

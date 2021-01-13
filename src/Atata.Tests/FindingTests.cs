@@ -255,6 +255,19 @@ namespace Atata.Tests
             VerifyValue(control, "OptionB");
         }
 
+        [TestCase(0)]
+        [TestCase(2)]
+        [TestCase(7)]
+        public void Find_Timeout(double timeout)
+        {
+            var control = page.MissingOptionById;
+            control.Metadata.Get<FindAttribute>().Timeout = timeout;
+
+            using (StopwatchAsserter.WithinSeconds(timeout))
+                Assert.Throws<NoSuchElementException>(() =>
+                    control.Click());
+        }
+
         private static void VerifyRadioButton(RadioButton<FindingPage> radioButton, string expectedValue = "OptionC")
         {
             VerifyValue(radioButton, expectedValue);
