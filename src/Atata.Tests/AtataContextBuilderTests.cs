@@ -49,6 +49,17 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void AtataContextBuilder_ConfigureChrome_After_UseFirefox_WithSameAlias_Throws()
+        {
+            var builder = AtataContext.Configure()
+                .UseFirefox()
+                    .WithAlias("drv");
+
+            Assert.Throws<ArgumentException>(() =>
+                builder.ConfigureChrome("drv"));
+        }
+
+        [Test]
         public void AtataContextBuilder_ConfigureChrome_After_UseChrome_Executes()
         {
             bool isChromeConfigurationInvoked = false;
