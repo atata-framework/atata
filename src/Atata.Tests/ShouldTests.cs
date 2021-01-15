@@ -160,6 +160,36 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void Should_ContainExactly_Item()
+        {
+            var should = Go.To<TablePage>().
+                DuplicateItemsTable.Rows.SelectData(x => x.Key).Should.AtOnce;
+
+            should.ContainExactly(2, "Some item");
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainExactly(2, "Missing"));
+
+            should.Not.ContainExactly(3, "Some item");
+            should.Not.ContainExactly(3, "Missing");
+        }
+
+        [Test]
+        public void Should_ContainExactly_Predicate()
+        {
+            var should = Go.To<TablePage>().
+                DuplicateItemsTable.Rows.Should.AtOnce;
+
+            should.ContainExactly(2, x => x.Key == "Some item");
+
+            Assert.Throws<AssertionException>(() =>
+                should.ContainExactly(2, x => x.Key == "Missing"));
+
+            should.Not.ContainExactly(3, x => x.Key == "Some item");
+            should.Not.ContainExactly(3, x => x.Key == "Missing");
+        }
+
+        [Test]
         public void Should_Contain()
         {
             var should = Go.To<TablePage>().

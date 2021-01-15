@@ -507,6 +507,69 @@ namespace Atata
         }
 
         /// <summary>
+        /// Verifies that collection contains exact count of items equal to <paramref name="expectedValue"/> parameter.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expectedCount">The expected count of items.</param>
+        /// <param name="expectedValue">An expected item value.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainExactly<TItem, TOwner>(
+            this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should,
+            int expectedCount,
+            TItem expectedValue)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(
+                actual => actual != null && actual.Count(x => Equals(x, expectedValue)) == expectedCount,
+                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} items");
+        }
+
+        /// <summary>
+        /// Verifies that collection contains exact count of items equal to <paramref name="expectedValue"/> parameter.
+        /// </summary>
+        /// <typeparam name="TData">The type of the collection item data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expectedCount">The expected count of items.</param>
+        /// <param name="expectedValue">An expected data value.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainExactly<TData, TOwner>(
+            this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should,
+            int expectedCount,
+            TData expectedValue)
+            where TOwner : PageObject<TOwner>
+        {
+            return should.Satisfy(
+                actual => actual != null && actual.Count((TData x) => Equals(x, expectedValue)) == expectedCount,
+                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} items");
+        }
+
+        /// <summary>
+        /// Verifies that collection contains exact count of items matching <paramref name="predicateExpression"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="expectedCount">The expected count of items.</param>
+        /// <param name="predicateExpression">The predicate expression.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainExactly<TItem, TOwner>(
+            this IDataVerificationProvider<IEnumerable<TItem>, TOwner> should,
+            int expectedCount,
+            Expression<Func<TItem, bool>> predicateExpression)
+            where TOwner : PageObject<TOwner>
+        {
+            expectedCount.CheckGreaterOrEqual(nameof(expectedCount), 0);
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return should.Satisfy(
+                actual => actual != null && actual.Count(predicate) == expectedCount,
+                $"contain exactly {expectedCount} {Stringifier.ToString(predicateExpression)} items");
+        }
+
+        /// <summary>
         /// Verifies that collection contains expected items.
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item.</typeparam>
