@@ -1,15 +1,15 @@
-﻿using System;
-using FluentAssertions;
+﻿using FluentAssertions;
 using NUnit.Framework;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
 
 namespace Atata.Tests
 {
     [TestFixture(DriverAliases.Chrome)]
-    [TestFixture(DriverAliases.InternetExplorer)]
+    [TestFixture(HeadlessChromeAlias)]
     public class MultiDriverTests : UITestFixtureBase
     {
+        private const string HeadlessChromeAlias = "chrome-headless";
+
         private readonly string driverAlias;
 
         public MultiDriverTests(string driverAlias)
@@ -21,7 +21,9 @@ namespace Atata.Tests
         public void SetUp()
         {
             ConfigureBaseAtataContext()
-                .UseInternetExplorer()
+                .UseChrome()
+                    .WithAlias(HeadlessChromeAlias)
+                    .WithArguments("headless")
                 .UseDriver(driverAlias)
                 .UseTestName(() => $"[{driverAlias}]{TestContext.CurrentContext.Test.Name}")
                 .Build();
@@ -35,17 +37,7 @@ namespace Atata.Tests
             AtataContext.Current.Log.Info($"Parameter value: {parameter}");
 
             AtataContext.Current.DriverAlias.Should().Be(driverAlias);
-            AtataContext.Current.Driver.Should().BeOfType(GetDriverTypeByAlias(driverAlias));
-        }
-
-        private static Type GetDriverTypeByAlias(string driverAlias)
-        {
-            return driverAlias switch
-            {
-                DriverAliases.Chrome => typeof(ChromeDriver),
-                DriverAliases.InternetExplorer => typeof(InternetExplorerDriver),
-                _ => throw new ArgumentException($"Unexpected \"{driverAlias}\" value.", nameof(driverAlias)),
-            };
+            AtataContext.Current.Driver.Should().BeOfType<ChromeDriver>();
         }
     }
 }
