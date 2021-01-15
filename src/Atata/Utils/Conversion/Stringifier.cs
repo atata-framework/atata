@@ -40,12 +40,20 @@ namespace Atata
         {
             if (collection == null)
                 return NullString;
-            if (!collection.Any())
+
+            int count = collection.Count();
+
+            if (count == 0)
                 return "[]";
-            else if (collection.Count() == 1)
+
+            if (count == 1)
                 return ToString(collection.First());
-            else
-                return $"[{string.Join(", ", collection.Select(x => ToString(x)).ToArray())}]";
+
+            string[] itemStringValues = collection.Select(x => ToString(x)).ToArray();
+
+            return itemStringValues.Any(x => x.Contains(Environment.NewLine))
+                ? $"[{Environment.NewLine}{string.Join($",{Environment.NewLine}", itemStringValues)}]"
+                : $"[{string.Join(", ", itemStringValues)}]";
         }
 
         public static string ToString<T>(Expression<Func<T, bool>> predicateExpression)
