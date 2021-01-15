@@ -18,6 +18,51 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void AtataContextBuilder_Build_WithoutUseDriverButWithConfigureChrome()
+        {
+            var context = AtataContext.Configure().ConfigureChrome().Build();
+
+            context.Driver.Should().BeOfType<ChromeDriver>();
+        }
+
+        [Test]
+        public void AtataContextBuilder_ConfigureChrome_After_UseChrome_ExtendsSameFactory()
+        {
+            var builder = AtataContext.Configure()
+                .UseChrome()
+                .ConfigureChrome();
+
+            builder.BuildingContext.DriverFactories.Should().HaveCount(1);
+            builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Chrome);
+        }
+
+        [Test]
+        public void AtataContextBuilder_ConfigureChrome_After_UseChrome_CreatesNewFactory_WhenOtherAliasIsSpecified()
+        {
+            var builder = AtataContext.Configure()
+                .UseChrome()
+                .ConfigureChrome("chrome_other");
+
+            builder.BuildingContext.DriverFactories.Should().HaveCount(2);
+            builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Chrome);
+            builder.BuildingContext.DriverFactories[1].Alias.Should().Be("chrome_other");
+        }
+
+        [Test]
+        public void AtataContextBuilder_ConfigureChrome_After_UseChrome_Executes()
+        {
+            bool isChromeConfigurationInvoked = false;
+
+            AtataContext.Configure()
+                .UseChrome()
+                .ConfigureChrome()
+                    .WithOptions(x => isChromeConfigurationInvoked = true)
+                .Build();
+
+            isChromeConfigurationInvoked.Should().BeTrue();
+        }
+
+        [Test]
         public void AtataContextBuilder_OnBuilding()
         {
             int executionsCount = 0;

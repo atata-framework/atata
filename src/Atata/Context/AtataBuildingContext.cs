@@ -217,10 +217,20 @@ namespace Atata
         /// </summary>
         public IWarningReportStrategy WarningReportStrategy { get; set; } = new AtataWarningReportStrategy();
 
-        object ICloneable.Clone()
+        /// <summary>
+        /// Gets the driver factory by the specified alias.
+        /// </summary>
+        /// <param name="alias">The alias of the driver factory.</param>
+        /// <returns>The driver factory or <see langword="null"/>.</returns>
+        public IDriverFactory GetDriverFactory(string alias)
         {
-            return Clone();
+            alias.CheckNotNullOrWhitespace(nameof(alias));
+
+            return DriverFactories.LastOrDefault(x => alias.Equals(x.Alias, StringComparison.OrdinalIgnoreCase));
         }
+
+        object ICloneable.Clone() =>
+            Clone();
 
         /// <summary>
         /// Creates a copy of the current instance.
