@@ -14,6 +14,8 @@ namespace Atata
         private readonly List<LogConsumerInfo> logConsumers = new List<LogConsumerInfo>();
         private readonly List<IScreenshotConsumer> screenshotConsumers = new List<IScreenshotConsumer>();
 
+        private readonly List<SecretStringToMask> secretStringsToMask = new List<SecretStringToMask>();
+
         private readonly Stack<LogSection> sectionEndStack = new Stack<LogSection>();
 
         private int screenshotNumber;
@@ -61,6 +63,20 @@ namespace Atata
             consumer.CheckNotNull(nameof(consumer));
 
             screenshotConsumers.Add(consumer);
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the secret strings to mask.
+        /// </summary>
+        /// <param name="secretStringsToMask">The secret strings to mask.</param>
+        /// <returns>The same <see cref="LogManager"/> instance.</returns>
+        public LogManager AddSecretStringsToMask(IEnumerable<SecretStringToMask> secretStringsToMask)
+        {
+            secretStringsToMask.CheckNotNull(nameof(secretStringsToMask));
+
+            this.secretStringsToMask.AddRange(secretStringsToMask);
+
             return this;
         }
 
@@ -292,7 +308,7 @@ namespace Atata
                     .Where(x => x.LogSectionFinish);
             }
 
-            string originalMessage = eventInfo.Message;
+            string originalMessage = ApplySecretMasks(eventInfo.Message);
 
             foreach (var consumerItem in appropriateConsumerItems)
             {
@@ -301,6 +317,14 @@ namespace Atata
 
                 consumerItem.Consumer.Log(eventInfo);
             }
+        }
+
+        private string ApplySecretMasks(string message)
+        {
+            foreach (var secret in secretStringsToMask)
+                message = message.Replace(secret.Value, secret.Mask);
+
+            return message;
         }
 
         public void Screenshot(string title = null)

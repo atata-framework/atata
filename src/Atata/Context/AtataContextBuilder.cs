@@ -421,6 +421,23 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
+        /// Adds the secret string to mask in log.
+        /// </summary>
+        /// <param name="value">The secret string value.</param>
+        /// <param name="mask">The mask, which should replace the secret string.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder AddSecretStringToMaskInLog(string value, string mask = "{*****}")
+        {
+            value.CheckNotNullOrWhitespace(nameof(value));
+            mask.CheckNotNullOrWhitespace(nameof(mask));
+
+            BuildingContext.SecretStringsToMaskInLog.Add(
+                new SecretStringToMask(value, mask));
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds the screenshot consumer.
         /// </summary>
         /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
@@ -990,13 +1007,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
             ValidateBuildingContextBeforeBuild();
 
-            LogManager logManager = new LogManager();
-
-            foreach (var logConsumerItem in BuildingContext.LogConsumers)
-                logManager.Use(logConsumerItem);
-
-            foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
-                logManager.Use(screenshotConsumer);
+            LogManager logManager = CreateLogManager();
 
             IObjectConverter objectConverter = new ObjectConverter
             {
@@ -1043,6 +1054,21 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             context.PureExecutionStopwatch.Start();
 
             return context;
+        }
+
+        private LogManager CreateLogManager()
+        {
+            LogManager logManager = new LogManager();
+
+            logManager.AddSecretStringsToMask(BuildingContext.SecretStringsToMaskInLog);
+
+            foreach (var logConsumerItem in BuildingContext.LogConsumers)
+                logManager.Use(logConsumerItem);
+
+            foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
+                logManager.Use(screenshotConsumer);
+
+            return logManager;
         }
 
         private void SetUp(AtataContext context)

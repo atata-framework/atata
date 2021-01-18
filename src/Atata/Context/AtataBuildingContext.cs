@@ -39,6 +39,11 @@ namespace Atata
         public List<LogConsumerInfo> LogConsumers { get; private set; } = new List<LogConsumerInfo>();
 
         /// <summary>
+        /// Gets the list of secret strings to mask in log.
+        /// </summary>
+        public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = new List<SecretStringToMask>();
+
+        /// <summary>
         /// Gets the screenshot consumers.
         /// </summary>
         public List<IScreenshotConsumer> ScreenshotConsumers { get; private set; } = new List<IScreenshotConsumer>();
@@ -242,6 +247,7 @@ namespace Atata
 
             copy.DriverFactories = DriverFactories.ToList();
             copy.LogConsumers = LogConsumers.ToList();
+            copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
             copy.ScreenshotConsumers = ScreenshotConsumers.ToList();
             copy.OnBuildingActions = OnBuildingActions.ToList();
             copy.OnBuiltActions = OnBuiltActions.ToList();
