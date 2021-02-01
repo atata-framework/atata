@@ -47,7 +47,7 @@
 
       <ItemGroup Label="Code analysis packages">
         <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.0" PrivateAssets="All" />
-        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.14.0.22654" PrivateAssets="All" />
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="8.17.0.26580" PrivateAssets="All" />
         <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="All" />
       </ItemGroup>
     </Otherwise>
