@@ -137,9 +137,10 @@ You can also check the following tutorials:
 
 ## Contact
 
-Feel free to ask any questions regarding Atata Framework. Any feedback, issues and feature requests are welcome.
+Feel free to ask any questions regarding Atata Framework.
+Any feedback, issues and feature requests are welcome.
 
-You can [ask a question on Stack Overflow](https://stackoverflow.com/questions/ask?tags=atata) using [atata](https://stackoverflow.com/questions/tagged/atata) tag.
+You can [ask a question on Stack Overflow](https://stackoverflow.com/questions/ask?tags=atata+csharp) using [atata](https://stackoverflow.com/questions/tagged/atata) tag.
 
 If you faced an issue please report it to [Atata Issues](https://github.com/atata-framework/atata/issues), write to [Atata Gitter](https://gitter.im/atata-framework/atata) or just mail to yevgeniy.shunevych@gmail.com.
 
@@ -163,7 +164,7 @@ Contact me if you need a help in test automation using Atata Framework, or if yo
 
 ## SemVer
 
-Atata Framework is following [Semantic Versioning 2.0](https://semver.org/).
+Atata Framework follows [Semantic Versioning 2.0](https://semver.org/).
 Thus backward compatibility is followed and updates within the same major version
 (e.g. from 1.3 to 1.4) should not require code changes.
 
