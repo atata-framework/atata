@@ -54,6 +54,27 @@ namespace Atata
         public IDriverFactory DriverFactoryToUse { get; internal set; }
 
         /// <summary>
+        /// Gets a value indicating whether it uses a local browser.
+        /// Basically, determines whether <see cref="DriverFactoryToUse"/> is <see cref="IUsesLocalBrowser"/>.
+        /// </summary>
+        public bool UsesLocalBrowser =>
+            DriverFactoryToUse is IUsesLocalBrowser;
+
+        /// <summary>
+        /// Gets the name of the local browser to use or <see langword="null"/>.
+        /// Returns <see cref="IUsesLocalBrowser.BrowserName"/> value if <see cref="DriverFactoryToUse"/> is <see cref="IUsesLocalBrowser"/>.
+        /// </summary>
+        public string LocalBrowserToUseName =>
+            (DriverFactoryToUse as IUsesLocalBrowser)?.BrowserName;
+
+        /// <summary>
+        /// Gets the names of local browsers that this instance uses.
+        /// Distinctly returns <see cref="IUsesLocalBrowser.BrowserName"/> values of all <see cref="DriverFactories"/> that are <see cref="IUsesLocalBrowser"/>.
+        /// </summary>
+        public IEnumerable<string> ConfiguredLocalBrowserNames =>
+            DriverFactories.OfType<IUsesLocalBrowser>().Select(x => x.BrowserName).Distinct();
+
+        /// <summary>
         /// Gets or sets the factory method of the test name.
         /// </summary>
         public Func<string> TestNameFactory { get; set; }

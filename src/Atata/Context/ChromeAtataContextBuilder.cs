@@ -9,7 +9,7 @@ namespace Atata
     public class ChromeAtataContextBuilder : DriverAtataContextBuilder<ChromeAtataContextBuilder, ChromeDriverService, ChromeOptions>
     {
         public ChromeAtataContextBuilder(AtataBuildingContext buildingContext)
-            : base(buildingContext, DriverAliases.Chrome)
+            : base(buildingContext, DriverAliases.Chrome, "Chrome")
         {
         }
 

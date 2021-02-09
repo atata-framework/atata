@@ -6,11 +6,14 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
-    public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions> : DriverAtataContextBuilder<TBuilder>
+    public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
+        : DriverAtataContextBuilder<TBuilder>, IUsesLocalBrowser
         where TBuilder : DriverAtataContextBuilder<TBuilder, TService, TOptions>
         where TService : DriverService
         where TOptions : DriverOptions, new()
     {
+        private readonly string browserName;
+
         private readonly List<Action<TService>> serviceInitializers = new List<Action<TService>>();
         private readonly List<Action<TOptions>> optionsInitializers = new List<Action<TOptions>>();
 
@@ -24,10 +27,24 @@ namespace Atata
 
         private TimeSpan? commandTimeout;
 
-        protected DriverAtataContextBuilder(AtataBuildingContext buildingContext, string alias)
-            : base(buildingContext, alias)
+        [Obsolete("Use other constructor with 3 arguments.")] // Obsolete since v1.10.0.
+        protected DriverAtataContextBuilder(
+            AtataBuildingContext buildingContext,
+            string alias)
+            : this(buildingContext, alias, null)
         {
         }
+
+        protected DriverAtataContextBuilder(
+            AtataBuildingContext buildingContext,
+            string alias,
+            string browserName)
+            : base(buildingContext, alias)
+        {
+            this.browserName = browserName;
+        }
+
+        string IUsesLocalBrowser.BrowserName => browserName;
 
         protected sealed override RemoteWebDriver CreateDriver()
         {
