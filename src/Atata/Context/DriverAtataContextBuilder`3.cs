@@ -53,7 +53,8 @@ namespace Atata
             foreach (var optionsInitializer in optionsInitializers)
                 optionsInitializer(options);
 
-            TService service = serviceFactory?.Invoke() ?? CreateDefaultService();
+            TService service = serviceFactory?.Invoke()
+                ?? CreateServiceUsingDriverParameters();
 
             try
             {
@@ -90,13 +91,25 @@ namespace Atata
         /// <returns>The driver instance.</returns>
         protected abstract RemoteWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
 
-        private TService CreateDefaultService()
-        {
-            return driverPath != null && driverExecutableFileName != null
+        private TService CreateServiceUsingDriverParameters() =>
+            driverPath != null && driverExecutableFileName != null
                 ? CreateService(driverPath, driverExecutableFileName)
                 : driverPath != null
                     ? CreateService(driverPath)
-                    : CreateService();
+                    : CreateDefaultService();
+
+        private TService CreateDefaultService() =>
+            TryGetDriverPathEnvironmentVariable(out string environmentDriverPath)
+                ? CreateService(environmentDriverPath)
+                : CreateService();
+
+        private bool TryGetDriverPathEnvironmentVariable(out string driverPath)
+        {
+            driverPath = string.IsNullOrWhiteSpace(browserName)
+                ? null
+                : Environment.GetEnvironmentVariable($"{browserName.Replace(" ", null)}Driver");
+
+            return driverPath != null;
         }
 
         protected abstract TService CreateService();
