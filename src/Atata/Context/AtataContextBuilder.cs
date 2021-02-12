@@ -1148,5 +1148,57 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
             return new ObjectMapper(objectConverter);
         }
+
+        /// <summary>
+        /// <para>
+        /// Sets up driver with auto version detection for the local browser to use.
+        /// Gets the name of the local browser to use from <see cref="AtataBuildingContext.LocalBrowserToUseName"/> property.
+        /// Then invokes <c>Atata.WebDriverSetup.DriverSetup.AutoSetUpSafely(...)</c> static method
+        /// from <c>Atata.WebDriverSetup</c> package.
+        /// </para>
+        /// <para>
+        /// In order to use <see cref="AutoSetUpDriverToUse"/> method,
+        /// ensure that <c>Atata.WebDriverSetup</c> package is installed.
+        /// </para>
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder AutoSetUpDriverToUse()
+        {
+            if (BuildingContext.UsesLocalBrowser)
+                InvokeAutoSetUpSafelyMethodOfDriverSetup(new[] { BuildingContext.LocalBrowserToUseName });
+
+            return this;
+        }
+
+        /// <summary>
+        /// <para>
+        /// Sets up drivers with auto version detection for the local configured browsers.
+        /// Gets the names of configured local browsers from <see cref="AtataBuildingContext.ConfiguredLocalBrowserNames"/> property.
+        /// Then invokes <c>Atata.WebDriverSetup.DriverSetup.AutoSetUpSafely(...)</c> static method
+        /// from <c>Atata.WebDriverSetup</c> package.
+        /// </para>
+        /// <para>
+        /// In order to use <see cref="AutoSetUpConfiguredDrivers"/> method,
+        /// ensure that <c>Atata.WebDriverSetup</c> package is installed.
+        /// </para>
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder AutoSetUpConfiguredDrivers()
+        {
+            InvokeAutoSetUpSafelyMethodOfDriverSetup(BuildingContext.ConfiguredLocalBrowserNames);
+
+            return this;
+        }
+
+        private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
+        {
+            Type driverSetupType = Type.GetType("Atata.WebDriverSetup.DriverSetup,Atata.WebDriverSetup", true);
+
+            var setUpMethod = driverSetupType.GetMethodWithThrowOnError(
+                "AutoSetUpSafely",
+                BindingFlags.Public | BindingFlags.Static);
+
+            setUpMethod.InvokeStaticAsLambda(browserNames);
+        }
     }
 }
