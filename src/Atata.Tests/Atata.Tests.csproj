@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -43,6 +43,7 @@
     <Otherwise>
       <PropertyGroup>
         <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
       </PropertyGroup>
 
       <ItemGroup Label="Code analysis packages">

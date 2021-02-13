@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <RootNamespace>Atata</RootNamespace>
@@ -70,6 +70,7 @@ Features:
 
       <PropertyGroup>
         <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
       </PropertyGroup>
       
