@@ -8,6 +8,8 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 
+#pragma warning disable
+
 namespace Atata
 {
     public class ExpressionStringBuilder : ExpressionVisitor
@@ -115,7 +117,7 @@ namespace Atata
         /// <summary>
         /// Output a given expression tree to a string.
         /// </summary>
-        /// <param name="node">The expession node.</param>
+        /// <param name="node">The expression node.</param>
         /// <returns>The string representing the expression.</returns>
         public static string ExpressionToString(Expression node)
         {
@@ -883,3 +885,5 @@ namespace Atata
         }
     }
 }
+
+#pragma warning restore
