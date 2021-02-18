@@ -1173,7 +1173,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The task object representing the asynchronous operation.</returns>
         public async Task AutoSetUpDriverToUseAsync()
         {
-            await Task.Run(AutoSetUpDriverToUse).ConfigureAwait(false);
+            await Task.Run(AutoSetUpDriverToUse);
         }
 #endif
 
@@ -1199,7 +1199,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The task object representing the asynchronous operation.</returns>
         public async Task AutoSetUpConfiguredDriversAsync()
         {
-            await Task.Run(AutoSetUpConfiguredDrivers).ConfigureAwait(false);
+            await Task.Run(AutoSetUpConfiguredDrivers);
         }
 #endif
 
