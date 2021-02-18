@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
+using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -1157,18 +1158,24 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// from <c>Atata.WebDriverSetup</c> package.
         /// </para>
         /// <para>
-        /// In order to use <see cref="AutoSetUpDriverToUse"/> method,
+        /// In order to use this method,
         /// ensure that <c>Atata.WebDriverSetup</c> package is installed.
         /// </para>
         /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder AutoSetUpDriverToUse()
+        public void AutoSetUpDriverToUse()
         {
             if (BuildingContext.UsesLocalBrowser)
                 InvokeAutoSetUpSafelyMethodOfDriverSetup(new[] { BuildingContext.LocalBrowserToUseName });
-
-            return this;
         }
+#if !NET40
+
+        /// <inheritdoc cref="AutoSetUpDriverToUse"/>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public async Task AutoSetUpDriverToUseAsync()
+        {
+            await Task.Run(AutoSetUpDriverToUse).ConfigureAwait(false);
+        }
+#endif
 
         /// <summary>
         /// <para>
@@ -1178,17 +1185,23 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// from <c>Atata.WebDriverSetup</c> package.
         /// </para>
         /// <para>
-        /// In order to use <see cref="AutoSetUpConfiguredDrivers"/> method,
+        /// In order to use this method,
         /// ensure that <c>Atata.WebDriverSetup</c> package is installed.
         /// </para>
         /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder AutoSetUpConfiguredDrivers()
+        public void AutoSetUpConfiguredDrivers()
         {
             InvokeAutoSetUpSafelyMethodOfDriverSetup(BuildingContext.ConfiguredLocalBrowserNames);
-
-            return this;
         }
+#if !NET40
+
+        /// <inheritdoc cref="AutoSetUpConfiguredDrivers"/>
+        /// <returns>The task object representing the asynchronous operation.</returns>
+        public async Task AutoSetUpConfiguredDriversAsync()
+        {
+            await Task.Run(AutoSetUpConfiguredDrivers).ConfigureAwait(false);
+        }
+#endif
 
         private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
         {
