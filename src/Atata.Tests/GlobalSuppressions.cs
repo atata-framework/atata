@@ -12,5 +12,6 @@
 [assembly: SuppressMessage("Major Code Smell", "S2326:Unused type parameters should be removed", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.Tests.TypeFinderTests.StaticSubClass.InnerSubClass`1")]
 [assembly: SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.TriggersPage.WriteTriggerEventAttribute.Execute(Atata.TriggerContext{Atata.Tests.TriggersPage})")]
 [assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.TriggersPage.WriteTriggerEventAttribute.Execute(Atata.TriggerContext{Atata.Tests.TriggersPage})")]
+[assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.SetUpFixture.PingTestApp~System.Net.WebResponse")]
 
 #pragma warning restore S103 // Lines should not be too long

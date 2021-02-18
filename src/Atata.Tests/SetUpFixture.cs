@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
+using Atata.WebDriverSetup;
 using NUnit.Framework;
 
 namespace Atata.Tests
@@ -13,7 +15,17 @@ namespace Atata.Tests
         private Process coreRunProcess;
 
         [OneTimeSetUp]
-        public void GlobalSetUp()
+        public async Task GlobalSetUpAsync()
+        {
+            await Task.WhenAll(
+                Task.Run(SetUpDriver),
+                Task.Run(SetUpTestApp));
+        }
+
+        private static void SetUpDriver() =>
+            DriverSetup.AutoSetUp(BrowserNames.Chrome);
+
+        private void SetUpTestApp()
         {
             try
             {
