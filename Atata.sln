@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata", "src\Atata\Atata.csproj", "{9D876D23-607A-45DC-979A-01DA1D34189C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5262AF3A-5A4A-458E-8C38-B133972D058F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		Atata.ruleset = Atata.ruleset
+		azure-pipelines.release.yml = azure-pipelines.release.yml
+		azure-pipelines.runsettings = azure-pipelines.runsettings
+		azure-pipelines.yml = azure-pipelines.yml
+		Directory.Build.props = Directory.Build.props
+		GenerateControlDelegates.ps1 = GenerateControlDelegates.ps1
+		GenerateDriverAtataContextBuilders.ps1 = GenerateDriverAtataContextBuilders.ps1
+		GenerateHeadingVerificationTriggers.ps1 = GenerateHeadingVerificationTriggers.ps1
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.TestApp", "test\Atata.TestApp\Atata.TestApp.csproj", "{C31D92C7-3E33-4904-9C53-B067551F1472}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.Tests", "test\Atata.Tests\Atata.Tests.csproj", "{B13F2FA3-A802-4BCB-929D-8915B2291F99}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		DevNetCore3.1|Any CPU = DevNetCore3.1|Any CPU
+		Release|Any CPU = Release|Any CPU
+		SlimNetCore3.1|Any CPU = SlimNetCore3.1|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.DevNetCore3.1|Any CPU.ActiveCfg = DevNetCore3.1|Any CPU
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.DevNetCore3.1|Any CPU.Build.0 = DevNetCore3.1|Any CPU
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.SlimNetCore3.1|Any CPU.ActiveCfg = SlimNetCore3.1|Any CPU
+		{9D876D23-607A-45DC-979A-01DA1D34189C}.SlimNetCore3.1|Any CPU.Build.0 = SlimNetCore3.1|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.DevNetCore3.1|Any CPU.ActiveCfg = DevNetCore3.1|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.DevNetCore3.1|Any CPU.Build.0 = DevNetCore3.1|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.SlimNetCore3.1|Any CPU.ActiveCfg = SlimNetCore3.1|Any CPU
+		{C31D92C7-3E33-4904-9C53-B067551F1472}.SlimNetCore3.1|Any CPU.Build.0 = SlimNetCore3.1|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.DevNetCore3.1|Any CPU.ActiveCfg = DevNetCore3.1|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.DevNetCore3.1|Any CPU.Build.0 = DevNetCore3.1|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.SlimNetCore3.1|Any CPU.ActiveCfg = SlimNetCore3.1|Any CPU
+		{B13F2FA3-A802-4BCB-929D-8915B2291F99}.SlimNetCore3.1|Any CPU.Build.0 = SlimNetCore3.1|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3DD3ABE1-3068-4105-ADF6-2D4218C9F56B}
+	EndGlobalSection
+EndGlobal

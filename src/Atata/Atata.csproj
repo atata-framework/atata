@@ -51,7 +51,7 @@ Features:
     <When Condition="$(Configuration) == 'SlimNetCore3.1'">
       <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <CodeAnalysisRuleSet>../Empty.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>../../Empty.ruleset</CodeAnalysisRuleSet>
       </PropertyGroup>
     </When>
     <Otherwise>
@@ -69,7 +69,7 @@ Features:
       </Choose>
 
       <PropertyGroup>
-        <CodeAnalysisRuleSet>../Atata.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>../../General.ruleset</CodeAnalysisRuleSet>
         <EnableNETAnalyzers>true</EnableNETAnalyzers>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
       </PropertyGroup>
