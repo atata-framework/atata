@@ -2,10 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Authors>Yevgeniy Shunevych</Authors>
-    <Company>Yevgeniy Shunevych</Company>
-    <Product>Atata Framework</Product>
-    <Copyright>© Yevgeniy Shunevych 2021</Copyright>
     <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
   </PropertyGroup>
 

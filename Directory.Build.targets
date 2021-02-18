@@ -1,0 +1,9 @@
+<Project>
+  
+  <Target Name="DisableAnalyzer" BeforeTargets="CoreCompile" Condition="'$(RunCodeAnalysis)' == 'false'">
+    <ItemGroup>
+      <Analyzer Remove="@(Analyzer)" />
+    </ItemGroup>
+  </Target>
+  
+</Project>

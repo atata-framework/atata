@@ -12,7 +12,7 @@ jobs:
     displayName: Pack
     inputs:
       command: pack
-      projects: '**\Atata.csproj'
+      projects: 'src/*/*.csproj'
       arguments: -c $(buildConfiguration)
   - task: NuGetCommand@2
     displayName: NuGet push
