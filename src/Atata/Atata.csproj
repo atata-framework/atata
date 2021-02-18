@@ -42,7 +42,7 @@ Features:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atata.WebDriverExtras" Version="1.4.0" />
+    <PackageReference Include="Atata.WebDriverExtras" Version="1.5.0" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
