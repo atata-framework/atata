@@ -51,14 +51,17 @@ namespace Atata
             return Terms != null ? string.Join("/", Terms) : null;
         }
 
+        /// <inheritdoc cref="Clone"/>
+        object ICloneable.Clone() =>
+            Clone();
+
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>A new object that is a copy of this instance.</returns>
         public ComponentScopeLocateOptions Clone()
         {
             return (ComponentScopeLocateOptions)MemberwiseClone();
-        }
-
-        object ICloneable.Clone()
-        {
-            return MemberwiseClone();
         }
     }
 }

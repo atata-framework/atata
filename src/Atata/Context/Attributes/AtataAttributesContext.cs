@@ -54,6 +54,7 @@ namespace Atata
         /// </summary>
         public Dictionary<TypePropertyNamePair, List<Attribute>> PropertyMap { get; }
 
+        /// <inheritdoc cref="Clone"/>
         object ICloneable.Clone()
         {
             return Clone();

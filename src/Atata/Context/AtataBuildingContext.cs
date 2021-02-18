@@ -255,6 +255,7 @@ namespace Atata
             return DriverFactories.LastOrDefault(x => alias.Equals(x.Alias, StringComparison.OrdinalIgnoreCase));
         }
 
+        /// <inheritdoc cref="Clone"/>
         object ICloneable.Clone() =>
             Clone();
 

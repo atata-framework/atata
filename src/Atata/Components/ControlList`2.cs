@@ -443,9 +443,14 @@ return textValues;";
                 ToArray();
         }
 
+        /// <inheritdoc cref="GetEnumerator"/>
         IEnumerator IEnumerable.GetEnumerator() =>
             GetEnumerator();
 
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<TItem> GetEnumerator() =>
             GetAll().GetEnumerator();
 
