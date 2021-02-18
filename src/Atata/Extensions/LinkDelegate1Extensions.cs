@@ -14,6 +14,36 @@ namespace Atata
             return clickable.GetControl().Click();
         }
 
+        public static TOwner Hover<TOwner>(this LinkDelegate<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().Hover();
+        }
+
+        public static TOwner Focus<TOwner>(this LinkDelegate<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().Focus();
+        }
+
+        public static TOwner DoubleClick<TOwner>(this LinkDelegate<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().DoubleClick();
+        }
+
+        public static TOwner RightClick<TOwner>(this LinkDelegate<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().RightClick();
+        }
+
+        public static TOwner ScrollTo<TOwner>(this LinkDelegate<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().ScrollTo();
+        }
+
         public static bool IsEnabled<TOwner>(this LinkDelegate<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
@@ -42,6 +72,18 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().Should;
+        }
+
+        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo<TOwner>(this LinkDelegate<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().ExpectTo;
+        }
+
+        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo<TOwner>(this LinkDelegate<TOwner> clickable)
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().WaitTo;
         }
     }
 }

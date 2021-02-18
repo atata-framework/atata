@@ -16,6 +16,41 @@ namespace Atata
             return clickable.GetControl().Click();
         }
 
+        public static TOwner Hover<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
+            where TNavigateTo : PageObject<TNavigateTo>
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().Hover();
+        }
+
+        public static TOwner Focus<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
+            where TNavigateTo : PageObject<TNavigateTo>
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().Focus();
+        }
+
+        public static TOwner DoubleClick<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
+            where TNavigateTo : PageObject<TNavigateTo>
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().DoubleClick();
+        }
+
+        public static TOwner RightClick<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
+            where TNavigateTo : PageObject<TNavigateTo>
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().RightClick();
+        }
+
+        public static TOwner ScrollTo<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
+            where TNavigateTo : PageObject<TNavigateTo>
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().ScrollTo();
+        }
+
         public static bool IsEnabled<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
@@ -49,6 +84,20 @@ namespace Atata
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().Should;
+        }
+
+        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
+            where TNavigateTo : PageObject<TNavigateTo>
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().ExpectTo;
+        }
+
+        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable)
+            where TNavigateTo : PageObject<TNavigateTo>
+            where TOwner : PageObject<TOwner>
+        {
+            return clickable.GetControl().WaitTo;
         }
     }
 }
