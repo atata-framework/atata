@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Atata</RootNamespace>
-    <Version>1.9.0</Version>
+    <Version>1.10.0</Version>
     <Description>C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
 
 Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
@@ -23,10 +23,9 @@ Features:
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageId>Atata</PackageId>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>1.9.0 - https://atata.io/blog/2020/12/15/atata-1.9.0-released/
-1.8.0 - https://atata.io/blog/2020/10/30/atata-1.8.0-released/
-1.7.0 - https://atata.io/blog/2020/08/27/atata-1.7.0-released/
-1.6.0 - https://atata.io/blog/2020/08/05/atata-1.6.0-released/</PackageReleaseNotes>
+    <PackageReleaseNotes>1.10.0 - https://atata.io/blog/2021/02/18/atata-1.10.0-released/
+1.9.0 - https://atata.io/blog/2020/12/15/atata-1.9.0-released/
+1.8.0 - https://atata.io/blog/2020/10/30/atata-1.8.0-released/</PackageReleaseNotes>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
     <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
   </PropertyGroup>
