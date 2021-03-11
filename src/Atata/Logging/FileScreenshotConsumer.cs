@@ -12,7 +12,9 @@ namespace Atata
     /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
     /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
     /// Available path variables are:
-    /// <c>{build-start}</c>, <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
+    /// <c>{build-start}</c>,
+    /// <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
+    /// <c>{test-fixture-name}</c>, <c>{test-fixture-name-sanitized}</c>,
     /// <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
     /// <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>,
     /// <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
@@ -30,8 +32,10 @@ namespace Atata
         {
             ["build-start"] = _ => AtataContext.BuildStart,
 
-            ["test-name-sanitized"] = _ => AtataContext.Current.TestNameSanitized,
             ["test-name"] = _ => AtataContext.Current.TestName,
+            ["test-name-sanitized"] = _ => AtataContext.Current.TestNameSanitized,
+            ["test-fixture-name"] = _ => AtataContext.Current.TestFixtureName,
+            ["test-fixture-name-sanitized"] = _ => AtataContext.Current.TestFixtureNameSanitized,
             ["test-start"] = _ => AtataContext.Current.StartedAt,
 
             ["driver-alias"] = _ => AtataContext.Current.DriverAlias,
@@ -108,7 +112,7 @@ namespace Atata
             string folderPath = FolderPathBuilder?.Invoke()
                 ?? (!string.IsNullOrWhiteSpace(FolderPath)
                     ? FormatPath(FolderPath, screenshotInfo)
-                    : $@"Logs\{AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat)}\{AtataContext.Current.TestNameSanitized}");
+                    : BuildDefaultFolderPath());
 
             folderPath = folderPath.SanitizeForPath();
 
@@ -120,6 +124,14 @@ namespace Atata
             fileName = fileName.SanitizeForFileName();
 
             return Path.Combine(folderPath, fileName);
+        }
+
+        protected virtual string BuildDefaultFolderPath()
+        {
+            return Path.Combine(
+                "Logs",
+                AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat),
+                AtataContext.Current.TestNameSanitized);
         }
     }
 }

@@ -80,6 +80,16 @@ namespace Atata
         public Func<string> TestNameFactory { get; set; }
 
         /// <summary>
+        /// Gets or sets the factory method of the test fixture name.
+        /// </summary>
+        public Func<string> TestFixtureNameFactory { get; set; }
+
+        /// <summary>
+        /// Gets or sets the factory method of the test fixture type.
+        /// </summary>
+        public Func<Type> TestFixtureTypeFactory { get; set; }
+
+        /// <summary>
         /// Gets or sets the base URL.
         /// </summary>
         public string BaseUrl { get; set; }

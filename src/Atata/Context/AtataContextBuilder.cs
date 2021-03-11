@@ -481,7 +481,9 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
         /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
         /// Available path variables are:
-        /// <c>{build-start}</c>, <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
+        /// <c>{build-start}</c>,
+        /// <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
+        /// <c>{test-fixture-name}</c>, <c>{test-fixture-name-sanitized}</c>,
         /// <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
         /// <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>,
         /// <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
@@ -516,6 +518,58 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             testName.CheckNotNull(nameof(testName));
 
             BuildingContext.TestNameFactory = () => testName;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the factory method of the test fixture name.
+        /// </summary>
+        /// <param name="testFixtureNameFactory">The factory method of the test fixture name.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseTestFixtureName(Func<string> testFixtureNameFactory)
+        {
+            testFixtureNameFactory.CheckNotNull(nameof(testFixtureNameFactory));
+
+            BuildingContext.TestFixtureNameFactory = testFixtureNameFactory;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the name of the test fixture.
+        /// </summary>
+        /// <param name="testFixtureName">The name of the test fixture.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseTestFixtureName(string testFixtureName)
+        {
+            testFixtureName.CheckNotNull(nameof(testFixtureName));
+
+            BuildingContext.TestFixtureNameFactory = () => testFixtureName;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the factory method of the test fixture type.
+        /// </summary>
+        /// <param name="testFixtureTypeFactory">The factory method of the test fixture type.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseTestFixtureType(Func<Type> testFixtureTypeFactory)
+        {
+            testFixtureTypeFactory.CheckNotNull(nameof(testFixtureTypeFactory));
+
+            BuildingContext.TestFixtureTypeFactory = testFixtureTypeFactory;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the type of the test fixture.
+        /// </summary>
+        /// <param name="testFixtureType">The type of the test fixture.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseTestFixtureType(Type testFixtureType)
+        {
+            testFixtureType.CheckNotNull(nameof(testFixtureType));
+
+            BuildingContext.TestFixtureTypeFactory = () => testFixtureType;
             return this;
         }
 
@@ -1021,6 +1075,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             AtataContext context = new AtataContext
             {
                 TestName = BuildingContext.TestNameFactory?.Invoke(),
+                TestFixtureName = BuildingContext.TestFixtureNameFactory?.Invoke(),
+                TestFixtureType = BuildingContext.TestFixtureTypeFactory?.Invoke(),
                 BaseUrl = BuildingContext.BaseUrl,
                 Log = logManager,
                 OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>(),
@@ -1043,6 +1099,9 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 ObjectMapper = objectMapper,
                 ObjectCreator = objectCreator
             };
+
+            if (context.TestFixtureName is null && context.TestFixtureType != null)
+                context.TestFixtureName = context.TestFixtureType.Name;
 
             AtataContext.Current = context;
 

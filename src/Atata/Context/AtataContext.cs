@@ -29,6 +29,8 @@ namespace Atata
 
         private string testName;
 
+        private string testFixtureName;
+
         private bool disposed;
 
         internal AtataContext()
@@ -129,11 +131,7 @@ namespace Atata
         /// </summary>
         public string TestName
         {
-            get
-            {
-                return testName;
-            }
-
+            get => testName;
             internal set
             {
                 testName = value;
@@ -145,6 +143,29 @@ namespace Atata
         /// Gets the name of the test sanitized for file path/name.
         /// </summary>
         public string TestNameSanitized { get; private set; }
+
+        /// <summary>
+        /// Gets the name of the test fixture/class.
+        /// </summary>
+        public string TestFixtureName
+        {
+            get => testFixtureName;
+            internal set
+            {
+                testFixtureName = value;
+                TestFixtureNameSanitized = value.SanitizeForFileName();
+            }
+        }
+
+        /// <summary>
+        /// Gets the name of the test fixture sanitized for file path/name.
+        /// </summary>
+        public string TestFixtureNameSanitized { get; private set; }
+
+        /// <summary>
+        /// Gets the test fixture type.
+        /// </summary>
+        public Type TestFixtureType { get; internal set; }
 
         /// <summary>
         /// Gets the test start date and time.
@@ -341,12 +362,40 @@ namespace Atata
 
         internal void LogTestStart()
         {
-            StringBuilder logMessageBuilder = new StringBuilder("Starting test");
+            StringBuilder logMessageBuilder = new StringBuilder(
+                $"Starting {GetTestUnitKindName()}");
 
-            if (!string.IsNullOrWhiteSpace(TestName))
-                logMessageBuilder.Append($": {TestName}");
+            if (TestFixtureType != null || TestName != null)
+            {
+                logMessageBuilder.Append($": ");
+
+                if (TestFixtureType != null)
+                {
+                    logMessageBuilder
+                        .Append(TestFixtureType.Namespace)
+                        .Append('.')
+                        .Append(TestFixtureName);
+                }
+
+                if (TestName != null)
+                {
+                    if (TestFixtureType != null)
+                        logMessageBuilder.Append('.');
+
+                    logMessageBuilder.Append(TestName);
+                }
+            }
 
             Current.Log.Info(logMessageBuilder.ToString());
+        }
+
+        private string GetTestUnitKindName()
+        {
+            return TestName != null
+                ? "test"
+                : TestFixtureType != null
+                ? "test fixture"
+                : "test unit";
         }
 
         /// <summary>
@@ -409,8 +458,9 @@ namespace Atata
 
             ExecutionStopwatch.Stop();
 
-            Log.InfoWithExecutionTimeInBrackets("Finished test", ExecutionStopwatch.Elapsed);
-            Log.InfoWithExecutionTime("Pure test execution time:", PureExecutionStopwatch.Elapsed);
+            string testUnitKindName = GetTestUnitKindName();
+            Log.InfoWithExecutionTimeInBrackets($"Finished {testUnitKindName}", ExecutionStopwatch.Elapsed);
+            Log.InfoWithExecutionTime($"Pure {testUnitKindName} execution time:", PureExecutionStopwatch.Elapsed);
 
             Log = null;
 
