@@ -32,10 +32,10 @@ namespace Atata
         {
             ["build-start"] = _ => AtataContext.BuildStart,
 
-            ["test-name"] = _ => AtataContext.Current.TestName,
             ["test-name-sanitized"] = _ => AtataContext.Current.TestNameSanitized,
-            ["test-fixture-name"] = _ => AtataContext.Current.TestFixtureName,
+            ["test-name"] = _ => AtataContext.Current.TestName,
             ["test-fixture-name-sanitized"] = _ => AtataContext.Current.TestFixtureNameSanitized,
+            ["test-fixture-name"] = _ => AtataContext.Current.TestFixtureName,
             ["test-start"] = _ => AtataContext.Current.StartedAt,
 
             ["driver-alias"] = _ => AtataContext.Current.DriverAlias,
