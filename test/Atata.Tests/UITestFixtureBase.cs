@@ -29,17 +29,19 @@ namespace Atata.Tests
         {
             stringListLogConsumer = new StringListLogConsumer();
 
-            return AtataContext.Configure().
-                UseChrome().
-                    WithArguments(GetChromeArguments()).
-                    WithPortsToIgnore(portsToIgnore).
-                UseBaseUrl(BaseUrl).
-                UseCulture("en-us").
-                UseNUnitTestName().
-                AddNUnitTestContextLogging().
-                AddLogConsumer(stringListLogConsumer).
-                    WithMessageNestingLevelIndent(string.Empty).
-                LogNUnitError();
+            return AtataContext.Configure()
+                .UseChrome()
+                    .WithArguments(GetChromeArguments())
+                    .WithPortsToIgnore(portsToIgnore)
+                .UseBaseUrl(BaseUrl)
+                .UseCulture("en-US")
+                .UseNUnitTestName()
+                .UseNUnitTestFixtureName()
+                .UseNUnitTestFixtureType()
+                .AddNUnitTestContextLogging()
+                .AddLogConsumer(stringListLogConsumer)
+                    .WithMessageNestingLevelIndent(string.Empty)
+                .LogNUnitError();
         }
 
         private static IEnumerable<string> GetChromeArguments()

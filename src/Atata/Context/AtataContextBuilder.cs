@@ -892,13 +892,25 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseNUnitTestName()
         {
-            return UseTestName(ResolveNUnitTestName);
+            return UseTestName(NUnitAdapter.GetCurrentTestName);
         }
 
-        private static string ResolveNUnitTestName()
+        /// <summary>
+        /// Defines that the name of the test fixture should be taken from the NUnit test fixture.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseNUnitTestFixtureName()
         {
-            dynamic testContext = GetNUnitTestContext();
-            return testContext.Test.Name;
+            return UseTestFixtureName(NUnitAdapter.GetCurrentTestFixtureName);
+        }
+
+        /// <summary>
+        /// Defines that the type of the test fixture should be taken from the NUnit test fixture.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseNUnitTestFixtureType()
+        {
+            return UseTestFixtureType(NUnitAdapter.GetCurrentTestFixtureType);
         }
 
         /// <summary>
@@ -1003,6 +1015,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// Executes the following methods:
         /// <list type="bullet">
         /// <item><see cref="UseNUnitTestName"/>,</item>
+        /// <item><see cref="UseNUnitTestFixtureName"/>,</item>
+        /// <item><see cref="UseNUnitTestFixtureType"/>,</item>
         /// <item><see cref="UseNUnitAssertionExceptionType"/>,</item>
         /// <item><see cref="UseNUnitAggregateAssertionStrategy"/>,</item>
         /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
@@ -1014,13 +1028,15 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseAllNUnitFeatures()
         {
-            return UseNUnitTestName().
-                UseNUnitAssertionExceptionType().
-                UseNUnitAggregateAssertionStrategy().
-                UseNUnitWarningReportStrategy().
-                AddNUnitTestContextLogging().
-                LogNUnitError().
-                TakeScreenshotOnNUnitError();
+            return UseNUnitTestName()
+                .UseNUnitTestFixtureName()
+                .UseNUnitTestFixtureType()
+                .UseNUnitAssertionExceptionType()
+                .UseNUnitAggregateAssertionStrategy()
+                .UseNUnitWarningReportStrategy()
+                .AddNUnitTestContextLogging()
+                .LogNUnitError()
+                .TakeScreenshotOnNUnitError();
         }
 
         private static dynamic GetNUnitTestContext()

@@ -25,7 +25,16 @@ namespace Atata
         private static readonly Lazy<Type> TestResultType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.TestResult"));
 
-        public enum AssertionStatus
+        private static readonly Lazy<Type> TestMethodType = new Lazy<Type>(
+            () => GetType("NUnit.Framework.Internal.TestMethod"));
+
+        private static readonly Lazy<Type> TestFixtureType = new Lazy<Type>(
+            () => GetType("NUnit.Framework.Internal.TestFixture"));
+
+        private static readonly Lazy<Type> SetUpFixtureType = new Lazy<Type>(
+            () => GetType("NUnit.Framework.Internal.SetUpFixture"));
+
+        internal enum AssertionStatus
         {
             Inconclusive,
 
@@ -43,6 +52,61 @@ namespace Atata
         private static Type GetType(string typeName)
         {
             return Type.GetType($"{typeName},{NUnitAssemblyName}", true);
+        }
+
+        internal static object GetCurrentTest()
+        {
+            object testExecutionContext = GetCurrentTestExecutionContext();
+
+            return TestExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentTest")
+                .GetValue(testExecutionContext);
+        }
+
+        internal static string GetCurrentTestName()
+        {
+            object testItem = GetCurrentTest();
+
+            return testItem != null && testItem.GetType() == TestMethodType.Value
+                ? TestMethodType.Value.GetPropertyWithThrowOnError("Name").GetValue(testItem) as string
+                : null;
+        }
+
+        internal static string GetCurrentTestFixtureName()
+        {
+            dynamic testItem = GetCurrentTest();
+
+            if (testItem.GetType() == SetUpFixtureType.Value)
+                return testItem.TypeInfo.Type.Name;
+
+            do
+            {
+                if (testItem.GetType() == TestFixtureType.Value)
+                    return testItem.Name;
+
+                testItem = testItem.Parent;
+            }
+            while (testItem != null);
+
+            return null;
+        }
+
+        internal static Type GetCurrentTestFixtureType()
+        {
+            dynamic testItem = GetCurrentTest();
+
+            if (testItem.GetType() == SetUpFixtureType.Value)
+                return testItem.TypeInfo.Type;
+
+            do
+            {
+                if (testItem.GetType() == TestFixtureType.Value)
+                    return testItem.TypeInfo.Type;
+
+                testItem = testItem.Parent;
+            }
+            while (testItem != null);
+
+            return null;
         }
 
         internal static void AssertMultiple(Action action)
