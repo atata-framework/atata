@@ -365,28 +365,27 @@ namespace Atata
             StringBuilder logMessageBuilder = new StringBuilder(
                 $"Starting {GetTestUnitKindName()}");
 
-            if (TestFixtureType != null || TestName != null)
+            string[] testFullNameParts = GetTestFullNameParts().ToArray();
+
+            if (testFullNameParts.Length > 0)
             {
-                logMessageBuilder.Append($": ");
-
-                if (TestFixtureType != null)
-                {
-                    logMessageBuilder
-                        .Append(TestFixtureType.Namespace)
-                        .Append('.')
-                        .Append(TestFixtureName);
-                }
-
-                if (TestName != null)
-                {
-                    if (TestFixtureType != null)
-                        logMessageBuilder.Append('.');
-
-                    logMessageBuilder.Append(TestName);
-                }
+                logMessageBuilder.Append(": ")
+                    .Append(string.Join(".", testFullNameParts));
             }
 
             Current.Log.Info(logMessageBuilder.ToString());
+        }
+
+        private IEnumerable<string> GetTestFullNameParts()
+        {
+            if (TestFixtureType != null)
+                yield return TestFixtureType.Namespace;
+
+            if (TestFixtureName != null)
+                yield return TestFixtureName;
+
+            if (TestName != null)
+                yield return TestName;
         }
 
         private string GetTestUnitKindName()
