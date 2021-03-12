@@ -21,7 +21,7 @@
 
         /// <summary>
         /// Gets or sets the XPath of the cell.
-        /// The dafault value is <c>"td"</c>.
+        /// The default value is <c>"td"</c>.
         /// </summary>
         public string CellXPath { get; set; } = "td";
 
