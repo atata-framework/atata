@@ -46,9 +46,12 @@ namespace Atata.Tests
         public void Trigger_WaitForElement_HiddenThenVisible()
         {
             var page = Go.To<WaitingPage>();
+            var control = page.ButtonWithHiddenAndVisibleWait;
+
+            control.WaitTo().BeVisible();
 
             using (StopwatchAsserter.WithinSeconds(2))
-                page.ButtonWithHiddenAndVisibleWait.Click();
+                control.Click();
 
             page.Result.Should.AtOnce.Exist();
         }
