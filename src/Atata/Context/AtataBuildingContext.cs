@@ -121,7 +121,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the default assembly name pattern that is used to filter assemblies to find types in them.
-        /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>, which filters non-system assemlies.
+        /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>, which filters non-system assemblies.
         /// </summary>
         public string DefaultAssemblyNamePatternToFindTypes { get; set; } = @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
 
