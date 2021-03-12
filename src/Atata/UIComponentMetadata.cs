@@ -452,7 +452,7 @@ namespace Atata
 
         public FindAttribute ResolveFindAttribute()
         {
-            // TODO: Use the below aproach in v2.0.0.
+            // TODO: Use the below approach in v2.0.0.
             ////FindAttribute findAttribute = GetDefinedFindAttribute();
 
             FindAttribute findAttribute = Get<FindAttribute>(filter => filter.At(AttributeLevels.Declared).Where(x => x.As == FindAs.Scope))
