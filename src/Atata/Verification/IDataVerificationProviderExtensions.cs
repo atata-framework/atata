@@ -723,7 +723,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verificaton provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInAscendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
             where TItem : IComparable<TItem>
@@ -739,7 +739,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item of nullable value (struct) type.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verificaton provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInAscendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
             where TItem : struct, IComparable<TItem>
@@ -755,7 +755,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TData">The type of the collection item data.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verificaton provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInAscendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> verifier)
             where TOwner : PageObject<TOwner>
@@ -770,7 +770,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verificaton provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInDescendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
             where TItem : IComparable<TItem>
@@ -786,7 +786,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item of nullable value (struct) type.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verificaton provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInDescendingOrder<TItem, TOwner>(this IDataVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
             where TItem : struct, IComparable<TItem>
@@ -802,7 +802,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TData">The type of the collection item data.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verificaton provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInDescendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> verifier)
             where TOwner : PageObject<TOwner>
