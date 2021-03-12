@@ -35,6 +35,7 @@ namespace Atata
 
         internal AtataContext()
         {
+            Go = new AtataNavigator(this);
         }
 
         /// <summary>
@@ -302,6 +303,12 @@ namespace Atata
         /// Gets the context of the attributes.
         /// </summary>
         public AtataAttributesContext Attributes { get; internal set; }
+
+        /// <summary>
+        /// Gets the <see cref="AtataNavigator"/> instance,
+        /// which provides the navigation functionality between pages and windows.
+        /// </summary>
+        public AtataNavigator Go { get; }
 
         /// <summary>
         /// Gets the current page object.
