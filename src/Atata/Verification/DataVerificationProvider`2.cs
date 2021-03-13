@@ -3,7 +3,6 @@
     public class DataVerificationProvider<TData, TOwner> :
         VerificationProvider<DataVerificationProvider<TData, TOwner>, TOwner>,
         IDataVerificationProvider<TData, TOwner>
-        where TOwner : PageObject<TOwner>
     {
         public DataVerificationProvider(IDataProvider<TData, TOwner> dataProvider)
         {

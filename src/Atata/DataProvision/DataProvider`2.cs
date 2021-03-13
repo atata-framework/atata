@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the provider of data of <typeparamref name="TData"/> type owned by <typeparamref name="TOwner"/> object.
+    /// Represents the provider of UI component data of <typeparamref name="TData"/> type
+    /// owned by <typeparamref name="TOwner"/> object.
     /// </summary>
     /// <typeparam name="TData">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>

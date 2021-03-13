@@ -3,7 +3,6 @@
 namespace Atata
 {
     public interface IVerificationProvider<TOwner>
-        where TOwner : PageObject<TOwner>
     {
         /// <summary>
         /// Gets a value indicating whether the verification is a negation verification.

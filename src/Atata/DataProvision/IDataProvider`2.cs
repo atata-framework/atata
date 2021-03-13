@@ -6,7 +6,6 @@
     /// <typeparam name="TData">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     public interface IDataProvider<out TData, TOwner>
-        where TOwner : PageObject<TOwner>
     {
         /// <summary>
         /// Gets the associated component.
@@ -19,7 +18,7 @@
         string ProviderName { get; }
 
         /// <summary>
-        /// Gets the owner page object.
+        /// Gets the owner object.
         /// </summary>
         TOwner Owner { get; }
 

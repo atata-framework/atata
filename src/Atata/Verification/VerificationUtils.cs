@@ -89,7 +89,6 @@ namespace Atata
         }
 
         public static string BuildConstraintMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string message, params TData[] args)
-            where TOwner : PageObject<TOwner>
         {
             if (!string.IsNullOrWhiteSpace(message))
             {
@@ -117,12 +116,18 @@ namespace Atata
         }
 
         public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
-            where TOwner : PageObject<TOwner>
         {
-            StringBuilder builder = new StringBuilder().
-                Append($"{should.DataProvider.Component.ComponentFullName} {should.DataProvider.ProviderName}.").
-                AppendLine().
-                Append($"Expected: {should.GetShouldText()} {expected}");
+            StringBuilder builder = new StringBuilder();
+
+            string componentName = should.DataProvider.Component?.ComponentFullName;
+
+            if (componentName != null)
+                builder.Append($"{componentName} ");
+
+            builder
+                .Append($"{should.DataProvider.ProviderName}.")
+                .AppendLine()
+                .Append($"Expected: {should.GetShouldText()} {expected}");
 
             if (actual != null)
                 builder.AppendLine().Append($"Actual: {actual}");

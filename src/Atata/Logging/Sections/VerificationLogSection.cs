@@ -2,6 +2,9 @@
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the log section of component or component value verification.
+    /// </summary>
     public class VerificationLogSection : UIComponentLogSection
     {
         public VerificationLogSection(UIComponent component, string verificationConstraint)
