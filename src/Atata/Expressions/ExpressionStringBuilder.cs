@@ -104,12 +104,12 @@ namespace Atata
             }
         }
 
-        protected void Out(string s)
+        protected virtual void Out(string s)
         {
             builder.Append(s);
         }
 
-        protected void Out(char c)
+        protected virtual void Out(char c)
         {
             builder.Append(c);
         }
@@ -193,7 +193,7 @@ namespace Atata
             }
         }
 
-        private void VisitExpressions<T>(char open, IList<T> expressions, char close)
+        protected void VisitExpressions<T>(char open, IList<T> expressions, char close)
             where T : Expression
         {
             VisitExpressions(open, expressions, close, ", ");

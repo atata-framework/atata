@@ -38,5 +38,17 @@ namespace Atata
                 }
             }
         }
+
+        internal static string ToExpressionValueString(this Enum value, bool wrapCombinationalValueWithParentheses = false)
+        {
+            string[] valueStringParts = value.ToString().Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+            string enumName = value.GetType().Name;
+
+            string valueAsString = string.Join(" | ", valueStringParts.Select(x => $"{enumName}.{x}"));
+
+            return valueStringParts.Length > 1 && wrapCombinationalValueWithParentheses
+                ? $"({valueAsString})"
+                : valueAsString;
+        }
     }
 }
