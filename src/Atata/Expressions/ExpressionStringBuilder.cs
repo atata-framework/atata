@@ -588,15 +588,22 @@ namespace Atata
             Out(node.Method.Name);
             Out("(");
 
-            for (int i = start, n = node.Arguments.Count; i < n; i++)
+            VisitMethodParameters(node, start);
+
+            Out(")");
+            return node;
+        }
+
+        protected virtual Expression VisitMethodParameters(MethodCallExpression node, int startArgumentIndex)
+        {
+            for (int i = startArgumentIndex, n = node.Arguments.Count; i < n; i++)
             {
-                if (i > start)
+                if (i > startArgumentIndex)
                     Out(", ");
 
                 Visit(node.Arguments[i]);
             }
 
-            Out(")");
             return node;
         }
 

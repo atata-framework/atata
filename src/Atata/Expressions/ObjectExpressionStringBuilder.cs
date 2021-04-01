@@ -53,11 +53,16 @@ namespace Atata
 
         protected override Expression VisitMethodCall(MethodCallExpression node)
         {
-            bool isExtensionMethod = Attribute.GetCustomAttribute(node.Method, typeof(ExtensionAttribute)) != null;
-
-            if (node.Object?.NodeType == ExpressionType.Parameter || (isExtensionMethod && node.Arguments[0].NodeType == ExpressionType.Parameter))
+            if (IsIndexer(node) && node.Object?.NodeType == ExpressionType.Parameter)
             {
-                return VisitMethodCallOfParameter(node, isExtensionMethod);
+                return VisitIndexerAsMethodCall(node);
+            }
+            else
+            {
+                bool isExtensionMethod = Attribute.GetCustomAttribute(node.Method, typeof(ExtensionAttribute)) != null;
+
+                if (node.Object?.NodeType == ExpressionType.Parameter || (isExtensionMethod && node.Arguments[0].NodeType == ExpressionType.Parameter))
+                    return VisitMethodCallOfParameter(node, isExtensionMethod);
             }
 
             return base.VisitMethodCall(node);
@@ -70,12 +75,7 @@ namespace Atata
 
             int firstArgumentIndex = isExtensionMethod ? 1 : 0;
 
-            for (int i = firstArgumentIndex, n = node.Arguments.Count; i < n; i++)
-            {
-                if (i > firstArgumentIndex)
-                    Out(", ");
-                Visit(node.Arguments[i]);
-            }
+            VisitMethodParameters(node, firstArgumentIndex);
 
             Out(")");
             return node;

@@ -200,21 +200,22 @@ namespace Atata
             {
                 OutStaticClass(node.Method.DeclaringType);
             }
-            else if (node.Method.IsSpecialName && (node.Method.Name == "get_Item" || node.Method.Name == "get_Chars") && node.Arguments.Any())
+            else if (IsIndexer(node))
             {
+                if (node.Object != null)
+                    Visit(node.Object);
+
                 return VisitIndexerAsMethodCall(node);
             }
 
             return base.VisitMethodCall(node);
         }
 
-        private Expression VisitIndexerAsMethodCall(MethodCallExpression node)
-        {
-            if (node.Object != null)
-            {
-                Visit(node.Object);
-            }
+        protected static bool IsIndexer(MethodCallExpression node) =>
+            node.Method.IsSpecialName && (node.Method.Name == "get_Item" || node.Method.Name == "get_Chars") && node.Arguments.Any();
 
+        protected Expression VisitIndexerAsMethodCall(MethodCallExpression node)
+        {
             Out("[");
 
             for (int i = 0; i < node.Arguments.Count; i++)
@@ -236,6 +237,42 @@ namespace Atata
 
             Out(type.Name);
             Out(".");
+        }
+
+        protected override Expression VisitMethodParameters(MethodCallExpression node, int startArgumentIndex)
+        {
+            ParameterInfo[] methodParameters = node.Method.GetParameters();
+
+            for (int i = startArgumentIndex; i < node.Arguments.Count; i++)
+            {
+                if (i > startArgumentIndex)
+                    Out(", ");
+
+                ParameterInfo parameter = methodParameters[i];
+
+                VisitMethodParameter(parameter, node.Arguments[i]);
+            }
+
+            return node;
+        }
+
+        private void VisitMethodParameter(ParameterInfo parameter, Expression argumentExpression)
+        {
+            if (argumentExpression is MemberExpression memberExpression && memberExpression.Member is FieldInfo)
+            {
+                if (parameter.IsOut)
+                {
+                    Out($"out {memberExpression.Member.Name}");
+                    return;
+                }
+                else if (parameter.ParameterType.IsByRef)
+                {
+                    Out($"ref {memberExpression.Member.Name}");
+                    return;
+                }
+            }
+
+            Visit(argumentExpression);
         }
 
         protected override Expression VisitNewArray(NewArrayExpression node)

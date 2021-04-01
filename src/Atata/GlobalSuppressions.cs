@@ -49,5 +49,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ImprovedExpressionStringBuilder.VisitMember(System.Linq.Expressions.MemberExpression)~System.Linq.Expressions.Expression")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ImprovedExpressionStringBuilder.IsCharComparison(System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)~System.Boolean")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ImprovedExpressionStringBuilder.IsEnumComparison(System.Linq.Expressions.Expression,System.Linq.Expressions.Expression)~System.Boolean")]
+[assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ImprovedExpressionStringBuilder.IsIndexer(System.Linq.Expressions.MethodCallExpression)~System.Boolean")]
 
 #pragma warning restore S103 // Lines should not be too long

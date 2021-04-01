@@ -86,6 +86,18 @@ namespace Atata.Tests.Expressions
             TestPredicate(x => x.Item.Attributes.GetValue<DateTime>("data-date") <= DateTime.Today)
                 .Returns("x => x.Item.Attributes.GetValue(\"data-date\") <= DateTime.Today");
 
+            // Instance method with out parameter:
+            int outResult;
+
+            TestPredicate(x => x.TryGetValue("key", out outResult))
+                .Returns("x => x.TryGetValue(\"key\", out outResult)");
+
+            // Instance method with out parameter:
+            int refValue = 1;
+
+            TestPredicate(x => x.UseRefValue("key", ref refValue))
+                .Returns("x => x.UseRefValue(\"key\", ref refValue)");
+
             // Static method:
             TestPredicate(x => x.Item.Value.Length == StaticClass.GetInt())
                 .Returns($"x => x.Item.Value.Length == {nameof(ImprovedExpressionStringBuilderTests)}.{nameof(StaticClass)}.{nameof(StaticClass.GetInt)}()");
@@ -177,6 +189,10 @@ namespace Atata.Tests.Expressions
             public TestFlagValues Flags { get; private set; }
 
             public abstract bool IsIt(TestFlagValues flags);
+
+            public abstract bool TryGetValue(string key, out int value);
+
+            public abstract bool UseRefValue(string key, ref int value);
         }
 
         public class TestItem
