@@ -14,47 +14,54 @@ namespace Atata
             should.CheckNotNull(nameof(should));
             predicate.CheckNotNull(nameof(predicate));
 
-            string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(should, message, args);
+            void ExecuteVerification()
+            {
+                TData actual = default;
+                Exception exception = null;
 
-            LogSection logSection = should.DataProvider.Component is null
-                ? (LogSection)new ValueVerificationLogSection(should.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
-                : new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
-
-            AtataContext.Current.Log.ExecuteSection(
-                logSection,
-                () =>
-                {
-                    TData actual = default;
-                    Exception exception = null;
-
-                    bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
-                        _ =>
-                        {
-                            try
-                            {
-                                actual = should.DataProvider.Value;
-                                bool result = predicate(actual) != should.IsNegation;
-                                exception = null;
-                                return result;
-                            }
-                            catch (Exception e)
-                            {
-                                exception = e;
-                                return false;
-                            }
-                        },
-                        should.GetRetryOptions());
-
-                    if (!doesSatisfy)
+                bool doesSatisfy = ExecuteUntil(
+                    () =>
                     {
-                        string expectedMessage = VerificationUtils.BuildExpectedMessage(message, args?.Cast<object>().ToArray());
-                        string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
+                        try
+                        {
+                            actual = should.DataProvider.Value;
+                            bool result = predicate(actual) != should.IsNegation;
+                            exception = null;
+                            return result;
+                        }
+                        catch (Exception e)
+                        {
+                            exception = e;
+                            return false;
+                        }
+                    },
+                    should.GetRetryOptions());
 
-                        string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+                if (!doesSatisfy)
+                {
+                    string expectedMessage = VerificationUtils.BuildExpectedMessage(message, args?.Cast<object>().ToArray());
+                    string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
 
-                        should.ReportFailure(failureMessage, exception);
-                    }
-                });
+                    string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                    should.ReportFailure(failureMessage, exception);
+                }
+            }
+
+            if (AtataContext.Current is null)
+            {
+                ExecuteVerification();
+            }
+            else
+            {
+                string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(should, message, args);
+
+                LogSection logSection = should.DataProvider.Component is null
+                    ? (LogSection)new ValueVerificationLogSection(should.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
+                    : new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
+
+                AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
+            }
 
             return should.Owner;
         }
@@ -72,48 +79,75 @@ namespace Atata
                 ? message?.FormatWith(Stringifier.ToString(args))
                 : message;
 
-            string verificationConstraintMessage = $"{should.GetShouldText()} {expectedMessage}";
+            void ExecuteVerification()
+            {
+                IEnumerable<TData> actual = null;
+                Exception exception = null;
 
-            LogSection logSection = should.DataProvider.Component is null
-                ? (LogSection)new ValueVerificationLogSection(should.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
-                : new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
-
-            AtataContext.Current.Log.ExecuteSection(
-                logSection,
-                () =>
-                {
-                    IEnumerable<TData> actual = null;
-                    Exception exception = null;
-
-                    bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
-                        _ =>
-                        {
-                            try
-                            {
-                                actual = should.DataProvider.Value?.Select(x => x.Value).ToArray();
-                                bool result = predicate(actual) != should.IsNegation;
-                                exception = null;
-                                return result;
-                            }
-                            catch (Exception e)
-                            {
-                                exception = e;
-                                return false;
-                            }
-                        },
-                        should.GetRetryOptions());
-
-                    if (!doesSatisfy)
+                bool doesSatisfy = ExecuteUntil(
+                    () =>
                     {
-                        string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
+                        try
+                        {
+                            actual = should.DataProvider.Value?.Select(x => x.Value).ToArray();
+                            bool result = predicate(actual) != should.IsNegation;
+                            exception = null;
+                            return result;
+                        }
+                        catch (Exception e)
+                        {
+                            exception = e;
+                            return false;
+                        }
+                    },
+                    should.GetRetryOptions());
 
-                        string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+                if (!doesSatisfy)
+                {
+                    string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
 
-                        should.ReportFailure(failureMessage, exception);
-                    }
-                });
+                    string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+
+                    should.ReportFailure(failureMessage, exception);
+                }
+            }
+
+            if (AtataContext.Current is null)
+            {
+                ExecuteVerification();
+            }
+            else
+            {
+                string verificationConstraintMessage = $"{should.GetShouldText()} {expectedMessage}";
+
+                LogSection logSection = should.DataProvider.Component is null
+                    ? (LogSection)new ValueVerificationLogSection(should.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
+                    : new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
+
+                AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
+            }
 
             return should.Owner;
+        }
+
+        private static bool ExecuteUntil(Func<bool> condition, RetryOptions retryOptions)
+        {
+            var wait = CreateSafeWait(retryOptions);
+            return wait.Until(_ => condition());
+        }
+
+        private static SafeWait<object> CreateSafeWait(RetryOptions options)
+        {
+            var wait = new SafeWait<object>(string.Empty)
+            {
+                Timeout = options.Timeout,
+                PollingInterval = options.Interval
+            };
+
+            foreach (Type exceptionType in options.IgnoredExceptionTypes)
+                wait.IgnoreExceptionTypes(exceptionType);
+
+            return wait;
         }
 
         public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(

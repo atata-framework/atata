@@ -10,9 +10,11 @@ namespace Atata
     {
         public string VerificationKind => "Wait";
 
-        public TimeSpan DefaultTimeout => AtataContext.Current.WaitingTimeout;
+        public TimeSpan DefaultTimeout =>
+            AtataContext.Current?.WaitingTimeout ?? AtataContext.DefaultRetryTimeout;
 
-        public TimeSpan DefaultRetryInterval => AtataContext.Current.WaitingRetryInterval;
+        public TimeSpan DefaultRetryInterval =>
+            AtataContext.Current?.WaitingRetryInterval ?? AtataContext.DefaultRetryInterval;
 
         public void ReportFailure(string message, Exception exception)
         {

@@ -12,22 +12,33 @@ namespace Atata
     {
         public string VerificationKind => "Expect";
 
-        public TimeSpan DefaultTimeout => AtataContext.Current.VerificationTimeout;
+        public TimeSpan DefaultTimeout =>
+            AtataContext.Current?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
 
-        public TimeSpan DefaultRetryInterval => AtataContext.Current.VerificationRetryInterval;
+        public TimeSpan DefaultRetryInterval =>
+            AtataContext.Current?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
 
         public void ReportFailure(string message, Exception exception)
         {
             string completeMessage = $"Unexpected {message}";
-            completeMessage = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
+            string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
 
             string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
             AtataContext context = AtataContext.Current;
 
-            context.AssertionResults.Add(AssertionResult.ForWarning(completeMessage, stackTrace));
-            context.Log.Warn(completeMessage);
+            if (context != null)
+            {
+                context.AssertionResults.Add(AssertionResult.ForWarning(completeMessageWithException, stackTrace));
+                context.Log.Warn(completeMessageWithException);
 
-            context.WarningReportStrategy.Report(completeMessage, stackTrace);
+                context.WarningReportStrategy.Report(completeMessageWithException, stackTrace);
+            }
+            else
+            {
+                throw new InvalidOperationException(
+                    $"Cannot report warning to {nameof(AtataContext)}.{nameof(AtataContext.Current)} as current context is null.",
+                    VerificationUtils.CreateAssertionException(completeMessage, exception));
+            }
         }
     }
 }

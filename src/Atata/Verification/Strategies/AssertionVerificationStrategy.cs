@@ -6,9 +6,11 @@ namespace Atata
     {
         public string VerificationKind => "Assert";
 
-        public TimeSpan DefaultTimeout => AtataContext.Current.VerificationTimeout;
+        public TimeSpan DefaultTimeout =>
+            AtataContext.Current?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
 
-        public TimeSpan DefaultRetryInterval => AtataContext.Current.VerificationRetryInterval;
+        public TimeSpan DefaultRetryInterval =>
+            AtataContext.Current?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
 
         public void ReportFailure(string message, Exception exception)
         {
@@ -18,17 +20,20 @@ namespace Atata
             string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
 
             AtataContext context = AtataContext.Current;
-            context.AssertionResults.Add(AssertionResult.ForFailure(completeMessageWithException, stackTrace));
 
-            if (context.AggregateAssertionLevel == 0)
+            if (context != null)
             {
-                throw VerificationUtils.CreateAssertionException(completeMessage, exception);
+                context.AssertionResults.Add(AssertionResult.ForFailure(completeMessageWithException, stackTrace));
+
+                if (context.AggregateAssertionLevel > 0)
+                {
+                    context.Log.Error(completeMessage);
+                    context.AggregateAssertionStrategy.ReportFailure(completeMessageWithException, stackTrace);
+                    return;
+                }
             }
-            else
-            {
-                context.Log.Error(completeMessage);
-                context.AggregateAssertionStrategy.ReportFailure(completeMessageWithException, stackTrace);
-            }
+
+            throw VerificationUtils.CreateAssertionException(completeMessage, exception);
         }
     }
 }

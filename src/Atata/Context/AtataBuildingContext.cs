@@ -155,13 +155,13 @@ namespace Atata
         /// Gets the base retry timeout.
         /// The default value is <c>5</c> seconds.
         /// </summary>
-        public TimeSpan BaseRetryTimeout { get; internal set; } = TimeSpan.FromSeconds(5);
+        public TimeSpan BaseRetryTimeout { get; internal set; } = AtataContext.DefaultRetryTimeout;
 
         /// <summary>
         /// Gets the base retry interval.
         /// The default value is <c>500</c> milliseconds.
         /// </summary>
-        public TimeSpan BaseRetryInterval { get; internal set; } = TimeSpan.FromSeconds(0.5);
+        public TimeSpan BaseRetryInterval { get; internal set; } = AtataContext.DefaultRetryInterval;
 
         /// <summary>
         /// Gets the element find timeout.

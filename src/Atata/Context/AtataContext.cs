@@ -33,6 +33,16 @@ namespace Atata
 
         private bool disposed;
 
+        /// <summary>
+        /// Gets the base retry timeout, which is <c>5</c> seconds.
+        /// </summary>
+        public static readonly TimeSpan DefaultRetryTimeout = TimeSpan.FromSeconds(5);
+
+        /// <summary>
+        /// Gets the default retry interval, which is <c>500</c> milliseconds.
+        /// </summary>
+        public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
+
         internal AtataContext()
         {
             Go = new AtataNavigator(this);
