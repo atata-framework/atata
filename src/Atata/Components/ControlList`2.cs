@@ -14,7 +14,11 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TItem">The type of the item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public class ControlList<TItem, TOwner> : UIComponentPart<TOwner>, IDataProvider<IEnumerable<TItem>, TOwner>, IEnumerable<TItem>, ISupportsMetadata
+    public class ControlList<TItem, TOwner> :
+        UIComponentPart<TOwner>,
+        ISupportsMetadata,
+        IDataProvider<IEnumerable<TItem>, TOwner>,
+        IEnumerable<TItem>
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -71,13 +75,13 @@ return textValues;";
 
         protected string ProviderName => $"{ComponentPartName}";
 
-        string IDataProvider<IEnumerable<TItem>, TOwner>.ProviderName => ProviderName;
+        string IObjectProvider<IEnumerable<TItem>>.ProviderName => ProviderName;
 
         TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
         TermOptions IDataProvider<IEnumerable<TItem>, TOwner>.ValueTermOptions { get; }
 
-        IEnumerable<TItem> IDataProvider<IEnumerable<TItem>, TOwner>.Value => GetAll();
+        IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Value => GetAll();
 
         UIComponentMetadata ISupportsMetadata.Metadata
         {

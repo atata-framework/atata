@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="TData">The type of the data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
-    public interface IDataProvider<out TData, TOwner>
+    public interface IDataProvider<out TData, out TOwner> : IObjectProvider<TData>
     {
         /// <summary>
         /// Gets the associated component.
@@ -13,19 +13,9 @@
         UIComponent Component { get; }
 
         /// <summary>
-        /// Gets the name of the provider.
-        /// </summary>
-        string ProviderName { get; }
-
-        /// <summary>
         /// Gets the owner object.
         /// </summary>
         TOwner Owner { get; }
-
-        /// <summary>
-        /// Gets the value.
-        /// </summary>
-        TData Value { get; }
 
         /// <summary>
         /// Gets the value term options.

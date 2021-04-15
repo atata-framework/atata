@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     public class DataVerificationProvider<TData, TOwner> :
         VerificationProvider<DataVerificationProvider<TData, TOwner>, TOwner>,
@@ -19,6 +21,17 @@
         }
 
         public NegationDataVerificationProvider Not => new NegationDataVerificationProvider(DataProvider, this);
+
+        protected override RetryOptions GetRetryOptions()
+        {
+            return (DataProvider as IObjectProvider<TData, TOwner>)?.IsValueDynamic ?? true
+                ? base.GetRetryOptions()
+                : new RetryOptions
+                {
+                    Timeout = TimeSpan.Zero,
+                    Interval = TimeSpan.Zero
+                };
+        }
 
         public class NegationDataVerificationProvider :
             NegationVerificationProvider<NegationDataVerificationProvider, TOwner>,

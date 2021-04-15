@@ -58,6 +58,7 @@ namespace Atata.Tests.Expressions
             // Variable:
             string itemName = "VarStr";
             TestModel item = new TestModel { Name = "PropStr" };
+            ValueProvider<string, object> valueItem = null;
             bool? nullableBool = null;
             bool? nullableBoolIsTrue = true;
 
@@ -67,6 +68,10 @@ namespace Atata.Tests.Expressions
                 .Returns("x => x.Item == \"FldStr\"");
             TestPredicate(x => x.Item != item.Name)
                 .Returns("x => x.Item != item.Name");
+            TestPredicate(x => x.Item == valueItem)
+                .Returns("x => x.Item == valueItem");
+            TestPredicate(x => x.Item == valueItem.Value)
+                .Returns("x => x.Item == valueItem.Value");
             TestPredicate(x => x.Item.Attributes.Checked == nullableBool)
                 .Returns("x => x.Item.Attributes.Checked == null");
             TestPredicate(x => x.Item.Attributes.Checked == nullableBoolIsTrue)

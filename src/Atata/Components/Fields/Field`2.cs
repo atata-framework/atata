@@ -36,7 +36,7 @@ namespace Atata
         /// </summary>
         protected virtual string DataProviderName => "value";
 
-        string IDataProvider<T, TOwner>.ProviderName => DataProviderName;
+        string IObjectProvider<T>.ProviderName => DataProviderName;
 
         TOwner IDataProvider<T, TOwner>.Owner => Owner;
 

@@ -40,7 +40,7 @@ namespace Atata
 
         TOwner IDataProvider<TData, TOwner>.Owner => Component.Owner;
 
-        string IDataProvider<TData, TOwner>.ProviderName => ProviderName;
+        string IObjectProvider<TData>.ProviderName => ProviderName;
 
         TermOptions IDataProvider<TData, TOwner>.ValueTermOptions { get; }
 
