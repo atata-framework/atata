@@ -237,7 +237,7 @@ namespace Atata
         private static string AppendSectionResultToMessage(string message, object result)
         {
             string resultAsString = result is Exception resultAsException
-                ? $"{resultAsException.GetType().FullName}: {resultAsException.Message}"
+                ? BuildExceptionShortSingleLineMessage(resultAsException)
                 : Stringifier.ToString(result);
 
             string separator = resultAsString.Contains(Environment.NewLine)
@@ -245,6 +245,25 @@ namespace Atata
                 : " ";
 
             return $"{message} >>{separator}{resultAsString}";
+        }
+
+        private static string BuildExceptionShortSingleLineMessage(Exception exception)
+        {
+            string message = exception.Message;
+
+            int newLineIndex = message.IndexOf(Environment.NewLine, StringComparison.Ordinal);
+
+            if (newLineIndex >= 0)
+            {
+                message = message.Substring(0, newLineIndex);
+
+                if (char.IsPunctuation(message[message.Length - 1]))
+                    message = message.Substring(0, message.Length - 1);
+
+                message += "...";
+            }
+
+            return $"{exception.GetType().FullName}: {message}";
         }
 
         private static string PrependHierarchyPrefixesToMessage(string message, LogEventInfo eventInfo, LogConsumerInfo logConsumerInfo)
