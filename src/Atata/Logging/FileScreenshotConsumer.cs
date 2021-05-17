@@ -26,26 +26,7 @@ namespace Atata
         /// <summary>
         /// The default DateTime format for <c>"build-start"</c> and <c>"test-start"</c> path variables is <c>"yyyy-MM-dd HH_mm_ss"</c>.
         /// </summary>
-        public const string DefaultDateTimeFormat = "yyyy-MM-dd HH_mm_ss";
-
-        private static readonly Dictionary<string, Func<ScreenshotInfo, object>> PathVariableFactoryMap = new Dictionary<string, Func<ScreenshotInfo, object>>
-        {
-            ["build-start"] = _ => AtataContext.BuildStart,
-
-            ["test-name-sanitized"] = _ => AtataContext.Current.TestNameSanitized,
-            ["test-name"] = _ => AtataContext.Current.TestName,
-            ["test-fixture-name-sanitized"] = _ => AtataContext.Current.TestFixtureNameSanitized,
-            ["test-fixture-name"] = _ => AtataContext.Current.TestFixtureName,
-            ["test-start"] = _ => AtataContext.Current.StartedAt,
-
-            ["driver-alias"] = _ => AtataContext.Current.DriverAlias,
-
-            ["screenshot-number"] = scr => scr.Number,
-            ["screenshot-title"] = scr => scr.Title,
-            ["screenshot-pageobjectname"] = scr => scr.PageObjectName,
-            ["screenshot-pageobjecttypename"] = scr => scr.PageObjectTypeName,
-            ["screenshot-pageobjectfullname"] = scr => scr.PageObjectFullName
-        };
+        public const string DefaultDateTimeFormat = DefaultAtataContextArtifactsDirectory.DefaultDateTimeFormat;
 
         /// <summary>
         /// Gets or sets the builder of the folder path.
@@ -85,16 +66,24 @@ namespace Atata
         /// <returns>The formatted file path format.</returns>
         public static string FormatPath(string format, ScreenshotInfo screenshotInfo)
         {
-            format = format.
-                Replace("{build-start}", $"{{build-start:{DefaultDateTimeFormat}}}").
-                Replace("{test-start}", $"{{test-start:{DefaultDateTimeFormat}}}");
-
-            for (int i = 0; i < PathVariableFactoryMap.Count; i++)
+            if (format.Contains('{'))
             {
-                format = format.Replace("{" + PathVariableFactoryMap.Keys.ElementAt(i), $"{{{i}");
-            }
+                var screenshotVariables = new Dictionary<string, object>
+                {
+                    ["screenshot-number"] = screenshotInfo.Number,
+                    ["screenshot-title"] = screenshotInfo.Title,
+                    ["screenshot-pageobjectname"] = screenshotInfo.PageObjectName,
+                    ["screenshot-pageobjecttypename"] = screenshotInfo.PageObjectTypeName,
+                    ["screenshot-pageobjectfullname"] = screenshotInfo.PageObjectFullName
+                };
 
-            return string.Format(ExtendedStringFormatter.Default, format, PathVariableFactoryMap.Values.Select(factory => factory(screenshotInfo)).ToArray());
+                string path = AtataContext.Current.FillTemplateString(format);
+                return TemplateStringTransformer.Transform(path, screenshotVariables);
+            }
+            else
+            {
+                return format;
+            }
         }
 
         /// <summary>
@@ -119,19 +108,17 @@ namespace Atata
             string fileName = FileNameBuilder?.Invoke(screenshotInfo)
                 ?? (!string.IsNullOrWhiteSpace(FileName)
                     ? FormatPath(FileName, screenshotInfo)
-                    : $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectFullName}{screenshotInfo.Title?.Prepend(" - ")}");
+                    : BuildDefaultFileName(screenshotInfo));
 
             fileName = fileName.SanitizeForFileName();
 
             return Path.Combine(folderPath, fileName);
         }
 
-        protected virtual string BuildDefaultFolderPath()
-        {
-            return Path.Combine(
-                "Logs",
-                AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat),
-                AtataContext.Current.TestNameSanitized);
-        }
+        protected virtual string BuildDefaultFolderPath() =>
+            DefaultAtataContextArtifactsDirectory.BuildDefaultPath();
+
+        protected virtual string BuildDefaultFileName(ScreenshotInfo screenshotInfo) =>
+            $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectFullName}{screenshotInfo.Title?.Prepend(" - ")}";
     }
 }
