@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using FluentAssertions;
 using NUnit.Framework;
 
 namespace Atata.Tests.Utils
@@ -6,6 +8,36 @@ namespace Atata.Tests.Utils
     [TestFixture]
     public class TemplateStringTransformerTests
     {
+        [Test]
+        public void Transform_WithMissingVariables()
+        {
+            string template = "{a}{b}{b}{c}{c:D2}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = 1
+            };
+
+            var exception = Assert.Throws<FormatException>(() =>
+                TemplateStringTransformer.Transform(template, variables));
+
+            exception.Message.Should().Be($"Template \"{template}\" string contains unknown variable(s): {{b}}, {{c}}, {{c:D2}}.");
+        }
+
+        [Test]
+        public void Transform_WithIncorrectFormat()
+        {
+            string template = "{a";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = 1
+            };
+
+            var exception = Assert.Throws<FormatException>(() =>
+                TemplateStringTransformer.Transform(template, variables));
+
+            exception.Message.Should().Be($"Template \"{template}\" string is not in a correct format.");
+        }
+
         [Test]
         public void Transform_WithStringAndIntVariables()
         {

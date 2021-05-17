@@ -77,8 +77,7 @@ namespace Atata
                     ["screenshot-pageobjectfullname"] = screenshotInfo.PageObjectFullName
                 };
 
-                string path = AtataContext.Current.FillTemplateString(format);
-                return TemplateStringTransformer.Transform(path, screenshotVariables);
+                return AtataContext.Current.FillTemplateString(format, screenshotVariables);
             }
             else
             {

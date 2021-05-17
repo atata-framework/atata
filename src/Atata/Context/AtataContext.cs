@@ -582,7 +582,13 @@ namespace Atata
         /// </summary>
         /// <param name="template">The template string.</param>
         /// <returns>The filled string.</returns>
-        public string FillTemplateString(string template)
+        public string FillTemplateString(string template) =>
+            FillTemplateString(template, null);
+
+        /// <inheritdoc cref="FillTemplateString(string)"/>
+        /// <param name="template">The template string.</param>
+        /// <param name="additionalVariables">The additional variables.</param>
+        public string FillTemplateString(string template, IDictionary<string, object> additionalVariables)
         {
             template.CheckNotNull(nameof(template));
 
@@ -590,6 +596,10 @@ namespace Atata
                 return template;
 
             var variables = CreateVariablesDictionary();
+
+            if (additionalVariables != null)
+                foreach (var variable in additionalVariables)
+                    variables[variable.Key] = variable.Value;
 
             // TODO: Remove the following block in Atata v2.
             template = template.
