@@ -315,6 +315,13 @@ namespace Atata
         public AtataAttributesContext Attributes { get; internal set; }
 
         /// <summary>
+        /// Gets the <see cref="DirectorySubject"/> of Artifacts directory.
+        /// Artifacts directory can contain any files produced during test execution, logs, screenshots, downloads, etc.
+        /// The default Artifacts directory path is <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+        /// </summary>
+        public DirectorySubject Artifacts { get; internal set; }
+
+        /// <summary>
         /// Gets the <see cref="AtataNavigator"/> instance,
         /// which provides the navigation functionality between pages and windows.
         /// </summary>
@@ -551,6 +558,63 @@ namespace Atata
                 }
             }
         }
+
+        /// <summary>
+        /// Fills the template string with variables of this <see cref="AtataContext"/> instance.
+        /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
+        /// and extended formatting for strings
+        /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// <para>
+        /// The list of predefined variables:
+        /// <list type="bullet">
+        /// <item><c>{build-start}</c></item>
+        /// <item><c>{basedir}</c></item>
+        /// <item><c>{artifacts}</c></item>
+        /// <item><c>{test-name-sanitized}</c></item>
+        /// <item><c>{test-name}</c></item>
+        /// <item><c>{test-fixture-name-sanitized}</c></item>
+        /// <item><c>{test-fixture-name}</c></item>
+        /// <item><c>{test-start}</c></item>
+        /// <item><c>{driver-alias}</c></item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="template">The template string.</param>
+        /// <returns>The filled string.</returns>
+        public string FillTemplateString(string template)
+        {
+            template.CheckNotNull(nameof(template));
+
+            if (!template.Contains('{'))
+                return template;
+
+            var variables = CreateVariablesDictionary();
+
+            // TODO: Remove the following block in Atata v2.
+            template = template.
+                Replace("{build-start}", $"{{build-start:{DefaultAtataContextArtifactsDirectory.DefaultDateTimeFormat}}}").
+                Replace("{test-start}", $"{{test-start:{DefaultAtataContextArtifactsDirectory.DefaultDateTimeFormat}}}");
+
+            return TemplateStringTransformer.Transform(template, variables);
+        }
+
+        private IDictionary<string, object> CreateVariablesDictionary() =>
+            new Dictionary<string, object>
+            {
+                ["build-start"] = BuildStart,
+
+                ["basedir"] = AppDomain.CurrentDomain.BaseDirectory,
+                ["artifacts"] = Artifacts?.FullName.Value,
+
+                ["test-name-sanitized"] = TestNameSanitized,
+                ["test-name"] = TestName,
+                ["test-fixture-name-sanitized"] = TestFixtureNameSanitized,
+                ["test-fixture-name"] = TestFixtureName,
+                ["test-start"] = StartedAt,
+
+                ["driver-alias"] = DriverAlias
+            };
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

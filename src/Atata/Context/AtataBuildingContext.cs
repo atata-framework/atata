@@ -12,6 +12,10 @@ namespace Atata
     /// </summary>
     public class AtataBuildingContext : ICloneable
     {
+        public const string DefaultArtifactsPath = "{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}";
+
+        public const string DefaultArtifactsPathWithoutBuildStartFolder = "{basedir}/artifacts{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}";
+
         private TimeSpan? elementFindTimeout;
 
         private TimeSpan? elementFindRetryInterval;
@@ -136,6 +140,12 @@ namespace Atata
         /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
         /// </summary>
         public string AssemblyNamePatternToFindAttributeTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Artifacts directory path builder.
+        /// The default builder returns <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+        /// </summary>
+        public Func<AtataContext, string> ArtifactsPathBuilder { get; set; } = _ => DefaultArtifactsPath;
 
         /// <summary>
         /// Gets the base retry timeout.

@@ -827,6 +827,41 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
+        /// Sets the path to the Artifacts directory.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseArtifactsPath(string directoryPath)
+        {
+            directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+
+            return UseArtifactsPath(_ => directoryPath);
+        }
+
+        /// <summary>
+        /// Sets the builder of the path to the Artifacts directory.
+        /// </summary>
+        /// <param name="directoryPathBuilder">The directory path builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseArtifactsPath(Func<AtataContext, string> directoryPathBuilder)
+        {
+            directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+
+            BuildingContext.ArtifactsPathBuilder = directoryPathBuilder;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the default Artifacts path with optionally including <c>"{build-start}"</c> folder in the path.
+        /// </summary>
+        /// <param name="include">Whether to include the <c>"{build-start}"</c> folder in the path.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseDefaultArtifactsPathIncludingBuildStart(bool include) =>
+            UseArtifactsPath(include
+                ? AtataBuildingContext.DefaultArtifactsPath
+                : AtataBuildingContext.DefaultArtifactsPathWithoutBuildStartFolder);
+
+        /// <summary>
         /// Adds the action to perform during <see cref="AtataContext"/> building.
         /// It will be executed at the beginning of the build after the log is set up.
         /// </summary>
@@ -1058,6 +1093,15 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             return testResult.Outcome.Status.ToString().Contains("Fail");
         }
 
+        private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
+        {
+            string pathTemplate = BuildingContext.ArtifactsPathBuilder.Invoke(context);
+
+            string path = context.FillTemplateString(pathTemplate);
+
+            return new DirectorySubject(path, "artifacts");
+        }
+
         /// <summary>
         /// Clears the <see cref="BuildingContext"/>.
         /// </summary>
@@ -1119,6 +1163,12 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             if (context.TestFixtureName is null && context.TestFixtureType != null)
                 context.TestFixtureName = context.TestFixtureType.Name;
 
+            context.DriverFactory = BuildingContext.DriverFactoryToUse
+                ?? BuildingContext.DriverFactories.Last();
+            context.DriverAlias = context.DriverFactory.Alias;
+
+            context.Artifacts = CreateArtifactsDirectorySubject(context);
+
             AtataContext.Current = context;
 
             context.LogTestStart();
@@ -1159,9 +1209,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             if (BuildingContext.Culture != null)
                 ApplyCulture(context, BuildingContext.Culture);
 
-            context.DriverFactory = BuildingContext.DriverFactoryToUse
-                ?? BuildingContext.DriverFactories.Last();
-            context.DriverAlias = context.DriverFactory.Alias;
+            context.Log.Trace($"Set: Artifacts={context.Artifacts.FullName.Value}");
 
             context.InitDriver();
 

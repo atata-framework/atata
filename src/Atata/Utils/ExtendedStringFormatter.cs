@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace Atata
 {
+    // TODO: Rename to AtataTemplateStringFormatter.
     public class ExtendedStringFormatter : IFormatProvider, ICustomFormatter
     {
         private const string InnerFormatValueIndicator = "*";
@@ -22,12 +23,18 @@ namespace Atata
             if (arg == null)
                 return string.Empty;
 
-            if (arg is string argString && !string.IsNullOrWhiteSpace(format))
-                return FormatInnerString(format, argString);
-            else if (arg is IFormattable argFormattable)
-                return argFormattable.ToString(format, CultureInfo.CurrentCulture);
+            if (!string.IsNullOrEmpty(format))
+            {
+                if (arg is IFormattable argFormattable)
+                    return argFormattable.ToString(format, CultureInfo.CurrentCulture);
+
+                string argumentAsString = arg as string ?? arg.ToString();
+                return FormatInnerString(format, argumentAsString);
+            }
             else
+            {
                 return arg.ToString();
+            }
         }
 
         private static string FormatInnerString(string format, string argument)
