@@ -20,6 +20,14 @@ namespace Atata
         }
 
         /// <summary>
+        /// Sets the <see cref="AtataContext"/> Artifacts folder as the folder path of the file screenshot consumer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
+        public static AtataContextBuilder<FileScreenshotConsumer> WithArtifactsFolderPath(this AtataContextBuilder<FileScreenshotConsumer> builder) =>
+            builder.WithFolderPath(() => AtataContext.Current.Artifacts.FullName.Value);
+
+        /// <summary>
         /// Specifies the folder path builder of the file screenshot consumer.
         /// </summary>
         /// <param name="builder">The builder.</param>
@@ -40,6 +48,7 @@ namespace Atata
         public static AtataContextBuilder<FileScreenshotConsumer> WithFolderPath(this AtataContextBuilder<FileScreenshotConsumer> builder, string folderPath)
         {
             builder.Context.FolderPath = folderPath;
+            builder.Context.FolderPathBuilder = null;
             return builder;
         }
 
@@ -64,6 +73,7 @@ namespace Atata
         public static AtataContextBuilder<FileScreenshotConsumer> WithFileName(this AtataContextBuilder<FileScreenshotConsumer> builder, string fileName)
         {
             builder.Context.FileName = fileName;
+            builder.Context.FileNameBuilder = null;
             return builder;
         }
 
@@ -88,6 +98,7 @@ namespace Atata
         public static AtataContextBuilder<FileScreenshotConsumer> WithFilePath(this AtataContextBuilder<FileScreenshotConsumer> builder, string filePath)
         {
             builder.Context.FilePath = filePath;
+            builder.Context.FilePathBuilder = null;
             return builder;
         }
     }
