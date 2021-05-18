@@ -15,6 +15,8 @@ namespace Atata
 
         public const string NLog = "nlog";
 
+        public const string NLogFile = "nlog-file";
+
         public const string Log4Net = "log4net";
 
         private static readonly Dictionary<string, Func<ILogConsumer>> AliasFactoryMap = new Dictionary<string, Func<ILogConsumer>>(StringComparer.OrdinalIgnoreCase);
@@ -26,6 +28,7 @@ namespace Atata
             Register<ConsoleLogConsumer>(Console);
             Register<NUnitTestContextLogConsumer>(NUnit);
             Register<NLogConsumer>(NLog);
+            Register<NLogFileConsumer>(NLogFile);
             Register<Log4NetConsumer>(Log4Net);
         }
 

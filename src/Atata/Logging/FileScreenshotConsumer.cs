@@ -115,7 +115,7 @@ namespace Atata
         }
 
         protected virtual string BuildDefaultFolderPath() =>
-            DefaultAtataContextArtifactsDirectory.BuildDefaultPath();
+            DefaultAtataContextArtifactsDirectory.BuildPath();
 
         protected virtual string BuildDefaultFileName(ScreenshotInfo screenshotInfo) =>
             $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectFullName}{screenshotInfo.Title?.Prepend(" - ")}";

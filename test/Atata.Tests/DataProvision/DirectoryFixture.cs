@@ -16,7 +16,7 @@ namespace Atata.Tests.DataProvision
 
         public static DirectoryFixture CreateUniqueDirectory()
         {
-            string path = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString());
+            string path = Path.Combine(Path.GetTempPath(), "Atata", Guid.NewGuid().ToString());
 
             return new DirectoryFixture(path)
                 .Create();

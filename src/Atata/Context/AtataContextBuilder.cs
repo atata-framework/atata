@@ -390,6 +390,15 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
+        /// Adds the <see cref="NLogFileConsumer"/> instance that uses <c>NLog.Logger</c> class for logging into file.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder{NLogFileConsumer}"/> instance.</returns>
+        public AtataContextBuilder<NLogFileConsumer> AddNLogFileLogging()
+        {
+            return AddLogConsumer(new NLogFileConsumer());
+        }
+
+        /// <summary>
         /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
         /// </summary>
         /// <param name="loggerName">The name of the logger.</param>
