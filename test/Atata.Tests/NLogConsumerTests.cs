@@ -18,10 +18,7 @@ namespace Atata.Tests
             AtataContext.Current.Log.Info(testMessage);
 
             string filePath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "Logs",
-                AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
-                AtataContext.Current.TestName,
+                DefaultAtataContextArtifactsDirectory.BuildPath(),
                 $"{AtataContext.Current.TestName}.log");
 
             AssertThatFileShouldContainText(filePath, testMessage);

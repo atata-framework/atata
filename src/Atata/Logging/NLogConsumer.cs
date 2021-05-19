@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 
 namespace Atata
 {
-    public class NLogConsumer : INamedLogConsumer
+    /// <summary>
+    /// Represents the log consumer that writes log to NLog using default NLog configuration.
+    /// </summary>
+    public class NLogConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     {
-        private readonly Type logEventInfoType;
-        private readonly Dictionary<LogLevel, dynamic> logLevelsMap = new Dictionary<LogLevel, dynamic>();
-
-        private string loggerName;
-        private dynamic logger;
-
         public NLogConsumer()
             : this(null)
         {
@@ -22,73 +15,26 @@ namespace Atata
         public NLogConsumer(string loggerName)
         {
             LoggerName = loggerName;
-
-            logEventInfoType = Type.GetType("NLog.LogEventInfo,NLog", true);
-
-            InitLogLevelsMap();
         }
 
-        public string LoggerName
-        {
-            get
-            {
-                return loggerName;
-            }
+        /// <inheritdoc/>
+        public string LoggerName { get; set; }
 
-            set
-            {
-                loggerName = value;
-                InitLogger(value);
-            }
+        /// <inheritdoc/>
+        protected override dynamic GetLogger()
+        {
+            var logger = LoggerName != null
+                ? NLogAdapter.GetLogger(LoggerName)
+                : NLogAdapter.GetCurrentClassLogger();
+
+            return logger ?? throw new InvalidOperationException("Failed to create NLog logger.");
         }
 
-        private void InitLogLevelsMap()
+        /// <inheritdoc/>
+        protected override void OnLog(LogEventInfo eventInfo)
         {
-            Type logLevelType = Type.GetType("NLog.LogLevel,NLog", true);
-
-            PropertyInfo allLevelsProperty = logLevelType.GetPropertyWithThrowOnError("AllLoggingLevels");
-            IEnumerable allLevels = (IEnumerable)allLevelsProperty.GetStaticValue();
-
-            foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
-            {
-                logLevelsMap[level] = allLevels.
-                    Cast<dynamic>().
-                    First(x => x.Name == Enum.GetName(typeof(LogLevel), level));
-            }
-        }
-
-        private void InitLogger(string loggerName)
-        {
-            Type logManagerType = Type.GetType("NLog.LogManager,NLog", true);
-
-            logger = loggerName != null
-                ? logManagerType.GetMethodWithThrowOnError("GetLogger", typeof(string)).InvokeStaticAsLambda<dynamic>(loggerName)
-                : logManagerType.GetMethodWithThrowOnError("GetCurrentClassLogger").InvokeStaticAsLambda<dynamic>();
-
-            if (logger == null)
-                throw new InvalidOperationException("Failed to create NLog logger.");
-        }
-
-        public void Log(LogEventInfo eventInfo)
-        {
-            dynamic otherEventInfo = ActivatorEx.CreateInstance(logEventInfoType);
-
-            otherEventInfo.TimeStamp = eventInfo.Timestamp;
-            otherEventInfo.Level = logLevelsMap[eventInfo.Level];
-            otherEventInfo.Message = eventInfo.Message;
-            otherEventInfo.Exception = eventInfo.Exception;
-
-            var properties = (IDictionary<object, object>)otherEventInfo.Properties;
-
-            properties["build-start"] = eventInfo.BuildStart;
-            properties["test-name"] = eventInfo.TestName;
-            properties["test-name-sanitized"] = eventInfo.TestNameSanitized;
-            properties["test-fixture-name"] = eventInfo.TestFixtureName;
-            properties["test-fixture-name-sanitized"] = eventInfo.TestFixtureNameSanitized;
-            properties["test-start"] = eventInfo.TestStart;
-            properties["driver-alias"] = eventInfo.DriverAlias;
-
-            logger.Log(otherEventInfo);
+            dynamic otherEventInfo = NLogAdapter.CreateLogEventInfo(eventInfo);
+            Logger.Log(otherEventInfo);
         }
     }
 }
