@@ -67,13 +67,11 @@ namespace Atata.Tests.DataProvision
             [Test]
             public void Executes()
             {
-                using (var directoryFixture = DirectoryFixture.CreateUniqueDirectory())
-                {
-                    directoryFixture.CreateFile("1.txt", "some text");
+                using var directoryFixture = DirectoryFixture.CreateUniqueDirectory()
+                    .CreateFile("1.txt", "some text");
 
-                    new FileSubject(Path.Combine(directoryFixture.DirectoryPath, "1.txt"), "sut")
-                        .ReadAllText().Should.Equal("some text");
-                }
+                new FileSubject(Path.Combine(directoryFixture.DirectoryPath, "1.txt"), "sut")
+                    .ReadAllText().Should.Equal("some text");
             }
 
             [Test]
