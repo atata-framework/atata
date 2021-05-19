@@ -22,49 +22,44 @@ namespace Atata.Tests
         [Test]
         public void ConfigureWithFilePath()
         {
-            using (var directoryFixture = DirectoryFixture.CreateUniqueDirectory())
-            {
-                string filePath = Path.Combine(directoryFixture.DirectoryPath, "test.log");
+            using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
+            string filePath = Path.Combine(directoryFixture.DirectoryPath, "test.log");
 
-                ConfigureBaseAtataContext()
-                    .AddNLogFileLogging()
-                        .WithFilePath(filePath)
-                    .Build();
+            ConfigureBaseAtataContext()
+                .AddNLogFileLogging()
+                    .WithFilePath(filePath)
+                .Build();
 
-                WriteLogMessageAndAssertItInFile(filePath);
-            }
+            WriteLogMessageAndAssertItInFile(filePath);
         }
 
         [Test]
         public void ConfigureWithFilePathThatContainsVariables()
         {
-            using (var directoryFixture = DirectoryFixture.CreateUniqueDirectory())
-            {
-                string filePath = Path.Combine(directoryFixture.DirectoryPath, "{test-name-sanitized}-{driver-alias}", "test.log");
+            using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
+            string filePath = Path.Combine(directoryFixture.DirectoryPath, "{test-name-sanitized}-{driver-alias}", "test.log");
 
-                ConfigureBaseAtataContext()
-                    .AddNLogFileLogging()
-                        .WithFilePath(filePath)
-                    .Build();
+            ConfigureBaseAtataContext()
+                .AddNLogFileLogging()
+                    .WithFilePath(filePath)
+                .Build();
 
-                WriteLogMessageAndAssertItInFile(
-                    Path.Combine(directoryFixture.DirectoryPath, $"{AtataContext.Current.TestNameSanitized}-{AtataContext.Current.DriverAlias}", "test.log"));
-            }
+            WriteLogMessageAndAssertItInFile(
+                Path.Combine(directoryFixture.DirectoryPath, $"{AtataContext.Current.TestNameSanitized}-{AtataContext.Current.DriverAlias}", "test.log"));
         }
 
         [Test]
         public void ConfigureWithFolderPath()
         {
-            using (var directoryFixture = DirectoryFixture.CreateUniqueDirectory())
-            {
-                ConfigureBaseAtataContext()
-                    .AddNLogFileLogging()
-                        .WithFolderPath(directoryFixture.DirectoryPath)
-                    .Build();
+            using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
 
-                WriteLogMessageAndAssertItInFile(
-                    Path.Combine(directoryFixture.DirectoryPath, $"{AtataContext.Current.TestName}.log"));
-            }
+            ConfigureBaseAtataContext()
+                .AddNLogFileLogging()
+                    .WithFolderPath(directoryFixture.DirectoryPath)
+                .Build();
+
+            WriteLogMessageAndAssertItInFile(
+                Path.Combine(directoryFixture.DirectoryPath, NLogFileConsumer.DefaultFileName));
         }
 
         [Test]
@@ -76,7 +71,7 @@ namespace Atata.Tests
                 .Build();
 
             WriteLogMessageAndAssertItInFile(
-                Path.Combine(AtataContext.Current.Artifacts.FullName, "1", $"{AtataContext.Current.TestName}.log"));
+                Path.Combine(AtataContext.Current.Artifacts.FullName, "1", NLogFileConsumer.DefaultFileName));
         }
 
         [Test]
@@ -88,7 +83,7 @@ namespace Atata.Tests
                 .Build();
 
             WriteLogMessageAndAssertItInFile(
-                Path.Combine(AtataContext.Current.Artifacts.FullName, $"{AtataContext.Current.TestName}.log"));
+                Path.Combine(AtataContext.Current.Artifacts.FullName, NLogFileConsumer.DefaultFileName));
         }
 
         [Test]

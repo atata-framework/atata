@@ -3,8 +3,16 @@ using System.IO;
 
 namespace Atata
 {
+    /// <summary>
+    /// Represents the log consumer that writes log to file using NLog.
+    /// </summary>
     public class NLogFileConsumer : LazyInitializableLogConsumer
     {
+        /// <summary>
+        /// The default file name, which is <c>"Trace.log"</c>.
+        /// </summary>
+        public const string DefaultFileName = "Trace.log";
+
         /// <summary>
         /// Gets or sets the builder of the folder path.
         /// </summary>
@@ -25,6 +33,7 @@ namespace Atata
         /// </summary>
         public string Layout { get; set; } = "${shortdate} ${time} ${uppercase:${level}:padding=5} ${message}${onexception:inner= }${exception:format=toString}";
 
+        /// <inheritdoc/>
         protected override dynamic GetLogger()
         {
             string uniqueLoggerName = Guid.NewGuid().ToString();
@@ -39,6 +48,7 @@ namespace Atata
             return NLogAdapter.GetLogger(uniqueLoggerName);
         }
 
+        /// <inheritdoc/>
         protected override void OnLog(LogEventInfo eventInfo)
         {
             dynamic otherEventInfo = NLogAdapter.CreateLogEventInfo(eventInfo);
@@ -69,6 +79,6 @@ namespace Atata
             DefaultAtataContextArtifactsDirectory.BuildPath();
 
         protected virtual string BuildDefaultFileName(AtataContext context) =>
-            $"{context.TestNameSanitized}.log";
+            DefaultFileName;
     }
 }
