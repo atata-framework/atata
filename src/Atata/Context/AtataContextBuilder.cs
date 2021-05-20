@@ -333,7 +333,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
-        /// Adds the log consumer.
+        /// Adds the log consumer by its type name or alias.
+        /// Predefined aliases are defined in <see cref="LogConsumerAliases"/> static class.
         /// </summary>
         /// <param name="typeNameOrAlias">The type name or alias of the log consumer.</param>
         /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
