@@ -64,6 +64,7 @@
     <Rule Id="S2387" Action="Warning" />
     <Rule Id="S2583" Action="None" />
     <Rule Id="S2699" Action="None" />
+    <Rule Id="S3011" Action="None" />
     <Rule Id="S3052" Action="Warning" />
     <Rule Id="S3235" Action="Warning" />
     <Rule Id="S3240" Action="Warning" />
