@@ -17,7 +17,7 @@ namespace Atata.Tests
         [Test]
         public void AddSecretStringsToMask()
         {
-            var logConsumer = new StringListLogConsumer();
+            var logConsumer = new EventListLogConsumer();
             sut.Use(new LogConsumerInfo(logConsumer));
 
             sut.AddSecretStringsToMask(

@@ -584,6 +584,39 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
+        /// Sets the UTC time zone.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseUtcTimeZone() =>
+            UseTimeZone(TimeZoneInfo.Utc);
+
+        /// <summary>
+        /// Sets the time zone by identifier, which corresponds to the <see cref="TimeZoneInfo.Id"/> property.
+        /// </summary>
+        /// <param name="timeZoneId">The time zone identifier.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseTimeZone(string timeZoneId)
+        {
+            timeZoneId.CheckNotNullOrWhitespace(nameof(timeZoneId));
+            TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
+
+            return UseTimeZone(timeZone);
+        }
+
+        /// <summary>
+        /// Sets the time zone.
+        /// </summary>
+        /// <param name="timeZone">The time zone.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseTimeZone(TimeZoneInfo timeZone)
+        {
+            timeZone.CheckNotNull(nameof(timeZone));
+
+            BuildingContext.TimeZone = timeZone;
+            return this;
+        }
+
+        /// <summary>
         /// Sets the base URL.
         /// </summary>
         /// <param name="baseUrl">The base URL.</param>
@@ -1128,8 +1161,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The created <see cref="AtataContext"/> instance.</returns>
         public AtataContext Build()
         {
-            AtataContext.InitGlobalVariables();
-
             ValidateBuildingContextBeforeBuild();
 
             LogManager logManager = CreateLogManager();
@@ -1147,6 +1178,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 TestName = BuildingContext.TestNameFactory?.Invoke(),
                 TestFixtureName = BuildingContext.TestFixtureNameFactory?.Invoke(),
                 TestFixtureType = BuildingContext.TestFixtureTypeFactory?.Invoke(),
+                TimeZone = BuildingContext.TimeZone,
                 BaseUrl = BuildingContext.BaseUrl,
                 Log = logManager,
                 OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>(),
@@ -1177,6 +1209,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 ?? BuildingContext.DriverFactories.Last();
             context.DriverAlias = context.DriverFactory.Alias;
 
+            context.InitDateTimeVariables();
             context.Artifacts = CreateArtifactsDirectorySubject(context);
 
             AtataContext.Current = context;

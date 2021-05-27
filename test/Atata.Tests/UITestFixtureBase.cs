@@ -18,16 +18,16 @@ namespace Atata.Tests
         /// </summary>
         private readonly int[] portsToIgnore = new[] { 2046 };
 
-        private StringListLogConsumer stringListLogConsumer;
+        private EventListLogConsumer eventListLogConsumer;
 
-        protected IEnumerable<LogEventInfo> LogEntries => stringListLogConsumer.Items;
+        protected IEnumerable<LogEventInfo> LogEntries => eventListLogConsumer.Items;
 
         public static bool IsOSLinux =>
             RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
         protected AtataContextBuilder ConfigureBaseAtataContext()
         {
-            stringListLogConsumer = new StringListLogConsumer();
+            eventListLogConsumer = new EventListLogConsumer();
 
             return AtataContext.Configure()
                 .UseChrome()
@@ -39,7 +39,7 @@ namespace Atata.Tests
                 .UseNUnitTestFixtureName()
                 .UseNUnitTestFixtureType()
                 .AddNUnitTestContextLogging()
-                .AddLogConsumer(stringListLogConsumer)
+                .AddLogConsumer(eventListLogConsumer)
                     .WithMessageNestingLevelIndent(string.Empty)
                 .LogNUnitError();
         }

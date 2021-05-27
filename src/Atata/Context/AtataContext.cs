@@ -14,7 +14,7 @@ namespace Atata
     /// </summary>
     public sealed class AtataContext : IDisposable
     {
-        private static readonly object LockObject = new object();
+        private static readonly object BuildStartSyncLock = new object();
 
 #if NET46 || NETSTANDARD2_0
         private static readonly System.Threading.AsyncLocal<AtataContext> CurrentAsyncLocalContext = new System.Threading.AsyncLocal<AtataContext>();
@@ -115,10 +115,19 @@ namespace Atata
         public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
 
         /// <summary>
-        /// Gets the build start date and time.
+        /// Gets the build start local date and time.
         /// Contains the same value for all the tests being executed within one build.
         /// </summary>
         public static DateTime? BuildStart { get; private set; }
+
+        /// <summary>
+        /// Gets the build start UTC date and time.
+        /// Contains the same value for all the tests being executed within one build.
+        /// </summary>
+        public static DateTime? BuildStartUtc { get; private set; }
+
+        // TODO: Review BuildStartInTimeZone property.
+        internal DateTime BuildStartInTimeZone { get; private set; }
 
         internal IDriverFactory DriverFactory { get; set; }
 
@@ -187,7 +196,18 @@ namespace Atata
         /// <summary>
         /// Gets the local date/time of the start.
         /// </summary>
-        public DateTime StartedAt { get; private set; } = DateTime.Now;
+        public DateTime StartedAt { get; private set; }
+
+        /// <summary>
+        /// Gets the UTC date/time of the start.
+        /// </summary>
+        public DateTime StartedAtUtc { get; private set; }
+
+        /// <summary>
+        /// Gets the time zone.
+        /// The default value is <see cref="TimeZoneInfo.Local"/>.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; internal set; }
 
         /// <summary>
         /// Gets or sets the base URL.
@@ -373,15 +393,24 @@ namespace Atata
             return new AtataContextBuilder(buildingContext);
         }
 
-        internal static void InitGlobalVariables()
+        internal void InitDateTimeVariables()
         {
-            if (BuildStart == null)
+            StartedAtUtc = DateTime.UtcNow;
+            StartedAt = TimeZoneInfo.ConvertTimeFromUtc(StartedAtUtc, TimeZone);
+
+            if (BuildStartUtc is null)
             {
-                lock (LockObject)
+                lock (BuildStartSyncLock)
                 {
-                    BuildStart = BuildStart ?? DateTime.Now;
+                    if (BuildStartUtc is null)
+                    {
+                        BuildStartUtc = StartedAtUtc;
+                        BuildStart = BuildStartUtc.Value.ToLocalTime();
+                    }
                 }
             }
+
+            BuildStartInTimeZone = TimeZoneInfo.ConvertTimeFromUtc(BuildStartUtc.Value, TimeZone);
         }
 
         internal void LogTestStart()
@@ -612,7 +641,8 @@ namespace Atata
         private IDictionary<string, object> CreateVariablesDictionary() =>
             new Dictionary<string, object>
             {
-                ["build-start"] = BuildStart,
+                ["build-start"] = BuildStartInTimeZone,
+                ["build-start-utc"] = BuildStartUtc,
 
                 ["basedir"] = AppDomain.CurrentDomain.BaseDirectory,
                 ["artifacts"] = Artifacts?.FullName.Value,
@@ -622,6 +652,7 @@ namespace Atata
                 ["test-fixture-name-sanitized"] = TestFixtureNameSanitized,
                 ["test-fixture-name"] = TestFixtureName,
                 ["test-start"] = StartedAt,
+                ["test-start-utc"] = StartedAtUtc,
 
                 ["driver-alias"] = DriverAlias
             };

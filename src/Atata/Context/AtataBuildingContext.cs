@@ -94,6 +94,12 @@ namespace Atata
         public Func<Type> TestFixtureTypeFactory { get; set; }
 
         /// <summary>
+        /// Gets or sets the time zone.
+        /// The default value is <see cref="TimeZoneInfo.Local"/>.
+        /// </summary>
+        public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
+
+        /// <summary>
         /// Gets or sets the base URL.
         /// </summary>
         public string BaseUrl { get; set; }

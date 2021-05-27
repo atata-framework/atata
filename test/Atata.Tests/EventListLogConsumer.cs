@@ -2,7 +2,7 @@
 
 namespace Atata.Tests
 {
-    public class StringListLogConsumer : ILogConsumer
+    public class EventListLogConsumer : ILogConsumer
     {
         public List<LogEventInfo> Items { get; } = new List<LogEventInfo>();
 

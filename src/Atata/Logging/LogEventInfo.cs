@@ -8,21 +8,37 @@ namespace Atata
     public class LogEventInfo
     {
         internal LogEventInfo()
+            : this(AtataContext.Current)
         {
-            Timestamp = DateTime.Now;
-            BuildStart = AtataContext.BuildStart ?? DateTime.MinValue;
-            TestName = AtataContext.Current?.TestName;
-            TestNameSanitized = AtataContext.Current?.TestNameSanitized;
-            TestFixtureName = AtataContext.Current?.TestFixtureName;
-            TestFixtureNameSanitized = AtataContext.Current?.TestFixtureNameSanitized;
-            TestStart = AtataContext.Current?.StartedAt ?? DateTime.MinValue;
-            DriverAlias = AtataContext.Current?.DriverAlias;
         }
+
+        internal LogEventInfo(AtataContext context)
+        {
+            Context = context;
+
+            Timestamp = context is null
+                ? DateTime.Now
+                : TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, context.TimeZone);
+
+            BuildStart = context?.BuildStartInTimeZone ?? AtataContext.BuildStart ?? DateTime.MinValue;
+            TestName = context?.TestName;
+            TestNameSanitized = context?.TestNameSanitized;
+            TestFixtureName = context?.TestFixtureName;
+            TestFixtureNameSanitized = context?.TestFixtureNameSanitized;
+            TestStart = context?.StartedAt ?? DateTime.MinValue;
+            DriverAlias = context?.DriverAlias;
+        }
+
+        /// <summary>
+        /// Gets the context of the logging event.
+        /// Can be <see langword="null"/>.
+        /// </summary>
+        public AtataContext Context { get; }
 
         /// <summary>
         /// Gets the timestamp of the logging event.
         /// </summary>
-        public DateTime Timestamp { get; private set; }
+        public DateTime Timestamp { get; }
 
         /// <summary>
         /// Gets the level of the logging event.
@@ -53,37 +69,37 @@ namespace Atata
         /// Gets the build start date and time.
         /// Contains the same value for all the tests being executed within one build.
         /// </summary>
-        public DateTime BuildStart { get; private set; }
+        public DateTime BuildStart { get; }
 
         /// <summary>
         /// Gets the name of the test.
         /// </summary>
-        public string TestName { get; private set; }
+        public string TestName { get; }
 
         /// <summary>
         /// Gets the name of the test sanitized for file path/name.
         /// </summary>
-        public string TestNameSanitized { get; private set; }
+        public string TestNameSanitized { get; }
 
         /// <summary>
         /// Gets the name of the test fixture.
         /// </summary>
-        public string TestFixtureName { get; private set; }
+        public string TestFixtureName { get; }
 
         /// <summary>
         /// Gets the name of the test fixture sanitized for file path/name.
         /// </summary>
-        public string TestFixtureNameSanitized { get; private set; }
+        public string TestFixtureNameSanitized { get; }
 
         /// <summary>
         /// Gets the test start date and time.
         /// </summary>
-        public DateTime TestStart { get; private set; }
+        public DateTime TestStart { get; }
 
         /// <summary>
         /// Gets the alias of the driver.
         /// </summary>
-        public string DriverAlias { get; private set; }
+        public string DriverAlias { get; }
 
         /// <summary>
         /// Gets the nesting level.

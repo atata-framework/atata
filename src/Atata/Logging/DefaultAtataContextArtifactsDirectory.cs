@@ -9,14 +9,19 @@ namespace Atata
 
         internal static string BuildPath()
         {
+            AtataContext context = AtataContext.Current;
+
+            DateTime buildStart = context?.BuildStartInTimeZone
+                ?? AtataContext.BuildStart.Value;
+
             string path = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Logs",
-                AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat));
+                buildStart.ToString(DefaultDateTimeFormat));
 
-            return string.IsNullOrEmpty(AtataContext.Current.TestName)
+            return string.IsNullOrEmpty(context?.TestName)
                 ? path
-                : Path.Combine(path, AtataContext.Current.TestNameSanitized);
+                : Path.Combine(path, context.TestNameSanitized);
         }
     }
 }

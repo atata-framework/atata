@@ -54,5 +54,6 @@
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IEnumerableProviderExtensions.Single``2(Atata.IEnumerableProvider{``0,``1},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})~``0")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectProviderEnumerableExtensions.Single``2(Atata.IObjectProvider{System.Collections.Generic.IEnumerable{``0},``1})~Atata.ValueProvider{``0,``1}")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectProviderEnumerableExtensions.Single``2(Atata.IObjectProvider{System.Collections.Generic.IEnumerable{``0},``1},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})~Atata.ValueProvider{``0,``1}")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogEventInfo.#ctor(Atata.AtataContext)")]
 
 #pragma warning restore S103 // Lines should not be too long
