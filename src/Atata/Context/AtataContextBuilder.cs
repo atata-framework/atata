@@ -525,8 +525,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseTestName(string testName)
         {
-            testName.CheckNotNull(nameof(testName));
-
             BuildingContext.TestNameFactory = () => testName;
             return this;
         }
@@ -551,8 +549,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseTestFixtureName(string testFixtureName)
         {
-            testFixtureName.CheckNotNull(nameof(testFixtureName));
-
             BuildingContext.TestFixtureNameFactory = () => testFixtureName;
             return this;
         }
