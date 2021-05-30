@@ -85,8 +85,8 @@ namespace Atata
             properties["build-start"] = eventInfo.BuildStart;
             properties["test-name"] = eventInfo.TestName;
             properties["test-name-sanitized"] = eventInfo.TestNameSanitized;
-            properties["test-fixture-name"] = eventInfo.TestFixtureName;
-            properties["test-fixture-name-sanitized"] = eventInfo.TestFixtureNameSanitized;
+            properties["test-suite-name"] = eventInfo.TestSuiteName;
+            properties["test-suite-name-sanitized"] = eventInfo.TestSuiteNameSanitized;
             properties["test-start"] = eventInfo.TestStart;
             properties["driver-alias"] = eventInfo.DriverAlias;
 

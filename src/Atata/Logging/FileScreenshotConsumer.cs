@@ -14,7 +14,7 @@ namespace Atata
     /// Available path variables are:
     /// <c>{build-start}</c>,
     /// <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
-    /// <c>{test-fixture-name}</c>, <c>{test-fixture-name-sanitized}</c>,
+    /// <c>{test-suite-name}</c>, <c>{test-suite-name-sanitized}</c>,
     /// <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
     /// <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>,
     /// <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.

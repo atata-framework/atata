@@ -12,9 +12,9 @@ namespace Atata
     /// </summary>
     public class AtataBuildingContext : ICloneable
     {
-        public const string DefaultArtifactsPath = "{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}";
+        public const string DefaultArtifactsPath = "{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
 
-        public const string DefaultArtifactsPathWithoutBuildStartFolder = "{basedir}/artifacts{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}";
+        public const string DefaultArtifactsPathWithoutBuildStartFolder = "{basedir}/artifacts{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
 
         private TimeSpan? elementFindTimeout;
 
@@ -84,14 +84,14 @@ namespace Atata
         public Func<string> TestNameFactory { get; set; }
 
         /// <summary>
-        /// Gets or sets the factory method of the test fixture name.
+        /// Gets or sets the factory method of the test suite name.
         /// </summary>
-        public Func<string> TestFixtureNameFactory { get; set; }
+        public Func<string> TestSuiteNameFactory { get; set; }
 
         /// <summary>
-        /// Gets or sets the factory method of the test fixture type.
+        /// Gets or sets the factory method of the test suite type.
         /// </summary>
-        public Func<Type> TestFixtureTypeFactory { get; set; }
+        public Func<Type> TestSuiteTypeFactory { get; set; }
 
         /// <summary>
         /// Gets or sets the time zone.
@@ -149,7 +149,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the Artifacts directory path builder.
-        /// The default builder returns <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+        /// The default builder returns <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
         /// </summary>
         public Func<AtataContext, string> ArtifactsPathBuilder { get; set; } = _ => DefaultArtifactsPath;
 

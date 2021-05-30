@@ -29,7 +29,7 @@ namespace Atata
 
         private string testName;
 
-        private string testFixtureName;
+        private string testSuiteName;
 
         private bool disposed;
 
@@ -165,27 +165,27 @@ namespace Atata
         public string TestNameSanitized { get; private set; }
 
         /// <summary>
-        /// Gets the name of the test fixture/class.
+        /// Gets the name of the test suite (fixture/class).
         /// </summary>
-        public string TestFixtureName
+        public string TestSuiteName
         {
-            get => testFixtureName;
+            get => testSuiteName;
             internal set
             {
-                testFixtureName = value;
-                TestFixtureNameSanitized = value.SanitizeForFileName();
+                testSuiteName = value;
+                TestSuiteNameSanitized = value.SanitizeForFileName();
             }
         }
 
         /// <summary>
-        /// Gets the name of the test fixture sanitized for file path/name.
+        /// Gets the name of the test suite sanitized for file path/name.
         /// </summary>
-        public string TestFixtureNameSanitized { get; private set; }
+        public string TestSuiteNameSanitized { get; private set; }
 
         /// <summary>
-        /// Gets the test fixture type.
+        /// Gets the test suite (fixture/class) type.
         /// </summary>
-        public Type TestFixtureType { get; internal set; }
+        public Type TestSuiteType { get; internal set; }
 
         /// <summary>
         /// Gets the test start date and time.
@@ -337,7 +337,7 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DirectorySubject"/> of Artifacts directory.
         /// Artifacts directory can contain any files produced during test execution, logs, screenshots, downloads, etc.
-        /// The default Artifacts directory path is <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-fixture-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+        /// The default Artifacts directory path is <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
         /// </summary>
         public DirectorySubject Artifacts { get; internal set; }
 
@@ -431,11 +431,11 @@ namespace Atata
 
         private IEnumerable<string> GetTestFullNameParts()
         {
-            if (TestFixtureType != null)
-                yield return TestFixtureType.Namespace;
+            if (TestSuiteType != null)
+                yield return TestSuiteType.Namespace;
 
-            if (TestFixtureName != null)
-                yield return TestFixtureName;
+            if (TestSuiteName != null)
+                yield return TestSuiteName;
 
             if (TestName != null)
                 yield return TestName;
@@ -445,8 +445,8 @@ namespace Atata
         {
             return TestName != null
                 ? "test"
-                : TestFixtureType != null
-                ? "test fixture"
+                : TestSuiteType != null
+                ? "test suite"
                 : "test unit";
         }
 
@@ -602,8 +602,8 @@ namespace Atata
         /// <item><c>{artifacts}</c></item>
         /// <item><c>{test-name-sanitized}</c></item>
         /// <item><c>{test-name}</c></item>
-        /// <item><c>{test-fixture-name-sanitized}</c></item>
-        /// <item><c>{test-fixture-name}</c></item>
+        /// <item><c>{test-suite-name-sanitized}</c></item>
+        /// <item><c>{test-suite-name}</c></item>
         /// <item><c>{test-start}</c></item>
         /// <item><c>{driver-alias}</c></item>
         /// </list>
@@ -649,8 +649,8 @@ namespace Atata
 
                 ["test-name-sanitized"] = TestNameSanitized,
                 ["test-name"] = TestName,
-                ["test-fixture-name-sanitized"] = TestFixtureNameSanitized,
-                ["test-fixture-name"] = TestFixtureName,
+                ["test-suite-name-sanitized"] = TestSuiteNameSanitized,
+                ["test-suite-name"] = TestSuiteName,
                 ["test-start"] = StartedAt,
                 ["test-start-utc"] = StartedAtUtc,
 

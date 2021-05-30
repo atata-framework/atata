@@ -493,7 +493,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// Available path variables are:
         /// <c>{build-start}</c>,
         /// <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
-        /// <c>{test-fixture-name}</c>, <c>{test-fixture-name-sanitized}</c>,
+        /// <c>{test-suite-name}</c>, <c>{test-suite-name-sanitized}</c>,
         /// <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
         /// <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>,
         /// <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
@@ -530,52 +530,52 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
-        /// Sets the factory method of the test fixture name.
+        /// Sets the factory method of the test suite name.
         /// </summary>
-        /// <param name="testFixtureNameFactory">The factory method of the test fixture name.</param>
+        /// <param name="testSuiteNameFactory">The factory method of the test suite name.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseTestFixtureName(Func<string> testFixtureNameFactory)
+        public AtataContextBuilder UseTestSuiteName(Func<string> testSuiteNameFactory)
         {
-            testFixtureNameFactory.CheckNotNull(nameof(testFixtureNameFactory));
+            testSuiteNameFactory.CheckNotNull(nameof(testSuiteNameFactory));
 
-            BuildingContext.TestFixtureNameFactory = testFixtureNameFactory;
+            BuildingContext.TestSuiteNameFactory = testSuiteNameFactory;
             return this;
         }
 
         /// <summary>
-        /// Sets the name of the test fixture.
+        /// Sets the name of the test suite (fixture/class).
         /// </summary>
-        /// <param name="testFixtureName">The name of the test fixture.</param>
+        /// <param name="testSuiteName">The name of the test suite.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseTestFixtureName(string testFixtureName)
+        public AtataContextBuilder UseTestSuiteName(string testSuiteName)
         {
-            BuildingContext.TestFixtureNameFactory = () => testFixtureName;
+            BuildingContext.TestSuiteNameFactory = () => testSuiteName;
             return this;
         }
 
         /// <summary>
-        /// Sets the factory method of the test fixture type.
+        /// Sets the factory method of the test suite (fixture/class) type.
         /// </summary>
-        /// <param name="testFixtureTypeFactory">The factory method of the test fixture type.</param>
+        /// <param name="testSuiteTypeFactory">The factory method of the test suite type.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseTestFixtureType(Func<Type> testFixtureTypeFactory)
+        public AtataContextBuilder UseTestSuiteType(Func<Type> testSuiteTypeFactory)
         {
-            testFixtureTypeFactory.CheckNotNull(nameof(testFixtureTypeFactory));
+            testSuiteTypeFactory.CheckNotNull(nameof(testSuiteTypeFactory));
 
-            BuildingContext.TestFixtureTypeFactory = testFixtureTypeFactory;
+            BuildingContext.TestSuiteTypeFactory = testSuiteTypeFactory;
             return this;
         }
 
         /// <summary>
-        /// Sets the type of the test fixture.
+        /// Sets the type of the test suite (fixture/class).
         /// </summary>
-        /// <param name="testFixtureType">The type of the test fixture.</param>
+        /// <param name="testSuiteType">The type of the test suite.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseTestFixtureType(Type testFixtureType)
+        public AtataContextBuilder UseTestSuiteType(Type testSuiteType)
         {
-            testFixtureType.CheckNotNull(nameof(testFixtureType));
+            testSuiteType.CheckNotNull(nameof(testSuiteType));
 
-            BuildingContext.TestFixtureTypeFactory = () => testFixtureType;
+            BuildingContext.TestSuiteTypeFactory = () => testSuiteType;
             return this;
         }
 
@@ -970,21 +970,21 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
-        /// Defines that the name of the test fixture should be taken from the NUnit test fixture.
+        /// Defines that the name of the test suite should be taken from the NUnit test fixture.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitTestFixtureName()
+        public AtataContextBuilder UseNUnitTestSuiteName()
         {
-            return UseTestFixtureName(NUnitAdapter.GetCurrentTestFixtureName);
+            return UseTestSuiteName(NUnitAdapter.GetCurrentTestFixtureName);
         }
 
         /// <summary>
-        /// Defines that the type of the test fixture should be taken from the NUnit test fixture.
+        /// Defines that the type of the test suite should be taken from the NUnit test fixture.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitTestFixtureType()
+        public AtataContextBuilder UseNUnitTestSuiteType()
         {
-            return UseTestFixtureType(NUnitAdapter.GetCurrentTestFixtureType);
+            return UseTestSuiteType(NUnitAdapter.GetCurrentTestFixtureType);
         }
 
         /// <summary>
@@ -1089,8 +1089,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// Executes the following methods:
         /// <list type="bullet">
         /// <item><see cref="UseNUnitTestName"/>,</item>
-        /// <item><see cref="UseNUnitTestFixtureName"/>,</item>
-        /// <item><see cref="UseNUnitTestFixtureType"/>,</item>
+        /// <item><see cref="UseNUnitTestSuiteName"/>,</item>
+        /// <item><see cref="UseNUnitTestSuiteType"/>,</item>
         /// <item><see cref="UseNUnitAssertionExceptionType"/>,</item>
         /// <item><see cref="UseNUnitAggregateAssertionStrategy"/>,</item>
         /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
@@ -1103,8 +1103,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         public AtataContextBuilder UseAllNUnitFeatures()
         {
             return UseNUnitTestName()
-                .UseNUnitTestFixtureName()
-                .UseNUnitTestFixtureType()
+                .UseNUnitTestSuiteName()
+                .UseNUnitTestSuiteType()
                 .UseNUnitAssertionExceptionType()
                 .UseNUnitAggregateAssertionStrategy()
                 .UseNUnitWarningReportStrategy()
@@ -1172,8 +1172,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             AtataContext context = new AtataContext
             {
                 TestName = BuildingContext.TestNameFactory?.Invoke(),
-                TestFixtureName = BuildingContext.TestFixtureNameFactory?.Invoke(),
-                TestFixtureType = BuildingContext.TestFixtureTypeFactory?.Invoke(),
+                TestSuiteName = BuildingContext.TestSuiteNameFactory?.Invoke(),
+                TestSuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke(),
                 TimeZone = BuildingContext.TimeZone,
                 BaseUrl = BuildingContext.BaseUrl,
                 Log = logManager,
@@ -1198,8 +1198,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 ObjectCreator = objectCreator
             };
 
-            if (context.TestFixtureName is null && context.TestFixtureType != null)
-                context.TestFixtureName = context.TestFixtureType.Name;
+            if (context.TestSuiteName is null && context.TestSuiteType != null)
+                context.TestSuiteName = context.TestSuiteType.Name;
 
             context.DriverFactory = BuildingContext.DriverFactoryToUse
                 ?? BuildingContext.DriverFactories.Last();
