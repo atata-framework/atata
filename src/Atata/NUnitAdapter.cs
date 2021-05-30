@@ -10,6 +10,9 @@ namespace Atata
 
         internal const string AssertionExceptionTypeName = "NUnit.Framework.AssertionException";
 
+        private static readonly Lazy<Type> TestContextType = new Lazy<Type>(
+            () => GetType("NUnit.Framework.TestContext"));
+
         private static readonly Lazy<Type> TestExecutionContextType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.TestExecutionContext"));
 
@@ -163,6 +166,30 @@ namespace Atata
         internal static object GetCurrentTestExecutionContext()
         {
             PropertyInfo currentContextProperty = TestExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
+
+            return currentContextProperty.GetStaticValue();
+        }
+
+        internal static dynamic GetCurrentTestResultAdapter()
+        {
+            dynamic testContext = GetCurrentTestContext();
+            return testContext.Result;
+        }
+
+        internal static bool IsCurrentTestFailed()
+        {
+            dynamic testResult = GetCurrentTestResultAdapter();
+            return IsTestResultAdapterFailed(testResult);
+        }
+
+        internal static bool IsTestResultAdapterFailed(dynamic testResult)
+        {
+            return testResult.Outcome.Status.ToString().Contains("Fail");
+        }
+
+        internal static object GetCurrentTestContext()
+        {
+            PropertyInfo currentContextProperty = TestContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
 
             return currentContextProperty.GetStaticValue();
         }

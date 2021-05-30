@@ -1051,9 +1051,9 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             return OnCleanUp(() =>
             {
-                dynamic testResult = GetNUnitTestResult();
+                dynamic testResult = NUnitAdapter.GetCurrentTestResultAdapter();
 
-                if (IsNUnitTestResultFailed(testResult))
+                if (NUnitAdapter.IsTestResultAdapterFailed(testResult))
                     AtataContext.Current.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
             });
         }
@@ -1067,9 +1067,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             return OnCleanUp(() =>
             {
-                dynamic testResult = GetNUnitTestResult();
-
-                if (IsNUnitTestResultFailed(testResult))
+                if (NUnitAdapter.IsCurrentTestFailed())
                     AtataContext.Current.Log.Screenshot(title);
             });
         }
@@ -1111,25 +1109,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 .AddNUnitTestContextLogging()
                 .LogNUnitError()
                 .TakeScreenshotOnNUnitError();
-        }
-
-        private static dynamic GetNUnitTestContext()
-        {
-            Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
-            PropertyInfo currentContextProperty = testContextType.GetPropertyWithThrowOnError("CurrentContext");
-
-            return currentContextProperty.GetStaticValue();
-        }
-
-        private static dynamic GetNUnitTestResult()
-        {
-            dynamic testContext = GetNUnitTestContext();
-            return testContext.Result;
-        }
-
-        private static bool IsNUnitTestResultFailed(dynamic testResult)
-        {
-            return testResult.Outcome.Status.ToString().Contains("Fail");
         }
 
         private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
