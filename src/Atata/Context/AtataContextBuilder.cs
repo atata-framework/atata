@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -1073,6 +1074,56 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
+        /// Defines that on <see cref="AtataContext"/> clean-up the files stored in Artifacts directory
+        /// should be added to NUnit <c>TestContext</c>.
+        /// </summary>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder OnCleanUpAddArtifactsToNUnitTestContext() =>
+            OnCleanUpAddDirectoryFilesToNUnitTestContext(() => AtataContext.Current.Artifacts.Value.FullName);
+
+        /// <summary>
+        /// Defines that on <see cref="AtataContext" /> clean-up the files stored in the directory
+        /// specified by <paramref name="directoryPath"/> should be added to NUnit <c>TestContext</c>.
+        /// Directory path supports template variables.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns>The <see cref="AtataContextBuilder" /> instance.</returns>
+        public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(string directoryPath)
+        {
+            directoryPath.CheckNotNull(nameof(directoryPath));
+            return OnCleanUpAddDirectoryFilesToNUnitTestContext(() => directoryPath);
+        }
+
+        /// <summary>
+        /// Defines that on <see cref="AtataContext" /> clean-up the files stored in the directory
+        /// specified by <paramref name="directoryPathBuilder"/> should be added to NUnit <c>TestContext</c>.
+        /// Directory path supports template variables.
+        /// </summary>
+        /// <param name="directoryPathBuilder">The directory path builder.</param>
+        /// <returns>The <see cref="AtataContextBuilder" /> instance.</returns>
+        public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<string> directoryPathBuilder)
+        {
+            directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+
+            return OnCleanUp(() =>
+            {
+                string directoryPath = directoryPathBuilder.Invoke();
+
+                directoryPath = AtataContext.Current.FillTemplateString(directoryPath);
+
+                DirectoryInfo directory = new DirectoryInfo(directoryPath);
+
+                if (directory.Exists)
+                {
+                    var files = directory.EnumerateFiles("*", SearchOption.AllDirectories);
+
+                    foreach (var file in files)
+                        NUnitAdapter.AddTestAttachment(file.FullName);
+                }
+            });
+        }
+
+        /// <summary>
         /// Sets the type of <c>NUnit.Framework.AssertionException</c> as the assertion exception type.
         /// The default value is a type of <see cref="AssertionException"/>.
         /// </summary>
@@ -1094,7 +1145,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
         /// <item><see cref="AddNUnitTestContextLogging"/>,</item>
         /// <item><see cref="LogNUnitError"/>,</item>
-        /// <item><see cref="TakeScreenshotOnNUnitError(string)"/>.</item>
+        /// <item><see cref="TakeScreenshotOnNUnitError(string)"/>,</item>
+        /// <item><see cref="OnCleanUpAddArtifactsToNUnitTestContext"/>.</item>
         /// </list>
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -1108,7 +1160,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 .UseNUnitWarningReportStrategy()
                 .AddNUnitTestContextLogging()
                 .LogNUnitError()
-                .TakeScreenshotOnNUnitError();
+                .TakeScreenshotOnNUnitError()
+                .OnCleanUpAddArtifactsToNUnitTestContext();
         }
 
         private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)

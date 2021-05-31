@@ -41,7 +41,8 @@ namespace Atata.Tests
                 .AddNUnitTestContextLogging()
                 .AddLogConsumer(eventListLogConsumer)
                     .WithMessageNestingLevelIndent(string.Empty)
-                .LogNUnitError();
+                .LogNUnitError()
+                .OnCleanUpAddArtifactsToNUnitTestContext();
         }
 
         private static IEnumerable<string> GetChromeArguments()

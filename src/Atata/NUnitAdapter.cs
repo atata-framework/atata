@@ -187,6 +187,13 @@ namespace Atata
             return testResult.Outcome.Status.ToString().Contains("Fail");
         }
 
+        internal static void AddTestAttachment(string filePath, string description = null)
+        {
+            // TODO: Change implementation to: TestExecutionContext.CurrentContext.CurrentResult.TestAttachments.Add(new TestAttachment(filePath, description))
+            TestContextType.Value.GetMethodWithThrowOnError("AddTestAttachment", BindingFlags.Static | BindingFlags.Public)
+                .InvokeStatic(filePath, description);
+        }
+
         internal static object GetCurrentTestContext()
         {
             PropertyInfo currentContextProperty = TestContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
