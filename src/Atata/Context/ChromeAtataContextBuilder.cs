@@ -46,6 +46,41 @@ namespace Atata
         }
 
         /// <summary>
+        /// Adds the <c>download.default_directory</c> user profile preference to <see cref="ChromeOptions"/>
+        /// with the value of Artifacts directory path.
+        /// </summary>
+        /// <returns>The same builder instance.</returns>
+        public ChromeAtataContextBuilder WithArtifactsAsDownloadDirectory() =>
+            WithDownloadDirectory(() => AtataContext.Current.Artifacts.FullName);
+
+        /// <summary>
+        /// Adds the <c>download.default_directory</c> user profile preference to <see cref="ChromeOptions"/>
+        /// with the value specified by <paramref name="directoryPath"/>.
+        /// </summary>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns>The same builder instance.</returns>
+        public ChromeAtataContextBuilder WithDownloadDirectory(string directoryPath)
+        {
+            directoryPath.CheckNotNull(nameof(directoryPath));
+
+            return WithDownloadDirectory(() => directoryPath);
+        }
+
+        /// <summary>
+        /// Adds the <c>download.default_directory</c> user profile preference to <see cref="ChromeOptions"/>
+        /// with the value specified by <paramref name="directoryPathBuilder"/>.
+        /// </summary>
+        /// <param name="directoryPathBuilder">The directory path builder.</param>
+        /// <returns>The same builder instance.</returns>
+        public ChromeAtataContextBuilder WithDownloadDirectory(Func<string> directoryPathBuilder)
+        {
+            directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+
+            return WithOptions(x => x
+                .AddUserProfilePreference("download.default_directory", directoryPathBuilder.Invoke()));
+        }
+
+        /// <summary>
         /// Adds global additional capability to the driver options.
         /// </summary>
         /// <param name="capabilityName">The name of the capability to add.</param>
