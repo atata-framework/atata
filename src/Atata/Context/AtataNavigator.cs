@@ -49,6 +49,7 @@ namespace Atata
         public T ToWindow<T>(T pageObject, string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
+            SetContextAsCurrent();
             context.Log.Info($"Switch to \"{windowName}\" window");
 
             return To(pageObject, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
@@ -64,6 +65,7 @@ namespace Atata
         public T ToWindow<T>(string windowName, bool temporarily = false)
             where T : PageObject<T>
         {
+            SetContextAsCurrent();
             context.Log.Info($"Switch to \"{windowName}\" window");
 
             return To<T>(null, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
@@ -81,6 +83,7 @@ namespace Atata
         public T ToNextWindow<T>(T pageObject = null, bool temporarily = false)
             where T : PageObject<T>
         {
+            SetContextAsCurrent();
             context.Log.Info("Switch to next window");
 
             string currentWindowHandle = context.Driver.CurrentWindowHandle;
@@ -104,6 +107,7 @@ namespace Atata
         public T ToPreviousWindow<T>(T pageObject = null, bool temporarily = false)
             where T : PageObject<T>
         {
+            SetContextAsCurrent();
             context.Log.Info("Switch to previous window");
 
             string currentWindowHandle = context.Driver.CurrentWindowHandle;
@@ -119,6 +123,8 @@ namespace Atata
         private T To<T>(T pageObject, GoOptions options)
             where T : PageObject<T>
         {
+            SetContextAsCurrent();
+
             if (context.PageObject is null)
             {
                 pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
@@ -146,6 +152,8 @@ namespace Atata
         /// <param name="url">The URL.</param>
         public void ToUrl(string url)
         {
+            SetContextAsCurrent();
+
             if (!UriUtils.TryCreateAbsoluteUrl(url, out Uri absoluteUrl))
             {
                 if (!context.IsNavigated && context.BaseUrl is null)
@@ -179,6 +187,11 @@ namespace Atata
             context.Log.Info($"Go to URL \"{uri}\"");
             context.Driver.Navigate().GoToUrl(uri);
             context.IsNavigated = true;
+        }
+
+        private void SetContextAsCurrent()
+        {
+            AtataContext.Current = context;
         }
     }
 }
