@@ -81,6 +81,12 @@ namespace Atata
         protected virtual string BuildDefaultFileName(AtataContext context) =>
             DefaultFileName;
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
         object ICloneable.Clone() =>
             new NLogFileConsumer
             {

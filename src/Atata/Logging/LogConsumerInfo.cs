@@ -54,9 +54,11 @@ namespace Atata
         public string MessageEndSectionPrefix { get; set; } = "< ";
 
         /// <summary>
-        /// Creates a copy of the current instance.
+        /// Creates a new object that is a copy of the current instance.
         /// </summary>
-        /// <returns>The copied <see cref="LogConsumerInfo"/> instance.</returns>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
         public LogConsumerInfo Clone()
         {
             LogConsumerInfo clone = (LogConsumerInfo)MemberwiseClone();
@@ -67,6 +69,7 @@ namespace Atata
             return clone;
         }
 
+        /// <inheritdoc cref="Clone"/>
         object ICloneable.Clone() =>
             Clone();
     }
