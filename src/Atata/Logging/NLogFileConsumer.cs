@@ -6,7 +6,7 @@ namespace Atata
     /// <summary>
     /// Represents the log consumer that writes log to file using NLog.
     /// </summary>
-    public class NLogFileConsumer : LazyInitializableLogConsumer
+    public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     {
         /// <summary>
         /// The default file name, which is <c>"Trace.log"</c>.
@@ -80,5 +80,14 @@ namespace Atata
 
         protected virtual string BuildDefaultFileName(AtataContext context) =>
             DefaultFileName;
+
+        object ICloneable.Clone() =>
+            new NLogFileConsumer
+            {
+                FolderPathBuilder = FolderPathBuilder,
+                FileNameBuilder = FileNameBuilder,
+                FilePathBuilder = FilePathBuilder,
+                Layout = Layout
+            };
     }
 }

@@ -294,14 +294,21 @@ namespace Atata
             AtataBuildingContext copy = (AtataBuildingContext)MemberwiseClone();
 
             copy.DriverFactories = DriverFactories.ToList();
-            copy.LogConsumers = LogConsumers.ToList();
-            copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
-            copy.ScreenshotConsumers = ScreenshotConsumers.ToList();
+
+            copy.LogConsumers = LogConsumers
+                .Select(x => x.Consumer is ICloneable ? x.Clone() : x)
+                .ToList();
+
+            copy.ScreenshotConsumers = ScreenshotConsumers
+                .Select(x => x is ICloneable cloneableConsumer ? (IScreenshotConsumer)cloneableConsumer.Clone() : x)
+                .ToList();
+
             copy.OnBuildingActions = OnBuildingActions.ToList();
             copy.OnBuiltActions = OnBuiltActions.ToList();
             copy.OnDriverCreatedActions = OnDriverCreatedActions.ToList();
             copy.CleanUpActions = CleanUpActions.ToList();
             copy.Attributes = Attributes.Clone();
+            copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
 
             return copy;
         }

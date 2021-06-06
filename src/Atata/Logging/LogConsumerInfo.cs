@@ -1,10 +1,12 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the configuration of <see cref="ILogConsumer"/>.
     /// </summary>
     // TODO: Rename LogConsumerInfo to LogConsumerConfiguration.
-    public class LogConsumerInfo
+    public class LogConsumerInfo : ICloneable
     {
         public LogConsumerInfo(
             ILogConsumer consumer,
@@ -19,7 +21,7 @@
         /// <summary>
         /// Gets the log consumer.
         /// </summary>
-        public ILogConsumer Consumer { get; }
+        public ILogConsumer Consumer { get; private set; }
 
         /// <summary>
         /// Gets the minimum log level.
@@ -50,5 +52,19 @@
         /// The default value is <c>"&lt; "</c>.
         /// </summary>
         public string MessageEndSectionPrefix { get; set; } = "< ";
+
+        /// <inheritdoc cref="ICloneable.Clone"/>
+        public LogConsumerInfo Clone()
+        {
+            LogConsumerInfo clone = (LogConsumerInfo)MemberwiseClone();
+
+            if (Consumer is ICloneable cloneableConsumer)
+                clone.Consumer = (ILogConsumer)cloneableConsumer.Clone();
+
+            return clone;
+        }
+
+        object ICloneable.Clone() =>
+            Clone();
     }
 }
