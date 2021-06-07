@@ -1191,7 +1191,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             ValidateBuildingContextBeforeBuild();
 
-            LogManager logManager = CreateLogManager();
+            AtataContext context = new AtataContext();
+            LogManager logManager = CreateLogManager(context);
 
             IObjectConverter objectConverter = new ObjectConverter
             {
@@ -1201,34 +1202,31 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             IObjectMapper objectMapper = new ObjectMapper(objectConverter);
             IObjectCreator objectCreator = new ObjectCreator(objectConverter, objectMapper);
 
-            AtataContext context = new AtataContext
-            {
-                TestName = BuildingContext.TestNameFactory?.Invoke(),
-                TestSuiteName = BuildingContext.TestSuiteNameFactory?.Invoke(),
-                TestSuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke(),
-                TimeZone = BuildingContext.TimeZone,
-                BaseUrl = BuildingContext.BaseUrl,
-                Log = logManager,
-                OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>(),
-                CleanUpActions = BuildingContext.CleanUpActions?.ToList() ?? new List<Action>(),
-                Attributes = BuildingContext.Attributes.Clone(),
-                BaseRetryTimeout = BuildingContext.BaseRetryTimeout,
-                BaseRetryInterval = BuildingContext.BaseRetryInterval,
-                ElementFindTimeout = BuildingContext.ElementFindTimeout,
-                ElementFindRetryInterval = BuildingContext.ElementFindRetryInterval,
-                WaitingTimeout = BuildingContext.WaitingTimeout,
-                WaitingRetryInterval = BuildingContext.WaitingRetryInterval,
-                VerificationTimeout = BuildingContext.VerificationTimeout,
-                VerificationRetryInterval = BuildingContext.VerificationRetryInterval,
-                Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture,
-                AssertionExceptionType = BuildingContext.AssertionExceptionType,
-                AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType,
-                AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy(),
-                WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy(),
-                ObjectConverter = objectConverter,
-                ObjectMapper = objectMapper,
-                ObjectCreator = objectCreator
-            };
+            context.TestName = BuildingContext.TestNameFactory?.Invoke();
+            context.TestSuiteName = BuildingContext.TestSuiteNameFactory?.Invoke();
+            context.TestSuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke();
+            context.TimeZone = BuildingContext.TimeZone;
+            context.BaseUrl = BuildingContext.BaseUrl;
+            context.Log = logManager;
+            context.OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>();
+            context.CleanUpActions = BuildingContext.CleanUpActions?.ToList() ?? new List<Action>();
+            context.Attributes = BuildingContext.Attributes.Clone();
+            context.BaseRetryTimeout = BuildingContext.BaseRetryTimeout;
+            context.BaseRetryInterval = BuildingContext.BaseRetryInterval;
+            context.ElementFindTimeout = BuildingContext.ElementFindTimeout;
+            context.ElementFindRetryInterval = BuildingContext.ElementFindRetryInterval;
+            context.WaitingTimeout = BuildingContext.WaitingTimeout;
+            context.WaitingRetryInterval = BuildingContext.WaitingRetryInterval;
+            context.VerificationTimeout = BuildingContext.VerificationTimeout;
+            context.VerificationRetryInterval = BuildingContext.VerificationRetryInterval;
+            context.Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture;
+            context.AssertionExceptionType = BuildingContext.AssertionExceptionType;
+            context.AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType;
+            context.AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
+            context.WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy();
+            context.ObjectConverter = objectConverter;
+            context.ObjectMapper = objectMapper;
+            context.ObjectCreator = objectCreator;
 
             if (context.TestSuiteName is null && context.TestSuiteType != null)
                 context.TestSuiteName = context.TestSuiteType.Name;
@@ -1253,9 +1251,10 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             return context;
         }
 
-        private LogManager CreateLogManager()
+        private LogManager CreateLogManager(AtataContext context)
         {
-            LogManager logManager = new LogManager();
+            LogManager logManager = new LogManager(
+                new AtataContextLogEventInfoFactory(context));
 
             logManager.AddSecretStringsToMask(BuildingContext.SecretStringsToMaskInLog);
 

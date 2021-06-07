@@ -11,6 +11,8 @@ namespace Atata
     /// <seealso cref="ILogManager" />
     public class LogManager : ILogManager
     {
+        private readonly ILogEventInfoFactory logEventInfoFactory;
+
         private readonly List<LogConsumerInfo> logConsumers = new List<LogConsumerInfo>();
         private readonly List<IScreenshotConsumer> screenshotConsumers = new List<IScreenshotConsumer>();
 
@@ -19,6 +21,19 @@ namespace Atata
         private readonly Stack<LogSection> sectionEndStack = new Stack<LogSection>();
 
         private int screenshotNumber;
+
+        // TODO: Remove this constructor. It is present for backward compatibility.
+        public LogManager()
+            : this(AtataContext.Current is null
+                ? new BasicLogEventInfoFactory() as ILogEventInfoFactory
+                : new AtataContextLogEventInfoFactory(AtataContext.Current))
+        {
+        }
+
+        public LogManager(ILogEventInfoFactory logEventInfoFactory)
+        {
+            this.logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));
+        }
 
         /// <summary>
         /// Use the specified consumer for logging.
@@ -190,12 +205,8 @@ namespace Atata
         {
             section.CheckNotNull(nameof(section));
 
-            LogEventInfo eventInfo = new LogEventInfo
-            {
-                Level = section.Level,
-                Message = section.Message,
-                SectionStart = section
-            };
+            LogEventInfo eventInfo = logEventInfoFactory.Create(section.Level, section.Message);
+            eventInfo.SectionStart = section;
 
             section.StartedAt = eventInfo.Timestamp;
             section.Stopwatch.Start();
@@ -223,12 +234,8 @@ namespace Atata
                 else if (section.Exception != null)
                     message = AppendSectionResultToMessage(message, section.Exception);
 
-                LogEventInfo eventInfo = new LogEventInfo
-                {
-                    Level = section.Level,
-                    Message = message,
-                    SectionEnd = section
-                };
+                LogEventInfo eventInfo = logEventInfoFactory.Create(section.Level, message);
+                eventInfo.SectionEnd = section;
 
                 Log(eventInfo);
             }
@@ -299,21 +306,17 @@ namespace Atata
                 ? message.FormatWith(args)
                 : message;
 
-            Log(new LogEventInfo
-            {
-                Level = level,
-                Message = completeMessage
-            });
+            LogEventInfo logEvent = logEventInfoFactory.Create(level, completeMessage);
+
+            Log(logEvent);
         }
 
         private void Log(LogLevel level, string message, Exception exception)
         {
-            Log(new LogEventInfo
-            {
-                Level = level,
-                Message = message,
-                Exception = exception
-            });
+            LogEventInfo logEvent = logEventInfoFactory.Create(level, message);
+            logEvent.Exception = exception;
+
+            Log(logEvent);
         }
 
         private void Log(LogEventInfo eventInfo)
