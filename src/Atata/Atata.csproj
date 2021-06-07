@@ -23,9 +23,9 @@ Features:
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageId>Atata</PackageId>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>1.11.0 - https://atata.io/blog/2021/06/02/atata-1.11.0-released/
-1.10.0 - https://atata.io/blog/2021/02/18/atata-1.10.0-released/
-1.9.0 - https://atata.io/blog/2020/12/15/atata-1.9.0-released/</PackageReleaseNotes>
+    <PackageReleaseNotes>1.11.1 - https://atata.io/blog/2021/06/07/atata-1.11.1-released/
+1.11.0 - https://atata.io/blog/2021/06/02/atata-1.11.0-released/
+1.10.0 - https://atata.io/blog/2021/02/18/atata-1.10.0-released/</PackageReleaseNotes>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
     <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
   </PropertyGroup>
