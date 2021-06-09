@@ -22,9 +22,10 @@ In order to set up this project for further contributing do the following:
 ### Development
 
 Please follow the rules during development:
-- Build solution and fix all code analysis warnings.
-- Ensure that newly added public classes/members have XML documentation comments.
-- Run all tests in order to ensure the change is not breaking anything.
-- Try to add/update tests respectfully.
+- Fix (or suppress in rare cases) all code analysis warnings.
+- Ensure that newly added public classes and members have XML documentation comments.
+  This does not apply to classes in test projects. 
+- Run all tests in order to ensure the changes don't break anything.
+- Try to add/update tests respectively.
 - Follow [Semantic Versioning 2.0](https://semver.org/) during the source changes.
 - [Create pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork) when it is done.
