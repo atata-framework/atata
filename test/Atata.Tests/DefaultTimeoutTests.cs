@@ -4,6 +4,7 @@ using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
+    [Parallelizable(ParallelScope.None)]
     public class DefaultTimeoutTests : UITestFixtureBase
     {
         [Test]
