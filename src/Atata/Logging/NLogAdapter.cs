@@ -70,10 +70,10 @@ namespace Atata
         {
             var logManagerConfigurationProperty = LogManagerType.Value.GetPropertyWithThrowOnError("Configuration");
 
-            dynamic configuration = logManagerConfigurationProperty.GetStaticValue();
-
             lock (ConfigurationSyncLock)
             {
+                dynamic configuration = logManagerConfigurationProperty.GetStaticValue();
+
                 if (configuration is null)
                 {
                     configuration = Activator.CreateInstance(LoggingConfigurationType.Value);
