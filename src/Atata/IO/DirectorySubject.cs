@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 
 namespace Atata
 {
@@ -62,25 +60,21 @@ namespace Atata
             this.ValueOf(x => x.FullName);
 
         /// <summary>
-        /// Gets the directories of the current directory.
+        /// Gets the subdirectories of the current directory.
         /// </summary>
         public DirectoryEnumerableProvider<_> Directories =>
-            new DirectoryEnumerableProvider<_>(
+            new SubdirectoriesProvider<_>(
                 Owner,
-                new DynamicObjectSource<IEnumerable<_>, DirectoryInfo>(
-                    this,
-                    x => x.EnumerateDirectories().Select((dir, i) => new _(dir, $"[{i}]"))),
+                this,
                 nameof(Directories));
 
         /// <summary>
         /// Gets the files of the current directory.
         /// </summary>
         public FileEnumerableProvider<_> Files =>
-            new FileEnumerableProvider<_>(
+            new DirectoryFilesProvider<_>(
                 Owner,
-                new DynamicObjectSource<IEnumerable<FileSubject>, DirectoryInfo>(
-                    this,
-                    x => x.EnumerateFiles().Select((file, i) => new FileSubject(file, $"[{i}]"))),
+                this,
                 nameof(Files));
 
         private static string BuildProviderName(DirectoryInfo directoryInfo) =>

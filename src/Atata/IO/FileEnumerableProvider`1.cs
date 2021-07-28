@@ -31,7 +31,8 @@ namespace Atata
         /// </value>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>A <see cref="FileSubject"/> instance.</returns>
-        public FileSubject this[string fileName]
+        // TODO: In v2 should not be virtual.
+        public virtual FileSubject this[string fileName]
         {
             get
             {

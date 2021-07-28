@@ -69,8 +69,17 @@ namespace Atata.Tests.DataProvision
                 sut.Directories[0].Name.Should.Equal("dir1");
 
             [Test]
+            public static void IntIndexer_ProviderName() =>
+                sut.Directories[0].ProviderName.ToResultSubject()
+                    .Should.Equal("sut.Directories[0]");
+
+            [Test]
             public static void StringIndexer() =>
                 sut.Directories["dir1"].Exists.Should.BeTrue();
+
+            [Test]
+            public static void StringIndexer_OfMissingDirectory() =>
+                new DirectorySubject(Guid.NewGuid().ToString()).Directories["missing"].Exists.Should.BeFalse();
 
             [Test]
             public static void StringIndexer_ProviderName() =>
@@ -148,6 +157,10 @@ namespace Atata.Tests.DataProvision
             public static void Where_First_ProviderName() =>
                 sut.Files.Where(x => x.Extension != ".ext").First()
                     .ProviderName.ToResultSubject().Should.Equal("sut.Files.Where(x => x.Extension != \".ext\").First()");
+
+            [Test]
+            public static void ThruMissingSubDirectory() =>
+                sut.Directories["missing"].Files["missing.txt"].Exists.Should.BeFalse();
         }
     }
 }

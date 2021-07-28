@@ -42,6 +42,15 @@ namespace Atata.Tests.DataProvision
             new FileSubject(Path.Combine("Dir", "Some.txt"))
                 .NameWithoutExtension.Should.Equal("Some");
 
+        [Test]
+        public void ProviderName()
+        {
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SomeDir", "SomeFile.txt");
+
+            new FileSubject(filePath).ProviderName.ToResultSubject()
+                .Should.Equal($"\"{filePath}\" file");
+        }
+
         [TestFixture]
         public class Exists
         {
@@ -53,6 +62,11 @@ namespace Atata.Tests.DataProvision
             [Test]
             public void False() =>
                 new FileSubject("MissingFile.txt")
+                    .Exists.Should.BeFalse();
+
+            [Test]
+            public void False_InMissingDirectory() =>
+                new FileSubject(Path.Combine("MissingDir", "MissingFile.txt"))
                     .Exists.Should.BeFalse();
         }
 

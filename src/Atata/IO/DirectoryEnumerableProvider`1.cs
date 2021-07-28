@@ -31,7 +31,8 @@ namespace Atata
         /// </value>
         /// <param name="directoryName">Name of the directory.</param>
         /// <returns>A <see cref="DirectorySubject"/> instance.</returns>
-        public DirectorySubject this[string directoryName]
+        // TODO: In v2 should not be virtual.
+        public virtual DirectorySubject this[string directoryName]
         {
             get
             {
