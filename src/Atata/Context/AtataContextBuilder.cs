@@ -1170,7 +1170,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
             string path = context.FillTemplateString(pathTemplate);
 
-            return new DirectorySubject(path, "artifacts");
+            return new DirectorySubject(path, "Artifacts");
         }
 
         /// <summary>
