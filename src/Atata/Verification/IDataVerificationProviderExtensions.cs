@@ -67,7 +67,7 @@ namespace Atata
         }
 
         public static TOwner Satisfy<TData, TOwner>(
-            this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should,
+            this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should,
             Predicate<IEnumerable<TData>> predicate,
             string message,
             params TData[] args)
@@ -398,12 +398,12 @@ namespace Atata
                 $"be equivalent to {Stringifier.ToString(expected)}");
         }
 
-        public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
+        public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should, params TData[] expected)
         {
             return should.BeEquivalent(expected.AsEnumerable());
         }
 
-        public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, IEnumerable<TData> expected)
+        public static TOwner BeEquivalent<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should, IEnumerable<TData> expected)
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -426,12 +426,12 @@ namespace Atata
                 $"equal sequence {Stringifier.ToString(expected)}");
         }
 
-        public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
+        public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should, params TData[] expected)
         {
             return should.EqualSequence(expected.AsEnumerable());
         }
 
-        public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, IEnumerable<TData> expected)
+        public static TOwner EqualSequence<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should, IEnumerable<TData> expected)
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -475,7 +475,7 @@ namespace Atata
         /// <param name="should">The should instance.</param>
         /// <param name="expected">An expected data value.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner ContainSingle<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, TData expected)
+        public static TOwner ContainSingle<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should, TData expected)
         {
             return should.Satisfy(
                 actual => actual != null && actual.Count((TData x) => Equals(x, expected)) == 1,
@@ -528,7 +528,7 @@ namespace Atata
         /// <param name="expectedValue">An expected data value.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner ContainExactly<TData, TOwner>(
-            this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should,
+            this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should,
             int expectedCount,
             TData expectedValue)
         {
@@ -599,7 +599,7 @@ namespace Atata
         /// <param name="should">The should instance.</param>
         /// <param name="expected">An expected data values.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, params TData[] expected)
+        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should, params TData[] expected)
         {
             return should.Contain(expected.AsEnumerable());
         }
@@ -612,7 +612,7 @@ namespace Atata
         /// <param name="should">The should instance.</param>
         /// <param name="expected">An expected data values.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> should, IEnumerable<TData> expected)
+        public static TOwner Contain<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should, IEnumerable<TData> expected)
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -656,12 +656,12 @@ namespace Atata
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToString(expected)}");
         }
 
-        public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<string, TOwner>>, TOwner> should, TermMatch match, params string[] expected)
+        public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<string>>, TOwner> should, TermMatch match, params string[] expected)
         {
             return should.Contain(match, expected.AsEnumerable());
         }
 
-        public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<string, TOwner>>, TOwner> should, TermMatch match, IEnumerable<string> expected)
+        public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<string>>, TOwner> should, TermMatch match, IEnumerable<string> expected)
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -736,7 +736,7 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeInAscendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> verifier)
+        public static TOwner BeInAscendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> verifier)
         {
             return verifier.Satisfy(
                 (IEnumerable<TData> actual) => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
@@ -780,7 +780,7 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeInDescendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IDataProvider<TData, TOwner>>, TOwner> verifier)
+        public static TOwner BeInDescendingOrder<TData, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> verifier)
         {
             return verifier.Satisfy(
                 (IEnumerable<TData> actual) => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
