@@ -7,20 +7,19 @@ namespace Atata
     /// <summary>
     /// Represents the provider of enumerable <see cref="DirectorySubject"/> objects that represent the subdirectories of a certain directory.
     /// </summary>
-    /// <typeparam name="TOwner">The type of the owner.</typeparam>
     // TODO: In v2 inherit from EnumerableProvider<DirectorySubject, TOwner>.
-    public class SubdirectoriesProvider<TOwner> : DirectoryEnumerableProvider<TOwner>
+    public class SubdirectoriesProvider : DirectoryEnumerableProvider<DirectorySubject>
     {
         private readonly DirectorySubject parentDirectorySubject;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="SubdirectoriesProvider{TOwner}"/> class.
+        /// Initializes a new instance of the <see cref="SubdirectoriesProvider"/> class.
         /// </summary>
         /// <param name="owner">The owner.</param>
         /// <param name="parentDirectorySubject">The parent directory subject.</param>
         /// <param name="providerName">Name of the provider.</param>
         public SubdirectoriesProvider(
-            TOwner owner,
+            DirectorySubject owner,
             DirectorySubject parentDirectorySubject,
             string providerName)
             : base(

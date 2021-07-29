@@ -63,7 +63,7 @@ namespace Atata
         /// Gets the subdirectories of the current directory.
         /// </summary>
         public DirectoryEnumerableProvider<_> Directories =>
-            new SubdirectoriesProvider<_>(
+            new SubdirectoriesProvider(
                 Owner,
                 this,
                 nameof(Directories));
@@ -72,7 +72,7 @@ namespace Atata
         /// Gets the files of the current directory.
         /// </summary>
         public FileEnumerableProvider<_> Files =>
-            new DirectoryFilesProvider<_>(
+            new DirectoryFilesProvider(
                 Owner,
                 this,
                 nameof(Files));

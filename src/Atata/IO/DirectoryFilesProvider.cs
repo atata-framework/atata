@@ -7,20 +7,19 @@ namespace Atata
     /// <summary>
     /// Represents the provider of enumerable <see cref="FileSubject"/> objects that represent the files in a certain directory.
     /// </summary>
-    /// <typeparam name="TOwner">The type of the owner.</typeparam>
     // TODO: In v2 inherit from EnumerableProvider<FileSubject, TOwner>.
-    public class DirectoryFilesProvider<TOwner> : FileEnumerableProvider<TOwner>
+    public class DirectoryFilesProvider : FileEnumerableProvider<DirectorySubject>
     {
         private readonly DirectorySubject parentDirectorySubject;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DirectoryFilesProvider{TOwner}"/> class.
+        /// Initializes a new instance of the <see cref="DirectoryFilesProvider"/> class.
         /// </summary>
         /// <param name="owner">The owner.</param>
         /// <param name="parentDirectorySubject">The parent directory subject.</param>
         /// <param name="providerName">Name of the provider.</param>
         public DirectoryFilesProvider(
-            TOwner owner,
+            DirectorySubject owner,
             DirectorySubject parentDirectorySubject,
             string providerName)
             : base(
