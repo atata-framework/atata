@@ -640,6 +640,23 @@ namespace Atata
                 $"contain {Stringifier.ToString(predicateExpression)}");
         }
 
+        /// <summary>
+        /// Verifies that collection contains at least one item matching <paramref name="predicateExpression"/>.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The should instance.</param>
+        /// <param name="predicateExpression">The predicate expression.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Contain<TObject, TOwner>(this IDataVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> should, Expression<Func<TObject, bool>> predicateExpression)
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return should.Satisfy(
+                actual => actual != null && actual.Any(predicate),
+                $"contain {Stringifier.ToString(predicateExpression)}");
+        }
+
         public static TOwner Contain<TOwner>(this IDataVerificationProvider<IEnumerable<string>, TOwner> should, TermMatch match, params string[] expected)
         {
             return should.Contain(match, expected.AsEnumerable());
