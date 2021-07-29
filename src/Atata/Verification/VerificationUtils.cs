@@ -125,7 +125,7 @@ namespace Atata
                 builder.Append($"{componentName} ");
 
             builder
-                .Append($"{should.DataProvider.ProviderName}.")
+                .Append($"{should.DataProvider.ProviderName}")
                 .AppendLine()
                 .Append($"Expected: {should.GetShouldText()} {expected}");
 
