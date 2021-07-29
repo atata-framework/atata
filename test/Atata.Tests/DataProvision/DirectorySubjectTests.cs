@@ -103,6 +103,16 @@ namespace Atata.Tests.DataProvision
             public static void SubDirectoriesCount_ProviderName() =>
                 sut.Directories[0].Directories.Count().ProviderName.ToSubject()
                     .Should.Equal("sut.Directories[0].Directories.Count()");
+
+            [Test]
+            public static void Names() =>
+                sut.Directories["dir1"].Directories.Names
+                    .Should.EqualSequence("dir1_1", "dir1_2", "dir1_3");
+
+            [Test]
+            public static void Names_ProviderName() =>
+                sut.Directories["dir1"].Directories.Names.ProviderName.ToResultSubject()
+                    .Should.Equal("sut.Directories[\"dir1\"].Directories.Names");
         }
 
         [TestFixture]
@@ -157,6 +167,16 @@ namespace Atata.Tests.DataProvision
             public static void Where_First_ProviderName() =>
                 sut.Files.Where(x => x.Extension != ".ext").First()
                     .ProviderName.ToResultSubject().Should.Equal("sut.Files.Where(x => x.Extension != \".ext\").First()");
+
+            [Test]
+            public static void Names() =>
+                sut.Files.Names
+                    .Should.BeEquivalent("1.txt", "2.txt");
+
+            [Test]
+            public static void Names_ProviderName() =>
+                sut.Files.Names.ProviderName.ToResultSubject()
+                    .Should.Equal("sut.Files.Names");
 
             [Test]
             public static void ThruMissingSubDirectory() =>

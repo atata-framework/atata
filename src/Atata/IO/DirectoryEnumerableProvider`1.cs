@@ -24,6 +24,12 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets the directory names.
+        /// </summary>
+        public EnumerableProvider<ValueProvider<string, DirectorySubject>, TOwner> Names =>
+            this.Query(nameof(Names), q => q.Select(x => x.Name));
+
+        /// <summary>
         /// Gets the <see cref="DirectorySubject"/> for the directory with the specified name.
         /// </summary>
         /// <value>

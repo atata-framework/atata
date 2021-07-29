@@ -24,6 +24,12 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets the file names.
+        /// </summary>
+        public EnumerableProvider<ValueProvider<string, FileSubject>, TOwner> Names =>
+            this.Query(nameof(Names), q => q.Select(x => x.Name));
+
+        /// <summary>
         /// Gets the <see cref="FileSubject"/> for the file with the specified name.
         /// </summary>
         /// <value>
