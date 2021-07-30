@@ -75,11 +75,11 @@ namespace Atata.Tests.DataProvision
 
             [Test]
             public static void StringIndexer() =>
-                sut.Directories["dir1"].Exists.Should.BeTrue();
+                sut.Directories["dir1"].Should.Exist();
 
             [Test]
             public static void StringIndexer_OfMissingDirectory() =>
-                new DirectorySubject(Guid.NewGuid().ToString()).Directories["missing"].Exists.Should.BeFalse();
+                new DirectorySubject(Guid.NewGuid().ToString()).Directories["missing"].Should.Not.Exist();
 
             [Test]
             public static void StringIndexer_ProviderName() =>
@@ -88,7 +88,7 @@ namespace Atata.Tests.DataProvision
 
             [Test]
             public static void StringIndexer_ForSubDirectories() =>
-                sut.Directories["dir1"].Directories["dir1_2"].Exists.Should.BeTrue();
+                sut.Directories["dir1"].Directories["dir1_2"].Should.Exist();
 
             [Test]
             public static void StringIndexer_ForSubDirectories_ProviderName() =>

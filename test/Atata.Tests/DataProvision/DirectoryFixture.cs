@@ -14,9 +14,14 @@ namespace Atata.Tests.DataProvision
 
         public string DirectoryPath { get; }
 
-        public static DirectoryFixture CreateUniqueDirectory()
+        public string DirectoryName => Path.GetFileName(DirectoryPath);
+
+        public static DirectoryFixture CreateUniqueDirectory() =>
+            CreateUniqueDirectoryIn(Path.Combine(Path.GetTempPath(), "Atata"));
+
+        public static DirectoryFixture CreateUniqueDirectoryIn(string parentDirectoryPath)
         {
-            string path = Path.Combine(Path.GetTempPath(), "Atata", Guid.NewGuid().ToString());
+            string path = Path.Combine(parentDirectoryPath, Guid.NewGuid().ToString());
 
             return new DirectoryFixture(path)
                 .Create();
@@ -38,9 +43,25 @@ namespace Atata.Tests.DataProvision
             return this;
         }
 
+        public DirectoryFixture CreateFiles(params string[] fileNames)
+        {
+            foreach (string fileName in fileNames)
+                CreateFile(fileName);
+
+            return this;
+        }
+
         public DirectoryFixture CreateDirectory(string directoryName)
         {
             Directory.CreateDirectory(Path.Combine(DirectoryPath, directoryName));
+
+            return this;
+        }
+
+        public DirectoryFixture CreateDirectories(params string[] directoryNames)
+        {
+            foreach (string directoryName in directoryNames)
+                CreateDirectory(directoryName);
 
             return this;
         }
