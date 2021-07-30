@@ -39,6 +39,10 @@ namespace Atata.Tests
                     .Should.Equal("Artifacts.Directories[\"dir1\"].Files[\"file.txt\"]");
 
             [Test]
+            public void FileInSubDirectory_Should_Not_Exist() =>
+                AtataContext.Current.Artifacts.Directories["dir1"].Files["file.txt"].Should.Not.Exist();
+
+            [Test]
             public void SubDirectory_Should_ContainFiles()
             {
                 var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(AtataContext.Current.Artifacts.FullName)

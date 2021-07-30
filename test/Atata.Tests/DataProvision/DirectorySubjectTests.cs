@@ -151,7 +151,7 @@ namespace Atata.Tests.DataProvision
 
             [Test]
             public static void StringIndexer() =>
-                sut.Files["1.txt"].Exists.Should.BeTrue();
+                sut.Files["1.txt"].Should.Exist();
 
             [Test]
             public static void StringIndexer_ProviderName() =>
@@ -180,7 +180,7 @@ namespace Atata.Tests.DataProvision
 
             [Test]
             public static void ThruMissingSubDirectory() =>
-                sut.Directories["missing"].Files["missing.txt"].Exists.Should.BeFalse();
+                sut.Directories["missing"].Files["missing.txt"].Should.Not.Exist();
         }
     }
 }
