@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Provides a set of object extension methods that wrap the object with the <see cref="Subject{TValue}"/> class.
+    /// Provides a set of object extension methods that wrap the object with the <see cref="Subject{T}"/> class.
     /// </summary>
     public static class SubjectObjectExtensions
     {
