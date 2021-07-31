@@ -264,10 +264,9 @@ namespace Atata
             {
                 message = message.Substring(0, newLineIndex);
 
-                if (char.IsPunctuation(message[message.Length - 1]))
-                    message = message.Substring(0, message.Length - 1);
-
-                message += "...";
+                message += message[message.Length - 1] == '.'
+                    ? ".."
+                    : "...";
             }
 
             return $"{exception.GetType().FullName}: {message}";
