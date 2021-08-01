@@ -54,5 +54,8 @@
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IEnumerableProviderExtensions.Single``2(Atata.IEnumerableProvider{``0,``1},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})~``0")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectProviderEnumerableExtensions.Single``2(Atata.IObjectProvider{System.Collections.Generic.IEnumerable{``0},``1})~Atata.ValueProvider{``0,``1}")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectProviderEnumerableExtensions.Single``2(Atata.IObjectProvider{System.Collections.Generic.IEnumerable{``0},``1},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})~Atata.ValueProvider{``0,``1}")]
+[assembly: SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DisposableSubject`1.Dispose")]
+[assembly: SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IDataVerificationProviderExtensions.EqualIgnoringCase``1(Atata.IDataVerificationProvider{System.String,``0},System.String)~``0")]
+[assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogSection.GetDuration~System.TimeSpan")]
 
 #pragma warning restore S103 // Lines should not be too long
