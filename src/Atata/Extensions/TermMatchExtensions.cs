@@ -68,9 +68,9 @@ namespace Atata
                 case TermMatch.Equals:
                     return (text, term) => text.Trim() == term;
                 case TermMatch.StartsWith:
-                    return (text, term) => text.Trim().StartsWith(term);
+                    return (text, term) => text.Trim().StartsWith(term, StringComparison.Ordinal);
                 case TermMatch.EndsWith:
-                    return (text, term) => text.Trim().EndsWith(term);
+                    return (text, term) => text.Trim().EndsWith(term, StringComparison.Ordinal);
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
             }

@@ -47,7 +47,10 @@ namespace Atata
 
             if (Options.Index.HasValue)
             {
-                subPath = subPath.StartsWith("(") && subPath.EndsWith(")") ? subPath : $"({subPath})";
+                subPath = subPath[0] == '(' && subPath[subPath.Length - 1] == ')'
+                    ? subPath
+                    : $"({subPath})";
+
                 return _($"{subPath}[{Options.Index + 1}]");
             }
             else

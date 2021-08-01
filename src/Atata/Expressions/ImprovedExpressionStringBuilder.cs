@@ -289,7 +289,7 @@ namespace Atata
 
         protected override Expression VisitNew(NewExpression node)
         {
-            return node.Type.Name.StartsWith("<>")
+            return node.Type.Name.StartsWith("<>", StringComparison.Ordinal)
                 ? VisitNewAnonymousType(node)
                 : VisitNewKnownType(node);
         }

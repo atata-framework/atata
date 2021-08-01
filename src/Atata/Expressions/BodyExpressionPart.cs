@@ -53,7 +53,7 @@ namespace Atata
             int expectedStartOpenBraketsCount = parts.Length - 2;
             string expectedExpressionStart = new string(Enumerable.Repeat('(', expectedStartOpenBraketsCount).ToArray());
 
-            if (parts.Length > 2 && parts[0].StartsWith(expectedExpressionStart))
+            if (parts.Length > 2 && parts[0].StartsWith(expectedExpressionStart, StringComparison.Ordinal))
             {
                 parts[0] = parts[0].Substring(expectedStartOpenBraketsCount, parts[0].Length - expectedStartOpenBraketsCount);
 
@@ -86,7 +86,7 @@ namespace Atata
 
         private static string TrimParentheses(string expression)
         {
-            return expression.StartsWith("(") && expression.EndsWith(")")
+            return expression[0] == '(' && expression[expression.Length - 1] == ')'
                  ? expression.Substring(1, expression.Length - 2)
                  : expression;
         }

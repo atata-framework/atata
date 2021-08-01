@@ -177,7 +177,7 @@ return textValues;";
         {
             xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
 
-            string extraXPath = xPathCondition.StartsWith("[")
+            string extraXPath = xPathCondition[0] == '['
                 ? xPathCondition
                 : $"[{xPathCondition}]";
 

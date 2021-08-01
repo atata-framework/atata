@@ -240,7 +240,7 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
-            return should.Satisfy(actual => actual != null && actual.StartsWith(expected), "start with {0}", expected);
+            return should.Satisfy(actual => actual != null && actual.StartsWith(expected, StringComparison.CurrentCulture), "start with {0}", expected);
         }
 
         public static TOwner StartWithIgnoringCase<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
@@ -254,7 +254,7 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
-            return should.Satisfy(actual => actual != null && actual.EndsWith(expected), "end with {0}", expected);
+            return should.Satisfy(actual => actual != null && actual.EndsWith(expected, StringComparison.CurrentCulture), "end with {0}", expected);
         }
 
         public static TOwner EndWithIgnoringCase<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -25,11 +26,11 @@ namespace Atata
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
             string[] conditionalXPathTerms = builder.Options.Terms.
-                Where(x => (x.StartsWith("[") && x.EndsWith("]")) || x.StartsWith("@")).
+                Where(x => (x[0] == '[' && x[x.Length - 1] == ']') || x[0] == '@').
                 ToArray();
 
             string[] conditionalXPathSelectors = conditionalXPathTerms.
-                Select(x => x.StartsWith("@") ? x : x.Substring(1, x.Length - 2)).
+                Select(x => x[0] == '@' ? x : x.Substring(1, x.Length - 2)).
                 ToArray();
 
             if (conditionalXPathSelectors.Length > 1)
@@ -46,7 +47,7 @@ namespace Atata
             string[] completeXPathSelectors = builder.Options.Terms.
                 Except(conditionalXPathTerms).
                 Select(x =>
-                    acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix))
+                    acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix, StringComparison.Ordinal))
                         ? (options.OuterXPath?.Append(x) ?? x)
                         : ((options.OuterXPath ?? ".//") + x)).
                 ToArray();

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 namespace Atata
 {
@@ -41,7 +42,7 @@ namespace Atata
         public string NormalizeNameIgnoringEnding(string name)
         {
             string endingToIgnore = GetIgnoreNameEndingValues().
-                FirstOrDefault(x => name.EndsWith(x) && name.Length > x.Length);
+                FirstOrDefault(x => name.EndsWith(x, StringComparison.Ordinal) && name.Length > x.Length);
 
             return endingToIgnore != null
                 ? name.Substring(0, name.Length - endingToIgnore.Length).TrimEnd()

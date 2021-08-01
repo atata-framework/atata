@@ -58,7 +58,7 @@ namespace Atata
                     {
                         errorMessageBuilder.Append(' ').Append(message);
 
-                        if (!message.EndsWith("."))
+                        if (message[message.Length - 1] != '.')
                             errorMessageBuilder.Append('.');
                     }
 

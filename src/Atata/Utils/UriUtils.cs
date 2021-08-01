@@ -44,9 +44,9 @@ namespace Atata
 
             if (!string.IsNullOrWhiteSpace(relativeUri))
             {
-                if (baseUri.EndsWith("/") && relativeUri.StartsWith("/"))
+                if (baseUri.EndsWith("/", StringComparison.Ordinal) && relativeUri.StartsWith("/", StringComparison.Ordinal))
                     fullUrl += relativeUri.Substring(1);
-                else if (!baseUri.EndsWith("/") && !relativeUri.StartsWith("/"))
+                else if (!baseUri.EndsWith("/", StringComparison.Ordinal) && !relativeUri.StartsWith("/", StringComparison.Ordinal))
                     fullUrl += "/" + relativeUri;
                 else
                     fullUrl += relativeUri;

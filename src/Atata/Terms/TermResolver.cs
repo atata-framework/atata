@@ -209,7 +209,7 @@ namespace Atata
             }
             else if (IsComplexStringFormat(format))
             {
-                int startIndex = format.IndexOf("{0");
+                int startIndex = format.IndexOf("{0", StringComparison.Ordinal);
                 int endIndex = format.IndexOf('}', startIndex + 2);
 
                 return endIndex - startIndex == 2
@@ -241,14 +241,14 @@ namespace Atata
             string formatStart = formatParts[0];
             string formatEnd = formatParts[1];
 
-            if (!value.StartsWith(formatStart))
+            if (!value.StartsWith(formatStart, StringComparison.Ordinal))
             {
                 throw new ArgumentException(
                     $"\"{value}\" value doesn't match the \"{format}\" {nameof(format)}. Should start with \"{formatStart}\".",
                     nameof(value));
             }
 
-            if (!value.EndsWith(formatEnd))
+            if (!value.EndsWith(formatEnd, StringComparison.Ordinal))
             {
                 throw new ArgumentException(
                     $"\"{value}\" value doesn't match the \"{format}\" {nameof(format)}. Should end with \"{formatEnd}\".",

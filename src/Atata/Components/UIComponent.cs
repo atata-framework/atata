@@ -183,7 +183,7 @@ namespace Atata
                 string parentFullName = Parent.ComponentFullName;
                 builder.
                     Append(parentFullName).
-                    Append(parentFullName.EndsWith("s") ? "'" : "'s").
+                    Append(parentFullName[parentFullName.Length - 1] == 's' ? "'" : "'s").
                     Append(' ');
             }
 
