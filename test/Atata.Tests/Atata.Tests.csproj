@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="1.5.0" />
-    <PackageReference Include="Atata.WebDriverSetup" Version="1.1.0" />
+    <PackageReference Include="Atata.WebDriverSetup" Version="1.2.0" />
     <PackageReference Include="FluentAssertions" Version="5.10.3" />
     <PackageReference Include="log4net" Version="2.0.12" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
