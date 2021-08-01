@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <PropertyGroup Condition="$(Configuration) == 'SlimNetCore3.1'">
-    <CodeAnalysisRuleSet>../../Empty.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
 
 </Project>

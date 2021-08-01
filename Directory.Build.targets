@@ -1,6 +1,10 @@
 <Project>
   
   <Target Name="DisableAnalyzer" BeforeTargets="CoreCompile" Condition="'$(RunCodeAnalysis)' == 'false'">
+    <PropertyGroup>
+      <EnableNETAnalyzers>false</EnableNETAnalyzers>
+    </PropertyGroup>
+      
     <ItemGroup>
       <Analyzer Remove="@(Analyzer)" />
     </ItemGroup>

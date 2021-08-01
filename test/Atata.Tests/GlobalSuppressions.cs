@@ -15,5 +15,7 @@
 [assembly: SuppressMessage("Performance", "CA1802:Use literals where appropriate", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.TestFieldValue")]
 [assembly: SuppressMessage("Minor Code Smell", "S1125:Boolean literals should not be redundant", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.GetExpressionTestCases~System.Collections.Generic.IEnumerable{NUnit.Framework.TestCaseData}")]
 [assembly: SuppressMessage("Minor Code Smell", "S3962:\"static readonly\" constants should be \"const\" instead", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.TestFieldValue")]
+[assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetBool~System.Boolean")]
+[assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetInt~System.Int32")]
 
 #pragma warning restore S103 // Lines should not be too long
