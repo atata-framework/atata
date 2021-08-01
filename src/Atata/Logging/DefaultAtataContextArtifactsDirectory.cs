@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 namespace Atata
@@ -17,7 +18,7 @@ namespace Atata
             string path = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Logs",
-                buildStart.ToString(DefaultDateTimeFormat));
+                buildStart.ToString(DefaultDateTimeFormat, CultureInfo.InvariantCulture));
 
             return string.IsNullOrEmpty(context?.TestName)
                 ? path

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
@@ -20,7 +21,11 @@ namespace Atata
 
             if (type.IsDefined(typeof(FlagsAttribute), false))
             {
-                Enum[] allFlags = Enum.GetValues(type).Cast<Enum>().Where(x => Convert.ToDecimal(x) != 0m).ToArray();
+                Enum[] allFlags = Enum.GetValues(type)
+                    .Cast<Enum>()
+                    .Where(x => Convert.ToDecimal(x, CultureInfo.InvariantCulture) != 0m)
+                    .ToArray();
+
                 List<Enum> individualFlags = new List<Enum>(allFlags.Take(1));
 
                 for (int i = 1; i < allFlags.Length; i++)

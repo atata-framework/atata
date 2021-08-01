@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Atata.TermFormatting
@@ -52,7 +53,7 @@ namespace Atata.TermFormatting
 
         private static string CapitalizeFirstLetterExceptSpecial(string word)
         {
-            string wordToLower = word.ToLower();
+            string wordToLower = word.ToLower(CultureInfo.CurrentCulture);
             return WordsToKeepLower.Contains(wordToLower) ? wordToLower : CapitalizeFirstLetter(word);
         }
     }

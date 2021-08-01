@@ -8,7 +8,7 @@ namespace Atata
         {
             return format == ScreenshotImageFormat.Jpeg
                 ? ".jpg"
-                : format.ToString().ToLower().Prepend(".");
+                : format.ToString().ToLowerInvariant().Prepend(".");
         }
     }
 }

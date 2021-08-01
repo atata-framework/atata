@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -34,9 +35,9 @@ namespace Atata
             if (value == null)
                 return null;
             else if (value.Length > 1)
-                return char.ToUpper(value[0]) + value.Substring(1);
+                return char.ToUpper(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
             else
-                return value.ToUpper();
+                return value.ToUpper(CultureInfo.CurrentCulture);
         }
 
         public static string ToLowerFirstLetter(this string value)
@@ -44,9 +45,9 @@ namespace Atata
             if (value == null)
                 return null;
             else if (value.Length > 1)
-                return char.ToLower(value[0]) + value.Substring(1);
+                return char.ToLower(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
             else
-                return value.ToLower();
+                return value.ToLower(CultureInfo.CurrentCulture);
         }
 
         public static string PascalDasherize(this string underscoredWord)

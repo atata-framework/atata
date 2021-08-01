@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Globalization;
+using System.Linq;
 
 namespace Atata.TermFormatting
 {
@@ -6,7 +7,7 @@ namespace Atata.TermFormatting
     {
         public string Format(string[] words)
         {
-            return string.Join("-", words.Select(x => x.ToLower()));
+            return string.Join("-", words.Select(x => x.ToLower(CultureInfo.CurrentCulture)));
         }
     }
 }

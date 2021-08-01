@@ -25,7 +25,7 @@ namespace Atata
             typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
             logConsumerFactory.CheckNotNull(nameof(logConsumerFactory));
 
-            AliasFactoryMap[typeAlias.ToLower()] = logConsumerFactory;
+            AliasFactoryMap[typeAlias.ToLowerInvariant()] = logConsumerFactory;
         }
 
         public static IScreenshotConsumer Resolve(string typeNameOrAlias)

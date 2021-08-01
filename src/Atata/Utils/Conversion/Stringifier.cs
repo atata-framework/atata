@@ -73,7 +73,7 @@ namespace Atata
             else if (value is string)
                 return $"\"{value}\"";
             else if (value is bool)
-                return value.ToString().ToLower();
+                return value.ToString().ToLowerInvariant();
             else if (value is ValueType)
                 return value.ToString();
             else if (value is IEnumerable enumerableValue)

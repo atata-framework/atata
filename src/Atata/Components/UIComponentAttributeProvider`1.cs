@@ -78,7 +78,7 @@ namespace Atata
         /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
         public DataProvider<TValue, TOwner> Get<TValue>(string attributeName)
         {
-            string lowerCaseName = attributeName.ToLower();
+            string lowerCaseName = attributeName.ToLowerInvariant();
             return Component.GetOrCreateDataProvider(AttributeProviderNameFormat.FormatWith(lowerCaseName), () => GetValue<TValue>(lowerCaseName));
         }
 

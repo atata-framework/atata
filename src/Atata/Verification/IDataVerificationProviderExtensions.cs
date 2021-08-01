@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -233,7 +234,7 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
-            return should.Satisfy(actual => actual != null && actual.ToUpper().Contains(expected.ToUpper()), "contain {0} ignoring case", expected);
+            return should.Satisfy(actual => actual != null && actual.ToUpper(CultureInfo.CurrentCulture).Contains(expected.ToUpper(CultureInfo.CurrentCulture)), "contain {0} ignoring case", expected);
         }
 
         public static TOwner StartWith<TOwner>(this IDataVerificationProvider<string, TOwner> should, string expected)
