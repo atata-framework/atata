@@ -7,11 +7,11 @@ namespace Atata
     /// </summary>
     public class AtataContextLogEventInfoFactory : ILogEventInfoFactory
     {
-        private readonly AtataContext context;
+        private readonly AtataContext _context;
 
         public AtataContextLogEventInfoFactory(AtataContext context)
         {
-            this.context = context.CheckNotNull(nameof(context));
+            _context = context.CheckNotNull(nameof(context));
         }
 
         /// <inheritdoc/>
@@ -21,16 +21,16 @@ namespace Atata
                 Level = level,
                 Message = message,
 
-                Context = context,
-                Timestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, context.TimeZone),
-                BuildStart = context.BuildStartInTimeZone,
+                Context = _context,
+                Timestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _context.TimeZone),
+                BuildStart = _context.BuildStartInTimeZone,
 
-                TestName = context.TestName,
-                TestNameSanitized = context.TestNameSanitized,
-                TestSuiteName = context.TestSuiteName,
-                TestSuiteNameSanitized = context.TestSuiteNameSanitized,
-                TestStart = context.StartedAt,
-                DriverAlias = context.DriverAlias
+                TestName = _context.TestName,
+                TestNameSanitized = _context.TestNameSanitized,
+                TestSuiteName = _context.TestSuiteName,
+                TestSuiteNameSanitized = _context.TestSuiteNameSanitized,
+                TestStart = _context.StartedAt,
+                DriverAlias = _context.DriverAlias
             };
     }
 }

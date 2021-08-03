@@ -9,9 +9,9 @@ namespace Atata
     /// </summary>
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute, ITermSettings
     {
-        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> termGetter;
+        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> _termGetter;
 
-        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> termFindSettingsGetter;
+        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> _termFindSettingsGetter;
 
         protected TermFindAttribute(TermCase termCase)
             : this()
@@ -37,9 +37,9 @@ namespace Atata
             if (values != null && values.Any())
                 Values = values;
 
-            termGetter = md => md.GetAll<TermAttribute>();
+            _termGetter = md => md.GetAll<TermAttribute>();
 
-            termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(x => x.ForAttribute(GetType()));
+            _termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(x => x.ForAttribute(GetType()));
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Atata
             {
                 return Properties.Get<string[]>(
                     nameof(Values),
-                    termGetter);
+                    _termGetter);
             }
 
             private set
@@ -70,8 +70,8 @@ namespace Atata
                 return Properties.Get(
                     nameof(Case),
                     DefaultCase,
-                    termGetter,
-                    termFindSettingsGetter);
+                    _termGetter,
+                    _termFindSettingsGetter);
             }
 
             private set
@@ -90,8 +90,8 @@ namespace Atata
                 return Properties.Get(
                     nameof(Match),
                     DefaultMatch,
-                    termGetter,
-                    termFindSettingsGetter);
+                    _termGetter,
+                    _termFindSettingsGetter);
             }
 
             private set
@@ -109,8 +109,8 @@ namespace Atata
             {
                 return Properties.Get<string>(
                     nameof(Format),
-                    termGetter,
-                    termFindSettingsGetter);
+                    _termGetter,
+                    _termFindSettingsGetter);
             }
 
             set
@@ -132,8 +132,8 @@ namespace Atata
                 return Properties.Get(
                     nameof(CutEnding),
                     true,
-                    termGetter,
-                    termFindSettingsGetter);
+                    _termGetter,
+                    _termFindSettingsGetter);
             }
 
             set

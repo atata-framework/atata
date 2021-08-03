@@ -5,20 +5,20 @@ namespace Atata
 {
     public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorExecutionDataCollector
     {
-        private readonly UIComponent component;
+        private readonly UIComponent _component;
 
         public StrategyScopeLocatorExecutionDataCollector(UIComponent component)
         {
-            this.component = component;
+            _component = component;
         }
 
         public StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions)
         {
             searchOptions = searchOptions ?? new SearchOptions();
 
-            FindAttribute[] layerFindAttributes = component.Metadata.ResolveLayerFindAttributes().ToArray();
+            FindAttribute[] layerFindAttributes = _component.Metadata.ResolveLayerFindAttributes().ToArray();
 
-            FindAttribute findAttribute = component.Metadata.ResolveFindAttribute();
+            FindAttribute findAttribute = _component.Metadata.ResolveFindAttribute();
 
             var layerExecutionUnits = layerFindAttributes
                 .Select(x => CreateExecutionUnitForLayerFindAttribute(x, searchOptions))
@@ -32,7 +32,7 @@ namespace Atata
 
             PostProcessOuterXPath(layerExecutionUnits, finalExecutionUnit);
 
-            return new StrategyScopeLocatorExecutionData(component, scopeSource, searchOptions.IsSafely, layerExecutionUnits, finalExecutionUnit);
+            return new StrategyScopeLocatorExecutionData(_component, scopeSource, searchOptions.IsSafely, layerExecutionUnits, finalExecutionUnit);
         }
 
         private static void PostProcessOuterXPath(StrategyScopeLocatorLayerExecutionUnit[] layerExecutionUnits, StrategyScopeLocatorExecutionUnit finalExecutionUnit)
@@ -63,7 +63,7 @@ namespace Atata
             if (!desiredSearchOptions.IsRetryIntervalSet)
                 searchOptions.RetryInterval = TimeSpan.FromSeconds(findAttribute.RetryInterval);
 
-            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component, component.Metadata, findAttribute);
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(_component, _component.Metadata, findAttribute);
 
             return new StrategyScopeLocatorExecutionUnit(strategy, scopeLocateOptions, searchOptions);
         }
@@ -80,7 +80,7 @@ namespace Atata
                 RetryInterval = TimeSpan.FromSeconds(findAttribute.RetryInterval)
             };
 
-            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(component, findAttribute.Properties.Metadata, findAttribute);
+            ComponentScopeLocateOptions scopeLocateOptions = ComponentScopeLocateOptions.Create(_component, findAttribute.Properties.Metadata, findAttribute);
             ILayerScopeContextResolver scopeContextResolver = LayerScopeContextResolverFactory.Create(findAttribute.As);
 
             return new StrategyScopeLocatorLayerExecutionUnit(strategy, scopeLocateOptions, searchOptions, scopeContextResolver);

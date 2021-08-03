@@ -6,11 +6,11 @@ namespace Atata
 {
     public class ObjectMapper : IObjectMapper
     {
-        private readonly IObjectConverter objectConverter;
+        private readonly IObjectConverter _objectConverter;
 
         public ObjectMapper(IObjectConverter objectConverter)
         {
-            this.objectConverter = objectConverter;
+            _objectConverter = objectConverter;
         }
 
         public void Map(Dictionary<string, object> propertiesMap, object destination)
@@ -48,7 +48,7 @@ namespace Atata
 
             try
             {
-                object valueToSet = objectConverter.Convert(propertyValue, underlyingPropertyType);
+                object valueToSet = _objectConverter.Convert(propertyValue, underlyingPropertyType);
 
                 property.SetValue(destination, valueToSet, null);
             }

@@ -18,7 +18,7 @@ namespace Atata
 
         private const char GenericTypeSeparator = '`';
 
-        private static readonly ConcurrentDictionary<string, Type> TypesByName = new ConcurrentDictionary<string, Type>();
+        private static readonly ConcurrentDictionary<string, Type> s_typesByName = new ConcurrentDictionary<string, Type>();
 
         /// <summary>
         /// Finds the type by name in current application domain.
@@ -60,7 +60,7 @@ namespace Atata
             }
 
             return useCache
-                ? TypesByName.GetOrAdd(typeName, DoFind)
+                ? s_typesByName.GetOrAdd(typeName, DoFind)
                 : DoFind(typeName);
         }
 

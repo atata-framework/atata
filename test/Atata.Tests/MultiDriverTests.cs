@@ -10,11 +10,11 @@ namespace Atata.Tests
     {
         private const string HeadlessChromeAlias = "chrome-headless";
 
-        private readonly string driverAlias;
+        private readonly string _driverAlias;
 
         public MultiDriverTests(string driverAlias)
         {
-            this.driverAlias = driverAlias;
+            _driverAlias = driverAlias;
         }
 
         [SetUp]
@@ -24,8 +24,8 @@ namespace Atata.Tests
                 .UseChrome()
                     .WithAlias(HeadlessChromeAlias)
                     .WithArguments("headless")
-                .UseDriver(driverAlias)
-                .UseTestName(() => $"[{driverAlias}]{TestContext.CurrentContext.Test.Name}")
+                .UseDriver(_driverAlias)
+                .UseTestName(() => $"[{_driverAlias}]{TestContext.CurrentContext.Test.Name}")
                 .Build();
         }
 
@@ -33,10 +33,10 @@ namespace Atata.Tests
         [TestCase(8)]
         public void MultiDriver_WithParameter(int parameter)
         {
-            AtataContext.Current.Log.Info($"Driver alias: {driverAlias}");
+            AtataContext.Current.Log.Info($"Driver alias: {_driverAlias}");
             AtataContext.Current.Log.Info($"Parameter value: {parameter}");
 
-            AtataContext.Current.DriverAlias.Should().Be(driverAlias);
+            AtataContext.Current.DriverAlias.Should().Be(_driverAlias);
             AtataContext.Current.Driver.Should().BeOfType<ChromeDriver>();
         }
     }

@@ -6,23 +6,23 @@ namespace Atata.Tests
 {
     public class InputTests : UITestFixture
     {
-        private InputPage page;
+        private InputPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<InputPage>();
+            _page = Go.To<InputPage>();
         }
 
         [Test]
         public void TextInput()
         {
-            VerifyStringInput(page.TextInput);
+            VerifyStringInput(_page.TextInput);
         }
 
         [Test]
         public void Input_Enum()
         {
-            var control = page.EnumTextInput;
+            var control = _page.EnumTextInput;
 
             SetAndVerifyValues(control, InputPage.Option.OptionA, InputPage.Option.OptionC);
 
@@ -32,7 +32,7 @@ namespace Atata.Tests
         [Test]
         public void Input_NullableEnum()
         {
-            var control = page.NullableEnumTextInput;
+            var control = _page.NullableEnumTextInput;
 
             VerifyEquals(control, null);
 
@@ -44,7 +44,7 @@ namespace Atata.Tests
         [Test]
         public void Input_Int()
         {
-            var control = page.IntTextInput;
+            var control = _page.IntTextInput;
 
             VerifyEquals(control, null);
 
@@ -60,7 +60,7 @@ namespace Atata.Tests
         [Test]
         public void NumberInput()
         {
-            var control = page.NumberInput;
+            var control = _page.NumberInput;
 
             VerifyEquals(control, null);
 
@@ -82,7 +82,7 @@ namespace Atata.Tests
         [Test]
         public void FileInput()
         {
-            var control = page.FileInput;
+            var control = _page.FileInput;
 
             control.Should.Exist();
             control.Should.BeVisible();
@@ -93,7 +93,7 @@ namespace Atata.Tests
         [Test]
         public void FileInput_Hidden()
         {
-            var control = page.HiddenFileInput;
+            var control = _page.HiddenFileInput;
 
             control.Should.Exist();
             control.Should.BeHidden();
@@ -104,7 +104,7 @@ namespace Atata.Tests
         [Test]
         public void FileInput_Transparent()
         {
-            var control = page.TransparentFileInput;
+            var control = _page.TransparentFileInput;
 
             control.Should.Exist();
             control.Should.BeHidden();
@@ -131,7 +131,7 @@ namespace Atata.Tests
         [Test]
         public void TelInput()
         {
-            var control = page.TelInput;
+            var control = _page.TelInput;
 
             VerifyEquals(control, null);
 
@@ -146,19 +146,19 @@ namespace Atata.Tests
         [Test]
         public void SearchInput()
         {
-            VerifyStringInput(page.SearchInput);
+            VerifyStringInput(_page.SearchInput);
         }
 
         [Test]
         public void EmailInput()
         {
-            VerifyStringInput(page.EmailInput);
+            VerifyStringInput(_page.EmailInput);
         }
 
         [Test]
         public void UrlInput()
         {
-            VerifyStringInput(page.UrlInput);
+            VerifyStringInput(_page.UrlInput);
         }
 
         private static void VerifyStringInput(Input<string, InputPage> control)

@@ -12,7 +12,7 @@ namespace Atata
     public class ComponentAttributesAtataContextBuilder<TComponent>
         : AttributesAtataContextBuilder<ComponentAttributesAtataContextBuilder<TComponent>>
     {
-        private readonly Type componentType;
+        private readonly Type _componentType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComponentAttributesAtataContextBuilder{TComponent}"/> class.
@@ -21,7 +21,7 @@ namespace Atata
         public ComponentAttributesAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
-            componentType = typeof(TComponent);
+            _componentType = typeof(TComponent);
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Atata
             propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
 
             return new PropertyAttributesAtataContextBuilder<ComponentAttributesAtataContextBuilder<TComponent>>(
-                componentType,
+                _componentType,
                 propertyName,
                 this,
                 BuildingContext);
@@ -68,7 +68,7 @@ namespace Atata
                 ?? throw new ArgumentException("Expression does not return a property.", nameof(propertyExpression));
 
             return new PropertyAttributesAtataContextBuilder<ComponentAttributesAtataContextBuilder<TComponent>>(
-                componentType,
+                _componentType,
                 property.Name,
                 this,
                 BuildingContext);
@@ -76,10 +76,10 @@ namespace Atata
 
         protected override void OnAdd(IEnumerable<Attribute> attributes)
         {
-            if (!BuildingContext.Attributes.ComponentMap.TryGetValue(componentType, out var attributeSet))
+            if (!BuildingContext.Attributes.ComponentMap.TryGetValue(_componentType, out var attributeSet))
             {
                 attributeSet = new List<Attribute>();
-                BuildingContext.Attributes.ComponentMap[componentType] = attributeSet;
+                BuildingContext.Attributes.ComponentMap[_componentType] = attributeSet;
             }
 
             attributeSet.AddRange(attributes);

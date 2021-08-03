@@ -6,92 +6,92 @@ namespace Atata.Tests
 {
     public class RadioButtonListTests : UITestFixture
     {
-        private RadioButtonListPage page;
+        private RadioButtonListPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<RadioButtonListPage>();
+            _page = Go.To<RadioButtonListPage>();
         }
 
         [Test]
         public void RadioButtonList_Enum()
         {
-            page.ByNameAndLabel.Should.Equal(null).
+            _page.ByNameAndLabel.Should.Equal(null).
                 ByNameAndLabel.Should.BeNull();
 
-            page.ByClassAndValue.Should.Equal(RadioButtonListPage.ByValue.None);
+            _page.ByClassAndValue.Should.Equal(RadioButtonListPage.ByValue.None);
 
             SetAndVerifyValues(
-                page.ByNameAndLabel,
+                _page.ByNameAndLabel,
                 RadioButtonListPage.ByLabel.OptionC,
                 RadioButtonListPage.ByLabel.OptionB);
 
             SetAndVerifyValues(
-                page.ByClassAndValue,
+                _page.ByClassAndValue,
                 RadioButtonListPage.ByValue.OptionD,
                 RadioButtonListPage.ByValue.OptionA);
 
             SetAndVerifyValues(
-                page.ByCssAndValue,
+                _page.ByCssAndValue,
                 RadioButtonListPage.ByLabel.OptionB,
                 RadioButtonListPage.ByLabel.OptionC);
 
             Assert.Throws<NoSuchElementException>(() =>
-                page.ByClassAndValue.Set(RadioButtonListPage.ByValue.MissingValue));
+                _page.ByClassAndValue.Set(RadioButtonListPage.ByValue.MissingValue));
 
             Assert.Throws<ArgumentNullException>(() =>
-                page.ByNameAndLabel.Set(null));
+                _page.ByNameAndLabel.Set(null));
         }
 
         [Test]
         public void RadioButtonList_String()
         {
-            page.VerticalItems.Should.Equal("Item 1");
-            page.VerticalItems.Should.Not.BeNull();
+            _page.VerticalItems.Should.Equal("Item 1");
+            _page.VerticalItems.Should.Not.BeNull();
 
-            SetAndVerifyValues(page.VerticalItems, "Item 2", "Item 5");
-            SetAndVerifyValues(page.VerticalItemsByFieldSet, "Item 3", "Item 1");
+            SetAndVerifyValues(_page.VerticalItems, "Item 2", "Item 5");
+            SetAndVerifyValues(_page.VerticalItemsByFieldSet, "Item 3", "Item 1");
 
             Assert.Throws<NoSuchElementException>(() =>
-                page.VerticalItems.Set("Item 999"));
+                _page.VerticalItems.Set("Item 999"));
 
             Assert.Throws<ArgumentNullException>(() =>
-                page.VerticalItems.Set(null));
+                _page.VerticalItems.Set(null));
         }
 
         [Test]
         public void RadioButtonList_Int()
         {
-            page.IntegerItems.Should.BeNull();
+            _page.IntegerItems.Should.BeNull();
 
-            SetAndVerifyValues(page.IntegerItems, 2, 3);
+            SetAndVerifyValues(_page.IntegerItems, 2, 3);
 
             Assert.Throws<NoSuchElementException>(() =>
-                page.IntegerItems.Set(9));
+                _page.IntegerItems.Set(9));
 
             Assert.Throws<ArgumentNullException>(() =>
-                page.VerticalItems.Set(null));
+                _page.VerticalItems.Set(null));
         }
 
         [Test]
         public void RadioButtonList_Decimal()
         {
-            page.DecimalItems.Should.BeNull();
+            _page.DecimalItems.Should.BeNull();
 
-            SetAndVerifyValues(page.DecimalItems, 1000, 2500);
-            SetAndVerifyValues(page.DecimalItems, 3210.50m, 4310.10m);
+            SetAndVerifyValues(_page.DecimalItems, 1000, 2500);
+            SetAndVerifyValues(_page.DecimalItems, 3210.50m, 4310.10m);
 
             Assert.Throws<NoSuchElementException>(() =>
-                page.DecimalItems.Set(918.76m));
+                _page.DecimalItems.Set(918.76m));
 
             Assert.Throws<ArgumentNullException>(() =>
-                page.VerticalItems.Set(null));
+                _page.VerticalItems.Set(null));
         }
 
         [Test]
         public void RadioButtonList_Bool()
         {
-            var control = page.BoolItems;
+            var control = _page.BoolItems;
 
             control.Should.BeNull();
 
@@ -101,19 +101,19 @@ namespace Atata.Tests
         [Test]
         public void RadioButtonList_String_FindItemByParentContentAttribute()
         {
-            VerifyRegularStringBasedRadioButtonList(page.TextInParentItems);
+            VerifyRegularStringBasedRadioButtonList(_page.TextInParentItems);
         }
 
         [Test]
         public void RadioButtonList_String_FindItemByFollowingSiblingContentAttribute()
         {
-            VerifyRegularStringBasedRadioButtonList(page.TextInFollowingSiblingItems);
+            VerifyRegularStringBasedRadioButtonList(_page.TextInFollowingSiblingItems);
         }
 
         [Test]
         public void RadioButtonList_String_FindItemByPrecedingSiblingContentAttribute()
         {
-            VerifyRegularStringBasedRadioButtonList(page.TextInPrecedingSiblingItems);
+            VerifyRegularStringBasedRadioButtonList(_page.TextInPrecedingSiblingItems);
         }
 
         private static void VerifyRegularStringBasedRadioButtonList(RadioButtonList<string, RadioButtonListPage> control)

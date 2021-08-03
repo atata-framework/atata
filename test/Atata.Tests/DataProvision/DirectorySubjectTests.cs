@@ -34,48 +34,48 @@ namespace Atata.Tests.DataProvision
         [TestFixture]
         public static class Directories
         {
-            private static DirectoryFixture directoryFixture;
+            private static DirectoryFixture s_directoryFixture;
 
-            private static DirectorySubject sut;
+            private static DirectorySubject s_sut;
 
             [OneTimeSetUp]
             public static void SetUpFixture()
             {
-                directoryFixture = DirectoryFixture.CreateUniqueDirectory()
+                s_directoryFixture = DirectoryFixture.CreateUniqueDirectory()
                     .CreateDirectory("dir1")
                     .CreateDirectory(Path.Combine("dir1", "dir1_1"))
                     .CreateDirectory(Path.Combine("dir1", "dir1_2"))
                     .CreateDirectory(Path.Combine("dir1", "dir1_3"))
                     .CreateDirectory("dir2");
 
-                sut = new DirectorySubject(directoryFixture.DirectoryPath, "sut");
+                s_sut = new DirectorySubject(s_directoryFixture.DirectoryPath, "sut");
             }
 
             [OneTimeTearDown]
             public static void TearDownFxture() =>
-                directoryFixture.Dispose();
+                s_directoryFixture.Dispose();
 
             [Test]
             public static void Count() =>
-                sut.Directories.Count().Should.Equal(2);
+                s_sut.Directories.Count().Should.Equal(2);
 
             [Test]
             public static void Count_ProviderName() =>
-                sut.Directories.Count().ProviderName.ToResultSubject()
+                s_sut.Directories.Count().ProviderName.ToResultSubject()
                     .Should.Equal("sut.Directories.Count()");
 
             [Test]
             public static void IntIndexer() =>
-                sut.Directories[0].Name.Should.Equal("dir1");
+                s_sut.Directories[0].Name.Should.Equal("dir1");
 
             [Test]
             public static void IntIndexer_ProviderName() =>
-                sut.Directories[0].ProviderName.ToResultSubject()
+                s_sut.Directories[0].ProviderName.ToResultSubject()
                     .Should.Equal("sut.Directories[0]");
 
             [Test]
             public static void StringIndexer() =>
-                sut.Directories["dir1"].Should.Exist();
+                s_sut.Directories["dir1"].Should.Exist();
 
             [Test]
             public static void StringIndexer_OfMissingDirectory() =>
@@ -83,104 +83,104 @@ namespace Atata.Tests.DataProvision
 
             [Test]
             public static void StringIndexer_ProviderName() =>
-                sut.Directories["dir1"].ProviderName.ToResultSubject()
+                s_sut.Directories["dir1"].ProviderName.ToResultSubject()
                     .Should.Equal("sut.Directories[\"dir1\"]");
 
             [Test]
             public static void StringIndexer_ForSubDirectories() =>
-                sut.Directories["dir1"].Directories["dir1_2"].Should.Exist();
+                s_sut.Directories["dir1"].Directories["dir1_2"].Should.Exist();
 
             [Test]
             public static void StringIndexer_ForSubDirectories_ProviderName() =>
-                sut.Directories["dir1"].Directories["dir1_2"].ProviderName.ToResultSubject()
+                s_sut.Directories["dir1"].Directories["dir1_2"].ProviderName.ToResultSubject()
                     .Should.Equal("sut.Directories[\"dir1\"].Directories[\"dir1_2\"]");
 
             [Test]
             public static void SubDirectoriesCount() =>
-                sut.Directories[0].Directories.Count().Should.Equal(3);
+                s_sut.Directories[0].Directories.Count().Should.Equal(3);
 
             [Test]
             public static void SubDirectoriesCount_ProviderName() =>
-                sut.Directories[0].Directories.Count().ProviderName.ToSubject()
+                s_sut.Directories[0].Directories.Count().ProviderName.ToSubject()
                     .Should.Equal("sut.Directories[0].Directories.Count()");
 
             [Test]
             public static void Names() =>
-                sut.Directories["dir1"].Directories.Names
+                s_sut.Directories["dir1"].Directories.Names
                     .Should.EqualSequence("dir1_1", "dir1_2", "dir1_3");
 
             [Test]
             public static void Names_ProviderName() =>
-                sut.Directories["dir1"].Directories.Names.ProviderName.ToResultSubject()
+                s_sut.Directories["dir1"].Directories.Names.ProviderName.ToResultSubject()
                     .Should.Equal("sut.Directories[\"dir1\"].Directories.Names");
         }
 
         [TestFixture]
         public static class Files
         {
-            private static DirectoryFixture directoryFixture;
+            private static DirectoryFixture s_directoryFixture;
 
-            private static DirectorySubject sut;
+            private static DirectorySubject s_sut;
 
             [OneTimeSetUp]
             public static void SetUpFixture()
             {
-                directoryFixture = DirectoryFixture.CreateUniqueDirectory()
+                s_directoryFixture = DirectoryFixture.CreateUniqueDirectory()
                     .CreateFile("1.txt")
                     .CreateFile("2.txt");
 
-                sut = new DirectorySubject(directoryFixture.DirectoryPath, "sut");
+                s_sut = new DirectorySubject(s_directoryFixture.DirectoryPath, "sut");
             }
 
             [OneTimeTearDown]
             public static void TearDownFxture() =>
-                directoryFixture.Dispose();
+                s_directoryFixture.Dispose();
 
             [Test]
             public static void Count() =>
-                sut.Files.Count().Should.Equal(2);
+                s_sut.Files.Count().Should.Equal(2);
 
             [Test]
             public static void Count_ProviderName() =>
-                sut.Files.Count().ProviderName.ToResultSubject()
+                s_sut.Files.Count().ProviderName.ToResultSubject()
                     .Should.Equal("sut.Files.Count()");
 
             [Test]
             public static void IntIndexer() =>
-                sut.Files[0].Name.Should.Equal("1.txt");
+                s_sut.Files[0].Name.Should.Equal("1.txt");
 
             [Test]
             public static void StringIndexer() =>
-                sut.Files["1.txt"].Should.Exist();
+                s_sut.Files["1.txt"].Should.Exist();
 
             [Test]
             public static void StringIndexer_ProviderName() =>
-                sut.Files["1.txt"].ProviderName.ToResultSubject()
+                s_sut.Files["1.txt"].ProviderName.ToResultSubject()
                     .Should.Equal("sut.Files[\"1.txt\"]");
 
             [Test]
             public static void Where_First() =>
-                sut.Files.Where(x => x.Extension != ".ext").First()
+                s_sut.Files.Where(x => x.Extension != ".ext").First()
                     .Name.Should.Equal("1.txt");
 
             [Test]
             public static void Where_First_ProviderName() =>
-                sut.Files.Where(x => x.Extension != ".ext").First()
+                s_sut.Files.Where(x => x.Extension != ".ext").First()
                     .ProviderName.ToResultSubject().Should.Equal("sut.Files.Where(x => x.Extension != \".ext\").First()");
 
             [Test]
             public static void Names() =>
-                sut.Files.Names
+                s_sut.Files.Names
                     .Should.BeEquivalent("1.txt", "2.txt");
 
             [Test]
             public static void Names_ProviderName() =>
-                sut.Files.Names.ProviderName.ToResultSubject()
+                s_sut.Files.Names.ProviderName.ToResultSubject()
                     .Should.Equal("sut.Files.Names");
 
             [Test]
             public static void ThruMissingSubDirectory() =>
-                sut.Directories["missing"].Files["missing.txt"].Should.Not.Exist();
+                s_sut.Directories["missing"].Files["missing.txt"].Should.Not.Exist();
         }
     }
 }

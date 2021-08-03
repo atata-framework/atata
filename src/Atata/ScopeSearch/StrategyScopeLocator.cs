@@ -7,24 +7,24 @@ namespace Atata
 {
     public class StrategyScopeLocator : IScopeLocator
     {
-        private readonly IStrategyScopeLocatorExecutionDataCollector executionDataCollector;
+        private readonly IStrategyScopeLocatorExecutionDataCollector _executionDataCollector;
 
-        private readonly IStrategyScopeLocatorExecutor executor;
+        private readonly IStrategyScopeLocatorExecutor _executor;
 
         public StrategyScopeLocator(
             IStrategyScopeLocatorExecutionDataCollector executionDataCollector,
             IStrategyScopeLocatorExecutor executor)
         {
-            this.executionDataCollector = executionDataCollector;
-            this.executor = executor;
+            _executionDataCollector = executionDataCollector;
+            _executor = executor;
         }
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? new SearchOptions();
 
-            var executionData = executionDataCollector.Get(searchOptions);
-            XPathComponentScopeFindResult[] xPathResults = executor.Execute(executionData);
+            var executionData = _executionDataCollector.Get(searchOptions);
+            XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
 
             if (xPathResults.Any())
             {
@@ -55,8 +55,8 @@ namespace Atata
         {
             searchOptions = searchOptions ?? new SearchOptions();
 
-            var executionData = executionDataCollector.Get(searchOptions);
-            XPathComponentScopeFindResult[] xPathResults = executor.Execute(executionData);
+            var executionData = _executionDataCollector.Get(searchOptions);
+            XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
 
             foreach (var xPathResult in xPathResults)
             {
@@ -81,11 +81,11 @@ namespace Atata
             quickSearchOptions.Timeout = TimeSpan.Zero;
 
             var driver = AtataContext.Current.Driver;
-            StrategyScopeLocatorExecutionData executionData = executionDataCollector.Get(quickSearchOptions);
+            StrategyScopeLocatorExecutionData executionData = _executionDataCollector.Get(quickSearchOptions);
 
             bool isMissing = driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
             {
-                XPathComponentScopeFindResult[] xPathResults = executor.Execute(executionData);
+                XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
 
                 if (xPathResults.Any())
                 {

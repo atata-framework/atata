@@ -4,23 +4,23 @@ namespace Atata.Tests
 {
     public class ScrollTriggerTests : UITestFixture
     {
-        private ScrollablePage page;
+        private ScrollablePage _page;
 
         protected override bool ReuseDriver => false;
 
         protected override void OnSetUp()
         {
-            page = Go.To<ScrollablePage>();
+            _page = Go.To<ScrollablePage>();
         }
 
         [Test]
         public void ScrollDownAttribute()
         {
-            page.
+            _page.
                 BottomText.Should.Not.BeVisibleInViewPort().
                 BottomText.Metadata.Add(new ScrollDownAttribute(TriggerEvents.BeforeGet));
 
-            page.
+            _page.
                 BottomText.Get(out _).
                 BottomText.Should.BeVisibleInViewPort();
         }
@@ -28,12 +28,12 @@ namespace Atata.Tests
         [Test]
         public void ScrollUpAttribute()
         {
-            page.
+            _page.
                 ScrollDown().
                 TopText.Should.Not.BeVisibleInViewPort().
                 TopText.Metadata.Add(new ScrollUpAttribute(TriggerEvents.BeforeGet));
 
-            page.
+            _page.
                 TopText.Get(out _).
                 TopText.Should.BeVisibleInViewPort();
         }
@@ -41,11 +41,11 @@ namespace Atata.Tests
         [Test]
         public void ScrollToAttribute()
         {
-            page.
+            _page.
                 BottomText.Should.Not.BeVisibleInViewPort().
                 BottomText.Metadata.Add(new ScrollToAttribute(TriggerEvents.BeforeGet));
 
-            page.
+            _page.
                 BottomText.Get(out _).
                 BottomText.Should.BeVisibleInViewPort();
         }

@@ -6,19 +6,19 @@ namespace Atata
 {
     public class PropertyBag
     {
-        private readonly Dictionary<string, object> values = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _values = new Dictionary<string, object>();
 
         internal UIComponentMetadata Metadata { get; set; }
 
         public object this[string name]
         {
-            get { return values[name]; }
-            set { values[name] = value; }
+            get { return _values[name]; }
+            set { _values[name] = value; }
         }
 
         public bool Contains(string name)
         {
-            return values.ContainsKey(name);
+            return _values.ContainsKey(name);
         }
 
         public T Get<T>(string name, params Func<UIComponentMetadata, IEnumerable<IPropertySettings>>[] propertySettingsGetters)
@@ -28,7 +28,7 @@ namespace Atata
 
         public T Get<T>(string name, T defaultValue, params Func<UIComponentMetadata, IEnumerable<IPropertySettings>>[] propertySettingsGetters)
         {
-            if (values.TryGetValue(name, out object value))
+            if (_values.TryGetValue(name, out object value))
                 return (T)value;
 
             if (Metadata != null && propertySettingsGetters.Any())

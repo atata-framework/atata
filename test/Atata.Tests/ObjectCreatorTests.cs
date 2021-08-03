@@ -8,7 +8,7 @@ namespace Atata.Tests
     [TestFixture]
     public class ObjectCreatorTests
     {
-        private ObjectCreator sut;
+        private ObjectCreator _sut;
 
         [SetUp]
         public void SetUp()
@@ -16,13 +16,13 @@ namespace Atata.Tests
             IObjectConverter objectConverter = new ObjectConverter();
             IObjectMapper objectMapper = new ObjectMapper(objectConverter);
 
-            sut = new ObjectCreator(objectConverter, objectMapper);
+            _sut = new ObjectCreator(objectConverter, objectMapper);
         }
 
         [Test]
         public void ObjectCreator_Create_Empty()
         {
-            object result = sut.Create(
+            object result = _sut.Create(
                 typeof(IgnoreInitAttribute),
                 new Dictionary<string, object>());
 
@@ -32,7 +32,7 @@ namespace Atata.Tests
         [Test]
         public void ObjectCreator_Create_WithPropertyValues_ForTypeWithDefaultConstructor()
         {
-            object result = sut.Create(
+            object result = _sut.Create(
                 typeof(TraceLogAttribute),
                 new Dictionary<string, object>
                 {
@@ -52,7 +52,7 @@ namespace Atata.Tests
         [Test]
         public void ObjectCreator_Create_WithPropertyValues_ForTypeWithoutDefaultConstructor()
         {
-            object result = sut.Create(
+            object result = _sut.Create(
                 typeof(FindByIdAttribute),
                 new Dictionary<string, object>
                 {
@@ -72,7 +72,7 @@ namespace Atata.Tests
         [Test]
         public void ObjectCreator_Create_WithConstructorParametersAndPropertyValues()
         {
-            object result = sut.Create(
+            object result = _sut.Create(
                 typeof(FindByIdAttribute),
                 new Dictionary<string, object>
                 {
@@ -94,7 +94,7 @@ namespace Atata.Tests
         [Test]
         public void ObjectCreator_Create_WithAlternativeConstructorParameterName_Value()
         {
-            object result = sut.Create(
+            object result = _sut.Create(
                 typeof(FindByIdAttribute),
                 new Dictionary<string, object>
                 {
@@ -119,7 +119,7 @@ namespace Atata.Tests
         [Test]
         public void ObjectCreator_Create_WithAlternativeConstructorParameterName_Case()
         {
-            object result = sut.Create(
+            object result = _sut.Create(
                 typeof(FindByIdAttribute),
                 new Dictionary<string, object>
                 {

@@ -5,9 +5,9 @@
     /// </summary>
     public abstract class LazyInitializableLogConsumer : ILogConsumer
     {
-        private readonly object loggerInitializationLock = new object();
+        private readonly object _loggerInitializationLock = new object();
 
-        private bool isInitialized;
+        private bool _isInitialized;
 
         /// <summary>
         /// Gets the logger.
@@ -24,11 +24,11 @@
 
         private void EnsureLoggerIsInitialized()
         {
-            if (!isInitialized)
+            if (!_isInitialized)
             {
-                lock (loggerInitializationLock)
+                lock (_loggerInitializationLock)
                 {
-                    if (!isInitialized)
+                    if (!_isInitialized)
                     {
                         try
                         {
@@ -36,7 +36,7 @@
                         }
                         finally
                         {
-                            isInitialized = true;
+                            _isInitialized = true;
                         }
                     }
                 }

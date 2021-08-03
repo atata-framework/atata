@@ -4,15 +4,15 @@ namespace Atata
 {
     internal class LiteralExpressionPart
     {
-        private readonly StringBuilder builder = new StringBuilder();
+        private readonly StringBuilder _builder = new StringBuilder();
 
         public void Append(string value)
-            => builder.Append(value);
+            => _builder.Append(value);
 
         public void Append(char value)
-            => builder.Append(value);
+            => _builder.Append(value);
 
         public override string ToString() =>
-            builder.ToString();
+            _builder.ToString();
     }
 }

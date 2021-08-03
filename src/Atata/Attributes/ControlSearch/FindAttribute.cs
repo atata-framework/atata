@@ -9,11 +9,11 @@ namespace Atata
     /// </summary>
     public abstract class FindAttribute : MulticastAttribute
     {
-        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> findSettingsGetter;
+        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> _findSettingsGetter;
 
         protected FindAttribute()
         {
-            findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));
+            _findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(Index),
                     -1,
-                    findSettingsGetter);
+                    _findSettingsGetter);
             }
 
             set
@@ -47,7 +47,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(Visibility),
                     Visibility.Visible,
-                    findSettingsGetter,
+                    _findSettingsGetter,
                     md => new[] { md.ComponentDefinitionAttribute });
             }
 
@@ -68,7 +68,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(ScopeSource),
                     ScopeSource.Parent,
-                    findSettingsGetter);
+                    _findSettingsGetter);
             }
 
             set
@@ -87,7 +87,7 @@ namespace Atata
             {
                 return Properties.Get<string>(
                     nameof(OuterXPath),
-                    findSettingsGetter);
+                    _findSettingsGetter);
             }
 
             set
@@ -108,7 +108,7 @@ namespace Atata
                 return Properties.Get(
                     nameof(Strategy),
                     DefaultStrategy,
-                    findSettingsGetter);
+                    _findSettingsGetter);
             }
 
             set
@@ -123,7 +123,7 @@ namespace Atata
         /// </summary>
         public double Timeout
         {
-            get => Properties.Get<double?>(nameof(Timeout), findSettingsGetter)
+            get => Properties.Get<double?>(nameof(Timeout), _findSettingsGetter)
                 ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
             set => Properties[nameof(Timeout)] = value;
         }
@@ -134,7 +134,7 @@ namespace Atata
         /// </summary>
         public double RetryInterval
         {
-            get => Properties.Get<double?>(nameof(RetryInterval), findSettingsGetter)
+            get => Properties.Get<double?>(nameof(RetryInterval), _findSettingsGetter)
                 ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
             set => Properties[nameof(RetryInterval)] = value;
         }

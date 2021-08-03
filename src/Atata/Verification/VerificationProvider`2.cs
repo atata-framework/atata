@@ -6,14 +6,14 @@ namespace Atata
     public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVerificationProvider<TOwner>
         where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>
     {
-        private readonly bool isNegation;
+        private readonly bool _isNegation;
 
         protected VerificationProvider(bool isNegation = false)
         {
-            this.isNegation = isNegation;
+            _isNegation = isNegation;
         }
 
-        bool IVerificationProvider<TOwner>.IsNegation => isNegation;
+        bool IVerificationProvider<TOwner>.IsNegation => _isNegation;
 
         protected IVerificationStrategy Strategy { get; set; } = new AssertionVerificationStrategy();
 
@@ -99,7 +99,7 @@ namespace Atata
 
         string IVerificationProvider<TOwner>.GetShouldText()
         {
-            return isNegation ? "should not" : "should";
+            return _isNegation ? "should not" : "should";
         }
 
         RetryOptions IVerificationProvider<TOwner>.GetRetryOptions() => GetRetryOptions();

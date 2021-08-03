@@ -8,9 +8,9 @@ namespace Atata
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     public class Report<TOwner>
     {
-        private readonly TOwner owner;
+        private readonly TOwner _owner;
 
-        private readonly ILogManager logManager;
+        private readonly ILogManager _logManager;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Report{TOwner}"/> class.
@@ -19,8 +19,8 @@ namespace Atata
         /// <param name="logManager">The log manager.</param>
         public Report(TOwner owner, ILogManager logManager)
         {
-            this.owner = owner;
-            this.logManager = logManager;
+            _owner = owner;
+            _logManager = logManager;
         }
 
         /// <summary>
@@ -31,8 +31,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Trace(string message, params object[] args)
         {
-            logManager.Trace(message, args);
-            return owner;
+            _logManager.Trace(message, args);
+            return _owner;
         }
 
         /// <summary>
@@ -43,8 +43,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Debug(string message, params object[] args)
         {
-            logManager.Debug(message, args);
-            return owner;
+            _logManager.Debug(message, args);
+            return _owner;
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Info(string message, params object[] args)
         {
-            logManager.Info(message, args);
-            return owner;
+            _logManager.Info(message, args);
+            return _owner;
         }
 
         /// <summary>
@@ -67,8 +67,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Warn(string message, params object[] args)
         {
-            logManager.Warn(message, args);
-            return owner;
+            _logManager.Warn(message, args);
+            return _owner;
         }
 
         /// <summary>
@@ -78,8 +78,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Warn(Exception exception)
         {
-            logManager.Warn(exception);
-            return owner;
+            _logManager.Warn(exception);
+            return _owner;
         }
 
         /// <summary>
@@ -90,8 +90,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Warn(string message, Exception exception = null)
         {
-            logManager.Warn(message, exception);
-            return owner;
+            _logManager.Warn(message, exception);
+            return _owner;
         }
 
         /// <summary>
@@ -101,8 +101,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Error(Exception exception)
         {
-            logManager.Error(exception);
-            return owner;
+            _logManager.Error(exception);
+            return _owner;
         }
 
         /// <summary>
@@ -113,8 +113,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Error(string message, Exception exception = null)
         {
-            logManager.Error(message, exception);
-            return owner;
+            _logManager.Error(message, exception);
+            return _owner;
         }
 
         /// <summary>
@@ -125,8 +125,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Error(string message, string stackTrace)
         {
-            logManager.Error(message, stackTrace);
-            return owner;
+            _logManager.Error(message, stackTrace);
+            return _owner;
         }
 
         /// <summary>
@@ -136,8 +136,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Fatal(Exception exception)
         {
-            logManager.Fatal(exception);
-            return owner;
+            _logManager.Fatal(exception);
+            return _owner;
         }
 
         /// <summary>
@@ -148,8 +148,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Fatal(string message, Exception exception = null)
         {
-            logManager.Fatal(message, exception);
-            return owner;
+            _logManager.Fatal(message, exception);
+            return _owner;
         }
 
         /// <summary>
@@ -159,8 +159,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Start(LogSection section)
         {
-            logManager.Start(section);
-            return owner;
+            _logManager.Start(section);
+            return _owner;
         }
 
         /// <summary>
@@ -170,8 +170,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Start(string sectionMessage)
         {
-            logManager.Start(sectionMessage);
-            return owner;
+            _logManager.Start(sectionMessage);
+            return _owner;
         }
 
         /// <summary>
@@ -182,8 +182,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Start(string sectionMessage, LogLevel level)
         {
-            logManager.Start(sectionMessage, level);
-            return owner;
+            _logManager.Start(sectionMessage, level);
+            return _owner;
         }
 
         /// <summary>
@@ -192,8 +192,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner EndSection()
         {
-            logManager.EndSection();
-            return owner;
+            _logManager.EndSection();
+            return _owner;
         }
 
         /// <summary>
@@ -203,8 +203,8 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Screenshot(string title = null)
         {
-            logManager.Screenshot(title);
-            return owner;
+            _logManager.Screenshot(title);
+            return _owner;
         }
     }
 }

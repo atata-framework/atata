@@ -19,7 +19,7 @@ namespace Atata
 
         public const string Log4Net = "log4net";
 
-        private static readonly Dictionary<string, Func<ILogConsumer>> AliasFactoryMap = new Dictionary<string, Func<ILogConsumer>>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, Func<ILogConsumer>> s_aliasFactoryMap = new Dictionary<string, Func<ILogConsumer>>(StringComparer.OrdinalIgnoreCase);
 
         static LogConsumerAliases()
         {
@@ -43,14 +43,14 @@ namespace Atata
             typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
             logConsumerFactory.CheckNotNull(nameof(logConsumerFactory));
 
-            AliasFactoryMap[typeAlias.ToLowerInvariant()] = logConsumerFactory;
+            s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = logConsumerFactory;
         }
 
         public static ILogConsumer Resolve(string typeNameOrAlias)
         {
             typeNameOrAlias.CheckNotNullOrWhitespace(nameof(typeNameOrAlias));
 
-            return AliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<ILogConsumer> factory)
+            return s_aliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<ILogConsumer> factory)
                 ? factory()
                 : ActivatorEx.CreateInstance<ILogConsumer>(typeNameOrAlias);
         }

@@ -32,7 +32,7 @@ for (var i = 0; i < elements.length; i++) {
 
 return textValues;";
 
-        private string itemComponentTypeName;
+        private string _itemComponentTypeName;
 
         [Obsolete("This property is not used internally anymore, no sense to use it.")] // Obsolete since v1.5.0.
         protected ControlDefinitionAttribute ItemDefinition =>
@@ -43,7 +43,7 @@ return textValues;";
             ResolveItemFindAttribute();
 
         protected string ItemComponentTypeName =>
-            itemComponentTypeName ?? (itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
+            _itemComponentTypeName ?? (_itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

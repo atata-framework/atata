@@ -9,22 +9,22 @@ namespace Atata.Tests
     [TestFixture]
     public class UIComponentMetadataTests
     {
-        private UIComponentMetadata metadata;
+        private UIComponentMetadata _metadata;
 
-        public List<Attribute> Declared => metadata.DeclaredAttributesList;
+        public List<Attribute> Declared => _metadata.DeclaredAttributesList;
 
-        public List<Attribute> ParentComponent => metadata.ParentComponentAttributesList;
+        public List<Attribute> ParentComponent => _metadata.ParentComponentAttributesList;
 
-        public List<Attribute> Assembly => metadata.AssemblyAttributesList;
+        public List<Attribute> Assembly => _metadata.AssemblyAttributesList;
 
-        public List<Attribute> Global => metadata.GlobalAttributesList;
+        public List<Attribute> Global => _metadata.GlobalAttributesList;
 
-        public List<Attribute> Component => metadata.ComponentAttributesList;
+        public List<Attribute> Component => _metadata.ComponentAttributesList;
 
         [SetUp]
         public void SetUp()
         {
-            metadata = new UIComponentMetadata("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage));
+            _metadata = new UIComponentMetadata("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage));
         }
 
         [Test]
@@ -34,7 +34,7 @@ namespace Atata.Tests
             Global.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByIdAttribute) });
             Component.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByIdAttribute) });
 
-            metadata.Get<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.Get<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeSameAs(Assembly.Single());
         }
 
@@ -47,7 +47,7 @@ namespace Atata.Tests
             Global.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByIdAttribute) });
             Component.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByIdAttribute) });
 
-            metadata.Get<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.Get<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeSameAs(Declared.Single());
         }
 
@@ -60,7 +60,7 @@ namespace Atata.Tests
             Global.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByClassAttribute) });
             Component.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByCssAttribute) });
 
-            metadata.Get<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.Get<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeNull();
         }
 
@@ -73,7 +73,7 @@ namespace Atata.Tests
             Global.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByIdAttribute) });
             Component.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByIdAttribute) });
 
-            metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeSameSequenceAs(All(Declared, Assembly, Global, Component));
         }
 
@@ -86,7 +86,7 @@ namespace Atata.Tests
             Global.Add(new FindSettingsAttribute { });
             Component.Add(new FindSettingsAttribute { });
 
-            metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeSameSequenceAs(All(Declared, Assembly, Global, Component));
         }
 
@@ -99,7 +99,7 @@ namespace Atata.Tests
             Global.Add(new FindSettingsAttribute { TargetAnyType = true });
             Component.Add(new FindSettingsAttribute { TargetAnyType = true });
 
-            metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeSameSequenceAs(All(ParentComponent, Assembly, Global));
         }
 
@@ -112,7 +112,7 @@ namespace Atata.Tests
             Global.Add(new FindSettingsAttribute { });
             Component.Add(new FindSettingsAttribute { });
 
-            metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeSameSequenceAs(All(Declared, ParentComponent, Assembly, Global, Component));
         }
 
@@ -125,7 +125,7 @@ namespace Atata.Tests
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByLabelAttribute) });
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindAttribute) });
 
-            metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
+            _metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>()).
                 Should().BeSameSequenceAs(Declared[1], Declared[0], Declared[4], Declared[2]);
         }
 
@@ -136,15 +136,15 @@ namespace Atata.Tests
 
             var pushed = new FindSettingsAttribute { };
 
-            metadata.Push(pushed);
+            _metadata.Push(pushed);
 
-            metadata.DeclaredAttributes.
+            _metadata.DeclaredAttributes.
                 Should().BeSameSequenceAs(pushed);
 
-            metadata.GetAll<FindSettingsAttribute>().
+            _metadata.GetAll<FindSettingsAttribute>().
                 Should().BeSameSequenceAs(pushed, Assembly[0]);
 
-            metadata.Get<FindSettingsAttribute>().
+            _metadata.Get<FindSettingsAttribute>().
                 Should().BeSameAs(pushed);
         }
 
@@ -155,54 +155,54 @@ namespace Atata.Tests
 
             var pushed = new List<FindSettingsAttribute> { new FindSettingsAttribute { }, new FindSettingsAttribute { } };
 
-            metadata.Push(pushed);
+            _metadata.Push(pushed);
 
-            metadata.DeclaredAttributes.
+            _metadata.DeclaredAttributes.
                 Should().BeSameSequenceAs(pushed);
 
-            metadata.GetAll<FindSettingsAttribute>().
+            _metadata.GetAll<FindSettingsAttribute>().
                 Should().BeSameSequenceAs(pushed[0], pushed[1], Assembly[0]);
 
-            metadata.Get<FindSettingsAttribute>().
+            _metadata.Get<FindSettingsAttribute>().
                 Should().BeSameAs(pushed[0]);
         }
 
         [Test]
         public void UIComponentMetadata_ComponentDefinitionAttribute_ForControl()
         {
-            var defaultComponentDefinition = metadata.ComponentDefinitionAttribute;
+            var defaultComponentDefinition = _metadata.ComponentDefinitionAttribute;
             defaultComponentDefinition.ScopeXPath.Should().Be(ScopeDefinitionAttribute.DefaultScopeXPath);
             defaultComponentDefinition.ComponentTypeName.Should().Be("control");
 
             var componentDefinition = new ControlDefinitionAttribute("component");
             Component.Add(componentDefinition);
 
-            metadata.ComponentDefinitionAttribute.Should().BeSameAs(componentDefinition);
+            _metadata.ComponentDefinitionAttribute.Should().BeSameAs(componentDefinition);
 
             var globalDefinition = new ControlDefinitionAttribute("global");
             Global.Add(globalDefinition);
 
-            metadata.ComponentDefinitionAttribute.Should().BeSameAs(globalDefinition);
+            _metadata.ComponentDefinitionAttribute.Should().BeSameAs(globalDefinition);
 
             var assemblyDefinition = new ControlDefinitionAttribute("assembly");
             Assembly.Add(assemblyDefinition);
 
-            metadata.ComponentDefinitionAttribute.Should().BeSameAs(assemblyDefinition);
+            _metadata.ComponentDefinitionAttribute.Should().BeSameAs(assemblyDefinition);
 
             var parentComponentDefinition = new ControlDefinitionAttribute("parent-component");
             ParentComponent.Add(parentComponentDefinition);
 
-            metadata.ComponentDefinitionAttribute.Should().BeSameAs(assemblyDefinition);
+            _metadata.ComponentDefinitionAttribute.Should().BeSameAs(assemblyDefinition);
 
             var targetedParentComponentDefinition = new ControlDefinitionAttribute("parent-component-targeted") { TargetAnyType = true };
             ParentComponent.Add(targetedParentComponentDefinition);
 
-            metadata.ComponentDefinitionAttribute.Should().BeSameAs(targetedParentComponentDefinition);
+            _metadata.ComponentDefinitionAttribute.Should().BeSameAs(targetedParentComponentDefinition);
 
             var declaredDefinition = new ControlDefinitionAttribute("declared");
             Declared.Add(declaredDefinition);
 
-            metadata.ComponentDefinitionAttribute.Should().BeSameAs(declaredDefinition);
+            _metadata.ComponentDefinitionAttribute.Should().BeSameAs(declaredDefinition);
         }
 
         private static IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)

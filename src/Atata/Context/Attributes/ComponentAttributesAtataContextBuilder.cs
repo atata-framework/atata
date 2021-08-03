@@ -9,7 +9,7 @@ namespace Atata
     public class ComponentAttributesAtataContextBuilder
         : AttributesAtataContextBuilder<ComponentAttributesAtataContextBuilder>
     {
-        private readonly Type componentType;
+        private readonly Type _componentType;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ComponentAttributesAtataContextBuilder"/> class.
@@ -19,7 +19,7 @@ namespace Atata
         public ComponentAttributesAtataContextBuilder(Type componentType, AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
-            this.componentType = componentType;
+            _componentType = componentType;
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Atata
             propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
 
             return new PropertyAttributesAtataContextBuilder<ComponentAttributesAtataContextBuilder>(
-                componentType,
+                _componentType,
                 propertyName,
                 this,
                 BuildingContext);
@@ -48,10 +48,10 @@ namespace Atata
 
         protected override void OnAdd(IEnumerable<Attribute> attributes)
         {
-            if (!BuildingContext.Attributes.ComponentMap.TryGetValue(componentType, out var attributeSet))
+            if (!BuildingContext.Attributes.ComponentMap.TryGetValue(_componentType, out var attributeSet))
             {
                 attributeSet = new List<Attribute>();
-                BuildingContext.Attributes.ComponentMap[componentType] = attributeSet;
+                BuildingContext.Attributes.ComponentMap[_componentType] = attributeSet;
             }
 
             attributeSet.AddRange(attributes);

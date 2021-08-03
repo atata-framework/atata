@@ -7,7 +7,7 @@ namespace Atata
 {
     public static class ValueRandomizer
     {
-        private static readonly Dictionary<Type, RandomizeFunc> Randomizers = new Dictionary<Type, RandomizeFunc>();
+        private static readonly Dictionary<Type, RandomizeFunc> s_randomizers = new Dictionary<Type, RandomizeFunc>();
 
         static ValueRandomizer()
         {
@@ -30,12 +30,12 @@ namespace Atata
         {
             randomizeFunction.CheckNotNull(nameof(randomizeFunction));
 
-            Randomizers[typeof(T)] = md => randomizeFunction(md);
+            s_randomizers[typeof(T)] = md => randomizeFunction(md);
         }
 
         private static void RegisterNumberRandomizer<T>()
         {
-            Randomizers[typeof(T)] = md => RandomizeNumber<T>(md);
+            s_randomizers[typeof(T)] = md => RandomizeNumber<T>(md);
         }
 
         private static string RandomizeString(UIComponentMetadata metadata)
@@ -143,7 +143,7 @@ namespace Atata
             Type type = typeof(T);
             type = Nullable.GetUnderlyingType(type) ?? type;
 
-            if (Randomizers.TryGetValue(type, out RandomizeFunc randomizeFunction))
+            if (s_randomizers.TryGetValue(type, out RandomizeFunc randomizeFunction))
             {
                 return (T)randomizeFunction(metadata);
             }

@@ -6,9 +6,9 @@ namespace Atata.Tests
 
     public class StubPage : Page<_>
     {
-        private bool isTrueInASecond;
+        private bool _isTrueInASecond;
 
-        private Timer isTrueInASecondTimer;
+        private Timer _isTrueInASecondTimer;
 
         public DataProvider<bool, _> IsTrue => GetOrCreateDataProvider(nameof(IsTrue), () => true);
 
@@ -16,23 +16,23 @@ namespace Atata.Tests
 
         private bool GetIsTrueInASecond()
         {
-            if (!isTrueInASecond && isTrueInASecondTimer == null)
+            if (!_isTrueInASecond && _isTrueInASecondTimer == null)
             {
-                isTrueInASecondTimer = new Timer(1000)
+                _isTrueInASecondTimer = new Timer(1000)
                 {
                     AutoReset = false,
                     Enabled = true
                 };
 
-                isTrueInASecondTimer.Elapsed += (s, e) =>
+                _isTrueInASecondTimer.Elapsed += (s, e) =>
                 {
-                    isTrueInASecond = true;
-                    isTrueInASecondTimer.Dispose();
-                    isTrueInASecondTimer = null;
+                    _isTrueInASecond = true;
+                    _isTrueInASecondTimer.Dispose();
+                    _isTrueInASecondTimer = null;
                 };
             }
 
-            return isTrueInASecond;
+            return _isTrueInASecond;
         }
     }
 }

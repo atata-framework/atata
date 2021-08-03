@@ -10,9 +10,9 @@ namespace Atata
     /// <typeparam name="TSource">The type of the source.</typeparam>
     public class DynamicObjectSource<TObject, TSource> : IObjectSource<TObject>
     {
-        private readonly IObjectProvider<TSource> sourceProvider;
+        private readonly IObjectProvider<TSource> _sourceProvider;
 
-        private readonly Func<TSource, TObject> valueGetFunction;
+        private readonly Func<TSource, TObject> _valueGetFunction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicObjectSource{TObject, TSource}"/> class.
@@ -21,17 +21,17 @@ namespace Atata
         /// <param name="valueGetFunction">The value get function.</param>
         public DynamicObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> valueGetFunction)
         {
-            this.sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
-            this.valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
+            _sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
+            _valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
         }
 
         /// <inheritdoc/>
         public TObject Value =>
-            valueGetFunction.Invoke(sourceProvider.Value);
+            _valueGetFunction.Invoke(_sourceProvider.Value);
 
         /// <inheritdoc/>
         public string SourceProviderName =>
-            sourceProvider.ProviderName;
+            _sourceProvider.ProviderName;
 
         /// <inheritdoc/>
         public bool IsDynamic => true;

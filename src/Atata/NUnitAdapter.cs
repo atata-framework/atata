@@ -10,31 +10,31 @@ namespace Atata
 
         internal const string AssertionExceptionTypeName = "NUnit.Framework.AssertionException";
 
-        private static readonly Lazy<Type> TestContextType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testContextType = new Lazy<Type>(
             () => GetType("NUnit.Framework.TestContext"));
 
-        private static readonly Lazy<Type> TestExecutionContextType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testExecutionContextType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.TestExecutionContext"));
 
-        private static readonly Lazy<Type> AssertType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_assertType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Assert"));
 
-        private static readonly Lazy<Type> TestDelegateType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testDelegateType = new Lazy<Type>(
             () => GetType("NUnit.Framework.TestDelegate"));
 
-        private static readonly Lazy<Type> AssertionStatusType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_assertionStatusType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Interfaces.AssertionStatus"));
 
-        private static readonly Lazy<Type> TestResultType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testResultType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.TestResult"));
 
-        private static readonly Lazy<Type> TestMethodType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testMethodType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.TestMethod"));
 
-        private static readonly Lazy<Type> TestFixtureType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testFixtureType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.TestFixture"));
 
-        private static readonly Lazy<Type> SetUpFixtureType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_setUpFixtureType = new Lazy<Type>(
             () => GetType("NUnit.Framework.Internal.SetUpFixture"));
 
         internal enum AssertionStatus
@@ -61,7 +61,7 @@ namespace Atata
         {
             object testExecutionContext = GetCurrentTestExecutionContext();
 
-            return TestExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentTest")
+            return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentTest")
                 .GetValue(testExecutionContext);
         }
 
@@ -69,8 +69,8 @@ namespace Atata
         {
             object testItem = GetCurrentTest();
 
-            return testItem != null && testItem.GetType() == TestMethodType.Value
-                ? TestMethodType.Value.GetPropertyWithThrowOnError("Name").GetValue(testItem) as string
+            return testItem != null && testItem.GetType() == s_testMethodType.Value
+                ? s_testMethodType.Value.GetPropertyWithThrowOnError("Name").GetValue(testItem) as string
                 : null;
         }
 
@@ -78,12 +78,12 @@ namespace Atata
         {
             dynamic testItem = GetCurrentTest();
 
-            if (testItem.GetType() == SetUpFixtureType.Value)
+            if (testItem.GetType() == s_setUpFixtureType.Value)
                 return testItem.TypeInfo.Type.Name;
 
             do
             {
-                if (testItem.GetType() == TestFixtureType.Value)
+                if (testItem.GetType() == s_testFixtureType.Value)
                     return testItem.Name;
 
                 testItem = testItem.Parent;
@@ -97,12 +97,12 @@ namespace Atata
         {
             dynamic testItem = GetCurrentTest();
 
-            if (testItem.GetType() == SetUpFixtureType.Value)
+            if (testItem.GetType() == s_setUpFixtureType.Value)
                 return testItem.TypeInfo.Type;
 
             do
             {
-                if (testItem.GetType() == TestFixtureType.Value)
+                if (testItem.GetType() == s_testFixtureType.Value)
                     return testItem.TypeInfo.Type;
 
                 testItem = testItem.Parent;
@@ -114,9 +114,9 @@ namespace Atata
 
         internal static void AssertMultiple(Action action)
         {
-            Delegate testDelegate = ConvertToDelegate(action, TestDelegateType.Value);
+            Delegate testDelegate = ConvertToDelegate(action, s_testDelegateType.Value);
 
-            MethodInfo assertMultipleMethod = AssertType.Value.GetMethodWithThrowOnError("Multiple", TestDelegateType.Value);
+            MethodInfo assertMultipleMethod = s_assertType.Value.GetMethodWithThrowOnError("Multiple", s_testDelegateType.Value);
 
             assertMultipleMethod.InvokeStaticAsLambda(testDelegate);
         }
@@ -132,7 +132,7 @@ namespace Atata
 
         internal static void AssertFail(string message)
         {
-            var reportFailureMethod = AssertType.Value.GetMethodWithThrowOnError("Fail", typeof(string));
+            var reportFailureMethod = s_assertType.Value.GetMethodWithThrowOnError("Fail", typeof(string));
 
             reportFailureMethod.InvokeStaticAsLambda(message);
         }
@@ -141,9 +141,9 @@ namespace Atata
         {
             object testResult = GetCurrentTestResult();
 
-            object statusConverted = Enum.Parse(AssertionStatusType.Value, status.ToString());
+            object statusConverted = Enum.Parse(s_assertionStatusType.Value, status.ToString());
 
-            MethodInfo recordAssertionMethod = TestResultType.Value.GetMethodWithThrowOnError("RecordAssertion", AssertionStatusType.Value, typeof(string), typeof(string));
+            MethodInfo recordAssertionMethod = s_testResultType.Value.GetMethodWithThrowOnError("RecordAssertion", s_assertionStatusType.Value, typeof(string), typeof(string));
             recordAssertionMethod.InvokeAsLambda(testResult, statusConverted, message, stackTrace);
         }
 
@@ -151,7 +151,7 @@ namespace Atata
         {
             object testResult = GetCurrentTestResult();
 
-            TestResultType.Value.GetMethodWithThrowOnError("RecordTestCompletion").
+            s_testResultType.Value.GetMethodWithThrowOnError("RecordTestCompletion").
                 InvokeAsLambda(testResult);
         }
 
@@ -159,13 +159,13 @@ namespace Atata
         {
             object testExecutionContext = GetCurrentTestExecutionContext();
 
-            return TestExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentResult").
+            return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentResult").
                 GetValue(testExecutionContext);
         }
 
         internal static object GetCurrentTestExecutionContext()
         {
-            PropertyInfo currentContextProperty = TestExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
+            PropertyInfo currentContextProperty = s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
 
             return currentContextProperty.GetStaticValue();
         }
@@ -190,13 +190,13 @@ namespace Atata
         internal static void AddTestAttachment(string filePath, string description = null)
         {
             // TODO: Change implementation to: TestExecutionContext.CurrentContext.CurrentResult.TestAttachments.Add(new TestAttachment(filePath, description))
-            TestContextType.Value.GetMethodWithThrowOnError("AddTestAttachment", BindingFlags.Static | BindingFlags.Public)
+            s_testContextType.Value.GetMethodWithThrowOnError("AddTestAttachment", BindingFlags.Static | BindingFlags.Public)
                 .InvokeStatic(filePath, description);
         }
 
         internal static object GetCurrentTestContext()
         {
-            PropertyInfo currentContextProperty = TestContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
+            PropertyInfo currentContextProperty = s_testContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
 
             return currentContextProperty.GetStaticValue();
         }

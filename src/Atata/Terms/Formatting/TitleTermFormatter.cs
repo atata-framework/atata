@@ -6,7 +6,7 @@ namespace Atata.TermFormatting
 {
     public class TitleTermFormatter : ITermFormatter
     {
-        private static readonly string[] WordsToKeepLower = new[]
+        private static readonly string[] s_wordsToKeepLower = new[]
         {
             "a",
             "an",
@@ -54,7 +54,7 @@ namespace Atata.TermFormatting
         private static string CapitalizeFirstLetterExceptSpecial(string word)
         {
             string wordToLower = word.ToLower(CultureInfo.CurrentCulture);
-            return WordsToKeepLower.Contains(wordToLower) ? wordToLower : CapitalizeFirstLetter(word);
+            return s_wordsToKeepLower.Contains(wordToLower) ? wordToLower : CapitalizeFirstLetter(word);
         }
     }
 }

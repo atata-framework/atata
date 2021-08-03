@@ -11,16 +11,16 @@ namespace Atata
     /// <seealso cref="ILogManager" />
     public class LogManager : ILogManager
     {
-        private readonly ILogEventInfoFactory logEventInfoFactory;
+        private readonly ILogEventInfoFactory _logEventInfoFactory;
 
-        private readonly List<LogConsumerInfo> logConsumers = new List<LogConsumerInfo>();
-        private readonly List<IScreenshotConsumer> screenshotConsumers = new List<IScreenshotConsumer>();
+        private readonly List<LogConsumerInfo> _logConsumers = new List<LogConsumerInfo>();
+        private readonly List<IScreenshotConsumer> _screenshotConsumers = new List<IScreenshotConsumer>();
 
-        private readonly List<SecretStringToMask> secretStringsToMask = new List<SecretStringToMask>();
+        private readonly List<SecretStringToMask> _secretStringsToMask = new List<SecretStringToMask>();
 
-        private readonly Stack<LogSection> sectionEndStack = new Stack<LogSection>();
+        private readonly Stack<LogSection> _sectionEndStack = new Stack<LogSection>();
 
-        private int screenshotNumber;
+        private int _screenshotNumber;
 
         // TODO: Remove this constructor. It is present for backward compatibility.
         public LogManager()
@@ -32,7 +32,7 @@ namespace Atata
 
         public LogManager(ILogEventInfoFactory logEventInfoFactory)
         {
-            this.logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));
+            _logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));
         }
 
         /// <summary>
@@ -63,7 +63,7 @@ namespace Atata
         {
             consumerInfo.CheckNotNull(nameof(consumerInfo));
 
-            logConsumers.Add(consumerInfo);
+            _logConsumers.Add(consumerInfo);
 
             return this;
         }
@@ -77,7 +77,7 @@ namespace Atata
         {
             consumer.CheckNotNull(nameof(consumer));
 
-            screenshotConsumers.Add(consumer);
+            _screenshotConsumers.Add(consumer);
             return this;
         }
 
@@ -90,7 +90,7 @@ namespace Atata
         {
             secretStringsToMask.CheckNotNull(nameof(secretStringsToMask));
 
-            this.secretStringsToMask.AddRange(secretStringsToMask);
+            _secretStringsToMask.AddRange(secretStringsToMask);
 
             return this;
         }
@@ -205,7 +205,7 @@ namespace Atata
         {
             section.CheckNotNull(nameof(section));
 
-            LogEventInfo eventInfo = logEventInfoFactory.Create(section.Level, section.Message);
+            LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, section.Message);
             eventInfo.SectionStart = section;
 
             section.StartedAt = eventInfo.Timestamp;
@@ -213,7 +213,7 @@ namespace Atata
 
             Log(eventInfo);
 
-            sectionEndStack.Push(section);
+            _sectionEndStack.Push(section);
         }
 
         /// <summary>
@@ -221,9 +221,9 @@ namespace Atata
         /// </summary>
         public void EndSection()
         {
-            if (sectionEndStack.Any())
+            if (_sectionEndStack.Any())
             {
-                LogSection section = sectionEndStack.Pop();
+                LogSection section = _sectionEndStack.Pop();
 
                 section.Stopwatch.Stop();
 
@@ -234,7 +234,7 @@ namespace Atata
                 else if (section.Exception != null)
                     message = AppendSectionResultToMessage(message, section.Exception);
 
-                LogEventInfo eventInfo = logEventInfoFactory.Create(section.Level, message);
+                LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, message);
                 eventInfo.SectionEnd = section;
 
                 Log(eventInfo);
@@ -305,14 +305,14 @@ namespace Atata
                 ? message.FormatWith(args)
                 : message;
 
-            LogEventInfo logEvent = logEventInfoFactory.Create(level, completeMessage);
+            LogEventInfo logEvent = _logEventInfoFactory.Create(level, completeMessage);
 
             Log(logEvent);
         }
 
         private void Log(LogLevel level, string message, Exception exception)
         {
-            LogEventInfo logEvent = logEventInfoFactory.Create(level, message);
+            LogEventInfo logEvent = _logEventInfoFactory.Create(level, message);
             logEvent.Exception = exception;
 
             Log(logEvent);
@@ -320,7 +320,7 @@ namespace Atata
 
         private void Log(LogEventInfo eventInfo)
         {
-            var appropriateConsumerItems = logConsumers
+            var appropriateConsumerItems = _logConsumers
                 .Where(x => eventInfo.Level >= x.MinLevel);
 
             if (eventInfo.SectionEnd != null)
@@ -333,7 +333,7 @@ namespace Atata
 
             foreach (var consumerItem in appropriateConsumerItems)
             {
-                eventInfo.NestingLevel = sectionEndStack.Count(x => x.Level >= consumerItem.MinLevel);
+                eventInfo.NestingLevel = _sectionEndStack.Count(x => x.Level >= consumerItem.MinLevel);
                 eventInfo.Message = PrependHierarchyPrefixesToMessage(originalMessage, eventInfo, consumerItem);
 
                 consumerItem.Consumer.Log(eventInfo);
@@ -342,7 +342,7 @@ namespace Atata
 
         private string ApplySecretMasks(string message)
         {
-            foreach (var secret in secretStringsToMask)
+            foreach (var secret in _secretStringsToMask)
                 message = message.Replace(secret.Value, secret.Mask);
 
             return message;
@@ -350,14 +350,14 @@ namespace Atata
 
         public void Screenshot(string title = null)
         {
-            if (AtataContext.Current?.Driver == null || !screenshotConsumers.Any())
+            if (AtataContext.Current?.Driver == null || !_screenshotConsumers.Any())
                 return;
 
             try
             {
-                screenshotNumber++;
+                _screenshotNumber++;
 
-                string logMessage = $"Take screenshot #{screenshotNumber:D2}";
+                string logMessage = $"Take screenshot #{_screenshotNumber:D2}";
 
                 if (!string.IsNullOrWhiteSpace(title))
                     logMessage += $" - {title}";
@@ -367,14 +367,14 @@ namespace Atata
                 ScreenshotInfo screenshotInfo = new ScreenshotInfo
                 {
                     Screenshot = AtataContext.Current.Driver.GetScreenshot(),
-                    Number = screenshotNumber,
+                    Number = _screenshotNumber,
                     Title = title,
                     PageObjectName = AtataContext.Current.PageObject.ComponentName,
                     PageObjectTypeName = AtataContext.Current.PageObject.ComponentTypeName,
                     PageObjectFullName = AtataContext.Current.PageObject.ComponentFullName
                 };
 
-                foreach (IScreenshotConsumer screenshotConsumer in screenshotConsumers)
+                foreach (IScreenshotConsumer screenshotConsumer in _screenshotConsumers)
                 {
                     try
                     {

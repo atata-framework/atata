@@ -5,7 +5,7 @@ namespace Atata.TermFormatting
 {
     public static class TermCaseResolver
     {
-        private static readonly Dictionary<TermCase, FormatterItem> Formatters = new Dictionary<TermCase, FormatterItem>
+        private static readonly Dictionary<TermCase, FormatterItem> s_formatters = new Dictionary<TermCase, FormatterItem>
         {
             [TermCase.Title] = FormatterItem.For<TitleTermFormatter>(),
             [TermCase.Capitalized] = FormatterItem.For<CapitalizedTermFormatter>(),
@@ -46,7 +46,7 @@ namespace Atata.TermFormatting
             if (termCase == TermCase.None)
                 return string.Concat(words);
 
-            if (Formatters.TryGetValue(termCase, out FormatterItem formatterItem))
+            if (s_formatters.TryGetValue(termCase, out FormatterItem formatterItem))
             {
                 string formattedValue = formatterItem.Formatter.Format(words);
 

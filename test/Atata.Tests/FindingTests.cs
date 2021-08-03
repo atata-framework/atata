@@ -6,86 +6,86 @@ namespace Atata.Tests
 {
     public class FindingTests : UITestFixture
     {
-        private FindingPage page;
+        private FindingPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<FindingPage>();
+            _page = Go.To<FindingPage>();
         }
 
         [Test]
         public void Find_ByIndex()
         {
-            VerifyRadioButton(page.OptionCByIndex);
+            VerifyRadioButton(_page.OptionCByIndex);
         }
 
         [Test]
         public void Find_ByNameAndIndex()
         {
-            VerifyRadioButton(page.OptionCByName);
+            VerifyRadioButton(_page.OptionCByName);
         }
 
         [Test]
         public void Find_ByCssAndIndex()
         {
-            VerifyRadioButton(page.OptionCByCss);
+            VerifyRadioButton(_page.OptionCByCss);
         }
 
         [Test]
         public void Find_ByXPathAndIndex()
         {
-            VerifyRadioButton(page.OptionCByXPath);
+            VerifyRadioButton(_page.OptionCByXPath);
         }
 
         [Test]
         public void Find_ByXPathAndIndex_Condition()
         {
-            VerifyRadioButton(page.OptionCByXPathCondition);
+            VerifyRadioButton(_page.OptionCByXPathCondition);
         }
 
         [Test]
         public void Find_ByXPathAndIndex_Attribute()
         {
-            VerifyRadioButton(page.OptionCByXPathAttribute);
+            VerifyRadioButton(_page.OptionCByXPathAttribute);
         }
 
         [Test]
         public void Find_ByAttributeAndIndex()
         {
-            VerifyRadioButton(page.OptionCByName);
+            VerifyRadioButton(_page.OptionCByName);
         }
 
         [Test]
         public void Find_ByClassAndIndex()
         {
-            VerifyRadioButton(page.OptionCByClass);
+            VerifyRadioButton(_page.OptionCByClass);
         }
 
         [Test]
         public void Find_Last()
         {
-            VerifyRadioButton(page.OptionDAsLast, "OptionD");
+            VerifyRadioButton(_page.OptionDAsLast, "OptionD");
         }
 
         [Test]
         public void Find_Visible()
         {
-            page.VisibleInput.Should.Exist().
+            _page.VisibleInput.Should.Exist().
                 VisibleInput.Should.BeVisible().
                 FailDisplayNoneInput.Should.Not.Exist().
                 FailOpacity0Input.Should.Not.Exist();
 
             AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
-                page.FailDisplayNoneInput.Should.AtOnce.Exist());
+                _page.FailDisplayNoneInput.Should.AtOnce.Exist());
 
             AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
-                page.FailOpacity0Input.Should.AtOnce.Exist());
+                _page.FailOpacity0Input.Should.AtOnce.Exist());
         }
 
         [Test]
         public void Find_Hidden()
         {
-            page.DisplayNoneInput.Should.Exist().
+            _page.DisplayNoneInput.Should.Exist().
                 DisplayNoneInput.Should.BeHidden().
                 HiddenInput.Should.Exist().
                 HiddenInput.Should.BeHidden().
@@ -98,73 +98,73 @@ namespace Atata.Tests
                 TypeHiddenInputWithDeclaredDefinition.Should.Exist().
                 TypeHiddenInputWithDeclaredDefinition.Should.BeHidden();
 
-            Assert.That(page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
+            Assert.That(_page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
         }
 
         [Test]
         public void Find_ByCss_OuterXPath()
         {
-            VerifyRadioButton(page.OptionCByCssWithOuterXPath);
+            VerifyRadioButton(_page.OptionCByCssWithOuterXPath);
         }
 
         [Test]
         public void Find_ByCss_OuterXPath_Missing()
         {
-            VerifyNotExist(page.MissingOptionByCssWithOuterXPath);
+            VerifyNotExist(_page.MissingOptionByCssWithOuterXPath);
         }
 
         [Test]
         public void Find_ByCss_Missing()
         {
-            VerifyNotExist(page.MissingOptionByCss);
+            VerifyNotExist(_page.MissingOptionByCss);
         }
 
         [Test]
         public void Find_ByLabel_Missing()
         {
-            VerifyNotExist(page.MissingOptionByLabel);
+            VerifyNotExist(_page.MissingOptionByLabel);
         }
 
         [Test]
         public void Find_ByXPath_Missing()
         {
-            VerifyNotExist(page.MissingOptionByXPath);
+            VerifyNotExist(_page.MissingOptionByXPath);
         }
 
         [Test]
         public void Find_ById_Missing()
         {
-            VerifyNotExist(page.MissingOptionById);
+            VerifyNotExist(_page.MissingOptionById);
         }
 
         [Test]
         public void Find_ByColumnHeader_Missing()
         {
-            VerifyNotExist(page.MissingOptionByColumnHeader);
+            VerifyNotExist(_page.MissingOptionByColumnHeader);
         }
 
         [Test]
         public void Find_ByScript()
         {
-            VerifyRadioButton(page.OptionByScript, "OptionB");
+            VerifyRadioButton(_page.OptionByScript, "OptionB");
         }
 
         [Test]
         public void Find_ByScript_WithIndex()
         {
-            VerifyRadioButton(page.OptionByScriptWithIndex, "OptionC");
+            VerifyRadioButton(_page.OptionByScriptWithIndex, "OptionC");
         }
 
         [Test]
         public void Find_ByScript_WithIncorrectIndex()
         {
-            VerifyNotExist(page.OptionByScriptWithIncorrectIndex);
+            VerifyNotExist(_page.OptionByScriptWithIncorrectIndex);
         }
 
         [Test]
         public void Find_ByScript_Missing()
         {
-            VerifyNotExist(page.OptionByScriptMissing);
+            VerifyNotExist(_page.OptionByScriptMissing);
         }
 
         [Test]
@@ -173,12 +173,12 @@ namespace Atata.Tests
             IWebElement element = null;
 
             WebDriverException exception = Assert.Throws<WebDriverException>(() =>
-                element = page.OptionByScriptWithInvalidScript.Scope);
+                element = _page.OptionByScriptWithInvalidScript.Scope);
 
             Assert.That(exception.Message, Does.StartWith("javascript error:"));
 
             AssertThrowsWithInnerException<AssertionException, WebDriverException>(() =>
-                page.OptionByScriptWithInvalidScript.Should.AtOnce.Exist());
+                _page.OptionByScriptWithInvalidScript.Should.AtOnce.Exist());
         }
 
         [Test]
@@ -187,49 +187,49 @@ namespace Atata.Tests
             IWebElement element = null;
 
             InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() =>
-                element = page.OptionByScriptWithIncorrectScriptResult.Scope);
+                element = _page.OptionByScriptWithIncorrectScriptResult.Scope);
 
             Assert.That(exception.Message, Does.Contain("I am not OK."));
 
             AssertThrowsWithInnerException<AssertionException, InvalidOperationException>(() =>
-                page.OptionByScriptWithIncorrectScriptResult.Should.AtOnce.Exist());
+                _page.OptionByScriptWithIncorrectScriptResult.Should.AtOnce.Exist());
         }
 
         [Test]
         public void Find_ByDescendantId()
         {
-            page.ControlByDescendantId.Should.HaveClass("custom-control");
+            _page.ControlByDescendantId.Should.HaveClass("custom-control");
         }
 
         [Test]
         public void Find_ByDescendantId_Missing()
         {
-            VerifyNotExist(page.ControlByDescendantIdMissing);
+            VerifyNotExist(_page.ControlByDescendantIdMissing);
         }
 
         [Test]
         public void Find_ControlDefinition_MultipleClasses()
         {
-            page.SpanWithMultipleClasses.Should.Equal("Span with multiple classes");
+            _page.SpanWithMultipleClasses.Should.Equal("Span with multiple classes");
         }
 
         [Test]
         public void Find_ControlDefinition_MultipleClasses_Missing()
         {
-            VerifyNotExist(page.MissingSpanWithMultipleClasses);
+            VerifyNotExist(_page.MissingSpanWithMultipleClasses);
         }
 
         [Test]
         public void Find_FindAttributeAtParentLevel()
         {
-            var control = page.OptionCAsCustom;
+            var control = _page.OptionCAsCustom;
             VerifyValue(control, "OptionC");
         }
 
         [Test]
         public void Find_AfterPushToMetadata()
         {
-            var control = page.OptionCByIndex;
+            var control = _page.OptionCByIndex;
             VerifyValue(control, "OptionC");
 
             control.Metadata.Push(new FindByValueAttribute("OptionB"));
@@ -242,13 +242,13 @@ namespace Atata.Tests
         [Test]
         public void Find_AfterPushToDifferentLevelsOfMetadata()
         {
-            var control = page.OptionDAsCustom;
+            var control = _page.OptionDAsCustom;
             VerifyValue(control, "OptionD");
 
-            page.Metadata.Push(new FindByValueAttribute("OptionC"));
+            _page.Metadata.Push(new FindByValueAttribute("OptionC"));
             VerifyValue(control, "OptionD");
 
-            page.Metadata.Push(new FindByValueAttribute("OptionC") { TargetName = nameof(FindingPage.OptionDAsCustom) });
+            _page.Metadata.Push(new FindByValueAttribute("OptionC") { TargetName = nameof(FindingPage.OptionDAsCustom) });
             VerifyValue(control, "OptionC");
 
             control.Metadata.Push(new FindByValueAttribute("OptionB"));
@@ -260,7 +260,7 @@ namespace Atata.Tests
         [TestCase(7)]
         public void Find_Timeout(double timeout)
         {
-            var control = page.MissingOptionById;
+            var control = _page.MissingOptionById;
             control.Metadata.Get<FindAttribute>().Timeout = timeout;
 
             using (StopwatchAsserter.WithinSeconds(timeout))

@@ -14,14 +14,14 @@ namespace Atata.Tests
         [TestFixture]
         public class CalculateTargetRank
         {
-            private UIComponentMetadata metadata;
+            private UIComponentMetadata _metadata;
 
             [SetUp]
             public void SetUp()
             {
-                metadata = new UIComponentMetadata(
+                _metadata = new UIComponentMetadata(
                     TargetNames.Some, TargetTypes.Some, TargetParentTypes.Some);
-                metadata.Push(new TagAttribute(TargetTags.Some));
+                _metadata.Push(new TagAttribute(TargetTags.Some));
             }
 
             [Test]
@@ -113,7 +113,7 @@ namespace Atata.Tests
             {
                 var sut = new TestMulticastAttribute();
                 sutInitializer?.Invoke(sut);
-                return sut.CalculateTargetRank(metadata);
+                return sut.CalculateTargetRank(_metadata);
             }
         }
 

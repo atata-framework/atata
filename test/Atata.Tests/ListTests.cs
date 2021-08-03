@@ -4,17 +4,17 @@ namespace Atata.Tests
 {
     public class ListTests : UITestFixture
     {
-        private ListPage page;
+        private ListPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<ListPage>();
+            _page = Go.To<ListPage>();
         }
 
         [Test]
         public void UnorderedList_Simple()
         {
-            var list = page.SimpleUnorderedList;
+            var list = _page.SimpleUnorderedList;
 
             list.Items.Count.Should.Equal(3);
             list.Items[0].Should.Equal("Phone 5%");
@@ -26,7 +26,7 @@ namespace Atata.Tests
         [Test]
         public void UnorderedList_Complex()
         {
-            var list = page.ComplexUnorderedList;
+            var list = _page.ComplexUnorderedList;
 
             list.Items.Count.Should.Equal(3);
             list.Items[0].Name.Should.Equal("Phone");
@@ -39,7 +39,7 @@ namespace Atata.Tests
         [Test]
         public void UnorderedList_Hierarchical()
         {
-            var list = page.UnorderedListForHierarchy;
+            var list = _page.UnorderedListForHierarchy;
 
             list.Items.Count.Should.Equal(2);
         }
@@ -47,7 +47,7 @@ namespace Atata.Tests
         [Test]
         public void OrderedList_Simple()
         {
-            var list = page.SimpleOrderedList;
+            var list = _page.SimpleOrderedList;
 
             list.Items.Count.Should.Equal(3);
             list.Items[0].Should.Equal("Phone 20");
@@ -59,7 +59,7 @@ namespace Atata.Tests
         [Test]
         public void OrderedList_Complex()
         {
-            var list = page.ComplexOrderedList;
+            var list = _page.ComplexOrderedList;
 
             list.Items.Count.Should.Equal(3);
             list.Items[0].Name.Should.Equal("Phone");
@@ -72,7 +72,7 @@ namespace Atata.Tests
         [Test]
         public void HierarchicalUnorderedList_Plain()
         {
-            var list = page.PlainHierarchicalUnorderedList;
+            var list = _page.PlainHierarchicalUnorderedList;
 
             list.Children.Count.Should.Equal(3);
             list.Children[0].Content.Should.Equal("Phone 5%");
@@ -90,7 +90,7 @@ namespace Atata.Tests
         [Test]
         public void HierarchicalUnorderedList_Simple()
         {
-            var list = page.SimpleHierarchicalUnorderedList;
+            var list = _page.SimpleHierarchicalUnorderedList;
 
             list.Children.Count.Should.Equal(2);
             list.Children[0].Content.Should.StartWith("Item 1");
@@ -122,7 +122,7 @@ namespace Atata.Tests
         [Test]
         public void HierarchicalUnorderedList_Complex()
         {
-            var list = page.ComplexHierarchicalUnorderedList;
+            var list = _page.ComplexHierarchicalUnorderedList;
 
             list.Children.Count.Should.Equal(2);
             list.Children[0].Content.Should.StartWith("Item 1");
@@ -159,7 +159,7 @@ namespace Atata.Tests
         [Test]
         public void HierarchicalOrderedList_Complex()
         {
-            var list = page.ComplexHierarchicalOrderedList;
+            var list = _page.ComplexHierarchicalOrderedList;
 
             list.Children.Count.Should.Equal(2);
             list.Children[0].Content.Should.StartWith("Item 1");

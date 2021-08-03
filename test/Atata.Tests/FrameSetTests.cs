@@ -5,17 +5,17 @@ namespace Atata.Tests
     [Category("Unstable")]
     public class FrameSetTests : UITestFixture
     {
-        private FrameSetPage page;
+        private FrameSetPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<FrameSetPage>();
+            _page = Go.To<FrameSetPage>();
         }
 
         [Test]
         public void FrameSetPage()
         {
-            page.
+            _page.
                 Frame1.SwitchTo().
                     Header.Should.Equal("Frame Inner 1").
                     TextInput.Set("123").

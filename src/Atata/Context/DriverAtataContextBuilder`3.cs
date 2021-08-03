@@ -12,20 +12,20 @@ namespace Atata
         where TService : DriverService
         where TOptions : DriverOptions, new()
     {
-        private readonly string browserName;
+        private readonly string _browserName;
 
-        private readonly List<Action<TService>> serviceInitializers = new List<Action<TService>>();
-        private readonly List<Action<TOptions>> optionsInitializers = new List<Action<TOptions>>();
+        private readonly List<Action<TService>> _serviceInitializers = new List<Action<TService>>();
+        private readonly List<Action<TOptions>> _optionsInitializers = new List<Action<TOptions>>();
 
-        private readonly List<int> portsToIgnore = new List<int>();
+        private readonly List<int> _portsToIgnore = new List<int>();
 
-        private Func<TService> serviceFactory;
-        private Func<TOptions> optionsFactory;
+        private Func<TService> _serviceFactory;
+        private Func<TOptions> _optionsFactory;
 
-        private string driverPath;
-        private string driverExecutableFileName;
+        private string _driverPath;
+        private string _driverExecutableFileName;
 
-        private TimeSpan? commandTimeout;
+        private TimeSpan? _commandTimeout;
 
         [Obsolete("Use other constructor with 3 arguments.")] // Obsolete since v1.10.0.
         protected DriverAtataContextBuilder(
@@ -41,31 +41,31 @@ namespace Atata
             string browserName)
             : base(buildingContext, alias)
         {
-            this.browserName = browserName;
+            _browserName = browserName;
         }
 
-        string IUsesLocalBrowser.BrowserName => browserName;
+        string IUsesLocalBrowser.BrowserName => _browserName;
 
         protected sealed override RemoteWebDriver CreateDriver()
         {
-            var options = optionsFactory?.Invoke() ?? new TOptions();
+            var options = _optionsFactory?.Invoke() ?? new TOptions();
 
-            foreach (var optionsInitializer in optionsInitializers)
+            foreach (var optionsInitializer in _optionsInitializers)
                 optionsInitializer(options);
 
-            TService service = serviceFactory?.Invoke()
+            TService service = _serviceFactory?.Invoke()
                 ?? CreateServiceUsingDriverParameters();
 
             try
             {
-                foreach (var serviceInitializer in serviceInitializers)
+                foreach (var serviceInitializer in _serviceInitializers)
                     serviceInitializer(service);
 
                 CheckPortForIgnoring(service);
 
                 AtataContext.Current?.Log.Trace($"Set: DriverService={service.GetType().Name} on port {service.Port}");
 
-                return CreateDriver(service, options, commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
+                return CreateDriver(service, options, _commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
             }
             catch
             {
@@ -76,9 +76,9 @@ namespace Atata
 
         private void CheckPortForIgnoring(TService service)
         {
-            if (portsToIgnore.Contains(service.Port))
+            if (_portsToIgnore.Contains(service.Port))
             {
-                service.Port = PortUtils.FindFreePortExcept(portsToIgnore);
+                service.Port = PortUtils.FindFreePortExcept(_portsToIgnore);
             }
         }
 
@@ -92,10 +92,10 @@ namespace Atata
         protected abstract RemoteWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
 
         private TService CreateServiceUsingDriverParameters() =>
-            driverPath != null && driverExecutableFileName != null
-                ? CreateService(driverPath, driverExecutableFileName)
-                : driverPath != null
-                    ? CreateService(driverPath)
+            _driverPath != null && _driverExecutableFileName != null
+                ? CreateService(_driverPath, _driverExecutableFileName)
+                : _driverPath != null
+                    ? CreateService(_driverPath)
                     : CreateDefaultService();
 
         private TService CreateDefaultService() =>
@@ -105,9 +105,9 @@ namespace Atata
 
         private bool TryGetDriverPathEnvironmentVariable(out string driverPath)
         {
-            driverPath = string.IsNullOrWhiteSpace(browserName)
+            driverPath = string.IsNullOrWhiteSpace(_browserName)
                 ? null
-                : Environment.GetEnvironmentVariable($"{browserName.Replace(" ", null)}Driver");
+                : Environment.GetEnvironmentVariable($"{_browserName.Replace(" ", null)}Driver");
 
             return driverPath != null;
         }
@@ -127,7 +127,7 @@ namespace Atata
         {
             options.CheckNotNull(nameof(options));
 
-            optionsFactory = () => options;
+            _optionsFactory = () => options;
             return (TBuilder)this;
         }
 
@@ -140,7 +140,7 @@ namespace Atata
         {
             optionsFactory.CheckNotNull(nameof(optionsFactory));
 
-            this.optionsFactory = optionsFactory;
+            _optionsFactory = optionsFactory;
             return (TBuilder)this;
         }
 
@@ -153,7 +153,7 @@ namespace Atata
         {
             optionsInitializer.CheckNotNull(nameof(optionsInitializer));
 
-            optionsInitializers.Add(optionsInitializer);
+            _optionsInitializers.Add(optionsInitializer);
             return (TBuilder)this;
         }
 
@@ -191,7 +191,7 @@ namespace Atata
         {
             serviceFactory.CheckNotNull(nameof(serviceFactory));
 
-            this.serviceFactory = serviceFactory;
+            _serviceFactory = serviceFactory;
             return (TBuilder)this;
         }
 
@@ -204,7 +204,7 @@ namespace Atata
         {
             serviceInitializer.CheckNotNull(nameof(serviceInitializer));
 
-            serviceInitializers.Add(serviceInitializer);
+            _serviceInitializers.Add(serviceInitializer);
             return (TBuilder)this;
         }
 
@@ -227,7 +227,7 @@ namespace Atata
         /// <returns>The same builder instance.</returns>
         public TBuilder WithDriverPath(string driverPath)
         {
-            this.driverPath = driverPath.CheckNotNullOrWhitespace(nameof(driverPath));
+            _driverPath = driverPath.CheckNotNullOrWhitespace(nameof(driverPath));
             return (TBuilder)this;
         }
 
@@ -249,7 +249,7 @@ namespace Atata
         /// <returns>The same builder instance.</returns>
         public TBuilder WithDriverExecutableFileName(string driverExecutableFileName)
         {
-            this.driverExecutableFileName = driverExecutableFileName.CheckNotNullOrWhitespace(nameof(driverExecutableFileName));
+            _driverExecutableFileName = driverExecutableFileName.CheckNotNullOrWhitespace(nameof(driverExecutableFileName));
             return (TBuilder)this;
         }
 
@@ -285,7 +285,7 @@ namespace Atata
         /// <returns>The same builder instance.</returns>
         public TBuilder WithCommandTimeout(TimeSpan commandTimeout)
         {
-            this.commandTimeout = commandTimeout;
+            _commandTimeout = commandTimeout;
             return (TBuilder)this;
         }
 
@@ -304,7 +304,7 @@ namespace Atata
         /// <returns>The same builder instance.</returns>
         public TBuilder WithPortsToIgnore(IEnumerable<int> portsToIgnore)
         {
-            this.portsToIgnore.AddRange(portsToIgnore);
+            _portsToIgnore.AddRange(portsToIgnore);
             return (TBuilder)this;
         }
     }

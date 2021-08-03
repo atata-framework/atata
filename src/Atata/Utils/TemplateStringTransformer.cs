@@ -10,7 +10,7 @@ namespace Atata
     /// </summary>
     public static class TemplateStringTransformer
     {
-        private static readonly Regex VariableMatchRegex = new Regex(@"{\D[^}]*}");
+        private static readonly Regex s_variableMatchRegex = new Regex(@"{\D[^}]*}");
 
         /// <summary>
         /// Determines whether the template has any variable and can be transformed.
@@ -52,7 +52,7 @@ namespace Atata
                 }
                 catch (FormatException)
                 {
-                    MatchCollection matches = VariableMatchRegex.Matches(workingTemplate);
+                    MatchCollection matches = s_variableMatchRegex.Matches(workingTemplate);
 
                     if (matches.Count > 0)
                     {

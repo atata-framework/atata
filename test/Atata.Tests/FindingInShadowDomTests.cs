@@ -6,17 +6,17 @@ namespace Atata.Tests
 {
     public class FindingInShadowDomTests : UITestFixture
     {
-        private ShadowDomPage page;
+        private ShadowDomPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<ShadowDomPage>();
+            _page = Go.To<ShadowDomPage>();
         }
 
         [Test]
         public void Find_InShadowHost_First_AnyVisibility()
         {
-            var control = page.Shadow1_0;
+            var control = _page.Shadow1_0;
 
             control.Should.Exist();
             control.Content.Should.BeEmpty();
@@ -26,7 +26,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_First_Visible()
         {
-            var control = page.Shadow1_1;
+            var control = _page.Shadow1_1;
 
             control.Should.Exist();
             control.Content.Should.Equal("Shadow 1.1");
@@ -35,7 +35,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_ByIndex()
         {
-            var control = page.Shadow1_2;
+            var control = _page.Shadow1_2;
 
             control.Should.Exist();
             control.Content.Should.Equal("Shadow 1.2");
@@ -44,7 +44,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_ControlList()
         {
-            page.AggregateAssert(x => x.Shadow1Paragraphs, controls =>
+            _page.AggregateAssert(x => x.Shadow1Paragraphs, controls =>
             {
                 controls[0].Should.Equal("Shadow 1.1");
                 controls[1].Should.Equal("Shadow 1.2");
@@ -57,19 +57,19 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_UsingPropertyNameAsTerm()
         {
-            page.ShadowContainer1.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
+            _page.ShadowContainer1.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
         }
 
         [Test]
         public void Find_InShadowHost_UsingTerm()
         {
-            page.ShadowContainer1UsingTerm.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
+            _page.ShadowContainer1UsingTerm.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
         }
 
         [Test]
         public void Find_InShadowHost_RadioButtonList()
         {
-            var control = page.YesNoRadios;
+            var control = _page.YesNoRadios;
 
             control.Should.Exist();
             control.Should.BeNull();
@@ -82,7 +82,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_TwoLayers()
         {
-            var control = page.Shadow2_1_1;
+            var control = _page.Shadow2_1_1;
 
             control.Should.Exist();
             control.Content.Should.Equal("2.1.1");
@@ -91,7 +91,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_ThreeLayers()
         {
-            var control = page.Shadow2_1_1_1;
+            var control = _page.Shadow2_1_1_1;
 
             control.Should.Exist();
             control.Content.Should.Equal("Shadow 2.1.1.1");
@@ -100,7 +100,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_ThreeLayers_AtDifferentLevels()
         {
-            var control = page.Shadow2_1_1_1_AtDifferentLevels;
+            var control = _page.Shadow2_1_1_1_AtDifferentLevels;
 
             control.Should.Exist();
             control.Content.Should.Equal("Shadow 2.1.1.1");
@@ -109,7 +109,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_ThreeLayers_AtDifferentLevels_WithSetLayers()
         {
-            var control = page.Shadow2_1_1_1_AtDifferentLevelsWithSetLayers;
+            var control = _page.Shadow2_1_1_1_AtDifferentLevelsWithSetLayers;
 
             control.Should.Exist();
             control.Content.Should.Equal("Shadow 2.1.1.1");
@@ -118,7 +118,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_MixedLayers_AtDifferentLevels_WithSetLayers()
         {
-            var control = page.Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers;
+            var control = _page.Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers;
 
             control.Should.Exist();
             control.Content.Should.Equal("2.1.1.1");
@@ -143,7 +143,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InShadowHost_InvalidShadowHostLocator()
         {
-            var control = page.InvalidShadowRoot;
+            var control = _page.InvalidShadowRoot;
 
             AssertThrowsWithInnerException<AssertionException, WebDriverException>(() =>
                 control.Should.Exist())

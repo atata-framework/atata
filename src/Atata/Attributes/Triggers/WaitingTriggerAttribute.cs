@@ -5,9 +5,9 @@
     /// </summary>
     public abstract class WaitingTriggerAttribute : TriggerAttribute
     {
-        private double? timeout;
+        private double? _timeout;
 
-        private double? retryInterval;
+        private double? _retryInterval;
 
         protected WaitingTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
@@ -20,8 +20,8 @@
         /// </summary>
         public double Timeout
         {
-            get => timeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
-            set => timeout = value;
+            get => _timeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            set => _timeout = value;
         }
 
         /// <summary>
@@ -30,8 +30,8 @@
         /// </summary>
         public double RetryInterval
         {
-            get => retryInterval ?? (AtataContext.Current?.WaitingRetryInterval ?? RetrySettings.Interval).TotalSeconds;
-            set => retryInterval = value;
+            get => _retryInterval ?? (AtataContext.Current?.WaitingRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            set => _retryInterval = value;
         }
     }
 }

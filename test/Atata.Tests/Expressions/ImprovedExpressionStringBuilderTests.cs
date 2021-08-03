@@ -8,7 +8,7 @@ namespace Atata.Tests.Expressions
 {
     public static class ImprovedExpressionStringBuilderTests
     {
-        private static readonly string TestFieldValue = "FldStr";
+        private static readonly string s_testFieldValue = "FldStr";
 
         [Flags]
         public enum TestFlagValues
@@ -64,7 +64,7 @@ namespace Atata.Tests.Expressions
 
             TestPredicate(x => x.Item == itemName)
                 .Returns("x => x.Item == \"VarStr\"");
-            TestPredicate(x => x.Item == TestFieldValue)
+            TestPredicate(x => x.Item == s_testFieldValue)
                 .Returns("x => x.Item == \"FldStr\"");
             TestPredicate(x => x.Item != item.Name)
                 .Returns("x => x.Item != item.Name");

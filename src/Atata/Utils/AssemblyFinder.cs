@@ -12,7 +12,8 @@ namespace Atata
     /// </summary>
     public static class AssemblyFinder
     {
-        private static readonly ConcurrentDictionary<string, Assembly[]> AssembliesMatchingNamePattern = new ConcurrentDictionary<string, Assembly[]>();
+        private static readonly ConcurrentDictionary<string, Assembly[]> s_assembliesMatchingNamePattern =
+            new ConcurrentDictionary<string, Assembly[]>();
 
         /// <summary>
         /// Finds the assembly by name.
@@ -60,7 +61,7 @@ namespace Atata
         /// <returns>The found assemblies.</returns>
         public static Assembly[] FindAllByPattern(string assemblyNamePattern)
         {
-            return AssembliesMatchingNamePattern.GetOrAdd(
+            return s_assembliesMatchingNamePattern.GetOrAdd(
                 assemblyNamePattern ?? string.Empty,
                 DoFindAllByPattern);
         }

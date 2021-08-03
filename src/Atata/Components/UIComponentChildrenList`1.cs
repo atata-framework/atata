@@ -7,17 +7,17 @@ namespace Atata
     public class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
         where TOwner : PageObject<TOwner>
     {
-        private readonly UIComponent<TOwner> component;
+        private readonly UIComponent<TOwner> _component;
 
         public UIComponentChildrenList(UIComponent<TOwner> component)
         {
-            this.component = component;
+            _component = component;
         }
 
         public TControl Create<TControl>(string name, params Attribute[] attributes)
             where TControl : Control<TOwner>
         {
-            return UIComponentResolver.CreateControl<TControl, TOwner>(component, name, attributes);
+            return UIComponentResolver.CreateControl<TControl, TOwner>(_component, name, attributes);
         }
 
         public TControl Create<TControl>(string name, IScopeLocator scopeLocator, params Attribute[] attributes)
@@ -35,13 +35,13 @@ namespace Atata
         {
             propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
 
-            TControl control = component.Controls.OfType<TControl>().FirstOrDefault(x => x.Metadata.Name == propertyName);
+            TControl control = _component.Controls.OfType<TControl>().FirstOrDefault(x => x.Metadata.Name == propertyName);
 
             if (control != null)
                 return control;
 
             var additionalAttributes = additionalAttributesFactory?.Invoke()?.ToArray();
-            return UIComponentResolver.CreateControlForProperty<TControl, TOwner>(component, propertyName, additionalAttributes);
+            return UIComponentResolver.CreateControlForProperty<TControl, TOwner>(_component, propertyName, additionalAttributes);
         }
 
         public Clickable<TOwner> CreateClickable(string name, params Attribute[] attributes)

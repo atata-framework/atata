@@ -11,9 +11,9 @@ namespace Atata
         : AttributesAtataContextBuilder<TNextBuilder>
         where TNextBuilder : AttributesAtataContextBuilder
     {
-        private readonly TypePropertyNamePair typeProperty;
+        private readonly TypePropertyNamePair _typeProperty;
 
-        private readonly TNextBuilder parentBuilder;
+        private readonly TNextBuilder _parentBuilder;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PropertyAttributesAtataContextBuilder{TNextBuilder}"/> class.
@@ -25,21 +25,21 @@ namespace Atata
         public PropertyAttributesAtataContextBuilder(Type type, string propertyName, TNextBuilder parentBuilder, AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
-            typeProperty = new TypePropertyNamePair(type, propertyName);
-            this.parentBuilder = parentBuilder;
+            _typeProperty = new TypePropertyNamePair(type, propertyName);
+            _parentBuilder = parentBuilder;
         }
 
         protected override void OnAdd(IEnumerable<Attribute> attributes)
         {
-            if (!BuildingContext.Attributes.PropertyMap.TryGetValue(typeProperty, out var attributeSet))
+            if (!BuildingContext.Attributes.PropertyMap.TryGetValue(_typeProperty, out var attributeSet))
             {
                 attributeSet = new List<Attribute>();
-                BuildingContext.Attributes.PropertyMap[typeProperty] = attributeSet;
+                BuildingContext.Attributes.PropertyMap[_typeProperty] = attributeSet;
             }
 
             attributeSet.AddRange(attributes);
         }
 
-        protected override TNextBuilder ResolveNextBuilder() => parentBuilder;
+        protected override TNextBuilder ResolveNextBuilder() => _parentBuilder;
     }
 }

@@ -8,7 +8,7 @@ namespace Atata
     /// <typeparam name="TValue">The type of the value.</typeparam>
     public class DynamicObjectSource<TValue> : IObjectSource<TValue>
     {
-        private readonly Func<TValue> valueGetFunction;
+        private readonly Func<TValue> _valueGetFunction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicObjectSource{TValue}"/> class.
@@ -16,12 +16,12 @@ namespace Atata
         /// <param name="valueGetFunction">The value get function.</param>
         public DynamicObjectSource(Func<TValue> valueGetFunction)
         {
-            this.valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
+            _valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
         }
 
         /// <inheritdoc/>
         public TValue Value =>
-            valueGetFunction.Invoke();
+            _valueGetFunction.Invoke();
 
         /// <inheritdoc/>
         public string SourceProviderName => null;

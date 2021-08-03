@@ -5,18 +5,18 @@ namespace Atata.Tests.Controls
 {
     public class LocalDateTimeInputTests : UITestFixture
     {
-        private LocalDateTimeInputPage page;
+        private LocalDateTimeInputPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<LocalDateTimeInputPage>();
+            _page = Go.To<LocalDateTimeInputPage>();
         }
 
         [Test]
         public void LocalDateTimeInput()
         {
-            var control = page.Regular;
-            var outputControl = page.RegularOutput;
+            var control = _page.Regular;
+            var outputControl = _page.RegularOutput;
 
             control.Should.BeNull();
 

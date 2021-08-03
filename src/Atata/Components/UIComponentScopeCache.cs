@@ -5,7 +5,8 @@ namespace Atata
 {
     internal class UIComponentScopeCache
     {
-        private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> accessChainItems = new Dictionary<UIComponent, Dictionary<Visibility, IWebElement>>();
+        private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> _accessChainItems =
+            new Dictionary<UIComponent, Dictionary<Visibility, IWebElement>>();
 
         public bool IsAccessChainActive { get; private set; }
 
@@ -13,7 +14,7 @@ namespace Atata
         {
             scope = null;
 
-            return accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap)
+            return _accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap)
                 && visibiltyElementMap.TryGetValue(visibility, out scope);
         }
 
@@ -30,10 +31,10 @@ namespace Atata
         {
             if (IsAccessChainActive)
             {
-                if (!accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap))
+                if (!_accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap))
                 {
                     visibiltyElementMap = new Dictionary<Visibility, IWebElement>();
-                    accessChainItems.Add(component, visibiltyElementMap);
+                    _accessChainItems.Add(component, visibiltyElementMap);
                 }
 
                 visibiltyElementMap[visibility] = scope;
@@ -42,7 +43,7 @@ namespace Atata
 
         public void ReleaseAccessChain()
         {
-            accessChainItems.Clear();
+            _accessChainItems.Clear();
             IsAccessChainActive = false;
         }
 

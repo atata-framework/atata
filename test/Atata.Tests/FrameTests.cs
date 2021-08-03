@@ -5,17 +5,17 @@ namespace Atata.Tests
     [Category("Unstable")]
     public class FrameTests : UITestFixture
     {
-        private FramePage page;
+        private FramePage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<FramePage>();
+            _page = Go.To<FramePage>();
         }
 
         [Test]
         public void Frame()
         {
-            page.
+            _page.
                 Frame1.SwitchTo().
                     TextInput.Set("abc").
                     SwitchToRoot<FramePage>().
@@ -37,7 +37,7 @@ namespace Atata.Tests
         [Test]
         public void Frame_Generic()
         {
-            page.
+            _page.
                 Frame1Generic.SwitchTo<FrameInner1Page>().
                     TextInput.Set("abc").
                     SwitchToRoot<FramePage>().
@@ -50,7 +50,7 @@ namespace Atata.Tests
         [Test]
         public void Frame_Temporarily()
         {
-            page.
+            _page.
                 SetState(1).
                 Frame1Temporarily.SwitchTo().
                     TextInput.Set("abc").
@@ -73,7 +73,7 @@ namespace Atata.Tests
         [Test]
         public void Frame_DoWithin()
         {
-            page.
+            _page.
                 Frame1.DoWithin(
                     x => x.TextInput.Set("abc")).
                 Header.Should.Equal("Frame").
@@ -92,7 +92,7 @@ namespace Atata.Tests
         [Test]
         public void Frame_DoWithin_Temporarily()
         {
-            page.
+            _page.
                 SetState(1).
                 Frame1Temporarily.DoWithin(
                     x => x.TextInput.Set("abc")).
@@ -117,7 +117,7 @@ namespace Atata.Tests
         [Test]
         public void Frame_PageObject_NavigateViaSwitchTo()
         {
-            page.
+            _page.
                SwitchToFrame1().
                    TextInput.Set("abc").
                    SwitchToRoot<FramePage>().
@@ -139,7 +139,7 @@ namespace Atata.Tests
         [Test]
         public void Frame_PageObject_NavigateViaGo()
         {
-            page.Header.Should.Equal("Frame");
+            _page.Header.Should.Equal("Frame");
 
             Go.To<FrameInner1SelfSwitchingPage>().
                 Header.Should.Equal("Frame Inner 1").

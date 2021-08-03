@@ -4,17 +4,17 @@ namespace Atata.Tests
 {
     public class RadioButtonTests : UITestFixture
     {
-        private RadioButtonListPage page;
+        private RadioButtonListPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<RadioButtonListPage>();
+            _page = Go.To<RadioButtonListPage>();
         }
 
         [Test]
         public void RadioButton()
         {
-            page.
+            _page.
                 OptionA.Should.BeFalse().
                 OptionA.Should.Not.BeChecked().
                 OptionA.Check().

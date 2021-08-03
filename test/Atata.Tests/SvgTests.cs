@@ -4,17 +4,17 @@ namespace Atata.Tests
 {
     public class SvgTests : UITestFixture
     {
-        private SvgPage page;
+        private SvgPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<SvgPage>();
+            _page = Go.To<SvgPage>();
         }
 
         [Test]
         public void SvgRectangle()
         {
-            var control = page.Svg.Rectangle;
+            var control = _page.Svg.Rectangle;
 
             control.Should.BeVisible();
         }
@@ -22,7 +22,7 @@ namespace Atata.Tests
         [Test]
         public void SvgPolygon()
         {
-            var control = page.Svg.Polygon;
+            var control = _page.Svg.Polygon;
 
             control.Should.BeVisible();
         }
@@ -30,7 +30,7 @@ namespace Atata.Tests
         [Test]
         public void SvgText()
         {
-            var control = page.Svg.Text;
+            var control = _page.Svg.Text;
 
             control.Should.BeVisible();
             control.Should.Equal("Drag");
@@ -39,7 +39,7 @@ namespace Atata.Tests
         [Test]
         public void SvgEllipse()
         {
-            var control = page.Svg.Ellipse;
+            var control = _page.Svg.Ellipse;
 
             control.Should.BeVisible();
         }
@@ -47,7 +47,7 @@ namespace Atata.Tests
         [Test]
         public void SvgPath()
         {
-            var control = page.Svg.Path;
+            var control = _page.Svg.Path;
 
             control.Should.BeVisible();
         }
@@ -55,7 +55,7 @@ namespace Atata.Tests
         [Test]
         public void Svg_DragAndDropShape()
         {
-            var control = page.Svg.Rectangle;
+            var control = _page.Svg.Rectangle;
 
             control.ComponentLocation.X.Get(out int startX);
 

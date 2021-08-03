@@ -12,7 +12,7 @@ namespace Atata.Tests
     [SetUpFixture]
     public class SetUpFixture
     {
-        private Process coreRunProcess;
+        private Process _coreRunProcess;
 
         [OneTimeSetUp]
         public async Task GlobalSetUpAsync()
@@ -44,7 +44,7 @@ namespace Atata.Tests
         {
             string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Atata.TestApp");
 
-            coreRunProcess = new Process
+            _coreRunProcess = new Process
             {
                 StartInfo = UITestFixtureBase.IsOSLinux
                     ? new ProcessStartInfo
@@ -64,7 +64,7 @@ namespace Atata.Tests
                     }
             };
 
-            coreRunProcess.Start();
+            _coreRunProcess.Start();
 
             Thread.Sleep(5000);
 
@@ -82,10 +82,10 @@ namespace Atata.Tests
         [OneTimeTearDown]
         public void GlobalTearDown()
         {
-            if (coreRunProcess != null)
+            if (_coreRunProcess != null)
             {
-                coreRunProcess.Kill(true);
-                coreRunProcess.Dispose();
+                _coreRunProcess.Kill(true);
+                _coreRunProcess.Dispose();
             }
         }
     }

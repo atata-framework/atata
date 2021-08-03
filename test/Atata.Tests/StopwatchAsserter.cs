@@ -6,18 +6,18 @@ namespace Atata.Tests
 {
     public sealed class StopwatchAsserter : IDisposable
     {
-        private readonly TimeSpan expectedTime;
+        private readonly TimeSpan _expectedTime;
 
-        private readonly TimeSpan upperToleranceTime;
+        private readonly TimeSpan _upperToleranceTime;
 
-        private readonly Stopwatch watch;
+        private readonly Stopwatch _watch;
 
         public StopwatchAsserter(TimeSpan expectedTime, TimeSpan upperToleranceTime)
         {
-            this.expectedTime = expectedTime;
-            this.upperToleranceTime = upperToleranceTime;
+            _expectedTime = expectedTime;
+            _upperToleranceTime = upperToleranceTime;
 
-            watch = Stopwatch.StartNew();
+            _watch = Stopwatch.StartNew();
         }
 
         public static StopwatchAsserter WithinSeconds(double seconds, double upperToleranceSeconds = 1)
@@ -27,8 +27,8 @@ namespace Atata.Tests
 
         public void Dispose()
         {
-            watch.Stop();
-            Assert.That(watch.Elapsed, Is.InRange(expectedTime, expectedTime + upperToleranceTime));
+            _watch.Stop();
+            Assert.That(_watch.Elapsed, Is.InRange(_expectedTime, _expectedTime + _upperToleranceTime));
         }
     }
 }

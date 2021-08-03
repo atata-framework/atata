@@ -23,7 +23,7 @@ return (
   rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
   rect.right <= (window.innerWidth || document.documentElement.clientWidth));";
 
-        private readonly Dictionary<string, object> dataProviders = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _dataProviders = new Dictionary<string, object>();
 
         protected UIComponent()
         {
@@ -302,7 +302,7 @@ return (
         /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type or already stored one.</returns>
         public DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
-            if (dataProviders.TryGetValue(providerName, out object dataProviderAsObject) && dataProviderAsObject is DataProvider<TValue, TOwner> dataProvider)
+            if (_dataProviders.TryGetValue(providerName, out object dataProviderAsObject) && dataProviderAsObject is DataProvider<TValue, TOwner> dataProvider)
                 return dataProvider;
 
             return CreateDataProvider(providerName, valueGetFunction);
@@ -318,7 +318,7 @@ return (
         protected internal DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
             var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
-            dataProviders[providerName] = dataProvider;
+            _dataProviders[providerName] = dataProvider;
             return dataProvider;
         }
 

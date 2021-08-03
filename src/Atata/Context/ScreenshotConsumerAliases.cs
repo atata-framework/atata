@@ -7,7 +7,7 @@ namespace Atata
     {
         public const string File = "file";
 
-        private static readonly Dictionary<string, Func<IScreenshotConsumer>> AliasFactoryMap = new Dictionary<string, Func<IScreenshotConsumer>>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, Func<IScreenshotConsumer>> s_aliasFactoryMap = new Dictionary<string, Func<IScreenshotConsumer>>(StringComparer.OrdinalIgnoreCase);
 
         static ScreenshotConsumerAliases()
         {
@@ -25,14 +25,14 @@ namespace Atata
             typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
             logConsumerFactory.CheckNotNull(nameof(logConsumerFactory));
 
-            AliasFactoryMap[typeAlias.ToLowerInvariant()] = logConsumerFactory;
+            s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = logConsumerFactory;
         }
 
         public static IScreenshotConsumer Resolve(string typeNameOrAlias)
         {
             typeNameOrAlias.CheckNotNullOrWhitespace(nameof(typeNameOrAlias));
 
-            return AliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<IScreenshotConsumer> factory)
+            return s_aliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<IScreenshotConsumer> factory)
                 ? factory()
                 : ActivatorEx.CreateInstance<IScreenshotConsumer>(typeNameOrAlias);
         }

@@ -5,27 +5,27 @@ namespace Atata.Tests
 {
     public class WaitingTests : UITestFixture
     {
-        private WaitingPage page;
+        private WaitingPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<WaitingPage>();
+            _page = Go.To<WaitingPage>();
         }
 
         [Test]
         public void Waiting_BuiltIn_Disabled()
         {
-            page.
+            _page.
                 ButtonWithoutWait.Click();
 
             AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(
-                () => page.Result.Should.AtOnce.Exist());
+                () => _page.Result.Should.AtOnce.Exist());
         }
 
         [Test]
         public void Waiting_BuiltIn()
         {
-            page.
+            _page.
                 ButtonWithoutWait.Click().
                 Result.Should.Exist();
         }

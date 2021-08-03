@@ -14,24 +14,24 @@ namespace Atata
     /// </summary>
     public sealed class AtataContext : IDisposable
     {
-        private static readonly object BuildStartSyncLock = new object();
+        private static readonly object s_buildStartSyncLock = new object();
 
 #if NET46 || NETSTANDARD2_0
-        private static readonly System.Threading.AsyncLocal<AtataContext> CurrentAsyncLocalContext = new System.Threading.AsyncLocal<AtataContext>();
+        private static readonly System.Threading.AsyncLocal<AtataContext> s_currentAsyncLocalContext = new System.Threading.AsyncLocal<AtataContext>();
 
 #endif
-        private static AtataContextModeOfCurrent modeOfCurrent = AtataContextModeOfCurrent.ThreadStatic;
+        private static AtataContextModeOfCurrent s_modeOfCurrent = AtataContextModeOfCurrent.ThreadStatic;
 
         [ThreadStatic]
-        private static AtataContext currentThreadStaticContext;
+        private static AtataContext s_currentThreadStaticContext;
 
-        private static AtataContext currentStaticContext;
+        private static AtataContext s_currentStaticContext;
 
-        private string testName;
+        private string _testName;
 
-        private string testSuiteName;
+        private string _testSuiteName;
 
-        private bool disposed;
+        private bool _disposed;
 
         /// <summary>
         /// Gets the base retry timeout, which is <c>5</c> seconds.
@@ -56,24 +56,24 @@ namespace Atata
             get
             {
                 return ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic
-                    ? currentThreadStaticContext
+                    ? s_currentThreadStaticContext
 #if NET46 || NETSTANDARD2_0
                     : ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal
-                    ? CurrentAsyncLocalContext.Value
+                    ? s_currentAsyncLocalContext.Value
 #endif
-                    : currentStaticContext;
+                    : s_currentStaticContext;
             }
 
             set
             {
                 if (ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
-                    currentThreadStaticContext = value;
+                    s_currentThreadStaticContext = value;
 #if NET46 || NETSTANDARD2_0
                 else if (ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
-                    CurrentAsyncLocalContext.Value = value;
+                    s_currentAsyncLocalContext.Value = value;
 #endif
                 else
-                    currentStaticContext = value;
+                    s_currentStaticContext = value;
             }
         }
 
@@ -83,10 +83,10 @@ namespace Atata
         /// </summary>
         public static AtataContextModeOfCurrent ModeOfCurrent
         {
-            get => modeOfCurrent;
+            get => s_modeOfCurrent;
             set
             {
-                modeOfCurrent = value;
+                s_modeOfCurrent = value;
 
                 RetrySettings.ThreadBoundary = value == AtataContextModeOfCurrent.ThreadStatic
                     ? RetrySettingsThreadBoundary.ThreadStatic
@@ -151,10 +151,10 @@ namespace Atata
         /// </summary>
         public string TestName
         {
-            get => testName;
+            get => _testName;
             internal set
             {
-                testName = value;
+                _testName = value;
                 TestNameSanitized = value.SanitizeForFileName();
             }
         }
@@ -169,10 +169,10 @@ namespace Atata
         /// </summary>
         public string TestSuiteName
         {
-            get => testSuiteName;
+            get => _testSuiteName;
             internal set
             {
-                testSuiteName = value;
+                _testSuiteName = value;
                 TestSuiteNameSanitized = value.SanitizeForFileName();
             }
         }
@@ -400,7 +400,7 @@ namespace Atata
 
             if (BuildStartUtc is null)
             {
-                lock (BuildStartSyncLock)
+                lock (s_buildStartSyncLock)
                 {
                     if (BuildStartUtc is null)
                     {
@@ -486,7 +486,7 @@ namespace Atata
         /// <param name="quitDriver">if set to <see langword="true"/> quits WebDriver.</param>
         public void CleanUp(bool quitDriver = true)
         {
-            if (disposed)
+            if (_disposed)
                 return;
 
             PureExecutionStopwatch.Stop();
@@ -519,7 +519,7 @@ namespace Atata
             if (Current == this)
                 Current = null;
 
-            disposed = true;
+            _disposed = true;
 
             AssertionResults.Clear();
 

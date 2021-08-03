@@ -14,7 +14,7 @@ namespace Atata.Tests
     public class TriggersPage : Page<_>
     {
         [ThreadStatic]
-        private static bool isOnInitInvoked;
+        private static bool s_isOnInitInvoked;
 
         public TriggersPage()
         {
@@ -29,7 +29,7 @@ namespace Atata.Tests
             DynamicInput.Metadata.Add(new LogInfoAttribute("AfterGet-Low", TriggerEvents.AfterGet, TriggerPriority.Low));
         }
 
-        public static bool IsOnInitInvoked => isOnInitInvoked;
+        public static bool IsOnInitInvoked => s_isOnInitInvoked;
 
         public bool IsBeforePerformInvoked { get; private set; }
 
@@ -78,7 +78,7 @@ namespace Atata.Tests
 
         public static void OnStaticInit()
         {
-            isOnInitInvoked = true;
+            s_isOnInitInvoked = true;
         }
 
         public void OnBeforePerform()

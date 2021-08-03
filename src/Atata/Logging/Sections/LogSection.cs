@@ -8,7 +8,7 @@ namespace Atata
     /// </summary>
     public class LogSection
     {
-        private object result;
+        private object _result;
 
         public LogSection(string message = null, LogLevel level = LogLevel.Info)
         {
@@ -46,10 +46,10 @@ namespace Atata
         /// </summary>
         public object Result
         {
-            get => result;
+            get => _result;
             set
             {
-                result = value;
+                _result = value;
                 IsResultSet = true;
             }
         }

@@ -4,22 +4,22 @@ namespace Atata.Tests
 {
     public class LabelTests : UITestFixture
     {
-        private LabelPage page;
+        private LabelPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<LabelPage>();
+            _page = Go.To<LabelPage>();
         }
 
         [Test]
         public void Label()
         {
-            page.FirstNameLabel.Should.Equal("First Name");
-            page.FirstNameLabel.Attributes.For.Should.Equal("first-name");
+            _page.FirstNameLabel.Should.Equal("First Name");
+            _page.FirstNameLabel.Attributes.For.Should.Equal("first-name");
 
-            page.LastNameLabel.Should.Equal("Last Name");
+            _page.LastNameLabel.Should.Equal("Last Name");
 
-            page.LastNameByForLabel.Should.Equal("Last Name*");
+            _page.LastNameByForLabel.Should.Equal("Last Name*");
         }
     }
 }

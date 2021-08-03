@@ -4,7 +4,7 @@ namespace Atata
 {
     public class FindByCssStrategy : IComponentScopeFindStrategy
     {
-        private readonly IComponentScopeFindStrategy sequalStrategy = new FindFirstDescendantOrSelfStrategy();
+        private readonly IComponentScopeFindStrategy _sequalStrategy = new FindFirstDescendantOrSelfStrategy();
 
         public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
@@ -37,12 +37,12 @@ namespace Atata
                 }
                 else
                 {
-                    return new SubsequentComponentScopeFindResult(elements[options.Index.Value], sequalStrategy);
+                    return new SubsequentComponentScopeFindResult(elements[options.Index.Value], _sequalStrategy);
                 }
             }
             else
             {
-                return new SubsequentComponentScopeFindResult(by, sequalStrategy);
+                return new SubsequentComponentScopeFindResult(by, _sequalStrategy);
             }
         }
     }

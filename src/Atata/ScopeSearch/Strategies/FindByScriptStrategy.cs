@@ -6,7 +6,7 @@ namespace Atata
 {
     public class FindByScriptStrategy : IComponentScopeFindStrategy
     {
-        private static readonly IComponentScopeFindStrategy SequalStrategy = new FindFirstDescendantOrSelfStrategy();
+        private static readonly IComponentScopeFindStrategy s_sequalStrategy = new FindFirstDescendantOrSelfStrategy();
 
         public FindByScriptStrategy(string script)
         {
@@ -28,7 +28,7 @@ namespace Atata
             }
             else if (scriptResult is IWebElement element)
             {
-                return new SubsequentComponentScopeFindResult(element, SequalStrategy);
+                return new SubsequentComponentScopeFindResult(element, s_sequalStrategy);
             }
             else if (scriptResult != null)
             {
@@ -95,12 +95,12 @@ namespace Atata
                     ComponentScopeLocateOptions sequalOptions = options.Clone();
                     sequalOptions.Index = null;
 
-                    return new SubsequentComponentScopeFindResult(elements[options.Index.Value], SequalStrategy, sequalOptions);
+                    return new SubsequentComponentScopeFindResult(elements[options.Index.Value], s_sequalStrategy, sequalOptions);
                 }
             }
             else
             {
-                return new SubsequentComponentScopeFindResult(elements, SequalStrategy);
+                return new SubsequentComponentScopeFindResult(elements, s_sequalStrategy);
             }
         }
     }

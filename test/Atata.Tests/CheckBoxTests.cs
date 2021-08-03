@@ -4,17 +4,17 @@ namespace Atata.Tests
 {
     public class CheckBoxTests : UITestFixture
     {
-        private CheckBoxListPage page;
+        private CheckBoxListPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<CheckBoxListPage>();
+            _page = Go.To<CheckBoxListPage>();
         }
 
         [Test]
         public void CheckBox()
         {
-            page.
+            _page.
                 OptionA.Should.BeFalse().
                 OptionA.Should.Not.BeChecked().
                 OptionA.Set(true).

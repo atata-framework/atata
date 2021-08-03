@@ -8,7 +8,7 @@ namespace Atata.Tests
     [VerifyH1]
     public class FramePage : Page<_>
     {
-        private int state;
+        private int _state;
 
         public H1<_> Header { get; private set; }
 
@@ -29,18 +29,18 @@ namespace Atata.Tests
         [GoTemporarily]
         public Frame<FrameInner2Page, _> Frame2Temporarily { get; private set; }
 
-        public DataProvider<int, _> State => GetOrCreateDataProvider("state value", () => state);
+        public DataProvider<int, _> State => GetOrCreateDataProvider("state value", () => _state);
 
         public _ SetState(int state)
         {
-            this.state = state;
+            _state = state;
             return this;
         }
 
         protected override void OnInit()
         {
             base.OnInit();
-            state = 0;
+            _state = 0;
         }
 
         public FrameInner1Page SwitchToFrame1()

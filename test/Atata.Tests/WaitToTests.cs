@@ -6,17 +6,17 @@ namespace Atata.Tests
 {
     public class WaitToTests : UITestFixture
     {
-        private StubPage page;
+        private StubPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<StubPage>();
+            _page = Go.To<StubPage>();
         }
 
         [Test]
         public void WaitTo_NoFailure()
         {
-            var waitTo = page.IsTrue.WaitTo;
+            var waitTo = _page.IsTrue.WaitTo;
 
             waitTo.BeTrue();
         }
@@ -24,7 +24,7 @@ namespace Atata.Tests
         [Test]
         public void WaitTo_NoFailure_WithRetry()
         {
-            var waitTo = page.IsTrueInASecond.WaitTo;
+            var waitTo = _page.IsTrueInASecond.WaitTo;
 
             waitTo.BeTrue();
         }
@@ -32,7 +32,7 @@ namespace Atata.Tests
         [Test]
         public void WaitTo_Positive_Failure()
         {
-            var waitTo = page.IsTrue.WaitTo.AtOnce;
+            var waitTo = _page.IsTrue.WaitTo.AtOnce;
 
             TimeoutException exception = Assert.Throws<TimeoutException>(() =>
                 waitTo.BeFalse());
@@ -44,7 +44,7 @@ namespace Atata.Tests
         [Test]
         public void WaitTo_Negative_Failure()
         {
-            var waitTo = page.IsTrue.WaitTo.Not.AtOnce;
+            var waitTo = _page.IsTrue.WaitTo.Not.AtOnce;
 
             TimeoutException exception = Assert.Throws<TimeoutException>(() =>
                 waitTo.BeTrue());

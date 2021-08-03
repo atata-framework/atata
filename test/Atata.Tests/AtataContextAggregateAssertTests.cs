@@ -5,11 +5,11 @@ namespace Atata.Tests
 {
     public class AtataContextAggregateAssertTests : UITestFixture
     {
-        private StubPage page;
+        private StubPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<StubPage>();
+            _page = Go.To<StubPage>();
         }
 
         [Test]
@@ -17,7 +17,7 @@ namespace Atata.Tests
         {
             AtataContext.Current.AggregateAssert(() =>
             {
-                page.IsTrue.Should.AtOnce.BeTrue();
+                _page.IsTrue.Should.AtOnce.BeTrue();
             });
         }
 
@@ -28,7 +28,7 @@ namespace Atata.Tests
             {
                 AtataContext.Current.AggregateAssert(() =>
                 {
-                    page.IsTrue.Should.AtOnce.BeFalse();
+                    _page.IsTrue.Should.AtOnce.BeFalse();
                 });
             });
 
@@ -44,9 +44,9 @@ namespace Atata.Tests
             {
                 AtataContext.Current.AggregateAssert(() =>
                 {
-                    page.IsTrue.Should.AtOnce.BeFalse();
-                    page.IsTrue.Should.AtOnce.BeTrue();
-                    page.IsTrue.Should.AtOnce.BeFalse();
+                    _page.IsTrue.Should.AtOnce.BeFalse();
+                    _page.IsTrue.Should.AtOnce.BeTrue();
+                    _page.IsTrue.Should.AtOnce.BeFalse();
                 });
             });
 

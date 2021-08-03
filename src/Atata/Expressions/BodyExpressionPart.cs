@@ -7,7 +7,7 @@ namespace Atata
 {
     internal class BodyExpressionPart
     {
-        private readonly List<object> subParts = new List<object>();
+        private readonly List<object> _subParts = new List<object>();
 
         internal int OperatorAndCount { get; set; }
 
@@ -16,19 +16,19 @@ namespace Atata
         internal LiteralExpressionPart StartNewLiteral()
         {
             LiteralExpressionPart literal = new LiteralExpressionPart();
-            subParts.Add(literal);
+            _subParts.Add(literal);
             return literal;
         }
 
         internal LambdaExpressionPart StartLambda(LambdaExpressionPart lambda)
         {
-            subParts.Add(lambda);
+            _subParts.Add(lambda);
             return lambda;
         }
 
         public override string ToString()
         {
-            string result = subParts.Select(x => x.ToString())
+            string result = _subParts.Select(x => x.ToString())
                 .Where(x => x.Length > 0)
                 .Aggregate(new StringBuilder(), (b, x) => b.Append(x))
                 .ToString();

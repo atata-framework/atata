@@ -12,7 +12,7 @@ namespace Atata
     /// </summary>
     public class TextOutputLogConsumer : ILogConsumer
     {
-        private readonly Action<string> writeAction;
+        private readonly Action<string> _writeAction;
 
         public TextOutputLogConsumer()
         {
@@ -20,7 +20,7 @@ namespace Atata
 
         public TextOutputLogConsumer(Action<string> writeAction)
         {
-            this.writeAction = writeAction;
+            _writeAction = writeAction;
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Atata
 
         protected virtual void Write(string completeMessage)
         {
-            writeAction?.Invoke(completeMessage);
+            _writeAction?.Invoke(completeMessage);
         }
 
         private string BuildCompleteMessage(LogEventInfo eventInfo)

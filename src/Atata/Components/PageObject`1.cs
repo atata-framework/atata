@@ -15,7 +15,7 @@ namespace Atata
     public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
         where TOwner : PageObject<TOwner>
     {
-        private Control<TOwner> activeControl;
+        private Control<TOwner> _activeControl;
 
         protected PageObject()
         {
@@ -104,7 +104,7 @@ namespace Atata
         {
             get
             {
-                return activeControl ?? (activeControl = Controls.Create<Control<TOwner>>(
+                return _activeControl ?? (_activeControl = Controls.Create<Control<TOwner>>(
                     "<Active>",
                     new DynamicScopeLocator(_ => Driver.SwitchTo().ActiveElement())));
             }

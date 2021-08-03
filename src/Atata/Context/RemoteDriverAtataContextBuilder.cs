@@ -18,15 +18,15 @@ namespace Atata
         /// </summary>
         public static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(60);
 
-        private readonly List<Action<DriverOptions>> optionsInitializers = new List<Action<DriverOptions>>();
+        private readonly List<Action<DriverOptions>> _optionsInitializers = new List<Action<DriverOptions>>();
 
-        private Uri remoteAddress;
+        private Uri _remoteAddress;
 
-        private Func<DriverOptions> optionsFactory;
+        private Func<DriverOptions> _optionsFactory;
 
-        private Func<ICapabilities> capabilitiesFactory;
+        private Func<ICapabilities> _capabilitiesFactory;
 
-        private TimeSpan? commandTimeout;
+        private TimeSpan? _commandTimeout;
 
         public RemoteDriverAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext, DriverAliases.Remote)
@@ -37,7 +37,7 @@ namespace Atata
         {
             ICapabilities capabilities = CreateCapabilities();
 
-            return CreateDriver(remoteAddress, capabilities, commandTimeout ?? DefaultCommandTimeout);
+            return CreateDriver(_remoteAddress, capabilities, _commandTimeout ?? DefaultCommandTimeout);
         }
 
         protected virtual RemoteWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout)
@@ -47,18 +47,18 @@ namespace Atata
 
         protected virtual ICapabilities CreateCapabilities()
         {
-            var options = optionsFactory?.Invoke();
+            var options = _optionsFactory?.Invoke();
 
             if (options != null)
             {
-                foreach (var optionsInitializer in optionsInitializers)
+                foreach (var optionsInitializer in _optionsInitializers)
                     optionsInitializer(options);
 
                 return options.ToCapabilities();
             }
             else
             {
-                return capabilitiesFactory?.Invoke()
+                return _capabilitiesFactory?.Invoke()
                     ?? throw new InvalidOperationException(
                         $"Type or instance of {nameof(DriverOptions)} is not set. " +
                         $"Use one of {nameof(RemoteDriverAtataContextBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
@@ -72,7 +72,7 @@ namespace Atata
         /// <returns>The same builder instance.</returns>
         public RemoteDriverAtataContextBuilder WithRemoteAddress(Uri remoteAddress)
         {
-            this.remoteAddress = remoteAddress;
+            _remoteAddress = remoteAddress;
             return this;
         }
 
@@ -85,7 +85,7 @@ namespace Atata
         {
             remoteAddress.CheckNotNullOrWhitespace(nameof(remoteAddress));
 
-            this.remoteAddress = new Uri(remoteAddress);
+            _remoteAddress = new Uri(remoteAddress);
             return this;
         }
 
@@ -97,7 +97,7 @@ namespace Atata
         public RemoteDriverAtataContextBuilder WithOptions<TOptions>()
             where TOptions : DriverOptions, new()
         {
-            optionsFactory = () => new TOptions();
+            _optionsFactory = () => new TOptions();
             return this;
         }
 
@@ -110,7 +110,7 @@ namespace Atata
         {
             options.CheckNotNull(nameof(options));
 
-            optionsFactory = () => options;
+            _optionsFactory = () => options;
             return this;
         }
 
@@ -123,7 +123,7 @@ namespace Atata
         {
             optionsFactory.CheckNotNull(nameof(optionsFactory));
 
-            this.optionsFactory = optionsFactory;
+            _optionsFactory = optionsFactory;
             return this;
         }
 
@@ -136,7 +136,7 @@ namespace Atata
         {
             optionsInitializer.CheckNotNull(nameof(optionsInitializer));
 
-            optionsInitializers.Add(optionsInitializer);
+            _optionsInitializers.Add(optionsInitializer);
             return this;
         }
 
@@ -149,7 +149,7 @@ namespace Atata
         {
             capabilities.CheckNotNull(nameof(capabilities));
 
-            capabilitiesFactory = () => capabilities;
+            _capabilitiesFactory = () => capabilities;
             return this;
         }
 
@@ -162,7 +162,7 @@ namespace Atata
         {
             capabilitiesFactory.CheckNotNull(nameof(capabilitiesFactory));
 
-            this.capabilitiesFactory = capabilitiesFactory;
+            _capabilitiesFactory = capabilitiesFactory;
             return this;
         }
 
@@ -213,7 +213,7 @@ namespace Atata
         /// <returns>The same builder instance.</returns>
         public RemoteDriverAtataContextBuilder WithCommandTimeout(TimeSpan commandTimeout)
         {
-            this.commandTimeout = commandTimeout;
+            _commandTimeout = commandTimeout;
             return this;
         }
     }

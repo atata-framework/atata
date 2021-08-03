@@ -30,10 +30,10 @@ namespace Atata.Tests
 
         public class ReferenceEqualityComparer<T> : EqualityComparer<T>
         {
-            private static IEqualityComparer<T> defaultComparer;
+            private static IEqualityComparer<T> s_defaultComparer;
 
             public static new IEqualityComparer<T> Default =>
-                defaultComparer ??= new ReferenceEqualityComparer<T>();
+                s_defaultComparer ??= new ReferenceEqualityComparer<T>();
 
             public override bool Equals(T x, T y) =>
                 ReferenceEquals(x, y);

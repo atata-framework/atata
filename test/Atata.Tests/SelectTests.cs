@@ -5,17 +5,17 @@ namespace Atata.Tests
 {
     public class SelectTests : UITestFixture
     {
-        private SelectPage page;
+        private SelectPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<SelectPage>();
+            _page = Go.To<SelectPage>();
         }
 
         [Test]
         public void Select_String()
         {
-            var control = page.TextSelect;
+            var control = _page.TextSelect;
 
             VerifyEquals(control, "--select--");
             control.SelectedIndex.Should.Equal(0);
@@ -37,7 +37,7 @@ namespace Atata.Tests
         [Test]
         public void Select_String_WithFormat()
         {
-            var control = page.TextSelectWithFromat;
+            var control = _page.TextSelectWithFromat;
 
             SetAndVerifyValues(control, "A", "B");
 
@@ -50,7 +50,7 @@ namespace Atata.Tests
         [Test]
         public void Select_String_WithMatch()
         {
-            var control = page.TextSelectWithContainsMatch;
+            var control = _page.TextSelectWithContainsMatch;
 
             control.Set("A");
             control.Should.Equal("Option A");
@@ -62,27 +62,27 @@ namespace Atata.Tests
         [Test]
         public void Select_Enum_ByText()
         {
-            SetAndVerifyValues(page.EnumSelectByText, SelectPage.Option.OptionA, SelectPage.Option.OptionC);
+            SetAndVerifyValues(_page.EnumSelectByText, SelectPage.Option.OptionA, SelectPage.Option.OptionC);
 
-            VerifyDoesNotEqual(page.EnumSelectByText, SelectPage.Option.OptionD);
+            VerifyDoesNotEqual(_page.EnumSelectByText, SelectPage.Option.OptionD);
         }
 
         [Test]
         public void Select_Enum_ByValue()
         {
-            SetAndVerifyValues(page.EnumSelectByValue, SelectPage.Option.OptionB, SelectPage.Option.OptionA);
+            SetAndVerifyValues(_page.EnumSelectByValue, SelectPage.Option.OptionB, SelectPage.Option.OptionA);
 
-            VerifyDoesNotEqual(page.EnumSelectByValue, SelectPage.Option.OptionB);
+            VerifyDoesNotEqual(_page.EnumSelectByValue, SelectPage.Option.OptionB);
         }
 
         [Test]
         public void Select_Int_ByText()
         {
-            VerifyEquals(page.IntSelectByText, 1);
+            VerifyEquals(_page.IntSelectByText, 1);
 
-            SetAndVerifyValues(page.IntSelectByText, 4, 2);
+            SetAndVerifyValues(_page.IntSelectByText, 4, 2);
 
-            VerifyDoesNotEqual(page.IntSelectByText, 3);
+            VerifyDoesNotEqual(_page.IntSelectByText, 3);
         }
     }
 }

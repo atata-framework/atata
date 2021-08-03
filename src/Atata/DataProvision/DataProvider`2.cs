@@ -11,7 +11,7 @@ namespace Atata
     public class DataProvider<TData, TOwner> : IDataProvider<TData, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private readonly Func<TData> valueGetFunction;
+        private readonly Func<TData> _valueGetFunction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DataProvider{TData, TOwner}"/> class.
@@ -22,7 +22,7 @@ namespace Atata
         public DataProvider(UIComponent<TOwner> component, Func<TData> valueGetFunction, string providerName)
         {
             Component = component.CheckNotNull(nameof(component));
-            this.valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
+            _valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
             ProviderName = providerName.CheckNotNullOrWhitespace(nameof(providerName));
         }
 
@@ -49,7 +49,7 @@ namespace Atata
         /// </summary>
         public TData Value
         {
-            get { return valueGetFunction(); }
+            get { return _valueGetFunction(); }
         }
 
         /// <summary>

@@ -6,17 +6,17 @@ namespace Atata.Tests
     {
         private const int MaxTriesNumber = 100;
 
-        private RandomizationPage page;
+        private RandomizationPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<RandomizationPage>();
+            _page = Go.To<RandomizationPage>();
         }
 
         [Test]
         public void Randomization_Enum_Single()
         {
-            var control = page.SimpleEnum;
+            var control = _page.SimpleEnum;
 
             control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
@@ -24,7 +24,7 @@ namespace Atata.Tests
             {
                 control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
-                page.CheckedItemsCount.Should.BeInRange(0, 1);
+                _page.CheckedItemsCount.Should.BeInRange(0, 1);
 
                 if (newValue != value)
                     return;
@@ -36,7 +36,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_Enum_Multiple()
         {
-            var control = page.MultipleEnums;
+            var control = _page.MultipleEnums;
 
             control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
@@ -44,7 +44,7 @@ namespace Atata.Tests
             {
                 control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
-                page.CheckedItemsCount.Should.BeInRange(2, 4);
+                _page.CheckedItemsCount.Should.BeInRange(2, 4);
 
                 if (newValue != value)
                     return;
@@ -56,7 +56,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_Enum_MultipleWithExcluding()
         {
-            var control = page.MultipleEnumsExcludingNoneBDF;
+            var control = _page.MultipleEnumsExcludingNoneBDF;
 
             control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
@@ -64,7 +64,7 @@ namespace Atata.Tests
             {
                 control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
-                page.CheckedItemsCount.Should.Equal(2);
+                _page.CheckedItemsCount.Should.Equal(2);
                 control.Should.Not.HaveChecked(
                     RandomizationPage.CheckBoxOptions.None |
                     RandomizationPage.CheckBoxOptions.OptionB |
@@ -81,7 +81,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_Enum_MultipleWithIncluding()
         {
-            var control = page.MultipleEnumsIncludingABDEF;
+            var control = _page.MultipleEnumsIncludingABDEF;
 
             control.SetRandom(out RandomizationPage.CheckBoxOptions value);
 
@@ -89,7 +89,7 @@ namespace Atata.Tests
             {
                 control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
                 control.Should.Equal(newValue);
-                page.CheckedItemsCount.Should.Equal(3);
+                _page.CheckedItemsCount.Should.Equal(3);
                 control.Should.Not.HaveChecked(
                     RandomizationPage.CheckBoxOptions.None |
                     RandomizationPage.CheckBoxOptions.OptionC);
@@ -104,7 +104,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_Enum_Nullable()
         {
-            var control = page.EnumSelect;
+            var control = _page.EnumSelect;
 
             control.SetRandom(out RandomizationPage.SelectOption value);
 
@@ -123,7 +123,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_String_WithIncluding()
         {
-            var control = page.TextSelect;
+            var control = _page.TextSelect;
 
             control.SetRandom(out string value);
 
@@ -143,7 +143,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_Int()
         {
-            var control = page.IntSelect;
+            var control = _page.IntSelect;
 
             control.SetRandom(out int value);
 
@@ -163,7 +163,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_Int_WithIncluding()
         {
-            var control = page.IntSelectUsingInclude;
+            var control = _page.IntSelectUsingInclude;
 
             control.SetRandom(out int value);
 
@@ -183,7 +183,7 @@ namespace Atata.Tests
         [Test]
         public void Randomization_Bool()
         {
-            var control = page.OptionA;
+            var control = _page.OptionA;
 
             control.SetRandom(out bool value);
 

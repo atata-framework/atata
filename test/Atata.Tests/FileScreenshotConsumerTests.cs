@@ -8,23 +8,23 @@ namespace Atata.Tests
     [TestFixture]
     public class FileScreenshotConsumerTests : UITestFixtureBase
     {
-        private AtataContextBuilder<FileScreenshotConsumer> consumerBuilder;
+        private AtataContextBuilder<FileScreenshotConsumer> _consumerBuilder;
 
-        private List<string> foldersToDelete;
+        private List<string> _foldersToDelete;
 
         [SetUp]
         public void SetUp()
         {
-            consumerBuilder = ConfigureBaseAtataContext().
+            _consumerBuilder = ConfigureBaseAtataContext().
                 AddScreenshotFileSaving();
 
-            foldersToDelete = new List<string>();
+            _foldersToDelete = new List<string>();
         }
 
         [Test]
         public void FileScreenshotConsumer_FolderPath_Relative()
         {
-            consumerBuilder.
+            _consumerBuilder.
                 WithFolderPath(@"TestLogs\{build-start}\{test-name-sanitized}").
                 Build();
 
@@ -38,7 +38,7 @@ namespace Atata.Tests
                 AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
                 nameof(FileScreenshotConsumer_FolderPath_Relative));
 
-            foldersToDelete.Add(folderPath);
+            _foldersToDelete.Add(folderPath);
 
             FileAssert.Exists(Path.Combine(folderPath, "01 - Basic Controls page.png"));
         }
@@ -46,7 +46,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FolderPath_Absolute()
         {
-            consumerBuilder.
+            _consumerBuilder.
                 WithFolderPath(@"C:\TestLogs\{build-start}\{test-name-sanitized}").
                 Build();
 
@@ -59,7 +59,7 @@ namespace Atata.Tests
                 AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
                 nameof(FileScreenshotConsumer_FolderPath_Absolute));
 
-            foldersToDelete.Add(folderPath);
+            _foldersToDelete.Add(folderPath);
 
             FileAssert.Exists(Path.Combine(folderPath, "01 - Basic Controls page.png"));
         }
@@ -67,7 +67,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FolderPathBuilder()
         {
-            consumerBuilder.
+            _consumerBuilder.
                 WithFolderPath(() => $@"TestLogs\{AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat)}\{AtataContext.Current.TestName}").
                 Build();
 
@@ -81,7 +81,7 @@ namespace Atata.Tests
                 AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
                 nameof(FileScreenshotConsumer_FolderPathBuilder));
 
-            foldersToDelete.Add(folderPath);
+            _foldersToDelete.Add(folderPath);
 
             FileAssert.Exists(Path.Combine(folderPath, "01 - Basic Controls page.png"));
         }
@@ -89,7 +89,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FileName()
         {
-            consumerBuilder.
+            _consumerBuilder.
                 WithFileName(@"{screenshot-number:d3} {screenshot-title:* - }{screenshot-pageobjectname}").
                 Build();
 
@@ -104,7 +104,7 @@ namespace Atata.Tests
                 AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
                 nameof(FileScreenshotConsumer_FileName));
 
-            foldersToDelete.Add(folderPath);
+            _foldersToDelete.Add(folderPath);
 
             FileAssert.Exists(Path.Combine(folderPath, "001 Basic Controls.png"));
             FileAssert.Exists(Path.Combine(folderPath, "002 Some title - Basic Controls.png"));
@@ -113,7 +113,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FileName_Sanitizing()
         {
-            consumerBuilder.
+            _consumerBuilder.
                 UseTestName("FileScreenshotConsumer_File\"Name\\_/Sanitizing").
                 Build();
 
@@ -128,7 +128,7 @@ namespace Atata.Tests
                 AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
                 nameof(FileScreenshotConsumer_FileName_Sanitizing));
 
-            foldersToDelete.Add(folderPath);
+            _foldersToDelete.Add(folderPath);
 
             FileAssert.Exists(Path.Combine(folderPath, "01 - Basic Controls page.png"));
             FileAssert.Exists(Path.Combine(folderPath, "02 - Basic Controls page - Some title.png"));
@@ -137,7 +137,7 @@ namespace Atata.Tests
         [Test]
         public void FileScreenshotConsumer_FilePath()
         {
-            consumerBuilder.
+            _consumerBuilder.
                 WithFilePath(@"TestLogs\{build-start}\Test {test-name-sanitized}\{screenshot-number:d2}{screenshot-title: - *}").
                 Build();
 
@@ -152,7 +152,7 @@ namespace Atata.Tests
                 AtataContext.BuildStart.Value.ToString(FileScreenshotConsumer.DefaultDateTimeFormat),
                 $"Test {nameof(FileScreenshotConsumer_FilePath)}");
 
-            foldersToDelete.Add(folderPath);
+            _foldersToDelete.Add(folderPath);
 
             FileAssert.Exists(Path.Combine(folderPath, "01.png"));
             FileAssert.Exists(Path.Combine(folderPath, "02 - Some title.png"));
@@ -162,7 +162,7 @@ namespace Atata.Tests
         {
             base.TearDown();
 
-            foreach (string folderPath in foldersToDelete)
+            foreach (string folderPath in _foldersToDelete)
                 Directory.Delete(folderPath, true);
         }
     }

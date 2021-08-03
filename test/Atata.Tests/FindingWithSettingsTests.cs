@@ -4,17 +4,17 @@ namespace Atata.Tests
 {
     public class FindingWithSettingsTests : UITestFixture
     {
-        private FindingWithSettingsPage page;
+        private FindingWithSettingsPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<FindingWithSettingsPage>();
+            _page = Go.To<FindingWithSettingsPage>();
         }
 
         [Test]
         public void Find_WithSettings_AtPageObject()
         {
-            page.
+            _page.
                 OptionA.Should.Not.Exist().
                 OptionB.Should.Exist().
                 OptionC.Should.Exist().
@@ -24,7 +24,7 @@ namespace Atata.Tests
         [Test]
         public void Find_WithSettings_AtParentControl()
         {
-            page.
+            _page.
                 RadioSet.OptionA.Should.Not.Exist().
                 RadioSet.OptionB.Should.Exist().
                 RadioSet.OptionC.Should.Not.Exist().

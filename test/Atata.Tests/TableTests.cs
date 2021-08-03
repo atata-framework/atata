@@ -5,17 +5,17 @@ namespace Atata.Tests
 {
     public class TableTests : UITestFixture
     {
-        private TablePage page;
+        private TablePage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<TablePage>();
+            _page = Go.To<TablePage>();
         }
 
         [Test]
         public void Table_Simple()
         {
-            page.
+            _page.
                 SimpleTable.Should.Exist().
                 SimpleTable.Rows.Count.Should.Equal(4).
                 SimpleTable.Headers.Should.HaveCount(2).
@@ -39,7 +39,7 @@ namespace Atata.Tests
         [Test]
         public void Table_Complex()
         {
-            page.
+            _page.
                 ComplexTable.Should.Exist().
                 ComplexTable.Rows.Count.Should.Equal(4).
                 ComplexTable.Headers.Should.HaveCount(2).
@@ -65,7 +65,7 @@ namespace Atata.Tests
         [Test]
         public void Table_Navigatable()
         {
-            GoTo1Page goToPage = page.
+            GoTo1Page goToPage = _page.
                 NavigatableTable.Should.Exist().
                 NavigatableTable.Rows.Count.Should.Equal(4).
                 NavigatableTable.Rows[r => r.FirstName == "Jack"].ClickAndGo();
@@ -76,7 +76,7 @@ namespace Atata.Tests
         [Test]
         public void Table_ByIndex()
         {
-            page.
+            _page.
                 CountryTable.Should.Exist().
                 CountryTable.Rows.Count.Should.Equal(3).
                 CountryTable.Rows[0].Capital.Should.Equal("London").
@@ -93,7 +93,7 @@ namespace Atata.Tests
         [Test]
         public void Table_ByColumnIndex()
         {
-            page.
+            _page.
                 CountryByColumnIndexTable.Should.Exist().
                 CountryByColumnIndexTable.Rows.Count.Should.Equal(3).
                 CountryByColumnIndexTable.Rows[0].CapitalName.Should.Equal("London").
@@ -108,7 +108,7 @@ namespace Atata.Tests
         [Test]
         public void Table_Empty()
         {
-            page.
+            _page.
                 EmptyTable.Should.Exist().
                 EmptyTable.Rows.Count.Should.Equal(0).
                 EmptyTable.Rows.Should.BeEmpty().
@@ -118,7 +118,7 @@ namespace Atata.Tests
         [Test]
         public void Table_RowAppends()
         {
-            page.
+            _page.
                 CountryTable.Rows.Count.Should.Equal(3).
                 AddUsa.Click().
                 CountryTable.Rows[x => x.Country == "USA"].Capital.Should.Equal("Washington").
@@ -128,7 +128,7 @@ namespace Atata.Tests
         [Test]
         public void Table_RowAppends_WithDelay()
         {
-            page.
+            _page.
                 CountryTable.Rows.Count.Should.Equal(3).
                 AddChina.Click().
                 CountryTable.Rows[x => x.Country == "China"].Capital.Should.Equal("Beijing").
@@ -159,14 +159,14 @@ namespace Atata.Tests
         [Test]
         public void Table_Rows_GetByXPathCondition()
         {
-            page.
+            _page.
                 CountryTable.Rows.GetByXPathCondition("Paris", @"td[2][.='Paris']").Country.Should.Equal("France");
         }
 
         [Test]
         public void Table_InsideAnotherTable()
         {
-            var component = page.InsideAnotherTable;
+            var component = _page.InsideAnotherTable;
 
             component.Should.Exist();
             component.Rows.Count.Should.Equal(1);

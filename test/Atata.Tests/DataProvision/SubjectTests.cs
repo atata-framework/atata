@@ -58,25 +58,25 @@ namespace Atata.Tests.DataProvision
         [TestFixture]
         public class ValueOf
         {
-            private Subject<Dictionary<string, int>> subject;
+            private Subject<Dictionary<string, int>> _subject;
 
             [SetUp]
             public void SetUpTest() =>
-                subject = CreateDictionarySubject();
+                _subject = CreateDictionarySubject();
 
             [Test]
             public void ProviderName_OfProperty() =>
-                subject.ValueOf(x => x.Count)
+                _subject.ValueOf(x => x.Count)
                     .ProviderName.Should().Be("subject.Count");
 
             [Test]
             public void ProviderName_OfFunction() =>
-                subject.ValueOf(x => x.ContainsKey("a"))
+                _subject.ValueOf(x => x.ContainsKey("a"))
                     .ProviderName.Should().Be("subject.ContainsKey(\"a\")");
 
             [Test]
             public void ProviderName_OfProperty_AfterMultipleActions() =>
-                subject
+                _subject
                     .Act(x => x.Add("d", 4))
                     .Act(x => x.Add("e", 5))
                     .ValueOf(x => x.Count).ProviderName.Should().Be("subject{ Add(\"d\", 4); Add(\"e\", 5) }.Count");
@@ -85,20 +85,20 @@ namespace Atata.Tests.DataProvision
         [TestFixture]
         public class ResultOf
         {
-            private Subject<Dictionary<string, int>> subject;
+            private Subject<Dictionary<string, int>> _subject;
 
             [SetUp]
             public void SetUpTest() =>
-                subject = CreateDictionarySubject();
+                _subject = CreateDictionarySubject();
 
             [Test]
             public void Property() =>
-                subject.ResultOf(x => x.Count)
+                _subject.ResultOf(x => x.Count)
                     .Should.Equal(3);
 
             [Test]
             public void Function() =>
-                subject.ResultOf(x => x.ContainsKey("a"))
+                _subject.ResultOf(x => x.ContainsKey("a"))
                     .Should.BeTrue();
 
             [Test]
@@ -106,28 +106,28 @@ namespace Atata.Tests.DataProvision
             {
                 int value;
 
-                subject.ResultOf(x => x.TryGetValue("a", out value))
+                _subject.ResultOf(x => x.TryGetValue("a", out value))
                     .Should.BeTrue();
             }
 
             [Test]
             public void Indexer() =>
-                subject.ResultOf(x => x["a"])
+                _subject.ResultOf(x => x["a"])
                     .Should.Equal(1);
 
             [Test]
             public void ProviderName_OfProperty() =>
-                subject.ResultOf(x => x.Count)
+                _subject.ResultOf(x => x.Count)
                     .ProviderName.Should().Be("subject.Count => result");
 
             [Test]
             public void ProviderName_OfPropertyChain() =>
-                subject.ResultOf(x => x.Keys.Count)
+                _subject.ResultOf(x => x.Keys.Count)
                     .ProviderName.Should().Be("subject.Keys.Count => result");
 
             [Test]
             public void ProviderName_OfFunction() =>
-                subject.ResultOf(x => x.ContainsKey("a"))
+                _subject.ResultOf(x => x.ContainsKey("a"))
                     .ProviderName.Should().Be("subject.ContainsKey(\"a\") => result");
 
             [Test]
@@ -135,20 +135,20 @@ namespace Atata.Tests.DataProvision
             {
                 int value;
 
-                subject.ResultOf(x => x.TryGetValue("a", out value))
+                _subject.ResultOf(x => x.TryGetValue("a", out value))
                     .ProviderName.Should().Be("subject.TryGetValue(\"a\", out value) => result");
             }
 
             [Test]
             public void ProviderName_OfFunction_AfterAct() =>
-                subject
+                _subject
                     .Act(x => x.Add("d", 4))
                     .ResultOf(x => x.ContainsKey("d"))
                     .ProviderName.Should().Be("subject{ Add(\"d\", 4) }.ContainsKey(\"d\") => result");
 
             [Test]
             public void ProviderName_OfFunction_AfterMultipleActs() =>
-                subject
+                _subject
                     .Act(x => x.Add("d", 4))
                     .Act(x => x.Add("e", 5))
                     .ResultOf(x => x.ContainsKey("d"))
@@ -156,52 +156,52 @@ namespace Atata.Tests.DataProvision
 
             [Test]
             public void ProviderName_OfFunction_AfterResultOf() =>
-                subject.ResultOf(x => x.Keys.Where(key => key != "z"))
+                _subject.ResultOf(x => x.Keys.Where(key => key != "z"))
                     .ResultOf(x => x.First())
                     .ProviderName.ToResultSubject()
                     .Should.Equal("subject.Keys.Where(key => key != \"z\") => result.First() => result");
 
             [Test]
             public void ProviderName_OfIndexer() =>
-                subject.ResultOf(x => x["a"])
+                _subject.ResultOf(x => x["a"])
                     .ProviderName.Should().Be("subject[\"a\"] => result");
         }
 
         [TestFixture]
         public class Act
         {
-            private Subject<Dictionary<string, int>> subject;
+            private Subject<Dictionary<string, int>> _subject;
 
             [SetUp]
             public void SetUpTest() =>
-                subject = CreateDictionarySubject();
+                _subject = CreateDictionarySubject();
 
             [Test]
             public void ProviderName_OfAction() =>
-                subject.Act(x => x.Add("d", 4))
+                _subject.Act(x => x.Add("d", 4))
                     .ProviderName.Should().Be("subject{ Add(\"d\", 4) }");
 
             [Test]
             public void ProviderName_OfFunction() =>
-                subject.Act(x => x.Remove("c"))
+                _subject.Act(x => x.Remove("c"))
                     .ProviderName.Should().Be("subject{ Remove(\"c\") }");
 
             [Test]
             public void ProviderName_OfIndexer() =>
-                subject.Act(x => x["a"] = 1, "[\"a\"] = 1")
+                _subject.Act(x => x["a"] = 1, "[\"a\"] = 1")
                     .ProviderName.Should().Be("subject{ [\"a\"] = 1 }");
 
             [Test]
             public void ProviderName_OfAction_Multiple() =>
-                subject
+                _subject
                     .Act(x => x.Add("d", 4))
                     .Act(x => x.Add("e", 5))
                     .ProviderName.Should().Be("subject{ Add(\"d\", 4); Add(\"e\", 5) }");
 
             [Test]
             public void Returns() =>
-                subject.Act(x => x.Clear())
-                    .Should.Equal(subject);
+                _subject.Act(x => x.Clear())
+                    .Should.Equal(_subject);
         }
     }
 }

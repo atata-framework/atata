@@ -4,17 +4,17 @@ namespace Atata.Tests
 {
     public class FindingInAncestorTests : UITestFixture
     {
-        private FindingInAncestorPage page;
+        private FindingInAncestorPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<FindingInAncestorPage>();
+            _page = Go.To<FindingInAncestorPage>();
         }
 
         [Test]
         public void Find_InAncestor_First_Visible()
         {
-            var control = page.LegendInOneLayer;
+            var control = _page.LegendInOneLayer;
 
             control.Should.Equal("Radio Buttons");
         }
@@ -22,7 +22,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InAncestor_ThreeLayers()
         {
-            var control = page.LegendInThreeLayers;
+            var control = _page.LegendInThreeLayers;
 
             control.Should.Equal("Radio Buttons");
         }
@@ -30,7 +30,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InAncestor_ThreeLayers_AtParentAndDeclared()
         {
-            var control = page.LegendInThreeLayersAtParentAndDeclared;
+            var control = _page.LegendInThreeLayersAtParentAndDeclared;
 
             control.Should.Equal("Radio Buttons");
         }
@@ -38,7 +38,7 @@ namespace Atata.Tests
         [Test]
         public void Find_InAncestor_ThreeLayers_AtParentAndDeclaredAndComponent()
         {
-            var control = page.LegendInThreeLayersAtParentAndDeclaredAndComponent;
+            var control = _page.LegendInThreeLayersAtParentAndDeclaredAndComponent;
 
             control.Should.Equal("Radio Buttons");
         }

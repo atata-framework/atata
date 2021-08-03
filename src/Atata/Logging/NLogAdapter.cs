@@ -10,32 +10,32 @@ namespace Atata
     {
         private const string NLogAssemblyName = "NLog";
 
-        private static readonly Lazy<Type> FileTargetType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_fileTargetType = new Lazy<Type>(
             () => GetType("NLog.Targets.FileTarget"));
 
-        private static readonly Lazy<Type> LayoutType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_layoutType = new Lazy<Type>(
             () => GetType("NLog.Layouts.Layout"));
 
-        private static readonly Lazy<Type> LoggingConfigurationType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_loggingConfigurationType = new Lazy<Type>(
             () => GetType("NLog.Config.LoggingConfiguration"));
 
-        private static readonly Lazy<Type> LogManagerType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_logManagerType = new Lazy<Type>(
             () => GetType("NLog.LogManager"));
 
-        private static readonly Lazy<Type> LogEventInfoType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_logEventInfoType = new Lazy<Type>(
             () => GetType("NLog.LogEventInfo"));
 
-        private static readonly Lazy<Type> LogLevelType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_logLevelType = new Lazy<Type>(
             () => GetType("NLog.LogLevel"));
 
-        private static readonly object ConfigurationSyncLock = new object();
+        private static readonly object s_configurationSyncLock = new object();
 
-        private static readonly Lazy<Dictionary<LogLevel, dynamic>> LogLevelsMap = new Lazy<Dictionary<LogLevel, dynamic>>(
+        private static readonly Lazy<Dictionary<LogLevel, dynamic>> s_logLevelsMap = new Lazy<Dictionary<LogLevel, dynamic>>(
             CreateLogLevelsMap);
 
         private static Dictionary<LogLevel, dynamic> CreateLogLevelsMap()
         {
-            PropertyInfo allLevelsProperty = LogLevelType.Value.GetPropertyWithThrowOnError("AllLoggingLevels");
+            PropertyInfo allLevelsProperty = s_logLevelType.Value.GetPropertyWithThrowOnError("AllLoggingLevels");
             IEnumerable allLevels = (IEnumerable)allLevelsProperty.GetStaticValue();
 
             var result = new Dictionary<LogLevel, dynamic>();
@@ -57,9 +57,9 @@ namespace Atata
 
         internal static dynamic CreateFileTarget(string name, string filePath, string layout)
         {
-            dynamic fileTarget = Activator.CreateInstance(FileTargetType.Value, name);
+            dynamic fileTarget = Activator.CreateInstance(s_fileTargetType.Value, name);
 
-            MethodInfo layoutFromStringMethod = LayoutType.Value.GetMethodWithThrowOnError("FromString", typeof(string));
+            MethodInfo layoutFromStringMethod = s_layoutType.Value.GetMethodWithThrowOnError("FromString", typeof(string));
             fileTarget.FileName = layoutFromStringMethod.InvokeStaticAsLambda<dynamic>(filePath);
             fileTarget.Layout = layoutFromStringMethod.InvokeStaticAsLambda<dynamic>(layout);
 
@@ -68,39 +68,39 @@ namespace Atata
 
         internal static void AddConfigurationRuleForAllLevels(dynamic target, string loggerNamePattern)
         {
-            var logManagerConfigurationProperty = LogManagerType.Value.GetPropertyWithThrowOnError("Configuration");
+            var logManagerConfigurationProperty = s_logManagerType.Value.GetPropertyWithThrowOnError("Configuration");
 
-            lock (ConfigurationSyncLock)
+            lock (s_configurationSyncLock)
             {
                 dynamic configuration = logManagerConfigurationProperty.GetStaticValue();
 
                 if (configuration is null)
                 {
-                    configuration = Activator.CreateInstance(LoggingConfigurationType.Value);
+                    configuration = Activator.CreateInstance(s_loggingConfigurationType.Value);
                     logManagerConfigurationProperty.SetStaticValue(configuration as object);
                 }
 
                 configuration.AddRuleForAllLevels(target, loggerNamePattern);
 
-                LogManagerType.Value.GetMethodWithThrowOnError("ReconfigExistingLoggers")
+                s_logManagerType.Value.GetMethodWithThrowOnError("ReconfigExistingLoggers")
                     .InvokeStaticAsLambda();
             }
         }
 
         internal static dynamic GetLogger(string name) =>
-            LogManagerType.Value.GetMethodWithThrowOnError("GetLogger", typeof(string))
+            s_logManagerType.Value.GetMethodWithThrowOnError("GetLogger", typeof(string))
                 .InvokeStaticAsLambda<dynamic>(name);
 
         internal static dynamic GetCurrentClassLogger() =>
-            LogManagerType.Value.GetMethodWithThrowOnError("GetCurrentClassLogger")
+            s_logManagerType.Value.GetMethodWithThrowOnError("GetCurrentClassLogger")
                 .InvokeStaticAsLambda<dynamic>();
 
         internal static dynamic CreateLogEventInfo(LogEventInfo eventInfo)
         {
-            dynamic otherEventInfo = Activator.CreateInstance(LogEventInfoType.Value);
+            dynamic otherEventInfo = Activator.CreateInstance(s_logEventInfoType.Value);
 
             otherEventInfo.TimeStamp = eventInfo.Timestamp;
-            otherEventInfo.Level = LogLevelsMap.Value[eventInfo.Level];
+            otherEventInfo.Level = s_logLevelsMap.Value[eventInfo.Level];
             otherEventInfo.Message = eventInfo.Message;
             otherEventInfo.Exception = eventInfo.Exception;
 

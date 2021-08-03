@@ -5,20 +5,20 @@ namespace Atata.Tests
 {
     public class TriggerTests : UITestFixture
     {
-        private TriggersPage page;
+        private TriggersPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<TriggersPage>();
+            _page = Go.To<TriggersPage>();
         }
 
         [Test]
         public void Trigger_InvokeMethod_AtProperty()
         {
-            page.Perform.Click();
+            _page.Perform.Click();
 
-            Assert.That(page.IsBeforePerformInvoked, Is.True);
-            Assert.That(page.IsAfterPerformInvoked, Is.True);
+            Assert.That(_page.IsBeforePerformInvoked, Is.True);
+            Assert.That(_page.IsAfterPerformInvoked, Is.True);
         }
 
         [Test]
@@ -30,20 +30,20 @@ namespace Atata.Tests
         [Test]
         public void Trigger_Add_ToControl()
         {
-            page.PerformWithoutTriggers.Metadata.Add(new InvokeMethodAttribute(nameof(TriggersPage.OnBeforePerform), TriggerEvents.BeforeClick));
+            _page.PerformWithoutTriggers.Metadata.Add(new InvokeMethodAttribute(nameof(TriggersPage.OnBeforePerform), TriggerEvents.BeforeClick));
 
-            page.PerformWithoutTriggers.Click();
+            _page.PerformWithoutTriggers.Click();
 
-            Assert.That(page.IsBeforePerformInvoked, Is.True);
-            Assert.That(page.IsAfterPerformInvoked, Is.False);
+            Assert.That(_page.IsBeforePerformInvoked, Is.True);
+            Assert.That(_page.IsAfterPerformInvoked, Is.False);
         }
 
         [Test]
         public void Trigger_Add_ToDynamicControl()
         {
-            page.DynamicInput.Metadata.Add(new LogInfoAttribute("AfterGet-Lowest", TriggerEvents.AfterGet, TriggerPriority.Lowest));
+            _page.DynamicInput.Metadata.Add(new LogInfoAttribute("AfterGet-Lowest", TriggerEvents.AfterGet, TriggerPriority.Lowest));
 
-            page.DynamicInput.Get();
+            _page.DynamicInput.Get();
 
             VerifyLastLogMessages(
                 minLogLevel: LogLevel.Info,
@@ -58,9 +58,9 @@ namespace Atata.Tests
         {
             bool isDeInitInvoked = false;
 
-            page.Metadata.Add(new InvokeDelegateAttribute(() => isDeInitInvoked = true, TriggerEvents.DeInit));
+            _page.Metadata.Add(new InvokeDelegateAttribute(() => isDeInitInvoked = true, TriggerEvents.DeInit));
 
-            page.GoTo1.ClickAndGo();
+            _page.GoTo1.ClickAndGo();
 
             Assert.That(isDeInitInvoked, Is.True);
         }
@@ -70,55 +70,55 @@ namespace Atata.Tests
         {
             VerifyInputEvents(TriggerEvents.Init);
 
-            page.Input.Exists();
+            _page.Input.Exists();
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
-            page.MissingInput.Missing();
+            _page.MissingInput.Missing();
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
-            page.Input.Should.Exist();
+            _page.Input.Should.Exist();
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
-            page.MissingInput.Should.Not.Exist();
+            _page.MissingInput.Should.Not.Exist();
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
-            page.Input.Attributes.Class.Should.HaveCount(1);
+            _page.Input.Attributes.Class.Should.HaveCount(1);
             VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
-            page.Input.Set("asd");
+            _page.Input.Set("asd");
             VerifyInputEvents(TriggerEvents.BeforeSet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterSet);
 
 #pragma warning disable IDE0059 // Unnecessary assignment of a value
-            page.Input.Get(out string value);
+            _page.Input.Get(out string value);
 #pragma warning restore IDE0059 // Unnecessary assignment of a value
             VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
 
-            page.Input.Should.Equal("asd");
+            _page.Input.Should.Equal("asd");
             VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
 
-            page.Input.Click();
+            _page.Input.Click();
             VerifyInputEvents(TriggerEvents.BeforeClick, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterClick);
 
-            page.Input.Hover();
+            _page.Input.Hover();
             VerifyInputEvents(TriggerEvents.BeforeHover, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterHover);
 
-            page.Input.Focus();
+            _page.Input.Focus();
             VerifyInputEvents(TriggerEvents.BeforeFocus, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterFocus);
 
-            page.Input.DoubleClick();
+            _page.Input.DoubleClick();
             VerifyInputEvents(TriggerEvents.BeforeClick, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterClick);
 
-            page.Input.RightClick();
+            _page.Input.RightClick();
             VerifyInputEvents(TriggerEvents.BeforeClick, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterClick);
 
-            page.GoTo1.ClickAndGo();
+            _page.GoTo1.ClickAndGo();
             VerifyInputEvents(TriggerEvents.DeInit);
         }
 
         private void VerifyInputEvents(params TriggerEvents[] triggerEvents)
         {
-            Assert.That(page.InputEvents, Is.EqualTo(triggerEvents));
-            page.InputEvents.Clear();
+            Assert.That(_page.InputEvents, Is.EqualTo(triggerEvents));
+            _page.InputEvents.Clear();
         }
 
         [Test]
@@ -130,7 +130,7 @@ namespace Atata.Tests
                 "Init-Lower",
                 "Init-Lowest");
 
-            page.InputWithLogging.Set("abc");
+            _page.InputWithLogging.Set("abc");
 
             VerifyLastLogMessages(
                 minLogLevel: LogLevel.Info,
@@ -146,23 +146,23 @@ namespace Atata.Tests
         [Test]
         public void Trigger_Get()
         {
-            Assert.That(page.InputWithLogging.Triggers.AllTriggers.Count(), Is.EqualTo(9));
-            Assert.That(page.InputWithLogging.Triggers.AllTriggers, Is.Ordered.By(nameof(TriggerAttribute.Priority)));
+            Assert.That(_page.InputWithLogging.Triggers.AllTriggers.Count(), Is.EqualTo(9));
+            Assert.That(_page.InputWithLogging.Triggers.AllTriggers, Is.Ordered.By(nameof(TriggerAttribute.Priority)));
 
-            Assert.That(page.InputWithLogging.Triggers.ParentComponentTriggers.Count(), Is.EqualTo(2));
-            Assert.That(page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(7));
+            Assert.That(_page.InputWithLogging.Triggers.ParentComponentTriggers.Count(), Is.EqualTo(2));
+            Assert.That(_page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(7));
         }
 
         [Test]
         public void Trigger_Remove()
         {
-            bool isRemoved = page.InputWithLogging.Metadata.Remove(
-                page.InputWithLogging.Triggers.DeclaredTriggers.OfType<LogInfoAttribute>().Single(x => x.Message == "AfterSet-Low"));
+            bool isRemoved = _page.InputWithLogging.Metadata.Remove(
+                _page.InputWithLogging.Triggers.DeclaredTriggers.OfType<LogInfoAttribute>().Single(x => x.Message == "AfterSet-Low"));
 
             Assert.That(isRemoved);
-            Assert.That(page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(6));
+            Assert.That(_page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(6));
 
-            page.InputWithLogging.Set("abc");
+            _page.InputWithLogging.Set("abc");
 
             VerifyLastLogMessages(
                 minLogLevel: LogLevel.Info,
@@ -177,13 +177,13 @@ namespace Atata.Tests
         [Test]
         public void Trigger_RemoveAll()
         {
-            int countOfRemoved = page.InputWithLogging.Metadata.RemoveAll(
+            int countOfRemoved = _page.InputWithLogging.Metadata.RemoveAll(
                 x => x is TriggersPage.CustomLogInfoAttribute);
 
             Assert.That(countOfRemoved, Is.EqualTo(3));
-            Assert.That(page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(4));
+            Assert.That(_page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(4));
 
-            page.InputWithLogging.Set("abc");
+            _page.InputWithLogging.Set("abc");
 
             VerifyLastLogMessages(
                 minLogLevel: LogLevel.Info,
@@ -196,7 +196,7 @@ namespace Atata.Tests
         [Test]
         public void Trigger_ChainExecution()
         {
-            page.Hierarchy.Level1.Level2.Level3.Level4.Click();
+            _page.Hierarchy.Level1.Level2.Level3.Level4.Click();
 
             VerifyLastLogMessagesContain(
                 minLogLevel: LogLevel.Info,

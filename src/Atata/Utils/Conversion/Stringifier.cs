@@ -17,7 +17,7 @@ namespace Atata
     {
         public const string NullString = "null";
 
-        private static readonly Lazy<Func<RemoteWebElement, string>> ElementIdRetrieveFunction = new Lazy<Func<RemoteWebElement, string>>(() =>
+        private static readonly Lazy<Func<RemoteWebElement, string>> s_elementIdRetrieveFunction = new Lazy<Func<RemoteWebElement, string>>(() =>
         {
             var idProperty = typeof(RemoteWebElement).GetPropertyWithThrowOnError(
                 "Id",
@@ -81,7 +81,7 @@ namespace Atata
             else if (value is Expression expressionValue)
                 return ToString(expressionValue);
             else if (value is RemoteWebElement asRemoteWebElement)
-                return $"Element {{ Id={ElementIdRetrieveFunction.Value.Invoke(asRemoteWebElement)} }}";
+                return $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asRemoteWebElement)} }}";
             else
                 return $"{{ {value} }}";
         }

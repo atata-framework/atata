@@ -4,26 +4,26 @@ namespace Atata
 {
     public class DefinedScopeLocator : IScopeLocator
     {
-        private readonly IWebElement element;
+        private readonly IWebElement _element;
 
         public DefinedScopeLocator(IWebElement element)
         {
-            this.element = element;
+            _element = element;
         }
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            return element;
+            return _element;
         }
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            return new[] { element };
+            return new[] { _element };
         }
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            return element == null;
+            return _element == null;
         }
     }
 }

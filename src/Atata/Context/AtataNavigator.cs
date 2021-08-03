@@ -8,7 +8,7 @@ namespace Atata
     /// </summary>
     public class AtataNavigator
     {
-        private readonly AtataContext context;
+        private readonly AtataContext _context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AtataNavigator"/> class.
@@ -16,7 +16,7 @@ namespace Atata
         /// <param name="context">The context.</param>
         public AtataNavigator(AtataContext context)
         {
-            this.context = context.CheckNotNull(nameof(context));
+            _context = context.CheckNotNull(nameof(context));
         }
 
         /// <summary>
@@ -50,7 +50,7 @@ namespace Atata
             where T : PageObject<T>
         {
             SetContextAsCurrent();
-            context.Log.Info($"Switch to \"{windowName}\" window");
+            _context.Log.Info($"Switch to \"{windowName}\" window");
 
             return To(pageObject, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
@@ -66,7 +66,7 @@ namespace Atata
             where T : PageObject<T>
         {
             SetContextAsCurrent();
-            context.Log.Info($"Switch to \"{windowName}\" window");
+            _context.Log.Info($"Switch to \"{windowName}\" window");
 
             return To<T>(null, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
         }
@@ -84,11 +84,11 @@ namespace Atata
             where T : PageObject<T>
         {
             SetContextAsCurrent();
-            context.Log.Info("Switch to next window");
+            _context.Log.Info("Switch to next window");
 
-            string currentWindowHandle = context.Driver.CurrentWindowHandle;
+            string currentWindowHandle = _context.Driver.CurrentWindowHandle;
 
-            string nextWindowHandle = context.Driver.WindowHandles.
+            string nextWindowHandle = _context.Driver.WindowHandles.
                 SkipWhile(x => x != currentWindowHandle).
                 ElementAt(1);
 
@@ -108,11 +108,11 @@ namespace Atata
             where T : PageObject<T>
         {
             SetContextAsCurrent();
-            context.Log.Info("Switch to previous window");
+            _context.Log.Info("Switch to previous window");
 
-            string currentWindowHandle = context.Driver.CurrentWindowHandle;
+            string currentWindowHandle = _context.Driver.CurrentWindowHandle;
 
-            string previousWindowHandle = context.Driver.WindowHandles
+            string previousWindowHandle = _context.Driver.WindowHandles
                 .Reverse()
                 .SkipWhile(x => x != currentWindowHandle)
                 .ElementAt(1);
@@ -125,10 +125,10 @@ namespace Atata
         {
             SetContextAsCurrent();
 
-            if (context.PageObject is null)
+            if (_context.PageObject is null)
             {
                 pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
-                context.PageObject = pageObject;
+                _context.PageObject = pageObject;
 
                 if (!string.IsNullOrWhiteSpace(options.Url))
                     ToUrl(options.Url);
@@ -139,9 +139,9 @@ namespace Atata
             }
             else
             {
-                IPageObject currentPageObject = (IPageObject)context.PageObject;
+                IPageObject currentPageObject = (IPageObject)_context.PageObject;
                 T newPageObject = currentPageObject.GoTo(pageObject, options);
-                context.PageObject = newPageObject;
+                _context.PageObject = newPageObject;
                 return newPageObject;
             }
         }
@@ -156,7 +156,7 @@ namespace Atata
 
             if (!UriUtils.TryCreateAbsoluteUrl(url, out Uri absoluteUrl))
             {
-                if (!context.IsNavigated && context.BaseUrl is null)
+                if (!_context.IsNavigated && _context.BaseUrl is null)
                 {
                     if (string.IsNullOrWhiteSpace(url))
                         throw new InvalidOperationException("Cannot navigate to empty or null URL. AtataContext.Current.BaseUrl can be set with base URL.");
@@ -164,9 +164,9 @@ namespace Atata
                         throw new InvalidOperationException($"Cannot navigate to relative URL \"{url}\". AtataContext.Current.BaseUrl can be set with base URL.");
                 }
 
-                if (context.BaseUrl is null)
+                if (_context.BaseUrl is null)
                 {
-                    Uri currentUri = new Uri(context.Driver.Url, UriKind.Absolute);
+                    Uri currentUri = new Uri(_context.Driver.Url, UriKind.Absolute);
 
                     string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
                     Uri domainUri = new Uri(domainPart);
@@ -175,7 +175,7 @@ namespace Atata
                 }
                 else
                 {
-                    absoluteUrl = UriUtils.Concat(context.BaseUrl, url);
+                    absoluteUrl = UriUtils.Concat(_context.BaseUrl, url);
                 }
             }
 
@@ -184,14 +184,14 @@ namespace Atata
 
         private void Navigate(Uri uri)
         {
-            context.Log.Info($"Go to URL \"{uri}\"");
-            context.Driver.Navigate().GoToUrl(uri);
-            context.IsNavigated = true;
+            _context.Log.Info($"Go to URL \"{uri}\"");
+            _context.Driver.Navigate().GoToUrl(uri);
+            _context.IsNavigated = true;
         }
 
         private void SetContextAsCurrent()
         {
-            AtataContext.Current = context;
+            AtataContext.Current = _context;
         }
     }
 }

@@ -6,28 +6,22 @@ namespace Atata
 {
     public class PlainScopeLocator : IScopeLocator
     {
-        private readonly Func<By> byCreator;
+        private readonly Func<By> _byCreator;
 
-        private By by;
+        private By _by;
 
         public PlainScopeLocator(By by)
         {
-            by.CheckNotNull(nameof(by));
-
-            this.by = by;
+            _by = by.CheckNotNull(nameof(by));
         }
 
         public PlainScopeLocator(Func<By> byCreator)
         {
-            byCreator.CheckNotNull(nameof(byCreator));
-
-            this.byCreator = byCreator;
+            _byCreator = byCreator.CheckNotNull(nameof(byCreator));
         }
 
-        private By By
-        {
-            get { return by ?? (by = byCreator()); }
-        }
+        private By By =>
+            _by ?? (_by = _byCreator());
 
         public ISearchContext SearchContext { get; set; } = AtataContext.Current.Driver;
 

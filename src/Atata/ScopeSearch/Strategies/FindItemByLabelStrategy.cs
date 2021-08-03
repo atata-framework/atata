@@ -4,16 +4,16 @@ namespace Atata
 {
     public class FindItemByLabelStrategy : TermItemElementFindStrategy
     {
-        private readonly UIComponent component;
+        private readonly UIComponent _component;
 
         public FindItemByLabelStrategy(UIComponent component)
         {
-            this.component = component;
+            _component = component;
         }
 
         public override string GetXPathCondition(object parameter, TermOptions termOptions)
         {
-            ISearchContext scopeContext = component.ScopeSource.GetScopeContext(component, SearchOptions.SafelyAtOnce());
+            ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
             IWebElement label = scopeContext.GetWithLogging(
                 By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]").
@@ -37,7 +37,7 @@ namespace Atata
 
             if (!string.IsNullOrEmpty(elementId))
             {
-                ISearchContext scopeContext = component.ScopeSource.GetScopeContext(component, SearchOptions.SafelyAtOnce());
+                ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
                 IWebElement label = scopeContext.GetWithLogging(
                     By.XPath($".//label[@for='{elementId}']").

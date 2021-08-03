@@ -10,7 +10,7 @@ namespace Atata
     public class AssemblyAttributesAtataContextBuilder
         : AttributesAtataContextBuilder<AssemblyAttributesAtataContextBuilder>
     {
-        private readonly Assembly assembly;
+        private readonly Assembly _assembly;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AssemblyAttributesAtataContextBuilder"/> class.
@@ -20,15 +20,15 @@ namespace Atata
         public AssemblyAttributesAtataContextBuilder(Assembly assembly, AtataBuildingContext buildingContext)
             : base(buildingContext)
         {
-            this.assembly = assembly;
+            _assembly = assembly;
         }
 
         protected override void OnAdd(IEnumerable<Attribute> attributes)
         {
-            if (!BuildingContext.Attributes.AssemblyMap.TryGetValue(assembly, out var attributeSet))
+            if (!BuildingContext.Attributes.AssemblyMap.TryGetValue(_assembly, out var attributeSet))
             {
                 attributeSet = new List<Attribute>();
-                BuildingContext.Attributes.AssemblyMap[assembly] = attributeSet;
+                BuildingContext.Attributes.AssemblyMap[_assembly] = attributeSet;
             }
 
             attributeSet.AddRange(attributes);

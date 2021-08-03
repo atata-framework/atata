@@ -8,7 +8,7 @@ namespace Atata
     /// </summary>
     public static class UriUtils
     {
-        private static readonly Regex UrlSchemaRegex = new Regex("^[a-z]+://");
+        private static readonly Regex s_urlSchemaRegex = new Regex("^[a-z]+://");
 
         /// <summary>
         /// Tries to create an absolute <see cref="Uri"/>.
@@ -21,7 +21,7 @@ namespace Atata
         /// </returns>
         public static bool TryCreateAbsoluteUrl(string urlString, out Uri result)
         {
-            if (urlString != null && UrlSchemaRegex.IsMatch(urlString))
+            if (urlString != null && s_urlSchemaRegex.IsMatch(urlString))
             {
                 return Uri.TryCreate(urlString, UriKind.Absolute, out result);
             }

@@ -10,9 +10,9 @@ namespace Atata
     /// <typeparam name="TSource">The type of the source.</typeparam>
     public class LazyObjectSource<TObject, TSource> : IObjectSource<TObject>
     {
-        private readonly IObjectProvider<TSource> sourceProvider;
+        private readonly IObjectProvider<TSource> _sourceProvider;
 
-        private readonly Lazy<TObject> lazyValue;
+        private readonly Lazy<TObject> _lazyValue;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LazyObjectSource{TValue, TSource}"/> class.
@@ -21,21 +21,21 @@ namespace Atata
         /// <param name="valueGetFunction">The value get function.</param>
         public LazyObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> valueGetFunction)
         {
-            this.sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
+            _sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
 
             valueGetFunction.CheckNotNull(nameof(valueGetFunction));
 
-            lazyValue = new Lazy<TObject>(() => valueGetFunction.Invoke(this.sourceProvider.Value));
-            this.sourceProvider = sourceProvider;
+            _lazyValue = new Lazy<TObject>(() => valueGetFunction.Invoke(_sourceProvider.Value));
+            _sourceProvider = sourceProvider;
         }
 
         /// <inheritdoc/>
         public TObject Value =>
-            lazyValue.Value;
+            _lazyValue.Value;
 
         /// <inheritdoc/>
         public string SourceProviderName =>
-            sourceProvider.ProviderName;
+            _sourceProvider.ProviderName;
 
         /// <inheritdoc/>
         public bool IsDynamic => false;

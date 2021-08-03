@@ -16,30 +16,30 @@ namespace Atata.Tests
         /// <summary>
         /// Usage of 2046 on Azure DevOps pipeline port often leads to failure during WebDriver instance creation.
         /// </summary>
-        private readonly int[] portsToIgnore = new[] { 2046 };
+        private readonly int[] _portsToIgnore = new[] { 2046 };
 
-        private EventListLogConsumer eventListLogConsumer;
+        private EventListLogConsumer _eventListLogConsumer;
 
-        protected IEnumerable<LogEventInfo> LogEntries => eventListLogConsumer.Items;
+        protected IEnumerable<LogEventInfo> LogEntries => _eventListLogConsumer.Items;
 
         public static bool IsOSLinux =>
             RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
 
         protected AtataContextBuilder ConfigureBaseAtataContext()
         {
-            eventListLogConsumer = new EventListLogConsumer();
+            _eventListLogConsumer = new EventListLogConsumer();
 
             return AtataContext.Configure()
                 .UseChrome()
                     .WithArguments(GetChromeArguments())
-                    .WithPortsToIgnore(portsToIgnore)
+                    .WithPortsToIgnore(_portsToIgnore)
                 .UseBaseUrl(BaseUrl)
                 .UseCulture("en-US")
                 .UseNUnitTestName()
                 .UseNUnitTestSuiteName()
                 .UseNUnitTestSuiteType()
                 .AddNUnitTestContextLogging()
-                .AddLogConsumer(eventListLogConsumer)
+                .AddLogConsumer(_eventListLogConsumer)
                     .WithMessageNestingLevelIndent(string.Empty)
                 .LogNUnitError()
                 .OnCleanUpAddArtifactsToNUnitTestContext();

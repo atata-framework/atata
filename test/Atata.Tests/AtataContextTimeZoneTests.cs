@@ -6,48 +6,48 @@ namespace Atata.Tests
 {
     public class AtataContextTimeZoneTests : UITestFixtureBase
     {
-        private readonly TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById("UTC-02");
+        private readonly TimeZoneInfo _timeZone = TimeZoneInfo.FindSystemTimeZoneById("UTC-02");
 
-        private DateTime nowInSetTimeZone;
+        private DateTime _nowInSetTimeZone;
 
         [SetUp]
         public void SetUpTest()
         {
             ConfigureBaseAtataContext()
-                .UseTimeZone(timeZone)
+                .UseTimeZone(_timeZone)
                 .Build();
 
-            nowInSetTimeZone = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, timeZone);
+            _nowInSetTimeZone = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _timeZone);
         }
 
         [Test]
         public void AtataContext_StartedAt()
         {
-            AssertDateTimeIsCloseToExpected(AtataContext.Current.StartedAt, nowInSetTimeZone);
+            AssertDateTimeIsCloseToExpected(AtataContext.Current.StartedAt, _nowInSetTimeZone);
         }
 
         [Test]
         public void AtataContext_BuildStartInTimeZone()
         {
-            AssertDateTimeIsCloseToExpected(AtataContext.Current.BuildStartInTimeZone, nowInSetTimeZone);
+            AssertDateTimeIsCloseToExpected(AtataContext.Current.BuildStartInTimeZone, _nowInSetTimeZone);
         }
 
         [Test]
         public void LogEventInfo_Timestamp()
         {
-            AssertDateTimeIsCloseToExpected(LogEntries.Last().Timestamp, nowInSetTimeZone);
+            AssertDateTimeIsCloseToExpected(LogEntries.Last().Timestamp, _nowInSetTimeZone);
         }
 
         [Test]
         public void LogEventInfo_TestStart()
         {
-            AssertDateTimeIsCloseToExpected(LogEntries.Last().TestStart, nowInSetTimeZone);
+            AssertDateTimeIsCloseToExpected(LogEntries.Last().TestStart, _nowInSetTimeZone);
         }
 
         [Test]
         public void LogEventInfo_BuildStart()
         {
-            AssertDateTimeIsCloseToExpected(LogEntries.Last().BuildStart, nowInSetTimeZone);
+            AssertDateTimeIsCloseToExpected(LogEntries.Last().BuildStart, _nowInSetTimeZone);
         }
 
         private static void AssertDateTimeIsCloseToExpected(DateTime actual, DateTime expected)

@@ -9,42 +9,42 @@ namespace Atata.Tests
     [TestFixture]
     public class AttributesAtataContextBuilderTests
     {
-        private readonly Attribute[] stubAttributes = new Attribute[]
+        private readonly Attribute[] _stubAttributes = new Attribute[]
         {
             new FindByIdAttribute(),
             new TermAttribute("some-id")
         };
 
-        private AttributesAtataContextBuilder sut;
+        private AttributesAtataContextBuilder _sut;
 
         [SetUp]
         public void SetUp()
         {
-            sut = new AttributesAtataContextBuilder(new AtataBuildingContext());
+            _sut = new AttributesAtataContextBuilder(new AtataBuildingContext());
         }
 
         [Test]
         public void AttributesAtataContextBuilder_Global()
         {
-            sut.Global
-                .Add(stubAttributes);
+            _sut.Global
+                .Add(_stubAttributes);
 
-            sut.BuildingContext.Attributes.Global
-                .Should().Equal(stubAttributes);
+            _sut.BuildingContext.Attributes.Global
+                .Should().Equal(_stubAttributes);
         }
 
         [Test]
         public void AttributesAtataContextBuilder_Assembly_ByAssemblyName()
         {
-            sut.Assembly("Atata")
-                .Add(stubAttributes);
+            _sut.Assembly("Atata")
+                .Add(_stubAttributes);
 
-            sut.BuildingContext.Attributes.AssemblyMap.Keys.First()
+            _sut.BuildingContext.Attributes.AssemblyMap.Keys.First()
                 .GetName().Name.Should().Be("Atata");
 
-            sut.BuildingContext.Attributes.AssemblyMap.Values
+            _sut.BuildingContext.Attributes.AssemblyMap.Values
                 .Should().ContainSingle().Which
-                .Should().Equal(stubAttributes);
+                .Should().Equal(_stubAttributes);
         }
 
         [Test]
@@ -52,43 +52,43 @@ namespace Atata.Tests
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
 
-            sut.Assembly(assembly)
-                .Add(stubAttributes);
+            _sut.Assembly(assembly)
+                .Add(_stubAttributes);
 
-            sut.BuildingContext.Attributes.AssemblyMap.Keys.First()
+            _sut.BuildingContext.Attributes.AssemblyMap.Keys.First()
                 .Should().BeSameAs(assembly);
 
-            sut.BuildingContext.Attributes.AssemblyMap.Values
+            _sut.BuildingContext.Attributes.AssemblyMap.Values
                 .Should().ContainSingle().Which
-                .Should().Equal(stubAttributes);
+                .Should().Equal(_stubAttributes);
         }
 
         [Test]
         public void AttributesAtataContextBuilder_Component_ByGenericParameter()
         {
-            sut.Component<StubPage>()
-                .Add(stubAttributes);
+            _sut.Component<StubPage>()
+                .Add(_stubAttributes);
 
-            sut.BuildingContext.Attributes.ComponentMap.Keys.First()
+            _sut.BuildingContext.Attributes.ComponentMap.Keys.First()
                 .Should().Be(typeof(StubPage));
 
-            sut.BuildingContext.Attributes.ComponentMap.Values
+            _sut.BuildingContext.Attributes.ComponentMap.Values
                 .Should().ContainSingle().Which
-                .Should().Equal(stubAttributes);
+                .Should().Equal(_stubAttributes);
         }
 
         [Test]
         public void AttributesAtataContextBuilder_Component_ByType()
         {
-            sut.Component(typeof(StubPage))
-                .Add(stubAttributes);
+            _sut.Component(typeof(StubPage))
+                .Add(_stubAttributes);
 
-            sut.BuildingContext.Attributes.ComponentMap.Keys.First()
+            _sut.BuildingContext.Attributes.ComponentMap.Keys.First()
                 .Should().Be(typeof(StubPage));
 
-            sut.BuildingContext.Attributes.ComponentMap.Values
+            _sut.BuildingContext.Attributes.ComponentMap.Values
                 .Should().ContainSingle().Which
-                .Should().Equal(stubAttributes);
+                .Should().Equal(_stubAttributes);
         }
 
         [TestCase("Atata.Tests." + nameof(StubPage) + ", Atata.Tests")]
@@ -96,15 +96,15 @@ namespace Atata.Tests
         [TestCase(nameof(StubPage))]
         public void AttributesAtataContextBuilder_Component_ByTypeName(string typeName)
         {
-            sut.Component(typeName)
-                .Add(stubAttributes);
+            _sut.Component(typeName)
+                .Add(_stubAttributes);
 
-            sut.BuildingContext.Attributes.ComponentMap.Keys.First()
+            _sut.BuildingContext.Attributes.ComponentMap.Keys.First()
                 .Should().Be(typeof(StubPage));
 
-            sut.BuildingContext.Attributes.ComponentMap.Values
+            _sut.BuildingContext.Attributes.ComponentMap.Values
                 .Should().ContainSingle().Which
-                .Should().Equal(stubAttributes);
+                .Should().Equal(_stubAttributes);
         }
     }
 }

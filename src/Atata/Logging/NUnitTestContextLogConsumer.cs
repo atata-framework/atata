@@ -5,18 +5,18 @@ namespace Atata
 {
     public class NUnitTestContextLogConsumer : TextOutputLogConsumer
     {
-        private readonly MethodInfo writeMethod;
+        private readonly MethodInfo _writeMethod;
 
         public NUnitTestContextLogConsumer()
         {
             Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
 
-            writeMethod = testContextType.GetMethodWithThrowOnError("WriteLine", typeof(string));
+            _writeMethod = testContextType.GetMethodWithThrowOnError("WriteLine", typeof(string));
         }
 
         protected override void Write(string completeMessage)
         {
-            writeMethod.InvokeStaticAsLambda(completeMessage);
+            _writeMethod.InvokeStaticAsLambda(completeMessage);
         }
     }
 }

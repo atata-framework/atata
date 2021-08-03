@@ -10,7 +10,7 @@ namespace Atata
     /// </summary>
     public abstract class UIComponent
     {
-        private IWebElement cachedScope;
+        private IWebElement _cachedScope;
 
         protected UIComponent()
         {
@@ -72,8 +72,8 @@ namespace Atata
         /// </summary>
         /// <exception cref="NoSuchElementException">Element not found.</exception>
         public IWebElement Scope =>
-            CacheScopeElement && cachedScope != null
-                ? cachedScope
+            CacheScopeElement && _cachedScope != null
+                ? _cachedScope
                 : GetScopeElement();
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Atata
             }
 
             if (CacheScopeElement)
-                cachedScope = element;
+                _cachedScope = element;
 
             return element;
         }

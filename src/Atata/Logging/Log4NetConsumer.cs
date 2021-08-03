@@ -9,24 +9,24 @@ namespace Atata
     /// </summary>
     public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     {
-        private static readonly Lazy<Dictionary<LogLevel, dynamic>> LazyLogLevelsMap = new Lazy<Dictionary<LogLevel, dynamic>>(CreateLogLevelsMap);
+        private static readonly Lazy<Dictionary<LogLevel, dynamic>> s_lazyLogLevelsMap = new Lazy<Dictionary<LogLevel, dynamic>>(CreateLogLevelsMap);
 
-        private static readonly Lazy<dynamic> LazyThreadContextProperties = new Lazy<dynamic>(GetThreadContextProperties);
+        private static readonly Lazy<dynamic> s_lazyThreadContextProperties = new Lazy<dynamic>(GetThreadContextProperties);
 
-        private string repositoryName;
+        private string _repositoryName;
 
-        private Assembly repositoryAssembly;
+        private Assembly _repositoryAssembly;
 
         /// <summary>
         /// Gets or sets the name of the logger repository.
         /// </summary>
         public string RepositoryName
         {
-            get => repositoryName;
+            get => _repositoryName;
             set
             {
-                repositoryName = value;
-                repositoryAssembly = null;
+                _repositoryName = value;
+                _repositoryAssembly = null;
             }
         }
 
@@ -35,11 +35,11 @@ namespace Atata
         /// </summary>
         public Assembly RepositoryAssembly
         {
-            get => repositoryAssembly;
+            get => _repositoryAssembly;
             set
             {
-                repositoryAssembly = value;
-                repositoryName = null;
+                _repositoryAssembly = value;
+                _repositoryName = null;
             }
         }
 
@@ -80,7 +80,7 @@ namespace Atata
 
         protected override void OnLog(LogEventInfo eventInfo)
         {
-            var properties = LazyThreadContextProperties.Value;
+            var properties = s_lazyThreadContextProperties.Value;
 
             properties["build-start"] = eventInfo.BuildStart;
             properties["test-name"] = eventInfo.TestName;
@@ -90,7 +90,7 @@ namespace Atata
             properties["test-start"] = eventInfo.TestStart;
             properties["driver-alias"] = eventInfo.DriverAlias;
 
-            var level = LazyLogLevelsMap.Value[eventInfo.Level];
+            var level = s_lazyLogLevelsMap.Value[eventInfo.Level];
 
             Logger.Log(null, level, eventInfo.Message, eventInfo.Exception);
         }

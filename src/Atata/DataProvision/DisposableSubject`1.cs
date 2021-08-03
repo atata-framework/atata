@@ -9,7 +9,7 @@ namespace Atata
     public sealed class DisposableSubject<T> : SubjectBase<T, DisposableSubject<T>>, IDisposable
         where T : IDisposable
     {
-        private bool isDisposed;
+        private bool _isDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DisposableSubject{T}"/> class
@@ -56,11 +56,11 @@ namespace Atata
         /// </summary>
         public void Dispose()
         {
-            if (!isDisposed)
+            if (!_isDisposed)
             {
                 Value.Dispose();
 
-                isDisposed = true;
+                _isDisposed = true;
             }
 
             GC.SuppressFinalize(this);

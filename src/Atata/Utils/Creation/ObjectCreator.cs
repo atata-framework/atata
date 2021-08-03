@@ -7,14 +7,14 @@ namespace Atata
 {
     public class ObjectCreator : IObjectCreator
     {
-        private readonly IObjectConverter objectConverter;
+        private readonly IObjectConverter _objectConverter;
 
-        private readonly IObjectMapper objectMapper;
+        private readonly IObjectMapper _objectMapper;
 
         public ObjectCreator(IObjectConverter objectConverter, IObjectMapper objectMapper)
         {
-            this.objectConverter = objectConverter;
-            this.objectMapper = objectMapper;
+            _objectConverter = objectConverter;
+            _objectMapper = objectMapper;
         }
 
         /// <inheritdoc/>
@@ -46,7 +46,7 @@ namespace Atata
                 workingValuesMap,
                 alternativeParameterNamesMap);
 
-            objectMapper.Map(workingValuesMap, instance);
+            _objectMapper.Map(workingValuesMap, instance);
 
             return instance;
         }
@@ -112,7 +112,7 @@ namespace Atata
 
                     valuesMap.Remove(valuePair.Key);
 
-                    return objectConverter.Convert(valuePair.Value, parameter.ParameterType);
+                    return _objectConverter.Convert(valuePair.Value, parameter.ParameterType);
                 })
                 .ToArray();
 

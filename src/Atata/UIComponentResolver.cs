@@ -9,19 +9,19 @@ namespace Atata
 {
     public static class UIComponentResolver
     {
-        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> PropertyAttributes =
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_propertyAttributes =
             new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> ClassAttributes =
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_classAttributes =
             new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> AssemblyAttributes =
+        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_assemblyAttributes =
             new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        private static readonly ConcurrentDictionary<Type, string> PageObjectNames =
+        private static readonly ConcurrentDictionary<Type, string> s_pageObjectNames =
             new ConcurrentDictionary<Type, string>();
 
-        private static readonly ConcurrentDictionary<Type, Type> DelegateControlsTypeMapping =
+        private static readonly ConcurrentDictionary<Type, Type> s_delegateControlsTypeMapping =
             new ConcurrentDictionary<Type, Type>
             {
                 [typeof(ClickableDelegate<>)] = typeof(Clickable<>),
@@ -34,12 +34,12 @@ namespace Atata
                 [typeof(ButtonDelegate<,>)] = typeof(Button<,>)
             };
 
-        private static readonly ConcurrentDictionary<Delegate, UIComponent> DelegateControls =
+        private static readonly ConcurrentDictionary<Delegate, UIComponent> s_delegateControls =
             new ConcurrentDictionary<Delegate, UIComponent>();
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType)
         {
-            DelegateControlsTypeMapping[delegateType] = controlType;
+            s_delegateControlsTypeMapping[delegateType] = controlType;
         }
 
         public static void Resolve<TOwner>(UIComponent<TOwner> component)
@@ -139,7 +139,7 @@ namespace Atata
 
                 property.SetValue(parentComponent, clickDelegate, null);
 
-                DelegateControls[clickDelegate] = component;
+                s_delegateControls[clickDelegate] = component;
             }
         }
 
@@ -188,7 +188,7 @@ namespace Atata
         {
             Type delegateGenericTypeDefinition = delegateType.GetGenericTypeDefinition();
 
-            if (DelegateControlsTypeMapping.TryGetValue(delegateGenericTypeDefinition, out Type controlGenericTypeDefinition))
+            if (s_delegateControlsTypeMapping.TryGetValue(delegateGenericTypeDefinition, out Type controlGenericTypeDefinition))
             {
                 Type[] genericArguments = delegateType.GetGenericArguments();
                 return controlGenericTypeDefinition.MakeGenericType(genericArguments);
@@ -430,23 +430,23 @@ namespace Atata
 
         private static Attribute[] GetPropertyAttributes(PropertyInfo property)
         {
-            return ResolveAndCacheAttributes(PropertyAttributes, property);
+            return ResolveAndCacheAttributes(s_propertyAttributes, property);
         }
 
         private static Attribute[] GetClassAttributes(Type type)
         {
-            return ResolveAndCacheAttributes(ClassAttributes, type);
+            return ResolveAndCacheAttributes(s_classAttributes, type);
         }
 
         private static Attribute[] GetAssemblyAttributes(Assembly assembly)
         {
-            return ResolveAndCacheAttributes(AssemblyAttributes, assembly);
+            return ResolveAndCacheAttributes(s_assemblyAttributes, assembly);
         }
 
         public static string ResolvePageObjectName<TPageObject>()
             where TPageObject : PageObject<TPageObject>
         {
-            return PageObjectNames.GetOrAdd(typeof(TPageObject), ResolvePageObjectNameFromMetadata);
+            return s_pageObjectNames.GetOrAdd(typeof(TPageObject), ResolvePageObjectNameFromMetadata);
         }
 
         private static string ResolvePageObjectNameFromMetadata(Type type)
@@ -547,7 +547,7 @@ namespace Atata
         {
             controlDelegate.CheckNotNull(nameof(controlDelegate));
 
-            if (DelegateControls.TryGetValue(controlDelegate, out UIComponent control))
+            if (s_delegateControls.TryGetValue(controlDelegate, out UIComponent control))
                 return (Control<TOwner>)control;
             else
                 throw new ArgumentException($"Failed to find mapped control by specified '{nameof(controlDelegate)}'.", nameof(controlDelegate));
@@ -572,10 +572,10 @@ namespace Atata
 
         public static void CleanUpPageObject(UIComponent pageObject)
         {
-            var delegatesToRemove = DelegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key).ToArray();
+            var delegatesToRemove = s_delegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key).ToArray();
 
             foreach (var item in delegatesToRemove)
-                DelegateControls.TryRemove(item, out var removed);
+                s_delegateControls.TryRemove(item, out var removed);
 
             pageObject.CleanUp();
         }

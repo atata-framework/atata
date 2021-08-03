@@ -12,7 +12,7 @@ namespace Atata
     /// </summary>
     public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
     {
-        private static readonly IExpressionValueStringifier[] ExpressionValueStringifiers =
+        private static readonly IExpressionValueStringifier[] s_expressionValueStringifiers =
         {
             new StringExpressionValueStringifier(),
             new BoolExpressionValueStringifier(),
@@ -21,13 +21,13 @@ namespace Atata
             new EnumExpressionValueStringifier()
         };
 
-        private bool expectLambdaVisit;
+        private bool _expectLambdaVisit;
 
         protected ImprovedExpressionStringBuilder(bool isLambdaExpression)
         {
             if (isLambdaExpression)
             {
-                expectLambdaVisit = true;
+                _expectLambdaVisit = true;
                 CurrentLiteral = CurrentLambda.Parameters;
             }
             else
@@ -77,7 +77,7 @@ namespace Atata
         {
             Type underlyingType = Nullable.GetUnderlyingType(valueType) ?? valueType;
 
-            return ExpressionValueStringifiers.Any(x => x.CanHandle(underlyingType));
+            return s_expressionValueStringifiers.Any(x => x.CanHandle(underlyingType));
         }
 
         private static bool TryStringifyValue(object value, Type valueType, out string result)
@@ -90,7 +90,7 @@ namespace Atata
 
             Type underlyingType = Nullable.GetUnderlyingType(valueType) ?? valueType;
 
-            var stringifier = ExpressionValueStringifiers.FirstOrDefault(x => x.CanHandle(underlyingType));
+            var stringifier = s_expressionValueStringifiers.FirstOrDefault(x => x.CanHandle(underlyingType));
 
             if (stringifier != null)
             {
@@ -111,9 +111,9 @@ namespace Atata
 
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
-            if (expectLambdaVisit)
+            if (_expectLambdaVisit)
             {
-                expectLambdaVisit = false;
+                _expectLambdaVisit = false;
             }
             else
             {

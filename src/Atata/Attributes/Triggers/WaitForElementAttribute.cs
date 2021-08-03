@@ -8,7 +8,7 @@ namespace Atata
     /// </summary>
     public class WaitForElementAttribute : WaitUntilAttribute
     {
-        private ScopeSource? scopeSource;
+        private ScopeSource? _scopeSource;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="WaitForElementAttribute" /> class.
@@ -46,8 +46,8 @@ namespace Atata
         /// </summary>
         public ScopeSource ScopeSource
         {
-            get { return scopeSource ?? ScopeSource.Parent; }
-            set { scopeSource = value; }
+            get { return _scopeSource ?? ScopeSource.Parent; }
+            set { _scopeSource = value; }
         }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
@@ -63,7 +63,7 @@ namespace Atata
         protected virtual void Wait<TOwner>(IUIComponent<TOwner> scopeComponent, WaitUnit waitUnit)
             where TOwner : PageObject<TOwner>
         {
-            ScopeSource actualScopeSource = scopeSource ?? scopeComponent.ScopeSource;
+            ScopeSource actualScopeSource = _scopeSource ?? scopeComponent.ScopeSource;
 
             StaleSafely.Execute(
                 options =>

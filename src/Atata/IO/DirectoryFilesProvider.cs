@@ -10,7 +10,7 @@ namespace Atata
     // TODO: In v2 inherit from EnumerableProvider<FileSubject, TOwner>.
     public class DirectoryFilesProvider : FileEnumerableProvider<DirectorySubject>
     {
-        private readonly DirectorySubject parentDirectorySubject;
+        private readonly DirectorySubject _parentDirectorySubject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectoryFilesProvider"/> class.
@@ -29,13 +29,13 @@ namespace Atata
                     x => x.EnumerateFiles().Select((file, i) => new FileSubject(file, $"[{i}]"))),
                 providerName)
         {
-            this.parentDirectorySubject = parentDirectorySubject;
+            _parentDirectorySubject = parentDirectorySubject;
         }
 
         /// <inheritdoc/>
         public override FileSubject this[string fileName] =>
             new FileSubject(
-                new FileInfo(Path.Combine(parentDirectorySubject.Value.FullName, fileName)),
+                new FileInfo(Path.Combine(_parentDirectorySubject.Value.FullName, fileName)),
                 $"[\"{fileName}\"]")
             {
                 SourceProviderName = ProviderName

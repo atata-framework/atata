@@ -5,7 +5,7 @@ namespace Atata
 {
     public abstract class CompositeTriggerAttribute : TriggerAttribute
     {
-        private TriggerAttribute[] triggers;
+        private TriggerAttribute[] _triggers;
 
         protected CompositeTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
@@ -16,10 +16,10 @@ namespace Atata
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            if (triggers == null)
+            if (_triggers == null)
                 InitTriggers();
 
-            foreach (TriggerAttribute trigger in triggers)
+            foreach (TriggerAttribute trigger in _triggers)
             {
                 trigger.Execute(context);
             }
@@ -27,9 +27,9 @@ namespace Atata
 
         private void InitTriggers()
         {
-            triggers = CreateTriggers().ToArray();
+            _triggers = CreateTriggers().ToArray();
 
-            foreach (TriggerAttribute trigger in triggers)
+            foreach (TriggerAttribute trigger in _triggers)
             {
                 trigger.On = On;
                 trigger.Priority = Priority;

@@ -2,17 +2,17 @@
 {
     public class FindByDescendantAttributeStrategy : XPathComponentScopeLocateStrategy
     {
-        private readonly string attributeName;
+        private readonly string _attributeName;
 
         public FindByDescendantAttributeStrategy(string attributeName)
         {
-            this.attributeName = attributeName;
+            _attributeName = attributeName;
         }
 
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
         {
             return builder.
-                WrapWithIndex(x => x.OuterXPath.ComponentXPath[c => c.Descendant.Any[d => d.TermsConditionOf(attributeName)]]);
+                WrapWithIndex(x => x.OuterXPath.ComponentXPath[c => c.Descendant.Any[d => d.TermsConditionOf(_attributeName)]]);
         }
     }
 }

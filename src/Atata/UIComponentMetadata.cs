@@ -10,20 +10,20 @@ namespace Atata
     /// </summary>
     public class UIComponentMetadata
     {
-        private static readonly ControlDefinitionAttribute DefaultControlDefinitionAttribute =
+        private static readonly ControlDefinitionAttribute s_defaultControlDefinitionAttribute =
             new ControlDefinitionAttribute { ComponentTypeName = "control" };
 
-        private readonly AttributeSearchSet declaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
+        private readonly AttributeSearchSet _declaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
 
-        private readonly AttributeSearchSet parentDeclaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
+        private readonly AttributeSearchSet _parentDeclaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
 
-        private readonly AttributeSearchSet parentComponentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
+        private readonly AttributeSearchSet _parentComponentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
 
-        private readonly AttributeSearchSet assemblyAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
+        private readonly AttributeSearchSet _assemblyAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
 
-        private readonly AttributeSearchSet globalAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
+        private readonly AttributeSearchSet _globalAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
 
-        private readonly AttributeSearchSet componentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
+        private readonly AttributeSearchSet _componentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
 
         internal UIComponentMetadata(
             string name,
@@ -65,27 +65,27 @@ namespace Atata
         public UIComponentDefinitionAttribute ComponentDefinitionAttribute =>
             ParentComponentType == null
                 ? Get<PageObjectDefinitionAttribute>()
-                : (Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute ?? DefaultControlDefinitionAttribute);
+                : (Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute ?? s_defaultControlDefinitionAttribute);
 
-        internal List<Attribute> DeclaredAttributesList => declaredAttributeSet.Attributes;
+        internal List<Attribute> DeclaredAttributesList => _declaredAttributeSet.Attributes;
 
         internal List<Attribute> ParentDeclaredAttributesList
         {
-            get => parentDeclaredAttributeSet.Attributes;
-            set => parentDeclaredAttributeSet.Attributes = value;
+            get => _parentDeclaredAttributeSet.Attributes;
+            set => _parentDeclaredAttributeSet.Attributes = value;
         }
 
         internal List<Attribute> ParentComponentAttributesList
         {
-            get => parentComponentAttributeSet.Attributes;
-            set => parentComponentAttributeSet.Attributes = value;
+            get => _parentComponentAttributeSet.Attributes;
+            set => _parentComponentAttributeSet.Attributes = value;
         }
 
-        internal List<Attribute> AssemblyAttributesList => assemblyAttributeSet.Attributes;
+        internal List<Attribute> AssemblyAttributesList => _assemblyAttributeSet.Attributes;
 
-        internal List<Attribute> GlobalAttributesList => globalAttributeSet.Attributes;
+        internal List<Attribute> GlobalAttributesList => _globalAttributeSet.Attributes;
 
-        internal List<Attribute> ComponentAttributesList => componentAttributeSet.Attributes;
+        internal List<Attribute> ComponentAttributesList => _componentAttributeSet.Attributes;
 
         /// <summary>
         /// Gets the attributes hosted at the declared level.
@@ -239,32 +239,32 @@ namespace Atata
         private IEnumerable<AttributeSearchSet> GetAllAttributeSets(AttributeLevels level)
         {
             if (level.HasFlag(AttributeLevels.Declared))
-                yield return declaredAttributeSet;
+                yield return _declaredAttributeSet;
 
             if (level.HasFlag(AttributeLevels.ParentComponent))
             {
-                yield return parentDeclaredAttributeSet;
-                yield return parentComponentAttributeSet;
+                yield return _parentDeclaredAttributeSet;
+                yield return _parentComponentAttributeSet;
             }
 
             if (level.HasFlag(AttributeLevels.Assembly))
-                yield return assemblyAttributeSet;
+                yield return _assemblyAttributeSet;
 
             if (level.HasFlag(AttributeLevels.Global))
-                yield return globalAttributeSet;
+                yield return _globalAttributeSet;
 
             if (level.HasFlag(AttributeLevels.Component))
-                yield return componentAttributeSet;
+                yield return _componentAttributeSet;
         }
 
         private IEnumerable<AttributeSearchSet> GetAllAttributeSetsInLayersOrdered()
         {
-            yield return globalAttributeSet;
-            yield return assemblyAttributeSet;
-            yield return parentDeclaredAttributeSet;
-            yield return parentComponentAttributeSet;
-            yield return declaredAttributeSet;
-            yield return componentAttributeSet;
+            yield return _globalAttributeSet;
+            yield return _assemblyAttributeSet;
+            yield return _parentDeclaredAttributeSet;
+            yield return _parentComponentAttributeSet;
+            yield return _declaredAttributeSet;
+            yield return _componentAttributeSet;
         }
 
         // TODO: filterByTarget should be removed.

@@ -11,7 +11,7 @@ namespace Atata
     public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, TSubject>
         where TSubject : SubjectBase<TObject, TSubject>
     {
-        private int executedActionsCount;
+        private int _executedActionsCount;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubjectBase{TObject, TSubject}"/> class.
@@ -122,11 +122,11 @@ namespace Atata
 
             action.Invoke(Value);
 
-            ProviderName = executedActionsCount == 0
+            ProviderName = _executedActionsCount == 0
                 ? $"{ProviderName}{{ {actionName} }}"
                 : $"{ProviderName.Substring(0, ProviderName.Length - 2)}; {actionName} }}";
 
-            executedActionsCount++;
+            _executedActionsCount++;
 
             return Owner;
         }

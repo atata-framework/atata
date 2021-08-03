@@ -16,17 +16,17 @@ namespace Atata
 
         public const string DefaultArtifactsPathWithoutBuildStartFolder = "{basedir}/artifacts{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
 
-        private TimeSpan? elementFindTimeout;
+        private TimeSpan? _elementFindTimeout;
 
-        private TimeSpan? elementFindRetryInterval;
+        private TimeSpan? _elementFindRetryInterval;
 
-        private TimeSpan? waitingTimeout;
+        private TimeSpan? _waitingTimeout;
 
-        private TimeSpan? waitingRetryInterval;
+        private TimeSpan? _waitingRetryInterval;
 
-        private TimeSpan? verificationTimeout;
+        private TimeSpan? _verificationTimeout;
 
-        private TimeSpan? verificationRetryInterval;
+        private TimeSpan? _verificationRetryInterval;
 
         internal AtataBuildingContext()
         {
@@ -185,8 +185,8 @@ namespace Atata
         /// </summary>
         public TimeSpan ElementFindTimeout
         {
-            get => elementFindTimeout ?? BaseRetryTimeout;
-            internal set => elementFindTimeout = value;
+            get => _elementFindTimeout ?? BaseRetryTimeout;
+            internal set => _elementFindTimeout = value;
         }
 
         /// <summary>
@@ -195,8 +195,8 @@ namespace Atata
         /// </summary>
         public TimeSpan ElementFindRetryInterval
         {
-            get => elementFindRetryInterval ?? BaseRetryInterval;
-            internal set => elementFindRetryInterval = value;
+            get => _elementFindRetryInterval ?? BaseRetryInterval;
+            internal set => _elementFindRetryInterval = value;
         }
 
         /// <summary>
@@ -205,8 +205,8 @@ namespace Atata
         /// </summary>
         public TimeSpan WaitingTimeout
         {
-            get => waitingTimeout ?? BaseRetryTimeout;
-            internal set => waitingTimeout = value;
+            get => _waitingTimeout ?? BaseRetryTimeout;
+            internal set => _waitingTimeout = value;
         }
 
         /// <summary>
@@ -215,8 +215,8 @@ namespace Atata
         /// </summary>
         public TimeSpan WaitingRetryInterval
         {
-            get => waitingRetryInterval ?? BaseRetryInterval;
-            internal set => waitingRetryInterval = value;
+            get => _waitingRetryInterval ?? BaseRetryInterval;
+            internal set => _waitingRetryInterval = value;
         }
 
         /// <summary>
@@ -225,8 +225,8 @@ namespace Atata
         /// </summary>
         public TimeSpan VerificationTimeout
         {
-            get => verificationTimeout ?? BaseRetryTimeout;
-            internal set => verificationTimeout = value;
+            get => _verificationTimeout ?? BaseRetryTimeout;
+            internal set => _verificationTimeout = value;
         }
 
         /// <summary>
@@ -235,8 +235,8 @@ namespace Atata
         /// </summary>
         public TimeSpan VerificationRetryInterval
         {
-            get => verificationRetryInterval ?? BaseRetryInterval;
-            internal set => verificationRetryInterval = value;
+            get => _verificationRetryInterval ?? BaseRetryInterval;
+            internal set => _verificationRetryInterval = value;
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ namespace Atata
 {
     public class FindByXPathStrategy : XPathComponentScopeLocateStrategy
     {
-        private readonly string[] acceptableXPathPrefixValues =
+        private readonly string[] _acceptableXPathPrefixValues =
         {
             ".",
             "/",
@@ -47,7 +47,7 @@ namespace Atata
             string[] completeXPathSelectors = builder.Options.Terms.
                 Except(conditionalXPathTerms).
                 Select(x =>
-                    acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix, StringComparison.Ordinal))
+                    _acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix, StringComparison.Ordinal))
                         ? (options.OuterXPath?.Append(x) ?? x)
                         : ((options.OuterXPath ?? ".//") + x)).
                 ToArray();

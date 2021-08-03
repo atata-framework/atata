@@ -13,7 +13,7 @@ namespace Atata
 
         private const TermMatch DefaultMatch = TermMatch.Equals;
 
-        private static readonly Dictionary<Type, TermConverter> TypeTermConverters = new Dictionary<Type, TermConverter>();
+        private static readonly Dictionary<Type, TermConverter> s_typeTermConverters = new Dictionary<Type, TermConverter>();
 
         static TermResolver()
         {
@@ -135,7 +135,7 @@ namespace Atata
         {
             fromStringConverter.CheckNotNull(nameof(fromStringConverter));
 
-            TypeTermConverters[type] = new TermConverter
+            s_typeTermConverters[type] = new TermConverter
             {
                 FromStringConverter = fromStringConverter,
                 ToStringConverter = toStringConverter
@@ -168,7 +168,7 @@ namespace Atata
                 return new[] { FormatStringValue(stringValue, termOptions) };
             else if (value is Enum enumValue)
                 return GetEnumTerms(enumValue, termOptions);
-            else if (TypeTermConverters.TryGetValue(value.GetType(), out TermConverter termConverter) && termConverter.ToStringConverter != null)
+            else if (s_typeTermConverters.TryGetValue(value.GetType(), out TermConverter termConverter) && termConverter.ToStringConverter != null)
                 return new[] { termConverter.ToStringConverter(value, termOptions) };
             else
                 return new[] { FormatValue(value, termOptions.Format, termOptions.Culture) };
@@ -295,7 +295,7 @@ namespace Atata
 
             if (underlyingType.IsEnum)
                 return StringToEnum(value, underlyingType, termOptions);
-            else if (TypeTermConverters.TryGetValue(underlyingType, out TermConverter termConverter))
+            else if (s_typeTermConverters.TryGetValue(underlyingType, out TermConverter termConverter))
                 return termConverter.FromStringConverter(value, termOptions);
             else
                 return Convert.ChangeType(RetrieveValuePart(value, termOptions.Format), underlyingType, termOptions.Culture);

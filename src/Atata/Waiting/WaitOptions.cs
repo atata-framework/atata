@@ -5,16 +5,16 @@
     /// </summary>
     public class WaitOptions
     {
-        private double? presenceTimeout;
+        private double? _presenceTimeout;
 
-        private double? absenceTimeout;
+        private double? _absenceTimeout;
 
-        private double? retryInterval;
+        private double? _retryInterval;
 
         public WaitOptions(double? timeout = null)
         {
-            presenceTimeout = timeout;
-            absenceTimeout = timeout;
+            _presenceTimeout = timeout;
+            _absenceTimeout = timeout;
         }
 
         /// <summary>
@@ -35,8 +35,8 @@
         /// </summary>
         public double PresenceTimeout
         {
-            get => presenceTimeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
-            set => presenceTimeout = value;
+            get => _presenceTimeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            set => _presenceTimeout = value;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@
         /// </summary>
         public double AbsenceTimeout
         {
-            get => absenceTimeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
-            set => absenceTimeout = value;
+            get => _absenceTimeout ?? (AtataContext.Current?.WaitingTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            set => _absenceTimeout = value;
         }
 
         /// <summary>
@@ -55,8 +55,8 @@
         /// </summary>
         public double RetryInterval
         {
-            get => retryInterval ?? (AtataContext.Current?.WaitingRetryInterval ?? RetrySettings.Interval).TotalSeconds;
-            set => retryInterval = value;
+            get => _retryInterval ?? (AtataContext.Current?.WaitingRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            set => _retryInterval = value;
         }
     }
 }

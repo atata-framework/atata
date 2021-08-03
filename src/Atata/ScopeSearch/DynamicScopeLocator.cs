@@ -5,18 +5,18 @@ namespace Atata
 {
     public class DynamicScopeLocator : IScopeLocator
     {
-        private readonly Func<SearchOptions, IWebElement> locateFunction;
+        private readonly Func<SearchOptions, IWebElement> _locateFunction;
 
         public DynamicScopeLocator(Func<SearchOptions, IWebElement> locateFunction)
         {
-            this.locateFunction = locateFunction;
+            _locateFunction = locateFunction;
         }
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
             searchOptions = searchOptions ?? new SearchOptions();
 
-            return locateFunction(searchOptions);
+            return _locateFunction(searchOptions);
         }
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)

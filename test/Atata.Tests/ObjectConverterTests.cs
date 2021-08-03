@@ -10,25 +10,25 @@ namespace Atata.Tests
     [TestFixture]
     public class ObjectConverterTests
     {
-        private ObjectConverter sut;
+        private ObjectConverter _sut;
 
         [SetUp]
         public void SetUp()
         {
-            sut = new ObjectConverter();
+            _sut = new ObjectConverter();
         }
 
         [Test]
         public void Convert_NullToString()
         {
-            sut.Convert(null, typeof(string))
+            _sut.Convert(null, typeof(string))
                 .Should().BeNull();
         }
 
         [Test]
         public void Convert_NullToArrayOfInt()
         {
-            sut.Convert(null, typeof(int[]))
+            _sut.Convert(null, typeof(int[]))
                 .Should().BeNull();
         }
 
@@ -36,7 +36,7 @@ namespace Atata.Tests
         public void Convert_NullToInt_Throws()
         {
             Assert.Throws<ConversionException>(() =>
-                sut.Convert(null, typeof(int)));
+                _sut.Convert(null, typeof(int)));
         }
 
         [Test]
@@ -175,7 +175,7 @@ namespace Atata.Tests
 
         private TDestination TestConvert<TDestination>(object sourceValue)
         {
-            object result = sut.Convert(sourceValue, typeof(TDestination));
+            object result = _sut.Convert(sourceValue, typeof(TDestination));
 
             return result.Should().BeAssignableTo<TDestination>().Subject;
         }

@@ -5,7 +5,7 @@ namespace Atata.Tests.DataProvision
 {
     public class DirectoryFixture : IDisposable
     {
-        private bool isDisposed;
+        private bool _isDisposed;
 
         public DirectoryFixture(string directoryPath)
         {
@@ -68,12 +68,12 @@ namespace Atata.Tests.DataProvision
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!isDisposed)
+            if (!_isDisposed)
             {
                 if (disposing && Directory.Exists(DirectoryPath))
                     Directory.Delete(DirectoryPath, true);
 
-                isDisposed = true;
+                _isDisposed = true;
             }
         }
 

@@ -7,12 +7,12 @@ namespace Atata.Tests
     [TestFixture]
     public class TypeFinderTests
     {
-        private Assembly[] assembliesToFindIn;
+        private Assembly[] _assembliesToFindIn;
 
         [OneTimeSetUp]
         public void SetUpFixture()
         {
-            assembliesToFindIn = new[]
+            _assembliesToFindIn = new[]
             {
                 Assembly.GetAssembly(typeof(AtataContext)),
                 Assembly.GetAssembly(typeof(TypeFinderTests))
@@ -52,7 +52,7 @@ namespace Atata.Tests
         [TestCase("atata.table`2", ExpectedResult = typeof(Table<,>))]
         public Type TypeFinder_FindInAssemblies(string typeName)
         {
-            return TypeFinder.FindInAssemblies(typeName, assembliesToFindIn);
+            return TypeFinder.FindInAssemblies(typeName, _assembliesToFindIn);
         }
 
         [TestCase("Atata.Tests.MissingType, Atata.Tests")]
@@ -63,7 +63,7 @@ namespace Atata.Tests
         public void TypeFinder_FindInAssemblies_Throws_NotFound(string typeName)
         {
             Assert.Throws<TypeNotFoundException>(() =>
-                TypeFinder.FindInAssemblies(typeName, assembliesToFindIn));
+                TypeFinder.FindInAssemblies(typeName, _assembliesToFindIn));
         }
 
         public static class StaticSubClass

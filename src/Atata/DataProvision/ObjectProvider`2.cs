@@ -13,11 +13,11 @@ namespace Atata
         IHasProviderName,
         IHasSourceProviderName
     {
-        private readonly IObjectSource<TObject> objectSource;
+        private readonly IObjectSource<TObject> _objectSource;
 
-        private string sourceProviderName;
+        private string _sourceProviderName;
 
-        private string providerName;
+        private string _providerName;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ObjectProvider{TValue, TOwner}"/> class.
@@ -26,8 +26,8 @@ namespace Atata
         /// <param name="providerName">Name of the provider.</param>
         protected ObjectProvider(IObjectSource<TObject> objectSource, string providerName)
         {
-            this.objectSource = objectSource.CheckNotNull(nameof(objectSource));
-            this.providerName = providerName.CheckNotNull(nameof(providerName));
+            _objectSource = objectSource.CheckNotNull(nameof(objectSource));
+            _providerName = providerName.CheckNotNull(nameof(providerName));
         }
 
         /// <inheritdoc/>
@@ -38,23 +38,23 @@ namespace Atata
                 string actualSourceProviderName = SourceProviderName;
 
                 return string.IsNullOrEmpty(actualSourceProviderName)
-                    ? providerName
-                    : BuildProviderName(actualSourceProviderName, providerName);
+                    ? _providerName
+                    : BuildProviderName(actualSourceProviderName, _providerName);
             }
-            set => providerName = value;
+            set => _providerName = value;
         }
 
         /// <inheritdoc/>
         public string SourceProviderName
         {
-            get => sourceProviderName ?? objectSource.SourceProviderName;
-            set => sourceProviderName = value;
+            get => _sourceProviderName ?? _objectSource.SourceProviderName;
+            set => _sourceProviderName = value;
         }
 
         /// <inheritdoc/>
         // TODO: Add logging.
         public virtual TObject Value =>
-            objectSource.Value;
+            _objectSource.Value;
 
         /// <summary>
         /// Gets the owner object.
@@ -90,7 +90,7 @@ namespace Atata
 
         /// <inheritdoc/>
         public bool IsValueDynamic =>
-            objectSource.IsDynamic;
+            _objectSource.IsDynamic;
 
         /// <summary>
         /// Performs an implicit conversion from <see cref="ObjectProvider{TObject, TOwner}"/> to <typeparamref name="TObject"/>.

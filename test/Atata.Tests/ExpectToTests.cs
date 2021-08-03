@@ -6,17 +6,17 @@ namespace Atata.Tests
 {
     public class ExpectToTests : UITestFixture
     {
-        private StubPage page;
+        private StubPage _page;
 
         protected override void OnSetUp()
         {
-            page = Go.To<StubPage>();
+            _page = Go.To<StubPage>();
         }
 
         [Test]
         public void ExpectTo_NoFailure()
         {
-            var expectTo = page.IsTrue.ExpectTo;
+            var expectTo = _page.IsTrue.ExpectTo;
 
             expectTo.BeTrue();
 
@@ -26,7 +26,7 @@ namespace Atata.Tests
         [Test]
         public void ExpectTo_NoFailure_WithRetry()
         {
-            var expectTo = page.IsTrueInASecond.ExpectTo;
+            var expectTo = _page.IsTrueInASecond.ExpectTo;
 
             expectTo.BeTrue();
 
@@ -36,7 +36,7 @@ namespace Atata.Tests
         [Test]
         public void ExpectTo_OneFailure()
         {
-            var expectTo = page.IsTrue.ExpectTo.AtOnce;
+            var expectTo = _page.IsTrue.ExpectTo.AtOnce;
 
             expectTo.BeFalse();
 
@@ -51,7 +51,7 @@ namespace Atata.Tests
         [Test]
         public void ExpectTo_TwoFailures()
         {
-            var expectTo = page.IsTrue.ExpectTo.AtOnce;
+            var expectTo = _page.IsTrue.ExpectTo.AtOnce;
 
             expectTo.BeFalse();
             expectTo.Not.BeTrue();

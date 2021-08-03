@@ -93,11 +93,11 @@ namespace Atata.Tests.DataProvision
 
         public class TestOwner : IObjectProvider<TestOwner>
         {
-            private readonly Func<IEnumerable<int>> sourceValuesGetFunction;
+            private readonly Func<IEnumerable<int>> _sourceValuesGetFunction;
 
             public TestOwner(Func<IEnumerable<int>> sourceValuesGetFunction)
             {
-                this.sourceValuesGetFunction = sourceValuesGetFunction;
+                _sourceValuesGetFunction = sourceValuesGetFunction;
             }
 
             public TestOwner Value => this;
@@ -109,7 +109,7 @@ namespace Atata.Tests.DataProvision
                     this,
                     new DynamicObjectSource<IEnumerable<TestItem>, TestOwner>(
                         this,
-                        x => sourceValuesGetFunction.Invoke()
+                        x => _sourceValuesGetFunction.Invoke()
                             .Select((v, i) => new TestItem(v, i))),
                     nameof(Items));
         }

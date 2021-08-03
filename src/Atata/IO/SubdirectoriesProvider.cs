@@ -10,7 +10,7 @@ namespace Atata
     // TODO: In v2 inherit from EnumerableProvider<DirectorySubject, TOwner>.
     public class SubdirectoriesProvider : DirectoryEnumerableProvider<DirectorySubject>
     {
-        private readonly DirectorySubject parentDirectorySubject;
+        private readonly DirectorySubject _parentDirectorySubject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubdirectoriesProvider"/> class.
@@ -29,13 +29,13 @@ namespace Atata
                     x => x.EnumerateDirectories().Select((dir, i) => new DirectorySubject(dir, $"[{i}]"))),
                 providerName)
         {
-            this.parentDirectorySubject = parentDirectorySubject;
+            _parentDirectorySubject = parentDirectorySubject;
         }
 
         /// <inheritdoc/>
         public override DirectorySubject this[string directoryName] =>
             new DirectorySubject(
-                new DirectoryInfo(Path.Combine(parentDirectorySubject.Value.FullName, directoryName)),
+                new DirectoryInfo(Path.Combine(_parentDirectorySubject.Value.FullName, directoryName)),
                 $"[\"{directoryName}\"]")
             {
                 SourceProviderName = ProviderName

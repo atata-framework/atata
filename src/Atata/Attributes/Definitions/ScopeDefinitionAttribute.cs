@@ -13,11 +13,11 @@ namespace Atata
         /// </summary>
         public const string DefaultScopeXPath = "*";
 
-        private readonly string baseScopeXPath;
+        private readonly string _baseScopeXPath;
 
         protected ScopeDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
         {
-            baseScopeXPath = scopeXPath;
+            _baseScopeXPath = scopeXPath;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Atata
         /// <returns>The built XPath.</returns>
         protected virtual string BuildScopeXPath()
         {
-            string scopeXPath = baseScopeXPath ?? DefaultScopeXPath;
+            string scopeXPath = _baseScopeXPath ?? DefaultScopeXPath;
 
             if (ContainingClasses?.Any() ?? false)
             {
