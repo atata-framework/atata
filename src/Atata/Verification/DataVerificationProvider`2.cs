@@ -71,28 +71,15 @@ namespace Atata
 
                 if (!doesSatisfy)
                 {
-                    string actualMessage = exception == null ? "no exception" : exception.ToString();
+                    string actualMessage = exception is null ? "no exception" : exception.ToString();
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
 
-                    ReportFailure(failureMessage, exception);
+                    ReportFailure(failureMessage, null);
                 }
             }
 
-            if (AtataContext.Current is null)
-            {
-                ExecuteVerification();
-            }
-            else
-            {
-                string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(this, expectedMessage);
-
-                LogSection logSection = DataProvider.Component is null
-                    ? (LogSection)new ValueVerificationLogSection(Strategy.VerificationKind, DataProvider.ProviderName, verificationConstraintMessage)
-                    : new VerificationLogSection(Strategy.VerificationKind, DataProvider.Component, DataProvider.ProviderName, verificationConstraintMessage);
-
-                AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
-            }
+            VerificationUtils.Verify(this, ExecuteVerification, expectedMessage);
 
             return new Subject<TException>(
                 exception as TException,
@@ -130,10 +117,10 @@ namespace Atata
             {
                 string expectedMessage = $"throw exception";
 
-                Exception exception = null;
-
                 void ExecuteVerification()
                 {
+                    Exception exception = null;
+
                     bool doesSatisfy = VerificationUtils.ExecuteUntil(
                         () =>
                         {
@@ -162,26 +149,11 @@ namespace Atata
 
                         string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
 
-                        ReportFailure(failureMessage, exception);
+                        ReportFailure(failureMessage, null);
                     }
                 }
 
-                if (AtataContext.Current is null)
-                {
-                    ExecuteVerification();
-                }
-                else
-                {
-                    string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(this, expectedMessage);
-
-                    LogSection logSection = DataProvider.Component is null
-                        ? (LogSection)new ValueVerificationLogSection(Strategy.VerificationKind, DataProvider.ProviderName, verificationConstraintMessage)
-                        : new VerificationLogSection(Strategy.VerificationKind, DataProvider.Component, DataProvider.ProviderName, verificationConstraintMessage);
-
-                    AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
-                }
-
-                return Owner;
+                return VerificationUtils.Verify(this, ExecuteVerification, expectedMessage);
             }
         }
     }

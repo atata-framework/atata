@@ -49,22 +49,7 @@ namespace Atata
                 }
             }
 
-            if (AtataContext.Current is null)
-            {
-                ExecuteVerification();
-            }
-            else
-            {
-                string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(should, message, args);
-
-                LogSection logSection = should.DataProvider.Component is null
-                    ? (LogSection)new ValueVerificationLogSection(should.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
-                    : new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
-
-                AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
-            }
-
-            return should.Owner;
+            return VerificationUtils.Verify(should, ExecuteVerification, message, args);
         }
 
         public static TOwner Satisfy<TData, TOwner>(
@@ -113,22 +98,7 @@ namespace Atata
                 }
             }
 
-            if (AtataContext.Current is null)
-            {
-                ExecuteVerification();
-            }
-            else
-            {
-                string verificationConstraintMessage = $"{should.GetShouldText()} {expectedMessage}";
-
-                LogSection logSection = should.DataProvider.Component is null
-                    ? (LogSection)new ValueVerificationLogSection(should.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
-                    : new VerificationLogSection(should.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
-
-                AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
-            }
-
-            return should.Owner;
+            return VerificationUtils.Verify(should, ExecuteVerification, expectedMessage);
         }
 
         public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(

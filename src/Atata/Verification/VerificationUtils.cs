@@ -178,5 +178,25 @@ namespace Atata
 
             return wait;
         }
+
+        internal static TOwner Verify<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, Action verificationAction, string expectedMessage, params TData[] arguments)
+        {
+            if (AtataContext.Current is null)
+            {
+                verificationAction.Invoke();
+            }
+            else
+            {
+                string verificationConstraintMessage = BuildConstraintMessage(should, expectedMessage, arguments);
+
+                LogSection logSection = should.DataProvider.Component is null
+                    ? (LogSection)new ValueVerificationLogSection(should.Strategy.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
+                    : new VerificationLogSection(should.Strategy.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
+
+                AtataContext.Current.Log.ExecuteSection(logSection, verificationAction);
+            }
+
+            return should.Owner;
+        }
     }
 }
