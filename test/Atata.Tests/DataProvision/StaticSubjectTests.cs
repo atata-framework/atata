@@ -31,6 +31,25 @@ namespace Atata.Tests.DataProvision
             }
         }
 
+        [TestFixture]
+        public static class Invoking
+        {
+            [Test]
+            public static void ProviderName() =>
+                Subject.Invoking(() => TestClass.GetEntity(10))
+                    .ProviderName.Should().Be("StaticSubjectTests.TestClass.GetEntity(10)");
+
+            [Test]
+            public static void Function_Should_Throw() =>
+                Subject.Invoking(() => TestClass.GetEntity(null))
+                    .Should.Throw<ArgumentNullException>();
+
+            [Test]
+            public static void Function_Should_Not_Throw() =>
+                Subject.Invoking(() => TestClass.GetEntity(10))
+                    .Should.Not.Throw();
+        }
+
         public static class TestClass
         {
             public static TestEntity GetEntity(int id) =>

@@ -20,7 +20,7 @@ namespace Atata
                 TData actual = default;
                 Exception exception = null;
 
-                bool doesSatisfy = ExecuteUntil(
+                bool doesSatisfy = VerificationUtils.ExecuteUntil(
                     () =>
                     {
                         try
@@ -85,7 +85,7 @@ namespace Atata
                 IEnumerable<TData> actual = null;
                 Exception exception = null;
 
-                bool doesSatisfy = ExecuteUntil(
+                bool doesSatisfy = VerificationUtils.ExecuteUntil(
                     () =>
                     {
                         try
@@ -129,26 +129,6 @@ namespace Atata
             }
 
             return should.Owner;
-        }
-
-        private static bool ExecuteUntil(Func<bool> condition, RetryOptions retryOptions)
-        {
-            var wait = CreateSafeWait(retryOptions);
-            return wait.Until(_ => condition());
-        }
-
-        private static SafeWait<object> CreateSafeWait(RetryOptions options)
-        {
-            var wait = new SafeWait<object>(string.Empty)
-            {
-                Timeout = options.Timeout,
-                PollingInterval = options.Interval
-            };
-
-            foreach (Type exceptionType in options.IgnoredExceptionTypes)
-                wait.IgnoreExceptionTypes(exceptionType);
-
-            return wait;
         }
 
         public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(

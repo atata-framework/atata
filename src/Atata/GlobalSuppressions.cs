@@ -57,5 +57,6 @@
 [assembly: SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DisposableSubject`1.Dispose")]
 [assembly: SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IDataVerificationProviderExtensions.EqualIgnoringCase``1(Atata.IDataVerificationProvider{System.String,``0},System.String)~``0")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogSection.GetDuration~System.TimeSpan")]
+[assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.VerificationProvider`2.GetShouldText~System.String")]
 
 #pragma warning restore S103 // Lines should not be too long

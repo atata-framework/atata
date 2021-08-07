@@ -102,6 +102,13 @@ namespace Atata.Tests.DataProvision
                     .Should.BeTrue();
 
             [Test]
+            public void Function_Should_Throw() =>
+                _subject.ResultOf(x => x.ContainsKey(null))
+                    .Should.Throw<ArgumentNullException>()
+                        .ValueOf(x => x.ParamName).Should.Equal("key")
+                        .ValueOf(x => x.Message).Should.Contain("key");
+
+            [Test]
             public void Function_WithOutParameter()
             {
                 int value;
@@ -165,6 +172,78 @@ namespace Atata.Tests.DataProvision
             public void ProviderName_OfIndexer() =>
                 _subject.ResultOf(x => x["a"])
                     .ProviderName.Should().Be("subject[\"a\"] => result");
+        }
+
+        [TestFixture]
+        public class Invoking
+        {
+            private Subject<Dictionary<string, int>> _subject;
+
+            [SetUp]
+            public void SetUpTest() =>
+                _subject = CreateDictionarySubject();
+
+            [Test]
+            public void Function_Should_Throw() =>
+                _subject.Invoking(x => x.ContainsKey(null))
+                    .Should.Throw<ArgumentNullException>()
+                        .ValueOf(x => x.ParamName).Should.Equal("key")
+                        .ValueOf(x => x.Message).Should.Contain("key");
+
+            [Test]
+            public void Action_Should_Throw() =>
+                _subject.Invoking(x => x.Add(null, 0))
+                    .Should.Throw<ArgumentNullException>()
+                        .ValueOf(x => x.ParamName).Should.Equal("key")
+                        .ValueOf(x => x.Message).Should.Contain("key");
+
+            [Test]
+            public void Action_Should_Throw_WrongException()
+            {
+                var exception = Assert.Throws<Atata.AssertionException>(() =>
+                    _subject.Invoking(x => x.Add(null, 0))
+                        .Should.Throw<InvalidOperationException>());
+
+                exception.Message.Should().StartWith(@"Wrong subject.Add(null, 0)
+Expected: should throw exception of System.InvalidOperationException type
+Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
+            }
+
+            [Test]
+            public void Action_Should_Throw_NoException()
+            {
+                var exception = Assert.Throws<Atata.AssertionException>(() =>
+                    _subject.Invoking(x => x.Add("d", 4))
+                        .Should.Throw<InvalidOperationException>());
+
+                exception.Message.Should().Be(@"Wrong subject.Add(""d"", 4)
+Expected: should throw exception of System.InvalidOperationException type
+Actual: no exception");
+            }
+
+            [Test]
+            public void Action_Should_Not_Throw_ButThrows()
+            {
+                var exception = Assert.Throws<Atata.AssertionException>(() =>
+                    _subject.Invoking(x => x.Add(null, 0))
+                        .Should.Not.Throw());
+
+                exception.Message.Should().StartWith(@"Wrong subject.Add(null, 0)
+Expected: should not throw exception
+Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
+            }
+
+            [Test]
+            public void ProviderName_OfFunction() =>
+                _subject.Invoking(x => x.ContainsKey("a"))
+                    .ProviderName.Should().Be("subject.ContainsKey(\"a\")");
+
+            [Test]
+            public void ProviderName_OfFunction_AfterAct() =>
+                _subject
+                    .Act(x => x.Add("d", 4))
+                    .Invoking(x => x.ContainsKey("a"))
+                    .ProviderName.Should().Be("subject{ Add(\"d\", 4) }.ContainsKey(\"a\")");
         }
 
         [TestFixture]

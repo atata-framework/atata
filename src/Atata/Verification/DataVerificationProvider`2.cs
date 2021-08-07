@@ -33,6 +33,72 @@ namespace Atata
                 };
         }
 
+        public Subject<TException> Throw<TException>()
+            where TException : Exception
+        {
+            string expectedMessage = $"throw exception of {typeof(TException).FullName} type";
+
+            Exception exception = null;
+
+            void ExecuteVerification()
+            {
+                object actual = default;
+
+                bool doesSatisfy = VerificationUtils.ExecuteUntil(
+                    () =>
+                    {
+                        try
+                        {
+                            actual = DataProvider.Value;
+
+                            if (actual is Action actualAsAction)
+                            {
+                                actualAsAction.Invoke();
+                                actual = null;
+                            }
+
+                            exception = null;
+
+                            return false;
+                        }
+                        catch (Exception e)
+                        {
+                            exception = e;
+                            return e is TException;
+                        }
+                    },
+                    GetRetryOptions());
+
+                if (!doesSatisfy)
+                {
+                    string actualMessage = exception == null ? "no exception" : exception.ToString();
+
+                    string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
+
+                    ReportFailure(failureMessage, exception);
+                }
+            }
+
+            if (AtataContext.Current is null)
+            {
+                ExecuteVerification();
+            }
+            else
+            {
+                string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(this, expectedMessage);
+
+                LogSection logSection = DataProvider.Component is null
+                    ? (LogSection)new ValueVerificationLogSection(Strategy.VerificationKind, DataProvider.ProviderName, verificationConstraintMessage)
+                    : new VerificationLogSection(Strategy.VerificationKind, DataProvider.Component, DataProvider.ProviderName, verificationConstraintMessage);
+
+                AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
+            }
+
+            return new Subject<TException>(
+                exception as TException,
+                Subject.BuildExceptionName(DataProvider.ProviderName));
+        }
+
         public class NegationDataVerificationProvider :
             NegationVerificationProvider<NegationDataVerificationProvider, TOwner>,
             IDataVerificationProvider<TData, TOwner>
@@ -47,9 +113,75 @@ namespace Atata
 
             IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
 
-            protected override TOwner Owner
+            protected override TOwner Owner => DataProvider.Owner;
+
+            protected override RetryOptions GetRetryOptions()
             {
-                get { return DataProvider.Owner; }
+                return (DataProvider as IObjectProvider<TData, TOwner>)?.IsValueDynamic ?? true
+                    ? base.GetRetryOptions()
+                    : new RetryOptions
+                    {
+                        Timeout = TimeSpan.Zero,
+                        Interval = TimeSpan.Zero
+                    };
+            }
+
+            public TOwner Throw()
+            {
+                string expectedMessage = $"throw exception";
+
+                Exception exception = null;
+
+                void ExecuteVerification()
+                {
+                    bool doesSatisfy = VerificationUtils.ExecuteUntil(
+                        () =>
+                        {
+                            try
+                            {
+                                var actual = DataProvider.Value;
+
+                                if (actual is Action actualAsAction)
+                                    actualAsAction.Invoke();
+
+                                exception = null;
+
+                                return true;
+                            }
+                            catch (Exception e)
+                            {
+                                exception = e;
+                                return false;
+                            }
+                        },
+                        GetRetryOptions());
+
+                    if (!doesSatisfy)
+                    {
+                        string actualMessage = exception.ToString();
+
+                        string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
+
+                        ReportFailure(failureMessage, exception);
+                    }
+                }
+
+                if (AtataContext.Current is null)
+                {
+                    ExecuteVerification();
+                }
+                else
+                {
+                    string verificationConstraintMessage = VerificationUtils.BuildConstraintMessage(this, expectedMessage);
+
+                    LogSection logSection = DataProvider.Component is null
+                        ? (LogSection)new ValueVerificationLogSection(Strategy.VerificationKind, DataProvider.ProviderName, verificationConstraintMessage)
+                        : new VerificationLogSection(Strategy.VerificationKind, DataProvider.Component, DataProvider.ProviderName, verificationConstraintMessage);
+
+                    AtataContext.Current.Log.ExecuteSection(logSection, ExecuteVerification);
+                }
+
+                return Owner;
             }
         }
     }

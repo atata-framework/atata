@@ -8,6 +8,10 @@ namespace Atata
     /// </summary>
     public static class Subject
     {
+        internal const string ResultNameEnding = " => result";
+
+        internal const string ExceptionNameEnding = " => exception";
+
         /// <summary>
         /// Gets or sets the default name of the subject.
         /// The default value is <c>"subject"</c>.
@@ -58,7 +62,80 @@ namespace Atata
                 BuildResultName(functionName));
         }
 
+        /// <summary>
+        /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="actionExpression"/>.
+        /// </summary>
+        /// <param name="actionExpression">The action expression.</param>
+        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+        public static ActionProvider Invoking(Expression<Action> actionExpression)
+        {
+            actionExpression.CheckNotNull(nameof(actionExpression));
+
+            var action = actionExpression.Compile();
+            string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+
+            return Invoking(action, actionName);
+        }
+
+        /// <summary>
+        /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="action"/>
+        /// with the specified <paramref name="actionName"/>.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+        public static ActionProvider Invoking(Action action, string actionName)
+        {
+            action.CheckNotNull(nameof(action));
+            actionName.CheckNotNull(nameof(actionName));
+
+            return new ActionProvider(
+                new LazyObjectSource<Action>(() => action),
+                actionName);
+        }
+
+        /// <summary>
+        /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="actionExpression"/>.
+        /// </summary>
+        /// <param name="actionExpression">The action expression.</param>
+        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+        public static ActionProvider DynamicInvoking(Expression<Action> actionExpression)
+        {
+            actionExpression.CheckNotNull(nameof(actionExpression));
+
+            var action = actionExpression.Compile();
+            string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+
+            return DynamicInvoking(action, actionName);
+        }
+
+        /// <summary>
+        /// Creates a new dynamic <see cref="ActionProvider"/> from the invocation of the specified <paramref name="action"/>
+        /// with the specified <paramref name="actionName"/>.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+        public static ActionProvider DynamicInvoking(Action action, string actionName)
+        {
+            action.CheckNotNull(nameof(action));
+            actionName.CheckNotNull(nameof(actionName));
+
+            return new ActionProvider(
+                new DynamicObjectSource<Action>(() => action),
+                actionName);
+        }
+
         internal static string BuildResultName(string functionName) =>
-            $"{functionName} => result";
+            functionName + ResultNameEnding;
+
+        internal static string BuildExceptionName(string methodName)
+        {
+            string exceptionName = methodName.EndsWith(ResultNameEnding, StringComparison.Ordinal)
+                ? methodName.Substring(0, methodName.Length - ResultNameEnding.Length)
+                : methodName;
+
+            return exceptionName + ExceptionNameEnding;
+        }
     }
 }

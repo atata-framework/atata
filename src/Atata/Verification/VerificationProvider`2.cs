@@ -97,10 +97,10 @@ namespace Atata
             return Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? (TimeSpan?)TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
         }
 
-        string IVerificationProvider<TOwner>.GetShouldText()
-        {
-            return _isNegation ? "should not" : "should";
-        }
+        string IVerificationProvider<TOwner>.GetShouldText() => GetShouldText();
+
+        protected string GetShouldText() =>
+            _isNegation ? "should not" : "should";
 
         RetryOptions IVerificationProvider<TOwner>.GetRetryOptions() => GetRetryOptions();
 
@@ -115,9 +115,10 @@ namespace Atata
             IgnoringExceptionType(typeof(NoSuchElementException));
         }
 
-        void IVerificationProvider<TOwner>.ReportFailure(string message, Exception exception)
-        {
+        void IVerificationProvider<TOwner>.ReportFailure(string message, Exception exception) =>
+            ReportFailure(message, exception);
+
+        protected void ReportFailure(string message, Exception exception) =>
             Strategy.ReportFailure(message, exception);
-        }
     }
 }

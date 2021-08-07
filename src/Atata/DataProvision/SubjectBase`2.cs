@@ -130,5 +130,71 @@ namespace Atata
 
             return Owner;
         }
+
+        /// <summary>
+        /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="actionExpression"/>.
+        /// </summary>
+        /// <param name="actionExpression">The action expression.</param>
+        /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+        public ActionProvider<TSubject> Invoking(Expression<Action<TObject>> actionExpression)
+        {
+            actionExpression.CheckNotNull(nameof(actionExpression));
+
+            var action = actionExpression.Compile();
+            string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+
+            return Invoking(action, actionName);
+        }
+
+        /// <summary>
+        /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="action"/>
+        /// with the specified <paramref name="actionName"/>.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+        public ActionProvider<TSubject> Invoking(Action<TObject> action, string actionName)
+        {
+            action.CheckNotNull(nameof(action));
+            actionName.CheckNotNull(nameof(actionName));
+
+            return new ActionProvider<TSubject>(
+                (TSubject)this,
+                new LazyObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
+                actionName);
+        }
+
+        /// <summary>
+        /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="actionExpression"/>.
+        /// </summary>
+        /// <param name="actionExpression">The action expression.</param>
+        /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+        public ActionProvider<TSubject> DynamicInvoking(Expression<Action<TObject>> actionExpression)
+        {
+            actionExpression.CheckNotNull(nameof(actionExpression));
+
+            var action = actionExpression.Compile();
+            string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+
+            return DynamicInvoking(action, actionName);
+        }
+
+        /// <summary>
+        /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="action"/>
+        /// with the specified <paramref name="actionName"/>.
+        /// </summary>
+        /// <param name="action">The action.</param>
+        /// <param name="actionName">Name of the action.</param>
+        /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+        public ActionProvider<TSubject> DynamicInvoking(Action<TObject> action, string actionName)
+        {
+            action.CheckNotNull(nameof(action));
+            actionName.CheckNotNull(nameof(actionName));
+
+            return new ActionProvider<TSubject>(
+                (TSubject)this,
+                new DynamicObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
+                actionName);
+        }
     }
 }

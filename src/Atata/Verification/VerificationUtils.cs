@@ -158,5 +158,25 @@ namespace Atata
 
             return StackTraceFilter.TakeBeforeInvokeMethodOfRuntimeMethodHandle(stackTrace);
         }
+
+        internal static bool ExecuteUntil(Func<bool> condition, RetryOptions retryOptions)
+        {
+            var wait = CreateSafeWait(retryOptions);
+            return wait.Until(_ => condition());
+        }
+
+        private static SafeWait<object> CreateSafeWait(RetryOptions options)
+        {
+            var wait = new SafeWait<object>(string.Empty)
+            {
+                Timeout = options.Timeout,
+                PollingInterval = options.Interval
+            };
+
+            foreach (Type exceptionType in options.IgnoredExceptionTypes)
+                wait.IgnoreExceptionTypes(exceptionType);
+
+            return wait;
+        }
     }
 }
