@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public class EditableTextField<T, TOwner> : EditableField<T, TOwner>
+    public class EditableTextField<T, TOwner> : EditableField<T, TOwner>, IClearable
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
@@ -51,6 +51,9 @@
                     () => behavior.Execute(this, valueAsString));
             }
         }
+
+        void IClearable.Clear() =>
+            Clear();
 
         /// <summary>
         /// Clears the value.
