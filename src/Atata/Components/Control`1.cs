@@ -54,7 +54,7 @@ namespace Atata
 
         /// <summary>
         /// Clicks the control.
-        /// By default uses <see cref="ClickUsingClickMethodAttribute"/> behavior.
+        /// By default uses <see cref="ClicksUsingClickMethodAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -79,7 +79,7 @@ namespace Atata
 
         /// <summary>
         /// Clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
-        /// By default uses <see cref="ClickUsingClickMethodAttribute"/> behavior.
+        /// By default uses <see cref="ClicksUsingClickMethodAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
@@ -157,7 +157,7 @@ namespace Atata
 
         /// <summary>
         /// Double-clicks the control.
-        /// By default uses <see cref="DoubleClickUsingActionsAttribute"/> behavior.
+        /// By default uses <see cref="DoubleClicksUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -182,7 +182,7 @@ namespace Atata
 
         /// <summary>
         /// Double-clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
-        /// By default uses <see cref="DoubleClickUsingActionsAttribute"/> behavior.
+        /// By default uses <see cref="DoubleClicksUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
@@ -201,7 +201,7 @@ namespace Atata
 
         /// <summary>
         /// Right-clicks the control.
-        /// By default uses <see cref="RightClickUsingActionsAttribute"/> behavior.
+        /// By default uses <see cref="RightClicksUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -226,7 +226,7 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>.
-        /// By default uses <see cref="DragAndDropUsingActionsAttribute"/> behavior.
+        /// By default uses <see cref="DragsAndDropsUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="targetSelector">The target control selector.</param>
@@ -242,7 +242,7 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the target control.
-        /// By default uses <see cref="DragAndDropUsingActionsAttribute"/>.
+        /// By default uses <see cref="DragsAndDropsUsingActionsAttribute"/>.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="target">The target control.</param>

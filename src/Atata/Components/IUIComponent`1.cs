@@ -27,7 +27,6 @@ namespace Atata
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
-        /// Gets content using <see cref="ContentSourceAttribute"/> or, by default, uses <see cref="IWebElement.Text"/> property of component scope <see cref="IWebElement"/> element.
         /// </summary>
         DataProvider<string, TOwner> Content { get; }
 

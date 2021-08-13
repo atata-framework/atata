@@ -75,8 +75,9 @@ return (
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
         /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component,
-        /// which by default is <see cref="Atata.ContentSourceAttribute"/> with <see cref="ContentSource.Text"/> argument.
-        /// Meaning that be default it returns <see cref="IWebElement.Text"/> property value of component scope's <see cref="IWebElement"/> element.
+        /// which by default is <see cref="GetsContentFromSourceAttribute"/> with <see cref="ContentSource.Text"/> argument,
+        /// meaning that by default it returns <see cref="IWebElement.Text"/> property value
+        /// of component scope's <see cref="IWebElement"/> element.
         /// </summary>
         public DataProvider<string, TOwner> Content =>
             GetOrCreateDataProvider("content", GetContent);
