@@ -2,15 +2,15 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class ClickUsingScriptAttributeTests : UITestFixture
+    public class ClicksUsingScriptAttributeTests : UITestFixture
     {
         [Test]
-        public void ClickUsingScriptAttribute_Execute()
+        public void Execute()
         {
             var cell = Go.To<ClickPage>()
                 .ClickableCellsTable.Rows[1].Cells[2];
 
-            cell.Metadata.Push(new ClickUsingScriptAttribute());
+            cell.Metadata.Push(new ClicksUsingScriptAttribute());
 
             cell.Click();
 

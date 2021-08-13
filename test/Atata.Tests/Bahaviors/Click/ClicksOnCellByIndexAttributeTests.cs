@@ -2,15 +2,15 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class ClickOnCellByIndexAttributeTests : UITestFixture
+    public class ClicksOnCellByIndexAttributeTests : UITestFixture
     {
         [Test]
-        public void ClickOnCellByIndexAttribute_Execute()
+        public void Execute()
         {
             var row = Go.To<ClickPage>()
                 .ClickableCellsTable.Rows[1];
 
-            row.Metadata.Push(new ClickOnCellByIndexAttribute(2));
+            row.Metadata.Push(new ClicksOnCellByIndexAttribute(2));
 
             row.Click();
 
@@ -21,7 +21,7 @@ namespace Atata.Tests.Bahaviors
                 row.Cells[2].Should.Equal(1);
             });
 
-            row.Metadata.Push(new ClickOnCellByIndexAttribute(0));
+            row.Metadata.Push(new ClicksOnCellByIndexAttribute(0));
             row.Click();
 
             AtataContext.Current.AggregateAssert(() =>

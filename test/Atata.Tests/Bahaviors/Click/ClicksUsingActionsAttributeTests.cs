@@ -2,7 +2,7 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class ClickUsingActionsAttributeTests : UITestFixture
+    public class ClicksUsingActionsAttributeTests : UITestFixture
     {
         private Table<ClickPage.ClickableCellsTableRow, ClickPage> _table;
 
@@ -14,9 +14,9 @@ namespace Atata.Tests.Bahaviors
         }
 
         [Test]
-        public void ClickUsingActionsAttribute_Execute_WithOffsetKind_FromTopLeftInPercents()
+        public void Execute_WithOffsetKind_FromTopLeftInPercents()
         {
-            _table.Metadata.Push(new ClickUsingActionsAttribute
+            _table.Metadata.Push(new ClicksUsingActionsAttribute
             {
                 OffsetKind = UIComponentOffsetKind.FromTopLeftInPercents,
                 OffsetX = 99,
@@ -28,9 +28,9 @@ namespace Atata.Tests.Bahaviors
         }
 
         [Test]
-        public void ClickUsingActionsAttribute_Execute_WithOffsetKind_FromTopLeftInPixels()
+        public void Execute_WithOffsetKind_FromTopLeftInPixels()
         {
-            _table.Metadata.Push(new ClickUsingActionsAttribute
+            _table.Metadata.Push(new ClicksUsingActionsAttribute
             {
                 OffsetKind = UIComponentOffsetKind.FromTopLeftInPixels,
                 OffsetX = 5,
@@ -42,9 +42,9 @@ namespace Atata.Tests.Bahaviors
         }
 
         [Test]
-        public void ClickUsingActionsAttribute_Execute_WithOffsetKind_FromCenterInPercents()
+        public void Execute_WithOffsetKind_FromCenterInPercents()
         {
-            _table.Metadata.Push(new ClickUsingActionsAttribute
+            _table.Metadata.Push(new ClicksUsingActionsAttribute
             {
                 OffsetKind = UIComponentOffsetKind.FromCenterInPercents,
                 OffsetX = 0,
@@ -56,9 +56,9 @@ namespace Atata.Tests.Bahaviors
         }
 
         [Test]
-        public void ClickUsingActionsAttribute_Execute_WithOffsetKind_FromCenterInPixels()
+        public void Execute_WithOffsetKind_FromCenterInPixels()
         {
-            _table.Metadata.Push(new ClickUsingActionsAttribute
+            _table.Metadata.Push(new ClicksUsingActionsAttribute
             {
                 OffsetKind = UIComponentOffsetKind.FromCenterInPixels,
                 OffsetX = _table.ComponentSize.Width / 3,

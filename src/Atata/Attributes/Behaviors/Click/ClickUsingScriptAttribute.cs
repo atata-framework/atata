@@ -1,14 +1,12 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control clicking by executing <c>HTMLElement.click()</c> JavaScript method.
     /// </summary>
-    public class ClickUsingScriptAttribute : ClickBehaviorAttribute
+    [Obsolete("Use " + nameof(ClicksUsingScriptAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ClickUsingScriptAttribute : ClicksUsingScriptAttribute
     {
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            component.Script.Click();
-        }
     }
 }

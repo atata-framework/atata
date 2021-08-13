@@ -1,16 +1,13 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control clicking by <see cref="IWebElement.Click()"/> method.
     /// </summary>
-    public class ClickUsingClickMethodAttribute : ClickBehaviorAttribute
+    [Obsolete("Use " + nameof(ClicksUsingClickMethodAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ClickUsingClickMethodAttribute : ClicksUsingClickMethodAttribute
     {
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            component.Scope.ClickWithLogging();
-        }
     }
 }
