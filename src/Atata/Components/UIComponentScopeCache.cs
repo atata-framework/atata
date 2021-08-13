@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -50,6 +51,29 @@ namespace Atata
         public void Clear()
         {
             ReleaseAccessChain();
+        }
+
+        public void ExecuteWithin(Action action)
+        {
+            action.CheckNotNull(nameof(action));
+
+            bool isActivatedAccessChainCache = AcquireActivationOfAccessChain();
+
+            if (isActivatedAccessChainCache)
+            {
+                try
+                {
+                    action.Invoke();
+                }
+                finally
+                {
+                    ReleaseAccessChain();
+                }
+            }
+            else
+            {
+                action.Invoke();
+            }
         }
     }
 }
