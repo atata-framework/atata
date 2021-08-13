@@ -2,14 +2,14 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class RightClickUsingActionsAttributeTests : UITestFixture
+    public class RightClicksUsingActionsAttributeTests : UITestFixture
     {
         [Test]
-        public void RightClickUsingActionsAttribute_Execute()
+        public void Execute()
         {
             var block = Go.To<ClickPage>().RightClickBlock;
 
-            block.Metadata.Push(new RightClickUsingActionsAttribute());
+            block.Metadata.Push(new RightClicksUsingActionsAttribute());
 
             block.RightClick();
 

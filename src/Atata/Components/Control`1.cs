@@ -9,7 +9,7 @@ namespace Atata
     [ControlDefinition(ComponentTypeName = "control")]
     [ClicksUsingClickMethod]
     [DoubleClicksUsingActions]
-    [RightClickUsingActions]
+    [RightClicksUsingActions]
     [DragsAndDropsUsingActions]
     [ScrollUsingMoveToElement]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>

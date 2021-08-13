@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
 namespace Atata
@@ -9,30 +10,8 @@ namespace Atata
     /// <see cref="Actions.MoveToElement(IWebElement, int, int, MoveToElementOffsetOrigin)"/> and
     /// <see cref="Actions.ContextClick()"/>.
     /// </summary>
-    public class RightClickUsingActionsAttribute : RightClickBehaviorAttribute
+    [Obsolete("Use " + nameof(RightClicksUsingActionsAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class RightClickUsingActionsAttribute : RightClicksUsingActionsAttribute
     {
-        /// <summary>
-        /// Gets or sets the kind of the offset.
-        /// </summary>
-        public UIComponentOffsetKind OffsetKind { get; set; }
-
-        /// <summary>
-        /// Gets or sets the horizontal offset to which to move the mouse.
-        /// </summary>
-        public int OffsetX { get; set; }
-
-        /// <summary>
-        /// Gets or sets the vertical offset to which to move the mouse.
-        /// </summary>
-        public int OffsetY { get; set; }
-
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            var scopeElement = component.Scope;
-
-            component.Owner.Driver.Perform(
-                x => x.MoveToElement(scopeElement, OffsetX, OffsetY, OffsetKind).ContextClick());
-        }
     }
 }
