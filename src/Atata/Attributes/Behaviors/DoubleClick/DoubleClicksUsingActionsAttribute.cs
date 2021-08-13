@@ -11,6 +11,7 @@ namespace Atata
     {
         /// <summary>
         /// Gets or sets the kind of the offset.
+        /// The default value is <see cref="UIComponentOffsetKind.FromCenterInPercents"/>.
         /// </summary>
         public UIComponentOffsetKind OffsetKind { get; set; }
 
