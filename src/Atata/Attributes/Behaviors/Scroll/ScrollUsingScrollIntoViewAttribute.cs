@@ -1,14 +1,13 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the behavior for scrolling to control using JavaScript.
-    /// Performs <c>element.scrollIntoView(true)</c> function.
+    /// Performs <c>element.scrollIntoView()</c> function.
     /// </summary>
-    public class ScrollUsingScrollIntoViewAttribute : ScrollBehaviorAttribute
+    [Obsolete("Use " + nameof(ScrollsUsingScriptAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ScrollUsingScrollIntoViewAttribute : ScrollsUsingScriptAttribute
     {
-        public override void Execute<TOwner>(IControl<TOwner> control)
-        {
-            control.Script.ScrollIntoView();
-        }
     }
 }

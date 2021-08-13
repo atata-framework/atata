@@ -74,11 +74,11 @@ namespace Atata.Tests
         public TextInput<_> IgnoredInput { get; private set; }
 
         [Term("Option B")]
-        public CheckBox<_> OptionBWithScrollUsingMoveToElement { get; private set; }
+        public CheckBox<_> OptionBWithScrollUsingActions { get; private set; }
 
         [Term("Option B")]
-        [ScrollUsingScrollIntoView]
-        public CheckBox<_> OptionBWithScrollUsingScrollIntoView { get; private set; }
+        [ScrollsUsingScript]
+        public CheckBox<_> OptionBWithScrollUsingScript { get; private set; }
 
         [ControlDefinition("*")]
         public class FindByLabel : Control<_>

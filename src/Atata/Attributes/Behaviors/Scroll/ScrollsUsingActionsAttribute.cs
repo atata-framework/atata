@@ -1,5 +1,4 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
 namespace Atata
@@ -8,8 +7,9 @@ namespace Atata
     /// Represents the behavior for scrolling to control using WebDriver's <see cref="Actions"/>.
     /// Performs <see cref="Actions.MoveToElement(IWebElement)"/> action.
     /// </summary>
-    [Obsolete("Use " + nameof(ScrollsUsingActionsAttribute) + " instead.")] // Obsolete since v1.12.0.
-    public class ScrollUsingMoveToElementAttribute : ScrollsUsingActionsAttribute
+    public class ScrollsUsingActionsAttribute : ScrollBehaviorAttribute
     {
+        public override void Execute<TOwner>(IControl<TOwner> control) =>
+            control.Owner.Driver.Perform(a => a.MoveToElement(control.Scope));
     }
 }

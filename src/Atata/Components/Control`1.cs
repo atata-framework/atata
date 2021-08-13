@@ -11,7 +11,7 @@ namespace Atata
     [DoubleClicksUsingActions]
     [RightClicksUsingActions]
     [DragsAndDropsUsingActions]
-    [ScrollUsingMoveToElement]
+    [ScrollsUsingActions]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -296,7 +296,7 @@ namespace Atata
 
         /// <summary>
         /// Scrolls to the control.
-        /// By default uses <see cref="ScrollUsingMoveToElementAttribute"/> behavior.
+        /// By default uses <see cref="ScrollsUsingActionsAttribute"/> behavior.
         /// Also executes <see cref="TriggerEvents.BeforeScroll" /> and <see cref="TriggerEvents.AfterScroll" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
