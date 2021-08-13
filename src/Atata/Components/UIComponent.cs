@@ -264,14 +264,14 @@ namespace Atata
         }
 
         /// <inheritdoc cref="IUIComponent{TOwner}.ExecuteBehavior{TBehaviorAttribute}(Action{TBehaviorAttribute})"/>
-        public void ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
+        public TResult ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
             where TBehaviorAttribute : MulticastAttribute
         {
             behaviorExecutionFunction.CheckNotNull(nameof(behaviorExecutionFunction));
 
             var behavior = GetAttributeOrThrow<TBehaviorAttribute>();
 
-            Log.ExecuteSection(
+            return Log.ExecuteSection(
                 new ExecuteBehaviorLogSection(this, behavior),
                 () => behaviorExecutionFunction.Invoke(behavior));
         }

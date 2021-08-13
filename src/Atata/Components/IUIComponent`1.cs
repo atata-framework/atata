@@ -212,7 +212,8 @@ namespace Atata
         /// <typeparam name="TBehaviorAttribute">The type of the behavior attribute.</typeparam>
         /// <typeparam name="TResult">The type of the behavior result.</typeparam>
         /// <param name="behaviorExecutionFunction">The behavior execution function.</param>
-        void ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
+        /// <returns>The result of behavior execution.</returns>
+        TResult ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
             where TBehaviorAttribute : MulticastAttribute;
     }
 }
