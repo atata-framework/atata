@@ -65,10 +65,8 @@ namespace Atata
         /// </summary>
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
-        public DataProvider<string, TOwner> this[string attributeName]
-        {
-            get { return Get<string>(attributeName); }
-        }
+        public DataProvider<string, TOwner> this[string attributeName] =>
+            Get<string>(attributeName);
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value of the specified control's scope element attribute.
@@ -78,6 +76,8 @@ namespace Atata
         /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
         public DataProvider<TValue, TOwner> Get<TValue>(string attributeName)
         {
+            attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
+
             string lowerCaseName = attributeName.ToLowerInvariant();
             return Component.GetOrCreateDataProvider(AttributeProviderNameFormat.FormatWith(lowerCaseName), () => GetValue<TValue>(lowerCaseName));
         }
@@ -90,6 +90,8 @@ namespace Atata
         /// Returns <see langword="null"/> if the value is not set.</returns>
         public string GetValue(string attributeName)
         {
+            attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
+
             return Component.Scope.GetAttribute(attributeName);
         }
 
@@ -102,7 +104,7 @@ namespace Atata
         /// Returns <see langword="null"/> if the value is not set.</returns>
         public TValue GetValue<TValue>(string attributeName)
         {
-            string valueAsString = Component.Scope.GetAttribute(attributeName);
+            string valueAsString = GetValue(attributeName);
 
             if (string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool))
                 return default;
