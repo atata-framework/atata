@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 
 namespace Atata
@@ -7,14 +8,8 @@ namespace Atata
     /// Represents the behavior for drag and drop using WebDriver's <see cref="Actions"/>.
     /// Performs <see cref="Actions.ClickAndHold(IWebElement)"/>, <see cref="Actions.MoveToElement(IWebElement)"/> and <see cref="Actions.Release(IWebElement)"/> actions.
     /// </summary>
-    public class DragAndDropUsingActionsAttribute : DragAndDropBehaviorAttribute
+    [Obsolete("Use " + nameof(DragsAndDropsUsingActionsAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class DragAndDropUsingActionsAttribute : DragsAndDropsUsingActionsAttribute
     {
-        public override void Execute<TOwner>(IControl<TOwner> component, IControl<TOwner> target)
-        {
-            AtataContext.Current.Driver.Perform(x => x.ClickAndHold(component.Scope));
-
-            IWebElement targetScope = target.Scope;
-            AtataContext.Current.Driver.Perform(x => x.MoveToElement(targetScope).Release(targetScope));
-        }
     }
 }

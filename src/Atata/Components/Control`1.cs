@@ -10,7 +10,7 @@ namespace Atata
     [ClicksUsingClickMethod]
     [DoubleClicksUsingActions]
     [RightClickUsingActions]
-    [DragAndDropUsingActions]
+    [DragsAndDropsUsingActions]
     [ScrollUsingMoveToElement]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>

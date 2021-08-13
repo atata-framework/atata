@@ -8,7 +8,7 @@ namespace Atata.Tests
         protected override bool ReuseDriver => false;
 
         [Test]
-        public void Control_DragAndDrop_UsingDomEvents()
+        public void DragAndDrop_UsingDomEvents()
         {
             Go.To<DragAndDropPage>().
                 DropContainer.Items.Should.BeEmpty().
@@ -21,7 +21,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Control_ScrollTo_UsingMoveToElement()
+        public void ScrollTo_UsingMoveToElement()
         {
             AtataContext.Current.Driver.Manage().Window.Size = new Size(400, 400);
 
@@ -34,7 +34,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Control_ScrollTo_UsingScrollIntoView()
+        public void ScrollTo_UsingScrollIntoView()
         {
             AtataContext.Current.Driver.Manage().Window.Size = new Size(400, 400);
 
@@ -47,7 +47,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Control_ClickAndGo()
+        public void ClickAndGo()
         {
             Go.To<GoTo1Page>().
                 GoTo2Control.ClickAndGo<GoTo2Page>();
