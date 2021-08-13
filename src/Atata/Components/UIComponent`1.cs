@@ -9,7 +9,7 @@ namespace Atata
     /// Represents the base class for UI components.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ContentSource(ContentSource.Text)]
+    [GetsContentFromSource(ContentSource.Text)]
     public abstract class UIComponent<TOwner> : UIComponent, IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {

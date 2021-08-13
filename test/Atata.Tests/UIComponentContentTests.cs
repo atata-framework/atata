@@ -19,7 +19,7 @@ namespace Atata.Tests
             };
 
         [Test]
-        public void UIComponent_Content()
+        public void Content()
         {
             Go.To<ContentPage>().
                 VisibleDiv.Should.Equal("Some text").
@@ -27,7 +27,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void UIComponent_Content_Invisible()
+        public void Content_Invisible()
         {
             Go.To<ContentPage>().
                 HiddenDiv.Should.Not.BeVisible().
@@ -40,14 +40,14 @@ namespace Atata.Tests
         }
 
         [TestCaseSource(nameof(ComplexTextTestCaseSource))]
-        public string UIComponent_Content_ContentSource(ContentSource contentSource)
+        public string Content_UsingGetsContentFromSourceAttribute(ContentSource contentSource)
         {
             return Go.To<ContentPage>().
                 GetComplexText(contentSource).Value;
         }
 
         [TestCaseSource(nameof(ComplexTextTestCaseSource))]
-        public string UIComponent_GetContent(ContentSource contentSource)
+        public string GetContent(ContentSource contentSource)
         {
             return Go.To<ContentPage>().
                 ComplexTextControl.GetContent(contentSource);

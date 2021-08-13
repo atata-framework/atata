@@ -6,6 +6,7 @@ namespace Atata
     /// Specifies the content source of a component.
     /// Source can be specified either using a value of <see cref="ContentSource"/> or HTML attribute name.
     /// </summary>
+    [Obsolete("Use " + nameof(GetsContentFromSourceAttribute) + " or " + nameof(GetsContentFromAttributeAttribute) + " instead.")] // Obsolete since v1.12.0.
     public class ContentSourceAttribute : ContentGetBehaviorAttribute
     {
         /// <summary>

@@ -67,11 +67,11 @@ namespace Atata.Tests
         public Content<string, _> HiddenDivWithVisibleVisibility { get; private set; }
 
         [FindById("hidden-div", Visibility = Visibility.Hidden)]
-        [ContentSource(ContentSource.TextContent)]
+        [GetsContentFromSource(ContentSource.TextContent)]
         public Content<string, _> HiddenDivUsingTextContent { get; private set; }
 
         [FindById("hidden-div", Visibility = Visibility.Any)]
-        [ContentSource(ContentSource.InnerHtml)]
+        [GetsContentFromSource(ContentSource.InnerHtml)]
         public Content<string, _> HiddenDivUsingInnerHtml { get; private set; }
 
         [FindById]
@@ -82,7 +82,7 @@ namespace Atata.Tests
             return Controls.Create<Text<_>>(
                 $"Complex Text Using {contentSource} Source",
                 new TermAttribute("Complex Text"),
-                new ContentSourceAttribute(contentSource));
+                new GetsContentFromSourceAttribute(contentSource));
         }
     }
 }
