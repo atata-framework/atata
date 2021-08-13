@@ -2,14 +2,14 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class DoubleClickUsingScriptAttributeTests : UITestFixture
+    public class DoubleClicksUsingScriptAttributeTests : UITestFixture
     {
         [Test]
-        public void DoubleClickUsingScriptAttribute_Execute()
+        public void Execute()
         {
             var block = Go.To<ClickPage>().DoubleClickBlock;
 
-            block.Metadata.Push(new DoubleClickUsingScriptAttribute());
+            block.Metadata.Push(new DoubleClicksUsingScriptAttribute());
 
             block.DoubleClick();
 
