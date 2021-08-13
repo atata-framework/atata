@@ -5,6 +5,10 @@
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
+    [ValueGetFromValue]
+    [ValueSetUsingClearAndSendKeys]
+    [ValueClearUsingClearMethod]
+    [TextTypeUsingSendKeys]
     public class EditableTextField<T, TOwner> : EditableField<T, TOwner>, IClearable
         where TOwner : PageObject<TOwner>
     {
@@ -17,12 +21,7 @@
         /// </returns>
         protected override T GetValue()
         {
-            var behavior = Metadata.Get<ValueGetBehaviorAttribute>()
-                ?? new ValueGetFromValueAttribute();
-
-            string valueAsString = Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this));
+            string valueAsString = ExecuteBehavior<ValueGetBehaviorAttribute, string>(x => x.Execute(this));
 
             return ConvertStringToValueUsingGetFormat(valueAsString);
         }
@@ -38,18 +37,9 @@
             string valueAsString = ConvertValueToStringUsingSetFormat(value);
 
             if (string.IsNullOrEmpty(valueAsString))
-            {
                 OnClear();
-            }
             else
-            {
-                var behavior = Metadata.Get<ValueSetBehaviorAttribute>()
-                    ?? new ValueSetUsingClearAndSendKeysAttribute();
-
-                Log.ExecuteSection(
-                    new ExecuteBehaviorLogSection(this, behavior),
-                    () => behavior.Execute(this, valueAsString));
-            }
+                ExecuteBehavior<ValueSetBehaviorAttribute>(x => x.Execute(this, valueAsString));
         }
 
         void IClearable.Clear() =>
@@ -78,15 +68,8 @@
         /// Clears the value by executing <see cref="ValueClearBehaviorAttribute"/> behavior.
         /// The default behavior is <see cref="ValueClearUsingClearMethodAttribute"/>.
         /// </summary>
-        protected virtual void OnClear()
-        {
-            var behavior = Metadata.Get<ValueClearBehaviorAttribute>()
-                ?? new ValueClearUsingClearMethodAttribute();
-
-            Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this));
-        }
+        protected virtual void OnClear() =>
+            ExecuteBehavior<ValueClearBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
         /// Types (appends) the specified text value.
@@ -112,14 +95,7 @@
         /// The default behavior is <see cref="TextTypeUsingSendKeysAttribute" />.
         /// </summary>
         /// <param name="text">The text to type.</param>
-        protected virtual void OnType(string text)
-        {
-            var behavior = Metadata.Get<TextTypeBehaviorAttribute>()
-                ?? new TextTypeUsingSendKeysAttribute();
-
-            Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this, text));
-        }
+        protected virtual void OnType(string text) =>
+            ExecuteBehavior<TextTypeBehaviorAttribute>(x => x.Execute(this, text));
     }
 }

@@ -7,6 +7,11 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition(ComponentTypeName = "control")]
+    [ClickUsingClickMethod]
+    [DoubleClickUsingActions]
+    [RightClickUsingActions]
+    [DragAndDropUsingActions]
+    [ScrollUsingMoveToElement]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -66,15 +71,11 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnClick()
-        {
-            var behavior = Metadata.Get<ClickBehaviorAttribute>()
-                ?? new ClickUsingClickMethodAttribute();
-
-            Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this));
-        }
+        /// <summary>
+        /// Clicks the control by executing <see cref="ClickBehaviorAttribute"/>.
+        /// </summary>
+        protected virtual void OnClick() =>
+            ExecuteBehavior<ClickBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
         /// Clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
@@ -173,15 +174,11 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnDoubleClick()
-        {
-            var behavior = Metadata.Get<DoubleClickBehaviorAttribute>()
-                ?? new DoubleClickUsingActionsAttribute();
-
-            Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this));
-        }
+        /// <summary>
+        /// Double-clicks the control by executing <see cref="DoubleClickBehaviorAttribute"/>.
+        /// </summary>
+        protected virtual void OnDoubleClick() =>
+            ExecuteBehavior<DoubleClickBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
         /// Double-clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
@@ -221,15 +218,11 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnRightClick()
-        {
-            var behavior = Metadata.Get<RightClickBehaviorAttribute>()
-                ?? new RightClickUsingActionsAttribute();
-
-            Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this));
-        }
+        /// <summary>
+        /// Right-clicks the control by executing <see cref="RightClickBehaviorAttribute"/>.
+        /// </summary>
+        protected virtual void OnRightClick() =>
+            ExecuteBehavior<RightClickBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
         /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>.
@@ -269,15 +262,12 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnDragAndDropTo(Control<TOwner> target)
-        {
-            var behavior = Metadata.Get<DragAndDropBehaviorAttribute>()
-                ?? new DragAndDropUsingActionsAttribute();
-
-            Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this, target));
-        }
+        /// <summary>
+        /// Drag and drops the control to the target control by executing <see cref="DragAndDropBehaviorAttribute"/>.
+        /// </summary>
+        /// <param name="target">The target.</param>
+        protected virtual void OnDragAndDropTo(Control<TOwner> target) =>
+            ExecuteBehavior<DragAndDropBehaviorAttribute>(x => x.Execute(this, target));
 
         /// <summary>
         /// Drags and drops the control to the specified offset.
@@ -323,13 +313,10 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnScrollTo()
-        {
-            var behavior = Metadata.Get<ScrollBehaviorAttribute>() ?? new ScrollUsingMoveToElementAttribute();
-
-            Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this));
-        }
+        /// <summary>
+        /// Scrolls to the control by executing <see cref="ScrollBehaviorAttribute"/>.
+        /// </summary>
+        protected virtual void OnScrollTo() =>
+            ExecuteBehavior<ScrollBehaviorAttribute>(x => x.Execute(this));
     }
 }

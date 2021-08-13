@@ -152,6 +152,7 @@ return (
         /// <summary>
         /// Gets an instance of <see cref="ContentGetBehaviorAttribute"/> associated with the component.
         /// </summary>
+        [Obsolete("Use Metadata.Get<ContentGetBehaviorAttribute>() instead.")] // Obsolete since v1.12.0.
         public ContentGetBehaviorAttribute ContentGetBehavior =>
             Metadata.Get<ContentGetBehaviorAttribute>();
 
@@ -274,14 +275,12 @@ return (
             return element != null && element.Displayed && Script.Execute<bool>(IsInViewPortScript, element);
         }
 
-        protected virtual string GetContent()
-        {
-            var behavior = ContentGetBehavior;
-
-            return Log.ExecuteSection(
-                new ExecuteBehaviorLogSection(this, behavior),
-                () => behavior.Execute(this));
-        }
+        /// <summary>
+        /// Gets the text content of the component by executing <see cref="ContentGetBehaviorAttribute"/>.
+        /// </summary>
+        /// <returns>The text content.</returns>
+        protected virtual string GetContent() =>
+            ExecuteBehavior<ContentGetBehaviorAttribute, string>(x => x.Execute(this));
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content using <paramref name="source"/> argument.
