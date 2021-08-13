@@ -1,6 +1,4 @@
-﻿using OpenQA.Selenium;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Represents the checkbox control (<c>&lt;input type="checkbox"&gt;</c>).
@@ -40,10 +38,11 @@ namespace Atata
 
         protected override void SetValue(bool value)
         {
-            IWebElement element = Scope;
-
-            if (element.Selected != value)
-                element.ClickWithLogging();
+            AtataContext.Current.UIComponentScopeCache.ExecuteWithin(() =>
+            {
+                if (GetValue() != value)
+                    OnClick();
+            });
         }
 
         /// <summary>
