@@ -195,5 +195,24 @@ namespace Atata
         /// <returns>The component or <see langword="null"/> if not found.</returns>
         TComponentToFind GetAncestorOrSelf<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>;
+
+        /// <summary>
+        /// Gets a behavior attribute from the component's metadata and then invokes
+        /// the specified <paramref name="behaviorExecutionAction" /> with passing the found behavior to it.
+        /// </summary>
+        /// <typeparam name="TBehaviorAttribute">The type of the behavior attribute.</typeparam>
+        /// <param name="behaviorExecutionAction">The behavior execution action.</param>
+        void ExecuteBehavior<TBehaviorAttribute>(Action<TBehaviorAttribute> behaviorExecutionAction)
+            where TBehaviorAttribute : MulticastAttribute;
+
+        /// <summary>
+        /// Gets a behavior attribute from the component's metadata and then invokes
+        /// the specified <paramref name="behaviorExecutionFunction" /> with passing the found behavior to it.
+        /// </summary>
+        /// <typeparam name="TBehaviorAttribute">The type of the behavior attribute.</typeparam>
+        /// <typeparam name="TResult">The type of the behavior result.</typeparam>
+        /// <param name="behaviorExecutionFunction">The behavior execution function.</param>
+        void ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
+            where TBehaviorAttribute : MulticastAttribute;
     }
 }

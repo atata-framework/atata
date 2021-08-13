@@ -249,5 +249,36 @@ namespace Atata
         /// Cleans up the current instance.
         /// </summary>
         protected internal abstract void CleanUp();
+
+        /// <inheritdoc cref="IUIComponent{TOwner}.ExecuteBehavior{TBehaviorAttribute}(Action{TBehaviorAttribute})"/>
+        public void ExecuteBehavior<TBehaviorAttribute>(Action<TBehaviorAttribute> behaviorExecutionAction)
+            where TBehaviorAttribute : MulticastAttribute
+        {
+            behaviorExecutionAction.CheckNotNull(nameof(behaviorExecutionAction));
+
+            var behavior = GetAttributeOrThrow<TBehaviorAttribute>();
+
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behaviorExecutionAction.Invoke(behavior));
+        }
+
+        /// <inheritdoc cref="IUIComponent{TOwner}.ExecuteBehavior{TBehaviorAttribute}(Action{TBehaviorAttribute})"/>
+        public void ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
+            where TBehaviorAttribute : MulticastAttribute
+        {
+            behaviorExecutionFunction.CheckNotNull(nameof(behaviorExecutionFunction));
+
+            var behavior = GetAttributeOrThrow<TBehaviorAttribute>();
+
+            Log.ExecuteSection(
+                new ExecuteBehaviorLogSection(this, behavior),
+                () => behaviorExecutionFunction.Invoke(behavior));
+        }
+
+        protected TAttribute GetAttributeOrThrow<TAttribute>() =>
+            Metadata.TryGet<TAttribute>(out var attribute)
+            ? attribute
+            : throw AttributeNotFoundException.Create(typeof(TAttribute), ComponentFullName);
     }
 }
