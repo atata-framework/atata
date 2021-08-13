@@ -7,7 +7,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition(ComponentTypeName = "control")]
-    [ClickUsingClickMethod]
+    [ClicksUsingClickMethod]
     [DoubleClickUsingActions]
     [RightClickUsingActions]
     [DragAndDropUsingActions]
