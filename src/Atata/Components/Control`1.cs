@@ -19,42 +19,42 @@ namespace Atata
         /// Gets the source of the scope.
         /// The default value is <see cref="ScopeSource.Parent"/>.
         /// </summary>
-        public sealed override ScopeSource ScopeSource
-            => Metadata?.ResolveFindAttribute()?.ScopeSource ?? ScopeSource.Parent;
+        public sealed override ScopeSource ScopeSource =>
+            Metadata?.ResolveFindAttribute()?.ScopeSource ?? ScopeSource.Parent;
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is enabled.
+        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value
+        /// indicating whether the control is enabled.
         /// </summary>
-        public DataProvider<bool, TOwner> IsEnabled
-            => GetOrCreateDataProvider("enabled state", GetIsEnabled);
+        public DataProvider<bool, TOwner> IsEnabled =>
+            GetOrCreateDataProvider("enabled state", GetIsEnabled);
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should
-            => new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should =>
+            new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo
-            => Should.Using<ExpectationVerificationStrategy>();
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo =>
+            Should.Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo
-            => Should.Using<WaitingVerificationStrategy>();
+        public new UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo =>
+            Should.Using<WaitingVerificationStrategy>();
 
-        protected virtual bool GetIsEnabled()
-        {
-            return Scope.Enabled;
-        }
+        protected virtual bool GetIsEnabled() =>
+            Scope.Enabled;
 
         /// <summary>
         /// Clicks the control.
-        /// By default uses <see cref="ClicksUsingClickMethodAttribute"/> behavior.
+        /// Executes an associated with the component <see cref="ClickBehaviorAttribute"/>
+        /// that is <see cref="ClicksUsingClickMethodAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -79,7 +79,8 @@ namespace Atata
 
         /// <summary>
         /// Clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
-        /// By default uses <see cref="ClicksUsingClickMethodAttribute"/> behavior.
+        /// Executes an associated with the component <see cref="ClickBehaviorAttribute"/>
+        /// that is <see cref="ClicksUsingClickMethodAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
@@ -157,7 +158,8 @@ namespace Atata
 
         /// <summary>
         /// Double-clicks the control.
-        /// By default uses <see cref="DoubleClicksUsingActionsAttribute"/> behavior.
+        /// Executes an associated with the component <see cref="DoubleClickBehaviorAttribute"/>
+        /// that is <see cref="DoubleClicksUsingActionsAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -182,7 +184,8 @@ namespace Atata
 
         /// <summary>
         /// Double-clicks the control and performs the navigation to the page object of <typeparamref name="TNavigateTo"/> type.
-        /// By default uses <see cref="DoubleClicksUsingActionsAttribute"/> behavior.
+        /// Executes an associated with the component <see cref="DoubleClickBehaviorAttribute"/>
+        /// that is <see cref="DoubleClicksUsingActionsAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <typeparam name="TNavigateTo">The type of the page object to navigate to.</typeparam>
@@ -201,7 +204,8 @@ namespace Atata
 
         /// <summary>
         /// Right-clicks the control.
-        /// By default uses <see cref="RightClicksUsingActionsAttribute"/> behavior.
+        /// Executes an associated with the component <see cref="RightClickBehaviorAttribute"/>
+        /// that is <see cref="RightClicksUsingActionsAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -226,7 +230,8 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the target control returned by <paramref name="targetSelector"/>.
-        /// By default uses <see cref="DragsAndDropsUsingActionsAttribute"/> behavior.
+        /// Executes an associated with the component <see cref="DragAndDropBehaviorAttribute"/>
+        /// that is <see cref="DragsAndDropsUsingActionsAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="targetSelector">The target control selector.</param>
@@ -242,7 +247,8 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the target control.
-        /// By default uses <see cref="DragsAndDropsUsingActionsAttribute"/>.
+        /// Executes an associated with the component <see cref="DragAndDropBehaviorAttribute"/>
+        /// that is <see cref="DragsAndDropsUsingActionsAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <param name="target">The target control.</param>
@@ -296,7 +302,8 @@ namespace Atata
 
         /// <summary>
         /// Scrolls to the control.
-        /// By default uses <see cref="ScrollsUsingActionsAttribute"/> behavior.
+        /// Executes an associated with the component <see cref="ScrollBehaviorAttribute"/>
+        /// that is <see cref="ScrollsUsingActionsAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeScroll" /> and <see cref="TriggerEvents.AfterScroll" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>

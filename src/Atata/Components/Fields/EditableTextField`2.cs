@@ -46,8 +46,8 @@
             Clear();
 
         /// <summary>
-        /// Clears the value.
-        /// By default uses <see cref="ValueClearUsingClearMethodAttribute"/> behavior.
+        /// Clears the value by executing <see cref="ValueClearBehaviorAttribute"/> behavior.
+        /// The default behavior is <see cref="ValueClearUsingClearMethodAttribute"/>.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
@@ -72,7 +72,8 @@
             ExecuteBehavior<ValueClearBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
-        /// Types (appends) the specified text value.
+        /// Types (appends) the specified text value by executing <see cref="TextTypeBehaviorAttribute"/> behavior.
+        /// The default behavior is <see cref="TextTypeUsingSendKeysAttribute" />.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="text">The text to type.</param>
