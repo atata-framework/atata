@@ -9,6 +9,7 @@ namespace Atata
     /// </summary>
     public class DragsAndDropsUsingActionsAttribute : DragAndDropBehaviorAttribute
     {
+        // TODO: In Atata v2 change the implementation to just using Actions.DragAndDrop() method.
         public override void Execute<TOwner>(IControl<TOwner> component, IControl<TOwner> target)
         {
             AtataContext.Current.Driver.Perform(x => x.ClickAndHold(component.Scope));
