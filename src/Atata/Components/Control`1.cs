@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 
 namespace Atata
 {
@@ -13,6 +14,7 @@ namespace Atata
     [HoversUsingActions]
     [FocusesUsingScript]
     [DragsAndDropsUsingActions]
+    [DragsAndDropsToOffsetUsingActions]
     [ScrollsUsingActions]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
@@ -277,7 +279,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Drag and drops the control to the target control by executing <see cref="DragAndDropBehaviorAttribute"/>.
+        /// Drags and drops the control to the target control by executing <see cref="DragAndDropBehaviorAttribute"/>.
         /// </summary>
         /// <param name="target">The target.</param>
         protected virtual void OnDragAndDropTo(Control<TOwner> target) =>
@@ -285,7 +287,9 @@ namespace Atata
 
         /// <summary>
         /// Drags and drops the control to the specified offset.
-        /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
+        /// Executes an associated with the component <see cref="DragAndDropToOffsetBehaviorAttribute"/>
+        /// that is <see cref="DragsAndDropsToOffsetUsingActionsAttribute"/> by default.
+        /// Also executes <see cref="TriggerEvents.BeforeClick"/> and <see cref="TriggerEvents.AfterClick"/> triggers.
         /// </summary>
         /// <param name="offsetX">The horizontal offset to which to move the mouse.</param>
         /// <param name="offsetY">The vertical offset to which to move the mouse.</param>
@@ -303,10 +307,13 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnDragAndDropToOffset(int offsetX, int offsetY)
-        {
-            Driver.Perform(x => x.DragAndDropToOffset(Scope, offsetX, offsetY));
-        }
+        /// <summary>
+        /// Drags and drops the control to the specified offset by executing <see cref="DragAndDropToOffsetBehaviorAttribute"/>.
+        /// </summary>
+        /// <param name="offsetX">The X offset.</param>
+        /// <param name="offsetY">The Y offset.</param>
+        protected virtual void OnDragAndDropToOffset(int offsetX, int offsetY) =>
+            ExecuteBehavior<DragAndDropToOffsetBehaviorAttribute>(x => x.Execute(this, new Point(offsetX, offsetY)));
 
         /// <summary>
         /// Scrolls to the control.
