@@ -6,7 +6,7 @@
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [GetsValueFromValue]
-    [ValueSetUsingClearAndSendKeys]
+    [SetsValueUsingClearAndSendKeys]
     [ClearsValueUsingClearMethod]
     [TypesTextUsingSendKeys]
     public class EditableTextField<T, TOwner> : EditableField<T, TOwner>, IClearable
@@ -26,7 +26,7 @@
 
         /// <summary>
         /// Sets the value by executing <see cref="ValueSetBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="ValueSetUsingClearAndSendKeysAttribute"/>.
+        /// The default behavior is <see cref="SetsValueUsingClearAndSendKeysAttribute"/>.
         /// If the value is null or empty, calls <see cref="OnClear()"/> method instead.
         /// </summary>
         /// <param name="value">The value.</param>

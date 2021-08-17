@@ -2,15 +2,15 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class ValueSetUsingSendKeysAttributeTests : UITestFixture
+    public class SetsValueUsingSendKeysAttributeTests : UITestFixture
     {
         [Test]
-        public void ValueSetUsingSendKeysAttribute_Execute()
+        public void Execute()
         {
             var sut = Go.To<InputPage>().TextInput;
             sut.Set("abc");
 
-            sut.Metadata.Push(new ValueSetUsingSendKeysAttribute());
+            sut.Metadata.Push(new SetsValueUsingSendKeysAttribute());
 
             sut.Set("def");
 

@@ -1,31 +1,13 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control value set by clicking on the control element
-    /// and then typing the text character by character with interval defined in <see cref="TypingIntervalInSeconds"/> property.
+    /// and then typing the text character by character with interval defined in <see cref="SetsValueUsingCharByCharTypingAttribute.TypingIntervalInSeconds"/> property.
     /// </summary>
-    public class ValueSetUsingCharByCharTypingAttribute : ValueSetBehaviorAttribute
+    [Obsolete("Use " + nameof(SetsValueUsingCharByCharTypingAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ValueSetUsingCharByCharTypingAttribute : SetsValueUsingCharByCharTypingAttribute
     {
-        /// <summary>
-        /// Gets the typing interval in seconds.
-        /// The default value is <c>0.2</c>.
-        /// </summary>
-        public double TypingIntervalInSeconds { get; } = 0.2;
-
-        public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
-        {
-            var scopeElement = component.Scope;
-
-            scopeElement.ClickWithLogging();
-
-            if (!string.IsNullOrEmpty(value))
-            {
-                foreach (char character in value)
-                {
-                    component.Owner.Wait(TypingIntervalInSeconds);
-                    scopeElement.SendKeysWithLogging(character.ToString());
-                }
-            }
-        }
     }
 }

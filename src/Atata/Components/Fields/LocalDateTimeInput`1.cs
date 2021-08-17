@@ -12,7 +12,7 @@ namespace Atata
     [Format("g")]
     [ValueGetFormat("yyyy-MM-ddTHH:mm")]
     [ValueSetFormat("yyyy-MM-ddTHH:mm")]
-    [ValueSetUsingScript]
+    [SetsValueUsingScript]
     public class LocalDateTimeInput<TOwner> : Input<DateTime?, TOwner>
         where TOwner : PageObject<TOwner>
     {

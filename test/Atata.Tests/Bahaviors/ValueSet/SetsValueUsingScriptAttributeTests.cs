@@ -2,15 +2,15 @@
 
 namespace Atata.Tests.Bahaviors
 {
-    public class ValueSetUsingScriptAttributeTests : UITestFixture
+    public class SetsValueUsingScriptAttributeTests : UITestFixture
     {
         [Test]
-        public void ValueSetUsingScriptAttribute_Execute()
+        public void Execute()
         {
             var sut = Go.To<InputPage>().TextInput;
             sut.Set("abc");
 
-            sut.Metadata.Push(new ValueSetUsingScriptAttribute());
+            sut.Metadata.Push(new SetsValueUsingScriptAttribute());
 
             sut.Set("def");
 

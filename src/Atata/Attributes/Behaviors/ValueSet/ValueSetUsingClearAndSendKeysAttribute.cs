@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -7,17 +8,8 @@ namespace Atata
     /// <see cref="IWebElement.Clear()"/> and <see cref="IWebElement.SendKeys(string)"/> methods.
     /// <see cref="IWebElement.SendKeys(string)"/> method is invoked only when the value is not null or empty.
     /// </summary>
-    public class ValueSetUsingClearAndSendKeysAttribute : ValueSetBehaviorAttribute
+    [Obsolete("Use " + nameof(SetsValueUsingClearAndSendKeysAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ValueSetUsingClearAndSendKeysAttribute : SetsValueUsingClearAndSendKeysAttribute
     {
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
-        {
-            var scopeElement = component.Scope;
-
-            scopeElement.ClearWithLogging();
-
-            if (!string.IsNullOrEmpty(value))
-                scopeElement.SendKeysWithLogging(value);
-        }
     }
 }
