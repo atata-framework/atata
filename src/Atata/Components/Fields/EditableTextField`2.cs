@@ -8,7 +8,7 @@
     [ValueGetFromValue]
     [ValueSetUsingClearAndSendKeys]
     [ValueClearUsingClearMethod]
-    [TextTypeUsingSendKeys]
+    [TypesTextUsingSendKeys]
     public class EditableTextField<T, TOwner> : EditableField<T, TOwner>, IClearable
         where TOwner : PageObject<TOwner>
     {
@@ -73,7 +73,7 @@
 
         /// <summary>
         /// Types (appends) the specified text value by executing <see cref="TextTypeBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="TextTypeUsingSendKeysAttribute" />.
+        /// The default behavior is <see cref="TypesTextUsingSendKeysAttribute" />.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="text">The text to type.</param>
@@ -93,7 +93,7 @@
 
         /// <summary>
         /// Types the text value by executing <see cref="TextTypeBehaviorAttribute" /> behavior.
-        /// The default behavior is <see cref="TextTypeUsingSendKeysAttribute" />.
+        /// The default behavior is <see cref="TypesTextUsingSendKeysAttribute" />.
         /// </summary>
         /// <param name="text">The text to type.</param>
         protected virtual void OnType(string text) =>
