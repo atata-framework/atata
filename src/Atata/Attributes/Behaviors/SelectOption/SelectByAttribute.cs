@@ -1,48 +1,31 @@
-﻿using OpenQA.Selenium;
+﻿using System;
 
 namespace Atata
 {
     /// <summary>
     /// Represents the behavior for option selection of <see cref="Select{T, TOwner}"/> control using specified option attribute.
     /// </summary>
-    public class SelectByAttribute : SelectOptionBehaviorAttribute
+    [Obsolete("Use " + nameof(SelectsOptionByAttributeAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class SelectByAttribute : SelectsOptionByAttributeAttribute
     {
         public SelectByAttribute(string attributeName)
+            : base(attributeName)
         {
-            AttributeName = attributeName;
         }
 
         public SelectByAttribute(string attributeName, TermCase termCase)
-            : base(termCase)
+            : base(attributeName, termCase)
         {
-            AttributeName = attributeName;
         }
 
         public SelectByAttribute(string attributeName, TermMatch match)
-            : base(match)
+            : base(attributeName, match)
         {
-            AttributeName = attributeName;
         }
 
         public SelectByAttribute(string attributeName, TermMatch match, TermCase termCase)
-            : base(match, termCase)
+            : base(attributeName, match, termCase)
         {
-            AttributeName = attributeName;
-        }
-
-        /// <summary>
-        /// Gets the name of the attribute.
-        /// </summary>
-        public string AttributeName { get; }
-
-        public override string FormatOptionXPathCondition(string value)
-        {
-            return Match.CreateXPathCondition(value, "@" + AttributeName);
-        }
-
-        public override string GetOptionRawValue(IWebElement optionElement)
-        {
-            return optionElement.GetValue();
         }
     }
 }

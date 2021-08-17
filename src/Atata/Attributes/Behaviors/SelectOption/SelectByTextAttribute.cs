@@ -1,11 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using System;
 
 namespace Atata
 {
     /// <summary>
     /// Represents the behavior for option selection of <see cref="Select{T, TOwner}"/> control using option text.
     /// </summary>
-    public class SelectByTextAttribute : SelectOptionBehaviorAttribute
+    [Obsolete("Use " + nameof(SelectsOptionByTextAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class SelectByTextAttribute : SelectsOptionByTextAttribute
     {
         public SelectByTextAttribute()
         {
@@ -24,16 +25,6 @@ namespace Atata
         public SelectByTextAttribute(TermMatch match, TermCase termCase)
             : base(match, termCase)
         {
-        }
-
-        public override string FormatOptionXPathCondition(string value)
-        {
-            return Match.CreateXPathCondition(value);
-        }
-
-        public override string GetOptionRawValue(IWebElement optionElement)
-        {
-            return optionElement.Text;
         }
     }
 }

@@ -1,29 +1,29 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the behavior for option selection of <see cref="Select{T, TOwner}"/> control using option <c>label</c> attribute.
     /// </summary>
-    public class SelectByLabelAttribute : SelectByAttribute
+    [Obsolete("Use " + nameof(SelectsOptionByLabelAttributeAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class SelectByLabelAttribute : SelectsOptionByLabelAttributeAttribute
     {
-        public const string LabelAttributeName = "label";
-
         public SelectByLabelAttribute()
-            : base(LabelAttributeName)
         {
         }
 
         public SelectByLabelAttribute(TermCase termCase)
-            : base(LabelAttributeName, termCase)
+            : base(termCase)
         {
         }
 
         public SelectByLabelAttribute(TermMatch match)
-            : base(LabelAttributeName, match)
+            : base(match)
         {
         }
 
         public SelectByLabelAttribute(TermMatch match, TermCase termCase)
-            : base(LabelAttributeName, match, termCase)
+            : base(match, termCase)
         {
         }
     }

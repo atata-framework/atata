@@ -18,7 +18,7 @@
 
         /// <summary>
         /// Gets the <see cref="SelectOptionBehaviorAttribute"/> instance.
-        /// By default uses <see cref="SelectByTextAttribute"/>.
+        /// By default uses <see cref="SelectsOptionByTextAttribute"/>.
         /// </summary>
         protected SelectOptionBehaviorAttribute SelectOptionBehavior { get; private set; }
 
@@ -60,7 +60,7 @@
             else
             {
                 SelectOptionBehavior = Metadata.Get<SelectOptionBehaviorAttribute>()
-                    ?? new SelectByTextAttribute();
+                    ?? new SelectsOptionByTextAttribute();
             }
 
             base.ApplyMetadata(metadata);

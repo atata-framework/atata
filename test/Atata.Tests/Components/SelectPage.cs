@@ -27,23 +27,23 @@ namespace Atata.Tests
         public Select<_> TextSelectWithFromat { get; private set; }
 
         [Term("Text Select")]
-        [SelectByText(TermMatch.Contains)]
+        [SelectsOptionByText(TermMatch.Contains)]
         public Select<_> TextSelectWithContainsMatch { get; private set; }
 
         [Term("Text Select")]
-        [SelectByText]
+        [SelectsOptionByText]
         public Select<Option, _> EnumSelectByText { get; private set; }
 
         [Term("Text Select")]
-        [SelectByValue(TermCase.Pascal)]
+        [SelectsOptionByValue(TermCase.Pascal)]
         public Select<Option, _> EnumSelectByValue { get; private set; }
 
         [Term("Int Select")]
-        [SelectByText(Format = "0{0}")]
+        [SelectsOptionByText(Format = "0{0}")]
         public Select<int, _> IntSelectByText { get; private set; }
 
         [Term("Int Select")]
-        [SelectByValue]
+        [SelectsOptionByValue]
         public Select<int, _> IntSelectByValue { get; private set; }
     }
 }
