@@ -1,15 +1,13 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control value clearing by executing
     /// <c>HTMLElement.value = ''; HTMLElement.dispatchEvent(new Event('change'));</c> JavaScript.
     /// </summary>
-    public class ValueClearUsingScriptAttribute : ValueClearBehaviorAttribute
+    [Obsolete("Use " + nameof(ClearsValueUsingScriptAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ValueClearUsingScriptAttribute : ClearsValueUsingScriptAttribute
     {
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            component.Script.SetValueAndDispatchChangeEvent(string.Empty);
-        }
     }
 }

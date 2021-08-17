@@ -1,22 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using System;
 
 namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control value clearing by performing "Ctrl+A, Delete" keyboard shortcut.
     /// </summary>
-    public class ValueClearUsingCtrlADeleteKeysAttribute : ValueClearBehaviorAttribute
+    [Obsolete("Use " + nameof(ClearsValueUsingCtrlADeleteKeysAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ValueClearUsingCtrlADeleteKeysAttribute : ClearsValueUsingCtrlADeleteKeysAttribute
     {
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            var scopeElement = component.Scope;
-
-            component.Owner.Driver.Perform(x => x
-                .KeyDown(scopeElement, Keys.Control)
-                .SendKeys("a")
-                .KeyUp(Keys.Control)
-                .SendKeys(Keys.Delete));
-        }
     }
 }

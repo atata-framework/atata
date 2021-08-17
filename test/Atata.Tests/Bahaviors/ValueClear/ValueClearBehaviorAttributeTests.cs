@@ -3,12 +3,12 @@ using NUnit.Framework.Internal;
 
 namespace Atata.Tests.Bahaviors
 {
-    [TestFixture(typeof(ValueClearUsingClearMethodAttribute))]
-    [TestFixture(typeof(ValueClearUsingCtrlADeleteKeysAttribute))]
-    [TestFixture(typeof(ValueClearUsingHomeShiftEndDeleteKeysAttribute))]
-    [TestFixture(typeof(ValueClearUsingShiftHomeDeleteKeysAttribute))]
-    [TestFixture(typeof(ValueClearUsingScriptAttribute))]
-    [TestFixture(typeof(ValueClearUsingClearMethodOrScriptAttribute))]
+    [TestFixture(typeof(ClearsValueUsingClearMethodAttribute))]
+    [TestFixture(typeof(ClearsValueUsingCtrlADeleteKeysAttribute))]
+    [TestFixture(typeof(ClearsValueUsingHomeShiftEndDeleteKeysAttribute))]
+    [TestFixture(typeof(ClearsValueUsingShiftHomeDeleteKeysAttribute))]
+    [TestFixture(typeof(ClearsValueUsingScriptAttribute))]
+    [TestFixture(typeof(ClearsValueUsingClearMethodOrScriptAttribute))]
     public class ValueClearBehaviorAttributeTests<TBehaviorAttribute> : UITestFixture
         where TBehaviorAttribute : ValueClearBehaviorAttribute, new()
     {

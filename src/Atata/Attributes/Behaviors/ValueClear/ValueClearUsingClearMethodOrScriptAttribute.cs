@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -7,19 +8,8 @@ namespace Atata
     /// If <see cref="InvalidElementStateException"/> occurs, then clears the value by executing
     /// <c>HTMLElement.value = ''; HTMLElement.dispatchEvent(new Event('change'));</c> JavaScript.
     /// </summary>
-    public class ValueClearUsingClearMethodOrScriptAttribute : ValueClearBehaviorAttribute
+    [Obsolete("Use " + nameof(ClearsValueUsingClearMethodOrScriptAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ValueClearUsingClearMethodOrScriptAttribute : ClearsValueUsingClearMethodOrScriptAttribute
     {
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            try
-            {
-                component.Scope.ClearWithLogging();
-            }
-            catch (InvalidElementStateException)
-            {
-                component.Script.SetValueAndDispatchChangeEvent(string.Empty);
-            }
-        }
     }
 }

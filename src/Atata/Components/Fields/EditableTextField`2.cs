@@ -7,7 +7,7 @@
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ValueGetFromValue]
     [ValueSetUsingClearAndSendKeys]
-    [ValueClearUsingClearMethod]
+    [ClearsValueUsingClearMethod]
     [TypesTextUsingSendKeys]
     public class EditableTextField<T, TOwner> : EditableField<T, TOwner>, IClearable
         where TOwner : PageObject<TOwner>
@@ -47,7 +47,7 @@
 
         /// <summary>
         /// Clears the value by executing <see cref="ValueClearBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="ValueClearUsingClearMethodAttribute"/>.
+        /// The default behavior is <see cref="ClearsValueUsingClearMethodAttribute"/>.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
@@ -66,7 +66,7 @@
 
         /// <summary>
         /// Clears the value by executing <see cref="ValueClearBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="ValueClearUsingClearMethodAttribute"/>.
+        /// The default behavior is <see cref="ClearsValueUsingClearMethodAttribute"/>.
         /// </summary>
         protected virtual void OnClear() =>
             ExecuteBehavior<ValueClearBehaviorAttribute>(x => x.Execute(this));

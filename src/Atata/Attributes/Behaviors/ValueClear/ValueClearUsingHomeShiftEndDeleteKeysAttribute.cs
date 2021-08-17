@@ -1,23 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿using System;
 
 namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control value clearing by performing "Home, Shift+End, Delete" keyboard shortcut.
     /// </summary>
-    public class ValueClearUsingHomeShiftEndDeleteKeysAttribute : ValueClearBehaviorAttribute
+    [Obsolete("Use " + nameof(ClearsValueUsingHomeShiftEndDeleteKeysAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ValueClearUsingHomeShiftEndDeleteKeysAttribute : ClearsValueUsingHomeShiftEndDeleteKeysAttribute
     {
-        /// <inheritdoc/>
-        public override void Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            var scopeElement = component.Scope;
-
-            component.Owner.Driver.Perform(x => x
-                .SendKeys(scopeElement, Keys.Home)
-                .KeyDown(Keys.Shift)
-                .SendKeys(Keys.End)
-                .KeyUp(Keys.Shift)
-                .SendKeys(Keys.Delete));
-        }
     }
 }
