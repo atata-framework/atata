@@ -10,6 +10,7 @@ namespace Atata
     [ClicksUsingClickMethod]
     [DoubleClicksUsingActions]
     [RightClicksUsingActions]
+    [FocusesUsingScript]
     [DragsAndDropsUsingActions]
     [ScrollsUsingActions]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
@@ -135,6 +136,8 @@ namespace Atata
 
         /// <summary>
         /// Focuses the control.
+        /// Executes an associated with the component <see cref="FocusBehaviorAttribute"/>
+        /// that is <see cref="FocusesUsingScriptAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeFocus" /> and <see cref="TriggerEvents.AfterFocus" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -151,10 +154,11 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnFocus()
-        {
-            Script.Focus();
-        }
+        /// <summary>
+        /// Focuses the control by executing <see cref="FocusBehaviorAttribute"/>.
+        /// </summary>
+        protected virtual void OnFocus() =>
+            ExecuteBehavior<FocusBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
         /// Double-clicks the control.
