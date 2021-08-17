@@ -10,6 +10,7 @@ namespace Atata
     [ClicksUsingClickMethod]
     [DoubleClicksUsingActions]
     [RightClicksUsingActions]
+    [HoversUsingActions]
     [FocusesUsingScript]
     [DragsAndDropsUsingActions]
     [ScrollsUsingActions]
@@ -113,6 +114,8 @@ namespace Atata
 
         /// <summary>
         /// Hovers the control.
+        /// Executes an associated with the component <see cref="HoverBehaviorAttribute"/>
+        /// that is <see cref="HoversUsingActionsAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeHover" /> and <see cref="TriggerEvents.AfterHover" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
@@ -129,10 +132,11 @@ namespace Atata
             return Owner;
         }
 
-        protected virtual void OnHover()
-        {
-            Driver.Perform(actions => actions.MoveToElement(Scope));
-        }
+        /// <summary>
+        /// Hovers the control by executing <see cref="HoverBehaviorAttribute"/>.
+        /// </summary>
+        protected virtual void OnHover() =>
+            ExecuteBehavior<HoverBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
         /// Focuses the control.
