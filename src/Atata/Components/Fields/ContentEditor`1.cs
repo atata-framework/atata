@@ -6,7 +6,7 @@
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("*[@contenteditable='' or @contenteditable='true']", ComponentTypeName = "content editor")]
-    [ValueGetFromContent]
+    [GetsValueFromContent]
     public class ContentEditor<TOwner> : EditableTextField<string, TOwner>
         where TOwner : PageObject<TOwner>
     {

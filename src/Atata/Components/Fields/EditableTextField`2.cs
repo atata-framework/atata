@@ -5,7 +5,7 @@
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ValueGetFromValue]
+    [GetsValueFromValue]
     [ValueSetUsingClearAndSendKeys]
     [ClearsValueUsingClearMethod]
     [TypesTextUsingSendKeys]
@@ -14,11 +14,9 @@
     {
         /// <summary>
         /// Gets the value by executing <see cref="ValueGetBehaviorAttribute"/>.
-        /// The default behavior is <see cref="ValueGetFromValueAttribute"/>.
+        /// The default behavior is <see cref="GetsValueFromValueAttribute"/>.
         /// </summary>
-        /// <returns>
-        /// The value.
-        /// </returns>
+        /// <returns>The value.</returns>
         protected override T GetValue()
         {
             string valueAsString = ExecuteBehavior<ValueGetBehaviorAttribute, string>(x => x.Execute(this));

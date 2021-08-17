@@ -1,14 +1,12 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control value getting from <see cref="IUIComponent{TOwner}.Content"/> property.
     /// </summary>
-    public class ValueGetFromContentAttribute : ValueGetBehaviorAttribute
+    [Obsolete("Use " + nameof(GetsValueFromContentAttribute) + " instead.")] // Obsolete since v1.12.0.
+    public class ValueGetFromContentAttribute : GetsValueFromContentAttribute
     {
-        /// <inheritdoc/>
-        public override string Execute<TOwner>(IUIComponent<TOwner> component)
-        {
-            return component.Content;
-        }
     }
 }
