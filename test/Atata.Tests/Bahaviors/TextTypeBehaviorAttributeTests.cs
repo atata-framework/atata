@@ -16,7 +16,8 @@ namespace Atata.Tests.Bahaviors
             {
                 new TestCaseData(new TypesTextUsingSendKeysAttribute()).Returns(ConcatValue),
                 new TestCaseData(new TypesTextUsingScriptAttribute()).Returns(ConcatValue),
-                new TestCaseData(new TypesTextUsingSendKeysCharByCharAttribute()).Returns(ConcatValue)
+                new TestCaseData(new TypesTextUsingSendKeysCharByCharAttribute()).Returns(ConcatValue),
+                new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysCharByCharAttribute()).Returns(ConcatValue)
             };
 
         [TestCaseSource(nameof(Source))]
