@@ -1,24 +1,28 @@
-﻿using NUnit.Framework;
-using NUnit.Framework.Internal;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
 
 namespace Atata.Tests.Bahaviors
 {
-    [TestFixture(typeof(ClearsValueUsingClearMethodAttribute))]
-    [TestFixture(typeof(ClearsValueUsingCtrlADeleteKeysAttribute))]
-    [TestFixture(typeof(ClearsValueUsingHomeShiftEndDeleteKeysAttribute))]
-    [TestFixture(typeof(ClearsValueUsingShiftHomeDeleteKeysAttribute))]
-    [TestFixture(typeof(ClearsValueUsingScriptAttribute))]
-    [TestFixture(typeof(ClearsValueUsingClearMethodOrScriptAttribute))]
-    public class ValueClearBehaviorAttributeTests<TBehaviorAttribute> : UITestFixture
-        where TBehaviorAttribute : ValueClearBehaviorAttribute, new()
+    public class ValueClearBehaviorAttributeTests : UITestFixture
     {
-        [Test]
-        public void Execute()
+        private static IEnumerable<TestCaseData> Source =>
+            new[]
+            {
+                new TestCaseData(new ClearsValueUsingClearMethodAttribute()),
+                new TestCaseData(new ClearsValueUsingCtrlADeleteKeysAttribute()),
+                new TestCaseData(new ClearsValueUsingHomeShiftEndDeleteKeysAttribute()),
+                new TestCaseData(new ClearsValueUsingShiftHomeDeleteKeysAttribute()),
+                new TestCaseData(new ClearsValueUsingScriptAttribute()),
+                new TestCaseData(new ClearsValueUsingClearMethodOrScriptAttribute())
+            };
+
+        [TestCaseSource(nameof(Source))]
+        public void Execute(ValueClearBehaviorAttribute behavior)
         {
             var sut = Go.To<InputPage>().TextInput;
             sut.Set("abc");
 
-            sut.Metadata.Push(new[] { new TBehaviorAttribute() });
+            sut.Metadata.Push(behavior);
 
             sut.Clear();
 
