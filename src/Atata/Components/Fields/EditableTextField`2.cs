@@ -1,12 +1,20 @@
 ﻿namespace Atata
 {
     /// <summary>
+    /// <para>
     /// Represents the editable text field control.
+    /// </para>
+    /// <para>
+    /// To set the value, executes an associated with the component <see cref="ValueSetBehaviorAttribute"/>
+    /// that is <see cref="SetsValueUsingClearAndTypeBehaviorsAttribute"/> by default.
+    /// To get the value, executes an associated with the component <see cref="ValueGetBehaviorAttribute"/>
+    /// that is <see cref="GetsValueFromValueAttribute"/> by default.
+    /// </para>
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [GetsValueFromValue]
-    [SetsValueUsingClearAndSendKeys]
+    [SetsValueUsingClearAndTypeBehaviors]
     [ClearsValueUsingClearMethod]
     [TypesTextUsingSendKeys]
     public class EditableTextField<T, TOwner> : EditableField<T, TOwner>, IClearable
@@ -14,7 +22,6 @@
     {
         /// <summary>
         /// Gets the value by executing <see cref="ValueGetBehaviorAttribute"/>.
-        /// The default behavior is <see cref="GetsValueFromValueAttribute"/>.
         /// </summary>
         /// <returns>The value.</returns>
         protected override T GetValue()
@@ -26,26 +33,22 @@
 
         /// <summary>
         /// Sets the value by executing <see cref="ValueSetBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="SetsValueUsingClearAndSendKeysAttribute"/>.
-        /// If the value is null or empty, calls <see cref="OnClear()"/> method instead.
         /// </summary>
         /// <param name="value">The value.</param>
         protected override void SetValue(T value)
         {
             string valueAsString = ConvertValueToStringUsingSetFormat(value);
 
-            if (string.IsNullOrEmpty(valueAsString))
-                OnClear();
-            else
-                ExecuteBehavior<ValueSetBehaviorAttribute>(x => x.Execute(this, valueAsString));
+            ExecuteBehavior<ValueSetBehaviorAttribute>(x => x.Execute(this, valueAsString));
         }
 
         void IClearable.Clear() =>
             Clear();
 
         /// <summary>
-        /// Clears the value by executing <see cref="ValueClearBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="ClearsValueUsingClearMethodAttribute"/>.
+        /// Clears the value.
+        /// Executes an associated with the component <see cref="ValueClearBehaviorAttribute"/>
+        /// that is <see cref="ClearsValueUsingClearMethodAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
@@ -64,14 +67,14 @@
 
         /// <summary>
         /// Clears the value by executing <see cref="ValueClearBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="ClearsValueUsingClearMethodAttribute"/>.
         /// </summary>
         protected virtual void OnClear() =>
             ExecuteBehavior<ValueClearBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
-        /// Types (appends) the specified text value by executing <see cref="TextTypeBehaviorAttribute"/> behavior.
-        /// The default behavior is <see cref="TypesTextUsingSendKeysAttribute" />.
+        /// Types (appends) the specified text value.
+        /// Executes an associated with the component <see cref="TextTypeBehaviorAttribute"/>
+        /// that is <see cref="TypesTextUsingSendKeysAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <param name="text">The text to type.</param>
@@ -91,7 +94,6 @@
 
         /// <summary>
         /// Types the text value by executing <see cref="TextTypeBehaviorAttribute" /> behavior.
-        /// The default behavior is <see cref="TypesTextUsingSendKeysAttribute" />.
         /// </summary>
         /// <param name="text">The text to type.</param>
         protected virtual void OnType(string text) =>
