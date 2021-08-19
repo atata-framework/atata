@@ -169,6 +169,28 @@ namespace Atata
 
         /// <summary>
         /// <para>
+        /// Adds the specified value to the current value of the <see cref="UIComponent.Scope"/> element of the current component.
+        /// </para>
+        /// <para>
+        /// Executable script:
+        /// <code>
+        /// var currentValue = arguments[0].value;
+        /// arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];
+        /// </code>
+        /// </para>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>An instance of the owner page object.</returns>
+        public TOwner AddValue(string value)
+        {
+            return ExecuteAgainst(
+                "var currentValue = arguments[0].value;" +
+                "arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];",
+                value ?? string.Empty);
+        }
+
+        /// <summary>
+        /// <para>
         /// Sets the value to the <see cref="UIComponent.Scope"/> element of the current component and dispatches 'change' event.
         /// </para>
         /// <para>
@@ -185,6 +207,30 @@ namespace Atata
         {
             return ExecuteAgainst(
                 "arguments[0].value = arguments[1];" +
+                "arguments[0].dispatchEvent(new Event('change'));",
+                value ?? string.Empty);
+        }
+
+        /// <summary>
+        /// <para>
+        /// Adds the specified value to the current value of the <see cref="UIComponent.Scope"/> element of the current component and dispatches 'change' event.
+        /// </para>
+        /// <para>
+        /// Executable script:
+        /// <code>
+        /// var currentValue = arguments[0].value;
+        /// arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];
+        /// arguments[0].dispatchEvent(new Event('change'));
+        /// </code>
+        /// </para>
+        /// </summary>
+        /// <param name="value">The value.</param>
+        /// <returns>An instance of the owner page object.</returns>
+        public TOwner AddValueAndDispatchChangeEvent(string value)
+        {
+            return ExecuteAgainst(
+                "var currentValue = arguments[0].value;" +
+                "arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];" +
                 "arguments[0].dispatchEvent(new Event('change'));",
                 value ?? string.Empty);
         }
