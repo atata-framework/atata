@@ -22,7 +22,9 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <param name="predicateExpression">The predicate expression.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner Satisfy<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> verifier, Expression<Predicate<TData>> predicateExpression)
+        public static TOwner Satisfy<TData, TOwner>(
+            this IDataVerificationProvider<TData, TOwner> verifier,
+            Expression<Predicate<TData>> predicateExpression)
         {
             predicateExpression.CheckNotNull(nameof(predicateExpression));
 
@@ -43,7 +45,11 @@ namespace Atata
         /// <param name="args">The message arguments.</param>
         /// <returns>The owner instance.</returns>
         /// TODO: Atata v2. Change type of predicate from "Predicate" to "Func".
-        public static TOwner Satisfy<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, Predicate<TData> predicate, string message, params TData[] args)
+        public static TOwner Satisfy<TData, TOwner>(
+            this IDataVerificationProvider<TData, TOwner> should,
+            Predicate<TData> predicate,
+            string message,
+            params TData[] args)
         {
             should.CheckNotNull(nameof(should));
             predicate.CheckNotNull(nameof(predicate));
@@ -85,6 +91,36 @@ namespace Atata
             return VerificationUtils.Verify(should, ExecuteVerification, message, args);
         }
 
+        /// <summary>
+        /// Verifies that collection satisfies the specified predicate expression.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="predicateExpression">The predicate expression.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Satisfy<TData, TOwner>(
+            this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> verifier,
+            Expression<Predicate<IEnumerable<TData>>> predicateExpression)
+        {
+            predicateExpression.CheckNotNull(nameof(predicateExpression));
+
+            var predicate = predicateExpression.Compile();
+            string expressionAsString = ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
+
+            return verifier.Satisfy(predicate, $"satisfy {expressionAsString}");
+        }
+
+        /// <summary>
+        /// Verifies that collection satisfies the specified predicate.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The verification provider.</param>
+        /// <param name="predicate">The predicate.</param>
+        /// <param name="message">The message that should sound in a way of "{Something} should {message}".</param>
+        /// <param name="args">The message arguments.</param>
+        /// <returns>The owner instance.</returns>
         public static TOwner Satisfy<TData, TOwner>(
             this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> should,
             Predicate<IEnumerable<TData>> predicate,

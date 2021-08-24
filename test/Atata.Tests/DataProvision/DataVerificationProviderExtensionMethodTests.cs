@@ -10,22 +10,26 @@ namespace Atata.Tests.DataProvision
     {
         public class Satisfy_Expression : ExtensionMethodTestFixture<string, Satisfy_Expression>
         {
-            static Satisfy_Expression()
-            {
+            static Satisfy_Expression() =>
                 For("abc123")
                     .Pass(x => x.Satisfy(x => x.Contains("abc") && x.Contains("123")))
                     .Fail(x => x.Satisfy(x => x == "xyz"));
-            }
         }
 
         public class Satisfy_Function : ExtensionMethodTestFixture<int, Satisfy_Function>
         {
-            static Satisfy_Function()
-            {
+            static Satisfy_Function() =>
                 For(5)
                     .Pass(x => x.Satisfy(x => x > 1 && x < 10, "..."))
                     .Fail(x => x.Satisfy(x => x == 7, "..."));
-            }
+        }
+
+        public class Satisfy_IEnumerable_Expression : ExtensionMethodTestFixture<Subject<string>[], Satisfy_IEnumerable_Expression>
+        {
+            static Satisfy_IEnumerable_Expression() =>
+                For(new[] { "a".ToSubject(), "b".ToSubject(), "c".ToSubject() })
+                    .Pass(x => x.Satisfy(x => x.Contains("a") && x.Contains("c")))
+                    .Fail(x => x.Satisfy(x => x.Any(y => y.Contains("z"))));
         }
 
         public abstract class ExtensionMethodTestFixture<TObject, TFixture>
