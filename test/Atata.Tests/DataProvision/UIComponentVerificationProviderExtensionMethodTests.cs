@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using OpenQA.Selenium;
 
 namespace Atata.Tests.DataProvision
 {
@@ -31,17 +32,17 @@ namespace Atata.Tests.DataProvision
 
         [Test]
         public void BePresent_MissingComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _missingSutShould.BePresent());
 
         [Test]
         public void Not_BePresent_VisibleComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _visibleSutShould.Not.BePresent());
 
         [Test]
         public void Not_BePresent_HiddenComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _hiddenSutShould.Not.BePresent());
 
         [Test]
@@ -56,17 +57,17 @@ namespace Atata.Tests.DataProvision
 
         [Test]
         public void BeVisible_HiddenComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _hiddenSutShould.BeVisible());
 
         [Test]
         public void BeVisible_MissingComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _missingSutShould.BeVisible());
 
         [Test]
         public void Not_BeVisible_VisibleComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _visibleSutShould.Not.BeVisible());
 
         [Test]
@@ -81,7 +82,7 @@ namespace Atata.Tests.DataProvision
 
         [Test]
         public void BeHidden_VisibleComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _visibleSutShould.BeHidden());
 
         [Test]
@@ -91,8 +92,8 @@ namespace Atata.Tests.DataProvision
 
         [Test]
         public void BeHidden_MissingComponent() =>
-            Assert.Throws<AssertionException>(() =>
-                _missingSutShould.BeHidden());
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
+              _missingSutShould.BeHidden());
 
         [Test]
         public void Not_BeHidden_VisibleComponent() =>
@@ -101,12 +102,42 @@ namespace Atata.Tests.DataProvision
 
         [Test]
         public void Not_BeHidden_HiddenComponent() =>
-            Assert.Throws<AssertionException>(() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
                 _hiddenSutShould.Not.BeHidden());
 
         [Test]
         public void Not_BeHidden_MissingComponent() =>
             Assert.DoesNotThrow(() =>
                 _missingSutShould.Not.BeHidden());
+
+        [Test]
+        public void BeEnabled_VisibleComponent() =>
+            Assert.DoesNotThrow(() =>
+                _visibleSutShould.BeEnabled());
+
+        [Test]
+        public void BeEnabled_HiddenComponent() =>
+            Assert.DoesNotThrow(() =>
+                _hiddenSutShould.BeEnabled());
+
+        [Test]
+        public void BeEnabled_MissingComponent() =>
+            AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
+                _missingSutShould.BeEnabled());
+
+        [Test]
+        public void Not_BeEnabled_VisibleComponent() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
+                _visibleSutShould.Not.BeEnabled());
+
+        [Test]
+        public void Not_BeEnabled_HiddenComponent() =>
+            AssertThrowsWithoutInnerException<AssertionException>(() =>
+                _hiddenSutShould.Not.BeEnabled());
+
+        [Test]
+        public void Not_BeEnabled_MissingComponent() =>
+            AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
+                _missingSutShould.Not.BeEnabled());
     }
 }
