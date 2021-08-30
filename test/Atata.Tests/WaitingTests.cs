@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -18,8 +17,8 @@ namespace Atata.Tests
             _page.
                 ButtonWithoutWait.Click();
 
-            AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(
-                () => _page.Result.Should.AtOnce.Exist());
+            AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
+                _page.Result.Should.AtOnce.Exist());
         }
 
         [Test]

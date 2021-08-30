@@ -111,6 +111,25 @@ namespace Atata.Tests
             return exception;
         }
 
+        protected static TException AssertThrowsWithoutInnerException<TException>(TestDelegate code)
+            where TException : Exception
+        {
+            TException exception = Assert.Throws<TException>(code);
+
+            Assert.That(exception.InnerException, Is.Null, "Inner exception should be null.");
+
+            return exception;
+        }
+
+        protected static AssertionException AssertThrowsAssertionExceptionWithUnableToLocateMessage(TestDelegate code)
+        {
+            AssertionException exception = AssertThrowsWithoutInnerException<AssertionException>(code);
+
+            Assert.That(exception.Message, Does.Contain("Actual: unable to locate"));
+
+            return exception;
+        }
+
         protected static void AssertThatFileShouldContainText(string filePath, params string[] texts)
         {
             FileAssert.Exists(filePath);

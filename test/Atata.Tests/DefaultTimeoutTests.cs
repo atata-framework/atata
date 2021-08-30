@@ -1,6 +1,5 @@
 ﻿using System;
 using NUnit.Framework;
-using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -86,7 +85,7 @@ namespace Atata.Tests
             var page = Go.To<WaitingPage>();
 
             using (StopwatchAsserter.WithinSeconds(3))
-                AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
+                AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
                     page.MissingControl.Should.Exist());
         }
 
