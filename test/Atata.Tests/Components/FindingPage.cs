@@ -63,6 +63,9 @@ namespace Atata.Tests
         [FindById]
         public HiddenInput<_> TypeHiddenInput { get; private set; }
 
+        [FindById("missing")]
+        public TextInput<_> MissingInput { get; private set; }
+
         [ControlDefinition("input[@type='hidden']", Visibility = Visibility.Hidden)]
         [FindById("type-hidden-input")]
         public Input<string, _> TypeHiddenInputWithDeclaredDefinition { get; private set; }
