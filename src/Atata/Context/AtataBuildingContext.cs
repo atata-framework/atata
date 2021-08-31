@@ -58,6 +58,12 @@ namespace Atata
         public IDriverFactory DriverFactoryToUse { get; internal set; }
 
         /// <summary>
+        /// Gets or sets the driver initialization stage.
+        /// The default value is <see cref="AtataContextDriverInitializationStage.Build"/>.
+        /// </summary>
+        public AtataContextDriverInitializationStage DriverInitializationStage { get; set; } = AtataContextDriverInitializationStage.Build;
+
+        /// <summary>
         /// Gets a value indicating whether it uses a local browser.
         /// Basically, determines whether <see cref="DriverFactoryToUse"/> is <see cref="IUsesLocalBrowser"/>.
         /// </summary>

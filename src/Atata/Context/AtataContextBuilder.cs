@@ -153,6 +153,18 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
+        /// Sets the driver initialization stage.
+        /// The default value is <see cref="AtataContextDriverInitializationStage.Build"/>.
+        /// </summary>
+        /// <param name="stage">The stage.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseDriverInitializationStage(AtataContextDriverInitializationStage stage)
+        {
+            BuildingContext.DriverInitializationStage = stage;
+            return this;
+        }
+
+        /// <summary>
         /// Creates and returns a new builder for <see cref="ChromeDriver"/>
         /// with default <see cref="DriverAliases.Chrome"/> alias.
         /// Sets this builder as a one to use for a driver creation.
@@ -1232,8 +1244,9 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 context.TestSuiteName = context.TestSuiteType.Name;
 
             context.DriverFactory = BuildingContext.DriverFactoryToUse
-                ?? BuildingContext.DriverFactories.Last();
-            context.DriverAlias = context.DriverFactory.Alias;
+                ?? BuildingContext.DriverFactories.LastOrDefault();
+            context.DriverAlias = context.DriverFactory?.Alias;
+            context.DriverInitializationStage = BuildingContext.DriverInitializationStage;
 
             context.InitDateTimeVariables();
             context.Artifacts = CreateArtifactsDirectorySubject(context);
@@ -1281,9 +1294,17 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
             context.Log.Trace($"Set: Artifacts={context.Artifacts.FullName.Value}");
 
-            context.InitDriver();
+            if (context.DriverInitializationStage == AtataContextDriverInitializationStage.Build)
+                context.InitDriver();
 
-            context.Log.Trace($"Set: Driver={context.Driver.GetType().Name}{context.DriverFactory.Alias?.ToFormattedString(" (alias={0})")}");
+            if (context.DriverInitializationStage != AtataContextDriverInitializationStage.None)
+            {
+                string driverTypeName = context.DriverInitializationStage == AtataContextDriverInitializationStage.OnDemand
+                    ? "{on demand}"
+                    : context.Driver.GetType().Name;
+
+                context.Log.Trace($"Set: Driver={driverTypeName}{context.DriverFactory?.Alias?.ToFormattedString(" (alias={0})")}");
+            }
 
             OnBuilt();
         }
@@ -1325,7 +1346,9 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
         private void ValidateBuildingContextBeforeBuild()
         {
-            if (BuildingContext.DriverFactoryToUse == null && BuildingContext.DriverFactories.Count == 0)
+            if (BuildingContext.DriverInitializationStage == AtataContextDriverInitializationStage.Build
+                && BuildingContext.DriverFactoryToUse == null
+                && BuildingContext.DriverFactories.Count == 0)
             {
                 throw new InvalidOperationException(
                     $"Cannot build {nameof(AtataContext)} as no driver is specified. " +

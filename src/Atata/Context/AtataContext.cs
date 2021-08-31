@@ -31,6 +31,8 @@ namespace Atata
 
         private string _testSuiteName;
 
+        private RemoteWebDriver _driver;
+
         private bool _disposed;
 
         /// <summary>
@@ -134,12 +136,33 @@ namespace Atata
         /// <summary>
         /// Gets the driver.
         /// </summary>
-        public RemoteWebDriver Driver { get; internal set; }
+        public RemoteWebDriver Driver
+        {
+            get
+            {
+                switch (DriverInitializationStage)
+                {
+                    case AtataContextDriverInitializationStage.Build:
+                        return _driver;
+                    case AtataContextDriverInitializationStage.OnDemand:
+                        if (_driver is null)
+                            InitDriver();
+                        return _driver;
+                    default:
+                        return null;
+                }
+            }
+        }
 
         /// <summary>
         /// Gets the driver alias.
         /// </summary>
         public string DriverAlias { get; internal set; }
+
+        /// <summary>
+        /// Gets the driver initialization stage.
+        /// </summary>
+        public AtataContextDriverInitializationStage DriverInitializationStage { get; internal set; }
 
         /// <summary>
         /// Gets the instance of the log manager.
@@ -505,7 +528,7 @@ namespace Atata
                     UIComponentScopeCache.Clear();
 
                     if (quitDriver)
-                        Driver?.Dispose();
+                        _driver?.Dispose();
                 });
 
             ExecutionStopwatch.Stop();
@@ -534,14 +557,19 @@ namespace Atata
 
         internal void InitDriver()
         {
-            Driver = DriverFactory.Create()
-                ?? throw new InvalidOperationException($"Failed to create an instance of {nameof(RemoteWebDriver)} as driver factory returned 'null' as a driver.");
+            if (DriverFactory is null)
+                throw new InvalidOperationException(
+                    $"Failed to create an instance of {nameof(RemoteWebDriver)} as driver factory is not specified.");
 
-            Driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
+            _driver = DriverFactory.Create()
+                ?? throw new InvalidOperationException(
+                    $"Failed to create an instance of {nameof(RemoteWebDriver)} as driver factory returned null as a driver.");
+
+            _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
 
             if (OnDriverCreatedActions != null)
                 foreach (Action<RemoteWebDriver> action in OnDriverCreatedActions)
-                    action(Driver);
+                    action(_driver);
         }
 
         /// <summary>
@@ -561,7 +589,7 @@ namespace Atata
                         PageObject = null;
                     }
 
-                    Driver.Dispose();
+                    _driver.Dispose();
 
                     InitDriver();
                 });
