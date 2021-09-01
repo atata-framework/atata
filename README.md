@@ -14,7 +14,7 @@ It uses fluent page object pattern.
 
 Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
 
-**[What's new in v1.11.0](https://atata.io/blog/2021/06/02/atata-1.11.0-released/)**
+**[What's new in v1.12.0](https://atata.io/blog/2021/09/01/atata-1.12.0-released/)**
 
 ## Features
 
@@ -65,10 +65,10 @@ Usage in the test method:
 [Test]
 public void SignIn()
 {
-    Go.To<SignInPage>().
-        Email.Set("admin@mail.com").
-        Password.Set("abc123").
-        SignIn.Click();
+    Go.To<SignInPage>()
+        .Email.Set("admin@mail.com")
+        .Password.Set("abc123")
+        .SignIn.Click();
 }
 ```
 
@@ -78,10 +78,10 @@ public void SignIn()
 [SetUp]
 public void SetUp()
 {
-    AtataContext.Configure().
-        UseChrome().
-        UseBaseUrl("https://demo.atata.io/").
-        Build();
+    AtataContext.Configure()
+        .UseChrome()
+        .UseBaseUrl("https://demo.atata.io/")
+        .Build();
 }
 ```
 
@@ -101,22 +101,22 @@ public void User_Create()
     Office office = Office.NewYork;
     Gender gender = Gender.Male;
 
-    Login().
-        New().
-            ModalTitle.Should.Equal("New User").
-            General.FirstName.SetRandom(out firstName).
-            General.LastName.SetRandom(out lastName).
-            General.Email.SetRandom(out email).
-            General.Office.Set(office).
-            General.Gender.Set(gender).
-            Save().
-        Users.Rows[x => x.FirstName == firstName && x.LastName == lastName && x.Email == email && x.Office == office].View().
-            Header.Should.Equal($"{firstName} {lastName}").
-            Email.Should.Equal(email).
-            Office.Should.Equal(office).
-            Gender.Should.Equal(gender).
-            Birthday.Should.Not.Exist().
-            Notes.Should.Not.Exist();
+    Login()
+        .New()
+            .ModalTitle.Should.Equal("New User")
+            .General.FirstName.SetRandom(out firstName)
+            .General.LastName.SetRandom(out lastName)
+            .General.Email.SetRandom(out email)
+            .General.Office.Set(office)
+            .General.Gender.Set(gender)
+            .Save()
+        .Users.Rows[x => x.FirstName == firstName && x.LastName == lastName && x.Email == email && x.Office == office].View()
+            .Header.Should.Equal($"{firstName} {lastName}")
+            .Email.Should.Equal(email)
+            .Office.Should.Equal(office)
+            .Gender.Should.Equal(gender)
+            .Birthday.Should.Not.Exist()
+            .Notes.Should.Not.Exist();
 }
 ```
 
