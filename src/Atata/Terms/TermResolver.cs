@@ -273,7 +273,9 @@ namespace Atata
 
         public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
         {
-            object result = RetrieveValueFromString(value, destinationType, termOptions ?? new TermOptions());
+            object result = value is null
+                ? null
+                : RetrieveValueFromString(value, destinationType, termOptions ?? new TermOptions());
 
             if (result == null && !destinationType.IsClassOrNullable())
             {
