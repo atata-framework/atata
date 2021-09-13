@@ -84,5 +84,25 @@ namespace Atata.Tests
 
             VerifyDoesNotEqual(_page.IntSelectByText, 3);
         }
+
+        [Test]
+        public void Select_Enum_WithEmptyOption()
+        {
+            var sut = _page.EnumSelectWithEmptyOption;
+
+            SetAndVerifyValues(sut, SelectPage.EnumWithEmptyOption.A, SelectPage.EnumWithEmptyOption.None);
+
+            VerifyDoesNotEqual(sut, SelectPage.EnumWithEmptyOption.B);
+        }
+
+        [Test]
+        public void Select_Enum_NullableWithoutEmptyOption()
+        {
+            var sut = _page.NullableEnumSelectWithEmptyOption;
+
+            SetAndVerifyValues(sut, SelectPage.EnumWithoutEmptyOption.A, null, SelectPage.EnumWithoutEmptyOption.B);
+
+            VerifyDoesNotEqual(sut, SelectPage.EnumWithoutEmptyOption.C);
+        }
     }
 }

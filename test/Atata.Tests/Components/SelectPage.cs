@@ -19,6 +19,22 @@ namespace Atata.Tests
 #pragma warning restore CA1712 // Do not prefix enum values with type name
         }
 
+        public enum EnumWithEmptyOption
+        {
+            [Term("")]
+            None,
+            A,
+            B,
+            C
+        }
+
+        public enum EnumWithoutEmptyOption
+        {
+            A,
+            B,
+            C
+        }
+
         [Term(CutEnding = false)]
         public Select<_> TextSelect { get; private set; }
 
@@ -45,5 +61,11 @@ namespace Atata.Tests
         [Term("Int Select")]
         [SelectsOptionByValue]
         public Select<int, _> IntSelectByValue { get; private set; }
+
+        [Term("Text Select With Empty Option")]
+        public Select<EnumWithEmptyOption, _> EnumSelectWithEmptyOption { get; private set; }
+
+        [Term("Text Select With Empty Option")]
+        public Select<EnumWithoutEmptyOption?, _> NullableEnumSelectWithEmptyOption { get; private set; }
     }
 }

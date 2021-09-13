@@ -7,7 +7,9 @@ namespace Atata
     {
         public static string CreateXPathCondition(this TermMatch match, string value, string operand = ".")
         {
-            value.CheckNotNullOrEmpty(nameof(value));
+            if (match != TermMatch.Equals)
+                value.CheckNotNullOrEmpty(nameof(value));
+
             operand.CheckNotNullOrEmpty(nameof(operand));
 
             string valueString = XPathString.ConvertTo(value);
@@ -17,7 +19,9 @@ namespace Atata
                 case TermMatch.Contains:
                     return $"contains({operand}, {valueString})";
                 case TermMatch.Equals:
-                    return $"normalize-space({operand}) = {valueString}";
+                    return value is null && operand != "."
+                        ? $"not({operand})"
+                        : $"normalize-space({operand}) = {valueString}";
                 case TermMatch.StartsWith:
                     return $"starts-with(normalize-space({operand}), {valueString})";
                 case TermMatch.EndsWith:

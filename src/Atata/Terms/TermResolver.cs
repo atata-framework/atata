@@ -273,9 +273,7 @@ namespace Atata
 
         public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
         {
-            object result = string.IsNullOrEmpty(value)
-                ? null
-                : RetrieveValueFromString(value, destinationType, termOptions ?? new TermOptions());
+            object result = RetrieveValueFromString(value, destinationType, termOptions ?? new TermOptions());
 
             if (result == null && !destinationType.IsClassOrNullable())
             {
@@ -294,11 +292,19 @@ namespace Atata
             Type underlyingType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
 
             if (underlyingType.IsEnum)
+            {
                 return StringToEnum(value, underlyingType, termOptions);
-            else if (s_typeTermConverters.TryGetValue(underlyingType, out TermConverter termConverter))
-                return termConverter.FromStringConverter(value, termOptions);
+            }
+            else if (!string.IsNullOrEmpty(value))
+            {
+                return s_typeTermConverters.TryGetValue(underlyingType, out TermConverter termConverter)
+                    ? termConverter.FromStringConverter(value, termOptions)
+                    : Convert.ChangeType(RetrieveValuePart(value, termOptions.Format), underlyingType, termOptions.Culture);
+            }
             else
-                return Convert.ChangeType(RetrieveValuePart(value, termOptions.Format), underlyingType, termOptions.Culture);
+            {
+                return null;
+            }
         }
 
         public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)
