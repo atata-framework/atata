@@ -41,7 +41,7 @@
                 var headingControl = context.Component.Owner.Find<TH>(
                     new FindByIndexAttribute(Index) { Visibility = Visibility.Visible });
 
-                headingControl.Should.MatchAny(Match, values);
+                headingControl.Should.Within(Timeout, RetryInterval).MatchAny(Match, values);
             }
             else
             {
@@ -49,7 +49,7 @@
                     Match.FormatComponentName(values),
                     new FindByContentAttribute(Match, values) { Visibility = Visibility.Visible });
 
-                headingControl.Should.BePresent();
+                headingControl.Should.Within(Timeout, RetryInterval).BePresent();
             }
         }
     }

@@ -5,7 +5,7 @@
     /// Verifies whether the component content matches any of the specified values.
     /// By default occurs upon the page object initialization.
     /// </summary>
-    public class VerifyContentMatchesAttribute : TriggerAttribute
+    public class VerifyContentMatchesAttribute : WaitingTriggerAttribute
     {
         public VerifyContentMatchesAttribute(TermMatch match, params string[] values)
             : base(TriggerEvents.Init)
@@ -18,9 +18,7 @@
 
         public string[] Values { get; }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
-            context.Component.Content.Should.WithRetry.MatchAny(Match, Values);
-        }
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
+            context.Component.Content.Should.Within(Timeout, RetryInterval).MatchAny(Match, Values);
     }
 }

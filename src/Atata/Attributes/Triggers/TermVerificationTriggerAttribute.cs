@@ -5,7 +5,7 @@ namespace Atata
     /// <summary>
     /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
     /// </summary>
-    public abstract class TermVerificationTriggerAttribute : TriggerAttribute, ITermDataProvider
+    public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute, ITermDataProvider
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
             : this()
