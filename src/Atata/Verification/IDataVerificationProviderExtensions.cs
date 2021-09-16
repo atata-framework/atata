@@ -197,35 +197,45 @@ namespace Atata
                 return (IDataVerificationProvider<TData, TOwner>)verificationProvider.GetType().GetPropertyWithThrowOnError("Not").GetValue(verificationProvider);
         }
 
-        public static TOwner Equal<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected)
-        {
-            return should.Satisfy(actual => Equals(actual, expected), "equal {0}", expected);
-        }
+        /// <summary>
+        /// Verifies that object is equal to <paramref name="expected"/> value.
+        /// The method does the same as <see cref="Be{TData, TOwner}(IDataVerificationProvider{TData, TOwner}, TData)"/> method,
+        /// and the second one is preferable to use.
+        /// This method will be removed in future.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The verification provider.</param>
+        /// <param name="expected">The expected value.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Equal<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected) =>
+            should.Satisfy(actual => Equals(actual, expected), "equal {0}", expected);
 
-        public static TOwner BeTrue<TOwner>(this IDataVerificationProvider<bool, TOwner> should)
-        {
-            return should.Satisfy(actual => actual, "be true");
-        }
+        /// <summary>
+        /// Verifies that object is equal to <paramref name="expected"/> value.
+        /// </summary>
+        /// <typeparam name="TData">The type of the data.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="should">The verification provider.</param>
+        /// <param name="expected">The expected value.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Be<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should, TData expected) =>
+            should.Satisfy(actual => Equals(actual, expected), "be {0}", expected);
 
-        public static TOwner BeTrue<TOwner>(this IDataVerificationProvider<bool?, TOwner> should)
-        {
-            return should.Satisfy(actual => actual == true, "be true");
-        }
+        public static TOwner BeTrue<TOwner>(this IDataVerificationProvider<bool, TOwner> should) =>
+            should.Be(true);
 
-        public static TOwner BeFalse<TOwner>(this IDataVerificationProvider<bool, TOwner> should)
-        {
-            return should.Satisfy(actual => !actual, "be false");
-        }
+        public static TOwner BeTrue<TOwner>(this IDataVerificationProvider<bool?, TOwner> should) =>
+            should.Be(true);
 
-        public static TOwner BeFalse<TOwner>(this IDataVerificationProvider<bool?, TOwner> should)
-        {
-            return should.Satisfy(actual => actual == false, "be false");
-        }
+        public static TOwner BeFalse<TOwner>(this IDataVerificationProvider<bool, TOwner> should) =>
+            should.Be(false);
 
-        public static TOwner BeNull<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should)
-        {
-            return should.Satisfy(actual => Equals(actual, null), "be null");
-        }
+        public static TOwner BeFalse<TOwner>(this IDataVerificationProvider<bool?, TOwner> should) =>
+            should.Be(false);
+
+        public static TOwner BeNull<TData, TOwner>(this IDataVerificationProvider<TData, TOwner> should) =>
+            should.Satisfy(actual => Equals(actual, null), "be null");
 
         public static TOwner BeNullOrEmpty<TOwner>(this IDataVerificationProvider<string, TOwner> should)
         {
