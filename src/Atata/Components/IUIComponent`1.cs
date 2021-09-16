@@ -180,6 +180,58 @@ namespace Atata
         DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
 
         /// <summary>
+        /// Creates a control of the specified <typeparamref name="TControl"/> type,
+        /// optionally with additional attributes, that is a descendant of the current component.
+        /// The control's element will be found using either
+        /// the <see cref="FindAttribute"/> specified in <paramref name="attributes"/> parameter,
+        /// or the default/applied <see cref="FindAttribute"/> associated with the <typeparamref name="TControl"/> type.
+        /// </summary>
+        /// <typeparam name="TControl">The type of the control.</typeparam>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns>The created control instance.</returns>
+        TControl Find<TControl>(params Attribute[] attributes)
+            where TControl : Control<TOwner>;
+
+        /// <summary>
+        /// Creates a control of the specified <typeparamref name="TControl"/> type with the specified name,
+        /// optionally with additional attributes, that is a descendant of the current component.
+        /// The control's element will be found using either
+        /// the <see cref="FindAttribute"/> specified in <paramref name="attributes"/> parameter,
+        /// or the default/applied <see cref="FindAttribute"/> associated with the <typeparamref name="TControl"/> type.
+        /// </summary>
+        /// <typeparam name="TControl">The type of the control.</typeparam>
+        /// <param name="name">The control name, which is used in log.</param>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns>The created control instance.</returns>
+        TControl Find<TControl>(string name, params Attribute[] attributes)
+            where TControl : Control<TOwner>;
+
+        /// <summary>
+        /// Creates a control list of the specified <typeparamref name="TControl"/> type,
+        /// optionally with additional attributes, that are descendants of the current component.
+        /// Use <see cref="ControlDefinitionAttribute"/> to specialize the control element definition,
+        /// instead of <see cref="FindAttribute"/> that doesn't utilize here.
+        /// </summary>
+        /// <typeparam name="TControl">The type of the control.</typeparam>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns>The instance of <see cref="ControlList{TItem, TOwner}"/>.</returns>
+        ControlList<TControl, TOwner> FindAll<TControl>(params Attribute[] attributes)
+            where TControl : Control<TOwner>;
+
+        /// <summary>
+        /// Creates a control list of the specified <typeparamref name="TControl"/> type with the specified name,
+        /// optionally with additional attributes, that are descendants of the current component.
+        /// Use <see cref="ControlDefinitionAttribute"/> to specialize the control element definition,
+        /// instead of <see cref="FindAttribute"/> that doesn't utilize here.
+        /// </summary>
+        /// <typeparam name="TControl">The type of the control.</typeparam>
+        /// <param name="name">The control list name, which is used in log.</param>
+        /// <param name="attributes">The attributes.</param>
+        /// <returns>The instance of <see cref="ControlList{TItem, TOwner}"/>.</returns>
+        ControlList<TControl, TOwner> FindAll<TControl>(string name, params Attribute[] attributes)
+            where TControl : Control<TOwner>;
+
+        /// <summary>
         /// Gets the ancestor component of specified type.
         /// </summary>
         /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>

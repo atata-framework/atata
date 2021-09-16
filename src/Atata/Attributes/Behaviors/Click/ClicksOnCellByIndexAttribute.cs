@@ -23,8 +23,7 @@
         /// <inheritdoc/>
         public override void Execute<TOwner>(IUIComponent<TOwner> component)
         {
-            var cellControl = component.Controls.Create<Control<TOwner>>(
-                (Index + 1).Ordinalize(),
+            var cellControl = component.Find<Control<TOwner>>(
                 new ControlDefinitionAttribute("td") { ComponentTypeName = "cell" },
                 new FindByIndexAttribute(Index));
 

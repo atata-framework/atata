@@ -331,6 +331,30 @@ return (
             Triggers.Execute(on);
         }
 
+        /// <inheritdoc/>
+        public TControl Find<TControl>(params Attribute[] attributes)
+            where TControl : Control<TOwner>
+            =>
+            Find<TControl>(null, attributes);
+
+        /// <inheritdoc/>
+        public TControl Find<TControl>(string name, params Attribute[] attributes)
+            where TControl : Control<TOwner>
+            =>
+            UIComponentResolver.CreateControl<TControl, TOwner>(this, name, attributes);
+
+        public ControlList<TControl, TOwner> FindAll<TControl>(params Attribute[] attributes)
+            where TControl : Control<TOwner>
+            =>
+            FindAll<TControl>(
+                $"{UIComponentResolver.ResolveControlTypeName<TControl>()} items",
+                attributes);
+
+        public ControlList<TControl, TOwner> FindAll<TControl>(string name, params Attribute[] attributes)
+            where TControl : Control<TOwner>
+            =>
+            UIComponentResolver.CreateComponentPart<ControlList<TControl, TOwner>, TOwner>(this, name, attributes);
+
         /// <summary>
         /// Gets the ancestor component of specified type.
         /// </summary>

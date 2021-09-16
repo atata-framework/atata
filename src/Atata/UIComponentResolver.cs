@@ -197,10 +197,42 @@ namespace Atata
             return null;
         }
 
+        public static TComponentPart CreateComponentPart<TComponentPart, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
+            where TComponentPart : UIComponentPart<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            parentComponent.CheckNotNull(nameof(parentComponent));
+            name.CheckNotNull(nameof(name));
+
+            TComponentPart componentPart = ActivatorEx.CreateInstance<TComponentPart>();
+            componentPart.Component = parentComponent;
+            componentPart.ComponentPartName = name;
+
+            attributes = attributes?.Where(x => x != null).ToArray() ?? new Attribute[0];
+
+            if (componentPart is ISupportsMetadata supportsMetadata)
+            {
+                supportsMetadata.Metadata = CreateComponentMetadata(
+                    parentComponent,
+                    name,
+                    supportsMetadata.ComponentType,
+                    attributes);
+
+                string nameFromMetadata = GetControlNameFromNameAttribute(supportsMetadata.Metadata);
+
+                if (nameFromMetadata != null)
+                    componentPart.ComponentPartName = nameFromMetadata;
+            }
+
+            return componentPart;
+        }
+
         public static TComponent CreateControl<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
+            parentComponent.CheckNotNull(nameof(parentComponent));
+
             attributes = attributes?.Where(x => x != null).ToArray() ?? new Attribute[0];
 
             if (!attributes.OfType<NameAttribute>().Any())
@@ -217,11 +249,7 @@ namespace Atata
                 typeof(TComponent),
                 attributes);
 
-            var component = (TComponent)CreateComponent(parentComponent, metadata);
-
-            parentComponent.Controls.Add(component);
-
-            return component;
+            return (TComponent)CreateComponent(parentComponent, metadata);
         }
 
         public static TComponent CreateControlForProperty<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string propertyName, params Attribute[] attributes)
@@ -328,9 +356,18 @@ namespace Atata
 
         private static string GetComponentNameFromMetadata(UIComponentMetadata metadata)
         {
-            return metadata.ComponentDefinitionAttribute.
-                NormalizeNameIgnoringEnding(metadata.Name).
-                ToString(TermCase.Title);
+            if (metadata.Name is null)
+            {
+                FindAttribute findAttribute = metadata.ResolveFindAttribute();
+
+                return findAttribute.BuildComponentName();
+            }
+            else
+            {
+                return metadata.ComponentDefinitionAttribute.
+                    NormalizeNameIgnoringEnding(metadata.Name).
+                    ToString(TermCase.Title);
+            }
         }
 
         private static UIComponentMetadata CreatePageObjectMetadata<TPageObject>()

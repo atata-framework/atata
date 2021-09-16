@@ -13,7 +13,7 @@ namespace Atata.Tests.Controls
             base.OnSetUp();
 
             _sut = Go.To<InputPage>()
-                .Controls.Create<EditableTextField<string, InputPage>>("sut", new FindByXPathAttribute("input[@type='text']"));
+                .Find<EditableTextField<string, InputPage>>("sut", new FindByXPathAttribute("input[@type='text']"));
         }
 
         [Test]

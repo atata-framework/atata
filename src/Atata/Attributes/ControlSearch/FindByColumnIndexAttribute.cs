@@ -15,14 +15,14 @@ namespace Atata
 
         public int ColumnIndex { get; }
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByColumnIndexStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByColumnIndexStrategy);
 
         protected override IEnumerable<object> GetStrategyArguments()
         {
             yield return ColumnIndex;
         }
+
+        public override string BuildComponentName() =>
+            BuildComponentNameWithArgument(ColumnIndex);
     }
 }

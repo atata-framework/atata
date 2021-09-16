@@ -27,24 +27,7 @@ namespace Atata
         {
         }
 
-        protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
-        {
-            if (Index >= 0)
-            {
-                var headingControl = context.Component.Owner.Controls.Create<H5<TOwner>>(
-                    (Index + 1).Ordinalize(),
-                    new FindByIndexAttribute(Index));
-
-                headingControl.Should.WithRetry.MatchAny(Match, values);
-            }
-            else
-            {
-                var headingControl = context.Component.Owner.Controls.Create<H5<TOwner>>(
-                    Match.FormatComponentName(values),
-                    new FindByContentAttribute(Match, values));
-
-                headingControl.Should.WithRetry.Exist();
-            }
-        }
+        protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values) =>
+            Verify<H5<TOwner>, TOwner>(context, values);
     }
 }

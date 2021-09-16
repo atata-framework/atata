@@ -7,9 +7,8 @@ namespace Atata
     /// </summary>
     public class FindLastAttribute : FindAttribute
     {
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindLastDescendantStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindLastDescendantStrategy);
+
+        public override string BuildComponentName() => "Last";
     }
 }

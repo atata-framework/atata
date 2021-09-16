@@ -7,14 +7,10 @@ namespace Atata
     /// </summary>
     public class FindFirstAttribute : FindAttribute
     {
-        public new int Index
-        {
-            get { return base.Index; }
-        }
+        public new int Index => base.Index;
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindFirstDescendantStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindFirstDescendantStrategy);
+
+        public override string BuildComponentName() => 1.Ordinalize();
     }
 }

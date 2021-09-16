@@ -212,5 +212,20 @@ namespace Atata
         {
             yield break;
         }
+
+        public virtual string BuildComponentName() =>
+            GetTypeNameForComponentName();
+
+        protected string GetTypeNameForComponentName()
+        {
+            string typeName = GetType().Name;
+
+            return typeName.EndsWith(nameof(Attribute), StringComparison.Ordinal)
+                ? typeName.Substring(0, typeName.Length - nameof(Attribute).Length)
+                : typeName;
+        }
+
+        protected string BuildComponentNameWithArgument(object argument) =>
+            $"{GetTypeNameForComponentName()}:{argument}";
     }
 }

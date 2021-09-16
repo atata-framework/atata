@@ -6,19 +6,18 @@ namespace Atata
     {
         public FindByInnerXPathAttribute(params string[] values)
         {
+            values.CheckNotNullOrEmpty(nameof(values));
+
             Values = values;
         }
 
         public string[] Values { get; }
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByInnerXPathStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByInnerXPathStrategy);
 
-        public string[] GetTerms(UIComponentMetadata metadata)
-        {
-            return Values;
-        }
+        public string[] GetTerms(UIComponentMetadata metadata) => Values;
+
+        public override string BuildComponentName() =>
+            BuildComponentNameWithArgument(string.Join(" or ", Values));
     }
 }

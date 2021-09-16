@@ -303,14 +303,8 @@ return textValues;";
             return item;
         }
 
-        private TItem CreateItem(IEnumerable<Attribute> itemAttributes)
-        {
-            TItem control = Component.Controls.Create<TItem>(Metadata.Name, itemAttributes.ToArray());
-
-            // TODO: Remove control removal.
-            Component.Controls.Remove(control);
-            return control;
-        }
+        private TItem CreateItem(IEnumerable<Attribute> itemAttributes) =>
+            Component.Find<TItem>(Metadata.Name, itemAttributes.ToArray());
 
         protected virtual IEnumerable<Attribute> GetItemDeclaredAttributes()
         {

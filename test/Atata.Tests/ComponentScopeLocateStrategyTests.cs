@@ -11,7 +11,7 @@ namespace Atata.Tests
         public void ComponentScopeLocateStrategy_Custom()
         {
             var page = Go.To<InputPage>();
-            var control = page.Controls.Create<TextInput<InputPage>>(
+            var control = page.Find<TextInput<InputPage>>(
                 "test",
                 new FindByIdAttribute("text-input") { Strategy = typeof(CustomComponentScopeLocateStrategy) });
 

@@ -186,5 +186,10 @@ namespace Atata
                 ? metadata.ComponentDefinitionAttribute.NormalizeNameIgnoringEnding(metadata.Name)
                 : metadata.Name;
         }
+
+        public override string BuildComponentName() =>
+            Values?.Any() ?? false
+                ? BuildComponentNameWithArgument(string.Join("/", Values))
+                : throw new InvalidOperationException($"Component name cannot be resolved automatically for {GetType().Name}. Term value(s) should be specified explicitly.");
     }
 }

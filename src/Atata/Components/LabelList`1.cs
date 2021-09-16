@@ -17,7 +17,7 @@
         protected override Label<TOwner> CreateAssociatedControl(Control<TOwner> control)
         {
             string id = control.Attributes.Id;
-            return Component.Controls.Create<Label<TOwner>>(control.ComponentName, new FindByAttributeAttribute("for", id));
+            return Component.Find<Label<TOwner>>(control.ComponentName, new FindByAttributeAttribute("for", id));
         }
     }
 }

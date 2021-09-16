@@ -10,6 +10,8 @@ namespace Atata
     {
         public FindByXPathAttribute(params string[] values)
         {
+            values.CheckNotNullOrEmpty(nameof(values));
+
             Values = values;
         }
 
@@ -18,14 +20,11 @@ namespace Atata
         /// </summary>
         public string[] Values { get; }
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByXPathStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByXPathStrategy);
 
-        public string[] GetTerms(UIComponentMetadata metadata)
-        {
-            return Values;
-        }
+        public string[] GetTerms(UIComponentMetadata metadata) => Values;
+
+        public override string BuildComponentName() =>
+            BuildComponentNameWithArgument(string.Join(" or ", Values));
     }
 }

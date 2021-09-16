@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.ContentPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = ContentPage;
+
     [Url("content")]
     [VerifyTitle]
     [FindByDescriptionTerm(TargetType = typeof(Content<,>))]
@@ -79,7 +79,7 @@ namespace Atata.Tests
 
         public Text<_> GetComplexText(ContentSource contentSource)
         {
-            return Controls.Create<Text<_>>(
+            return Find<Text<_>>(
                 $"Complex Text Using {contentSource} Source",
                 new TermAttribute("Complex Text"),
                 new GetsContentFromSourceAttribute(contentSource));

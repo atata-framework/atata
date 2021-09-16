@@ -12,9 +12,9 @@ namespace Atata
             Index = index;
         }
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByIndexStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByIndexStrategy);
+
+        public override string BuildComponentName() =>
+            (Index + 1).Ordinalize();
     }
 }

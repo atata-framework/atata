@@ -10,6 +10,8 @@ namespace Atata
     {
         public FindByCssAttribute(params string[] values)
         {
+            values.CheckNotNullOrEmpty(nameof(values));
+
             Values = values;
         }
 
@@ -27,5 +29,8 @@ namespace Atata
         {
             return Values;
         }
+
+        public override string BuildComponentName() =>
+            BuildComponentNameWithArgument(string.Join("/", Values));
     }
 }
