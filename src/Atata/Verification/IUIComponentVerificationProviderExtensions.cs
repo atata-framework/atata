@@ -61,7 +61,7 @@ namespace Atata
 
                         if (exception is NoSuchElementException || exception is NotMissingElementException)
                         {
-                            failureMessageBuilder.AppendLine().Append($"Actual: {exception.Message.ToLowerFirstLetter()}");
+                            failureMessageBuilder.AppendLine().Append($"  Actual: {exception.Message.ToLowerFirstLetter()}");
                             should.ReportFailure(failureMessageBuilder.ToString());
                         }
                         else

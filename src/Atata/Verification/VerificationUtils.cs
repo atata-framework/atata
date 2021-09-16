@@ -130,7 +130,7 @@ namespace Atata
                 .Append($"Expected: {should.GetShouldText()} {expected}");
 
             if (actual != null)
-                builder.AppendLine().Append($"Actual: {actual}");
+                builder.AppendLine().Append($"  Actual: {actual}");
 
             return builder.ToString();
         }
