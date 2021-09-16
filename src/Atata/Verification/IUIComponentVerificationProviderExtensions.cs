@@ -55,7 +55,7 @@ namespace Atata
                     catch (Exception exception)
                     {
                         var failureMessageBuilder = new StringBuilder().
-                            Append($"{should.Component.ComponentFullName} {verificationStateName}.").
+                            Append($"{should.Component.ComponentFullName} {verificationStateName}").
                             AppendLine().
                             Append($"Expected: {should.GetShouldText()} {expectedMessage}");
 
