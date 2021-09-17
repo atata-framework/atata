@@ -97,25 +97,6 @@ namespace Atata
             return VerificationUtils.Verify(should, ExecuteVerification, message, args);
         }
 
-        private static bool TryShortenExpectedMessage(string originalMessage, out string resultMessage)
-        {
-            if (originalMessage == "equal {0}" || originalMessage == "be {0}")
-            {
-                resultMessage = "{0}";
-                return true;
-            }
-            else if (originalMessage == "be null")
-            {
-                resultMessage = "null";
-                return true;
-            }
-            else
-            {
-                resultMessage = originalMessage;
-                return false;
-            }
-        }
-
         /// <summary>
         /// Verifies that collection satisfies the specified predicate expression.
         /// </summary>
@@ -193,6 +174,25 @@ namespace Atata
             }
 
             return VerificationUtils.Verify(should, ExecuteVerification, expectedMessage);
+        }
+
+        private static bool TryShortenExpectedMessage(string originalMessage, out string resultMessage)
+        {
+            if (originalMessage == "equal {0}" || originalMessage == "be {0}")
+            {
+                resultMessage = "{0}";
+                return true;
+            }
+            else if (originalMessage == "be null")
+            {
+                resultMessage = "null";
+                return true;
+            }
+            else
+            {
+                resultMessage = originalMessage;
+                return false;
+            }
         }
 
         public static IDataVerificationProvider<TData, TOwner> WithSettings<TData, TOwner>(
