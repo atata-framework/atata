@@ -79,16 +79,41 @@ namespace Atata
 
                 if (!doesSatisfy)
                 {
-                    string expectedMessage = VerificationUtils.BuildExpectedMessage(message, args?.Cast<object>().ToArray());
+                    string shortenExpectedMessage = null;
+                    bool isExpectedMessageShorten = !should.IsNegation && TryShortenExpectedMessage(message, out shortenExpectedMessage);
+
+                    string expectedMessage = VerificationUtils.BuildExpectedMessage(
+                        isExpectedMessageShorten ? shortenExpectedMessage : message,
+                        args?.Cast<object>().ToArray());
+
                     string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
 
-                    string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+                    string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage, !isExpectedMessageShorten);
 
                     should.ReportFailure(failureMessage, exception);
                 }
             }
 
             return VerificationUtils.Verify(should, ExecuteVerification, message, args);
+        }
+
+        private static bool TryShortenExpectedMessage(string originalMessage, out string resultMessage)
+        {
+            if (originalMessage == "equal {0}" || originalMessage == "be {0}")
+            {
+                resultMessage = "{0}";
+                return true;
+            }
+            else if (originalMessage == "be null")
+            {
+                resultMessage = "null";
+                return true;
+            }
+            else
+            {
+                resultMessage = originalMessage;
+                return false;
+            }
         }
 
         /// <summary>

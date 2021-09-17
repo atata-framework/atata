@@ -96,9 +96,11 @@ namespace Atata
 
                 if (args != null && args.Any())
                 {
-                    string[] convertedArgs = args.
-                        Select(x => $"\"{should.DataProvider.ConvertValueToString(x) ?? Stringifier.NullString}\"").
-                        ToArray();
+                    string[] convertedArgs = args
+                        .Select(x => x is bool
+                            ? x.ToString().ToLowerInvariant()
+                            : $"\"{should.DataProvider.ConvertValueToString(x) ?? Stringifier.NullString}\"")
+                        .ToArray();
 
                     formattedMessage = message.FormatWith(convertedArgs);
                 }
@@ -115,7 +117,10 @@ namespace Atata
             }
         }
 
-        public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual)
+        public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual) =>
+            BuildFailureMessage(should, expected, actual, true);
+
+        public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual, bool prependShouldTextToExpected)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -127,7 +132,12 @@ namespace Atata
             builder
                 .Append($"{should.DataProvider.ProviderName}")
                 .AppendLine()
-                .Append($"Expected: {should.GetShouldText()} {expected}");
+                .Append("Expected: ");
+
+            if (prependShouldTextToExpected)
+                builder.Append(should.GetShouldText()).Append(' ');
+
+            builder.Append(expected);
 
             if (actual != null)
                 builder.AppendLine().Append($"  Actual: {actual}");
