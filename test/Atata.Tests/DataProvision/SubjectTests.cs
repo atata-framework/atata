@@ -206,7 +206,7 @@ namespace Atata.Tests.DataProvision
 
                 exception.Message.Should().StartWith(@"Wrong subject.Add(null, 0)
 Expected: should throw exception of System.InvalidOperationException type
-Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
+  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
             }
 
             [Test]
@@ -218,7 +218,7 @@ Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
 
                 exception.Message.Should().Be(@"Wrong subject.Add(""d"", 4)
 Expected: should throw exception of System.InvalidOperationException type
-Actual: no exception");
+  Actual: no exception");
             }
 
             [Test]
@@ -230,7 +230,7 @@ Actual: no exception");
 
                 exception.Message.Should().StartWith(@"Wrong subject.Add(null, 0)
 Expected: should not throw exception
-Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
+  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
             }
 
             [Test]
