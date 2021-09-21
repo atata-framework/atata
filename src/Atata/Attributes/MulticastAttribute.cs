@@ -12,6 +12,8 @@ namespace Atata
         AllowMultiple = true)]
     public abstract class MulticastAttribute : Attribute, IPropertySettings
     {
+        private bool? _targetSelf;
+
         /// <summary>
         /// Gets or sets the target component names.
         /// </summary>
@@ -125,6 +127,28 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets or sets a value indicating whether to target the component where this attribute is declared.
+        /// </summary>
+        public bool TargetSelf
+        {
+            get => _targetSelf ?? !IsTargetSpecified;
+            set => _targetSelf = value;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether to target the component where this attribute is declared and its children.
+        /// </summary>
+        public bool TargetSelfAndChildren
+        {
+            get => TargetSelf && TargetChildren;
+            set
+            {
+                TargetSelf = value;
+                TargetChildren = value;
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether this instance has any target specified.
         /// </summary>
         public virtual bool IsTargetSpecified =>
@@ -156,6 +180,33 @@ namespace Atata
         {
             get => TargetAnyType;
             set => TargetAnyType = value;
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether children are targeted.
+        /// </summary>
+        public bool TargetChildren
+        {
+            get => IsTargetSpecified;
+            set
+            {
+                if (value)
+                {
+                    if (!IsTargetSpecified)
+                        TargetAnyType = value;
+                }
+                else
+                {
+                    TargetNames = null;
+                    TargetTypes = null;
+                    TargetTags = null;
+                    TargetParentTypes = null;
+                    ExcludeTargetNames = null;
+                    ExcludeTargetTypes = null;
+                    ExcludeTargetTags = null;
+                    ExcludeTargetParentTypes = null;
+                }
+            }
         }
 
         /// <summary>

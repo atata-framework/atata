@@ -300,7 +300,9 @@ namespace Atata
             if (targetFilterOptions == AttributeTargetFilterOptions.Targeted)
                 query = query.Where(x => x.IsTargetSpecified);
             else if (targetFilterOptions == AttributeTargetFilterOptions.NonTargeted)
-                query = query.Where(x => !x.IsTargetSpecified);
+                query = query.Where(x => x.TargetSelf);
+            else
+                query = query.Where(x => x.TargetSelf || x.IsTargetSpecified);
 
             var rankedQuery = query.
                 Select(x => new { Attribute = x, TargetRank = x.CalculateTargetRank(this) }).

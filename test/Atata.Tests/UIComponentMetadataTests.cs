@@ -130,6 +130,86 @@ namespace Atata.Tests
         }
 
         [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfIsTrue()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelf = true };
+            Declared.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().Be(attribute);
+        }
+
+        [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfIsFalse()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelf = false };
+            Declared.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().BeNull();
+        }
+
+        [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfAndChildrenIsTrue()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelfAndChildren = true };
+            Declared.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().Be(attribute);
+        }
+
+        [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfAndChildrenIsFalse()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelfAndChildren = false };
+            Declared.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().BeNull();
+        }
+
+        [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfIsTrue_AtParentComponentLevel()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelf = true };
+            ParentComponent.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().BeNull();
+        }
+
+        [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfIsFalse_AtParentComponentLevel()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelf = false };
+            ParentComponent.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().BeNull();
+        }
+
+        [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfAllChildrenIsTrue_AtParentComponentLevel()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelfAndChildren = true };
+            ParentComponent.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().Be(attribute);
+        }
+
+        [Test]
+        public void UIComponentMetadata_Get_WhenTargetSelfAndChildrenIsFalse_AtParentComponentLevel()
+        {
+            var attribute = new FindSettingsAttribute { TargetSelfAndChildren = false };
+            ParentComponent.Add(attribute);
+
+            _metadata.Get<FindSettingsAttribute>()
+                .Should().BeNull();
+        }
+
+        [Test]
         public void UIComponentMetadata_Push_Single()
         {
             Assembly.Add(new FindSettingsAttribute { });
