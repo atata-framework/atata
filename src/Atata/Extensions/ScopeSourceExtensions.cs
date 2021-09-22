@@ -65,9 +65,9 @@ namespace Atata
             switch (scopeSource)
             {
                 case ScopeSource.Parent:
-                    return component.Parent.GetScopeContext(options);
+                    return (component.Parent ?? throw UIComponentNotFoundException.ForParentOf(component.ComponentFullName)).GetScopeContext(options);
                 case ScopeSource.Grandparent:
-                    return component.Parent.Parent.GetScopeContext(options);
+                    return (component.Parent?.Parent ?? throw UIComponentNotFoundException.ForGrandparentOf(component.ComponentFullName)).GetScopeContext(options);
                 case ScopeSource.PageObject:
                     return component.Owner.GetScopeContext(options);
                 case ScopeSource.Page:
@@ -85,7 +85,7 @@ namespace Atata
                 case ScopeSource.Parent:
                     return parentComponent.ScopeContext;
                 case ScopeSource.Grandparent:
-                    return parentComponent.Parent.ScopeContext;
+                    return (parentComponent.Parent ?? throw UIComponentNotFoundException.ForParentOf(parentComponent.ComponentFullName)).ScopeContext;
                 case ScopeSource.PageObject:
                     return parentComponent.Owner.ScopeContext;
                 case ScopeSource.Page:

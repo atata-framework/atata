@@ -58,5 +58,7 @@
 [assembly: SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IDataVerificationProviderExtensions.EqualIgnoringCase``1(Atata.IDataVerificationProvider{System.String,``0},System.String)~``0")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogSection.GetDuration~System.TimeSpan")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.VerificationProvider`2.GetShouldText~System.String")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponent.GetScopeElement(Atata.SearchOptions)~OpenQA.Selenium.IWebElement")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ClearScopeCacheAttribute.GetTargetComponent``1(Atata.IUIComponent{``0},Atata.ClearScopeCacheTarget)~Atata.IUIComponent{``0}")]
 
 #pragma warning restore S103 // Lines should not be too long

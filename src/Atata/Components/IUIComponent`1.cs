@@ -266,5 +266,17 @@ namespace Atata
         /// <returns>The result of behavior execution.</returns>
         TResult ExecuteBehavior<TBehaviorAttribute, TResult>(Func<TBehaviorAttribute, TResult> behaviorExecutionFunction)
             where TBehaviorAttribute : MulticastAttribute;
+
+        /// <summary>
+        /// Clears the scope cache of the component and its descendant components.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        TOwner ClearScopeCache();
+
+        /// <summary>
+        /// Clears the scope cache of the descendant components.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        TOwner ClearScopeCacheOfDescendants();
     }
 }

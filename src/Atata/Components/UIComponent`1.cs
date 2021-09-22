@@ -377,6 +377,29 @@ return (
             return (this as TComponentToFind) ?? Parent?.GetAncestorOrSelf<TComponentToFind>();
         }
 
+        /// <inheritdoc/>
+        public TOwner ClearScopeCache()
+        {
+            var cachedScope = CachedScope;
+
+            if (cachedScope != null)
+            {
+                CachedScope = null;
+                Log.Trace($"Cleared scope cache of {ComponentFullName}: {Stringifier.ToString(cachedScope)}");
+            }
+
+            return ClearScopeCacheOfDescendants();
+        }
+
+        /// <inheritdoc/>
+        public TOwner ClearScopeCacheOfDescendants()
+        {
+            foreach (var control in Controls)
+                control.ClearScopeCache();
+
+            return Owner;
+        }
+
         /// <summary>
         /// Cleans up the current instance.
         /// </summary>

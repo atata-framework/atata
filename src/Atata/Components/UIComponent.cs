@@ -10,8 +10,6 @@ namespace Atata
     /// </summary>
     public abstract class UIComponent
     {
-        private IWebElement _cachedScope;
-
         protected UIComponent()
         {
             Driver = AtataContext.Current.Driver;
@@ -39,7 +37,31 @@ namespace Atata
 
         protected internal IScopeLocator ScopeLocator { get; internal set; }
 
-        protected internal bool CacheScopeElement { get; set; }
+        [Obsolete("Use " + nameof(UseScopeCache) + " instead.")] // Obsolete since v1.13.0.
+        protected internal bool CacheScopeElement
+        {
+            get => UseScopeCache;
+            set
+            {
+                if (value)
+                {
+                    if (Metadata.Get<UseScopeCacheAttribute>(x => x.At(AttributeLevels.Declared).Where(a => a.UseCache)) == null)
+                        Metadata.Push(new UseScopeCacheAttribute());
+                }
+                else
+                {
+                    Metadata.RemoveAll(x => x is UseScopeCacheAttribute);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether to use scope cache.
+        /// Returns a <see cref="UseScopeCacheAttribute.UseCache"/> value of an associated with the component <see cref="UseScopeCacheAttribute"/>.
+        /// Returns <see langword="false"/>, as by default, when the attribute is not associated.
+        /// </summary>
+        protected bool UseScopeCache =>
+            Metadata.Get<UseScopeCacheAttribute>()?.UseCache ?? false;
 
         /// <summary>
         /// Gets or sets the name of the component.
@@ -72,9 +94,12 @@ namespace Atata
         /// </summary>
         /// <exception cref="NoSuchElementException">Element not found.</exception>
         public IWebElement Scope =>
-            CacheScopeElement && _cachedScope != null
-                ? _cachedScope
-                : GetScopeElement();
+            GetScopeElement();
+
+        /// <summary>
+        /// Gets or sets the cached scope element.
+        /// </summary>
+        protected IWebElement CachedScope { get; set; }
 
         /// <summary>
         /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
@@ -121,6 +146,9 @@ namespace Atata
 
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
+            if (UseScopeCache && CachedScope != null)
+                return CachedScope;
+
             if (ShouldUseParentScope())
                 return Parent.GetScopeElement(searchOptions);
 
@@ -148,8 +176,8 @@ namespace Atata
                     cache.ReleaseAccessChain();
             }
 
-            if (CacheScopeElement)
-                _cachedScope = element;
+            if (UseScopeCache)
+                CachedScope = element;
 
             return element;
         }

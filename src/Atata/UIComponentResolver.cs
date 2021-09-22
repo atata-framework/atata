@@ -289,7 +289,6 @@ namespace Atata
             InitComponentLocator(component, metadata);
             component.ComponentName = ResolveControlName(metadata);
             component.ComponentTypeName = ResolveControlTypeName(metadata);
-            component.CacheScopeElement = false;
 
             ApplyMetadata(component, metadata);
         }
