@@ -157,6 +157,8 @@ return (
         public ContentGetBehaviorAttribute ContentGetBehavior =>
             Metadata.Get<ContentGetBehaviorAttribute>();
 
+        internal List<IClearsScopeCache> ClearableComponentParts { get; } = new List<IClearsScopeCache>();
+
         /// <summary>
         /// Called upon initialization before the <see cref="TriggerEvents.Init"/> triggers are executed.
         /// Calls <see cref="OnInit"/> method for all child controls.
@@ -387,6 +389,9 @@ return (
                 CachedScope = null;
                 Log.Trace($"Cleared scope cache of {ComponentFullName}: {Stringifier.ToString(cachedScope)}");
             }
+
+            foreach (var item in ClearableComponentParts)
+                item.ClearScopeCache();
 
             return ClearScopeCacheOfDescendants();
         }

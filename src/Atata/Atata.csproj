@@ -62,6 +62,7 @@ Features:
 
   <ItemGroup Condition="$(TargetFramework) == 'net40' Or $(TargetFramework) == 'net45' Or $(TargetFramework) == 'net46'">
     <Reference Include="Microsoft.CSharp" />
+    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
 </Project>

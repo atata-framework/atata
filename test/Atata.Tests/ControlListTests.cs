@@ -153,5 +153,148 @@ namespace Atata.Tests
             using (StopwatchAsserter.WithinSeconds(0))
                 component.AsEnumerable().Should().BeEmpty();
         }
+
+        public class UseScopeCache : UITestFixture
+        {
+            private ControlList<TablePage.NumberedTableRow, TablePage> _sut;
+
+            protected override void OnSetUp()
+            {
+                var table = Go.To<TablePage>().NumberedTable;
+                table.Metadata.Push(new UseScopeCacheAttribute());
+
+                _sut = table.Rows;
+                _sut.Metadata.Push(new UseScopeCacheAttribute { TargetSelfAndChildren = true });
+            }
+
+            [Test]
+            public void ReuseItem()
+            {
+                var item = _sut[x => x.Name == "Item 2"];
+                item.Number.Should.Be(2);
+                item.Number.Should.Be(2);
+
+                AssertThatLastLogSectionIsVerificationWithExecuteBehavior();
+            }
+
+            [Test]
+            public void SameItem_BySamePredicate()
+            {
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
+
+                AssertThatLastLogSectionIsVerificationWithExecuteBehavior();
+            }
+
+            [Test]
+            public void SameItem_BySameIndex()
+            {
+                _sut[1].Number.Should.Be(2);
+                _sut[1].Number.Should.Be(2);
+
+                AssertThatLastLogSectionIsVerificationWithExecuteBehavior();
+            }
+
+            [Test]
+            public void SameItem_BySameXPath()
+            {
+                _sut.GetByXPathCondition("td[1][.='Item 2']").Number.Should.Be(2);
+                _sut.GetByXPathCondition("td[1][.='Item 2']").Number.Should.Be(2);
+
+                AssertThatLastLogSectionIsVerificationWithExecuteBehavior();
+            }
+
+            [Test]
+            public void SameItem_ByDifferentPredicate()
+            {
+                _sut[x => x.Number == 2 && x.Name == "Item 2"].Should.BePresent();
+                _sut[x => x.Number == 2].Should.BePresent();
+
+                var entries = GetLastLogEntries(6);
+                entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+                entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
+                entries[3].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[4].SectionEnd.Should().Be(entries[3].SectionStart);
+                entries[5].SectionEnd.Should().Be(entries[0].SectionStart);
+            }
+
+            [Test]
+            public void PreviousItem_BySimilarPredicate()
+            {
+                _sut[x => x.Name == "Item 3"].Should.BePresent();
+                _sut[x => x.Name == "Item 2"].Should.BePresent();
+
+                var entries = GetLastLogEntries(6);
+                entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+                entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
+                entries[3].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[4].SectionEnd.Should().Be(entries[3].SectionStart);
+                entries[5].SectionEnd.Should().Be(entries[0].SectionStart);
+            }
+
+            [Test]
+            public void GetCount_2Times()
+            {
+                _sut.Count.Should.Be(3);
+                _sut.Count.Should.Be(3);
+
+                AssertThatLastLogSectionIsVerificationAndEmpty();
+            }
+
+            [Test]
+            public void GetCount_AfterGettingItem()
+            {
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
+                _sut.Count.Should.Be(3);
+
+                AssertThatLastLogSectionIsVerificationAndEmpty();
+            }
+
+            [Test]
+            public void AfterClearScopeCache()
+            {
+                var item = _sut[x => x.Name == "Item 2"];
+                item.Number.Should.Be(2);
+                _sut.ClearScopeCache();
+                item.Number.Should.Be(2);
+
+                var entries = GetLastLogEntries(3);
+                entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
+                entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
+            }
+
+            [Test]
+            public void AfterClearScopeCache_OfPageObject()
+            {
+                var item = _sut[x => x.Name == "Item 2"];
+                item.Number.Should.Be(2);
+                _sut.Component.Owner.ClearScopeCache();
+                item.Number.Should.Be(2);
+
+                var entries = GetLastLogEntries(3);
+                entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
+                entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
+            }
+
+            private void AssertThatLastLogSectionIsVerificationWithExecuteBehavior()
+            {
+                var entries = GetLastLogEntries(4);
+                entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+                entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
+                entries[3].SectionEnd.Should().Be(entries[0].SectionStart);
+            }
+
+            private void AssertThatLastLogSectionIsVerificationAndEmpty()
+            {
+                var entries = GetLastLogEntries(2);
+                entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+                entries[1].SectionEnd.Should().Be(entries[0].SectionStart);
+            }
+        }
     }
 }

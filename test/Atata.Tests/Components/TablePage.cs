@@ -44,6 +44,9 @@ namespace Atata.Tests
         [FindById(CutEnding = false)]
         public Table<OrderedTableRow, _> OrderedTable { get; private set; }
 
+        [FindById(CutEnding = false)]
+        public Table<NumberedTableRow, _> NumberedTable { get; private set; }
+
         public class UserTableRow : TableRow<_>
         {
             public Text<_> FirstName { get; private set; }
@@ -115,6 +118,13 @@ namespace Atata.Tests
         public class OrderedTableRow : TableRow<_>
         {
             public Text<_> Letter { get; private set; }
+
+            public Number<_> Number { get; private set; }
+        }
+
+        public class NumberedTableRow : TableRow<_>
+        {
+            public Text<_> Name { get; private set; }
 
             public Number<_> Number { get; private set; }
         }

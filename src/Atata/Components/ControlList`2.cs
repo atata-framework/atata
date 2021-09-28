@@ -18,7 +18,8 @@ namespace Atata
         UIComponentPart<TOwner>,
         ISupportsMetadata,
         IDataProvider<IEnumerable<TItem>, TOwner>,
-        IEnumerable<TItem>
+        IEnumerable<TItem>,
+        IClearsScopeCache
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -31,6 +32,13 @@ for (var i = 0; i < elements.length; i++) {
 }
 
 return textValues;";
+
+        private readonly Dictionary<string, TItem> _cachedNamedItemsMap = new Dictionary<string, TItem>();
+
+        private readonly Dictionary<(Visibility Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>> _cachedAllElementsMap =
+            new Dictionary<(Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>>();
+
+        private readonly Dictionary<IWebElement, TItem> _cachedElementItemsMap = new Dictionary<IWebElement, TItem>();
 
         private string _itemComponentTypeName;
 
@@ -95,6 +103,9 @@ return textValues;";
         {
             get { return typeof(TItem); }
         }
+
+        protected bool UseScopeCache =>
+            Metadata.Get<UseScopeCacheAttribute>()?.UseCache ?? false;
 
         /// <summary>
         /// Gets the control at the specified index.
@@ -215,25 +226,40 @@ return textValues;";
         {
             string itemName = (index + 1).Ordinalize();
 
-            return CreateItem(itemName, new FindByIndexAttribute(index));
+            TItem DoGetItemByIndex() =>
+                CreateItem(itemName, new FindByIndexAttribute(index));
+
+            return UseScopeCache
+                ? _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByIndex)
+                : DoGetItemByIndex();
         }
 
         protected TItem GetItemByInnerXPath(string itemName, string xPath)
         {
-            return CreateItem(itemName, new FindByInnerXPathAttribute(xPath));
+            TItem DoGetItemByInnerXPath() =>
+                CreateItem(itemName, new FindByInnerXPathAttribute(xPath));
+
+            return UseScopeCache
+                ? _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByInnerXPath)
+                : DoGetItemByInnerXPath();
         }
 
         protected virtual TItem GetItem(string name, Expression<Func<TItem, bool>> predicateExpression)
         {
-            var predicate = predicateExpression.Compile();
-
-            ControlListScopeLocator scopeLocator = new ControlListScopeLocator(searchOptions =>
+            TItem DoGetItem()
             {
-                return GetItemElements(searchOptions).
-                    Where(element => predicate(CreateItem(new DefinedScopeLocator(element), name)));
-            });
+                var predicate = predicateExpression.Compile();
 
-            return CreateItem(scopeLocator, name);
+                ControlListScopeLocator scopeLocator = new ControlListScopeLocator(
+                    searchOptions => GetItemElements(searchOptions)
+                        .Where((element, index) => predicate(GetOrCreateItemByElement(element, (index + 1).Ordinalize()))));
+
+                return CreateItem(scopeLocator, name);
+            }
+
+            return UseScopeCache
+                ? _cachedNamedItemsMap.GetOrAdd(name, DoGetItem)
+                : DoGetItem();
         }
 
         /// <summary>
@@ -259,7 +285,7 @@ return textValues;";
 
             return GetItemElements().
                 Select((element, index) => new { Element = element, Index = index }).
-                Where(x => predicate(CreateItem(new DefinedScopeLocator(x.Element), name))).
+                Where(x => predicate(GetOrCreateItemByElement(x.Element, name))).
                 Select(x => (int?)x.Index).
                 FirstOrDefault() ?? -1;
         }
@@ -281,6 +307,24 @@ return textValues;";
                 by = by.Hidden();
 
             return by;
+        }
+
+        protected TItem GetOrCreateItemByElement(IWebElement element, string name)
+        {
+            TItem DoGetOrCreateItemByElement() =>
+                CreateItem(new DefinedScopeLocator(element), name);
+
+            if (UseScopeCache)
+            {
+                TItem item = _cachedElementItemsMap.GetOrAdd(element, DoGetOrCreateItemByElement);
+                item.Metadata.RemoveAll(x => x is NameAttribute);
+                item.Metadata.Push(new NameAttribute(name));
+                return item;
+            }
+            else
+            {
+                return DoGetOrCreateItemByElement();
+            }
         }
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
@@ -462,7 +506,7 @@ return textValues;";
                 : $"{{0}} of {nameSuffix}";
 
             return GetItemElements(extraXPath: extraXPath).
-                Select((element, index) => CreateItem(new DefinedScopeLocator(element), string.Format(nameFormat, (index + 1).Ordinalize()))).
+                Select((element, index) => GetOrCreateItemByElement(element, string.Format(nameFormat, (index + 1).Ordinalize()))).
                 ToArray();
         }
 
@@ -474,9 +518,65 @@ return textValues;";
 
         protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null, string extraXPath = null)
         {
-            TItem control = CreateItem(GetItemDeclaredAttributes());
+            searchOptions = searchOptions ?? ResolveSearchOptions();
 
-            return control.ScopeLocator.GetElements(searchOptions, extraXPath).ToReadOnly();
+            ReadOnlyCollection<IWebElement> DoGetItemElements()
+            {
+                TItem control = CreateItem(GetItemDeclaredAttributes());
+
+                return control.ScopeLocator.GetElements(searchOptions, extraXPath).ToReadOnly();
+            }
+
+            return UseScopeCache
+                ? _cachedAllElementsMap.GetOrAdd((searchOptions.Visibility, extraXPath), DoGetItemElements)
+                : DoGetItemElements();
+        }
+
+        // TODO: Resolve visibility.
+        private SearchOptions ResolveSearchOptions() =>
+            new SearchOptions();
+
+        void IClearsScopeCache.ClearScopeCache() =>
+            ClearScopeCache();
+
+        /// <summary>
+        /// Clears the scope cache of the controls.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner ClearScopeCache()
+        {
+            bool hasItemsToClear = false;
+
+            if (_cachedAllElementsMap.Count > 0)
+            {
+                hasItemsToClear = true;
+                _cachedAllElementsMap.Clear();
+            }
+
+            if (_cachedNamedItemsMap.Count > 0)
+            {
+                hasItemsToClear = true;
+
+                foreach (var item in _cachedNamedItemsMap.Values)
+                    item.ClearScopeCache();
+
+                _cachedNamedItemsMap.Clear();
+            }
+
+            if (_cachedElementItemsMap.Count > 0)
+            {
+                hasItemsToClear = true;
+
+                foreach (var item in _cachedElementItemsMap.Values)
+                    item.ClearScopeCache();
+
+                _cachedElementItemsMap.Clear();
+            }
+
+            if (hasItemsToClear)
+                Component.Owner.Log.Trace($"Cleared scope cache of {Component.ComponentFullName} {ComponentPartName}");
+
+            return Component.Owner;
         }
     }
 }

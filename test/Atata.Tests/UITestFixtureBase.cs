@@ -173,10 +173,11 @@ namespace Atata.Tests
             }
         }
 
-        protected LogEventInfo[] GetLastLogEntries(LogLevel minLogLevel, int count)
-        {
-            return LogEntries.Reverse().Where(x => x.Level >= minLogLevel).Take(count).Reverse().ToArray();
-        }
+        protected LogEventInfo[] GetLastLogEntries(int count) =>
+            GetLastLogEntries(LogLevel.Trace, count);
+
+        protected LogEventInfo[] GetLastLogEntries(LogLevel minLogLevel, int count) =>
+            LogEntries.Reverse().Where(x => x.Level >= minLogLevel).Take(count).Reverse().ToArray();
 
         protected string[] GetLastLogMessages(LogLevel minLogLevel, int count)
         {
