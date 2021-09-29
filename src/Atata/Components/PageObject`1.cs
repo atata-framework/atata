@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using OpenQA.Selenium;
@@ -65,12 +64,12 @@ namespace Atata
         /// <summary>
         /// Gets a value indicating whether this instance is temporarily navigated using <see cref="GoTemporarilyAttribute"/> or other approach.
         /// </summary>
-        protected bool IsTemporarilyNavigated { get; private set; }
+        protected internal bool IsTemporarilyNavigated { get; internal set; }
 
         /// <summary>
         /// Gets the previous page object.
         /// </summary>
-        protected UIComponent PreviousPageObject { get; private set; }
+        protected internal UIComponent PreviousPageObject { get; internal set; }
 
         /// <summary>
         /// Gets the instance that provides reporting functionality.
@@ -179,82 +178,8 @@ namespace Atata
             }
         }
 
-        TOther IPageObject.GoTo<TOther>(TOther pageObject, GoOptions options)
-        {
-            bool isReturnedFromTemporary = TryResolvePreviousPageObjectNavigatedTemporarily(ref pageObject);
-
-            pageObject = pageObject ?? ActivatorEx.CreateInstance<TOther>();
-
-            if (!isReturnedFromTemporary)
-            {
-                if (!options.Temporarily)
-                {
-                    AtataContext.Current.CleanUpTemporarilyPreservedPageObjectList();
-                }
-
-                pageObject.NavigateOnInit = options.Navigate;
-
-                if (options.Temporarily)
-                {
-                    pageObject.IsTemporarilyNavigated = options.Temporarily;
-                    AtataContext.Current.TemporarilyPreservedPageObjectList.Add(this);
-                }
-            }
-
-            ExecuteTriggers(TriggerEvents.DeInit);
-
-            // TODO: Review that condition.
-            if (!options.Temporarily)
-                UIComponentResolver.CleanUpPageObject(this);
-
-            if (!string.IsNullOrWhiteSpace(options.Url))
-                Go.ToUrl(options.Url);
-
-            if (!string.IsNullOrWhiteSpace(options.WindowName))
-                SwitchToWindow(options.WindowName);
-
-            if (isReturnedFromTemporary)
-            {
-                Log.Info("Go to {0}", pageObject.ComponentFullName);
-            }
-            else
-            {
-                pageObject.PreviousPageObject = this;
-                pageObject.Init();
-            }
-
-            return pageObject;
-        }
-
-        private static bool TryResolvePreviousPageObjectNavigatedTemporarily<TOther>(ref TOther pageObject)
-            where TOther : PageObject<TOther>
-        {
-            var tempPageObjectsEnumerable = AtataContext.Current.TemporarilyPreservedPageObjects.
-                AsEnumerable().
-                Reverse().
-                OfType<TOther>();
-
-            TOther pageObjectReferenceCopy = pageObject;
-
-            TOther foundPageObject = pageObject == null
-                ? tempPageObjectsEnumerable.FirstOrDefault(x => x.GetType() == typeof(TOther))
-                : tempPageObjectsEnumerable.FirstOrDefault(x => x == pageObjectReferenceCopy);
-
-            if (foundPageObject == null)
-                return false;
-
-            pageObject = foundPageObject;
-
-            var tempPageObjectsToRemove = AtataContext.Current.TemporarilyPreservedPageObjects.
-                SkipWhile(x => x != foundPageObject).
-                ToArray();
-
-            UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove.Skip(1));
-            foreach (var item in tempPageObjectsToRemove)
-                AtataContext.Current.TemporarilyPreservedPageObjectList.Remove(item);
-
-            return true;
-        }
+        void IPageObject.SwitchToWindow(string windowHandle) =>
+            SwitchToWindow(windowHandle);
 
         /// <summary>
         /// Switches to the browser window by the window handle.
@@ -688,5 +613,8 @@ namespace Atata
                 "document.body.scrollTop = height;" +
                 "document.documentElement.scrollTop = height;");
         }
+
+        void IPageObject.DeInit() =>
+            ExecuteTriggers(TriggerEvents.DeInit);
     }
 }

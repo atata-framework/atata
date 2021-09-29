@@ -125,25 +125,109 @@ namespace Atata
         {
             SetContextAsCurrent();
 
-            if (_context.PageObject is null)
+            var currentPageObject = _context.PageObject;
+
+            return currentPageObject is null
+                ? GoToInitialPageObject(pageObject, options)
+                : GoToFollowingPageObject(currentPageObject, pageObject, options);
+        }
+
+        private T GoToInitialPageObject<T>(T pageObject, GoOptions options)
+            where T : PageObject<T>
+        {
+            pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
+            _context.PageObject = pageObject;
+
+            if (!string.IsNullOrWhiteSpace(options.Url))
+                ToUrl(options.Url);
+
+            pageObject.NavigateOnInit = options.Navigate;
+            pageObject.Init();
+            return pageObject;
+        }
+
+        private T GoToFollowingPageObject<T>(
+            UIComponent currentPageObject,
+            T nextPageObject,
+            GoOptions options)
+            where T : PageObject<T>
+        {
+            bool isReturnedFromTemporary = TryResolvePreviousPageObjectNavigatedTemporarily(ref nextPageObject);
+
+            nextPageObject = nextPageObject ?? ActivatorEx.CreateInstance<T>();
+
+            if (!isReturnedFromTemporary)
             {
-                pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
-                _context.PageObject = pageObject;
+                if (!options.Temporarily)
+                {
+                    _context.CleanUpTemporarilyPreservedPageObjectList();
+                }
 
-                if (!string.IsNullOrWhiteSpace(options.Url))
-                    ToUrl(options.Url);
+                nextPageObject.NavigateOnInit = options.Navigate;
 
-                pageObject.NavigateOnInit = options.Navigate;
-                pageObject.Init();
-                return pageObject;
+                if (options.Temporarily)
+                {
+                    nextPageObject.IsTemporarilyNavigated = options.Temporarily;
+                    _context.TemporarilyPreservedPageObjectList.Add(currentPageObject);
+                }
+            }
+
+            ((IPageObject)currentPageObject).DeInit();
+
+            _context.PageObject = nextPageObject;
+
+            // TODO: Review this condition.
+            if (!options.Temporarily)
+                UIComponentResolver.CleanUpPageObject(currentPageObject);
+
+            if (!string.IsNullOrWhiteSpace(options.Url))
+                Go.ToUrl(options.Url);
+
+            if (!string.IsNullOrWhiteSpace(options.WindowName))
+                ((IPageObject)currentPageObject).SwitchToWindow(options.WindowName);
+
+            if (isReturnedFromTemporary)
+            {
+                _context.Log.Info("Go to {0}", nextPageObject.ComponentFullName);
             }
             else
             {
-                IPageObject currentPageObject = (IPageObject)_context.PageObject;
-                T newPageObject = currentPageObject.GoTo(pageObject, options);
-                _context.PageObject = newPageObject;
-                return newPageObject;
+                nextPageObject.PreviousPageObject = currentPageObject;
+                nextPageObject.Init();
             }
+
+            return nextPageObject;
+        }
+
+        private bool TryResolvePreviousPageObjectNavigatedTemporarily<TPageObject>(ref TPageObject pageObject)
+            where TPageObject : PageObject<TPageObject>
+        {
+            var tempPageObjectsEnumerable = _context.TemporarilyPreservedPageObjects.
+                AsEnumerable().
+                Reverse().
+                OfType<TPageObject>();
+
+            TPageObject pageObjectReferenceCopy = pageObject;
+
+            TPageObject foundPageObject = pageObject == null
+                ? tempPageObjectsEnumerable.FirstOrDefault(x => x.GetType() == typeof(TPageObject))
+                : tempPageObjectsEnumerable.FirstOrDefault(x => x == pageObjectReferenceCopy);
+
+            if (foundPageObject == null)
+                return false;
+
+            pageObject = foundPageObject;
+
+            var tempPageObjectsToRemove = _context.TemporarilyPreservedPageObjects.
+                SkipWhile(x => x != foundPageObject).
+                ToArray();
+
+            UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove.Skip(1));
+
+            foreach (var item in tempPageObjectsToRemove)
+                _context.TemporarilyPreservedPageObjectList.Remove(item);
+
+            return true;
         }
 
         /// <summary>
