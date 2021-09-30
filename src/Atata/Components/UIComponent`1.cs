@@ -20,8 +20,8 @@ const rect = element.getBoundingClientRect();
 return (
   rect.top >= 0 &&
   rect.left >= 0 &&
-  rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-  rect.right <= (window.innerWidth || document.documentElement.clientWidth));";
+  Math.floor(rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) &&
+  Math.floor(rect.right) <= (window.innerWidth || document.documentElement.clientWidth));";
 
         private readonly Dictionary<string, object> _dataProviders = new Dictionary<string, object>();
 
