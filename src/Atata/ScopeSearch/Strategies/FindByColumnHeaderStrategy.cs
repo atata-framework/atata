@@ -74,14 +74,26 @@ namespace Atata
         /// <returns>The index of the column or <see langword="null"/> if not found.</returns>
         protected virtual int? GetColumnIndex(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
         {
-            var headers = scope.GetAllWithLogging(By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
             var headerNamePredicate = options.Match.GetPredicate();
 
-            return headers.
-                Select((x, i) => new { x.Text, Index = i }).
-                Where(x => options.Terms.Any(term => headerNamePredicate(x.Text, term))).
-                Select(x => (int?)x.Index).
-                FirstOrDefault();
+            if (HeaderXPath == DefaultHeaderXPath && options.Component.Parent?.Parent is ITable table)
+            {
+                return table.GetColumnHeaderTexts()
+                    .Select((x, i) => (Text: x, Index: i))
+                    .Where(x => options.Terms.Any(term => headerNamePredicate(x.Text, term)))
+                    .Select(x => (int?)x.Index)
+                    .FirstOrDefault();
+            }
+            else
+            {
+                var headers = scope.GetAllWithLogging(By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
+
+                return headers.
+                    Select((x, i) => new { x.Text, Index = i }).
+                    Where(x => options.Terms.Any(term => headerNamePredicate(x.Text, term))).
+                    Select(x => (int?)x.Index).
+                    FirstOrDefault();
+            }
         }
 
         /// <summary>
