@@ -253,11 +253,11 @@ namespace Atata.Tests
             }
 
             [Test]
-            public void AfterClearScopeCache()
+            public void AfterClearCache()
             {
                 var item = _sut[x => x.Name == "Item 2"];
                 item.Number.Should.Be(2);
-                _sut.ClearScopeCache();
+                _sut.ClearCache();
                 item.Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);
@@ -267,11 +267,11 @@ namespace Atata.Tests
             }
 
             [Test]
-            public void AfterClearScopeCache_OfPageObject()
+            public void AfterClearCache_OfPageObject()
             {
                 var item = _sut[x => x.Name == "Item 2"];
                 item.Number.Should.Be(2);
-                _sut.Component.Owner.ClearScopeCache();
+                _sut.Component.Owner.ClearCache();
                 item.Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);

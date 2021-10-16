@@ -19,7 +19,7 @@ namespace Atata
         ISupportsMetadata,
         IDataProvider<IEnumerable<TItem>, TOwner>,
         IEnumerable<TItem>,
-        IClearsScopeCache
+        IClearsCache
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -536,14 +536,14 @@ return textValues;";
         private SearchOptions ResolveSearchOptions() =>
             new SearchOptions();
 
-        void IClearsScopeCache.ClearScopeCache() =>
-            ClearScopeCache();
+        void IClearsCache.ClearCache() =>
+            ClearCache();
 
         /// <summary>
-        /// Clears the scope cache of the controls.
+        /// Clears the cache of the controls.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner ClearScopeCache()
+        public TOwner ClearCache()
         {
             bool hasItemsToClear = false;
 
@@ -558,7 +558,7 @@ return textValues;";
                 hasItemsToClear = true;
 
                 foreach (var item in _cachedNamedItemsMap.Values)
-                    item.ClearScopeCache();
+                    item.ClearCache();
 
                 _cachedNamedItemsMap.Clear();
             }
@@ -568,7 +568,7 @@ return textValues;";
                 hasItemsToClear = true;
 
                 foreach (var item in _cachedElementItemsMap.Values)
-                    item.ClearScopeCache();
+                    item.ClearCache();
 
                 _cachedElementItemsMap.Clear();
             }

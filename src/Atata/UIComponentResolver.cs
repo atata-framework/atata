@@ -181,8 +181,8 @@ namespace Atata
                     componentPart.ComponentPartName = nameFromMetadata;
             }
 
-            if (componentPart is IClearsScopeCache clearsScopeCache)
-                parentComponent.ClearableComponentParts.Add(clearsScopeCache);
+            if (componentPart is IClearsCache cacheClearableComponentPart)
+                parentComponent.CacheClearableComponentParts.Add(cacheClearableComponentPart);
 
             property.SetValue(parentComponent, componentPart, null);
         }

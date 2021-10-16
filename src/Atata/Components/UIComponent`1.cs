@@ -157,7 +157,7 @@ return (
         public ContentGetBehaviorAttribute ContentGetBehavior =>
             Metadata.Get<ContentGetBehaviorAttribute>();
 
-        internal List<IClearsScopeCache> ClearableComponentParts { get; } = new List<IClearsScopeCache>();
+        internal List<IClearsCache> CacheClearableComponentParts { get; } = new List<IClearsCache>();
 
         /// <summary>
         /// Called upon initialization before the <see cref="TriggerEvents.Init"/> triggers are executed.
@@ -380,6 +380,32 @@ return (
         }
 
         /// <inheritdoc/>
+        public TOwner ClearCache()
+        {
+            OnClearCache();
+
+            return ClearCacheOfDescendants();
+        }
+
+        /// <inheritdoc/>
+        public TOwner ClearCacheOfDescendants()
+        {
+            foreach (var componentPart in CacheClearableComponentParts)
+                componentPart.ClearCache();
+
+            foreach (var control in Controls)
+                control.ClearCache();
+
+            return Owner;
+        }
+
+        /// <summary>
+        /// Clears the cache of the component.
+        /// </summary>
+        protected virtual void OnClearCache() =>
+            ClearScopeCache();
+
+        /// <inheritdoc/>
         public TOwner ClearScopeCache()
         {
             var cachedScope = CachedScope;
@@ -389,18 +415,6 @@ return (
                 CachedScope = null;
                 Log.Trace($"Cleared scope cache of {ComponentFullName}: {Stringifier.ToString(cachedScope)}");
             }
-
-            foreach (var item in ClearableComponentParts)
-                item.ClearScopeCache();
-
-            return ClearScopeCacheOfDescendants();
-        }
-
-        /// <inheritdoc/>
-        public TOwner ClearScopeCacheOfDescendants()
-        {
-            foreach (var control in Controls)
-                control.ClearScopeCache();
 
             return Owner;
         }

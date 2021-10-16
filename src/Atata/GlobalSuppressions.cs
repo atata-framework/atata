@@ -59,7 +59,7 @@
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogSection.GetDuration~System.TimeSpan")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.VerificationProvider`2.GetShouldText~System.String")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponent.GetScopeElement(Atata.SearchOptions)~OpenQA.Selenium.IWebElement")]
-[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ClearScopeCacheAttribute.GetTargetComponent``1(Atata.IUIComponent{``0},Atata.ClearScopeCacheTarget)~Atata.IUIComponent{``0}")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ControlList`2.ResolveSearchOptions~Atata.SearchOptions")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ClearCacheAttribute.GetTargetComponent``1(Atata.IUIComponent{``0},Atata.ClearCacheTarget)~Atata.IUIComponent{``0}")]
 
 #pragma warning restore S103 // Lines should not be too long

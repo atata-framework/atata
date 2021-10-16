@@ -1,9 +1,9 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Specifies the target component whose scope cache should be cleared.
+    /// Specifies the target component whose cache should be cleared.
     /// </summary>
-    public enum ClearScopeCacheTarget
+    public enum ClearCacheTarget
     {
         /// <summary>
         /// Targets self component.

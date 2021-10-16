@@ -268,15 +268,21 @@ namespace Atata
             where TBehaviorAttribute : MulticastAttribute;
 
         /// <summary>
-        /// Clears the scope cache of the component and its descendant components.
+        /// Clears all cache of the component and its descendant components.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        TOwner ClearCache();
+
+        /// <summary>
+        /// Clears all cache of the descendant components.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        TOwner ClearCacheOfDescendants();
+
+        /// <summary>
+        /// Clears the scope cache of the component.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
         TOwner ClearScopeCache();
-
-        /// <summary>
-        /// Clears the scope cache of the descendant components.
-        /// </summary>
-        /// <returns>The instance of the owner page object.</returns>
-        TOwner ClearScopeCacheOfDescendants();
     }
 }

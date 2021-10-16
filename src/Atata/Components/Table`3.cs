@@ -77,5 +77,12 @@ namespace Atata
 
             return Owner;
         }
+
+        protected override void OnClearCache()
+        {
+            base.OnClearCache();
+
+            ClearColumnHeaderTextsCache();
+        }
     }
 }
