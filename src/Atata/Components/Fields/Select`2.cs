@@ -45,10 +45,7 @@
 
         protected override void SetValue(T value)
         {
-            string valueAsString = ConvertValueToString(value);
-            string xPathCondition = SelectOptionBehavior.FormatOptionXPathCondition(valueAsString);
-
-            var option = Options.GetByXPathCondition(valueAsString, xPathCondition);
+            var option = GetOption(value);
             option.Select();
         }
 
@@ -57,6 +54,19 @@
             base.InitValueTermOptions(termOptions, metadata);
 
             termOptions.MergeWith(SelectOptionBehavior);
+        }
+
+        /// <summary>
+        /// Gets the option by the associated value.
+        /// </summary>
+        /// <param name="value">The value associated with the option.</param>
+        /// <returns>The <see cref="Option{T, TOwner}"/> instance.</returns>
+        public Option<T, TOwner> GetOption(T value)
+        {
+            string valueAsString = ConvertValueToString(value);
+            string xPathCondition = SelectOptionBehavior.FormatOptionXPathCondition(valueAsString);
+
+            return Options.GetByXPathCondition(valueAsString, xPathCondition);
         }
     }
 }
