@@ -449,7 +449,7 @@ namespace Atata
                     .Append(string.Join(".", testFullNameParts));
             }
 
-            Current.Log.Info(logMessageBuilder.ToString());
+            Log.Info(logMessageBuilder.ToString());
         }
 
         private IEnumerable<string> GetTestFullNameParts()
