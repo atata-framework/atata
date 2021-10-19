@@ -105,7 +105,8 @@ return textValues;";
         }
 
         protected bool UseScopeCache =>
-            Metadata.Get<UseScopeCacheAttribute>()?.UseCache ?? false;
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UseScopeCacheAttribute))
+                ?.UseCache ?? false;
 
         /// <summary>
         /// Gets the control at the specified index.

@@ -1,11 +1,12 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the column header texts cache of the <see cref="Table{THeader, TRow, TOwner}"/> control should be used.
+    /// Specifies whether the column header texts cache of the
+    /// <see cref="Table{THeader, TRow, TOwner}"/> control should be used.
     /// Caches a value when it is requested at first time,
     /// then returns the cached value on further requests.
     /// </summary>
-    public class UseColumnHeaderTextsCacheAttribute : MulticastAttribute
+    public class UseColumnHeaderTextsCacheAttribute : MulticastAttribute, ICanUseCache
     {
         public UseColumnHeaderTextsCacheAttribute()
             : this(true)
@@ -17,9 +18,7 @@
             UseCache = useCache;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether to use cache.
-        /// </summary>
+        /// <inheritdoc/>
         public bool UseCache { get; }
     }
 }

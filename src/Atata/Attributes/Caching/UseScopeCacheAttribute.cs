@@ -1,11 +1,11 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the scope cache of the component should be used.
+    /// Specifies whether the component scope cache mechanic should be used.
     /// Caches a scope element of a component when it is requested at first time,
     /// then returns the cached element instance on further scope requests.
     /// </summary>
-    public class UseScopeCacheAttribute : MulticastAttribute
+    public class UseScopeCacheAttribute : MulticastAttribute, ICanUseCache
     {
         public UseScopeCacheAttribute()
             : this(true)
@@ -17,9 +17,7 @@
             UseCache = useCache;
         }
 
-        /// <summary>
-        /// Gets a value indicating whether to use cache.
-        /// </summary>
+        /// <inheritdoc/>
         public bool UseCache { get; }
     }
 }

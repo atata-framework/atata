@@ -57,11 +57,13 @@ namespace Atata
 
         /// <summary>
         /// Gets a value indicating whether to use scope cache.
-        /// Returns a <see cref="UseScopeCacheAttribute.UseCache"/> value of an associated with the component <see cref="UseScopeCacheAttribute"/>.
+        /// Returns a <see cref="ICanUseCache.UseCache"/> value of an associated with the component
+        /// <see cref="UseScopeCacheAttribute"/> or <see cref="UsesCacheAttribute"/>.
         /// Returns <see langword="false"/>, as by default, when the attribute is not associated.
         /// </summary>
         protected bool UseScopeCache =>
-            Metadata.Get<UseScopeCacheAttribute>()?.UseCache ?? false;
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UseScopeCacheAttribute))
+                ?.UseCache ?? false;
 
         /// <summary>
         /// Gets or sets the name of the component.
