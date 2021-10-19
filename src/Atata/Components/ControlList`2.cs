@@ -105,7 +105,7 @@ return textValues;";
         }
 
         protected bool UseScopeCache =>
-            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UseScopeCacheAttribute))
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesScopeCacheAttribute))
                 ?.UseCache ?? false;
 
         /// <summary>

@@ -161,10 +161,10 @@ namespace Atata.Tests
             protected override void OnSetUp()
             {
                 var table = Go.To<TablePage>().NumberedTable;
-                table.Metadata.Push(new UseScopeCacheAttribute());
+                table.Metadata.Push(new UsesScopeCacheAttribute());
 
                 _sut = table.Rows;
-                _sut.Metadata.Push(new UseScopeCacheAttribute { TargetSelfAndChildren = true });
+                _sut.Metadata.Push(new UsesScopeCacheAttribute { TargetSelfAndChildren = true });
             }
 
             [Test]

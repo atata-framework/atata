@@ -45,12 +45,12 @@ namespace Atata
             {
                 if (value)
                 {
-                    if (Metadata.Get<UseScopeCacheAttribute>(x => x.At(AttributeLevels.Declared).Where(a => a.UseCache)) == null)
-                        Metadata.Push(new UseScopeCacheAttribute());
+                    if (Metadata.Get<UsesScopeCacheAttribute>(x => x.At(AttributeLevels.Declared).Where(a => a.UseCache)) == null)
+                        Metadata.Push(new UsesScopeCacheAttribute());
                 }
                 else
                 {
-                    Metadata.RemoveAll(x => x is UseScopeCacheAttribute);
+                    Metadata.RemoveAll(x => x is UsesScopeCacheAttribute);
                 }
             }
         }
@@ -58,11 +58,11 @@ namespace Atata
         /// <summary>
         /// Gets a value indicating whether to use scope cache.
         /// Returns a <see cref="ICanUseCache.UseCache"/> value of an associated with the component
-        /// <see cref="UseScopeCacheAttribute"/> or <see cref="UsesCacheAttribute"/>.
+        /// <see cref="UsesScopeCacheAttribute"/> or <see cref="UsesCacheAttribute"/>.
         /// Returns <see langword="false"/>, as by default, when the attribute is not associated.
         /// </summary>
         protected bool UseScopeCache =>
-            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UseScopeCacheAttribute))
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesScopeCacheAttribute))
                 ?.UseCache ?? false;
 
         /// <summary>

@@ -5,14 +5,14 @@
     /// Caches a scope element of a component when it is requested at first time,
     /// then returns the cached element instance on further scope requests.
     /// </summary>
-    public class UseScopeCacheAttribute : MulticastAttribute, ICanUseCache
+    public class UsesScopeCacheAttribute : MulticastAttribute, ICanUseCache
     {
-        public UseScopeCacheAttribute()
+        public UsesScopeCacheAttribute()
             : this(true)
         {
         }
 
-        public UseScopeCacheAttribute(bool useCache)
+        public UsesScopeCacheAttribute(bool useCache)
         {
             UseCache = useCache;
         }
