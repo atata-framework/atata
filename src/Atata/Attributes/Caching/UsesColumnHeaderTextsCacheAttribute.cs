@@ -6,14 +6,14 @@
     /// Caches a value when it is requested at first time,
     /// then returns the cached value on further requests.
     /// </summary>
-    public class UseColumnHeaderTextsCacheAttribute : MulticastAttribute, ICanUseCache
+    public class UsesColumnHeaderTextsCacheAttribute : MulticastAttribute, ICanUseCache
     {
-        public UseColumnHeaderTextsCacheAttribute()
+        public UsesColumnHeaderTextsCacheAttribute()
             : this(true)
         {
         }
 
-        public UseColumnHeaderTextsCacheAttribute(bool useCache)
+        public UsesColumnHeaderTextsCacheAttribute(bool useCache)
         {
             UseCache = useCache;
         }

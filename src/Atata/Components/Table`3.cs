@@ -11,7 +11,6 @@ namespace Atata
     /// <typeparam name="TRow">The type of the table row control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("table", IgnoreNameEndings = "Table", ComponentTypeName = "table")]
-    [UseColumnHeaderTextsCache]
     public class Table<THeader, TRow, TOwner> : Control<TOwner>, ITable
         where THeader : TableHeader<TOwner>
         where TRow : TableRow<TOwner>
@@ -31,13 +30,13 @@ namespace Atata
 
         /// <summary>
         /// Gets a value indicating whether to the cache of column header texts.
-        /// Returns a <see cref="UseColumnHeaderTextsCacheAttribute.UseCache"/> value of
-        /// an associated with the component <see cref="UseColumnHeaderTextsCacheAttribute"/>.
+        /// Returns a <see cref="ICanUseCache.UseCache"/> value of an associated with the component
+        /// <see cref="UsesColumnHeaderTextsCacheAttribute"/> or <see cref="UsesCacheAttribute"/>.
         /// The default value is <see langword="true"/>.
         /// </summary>
         protected bool UseColumnHeaderTextsCache =>
-            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UseColumnHeaderTextsCacheAttribute))
-                ?.UseCache ?? false;
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesColumnHeaderTextsCacheAttribute))
+                ?.UseCache ?? true;
 
         /// <inheritdoc/>
         public IEnumerable<string> GetColumnHeaderTexts()
