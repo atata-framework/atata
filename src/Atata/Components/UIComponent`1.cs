@@ -424,6 +424,8 @@ return (
         /// </summary>
         protected internal override void CleanUp()
         {
+            ClearCache();
+
             foreach (var control in Controls)
                 control.CleanUp();
 
