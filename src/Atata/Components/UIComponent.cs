@@ -148,7 +148,7 @@ namespace Atata
 
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
-            if (UseScopeCache && CachedScope != null)
+            if (CachedScope != null && UseScopeCache)
                 return CachedScope;
 
             if (ShouldUseParentScope())
