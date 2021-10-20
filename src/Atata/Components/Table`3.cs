@@ -30,27 +30,27 @@ namespace Atata
 
         /// <summary>
         /// Gets a value indicating whether to the cache of column header texts.
-        /// Returns a <see cref="ICanUseCache.UseCache"/> value of an associated with the component
+        /// Returns a <see cref="ICanUseCache.UsesCache"/> value of an associated with the component
         /// <see cref="UsesColumnHeaderTextsCacheAttribute"/> or <see cref="UsesCacheAttribute"/>.
         /// The default value is <see langword="true"/>.
         /// </summary>
-        protected bool UseColumnHeaderTextsCache =>
+        protected bool UsesColumnHeaderTextsCache =>
             Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesColumnHeaderTextsCacheAttribute))
-                ?.UseCache ?? true;
+                ?.UsesCache ?? true;
 
         /// <inheritdoc/>
         public IEnumerable<string> GetColumnHeaderTexts()
         {
-            bool useColumnHeaderTextsCache = UseColumnHeaderTextsCache;
+            bool usesColumnHeaderTextsCache = UsesColumnHeaderTextsCache;
 
-            if (useColumnHeaderTextsCache && (_cachedColumnHeaderTexts?.Any() ?? false))
+            if (usesColumnHeaderTextsCache && (_cachedColumnHeaderTexts?.Any() ?? false))
                 return _cachedColumnHeaderTexts;
 
             var columnHeaderTexts = Log.ExecuteSection(
                 new LogSection($"Select column header texts of {ComponentFullName}", LogLevel.Trace),
                 SelectColumnHeaderTexts);
 
-            if (useColumnHeaderTextsCache)
+            if (usesColumnHeaderTextsCache)
                 _cachedColumnHeaderTexts = new List<string>(columnHeaderTexts);
 
             return columnHeaderTexts;

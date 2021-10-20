@@ -6,8 +6,8 @@
     public interface ICanUseCache
     {
         /// <summary>
-        /// Gets a value indicating whether to use cache.
+        /// Gets a value indicating whether the cache is enabled.
         /// </summary>
-        bool UseCache { get; }
+        bool UsesCache { get; }
     }
 }

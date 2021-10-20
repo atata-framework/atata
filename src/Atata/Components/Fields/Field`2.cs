@@ -23,7 +23,7 @@ namespace Atata
 
         protected bool UsesValueCache =>
             Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesValueCacheAttribute))
-                ?.UseCache ?? false;
+                ?.UsesCache ?? false;
 
         /// <summary>
         /// Gets the value.

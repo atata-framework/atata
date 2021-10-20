@@ -14,10 +14,10 @@
 
         public UsesValueCacheAttribute(bool useCache)
         {
-            UseCache = useCache;
+            UsesCache = useCache;
         }
 
         /// <inheritdoc/>
-        public bool UseCache { get; }
+        public bool UsesCache { get; }
     }
 }

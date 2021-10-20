@@ -104,9 +104,9 @@ return textValues;";
             get { return typeof(TItem); }
         }
 
-        protected bool UseScopeCache =>
+        protected bool UsesScopeCache =>
             Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesScopeCacheAttribute))
-                ?.UseCache ?? false;
+                ?.UsesCache ?? false;
 
         /// <summary>
         /// Gets the control at the specified index.
@@ -515,7 +515,7 @@ return textValues;";
                 return control.ScopeLocator.GetElements(searchOptions, extraXPath).ToReadOnly();
             }
 
-            return UseScopeCache
+            return UsesScopeCache
                 ? _cachedAllElementsMap.GetOrAdd((searchOptions.Visibility, extraXPath), DoGetItemElements)
                 : DoGetItemElements();
         }

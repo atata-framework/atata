@@ -37,15 +37,15 @@ namespace Atata
 
         protected internal IScopeLocator ScopeLocator { get; internal set; }
 
-        [Obsolete("Use " + nameof(UseScopeCache) + " instead.")] // Obsolete since v1.13.0.
+        [Obsolete("Use " + nameof(UsesScopeCache) + " instead.")] // Obsolete since v1.13.0.
         protected internal bool CacheScopeElement
         {
-            get => UseScopeCache;
+            get => UsesScopeCache;
             set
             {
                 if (value)
                 {
-                    if (Metadata.Get<UsesScopeCacheAttribute>(x => x.At(AttributeLevels.Declared).Where(a => a.UseCache)) == null)
+                    if (Metadata.Get<UsesScopeCacheAttribute>(x => x.At(AttributeLevels.Declared).Where(a => a.UsesCache)) == null)
                         Metadata.Push(new UsesScopeCacheAttribute());
                 }
                 else
@@ -57,13 +57,13 @@ namespace Atata
 
         /// <summary>
         /// Gets a value indicating whether to use scope cache.
-        /// Returns a <see cref="ICanUseCache.UseCache"/> value of an associated with the component
+        /// Returns a <see cref="ICanUseCache.UsesCache"/> value of an associated with the component
         /// <see cref="UsesScopeCacheAttribute"/> or <see cref="UsesCacheAttribute"/>.
         /// Returns <see langword="false"/>, as by default, when the attribute is not associated.
         /// </summary>
-        protected bool UseScopeCache =>
+        protected bool UsesScopeCache =>
             Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesScopeCacheAttribute))
-                ?.UseCache ?? false;
+                ?.UsesCache ?? false;
 
         /// <summary>
         /// Gets or sets the name of the component.
@@ -148,7 +148,7 @@ namespace Atata
 
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
-            if (CachedScope != null && UseScopeCache)
+            if (CachedScope != null && UsesScopeCache)
                 return CachedScope;
 
             if (ShouldUseParentScope())
@@ -178,7 +178,7 @@ namespace Atata
                     cache.ReleaseAccessChain();
             }
 
-            if (UseScopeCache)
+            if (UsesScopeCache)
                 CachedScope = element;
 
             return element;
