@@ -17,6 +17,14 @@ namespace Atata
         {
         }
 
+        protected T CachedValue { get; private set; }
+
+        protected bool HasCachedValue { get; private set; }
+
+        protected bool UsesValueCache =>
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesValueCacheAttribute))
+                ?.UseCache ?? false;
+
         /// <summary>
         /// Gets the value.
         /// Also executes <see cref="TriggerEvents.BeforeGet"/> and <see cref="TriggerEvents.AfterGet"/> triggers.
@@ -85,11 +93,20 @@ namespace Atata
         /// <returns>The value.</returns>
         public T Get()
         {
+            if (HasCachedValue && UsesValueCache)
+                return CachedValue;
+
             ExecuteTriggers(TriggerEvents.BeforeGet);
 
             T value = GetValue();
 
             ExecuteTriggers(TriggerEvents.AfterGet);
+
+            if (UsesValueCache)
+            {
+                CachedValue = value;
+                HasCachedValue = true;
+            }
 
             return value;
         }
@@ -179,6 +196,30 @@ namespace Atata
         {
             termOptions.Culture = metadata.GetCulture();
             termOptions.Format = metadata.GetFormat();
+        }
+
+        protected override void OnClearCache()
+        {
+            base.OnClearCache();
+
+            ClearValueCache();
+        }
+
+        /// <summary>
+        /// Clears the column header texts of the component.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner ClearValueCache()
+        {
+            if (HasCachedValue)
+            {
+                var cachedValue = CachedValue;
+                CachedValue = default;
+                HasCachedValue = false;
+                Log.Trace($"Cleared value cache of {ComponentFullName}: {Stringifier.ToString(cachedValue)}");
+            }
+
+            return Owner;
         }
     }
 }

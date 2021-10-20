@@ -183,5 +183,32 @@ namespace Atata.Tests
         {
             return GetLastLogEntries(minLogLevel, count).Select(x => x.Message).ToArray();
         }
+
+        protected void AssertThatLastLogSectionIsVerificationAndEmpty()
+        {
+            var entries = GetLastLogEntries(2);
+            entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+            entries[1].SectionEnd.Should().Be(entries[0].SectionStart);
+        }
+
+        protected void AssertThatLastLogSectionIsVerificationWithExecuteBehavior()
+        {
+            var entries = GetLastLogEntries(4);
+            entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+            entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+            entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
+            entries[3].SectionEnd.Should().Be(entries[0].SectionStart);
+        }
+
+        protected void AssertThatLastLogSectionIsVerificationWith2ElementFindSections()
+        {
+            var entries = GetLastLogEntries(6);
+            entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+            entries[1].SectionStart.Should().BeOfType<ElementFindLogSection>();
+            entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
+            entries[3].SectionStart.Should().BeOfType<ElementFindLogSection>();
+            entries[4].SectionEnd.Should().Be(entries[3].SectionStart);
+            entries[5].SectionEnd.Should().Be(entries[0].SectionStart);
+        }
     }
 }

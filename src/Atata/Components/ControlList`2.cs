@@ -230,9 +230,7 @@ return textValues;";
             TItem DoGetItemByIndex() =>
                 CreateItem(itemName, new FindByIndexAttribute(index));
 
-            return UseScopeCache
-                ? _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByIndex)
-                : DoGetItemByIndex();
+            return _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByIndex);
         }
 
         protected TItem GetItemByInnerXPath(string itemName, string xPath)
@@ -240,9 +238,7 @@ return textValues;";
             TItem DoGetItemByInnerXPath() =>
                 CreateItem(itemName, new FindByInnerXPathAttribute(xPath));
 
-            return UseScopeCache
-                ? _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByInnerXPath)
-                : DoGetItemByInnerXPath();
+            return _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByInnerXPath);
         }
 
         protected virtual TItem GetItem(string name, Expression<Func<TItem, bool>> predicateExpression)
@@ -258,9 +254,7 @@ return textValues;";
                 return CreateItem(scopeLocator, name);
             }
 
-            return UseScopeCache
-                ? _cachedNamedItemsMap.GetOrAdd(name, DoGetItem)
-                : DoGetItem();
+            return _cachedNamedItemsMap.GetOrAdd(name, DoGetItem);
         }
 
         /// <summary>
@@ -315,17 +309,10 @@ return textValues;";
             TItem DoGetOrCreateItemByElement() =>
                 CreateItem(new DefinedScopeLocator(element), name);
 
-            if (UseScopeCache)
-            {
-                TItem item = _cachedElementItemsMap.GetOrAdd(element, DoGetOrCreateItemByElement);
-                item.Metadata.RemoveAll(x => x is NameAttribute);
-                item.Metadata.Push(new NameAttribute(name));
-                return item;
-            }
-            else
-            {
-                return DoGetOrCreateItemByElement();
-            }
+            TItem item = _cachedElementItemsMap.GetOrAdd(element, DoGetOrCreateItemByElement);
+            item.Metadata.RemoveAll(x => x is NameAttribute);
+            item.Metadata.Push(new NameAttribute(name));
+            return item;
         }
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
@@ -546,18 +533,14 @@ return textValues;";
         /// <returns>The instance of the owner page object.</returns>
         public TOwner ClearCache()
         {
-            bool hasItemsToClear = false;
-
             if (_cachedAllElementsMap.Count > 0)
             {
-                hasItemsToClear = true;
                 _cachedAllElementsMap.Clear();
+                Component.Owner.Log.Trace($"Cleared scope cache of {Component.ComponentFullName} {ComponentPartName}");
             }
 
             if (_cachedNamedItemsMap.Count > 0)
             {
-                hasItemsToClear = true;
-
                 foreach (var item in _cachedNamedItemsMap.Values)
                     item.ClearCache();
 
@@ -566,16 +549,11 @@ return textValues;";
 
             if (_cachedElementItemsMap.Count > 0)
             {
-                hasItemsToClear = true;
-
                 foreach (var item in _cachedElementItemsMap.Values)
                     item.ClearCache();
 
                 _cachedElementItemsMap.Clear();
             }
-
-            if (hasItemsToClear)
-                Component.Owner.Log.Trace($"Cleared scope cache of {Component.ComponentFullName} {ComponentPartName}");
 
             return Component.Owner;
         }
