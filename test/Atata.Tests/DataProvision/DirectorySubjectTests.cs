@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Atata.Tests.DataProvision
@@ -7,6 +8,21 @@ namespace Atata.Tests.DataProvision
     [TestFixture]
     public class DirectorySubjectTests
     {
+        [Test]
+        public void Ctor_WithNullAsString() =>
+            Assert.Throws<ArgumentNullException>(() =>
+                new DirectorySubject(null as string));
+
+        [Test]
+        public void Ctor_WithNullAsDirectoryInfo() =>
+            Assert.Throws<ArgumentNullException>(() =>
+                new DirectorySubject(null as DirectoryInfo));
+
+        [Test]
+        public void Ctor_WithEmptyString() =>
+            Assert.Throws<ArgumentException>(() =>
+                new DirectorySubject(string.Empty));
+
         [Test]
         public void Name() =>
             new DirectorySubject(Path.Combine("Parent", "Dir"))
@@ -29,6 +45,24 @@ namespace Atata.Tests.DataProvision
             public static void False() =>
                 new DirectorySubject(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "MissingDirectory"))
                     .Exists.Should.BeFalse();
+
+            [Test]
+            public static async Task True_WhenAppearsLater()
+            {
+                using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
+
+                Task assertionTask = Task.Run(() =>
+                    new DirectorySubject(Path.Combine(directoryFixture.DirectoryPath, "test"))
+                        .Exists.Should.Within(5).BeTrue());
+
+                Task fileCreateTask = Task.Run(async () =>
+                {
+                    await Task.Delay(700);
+                    directoryFixture.CreateDirectory("test");
+                });
+
+                await Task.WhenAll(assertionTask, fileCreateTask);
+            }
         }
 
         [TestFixture]

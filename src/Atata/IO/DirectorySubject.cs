@@ -15,8 +15,11 @@ namespace Atata
         /// <param name="directoryPath">The directory path.</param>
         /// <param name="providerName">Name of the provider.</param>
         public DirectorySubject(string directoryPath, string providerName = null)
-            : this(new DirectoryInfo(directoryPath), providerName)
+            : this(
+                  new DynamicObjectSource<DirectoryInfo>(() => new DirectoryInfo(directoryPath)),
+                  providerName ?? BuildProviderName(directoryPath))
         {
+            directoryPath.CheckNotNullOrEmpty(nameof(directoryPath));
         }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace Atata
         public DirectorySubject(DirectoryInfo directoryInfo, string providerName = null)
             : this(
                 new StaticObjectSource<DirectoryInfo>(directoryInfo.CheckNotNull(nameof(directoryInfo))),
-                providerName ?? BuildProviderName(directoryInfo))
+                providerName ?? BuildProviderName(directoryInfo.FullName))
         {
         }
 
@@ -77,7 +80,7 @@ namespace Atata
                 this,
                 nameof(Files));
 
-        private static string BuildProviderName(DirectoryInfo directoryInfo) =>
-            $"\"{directoryInfo.FullName}\" directory";
+        private static string BuildProviderName(string directoryPath) =>
+            $"\"{directoryPath}\" directory";
     }
 }

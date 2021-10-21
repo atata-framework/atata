@@ -15,8 +15,11 @@ namespace Atata
         /// <param name="filePath">The file path.</param>
         /// <param name="providerName">Name of the provider.</param>
         public FileSubject(string filePath, string providerName = null)
-            : this(new FileInfo(filePath), providerName)
+            : this(
+                  new DynamicObjectSource<FileInfo>(() => new FileInfo(filePath)),
+                  providerName ?? BuildProviderName(filePath))
         {
+            filePath.CheckNotNullOrEmpty(nameof(filePath));
         }
 
         /// <summary>
@@ -27,7 +30,7 @@ namespace Atata
         public FileSubject(FileInfo fileInfo, string providerName = null)
             : this(
                 new StaticObjectSource<FileInfo>(fileInfo.CheckNotNull(nameof(fileInfo))),
-                providerName ?? BuildProviderName(fileInfo))
+                providerName ?? BuildProviderName(fileInfo.FullName))
         {
         }
 
@@ -75,13 +78,13 @@ namespace Atata
         /// Gets a value provider that determines if the file is read only.
         /// </summary>
         public ValueProvider<bool, _> IsReadOnly =>
-            this.ValueOf(x => x.IsReadOnly);
+            this.DynamicValueOf(x => x.IsReadOnly);
 
         /// <summary>
         /// Gets a value provider of the size of the file in bytes.
         /// </summary>
         public ValueProvider<long, _> Length =>
-            this.ValueOf(x => x.Length);
+            this.DynamicValueOf(x => x.Length);
 
         /// <summary>
         /// Returns a new <see cref="Subject{T}"/> for the file text.
@@ -90,7 +93,7 @@ namespace Atata
         public Subject<string> ReadAllText() =>
             ResultOf(x => File.ReadAllText(FullName), $"{nameof(ReadAllText)}()");
 
-        private static string BuildProviderName(FileInfo fileInfo) =>
-            $"\"{fileInfo.FullName}\" file";
+        private static string BuildProviderName(string filePath) =>
+            $"\"{filePath}\" file";
     }
 }

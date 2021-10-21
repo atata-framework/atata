@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using NUnit.Framework;
 
 namespace Atata.Tests.DataProvision
@@ -8,17 +9,17 @@ namespace Atata.Tests.DataProvision
     public class FileSubjectTests
     {
         [Test]
-        public void Ctor_WithNullAsString_ThrowsArgumentNullException() =>
+        public void Ctor_WithNullAsString() =>
             Assert.Throws<ArgumentNullException>(() =>
                 new FileSubject(null as string));
 
         [Test]
-        public void Ctor_WithNullAsFileInfo_ThrowsArgumentNullException() =>
+        public void Ctor_WithNullAsFileInfo() =>
             Assert.Throws<ArgumentNullException>(() =>
                 new FileSubject(null as FileInfo));
 
         [Test]
-        public void Ctor_WithEmptyString_ThrowsArgumentException() =>
+        public void Ctor_WithEmptyString() =>
             Assert.Throws<ArgumentException>(() =>
                 new FileSubject(string.Empty));
 
@@ -68,6 +69,24 @@ namespace Atata.Tests.DataProvision
             public void False_InMissingDirectory() =>
                 new FileSubject(Path.Combine("MissingDir", "MissingFile.txt"))
                     .Exists.Should.BeFalse();
+
+            [Test]
+            public async Task True_WhenAppearsLater()
+            {
+                using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
+
+                Task assertionTask = Task.Run(() =>
+                    new FileSubject(Path.Combine(directoryFixture.DirectoryPath, "test.txt"))
+                        .Exists.Should.Within(5).BeTrue());
+
+                Task fileCreateTask = Task.Run(async () =>
+                {
+                    await Task.Delay(700);
+                    directoryFixture.CreateFile("test.txt");
+                });
+
+                await Task.WhenAll(assertionTask, fileCreateTask);
+            }
         }
 
         [TestFixture]

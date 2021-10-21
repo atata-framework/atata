@@ -35,7 +35,7 @@ namespace Atata
         /// <inheritdoc/>
         public override DirectorySubject this[string directoryName] =>
             new DirectorySubject(
-                new DirectoryInfo(Path.Combine(_parentDirectorySubject.Value.FullName, directoryName)),
+                Path.Combine(_parentDirectorySubject.Value.FullName, directoryName),
                 $"[\"{directoryName}\"]")
             {
                 SourceProviderName = ProviderName
