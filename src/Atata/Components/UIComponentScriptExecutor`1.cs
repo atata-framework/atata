@@ -325,9 +325,9 @@ namespace Atata
             return ExecuteAgainst("arguments[0].scrollIntoView();");
         }
 
-        private static TResult ConvertResult<TResult>(object result)
+        private TResult ConvertResult<TResult>(object result)
         {
-            IObjectConverter objectConverter = AtataContext.Current?.ObjectConverter ?? new ObjectConverter();
+            IObjectConverter objectConverter = Component.Context.ObjectConverter;
             return (TResult)objectConverter.Convert(result, typeof(TResult));
         }
     }

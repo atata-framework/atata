@@ -50,7 +50,7 @@ namespace Atata
 
             action(framePageObject);
 
-            return ((IPageObject)AtataContext.Current.PageObject).SwitchToRoot(Owner);
+            return ((IPageObject)Context.PageObject).SwitchToRoot(Owner);
         }
     }
 }

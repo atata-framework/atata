@@ -38,7 +38,7 @@
             }
 
             if (_useUIComponentScopeCache)
-                AtataContext.Current.UIComponentScopeCache.ExecuteWithin(DoExecute);
+                component.Context.UIComponentScopeCache.ExecuteWithin(DoExecute);
             else
                 DoExecute();
         }

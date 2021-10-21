@@ -14,10 +14,16 @@ namespace Atata
     public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
         where TOwner : PageObject<TOwner>
     {
+        private readonly AtataContext _context;
+
         private Control<TOwner> _activeControl;
 
         protected PageObject()
         {
+            _context = AtataContext.Current
+                ?? throw new InvalidOperationException(
+                    $"Cannot instantiate {GetType().Name} because {nameof(AtataContext)}.{nameof(AtataContext.Current)} is null.");
+
             NavigateOnInit = true;
             ScopeLocator = new PlainScopeLocator(CreateScopeBy);
 
@@ -29,6 +35,9 @@ namespace Atata
 
             UIComponentResolver.InitPageObject<TOwner>(this);
         }
+
+        /// <inheritdoc/>
+        public sealed override AtataContext Context => _context;
 
         /// <summary>
         /// Gets the source of the scope.
@@ -172,7 +181,7 @@ namespace Atata
         {
             string url = Metadata.Get<UrlAttribute>()?.Url;
 
-            if (url != null || !AtataContext.Current.IsNavigated)
+            if (url != null || !Context.IsNavigated)
             {
                 Go.ToUrl(url);
             }
@@ -330,11 +339,11 @@ namespace Atata
 
             TimeSpan timeoutTime = timeout.HasValue
                 ? TimeSpan.FromSeconds(timeout.Value)
-                : AtataContext.Current.WaitingTimeout;
+                : Context.WaitingTimeout;
 
             TimeSpan retryIntervalTime = retryInterval.HasValue
                 ? TimeSpan.FromSeconds(retryInterval.Value)
-                : AtataContext.Current.WaitingRetryInterval;
+                : Context.WaitingRetryInterval;
 
             TOwner activePageObject = (TOwner)this;
 
@@ -342,7 +351,7 @@ namespace Atata
 
             string actionMessage = $"Refresh page until \"{predicateMessage}\" within {timeoutTime.ToShortIntervalString()} with {retryIntervalTime.ToShortIntervalString()} retry interval";
 
-            AtataContext.Current.Log.ExecuteSection(
+            Log.ExecuteSection(
                 new LogSection(actionMessage),
                 () =>
                 {
@@ -508,7 +517,7 @@ namespace Atata
         {
             action.CheckNotNull(nameof(action));
 
-            AtataContext.Current.AggregateAssert(() => action((TOwner)this), ComponentFullName);
+            Context.AggregateAssert(() => action((TOwner)this), ComponentFullName);
 
             return (TOwner)this;
         }
@@ -529,7 +538,7 @@ namespace Atata
 
             string componentName = UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
 
-            AtataContext.Current.AggregateAssert(() => action(component), componentName);
+            Context.AggregateAssert(() => action(component), componentName);
 
             return (TOwner)this;
         }

@@ -12,10 +12,12 @@ namespace Atata
         // TODO: In Atata v2 change the implementation to just using Actions.DragAndDrop() method.
         public override void Execute<TOwner>(IControl<TOwner> component, IControl<TOwner> target)
         {
-            AtataContext.Current.Driver.Perform(x => x.ClickAndHold(component.Scope));
+            var driver = component.Context.Driver;
+
+            driver.Perform(x => x.ClickAndHold(component.Scope));
 
             IWebElement targetScope = target.Scope;
-            AtataContext.Current.Driver.Perform(x => x.MoveToElement(targetScope).Release(targetScope));
+            driver.Perform(x => x.MoveToElement(targetScope).Release(targetScope));
         }
     }
 }

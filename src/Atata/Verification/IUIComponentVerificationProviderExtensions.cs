@@ -26,15 +26,15 @@ namespace Atata
         {
             should.CheckNotNull(nameof(should));
 
-            AtataContext.Current.Log.ExecuteSection(
+            should.Component.Context.Log.ExecuteSection(
                 new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"),
                 () =>
                 {
                     SearchOptions searchOptions = new SearchOptions
                     {
                         IsSafely = false,
-                        Timeout = should.Timeout ?? AtataContext.Current.VerificationTimeout,
-                        RetryInterval = should.RetryInterval ?? AtataContext.Current.VerificationRetryInterval
+                        Timeout = should.Timeout ?? should.Component.Context.VerificationTimeout,
+                        RetryInterval = should.RetryInterval ?? should.Component.Context.VerificationRetryInterval
                     };
 
                     if (visibility.HasValue)
@@ -245,14 +245,14 @@ namespace Atata
                 AppendIf(expectedIndividualValues.Count() > 1, ":").
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
-            AtataContext.Current.Log.ExecuteSection(
+            should.Component.Context.Log.ExecuteSection(
                 new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"),
                 () =>
                 {
                     IEnumerable<TData> actualIndividualValues = null;
                     Exception exception = null;
 
-                    bool doesSatisfy = AtataContext.Current.Driver.Try().Until(
+                    bool doesSatisfy = should.Component.Context.Driver.Try().Until(
                         _ =>
                         {
                             try

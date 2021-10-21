@@ -11,6 +11,11 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
+        /// Gets the <see cref="AtataContext"/> instance with which this component is associated.
+        /// </summary>
+        AtataContext Context { get; }
+
+        /// <summary>
         /// Gets the owner page object.
         /// </summary>
         TOwner Owner { get; }

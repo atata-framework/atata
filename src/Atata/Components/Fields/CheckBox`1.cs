@@ -38,7 +38,7 @@
 
         protected override void SetValue(bool value)
         {
-            AtataContext.Current.UIComponentScopeCache.ExecuteWithin(() =>
+            Context.UIComponentScopeCache.ExecuteWithin(() =>
             {
                 if (GetValue() != value)
                     OnClick();

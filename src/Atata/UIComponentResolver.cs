@@ -407,7 +407,7 @@ namespace Atata
         {
             Type parentComponentType = parentComponent?.GetType();
 
-            AtataAttributesContext contextAttributes = AtataContext.Current.Attributes;
+            AtataAttributesContext contextAttributes = (parentComponent?.Context ?? AtataContext.Current).Attributes;
             UIComponentMetadata metadata = new UIComponentMetadata(name, componentType, parentComponentType);
 
             // Declared:

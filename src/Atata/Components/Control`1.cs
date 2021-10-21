@@ -20,6 +20,9 @@ namespace Atata
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <inheritdoc/>
+        public sealed override AtataContext Context => Owner.Context;
+
         /// <summary>
         /// Gets the source of the scope.
         /// The default value is <see cref="ScopeSource.Parent"/>.

@@ -89,7 +89,7 @@ namespace Atata
                 case ScopeSource.PageObject:
                     return parentComponent.Owner.ScopeContext;
                 case ScopeSource.Page:
-                    return AtataContext.Current.Driver;
+                    return (parentComponent?.Context ?? AtataContext.Current).Driver;
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource));
             }

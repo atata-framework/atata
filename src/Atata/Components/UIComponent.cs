@@ -12,9 +12,12 @@ namespace Atata
     {
         protected UIComponent()
         {
-            Driver = AtataContext.Current.Driver;
-            Log = AtataContext.Current.Log;
         }
+
+        /// <summary>
+        /// Gets the <see cref="AtataContext"/> instance with which this component is associated.
+        /// </summary>
+        public abstract AtataContext Context { get; }
 
         /// <summary>
         /// Gets the owner component.
@@ -26,9 +29,9 @@ namespace Atata
         /// </summary>
         public UIComponent Parent { get; internal set; }
 
-        protected internal ILogManager Log { get; internal set; }
+        protected internal ILogManager Log => Context.Log;
 
-        protected internal RemoteWebDriver Driver { get; internal set; }
+        protected internal RemoteWebDriver Driver => Context.Driver;
 
         /// <summary>
         /// Gets the source of the scope.
@@ -159,7 +162,7 @@ namespace Atata
 
             SearchOptions actualSearchOptions = searchOptions ?? new SearchOptions();
 
-            var cache = AtataContext.Current.UIComponentScopeCache;
+            var cache = Context.UIComponentScopeCache;
             bool isActivatedAccessChainCache = cache.AcquireActivationOfAccessChain();
 
             IWebElement element;
