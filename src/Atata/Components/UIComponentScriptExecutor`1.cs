@@ -293,6 +293,23 @@ namespace Atata
 
         /// <summary>
         /// <para>
+        /// Removes focus from the <see cref="UIComponent.Scope"/> element of the current component.
+        /// </para>
+        /// <para>
+        /// Executable script:
+        /// <code>
+        /// arguments[0].blur();
+        /// </code>
+        /// </para>
+        /// </summary>
+        /// <returns>An instance of the owner page object.</returns>
+        public TOwner Blur()
+        {
+            return ExecuteAgainst("arguments[0].blur();");
+        }
+
+        /// <summary>
+        /// <para>
         /// Scrolls to the <see cref="UIComponent.Scope"/> element of the current component.
         /// </para>
         /// <para>

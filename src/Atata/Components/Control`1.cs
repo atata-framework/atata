@@ -13,6 +13,7 @@ namespace Atata
     [RightClicksUsingActions]
     [HoversUsingActions]
     [FocusesUsingScript]
+    [BlursUsingScript]
     [DragsAndDropsUsingActions]
     [DragsAndDropsToOffsetUsingActions]
     [ScrollsUsingActions]
@@ -165,6 +166,32 @@ namespace Atata
         /// </summary>
         protected virtual void OnFocus() =>
             ExecuteBehavior<FocusBehaviorAttribute>(x => x.Execute(this));
+
+        /// <summary>
+        /// Removes focus from the control.
+        /// Executes an associated with the component <see cref="BlurBehaviorAttribute"/>
+        /// that is <see cref="BlursUsingScriptAttribute"/> by default.
+        /// Also executes <see cref="TriggerEvents.BeforeBlur" /> and <see cref="TriggerEvents.AfterBlur" /> triggers.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner Blur()
+        {
+            ExecuteTriggers(TriggerEvents.BeforeBlur);
+
+            Log.ExecuteSection(
+                new BlurLogSection(this),
+                OnBlur);
+
+            ExecuteTriggers(TriggerEvents.AfterBlur);
+
+            return Owner;
+        }
+
+        /// <summary>
+        /// Removes focus from the control by executing <see cref="BlurBehaviorAttribute"/>.
+        /// </summary>
+        protected virtual void OnBlur() =>
+            ExecuteBehavior<BlurBehaviorAttribute>(x => x.Execute(this));
 
         /// <summary>
         /// Double-clicks the control.

@@ -86,12 +86,23 @@ namespace Atata
         /// <summary>
         /// Occurs before the scrolling to control.
         /// </summary>
+        // TODO: Atata v2. Move scroll values below.
         BeforeScroll = 1 << 14,
 
         /// <summary>
         /// Occurs after the scrolling to control.
         /// </summary>
         AfterScroll = 1 << 15,
+
+        /// <summary>
+        /// Occurs before the control loses the focus.
+        /// </summary>
+        BeforeBlur = 1 << 16,
+
+        /// <summary>
+        /// Occurs after the control loses the focus.
+        /// </summary>
+        AfterBlur = 1 << 17,
 
         /// <summary>
         /// The combination of <see cref="BeforeGet"/> and <see cref="BeforeSet"/>.
@@ -114,9 +125,9 @@ namespace Atata
         BeforeClickOrHoverOrFocus = BeforeClick | BeforeHover | BeforeFocus,
 
         /// <summary>
-        /// The combination of <see cref="BeforeClick"/>, <see cref="BeforeGet"/>, <see cref="BeforeSet"/>, <see cref="BeforeFocus"/> and <see cref="BeforeScroll"/>.
+        /// The combination of <see cref="BeforeClick"/>, <see cref="BeforeGet"/>, <see cref="BeforeSet"/>, <see cref="BeforeFocus"/>, <see cref="BeforeBlur"/> and <see cref="BeforeScroll"/>.
         /// </summary>
-        BeforeAnyAction = BeforeClick | BeforeGet | BeforeSet | BeforeFocus | BeforeScroll,
+        BeforeAnyAction = BeforeClick | BeforeGet | BeforeSet | BeforeFocus | BeforeBlur | BeforeScroll,
 
         /// <summary>
         /// The combination of <see cref="AfterGet"/> and <see cref="AfterSet"/>.
@@ -139,9 +150,9 @@ namespace Atata
         AfterClickOrHoverOrFocus = AfterClick | AfterHover | AfterFocus,
 
         /// <summary>
-        /// The combination of <see cref="AfterClick"/>, <see cref="AfterGet"/>, <see cref="AfterSet"/>, <see cref="AfterFocus"/> and <see cref="AfterScroll"/>.
+        /// The combination of <see cref="AfterClick"/>, <see cref="AfterGet"/>, <see cref="AfterSet"/>, <see cref="AfterFocus"/>, <see cref="AfterBlur"/> and <see cref="AfterScroll"/>.
         /// </summary>
-        AfterAnyAction = AfterClick | AfterGet | AfterSet | AfterFocus | AfterScroll,
+        AfterAnyAction = AfterClick | AfterGet | AfterSet | AfterFocus | AfterBlur | AfterScroll,
 
         /// <summary>
         /// The combination of <see cref="AfterClick"/> and <see cref="AfterSet"/>.

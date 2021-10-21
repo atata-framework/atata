@@ -12,6 +12,8 @@
 
         TOwner Focus();
 
+        TOwner Blur();
+
         TOwner DoubleClick();
 
         TOwner RightClick();

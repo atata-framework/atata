@@ -52,5 +52,14 @@ namespace Atata.Tests
             Go.To<GoTo1Page>()
                 .GoTo2Control.ClickAndGo<GoTo2Page>();
         }
+
+        [Test]
+        public void Blur()
+        {
+            Go.To<InputPage>()
+                .TelInput.Set("123")
+                .TelInput.Blur()
+                .ActiveControl.Attributes.Value.Should.Not.Equal("123");
+        }
     }
 }
