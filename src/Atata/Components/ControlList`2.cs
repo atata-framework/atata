@@ -230,7 +230,9 @@ return textValues;";
             TItem DoGetItemByIndex() =>
                 CreateItem(itemName, new FindByIndexAttribute(index));
 
-            return _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByIndex);
+            return UsesScopeCache
+                ? _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByIndex)
+                : DoGetItemByIndex();
         }
 
         protected TItem GetItemByInnerXPath(string itemName, string xPath)
@@ -238,23 +240,20 @@ return textValues;";
             TItem DoGetItemByInnerXPath() =>
                 CreateItem(itemName, new FindByInnerXPathAttribute(xPath));
 
-            return _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByInnerXPath);
+            return UsesScopeCache
+                ? _cachedNamedItemsMap.GetOrAdd(itemName, DoGetItemByInnerXPath)
+                : DoGetItemByInnerXPath();
         }
 
         protected virtual TItem GetItem(string name, Expression<Func<TItem, bool>> predicateExpression)
         {
-            TItem DoGetItem()
-            {
-                var predicate = predicateExpression.Compile();
+            var predicate = predicateExpression.Compile();
 
-                ControlListScopeLocator scopeLocator = new ControlListScopeLocator(
-                    searchOptions => GetItemElements(searchOptions)
-                        .Where((element, index) => predicate(GetOrCreateItemByElement(element, (index + 1).Ordinalize()))));
+            ControlListScopeLocator scopeLocator = new ControlListScopeLocator(
+                searchOptions => GetItemElements(searchOptions)
+                    .Where((element, index) => predicate(GetOrCreateItemByElement(element, (index + 1).Ordinalize()))));
 
-                return CreateItem(scopeLocator, name);
-            }
-
-            return _cachedNamedItemsMap.GetOrAdd(name, DoGetItem);
+            return CreateItem(scopeLocator, name);
         }
 
         /// <summary>

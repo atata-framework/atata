@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using FluentAssertions;
 using NUnit.Framework;
 
@@ -154,6 +155,32 @@ namespace Atata.Tests
                 component.AsEnumerable().Should().BeEmpty();
         }
 
+        [Test]
+        public void PredicateIndexer_UsingExternalIndexer()
+        {
+            var sut = Go.To<TablePage>().NumberedTable.Rows;
+
+            var dictionaries = new[]
+            {
+                new Dictionary<string, string>
+                {
+                    ["Name"] = "Item 1",
+                    ["Number"] = "1"
+                },
+                new Dictionary<string, string>
+                {
+                    ["Name"] = "Item 2",
+                    ["Number"] = "2"
+                }
+            };
+
+            foreach (var dictionary in dictionaries)
+            {
+                sut[x => x.Name.Value.Contains(dictionary["Name"])]
+                    .Name.Should.Equal(dictionary["Name"]);
+            }
+        }
+
         public class UsesScopeCache : UITestFixture
         {
             private ControlList<TablePage.NumberedTableRow, TablePage> _sut;
@@ -183,7 +210,17 @@ namespace Atata.Tests
                 _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
                 _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-                AssertThatLastLogSectionIsVerificationWithExecuteBehavior();
+                var entries = GetLastLogEntries(10);
+                entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+                entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[2].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[3].SectionEnd.Should().Be(entries[2].SectionStart);
+                entries[4].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[5].SectionEnd.Should().Be(entries[4].SectionStart);
+                entries[6].SectionStart.Should().BeOfType<ElementFindLogSection>();
+                entries[7].SectionEnd.Should().Be(entries[6].SectionStart);
+                entries[8].SectionEnd.Should().Be(entries[1].SectionStart);
+                entries[9].SectionEnd.Should().Be(entries[0].SectionStart);
             }
 
             [Test]
@@ -255,10 +292,9 @@ namespace Atata.Tests
             [Test]
             public void AfterClearCache()
             {
-                var item = _sut[x => x.Name == "Item 2"];
-                item.Number.Should.Be(2);
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
                 _sut.ClearCache();
-                item.Number.Should.Be(2);
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);
                 entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
@@ -269,10 +305,9 @@ namespace Atata.Tests
             [Test]
             public void AfterClearCache_OfPageObject()
             {
-                var item = _sut[x => x.Name == "Item 2"];
-                item.Number.Should.Be(2);
+                _sut[1].Number.Should.Be(2);
                 _sut.Component.Owner.ClearCache();
-                item.Number.Should.Be(2);
+                _sut[1].Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);
                 entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
@@ -309,7 +344,7 @@ namespace Atata.Tests
                 _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
                 _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-                AssertThatLastLogSectionIsVerificationAndEmpty();
+                AssertThatLastLogSectionIsVerificationWithExecuteBehaviorAnd3ElementFindSections();
             }
 
             [Test]
@@ -318,7 +353,7 @@ namespace Atata.Tests
                 _sut[1].Number.Should.Be(2);
                 _sut[1].Number.Should.Be(2);
 
-                AssertThatLastLogSectionIsVerificationAndEmpty();
+                AssertThatLastLogSectionIsVerificationWithExecuteBehaviorAnd3ElementFindSections();
             }
 
             [Test]
@@ -327,7 +362,7 @@ namespace Atata.Tests
                 _sut.GetByXPathCondition("td[1][.='Item 2']").Number.Should.Be(2);
                 _sut.GetByXPathCondition("td[1][.='Item 2']").Number.Should.Be(2);
 
-                AssertThatLastLogSectionIsVerificationAndEmpty();
+                AssertThatLastLogSectionIsVerificationWithExecuteBehaviorAnd3ElementFindSections();
             }
 
             [Test]
@@ -369,10 +404,9 @@ namespace Atata.Tests
             [Test]
             public void AfterClearCache()
             {
-                var item = _sut[x => x.Name == "Item 2"];
-                item.Number.Should.Be(2);
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
                 _sut.ClearCache();
-                item.Number.Should.Be(2);
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);
                 entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
@@ -383,10 +417,9 @@ namespace Atata.Tests
             [Test]
             public void AfterClearCache_OfPageObject()
             {
-                var item = _sut[x => x.Name == "Item 2"];
-                item.Number.Should.Be(2);
+                _sut[1].Number.Should.Be(2);
                 _sut.Component.Owner.ClearCache();
-                item.Number.Should.Be(2);
+                _sut[1].Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);
                 entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
@@ -424,7 +457,13 @@ namespace Atata.Tests
                 _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
                 _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-                AssertThatLastLogSectionIsVerificationAndEmpty();
+                var entries = GetLastLogEntries(6);
+                entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+                entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+                entries[2].SectionStart.Should().BeOfType<ElementFindLogSection>();
+                entries[3].SectionEnd.Should().Be(entries[2].SectionStart);
+                entries[4].SectionEnd.Should().Be(entries[1].SectionStart);
+                entries[5].SectionEnd.Should().Be(entries[0].SectionStart);
             }
 
             [Test]
@@ -484,10 +523,9 @@ namespace Atata.Tests
             [Test]
             public void AfterClearCache()
             {
-                var item = _sut[x => x.Name == "Item 2"];
-                item.Number.Should.Be(2);
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
                 _sut.ClearCache();
-                item.Number.Should.Be(2);
+                _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);
                 entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
@@ -498,10 +536,9 @@ namespace Atata.Tests
             [Test]
             public void AfterClearCache_OfPageObject()
             {
-                var item = _sut[x => x.Name == "Item 2"];
-                item.Number.Should.Be(2);
+                _sut[1].Number.Should.Be(2);
                 _sut.Component.Owner.ClearCache();
-                item.Number.Should.Be(2);
+                _sut[1].Number.Should.Be(2);
 
                 var entries = GetLastLogEntries(3);
                 entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();

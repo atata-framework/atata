@@ -210,5 +210,20 @@ namespace Atata.Tests
             entries[4].SectionEnd.Should().Be(entries[3].SectionStart);
             entries[5].SectionEnd.Should().Be(entries[0].SectionStart);
         }
+
+        protected void AssertThatLastLogSectionIsVerificationWithExecuteBehaviorAnd3ElementFindSections()
+        {
+            var entries = GetLastLogEntries(10);
+            entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
+            entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
+            entries[2].SectionStart.Should().BeOfType<ElementFindLogSection>();
+            entries[3].SectionEnd.Should().Be(entries[2].SectionStart);
+            entries[4].SectionStart.Should().BeOfType<ElementFindLogSection>();
+            entries[5].SectionEnd.Should().Be(entries[4].SectionStart);
+            entries[6].SectionStart.Should().BeOfType<ElementFindLogSection>();
+            entries[7].SectionEnd.Should().Be(entries[6].SectionStart);
+            entries[8].SectionEnd.Should().Be(entries[1].SectionStart);
+            entries[9].SectionEnd.Should().Be(entries[0].SectionStart);
+        }
     }
 }
