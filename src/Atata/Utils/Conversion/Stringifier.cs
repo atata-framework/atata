@@ -112,12 +112,28 @@ namespace Atata
                                         where TakeValueForSimpleStructuredForm(val)
                                         select $"{prop.Name}={ToString(val)}").ToArray();
 
-            StringBuilder builder = new StringBuilder(valueType.Name);
+            string simplifiedTypeName = ResolveSimplifiedTypeName(valueType);
+            StringBuilder builder = new StringBuilder(simplifiedTypeName);
 
             if (propertyStrings.Length > 0)
                 builder.Append($" {{ {string.Join(", ", propertyStrings)} }}");
 
             return builder.ToString();
+        }
+
+        private static string ResolveSimplifiedTypeName(Type type)
+        {
+            string name = type.Name;
+
+            if (type.IsGenericType)
+            {
+                Type[] genericArgumentTypes = type.GetGenericArguments();
+                string genericArgumentsString = string.Join(", ", genericArgumentTypes.Select(ResolveSimplifiedTypeName));
+
+                return $"{name.Substring(0, name.IndexOf('`'))}<{genericArgumentsString}>";
+            }
+
+            return name;
         }
 
         private static bool TakeValueForSimpleStructuredForm(object value)
