@@ -42,7 +42,9 @@ namespace Atata
             {
                 foreach (IEventHandler<TEvent> handler in eventHandlers.Values.ToArray())
                 {
-                    handler.Handle(eventData, _context);
+                    _context.Log.ExecuteSection(
+                        new ExecuteEventHandlerLogSection(eventData, handler),
+                        () => handler.Handle(eventData, _context));
                 }
             }
         }
