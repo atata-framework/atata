@@ -40,6 +40,12 @@ namespace Atata
         public AttributesAtataContextBuilder Attributes => new AttributesAtataContextBuilder(BuildingContext);
 
         /// <summary>
+        /// Gets the builder of event subscriptions,
+        /// which provides the methods to subscribe to Atata and custom events.
+        /// </summary>
+        public EventSubscriptionsAtataContextBuilder EventSubscriptions => new EventSubscriptionsAtataContextBuilder(BuildingContext);
+
+        /// <summary>
         /// Returns an existing or creates a new builder for <typeparamref name="TDriverBuilder"/> by the specified alias.
         /// </summary>
         /// <typeparam name="TDriverBuilder">The type of the driver builder.</typeparam>
@@ -879,6 +885,34 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
+        /// Sets the assembly name pattern that is used to filter assemblies to find event types in them.
+        /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindEventTypes"/> property value of <see cref="BuildingContext"/>.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAssemblyNamePatternToFindEventTypes(string pattern)
+        {
+            pattern.CheckNotNullOrWhitespace(nameof(pattern));
+
+            BuildingContext.AssemblyNamePatternToFindEventTypes = pattern;
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the assembly name pattern that is used to filter assemblies to find event handler types in them.
+        /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindEventHandlerTypes"/> property value of <see cref="BuildingContext"/>.
+        /// </summary>
+        /// <param name="pattern">The pattern.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseAssemblyNamePatternToFindEventHandlerTypes(string pattern)
+        {
+            pattern.CheckNotNullOrWhitespace(nameof(pattern));
+
+            BuildingContext.AssemblyNamePatternToFindEventHandlerTypes = pattern;
+            return this;
+        }
+
+        /// <summary>
         /// Sets the path to the Artifacts directory.
         /// </summary>
         /// <param name="directoryPath">The directory path.</param>
@@ -1239,6 +1273,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             context.ObjectConverter = objectConverter;
             context.ObjectMapper = objectMapper;
             context.ObjectCreator = objectCreator;
+            context.EventBus = new EventBus(context, BuildingContext.EventSubscriptions);
 
             if (context.TestSuiteName is null && context.TestSuiteType != null)
                 context.TestSuiteName = context.TestSuiteType.Name;

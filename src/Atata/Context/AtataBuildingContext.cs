@@ -136,6 +136,11 @@ namespace Atata
         public AtataAttributesContext Attributes { get; private set; } = new AtataAttributesContext();
 
         /// <summary>
+        /// Gets the list of event subscriptions.
+        /// </summary>
+        public List<EventSubscriptionItem> EventSubscriptions { get; private set; } = new List<EventSubscriptionItem>();
+
+        /// <summary>
         /// Gets or sets the default assembly name pattern that is used to filter assemblies to find types in them.
         /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>, which filters non-system assemblies.
         /// </summary>
@@ -152,6 +157,18 @@ namespace Atata
         /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
         /// </summary>
         public string AssemblyNamePatternToFindAttributeTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assembly name pattern that is used to filter assemblies to find event types in them.
+        /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
+        /// </summary>
+        public string AssemblyNamePatternToFindEventTypes { get; set; }
+
+        /// <summary>
+        /// Gets or sets the assembly name pattern that is used to filter assemblies to find event handler types in them.
+        /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
+        /// </summary>
+        public string AssemblyNamePatternToFindEventHandlerTypes { get; set; }
 
         /// <summary>
         /// Gets or sets the Artifacts directory path builder.
@@ -314,6 +331,7 @@ namespace Atata
             copy.OnDriverCreatedActions = OnDriverCreatedActions.ToList();
             copy.CleanUpActions = CleanUpActions.ToList();
             copy.Attributes = Attributes.Clone();
+            copy.EventSubscriptions = EventSubscriptions.ToList();
             copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
 
             return copy;

@@ -406,6 +406,11 @@ namespace Atata
         public IObjectMapper ObjectMapper { get; internal set; }
 
         /// <summary>
+        /// Gets the event bus, which can used to subscribe to and publish events.
+        /// </summary>
+        public IEventBus EventBus { get; internal set; }
+
+        /// <summary>
         /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
         /// Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
         /// </summary>
