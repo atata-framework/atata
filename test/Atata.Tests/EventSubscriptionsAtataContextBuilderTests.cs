@@ -71,13 +71,13 @@ namespace Atata.Tests
                 var eventHandler2 = new UniversalEventHandler();
 
                 _sut.Act(x => x.Add(eventHandler1))
-                    .Act(x => x.Add<AtataContextBuildingEvent>(eventHandler2))
+                    .Act(x => x.Add<TestEvent>(eventHandler2))
                     .ResultOf(x => x.BuildingContext.EventSubscriptions)
                         .Should.HaveCount(2)
                         .ElementAt(0).Should.Satisfy(
                             x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler1)
                         .ElementAt(1).Should.Satisfy(
-                            x => x.EventType == typeof(AtataContextBuildingEvent) && x.EventHandler == eventHandler2);
+                            x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler2);
             }
 
             [Test]
