@@ -1318,6 +1318,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         private void SetUp(AtataContext context)
         {
             OnBuilding();
+            context.EventBus.Publish(new AtataContextInitEvent(context));
 
             if (context.BaseUrl != null)
                 context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
@@ -1342,6 +1343,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             }
 
             OnBuilt();
+            context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
         }
 
         private void OnBuilding()

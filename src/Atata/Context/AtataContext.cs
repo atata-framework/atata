@@ -520,6 +520,7 @@ namespace Atata
             PureExecutionStopwatch.Stop();
 
             ExecuteCleanUpActions();
+            EventBus.Publish(new AtataContextCleanUpEvent(this));
 
             Log.ExecuteSection(
                 new LogSection("Clean up AtataContext"),
@@ -575,6 +576,8 @@ namespace Atata
             if (OnDriverCreatedActions != null)
                 foreach (Action<RemoteWebDriver> action in OnDriverCreatedActions)
                     action(_driver);
+
+            EventBus.Publish(new DriverInitEvent(_driver));
         }
 
         /// <summary>
