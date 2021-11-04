@@ -33,6 +33,7 @@ namespace Atata
             screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
 
             AtataContext.Current.Log.Info($"Screenshot saved to file \"{filePath}\"");
+            AtataContext.Current.EventBus.Publish(new ScreenshotFileSavedEvent(screenshotInfo, filePath));
         }
 
         /// <summary>
