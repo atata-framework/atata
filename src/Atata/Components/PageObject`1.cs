@@ -165,10 +165,12 @@ namespace Atata
                 Navigate();
 
             OnInit();
+            Context.EventBus.Publish(new PageObjectInitEvent(this));
 
             ExecuteTriggers(TriggerEvents.Init);
 
             OnInitCompleted();
+            Context.EventBus.Publish(new PageObjectInitCompletedEvent(this));
 
             OnVerify();
         }
@@ -623,7 +625,10 @@ namespace Atata
                 "document.documentElement.scrollTop = height;");
         }
 
-        void IPageObject.DeInit() =>
+        void IPageObject.DeInit()
+        {
             ExecuteTriggers(TriggerEvents.DeInit);
+            Context.EventBus.Publish(new PageObjectDeInitEvent(this));
+        }
     }
 }
