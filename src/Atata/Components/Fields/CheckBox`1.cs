@@ -38,7 +38,7 @@
 
         protected override void SetValue(bool value)
         {
-            Context.UIComponentScopeCache.ExecuteWithin(() =>
+            Context.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
             {
                 if (GetValue() != value)
                     OnClick();

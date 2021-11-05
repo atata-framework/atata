@@ -4,14 +4,14 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    internal class UIComponentScopeCache
+    public class UIComponentAccessChainScopeCache
     {
         private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> _accessChainItems =
             new Dictionary<UIComponent, Dictionary<Visibility, IWebElement>>();
 
-        public bool IsAccessChainActive { get; private set; }
+        internal bool IsActive { get; private set; }
 
-        public bool TryGet(UIComponent component, Visibility visibility, out IWebElement scope)
+        internal bool TryGet(UIComponent component, Visibility visibility, out IWebElement scope)
         {
             scope = null;
 
@@ -19,18 +19,18 @@ namespace Atata
                 && visibiltyElementMap.TryGetValue(visibility, out scope);
         }
 
-        public bool AcquireActivationOfAccessChain()
+        internal bool AcquireActivation()
         {
-            if (IsAccessChainActive)
+            if (IsActive)
                 return false;
 
-            IsAccessChainActive = true;
+            IsActive = true;
             return true;
         }
 
-        public void AddToAccessChain(UIComponent component, Visibility visibility, IWebElement scope)
+        internal void Add(UIComponent component, Visibility visibility, IWebElement scope)
         {
-            if (IsAccessChainActive)
+            if (IsActive)
             {
                 if (!_accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap))
                 {
@@ -42,22 +42,17 @@ namespace Atata
             }
         }
 
-        public void ReleaseAccessChain()
+        internal void Release()
         {
             _accessChainItems.Clear();
-            IsAccessChainActive = false;
-        }
-
-        public void Clear()
-        {
-            ReleaseAccessChain();
+            IsActive = false;
         }
 
         public void ExecuteWithin(Action action)
         {
             action.CheckNotNull(nameof(action));
 
-            bool isActivatedAccessChainCache = AcquireActivationOfAccessChain();
+            bool isActivatedAccessChainCache = AcquireActivation();
 
             if (isActivatedAccessChainCache)
             {
@@ -67,12 +62,35 @@ namespace Atata
                 }
                 finally
                 {
-                    ReleaseAccessChain();
+                    Release();
                 }
             }
             else
             {
                 action.Invoke();
+            }
+        }
+
+        public TResult ExecuteWithin<TResult>(Func<TResult> function)
+        {
+            function.CheckNotNull(nameof(function));
+
+            bool isActivatedAccessChainCache = AcquireActivation();
+
+            if (isActivatedAccessChainCache)
+            {
+                try
+                {
+                    return function.Invoke();
+                }
+                finally
+                {
+                    Release();
+                }
+            }
+            else
+            {
+                return function.Invoke();
             }
         }
     }

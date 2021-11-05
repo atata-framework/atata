@@ -162,8 +162,8 @@ namespace Atata
 
             SearchOptions actualSearchOptions = searchOptions ?? new SearchOptions();
 
-            var cache = Context.UIComponentScopeCache;
-            bool isActivatedAccessChainCache = cache.AcquireActivationOfAccessChain();
+            var cache = Context.UIComponentAccessChainScopeCache;
+            bool isActivatedAccessChainCache = cache.AcquireActivation();
 
             IWebElement element;
 
@@ -173,12 +173,12 @@ namespace Atata
                     element = OnGetScopeElement(actualSearchOptions);
 
                 if (!isActivatedAccessChainCache && element != null)
-                    cache.AddToAccessChain(this, actualSearchOptions.Visibility, element);
+                    cache.Add(this, actualSearchOptions.Visibility, element);
             }
             finally
             {
                 if (isActivatedAccessChainCache)
-                    cache.ReleaseAccessChain();
+                    cache.Release();
             }
 
             if (UsesScopeCache)

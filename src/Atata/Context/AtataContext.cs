@@ -389,7 +389,10 @@ namespace Atata
             get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
         }
 
-        internal UIComponentScopeCache UIComponentScopeCache { get; } = new UIComponentScopeCache();
+        /// <summary>
+        /// Gets the UI component access chain scope cache.
+        /// </summary>
+        public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache { get; } = new UIComponentAccessChainScopeCache();
 
         /// <summary>
         /// Gets the object creator.
@@ -533,7 +536,7 @@ namespace Atata
                     if (PageObject != null)
                         UIComponentResolver.CleanUpPageObject(PageObject);
 
-                    UIComponentScopeCache.Clear();
+                    UIComponentAccessChainScopeCache.Release();
 
                     if (quitDriver)
                         _driver?.Dispose();

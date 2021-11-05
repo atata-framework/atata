@@ -38,7 +38,7 @@
             }
 
             if (_useUIComponentScopeCache)
-                component.Context.UIComponentScopeCache.ExecuteWithin(DoExecute);
+                component.Context.UIComponentAccessChainScopeCache.ExecuteWithin(DoExecute);
             else
                 DoExecute();
         }

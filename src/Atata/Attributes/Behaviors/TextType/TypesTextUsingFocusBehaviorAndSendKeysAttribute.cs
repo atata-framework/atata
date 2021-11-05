@@ -13,7 +13,7 @@ namespace Atata
         {
             if (!string.IsNullOrEmpty(value))
             {
-                component.Context.UIComponentScopeCache.ExecuteWithin(() =>
+                component.Context.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
                 {
                     component.ExecuteBehavior<FocusBehaviorAttribute>(x => x.Execute(component));
 
