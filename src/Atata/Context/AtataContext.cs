@@ -350,6 +350,7 @@ namespace Atata
         /// <summary>
         /// Gets the list of actions to perform during <see cref="AtataContext"/> cleanup.
         /// </summary>
+        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
         public List<Action> CleanUpActions { get; internal set; }
 
         /// <summary>
@@ -520,12 +521,13 @@ namespace Atata
             PureExecutionStopwatch.Stop();
 
             ExecuteCleanUpActions();
-            EventBus.Publish(new AtataContextCleanUpEvent(this));
 
             Log.ExecuteSection(
                 new LogSection("Clean up AtataContext"),
                 () =>
                 {
+                    EventBus.Publish(new AtataContextCleanUpEvent(this));
+
                     CleanUpTemporarilyPreservedPageObjectList();
 
                     if (PageObject != null)
@@ -611,6 +613,7 @@ namespace Atata
 
         private void ExecuteCleanUpActions()
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             foreach (Action action in CleanUpActions)
             {
                 try
@@ -622,6 +625,7 @@ namespace Atata
                     Log.Error("Clean up action failure.", e);
                 }
             }
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>

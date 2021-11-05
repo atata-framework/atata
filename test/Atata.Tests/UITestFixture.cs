@@ -18,10 +18,10 @@ namespace Atata.Tests
             if (ReuseDriver && PreservedDriver != null)
                 contextBuilder = contextBuilder.UseDriver(PreservedDriver);
 
-            contextBuilder.OnDriverCreated(driver =>
+            contextBuilder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
             {
-                if (ReuseDriver && PreservedDriver == null)
-                    PreservedDriver = driver;
+                if (ReuseDriver && PreservedDriver is null)
+                    PreservedDriver = (RemoteWebDriver)eventData.Driver;
             });
 
             contextBuilder.Build();

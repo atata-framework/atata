@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
@@ -953,6 +952,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        [Obsolete("Use EventSubscriptions.Add<AtataContextInitEvent>(...) instead.")]
         public AtataContextBuilder OnBuilding(Action action)
         {
             if (action != null)
@@ -966,6 +966,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        [Obsolete("Use EventSubscriptions.Add<AtataContextInitCompletedEvent>(...) instead.")]
         public AtataContextBuilder OnBuilt(Action action)
         {
             if (action != null)
@@ -978,6 +979,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        [Obsolete("Use EventSubscriptions.Add<DriverInitEvent>(...) instead.")]
         public AtataContextBuilder OnDriverCreated(Action<RemoteWebDriver> action)
         {
             if (action != null)
@@ -990,6 +992,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        [Obsolete("Use EventSubscriptions.Add<DriverInitEvent>(...) instead.")]
         public AtataContextBuilder OnDriverCreated(Action action)
         {
             return action != null ? OnDriverCreated(_ => action()) : this;
@@ -1000,6 +1003,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        [Obsolete("Use EventSubscriptions.Add<AtataContextCleanUpEvent>(...) instead.")]
         public AtataContextBuilder OnCleanUp(Action action)
         {
             if (action != null)
@@ -1094,30 +1098,16 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// Defines that an error occurred during the NUnit test execution should be added to the log during the cleanup.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder LogNUnitError()
-        {
-            return OnCleanUp(() =>
-            {
-                dynamic testResult = NUnitAdapter.GetCurrentTestResultAdapter();
-
-                if (NUnitAdapter.IsTestResultAdapterFailed(testResult))
-                    AtataContext.Current.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
-            });
-        }
+        public AtataContextBuilder LogNUnitError() =>
+            EventSubscriptions.Add(new LogNUnitErrorOnCleanUpEventHandler());
 
         /// <summary>
         /// Defines that an error occurred during the NUnit test execution should be captured by a screenshot during the cleanup.
         /// </summary>
         /// <param name="title">The screenshot title.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder TakeScreenshotOnNUnitError(string title = "Failed")
-        {
-            return OnCleanUp(() =>
-            {
-                if (NUnitAdapter.IsCurrentTestFailed())
-                    AtataContext.Current.Log.Screenshot(title);
-            });
-        }
+        public AtataContextBuilder TakeScreenshotOnNUnitError(string title = "Failed") =>
+            EventSubscriptions.Add(new TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(title));
 
         /// <summary>
         /// Defines that on <see cref="AtataContext"/> clean-up the files stored in Artifacts directory
@@ -1125,7 +1115,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder OnCleanUpAddArtifactsToNUnitTestContext() =>
-            OnCleanUpAddDirectoryFilesToNUnitTestContext(() => AtataContext.Current.Artifacts.Value.FullName);
+            EventSubscriptions.Add(new AddArtifactsToNUnitTestContextOnCleanUpEventHandler());
 
         /// <summary>
         /// Defines that on <see cref="AtataContext" /> clean-up the files stored in the directory
@@ -1137,7 +1127,14 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(string directoryPath)
         {
             directoryPath.CheckNotNull(nameof(directoryPath));
-            return OnCleanUpAddDirectoryFilesToNUnitTestContext(() => directoryPath);
+            return OnCleanUpAddDirectoryFilesToNUnitTestContext(_ => directoryPath);
+        }
+
+        /// <inheritdoc cref="OnCleanUpAddDirectoryFilesToNUnitTestContext(Func{AtataContext, string})"/>
+        public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<string> directoryPathBuilder)
+        {
+            directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+            return OnCleanUpAddDirectoryFilesToNUnitTestContext(_ => directoryPathBuilder.Invoke());
         }
 
         /// <summary>
@@ -1147,26 +1144,11 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="directoryPathBuilder">The directory path builder.</param>
         /// <returns>The <see cref="AtataContextBuilder" /> instance.</returns>
-        public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<string> directoryPathBuilder)
+        public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<AtataContext, string> directoryPathBuilder)
         {
             directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
-
-            return OnCleanUp(() =>
-            {
-                string directoryPath = directoryPathBuilder.Invoke();
-
-                directoryPath = AtataContext.Current.FillTemplateString(directoryPath);
-
-                DirectoryInfo directory = new DirectoryInfo(directoryPath);
-
-                if (directory.Exists)
-                {
-                    var files = directory.EnumerateFiles("*", SearchOption.AllDirectories);
-
-                    foreach (var file in files)
-                        NUnitAdapter.AddTestAttachment(file.FullName);
-                }
-            });
+            return EventSubscriptions.Add(
+                new AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler(directoryPathBuilder));
         }
 
         /// <summary>
@@ -1174,10 +1156,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// The default value is a type of <see cref="AssertionException"/>.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitAssertionExceptionType()
-        {
-            return UseAssertionExceptionType(NUnitAdapter.AssertionExceptionType);
-        }
+        public AtataContextBuilder UseNUnitAssertionExceptionType() =>
+            UseAssertionExceptionType(NUnitAdapter.AssertionExceptionType);
 
         /// <summary>
         /// Enables all NUnit features for Atata.
@@ -1254,8 +1234,10 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             context.TimeZone = BuildingContext.TimeZone;
             context.BaseUrl = BuildingContext.BaseUrl;
             context.Log = logManager;
+#pragma warning disable CS0618 // Type or member is obsolete
             context.OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>();
             context.CleanUpActions = BuildingContext.CleanUpActions?.ToList() ?? new List<Action>();
+#pragma warning restore CS0618 // Type or member is obsolete
             context.Attributes = BuildingContext.Attributes.Clone();
             context.BaseRetryTimeout = BuildingContext.BaseRetryTimeout;
             context.BaseRetryInterval = BuildingContext.BaseRetryInterval;
@@ -1346,6 +1328,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         private void OnBuilding()
         {
             if (BuildingContext.OnBuildingActions != null)
@@ -1359,6 +1342,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 foreach (Action action in BuildingContext.OnBuiltActions)
                     action();
         }
+#pragma warning restore CS0618 // Type or member is obsolete
 
         private static void LogRetrySettings(AtataContext context)
         {

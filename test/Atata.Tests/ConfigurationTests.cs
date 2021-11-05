@@ -18,7 +18,6 @@ namespace Atata.Tests
             Assert.That(globalContext.LogConsumers, Is.Empty);
             Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
             Assert.That(globalContext.BaseUrl, Is.Null);
-            Assert.That(globalContext.CleanUpActions, Is.Empty);
 
             AtataContext.GlobalConfiguration.
                 UseNUnitTestName().
@@ -42,7 +41,6 @@ namespace Atata.Tests
             Assert.That(globalContext.LogConsumers.First().Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
             Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
             Assert.That(globalContext.BaseUrl, Is.Null);
-            Assert.That(globalContext.CleanUpActions, Has.Count.EqualTo(1));
 
             Assert.That(currentContext.DriverFactories, Has.Count.EqualTo(1));
             Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
@@ -50,7 +48,6 @@ namespace Atata.Tests
             Assert.That(currentContext.ScreenshotConsumers, Has.Count.EqualTo(1));
             Assert.That(currentContext.ScreenshotConsumers.First(), Is.TypeOf<FileScreenshotConsumer>());
             Assert.That(currentContext.BaseUrl, Is.EqualTo(UITestFixtureBase.BaseUrl));
-            Assert.That(currentContext.CleanUpActions, Has.Count.EqualTo(2));
             Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
             Assert.That(currentContext.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));
         }
@@ -105,7 +102,6 @@ namespace Atata.Tests
             Assert.That(context.LogConsumers, Is.Empty);
             Assert.That(context.ScreenshotConsumers, Is.Empty);
             Assert.That(context.BaseUrl, Is.Null);
-            Assert.That(context.CleanUpActions, Is.Empty);
             Assert.That(context.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));
             Assert.That(context.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(0.5)));
         }

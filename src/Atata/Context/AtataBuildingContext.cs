@@ -113,21 +113,25 @@ namespace Atata
         /// <summary>
         /// Gets the actions to perform during <see cref="AtataContext"/> building.
         /// </summary>
+        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
         public List<Action> OnBuildingActions { get; private set; } = new List<Action>();
 
         /// <summary>
         /// Gets the actions to perform after <see cref="AtataContext"/> building.
         /// </summary>
+        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
         public List<Action> OnBuiltActions { get; private set; } = new List<Action>();
 
         /// <summary>
         /// Gets the actions to perform after the driver is created.
         /// </summary>
+        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
         public List<Action<RemoteWebDriver>> OnDriverCreatedActions { get; private set; } = new List<Action<RemoteWebDriver>>();
 
         /// <summary>
         /// Gets the actions to perform during <see cref="AtataContext"/> cleanup.
         /// </summary>
+        [Obsolete("Use " + nameof(EventSubscriptions) + " instead.")] // Obsolete since v1.14.0.
         public List<Action> CleanUpActions { get; private set; } = new List<Action>();
 
         /// <summary>
@@ -326,10 +330,12 @@ namespace Atata
                 .Select(x => x is ICloneable cloneableConsumer ? (IScreenshotConsumer)cloneableConsumer.Clone() : x)
                 .ToList();
 
+#pragma warning disable CS0618 // Type or member is obsolete
             copy.OnBuildingActions = OnBuildingActions.ToList();
             copy.OnBuiltActions = OnBuiltActions.ToList();
             copy.OnDriverCreatedActions = OnDriverCreatedActions.ToList();
             copy.CleanUpActions = CleanUpActions.ToList();
+#pragma warning restore CS0618 // Type or member is obsolete
             copy.Attributes = Attributes.Clone();
             copy.EventSubscriptions = EventSubscriptions.ToList();
             copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
