@@ -81,6 +81,19 @@ namespace Atata.Tests
             }
 
             [Test]
+            public void EventHandlerType() =>
+                _sut.Act(x => x.Add(typeof(TestEventHandler)))
+                    .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                        .Should.ContainSingle()
+                        .Single().Should.Satisfy(
+                            x => x.EventType == typeof(TestEvent) && x.EventHandler is TestEventHandler);
+
+            [Test]
+            public void EventHandlerType_WithInvalidValue() =>
+                _sut.Invoking(x => x.Add(typeof(EventSubscriptionsAtataContextBuilderTests)))
+                    .Should.Throw<ArgumentException>();
+
+            [Test]
             public void EventTypeAndEventHandlerType_WithExactEventHandlerType() =>
                 _sut.Act(x => x.Add(typeof(TestEvent), typeof(TestEventHandler)))
                     .ResultOf(x => x.BuildingContext.EventSubscriptions)

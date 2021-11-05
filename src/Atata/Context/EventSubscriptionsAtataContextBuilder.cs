@@ -49,6 +49,27 @@ namespace Atata
             Add(typeof(TEvent), eventHandler);
 
         /// <summary>
+        /// Adds the created instance of <paramref name="eventHandlerType"/> as a subscription to the event type
+        /// that is read from <see cref="IEventHandler{TEvent}"/> generic argument that <paramref name="eventHandlerType"/> should implement.
+        /// </summary>
+        /// <param name="eventHandlerType">Type of the event handler.</param>
+        /// <returns>The same <see cref="EventSubscriptionsAtataContextBuilder"/> instance.</returns>
+        public EventSubscriptionsAtataContextBuilder Add(Type eventHandlerType)
+        {
+            eventHandlerType.CheckNotNull(nameof(eventHandlerType));
+
+            Type expectedInterfaceType = typeof(IEventHandler<>);
+
+            Type eventHanderType = eventHandlerType.GetGenericInterfaceType(expectedInterfaceType)
+                ?? throw new ArgumentException($"'{nameof(eventHandlerType)}' of {eventHandlerType.FullName} type doesn't implement {expectedInterfaceType.FullName}.", nameof(eventHandlerType));
+
+            Type eventType = eventHanderType.GetGenericArguments()[0];
+
+            var eventHandler = ActivatorEx.CreateInstance(eventHandlerType);
+            return Add(eventType, eventHandler);
+        }
+
+        /// <summary>
         /// Adds the created instance of <paramref name="eventHandlerType"/> as a subscription to the <paramref name="eventType"/>.
         /// </summary>
         /// <param name="eventType">Type of the event.</param>
@@ -65,7 +86,6 @@ namespace Atata
                 throw new ArgumentException($"'{nameof(eventHandlerType)}' of {eventHandlerType.FullName} type doesn't implement {expectedType.FullName}.", nameof(eventHandlerType));
 
             var eventHandler = ActivatorEx.CreateInstance(eventHandlerType);
-
             return Add(eventType, eventHandler);
         }
 
