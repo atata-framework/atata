@@ -30,14 +30,29 @@ namespace Atata
         }
 
         /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Func{TObject, TResult}, string)"/>
-        public static Subject<TResult> ResultOf<TResult>(Func<TResult> function, string functionName)
+        public static Subject<TResult> ResultOf<TResult>(Func<TResult> function, string functionName) =>
+            SubjectOf(function, BuildResultName(functionName));
+
+        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+        public static Subject<TResult> SubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
+        {
+            functionExpression.CheckNotNull(nameof(functionExpression));
+
+            var function = functionExpression.Compile();
+            string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+
+            return SubjectOf(function, functionName);
+        }
+
+        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+        public static Subject<TResult> SubjectOf<TResult>(Func<TResult> function, string functionName)
         {
             function.CheckNotNull(nameof(function));
             functionName.CheckNotNull(nameof(functionName));
 
             return new Subject<TResult>(
                 new LazyObjectSource<TResult>(function),
-                BuildResultName(functionName));
+                functionName);
         }
 
         /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
@@ -52,14 +67,29 @@ namespace Atata
         }
 
         /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
-        public static Subject<TResult> DynamicResultOf<TResult>(Func<TResult> function, string functionName)
+        public static Subject<TResult> DynamicResultOf<TResult>(Func<TResult> function, string functionName) =>
+            DynamicSubjectOf(function, BuildResultName(functionName));
+
+        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+        public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
+        {
+            functionExpression.CheckNotNull(nameof(functionExpression));
+
+            var function = functionExpression.Compile();
+            string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+
+            return DynamicSubjectOf(function, functionName);
+        }
+
+        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+        public static Subject<TResult> DynamicSubjectOf<TResult>(Func<TResult> function, string functionName)
         {
             function.CheckNotNull(nameof(function));
             functionName.CheckNotNull(nameof(functionName));
 
             return new Subject<TResult>(
                 new DynamicObjectSource<TResult>(function),
-                BuildResultName(functionName));
+                functionName);
         }
 
         /// <summary>

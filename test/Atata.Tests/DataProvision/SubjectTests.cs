@@ -169,9 +169,67 @@ namespace Atata.Tests.DataProvision
                     .Should.Equal("subject.Keys.Where(key => key != \"z\") => result.First() => result");
 
             [Test]
+            public void ProviderName_OfFunction_AfterSubjectOf() =>
+                _subject.SubjectOf(x => x.Keys.Where(key => key != "z"))
+                    .ResultOf(x => x.First())
+                    .ProviderName.ToResultSubject()
+                    .Should.Equal("subject.Keys.Where(key => key != \"z\").First() => result");
+
+            [Test]
             public void ProviderName_OfIndexer() =>
                 _subject.ResultOf(x => x["a"])
                     .ProviderName.Should().Be("subject[\"a\"] => result");
+        }
+
+        [TestFixture]
+        public class SubjectOf
+        {
+            private Subject<Dictionary<string, int>> _subject;
+
+            [SetUp]
+            public void SetUpTest() =>
+                _subject = CreateDictionarySubject();
+
+            [Test]
+            public void ProviderName_OfProperty() =>
+                _subject.SubjectOf(x => x.Count)
+                    .ProviderName.Should().Be("subject.Count");
+
+            [Test]
+            public void ProviderName_OfPropertyChain() =>
+                _subject.SubjectOf(x => x.Keys.Count)
+                    .ProviderName.Should().Be("subject.Keys.Count");
+
+            [Test]
+            public void ProviderName_OfFunction() =>
+                _subject.SubjectOf(x => x.ContainsKey("a"))
+                    .ProviderName.Should().Be("subject.ContainsKey(\"a\")");
+
+            [Test]
+            public void ProviderName_OfFunction_AfterAct() =>
+                _subject
+                    .Act(x => x.Add("d", 4))
+                    .SubjectOf(x => x.ContainsKey("d"))
+                    .ProviderName.Should().Be("subject{ Add(\"d\", 4) }.ContainsKey(\"d\")");
+
+            [Test]
+            public void ProviderName_OfFunction_AfterResultOf() =>
+                _subject.ResultOf(x => x.Keys.Where(key => key != "z"))
+                    .SubjectOf(x => x.First())
+                    .ProviderName.ToResultSubject()
+                    .Should.Equal("subject.Keys.Where(key => key != \"z\") => result.First()");
+
+            [Test]
+            public void ProviderName_OfFunction_AfterSubjectOf() =>
+                _subject.SubjectOf(x => x.Keys.Where(key => key != "z"))
+                    .SubjectOf(x => x.First())
+                    .ProviderName.ToResultSubject()
+                    .Should.Equal("subject.Keys.Where(key => key != \"z\").First()");
+
+            [Test]
+            public void ProviderName_OfIndexer() =>
+                _subject.SubjectOf(x => x["a"])
+                    .ProviderName.Should().Be("subject[\"a\"]");
         }
 
         [TestFixture]

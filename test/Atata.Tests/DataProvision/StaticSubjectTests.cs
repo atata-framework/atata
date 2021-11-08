@@ -32,6 +32,15 @@ namespace Atata.Tests.DataProvision
         }
 
         [TestFixture]
+        public static class SubjectOf
+        {
+            [Test]
+            public static void ProviderName() =>
+                Subject.SubjectOf(() => TestClass.GetEntity(10))
+                    .ProviderName.Should().Be("StaticSubjectTests.TestClass.GetEntity(10)");
+        }
+
+        [TestFixture]
         public static class Invoking
         {
             [Test]
