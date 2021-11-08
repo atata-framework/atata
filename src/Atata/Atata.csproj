@@ -35,6 +35,10 @@ Features:
     <PackageReference Include="Atata.WebDriverExtras" Version="1.5.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <InternalsVisibleTo Include="Atata.Tests" />
+  </ItemGroup>
 
   <Choose>
     <When Condition="$(Configuration) == 'SlimNetCore3.1'">
