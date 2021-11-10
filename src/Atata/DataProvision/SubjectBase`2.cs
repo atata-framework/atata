@@ -248,5 +248,27 @@ namespace Atata
                 new DynamicObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
                 actionName);
         }
+
+        /// <summary>
+        /// Executes aggregate assertion for the current subject using <see cref="AtataContext.AggregateAssert(Action, string)" /> method.
+        /// </summary>
+        /// <param name="action">The action to execute in scope of aggregate assertion.</param>
+        /// <param name="assertionScopeName">
+        /// Name of the scope being asserted.
+        /// Is used to identify the assertion section in log.
+        /// If it is <see langword="null"/>, <see cref="ObjectProvider{TObject, TOwner}.ProviderName"/> is used instead.
+        /// </param>
+        /// <returns>The instance of this page object.</returns>
+        public TSubject AggregateAssert(Action<TSubject> action, string assertionScopeName = null)
+        {
+            action.CheckNotNull(nameof(action));
+
+            assertionScopeName = assertionScopeName ?? ProviderName;
+
+            ResolveAtataContext()
+                .AggregateAssert(() => action((TSubject)this), assertionScopeName);
+
+            return Owner;
+        }
     }
 }

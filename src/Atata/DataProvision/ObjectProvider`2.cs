@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace Atata
 {
@@ -107,6 +108,15 @@ namespace Atata
 
         private DataVerificationProvider<TObject, TOwner> CreateVerificationProvider() =>
             new DataVerificationProvider<TObject, TOwner>(this);
+
+        /// <summary>
+        /// Resolves the current <see cref="AtataContext"/> instance.
+        /// Throws <see cref="InvalidOperationException"/> if <see cref="AtataContext.Current"/> is <see langword="null"/>.
+        /// </summary>
+        /// <returns>An <see cref="AtataContext"/> instance.</returns>
+        protected AtataContext ResolveAtataContext() =>
+            AtataContext.Current ?? throw new InvalidOperationException(
+                $"Failed to resolve {nameof(AtataContext)} as {nameof(AtataContext)}.{nameof(AtataContext.Current)} is null.");
 
         public override string ToString() =>
             ProviderName;
