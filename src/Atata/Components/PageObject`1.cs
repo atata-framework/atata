@@ -514,12 +514,19 @@ namespace Atata
         /// Executes aggregate assertion for the current page object using <see cref="AtataContext.AggregateAssert(Action, string)" /> method.
         /// </summary>
         /// <param name="action">The action to execute in scope of aggregate assertion.</param>
+        /// <param name="assertionScopeName">
+        /// Name of the scope being asserted.
+        /// Is used to identify the assertion section in log.
+        /// If it is <see langword="null"/>, <see cref="UIComponent.ComponentFullName"/> is used instead.
+        /// </param>
         /// <returns>The instance of this page object.</returns>
-        public TOwner AggregateAssert(Action<TOwner> action)
+        public TOwner AggregateAssert(Action<TOwner> action, string assertionScopeName = null)
         {
             action.CheckNotNull(nameof(action));
 
-            Context.AggregateAssert(() => action((TOwner)this), ComponentFullName);
+            assertionScopeName = assertionScopeName ?? ComponentFullName;
+
+            Context.AggregateAssert(() => action((TOwner)this), assertionScopeName);
 
             return (TOwner)this;
         }
@@ -530,17 +537,23 @@ namespace Atata
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <param name="componentSelector">The component selector.</param>
         /// <param name="action">The action to execute in scope of aggregate assertion.</param>
+        /// /// <param name="assertionScopeName">
+        /// Name of the scope being asserted.
+        /// Is used to identify the assertion section in log.
+        /// If it is <see langword="null"/>, component full name is used instead.
+        /// </param>
         /// <returns>The instance of this page object.</returns>
-        public TOwner AggregateAssert<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action)
+        public TOwner AggregateAssert<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action, string assertionScopeName = null)
         {
             componentSelector.CheckNotNull(nameof(componentSelector));
             action.CheckNotNull(nameof(action));
 
             TComponent component = componentSelector((TOwner)this);
 
-            string componentName = UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
+            assertionScopeName = assertionScopeName
+                ?? UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
 
-            Context.AggregateAssert(() => action(component), componentName);
+            Context.AggregateAssert(() => action(component), assertionScopeName);
 
             return (TOwner)this;
         }
