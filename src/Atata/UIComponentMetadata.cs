@@ -564,7 +564,7 @@ namespace Atata
             return metadata;
         }
 
-        private class AttributeSearchSet
+        private sealed class AttributeSearchSet
         {
             public AttributeSearchSet(AttributeTargetFilterOptions targetFilterOptions) =>
                 TargetFilterOptions = targetFilterOptions;

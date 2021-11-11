@@ -61,7 +61,7 @@ namespace Atata.TermFormatting
             }
         }
 
-        private class FormatterItem
+        private sealed class FormatterItem
         {
             public FormatterItem(ITermFormatter formatter, string stringFormat = null)
             {

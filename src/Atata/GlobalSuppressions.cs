@@ -61,5 +61,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponent.GetScopeElement(Atata.SearchOptions)~OpenQA.Selenium.IWebElement")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ControlList`2.ResolveSearchOptions~Atata.SearchOptions")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ClearCacheAttribute.GetTargetComponent``1(Atata.IUIComponent{``0},Atata.ClearCacheTarget)~Atata.IUIComponent{``0}")]
+[assembly: SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.EventBus.UnsubscribeHandler(System.Object)")]
 
 #pragma warning restore S103 // Lines should not be too long

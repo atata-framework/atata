@@ -409,7 +409,7 @@ namespace Atata
             return type.GetCustomAttribute<TermSettingsAttribute>(false);
         }
 
-        private class TermConverter
+        private sealed class TermConverter
         {
             public Func<string, TermOptions, object> FromStringConverter { get; set; }
 

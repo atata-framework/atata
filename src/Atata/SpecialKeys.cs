@@ -46,7 +46,7 @@ namespace Atata
             return builder.ToString();
         }
 
-        private class NameValuePair
+        private sealed class NameValuePair
         {
             public NameValuePair(string name, char value)
             {
@@ -59,7 +59,7 @@ namespace Atata
             public char Value { get; }
         }
 
-        private class NameValuePairComparer : IEqualityComparer<NameValuePair>
+        private sealed class NameValuePairComparer : IEqualityComparer<NameValuePair>
         {
             public bool Equals(NameValuePair x, NameValuePair y)
             {
