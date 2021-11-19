@@ -143,20 +143,6 @@ return (
         /// </summary>
         public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
-        /// <summary>
-        /// Gets an instance of <see cref="ContentSourceAttribute"/> or <see langword="null"/> if not found.
-        /// </summary>
-        [Obsolete("Use ContentGetBehavior instead.")] // Obsolete since v1.1.0.
-        protected ContentSourceAttribute ContentSourceAttribute =>
-            Metadata.Get<ContentSourceAttribute>();
-
-        /// <summary>
-        /// Gets an instance of <see cref="ContentGetBehaviorAttribute"/> associated with the component.
-        /// </summary>
-        [Obsolete("Use Metadata.Get<ContentGetBehaviorAttribute>() instead.")] // Obsolete since v1.12.0.
-        public ContentGetBehaviorAttribute ContentGetBehavior =>
-            Metadata.Get<ContentGetBehaviorAttribute>();
-
         internal List<IClearsCache> CacheClearableComponentParts { get; } = new List<IClearsCache>();
 
         /// <summary>
