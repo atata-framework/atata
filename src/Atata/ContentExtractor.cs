@@ -31,9 +31,12 @@ var text = '';
 for (var i = 0; i < element.childNodes.length; i++) {
     var child = element.childNodes[i];
     if (child.nodeType == Node.TEXT_NODE) {
-        if (text !== '')
-            text += ' ';
-        text += child.textContent.trim();
+        var childText = child.textContent.trim();
+        if (childText !== '') {
+            if (text !== '')
+                text += ' ';
+            text += childText;
+        }
     }
 }
 return text;";
@@ -42,19 +45,25 @@ return text;";
 @"var element = arguments[0];
 for (var i = 0; i < element.childNodes.length; i++) {
     var child = element.childNodes[i];
-    if (child.nodeType == Node.TEXT_NODE)
-        return child.textContent.trim();
+    if (child.nodeType == Node.TEXT_NODE) {
+        var childText = child.textContent.trim();
+        if (childText !== '')
+            return childText;
+    }
 }
-return ''";
+return '';";
 
         public const string GetTextContentOfLastChildTextNodeScript =
 @"var element = arguments[0];
 for (var i = element.childNodes.length - 1; i >= 0; i--) {
     var child = element.childNodes[i];
-    if (child.nodeType == Node.TEXT_NODE)
-        return child.textContent.trim();
+    if (child.nodeType == Node.TEXT_NODE) {
+        var childText = child.textContent.trim();
+        if (childText !== '')
+            return childText;
+    }
 }
-return ''";
+return '';";
 
         /// <summary>
         /// Gets the content of the component using <see cref="ContentSource"/> value.
