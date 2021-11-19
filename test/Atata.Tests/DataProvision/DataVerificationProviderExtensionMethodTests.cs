@@ -29,7 +29,7 @@ namespace Atata.Tests.DataProvision
             static Satisfy_IEnumerable_Expression() =>
                 For(new[] { "a".ToSubject(), "b".ToSubject(), "c".ToSubject() })
                     .Pass(x => x.Satisfy(x => x.Contains("a") && x.Contains("c")))
-                    .Fail(x => x.Satisfy(x => x.Any(y => y.Contains("z"))));
+                    .Fail(x => x.Satisfy(x => x.Any(y => y.Contains('z'))));
         }
 
         public abstract class ExtensionMethodTestFixture<TObject, TFixture>
