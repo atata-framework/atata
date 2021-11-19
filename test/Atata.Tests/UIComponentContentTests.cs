@@ -31,7 +31,7 @@ namespace Atata.Tests
         {
             Go.To<ContentPage>().
                 HiddenDiv.Should.Not.BeVisible().
-                HiddenDiv.Should.BeNull().
+                HiddenDiv.Should.BeEmpty().
                 HiddenDiv.Content.Should.BeEmpty().
                 HiddenDivUsingTextContent.Should.Equal("Some text").
                 HiddenDivUsingTextContent.Content.Should.Equal("Some text").

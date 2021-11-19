@@ -22,7 +22,7 @@ namespace Atata.Tests.Controls
             sut.Should.Equal("DefGhi");
 
             sut.Clear();
-            sut.Should.BeNull();
+            sut.Should.BeEmpty();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Atata.Tests
                 ById.FirstName.Set("test").
                 ById.FirstName.Should.Equal("test").
                 RefreshPage().
-                ById.FirstName.Should.BeNull();
+                ById.FirstName.Should.BeEmpty();
         }
 
         [Test]

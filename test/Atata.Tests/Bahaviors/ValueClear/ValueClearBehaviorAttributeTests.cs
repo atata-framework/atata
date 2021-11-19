@@ -26,7 +26,7 @@ namespace Atata.Tests.Bahaviors
 
             sut.Clear();
 
-            sut.Should.BeNull();
+            sut.Should.BeEmpty();
         }
     }
 }

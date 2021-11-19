@@ -17,7 +17,7 @@ namespace Atata.Tests
         {
             VerifyEquals(_page.Text, "Some Text");
             VerifyEquals(_page.TextWithSpaces, "Some Text");
-            VerifyEquals(_page.TextNull, null);
+            VerifyEquals(_page.TextNull, string.Empty);
             _page.TextNull.Content.Should.Equal(string.Empty);
         }
 

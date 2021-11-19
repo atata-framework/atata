@@ -114,7 +114,7 @@ namespace Atata.Tests
 
         private void TestFileInput(FileInput<InputPage> control)
         {
-            VerifyEquals(control, null);
+            VerifyEquals(control, string.Empty);
 
             string file1Name = $"{GetType().Assembly.GetName().Name}.dll";
             control.Set(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, file1Name));
@@ -125,7 +125,7 @@ namespace Atata.Tests
             control.Should.EndWith(file2Name);
 
             control.Clear();
-            control.Should.BeNull();
+            control.Should.BeEmpty();
         }
 
         [Test]
@@ -133,14 +133,14 @@ namespace Atata.Tests
         {
             var control = _page.TelInput;
 
-            VerifyEquals(control, null);
+            VerifyEquals(control, string.Empty);
 
-            SetAndVerifyValues(control, "152-154-1456", null, "+11521541456");
+            SetAndVerifyValues(control, "152-154-1456", string.Empty, "+11521541456");
 
             VerifyDoesNotEqual(control, "2345325523");
 
             control.Clear();
-            control.Should.BeNull();
+            control.Should.BeEmpty();
         }
 
         [Test]
@@ -163,16 +163,20 @@ namespace Atata.Tests
 
         private static void VerifyStringInput(Input<string, InputPage> control)
         {
-            VerifyEquals(control, null);
+            VerifyEquals(control, string.Empty);
 
-            SetAndVerifyValues(control, "Text1", null, "Text2");
+            SetAndVerifyValues(control, "Text1", string.Empty, "Text2");
 
             VerifyDoesNotEqual(control, "Text3");
 
             control.Type("0");
             control.Should.Equal("Text20");
             control.Clear();
-            control.Should.BeNull();
+            control.Should.BeEmpty();
+
+            control.Type("1");
+            control.Set(null);
+            control.Should.BeEmpty();
         }
     }
 }

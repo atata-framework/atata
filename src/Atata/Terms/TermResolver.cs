@@ -305,7 +305,7 @@ namespace Atata
             }
             else
             {
-                return null;
+                return underlyingType == typeof(string) ? value : null;
             }
         }
 
