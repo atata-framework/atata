@@ -304,9 +304,10 @@ namespace Atata
             else
                 query = query.Where(x => x.TargetSelf || x.IsTargetSpecified);
 
-            var rankedQuery = query.
-                Select(x => new { Attribute = x, TargetRank = x.CalculateTargetRank(this) }).
-                Where(x => x.TargetRank.HasValue);
+            var rankedQuery = query
+                .Select(x => new { Attribute = x, TargetRank = x.CalculateTargetRank(this) })
+                .Where(x => x.TargetRank.HasValue)
+                .ToArray();
 
             if (filter.TargetAttributeType != null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute)))
             {
