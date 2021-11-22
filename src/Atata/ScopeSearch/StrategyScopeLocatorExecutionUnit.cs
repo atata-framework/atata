@@ -3,7 +3,7 @@
     public class StrategyScopeLocatorExecutionUnit
     {
         public StrategyScopeLocatorExecutionUnit(
-            object strategy,
+            IComponentScopeFindStrategy strategy,
             ComponentScopeLocateOptions scopeLocateOptions,
             SearchOptions searchOptions)
         {
@@ -12,7 +12,7 @@
             SearchOptions = searchOptions;
         }
 
-        public object Strategy { get; }
+        public IComponentScopeFindStrategy Strategy { get; }
 
         public ComponentScopeLocateOptions ScopeLocateOptions { get; }
 

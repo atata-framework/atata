@@ -50,7 +50,7 @@ namespace Atata
 
         private StrategyScopeLocatorExecutionUnit CreateExecutionUnitForFinalFindAttribute(FindAttribute findAttribute, SearchOptions desiredSearchOptions)
         {
-            object strategy = findAttribute.CreateStrategy();
+            IComponentScopeFindStrategy strategy = findAttribute.CreateStrategy();
 
             SearchOptions searchOptions = desiredSearchOptions.Clone();
 
@@ -70,7 +70,7 @@ namespace Atata
 
         private StrategyScopeLocatorLayerExecutionUnit CreateExecutionUnitForLayerFindAttribute(FindAttribute findAttribute, SearchOptions desiredSearchOptions)
         {
-            object strategy = findAttribute.CreateStrategy();
+            IComponentScopeFindStrategy strategy = findAttribute.CreateStrategy();
 
             SearchOptions searchOptions = new SearchOptions
             {

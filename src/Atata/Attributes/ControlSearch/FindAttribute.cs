@@ -191,15 +191,14 @@ namespace Atata
 
         /// <summary>
         /// Creates the strategy.
-        /// The type of strategy should be either <see cref="IComponentScopeFindStrategy"/> or <see cref="IComponentScopeLocateStrategy"/>.
         /// </summary>
         /// <returns>The strategy created.</returns>
-        public object CreateStrategy()
+        public IComponentScopeFindStrategy CreateStrategy()
         {
             Type strategyType = Strategy ?? DefaultStrategy;
             object[] strategyArguments = GetStrategyArguments().ToArray();
 
-            return Activator.CreateInstance(strategyType, strategyArguments);
+            return (IComponentScopeFindStrategy)Activator.CreateInstance(strategyType, strategyArguments);
         }
 
         protected virtual IEnumerable<object> GetStrategyArguments()

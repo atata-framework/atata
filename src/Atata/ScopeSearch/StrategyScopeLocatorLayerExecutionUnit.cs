@@ -3,7 +3,7 @@
     public class StrategyScopeLocatorLayerExecutionUnit : StrategyScopeLocatorExecutionUnit
     {
         public StrategyScopeLocatorLayerExecutionUnit(
-            object strategy,
+            IComponentScopeFindStrategy strategy,
             ComponentScopeLocateOptions scopeLocateOptions,
             SearchOptions searchOptions,
             ILayerScopeContextResolver scopeContextResolver)

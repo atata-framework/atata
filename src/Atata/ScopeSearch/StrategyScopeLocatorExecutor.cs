@@ -53,35 +53,11 @@ namespace Atata
             return Execute(executionData.FinalUnit.Strategy, scopeContext, executionData.FinalUnit.ScopeLocateOptions, executionData.FinalUnit.SearchOptions);
         }
 
-        private static XPathComponentScopeFindResult[] Execute(object strategy, ISearchContext scope, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
+        private static XPathComponentScopeFindResult[] Execute(IComponentScopeFindStrategy strategy, ISearchContext scope, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
         {
-            ComponentScopeLocateResult result = ExecuteToGetResult(strategy, scope, scopeLocateOptions, searchOptions);
+            ComponentScopeLocateResult result = strategy.Find(scope, scopeLocateOptions, searchOptions);
 
             return ResolveResult(result, scope, scopeLocateOptions, searchOptions);
-        }
-
-        private static ComponentScopeLocateResult ExecuteToGetResult(object strategy, ISearchContext scope, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
-        {
-            // TODO: Remove first "if" and last "else" in Atata v2.0.0, as strategy argument should be of IComponentScopeFindStrategy type.
-#pragma warning disable CS0618 // Type or member is obsolete
-            if (strategy is IComponentScopeLocateStrategy componentScopeLocateStrategy)
-#pragma warning restore CS0618 // Type or member is obsolete
-            {
-                IWebElement scopeElement = (scope as IWebElement)
-                    ?? scope.GetWithLogging(By.TagName("body").With(new SearchOptions()));
-
-                return componentScopeLocateStrategy.Find(scopeElement, scopeLocateOptions, searchOptions);
-            }
-            else if (strategy is IComponentScopeFindStrategy componentScopeFindStrategy)
-            {
-                return componentScopeFindStrategy.Find(scope, scopeLocateOptions, searchOptions);
-            }
-            else
-            {
-                throw new ArgumentException(
-                    $"Unsupported {strategy.GetType().FullName} type of {nameof(strategy)}. Strategy should be either {nameof(IComponentScopeFindStrategy)} or IComponentScopeLocateStrategy.",
-                    nameof(strategy));
-            }
         }
 
         private static XPathComponentScopeFindResult[] ResolveResult(

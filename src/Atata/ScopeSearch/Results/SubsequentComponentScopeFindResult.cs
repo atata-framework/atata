@@ -26,16 +26,7 @@ namespace Atata
 
         private SubsequentComponentScopeFindResult(IComponentScopeFindStrategy strategy, ComponentScopeLocateOptions scopeLocateOptions)
         {
-            ActualStrategy = strategy;
-            ScopeLocateOptions = scopeLocateOptions;
-        }
-
-        // TODO: Remove constructor in Atata v2.0.0.
-        protected SubsequentComponentScopeFindResult(IEnumerable<ISearchContext> scopeSources, By scopeSourceBy, object strategy, ComponentScopeLocateOptions scopeLocateOptions)
-        {
-            ScopeSources = scopeSources;
-            ScopeSourceBy = scopeSourceBy;
-            ActualStrategy = strategy;
+            Strategy = strategy;
             ScopeLocateOptions = scopeLocateOptions;
         }
 
@@ -43,10 +34,7 @@ namespace Atata
 
         public By ScopeSourceBy { get; }
 
-        public IComponentScopeFindStrategy Strategy => (IComponentScopeFindStrategy)ActualStrategy;
-
-        // TODO: Remove ActualStrategy in Atata v2.0.0.
-        internal object ActualStrategy { get; private set; }
+        public IComponentScopeFindStrategy Strategy { get; }
 
         public ComponentScopeLocateOptions ScopeLocateOptions { get; }
     }
