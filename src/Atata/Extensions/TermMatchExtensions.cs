@@ -39,24 +39,6 @@ namespace Atata
             return string.Join(" or ", values.Select(x => match.CreateXPathCondition(x, operand)));
         }
 
-        [Obsolete("Use CreateXPathCondition instead.")] // Obsolete since v1.1.0.
-        public static string GetXPathOperationFormat(this TermMatch match)
-        {
-            switch (match)
-            {
-                case TermMatch.Contains:
-                    return "contains({0}, '{1}')";
-                case TermMatch.Equals:
-                    return "normalize-space({0}) = '{1}'";
-                case TermMatch.StartsWith:
-                    return "starts-with(normalize-space({0}), '{1}')";
-                case TermMatch.EndsWith:
-                    return "substring(normalize-space({0}), string-length(normalize-space({0})) - string-length('{1}') + 1) = '{1}'";
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
-            }
-        }
-
         public static bool IsMatch(this TermMatch match, string text, params string[] terms)
         {
             var predicate = match.GetPredicate();

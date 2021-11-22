@@ -36,23 +36,6 @@ namespace Atata
         }
 
         /// <summary>
-        /// Use the specified consumer for logging.
-        /// </summary>
-        /// <param name="consumer">The log consumer.</param>
-        /// <param name="minLevel">The minimum level of the log message.</param>
-        /// <param name="logSectionFinish">If set to <see langword="true"/> logs the section finish messages with elapsed time span.</param>
-        /// <returns>
-        /// The same <see cref="LogManager" /> instance.
-        /// </returns>
-        [Obsolete("Use Use(LogConsumerInfo) instead.")] // Obsolete since v1.9.0.
-        public LogManager Use(ILogConsumer consumer, LogLevel minLevel = LogLevel.Trace, bool logSectionFinish = true)
-        {
-            consumer.CheckNotNull(nameof(consumer));
-
-            return Use(new LogConsumerInfo(consumer, minLevel, logSectionFinish));
-        }
-
-        /// <summary>
         /// Use the specified consumer configuration for logging.
         /// </summary>
         /// <param name="consumerInfo">The consumer configuration.</param>
