@@ -101,17 +101,6 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="Current"/> property use thread-static approach (value unique for each thread).
-        /// The default value is <see langword="true"/>.
-        /// </summary>
-        [Obsolete("Use ModeOfCurrent instead.")] // Obsolete since v1.5.0.
-        public static bool IsThreadStatic
-        {
-            get => ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic;
-            set => ModeOfCurrent = value ? AtataContextModeOfCurrent.ThreadStatic : AtataContextModeOfCurrent.Static;
-        }
-
-        /// <summary>
         /// Gets the global configuration.
         /// </summary>
         public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
@@ -211,12 +200,6 @@ namespace Atata
         public Type TestSuiteType { get; internal set; }
 
         /// <summary>
-        /// Gets the test start date and time.
-        /// </summary>
-        [Obsolete("Use " + nameof(StartedAt) + " instead.")] // Obsolete since v1.9.0.
-        public DateTime TestStart => StartedAt;
-
-        /// <summary>
         /// Gets the local date/time of the start.
         /// </summary>
         public DateTime StartedAt { get; private set; }
@@ -236,20 +219,6 @@ namespace Atata
         /// Gets or sets the base URL.
         /// </summary>
         public string BaseUrl { get; set; }
-
-        /// <summary>
-        /// Gets the base retry timeout.
-        /// The default value is <c>5</c> seconds.
-        /// </summary>
-        [Obsolete("Use BaseRetryTimeout instead.")] // Obsolete since v0.17.0.
-        public TimeSpan RetryTimeout => BaseRetryTimeout;
-
-        /// <summary>
-        /// Gets the base retry interval.
-        /// The default value is <c>500</c> milliseconds.
-        /// </summary>
-        [Obsolete("Use BaseRetryInterval instead.")] // Obsolete since v0.17.0.
-        public TimeSpan RetryInterval => BaseRetryInterval;
 
         /// <summary>
         /// Gets the base retry timeout.
@@ -344,14 +313,6 @@ namespace Atata
         /// Gets the list of pending assertion results with <see cref="AssertionStatus.Failed"/> or <see cref="AssertionStatus.Warning"/> status.
         /// </summary>
         public List<AssertionResult> PendingFailureAssertionResults { get; } = new List<AssertionResult>();
-
-        internal List<Action<RemoteWebDriver>> OnDriverCreatedActions { get; set; }
-
-        /// <summary>
-        /// Gets the list of actions to perform during <see cref="AtataContext"/> cleanup.
-        /// </summary>
-        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
-        public List<Action> CleanUpActions { get; internal set; }
 
         /// <summary>
         /// Gets the context of the attributes.
@@ -523,8 +484,6 @@ namespace Atata
 
             PureExecutionStopwatch.Stop();
 
-            ExecuteCleanUpActions();
-
             Log.ExecuteSection(
                 new LogSection("Clean up AtataContext"),
                 () =>
@@ -578,10 +537,6 @@ namespace Atata
 
             _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
 
-            if (OnDriverCreatedActions != null)
-                foreach (Action<RemoteWebDriver> action in OnDriverCreatedActions)
-                    action(_driver);
-
             EventBus.Publish(new DriverInitEvent(_driver));
         }
 
@@ -612,23 +567,6 @@ namespace Atata
         {
             UIComponentResolver.CleanUpPageObjects(TemporarilyPreservedPageObjects);
             TemporarilyPreservedPageObjectList.Clear();
-        }
-
-        private void ExecuteCleanUpActions()
-        {
-#pragma warning disable CS0618 // Type or member is obsolete
-            foreach (Action action in CleanUpActions)
-            {
-                try
-                {
-                    action();
-                }
-                catch (Exception e)
-                {
-                    Log.Error("Clean up action failure.", e);
-                }
-            }
-#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         /// <summary>

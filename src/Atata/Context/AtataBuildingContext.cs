@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -111,30 +110,6 @@ namespace Atata
         public string BaseUrl { get; set; }
 
         /// <summary>
-        /// Gets the actions to perform during <see cref="AtataContext"/> building.
-        /// </summary>
-        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
-        public List<Action> OnBuildingActions { get; private set; } = new List<Action>();
-
-        /// <summary>
-        /// Gets the actions to perform after <see cref="AtataContext"/> building.
-        /// </summary>
-        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
-        public List<Action> OnBuiltActions { get; private set; } = new List<Action>();
-
-        /// <summary>
-        /// Gets the actions to perform after the driver is created.
-        /// </summary>
-        [Obsolete("Use " + nameof(EventBus) + " instead.")] // Obsolete since v1.14.0.
-        public List<Action<RemoteWebDriver>> OnDriverCreatedActions { get; private set; } = new List<Action<RemoteWebDriver>>();
-
-        /// <summary>
-        /// Gets the actions to perform during <see cref="AtataContext"/> cleanup.
-        /// </summary>
-        [Obsolete("Use " + nameof(EventSubscriptions) + " instead.")] // Obsolete since v1.14.0.
-        public List<Action> CleanUpActions { get; private set; } = new List<Action>();
-
-        /// <summary>
         /// Gets the context of the attributes.
         /// </summary>
         public AtataAttributesContext Attributes { get; private set; } = new AtataAttributesContext();
@@ -179,20 +154,6 @@ namespace Atata
         /// The default builder returns <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
         /// </summary>
         public Func<AtataContext, string> ArtifactsPathBuilder { get; set; } = _ => DefaultArtifactsPath;
-
-        /// <summary>
-        /// Gets the base retry timeout.
-        /// The default value is <c>5</c> seconds.
-        /// </summary>
-        [Obsolete("Use BaseRetryTimeout instead.")] // Obsolete since v0.17.0.
-        public TimeSpan RetryTimeout => BaseRetryTimeout;
-
-        /// <summary>
-        /// Gets the base retry interval.
-        /// The default value is <c>500</c> milliseconds.
-        /// </summary>
-        [Obsolete("Use BaseRetryInterval instead.")] // Obsolete since v0.17.0.
-        public TimeSpan RetryInterval => BaseRetryInterval;
 
         /// <summary>
         /// Gets the base retry timeout.
@@ -330,12 +291,6 @@ namespace Atata
                 .Select(x => x is ICloneable cloneableConsumer ? (IScreenshotConsumer)cloneableConsumer.Clone() : x)
                 .ToList();
 
-#pragma warning disable CS0618 // Type or member is obsolete
-            copy.OnBuildingActions = OnBuildingActions.ToList();
-            copy.OnBuiltActions = OnBuiltActions.ToList();
-            copy.OnDriverCreatedActions = OnDriverCreatedActions.ToList();
-            copy.CleanUpActions = CleanUpActions.ToList();
-#pragma warning restore CS0618 // Type or member is obsolete
             copy.Attributes = Attributes.Clone();
             copy.EventSubscriptions = EventSubscriptions.ToList();
             copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();

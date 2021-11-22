@@ -27,14 +27,6 @@ namespace Atata
 
         private TimeSpan? _commandTimeout;
 
-        [Obsolete("Use other constructor with 3 arguments.")] // Obsolete since v1.10.0.
-        protected DriverAtataContextBuilder(
-            AtataBuildingContext buildingContext,
-            string alias)
-            : this(buildingContext, alias, null)
-        {
-        }
-
         protected DriverAtataContextBuilder(
             AtataBuildingContext buildingContext,
             string alias,

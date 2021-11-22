@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -650,30 +651,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="timeout">The retry timeout.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use UseBaseRetryTimeout instead.")] // Obsolete since v0.17.0.
-        public AtataContextBuilder UseRetryTimeout(TimeSpan timeout)
-        {
-            return UseBaseRetryTimeout(timeout);
-        }
-
-        /// <summary>
-        /// Sets the base retry interval.
-        /// The default value is <c>500</c> milliseconds.
-        /// </summary>
-        /// <param name="interval">The retry interval.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use UseBaseRetryInterval instead.")] // Obsolete since v0.17.0.
-        public AtataContextBuilder UseRetryInterval(TimeSpan interval)
-        {
-            return UseBaseRetryInterval(interval);
-        }
-
-        /// <summary>
-        /// Sets the base retry timeout.
-        /// The default value is <c>5</c> seconds.
-        /// </summary>
-        /// <param name="timeout">The retry timeout.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseBaseRetryTimeout(TimeSpan timeout)
         {
             BuildingContext.BaseRetryTimeout = timeout;
@@ -952,11 +929,11 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<AtataContextInitEvent>(...) instead.")]
+        [Obsolete("Use EventSubscriptions.Add<AtataContextInitEvent>(...) instead.")] // Obsolete since v1.14.0.
         public AtataContextBuilder OnBuilding(Action action)
         {
             if (action != null)
-                BuildingContext.OnBuildingActions.Add(action);
+                EventSubscriptions.Add<AtataContextInitEvent>(action);
             return this;
         }
 
@@ -966,11 +943,11 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<AtataContextInitCompletedEvent>(...) instead.")]
+        [Obsolete("Use EventSubscriptions.Add<AtataContextInitCompletedEvent>(...) instead.")] // Obsolete since v1.14.0.
         public AtataContextBuilder OnBuilt(Action action)
         {
             if (action != null)
-                BuildingContext.OnBuiltActions.Add(action);
+                EventSubscriptions.Add<AtataContextInitCompletedEvent>(action);
             return this;
         }
 
@@ -980,10 +957,10 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         [Obsolete("Use EventSubscriptions.Add<DriverInitEvent>(...) instead.")]
-        public AtataContextBuilder OnDriverCreated(Action<RemoteWebDriver> action)
+        public AtataContextBuilder OnDriverCreated(Action<IWebDriver> action) // Obsolete since v1.14.0.
         {
             if (action != null)
-                BuildingContext.OnDriverCreatedActions.Add(action);
+                EventSubscriptions.Add<DriverInitEvent>(ev => action.Invoke(ev.Driver));
             return this;
         }
 
@@ -992,7 +969,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<DriverInitEvent>(...) instead.")]
+        [Obsolete("Use EventSubscriptions.Add<DriverInitEvent>(...) instead.")] // Obsolete since v1.14.0.
         public AtataContextBuilder OnDriverCreated(Action action)
         {
             return action != null ? OnDriverCreated(_ => action()) : this;
@@ -1003,11 +980,11 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="action">The action.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<AtataContextCleanUpEvent>(...) instead.")]
+        [Obsolete("Use EventSubscriptions.Add<AtataContextCleanUpEvent>(...) instead.")] // Obsolete since v1.14.0.
         public AtataContextBuilder OnCleanUp(Action action)
         {
             if (action != null)
-                BuildingContext.CleanUpActions.Add(action);
+                EventSubscriptions.Add<AtataContextCleanUpEvent>(action);
             return this;
         }
 
@@ -1234,10 +1211,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             context.TimeZone = BuildingContext.TimeZone;
             context.BaseUrl = BuildingContext.BaseUrl;
             context.Log = logManager;
-#pragma warning disable CS0618 // Type or member is obsolete
-            context.OnDriverCreatedActions = BuildingContext.OnDriverCreatedActions?.ToList() ?? new List<Action<RemoteWebDriver>>();
-            context.CleanUpActions = BuildingContext.CleanUpActions?.ToList() ?? new List<Action>();
-#pragma warning restore CS0618 // Type or member is obsolete
             context.Attributes = BuildingContext.Attributes.Clone();
             context.BaseRetryTimeout = BuildingContext.BaseRetryTimeout;
             context.BaseRetryInterval = BuildingContext.BaseRetryInterval;
@@ -1299,7 +1272,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
         private void SetUp(AtataContext context)
         {
-            OnBuilding();
             context.EventBus.Publish(new AtataContextInitEvent(context));
 
             if (context.BaseUrl != null)
@@ -1324,25 +1296,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 context.Log.Trace($"Set: Driver={driverTypeName}{context.DriverFactory?.Alias?.ToFormattedString(" (alias={0})")}");
             }
 
-            OnBuilt();
             context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
         }
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        private void OnBuilding()
-        {
-            if (BuildingContext.OnBuildingActions != null)
-                foreach (Action action in BuildingContext.OnBuildingActions)
-                    action();
-        }
-
-        private void OnBuilt()
-        {
-            if (BuildingContext.OnBuiltActions != null)
-                foreach (Action action in BuildingContext.OnBuiltActions)
-                    action();
-        }
-#pragma warning restore CS0618 // Type or member is obsolete
 
         private static void LogRetrySettings(AtataContext context)
         {
