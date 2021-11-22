@@ -1,65 +1,13 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Text;
 
 namespace Atata
 {
     public static class VerificationUtils
     {
-        [Obsolete("Use Stringifier.NullString instead.")] // Obsolete since v1.9.0.
-        public const string NullString = Stringifier.NullString;
-
-        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
-        public static string ToString(IEnumerable collection)
-        {
-            return Stringifier.ToString(collection);
-        }
-
-        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
-        public static string ToString<T>(IEnumerable<T> collection)
-        {
-            return Stringifier.ToString(collection);
-        }
-
-        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
-        public static string ToString<T>(Expression<Func<T, bool>> predicateExpression)
-        {
-            return Stringifier.ToString(predicateExpression);
-        }
-
-        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
-        public static string ToString(Expression expression)
-        {
-            return Stringifier.ToString(expression);
-        }
-
-        [Obsolete("Use Stringifier.ToString(...) instead.")] // Obsolete since v1.9.0.
-        public static string ToString(object value)
-        {
-            return Stringifier.ToString(value);
-        }
-
-        [Obsolete("Don't use this method.")] // Obsolete since v1.9.0.
-        public static string GetItemTypeName(Type type)
-        {
-            return type.IsInheritedFromOrIs(typeof(Control<>))
-                ? UIComponentResolver.ResolveControlTypeName(type)
-                : "item";
-        }
-
-        [Obsolete("Use CreateAssertionException(string, Exception) instead.")] // Obsolete since v1.3.0.
-        public static Exception CreateAssertionException<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual, Exception exception)
-            where TOwner : PageObject<TOwner>
-        {
-            string message = BuildFailureMessage(should, expected, actual);
-
-            return CreateAssertionException(message, exception);
-        }
-
         public static Exception CreateAssertionException(string message, Exception innerException = null)
         {
             var exceptionType = AtataContext.Current?.AssertionExceptionType;

@@ -63,11 +63,5 @@ namespace Atata
         /// Gets the elapsed time of section execution.
         /// </summary>
         public TimeSpan ElapsedTime => Stopwatch.Elapsed;
-
-        [Obsolete("Use " + nameof(ElapsedTime) + " instead.")] // Obsolete since v1.9.0.
-        public TimeSpan GetDuration()
-        {
-            return ElapsedTime;
-        }
     }
 }
