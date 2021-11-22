@@ -9,11 +9,11 @@ namespace Atata
         {
         }
 
-        public IFindItemAttribute FindItemAttribute
-            => Metadata.Get<FindItemAttribute>();
+        public FindItemAttribute FindItemAttribute =>
+            Metadata.Get<FindItemAttribute>();
 
-        protected IItemElementFindStrategy ItemElementFindStrategy
-            => FindItemAttribute.CreateStrategy(this, Metadata);
+        protected IItemElementFindStrategy ItemElementFindStrategy =>
+            FindItemAttribute.CreateStrategy(this, Metadata);
 
         protected IWebElement GetItemElement(object parameter, bool isSafely = false, string xPathCondition = null)
         {

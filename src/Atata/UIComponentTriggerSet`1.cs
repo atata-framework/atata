@@ -80,10 +80,6 @@ namespace Atata
                     {
                         trigger.Properties.Metadata = _component.Metadata;
 
-#pragma warning disable CS0618 // Type or member is obsolete
-                        trigger.ApplyMetadata(_component.Metadata);
-#pragma warning restore CS0618 // Type or member is obsolete
-
                         _component.Log.ExecuteSection(
                             new ExecuteTriggerLogSection(_component, trigger, on),
                             () => trigger.Execute(context));

@@ -285,10 +285,6 @@ namespace Atata
             return rank;
         }
 
-        [Obsolete("Use GetDepthOfInheritance(Type, Type[], Type[]) instead.")] // Obsolete since v1.10.0.
-        protected static int? GetDepthOfInheritance(Type[] targetTypes, Type typeToCheck) =>
-            GetDepthOfInheritance(typeToCheck, targetTypes);
-
         protected static int? GetDepthOfInheritance(Type typeToCheck, Type[] targetTypes, Type[] excludeTargetTypes = null)
         {
             if (excludeTargetTypes?.Any(x => typeToCheck.IsInheritedFromOrIs(x)) ?? false)

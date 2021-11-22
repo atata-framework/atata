@@ -72,11 +72,5 @@ namespace Atata
         {
             return dataProvider.Value;
         }
-
-        [Obsolete("Use Value instead.")] // Obsolete since v1.0.0.
-        public TData Get()
-        {
-            return Value;
-        }
     }
 }

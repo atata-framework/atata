@@ -42,14 +42,6 @@ return textValues;";
 
         private string _itemComponentTypeName;
 
-        [Obsolete("This property is not used internally anymore, no sense to use it.")] // Obsolete since v1.5.0.
-        protected ControlDefinitionAttribute ItemDefinition =>
-            (ControlDefinitionAttribute)Metadata.ComponentDefinitionAttribute;
-
-        [Obsolete("This property is not used internally anymore, no sense to use it.")] // Obsolete since v1.5.0.
-        protected FindAttribute ItemFindAttribute =>
-            ResolveItemFindAttribute();
-
         protected string ItemComponentTypeName =>
             _itemComponentTypeName ?? (_itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
 
@@ -284,25 +276,6 @@ return textValues;";
                 FirstOrDefault() ?? -1;
         }
 
-        [Obsolete("This method is not used anymore, no sense to invoke or override it.")] // Obsolete since v1.5.0.
-        protected virtual By CreateItemBy()
-        {
-            FindAttribute itemFindAttribute = ResolveItemFindAttribute();
-            itemFindAttribute.Properties.Metadata = Metadata;
-
-            string outerXPath = itemFindAttribute.OuterXPath ?? ".//";
-
-            By by = By.XPath($"{outerXPath}{ItemDefinition.ScopeXPath}").OfKind(ItemComponentTypeName);
-
-            // TODO: Review/remake this Visibility processing.
-            if (itemFindAttribute.Visibility == Visibility.Any)
-                by = by.OfAnyVisibility();
-            else if (itemFindAttribute.Visibility == Visibility.Hidden)
-                by = by.Hidden();
-
-            return by;
-        }
-
         protected TItem GetOrCreateItemByElement(IWebElement element, string name)
         {
             TItem DoGetOrCreateItemByElement() =>
@@ -495,12 +468,6 @@ return textValues;";
             return GetItemElements(extraXPath: extraXPath).
                 Select((element, index) => GetOrCreateItemByElement(element, string.Format(nameFormat, (index + 1).Ordinalize()))).
                 ToArray();
-        }
-
-        [Obsolete("Use GetItemElements() or GetItemElements(SearchOptions, string) instead.")] // Obsolete since v1.5.0.
-        protected ReadOnlyCollection<IWebElement> GetItemElements(By itemBy)
-        {
-            return GetItemElements();
         }
 
         protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null, string extraXPath = null)

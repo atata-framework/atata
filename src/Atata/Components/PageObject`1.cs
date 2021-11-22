@@ -207,16 +207,6 @@ namespace Atata
         }
 
         /// <summary>
-        /// Switches to the browser window using the window name.
-        /// </summary>
-        /// <param name="windowName">Name of the window.</param>
-        [Obsolete("Use " + nameof(SwitchToWindow) + " instead.")] // Obsolete since v1.9.0.
-        protected virtual void SwitchTo(string windowName)
-        {
-            SwitchToWindow(windowName);
-        }
-
-        /// <summary>
         /// Switches to frame represented by <paramref name="component"/> parameter.
         /// </summary>
         /// <param name="component">The component representing frame element.</param>

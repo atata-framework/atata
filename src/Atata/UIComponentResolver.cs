@@ -289,7 +289,7 @@ namespace Atata
             component.Owner = parentComponent.Owner ?? (TOwner)parentComponent;
             component.Parent = parentComponent;
 
-            InitComponentLocator(component, metadata);
+            InitComponentLocator(component);
             component.ComponentName = ResolveControlName(metadata);
             component.ComponentTypeName = ResolveControlTypeName(metadata);
 
@@ -306,18 +306,8 @@ namespace Atata
             component.ApplyMetadata(metadata);
         }
 
-        private static void InitComponentLocator(UIComponent component, UIComponentMetadata metadata)
+        private static void InitComponentLocator(UIComponent component)
         {
-            // TODO: Remove this condition when IItemsControl will be removed.
-#pragma warning disable CS0618
-            if (component is IItemsControl itemsControl)
-#pragma warning restore CS0618
-            {
-                IFindItemAttribute findItemAttribute = GetPropertyFindItemAttribute(metadata);
-                IItemElementFindStrategy itemElementFindStrategy = findItemAttribute.CreateStrategy(component, metadata);
-                itemsControl.Apply(itemElementFindStrategy);
-            }
-
             component.ScopeLocator = new StrategyScopeLocator(
                 new StrategyScopeLocatorExecutionDataCollector(component),
                 StrategyScopeLocatorExecutor.Default);
@@ -451,12 +441,6 @@ namespace Atata
             metadata.ComponentAttributesList.AddRange(GetClassAttributes(componentType));
 
             return metadata;
-        }
-
-        // TODO: Remove this method when IItemsControl will be removed.
-        private static IFindItemAttribute GetPropertyFindItemAttribute(UIComponentMetadata metadata)
-        {
-            return metadata.Get<IFindItemAttribute>(x => x.At(AttributeLevels.Declared)) ?? new FindItemByLabelAttribute();
         }
 
         private static Attribute[] ResolveAndCacheAttributes(ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)

@@ -189,12 +189,6 @@ namespace Atata
         /// </summary>
         protected abstract Type DefaultStrategy { get; }
 
-        [Obsolete("Use CreateStrategy() instead.")] // Obsolete since v1.5.0.
-        public IComponentScopeLocateStrategy CreateStrategy(UIComponentMetadata metadata)
-        {
-            return (IComponentScopeLocateStrategy)CreateStrategy();
-        }
-
         /// <summary>
         /// Creates the strategy.
         /// The type of strategy should be either <see cref="IComponentScopeFindStrategy"/> or <see cref="IComponentScopeLocateStrategy"/>.

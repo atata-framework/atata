@@ -8,33 +8,6 @@ namespace Atata
     /// </summary>
     public class FindSettingsAttribute : AttributeSettingsAttribute
     {
-        public FindSettingsAttribute()
-        {
-        }
-
-        [Obsolete(
-            "Use default constructor instead and set target attribute via TargetAttributeType property, " +
-            "e.g.: [FindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
-        public FindSettingsAttribute(FindTermBy by)
-            : this(by.ResolveFindAttributeType())
-        {
-        }
-
-        [Obsolete(
-            "Use default constructor instead and set target attribute via TargetAttributeType property, " +
-            "e.g.: [FindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
-        public FindSettingsAttribute(Type findAttributeType)
-        {
-            TargetAttributeType = findAttributeType;
-        }
-
-        /// <summary>
-        /// Gets the type of the attribute to use for the control finding.
-        /// Type should be inherited from <see cref="FindAttribute"/>.
-        /// </summary>
-        [Obsolete("Use TargetAttributeType instead.")] // Obsolete since v1.0.0.
-        public Type FindAttributeType => TargetAttributeType;
-
         /// <summary>
         /// Gets or sets the index of the control.
         /// The default value is <c>-1</c>, meaning that the index is not used.

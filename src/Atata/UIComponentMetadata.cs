@@ -455,14 +455,7 @@ namespace Atata
 
         public FindAttribute ResolveFindAttribute()
         {
-            // TODO: Use the below approach in v2.0.0.
-            ////FindAttribute findAttribute = GetDefinedFindAttribute();
-
-            FindAttribute findAttribute = Get<FindAttribute>(filter => filter.At(AttributeLevels.Declared).Where(x => x.As == FindAs.Scope))
-#pragma warning disable CS0618 // Type or member is obsolete
-                ?? ResolveNonDefinedFindAttribute()
-#pragma warning restore CS0618 // Type or member is obsolete
-                ?? GetDefinedFindAttribute()
+            FindAttribute findAttribute = GetDefinedFindAttribute()
                 ?? GetDefaultFindAttribute();
 
             findAttribute.Properties.Metadata = this;
@@ -470,56 +463,15 @@ namespace Atata
             return findAttribute;
         }
 
-        private FindAttribute GetDefinedFindAttribute()
-        {
-            return Get<FindAttribute>(filter => filter.Where(x => x.As == FindAs.Scope));
-        }
-
-        [Obsolete("Should be removed in v2.0.0")]
-        private FindAttribute ResolveNonDefinedFindAttribute()
-        {
-            ControlFindingAttribute controlFindingAttribute =
-                GetNearestControlFindingAttribute(ParentComponentAttributes) ??
-                GetNearestControlFindingAttribute(AssemblyAttributes) ??
-                GetNearestDefaultControlFindingAttribute();
-
-            return controlFindingAttribute?.CreateFindAttribute();
-        }
-
-        [Obsolete("Should be removed in v2.0.0")]
-        private ControlFindingAttribute GetNearestControlFindingAttribute(IEnumerable<Attribute> attributes)
-        {
-            Type controlType = ComponentType;
-            Type parentComponentType = ParentComponentType;
-
-            return attributes.OfType<ControlFindingAttribute>().
-                Select(attr => new { Attribute = attr, Depth = controlType.GetDepthOfInheritance(attr.ControlType) }).
-                Where(x => x.Depth != null).
-                OrderBy(x => x.Depth).
-                Select(x => x.Attribute).
-                FirstOrDefault(attr => attr.ParentComponentType == null || parentComponentType.IsInheritedFromOrIs(attr.ParentComponentType));
-        }
-
-        [Obsolete("Should be removed in v2.0.0")]
-        private ControlFindingAttribute GetNearestDefaultControlFindingAttribute()
-        {
-            Type parentComponentType = ParentComponentType;
-
-            var allFindingAttributes = ComponentAttributes.OfType<ControlFindingAttribute>().
-                Where(x => x.ControlType == null).
-                Select(attr => new { Attribute = attr, Depth = parentComponentType.GetDepthOfInheritance(attr.ParentComponentType) }).
-                ToArray();
-
-            return allFindingAttributes.Where(x => x.Depth != null).OrderBy(x => x.Depth).Select(x => x.Attribute).FirstOrDefault() ??
-                allFindingAttributes.Where(x => x.Depth == null && x.Attribute.ParentComponentType == null).Select(x => x.Attribute).FirstOrDefault();
-        }
+        private FindAttribute GetDefinedFindAttribute() =>
+            Get<FindAttribute>(filter => filter.Where(x => x.As == FindAs.Scope));
 
         private FindAttribute GetDefaultFindAttribute()
         {
             if (ComponentDefinitionAttribute.ScopeXPath == ScopeDefinitionAttribute.DefaultScopeXPath && !GetLayerFindAttributes().Any())
                 return new UseParentScopeAttribute();
-
-            return new FindFirstAttribute();
+            else
+                return new FindFirstAttribute();
         }
 
         public IEnumerable<FindAttribute> ResolveLayerFindAttributes()

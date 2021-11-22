@@ -40,24 +40,6 @@ namespace Atata
 
         protected internal IScopeLocator ScopeLocator { get; internal set; }
 
-        [Obsolete("Use " + nameof(UsesScopeCache) + " instead.")] // Obsolete since v1.13.0.
-        protected internal bool CacheScopeElement
-        {
-            get => UsesScopeCache;
-            set
-            {
-                if (value)
-                {
-                    if (Metadata.Get<UsesScopeCacheAttribute>(x => x.At(AttributeLevels.Declared).Where(a => a.UsesCache)) == null)
-                        Metadata.Push(new UsesScopeCacheAttribute());
-                }
-                else
-                {
-                    Metadata.RemoveAll(x => x is UsesScopeCacheAttribute);
-                }
-            }
-        }
-
         /// <summary>
         /// Gets a value indicating whether to use scope cache.
         /// Returns a <see cref="ICanUseCache.UsesCache"/> value of an associated with the component

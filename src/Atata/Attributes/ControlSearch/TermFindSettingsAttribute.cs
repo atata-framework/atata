@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Defines the term settings to apply for the specified finding strategy of a control.
@@ -8,25 +6,6 @@ namespace Atata
     /// </summary>
     public class TermFindSettingsAttribute : FindSettingsAttribute, ITermSettings
     {
-        public TermFindSettingsAttribute()
-        {
-        }
-
-        [Obsolete(
-            "Use default constructor instead and set target attribute via TargetAttributeType property, " +
-            "e.g.: [TermFindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
-        public TermFindSettingsAttribute(FindTermBy by)
-            : base(by)
-        {
-        }
-
-        [Obsolete("Use default constructor instead and set target attribute via TargetAttributeType property, " +
-            "e.g.: [TermFindSettings(TargetAttributeType = typeof(FindByNameAttribute))].")] // Obsolete since v1.0.0.
-        public TermFindSettingsAttribute(Type findAttributeType)
-            : base(findAttributeType)
-        {
-        }
-
         /// <summary>
         /// Gets or sets the term case.
         /// </summary>
