@@ -20,7 +20,7 @@ namespace Atata.Tests
             _watch = Stopwatch.StartNew();
         }
 
-        public static StopwatchAsserter WithinSeconds(double seconds, double upperToleranceSeconds = 1)
+        public static StopwatchAsserter WithinSeconds(double seconds, double upperToleranceSeconds = 1.5)
         {
             return new StopwatchAsserter(TimeSpan.FromSeconds(seconds), TimeSpan.FromSeconds(upperToleranceSeconds));
         }

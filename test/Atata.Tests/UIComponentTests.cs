@@ -121,15 +121,15 @@ namespace Atata.Tests
         {
             var page = Go.To<ContentPage>();
 
-            using (StopwatchAsserter.WithinSeconds(2, 1.5))
+            using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
                     page.VisibleDiv.IsVisible.Should.Within(2).BeFalse());
 
-            using (StopwatchAsserter.WithinSeconds(2, 1.5))
+            using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
                     page.HiddenDiv.IsVisible.Should.Within(2).BeTrue());
 
-            using (StopwatchAsserter.WithinSeconds(2, 1.5))
+            using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
                     page.HiddenDivWithVisibleVisibility.IsVisible.Should.Within(2).BeTrue());
         }
