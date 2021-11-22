@@ -15,6 +15,7 @@ namespace Atata.Tests
         {
             ConfigureBaseAtataContext()
                 .UseTimeZone(_timeZone)
+                .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
                 .Build();
 
             _nowInSetTimeZone = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _timeZone);
@@ -52,7 +53,7 @@ namespace Atata.Tests
 
         private static void AssertDateTimeIsCloseToExpected(DateTime actual, DateTime expected)
         {
-            Assert.That(actual, Is.EqualTo(expected).Within(2).Minutes);
+            Assert.That(actual, Is.EqualTo(expected).Within(1).Minutes);
         }
     }
 }
