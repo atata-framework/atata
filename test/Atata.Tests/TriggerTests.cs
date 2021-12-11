@@ -142,23 +142,12 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void Trigger_Get()
-        {
-            Assert.That(_page.InputWithLogging.Triggers.AllTriggers.Count(), Is.EqualTo(9));
-            Assert.That(_page.InputWithLogging.Triggers.AllTriggers, Is.Ordered.By(nameof(TriggerAttribute.Priority)));
-
-            Assert.That(_page.InputWithLogging.Triggers.ParentComponentTriggers.Count(), Is.EqualTo(2));
-            Assert.That(_page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(7));
-        }
-
-        [Test]
         public void Trigger_Remove()
         {
             bool isRemoved = _page.InputWithLogging.Metadata.Remove(
-                _page.InputWithLogging.Triggers.DeclaredTriggers.OfType<LogInfoAttribute>().Single(x => x.Message == "AfterSet-Low"));
+                _page.InputWithLogging.Metadata.DeclaredAttributes.OfType<LogInfoAttribute>().Single(x => x.Message == "AfterSet-Low"));
 
             Assert.That(isRemoved);
-            Assert.That(_page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(6));
 
             _page.InputWithLogging.Set("abc");
 
@@ -179,7 +168,6 @@ namespace Atata.Tests
                 x => x is TriggersPage.CustomLogInfoAttribute);
 
             Assert.That(countOfRemoved, Is.EqualTo(3));
-            Assert.That(_page.InputWithLogging.Triggers.DeclaredTriggers.Count(), Is.EqualTo(4));
 
             _page.InputWithLogging.Set("abc");
 

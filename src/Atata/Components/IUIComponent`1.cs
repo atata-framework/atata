@@ -113,12 +113,6 @@ namespace Atata
         UIComponentMetadata Metadata { get; }
 
         /// <summary>
-        /// Gets the set of triggers.
-        /// Provides the functionality to get/add/remove triggers dynamically.
-        /// </summary>
-        UIComponentTriggerSet<TOwner> Triggers { get; }
-
-        /// <summary>
         /// Gets the verification provider that provides a set of verification extension methods.
         /// </summary>
         UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should { get; }

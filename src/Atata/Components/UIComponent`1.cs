@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -25,6 +26,8 @@ return (
 
         private readonly Dictionary<string, object> _dataProviders = new Dictionary<string, object>();
 
+        private readonly List<TriggerEvents> _currentDeniedTriggers = new List<TriggerEvents>();
+
         protected UIComponent()
         {
             Controls = new UIComponentChildrenList<TOwner>(this);
@@ -33,7 +36,6 @@ return (
             Script = new UIComponentScriptExecutor<TOwner>(this);
             ComponentLocation = new UIComponentLocationProvider<TOwner>(this, GetLocation);
             ComponentSize = new UIComponentSizeProvider<TOwner>(this, GetSize);
-            Triggers = new UIComponentTriggerSet<TOwner>(this);
         }
 
         /// <summary>
@@ -136,12 +138,6 @@ return (
         /// Gets the list of child controls.
         /// </summary>
         public UIComponentChildrenList<TOwner> Controls { get; }
-
-        /// <summary>
-        /// Gets the set of triggers.
-        /// Provides the functionality to get/add/remove triggers dynamically.
-        /// </summary>
-        public UIComponentTriggerSet<TOwner> Triggers { get; internal set; }
 
         internal List<IClearsCache> CacheClearableComponentParts { get; } = new List<IClearsCache>();
 
@@ -316,7 +312,47 @@ return (
         /// <param name="on">The event to trigger.</param>
         protected void ExecuteTriggers(TriggerEvents on)
         {
-            Triggers.Execute(on);
+            if (on == TriggerEvents.None || _currentDeniedTriggers.Contains(on))
+                return;
+
+            var orderedTriggers = Metadata.GetAll<TriggerAttribute>().OrderBy(x => x.Priority).ToArray();
+
+            if (orderedTriggers.Any())
+            {
+                if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[] denyTriggers))
+                    _currentDeniedTriggers.AddRange(denyTriggers);
+
+                try
+                {
+                    var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
+
+                    TriggerContext<TOwner> context = new TriggerContext<TOwner>
+                    {
+                        Event = on,
+                        Driver = Driver,
+                        Log = Log,
+                        Component = this
+                    };
+
+                    foreach (var trigger in triggers)
+                    {
+                        trigger.Properties.Metadata = Metadata;
+
+                        Log.ExecuteSection(
+                            new ExecuteTriggerLogSection(this, trigger, on),
+                            () => trigger.Execute(context));
+                    }
+                }
+                finally
+                {
+                    if (denyTriggers != null)
+                        _currentDeniedTriggers.RemoveAll(x => denyTriggers.Contains(x));
+                }
+            }
+
+            if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
+                foreach (UIComponent<TOwner> child in Controls)
+                    child.ExecuteTriggers(on);
         }
 
         /// <inheritdoc/>
