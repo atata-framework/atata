@@ -39,5 +39,24 @@ namespace Atata
             if (!element.Selected)
                 element.ClickWithLogging();
         }
+
+        /// <summary>
+        /// Sets random unselected value.
+        /// </summary>
+        /// <returns>The instance of the owner page object.</returns>
+        public TOwner ToggleRandom()
+        {
+            Log.ExecuteSection(
+                new LogSection($"Toggle random {ComponentFullName}"),
+                () =>
+                {
+                    var unselectedOptionElements = GetItemElements().Where(x => !x.Selected).ToArray();
+
+                    IWebElement randomElement = Randomizer.GetOneOf(unselectedOptionElements);
+                    randomElement.ClickWithLogging();
+                });
+
+            return Owner;
+        }
     }
 }

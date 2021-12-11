@@ -116,6 +116,15 @@ namespace Atata.Tests
             VerifyRegularStringBasedRadioButtonList(_page.TextInPrecedingSiblingItems);
         }
 
+        [Test]
+        public void RadioButtonList_ToggleRandom()
+        {
+            _page
+                .VerticalItems.Get(out var selectedValue)
+                .VerticalItems.ToggleRandom()
+                .VerticalItems.Should.Not.Be(selectedValue);
+        }
+
         private static void VerifyRegularStringBasedRadioButtonList(RadioButtonList<string, RadioButtonListPage> control)
         {
             control.Should.BeNull();
