@@ -1243,6 +1243,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
             AtataContext.Current = context;
 
+            context.EventBus.Publish(new AtataContextInitEvent(context));
+
             context.LogTestStart();
 
             context.Log.ExecuteSection(
@@ -1272,8 +1274,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
         private void SetUp(AtataContext context)
         {
-            context.EventBus.Publish(new AtataContextInitEvent(context));
-
             if (context.BaseUrl != null)
                 context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
 
