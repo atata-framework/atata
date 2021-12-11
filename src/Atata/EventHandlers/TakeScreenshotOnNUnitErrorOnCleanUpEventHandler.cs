@@ -10,7 +10,7 @@
         }
 
         public bool CanHandle(AtataContextCleanUpEvent eventData, AtataContext context) =>
-            NUnitAdapter.IsCurrentTestFailed();
+            NUnitAdapter.IsCurrentTestFailed() && context.HasDriver;
 
         public void Handle(AtataContextCleanUpEvent eventData, AtataContext context) =>
             context.Log.Screenshot(_screenshotTitle);

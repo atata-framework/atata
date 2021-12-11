@@ -144,6 +144,11 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets a value indicating whether this instance has <see cref="Driver"/> instance.
+        /// </summary>
+        public bool HasDriver => _driver != null;
+
+        /// <summary>
         /// Gets the driver alias.
         /// </summary>
         public string DriverAlias { get; internal set; }
