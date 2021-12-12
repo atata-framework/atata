@@ -6,7 +6,6 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -922,71 +921,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             UseArtifactsPath(include
                 ? AtataBuildingContext.DefaultArtifactsPath
                 : AtataBuildingContext.DefaultArtifactsPathWithoutBuildStartFolder);
-
-        /// <summary>
-        /// Adds the action to perform during <see cref="AtataContext"/> building.
-        /// It will be executed at the beginning of the build after the log is set up.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<AtataContextInitEvent>(...) instead.")] // Obsolete since v1.14.0.
-        public AtataContextBuilder OnBuilding(Action action)
-        {
-            if (action != null)
-                EventSubscriptions.Add<AtataContextInitEvent>(action);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the action to perform after <see cref="AtataContext"/> building.
-        /// It will be executed at the end of the build after the driver is created.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<AtataContextInitCompletedEvent>(...) instead.")] // Obsolete since v1.14.0.
-        public AtataContextBuilder OnBuilt(Action action)
-        {
-            if (action != null)
-                EventSubscriptions.Add<AtataContextInitCompletedEvent>(action);
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the action to perform after the driver is created.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<DriverInitEvent>(...) instead.")]
-        public AtataContextBuilder OnDriverCreated(Action<IWebDriver> action) // Obsolete since v1.14.0.
-        {
-            if (action != null)
-                EventSubscriptions.Add<DriverInitEvent>(ev => action.Invoke(ev.Driver));
-            return this;
-        }
-
-        /// <summary>
-        /// Adds the action to perform after the driver is created.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<DriverInitEvent>(...) instead.")] // Obsolete since v1.14.0.
-        public AtataContextBuilder OnDriverCreated(Action action)
-        {
-            return action != null ? OnDriverCreated(_ => action()) : this;
-        }
-
-        /// <summary>
-        /// Adds the action to perform during <see cref="AtataContext"/> cleanup.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        [Obsolete("Use EventSubscriptions.Add<AtataContextCleanUpEvent>(...) instead.")] // Obsolete since v1.14.0.
-        public AtataContextBuilder OnCleanUp(Action action)
-        {
-            if (action != null)
-                EventSubscriptions.Add<AtataContextCleanUpEvent>(action);
-            return this;
-        }
 
         /// <summary>
         /// Defines that the name of the test should be taken from the NUnit test.
