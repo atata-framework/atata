@@ -173,23 +173,6 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the first attribute of the specified type or <see langword="null"/> if no such attribute is found.
-        /// </summary>
-        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
-        /// <param name="levels">The attribute levels.</param>
-        /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">
-        /// If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria
-        /// in case <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.
-        /// </param>
-        /// <returns>The first attribute found or <see langword="null"/>.</returns>
-        [Obsolete("Use Get() or Get(filterConfiguration) instead.")] // Obsolete since v1.0.0.
-        public TAttribute Get<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
-        {
-            return GetAll(levels, predicate, filterByTarget).FirstOrDefault();
-        }
-
-        /// <summary>
         /// Gets the sequence of attributes of the specified type.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
@@ -213,27 +196,7 @@ namespace Atata
 
             var attributeSets = GetAllAttributeSets(filter.Levels);
 
-            return FilterAttributeSets(attributeSets, filter, true);
-        }
-
-        /// <summary>
-        /// Gets the sequence of attributes of the specified type.
-        /// </summary>
-        /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
-        /// <param name="levels">The attribute levels.</param>
-        /// <param name="predicate">The predicate.</param>
-        /// <param name="filterByTarget">
-        /// If set to <see langword="true"/>, filters by <see cref="MulticastAttribute"/> criteria
-        /// in case <typeparamref name="TAttribute"/> is <see cref="MulticastAttribute"/>.
-        /// </param>
-        /// <returns>The sequence of attributes found.</returns>
-        [Obsolete("Use GetAll() or GetAll(filterConfiguration) instead.")] // Obsolete since v1.0.0.
-        public IEnumerable<TAttribute> GetAll<TAttribute>(AttributeLevels levels, Func<TAttribute, bool> predicate = null, bool filterByTarget = true)
-        {
-            AttributeFilter<TAttribute> filter = new AttributeFilter<TAttribute>().At(levels).Where(predicate);
-
-            var attributeSets = GetAllAttributeSets(filter.Levels);
-            return FilterAttributeSets(attributeSets, filter, filterByTarget);
+            return FilterAttributeSets(attributeSets, filter);
         }
 
         private IEnumerable<AttributeSearchSet> GetAllAttributeSets(AttributeLevels level)
@@ -267,13 +230,11 @@ namespace Atata
             yield return _componentAttributeSet;
         }
 
-        // TODO: filterByTarget should be removed.
         private IEnumerable<TAttribute> FilterAttributeSets<TAttribute>(
             IEnumerable<AttributeSearchSet> attributeSets,
-            AttributeFilter<TAttribute> filter,
-            bool filterByTarget)
+            AttributeFilter<TAttribute> filter)
         {
-            bool shouldFilterByTarget = filterByTarget && typeof(MulticastAttribute).IsAssignableFrom(typeof(TAttribute));
+            bool shouldFilterByTarget = typeof(MulticastAttribute).IsAssignableFrom(typeof(TAttribute));
 
             foreach (AttributeSearchSet set in attributeSets)
             {
@@ -498,7 +459,7 @@ namespace Atata
             var filter = new AttributeFilter<FindAttribute>()
                 .Where(x => x.As != FindAs.Scope);
 
-            return FilterAttributeSets(attributeSets, filter, true);
+            return FilterAttributeSets(attributeSets, filter);
         }
 
         private UIComponentMetadata CreateMetadataForLayerFindAttribute()
