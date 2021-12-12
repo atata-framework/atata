@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public class FindByDescendantAttributeStrategy : XPathComponentScopeLocateStrategy
+    public class FindByDescendantAttributeStrategy : XPathComponentScopeFindStrategy
     {
         private readonly string _attributeName;
 
@@ -9,7 +9,7 @@
             _attributeName = attributeName;
         }
 
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             return builder.
                 WrapWithIndex(x => x.OuterXPath.ComponentXPath[c => c.Descendant.Any[d => d.TermsConditionOf(_attributeName)]]);

@@ -2,38 +2,37 @@
 
 namespace Atata
 {
-    public class ComponentScopeLocateOptions : ICloneable
+    /// <summary>
+    /// Represents the options of UI component scope element finding.
+    /// </summary>
+    public class ComponentScopeFindOptions : ICloneable
     {
         public UIComponent Component { get; private set; }
 
-        public UIComponentMetadata Metadata { get; set; }
+        public UIComponentMetadata Metadata { get; private set; }
+
+        public string ElementXPath { get; private set; }
 
         public string[] Terms { get; set; }
 
         public string OuterXPath { get; set; }
 
-        public string ElementXPath { get; set; }
-
         public int? Index { get; set; }
 
         public TermMatch Match { get; set; }
 
-        // TODO: Probably remove, as Visibility is present in SearchOptions.
-        public Visibility Visibility { get; set; }
-
-        public static ComponentScopeLocateOptions Create(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
+        public static ComponentScopeFindOptions Create(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
         {
             ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 
             int index = findAttribute.Index;
 
-            ComponentScopeLocateOptions options = new ComponentScopeLocateOptions
+            ComponentScopeFindOptions options = new ComponentScopeFindOptions
             {
                 Component = component,
                 Metadata = metadata,
                 ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath,
                 Index = index >= 0 ? (int?)index : null,
-                Visibility = findAttribute.Visibility,
                 OuterXPath = findAttribute.OuterXPath
             };
 
@@ -46,10 +45,8 @@ namespace Atata
             return options;
         }
 
-        public string GetTermsAsString()
-        {
-            return Terms != null ? string.Join("/", Terms) : null;
-        }
+        public string GetTermsAsString() =>
+            Terms != null ? string.Join("/", Terms) : null;
 
         /// <inheritdoc cref="Clone"/>
         object ICloneable.Clone() =>
@@ -59,9 +56,7 @@ namespace Atata
         /// Creates a new object that is a copy of the current instance.
         /// </summary>
         /// <returns>A new object that is a copy of this instance.</returns>
-        public ComponentScopeLocateOptions Clone()
-        {
-            return (ComponentScopeLocateOptions)MemberwiseClone();
-        }
+        public ComponentScopeFindOptions Clone() =>
+            (ComponentScopeFindOptions)MemberwiseClone();
     }
 }

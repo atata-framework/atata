@@ -4,7 +4,7 @@ using OpenQA.Selenium;
 
 namespace Atata
 {
-    public class XPathComponentScopeFindResult : ComponentScopeLocateResult
+    public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
     {
         public XPathComponentScopeFindResult(string xPath, ISearchContext scopeSource, SearchOptions searchOptions)
         {
@@ -19,15 +19,11 @@ namespace Atata
 
         public SearchOptions SearchOptions { get; internal set; }
 
-        public IWebElement Get(string xPathCondition = null)
-        {
-            return ScopeSource.GetWithLogging(CreateBy(xPathCondition));
-        }
+        public IWebElement Get(string xPathCondition = null) =>
+            ScopeSource.GetWithLogging(CreateBy(xPathCondition));
 
-        public ReadOnlyCollection<IWebElement> GetAll(string xPathCondition = null)
-        {
-            return ScopeSource.GetAllWithLogging(CreateBy(xPathCondition));
-        }
+        public ReadOnlyCollection<IWebElement> GetAll(string xPathCondition = null) =>
+            ScopeSource.GetAllWithLogging(CreateBy(xPathCondition));
 
         public By CreateBy(string xPathCondition)
         {

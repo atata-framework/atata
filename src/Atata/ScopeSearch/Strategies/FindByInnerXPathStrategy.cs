@@ -2,9 +2,9 @@
 
 namespace Atata
 {
-    public class FindByInnerXPathStrategy : XPathComponentScopeLocateStrategy
+    public class FindByInnerXPathStrategy : XPathComponentScopeFindStrategy
     {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             string[] conditions = options.Terms.Length > 1
                 ? options.Terms.Select(x => $"({x})").ToArray()

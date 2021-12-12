@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
-    public class FindByContentStrategy : XPathComponentScopeLocateStrategy
+    public class FindByContentStrategy : XPathComponentScopeFindStrategy
     {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             return builder.
                 WrapWithIndex(x => x.OuterXPath.ComponentXPath[y => y.TermsConditionOfContent]);

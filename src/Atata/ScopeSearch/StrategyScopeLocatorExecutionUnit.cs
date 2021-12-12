@@ -4,17 +4,17 @@
     {
         public StrategyScopeLocatorExecutionUnit(
             IComponentScopeFindStrategy strategy,
-            ComponentScopeLocateOptions scopeLocateOptions,
+            ComponentScopeFindOptions scopeFindOptions,
             SearchOptions searchOptions)
         {
             Strategy = strategy;
-            ScopeLocateOptions = scopeLocateOptions;
+            ScopeFindOptions = scopeFindOptions;
             SearchOptions = searchOptions;
         }
 
         public IComponentScopeFindStrategy Strategy { get; }
 
-        public ComponentScopeLocateOptions ScopeLocateOptions { get; }
+        public ComponentScopeFindOptions ScopeFindOptions { get; }
 
         public SearchOptions SearchOptions { get; }
     }

@@ -39,7 +39,7 @@ namespace Atata
         /// </summary>
         public string HeaderXPath { get; set; }
 
-        public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
         {
             int? columnIndex = GetColumnIndex(scope, options, searchOptions);
 
@@ -47,7 +47,7 @@ namespace Atata
             {
                 if (searchOptions.IsSafely)
                 {
-                    return new MissingComponentScopeFindResult();
+                    return ComponentScopeFindResult.Missing;
                 }
                 else
                 {
@@ -72,7 +72,7 @@ namespace Atata
         /// <param name="options">The component scope locate options.</param>
         /// <param name="searchOptions">The search options.</param>
         /// <returns>The index of the column or <see langword="null"/> if not found.</returns>
-        protected virtual int? GetColumnIndex(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        protected virtual int? GetColumnIndex(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
         {
             var headerNamePredicate = options.Match.GetPredicate();
 

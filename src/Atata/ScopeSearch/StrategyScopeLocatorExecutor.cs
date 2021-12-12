@@ -20,7 +20,7 @@ namespace Atata
 
             foreach (var unit in executionData.LayerUnits)
             {
-                XPathComponentScopeFindResult[] xPathResults = Execute(unit.Strategy, scopeContext, unit.ScopeLocateOptions, unit.SearchOptions);
+                XPathComponentScopeFindResult[] xPathResults = Execute(unit.Strategy, scopeContext, unit.ScopeFindOptions, unit.SearchOptions);
 
                 if (!xPathResults.Any())
                     return xPathResults;
@@ -50,25 +50,25 @@ namespace Atata
                 scopeContext = unit.ScopeContextResolver.Resolve(element);
             }
 
-            return Execute(executionData.FinalUnit.Strategy, scopeContext, executionData.FinalUnit.ScopeLocateOptions, executionData.FinalUnit.SearchOptions);
+            return Execute(executionData.FinalUnit.Strategy, scopeContext, executionData.FinalUnit.ScopeFindOptions, executionData.FinalUnit.SearchOptions);
         }
 
-        private static XPathComponentScopeFindResult[] Execute(IComponentScopeFindStrategy strategy, ISearchContext scope, ComponentScopeLocateOptions scopeLocateOptions, SearchOptions searchOptions)
+        private static XPathComponentScopeFindResult[] Execute(IComponentScopeFindStrategy strategy, ISearchContext scope, ComponentScopeFindOptions scopeLocateOptions, SearchOptions searchOptions)
         {
-            ComponentScopeLocateResult result = strategy.Find(scope, scopeLocateOptions, searchOptions);
+            ComponentScopeFindResult result = strategy.Find(scope, scopeLocateOptions, searchOptions);
 
             return ResolveResult(result, scope, scopeLocateOptions, searchOptions);
         }
 
         private static XPathComponentScopeFindResult[] ResolveResult(
-            ComponentScopeLocateResult result,
+            ComponentScopeFindResult result,
             ISearchContext scopeSource,
-            ComponentScopeLocateOptions scopeLocateOptions,
+            ComponentScopeFindOptions scopeLocateOptions,
             SearchOptions searchOptions)
         {
             result.CheckNotNull(nameof(result));
 
-            if (result is MissingComponentScopeFindResult missingResult)
+            if (result is MissingComponentScopeFindResult)
                 return new XPathComponentScopeFindResult[0];
 
             if (result is XPathComponentScopeFindResult xPathResult)
@@ -76,11 +76,11 @@ namespace Atata
 
             if (result is SubsequentComponentScopeFindResult subsequentResult)
             {
-                ComponentScopeLocateOptions nextScopeLocateOptions = subsequentResult.ScopeLocateOptions ?? scopeLocateOptions;
+                ComponentScopeFindOptions nextScopeFindOptions = subsequentResult.ScopeFindOptions ?? scopeLocateOptions;
 
                 if (subsequentResult.ScopeSources?.Count() == 1)
                 {
-                    return Execute(subsequentResult.Strategy, subsequentResult.ScopeSources.First(), nextScopeLocateOptions, searchOptions);
+                    return Execute(subsequentResult.Strategy, subsequentResult.ScopeSources.First(), nextScopeFindOptions, searchOptions);
                 }
                 else
                 {
@@ -92,7 +92,7 @@ namespace Atata
 
                     // TODO: When there are no results, do retry.
                     var results = nextScopeSources.
-                        Select(nextScopeSource => Execute(subsequentResult.Strategy, nextScopeSource, nextScopeLocateOptions, nextSearchOptions)).
+                        Select(nextScopeSource => Execute(subsequentResult.Strategy, nextScopeSource, nextScopeFindOptions, nextSearchOptions)).
                         Where(xPathResults => xPathResults != null).
                         SelectMany(xPathResults => xPathResults).
                         ToArray();
@@ -119,7 +119,7 @@ namespace Atata
                 }
             }
 
-            throw new ArgumentException($"Unsupported {nameof(ComponentScopeLocateResult)} type: {result.GetType().FullName}", nameof(result));
+            throw new ArgumentException($"Unsupported {nameof(ComponentScopeFindResult)} type: {result.GetType().FullName}", nameof(result));
         }
     }
 }

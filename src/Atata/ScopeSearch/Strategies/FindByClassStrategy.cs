@@ -2,9 +2,9 @@
 
 namespace Atata
 {
-    public class FindByClassStrategy : XPathComponentScopeLocateStrategy
+    public class FindByClassStrategy : XPathComponentScopeFindStrategy
     {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             string classCondition = GetClassCondition(options);
 
@@ -13,7 +13,7 @@ namespace Atata
                 DescendantOrSelf.ComponentXPath;
         }
 
-        private static string GetClassCondition(ComponentScopeLocateOptions options)
+        private static string GetClassCondition(ComponentScopeFindOptions options)
         {
             string conditionFormat = "contains(concat(' ', normalize-space(@class), ' '), ' {0} ')";
 

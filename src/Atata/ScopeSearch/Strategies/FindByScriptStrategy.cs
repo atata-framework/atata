@@ -18,7 +18,7 @@ namespace Atata
         /// </summary>
         public string Script { get; }
 
-        public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
         {
             object scriptResult = ExecuteScript(scope);
 
@@ -36,7 +36,7 @@ namespace Atata
             }
             else if (searchOptions.IsSafely)
             {
-                return new MissingComponentScopeFindResult();
+                return ComponentScopeFindResult.Missing;
             }
             else
             {
@@ -69,7 +69,7 @@ namespace Atata
             }
         }
 
-        private ComponentScopeLocateResult ProcessCollectionOfElements(ReadOnlyCollection<IWebElement> elements, ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        private ComponentScopeFindResult ProcessCollectionOfElements(ReadOnlyCollection<IWebElement> elements, ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
         {
             if (options.Index.HasValue)
             {
@@ -77,7 +77,7 @@ namespace Atata
                 {
                     if (searchOptions.IsSafely)
                     {
-                        return new MissingComponentScopeFindResult();
+                        return ComponentScopeFindResult.Missing;
                     }
                     else
                     {
@@ -92,7 +92,7 @@ namespace Atata
                 }
                 else
                 {
-                    ComponentScopeLocateOptions sequalOptions = options.Clone();
+                    ComponentScopeFindOptions sequalOptions = options.Clone();
                     sequalOptions.Index = null;
 
                     return new SubsequentComponentScopeFindResult(elements[options.Index.Value], s_sequalStrategy, sequalOptions);

@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
-    public class FindFirstDescendantOrSelfStrategy : XPathComponentScopeLocateStrategy
+    public class FindFirstDescendantOrSelfStrategy : XPathComponentScopeFindStrategy
     {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             return builder.DescendantOrSelf.ComponentXPath;
         }

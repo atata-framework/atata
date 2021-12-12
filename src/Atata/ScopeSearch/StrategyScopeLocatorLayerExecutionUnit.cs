@@ -4,10 +4,10 @@
     {
         public StrategyScopeLocatorLayerExecutionUnit(
             IComponentScopeFindStrategy strategy,
-            ComponentScopeLocateOptions scopeLocateOptions,
+            ComponentScopeFindOptions scopeFindOptions,
             SearchOptions searchOptions,
             ILayerScopeContextResolver scopeContextResolver)
-            : base(strategy, scopeLocateOptions, searchOptions)
+            : base(strategy, scopeFindOptions, searchOptions)
         {
             ScopeContextResolver = scopeContextResolver;
         }

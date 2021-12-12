@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public class FindByChildContentStrategy : XPathComponentScopeLocateStrategy
+    public class FindByChildContentStrategy : XPathComponentScopeFindStrategy
     {
         private readonly int _childIndex;
 
@@ -9,7 +9,7 @@
             _childIndex = childIndex;
         }
 
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             return builder.
                 WrapWithIndex(x => x.OuterXPath.ComponentXPath[y => y.Any[_childIndex + 1][z => z.TermsConditionOfContent]]);

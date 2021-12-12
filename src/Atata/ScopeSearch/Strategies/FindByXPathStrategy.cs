@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Atata
 {
-    public class FindByXPathStrategy : XPathComponentScopeLocateStrategy
+    public class FindByXPathStrategy : XPathComponentScopeFindStrategy
     {
         private readonly string[] _acceptableXPathPrefixValues =
         {
@@ -23,7 +23,7 @@ namespace Atata
             "self::"
         };
 
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             string[] conditionalXPathTerms = builder.Options.Terms.
                 Where(x => (x[0] == '[' && x[x.Length - 1] == ']') || x[0] == '@').

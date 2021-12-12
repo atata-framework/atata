@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a strategy that finds a control in a cell searched by the specified column index.
     /// </summary>
-    public class FindByColumnIndexStrategy : XPathComponentScopeLocateStrategy
+    public class FindByColumnIndexStrategy : XPathComponentScopeFindStrategy
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FindByColumnIndexStrategy"/> class.
@@ -25,7 +25,7 @@
         /// </summary>
         public string CellXPath { get; set; } = "td";
 
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             return builder.
                 WrapWithIndex(x => x.OuterXPath._(CellXPath).WhereIndex(ColumnIndex).DescendantOrSelf.ComponentXPath);

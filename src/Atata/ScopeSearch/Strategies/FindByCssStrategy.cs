@@ -6,7 +6,7 @@ namespace Atata
     {
         private readonly IComponentScopeFindStrategy _sequalStrategy = new FindFirstDescendantOrSelfStrategy();
 
-        public ComponentScopeLocateResult Find(ISearchContext scope, ComponentScopeLocateOptions options, SearchOptions searchOptions)
+        public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
         {
             By by = By.CssSelector(string.Join(",", options.Terms));
 
@@ -21,7 +21,7 @@ namespace Atata
                 {
                     if (searchOptions.IsSafely)
                     {
-                        return new MissingComponentScopeFindResult();
+                        return ComponentScopeFindResult.Missing;
                     }
                     else
                     {

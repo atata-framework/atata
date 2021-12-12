@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public class FindByAttributeStrategy : XPathComponentScopeLocateStrategy
+    public class FindByAttributeStrategy : XPathComponentScopeFindStrategy
     {
         private readonly string _attributeName;
 
@@ -9,7 +9,7 @@
             _attributeName = attributeName;
         }
 
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             return builder.
                 WrapWithIndex(x => x.OuterXPath.ComponentXPath[y => y.TermsConditionOf(_attributeName)]);

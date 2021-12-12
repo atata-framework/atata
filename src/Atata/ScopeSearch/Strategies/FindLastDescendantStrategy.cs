@@ -1,8 +1,8 @@
 ﻿namespace Atata
 {
-    public class FindLastDescendantStrategy : XPathComponentScopeLocateStrategy
+    public class FindLastDescendantStrategy : XPathComponentScopeFindStrategy
     {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeLocateOptions options)
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
             return builder.Wrap(x => x.OuterXPath.ComponentXPath)["last()"];
         }
