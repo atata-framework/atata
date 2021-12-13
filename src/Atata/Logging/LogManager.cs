@@ -22,14 +22,6 @@ namespace Atata
 
         private int _screenshotNumber;
 
-        // TODO: Remove this constructor. It is present for backward compatibility.
-        public LogManager()
-            : this(AtataContext.Current is null
-                ? new BasicLogEventInfoFactory() as ILogEventInfoFactory
-                : new AtataContextLogEventInfoFactory(AtataContext.Current))
-        {
-        }
-
         public LogManager(ILogEventInfoFactory logEventInfoFactory)
         {
             _logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));

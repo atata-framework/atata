@@ -11,7 +11,7 @@ namespace Atata.Tests
         [SetUp]
         public void SetUp()
         {
-            _sut = new LogManager();
+            _sut = new LogManager(new BasicLogEventInfoFactory());
         }
 
         [Test]
