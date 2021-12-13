@@ -76,21 +76,20 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
-        /// Use the driver factory.
+        /// Use the driver builder.
         /// </summary>
-        /// <typeparam name="TDriverFactory">The type of the driver factory.</typeparam>
-        /// <param name="driverFactory">The driver factory.</param>
-        /// <returns>The <typeparamref name="TDriverFactory"/> instance.</returns>
-        // TODO: Rename TDriverFactory to TDriverBuilder. Parameter too.
-        public TDriverFactory UseDriver<TDriverFactory>(TDriverFactory driverFactory)
-            where TDriverFactory : AtataContextBuilder, IDriverFactory
+        /// <typeparam name="TDriverBuilder">The type of the driver builder.</typeparam>
+        /// <param name="driverBuilder">The driver builder.</param>
+        /// <returns>The <typeparamref name="TDriverBuilder"/> instance.</returns>
+        public TDriverBuilder UseDriver<TDriverBuilder>(TDriverBuilder driverBuilder)
+            where TDriverBuilder : AtataContextBuilder, IDriverFactory
         {
-            driverFactory.CheckNotNull(nameof(driverFactory));
+            driverBuilder.CheckNotNull(nameof(driverBuilder));
 
-            BuildingContext.DriverFactories.Add(driverFactory);
-            BuildingContext.DriverFactoryToUse = driverFactory;
+            BuildingContext.DriverFactories.Add(driverBuilder);
+            BuildingContext.DriverFactoryToUse = driverBuilder;
 
-            return driverFactory;
+            return driverBuilder;
         }
 
         /// <summary>
