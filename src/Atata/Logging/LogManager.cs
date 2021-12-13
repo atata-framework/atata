@@ -6,7 +6,7 @@ using System.Text;
 namespace Atata
 {
     /// <summary>
-    /// Represents the log manager, the entry point for the Atata logging functionality.
+    /// Represents the log manager, an entry point for the Atata logging functionality.
     /// </summary>
     /// <seealso cref="ILogManager" />
     public class LogManager : ILogManager
@@ -78,56 +78,67 @@ namespace Atata
             return this;
         }
 
+        /// <inheritdoc/>
         public void Trace(string message, params object[] args)
         {
             Log(LogLevel.Trace, message, args);
         }
 
+        /// <inheritdoc/>
         public void Debug(string message, params object[] args)
         {
             Log(LogLevel.Debug, message, args);
         }
 
+        /// <inheritdoc/>
         public void Info(string message, params object[] args)
         {
             Log(LogLevel.Info, message, args);
         }
 
+        /// <inheritdoc/>
         public void Warn(string message, params object[] args)
         {
             Log(LogLevel.Warn, message, args);
         }
 
+        /// <inheritdoc/>
         public void Warn(Exception exception)
         {
             Log(LogLevel.Warn, null, exception);
         }
 
+        /// <inheritdoc/>
         public void Warn(string message, Exception exception = null)
         {
             Log(LogLevel.Warn, message, exception);
         }
 
+        /// <inheritdoc/>
         public void Error(Exception exception)
         {
             Log(LogLevel.Error, null, exception);
         }
 
+        /// <inheritdoc/>
         public void Error(string message, Exception exception = null)
         {
             Log(LogLevel.Error, message, exception);
         }
 
+        /// <inheritdoc/>
         public void Fatal(Exception exception)
         {
             Log(LogLevel.Fatal, null, exception);
         }
 
+        /// <inheritdoc/>
         public void Fatal(string message, Exception exception = null)
         {
             Log(LogLevel.Fatal, message, exception);
         }
 
+        /// <inheritdoc/>
         public void ExecuteSection(LogSection section, Action action)
         {
             action.CheckNotNull(nameof(action));
@@ -149,6 +160,7 @@ namespace Atata
             }
         }
 
+        /// <inheritdoc/>
         public TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function)
         {
             function.CheckNotNull(nameof(function));
@@ -172,10 +184,7 @@ namespace Atata
             }
         }
 
-        /// <summary>
-        /// Starts the specified log section.
-        /// </summary>
-        /// <param name="section">The log section.</param>
+        /// <inheritdoc/>
         public void Start(LogSection section)
         {
             section.CheckNotNull(nameof(section));
@@ -191,9 +200,7 @@ namespace Atata
             _sectionEndStack.Push(section);
         }
 
-        /// <summary>
-        /// Ends the latest log section.
-        /// </summary>
+        /// <inheritdoc/>
         public void EndSection()
         {
             if (_sectionEndStack.Any())
@@ -323,6 +330,7 @@ namespace Atata
             return message;
         }
 
+        /// <inheritdoc/>
         public void Screenshot(string title = null)
         {
             if (AtataContext.Current?.Driver == null || !_screenshotConsumers.Any())
