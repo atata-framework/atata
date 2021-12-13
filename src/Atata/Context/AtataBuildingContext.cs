@@ -37,9 +37,9 @@ namespace Atata
         public List<IDriverFactory> DriverFactories { get; private set; } = new List<IDriverFactory>();
 
         /// <summary>
-        /// Gets the log consumers.
+        /// Gets the log consumer configurations.
         /// </summary>
-        public List<LogConsumerInfo> LogConsumers { get; private set; } = new List<LogConsumerInfo>();
+        public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = new List<LogConsumerConfiguration>();
 
         /// <summary>
         /// Gets the list of secret strings to mask in log.
@@ -283,7 +283,7 @@ namespace Atata
 
             copy.DriverFactories = DriverFactories.ToList();
 
-            copy.LogConsumers = LogConsumers
+            copy.LogConsumerConfigurations = LogConsumerConfigurations
                 .Select(x => x.Consumer is ICloneable ? x.Clone() : x)
                 .ToList();
 

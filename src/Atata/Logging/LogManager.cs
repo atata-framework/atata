@@ -13,7 +13,7 @@ namespace Atata
     {
         private readonly ILogEventInfoFactory _logEventInfoFactory;
 
-        private readonly List<LogConsumerInfo> _logConsumers = new List<LogConsumerInfo>();
+        private readonly List<LogConsumerConfiguration> _logConsumerConfigurations = new List<LogConsumerConfiguration>();
         private readonly List<IScreenshotConsumer> _screenshotConsumers = new List<IScreenshotConsumer>();
 
         private readonly List<SecretStringToMask> _secretStringsToMask = new List<SecretStringToMask>();
@@ -30,15 +30,15 @@ namespace Atata
         /// <summary>
         /// Use the specified consumer configuration for logging.
         /// </summary>
-        /// <param name="consumerInfo">The consumer configuration.</param>
+        /// <param name="logConsumerConfiguration">The log consumer configuration.</param>
         /// <returns>
         /// The same <see cref="LogManager" /> instance.
         /// </returns>
-        public LogManager Use(LogConsumerInfo consumerInfo)
+        public LogManager Use(LogConsumerConfiguration logConsumerConfiguration)
         {
-            consumerInfo.CheckNotNull(nameof(consumerInfo));
+            logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
 
-            _logConsumers.Add(consumerInfo);
+            _logConsumerConfigurations.Add(logConsumerConfiguration);
 
             return this;
         }
@@ -246,7 +246,7 @@ namespace Atata
             return $"{exception.GetType().FullName}: {message}";
         }
 
-        private static string PrependHierarchyPrefixesToMessage(string message, LogEventInfo eventInfo, LogConsumerInfo logConsumerInfo)
+        private static string PrependHierarchyPrefixesToMessage(string message, LogEventInfo eventInfo, LogConsumerConfiguration logConsumerConfiguration)
         {
             StringBuilder builder = new StringBuilder();
 
@@ -254,16 +254,16 @@ namespace Atata
             {
                 for (int i = 0; i < eventInfo.NestingLevel; i++)
                 {
-                    builder.Append(logConsumerInfo.MessageNestingLevelIndent);
+                    builder.Append(logConsumerConfiguration.MessageNestingLevelIndent);
                 }
             }
 
-            if (logConsumerInfo.LogSectionFinish)
+            if (logConsumerConfiguration.LogSectionFinish)
             {
                 if (eventInfo.SectionStart != null)
-                    builder.Append(logConsumerInfo.MessageStartSectionPrefix);
+                    builder.Append(logConsumerConfiguration.MessageStartSectionPrefix);
                 else if (eventInfo.SectionEnd != null)
-                    builder.Append(logConsumerInfo.MessageEndSectionPrefix);
+                    builder.Append(logConsumerConfiguration.MessageEndSectionPrefix);
             }
 
             string resultMessage = builder.Append(message).ToString();
@@ -294,7 +294,7 @@ namespace Atata
 
         private void Log(LogEventInfo eventInfo)
         {
-            var appropriateConsumerItems = _logConsumers
+            var appropriateConsumerItems = _logConsumerConfigurations
                 .Where(x => eventInfo.Level >= x.MinLevel);
 
             if (eventInfo.SectionEnd != null)

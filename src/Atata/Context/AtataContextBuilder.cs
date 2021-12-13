@@ -346,7 +346,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             consumer.CheckNotNull(nameof(consumer));
 
-            BuildingContext.LogConsumers.Add(new LogConsumerInfo(consumer));
+            BuildingContext.LogConsumerConfigurations.Add(new LogConsumerConfiguration(consumer));
             return new AtataContextBuilder<TLogConsumer>(consumer, BuildingContext);
         }
 
@@ -1197,7 +1197,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
             logManager.AddSecretStringsToMask(BuildingContext.SecretStringsToMaskInLog);
 
-            foreach (var logConsumerItem in BuildingContext.LogConsumers)
+            foreach (var logConsumerItem in BuildingContext.LogConsumerConfigurations)
                 logManager.Use(logConsumerItem);
 
             foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)

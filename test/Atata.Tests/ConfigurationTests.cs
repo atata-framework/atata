@@ -15,7 +15,7 @@ namespace Atata.Tests
 
             Assert.That(globalContext.TestNameFactory, Is.Null);
             Assert.That(globalContext.DriverFactories, Is.Empty);
-            Assert.That(globalContext.LogConsumers, Is.Empty);
+            Assert.That(globalContext.LogConsumerConfigurations, Is.Empty);
             Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
             Assert.That(globalContext.BaseUrl, Is.Null);
 
@@ -37,14 +37,14 @@ namespace Atata.Tests
 
             Assert.That(globalContext.TestNameFactory(), Is.EqualTo(nameof(Configuration_Mixed)));
             Assert.That(globalContext.DriverFactories, Is.Empty);
-            Assert.That(globalContext.LogConsumers, Has.Count.EqualTo(1));
-            Assert.That(globalContext.LogConsumers.First().Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
+            Assert.That(globalContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
+            Assert.That(globalContext.LogConsumerConfigurations.First().Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
             Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
             Assert.That(globalContext.BaseUrl, Is.Null);
 
             Assert.That(currentContext.DriverFactories, Has.Count.EqualTo(1));
             Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
-            Assert.That(currentContext.LogConsumers, Has.Count.EqualTo(1));
+            Assert.That(currentContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
             Assert.That(currentContext.ScreenshotConsumers, Has.Count.EqualTo(1));
             Assert.That(currentContext.ScreenshotConsumers.First(), Is.TypeOf<FileScreenshotConsumer>());
             Assert.That(currentContext.BaseUrl, Is.EqualTo(UITestFixtureBase.BaseUrl));
@@ -99,7 +99,7 @@ namespace Atata.Tests
             Assert.That(context.TestNameFactory, Is.Null);
             Assert.That(context.DriverFactories, Is.Empty);
             Assert.That(context.DriverFactoryToUse, Is.Null);
-            Assert.That(context.LogConsumers, Is.Empty);
+            Assert.That(context.LogConsumerConfigurations, Is.Empty);
             Assert.That(context.ScreenshotConsumers, Is.Empty);
             Assert.That(context.BaseUrl, Is.Null);
             Assert.That(context.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));

@@ -15,7 +15,7 @@ namespace Atata
         public static AtataContextBuilder<TLogConsumer> WithoutSectionFinish<TLogConsumer>(this AtataContextBuilder<TLogConsumer> builder)
             where TLogConsumer : ILogConsumer
         {
-            GetCurrentLogConsumerInfo(builder).LogSectionFinish = false;
+            GetCurrentLogConsumerConfiguration(builder).LogSectionFinish = false;
             return builder;
         }
 
@@ -30,7 +30,7 @@ namespace Atata
         public static AtataContextBuilder<TLogConsumer> WithMinLevel<TLogConsumer>(this AtataContextBuilder<TLogConsumer> builder, LogLevel level)
             where TLogConsumer : ILogConsumer
         {
-            GetCurrentLogConsumerInfo(builder).MinLevel = level;
+            GetCurrentLogConsumerConfiguration(builder).MinLevel = level;
             return builder;
         }
 
@@ -45,7 +45,7 @@ namespace Atata
         public static AtataContextBuilder<TLogConsumer> WithMessageNestingLevelIndent<TLogConsumer>(this AtataContextBuilder<TLogConsumer> builder, string messageNestingLevelIndent)
             where TLogConsumer : ILogConsumer
         {
-            GetCurrentLogConsumerInfo(builder).MessageNestingLevelIndent = messageNestingLevelIndent;
+            GetCurrentLogConsumerConfiguration(builder).MessageNestingLevelIndent = messageNestingLevelIndent;
             return builder;
         }
 
@@ -60,7 +60,7 @@ namespace Atata
         public static AtataContextBuilder<TLogConsumer> WithMessageStartSectionPrefix<TLogConsumer>(this AtataContextBuilder<TLogConsumer> builder, string messageStartSectionPrefix)
             where TLogConsumer : ILogConsumer
         {
-            GetCurrentLogConsumerInfo(builder).MessageStartSectionPrefix = messageStartSectionPrefix;
+            GetCurrentLogConsumerConfiguration(builder).MessageStartSectionPrefix = messageStartSectionPrefix;
             return builder;
         }
 
@@ -75,14 +75,14 @@ namespace Atata
         public static AtataContextBuilder<TLogConsumer> WithMessageEndSectionPrefix<TLogConsumer>(this AtataContextBuilder<TLogConsumer> builder, string messageEndSectionPrefix)
             where TLogConsumer : ILogConsumer
         {
-            GetCurrentLogConsumerInfo(builder).MessageEndSectionPrefix = messageEndSectionPrefix;
+            GetCurrentLogConsumerConfiguration(builder).MessageEndSectionPrefix = messageEndSectionPrefix;
             return builder;
         }
 
-        private static LogConsumerInfo GetCurrentLogConsumerInfo<TLogConsumer>(this AtataContextBuilder<TLogConsumer> builder)
+        private static LogConsumerConfiguration GetCurrentLogConsumerConfiguration<TLogConsumer>(this AtataContextBuilder<TLogConsumer> builder)
             where TLogConsumer : ILogConsumer
         {
-            return builder.BuildingContext.LogConsumers.Single(x => Equals(x.Consumer, builder.Context));
+            return builder.BuildingContext.LogConsumerConfigurations.Single(x => Equals(x.Consumer, builder.Context));
         }
 
         /// <summary>
