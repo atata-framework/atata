@@ -168,7 +168,8 @@ namespace Atata.Tests.DataProvision
             {
                 s_directoryFixture = DirectoryFixture.CreateUniqueDirectory()
                     .CreateFile("1.txt")
-                    .CreateFile("2.txt");
+                    .CreateFile("2.txt")
+                    .CreateDirectory("dir1");
 
                 s_sut = new DirectorySubject(s_directoryFixture.DirectoryPath, "sut");
             }
@@ -189,6 +190,13 @@ namespace Atata.Tests.DataProvision
             [Test]
             public static void Owner() =>
                 Assert.That(s_sut.Files.Count().Should.Equal(2), Is.EqualTo(s_sut));
+
+            [Test]
+            public static void SubDirectories_Owner()
+            {
+                var directory = s_sut.Directories[0];
+                Assert.That(directory.Files.Count().Should.Equal(0), Is.EqualTo(directory));
+            }
 
             [Test]
             public static void IntIndexer() =>

@@ -32,13 +32,10 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="FileSubject"/> for the file with the specified name.
         /// </summary>
-        /// <value>
-        /// The <see cref="FileSubject"/>.
-        /// </value>
+        /// <value>The <see cref="FileSubject"/>.</value>
         /// <param name="fileName">Name of the file.</param>
         /// <returns>A <see cref="FileSubject"/> instance.</returns>
-        // TODO: In v2 should not be virtual.
-        public virtual FileSubject this[string fileName]
+        public FileSubject this[string fileName]
         {
             get
             {

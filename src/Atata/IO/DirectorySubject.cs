@@ -71,11 +71,8 @@ namespace Atata
         /// <summary>
         /// Gets the files of the current directory.
         /// </summary>
-        public FileEnumerableProvider<_> Files =>
-            new DirectoryFilesProvider(
-                Owner,
-                this,
-                nameof(Files));
+        public DirectoryFilesProvider Files =>
+            new DirectoryFilesProvider(this, nameof(Files));
 
         private static string BuildProviderName(string directoryPath) =>
             $"\"{directoryPath}\" directory";
