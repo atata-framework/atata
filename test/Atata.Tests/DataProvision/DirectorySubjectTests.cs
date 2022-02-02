@@ -139,6 +139,13 @@ namespace Atata.Tests.DataProvision
                     .Should.Equal("sut.Directories[0].Directories.Count()");
 
             [Test]
+            public static void SubDirectories_Owner()
+            {
+                var directory = s_sut.Directories[0];
+                Assert.That(directory.Directories.Count().Should.Equal(3), Is.EqualTo(directory));
+            }
+
+            [Test]
             public static void Names() =>
                 s_sut.Directories["dir1"].Directories.Names
                     .Should.EqualSequence("dir1_1", "dir1_2", "dir1_3");
@@ -178,6 +185,10 @@ namespace Atata.Tests.DataProvision
             public static void Count_ProviderName() =>
                 s_sut.Files.Count().ProviderName.ToResultSubject()
                     .Should.Equal("sut.Files.Count()");
+
+            [Test]
+            public static void Owner() =>
+                Assert.That(s_sut.Files.Count().Should.Equal(2), Is.EqualTo(s_sut));
 
             [Test]
             public static void IntIndexer() =>

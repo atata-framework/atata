@@ -7,35 +7,40 @@ namespace Atata
     /// <summary>
     /// Represents the provider of enumerable <see cref="DirectorySubject"/> objects that represent the subdirectories of a certain directory.
     /// </summary>
-    // TODO: In v2 inherit from EnumerableProvider<DirectorySubject, TOwner>.
-    public class SubdirectoriesProvider : DirectoryEnumerableProvider<DirectorySubject>
+    public class SubdirectoriesProvider : EnumerableProvider<DirectorySubject, DirectorySubject>
     {
-        private readonly DirectorySubject _parentDirectorySubject;
-
         /// <summary>
         /// Initializes a new instance of the <see cref="SubdirectoriesProvider"/> class.
         /// </summary>
-        /// <param name="owner">The owner.</param>
-        /// <param name="parentDirectorySubject">The parent directory subject.</param>
+        /// <param name="owner">The owner, which is the parent directory subject.</param>
         /// <param name="providerName">Name of the provider.</param>
-        public SubdirectoriesProvider(
-            DirectorySubject owner,
-            DirectorySubject parentDirectorySubject,
-            string providerName)
+        public SubdirectoriesProvider(DirectorySubject owner, string providerName)
             : base(
                 owner,
                 new DynamicObjectSource<IEnumerable<DirectorySubject>, DirectoryInfo>(
-                    parentDirectorySubject,
+                    owner,
                     x => x.EnumerateDirectories().Select((dir, i) => new DirectorySubject(dir, $"[{i}]"))),
                 providerName)
         {
-            _parentDirectorySubject = parentDirectorySubject;
         }
 
-        /// <inheritdoc/>
-        public override DirectorySubject this[string directoryName] =>
+        /// <summary>
+        /// Gets the directory names.
+        /// </summary>
+        public EnumerableProvider<ValueProvider<string, DirectorySubject>, DirectorySubject> Names =>
+            this.Query(nameof(Names), q => q.Select(x => x.Name));
+
+        /// <summary>
+        /// Gets the <see cref="DirectorySubject"/> for the directory with the specified name.
+        /// </summary>
+        /// <value>
+        /// The <see cref="DirectorySubject"/>.
+        /// </value>
+        /// <param name="directoryName">Name of the directory.</param>
+        /// <returns>A <see cref="DirectorySubject"/> instance.</returns>
+        public DirectorySubject this[string directoryName] =>
             new DirectorySubject(
-                Path.Combine(_parentDirectorySubject.Value.FullName, directoryName),
+                Path.Combine(Owner.Value.FullName, directoryName),
                 $"[\"{directoryName}\"]")
             {
                 SourceProviderName = ProviderName
