@@ -8,7 +8,7 @@ namespace Atata
     /// <summary>
     /// Represents the screenshot consumer that saves the screenshot to the file.
     /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as folder path format,
-    /// <c>"{screenshot-number:D2} - {screenshot-pageobjectfullname}{screenshot-title: - *}"</c> as file name format
+    /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as file name format
     /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
     /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
     /// Available path variables are:
@@ -118,6 +118,6 @@ namespace Atata
             DefaultAtataContextArtifactsDirectory.BuildPath();
 
         protected virtual string BuildDefaultFileName(ScreenshotInfo screenshotInfo) =>
-            $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectFullName}{screenshotInfo.Title?.Prepend(" - ")}";
+            $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectName} {screenshotInfo.PageObjectTypeName}{screenshotInfo.Title?.Prepend(" - ")}";
     }
 }
