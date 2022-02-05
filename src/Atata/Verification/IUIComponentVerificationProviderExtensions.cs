@@ -9,7 +9,6 @@ namespace Atata
     /// <summary>
     /// Provides a set of verification extension methods for <see cref="UIComponent{TOwner}"/> and its inheritors.
     /// </summary>
-    // TODO: Atata v2. Rename all "should" parameters to "verifier".
     public static class IUIComponentVerificationProviderExtensions
     {
         private const string PresenceVerificationStateName = "presence";
@@ -17,24 +16,24 @@ namespace Atata
         private const string VisibilityVerificationStateName = "visibility";
 
         private static TOwner VerifyExistence<TComponent, TOwner>(
-            IUIComponentVerificationProvider<TComponent, TOwner> should,
+            IUIComponentVerificationProvider<TComponent, TOwner> verifier,
             string expectedMessage,
             string verificationStateName,
             Visibility? visibility = null)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            should.Component.Context.Log.ExecuteSection(
-                new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"),
+            verifier.Component.Context.Log.ExecuteSection(
+                new VerificationLogSection(verifier.VerificationKind, verifier.Component, $"{verifier.GetShouldText()} {expectedMessage}"),
                 () =>
                 {
                     SearchOptions searchOptions = new SearchOptions
                     {
                         IsSafely = false,
-                        Timeout = should.Timeout ?? should.Component.Context.VerificationTimeout,
-                        RetryInterval = should.RetryInterval ?? should.Component.Context.VerificationRetryInterval
+                        Timeout = verifier.Timeout ?? verifier.Component.Context.VerificationTimeout,
+                        RetryInterval = verifier.RetryInterval ?? verifier.Component.Context.VerificationRetryInterval
                     };
 
                     if (visibility.HasValue)
@@ -45,33 +44,33 @@ namespace Atata
                         StaleSafely.Execute(
                             options =>
                             {
-                                if (should.IsNegation)
-                                    should.Component.Missing(options);
+                                if (verifier.IsNegation)
+                                    verifier.Component.Missing(options);
                                 else
-                                    should.Component.Exists(options);
+                                    verifier.Component.Exists(options);
                             },
                             searchOptions);
                     }
                     catch (Exception exception)
                     {
                         var failureMessageBuilder = new StringBuilder().
-                            Append($"{should.Component.ComponentFullName} {verificationStateName}").
+                            Append($"{verifier.Component.ComponentFullName} {verificationStateName}").
                             AppendLine().
-                            Append($"Expected: {should.GetShouldText()} {expectedMessage}");
+                            Append($"Expected: {verifier.GetShouldText()} {expectedMessage}");
 
                         if (exception is NoSuchElementException || exception is NotMissingElementException)
                         {
                             failureMessageBuilder.AppendLine().Append($"  Actual: {exception.Message.ToLowerFirstLetter()}");
-                            should.ReportFailure(failureMessageBuilder.ToString());
+                            verifier.ReportFailure(failureMessageBuilder.ToString());
                         }
                         else
                         {
-                            should.ReportFailure(failureMessageBuilder.ToString(), exception);
+                            verifier.ReportFailure(failureMessageBuilder.ToString(), exception);
                         }
                     }
                 });
 
-            return should.Owner;
+            return verifier.Owner;
         }
 
         /// <summary>
@@ -79,55 +78,55 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         // TODO: Atata v2. Make obsolete. Use BePresent instead.
-        public static TOwner Exist<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+        public static TOwner Exist<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
             =>
-            VerifyExistence(should, "exist", PresenceVerificationStateName);
+            VerifyExistence(verifier, "exist", PresenceVerificationStateName);
 
         /// <summary>
         /// Verifies that the component is present.
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BePresent<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+        public static TOwner BePresent<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
             =>
-            VerifyExistence(should, "be present", PresenceVerificationStateName);
+            VerifyExistence(verifier, "be present", PresenceVerificationStateName);
 
         /// <summary>
         /// Verifies that the component is visible.
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeVisible<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+        public static TOwner BeVisible<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
             =>
-            VerifyExistence(should, "be visible", VisibilityVerificationStateName, Visibility.Visible);
+            VerifyExistence(verifier, "be visible", VisibilityVerificationStateName, Visibility.Visible);
 
         /// <summary>
         /// Verifies that the component is visible in view port (visible browser screen area).
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeVisibleInViewPort<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+        public static TOwner BeVisibleInViewPort<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            return should.Component.IsVisibleInViewPort.Should.WithSettings(should).BeTrue();
+            return verifier.Component.IsVisibleInViewPort.Should.WithSettings(verifier).BeTrue();
         }
 
         /// <summary>
@@ -135,28 +134,28 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeHidden<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should)
+        public static TOwner BeHidden<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
             =>
-            VerifyExistence(should, "be hidden", VisibilityVerificationStateName, Visibility.Hidden);
+            VerifyExistence(verifier, "be hidden", VisibilityVerificationStateName, Visibility.Hidden);
 
         /// <summary>
         /// Verifies that the control is enabled.
         /// </summary>
         /// <typeparam name="TControl">The type of the control.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeEnabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeEnabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> verifier)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            return should.Component.IsEnabled.Should.WithSettings(should).BeTrue();
+            return verifier.Component.IsEnabled.Should.WithSettings(verifier).BeTrue();
         }
 
         /// <summary>
@@ -164,15 +163,15 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TControl">The type of the control.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeDisabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeDisabled<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> verifier)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            return should.Component.IsEnabled.Should.WithSettings(should).BeFalse();
+            return verifier.Component.IsEnabled.Should.WithSettings(verifier).BeFalse();
         }
 
         /// <summary>
@@ -181,15 +180,15 @@ namespace Atata
         /// <typeparam name="TData">The type of the control's data.</typeparam>
         /// <typeparam name="TControl">The type of the control.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeReadOnly<TData, TControl, TOwner>(this IFieldVerificationProvider<TData, TControl, TOwner> should)
+        public static TOwner BeReadOnly<TData, TControl, TOwner>(this IFieldVerificationProvider<TData, TControl, TOwner> verifier)
             where TControl : EditableField<TData, TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            return should.Component.IsReadOnly.Should.WithSettings(should).BeTrue();
+            return verifier.Component.IsReadOnly.Should.WithSettings(verifier).BeTrue();
         }
 
         /// <summary>
@@ -197,15 +196,15 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TControl">The type of the control.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeChecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeChecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> verifier)
             where TControl : Field<bool, TOwner>, ICheckable<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            return should.Component.Should.WithSettings(should).BeTrue();
+            return verifier.Component.Should.WithSettings(verifier).BeTrue();
         }
 
         /// <summary>
@@ -213,15 +212,15 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TControl">The type of the control.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeUnchecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> should)
+        public static TOwner BeUnchecked<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> verifier)
             where TControl : Field<bool, TOwner>, ICheckable<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            return should.Component.Should.WithSettings(should).BeFalse();
+            return verifier.Component.Should.WithSettings(verifier).BeFalse();
         }
 
         /// <summary>
@@ -229,37 +228,37 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TData">The type of the control's data.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <param name="value">The expected value or combination of enumeration flag values.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner HaveChecked<TData, TOwner>(this IFieldVerificationProvider<TData, CheckBoxList<TData, TOwner>, TOwner> should, TData value)
+        public static TOwner HaveChecked<TData, TOwner>(this IFieldVerificationProvider<TData, CheckBoxList<TData, TOwner>, TOwner> verifier, TData value)
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            IEnumerable<TData> expectedIndividualValues = should.Component.GetIndividualValues(value);
-            string expectedIndividualValuesAsString = should.Component.ConvertIndividualValuesToString(expectedIndividualValues, true);
+            IEnumerable<TData> expectedIndividualValues = verifier.Component.GetIndividualValues(value);
+            string expectedIndividualValuesAsString = verifier.Component.ConvertIndividualValuesToString(expectedIndividualValues, true);
 
             string expectedMessage = new StringBuilder().
                 Append("have checked").
                 AppendIf(expectedIndividualValues.Count() > 1, ":").
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
-            should.Component.Context.Log.ExecuteSection(
-                new VerificationLogSection(should.VerificationKind, should.Component, $"{should.GetShouldText()} {expectedMessage}"),
+            verifier.Component.Context.Log.ExecuteSection(
+                new VerificationLogSection(verifier.VerificationKind, verifier.Component, $"{verifier.GetShouldText()} {expectedMessage}"),
                 () =>
                 {
                     IEnumerable<TData> actualIndividualValues = null;
                     Exception exception = null;
 
-                    bool doesSatisfy = should.Component.Context.Driver.Try().Until(
+                    bool doesSatisfy = verifier.Component.Context.Driver.Try().Until(
                         _ =>
                         {
                             try
                             {
-                                actualIndividualValues = should.Component.GetIndividualValues(should.Component.Get());
+                                actualIndividualValues = verifier.Component.GetIndividualValues(verifier.Component.Get());
                                 int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
-                                bool result = should.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
+                                bool result = verifier.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
                                 exception = null;
                                 return result;
                             }
@@ -269,19 +268,19 @@ namespace Atata
                                 return false;
                             }
                         },
-                        should.GetRetryOptions());
+                        verifier.GetRetryOptions());
 
                     if (!doesSatisfy)
                     {
-                        string actualMessage = exception == null ? should.Component.ConvertIndividualValuesToString(actualIndividualValues, true) : null;
+                        string actualMessage = exception == null ? verifier.Component.ConvertIndividualValuesToString(actualIndividualValues, true) : null;
 
-                        string failureMessage = VerificationUtils.BuildFailureMessage(should, expectedMessage, actualMessage);
+                        string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage);
 
-                        should.ReportFailure(failureMessage, exception);
+                        verifier.ReportFailure(failureMessage, exception);
                     }
                 });
 
-            return should.Owner;
+            return verifier.Owner;
         }
 
         /// <summary>
@@ -289,14 +288,14 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <param name="classNames">The expected class names.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner HaveClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should, params string[] classNames)
+        public static TOwner HaveClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier, params string[] classNames)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            return should.HaveClass(classNames.AsEnumerable());
+            return verifier.HaveClass(classNames.AsEnumerable());
         }
 
         /// <summary>
@@ -304,16 +303,16 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="should">The verification provider.</param>
+        /// <param name="verifier">The verification provider.</param>
         /// <param name="classNames">The expected class names.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner HaveClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> should, IEnumerable<string> classNames)
+        public static TOwner HaveClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier, IEnumerable<string> classNames)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
-            should.CheckNotNull(nameof(should));
+            verifier.CheckNotNull(nameof(verifier));
 
-            return should.Component.Attributes.Class.Should.WithSettings(should).Contain(classNames);
+            return verifier.Component.Attributes.Class.Should.WithSettings(verifier).Contain(classNames);
         }
     }
 }
