@@ -84,25 +84,24 @@ namespace Atata
         AfterFocus = 1 << 13,
 
         /// <summary>
-        /// Occurs before the scrolling to control.
-        /// </summary>
-        // TODO: Atata v2. Move scroll values below.
-        BeforeScroll = 1 << 14,
-
-        /// <summary>
-        /// Occurs after the scrolling to control.
-        /// </summary>
-        AfterScroll = 1 << 15,
-
-        /// <summary>
         /// Occurs before the control loses the focus.
         /// </summary>
-        BeforeBlur = 1 << 16,
+        BeforeBlur = 1 << 14,
 
         /// <summary>
         /// Occurs after the control loses the focus.
         /// </summary>
-        AfterBlur = 1 << 17,
+        AfterBlur = 1 << 15,
+
+        /// <summary>
+        /// Occurs before the scrolling to control.
+        /// </summary>
+        BeforeScroll = 1 << 16,
+
+        /// <summary>
+        /// Occurs after the scrolling to control.
+        /// </summary>
+        AfterScroll = 1 << 17,
 
         /// <summary>
         /// The combination of <see cref="BeforeGet"/> and <see cref="BeforeSet"/>.
