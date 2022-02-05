@@ -44,8 +44,13 @@ namespace Atata
 
         internal void Release()
         {
-            _accessChainItems.Clear();
+            Clear();
             IsActive = false;
+        }
+
+        public void Clear()
+        {
+            _accessChainItems.Clear();
         }
 
         public void ExecuteWithin(Action action)

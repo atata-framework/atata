@@ -154,7 +154,20 @@ namespace Atata
                 if (!cache.TryGet(this, actualSearchOptions.Visibility, out element))
                 {
                     element = isActivatedAccessChainCache
-                        ? StaleSafely.Execute(OnGetScopeElement, actualSearchOptions)
+                        ? StaleSafely.Execute(
+                            options =>
+                            {
+                                try
+                                {
+                                    return OnGetScopeElement(options);
+                                }
+                                catch (StaleElementReferenceException)
+                                {
+                                    cache.Clear();
+                                    throw;
+                                }
+                            },
+                            actualSearchOptions)
                         : OnGetScopeElement(actualSearchOptions);
                 }
 
