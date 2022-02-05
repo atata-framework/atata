@@ -32,12 +32,17 @@ Features:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Atata.WebDriverExtras" Version="1.5.0" />
     <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
   </ItemGroup>
   
   <ItemGroup>
     <InternalsVisibleTo Include="Atata.Tests" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Reference Include="Atata.WebDriverExtras">
+      <HintPath>..\..\lib\Atata.WebDriverExtras.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

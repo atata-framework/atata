@@ -1,0 +1,648 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doc>
+    <assembly>
+        <name>Atata.WebDriverExtras</name>
+    </assembly>
+    <members>
+        <member name="T:Atata.ExceptionFactory">
+            <summary>
+            Provides a set of methods for an exception creation.
+            </summary>
+        </member>
+        <member name="M:Atata.ExceptionFactory.CreateForNoSuchElement(Atata.SearchFailureData)">
+            <summary>
+            Creates an instance of <see cref="T:OpenQA.Selenium.NoSuchElementException" /> with message generated using <paramref name="searchFailureData" />.
+            </summary>
+            <param name="searchFailureData">The search failure data.</param>
+            <returns>An instance of <see cref="T:OpenQA.Selenium.NoSuchElementException" />.</returns>
+        </member>
+        <member name="M:Atata.ExceptionFactory.CreateForNotMissingElement(Atata.SearchFailureData)">
+            <summary>
+            Creates an instance of <see cref="T:Atata.NotMissingElementException" /> with message generated using <paramref name="searchFailureData" />.
+            </summary>
+            <param name="searchFailureData">The search failure data.</param>
+            <returns>An instance of <see cref="T:Atata.NotMissingElementException" />.</returns>
+        </member>
+        <member name="T:Atata.SearchFailureData">
+            <summary>
+            Represents the data describing element search failure.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchFailureData.ElementName">
+            <summary>
+            Gets or sets the name of the element.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchFailureData.By">
+            <summary>
+            Gets or sets the <see cref="P:Atata.SearchFailureData.By" /> instance used for element search.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchFailureData.SearchTime">
+            <summary>
+            Gets or sets the search time.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchFailureData.SearchOptions">
+            <summary>
+            Gets or sets the options used during the search.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchFailureData.AlikeElementsWithInverseVisibility">
+            <summary>
+            Gets or sets the alike elements with inverse visibility.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchFailureData.SearchContext">
+            <summary>
+            Gets or sets the search context where the element was searched in.
+            </summary>
+        </member>
+        <member name="M:Atata.SearchFailureData.ToStringForNoSuchElement">
+            <summary>
+            Generates a string message for <see cref="T:OpenQA.Selenium.NoSuchElementException" />.
+            </summary>
+            <returns>A message for <see cref="T:OpenQA.Selenium.NoSuchElementException" />.</returns>
+        </member>
+        <member name="M:Atata.SearchFailureData.ToStringForNotMissingElement">
+            <summary>
+            Generates a string message for <see cref="T:Atata.NotMissingElementException" />.
+            </summary>
+            <returns>A message for <see cref="T:Atata.NotMissingElementException" />.</returns>
+        </member>
+        <member name="M:Atata.ByExtensions.GetSearchOptionsOrDefault(OpenQA.Selenium.By)">
+            <summary>
+            Gets the search options associated with <paramref name="by" /> or default search options.
+            </summary>
+            <param name="by">The by.</param>
+            <returns>The search options.</returns>
+        </member>
+        <member name="M:Atata.ByExtensions.ToDescriptiveString(OpenQA.Selenium.By)">
+            <summary>
+            Converts to descriptive string.
+            Example: <c>XPath "//div"</c>.
+            </summary>
+            <param name="by">The by.</param>
+            <returns>The string.</returns>
+        </member>
+        <member name="T:Atata.ISearchContextExtensions">
+            <summary>
+            Provides a set of extension methods for <see cref="T:OpenQA.Selenium.ISearchContext" />.
+            </summary>
+        </member>
+        <member name="M:Atata.ISearchContextExtensions.Get``1(``0,OpenQA.Selenium.By)">
+            <summary>
+            Gets the first element matching the specified <see cref="T:OpenQA.Selenium.By" /> object.
+            </summary>
+            <typeparam name="T">The type of the search context.</typeparam>
+            <param name="searchContext">The search context.</param>
+            <param name="by">The <see cref="T:OpenQA.Selenium.By" /> instance.</param>
+            <returns>The found element or <see langword="null" /> (if executes safely).</returns>
+        </member>
+        <member name="M:Atata.ISearchContextExtensions.GetAll``1(``0,OpenQA.Selenium.By)">
+            <summary>
+            Gets all the elements matching the specified <see cref="T:OpenQA.Selenium.By" /> object.
+            </summary>
+            <typeparam name="T">The type of the search context.</typeparam>
+            <param name="searchContext">The search context.</param>
+            <param name="by">The <see cref="T:OpenQA.Selenium.By" /> instance.</param>
+            <returns>The collection of found elements.</returns>
+        </member>
+        <member name="M:Atata.IWebElementExtensions.GetElementId(OpenQA.Selenium.IWebElement)">
+            <summary>
+            Gets the element identifier.
+            </summary>
+            <param name="element">The element.</param>
+            <returns>The value of element's <c>Id</c> property or <see langword="null" /> if property is missing.</returns>
+        </member>
+        <member name="T:Atata.StringBuilderExtensions">
+            <summary>
+            Provides a set of extension methods for <see cref="T:System.Text.StringBuilder" />.
+            </summary>
+        </member>
+        <member name="M:Atata.StringBuilderExtensions.AppendSpace(System.Text.StringBuilder)">
+            <summary>
+            Appends the space character.
+            </summary>
+            <param name="builder">The builder.</param>
+            <returns>A reference to the same <see cref="T:System.Text.StringBuilder" /> instance after the append operation has completed.</returns>
+        </member>
+        <member name="T:Atata.TimeSpanExtensions">
+            <summary>
+            Provides a set of extension methods for <see cref="T:System.TimeSpan" />.
+            </summary>
+        </member>
+        <member name="M:Atata.TimeSpanExtensions.ToShortIntervalString(System.TimeSpan)">
+            <summary>
+            Converts the value of the <see cref="T:System.TimeSpan" /> object to its equivalent short interval string representation.
+            For example, 100 milliseconds value converts to "0.1s".
+            </summary>
+            <param name="value">The <see cref="T:System.TimeSpan" /> value.</param>
+            <returns>The short interval string representation of the <see cref="T:System.TimeSpan" /> value.</returns>
+        </member>
+        <member name="M:Atata.TimeSpanExtensions.ToLongIntervalString(System.TimeSpan)">
+            <summary>
+            Converts the value of the <see cref="T:System.TimeSpan" /> object to its equivalent long interval string representation.
+            For example, 100 milliseconds value converts to "0.100s".
+            </summary>
+            <param name="value">The <see cref="T:System.TimeSpan" /> value.</param>
+            <returns>The long interval string representation of the <see cref="T:System.TimeSpan" /> value.</returns>
+        </member>
+        <member name="T:Atata.TypeExtensions">
+            <summary>
+            Provides a set of extensions methods for <see cref="T:System.Type" />.
+            </summary>
+        </member>
+        <member name="M:Atata.TypeExtensions.IsSubclassOfRawGeneric(System.Type,System.Type)">
+            <summary>
+            Determines whether the type is subclass of the specified raw generic type (e.g. <c>typeof(List&lt;&gt;)</c>).
+            </summary>
+            <param name="type">The type.</param>
+            <param name="genericType">Type of the generic.</param>
+            <returns>
+              <c>true</c> if the type is a subclass of the specified raw generic type; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Atata.TypeExtensions.GetDepthOfInheritanceOfRawGeneric(System.Type,System.Type)">
+            <summary>
+            Gets the depth of inheritance of the specified raw generic type (e.g. <c>typeof(List&lt;&gt;)</c>).
+            </summary>
+            <param name="type">The type.</param>
+            <param name="genericType">Type of the generic.</param>
+            <returns>The depth of inheritance or <see langword="null" />.</returns>
+        </member>
+        <member name="M:Atata.TypeExtensions.IsImplementGenericInterface(System.Type,System.Type)">
+            <summary>
+            Determines whether the type implements the specified generic interface type.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="genericType">Type of the generic interface.</param>
+            <returns>
+              <c>true</c> if it implements the generic interface type; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:Atata.TypeExtensions.GetGenericInterfaceType(System.Type,System.Type)">
+            <summary>
+            Gets an actual type of the specified generic interface that this type implements.
+            </summary>
+            <param name="type">The type.</param>
+            <param name="genericType">Type of the generic interface.</param>
+            <returns>The actual generic interface type or <see langword="null" />.</returns>
+        </member>
+        <member name="T:Atata.RetryOptions">
+            <summary>
+            Represents the options for operation that can be retried.
+            </summary>
+        </member>
+        <member name="P:Atata.RetryOptions.Timeout">
+            <summary>
+            Gets or sets the timeout.
+            The default value is taken from <see cref="P:Atata.RetrySettings.Timeout" />.
+            </summary>
+        </member>
+        <member name="P:Atata.RetryOptions.IsTimeoutSet">
+            <summary>
+            Gets a value indicating whether <c>Timeout</c> is set.
+            </summary>
+        </member>
+        <member name="P:Atata.RetryOptions.Interval">
+            <summary>
+            Gets or sets the interval.
+            The default value is taken from <see cref="P:Atata.RetrySettings.Interval" />.
+            </summary>
+        </member>
+        <member name="P:Atata.RetryOptions.IsIntervalSet">
+            <summary>
+            Gets a value indicating whether <c>Interval</c> is set.
+            </summary>
+        </member>
+        <member name="P:Atata.RetryOptions.IgnoredExceptionTypes">
+            <summary>
+            Gets the list of ignored exception types.
+            </summary>
+        </member>
+        <member name="M:Atata.RetryOptions.WithTimeout(System.TimeSpan)">
+            <summary>
+            Sets the timeout.
+            </summary>
+            <param name="timeout">The timeout.</param>
+            <returns>The same <see cref="T:Atata.RetryOptions" /> instance.</returns>
+        </member>
+        <member name="M:Atata.RetryOptions.WithInterval(System.TimeSpan)">
+            <summary>
+            Sets the interval.
+            </summary>
+            <param name="interval">The interval.</param>
+            <returns>The same <see cref="T:Atata.RetryOptions" /> instance.</returns>
+        </member>
+        <member name="M:Atata.RetryOptions.IgnoringExceptionType(System.Type)">
+            <summary>
+            Adds the type of the exception to the list of ignored exception types.
+            </summary>
+            <param name="exceptionType">Type of the exception.</param>
+            <returns>The same <see cref="T:Atata.RetryOptions" /> instance.</returns>
+        </member>
+        <member name="M:Atata.RetryOptions.IgnoringStaleElementReferenceException">
+            <summary>
+            Adds <see cref="T:OpenQA.Selenium.StaleElementReferenceException" /> type to the list of ignored exception types.
+            </summary>
+            <returns>The same <see cref="T:Atata.RetryOptions" /> instance.</returns>
+        </member>
+        <member name="T:Atata.RetrySettings">
+            <summary>
+            Provides the default settings for operations that can be retried.
+            </summary>
+        </member>
+        <member name="F:Atata.RetrySettings.DefaultTimeout">
+            <summary>
+            The default timeout is 5 seconds.
+            </summary>
+        </member>
+        <member name="F:Atata.RetrySettings.DefaultInterval">
+            <summary>
+            The default interval is 500 milliseconds.
+            </summary>
+        </member>
+        <member name="P:Atata.RetrySettings.ThreadBoundary">
+            <summary>
+            Gets or sets the thread boundary of <see cref="T:Atata.RetrySettings" />.
+            The default value is <see cref="F:Atata.RetrySettingsThreadBoundary.AsyncLocal" />.
+            </summary>
+        </member>
+        <member name="P:Atata.RetrySettings.Timeout">
+            <summary>
+            Gets the retry timeout.
+            The default value is 5 seconds.
+            </summary>
+        </member>
+        <member name="P:Atata.RetrySettings.Interval">
+            <summary>
+            Gets the retry interval.
+            The default value is 500 milliseconds.
+            </summary>
+        </member>
+        <member name="T:Atata.RetrySettingsThreadBoundary">
+            <summary>
+            Defines the thread boundary of <see cref="T:Atata.RetrySettings" />.
+            </summary>
+        </member>
+        <member name="F:Atata.RetrySettingsThreadBoundary.ThreadStatic">
+            <summary>
+            The <see cref="T:Atata.RetrySettings" /> values are thread-static (unique for each thread).
+            </summary>
+        </member>
+        <member name="F:Atata.RetrySettingsThreadBoundary.Static">
+            <summary>
+            The <see cref="T:Atata.RetrySettings" /> values are static (same for all threads).
+            </summary>
+        </member>
+        <member name="F:Atata.RetrySettingsThreadBoundary.AsyncLocal">
+            <summary>
+            The <see cref="T:Atata.RetrySettings" /> values are unique for each given asynchronous control flow.
+            </summary>
+        </member>
+        <member name="T:Atata.SafeWait`1">
+            <summary>
+            Represents the retriable operation to wait for condition safely (without throwing exception on timeout).
+            </summary>
+            <typeparam name="T">The type of object used to detect the condition.</typeparam>
+        </member>
+        <member name="M:Atata.SafeWait`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atata.SafeWait`1" /> class.
+            </summary>
+            <param name="input">The input value to pass to the evaluated conditions.</param>
+        </member>
+        <member name="M:Atata.SafeWait`1.#ctor(`0,OpenQA.Selenium.Support.UI.IClock)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atata.SafeWait`1" /> class.
+            </summary>
+            <param name="input">The input value to pass to the evaluated conditions.</param>
+            <param name="clock">The clock to use when measuring the timeout.</param>
+        </member>
+        <member name="P:Atata.SafeWait`1.Timeout">
+            <summary>
+            Gets or sets how long to wait for the evaluated condition to be true.
+            The default timeout is taken from <see cref="P:Atata.RetrySettings.Timeout" />.
+            </summary>
+        </member>
+        <member name="P:Atata.SafeWait`1.PollingInterval">
+            <summary>
+            Gets or sets how often the condition should be evaluated.
+            The default interval is taken from <see cref="P:Atata.RetrySettings.Interval" />.
+            </summary>
+        </member>
+        <member name="M:Atata.SafeWait`1.IgnoreExceptionTypes(System.Type[])">
+            <summary>
+            Configures this instance to ignore specific types of exceptions while waiting for a condition.
+            Any exceptions not whitelisted will be allowed to propagate, terminating the wait.
+            </summary>
+            <param name="exceptionTypes">The types of exceptions to ignore.</param>
+        </member>
+        <member name="M:Atata.SafeWait`1.Until``1(System.Func{`0,``0})">
+            <summary>
+            Repeatedly applies this instance's input value to the given function until one of the following
+            occurs:
+            <para>
+            <list type="bullet">
+            <item>the function returns neither null nor false</item>
+            <item>the function throws an exception that is not in the list of ignored exception types</item>
+            <item>the timeout expires</item>
+            </list>
+            </para>
+            </summary>
+            <typeparam name="TResult">The delegate's expected return type.</typeparam>
+            <param name="condition">A delegate taking an object of type T as its parameter, and returning a TResult.</param>
+            <returns>The delegate's return value.</returns>
+        </member>
+        <member name="T:Atata.ExtendedSearchContext`1">
+            <summary>
+            Represents an extended context that wraps <see cref="T:OpenQA.Selenium.ISearchContext" />.
+            </summary>
+            <typeparam name="T">The type of search context.</typeparam>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.#ctor(`0)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atata.ExtendedSearchContext`1" /> class.
+            </summary>
+            <param name="context">The context.</param>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.#ctor(`0,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atata.ExtendedSearchContext`1" /> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="timeout">The timeout.</param>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.#ctor(`0,System.TimeSpan,System.TimeSpan)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atata.ExtendedSearchContext`1" /> class.
+            </summary>
+            <param name="context">The context.</param>
+            <param name="timeout">The timeout.</param>
+            <param name="retryInterval">The retry interval.</param>
+        </member>
+        <member name="P:Atata.ExtendedSearchContext`1.Context">
+            <summary>
+            Gets the actual search context.
+            </summary>
+        </member>
+        <member name="P:Atata.ExtendedSearchContext`1.Timeout">
+            <summary>
+            Gets or sets the timeout.
+            </summary>
+        </member>
+        <member name="P:Atata.ExtendedSearchContext`1.RetryInterval">
+            <summary>
+            Gets or sets the retry interval.
+            </summary>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElement(OpenQA.Selenium.By)">
+            <summary>
+            Finds the first <see cref="T:OpenQA.Selenium.IWebElement" /> using the given method.
+            </summary><param name="by">The locating mechanism to use.</param><returns>The first matching <see cref="T:OpenQA.Selenium.IWebElement" /> on the current context.</returns><exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElements(OpenQA.Selenium.By)">
+            <summary>
+            Finds all <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
+            using the given mechanism.
+            </summary><param name="by">The locating mechanism to use.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="T:OpenQA.Selenium.IWebElement">WebElements</see>
+            matching the current criteria, or an empty list if nothing matches.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementById(System.String)">
+            <summary>
+            Finds the first element matching the specified id.
+            </summary><param name="id">The id to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsById(System.String)">
+            <summary>
+            Finds all elements matching the specified id.
+            </summary><param name="id">The id to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementByName(System.String)">
+            <summary>
+            Finds the first element matching the specified name.
+            </summary><param name="name">The name to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByName(System.String)">
+            <summary>
+            Finds all elements matching the specified name.
+            </summary><param name="name">The name to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementByTagName(System.String)">
+            <summary>
+            Finds the first element matching the specified tag name.
+            </summary><param name="tagName">The tag name to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByTagName(System.String)">
+            <summary>
+            Finds all elements matching the specified tag name.
+            </summary><param name="tagName">The tag name to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementByClassName(System.String)">
+            <summary>
+            Finds the first element matching the specified CSS class.
+            </summary><param name="className">The CSS class to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByClassName(System.String)">
+            <summary>
+            Finds all elements matching the specified CSS class.
+            </summary><param name="className">The CSS class to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementByLinkText(System.String)">
+            <summary>
+            Finds the first element matching the specified link text.
+            </summary><param name="linkText">The link text to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByLinkText(System.String)">
+            <summary>
+            Finds all elements matching the specified link text.
+            </summary><param name="linkText">The link text to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementByPartialLinkText(System.String)">
+            <summary>
+            Finds the first element matching the specified partial link text.
+            </summary><param name="partialLinkText">The partial link text to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByPartialLinkText(System.String)">
+            <summary>
+            Finds all elements matching the specified partial link text.
+            </summary><param name="partialLinkText">The partial link text to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementByCssSelector(System.String)">
+            <summary>
+            Finds the first element matching the specified CSS selector.
+            </summary><param name="cssSelector">The id to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByCssSelector(System.String)">
+            <summary>
+            Finds all elements matching the specified CSS selector.
+            </summary><param name="cssSelector">The CSS selector to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementByXPath(System.String)">
+            <summary>
+            Finds the first element matching the specified XPath query.
+            </summary><param name="xpath">The XPath query to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
+        </member>
+        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByXPath(System.String)">
+            <summary>
+            Finds all elements matching the specified XPath query.
+            </summary><param name="xpath">The XPath query to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
+            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+        </member>
+        <member name="T:Atata.IExtendedSearchContext">
+            <summary>
+            Defines the interface that extends <see cref="T:OpenQA.Selenium.ISearchContext" />.
+            </summary>
+        </member>
+        <member name="T:Atata.SearchOptions">
+            <summary>
+            Represents the options for the search of element(s).
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.Timeout">
+            <summary>
+            Gets or sets the timeout.
+            The default value is taken from <see cref="P:Atata.RetrySettings.Timeout" />.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.IsTimeoutSet">
+            <summary>
+            Gets a value indicating whether <c>Timeout</c> is set.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.RetryInterval">
+            <summary>
+            Gets or sets the retry interval.
+            The default value is taken from <see cref="P:Atata.RetrySettings.Interval" />.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.IsRetryIntervalSet">
+            <summary>
+            Gets a value indicating whether <c>RetryInterval</c> is set.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.Visibility">
+            <summary>
+            Gets or sets the visibility of the search element.
+            The default value is <c>Visible</c>.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.IsVisibilitySet">
+            <summary>
+            Gets a value indicating whether <c>Visibility</c> is set.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.IsSafely">
+            <summary>
+            Gets or sets a value indicating whether the search element is safely searching.
+            If it is <c>true</c> then <c>null</c> is returned after the search,
+            otherwise an exception of <see cref="T:OpenQA.Selenium.NoSuchElementException" /> or <see cref="T:Atata.NotMissingElementException" /> is thrown.
+            The default value is <c>false</c>.
+            </summary>
+        </member>
+        <member name="P:Atata.SearchOptions.IsSafelySet">
+            <summary>
+            Gets a value indicating whether <c>IsSafely</c> is set.
+            </summary>
+        </member>
+        <member name="M:Atata.SearchOptions.System#ICloneable#Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>A new object that is a copy of this instance.</returns>
+        </member>
+        <member name="M:Atata.SearchOptions.Clone">
+            <summary>
+            Creates a new object that is a copy of the current instance.
+            </summary>
+            <returns>A new object that is a copy of this instance.</returns>
+        </member>
+        <member name="M:Atata.SearchOptions.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+        <member name="T:Atata.StaleSafely">
+            <summary>
+            Provide a set of static methods to execute an action with retry on <see cref="T:OpenQA.Selenium.StaleElementReferenceException" />.
+            </summary>
+        </member>
+        <member name="T:Atata.Visibility">
+            <summary>
+            Specifies the visibility of the element.
+            </summary>
+        </member>
+        <member name="F:Atata.Visibility.Visible">
+            <summary>
+            Finds only the visible elements.
+            </summary>
+        </member>
+        <member name="F:Atata.Visibility.Hidden">
+            <summary>
+            Finds only the hidden elements.
+            </summary>
+        </member>
+        <member name="F:Atata.Visibility.Any">
+            <summary>
+            Finds the elements with any visibility.
+            </summary>
+        </member>
+        <member name="T:Atata.XPathString">
+            <summary>
+            Represents XPath string value.
+            </summary>
+        </member>
+        <member name="M:Atata.XPathString.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Atata.XPathString" /> class.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="P:Atata.XPathString.Value">
+            <summary>
+            Gets the value.
+            </summary>
+        </member>
+        <member name="M:Atata.XPathString.op_Implicit(Atata.XPathString)~System.String">
+            <summary>
+            Performs an implicit conversion from <see cref="T:Atata.XPathString" /> to <see cref="T:System.String" />.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Atata.XPathString.op_Explicit(System.String)~Atata.XPathString">
+            <summary>
+            Performs an explicit conversion from <see cref="T:System.String" /> to <see cref="T:Atata.XPathString" />.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>
+            The result of the conversion.
+            </returns>
+        </member>
+        <member name="M:Atata.XPathString.ConvertTo(System.String)">
+            <summary>
+            Converts to XPath valid string wrapping the value with <c>'</c> or <c>"</c> characters.
+            For string containing both <c>'</c> and <c>"</c> characters applies XPath <c>concat</c> function.
+            </summary>
+            <param name="value">The string value.</param>
+            <returns>The valid XPath string.</returns>
+        </member>
+        <member name="M:Atata.XPathString.ToString">
+            <summary>
+            Returns a string that represents the current object.
+            </summary>
+            <returns>A <see cref="T:System.String" /> that represents this instance.</returns>
+        </member>
+    </members>
+</doc>
