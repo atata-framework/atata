@@ -1,11 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <TargetFrameworks>netstandard2.0</TargetFrameworks>
     <RootNamespace>Atata</RootNamespace>
     <Version>1.14.0</Version>
     <Description>C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
 
-Supports .NET Framework 4.0+ and .NET Core/Standard 2.0+.
+The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.
 
 Atata on GitHub: https://github.com/atata-framework/atata
 Atata Framework documentation: https://atata.io
@@ -28,7 +29,6 @@ Features:
 1.13.0 - https://atata.io/blog/2021/10/21/atata-1.13.0-released/
 1.12.0 - https://atata.io/blog/2021/09/01/atata-1.12.0-released/</PackageReleaseNotes>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
-    <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -38,34 +38,6 @@ Features:
   
   <ItemGroup>
     <InternalsVisibleTo Include="Atata.Tests" />
-  </ItemGroup>
-
-  <Choose>
-    <When Condition="$(Configuration) == 'SlimNetCore3.1'">
-      <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <RunCodeAnalysis>false</RunCodeAnalysis>
-      </PropertyGroup>
-    </When>
-    <Otherwise>
-      <Choose>
-        <When Condition="$(Configuration) == 'DevNetCore3.1'">
-          <PropertyGroup>
-            <TargetFramework>netstandard2.0</TargetFramework>
-          </PropertyGroup>
-        </When>
-        <Otherwise>
-          <PropertyGroup>
-            <TargetFrameworks>net40;net45;net46;netstandard2.0</TargetFrameworks>
-          </PropertyGroup>
-        </Otherwise>
-      </Choose>
-    </Otherwise>
-  </Choose>
-
-  <ItemGroup Condition="$(TargetFramework) == 'net40' Or $(TargetFramework) == 'net45' Or $(TargetFramework) == 'net46'">
-    <Reference Include="Microsoft.CSharp" />
-    <PackageReference Include="System.ValueTuple" Version="4.5.0" />
   </ItemGroup>
 
 </Project>

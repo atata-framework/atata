@@ -1245,10 +1245,8 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
 
-#if !NET40
             if (AtataContext.ModeOfCurrent == AtataContextModeOfCurrent.Static)
                 CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
-#endif
 
             context.Log.Trace($"Set: Culture={culture.Name}");
         }
@@ -1292,7 +1290,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             if (BuildingContext.UsesLocalBrowser)
                 InvokeAutoSetUpSafelyMethodOfDriverSetup(new[] { BuildingContext.LocalBrowserToUseName });
         }
-#if !NET40
 
         /// <inheritdoc cref="AutoSetUpDriverToUse"/>
         /// <returns>The task object representing the asynchronous operation.</returns>
@@ -1300,7 +1297,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             await Task.Run(AutoSetUpDriverToUse);
         }
-#endif
 
         /// <summary>
         /// <para>
@@ -1318,7 +1314,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             InvokeAutoSetUpSafelyMethodOfDriverSetup(BuildingContext.ConfiguredLocalBrowserNames);
         }
-#if !NET40
 
         /// <inheritdoc cref="AutoSetUpConfiguredDrivers"/>
         /// <returns>The task object representing the asynchronous operation.</returns>
@@ -1326,7 +1321,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         {
             await Task.Run(AutoSetUpConfiguredDrivers);
         }
-#endif
 
         private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
         {

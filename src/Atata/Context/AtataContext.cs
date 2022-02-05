@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using OpenQA.Selenium.Remote;
 
 namespace Atata
@@ -16,10 +17,8 @@ namespace Atata
     {
         private static readonly object s_buildStartSyncLock = new object();
 
-#if NET46 || NETSTANDARD2_0
-        private static readonly System.Threading.AsyncLocal<AtataContext> s_currentAsyncLocalContext = new System.Threading.AsyncLocal<AtataContext>();
+        private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new AsyncLocal<AtataContext>();
 
-#endif
         private static AtataContextModeOfCurrent s_modeOfCurrent = AtataContextModeOfCurrent.ThreadStatic;
 
         [ThreadStatic]
@@ -59,10 +58,8 @@ namespace Atata
             {
                 return ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic
                     ? s_currentThreadStaticContext
-#if NET46 || NETSTANDARD2_0
                     : ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal
                     ? s_currentAsyncLocalContext.Value
-#endif
                     : s_currentStaticContext;
             }
 
@@ -70,10 +67,8 @@ namespace Atata
             {
                 if (ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
                     s_currentThreadStaticContext = value;
-#if NET46 || NETSTANDARD2_0
                 else if (ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
                     s_currentAsyncLocalContext.Value = value;
-#endif
                 else
                     s_currentStaticContext = value;
             }
@@ -92,11 +87,9 @@ namespace Atata
 
                 RetrySettings.ThreadBoundary = value == AtataContextModeOfCurrent.ThreadStatic
                     ? RetrySettingsThreadBoundary.ThreadStatic
-#if NET46 || NETSTANDARD2_0
                     : value == AtataContextModeOfCurrent.AsyncLocal
-                    ? RetrySettingsThreadBoundary.AsyncLocal
-#endif
-                    : RetrySettingsThreadBoundary.Static;
+                        ? RetrySettingsThreadBoundary.AsyncLocal
+                        : RetrySettingsThreadBoundary.Static;
             }
         }
 

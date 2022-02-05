@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
   </PropertyGroup>
 
 </Project>

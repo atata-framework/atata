@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <Configurations>Debug;Release;SlimNetCore3.1;DevNetCore3.1</Configurations>
   </PropertyGroup>
 
   <ItemGroup>
@@ -30,9 +29,5 @@
   <ItemGroup>
     <ProjectReference Include="../../src/Atata/Atata.csproj" />
   </ItemGroup>
-
-  <PropertyGroup Condition="$(Configuration) == 'SlimNetCore3.1'">
-    <RunCodeAnalysis>false</RunCodeAnalysis>
-  </PropertyGroup>
 
 </Project>
