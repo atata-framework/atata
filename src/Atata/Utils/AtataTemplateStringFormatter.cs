@@ -3,12 +3,11 @@ using System.Globalization;
 
 namespace Atata
 {
-    // TODO: Rename to AtataTemplateStringFormatter.
-    public class ExtendedStringFormatter : IFormatProvider, ICustomFormatter
+    public class AtataTemplateStringFormatter : IFormatProvider, ICustomFormatter
     {
         private const string InnerFormatValueIndicator = "*";
 
-        public static ExtendedStringFormatter Default { get; } = new ExtendedStringFormatter();
+        public static AtataTemplateStringFormatter Default { get; } = new AtataTemplateStringFormatter();
 
         public object GetFormat(Type formatType)
         {

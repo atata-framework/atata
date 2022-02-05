@@ -48,7 +48,7 @@ namespace Atata
 
                 try
                 {
-                    return string.Format(ExtendedStringFormatter.Default, workingTemplate, variables.Values.ToArray());
+                    return string.Format(AtataTemplateStringFormatter.Default, workingTemplate, variables.Values.ToArray());
                 }
                 catch (FormatException)
                 {
