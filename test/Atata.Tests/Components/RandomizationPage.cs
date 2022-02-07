@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Linq;
-using _ = Atata.Tests.RandomizationPage;
 
 namespace Atata.Tests
 {
+    using _ = RandomizationPage;
+
     [Url("randomization")]
     public class RandomizationPage : Page<_>
     {

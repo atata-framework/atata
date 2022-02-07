@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.ListPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = ListPage;
+
     [Url("list")]
     [VerifyTitle]
     [VerifyH1]

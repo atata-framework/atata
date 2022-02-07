@@ -1,8 +1,9 @@
 ﻿using System;
-using _ = Atata.Tests.InputPage;
 
 namespace Atata.Tests
 {
+    using _ = InputPage;
+
     [Url("input")]
     [VerifyTitle]
     public class InputPage : Page<_>

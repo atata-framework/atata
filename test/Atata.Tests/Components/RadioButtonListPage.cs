@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.RadioButtonListPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = RadioButtonListPage;
+
     [Url("radiobuttonlist")]
     [VerifyTitle(TermCase.Pascal)]
     public class RadioButtonListPage : Page<_>

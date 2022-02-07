@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.TinyMcePage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = TinyMcePage;
+
     [Url("controls/tinymce")]
     [VerifyTitle("TinyMCE")]
     public class TinyMcePage : Page<_>

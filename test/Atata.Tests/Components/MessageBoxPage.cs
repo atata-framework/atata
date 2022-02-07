@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.MessageBoxPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = MessageBoxPage;
+
     [Url("messagebox")]
     [VerifyTitle]
     public class MessageBoxPage : Page<_>

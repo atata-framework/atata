@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.FrameInner1Page;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = FrameInner1Page;
+
     [VerifyH1]
     public class FrameInner1Page : Page<_>
     {

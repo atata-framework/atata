@@ -1,8 +1,9 @@
 ﻿using OpenQA.Selenium;
-using _ = Atata.Tests.FramePage;
 
 namespace Atata.Tests
 {
+    using _ = FramePage;
+
     [Url("frame")]
     [VerifyTitle]
     [VerifyH1]

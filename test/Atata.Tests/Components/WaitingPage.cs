@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.WaitingPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = WaitingPage;
+
     [Url("waiting")]
     [VerifyTitle]
     [VerifyH1]

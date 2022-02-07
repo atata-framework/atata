@@ -1,8 +1,9 @@
 ﻿using System;
-using _ = Atata.Tests.CheckBoxListPage;
 
 namespace Atata.Tests
 {
+    using _ = CheckBoxListPage;
+
     [Url("checkboxlist")]
     [VerifyTitle(TermCase.Pascal)]
     public class CheckBoxListPage : Page<_>

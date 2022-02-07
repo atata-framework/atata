@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.SummernotePage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = SummernotePage;
+
     [Url("controls/summernote")]
     [VerifyTitle]
     public class SummernotePage : Page<_>

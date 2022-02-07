@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.GoTo1Page;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = GoTo1Page;
+
     [Url("goto1")]
     [VerifyTitle("GoTo 1")]
     public class GoTo1Page : Page<_>

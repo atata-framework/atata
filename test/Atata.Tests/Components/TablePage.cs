@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.TablePage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = TablePage;
+
     [Url("table")]
     [VerifyTitle]
     public class TablePage : Page<_>

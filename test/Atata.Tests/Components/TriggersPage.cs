@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using _ = Atata.Tests.TriggersPage;
 
 namespace Atata.Tests
 {
+    using _ = TriggersPage;
+
     [Url("triggers")]
     [VerifyTitle]
     [VerifyH1]

@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.FindingPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = FindingPage;
+
     [Url("finding")]
     [VerifyTitle]
     [VerifyH1]

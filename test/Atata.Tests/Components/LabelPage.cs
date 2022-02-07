@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.LabelPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = LabelPage;
+
     [Url("label")]
     [VerifyTitle]
     [VerifyH1]

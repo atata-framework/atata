@@ -1,8 +1,9 @@
 ﻿using OpenQA.Selenium;
-using _ = Atata.Tests.FrameInner1SelfSwitchingPage;
 
 namespace Atata.Tests
 {
+    using _ = FrameInner1SelfSwitchingPage;
+
     [Name("Frame Inner 1")]
     [VerifyH1]
     public class FrameInner1SelfSwitchingPage : Page<_>

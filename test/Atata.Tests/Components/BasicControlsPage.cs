@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.BasicControlsPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = BasicControlsPage;
+
     [Url("basiccontrols")]
     [VerifyTitle]
     [VerifyH1]

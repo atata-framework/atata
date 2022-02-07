@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.ClickPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = ClickPage;
+
     [Url("actions/click")]
     [VerifyTitle]
     public class ClickPage : Page<_>

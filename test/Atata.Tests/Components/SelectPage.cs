@@ -1,7 +1,7 @@
-﻿using _ = Atata.Tests.SelectPage;
-
-namespace Atata.Tests
+﻿namespace Atata.Tests
 {
+    using _ = SelectPage;
+
     [Url("select")]
     [VerifyTitle]
     public class SelectPage : Page<_>
