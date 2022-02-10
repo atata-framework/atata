@@ -185,10 +185,6 @@ namespace Atata
             return findAttribute is UseParentScopeAttribute;
         }
 
-        protected internal virtual void ApplyMetadata(UIComponentMetadata metadata)
-        {
-        }
-
         /// <summary>
         /// Builds the full name of the component including parent component full name, own component name and own component type name.
         /// </summary>
@@ -289,6 +285,7 @@ namespace Atata
             behaviorExecutionFunction.CheckNotNull(nameof(behaviorExecutionFunction));
 
             var behavior = GetAttributeOrThrow<TBehaviorAttribute>();
+            behavior.Properties.Metadata = Metadata;
 
             return Log.ExecuteSection(
                 new ExecuteBehaviorLogSection(this, behavior),

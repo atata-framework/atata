@@ -20,7 +20,10 @@
         /// Gets the <see cref="SelectOptionBehaviorAttribute"/> instance.
         /// By default uses <see cref="SelectsOptionByTextAttribute"/>.
         /// </summary>
-        protected SelectOptionBehaviorAttribute SelectOptionBehavior { get; private set; }
+        protected SelectOptionBehaviorAttribute SelectOptionBehavior =>
+            Metadata.Get<SelectOptionBehaviorAttribute>()
+                ?? (Parent as Select<T, TOwner>)?.SelectOptionBehavior
+                ?? new SelectsOptionByTextAttribute();
 
         protected virtual bool GetIsSelected()
         {
@@ -43,34 +46,14 @@
             return Click();
         }
 
-        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
-        {
-            if (Parent is Select<T, TOwner> select)
+        protected override TermOptions GetValueTermOptions() =>
+            new TermOptions
             {
-                var formatAttribute = Parent.Metadata.Get<FormatAttribute>(x => x.At(AttributeLevels.Declared));
-                if (formatAttribute != null)
-                    Metadata.DeclaredAttributesList.Add(formatAttribute);
-
-                var cultureAttribute = Parent.Metadata.Get<CultureAttribute>(x => x.At(AttributeLevels.Declared));
-                if (cultureAttribute != null)
-                    Metadata.DeclaredAttributesList.Add(cultureAttribute);
-
-                SelectOptionBehavior = select.SelectOptionBehavior;
+                Culture = Metadata.Contains<CultureAttribute>()
+                    ? Metadata.GetCulture()
+                    : Parent.Metadata.GetCulture(),
+                Format = Metadata.GetFormat() ?? Parent.Metadata.GetFormat()
             }
-            else
-            {
-                SelectOptionBehavior = Metadata.Get<SelectOptionBehaviorAttribute>()
-                    ?? new SelectsOptionByTextAttribute();
-            }
-
-            base.ApplyMetadata(metadata);
-        }
-
-        protected override void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
-        {
-            base.InitValueTermOptions(termOptions, metadata);
-
-            termOptions.MergeWith(SelectOptionBehavior);
-        }
+            .MergeWith(SelectOptionBehavior);
     }
 }

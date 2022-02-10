@@ -49,12 +49,8 @@
             option.Select();
         }
 
-        protected override void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
-        {
-            base.InitValueTermOptions(termOptions, metadata);
-
-            termOptions.MergeWith(SelectOptionBehavior);
-        }
+        protected override TermOptions GetValueTermOptions() =>
+            base.GetValueTermOptions().MergeWith(SelectOptionBehavior);
 
         /// <summary>
         /// Gets the option by the associated value.

@@ -34,7 +34,8 @@ namespace Atata
         /// <summary>
         /// Gets the value term options.
         /// </summary>
-        protected TermOptions ValueTermOptions { get; private set; }
+        protected TermOptions ValueTermOptions =>
+            GetValueTermOptions();
 
         UIComponent IDataProvider<T, TOwner>.Component => this;
 
@@ -179,24 +180,16 @@ namespace Atata
             return ComponentFullName.GetHashCode();
         }
 
-        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
-        {
-            base.ApplyMetadata(metadata);
-
-            ValueTermOptions = new TermOptions();
-            InitValueTermOptions(ValueTermOptions, metadata);
-        }
-
         /// <summary>
-        /// Initializes the value term options (culture, format, etc.).
+        /// Gets the value term options (culture, format, etc.).
         /// </summary>
-        /// <param name="termOptions">The term options.</param>
-        /// <param name="metadata">The component metadata.</param>
-        protected virtual void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
-        {
-            termOptions.Culture = metadata.GetCulture();
-            termOptions.Format = metadata.GetFormat();
-        }
+        /// <returns>The <see cref="TermOptions"/> instance.</returns>
+        protected virtual TermOptions GetValueTermOptions() =>
+            new TermOptions
+            {
+                Culture = Metadata.GetCulture(),
+                Format = Metadata.GetFormat()
+            };
 
         protected override void OnClearCache()
         {

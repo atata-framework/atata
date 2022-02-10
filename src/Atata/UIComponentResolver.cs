@@ -299,11 +299,15 @@ namespace Atata
         private static void ApplyMetadata<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)
             where TOwner : PageObject<TOwner>
         {
-            foreach (IPropertySettings propertySettings in metadata.AllAttributes.OfType<IPropertySettings>().Where(x => x.Properties != null))
+            foreach (IPropertySettings propertySettings in metadata.DeclaredAttributes
+                .Concat(metadata.ComponentAttributes)
+                .OfType<IPropertySettings>()
+                .Where(x => x.Properties != null))
+            {
                 propertySettings.Properties.Metadata = metadata;
+            }
 
             component.Metadata = metadata;
-            component.ApplyMetadata(metadata);
         }
 
         private static void InitComponentLocator(UIComponent component)

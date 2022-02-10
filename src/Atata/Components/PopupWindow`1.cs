@@ -21,6 +21,10 @@ namespace Atata
     public abstract class PopupWindow<TOwner> : PageObject<TOwner>
         where TOwner : PopupWindow<TOwner>
     {
+        private string[] _windowTitleValues;
+
+        private TermMatch _windowTitleMatch = TermMatch.Equals;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PopupWindow{TOwner}"/> class.
         /// </summary>
@@ -37,21 +41,33 @@ namespace Atata
         /// Gets or sets the window title values.
         /// By default, the value is taken from <see cref="WindowTitleAttribute"/>.
         /// </summary>
-        protected string[] WindowTitleValues { get; set; }
+        protected string[] WindowTitleValues
+        {
+            get => Metadata.TryGet<WindowTitleAttribute>(out var titleAttribute)
+                ? titleAttribute.GetActualValues(ComponentName)
+                : _windowTitleValues;
+            set => _windowTitleValues = value;
+        }
 
         /// <summary>
         /// Gets or sets the match that should be used for the window search by the title.
         /// The default value is <see cref="TermMatch.Equals"/>.
         /// By default, the value is taken from <see cref="WindowTitleAttribute"/>.
         /// </summary>
-        protected TermMatch WindowTitleMatch { get; set; } = TermMatch.Equals;
+        protected TermMatch WindowTitleMatch
+        {
+            get => Metadata.TryGet<WindowTitleAttribute>(out var titleAttribute)
+                ? titleAttribute.Match
+                : _windowTitleMatch;
+            set => _windowTitleMatch = value;
+        }
 
         /// <summary>
         /// Gets a value indicating whether window can be found by window title.
         /// Returns <see langword="true"/> when <see cref="WindowTitleValues"/> contains at least one value.
         /// </summary>
         protected bool CanFindByWindowTitle =>
-            WindowTitleValues != null && WindowTitleValues.Any();
+            WindowTitleValues?.Any() ?? false;
 
         protected override By CreateScopeBy()
         {
@@ -68,17 +84,6 @@ namespace Atata
             }
 
             return By.XPath(xPathBuilder.ToString()).PopupWindow(TermResolver.ToDisplayString(WindowTitleValues));
-        }
-
-        protected internal override void ApplyMetadata(UIComponentMetadata metadata)
-        {
-            base.ApplyMetadata(metadata);
-
-            if (metadata.TryGet<WindowTitleAttribute>(out var titleAttribute))
-            {
-                WindowTitleValues = titleAttribute.GetActualValues(ComponentName);
-                WindowTitleMatch = titleAttribute.Match;
-            }
         }
     }
 }

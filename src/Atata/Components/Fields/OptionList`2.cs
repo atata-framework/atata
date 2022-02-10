@@ -51,12 +51,14 @@ namespace Atata
             return element.Selected;
         }
 
-        protected override void InitValueTermOptions(TermOptions termOptions, UIComponentMetadata metadata)
+        protected override TermOptions GetValueTermOptions()
         {
-            base.InitValueTermOptions(termOptions, metadata);
+            var options = base.GetValueTermOptions();
 
             if (FindItemAttribute is IPropertySettings findItemAttributeAsSettings)
-                termOptions.MergeWith(findItemAttributeAsSettings);
+                options.MergeWith(findItemAttributeAsSettings);
+
+            return options;
         }
     }
 }
