@@ -56,7 +56,7 @@ namespace Atata
         {
             T[] selectedValues = GetItemElements().
                 Where(x => x.Selected).
-                Select(x => ItemElementFindStrategy.GetParameter<T>(x, ValueTermOptions)).
+                Select(x => ItemElementFindStrategy.GetParameter<T>(x, GetValueTermOptions())).
                 ToArray();
 
             return selectedValues.Any()
@@ -163,7 +163,7 @@ namespace Atata
 
         protected internal string ConvertIndividualValuesToString(IEnumerable<T> values, bool wrapWithDoubleQuotes)
         {
-            string[] stringValues = values?.Select(x => TermResolver.ToString(x, ValueTermOptions)).ToArray();
+            string[] stringValues = values?.Select(x => TermResolver.ToString(x, GetValueTermOptions())).ToArray();
 
             if (stringValues == null || stringValues.Length == 0)
                 return "<none>";

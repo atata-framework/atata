@@ -28,18 +28,5 @@
             value = (int?)provider.Value;
             return provider.Owner;
         }
-
-        /// <summary>
-        /// Gets the value and records it to <paramref name="value"/> parameter.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the data value.</typeparam>
-        /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-        /// <param name="provider">The data provider.</param>
-        /// <param name="value">The value.</param>
-        /// <returns>The instance of the owner page object.</returns>
-        internal static string ConvertValueToString<TValue, TOwner>(this IDataProvider<TValue, TOwner> provider, TValue value)
-        {
-            return TermResolver.ToString(value, provider.ValueTermOptions);
-        }
     }
 }

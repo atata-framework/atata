@@ -56,7 +56,7 @@ namespace Atata
             string setFormat = Metadata.Get<ValueSetFormatAttribute>()?.Value;
 
             return setFormat != null
-                ? TermResolver.ToString(value, new TermOptions().MergeWith(ValueTermOptions).WithFormat(setFormat))
+                ? TermResolver.ToString(value, new TermOptions().MergeWith(GetValueTermOptions()).WithFormat(setFormat))
                 : ConvertValueToString(value);
         }
 

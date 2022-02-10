@@ -16,11 +16,5 @@
         /// Gets the owner object.
         /// </summary>
         TOwner Owner { get; }
-
-        /// <summary>
-        /// Gets the value term options.
-        /// </summary>
-        // TODO: Extract ValueTermOptions to another interface.
-        TermOptions ValueTermOptions { get; }
     }
 }

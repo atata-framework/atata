@@ -47,7 +47,7 @@ namespace Atata
                     string[] convertedArgs = args
                         .Select(x => x is bool
                             ? x.ToString().ToLowerInvariant()
-                            : $"\"{should.DataProvider.ConvertValueToString(x) ?? Stringifier.NullString}\"")
+                            : $"\"{ConvertValueToString(should.DataProvider, x) ?? Stringifier.NullString}\"")
                         .ToArray();
 
                     formattedMessage = message.FormatWith(convertedArgs);
@@ -64,6 +64,11 @@ namespace Atata
                 return null;
             }
         }
+
+        private static string ConvertValueToString<TData, TOwner>(IDataProvider<TData, TOwner> provider, TData value) =>
+            provider is IConvertsValueToString<TData> providerAsConverter
+                ? providerAsConverter.ConvertValueToString(value)
+                : TermResolver.ToString(value);
 
         public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual) =>
             BuildFailureMessage(should, expected, actual, true);

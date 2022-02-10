@@ -67,9 +67,6 @@ namespace Atata
         // TODO: Remove property.
         UIComponent IDataProvider<TObject, TOwner>.Component => null;
 
-        // TODO: Remove property.
-        TermOptions IDataProvider<TObject, TOwner>.ValueTermOptions => null;
-
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>

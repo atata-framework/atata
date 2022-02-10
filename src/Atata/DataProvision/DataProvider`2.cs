@@ -42,8 +42,6 @@ namespace Atata
 
         string IObjectProvider<TData>.ProviderName => ProviderName;
 
-        TermOptions IDataProvider<TData, TOwner>.ValueTermOptions { get; }
-
         /// <summary>
         /// Gets the value.
         /// </summary>

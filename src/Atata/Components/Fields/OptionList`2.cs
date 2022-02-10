@@ -19,7 +19,7 @@ namespace Atata
         {
             ExecuteTriggers(TriggerEvents.BeforeAccess);
 
-            string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter, ValueTermOptions);
+            string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter, GetValueTermOptions());
             itemConditionXPath += xPathCondition;
 
             IWebElement element = ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
@@ -42,7 +42,7 @@ namespace Atata
 
         protected T GetElementValue(IWebElement element)
         {
-            return ItemElementFindStrategy.GetParameter<T>(element, ValueTermOptions);
+            return ItemElementFindStrategy.GetParameter<T>(element, GetValueTermOptions());
         }
 
         protected bool IsChecked(object parameter)

@@ -10,7 +10,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IDataProvider<T, TOwner>
+    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IDataProvider<T, TOwner>, IConvertsValueToString<T>
         where TOwner : PageObject<TOwner>
     {
         protected Field()
@@ -31,12 +31,6 @@ namespace Atata
         /// </summary>
         public T Value => Get();
 
-        /// <summary>
-        /// Gets the value term options.
-        /// </summary>
-        protected TermOptions ValueTermOptions =>
-            GetValueTermOptions();
-
         UIComponent IDataProvider<T, TOwner>.Component => this;
 
         /// <summary>
@@ -48,8 +42,6 @@ namespace Atata
         string IObjectProvider<T>.ProviderName => DataProviderName;
 
         TOwner IDataProvider<T, TOwner>.Owner => Owner;
-
-        TermOptions IDataProvider<T, TOwner>.ValueTermOptions => ValueTermOptions;
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
@@ -112,6 +104,9 @@ namespace Atata
             return value;
         }
 
+        string IConvertsValueToString<T>.ConvertValueToString(T value) =>
+            ConvertValueToString(value);
+
         /// <summary>
         /// Converts the value to string.
         /// Can use format from <see cref="FormatAttribute"/>.
@@ -119,10 +114,8 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value converted to string.</returns>
-        protected internal virtual string ConvertValueToString(T value)
-        {
-            return (this as IDataProvider<T, TOwner>).ConvertValueToString(value);
-        }
+        protected internal virtual string ConvertValueToString(T value) =>
+            TermResolver.ToString(value, GetValueTermOptions());
 
         /// <summary>
         /// Converts the string to value of <typeparamref name="T"/> type.
@@ -133,7 +126,7 @@ namespace Atata
         /// <returns>The value converted to <typeparamref name="T"/> type.</returns>
         protected internal virtual T ConvertStringToValue(string value)
         {
-            return TermResolver.FromString<T>(value, ValueTermOptions);
+            return TermResolver.FromString<T>(value, GetValueTermOptions());
         }
 
         /// <summary>
@@ -149,7 +142,7 @@ namespace Atata
             string getFormat = Metadata.Get<ValueGetFormatAttribute>()?.Value;
 
             return getFormat != null
-                ? TermResolver.FromString<T>(value, new TermOptions().MergeWith(ValueTermOptions).WithFormat(getFormat))
+                ? TermResolver.FromString<T>(value, new TermOptions().MergeWith(GetValueTermOptions()).WithFormat(getFormat))
                 : ConvertStringToValue(value);
         }
 

@@ -79,8 +79,6 @@ return textValues;";
 
         TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
-        TermOptions IDataProvider<IEnumerable<TItem>, TOwner>.ValueTermOptions { get; }
-
         IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Value => GetAll();
 
         UIComponentMetadata ISupportsMetadata.Metadata
