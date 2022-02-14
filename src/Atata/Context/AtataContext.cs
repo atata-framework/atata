@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -30,7 +30,7 @@ namespace Atata
 
         private string _testSuiteName;
 
-        private RemoteWebDriver _driver;
+        private IWebDriver _driver;
 
         private bool _disposed;
 
@@ -118,7 +118,7 @@ namespace Atata
         /// <summary>
         /// Gets the driver.
         /// </summary>
-        public RemoteWebDriver Driver
+        public IWebDriver Driver
         {
             get
             {
@@ -527,11 +527,11 @@ namespace Atata
         {
             if (DriverFactory is null)
                 throw new InvalidOperationException(
-                    $"Failed to create an instance of {nameof(RemoteWebDriver)} as driver factory is not specified.");
+                    $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory is not specified.");
 
             _driver = DriverFactory.Create()
                 ?? throw new InvalidOperationException(
-                    $"Failed to create an instance of {nameof(RemoteWebDriver)} as driver factory returned null as a driver.");
+                    $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory returned null as a driver.");
 
             _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
 

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Opera;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -22,7 +22,7 @@ namespace Atata
         protected override OperaDriverService CreateService(string driverPath, string driverExecutableFileName)
             => OperaDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
-        protected override RemoteWebDriver CreateDriver(OperaDriverService service, OperaOptions options, TimeSpan commandTimeout)
+        protected override IWebDriver CreateDriver(OperaDriverService service, OperaOptions options, TimeSpan commandTimeout)
             => new OperaDriver(service, options, commandTimeout);
 
         /// <summary>

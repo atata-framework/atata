@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Text;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -31,7 +30,7 @@ namespace Atata
 
         protected internal ILogManager Log => Context.Log;
 
-        protected internal RemoteWebDriver Driver => Context.Driver;
+        protected internal IWebDriver Driver => Context.Driver;
 
         /// <summary>
         /// Gets the source of the scope.

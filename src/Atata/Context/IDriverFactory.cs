@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -15,7 +15,7 @@ namespace Atata
         /// <summary>
         /// Creates the driver instance.
         /// </summary>
-        /// <returns>The created <see cref="RemoteWebDriver"/> instance.</returns>
-        RemoteWebDriver Create();
+        /// <returns>The created <see cref="IWebDriver"/> instance.</returns>
+        IWebDriver Create();
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Safari;
 
 namespace Atata
@@ -20,7 +20,7 @@ namespace Atata
         protected override SafariDriverService CreateService(string driverPath, string driverExecutableFileName)
             => SafariDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
-        protected override RemoteWebDriver CreateDriver(SafariDriverService service, SafariOptions options, TimeSpan commandTimeout)
+        protected override IWebDriver CreateDriver(SafariDriverService service, SafariOptions options, TimeSpan commandTimeout)
             => new SafariDriver(service, options, commandTimeout);
     }
 }

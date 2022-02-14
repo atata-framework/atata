@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -22,7 +22,7 @@ namespace Atata
         protected override ChromeDriverService CreateService(string driverPath, string driverExecutableFileName)
             => ChromeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
-        protected override RemoteWebDriver CreateDriver(ChromeDriverService service, ChromeOptions options, TimeSpan commandTimeout)
+        protected override IWebDriver CreateDriver(ChromeDriverService service, ChromeOptions options, TimeSpan commandTimeout)
             => new ChromeDriver(service, options, commandTimeout);
 
         /// <summary>

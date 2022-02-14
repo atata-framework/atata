@@ -2,33 +2,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace Atata
 {
     /// <summary>
-    /// Provides a set of extension methods for <see cref="RemoteWebDriver"/>
+    /// Provides a set of extension methods for <see cref="IJavaScriptExecutor"/>
     /// that wrap actual methods with log sections.
     /// </summary>
-    public static class RemoteWebDriverLoggingExtensions
+    public static class IIJavaScriptExecutorLoggingExtensions
     {
         private const int ScriptMaxLength = 100;
 
         /// <summary>
         /// Executes the specified script within a log section.
         /// </summary>
-        /// <param name="driver">The driver.</param>
+        /// <param name="scriptExecutor">The scrip executor.</param>
         /// <param name="script">The script.</param>
         /// <param name="args">The script arguments.</param>
         /// <returns>The value returned by the script.</returns>
-        public static object ExecuteScriptWithLogging(this RemoteWebDriver driver, string script, params object[] args)
+        public static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args)
         {
-            driver.CheckNotNull(nameof(driver));
+            scriptExecutor.CheckNotNull(nameof(scriptExecutor));
 
             ILogManager log = AtataContext.Current?.Log;
 
             object Execute() =>
-                driver.ExecuteScript(script, args);
+                scriptExecutor.ExecuteScript(script, args);
 
             if (log != null)
             {
@@ -47,18 +47,18 @@ namespace Atata
         /// <summary>
         /// Executes the specified async script within a log section.
         /// </summary>
-        /// <param name="driver">The driver.</param>
+        /// <param name="scriptExecutor">The script executor.</param>
         /// <param name="script">The script.</param>
         /// <param name="args">The script arguments.</param>
         /// <returns>The value returned by the script.</returns>
-        public static object ExecuteAsyncScriptWithLogging(this RemoteWebDriver driver, string script, params object[] args)
+        public static object ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args)
         {
-            driver.CheckNotNull(nameof(driver));
+            scriptExecutor.CheckNotNull(nameof(scriptExecutor));
 
             ILogManager log = AtataContext.Current?.Log;
 
             object Execute() =>
-                driver.ExecuteAsyncScript(script, args);
+                scriptExecutor.ExecuteAsyncScript(script, args);
 
             if (log != null)
             {

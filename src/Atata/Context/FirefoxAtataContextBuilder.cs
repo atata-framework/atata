@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -22,7 +22,7 @@ namespace Atata
         protected override FirefoxDriverService CreateService(string driverPath, string driverExecutableFileName)
             => FirefoxDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
-        protected override RemoteWebDriver CreateDriver(FirefoxDriverService service, FirefoxOptions options, TimeSpan commandTimeout)
+        protected override IWebDriver CreateDriver(FirefoxDriverService service, FirefoxOptions options, TimeSpan commandTimeout)
             => new FirefoxDriver(service, options, commandTimeout);
 
         /// <summary>

@@ -24,7 +24,7 @@ throw 'Element\'s shadowRoot doesn\'t contain any elements.';";
 
         public ISearchContext Resolve(IWebElement element)
         {
-            return (IWebElement)AtataContext.Current.Driver.ExecuteScriptWithLogging(
+            return (IWebElement)AtataContext.Current.Driver.AsScriptExecutor().ExecuteScriptWithLogging(
                 GetShadowRootChildElementsScript,
                 element);
         }

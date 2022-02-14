@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -7,7 +7,7 @@ namespace Atata
     {
         public TriggerEvents Event { get; internal set; }
 
-        public RemoteWebDriver Driver { get; internal set; }
+        public IWebDriver Driver { get; internal set; }
 
         public ILogManager Log { get; internal set; }
 

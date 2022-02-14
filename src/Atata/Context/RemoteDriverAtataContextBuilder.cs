@@ -33,14 +33,14 @@ namespace Atata
         {
         }
 
-        protected sealed override RemoteWebDriver CreateDriver()
+        protected sealed override IWebDriver CreateDriver()
         {
             ICapabilities capabilities = CreateCapabilities();
 
             return CreateDriver(_remoteAddress, capabilities, _commandTimeout ?? DefaultCommandTimeout);
         }
 
-        protected virtual RemoteWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout)
+        protected virtual IWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout)
         {
             return new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
         }

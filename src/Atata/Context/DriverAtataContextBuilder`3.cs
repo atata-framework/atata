@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -38,7 +37,7 @@ namespace Atata
 
         string IUsesLocalBrowser.BrowserName => _browserName;
 
-        protected sealed override RemoteWebDriver CreateDriver()
+        protected sealed override IWebDriver CreateDriver()
         {
             var options = _optionsFactory?.Invoke() ?? new TOptions();
 
@@ -81,7 +80,7 @@ namespace Atata
         /// <param name="options">The driver options.</param>
         /// <param name="commandTimeout">The command timeout.</param>
         /// <returns>The driver instance.</returns>
-        protected abstract RemoteWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
+        protected abstract IWebDriver CreateDriver(TService service, TOptions options, TimeSpan commandTimeout);
 
         private TService CreateServiceUsingDriverParameters() =>
             _driverPath != null && _driverExecutableFileName != null

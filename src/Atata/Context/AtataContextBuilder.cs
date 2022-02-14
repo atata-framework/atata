@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -116,7 +117,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="driver">The driver to use.</param>
         /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
-        public CustomDriverAtataContextBuilder UseDriver(RemoteWebDriver driver)
+        public CustomDriverAtataContextBuilder UseDriver(IWebDriver driver)
         {
             driver.CheckNotNull(nameof(driver));
 
@@ -128,7 +129,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <param name="driverFactory">The driver factory method.</param>
         /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
-        public CustomDriverAtataContextBuilder UseDriver(Func<RemoteWebDriver> driverFactory)
+        public CustomDriverAtataContextBuilder UseDriver(Func<IWebDriver> driverFactory)
         {
             driverFactory.CheckNotNull(nameof(driverFactory));
 

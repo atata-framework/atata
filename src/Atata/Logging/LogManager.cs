@@ -341,7 +341,7 @@ namespace Atata
 
                 ScreenshotInfo screenshotInfo = new ScreenshotInfo
                 {
-                    Screenshot = AtataContext.Current.Driver.GetScreenshot(),
+                    Screenshot = AtataContext.Current.Driver.AsScreenshotTaker().GetScreenshot(),
                     Number = _screenshotNumber,
                     Title = title,
                     PageObjectName = AtataContext.Current.PageObject.ComponentName,

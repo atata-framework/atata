@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace Atata.Tests
 {
@@ -8,7 +8,7 @@ namespace Atata.Tests
     {
         protected virtual bool ReuseDriver => true;
 
-        protected RemoteWebDriver PreservedDriver { get; set; }
+        protected IWebDriver PreservedDriver { get; set; }
 
         [SetUp]
         public void SetUp()
@@ -21,7 +21,7 @@ namespace Atata.Tests
             contextBuilder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
             {
                 if (ReuseDriver && PreservedDriver is null)
-                    PreservedDriver = (RemoteWebDriver)eventData.Driver;
+                    PreservedDriver = eventData.Driver;
             });
 
             contextBuilder.Build();

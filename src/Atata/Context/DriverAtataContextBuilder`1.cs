@@ -1,4 +1,4 @@
-﻿using OpenQA.Selenium.Remote;
+﻿using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -16,16 +16,14 @@ namespace Atata
         /// </summary>
         public string Alias { get; private set; }
 
-        RemoteWebDriver IDriverFactory.Create()
-        {
-            return CreateDriver();
-        }
+        IWebDriver IDriverFactory.Create() =>
+            CreateDriver();
 
         /// <summary>
         /// Creates the driver instance.
         /// </summary>
-        /// <returns>The created <see cref="RemoteWebDriver"/> instance.</returns>
-        protected abstract RemoteWebDriver CreateDriver();
+        /// <returns>The created <see cref="IWebDriver"/> instance.</returns>
+        protected abstract IWebDriver CreateDriver();
 
         /// <summary>
         /// Specifies the driver alias.

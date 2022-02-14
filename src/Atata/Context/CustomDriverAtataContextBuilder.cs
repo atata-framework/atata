@@ -1,19 +1,19 @@
 ﻿using System;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace Atata
 {
     public class CustomDriverAtataContextBuilder : DriverAtataContextBuilder<CustomDriverAtataContextBuilder>
     {
-        private readonly Func<RemoteWebDriver> _driverFactory;
+        private readonly Func<IWebDriver> _driverFactory;
 
-        public CustomDriverAtataContextBuilder(AtataBuildingContext buildingContext, Func<RemoteWebDriver> driverFactory)
+        public CustomDriverAtataContextBuilder(AtataBuildingContext buildingContext, Func<IWebDriver> driverFactory)
             : base(buildingContext)
         {
             _driverFactory = driverFactory.CheckNotNull(nameof(driverFactory));
         }
 
-        protected override RemoteWebDriver CreateDriver() =>
+        protected override IWebDriver CreateDriver() =>
             _driverFactory.Invoke();
     }
 }

@@ -1,6 +1,6 @@
 using System;
+using OpenQA.Selenium;
 using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Remote;
 
 namespace Atata
 {
@@ -20,7 +20,7 @@ namespace Atata
         protected override InternetExplorerDriverService CreateService(string driverPath, string driverExecutableFileName)
             => InternetExplorerDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
-        protected override RemoteWebDriver CreateDriver(InternetExplorerDriverService service, InternetExplorerOptions options, TimeSpan commandTimeout)
+        protected override IWebDriver CreateDriver(InternetExplorerDriverService service, InternetExplorerOptions options, TimeSpan commandTimeout)
             => new InternetExplorerDriver(service, options, commandTimeout);
 
         /// <summary>

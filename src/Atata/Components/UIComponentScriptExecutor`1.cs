@@ -139,12 +139,12 @@ namespace Atata
 
         private object ExecuteScript(string script, object[] arguments)
         {
-            return Component.Owner.Driver.ExecuteScriptWithLogging(script, arguments);
+            return Component.Owner.Driver.AsScriptExecutor().ExecuteScriptWithLogging(script, arguments);
         }
 
         private object ExecuteAsyncScript(string script, object[] arguments)
         {
-            return Component.Owner.Driver.ExecuteAsyncScriptWithLogging(script, arguments);
+            return Component.Owner.Driver.AsScriptExecutor().ExecuteAsyncScriptWithLogging(script, arguments);
         }
 
         /// <summary>

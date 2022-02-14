@@ -59,5 +59,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ClearCacheAttribute.GetTargetComponent``1(Atata.IUIComponent{``0},Atata.ClearCacheTarget)~Atata.IUIComponent{``0}")]
 [assembly: SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.EventBus.UnsubscribeHandler(System.Object)")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.FindByXPathStrategy.Build(Atata.ComponentScopeXPathBuilder,Atata.ComponentScopeFindOptions)~System.String")]
+[assembly: SuppressMessage("Usage", "CA2213:Disposable fields should be disposed", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.AtataContext._driver")]
 
 #pragma warning restore S103 // Lines should not be too long

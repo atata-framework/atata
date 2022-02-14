@@ -52,20 +52,20 @@ namespace Atata
 
         private object ExecuteScript(ISearchContext scope)
         {
-            var driver = AtataContext.Current.Driver;
+            IJavaScriptExecutor scriptExecutor = AtataContext.Current.Driver.AsScriptExecutor();
 
             if (scope is IWebElement element)
             {
-                return driver.ExecuteScriptWithLogging(Script, element);
+                return scriptExecutor.ExecuteScriptWithLogging(Script, element);
             }
             else if (Script.Contains("arguments"))
             {
                 var scopeElement = scope.GetWithLogging(By.XPath("*").With(SearchOptions.OfAnyVisibility()));
-                return driver.ExecuteScriptWithLogging(Script, scopeElement);
+                return scriptExecutor.ExecuteScriptWithLogging(Script, scopeElement);
             }
             else
             {
-                return driver.ExecuteScriptWithLogging(Script);
+                return scriptExecutor.ExecuteScriptWithLogging(Script);
             }
         }
 
