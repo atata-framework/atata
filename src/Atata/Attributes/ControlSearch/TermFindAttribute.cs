@@ -9,10 +9,6 @@ namespace Atata
     /// </summary>
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute, ITermSettings
     {
-        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> _termGetter;
-
-        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> _termFindSettingsGetter;
-
         protected TermFindAttribute(TermCase termCase)
             : this()
         {
@@ -36,10 +32,6 @@ namespace Atata
         {
             if (values != null && values.Any())
                 Values = values;
-
-            _termGetter = md => md.GetAll<TermAttribute>();
-
-            _termFindSettingsGetter = md => md.GetAll<TermFindSettingsAttribute>(x => x.ForAttribute(GetType()));
         }
 
         /// <summary>
@@ -47,17 +39,8 @@ namespace Atata
         /// </summary>
         public string[] Values
         {
-            get
-            {
-                return Properties.Get<string[]>(
-                    nameof(Values),
-                    _termGetter);
-            }
-
-            private set
-            {
-                Properties[nameof(Values)] = value;
-            }
+            get => ResolveValues();
+            private set => OptionalProperties[nameof(Values)] = value;
         }
 
         /// <summary>
@@ -65,19 +48,8 @@ namespace Atata
         /// </summary>
         public TermCase Case
         {
-            get
-            {
-                return Properties.Get(
-                    nameof(Case),
-                    DefaultCase,
-                    _termGetter,
-                    _termFindSettingsGetter);
-            }
-
-            private set
-            {
-                Properties[nameof(Case)] = value;
-            }
+            get => ResolveCase();
+            private set => OptionalProperties[nameof(Case)] = value;
         }
 
         /// <summary>
@@ -85,19 +57,8 @@ namespace Atata
         /// </summary>
         public new TermMatch Match
         {
-            get
-            {
-                return Properties.Get(
-                    nameof(Match),
-                    DefaultMatch,
-                    _termGetter,
-                    _termFindSettingsGetter);
-            }
-
-            private set
-            {
-                Properties[nameof(Match)] = value;
-            }
+            get => ResolveMatch();
+            private set => OptionalProperties[nameof(Match)] = value;
         }
 
         /// <summary>
@@ -105,18 +66,8 @@ namespace Atata
         /// </summary>
         public string Format
         {
-            get
-            {
-                return Properties.Get<string>(
-                    nameof(Format),
-                    _termGetter,
-                    _termFindSettingsGetter);
-            }
-
-            set
-            {
-                Properties[nameof(Format)] = value;
-            }
+            get => ResolveFormat();
+            set => OptionalProperties[nameof(Format)] = value;
         }
 
         /// <summary>
@@ -127,19 +78,8 @@ namespace Atata
         /// </summary>
         public bool CutEnding
         {
-            get
-            {
-                return Properties.Get(
-                    nameof(CutEnding),
-                    true,
-                    _termGetter,
-                    _termFindSettingsGetter);
-            }
-
-            set
-            {
-                Properties[nameof(CutEnding)] = value;
-            }
+            get => ResolveCutEnding();
+            set => OptionalProperties[nameof(CutEnding)] = value;
         }
 
         /// <summary>
@@ -151,45 +91,78 @@ namespace Atata
         /// Gets the default match.
         /// The default value is <see cref="TermMatch.Equals"/>.
         /// </summary>
-        protected virtual TermMatch DefaultMatch
-        {
-            get { return TermMatch.Equals; }
-        }
+        protected virtual TermMatch DefaultMatch => TermMatch.Equals;
+
+        internal string[] ResolveValues(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<string[]>(
+                nameof(Values),
+                metadata != null ? GetTermAttributes(metadata) : null);
+
+        internal TermCase ResolveCase(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve(
+                nameof(Case),
+                DefaultCase,
+                metadata != null ? GetTermAndTermFindSettingsAttributes(metadata) : null);
+
+        internal TermMatch ResolveMatch(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve(
+                nameof(Match),
+                DefaultMatch,
+                metadata != null ? GetTermAndTermFindSettingsAttributes(metadata) : null);
+
+        internal string ResolveFormat(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<string>(
+                nameof(Format),
+                metadata != null ? GetTermAndTermFindSettingsAttributes(metadata) : null);
+
+        internal bool ResolveCutEnding(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve(
+                nameof(CutEnding),
+                true,
+                metadata != null ? GetTermAndTermFindSettingsAttributes(metadata) : null);
 
         public string[] GetTerms(UIComponentMetadata metadata)
         {
             string[] rawTerms = GetRawTerms(metadata);
-            string format = Format;
+            string format = ResolveFormat(metadata);
 
             return !string.IsNullOrEmpty(format) ? rawTerms.Select(x => string.Format(format, x)).ToArray() : rawTerms;
         }
 
-        protected virtual string[] GetRawTerms(UIComponentMetadata metadata)
-        {
-            return Values ?? new[] { GetTermFromProperty(metadata) };
-        }
+        protected virtual string[] GetRawTerms(UIComponentMetadata metadata) =>
+            ResolveValues(metadata)
+                ?? new[] { GetTermFromProperty(metadata) };
 
         private string GetTermFromProperty(UIComponentMetadata metadata)
         {
             string name = GetPropertyName(metadata);
-            return Case.ApplyTo(name);
+            return ResolveCase(metadata).ApplyTo(name);
         }
 
-        public TermMatch GetTermMatch(UIComponentMetadata metadata)
-        {
-            return Match;
-        }
+        public TermMatch GetTermMatch(UIComponentMetadata metadata) =>
+            ResolveMatch(metadata);
 
-        private string GetPropertyName(UIComponentMetadata metadata)
-        {
-            return CutEnding
+        private string GetPropertyName(UIComponentMetadata metadata) =>
+            ResolveCutEnding(metadata)
                 ? metadata.ComponentDefinitionAttribute.NormalizeNameIgnoringEnding(metadata.Name)
                 : metadata.Name;
+
+        public override string BuildComponentName(UIComponentMetadata metadata)
+        {
+            var values = ResolveValues(metadata);
+
+            return values?.Any() ?? false
+                ? BuildComponentNameWithArgument(string.Join("/", values))
+                : throw new InvalidOperationException($"Component name cannot be resolved automatically for {GetType().Name}. Term value(s) should be specified explicitly.");
         }
 
-        public override string BuildComponentName() =>
-            Values?.Any() ?? false
-                ? BuildComponentNameWithArgument(string.Join("/", Values))
-                : throw new InvalidOperationException($"Component name cannot be resolved automatically for {GetType().Name}. Term value(s) should be specified explicitly.");
+        private static IEnumerable<IHasOptionalProperties> GetTermAttributes(UIComponentMetadata metadata) =>
+            metadata.GetAll<TermAttribute>();
+
+        private IEnumerable<IHasOptionalProperties> GetTermFindSettingAttributes(UIComponentMetadata metadata) =>
+            metadata.GetAll<TermFindSettingsAttribute>(x => x.ForAttribute(GetType()));
+
+        private IEnumerable<IHasOptionalProperties> GetTermAndTermFindSettingsAttributes(UIComponentMetadata metadata) =>
+            GetTermAttributes(metadata).Concat(GetTermFindSettingAttributes(metadata));
     }
 }

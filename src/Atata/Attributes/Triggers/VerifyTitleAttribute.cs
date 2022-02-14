@@ -29,10 +29,16 @@ namespace Atata
         {
         }
 
-        protected override IEnumerable<IPropertySettings> GetPropertySettings(UIComponentMetadata metadata) =>
+        protected override IEnumerable<IHasOptionalProperties> GetSettingsAttributes(UIComponentMetadata metadata) =>
             metadata.GetAll<VerifyTitleSettingsAttribute>();
 
-        protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values) =>
-            context.Component.Owner.PageTitle.Should.Within(Timeout, RetryInterval).MatchAny(Match, values);
+        protected override void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
+        {
+            var metadata = context.Component.Metadata;
+
+            context.Component.Owner.PageTitle.Should
+                .Within(Timeout, RetryInterval)
+                .MatchAny(ResolveMatch(metadata), values);
+        }
     }
 }

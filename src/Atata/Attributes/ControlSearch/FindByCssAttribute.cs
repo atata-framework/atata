@@ -30,7 +30,7 @@ namespace Atata
             return Values;
         }
 
-        public override string BuildComponentName() =>
+        public override string BuildComponentName(UIComponentMetadata metadata) =>
             BuildComponentNameWithArgument(string.Join("/", Values));
     }
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Atata
@@ -7,8 +6,6 @@ namespace Atata
     public class PropertyBag
     {
         private readonly Dictionary<string, object> _values = new Dictionary<string, object>();
-
-        internal UIComponentMetadata Metadata { get; set; }
 
         public object this[string name]
         {
@@ -21,25 +18,32 @@ namespace Atata
             return _values.ContainsKey(name);
         }
 
-        public T Get<T>(string name, params Func<UIComponentMetadata, IEnumerable<IPropertySettings>>[] propertySettingsGetters)
-        {
-            return Get(name, default(T), propertySettingsGetters);
-        }
+        public T GetOrDefault<T>(string name, T defaultValue = default) =>
+            _values.TryGetValue(name, out object value)
+                ? (T)value
+                : defaultValue;
 
-        public T Get<T>(string name, T defaultValue, params Func<UIComponentMetadata, IEnumerable<IPropertySettings>>[] propertySettingsGetters)
+        public T Resolve<T>(string name, IEnumerable<IHasOptionalProperties> optionalPropertiesHolders) =>
+            Resolve<T>(name, optionalPropertiesHolders?.Select(x => x.OptionalProperties));
+
+        public T Resolve<T>(string name, T defaultValue, IEnumerable<IHasOptionalProperties> optionalPropertiesHolders) =>
+            Resolve(name, defaultValue, optionalPropertiesHolders?.Select(x => x.OptionalProperties));
+
+        public T Resolve<T>(string name, IEnumerable<PropertyBag> otherPropertyBags) =>
+            Resolve(name, default(T), otherPropertyBags);
+
+        public T Resolve<T>(string name, T defaultValue, IEnumerable<PropertyBag> otherPropertyBags)
         {
             if (_values.TryGetValue(name, out object value))
                 return (T)value;
 
-            if (Metadata != null && propertySettingsGetters.Any())
+            if (otherPropertyBags != null)
             {
-                IPropertySettings propertySettings = propertySettingsGetters.
-                    SelectMany(x => x(Metadata)).
-                    Where(x => x != null).
-                    FirstOrDefault(x => x.Properties.Contains(name));
-
-                if (propertySettings != null)
-                    return (T)propertySettings.Properties[name];
+                foreach (PropertyBag otherPropertyBag in otherPropertyBags)
+                {
+                    if (otherPropertyBag != null && otherPropertyBag._values.TryGetValue(name, out object otherValue))
+                        return (T)otherValue;
+                }
             }
 
             return defaultValue;

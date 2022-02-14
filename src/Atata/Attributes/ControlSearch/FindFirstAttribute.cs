@@ -11,6 +11,7 @@ namespace Atata
 
         protected override Type DefaultStrategy => typeof(FindFirstDescendantStrategy);
 
-        public override string BuildComponentName() => 1.Ordinalize();
+        public override string BuildComponentName(UIComponentMetadata metadata) =>
+            1.Ordinalize();
     }
 }

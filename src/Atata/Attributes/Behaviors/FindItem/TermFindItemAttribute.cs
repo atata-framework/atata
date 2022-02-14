@@ -27,8 +27,8 @@
         /// </summary>
         public new TermMatch Match
         {
-            get => Properties.Get(nameof(Match), TermMatch.Equals);
-            private set => Properties[nameof(Match)] = value;
+            get => OptionalProperties.GetOrDefault(nameof(Match), TermMatch.Equals);
+            private set => OptionalProperties[nameof(Match)] = value;
         }
 
         /// <summary>
@@ -36,8 +36,8 @@
         /// </summary>
         public TermCase Case
         {
-            get => Properties.Get(nameof(Case), TermCase.None);
-            private set => Properties[nameof(Case)] = value;
+            get => OptionalProperties.GetOrDefault(nameof(Case), TermCase.None);
+            private set => OptionalProperties[nameof(Case)] = value;
         }
 
         /// <summary>
@@ -45,8 +45,8 @@
         /// </summary>
         public string Format
         {
-            get => Properties.Get<string>(nameof(Format));
-            set => Properties[nameof(Format)] = value;
+            get => OptionalProperties.GetOrDefault<string>(nameof(Format));
+            set => OptionalProperties[nameof(Format)] = value;
         }
     }
 }

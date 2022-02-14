@@ -14,8 +14,8 @@ namespace Atata
         /// </summary>
         public int Index
         {
-            get { return Properties.Get(nameof(Index), -1); }
-            set { Properties[nameof(Index)] = value; }
+            get { return OptionalProperties.GetOrDefault(nameof(Index), -1); }
+            set { OptionalProperties[nameof(Index)] = value; }
         }
 
         /// <summary>
@@ -24,8 +24,8 @@ namespace Atata
         /// </summary>
         public Visibility Visibility
         {
-            get { return Properties.Get(nameof(Visibility), Visibility.Visible); }
-            set { Properties[nameof(Visibility)] = value; }
+            get { return OptionalProperties.GetOrDefault(nameof(Visibility), Visibility.Visible); }
+            set { OptionalProperties[nameof(Visibility)] = value; }
         }
 
         /// <summary>
@@ -34,8 +34,8 @@ namespace Atata
         /// </summary>
         public ScopeSource ScopeSource
         {
-            get { return Properties.Get(nameof(ScopeSource), ScopeSource.Parent); }
-            set { Properties[nameof(ScopeSource)] = value; }
+            get { return OptionalProperties.GetOrDefault(nameof(ScopeSource), ScopeSource.Parent); }
+            set { OptionalProperties[nameof(ScopeSource)] = value; }
         }
 
         /// <summary>
@@ -44,8 +44,8 @@ namespace Atata
         /// </summary>
         public string OuterXPath
         {
-            get { return Properties.Get<string>(nameof(OuterXPath)); }
-            set { Properties[nameof(OuterXPath)] = value; }
+            get { return OptionalProperties.GetOrDefault<string>(nameof(OuterXPath)); }
+            set { OptionalProperties[nameof(OuterXPath)] = value; }
         }
 
         /// <summary>
@@ -55,8 +55,8 @@ namespace Atata
         /// </summary>
         public Type Strategy
         {
-            get { return Properties.Get<Type>(nameof(Strategy)); }
-            set { Properties[nameof(Strategy)] = value; }
+            get { return OptionalProperties.GetOrDefault<Type>(nameof(Strategy)); }
+            set { OptionalProperties[nameof(Strategy)] = value; }
         }
 
         /// <summary>
@@ -65,9 +65,9 @@ namespace Atata
         /// </summary>
         public double Timeout
         {
-            get => Properties.Get<double?>(nameof(Timeout))
+            get => OptionalProperties.GetOrDefault<double?>(nameof(Timeout))
                 ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
-            set => Properties[nameof(Timeout)] = value;
+            set => OptionalProperties[nameof(Timeout)] = value;
         }
 
         /// <summary>
@@ -76,9 +76,9 @@ namespace Atata
         /// </summary>
         public double RetryInterval
         {
-            get => Properties.Get<double?>(nameof(RetryInterval))
+            get => OptionalProperties.GetOrDefault<double?>(nameof(RetryInterval))
                 ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
-            set => Properties[nameof(RetryInterval)] = value;
+            set => OptionalProperties[nameof(RetryInterval)] = value;
         }
     }
 }

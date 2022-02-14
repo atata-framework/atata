@@ -22,7 +22,6 @@
 [assembly: SuppressMessage("Security", "CA2119:Seal methods that satisfy private interfaces", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.PageObject`1.SwitchToRoot``1(``0)~``0")]
 [assembly: SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.PopupWindow`1.WindowTitleValues")]
 [assembly: SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.ComponentScopeFindOptions.Terms")]
-[assembly: SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.ITermDataProvider.Values")]
 [assembly: SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IDataVerificationProviderExtensions.Contain``1(Atata.IDataVerificationProvider{System.String,``0},System.String)~``0")]
 [assembly: SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TermResolver.RetrieveValueFromString(System.String,System.String)~System.String")]
 [assembly: SuppressMessage("Naming", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.FindAs")]

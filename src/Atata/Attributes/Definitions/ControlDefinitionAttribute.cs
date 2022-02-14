@@ -16,8 +16,8 @@
         /// </summary>
         public Visibility Visibility
         {
-            get { return Properties.Get(nameof(Visibility), Visibility.Visible); }
-            set { Properties[nameof(Visibility)] = value; }
+            get { return OptionalProperties.GetOrDefault(nameof(Visibility), Visibility.Visible); }
+            set { OptionalProperties[nameof(Visibility)] = value; }
         }
     }
 }

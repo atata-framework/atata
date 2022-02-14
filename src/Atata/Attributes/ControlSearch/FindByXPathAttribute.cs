@@ -24,7 +24,7 @@ namespace Atata
 
         public string[] GetTerms(UIComponentMetadata metadata) => Values;
 
-        public override string BuildComponentName() =>
+        public override string BuildComponentName(UIComponentMetadata metadata) =>
             BuildComponentNameWithArgument(string.Join(" or ", Values));
     }
 }

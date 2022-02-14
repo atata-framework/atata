@@ -55,8 +55,8 @@ namespace Atata
         {
             var options = base.GetValueTermOptions();
 
-            if (FindItemAttribute is IPropertySettings findItemAttributeAsSettings)
-                options.MergeWith(findItemAttributeAsSettings);
+            if (FindItemAttribute is IHasOptionalProperties optionalPropertiesHolder)
+                options.MergeWith(optionalPropertiesHolder);
 
             return options;
         }

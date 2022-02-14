@@ -285,7 +285,6 @@ namespace Atata
             behaviorExecutionFunction.CheckNotNull(nameof(behaviorExecutionFunction));
 
             var behavior = GetAttributeOrThrow<TBehaviorAttribute>();
-            behavior.Properties.Metadata = Metadata;
 
             return Log.ExecuteSection(
                 new ExecuteBehaviorLogSection(this, behavior),

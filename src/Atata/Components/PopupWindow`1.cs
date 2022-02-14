@@ -44,7 +44,7 @@ namespace Atata
         protected string[] WindowTitleValues
         {
             get => Metadata.TryGet<WindowTitleAttribute>(out var titleAttribute)
-                ? titleAttribute.GetActualValues(ComponentName)
+                ? titleAttribute.ResolveActualValues(ComponentName)
                 : _windowTitleValues;
             set => _windowTitleValues = value;
         }

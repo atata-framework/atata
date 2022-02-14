@@ -61,5 +61,35 @@ namespace Atata.Tests
                 .TelInput.Blur()
                 .ActiveControl.Attributes.Value.Should.Not.Equal("123");
         }
+
+        public class ComponentName : UITestFixture
+        {
+            [Test]
+            public void FromPropertyName() =>
+                Go.To<TestPageObject>()
+                    .NameFromProperty.ComponentName.ToSubject().Should.Be("Name From Property");
+
+            [Test]
+            public void FromNameAttribute() =>
+                Go.To<TestPageObject>()
+                    .GetsNameFromNameAttribute.ComponentName.ToSubject().Should.Be("Name From NameAttribute");
+
+            [Test]
+            public void FromFindByLabelAttribute() =>
+                Go.To<TestPageObject>()
+                    .GetsNameFromFindByLabelAttribute.ComponentName.ToSubject().Should.Be("Name From FindByLabelAttribute");
+
+            public class TestPageObject : PageObject<TestPageObject>
+            {
+                public Button<TestPageObject> NameFromProperty { get; private set; }
+
+                [Name("Name From NameAttribute")]
+                [Term("Name From TermAttribute")]
+                public Button<TestPageObject> GetsNameFromNameAttribute { get; private set; }
+
+                [FindByLabel("Name From FindByLabelAttribute")]
+                public TextInput<TestPageObject> GetsNameFromFindByLabelAttribute { get; private set; }
+            }
+        }
     }
 }

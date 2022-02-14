@@ -28,7 +28,7 @@ namespace Atata
         /// The default value is <see cref="ScopeSource.Parent"/>.
         /// </summary>
         public sealed override ScopeSource ScopeSource =>
-            Metadata?.ResolveFindAttribute()?.ScopeSource ?? ScopeSource.Parent;
+            Metadata?.ResolveFindAttribute()?.ResolveScopeSource(Metadata) ?? ScopeSource.Parent;
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value

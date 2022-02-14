@@ -55,10 +55,7 @@ namespace Atata
             where TPageObject : PageObject<TPageObject>
         {
             pageObject.Owner = (TPageObject)pageObject;
-
-            UIComponentMetadata metadata = CreatePageObjectMetadata<TPageObject>();
-
-            ApplyMetadata(pageObject, metadata);
+            pageObject.Metadata = CreatePageObjectMetadata<TPageObject>();
         }
 
         private static IEnumerable<Type> GetAllInheritedTypes(Type type)
@@ -292,21 +289,6 @@ namespace Atata
             InitComponentLocator(component);
             component.ComponentName = ResolveControlName(metadata);
             component.ComponentTypeName = ResolveControlTypeName(metadata);
-
-            ApplyMetadata(component, metadata);
-        }
-
-        private static void ApplyMetadata<TOwner>(UIComponent<TOwner> component, UIComponentMetadata metadata)
-            where TOwner : PageObject<TOwner>
-        {
-            foreach (IPropertySettings propertySettings in metadata.DeclaredAttributes
-                .Concat(metadata.ComponentAttributes)
-                .OfType<IPropertySettings>()
-                .Where(x => x.Properties != null))
-            {
-                propertySettings.Properties.Metadata = metadata;
-            }
-
             component.Metadata = metadata;
         }
 
@@ -339,7 +321,7 @@ namespace Atata
 
             if (findAttribute is FindByLabelAttribute findByLabelAttribute && findByLabelAttribute.Match == TermMatch.Equals)
             {
-                string[] terms = findByLabelAttribute.Values;
+                string[] terms = findByLabelAttribute.ResolveValues(metadata);
 
                 if (terms?.Any() ?? false)
                 {
@@ -356,7 +338,7 @@ namespace Atata
             {
                 FindAttribute findAttribute = metadata.ResolveFindAttribute();
 
-                return findAttribute.BuildComponentName();
+                return findAttribute.BuildComponentName(metadata);
             }
             else
             {

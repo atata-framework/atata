@@ -336,8 +336,6 @@ return (
 
                     foreach (var trigger in triggers)
                     {
-                        trigger.Properties.Metadata = Metadata;
-
                         Log.ExecuteSection(
                             new ExecuteTriggerLogSection(this, trigger, on),
                             () => trigger.Execute(context));

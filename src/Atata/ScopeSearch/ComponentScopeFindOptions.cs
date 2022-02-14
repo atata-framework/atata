@@ -25,7 +25,7 @@ namespace Atata
         {
             ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 
-            int index = findAttribute.Index;
+            int index = findAttribute.ResolveIndex(metadata);
 
             ComponentScopeFindOptions options = new ComponentScopeFindOptions
             {
@@ -33,7 +33,7 @@ namespace Atata
                 Metadata = metadata,
                 ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath,
                 Index = index >= 0 ? (int?)index : null,
-                OuterXPath = findAttribute.OuterXPath
+                OuterXPath = findAttribute.ResolveOuterXPath(metadata)
             };
 
             if (findAttribute is ITermFindAttribute termFindAttribute)

@@ -1,6 +1,5 @@
 ﻿namespace Atata
 {
-    // TODO: Review and clean ITermSettingsExtensions.
     public static class ITermSettingsExtensions
     {
         public static TermCase? GetCaseOrNull(this ITermSettings termSettings)
@@ -8,8 +7,8 @@
             if (termSettings == null)
                 return null;
 
-            if (termSettings is IPropertySettings castedTermSettings)
-                return castedTermSettings.Properties.Contains(nameof(ITermSettings.Case))
+            if (termSettings is IHasOptionalProperties castedTermSettings)
+                return castedTermSettings.OptionalProperties.Contains(nameof(ITermSettings.Case))
                     ? termSettings.Case
                     : (TermCase?)null;
             else
@@ -21,15 +20,15 @@
             if (termSettings == null)
                 return null;
 
-            if (termSettings is IPropertySettings castedTermSettings)
-                return castedTermSettings.Properties.Contains(nameof(ITermSettings.Match)) ? termSettings.Match : (TermMatch?)null;
+            if (termSettings is IHasOptionalProperties castedTermSettings)
+                return castedTermSettings.OptionalProperties.Contains(nameof(ITermSettings.Match))
+                    ? termSettings.Match
+                    : (TermMatch?)null;
             else
                 return termSettings.Match;
         }
 
-        public static string GetFormatOrNull(this ITermSettings termSettings)
-        {
-            return termSettings?.Format;
-        }
+        public static string GetFormatOrNull(this ITermSettings termSettings) =>
+            termSettings?.Format;
     }
 }

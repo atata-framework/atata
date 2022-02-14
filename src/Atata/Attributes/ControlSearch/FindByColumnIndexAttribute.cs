@@ -22,7 +22,7 @@ namespace Atata
             yield return ColumnIndex;
         }
 
-        public override string BuildComponentName() =>
+        public override string BuildComponentName(UIComponentMetadata metadata) =>
             BuildComponentNameWithArgument(ColumnIndex);
     }
 }

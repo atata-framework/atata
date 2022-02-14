@@ -9,6 +9,6 @@ namespace Atata
     {
         protected override Type DefaultStrategy => typeof(FindLastDescendantStrategy);
 
-        public override string BuildComponentName() => "Last";
+        public override string BuildComponentName(UIComponentMetadata metadata) => "Last";
     }
 }

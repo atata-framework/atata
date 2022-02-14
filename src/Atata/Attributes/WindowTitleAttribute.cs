@@ -1,4 +1,7 @@
-﻿namespace Atata
+﻿using System;
+using System.Linq;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies the window title of <see cref="PopupWindow{TOwner}"/> page object.
@@ -7,7 +10,7 @@
     /// </summary>
     /// <seealso cref="PopupWindow{TOwner}"/>
     /// <seealso cref="WindowTitleElementDefinitionAttribute"/>
-    public class WindowTitleAttribute : MulticastAttribute, ITermDataProvider
+    public class WindowTitleAttribute : MulticastAttribute, ITermSettings
     {
         private const TermCase DefaultCase = TermCase.Title;
         private const TermMatch DefaultMatch = TermMatch.Equals;
@@ -46,5 +49,16 @@
         public new TermMatch Match { get; }
 
         public string Format { get; set; }
+
+        internal string[] ResolveActualValues(string fallbackValue)
+        {
+            string[] rawValues = Values?.Any() ?? false
+                ? Values
+                : new[] { Case.ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue))) };
+
+            return !string.IsNullOrEmpty(Format)
+                ? rawValues.Select(x => string.Format(Format, x)).ToArray()
+                : rawValues;
+        }
     }
 }

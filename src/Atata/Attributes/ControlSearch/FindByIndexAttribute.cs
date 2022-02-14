@@ -14,7 +14,7 @@ namespace Atata
 
         protected override Type DefaultStrategy => typeof(FindByIndexStrategy);
 
-        public override string BuildComponentName() =>
+        public override string BuildComponentName(UIComponentMetadata metadata) =>
             (Index + 1).Ordinalize();
     }
 }

@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Atata
 {
     /// <summary>
     /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
     /// </summary>
-    public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute, ITermDataProvider
+    public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute, ITermSettings
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
             : this()
@@ -36,50 +38,67 @@ namespace Atata
 
         public TermCase Case
         {
-            get { return Properties.Get(nameof(Case), DefaultCase, GetPropertySettings); }
-            private set { Properties[nameof(Case)] = value; }
+            get => ResolveCase();
+            private set => OptionalProperties[nameof(Case)] = value;
         }
 
-        protected virtual TermCase DefaultCase
-        {
-            get { return TermCase.Title; }
-        }
+        protected virtual TermCase DefaultCase => TermCase.Title;
 
         public new TermMatch Match
         {
-            get { return Properties.Get(nameof(Match), DefaultMatch, GetPropertySettings); }
-            private set { Properties[nameof(Match)] = value; }
+            get => ResolveMatch();
+            private set => OptionalProperties[nameof(Match)] = value;
         }
 
-        protected virtual TermMatch DefaultMatch
-        {
-            get { return TermMatch.Equals; }
-        }
+        protected virtual TermMatch DefaultMatch => TermMatch.Equals;
 
         public string Format
         {
-            get { return Properties.Get<string>(nameof(Format), GetPropertySettings); }
-            set { Properties[nameof(Format)] = value; }
+            get => ResolveFormat();
+            set => OptionalProperties[nameof(Format)] = value;
         }
 
-        protected virtual IEnumerable<IPropertySettings> GetPropertySettings(UIComponentMetadata metadata)
-        {
-            yield break;
-        }
+        internal TermCase ResolveCase(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve(
+                nameof(Case),
+                DefaultCase,
+                metadata != null ? GetSettingsAttributes(metadata) : null);
 
-        protected virtual ITermSettings ResolveTermSettings(UIComponentMetadata metadata)
-        {
-            return null;
-        }
+        internal TermMatch ResolveMatch(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve(
+                nameof(Match),
+                DefaultMatch,
+                metadata != null ? GetSettingsAttributes(metadata) : null);
+
+        internal string ResolveFormat(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<string>(
+                nameof(Format),
+                metadata != null ? GetSettingsAttributes(metadata) : null);
+
+        protected virtual IEnumerable<IHasOptionalProperties> GetSettingsAttributes(UIComponentMetadata metadata) =>
+            Enumerable.Empty<IHasOptionalProperties>();
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            string[] expectedValues = this.GetActualValues(context.Component.ComponentName);
+            string[] actualValues = ResolveActualValues(context.Component.Metadata, context.Component.ComponentName);
 
-            OnExecute(context, expectedValues);
+            OnExecute(context, actualValues);
         }
 
         protected abstract void OnExecute<TOwner>(TriggerContext<TOwner> context, string[] values)
             where TOwner : PageObject<TOwner>;
+
+        private string[] ResolveActualValues(UIComponentMetadata metadata, string fallbackValue)
+        {
+            string[] rawValues = Values?.Any() ?? false
+                ? Values
+                : new[] { ResolveCase(metadata).ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue))) };
+
+            string format = ResolveFormat(metadata);
+
+            return !string.IsNullOrEmpty(format)
+                ? rawValues.Select(x => string.Format(format, x)).ToArray()
+                : rawValues;
+        }
     }
 }

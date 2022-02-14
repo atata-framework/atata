@@ -332,7 +332,7 @@ namespace Atata
         private static string[] GetIndividualEnumTerms(Enum value, TermOptions termOptions)
         {
             TermAttribute termAttribute = GetEnumTermAttribute(value);
-            ITermSettings termSettings = GetTermSettings(value.GetType());
+            ITermSettings termSettings = GetTermSettingsAttribute(value.GetType());
 
             TermCase? termCase = termOptions.GetCaseOrNull();
             string termFormat = termOptions.GetFormatOrNull();
@@ -392,7 +392,7 @@ namespace Atata
         {
             return termSettings.GetMatchOrNull()
                 ?? GetEnumTermAttribute(value).GetMatchOrNull()
-                ?? GetTermSettings(value.GetType()).GetMatchOrNull()
+                ?? GetTermSettingsAttribute(value.GetType()).GetMatchOrNull()
                 ?? DefaultMatch;
         }
 
@@ -404,10 +404,8 @@ namespace Atata
             return memberInfo.GetCustomAttribute<TermAttribute>(false);
         }
 
-        private static ITermSettings GetTermSettings(Type type)
-        {
-            return type.GetCustomAttribute<TermSettingsAttribute>(false);
-        }
+        private static TermSettingsAttribute GetTermSettingsAttribute(Type type) =>
+            type.GetCustomAttribute<TermSettingsAttribute>(false);
 
         private sealed class TermConverter
         {

@@ -35,8 +35,8 @@ namespace Atata
         /// </summary>
         public string[] Values
         {
-            get { return Properties.Get<string[]>(nameof(Values)); }
-            private set { Properties[nameof(Values)] = value; }
+            get => OptionalProperties.GetOrDefault<string[]>(nameof(Values));
+            private set => OptionalProperties[nameof(Values)] = value;
         }
 
         /// <summary>
@@ -47,8 +47,8 @@ namespace Atata
         /// </summary>
         public bool CutEnding
         {
-            get { return Properties.Get(nameof(CutEnding), true); }
-            set { Properties[nameof(CutEnding)] = value; }
+            get => OptionalProperties.GetOrDefault(nameof(CutEnding), true);
+            set => OptionalProperties[nameof(CutEnding)] = value;
         }
     }
 }

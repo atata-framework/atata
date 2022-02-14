@@ -221,6 +221,13 @@ namespace Atata.Tests
                         .ValueOf(x => x.ComponentName).Should.Equal("FindById:text-input");
 
             [Test]
+            public void Name_WhenNameIsNotSet_WithFindByIdAttribute_WithTermAttribute() =>
+                Go.To<InputPage>()
+                    .Find<TextInput<InputPage>>(new FindByIdAttribute(), new TermAttribute("text-input"))
+                    .ToSutSubject()
+                        .ValueOf(x => x.ComponentName).Should.Equal("FindById:text-input");
+
+            [Test]
             public void Name_WhenNameIsNotSet_WithFindByNameAttribute_WithMultipleValues() =>
                 Go.To<InputPage>()
                     .Find<TextInput<InputPage>>(new FindByNameAttribute("name1", "name2"))

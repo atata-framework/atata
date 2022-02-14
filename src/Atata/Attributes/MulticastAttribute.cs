@@ -10,7 +10,7 @@ namespace Atata
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Assembly,
         AllowMultiple = true)]
-    public abstract class MulticastAttribute : Attribute, IPropertySettings
+    public abstract class MulticastAttribute : Attribute, IHasOptionalProperties
     {
         private bool? _targetSelf;
 
@@ -212,7 +212,7 @@ namespace Atata
         /// <summary>
         /// Gets the properties bag.
         /// </summary>
-        public PropertyBag Properties { get; } = new PropertyBag();
+        public PropertyBag OptionalProperties { get; } = new PropertyBag();
 
         /// <summary>
         /// Determines whether the component name applies the name criteria.

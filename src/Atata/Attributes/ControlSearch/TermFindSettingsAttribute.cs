@@ -11,8 +11,8 @@
         /// </summary>
         public TermCase Case
         {
-            get { return Properties.Get(nameof(Case), TermCase.None); }
-            set { Properties[nameof(Case)] = value; }
+            get { return OptionalProperties.GetOrDefault(nameof(Case), TermCase.None); }
+            set { OptionalProperties[nameof(Case)] = value; }
         }
 
         /// <summary>
@@ -20,8 +20,8 @@
         /// </summary>
         public new TermMatch Match
         {
-            get { return Properties.Get(nameof(Match), TermMatch.Equals); }
-            set { Properties[nameof(Match)] = value; }
+            get { return OptionalProperties.GetOrDefault(nameof(Match), TermMatch.Equals); }
+            set { OptionalProperties[nameof(Match)] = value; }
         }
 
         /// <summary>
@@ -29,8 +29,8 @@
         /// </summary>
         public string Format
         {
-            get { return Properties.Get<string>(nameof(Format)); }
-            set { Properties[nameof(Format)] = value; }
+            get { return OptionalProperties.GetOrDefault<string>(nameof(Format)); }
+            set { OptionalProperties[nameof(Format)] = value; }
         }
 
         /// <summary>
@@ -40,8 +40,8 @@
         /// </summary>
         public bool CutEnding
         {
-            get { return Properties.Get(nameof(CutEnding), true); }
-            set { Properties[nameof(CutEnding)] = value; }
+            get { return OptionalProperties.GetOrDefault(nameof(CutEnding), true); }
+            set { OptionalProperties[nameof(CutEnding)] = value; }
         }
     }
 }

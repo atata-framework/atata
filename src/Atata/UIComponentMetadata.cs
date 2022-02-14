@@ -414,15 +414,9 @@ namespace Atata
                 : Get<FormatAttribute>()?.Value;
         }
 
-        public FindAttribute ResolveFindAttribute()
-        {
-            FindAttribute findAttribute = GetDefinedFindAttribute()
+        public FindAttribute ResolveFindAttribute() =>
+            GetDefinedFindAttribute()
                 ?? GetDefaultFindAttribute();
-
-            findAttribute.Properties.Metadata = this;
-
-            return findAttribute;
-        }
 
         private FindAttribute GetDefinedFindAttribute() =>
             Get<FindAttribute>(filter => filter.Where(x => x.As == FindAs.Scope));
@@ -435,22 +429,9 @@ namespace Atata
                 return new FindFirstAttribute();
         }
 
-        public IEnumerable<FindAttribute> ResolveLayerFindAttributes()
-        {
-            var attributes = GetLayerFindAttributes()
-                .OrderBy(x => x.Layer)
-                .ToArray();
-
-            if (attributes.Any())
-            {
-                UIComponentMetadata metadata = CreateMetadataForLayerFindAttribute();
-
-                foreach (FindAttribute attribute in attributes)
-                    attribute.Properties.Metadata = metadata;
-            }
-
-            return attributes;
-        }
+        public IEnumerable<FindAttribute> ResolveLayerFindAttributes() =>
+            GetLayerFindAttributes()
+                .OrderBy(x => x.Layer);
 
         private IEnumerable<FindAttribute> GetLayerFindAttributes()
         {
@@ -462,7 +443,7 @@ namespace Atata
             return FilterAttributeSets(attributeSets, filter);
         }
 
-        private UIComponentMetadata CreateMetadataForLayerFindAttribute()
+        internal UIComponentMetadata CreateMetadataForLayerFindAttribute()
         {
             bool LocalFilter(Attribute a) => a is TermAttribute;
 

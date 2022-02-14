@@ -9,11 +9,8 @@ namespace Atata
     /// </summary>
     public abstract class FindAttribute : MulticastAttribute
     {
-        private readonly Func<UIComponentMetadata, IEnumerable<IPropertySettings>> _findSettingsGetter;
-
         protected FindAttribute()
         {
-            _findSettingsGetter = md => md.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));
         }
 
         /// <summary>
@@ -22,18 +19,8 @@ namespace Atata
         /// </summary>
         public int Index
         {
-            get
-            {
-                return Properties.Get(
-                    nameof(Index),
-                    -1,
-                    _findSettingsGetter);
-            }
-
-            set
-            {
-                Properties[nameof(Index)] = value;
-            }
+            get => ResolveIndex();
+            set => OptionalProperties[nameof(Index)] = value;
         }
 
         /// <summary>
@@ -42,19 +29,8 @@ namespace Atata
         /// </summary>
         public Visibility Visibility
         {
-            get
-            {
-                return Properties.Get(
-                    nameof(Visibility),
-                    Visibility.Visible,
-                    _findSettingsGetter,
-                    md => new[] { md.ComponentDefinitionAttribute });
-            }
-
-            set
-            {
-                Properties[nameof(Visibility)] = value;
-            }
+            get => ResolveVisibility();
+            set => OptionalProperties[nameof(Visibility)] = value;
         }
 
         /// <summary>
@@ -63,18 +39,8 @@ namespace Atata
         /// </summary>
         public ScopeSource ScopeSource
         {
-            get
-            {
-                return Properties.Get(
-                    nameof(ScopeSource),
-                    ScopeSource.Parent,
-                    _findSettingsGetter);
-            }
-
-            set
-            {
-                Properties[nameof(ScopeSource)] = value;
-            }
+            get => ResolveScopeSource();
+            set => OptionalProperties[nameof(ScopeSource)] = value;
         }
 
         /// <summary>
@@ -83,17 +49,8 @@ namespace Atata
         /// </summary>
         public string OuterXPath
         {
-            get
-            {
-                return Properties.Get<string>(
-                    nameof(OuterXPath),
-                    _findSettingsGetter);
-            }
-
-            set
-            {
-                Properties[nameof(OuterXPath)] = value;
-            }
+            get => ResolveOuterXPath();
+            set => OptionalProperties[nameof(OuterXPath)] = value;
         }
 
         /// <summary>
@@ -103,18 +60,8 @@ namespace Atata
         /// </summary>
         public Type Strategy
         {
-            get
-            {
-                return Properties.Get(
-                    nameof(Strategy),
-                    DefaultStrategy,
-                    _findSettingsGetter);
-            }
-
-            set
-            {
-                Properties[nameof(Strategy)] = value;
-            }
+            get => ResolveStrategy();
+            set => OptionalProperties[nameof(Strategy)] = value;
         }
 
         /// <summary>
@@ -123,9 +70,8 @@ namespace Atata
         /// </summary>
         public double Timeout
         {
-            get => Properties.Get<double?>(nameof(Timeout), _findSettingsGetter)
-                ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
-            set => Properties[nameof(Timeout)] = value;
+            get => ResolveTimeout();
+            set => OptionalProperties[nameof(Timeout)] = value;
         }
 
         /// <summary>
@@ -134,9 +80,8 @@ namespace Atata
         /// </summary>
         public double RetryInterval
         {
-            get => Properties.Get<double?>(nameof(RetryInterval), _findSettingsGetter)
-                ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
-            set => Properties[nameof(RetryInterval)] = value;
+            get => ResolveRetryInterval();
+            set => OptionalProperties[nameof(RetryInterval)] = value;
         }
 
         /// <summary>
@@ -147,20 +92,7 @@ namespace Atata
         /// When several layer attributes are used,
         /// then <see cref="Layer"/> property can be used to specify an order of each attribute.
         /// </summary>
-        public FindAs As
-        {
-            get
-            {
-                return Properties.Get(
-                    nameof(As),
-                    FindAs.Scope);
-            }
-
-            set
-            {
-                Properties[nameof(As)] = value;
-            }
-        }
+        public FindAs As { get; set; }
 
         /// <summary>
         /// Gets or sets the layer order of find attribute.
@@ -168,20 +100,7 @@ namespace Atata
         /// This property is used only paired with <see cref="As"/> property set to any value except <see cref="FindAs.Scope"/>.
         /// The default value is <c>0</c>.
         /// </summary>
-        public int Layer
-        {
-            get
-            {
-                return Properties.Get(
-                    nameof(Layer),
-                    0);
-            }
-
-            set
-            {
-                Properties[nameof(Layer)] = value;
-            }
-        }
+        public int Layer { get; set; }
 
         /// <summary>
         /// Gets the default strategy type for the control search.
@@ -192,10 +111,13 @@ namespace Atata
         /// <summary>
         /// Creates the strategy.
         /// </summary>
-        /// <returns>The strategy created.</returns>
-        public IComponentScopeFindStrategy CreateStrategy()
+        /// <param name="metadata">The metadata.</param>
+        /// <returns>
+        /// The strategy created.
+        /// </returns>
+        public IComponentScopeFindStrategy CreateStrategy(UIComponentMetadata metadata)
         {
-            Type strategyType = Strategy ?? DefaultStrategy;
+            Type strategyType = ResolveStrategy(metadata);
             object[] strategyArguments = GetStrategyArguments().ToArray();
 
             return (IComponentScopeFindStrategy)Activator.CreateInstance(strategyType, strategyArguments);
@@ -206,7 +128,7 @@ namespace Atata
             yield break;
         }
 
-        public virtual string BuildComponentName() =>
+        public virtual string BuildComponentName(UIComponentMetadata metadata) =>
             GetTypeNameForComponentName();
 
         protected string GetTypeNameForComponentName()
@@ -220,5 +142,47 @@ namespace Atata
 
         protected string BuildComponentNameWithArgument(object argument) =>
             $"{GetTypeNameForComponentName()}:{argument}";
+
+        internal int ResolveIndex(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve(
+                nameof(Index),
+                -1,
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
+
+        internal Visibility ResolveVisibility(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<Visibility>(
+                nameof(Visibility),
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat(new[] { metadata.ComponentDefinitionAttribute }) : null);
+
+        internal ScopeSource ResolveScopeSource(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<ScopeSource>(
+                nameof(ScopeSource),
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
+
+        internal string ResolveOuterXPath(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<string>(
+                nameof(OuterXPath),
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
+
+        internal Type ResolveStrategy(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve(
+                nameof(Strategy),
+                DefaultStrategy,
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
+
+        internal double ResolveTimeout(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<double?>(
+                nameof(Timeout),
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null)
+                ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
+
+        internal double ResolveRetryInterval(UIComponentMetadata metadata = null) =>
+            OptionalProperties.Resolve<double?>(
+                nameof(RetryInterval),
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null)
+                ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+
+        private IEnumerable<IHasOptionalProperties> GetFindSettingsPropertyAttributes(UIComponentMetadata metadata) =>
+            metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));
     }
 }
