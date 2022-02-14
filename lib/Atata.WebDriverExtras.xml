@@ -108,6 +108,34 @@
             <param name="by">The <see cref="T:OpenQA.Selenium.By" /> instance.</param>
             <returns>The collection of found elements.</returns>
         </member>
+        <member name="M:Atata.IWebDriverExtensions.AsScriptExecutor(OpenQA.Selenium.IWebDriver)">
+            <summary>
+            Casts the web driver to <see cref="T:OpenQA.Selenium.IJavaScriptExecutor" /> type.
+            Considers <see cref="T:OpenQA.Selenium.Internal.IWrapsDriver" />.
+            </summary>
+            <param name="webDriver">The <see cref="T:OpenQA.Selenium.IWebDriver" /> instance.</param>
+            <returns><paramref name="webDriver" /> casted to <see cref="T:OpenQA.Selenium.IJavaScriptExecutor" />.</returns>
+            <exception cref="T:System.NotSupportedException"><paramref name="webDriver" /> doesn't implement <see cref="T:OpenQA.Selenium.IJavaScriptExecutor" />.</exception>
+        </member>
+        <member name="M:Atata.IWebDriverExtensions.AsScreenshotTaker(OpenQA.Selenium.IWebDriver)">
+            <summary>
+            Casts the web driver to <see cref="T:OpenQA.Selenium.ITakesScreenshot" /> type.
+            Considers <see cref="T:OpenQA.Selenium.Internal.IWrapsDriver" />.
+            </summary>
+            <param name="webDriver">The <see cref="T:OpenQA.Selenium.IWebDriver" /> instance.</param>
+            <returns><paramref name="webDriver" /> casted to <see cref="T:OpenQA.Selenium.ITakesScreenshot" />.</returns>
+            <exception cref="T:System.NotSupportedException"><paramref name="webDriver" /> doesn't implement <see cref="T:OpenQA.Selenium.ITakesScreenshot" />.</exception>
+        </member>
+        <member name="M:Atata.IWebDriverExtensions.As``1(OpenQA.Selenium.IWebDriver)">
+            <summary>
+            Casts the web driver to the specified interface type.
+            Considers <see cref="T:OpenQA.Selenium.Internal.IWrapsDriver" />.
+            </summary>
+            <typeparam name="TInterface">The type of the interface.</typeparam>
+            <param name="webDriver">The <see cref="T:OpenQA.Selenium.IWebDriver" /> instance.</param>
+            <returns><paramref name="webDriver" /> casted to <typeparamref name="TInterface" />.</returns>
+            <exception cref="T:System.NotSupportedException"><paramref name="webDriver" /> doesn't implement <typeparamref name="TInterface" />.</exception>
+        </member>
         <member name="M:Atata.IWebElementExtensions.GetElementId(OpenQA.Selenium.IWebElement)">
             <summary>
             Gets the element identifier.
