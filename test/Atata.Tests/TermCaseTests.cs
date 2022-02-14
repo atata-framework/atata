@@ -20,7 +20,7 @@ namespace Atata.Tests
         [TestCase(Atata.TermCase.Title, "text", ExpectedResult = "Text")]
         [TestCase(Atata.TermCase.Title, "150text", ExpectedResult = "150 Text")]
         [TestCase(Atata.TermCase.Title, "*-+=#@&^a%()", ExpectedResult = "A")]
-        [TestCase(Atata.TermCase.Title, "TheBackUpOfADataFromOrNotIs", ExpectedResult = "The Back Up of a Data from or Not Is")]
+        [TestCase(Atata.TermCase.Title, "TheBackUpOfADataFromOrNotIs", ExpectedResult = "The Back Up of a Data From or Not Is")]
 
         [TestCase(Atata.TermCase.Capitalized, "SimpleText", ExpectedResult = "Simple Text")]
         [TestCase(Atata.TermCase.Capitalized, "HTMLText", ExpectedResult = "HTML Text")]

@@ -12,22 +12,18 @@ namespace Atata.TermFormatting
             "an",
             "the",
             "and",
-            "but",
             "or",
+            "but",
+            "nor",
+            "as",
             "for",
             "of",
-            "nor",
             "on",
             "in",
             "at",
             "to",
-            "from",
             "by",
-            "to",
-            "as",
-            "with"
-            ////"up",
-            ////"down",
+            "to"
         };
 
         public string Format(string[] words)
