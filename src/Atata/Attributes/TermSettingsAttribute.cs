@@ -3,7 +3,7 @@
     /// <summary>
     /// Specifies the term settings.
     /// </summary>
-    public class TermSettingsAttribute : MulticastAttribute, ITermSettings
+    public class TermSettingsAttribute : MulticastAttribute, ITermSettings, IHasOptionalProperties
     {
         public TermSettingsAttribute()
         {
@@ -24,6 +24,10 @@
             Match = match;
             Case = termCase;
         }
+
+        PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
+
+        protected PropertyBag OptionalProperties { get; } = new PropertyBag();
 
         /// <summary>
         /// Gets the match.

@@ -7,11 +7,15 @@ namespace Atata
     /// <summary>
     /// Represents the base attribute class for the finding attributes.
     /// </summary>
-    public abstract class FindAttribute : MulticastAttribute
+    public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
     {
         protected FindAttribute()
         {
         }
+
+        PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
+
+        protected internal PropertyBag OptionalProperties { get; } = new PropertyBag();
 
         /// <summary>
         /// Gets or sets the index of the control.
@@ -152,7 +156,7 @@ namespace Atata
         internal Visibility ResolveVisibility(UIComponentMetadata metadata = null) =>
             OptionalProperties.Resolve<Visibility>(
                 nameof(Visibility),
-                metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat(new[] { metadata.ComponentDefinitionAttribute }) : null);
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat(new[] { (IHasOptionalProperties)metadata.ComponentDefinitionAttribute }) : null);
 
         internal ScopeSource ResolveScopeSource(UIComponentMetadata metadata = null) =>
             OptionalProperties.Resolve<ScopeSource>(

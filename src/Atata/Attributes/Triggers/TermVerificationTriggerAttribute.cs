@@ -7,7 +7,7 @@ namespace Atata
     /// <summary>
     /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
     /// </summary>
-    public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute, ITermSettings
+    public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute, ITermSettings, IHasOptionalProperties
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
             : this()
@@ -33,6 +33,10 @@ namespace Atata
         {
             Values = values;
         }
+
+        PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
+
+        protected PropertyBag OptionalProperties { get; } = new PropertyBag();
 
         public string[] Values { get; }
 

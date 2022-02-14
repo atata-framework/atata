@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public abstract class TermFindItemAttribute : FindItemAttribute
+    public abstract class TermFindItemAttribute : FindItemAttribute, IHasOptionalProperties
     {
         protected TermFindItemAttribute()
         {
@@ -21,6 +21,10 @@
             Match = match;
             Case = termCase;
         }
+
+        PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
+
+        protected PropertyBag OptionalProperties { get; } = new PropertyBag();
 
         /// <summary>
         /// Gets the match.
