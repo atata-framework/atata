@@ -32,7 +32,8 @@ Features:
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Selenium.WebDriver" Version="3.141.0" />
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.1.0" />
   </ItemGroup>
   
   <ItemGroup>

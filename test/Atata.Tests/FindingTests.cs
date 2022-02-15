@@ -172,13 +172,13 @@ namespace Atata.Tests
         {
             IWebElement element = null;
 
-            WebDriverException exception = Assert.Throws<WebDriverException>(() =>
+            var exception = Assert.Throws<JavaScriptException>(() =>
                 element = _page.OptionByScriptWithInvalidScript.Scope);
 
             Assert.That(exception.Message, Does.StartWith("javascript error:"));
 
-            AssertThrowsWithInnerException<AssertionException, WebDriverException>(() =>
-                _page.OptionByScriptWithInvalidScript.Should.AtOnce.Exist());
+            AssertThrowsWithInnerException<AssertionException, JavaScriptException>(() =>
+                _page.OptionByScriptWithInvalidScript.Should.AtOnce.BePresent());
         }
 
         [Test]

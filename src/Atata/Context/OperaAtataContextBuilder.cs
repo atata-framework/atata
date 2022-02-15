@@ -46,16 +46,16 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds global additional capability to the driver options.
+        /// Adds the additional Opera browser option to the driver options.
         /// </summary>
-        /// <param name="capabilityName">The name of the capability to add.</param>
-        /// <param name="capabilityValue">The value of the capability to add.</param>
+        /// <param name="optionName">The name of the option to add.</param>
+        /// <param name="optionValue">The value of the option to add.</param>
         /// <returns>The same builder instance.</returns>
-        public OperaAtataContextBuilder WithGlobalCapability(string capabilityName, object capabilityValue)
+        public OperaAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
         {
-            capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
+            optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
-            return WithOptions(options => options.AddAdditionalCapability(capabilityName, capabilityValue, true));
+            return WithOptions(options => options.AddAdditionalOperaOption(optionName, optionValue));
         }
     }
 }

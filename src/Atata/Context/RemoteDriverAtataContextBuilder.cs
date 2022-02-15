@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Opera;
@@ -167,42 +168,44 @@ namespace Atata
         }
 
         /// <summary>
-        /// Adds the capability.
+        /// Adds the additional option to the driver options.
         /// </summary>
-        /// <param name="capabilityName">The name of the capability to add.</param>
-        /// <param name="capabilityValue">The value of the capability to add.</param>
+        /// <param name="optionName">The name of the option to add.</param>
+        /// <param name="optionValue">The value of the option to add.</param>
         /// <returns>The same builder instance.</returns>
-        public RemoteDriverAtataContextBuilder WithCapability(string capabilityName, object capabilityValue)
+        public RemoteDriverAtataContextBuilder AddAddionalOption(string optionName, object optionValue)
         {
-            capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
+            optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
-            return WithOptions(options => options.AddAdditionalCapability(capabilityName, capabilityValue));
+            return WithOptions(options => options.AddAdditionalOption(optionName, optionValue));
         }
 
         /// <summary>
-        /// Adds global additional capability to the driver options.
+        /// Adds the additional browser option to the driver options.
         /// </summary>
-        /// <param name="capabilityName">The name of the capability to add.</param>
-        /// <param name="capabilityValue">The value of the capability to add.</param>
+        /// <param name="optionName">The name of the option to add.</param>
+        /// <param name="optionValue">The value of the option to add.</param>
         /// <returns>The same builder instance.</returns>
-        public RemoteDriverAtataContextBuilder WithGlobalCapability(string capabilityName, object capabilityValue)
+        public RemoteDriverAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
         {
-            capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
+            optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
             return WithOptions(options =>
             {
                 if (options is ChromeOptions chromeOptions)
-                    chromeOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                    chromeOptions.AddAdditionalChromeOption(optionName, optionValue);
+                else if (options is EdgeOptions edgeOptions)
+                    edgeOptions.AddAdditionalEdgeOption(optionName, optionValue);
                 else if (options is FirefoxOptions firefoxOptions)
-                    firefoxOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                    firefoxOptions.AddAdditionalFirefoxOption(optionName, optionValue);
                 else if (options is InternetExplorerOptions internetExplorerOptions)
-                    internetExplorerOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                    internetExplorerOptions.AddAdditionalInternetExplorerOption(optionName, optionValue);
                 else if (options is OperaOptions operaOptions)
-                    operaOptions.AddAdditionalCapability(capabilityName, capabilityValue, true);
+                    operaOptions.AddAdditionalOperaOption(optionName, optionValue);
                 else
                     throw new InvalidOperationException(
-                        $"Cannot add \"{capabilityName}\"={capabilityValue} global capability to options " +
-                        $"of {options.GetType()} type as it doesn't have AddAdditionalCapability(string, object, bool) method.");
+                        $"Cannot add \"{optionName}\"={optionValue} additional browser option to options " +
+                        $"of {options.GetType()} type as it doesn't have an appropriate method.");
             });
         }
 

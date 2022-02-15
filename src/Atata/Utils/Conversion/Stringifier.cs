@@ -5,7 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using OpenQA.Selenium.Remote;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -17,17 +17,17 @@ namespace Atata
     {
         public const string NullString = "null";
 
-        private static readonly Lazy<Func<RemoteWebElement, string>> s_elementIdRetrieveFunction = new Lazy<Func<RemoteWebElement, string>>(() =>
+        private static readonly Lazy<Func<WebElement, string>> s_elementIdRetrieveFunction = new Lazy<Func<WebElement, string>>(() =>
         {
-            var idProperty = typeof(RemoteWebElement).GetPropertyWithThrowOnError(
+            var idProperty = typeof(WebElement).GetPropertyWithThrowOnError(
                 "Id",
                 BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-            var parameterExpression = Expression.Parameter(typeof(RemoteWebElement), "item");
+            var parameterExpression = Expression.Parameter(typeof(WebElement), "item");
 
             var propertyExpression = Expression.Property(parameterExpression, idProperty);
 
-            return Expression.Lambda<Func<RemoteWebElement, string>>(propertyExpression, parameterExpression)
+            return Expression.Lambda<Func<WebElement, string>>(propertyExpression, parameterExpression)
                 .Compile();
         });
 
@@ -80,8 +80,8 @@ namespace Atata
                 return ToString(enumerableValue);
             else if (value is Expression expressionValue)
                 return ToString(expressionValue);
-            else if (value is RemoteWebElement asRemoteWebElement)
-                return $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asRemoteWebElement)} }}";
+            else if (value is WebElement asWebElement)
+                return $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asWebElement)} }}";
             else
                 return $"{{ {value} }}";
         }

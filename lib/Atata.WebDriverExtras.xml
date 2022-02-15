@@ -111,7 +111,7 @@
         <member name="M:Atata.IWebDriverExtensions.AsScriptExecutor(OpenQA.Selenium.IWebDriver)">
             <summary>
             Casts the web driver to <see cref="T:OpenQA.Selenium.IJavaScriptExecutor" /> type.
-            Considers <see cref="T:OpenQA.Selenium.Internal.IWrapsDriver" />.
+            Considers <see cref="T:OpenQA.Selenium.IWrapsDriver" />.
             </summary>
             <param name="webDriver">The <see cref="T:OpenQA.Selenium.IWebDriver" /> instance.</param>
             <returns><paramref name="webDriver" /> casted to <see cref="T:OpenQA.Selenium.IJavaScriptExecutor" />.</returns>
@@ -120,7 +120,7 @@
         <member name="M:Atata.IWebDriverExtensions.AsScreenshotTaker(OpenQA.Selenium.IWebDriver)">
             <summary>
             Casts the web driver to <see cref="T:OpenQA.Selenium.ITakesScreenshot" /> type.
-            Considers <see cref="T:OpenQA.Selenium.Internal.IWrapsDriver" />.
+            Considers <see cref="T:OpenQA.Selenium.IWrapsDriver" />.
             </summary>
             <param name="webDriver">The <see cref="T:OpenQA.Selenium.IWebDriver" /> instance.</param>
             <returns><paramref name="webDriver" /> casted to <see cref="T:OpenQA.Selenium.ITakesScreenshot" />.</returns>
@@ -129,7 +129,7 @@
         <member name="M:Atata.IWebDriverExtensions.As``1(OpenQA.Selenium.IWebDriver)">
             <summary>
             Casts the web driver to the specified interface type.
-            Considers <see cref="T:OpenQA.Selenium.Internal.IWrapsDriver" />.
+            Considers <see cref="T:OpenQA.Selenium.IWrapsDriver" />.
             </summary>
             <typeparam name="TInterface">The type of the interface.</typeparam>
             <param name="webDriver">The <see cref="T:OpenQA.Selenium.IWebDriver" /> instance.</param>
@@ -428,102 +428,20 @@
         <member name="M:Atata.ExtendedSearchContext`1.FindElement(OpenQA.Selenium.By)">
             <summary>
             Finds the first <see cref="T:OpenQA.Selenium.IWebElement" /> using the given method.
-            </summary><param name="by">The locating mechanism to use.</param><returns>The first matching <see cref="T:OpenQA.Selenium.IWebElement" /> on the current context.</returns><exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
+            </summary>
+            <param name="by">The locating mechanism to use.</param>
+            <returns>The first matching <see cref="T:OpenQA.Selenium.IWebElement" /> on the current context.</returns>
+            <exception cref="T:OpenQA.Selenium.NoSuchElementException">If no element matches the criteria.</exception>
         </member>
         <member name="M:Atata.ExtendedSearchContext`1.FindElements(OpenQA.Selenium.By)">
             <summary>
-            Finds all <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> within the current context
-            using the given mechanism.
-            </summary><param name="by">The locating mechanism to use.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="T:OpenQA.Selenium.IWebElement">WebElements</see>
-            matching the current criteria, or an empty list if nothing matches.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementById(System.String)">
-            <summary>
-            Finds the first element matching the specified id.
-            </summary><param name="id">The id to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsById(System.String)">
-            <summary>
-            Finds all elements matching the specified id.
-            </summary><param name="id">The id to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementByName(System.String)">
-            <summary>
-            Finds the first element matching the specified name.
-            </summary><param name="name">The name to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByName(System.String)">
-            <summary>
-            Finds all elements matching the specified name.
-            </summary><param name="name">The name to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementByTagName(System.String)">
-            <summary>
-            Finds the first element matching the specified tag name.
-            </summary><param name="tagName">The tag name to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByTagName(System.String)">
-            <summary>
-            Finds all elements matching the specified tag name.
-            </summary><param name="tagName">The tag name to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementByClassName(System.String)">
-            <summary>
-            Finds the first element matching the specified CSS class.
-            </summary><param name="className">The CSS class to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByClassName(System.String)">
-            <summary>
-            Finds all elements matching the specified CSS class.
-            </summary><param name="className">The CSS class to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementByLinkText(System.String)">
-            <summary>
-            Finds the first element matching the specified link text.
-            </summary><param name="linkText">The link text to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByLinkText(System.String)">
-            <summary>
-            Finds all elements matching the specified link text.
-            </summary><param name="linkText">The link text to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementByPartialLinkText(System.String)">
-            <summary>
-            Finds the first element matching the specified partial link text.
-            </summary><param name="partialLinkText">The partial link text to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByPartialLinkText(System.String)">
-            <summary>
-            Finds all elements matching the specified partial link text.
-            </summary><param name="partialLinkText">The partial link text to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementByCssSelector(System.String)">
-            <summary>
-            Finds the first element matching the specified CSS selector.
-            </summary><param name="cssSelector">The id to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByCssSelector(System.String)">
-            <summary>
-            Finds all elements matching the specified CSS selector.
-            </summary><param name="cssSelector">The CSS selector to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementByXPath(System.String)">
-            <summary>
-            Finds the first element matching the specified XPath query.
-            </summary><param name="xpath">The XPath query to match.</param><returns>The first <see cref="T:OpenQA.Selenium.IWebElement" /> matching the criteria.</returns>
-        </member>
-        <member name="M:Atata.ExtendedSearchContext`1.FindElementsByXPath(System.String)">
-            <summary>
-            Finds all elements matching the specified XPath query.
-            </summary><param name="xpath">The XPath query to match.</param><returns>A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> containing all
-            <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> matching the criteria.</returns>
+            Finds all <see cref="T:OpenQA.Selenium.IWebElement">IWebElements</see> within the current context using the given mechanism.
+            </summary>
+            <param name="by">The locating mechanism to use.</param>
+            <returns>
+            A <see cref="T:System.Collections.ObjectModel.ReadOnlyCollection`1" /> of all <see cref="T:OpenQA.Selenium.IWebElement">WebElements</see>
+            matching the current criteria, or an empty list if nothing matches.
+            </returns>
         </member>
         <member name="T:Atata.IExtendedSearchContext">
             <summary>

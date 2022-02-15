@@ -24,16 +24,16 @@ namespace Atata
             => new InternetExplorerDriver(service, options, commandTimeout);
 
         /// <summary>
-        /// Adds global additional capability to the driver options.
+        /// Adds the additional Internet Explorer browser option to the driver options.
         /// </summary>
-        /// <param name="capabilityName">The name of the capability to add.</param>
-        /// <param name="capabilityValue">The value of the capability to add.</param>
+        /// <param name="optionName">The name of the option to add.</param>
+        /// <param name="optionValue">The value of the option to add.</param>
         /// <returns>The same builder instance.</returns>
-        public InternetExplorerAtataContextBuilder WithGlobalCapability(string capabilityName, object capabilityValue)
+        public InternetExplorerAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
         {
-            capabilityName.CheckNotNullOrWhitespace(nameof(capabilityName));
+            optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
-            return WithOptions(options => options.AddAdditionalCapability(capabilityName, capabilityValue, true));
+            return WithOptions(options => options.AddAdditionalInternetExplorerOption(optionName, optionValue));
         }
     }
 }
