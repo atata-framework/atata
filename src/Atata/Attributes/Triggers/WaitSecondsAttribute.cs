@@ -6,9 +6,9 @@ namespace Atata
     /// Specifies the waiting period in seconds.
     /// By default occurs after any action.
     /// </summary>
-    public class WaitAttribute : TriggerAttribute
+    public class WaitSecondsAttribute : TriggerAttribute
     {
-        public WaitAttribute(double seconds, TriggerEvents on = TriggerEvents.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium)
+        public WaitSecondsAttribute(double seconds, TriggerEvents on = TriggerEvents.AfterAnyAction, TriggerPriority priority = TriggerPriority.Medium)
             : base(on, priority)
         {
             Seconds = seconds;
