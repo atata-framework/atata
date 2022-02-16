@@ -16,7 +16,6 @@
         public LinkDelegate<GoTo3Page, _> GoTo3 { get; private set; }
 
         [GoTemporarily]
-        [ClicksUsingScript] // TODO: Recheck this test without [ClicksUsingScript] after update to WebDriver 4.
         public LinkDelegate<GoTo3Page, _> GoTo3Temporarily { get; private set; }
 
         public LinkDelegate<_> GoTo3Blank { get; private set; }
