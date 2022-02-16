@@ -4,7 +4,7 @@ using OpenQA.Selenium.Edge;
 
 namespace Atata
 {
-    public class EdgeAtataContextBuilder : DriverAtataContextBuilder<EdgeAtataContextBuilder, EdgeDriverService, EdgeOptions>
+    public class EdgeAtataContextBuilder : ChromiumAtataContextBuilder<EdgeAtataContextBuilder, EdgeDriverService, EdgeOptions>
     {
         public EdgeAtataContextBuilder(AtataBuildingContext buildingContext)
             : base(buildingContext, DriverAliases.Edge, "Edge")
