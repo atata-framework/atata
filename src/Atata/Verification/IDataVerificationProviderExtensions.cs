@@ -23,7 +23,7 @@ namespace Atata
         /// <returns>The owner instance.</returns>
         public static TOwner Satisfy<TData, TOwner>(
             this IDataVerificationProvider<TData, TOwner> verifier,
-            Expression<Predicate<TData>> predicateExpression)
+            Expression<Func<TData, bool>> predicateExpression)
         {
             predicateExpression.CheckNotNull(nameof(predicateExpression));
 
@@ -43,10 +43,9 @@ namespace Atata
         /// <param name="message">The message that should sound in a way of "{Something} should {message}".</param>
         /// <param name="args">The message arguments.</param>
         /// <returns>The owner instance.</returns>
-        /// TODO: Atata v2. Change type of predicate from "Predicate" to "Func".
         public static TOwner Satisfy<TData, TOwner>(
             this IDataVerificationProvider<TData, TOwner> verifier,
-            Predicate<TData> predicate,
+            Func<TData, bool> predicate,
             string message,
             params TData[] args)
         {
@@ -106,7 +105,7 @@ namespace Atata
         /// <returns>The owner instance.</returns>
         public static TOwner Satisfy<TData, TOwner>(
             this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> verifier,
-            Expression<Predicate<IEnumerable<TData>>> predicateExpression)
+            Expression<Func<IEnumerable<TData>, bool>> predicateExpression)
         {
             predicateExpression.CheckNotNull(nameof(predicateExpression));
 
@@ -128,7 +127,7 @@ namespace Atata
         /// <returns>The owner instance.</returns>
         public static TOwner Satisfy<TData, TOwner>(
             this IDataVerificationProvider<IEnumerable<IObjectProvider<TData>>, TOwner> verifier,
-            Predicate<IEnumerable<TData>> predicate,
+            Func<IEnumerable<TData>, bool> predicate,
             string message,
             params TData[] args)
         {
