@@ -19,7 +19,7 @@ namespace Atata
 
         private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new AsyncLocal<AtataContext>();
 
-        private static AtataContextModeOfCurrent s_modeOfCurrent = AtataContextModeOfCurrent.ThreadStatic;
+        private static AtataContextModeOfCurrent s_modeOfCurrent = AtataContextModeOfCurrent.AsyncLocal;
 
         [ThreadStatic]
         private static AtataContext s_currentThreadStaticContext;
@@ -76,7 +76,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the mode of <see cref="Current"/> property.
-        /// The default value is <see cref="AtataContextModeOfCurrent.ThreadStatic"/>.
+        /// The default value is <see cref="AtataContextModeOfCurrent.AsyncLocal"/>.
         /// </summary>
         public static AtataContextModeOfCurrent ModeOfCurrent
         {
