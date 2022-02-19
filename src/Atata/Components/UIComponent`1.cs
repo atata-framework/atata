@@ -301,10 +301,18 @@ return (
         /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type.</returns>
         protected internal DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
-            var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, providerName);
+            string componentProviderName = BuildComponentProviderName();
+            string fullProviderName = string.IsNullOrEmpty(componentProviderName)
+                ? providerName
+                : $"{componentProviderName} {providerName}";
+
+            var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, fullProviderName);
             _dataProviders[providerName] = dataProvider;
             return dataProvider;
         }
+
+        protected virtual string BuildComponentProviderName() =>
+            ComponentFullName;
 
         /// <summary>
         /// Executes the triggers.

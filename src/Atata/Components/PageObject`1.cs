@@ -633,5 +633,7 @@ namespace Atata
             ExecuteTriggers(TriggerEvents.DeInit);
             Context.EventBus.Publish(new PageObjectDeInitEvent(this));
         }
+
+        protected override string BuildComponentProviderName() => null;
     }
 }

@@ -9,11 +9,11 @@ namespace Atata
     {
         public ValueVerificationLogSection(
             string verificationKind,
-            string dataProviderName,
+            string providerName,
             string verificationConstraint)
         {
             var builder = new StringBuilder(verificationKind ?? "Verify")
-                .Append($": {dataProviderName ?? "value"}");
+                .Append($": {providerName ?? "value"}");
 
             if (!string.IsNullOrWhiteSpace(verificationConstraint))
                 builder.Append($" {verificationConstraint}");

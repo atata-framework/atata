@@ -8,11 +8,6 @@
     public interface IDataProvider<out TData, out TOwner> : IObjectProvider<TData>
     {
         /// <summary>
-        /// Gets the associated component.
-        /// </summary>
-        UIComponent Component { get; }
-
-        /// <summary>
         /// Gets the owner object.
         /// </summary>
         TOwner Owner { get; }

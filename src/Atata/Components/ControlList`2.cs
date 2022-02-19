@@ -17,7 +17,7 @@ namespace Atata
     public class ControlList<TItem, TOwner> :
         UIComponentPart<TOwner>,
         ISupportsMetadata,
-        IDataProvider<IEnumerable<TItem>, TOwner>,
+        IObjectProvider<IEnumerable<TItem>, TOwner>,
         IEnumerable<TItem>,
         IClearsCache
         where TItem : Control<TOwner>
@@ -71,8 +71,6 @@ return textValues;";
         /// </summary>
         public DataProvider<IEnumerable<string>, TOwner> Contents => Component.GetOrCreateDataProvider($"{ComponentPartName} contents", GetContents);
 
-        UIComponent IDataProvider<IEnumerable<TItem>, TOwner>.Component => (UIComponent)Component;
-
         protected string ProviderName => $"{ComponentPartName}";
 
         string IObjectProvider<IEnumerable<TItem>>.ProviderName => ProviderName;
@@ -80,6 +78,8 @@ return textValues;";
         TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
         IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Value => GetAll();
+
+        bool IObjectProvider<IEnumerable<TItem>, TOwner>.IsValueDynamic => true;
 
         UIComponentMetadata ISupportsMetadata.Metadata
         {

@@ -10,7 +10,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="T">The type of the control's data.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IDataProvider<T, TOwner>, IConvertsValueToString<T>
+    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IObjectProvider<T, TOwner>, IConvertsValueToString<T>
         where TOwner : PageObject<TOwner>
     {
         protected Field()
@@ -31,17 +31,18 @@ namespace Atata
         /// </summary>
         public T Value => Get();
 
-        UIComponent IDataProvider<T, TOwner>.Component => this;
-
         /// <summary>
-        /// Gets the name of the data provider.
+        /// Gets the name of the value provider.
         /// The default value is <c>"value"</c>.
         /// </summary>
-        protected virtual string DataProviderName => "value";
+        protected virtual string ValueProviderName => "value";
 
-        string IObjectProvider<T>.ProviderName => DataProviderName;
+        string IObjectProvider<T>.ProviderName =>
+            $"{BuildComponentProviderName()} {ValueProviderName}";
 
         TOwner IDataProvider<T, TOwner>.Owner => Owner;
+
+        bool IObjectProvider<T, TOwner>.IsValueDynamic => true;
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

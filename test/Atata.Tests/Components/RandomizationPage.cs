@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace Atata.Tests
 {
@@ -60,7 +59,7 @@ namespace Atata.Tests
         public DataProvider<int, _> CheckedItemsCount =>
             GetOrCreateDataProvider(
                 nameof(CheckedItemsCount),
-                () => AllCheckBoxes.Items.Count(x => x.IsChecked));
+                () => AllCheckBoxes.Items.Count(x => x.IsChecked).Value);
 
         [FindById("text-select")]
         [RandomizeInclude("Option A", "Option B", "Option C")]

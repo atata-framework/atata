@@ -75,14 +75,7 @@ namespace Atata
 
         public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual, bool prependShouldTextToExpected)
         {
-            StringBuilder builder = new StringBuilder();
-
-            string componentName = should.DataProvider.Component?.ComponentFullName;
-
-            if (componentName != null)
-                builder.Append($"{componentName} ");
-
-            builder
+            StringBuilder builder = new StringBuilder()
                 .Append($"{should.DataProvider.ProviderName}")
                 .AppendLine()
                 .Append("Expected: ");
@@ -152,9 +145,10 @@ namespace Atata
             {
                 string verificationConstraintMessage = BuildConstraintMessage(should, expectedMessage, arguments);
 
-                LogSection logSection = should.DataProvider.Component is null
-                    ? (LogSection)new ValueVerificationLogSection(should.Strategy.VerificationKind, should.DataProvider.ProviderName, verificationConstraintMessage)
-                    : new VerificationLogSection(should.Strategy.VerificationKind, should.DataProvider.Component, should.DataProvider.ProviderName, verificationConstraintMessage);
+                LogSection logSection = new ValueVerificationLogSection(
+                    should.Strategy.VerificationKind,
+                    should.DataProvider.ProviderName,
+                    verificationConstraintMessage);
 
                 AtataContext.Current.Log.ExecuteSection(logSection, verificationAction);
             }

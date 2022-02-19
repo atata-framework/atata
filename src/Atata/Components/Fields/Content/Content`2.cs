@@ -10,10 +10,7 @@
     public class Content<T, TOwner> : Field<T, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected override string DataProviderName
-        {
-            get { return "content"; }
-        }
+        protected override string ValueProviderName => "content";
 
         protected override T GetValue()
         {

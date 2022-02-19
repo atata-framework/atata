@@ -36,8 +36,6 @@ namespace Atata
         /// </summary>
         protected string ProviderName { get; }
 
-        UIComponent IDataProvider<TData, TOwner>.Component => Component;
-
         TOwner IDataProvider<TData, TOwner>.Owner => Component.Owner;
 
         string IObjectProvider<TData>.ProviderName => ProviderName;
@@ -45,10 +43,8 @@ namespace Atata
         /// <summary>
         /// Gets the value.
         /// </summary>
-        public TData Value
-        {
-            get { return _valueGetFunction(); }
-        }
+        public TData Value =>
+            _valueGetFunction.Invoke();
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
