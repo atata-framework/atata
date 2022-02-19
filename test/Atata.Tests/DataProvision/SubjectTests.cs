@@ -38,7 +38,7 @@ namespace Atata.Tests.DataProvision
         {
             var subject = new Subject<int>(42);
 
-            ((IDataProvider<int, Subject<int>>)subject).Owner.Should().Be(subject);
+            ((IObjectProvider<int, Subject<int>>)subject).Owner.Should().Be(subject);
         }
 
         [TestFixture]

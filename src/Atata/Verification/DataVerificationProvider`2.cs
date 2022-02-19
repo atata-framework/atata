@@ -6,14 +6,14 @@ namespace Atata
         VerificationProvider<DataVerificationProvider<TData, TOwner>, TOwner>,
         IDataVerificationProvider<TData, TOwner>
     {
-        public DataVerificationProvider(IDataProvider<TData, TOwner> dataProvider)
+        public DataVerificationProvider(IObjectProvider<TData, TOwner> dataProvider)
         {
             DataProvider = dataProvider;
         }
 
-        protected IDataProvider<TData, TOwner> DataProvider { get; }
+        protected IObjectProvider<TData, TOwner> DataProvider { get; }
 
-        IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
+        IObjectProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
 
         protected override TOwner Owner
         {
@@ -22,16 +22,10 @@ namespace Atata
 
         public NegationDataVerificationProvider Not => new NegationDataVerificationProvider(DataProvider, this);
 
-        protected override RetryOptions GetRetryOptions()
-        {
-            return (DataProvider as IObjectProvider<TData, TOwner>)?.IsValueDynamic ?? true
+        protected override RetryOptions GetRetryOptions() =>
+            DataProvider.IsValueDynamic
                 ? base.GetRetryOptions()
-                : new RetryOptions
-                {
-                    Timeout = TimeSpan.Zero,
-                    Interval = TimeSpan.Zero
-                };
-        }
+                : new RetryOptions { Timeout = TimeSpan.Zero, Interval = TimeSpan.Zero };
 
         public Subject<TException> Throw<TException>()
             where TException : Exception
@@ -90,28 +84,22 @@ namespace Atata
             NegationVerificationProvider<NegationDataVerificationProvider, TOwner>,
             IDataVerificationProvider<TData, TOwner>
         {
-            internal NegationDataVerificationProvider(IDataProvider<TData, TOwner> dataProvider, IVerificationProvider<TOwner> verificationProvider)
+            internal NegationDataVerificationProvider(IObjectProvider<TData, TOwner> dataProvider, IVerificationProvider<TOwner> verificationProvider)
                 : base(verificationProvider)
             {
                 DataProvider = dataProvider;
             }
 
-            protected IDataProvider<TData, TOwner> DataProvider { get; }
+            protected IObjectProvider<TData, TOwner> DataProvider { get; }
 
-            IDataProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
+            IObjectProvider<TData, TOwner> IDataVerificationProvider<TData, TOwner>.DataProvider => DataProvider;
 
             protected override TOwner Owner => DataProvider.Owner;
 
-            protected override RetryOptions GetRetryOptions()
-            {
-                return (DataProvider as IObjectProvider<TData, TOwner>)?.IsValueDynamic ?? true
+            protected override RetryOptions GetRetryOptions() =>
+                DataProvider.IsValueDynamic
                     ? base.GetRetryOptions()
-                    : new RetryOptions
-                    {
-                        Timeout = TimeSpan.Zero,
-                        Interval = TimeSpan.Zero
-                    };
-            }
+                    : new RetryOptions { Timeout = TimeSpan.Zero, Interval = TimeSpan.Zero };
 
             public TOwner Throw()
             {

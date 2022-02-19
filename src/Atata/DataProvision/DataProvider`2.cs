@@ -36,7 +36,7 @@ namespace Atata
         /// </summary>
         protected string ProviderName { get; }
 
-        TOwner IDataProvider<TData, TOwner>.Owner => Component.Owner;
+        TOwner IObjectProvider<TData, TOwner>.Owner => Component.Owner;
 
         string IObjectProvider<TData>.ProviderName => ProviderName;
 
@@ -45,6 +45,8 @@ namespace Atata
         /// </summary>
         public TData Value =>
             _valueGetFunction.Invoke();
+
+        bool IObjectProvider<TData, TOwner>.IsValueDynamic => true;
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

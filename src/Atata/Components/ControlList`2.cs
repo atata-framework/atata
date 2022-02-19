@@ -75,7 +75,7 @@ return textValues;";
 
         string IObjectProvider<IEnumerable<TItem>>.ProviderName => ProviderName;
 
-        TOwner IDataProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
+        TOwner IObjectProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
         IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Value => GetAll();
 

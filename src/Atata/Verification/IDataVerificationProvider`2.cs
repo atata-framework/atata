@@ -3,8 +3,8 @@
     public interface IDataVerificationProvider<out TData, TOwner> : IVerificationProvider<TOwner>
     {
         /// <summary>
-        /// Gets the data provider that is verified.
+        /// Gets the object provider that is verified.
         /// </summary>
-        IDataProvider<TData, TOwner> DataProvider { get; }
+        IObjectProvider<TData, TOwner> DataProvider { get; }
     }
 }

@@ -65,7 +65,7 @@ namespace Atata
             }
         }
 
-        private static string ConvertValueToString<TData, TOwner>(IDataProvider<TData, TOwner> provider, TData value) =>
+        private static string ConvertValueToString<TData, TOwner>(IObjectProvider<TData, TOwner> provider, TData value) =>
             provider is IConvertsValueToString<TData> providerAsConverter
                 ? providerAsConverter.ConvertValueToString(value)
                 : TermResolver.ToString(value);

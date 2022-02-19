@@ -62,7 +62,7 @@ namespace Atata
         /// </summary>
         protected abstract TOwner Owner { get; }
 
-        TOwner IDataProvider<TObject, TOwner>.Owner => Owner;
+        TOwner IObjectProvider<TObject, TOwner>.Owner => Owner;
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

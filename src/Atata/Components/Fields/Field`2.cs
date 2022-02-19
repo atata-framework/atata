@@ -40,7 +40,7 @@ namespace Atata
         string IObjectProvider<T>.ProviderName =>
             $"{BuildComponentProviderName()} {ValueProviderName}";
 
-        TOwner IDataProvider<T, TOwner>.Owner => Owner;
+        TOwner IObjectProvider<T, TOwner>.Owner => Owner;
 
         bool IObjectProvider<T, TOwner>.IsValueDynamic => true;
 
