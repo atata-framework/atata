@@ -17,7 +17,7 @@ namespace Atata
     public class ControlList<TItem, TOwner> :
         UIComponentPart<TOwner>,
         ISupportsMetadata,
-        IObjectProvider<IEnumerable<TItem>, TOwner>,
+        IEnumerableProvider<TItem, TOwner>,
         IEnumerable<TItem>,
         IClearsCache
         where TItem : Control<TOwner>
