@@ -145,7 +145,7 @@ namespace Atata
             {
                 string verificationConstraintMessage = BuildConstraintMessage(should, expectedMessage, arguments);
 
-                LogSection logSection = new ValueVerificationLogSection(
+                LogSection logSection = new VerificationLogSection(
                     should.Strategy.VerificationKind,
                     should.DataProvider.ProviderName,
                     verificationConstraintMessage);

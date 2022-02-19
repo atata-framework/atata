@@ -3,36 +3,22 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the log section of component or component value verification.
+    /// Represents the log section of verification.
     /// </summary>
-    public class VerificationLogSection : UIComponentLogSection
+    public class VerificationLogSection : LogSection
     {
-        public VerificationLogSection(UIComponent component, string verificationConstraint)
-            : this(null, component, null, verificationConstraint)
+        public VerificationLogSection(
+            string verificationKind,
+            string providerName,
+            string verificationConstraint)
         {
-        }
+            var builder = new StringBuilder(verificationKind ?? "Verify")
+                .Append($": {providerName ?? "value"}");
 
-        public VerificationLogSection(UIComponent component, string dataProviderName, string verificationConstraint)
-            : this(null, component, dataProviderName, verificationConstraint)
-        {
-        }
+            if (!string.IsNullOrWhiteSpace(verificationConstraint))
+                builder.Append($" {verificationConstraint}");
 
-        public VerificationLogSection(string verificationKind, UIComponent component, string verificationConstraint)
-            : this(verificationKind, component, null, verificationConstraint)
-        {
-        }
-
-        public VerificationLogSection(string verificationKind, UIComponent component, string dataProviderName, string verificationConstraint)
-            : base(component)
-        {
-            Message = new StringBuilder(verificationKind ?? "Verify").
-                Append(':').
-                AppendIf(!component.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>)), $" {component.ComponentFullName}").
-                AppendIf(!string.IsNullOrWhiteSpace(dataProviderName), $" {dataProviderName}").
-                AppendIf(!string.IsNullOrWhiteSpace(verificationConstraint), $" {verificationConstraint}").
-                ToString();
-
-            Level = LogLevel.Info;
+            Message = builder.ToString();
         }
     }
 }
