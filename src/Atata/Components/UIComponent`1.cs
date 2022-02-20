@@ -327,7 +327,7 @@ return (
 
             return new ValueProvider<TValue, TOwner>(
                 Owner,
-                new DynamicObjectSource<TValue>(valueGetFunction),
+                DynamicObjectSource.Create(valueGetFunction),
                 fullProviderName);
         }
 

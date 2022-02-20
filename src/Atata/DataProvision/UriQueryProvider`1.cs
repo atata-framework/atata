@@ -8,7 +8,7 @@ namespace Atata
     /// Represents the provider of URI query.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
-    public class UriQueryProvider<TOwner> : DataProvider<string, TOwner>
+    public class UriQueryProvider<TOwner> : ValueProvider<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
@@ -18,10 +18,10 @@ namespace Atata
         /// <param name="valueGetFunction">The function that gets the value.</param>
         /// <param name="providerName">Name of the provider.</param>
         public UriQueryProvider(UIComponent<TOwner> component, Func<string> valueGetFunction, string providerName)
-            : base(component, valueGetFunction, providerName)
+            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName)
         {
             Parameters = new UriQueryParametersProvider<TOwner>(
-                Component,
+                component,
                 GetQueryParameters,
                 "URI query parameters");
         }
