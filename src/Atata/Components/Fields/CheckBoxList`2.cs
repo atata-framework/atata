@@ -13,7 +13,7 @@ namespace Atata
     /// Use <see cref="FindItemByValueAttribute"/> to find items by value.
     /// Currently as a data type supports only enum (with <c>[Flags]</c>) types.
     /// </summary>
-    /// <typeparam name="T">
+    /// <typeparam name="TValue">
     /// The type of the control's data.
     /// Supports only enum (with <c>[Flags]</c>) types.
     /// </typeparam>
@@ -21,17 +21,17 @@ namespace Atata
     [ControlDefinition("input[@type='checkbox']", ComponentTypeName = "checkbox list", IgnoreNameEndings = "CheckBoxes,CheckBoxList,CheckBoxGroup,Options,OptionGroup")]
     [FindByName]
     [FindItemByLabel]
-    public class CheckBoxList<T, TOwner> : OptionList<T, TOwner>
+    public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CheckBoxList{T, TOwner}"/> class.
         /// </summary>
-        /// <exception cref="InvalidOperationException">generic <typeparamref name="T"/> parameter is not an Enum type.</exception>
+        /// <exception cref="InvalidOperationException">generic <typeparamref name="TValue"/> parameter is not an Enum type.</exception>
         public CheckBoxList()
         {
-            if (!typeof(T).IsEnum)
-                throw new InvalidOperationException($"Incorrect generic parameter '{typeof(T).FullName}' type. {nameof(CheckBoxList<T, TOwner>)} control supports only Enum types.");
+            if (!typeof(TValue).IsEnum)
+                throw new InvalidOperationException($"Incorrect generic parameter '{typeof(TValue).FullName}' type. {nameof(CheckBoxList<TValue, TOwner>)} control supports only Enum types.");
         }
 
         protected delegate bool ClickItemPredicate(bool isInValue, bool isSelected);
@@ -39,24 +39,24 @@ namespace Atata
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public new FieldVerificationProvider<T, CheckBoxList<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, CheckBoxList<T, TOwner>, TOwner>(this);
+        public new FieldVerificationProvider<TValue, CheckBoxList<TValue, TOwner>, TOwner> Should => new FieldVerificationProvider<TValue, CheckBoxList<TValue, TOwner>, TOwner>(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public new FieldVerificationProvider<T, CheckBoxList<T, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        public new FieldVerificationProvider<TValue, CheckBoxList<TValue, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public new FieldVerificationProvider<T, CheckBoxList<T, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        public new FieldVerificationProvider<TValue, CheckBoxList<TValue, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
-        protected override T GetValue()
+        protected override TValue GetValue()
         {
-            T[] selectedValues = GetItemElements().
+            TValue[] selectedValues = GetItemElements().
                 Where(x => x.Selected).
-                Select(x => ItemElementFindStrategy.GetParameter<T>(x, GetValueTermOptions())).
+                Select(x => ItemElementFindStrategy.GetParameter<TValue>(x, GetValueTermOptions())).
                 ToArray();
 
             return selectedValues.Any()
@@ -64,9 +64,9 @@ namespace Atata
                 : default;
         }
 
-        private static T JoinValues(T[] values)
+        private static TValue JoinValues(TValue[] values)
         {
-            return (T)(object)JoinEnumValues(values.Cast<Enum>());
+            return (TValue)(object)JoinEnumValues(values.Cast<Enum>());
         }
 
         private static Enum JoinEnumValues(IEnumerable<Enum> values)
@@ -74,19 +74,19 @@ namespace Atata
             return values.Aggregate(EnumExtensions.AddFlag);
         }
 
-        protected override void SetValue(T value)
+        protected override void SetValue(TValue value)
         {
             ClickItems(value, (isInValue, isSelected) => isInValue != isSelected);
         }
 
-        protected void ClickItems(T value, ClickItemPredicate predicate)
+        protected void ClickItems(TValue value, ClickItemPredicate predicate)
         {
-            List<T> individualValues = GetIndividualValues(value).ToList();
+            List<TValue> individualValues = GetIndividualValues(value).ToList();
 
             IWebElement[] elements = GetItemElements();
             foreach (IWebElement element in elements)
             {
-                T elementValue = GetElementValue(element);
+                TValue elementValue = GetElementValue(element);
                 bool isInValue = individualValues.Contains(elementValue);
 
                 if (isInValue)
@@ -112,7 +112,7 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>
-        public TOwner Check(T value)
+        public TOwner Check(TValue value)
         {
             if (!Equals(value, null))
             {
@@ -134,7 +134,7 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value of the checkbox.</param>
         /// <returns>The owner page object.</returns>
-        public TOwner Uncheck(T value)
+        public TOwner Uncheck(TValue value)
         {
             if (!Equals(value, null))
             {
@@ -150,18 +150,18 @@ namespace Atata
             return Owner;
         }
 
-        protected internal IEnumerable<T> GetIndividualValues(T value)
+        protected internal IEnumerable<TValue> GetIndividualValues(TValue value)
         {
-            return ((Enum)(object)value).GetIndividualFlags().Cast<T>();
+            return ((Enum)(object)value).GetIndividualFlags().Cast<TValue>();
         }
 
-        protected internal override string ConvertValueToString(T value)
+        protected internal override string ConvertValueToString(TValue value)
         {
             var individualValues = GetIndividualValues(value);
             return ConvertIndividualValuesToString(individualValues, false);
         }
 
-        protected internal string ConvertIndividualValuesToString(IEnumerable<T> values, bool wrapWithDoubleQuotes)
+        protected internal string ConvertIndividualValuesToString(IEnumerable<TValue> values, bool wrapWithDoubleQuotes)
         {
             string[] stringValues = values?.Select(x => TermResolver.ToString(x, GetValueTermOptions())).ToArray();
 
