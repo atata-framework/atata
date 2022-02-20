@@ -23,6 +23,6 @@ var emit=function(event,target){
 emit('dragstart',src);emit('dragenter',tgt);emit('dragover',tgt);emit('drop',tgt);emit('dragend',src);";
 
         public override void Execute<TOwner>(IControl<TOwner> component, IControl<TOwner> target) =>
-            component.Script.ExecuteAgainst(Script, target.Scope);
+            component.Script.ExecuteAgainst(Script, target);
     }
 }

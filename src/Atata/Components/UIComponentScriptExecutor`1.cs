@@ -21,6 +21,9 @@ namespace Atata
             ComponentPartName = "scripts";
         }
 
+        private static object[] UnwrapScriptArguments(object[] arguments) =>
+            arguments?.Select(arg => arg is UIComponent component ? component.Scope : arg).ToArray();
+
         /// <summary>
         /// Executes the specified script.
         /// </summary>
@@ -58,7 +61,7 @@ namespace Atata
         /// <returns>An instance of the owner page object.</returns>
         public TOwner ExecuteAgainst(string script, params object[] arguments)
         {
-            object[] combinedArguments = new object[] { Component.Scope }.Concat(arguments).ToArray();
+            object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
 
             return Execute(script, combinedArguments);
         }
@@ -74,7 +77,7 @@ namespace Atata
         /// <returns>An instance of the owner page object.</returns>
         public DataProvider<TResult, TOwner> ExecuteAgainst<TResult>(string script, params object[] arguments)
         {
-            object[] combinedArguments = new object[] { Component.Scope }.Concat(arguments).ToArray();
+            object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
 
             return Execute<TResult>(script, combinedArguments);
         }
@@ -116,7 +119,7 @@ namespace Atata
         /// <returns>An instance of the owner page object.</returns>
         public TOwner ExecuteAsyncAgainst(string script, params object[] arguments)
         {
-            object[] combinedArguments = new object[] { Component.Scope }.Concat(arguments).ToArray();
+            object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
 
             return ExecuteAsync(script, combinedArguments);
         }
@@ -132,19 +135,21 @@ namespace Atata
         /// <returns>An instance of the owner page object.</returns>
         public DataProvider<TResult, TOwner> ExecuteAsyncAgainst<TResult>(string script, params object[] arguments)
         {
-            object[] combinedArguments = new object[] { Component.Scope }.Concat(arguments).ToArray();
+            object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
 
             return ExecuteAsync<TResult>(script, combinedArguments);
         }
 
         private object ExecuteScript(string script, object[] arguments)
         {
-            return Component.Owner.Driver.AsScriptExecutor().ExecuteScriptWithLogging(script, arguments);
+            object[] unwrappedArguments = UnwrapScriptArguments(arguments);
+            return Component.Owner.Driver.AsScriptExecutor().ExecuteScriptWithLogging(script, unwrappedArguments);
         }
 
         private object ExecuteAsyncScript(string script, object[] arguments)
         {
-            return Component.Owner.Driver.AsScriptExecutor().ExecuteAsyncScriptWithLogging(script, arguments);
+            object[] unwrappedArguments = UnwrapScriptArguments(arguments);
+            return Component.Owner.Driver.AsScriptExecutor().ExecuteAsyncScriptWithLogging(script, unwrappedArguments);
         }
 
         /// <summary>
