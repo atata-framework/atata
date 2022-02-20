@@ -2,7 +2,7 @@
 
 namespace Atata
 {
-    public abstract class OptionList<T, TOwner> : EditableField<T, TOwner>
+    public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected OptionList()
@@ -40,9 +40,9 @@ namespace Atata
             return elements;
         }
 
-        protected T GetElementValue(IWebElement element)
+        protected TValue GetElementValue(IWebElement element)
         {
-            return ItemElementFindStrategy.GetParameter<T>(element, GetValueTermOptions());
+            return ItemElementFindStrategy.GetParameter<TValue>(element, GetValueTermOptions());
         }
 
         protected bool IsChecked(object parameter)
