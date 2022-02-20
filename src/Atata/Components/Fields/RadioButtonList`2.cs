@@ -11,18 +11,18 @@ namespace Atata
     /// Use <see cref="FindItemByValueAttribute"/> to find items by value.
     /// As a data type supports enum, string, numeric and other types.
     /// </summary>
-    /// <typeparam name="T">
-    /// The type of the control's data.
+    /// <typeparam name="TValue">
+    /// The type of the control's value.
     /// Supports enum, string, numeric and other types.
     /// </typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("input[@type='radio']", IgnoreNameEndings = "RadioButtons,RadioButtonList,Radios,RadioGroup,Buttons,ButtonList,Options,OptionGroup", ComponentTypeName = "radio button list")]
     [FindByName]
     [FindItemByLabel]
-    public class RadioButtonList<T, TOwner> : OptionList<T, TOwner>
+    public class RadioButtonList<TValue, TOwner> : OptionList<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected override T GetValue()
+        protected override TValue GetValue()
         {
             IWebElement selectedItem = GetItemElements().FirstOrDefault(x => x.Selected);
 
@@ -31,9 +31,9 @@ namespace Atata
                 : default;
         }
 
-        protected override void SetValue(T value)
+        protected override void SetValue(TValue value)
         {
-            value.CheckNotNull(nameof(value), $"Cannot set \"null\" value to {nameof(RadioButtonList<T, TOwner>)} control.");
+            value.CheckNotNull(nameof(value), $"Cannot set \"null\" value to {nameof(RadioButtonList<TValue, TOwner>)} control.");
 
             IWebElement element = GetItemElement(value);
             if (!element.Selected)
