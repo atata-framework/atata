@@ -11,20 +11,20 @@
     /// that is <see cref="GetsValueFromValueAttribute"/> by default.
     /// </para>
     /// </summary>
-    /// <typeparam name="T">The type of the control's data.</typeparam>
+    /// <typeparam name="TValue">The type of the control's value.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [GetsValueFromValue]
     [SetsValueUsingClearAndTypeBehaviors]
     [ClearsValueUsingClearMethod]
     [TypesTextUsingSendKeys]
-    public class EditableTextField<T, TOwner> : EditableField<T, TOwner>, IClearable
+    public class EditableTextField<TValue, TOwner> : EditableField<TValue, TOwner>, IClearable
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
         /// Gets the value by executing <see cref="ValueGetBehaviorAttribute"/>.
         /// </summary>
         /// <returns>The value.</returns>
-        protected override T GetValue()
+        protected override TValue GetValue()
         {
             string valueAsString = ExecuteBehavior<ValueGetBehaviorAttribute, string>(x => x.Execute(this));
 
@@ -35,7 +35,7 @@
         /// Sets the value by executing <see cref="ValueSetBehaviorAttribute"/> behavior.
         /// </summary>
         /// <param name="value">The value.</param>
-        protected override void SetValue(T value)
+        protected override void SetValue(TValue value)
         {
             string valueAsString = ConvertValueToStringUsingSetFormat(value);
 
