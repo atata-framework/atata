@@ -4,11 +4,11 @@
     /// Represents the option control (<c>&lt;option&gt;</c>).
     /// Default search finds the first occurring <c>&lt;option&gt;</c> element.
     /// </summary>
-    /// <typeparam name="T">The type of the data.</typeparam>
+    /// <typeparam name="TValue">The type of the data value.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("option", IgnoreNameEndings = "Option", ComponentTypeName = "option")]
     [FindFirst]
-    public class Option<T, TOwner> : Field<T, TOwner>
+    public class Option<TValue, TOwner> : Field<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
@@ -23,7 +23,7 @@
         /// </summary>
         protected SelectOptionBehaviorAttribute SelectOptionBehavior =>
             Metadata.Get<SelectOptionBehaviorAttribute>()
-                ?? (Parent as Select<T, TOwner>)?.SelectOptionBehavior
+                ?? (Parent as Select<TValue, TOwner>)?.SelectOptionBehavior
                 ?? new SelectsOptionByTextAttribute();
 
         protected virtual bool GetIsSelected()
@@ -31,7 +31,7 @@
             return Scope.Selected;
         }
 
-        protected override T GetValue()
+        protected override TValue GetValue()
         {
             string valueAsString = SelectOptionBehavior.GetOptionRawValue(Scope);
             return ConvertStringToValue(valueAsString);
