@@ -6,9 +6,9 @@ namespace Atata
     /// Represents the base class for editable field controls.
     /// It can be used for controls like <c>&lt;input&gt;</c>, <c>&lt;select&gt;</c> and other editable controls.
     /// </summary>
-    /// <typeparam name="T">The type of the control's data.</typeparam>
+    /// <typeparam name="TValue">The type of the control's value.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public abstract class EditableField<T, TOwner> : Field<T, TOwner>
+    public abstract class EditableField<TValue, TOwner> : Field<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
         protected EditableField()
@@ -26,18 +26,18 @@ namespace Atata
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner>(this);
+        public new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner> Should => new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner>(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        public new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public new FieldVerificationProvider<T, EditableField<T, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        public new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
         protected virtual bool GetIsReadOnly()
         {
@@ -45,14 +45,14 @@ namespace Atata
         }
 
         /// <summary>
-        /// Converts the value to string for <see cref="SetValue(T)"/> method.
+        /// Converts the value to string for <see cref="SetValue(TValue)"/> method.
         /// Can use format from <see cref="ValueSetFormatAttribute"/>,
         /// otherwise from <see cref="FormatAttribute"/>.
         /// Can use culture from <see cref="CultureAttribute"/>.
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value converted to string.</returns>
-        protected virtual string ConvertValueToStringUsingSetFormat(T value)
+        protected virtual string ConvertValueToStringUsingSetFormat(TValue value)
         {
             string setFormat = Metadata.Get<ValueSetFormatAttribute>()?.Value;
 
@@ -65,7 +65,7 @@ namespace Atata
         /// Sets the value.
         /// </summary>
         /// <param name="value">The value.</param>
-        protected abstract void SetValue(T value);
+        protected abstract void SetValue(TValue value);
 
         /// <summary>
         /// Sets the value.
@@ -73,7 +73,7 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value to set.</param>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner Set(T value)
+        public TOwner Set(TValue value)
         {
             ExecuteTriggers(TriggerEvents.BeforeSet);
 
@@ -95,7 +95,7 @@ namespace Atata
         /// <returns>The instance of the owner page object.</returns>
         public TOwner SetRandom()
         {
-            T value = GenerateRandomValue();
+            TValue value = GenerateRandomValue();
             return Set(value);
         }
 
@@ -107,7 +107,7 @@ namespace Atata
         /// </summary>
         /// <param name="value">The generated value.</param>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner SetRandom(out T value)
+        public TOwner SetRandom(out TValue value)
         {
             value = GenerateRandomValue();
             return Set(value);
@@ -121,9 +121,9 @@ namespace Atata
         /// </summary>
         /// <param name="callback">The callback to be invoked after the value is set.</param>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner SetRandom(Action<T> callback)
+        public TOwner SetRandom(Action<TValue> callback)
         {
-            T value = GenerateRandomValue();
+            TValue value = GenerateRandomValue();
             Set(value);
             callback?.Invoke(value);
             return Owner;
@@ -133,9 +133,9 @@ namespace Atata
         /// Generates the random value.
         /// </summary>
         /// <returns>The generated value.</returns>
-        protected virtual T GenerateRandomValue()
+        protected virtual TValue GenerateRandomValue()
         {
-            return ValueRandomizer.GetRandom<T>(Metadata);
+            return ValueRandomizer.GetRandom<TValue>(Metadata);
         }
     }
 }
