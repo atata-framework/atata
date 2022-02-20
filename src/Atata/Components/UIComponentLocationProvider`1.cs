@@ -7,25 +7,28 @@ namespace Atata
     /// Allows to access the component scope element's location (X and Y).
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public class UIComponentLocationProvider<TOwner> : DataProvider<Point, TOwner>
+    public class UIComponentLocationProvider<TOwner> : ValueProvider<Point, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction)
-            : base(component, valueGetFunction, "location")
+        private readonly UIComponent<TOwner> _component;
+
+        public UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction, string providerName)
+            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName)
         {
+            _component = component;
         }
 
         /// <summary>
-        /// Gets the X location coordinate.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the X location coordinate of the component.
         /// </summary>
-        public DataProvider<int, TOwner> X =>
-            Component.GetOrCreateDataProvider("X location", GetX);
+        public ValueProvider<int, TOwner> X =>
+            _component.CreateValueProvider("X location", GetX);
 
         /// <summary>
-        /// Gets the Y location coordinate.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the Y location coordinate of the component.
         /// </summary>
-        public DataProvider<int, TOwner> Y =>
-            Component.GetOrCreateDataProvider("Y location", GetY);
+        public ValueProvider<int, TOwner> Y =>
+            _component.CreateValueProvider("Y location", GetY);
 
         private int GetX() =>
             Value.X;

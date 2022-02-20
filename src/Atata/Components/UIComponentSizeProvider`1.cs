@@ -7,25 +7,28 @@ namespace Atata
     /// Allows to access the component scope element's size (width and height).
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public class UIComponentSizeProvider<TOwner> : DataProvider<Size, TOwner>
+    public class UIComponentSizeProvider<TOwner> : ValueProvider<Size, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        public UIComponentSizeProvider(UIComponent<TOwner> component, Func<Size> valueGetFunction)
-            : base(component, valueGetFunction, "size")
+        private readonly UIComponent<TOwner> _component;
+
+        public UIComponentSizeProvider(UIComponent<TOwner> component, Func<Size> valueGetFunction, string providerName)
+            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName)
         {
+            _component = component;
         }
 
         /// <summary>
-        /// Gets the width of the component.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the width of the component.
         /// </summary>
-        public DataProvider<int, TOwner> Width =>
-            Component.GetOrCreateDataProvider("width", GetWidth);
+        public ValueProvider<int, TOwner> Width =>
+            _component.CreateValueProvider("width", GetWidth);
 
         /// <summary>
-        /// Gets the height of the component.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the height of the component.
         /// </summary>
-        public DataProvider<int, TOwner> Height =>
-            Component.GetOrCreateDataProvider("height", GetHeight);
+        public ValueProvider<int, TOwner> Height =>
+            _component.CreateValueProvider("height", GetHeight);
 
         private int GetWidth() =>
             Value.Width;

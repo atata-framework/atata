@@ -34,8 +34,6 @@ return (
             Attributes = new UIComponentAttributeProvider<TOwner> { Component = this, ComponentPartName = "attributes" };
             Css = new UIComponentCssProvider<TOwner> { Component = this, ComponentPartName = "CSS" };
             Script = new UIComponentScriptExecutor<TOwner>(this);
-            ComponentLocation = new UIComponentLocationProvider<TOwner>(this, GetLocation);
-            ComponentSize = new UIComponentSizeProvider<TOwner>(this, GetSize);
         }
 
         /// <summary>
@@ -109,12 +107,14 @@ return (
         /// <summary>
         /// Gets the <see cref="UIComponentLocationProvider{TOwner}"/> instance that provides an access to the scope element's location (X and Y).
         /// </summary>
-        public UIComponentLocationProvider<TOwner> ComponentLocation { get; }
+        public UIComponentLocationProvider<TOwner> ComponentLocation =>
+            new UIComponentLocationProvider<TOwner>(this, GetLocation, BuildFullValueProviderName("location"));
 
         /// <summary>
         /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
         /// </summary>
-        public UIComponentSizeProvider<TOwner> ComponentSize { get; }
+        public UIComponentSizeProvider<TOwner> ComponentSize =>
+            new UIComponentSizeProvider<TOwner>(this, GetSize, BuildFullValueProviderName("size"));
 
         /// <summary>
         /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's attributes.
@@ -320,15 +320,21 @@ return (
         /// <inheritdoc cref="IUIComponent{TOwner}.CreateValueProvider{TValue}(string, Func{TValue})"/>
         protected internal ValueProvider<TValue, TOwner> CreateValueProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
-            string componentProviderName = BuildComponentProviderName();
-            string fullProviderName = string.IsNullOrEmpty(componentProviderName)
-                ? providerName
-                : $"{componentProviderName} {providerName}";
+            string fullProviderName = BuildFullValueProviderName(providerName);
 
             return new ValueProvider<TValue, TOwner>(
                 Owner,
                 DynamicObjectSource.Create(valueGetFunction),
                 fullProviderName);
+        }
+
+        protected string BuildFullValueProviderName(string providerName)
+        {
+            string componentProviderName = BuildComponentProviderName();
+            string fullProviderName = string.IsNullOrEmpty(componentProviderName)
+                ? providerName
+                : $"{componentProviderName} {providerName}";
+            return fullProviderName;
         }
 
         protected virtual string BuildComponentProviderName() =>
