@@ -4,7 +4,7 @@
     /// Specifies the count of items to randomize.
     /// </summary>
     /// <remarks>
-    /// It can be useful for <see cref="CheckBoxList{T, TOwner}"/> to set the number of checkboxes to check.
+    /// It can be useful for <see cref="CheckBoxList{TValue, TOwner}"/> to set the number of checkboxes to check.
     /// </remarks>
     public class RandomizeCountAttribute : MulticastAttribute
     {

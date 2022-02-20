@@ -25,7 +25,7 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckBoxList{T, TOwner}"/> class.
+        /// Initializes a new instance of the <see cref="CheckBoxList{TValue, TOwner}"/> class.
         /// </summary>
         /// <exception cref="InvalidOperationException">generic <typeparamref name="TValue"/> parameter is not an Enum type.</exception>
         public CheckBoxList()

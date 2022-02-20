@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the base behavior class for option selection of <see cref="Select{T, TOwner}"/> control.
+    /// Represents the base behavior class for option selection of <see cref="Select{TValue, TOwner}"/> control.
     /// </summary>
     public abstract class SelectOptionBehaviorAttribute : TermSettingsAttribute
     {

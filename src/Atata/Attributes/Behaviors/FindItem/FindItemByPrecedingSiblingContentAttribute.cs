@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the behavior to find an item of <see cref="OptionList{T, TOwner}"/> control by preceding sibling element content.
+    /// Represents the behavior to find an item of <see cref="OptionList{TValue, TOwner}"/> control by preceding sibling element content.
     /// </summary>
     public class FindItemByPrecedingSiblingContentAttribute : FindItemByRelativeElementContentAttribute
     {

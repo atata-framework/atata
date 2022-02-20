@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the behavior to find an item of <see cref="OptionList{T, TOwner}"/> control by relative element content using its XPath.
+    /// Represents the behavior to find an item of <see cref="OptionList{TValue, TOwner}"/> control by relative element content using its XPath.
     /// </summary>
     public class FindItemByRelativeElementContentAttribute : TermFindItemAttribute
     {
