@@ -14,12 +14,11 @@
 
         protected internal TComponent Component { get; }
 
-        TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component => Component;
+        TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component =>
+            Component;
 
-        protected override TOwner Owner
-        {
-            get { return Component.Owner; }
-        }
+        protected override TOwner Owner =>
+            Component.Owner;
 
         public abstract class NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider> :
             NegationVerificationProvider<TNegationUIComponentVerificationProvider, TOwner>,
@@ -34,12 +33,11 @@
 
             protected internal TComponent Component { get; }
 
-            TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component => Component;
+            TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component =>
+                Component;
 
-            protected override TOwner Owner
-            {
-                get { return Component.Owner; }
-            }
+            protected override TOwner Owner =>
+                Component.Owner;
         }
     }
 }

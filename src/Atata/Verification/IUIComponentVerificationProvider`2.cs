@@ -1,6 +1,6 @@
 ﻿namespace Atata
 {
-    public interface IUIComponentVerificationProvider<TComponent, TOwner> : IVerificationProvider<TOwner>
+    public interface IUIComponentVerificationProvider<out TComponent, out TOwner> : IVerificationProvider<TOwner>
         where TComponent : IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {

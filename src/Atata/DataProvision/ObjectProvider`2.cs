@@ -67,20 +67,20 @@ namespace Atata
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public DataVerificationProvider<TObject, TOwner> Should =>
+        public ObjectVerificationProvider<TObject, TOwner> Should =>
             CreateVerificationProvider();
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public DataVerificationProvider<TObject, TOwner> ExpectTo =>
+        public ObjectVerificationProvider<TObject, TOwner> ExpectTo =>
             CreateVerificationProvider().Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public DataVerificationProvider<TObject, TOwner> WaitTo =>
+        public ObjectVerificationProvider<TObject, TOwner> WaitTo =>
             CreateVerificationProvider().Using<WaitingVerificationStrategy>();
 
         /// <inheritdoc/>
@@ -100,8 +100,8 @@ namespace Atata
                 ? $"{sourceProviderName}{providerName}"
                 : $"{sourceProviderName}.{providerName}";
 
-        private DataVerificationProvider<TObject, TOwner> CreateVerificationProvider() =>
-            new DataVerificationProvider<TObject, TOwner>(this);
+        private ObjectVerificationProvider<TObject, TOwner> CreateVerificationProvider() =>
+            new ObjectVerificationProvider<TObject, TOwner>(this);
 
         /// <summary>
         /// Resolves the current <see cref="AtataContext"/> instance.

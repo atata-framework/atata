@@ -52,7 +52,7 @@ namespace Atata.Tests.DataProvision
                 GetTestCases(s_testSuiteData.FailFunctions, testName);
 
             private static IEnumerable<TestCaseData> GetTestCases(
-                List<Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> functions,
+                List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> functions,
                 string testName)
             {
                 RuntimeHelpers.RunClassConstructor(typeof(TFixture).TypeHandle);
@@ -69,28 +69,28 @@ namespace Atata.Tests.DataProvision
             }
 
             [TestCaseSource(nameof(GetPassFunctionsTestCases), new object[] { nameof(Passes) })]
-            public void Passes(Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
+            public void Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
             {
                 Assert.DoesNotThrow(() =>
                     function(_sut.Should));
             }
 
             [TestCaseSource(nameof(GetFailFunctionsTestCases), new object[] { nameof(Fails) })]
-            public void Fails(Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
+            public void Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
             {
                 Assert.Throws<AssertionException>(() =>
                     function(_sut.Should));
             }
 
             [TestCaseSource(nameof(GetFailFunctionsTestCases), new object[] { nameof(Not_Passes) })]
-            public void Not_Passes(Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
+            public void Not_Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
             {
                 Assert.DoesNotThrow(() =>
                     function(_sut.Should.Not));
             }
 
             [TestCaseSource(nameof(GetPassFunctionsTestCases), new object[] { nameof(Not_Fails) })]
-            public void Not_Fails(Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
+            public void Not_Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
             {
                 Assert.Throws<AssertionException>(() =>
                     function(_sut.Should.Not));
@@ -100,11 +100,11 @@ namespace Atata.Tests.DataProvision
             {
                 public TObject TestObject { get; set; }
 
-                public List<Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> PassFunctions { get; } =
-                    new List<Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+                public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> PassFunctions { get; } =
+                    new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
 
-                public List<Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> FailFunctions { get; } =
-                    new List<Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+                public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> FailFunctions { get; } =
+                    new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
             }
 
             public class TestSuiteBuilder
@@ -116,13 +116,13 @@ namespace Atata.Tests.DataProvision
                     _context = context;
                 }
 
-                public TestSuiteBuilder Pass(Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> passFunction)
+                public TestSuiteBuilder Pass(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> passFunction)
                 {
                     _context.PassFunctions.Add(passFunction);
                     return this;
                 }
 
-                public TestSuiteBuilder Fail(Func<IDataVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> failFunction)
+                public TestSuiteBuilder Fail(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> failFunction)
                 {
                     _context.FailFunctions.Add(failFunction);
                     return this;

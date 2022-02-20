@@ -22,7 +22,6 @@
 [assembly: SuppressMessage("Security", "CA2119:Seal methods that satisfy private interfaces", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.PageObject`1.SwitchToRoot``1(``0)~``0")]
 [assembly: SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.PopupWindow`1.WindowTitleValues")]
 [assembly: SuppressMessage("Performance", "CA1819:Properties should not return arrays", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.ComponentScopeFindOptions.Terms")]
-[assembly: SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IDataVerificationProviderExtensions.Contain``1(Atata.IDataVerificationProvider{System.String,``0},System.String)~``0")]
 [assembly: SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TermResolver.RetrieveValueFromString(System.String,System.String)~System.String")]
 [assembly: SuppressMessage("Naming", "CA1717:Only FlagsAttribute enums should have plural names", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.FindAs")]
 [assembly: SuppressMessage("Design", "CA1008:Enums should have zero value", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.AtataContextModeOfCurrent")]
@@ -50,7 +49,6 @@
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectProviderEnumerableExtensions.Single``2(Atata.IObjectProvider{System.Collections.Generic.IEnumerable{``0},``1})~Atata.ValueProvider{``0,``1}")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectProviderEnumerableExtensions.Single``2(Atata.IObjectProvider{System.Collections.Generic.IEnumerable{``0},``1},System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})~Atata.ValueProvider{``0,``1}")]
 [assembly: SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DisposableSubject`1.Dispose")]
-[assembly: SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IDataVerificationProviderExtensions.EqualIgnoringCase``1(Atata.IDataVerificationProvider{System.String,``0},System.String)~``0")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.VerificationProvider`2.GetShouldText~System.String")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponent.GetScopeElement(Atata.SearchOptions)~OpenQA.Selenium.IWebElement")]
 [assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ControlList`2.ResolveSearchOptions~Atata.SearchOptions")]
@@ -59,5 +57,7 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.FindByXPathStrategy.Build(Atata.ComponentScopeXPathBuilder,Atata.ComponentScopeFindOptions)~System.String")]
 [assembly: SuppressMessage("Usage", "CA2213:Disposable fields should be disposed", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.AtataContext._driver")]
 [assembly: SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentScriptExecutor`1.ExecuteAsync``1(System.String,System.Object[])~Atata.ValueProvider{``0,`0}")]
+[assembly: SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectVerificationProviderExtensions.Contain``1(Atata.IObjectVerificationProvider{System.String,``0},System.String)~``0")]
+[assembly: SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectVerificationProviderExtensions.EqualIgnoringCase``1(Atata.IObjectVerificationProvider{System.String,``0},System.String)~``0")]
 
 #pragma warning restore S103 // Lines should not be too long

@@ -1,9 +1,9 @@
 ﻿namespace Atata
 {
-    public interface IFieldVerificationProvider<TData, TField, TOwner> :
+    public interface IFieldVerificationProvider<out TValue, out TField, out TOwner> :
         IUIComponentVerificationProvider<TField, TOwner>,
-        IDataVerificationProvider<TData, TOwner>
-        where TField : Field<TData, TOwner>
+        IObjectVerificationProvider<TValue, TOwner>
+        where TField : Field<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
     }

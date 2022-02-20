@@ -36,7 +36,7 @@ namespace Atata
                 : message;
         }
 
-        public static string BuildConstraintMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string message, params TData[] args)
+        public static string BuildConstraintMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string message, params TData[] args)
         {
             if (!string.IsNullOrWhiteSpace(message))
             {
@@ -47,7 +47,7 @@ namespace Atata
                     string[] convertedArgs = args
                         .Select(x => x is bool
                             ? x.ToString().ToLowerInvariant()
-                            : $"\"{ConvertValueToString(should.DataProvider, x) ?? Stringifier.NullString}\"")
+                            : $"\"{ConvertValueToString(verifier.ObjectProvider, x) ?? Stringifier.NullString}\"")
                         .ToArray();
 
                     formattedMessage = message.FormatWith(convertedArgs);
@@ -57,7 +57,7 @@ namespace Atata
                     formattedMessage = message;
                 }
 
-                return $"{should.GetShouldText()} {formattedMessage}";
+                return $"{verifier.GetShouldText()} {formattedMessage}";
             }
             else
             {
@@ -70,18 +70,18 @@ namespace Atata
                 ? providerAsConverter.ConvertValueToString(value)
                 : TermResolver.ToString(value);
 
-        public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual) =>
-            BuildFailureMessage(should, expected, actual, true);
+        public static string BuildFailureMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string expected, string actual) =>
+            BuildFailureMessage(verifier, expected, actual, true);
 
-        public static string BuildFailureMessage<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, string expected, string actual, bool prependShouldTextToExpected)
+        public static string BuildFailureMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string expected, string actual, bool prependShouldTextToExpected)
         {
             StringBuilder builder = new StringBuilder()
-                .Append($"{should.DataProvider.ProviderName}")
+                .Append($"{verifier.ObjectProvider.ProviderName}")
                 .AppendLine()
                 .Append("Expected: ");
 
             if (prependShouldTextToExpected)
-                builder.Append(should.GetShouldText()).Append(' ');
+                builder.Append(verifier.GetShouldText()).Append(' ');
 
             builder.Append(expected);
 
@@ -135,7 +135,7 @@ namespace Atata
             return wait;
         }
 
-        internal static TOwner Verify<TData, TOwner>(IDataVerificationProvider<TData, TOwner> should, Action verificationAction, string expectedMessage, params TData[] arguments)
+        internal static TOwner Verify<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, Action verificationAction, string expectedMessage, params TData[] arguments)
         {
             if (AtataContext.Current is null)
             {
@@ -143,17 +143,17 @@ namespace Atata
             }
             else
             {
-                string verificationConstraintMessage = BuildConstraintMessage(should, expectedMessage, arguments);
+                string verificationConstraintMessage = BuildConstraintMessage(verifier, expectedMessage, arguments);
 
                 LogSection logSection = new VerificationLogSection(
-                    should.Strategy.VerificationKind,
-                    should.DataProvider.ProviderName,
+                    verifier.Strategy.VerificationKind,
+                    verifier.ObjectProvider.ProviderName,
                     verificationConstraintMessage);
 
                 AtataContext.Current.Log.ExecuteSection(logSection, verificationAction);
             }
 
-            return should.Owner;
+            return verifier.Owner;
         }
     }
 }
