@@ -62,7 +62,7 @@ namespace Atata
             return clickable.GetControl().Missing(options);
         }
 
-        public static DataProvider<string, TOwner> Content<TOwner>(this ButtonDelegate<TOwner> clickable)
+        public static ValueProvider<string, TOwner> Content<TOwner>(this ButtonDelegate<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().Content;

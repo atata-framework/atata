@@ -10,9 +10,11 @@ namespace Atata.Tests
 
         private Timer _isTrueInASecondTimer;
 
-        public DataProvider<bool, _> IsTrue => GetOrCreateDataProvider(nameof(IsTrue), () => true);
+        public ValueProvider<bool, _> IsTrue =>
+            CreateValueProvider(nameof(IsTrue), () => true);
 
-        public DataProvider<bool, _> IsTrueInASecond => GetOrCreateDataProvider(nameof(IsTrue), GetIsTrueInASecond);
+        public ValueProvider<bool, _> IsTrueInASecond =>
+            CreateValueProvider(nameof(IsTrue), GetIsTrueInASecond);
 
         private bool GetIsTrueInASecond()
         {

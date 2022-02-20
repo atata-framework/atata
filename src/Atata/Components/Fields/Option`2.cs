@@ -12,9 +12,10 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is selected.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the value indicating whether the component is selected.
         /// </summary>
-        public DataProvider<bool, TOwner> IsSelected => GetOrCreateDataProvider("selected state", GetIsSelected);
+        public ValueProvider<bool, TOwner> IsSelected =>
+            CreateValueProvider("selected state", GetIsSelected);
 
         /// <summary>
         /// Gets the <see cref="SelectOptionBehaviorAttribute"/> instance.

@@ -12,74 +12,74 @@ namespace Atata
     {
         private const string AttributeProviderNameFormat = "{0} attribute";
 
-        public DataProvider<string, TOwner> Id => Get<string>(nameof(Id));
+        public ValueProvider<string, TOwner> Id => Get<string>(nameof(Id));
 
-        public DataProvider<string, TOwner> Name => Get<string>(nameof(Name));
+        public ValueProvider<string, TOwner> Name => Get<string>(nameof(Name));
 
-        public DataProvider<string, TOwner> Value => Get<string>(nameof(Value));
+        public ValueProvider<string, TOwner> Value => Get<string>(nameof(Value));
 
-        public DataProvider<string, TOwner> Title => Get<string>(nameof(Title));
+        public ValueProvider<string, TOwner> Title => Get<string>(nameof(Title));
 
-        public DataProvider<string, TOwner> Href => Get<string>(nameof(Href));
+        public ValueProvider<string, TOwner> Href => Get<string>(nameof(Href));
 
-        public DataProvider<string, TOwner> For => Get<string>(nameof(For));
+        public ValueProvider<string, TOwner> For => Get<string>(nameof(For));
 
-        public DataProvider<string, TOwner> Type => Get<string>(nameof(Type));
+        public ValueProvider<string, TOwner> Type => Get<string>(nameof(Type));
 
-        public DataProvider<string, TOwner> Style => Get<string>(nameof(Style));
+        public ValueProvider<string, TOwner> Style => Get<string>(nameof(Style));
 
-        public DataProvider<string, TOwner> Alt => Get<string>(nameof(Alt));
+        public ValueProvider<string, TOwner> Alt => Get<string>(nameof(Alt));
 
-        public DataProvider<string, TOwner> Placeholder => Get<string>(nameof(Placeholder));
+        public ValueProvider<string, TOwner> Placeholder => Get<string>(nameof(Placeholder));
 
-        public DataProvider<string, TOwner> Target => Get<string>(nameof(Target));
+        public ValueProvider<string, TOwner> Target => Get<string>(nameof(Target));
 
-        public DataProvider<string, TOwner> Pattern => Get<string>(nameof(Pattern));
+        public ValueProvider<string, TOwner> Pattern => Get<string>(nameof(Pattern));
 
-        public DataProvider<string, TOwner> Accept => Get<string>(nameof(Accept));
+        public ValueProvider<string, TOwner> Accept => Get<string>(nameof(Accept));
 
-        public DataProvider<string, TOwner> Src => Get<string>(nameof(Src));
+        public ValueProvider<string, TOwner> Src => Get<string>(nameof(Src));
 
-        public DataProvider<string, TOwner> TextContent => Component.GetOrCreateDataProvider(
+        public ValueProvider<string, TOwner> TextContent => Component.CreateValueProvider(
             AttributeProviderNameFormat.FormatWith("textContent"),
             () => GetValue("textContent")?.Trim());
 
-        public DataProvider<string, TOwner> InnerHtml => Component.GetOrCreateDataProvider(
+        public ValueProvider<string, TOwner> InnerHtml => Component.CreateValueProvider(
             AttributeProviderNameFormat.FormatWith("innerHTML"),
             () => GetValue("innerHTML")?.Trim());
 
-        public DataProvider<bool, TOwner> Disabled => Get<bool>(nameof(Disabled));
+        public ValueProvider<bool, TOwner> Disabled => Get<bool>(nameof(Disabled));
 
-        public DataProvider<bool, TOwner> ReadOnly => Get<bool>(nameof(ReadOnly));
+        public ValueProvider<bool, TOwner> ReadOnly => Get<bool>(nameof(ReadOnly));
 
-        public DataProvider<bool, TOwner> Checked => Get<bool>(nameof(Checked));
+        public ValueProvider<bool, TOwner> Checked => Get<bool>(nameof(Checked));
 
-        public DataProvider<bool, TOwner> Required => Get<bool>(nameof(Required));
+        public ValueProvider<bool, TOwner> Required => Get<bool>(nameof(Required));
 
-        public DataProvider<IEnumerable<string>, TOwner> Class => Component.GetOrCreateDataProvider<IEnumerable<string>>(
+        public ValueProvider<IEnumerable<string>, TOwner> Class => Component.CreateValueProvider<IEnumerable<string>>(
             "class attribute",
             () => GetValue("class").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries));
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value of the specified control's scope element attribute.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance for the value of the specified control's scope element attribute.
         /// </summary>
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
-        public DataProvider<string, TOwner> this[string attributeName] =>
+        public ValueProvider<string, TOwner> this[string attributeName] =>
             Get<string>(attributeName);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value of the specified control's scope element attribute.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance for the value of the specified control's scope element attribute.
         /// </summary>
         /// <typeparam name="TValue">The type of the attribute value.</typeparam>
         /// <param name="attributeName">The name of the attribute.</param>
         /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
-        public DataProvider<TValue, TOwner> Get<TValue>(string attributeName)
+        public ValueProvider<TValue, TOwner> Get<TValue>(string attributeName)
         {
             attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
 
             string lowerCaseName = attributeName.ToLowerInvariant();
-            return Component.GetOrCreateDataProvider(AttributeProviderNameFormat.FormatWith(lowerCaseName), () => GetValue<TValue>(lowerCaseName));
+            return Component.CreateValueProvider(AttributeProviderNameFormat.FormatWith(lowerCaseName), () => GetValue<TValue>(lowerCaseName));
         }
 
         /// <summary>

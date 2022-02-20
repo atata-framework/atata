@@ -28,12 +28,12 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is visible.
         /// </summary>
-        DataProvider<bool, TOwner> IsVisible { get; }
+        ValueProvider<bool, TOwner> IsVisible { get; }
 
         /// <summary>
         /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
         /// </summary>
-        DataProvider<string, TOwner> Content { get; }
+        ValueProvider<string, TOwner> Content { get; }
 
         /// <summary>
         /// Gets the source of the scope.
@@ -177,6 +177,15 @@ namespace Atata
         /// <param name="valueGetFunction">The function that gets a value.</param>
         /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type or already stored one.</returns>
         DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
+
+        /// <summary>
+        /// Creates a value provider with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
+        /// </summary>
+        /// <typeparam name="TValue">The type of the value.</typeparam>
+        /// <param name="providerName">The name of the provider.</param>
+        /// <param name="valueGetFunction">The function that gets a value.</param>
+        /// <returns>A new instance of <see cref="ValueProvider{TValue, TOwner}"/> type.</returns>
+        ValueProvider<TValue, TOwner> CreateValueProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
 
         /// <summary>
         /// Creates a control of the specified <typeparamref name="TControl"/> type,

@@ -30,7 +30,8 @@ namespace Atata.Tests
         [GoTemporarily]
         public Frame<FrameInner2Page, _> Frame2Temporarily { get; private set; }
 
-        public DataProvider<int, _> State => GetOrCreateDataProvider("state value", () => _state);
+        public ValueProvider<int, _> State =>
+            CreateValueProvider("state value", () => _state);
 
         public _ SetState(int state)
         {

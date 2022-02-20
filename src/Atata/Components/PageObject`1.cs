@@ -88,12 +88,14 @@ namespace Atata
         /// <summary>
         /// Gets the title provider of the current HTML page.
         /// </summary>
-        public DataProvider<string, TOwner> PageTitle => GetOrCreateDataProvider("title", GetTitle);
+        public ValueProvider<string, TOwner> PageTitle =>
+            CreateValueProvider("title", GetTitle);
 
         /// <summary>
         /// Gets the URL provider of the current HTML page.
         /// </summary>
-        public DataProvider<string, TOwner> PageUrl => GetOrCreateDataProvider("URL", GetUrl);
+        public ValueProvider<string, TOwner> PageUrl =>
+            CreateValueProvider("URL", GetUrl);
 
         /// <summary>
         /// Gets the URI provider of the current HTML page.
@@ -103,20 +105,16 @@ namespace Atata
         /// <summary>
         /// Gets the page source provider of the current HTML page.
         /// </summary>
-        public DataProvider<string, TOwner> PageSource => GetOrCreateDataProvider("page source", GetPageSource);
+        public ValueProvider<string, TOwner> PageSource =>
+            CreateValueProvider("page source", GetPageSource);
 
         /// <summary>
         /// Gets the active control.
         /// </summary>
-        public Control<TOwner> ActiveControl
-        {
-            get
-            {
-                return _activeControl ?? (_activeControl = Controls.Create<Control<TOwner>>(
-                    "<Active>",
-                    new DynamicScopeLocator(_ => Driver.SwitchTo().ActiveElement())));
-            }
-        }
+        public Control<TOwner> ActiveControl =>
+            _activeControl ?? (_activeControl = Controls.Create<Control<TOwner>>(
+                "<Active>",
+                new DynamicScopeLocator(_ => Driver.SwitchTo().ActiveElement())));
 
         /// <summary>
         /// Creates the <see cref="By"/> instance for Scope search.

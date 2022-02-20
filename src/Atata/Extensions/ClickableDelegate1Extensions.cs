@@ -62,7 +62,7 @@
             return clickable.GetControl().Missing(options);
         }
 
-        public static DataProvider<string, TOwner> Content<TOwner>(this ClickableDelegate<TOwner> clickable)
+        public static ValueProvider<string, TOwner> Content<TOwner>(this ClickableDelegate<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
             return clickable.GetControl().Content;

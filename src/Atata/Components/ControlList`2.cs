@@ -62,14 +62,16 @@ return textValues;";
         public DataVerificationProvider<IEnumerable<TItem>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls count.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls count.
         /// </summary>
-        public DataProvider<int, TOwner> Count => Component.GetOrCreateDataProvider($"{ComponentPartName} count", GetCount);
+        public ValueProvider<int, TOwner> Count =>
+            Component.CreateValueProvider($"{ComponentPartName} count", GetCount);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the controls contents.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls contents.
         /// </summary>
-        public DataProvider<IEnumerable<string>, TOwner> Contents => Component.GetOrCreateDataProvider($"{ComponentPartName} contents", GetContents);
+        public ValueProvider<IEnumerable<string>, TOwner> Contents =>
+            Component.CreateValueProvider($"{ComponentPartName} contents", GetContents);
 
         protected string ProviderName => $"{ComponentPartName}";
 

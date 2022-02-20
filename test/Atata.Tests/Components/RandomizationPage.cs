@@ -56,8 +56,8 @@ namespace Atata.Tests
         [FindById("enum-checkboxes")]
         public ItemsControl<CheckBox<_>, _> AllCheckBoxes { get; private set; }
 
-        public DataProvider<int, _> CheckedItemsCount =>
-            GetOrCreateDataProvider(
+        public ValueProvider<int, _> CheckedItemsCount =>
+            CreateValueProvider(
                 nameof(CheckedItemsCount),
                 () => AllCheckBoxes.Items.Count(x => x.IsChecked).Value);
 

@@ -31,11 +31,11 @@ namespace Atata
             Metadata?.ResolveFindAttribute()?.ResolveScopeSource(Metadata) ?? ScopeSource.Parent;
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> for the value
         /// indicating whether the control is enabled.
         /// </summary>
-        public DataProvider<bool, TOwner> IsEnabled =>
-            GetOrCreateDataProvider("enabled state", GetIsEnabled);
+        public ValueProvider<bool, TOwner> IsEnabled =>
+            CreateValueProvider("enabled state", GetIsEnabled);
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

@@ -16,11 +16,12 @@ namespace Atata
         }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is read-only.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the value indicating whether the control is read-only.
         /// By default checks <c>readonly</c> attribute of scope element.
         /// Override <see cref="GetIsReadOnly"/> method to change the behavior.
         /// </summary>
-        public DataProvider<bool, TOwner> IsReadOnly => GetOrCreateDataProvider("read-only state", GetIsReadOnly);
+        public ValueProvider<bool, TOwner> IsReadOnly =>
+            CreateValueProvider("read-only state", GetIsReadOnly);
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

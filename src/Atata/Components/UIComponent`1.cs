@@ -57,32 +57,35 @@ return (
         }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is present considering the <see cref="Visibility"/> of component.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
+        /// whether the component is present considering the <see cref="Visibility"/> of component.
         /// </summary>
-        public DataProvider<bool, TOwner> IsPresent =>
-            GetOrCreateDataProvider("presence state", GetIsPresent);
+        public ValueProvider<bool, TOwner> IsPresent =>
+            CreateValueProvider("presence state", GetIsPresent);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
+        /// whether the component is visible.
         /// </summary>
-        public DataProvider<bool, TOwner> IsVisible =>
-            GetOrCreateDataProvider("visible state", GetIsVisible);
+        public ValueProvider<bool, TOwner> IsVisible =>
+            CreateValueProvider("visible state", GetIsVisible);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the component is visible in viewport.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
+        /// whether the component is visible in viewport.
         /// </summary>
-        public DataProvider<bool, TOwner> IsVisibleInViewPort =>
-            GetOrCreateDataProvider("visible in viewport state", GetIsVisibleInViewPort);
+        public ValueProvider<bool, TOwner> IsVisibleInViewPort =>
+            CreateValueProvider("visible in viewport state", GetIsVisibleInViewPort);
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the text content.
         /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component,
         /// which by default is <see cref="GetsContentFromSourceAttribute"/> with <see cref="ContentSource.Text"/> argument,
         /// meaning that by default it returns <see cref="IWebElement.Text"/> property value
         /// of component scope's <see cref="IWebElement"/> element.
         /// </summary>
-        public DataProvider<string, TOwner> Content =>
-            GetOrCreateDataProvider("content", GetContent);
+        public ValueProvider<string, TOwner> Content =>
+            CreateValueProvider("content", GetContent);
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
@@ -268,14 +271,14 @@ return (
             ExecuteBehavior<ContentGetBehaviorAttribute, string>(x => x.Execute(this));
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content using <paramref name="source"/> argument.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the text content using <paramref name="source"/> argument.
         /// </summary>
         /// <param name="source">The source of the content.</param>
-        /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the text content.</returns>
-        public DataProvider<string, TOwner> GetContent(ContentSource source)
-        {
-            return GetOrCreateDataProvider($"content ({source.ToString(TermCase.MidSentence)})", () => ContentExtractor.Get(this, source));
-        }
+        /// <returns>The <see cref="ValueProvider{TValue, TOwner}"/> of the text content.</returns>
+        public ValueProvider<string, TOwner> GetContent(ContentSource source) =>
+            CreateValueProvider(
+                $"content ({source.ToString(TermCase.MidSentence)})",
+                () => ContentExtractor.Get(this, source));
 
         /// <summary>
         /// Gets the data provider by name or creates and stores a new instance with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
@@ -309,6 +312,23 @@ return (
             var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, fullProviderName);
             _dataProviders[providerName] = dataProvider;
             return dataProvider;
+        }
+
+        ValueProvider<TValue, TOwner> IUIComponent<TOwner>.CreateValueProvider<TValue>(string providerName, Func<TValue> valueGetFunction) =>
+            CreateValueProvider(providerName, valueGetFunction);
+
+        /// <inheritdoc cref="IUIComponent{TOwner}.CreateValueProvider{TValue}(string, Func{TValue})"/>
+        protected internal ValueProvider<TValue, TOwner> CreateValueProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
+        {
+            string componentProviderName = BuildComponentProviderName();
+            string fullProviderName = string.IsNullOrEmpty(componentProviderName)
+                ? providerName
+                : $"{componentProviderName} {providerName}";
+
+            return new ValueProvider<TValue, TOwner>(
+                Owner,
+                new DynamicObjectSource<TValue>(valueGetFunction),
+                fullProviderName);
         }
 
         protected virtual string BuildComponentProviderName() =>

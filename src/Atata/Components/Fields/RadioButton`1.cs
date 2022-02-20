@@ -11,9 +11,10 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}" /> instance of the checked state value.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}" /> of the checked state value.
         /// </summary>
-        public DataProvider<bool, TOwner> IsChecked => GetOrCreateDataProvider("checked state", () => Value);
+        public ValueProvider<bool, TOwner> IsChecked =>
+            CreateValueProvider("checked state", () => Value);
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

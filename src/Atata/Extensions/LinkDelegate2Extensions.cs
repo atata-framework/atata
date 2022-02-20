@@ -72,7 +72,7 @@ namespace Atata
             return clickable.GetControl().Missing(options);
         }
 
-        public static DataProvider<string, TOwner> Content<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
+        public static ValueProvider<string, TOwner> Content<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
         {

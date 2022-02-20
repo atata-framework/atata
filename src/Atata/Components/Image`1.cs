@@ -10,18 +10,18 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the <c>src</c> attribute.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> attribute.
         /// </summary>
-        public DataProvider<string, TOwner> Source => Attributes.Src;
+        public ValueProvider<string, TOwner> Source =>
+            Attributes.Src;
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the image file is loaded.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the value indicating whether the image file is loaded.
         /// </summary>
-        public DataProvider<bool, TOwner> IsLoaded => GetOrCreateDataProvider("loaded state", GetIsLoaded);
+        public ValueProvider<bool, TOwner> IsLoaded =>
+            CreateValueProvider("loaded state", GetIsLoaded);
 
-        protected virtual bool GetIsLoaded()
-        {
-            return Script.ExecuteAgainst<bool>("return arguments[0].complete && (typeof arguments[0].naturalWidth) != 'undefined' && arguments[0].naturalWidth > 0;");
-        }
+        protected virtual bool GetIsLoaded() =>
+            Script.ExecuteAgainst<bool>("return arguments[0].complete && (typeof arguments[0].naturalWidth) != 'undefined' && arguments[0].naturalWidth > 0;");
     }
 }
