@@ -16,8 +16,8 @@ namespace Atata
         /// <param name="providerName">Name of the provider.</param>
         public FileSubject(string filePath, string providerName = null)
             : this(
-                  new DynamicObjectSource<FileInfo>(() => new FileInfo(filePath)),
-                  providerName ?? BuildProviderName(filePath))
+                DynamicObjectSource.Create(() => new FileInfo(filePath)),
+                providerName ?? BuildProviderName(filePath))
         {
             filePath.CheckNotNullOrEmpty(nameof(filePath));
         }

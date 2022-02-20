@@ -16,8 +16,8 @@ namespace Atata
         /// <param name="providerName">Name of the provider.</param>
         public DirectorySubject(string directoryPath, string providerName = null)
             : this(
-                  new DynamicObjectSource<DirectoryInfo>(() => new DirectoryInfo(directoryPath)),
-                  providerName ?? BuildProviderName(directoryPath))
+                DynamicObjectSource.Create(() => new DirectoryInfo(directoryPath)),
+                providerName ?? BuildProviderName(directoryPath))
         {
             directoryPath.CheckNotNullOrEmpty(nameof(directoryPath));
         }

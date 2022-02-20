@@ -88,7 +88,7 @@ namespace Atata
             functionName.CheckNotNull(nameof(functionName));
 
             return new Subject<TResult>(
-                new DynamicObjectSource<TResult>(function),
+                DynamicObjectSource.Create(function),
                 functionName);
         }
 
@@ -152,7 +152,7 @@ namespace Atata
             actionName.CheckNotNull(nameof(actionName));
 
             return new ActionProvider(
-                new DynamicObjectSource<Action>(() => action),
+                DynamicObjectSource.Create(() => action),
                 actionName);
         }
 
