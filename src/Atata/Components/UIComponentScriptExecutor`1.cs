@@ -43,14 +43,11 @@ namespace Atata
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="script">The script.</param>
         /// <param name="arguments">The arguments.</param>
-        /// <returns>An instance of the owner page object.</returns>
-        public DataProvider<TResult, TOwner> Execute<TResult>(string script, params object[] arguments)
-        {
-            return new DataProvider<TResult, TOwner>(
-                (UIComponent<TOwner>)Component,
-                () => ConvertResult<TResult>(ExecuteScript(script, arguments)),
-                "script result");
-        }
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
+        public ValueProvider<TResult, TOwner> Execute<TResult>(string script, params object[] arguments) =>
+            Component.CreateValueProvider(
+                "script result",
+                () => ConvertResult<TResult>(ExecuteScript(script, arguments)));
 
         /// <summary>
         /// Executes the specified script against the <see cref="UIComponent.Scope"/> element of the current component.
@@ -74,8 +71,8 @@ namespace Atata
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="script">The script.</param>
         /// <param name="arguments">The arguments.</param>
-        /// <returns>An instance of the owner page object.</returns>
-        public DataProvider<TResult, TOwner> ExecuteAgainst<TResult>(string script, params object[] arguments)
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
+        public ValueProvider<TResult, TOwner> ExecuteAgainst<TResult>(string script, params object[] arguments)
         {
             object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
 
@@ -101,14 +98,11 @@ namespace Atata
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="script">The script.</param>
         /// <param name="arguments">The arguments.</param>
-        /// <returns>An instance of the owner page object.</returns>
-        public DataProvider<TResult, TOwner> ExecuteAsync<TResult>(string script, params object[] arguments)
-        {
-            return new DataProvider<TResult, TOwner>(
-                (UIComponent<TOwner>)Component,
-                () => ConvertResult<TResult>(ExecuteAsyncScript(script, arguments)),
-                "script result");
-        }
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
+        public ValueProvider<TResult, TOwner> ExecuteAsync<TResult>(string script, params object[] arguments) =>
+            Component.CreateValueProvider(
+                "script result",
+                () => ConvertResult<TResult>(ExecuteAsyncScript(script, arguments)));
 
         /// <summary>
         /// Executes the specified asynchronous script against the <see cref="UIComponent.Scope"/> element of the current component.
@@ -132,8 +126,8 @@ namespace Atata
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="script">The script.</param>
         /// <param name="arguments">The arguments.</param>
-        /// <returns>An instance of the owner page object.</returns>
-        public DataProvider<TResult, TOwner> ExecuteAsyncAgainst<TResult>(string script, params object[] arguments)
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
+        public ValueProvider<TResult, TOwner> ExecuteAsyncAgainst<TResult>(string script, params object[] arguments)
         {
             object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
 
