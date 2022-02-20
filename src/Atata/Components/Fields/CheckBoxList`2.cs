@@ -14,7 +14,7 @@ namespace Atata
     /// Currently as a data type supports only enum (with <c>[Flags]</c>) types.
     /// </summary>
     /// <typeparam name="TValue">
-    /// The type of the control's data.
+    /// The type of the control's value.
     /// Supports only enum (with <c>[Flags]</c>) types.
     /// </typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
