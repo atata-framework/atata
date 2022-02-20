@@ -29,9 +29,10 @@
         public Option<T, TOwner> SelectedOption => Options[x => x.IsSelected];
 
         /// <summary>
-        /// Gets the index of the selected option.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the index of the selected option.
         /// </summary>
-        public DataProvider<int, TOwner> SelectedIndex => Options.IndexOf(x => x.IsSelected);
+        public ValueProvider<int, TOwner> SelectedIndex =>
+            Options.IndexOf(x => x.IsSelected);
 
         /// <summary>
         /// Gets the <see cref="SelectOptionBehaviorAttribute"/> instance.

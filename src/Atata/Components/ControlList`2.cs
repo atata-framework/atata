@@ -253,14 +253,17 @@ return textValues;";
         /// and returns the zero-based index of the first occurrence.
         /// </summary>
         /// <param name="predicateExpression">The predicate expression to test each item.</param>
-        /// <returns>The zero-based index of the first occurrence of item, if found; otherwise, <c>–1</c>.</returns>
-        public DataProvider<int, TOwner> IndexOf(Expression<Func<TItem, bool>> predicateExpression)
+        /// <returns>
+        /// The <see cref="ValueProvider{TValue, TOwner}"/> containing zero-based index
+        /// of the first occurrence of item, if found; otherwise, <c>–1</c>.
+        /// </returns>
+        public ValueProvider<int, TOwner> IndexOf(Expression<Func<TItem, bool>> predicateExpression)
         {
             predicateExpression.CheckNotNull(nameof(predicateExpression));
 
             string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
-            return Component.GetOrCreateDataProvider(
+            return Component.CreateValueProvider(
                 $"{ComponentPartName} index of \"{itemName}\" {ItemComponentTypeName}",
                 () => IndexOf(itemName, predicateExpression));
         }
