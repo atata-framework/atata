@@ -61,7 +61,7 @@ namespace Atata
         /// </summary>
         /// <returns>The collection of text values.</returns>
         protected virtual IEnumerable<string> SelectColumnHeaderTexts() =>
-            Headers.SelectContentsByExtraXPath(elementXPath: null, dataProviderName: "column header texts").Value.ToArray();
+            Headers.SelectContentsByExtraXPath(elementXPath: null, valueProviderName: "column header texts").Value.ToArray();
 
         /// <summary>
         /// Clears the column header texts of the component.

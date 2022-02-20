@@ -19,13 +19,12 @@
         public new TItem Parent => Controls.Resolve<TItem>(nameof(Parent));
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control has parent.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating whether the control has parent.
         /// </summary>
-        public DataProvider<bool, TOwner> HasParent => GetOrCreateDataProvider("has parent", OnHasParent);
+        public ValueProvider<bool, TOwner> HasParent =>
+            CreateValueProvider("has parent", OnHasParent);
 
-        protected virtual bool OnHasParent()
-        {
-            return Parent.Exists(SearchOptions.SafelyAtOnce());
-        }
+        protected virtual bool OnHasParent() =>
+            Parent.Exists(SearchOptions.SafelyAtOnce());
     }
 }

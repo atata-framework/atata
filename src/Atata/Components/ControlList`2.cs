@@ -166,7 +166,7 @@ return textValues;";
         /// The XPath condition.
         /// For example: <c>"@some-attr='some value'"</c>.</param>
         /// <returns>All items that match the XPath condition.</returns>
-        public DataProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string xPathCondition) =>
+        public ValueProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string xPathCondition) =>
             GetAllByXPathCondition(null, xPathCondition);
 
         /// <summary>
@@ -177,7 +177,7 @@ return textValues;";
         /// The XPath condition.
         /// For example: <c>"@some-attr='some value'"</c>.</param>
         /// <returns>All items that match the XPath condition.</returns>
-        public DataProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string itemsName, string xPathCondition)
+        public ValueProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string itemsName, string xPathCondition)
         {
             xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
 
@@ -187,7 +187,7 @@ return textValues;";
 
             itemsName = itemsName ?? $"XPath: '{extraXPath}'";
 
-            return Component.GetOrCreateDataProvider(
+            return Component.CreateValueProvider(
                 $"\"{itemsName}\" {ProviderName}",
                 () => GetAll(extraXPath, itemsName));
         }
@@ -328,11 +328,11 @@ return textValues;";
         /// <typeparam name="TData">The type of the data.</typeparam>
         /// <param name="selector">The data selector.</param>
         /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
-        public DataProvider<IEnumerable<TData>, TOwner> SelectData<TData>(Expression<Func<TItem, TData>> selector)
+        public ValueProvider<IEnumerable<TData>, TOwner> SelectData<TData>(Expression<Func<TItem, TData>> selector)
         {
             string dataPathName = ObjectExpressionStringBuilder.ExpressionToString(selector);
 
-            return Component.GetOrCreateDataProvider(
+            return Component.CreateValueProvider(
                 $"\"{dataPathName}\" {ProviderName}",
                 () => GetAll().Select(selector.Compile()));
         }
@@ -345,14 +345,14 @@ return textValues;";
         /// The JavaScript path to the element value,
         /// for example: <c>getAttribute('data-id')</c>.
         /// </param>
-        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueProviderName">Name of the value provider to use in reporting.</param>
         /// <param name="valueTermOptions">The term options of value.</param>
         /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
-        public DataProvider<IEnumerable<TData>, TOwner> SelectData<TData>(
+        public ValueProvider<IEnumerable<TData>, TOwner> SelectData<TData>(
             string elementValueJSPath,
-            string dataProviderName = null,
+            string valueProviderName = null,
             TermOptions valueTermOptions = null) =>
-            SelectDataByExtraXPath<TData>(null, elementValueJSPath, dataProviderName, valueTermOptions);
+            SelectDataByExtraXPath<TData>(null, elementValueJSPath, valueProviderName, valueTermOptions);
 
         /// <summary>
         /// Selects the data of each control using JavaScript path relative to element
@@ -364,18 +364,18 @@ return textValues;";
         /// The JavaScript path to the element value,
         /// for example: <c>getAttribute('data-id')</c>.
         /// </param>
-        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueProviderName">Name of the value provider to use in reporting.</param>
         /// <param name="valueTermOptions">The term options of value.</param>
-        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
-        public DataProvider<IEnumerable<TData>, TOwner> SelectDataByExtraXPath<TData>(
+        /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
+        public ValueProvider<IEnumerable<TData>, TOwner> SelectDataByExtraXPath<TData>(
             string elementXPath,
             string elementValueJSPath,
-            string dataProviderName = null,
+            string valueProviderName = null,
             TermOptions valueTermOptions = null)
         {
             elementValueJSPath.CheckNotNullOrEmpty(nameof(elementValueJSPath));
 
-            if (dataProviderName == null)
+            if (valueProviderName == null)
             {
                 StringBuilder nameBuilder = new StringBuilder();
 
@@ -383,11 +383,11 @@ return textValues;";
                     nameBuilder.Append($"XPath: '{elementXPath}', ");
 
                 nameBuilder.Append($"JSPath: '{elementValueJSPath}'");
-                dataProviderName = nameBuilder.ToString();
+                valueProviderName = nameBuilder.ToString();
             }
 
-            return Component.GetOrCreateDataProvider(
-                $"\"{dataProviderName}\" of {ProviderName}",
+            return Component.CreateValueProvider(
+                $"\"{valueProviderName}\" of {ProviderName}",
                 () => SelectElementValues<TData>(elementXPath, elementValueJSPath, valueTermOptions));
         }
 
@@ -396,15 +396,15 @@ return textValues;";
         /// that is found using additional <paramref name="elementXPath"/>.
         /// </summary>
         /// <param name="elementXPath">The element XPath.</param>
-        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueProviderName">Name of the value provider to use in reporting.</param>
         /// <param name="valueTermOptions">The term options of value.</param>
         /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
-        public DataProvider<IEnumerable<string>, TOwner> SelectContentsByExtraXPath(
+        public ValueProvider<IEnumerable<string>, TOwner> SelectContentsByExtraXPath(
             string elementXPath,
-            string dataProviderName = null,
+            string valueProviderName = null,
             TermOptions valueTermOptions = null)
         {
-            return SelectContentsByExtraXPath<string>(elementXPath, dataProviderName, valueTermOptions);
+            return SelectContentsByExtraXPath<string>(elementXPath, valueProviderName, valueTermOptions);
         }
 
         /// <summary>
@@ -413,15 +413,15 @@ return textValues;";
         /// </summary>
         /// <typeparam name="TData">The type of the data.</typeparam>
         /// <param name="elementXPath">The element XPath.</param>
-        /// <param name="dataProviderName">Name of the data provider to use in reporting.</param>
+        /// <param name="valueProviderName">Name of the value provider to use in reporting.</param>
         /// <param name="valueTermOptions">The term options of value.</param>
-        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
-        public DataProvider<IEnumerable<TData>, TOwner> SelectContentsByExtraXPath<TData>(
+        /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
+        public ValueProvider<IEnumerable<TData>, TOwner> SelectContentsByExtraXPath<TData>(
             string elementXPath,
-            string dataProviderName = null,
+            string valueProviderName = null,
             TermOptions valueTermOptions = null)
         {
-            return SelectDataByExtraXPath<TData>(elementXPath, "textContent", dataProviderName, valueTermOptions);
+            return SelectDataByExtraXPath<TData>(elementXPath, "textContent", valueProviderName, valueTermOptions);
         }
 
         protected IEnumerable<TData> SelectElementValues<TData>(
