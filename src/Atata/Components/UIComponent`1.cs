@@ -24,8 +24,6 @@ return (
   Math.floor(rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) &&
   Math.floor(rect.right) <= (window.innerWidth || document.documentElement.clientWidth));";
 
-        private readonly Dictionary<string, object> _dataProviders = new Dictionary<string, object>();
-
         private readonly List<TriggerEvents> _currentDeniedTriggers = new List<TriggerEvents>();
 
         protected UIComponent()
@@ -280,38 +278,16 @@ return (
                 $"content ({source.ToString(TermCase.MidSentence)})",
                 () => ContentExtractor.Get(this, source));
 
-        /// <summary>
-        /// Gets the data provider by name or creates and stores a new instance with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="providerName">Name of the provider.</param>
-        /// <param name="valueGetFunction">The function that gets a value.</param>
-        /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type or already stored one.</returns>
-        public DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
-        {
-            if (_dataProviders.TryGetValue(providerName, out object dataProviderAsObject) && dataProviderAsObject is DataProvider<TValue, TOwner> dataProvider)
-                return dataProvider;
+        [Obsolete("Use " + nameof(CreateValueProvider) + " instead.")] // Obsolete since v2.0.0.
+        public DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction) =>
+            CreateDataProvider(providerName, valueGetFunction);
 
-            return CreateDataProvider(providerName, valueGetFunction);
-        }
-
-        /// <summary>
-        /// Creates and stores a new instance with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="providerName">Name of the provider.</param>
-        /// <param name="valueGetFunction">The function that gets a value.</param>
-        /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type.</returns>
+        [Obsolete("Use " + nameof(CreateValueProvider) + " instead.")] // Obsolete since v2.0.0.
         protected internal DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
         {
-            string componentProviderName = BuildComponentProviderName();
-            string fullProviderName = string.IsNullOrEmpty(componentProviderName)
-                ? providerName
-                : $"{componentProviderName} {providerName}";
+            string fullProviderName = BuildFullValueProviderName(providerName);
 
-            var dataProvider = new DataProvider<TValue, TOwner>(this, valueGetFunction, fullProviderName);
-            _dataProviders[providerName] = dataProvider;
-            return dataProvider;
+            return new DataProvider<TValue, TOwner>(this, valueGetFunction, fullProviderName);
         }
 
         ValueProvider<TValue, TOwner> IUIComponent<TOwner>.CreateValueProvider<TValue>(string providerName, Func<TValue> valueGetFunction) =>

@@ -169,13 +169,7 @@ namespace Atata
         /// </exception>
         bool Missing(SearchOptions options = null);
 
-        /// <summary>
-        /// Gets the data provider by name or creates and stores a new instance with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
-        /// </summary>
-        /// <typeparam name="TValue">The type of the value.</typeparam>
-        /// <param name="providerName">Name of the provider.</param>
-        /// <param name="valueGetFunction">The function that gets a value.</param>
-        /// <returns>A new instance of <see cref="DataProvider{TData, TOwner}"/> type or already stored one.</returns>
+        [Obsolete("Use " + nameof(CreateValueProvider) + " instead.")] // Obsolete since v2.0.0.
         DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
 
         /// <summary>
