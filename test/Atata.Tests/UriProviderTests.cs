@@ -11,6 +11,8 @@ namespace Atata.Tests
                 .AggregateAssert(x => x
                     .PageUri.AbsolutePath.Should.Equal("/index")
 
+                    .PageUri.Query.Should.Be("?id=15&type=a&type=b&num=1&num=2")
+
                     .PageUri.Query.Parameters.Count.Should.Equal(5)
 
                     .PageUri.Query.Parameters["id"].Should.Equal("15")

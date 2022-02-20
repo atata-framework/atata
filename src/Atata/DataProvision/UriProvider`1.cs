@@ -19,7 +19,7 @@ namespace Atata
             Query = new UriQueryProvider<TOwner>(
                 component,
                 () => Value.Query,
-                "URI query parameters");
+                "URI query");
         }
 
         /// <summary>
