@@ -8,16 +8,16 @@ namespace Atata
     /// (like <c>&lt;h1&gt;</c>, <c>&lt;span&gt;</c>, etc.) representing content as a field value,
     /// as well as for <c>&lt;input&gt;</c> and other elements.
     /// </summary>
-    /// <typeparam name="T">The type of the control's data.</typeparam>
+    /// <typeparam name="TValue">The type of the control's value.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public abstract class Field<T, TOwner> : Control<TOwner>, IEquatable<T>, IObjectProvider<T, TOwner>, IConvertsValueToString<T>
+    public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue>, IObjectProvider<TValue, TOwner>, IConvertsValueToString<TValue>
         where TOwner : PageObject<TOwner>
     {
         protected Field()
         {
         }
 
-        protected T CachedValue { get; private set; }
+        protected TValue CachedValue { get; private set; }
 
         protected bool HasCachedValue { get; private set; }
 
@@ -29,7 +29,7 @@ namespace Atata
         /// Gets the value.
         /// Also executes <see cref="TriggerEvents.BeforeGet"/> and <see cref="TriggerEvents.AfterGet"/> triggers.
         /// </summary>
-        public T Value => Get();
+        public TValue Value => Get();
 
         /// <summary>
         /// Gets the name of the value provider.
@@ -37,40 +37,40 @@ namespace Atata
         /// </summary>
         protected virtual string ValueProviderName => "value";
 
-        string IObjectProvider<T>.ProviderName =>
+        string IObjectProvider<TValue>.ProviderName =>
             $"{BuildComponentProviderName()} {ValueProviderName}";
 
-        TOwner IObjectProvider<T, TOwner>.Owner => Owner;
+        TOwner IObjectProvider<TValue, TOwner>.Owner => Owner;
 
-        bool IObjectProvider<T, TOwner>.IsValueDynamic => true;
+        bool IObjectProvider<TValue, TOwner>.IsValueDynamic => true;
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
-        public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> Should => new FieldVerificationProvider<T, Field<T, TOwner>, TOwner>(this);
+        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> Should => new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner>(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
-        public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
 
         /// <summary>
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
-        public new FieldVerificationProvider<T, Field<T, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
-        public static explicit operator T(Field<T, TOwner> field)
+        public static explicit operator TValue(Field<TValue, TOwner> field)
         {
             return field.Get();
         }
 
-        public static bool operator ==(Field<T, TOwner> field, T value)
+        public static bool operator ==(Field<TValue, TOwner> field, TValue value)
         {
             return field == null ? Equals(value, null) : field.Equals(value);
         }
 
-        public static bool operator !=(Field<T, TOwner> field, T value)
+        public static bool operator !=(Field<TValue, TOwner> field, TValue value)
         {
             return !(field == value);
         }
@@ -79,20 +79,20 @@ namespace Atata
         /// Gets the value.
         /// </summary>
         /// <returns>The value.</returns>
-        protected abstract T GetValue();
+        protected abstract TValue GetValue();
 
         /// <summary>
         /// Gets the value. Also executes <see cref="TriggerEvents.BeforeGet"/> and <see cref="TriggerEvents.AfterGet"/> triggers.
         /// </summary>
         /// <returns>The value.</returns>
-        public T Get()
+        public TValue Get()
         {
             if (HasCachedValue && UsesValueCache)
                 return CachedValue;
 
             ExecuteTriggers(TriggerEvents.BeforeGet);
 
-            T value = GetValue();
+            TValue value = GetValue();
 
             ExecuteTriggers(TriggerEvents.AfterGet);
 
@@ -105,7 +105,7 @@ namespace Atata
             return value;
         }
 
-        string IConvertsValueToString<T>.ConvertValueToString(T value) =>
+        string IConvertsValueToString<TValue>.ConvertValueToString(TValue value) =>
             ConvertValueToString(value);
 
         /// <summary>
@@ -115,35 +115,35 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>The value converted to string.</returns>
-        protected internal virtual string ConvertValueToString(T value) =>
+        protected internal virtual string ConvertValueToString(TValue value) =>
             TermResolver.ToString(value, GetValueTermOptions());
 
         /// <summary>
-        /// Converts the string to value of <typeparamref name="T"/> type.
+        /// Converts the string to value of <typeparamref name="TValue"/> type.
         /// Can use format from <see cref="FormatAttribute"/>.
         /// Can use culture from <see cref="CultureAttribute"/>.
         /// </summary>
         /// <param name="value">The value as string.</param>
-        /// <returns>The value converted to <typeparamref name="T"/> type.</returns>
-        protected internal virtual T ConvertStringToValue(string value)
+        /// <returns>The value converted to <typeparamref name="TValue"/> type.</returns>
+        protected internal virtual TValue ConvertStringToValue(string value)
         {
-            return TermResolver.FromString<T>(value, GetValueTermOptions());
+            return TermResolver.FromString<TValue>(value, GetValueTermOptions());
         }
 
         /// <summary>
-        /// Converts the string to value of <typeparamref name="T"/> type for <see cref="GetValue"/> method.
+        /// Converts the string to value of <typeparamref name="TValue"/> type for <see cref="GetValue"/> method.
         /// Can use format from <see cref="ValueGetFormatAttribute"/>,
         /// otherwise from <see cref="FormatAttribute"/>.
         /// Can use culture from <see cref="CultureAttribute"/>.
         /// </summary>
         /// <param name="value">The value as string.</param>
-        /// <returns>The value converted to <typeparamref name="T"/> type.</returns>
-        protected virtual T ConvertStringToValueUsingGetFormat(string value)
+        /// <returns>The value converted to <typeparamref name="TValue"/> type.</returns>
+        protected virtual TValue ConvertStringToValueUsingGetFormat(string value)
         {
             string getFormat = Metadata.Get<ValueGetFormatAttribute>()?.Value;
 
             return getFormat != null
-                ? TermResolver.FromString<T>(value, new TermOptions().MergeWith(GetValueTermOptions()).WithFormat(getFormat))
+                ? TermResolver.FromString<TValue>(value, new TermOptions().MergeWith(GetValueTermOptions()).WithFormat(getFormat))
                 : ConvertStringToValue(value);
         }
 
@@ -154,18 +154,18 @@ namespace Atata
 
             switch (obj)
             {
-                case Field<T, TOwner> objAsField:
+                case Field<TValue, TOwner> objAsField:
                     return ReferenceEquals(this, objAsField);
-                case T objAsValue:
+                case TValue objAsValue:
                     return Equals(objAsValue);
                 default:
                     return false;
             }
         }
 
-        public bool Equals(T other)
+        public bool Equals(TValue other)
         {
-            T value = Get();
+            TValue value = Get();
             return Equals(value, other);
         }
 
