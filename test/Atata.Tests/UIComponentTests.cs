@@ -72,15 +72,15 @@ namespace Atata.Tests
 
             using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
-                    page.VisibleDiv.IsPresent.Should.Within(2).BeFalse());
+                    page.VisibleDiv.IsPresent.Should.WithinSeconds(2).BeFalse());
 
             using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
-                    page.HiddenDiv.IsPresent.Should.Within(2).BeFalse());
+                    page.HiddenDiv.IsPresent.Should.WithinSeconds(2).BeFalse());
 
             using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
-                    page.HiddenDivWithVisibleVisibility.IsPresent.Should.Within(2).BeTrue());
+                    page.HiddenDivWithVisibleVisibility.IsPresent.Should.WithinSeconds(2).BeTrue());
         }
 
         [Test]
@@ -123,15 +123,15 @@ namespace Atata.Tests
 
             using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
-                    page.VisibleDiv.IsVisible.Should.Within(2).BeFalse());
+                    page.VisibleDiv.IsVisible.Should.WithinSeconds(2).BeFalse());
 
             using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
-                    page.HiddenDiv.IsVisible.Should.Within(2).BeTrue());
+                    page.HiddenDiv.IsVisible.Should.WithinSeconds(2).BeTrue());
 
             using (StopwatchAsserter.WithinSeconds(2))
                 Assert.Throws<AssertionException>(() =>
-                    page.HiddenDivWithVisibleVisibility.IsVisible.Should.Within(2).BeTrue());
+                    page.HiddenDivWithVisibleVisibility.IsVisible.Should.WithinSeconds(2).BeTrue());
         }
 
         [Test]

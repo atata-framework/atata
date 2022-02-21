@@ -37,7 +37,7 @@ namespace Atata
             var metadata = context.Component.Metadata;
 
             context.Component.Owner.PageTitle.Should
-                .Within(Timeout, RetryInterval)
+                .WithinSeconds(Timeout, RetryInterval)
                 .MatchAny(ResolveMatch(metadata), values);
         }
     }

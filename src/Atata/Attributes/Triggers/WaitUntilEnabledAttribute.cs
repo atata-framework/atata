@@ -13,7 +13,7 @@
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
         {
-            ((Control<TOwner>)context.Component).WaitTo.Within(Timeout, RetryInterval).BeEnabled();
+            ((Control<TOwner>)context.Component).WaitTo.WithinSeconds(Timeout, RetryInterval).BeEnabled();
         }
     }
 }

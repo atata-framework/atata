@@ -12,6 +12,6 @@
         }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-            context.Component.Should.Within(Timeout, RetryInterval).Not.Exist();
+            context.Component.Should.WithinSeconds(Timeout, RetryInterval).Not.Exist();
     }
 }

@@ -19,6 +19,6 @@
         public string[] Values { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-            context.Component.Content.Should.Within(Timeout, RetryInterval).MatchAny(Match, Values);
+            context.Component.Content.Should.WithinSeconds(Timeout, RetryInterval).MatchAny(Match, Values);
     }
 }

@@ -53,7 +53,7 @@ namespace Atata.Tests.DataProvision
 
                 Task assertionTask = Task.Run(() =>
                     new DirectorySubject(Path.Combine(directoryFixture.DirectoryPath, "test"))
-                        .Exists.Should.Within(5).BeTrue());
+                        .Exists.Should.WithinSeconds(5).BeTrue());
 
                 Task fileCreateTask = Task.Run(async () =>
                 {

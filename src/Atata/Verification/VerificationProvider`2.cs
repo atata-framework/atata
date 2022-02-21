@@ -92,10 +92,12 @@ namespace Atata
             return (TVerificationProvider)this;
         }
 
-        public TVerificationProvider Within(double timeoutSeconds, double? retryIntervalSeconds = null)
-        {
-            return Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? (TimeSpan?)TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
-        }
+        [Obsolete("Use " + nameof(WithinSeconds) + " instead.")] // Obsolete since v2.0.0.
+        public TVerificationProvider Within(double timeoutSeconds, double? retryIntervalSeconds = null) =>
+            WithinSeconds(timeoutSeconds, retryIntervalSeconds);
+
+        public TVerificationProvider WithinSeconds(double timeoutSeconds, double? retryIntervalSeconds = null) =>
+            Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? (TimeSpan?)TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
 
         string IVerificationProvider<TOwner>.GetShouldText() => GetShouldText();
 
