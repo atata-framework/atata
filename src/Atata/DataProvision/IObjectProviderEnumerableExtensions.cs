@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 namespace Atata
 {
     /// <summary>
-    /// Provides a set of extension methods for <see cref="IObjectProvider{TValue, TOwner}"/> where <c>TValue</c> is <see cref="IEnumerable{T}"/>.
+    /// Provides a set of extension methods for <see cref="IObjectProvider{TObject, TOwner}"/> where <c>TObject</c> is <see cref="IEnumerable{T}"/>.
     /// </summary>
     public static class IObjectProviderEnumerableExtensions
     {

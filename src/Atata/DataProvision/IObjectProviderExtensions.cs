@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 namespace Atata
 {
     /// <summary>
-    /// Provides a set of extension methods for <see cref="IObjectProvider{TSource, TOwner}"/>.
+    /// Provides a set of extension methods for <see cref="IObjectProvider{TObject, TOwner}"/>.
     /// </summary>
     public static class IObjectProviderExtensions
     {
