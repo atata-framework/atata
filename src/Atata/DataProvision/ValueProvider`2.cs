@@ -23,5 +23,10 @@
 
         /// <inheritdoc/>
         protected override TOwner Owner => _owner;
+
+        /// <summary>
+        /// Gets the value.
+        /// </summary>
+        public TValue Value => Object;
     }
 }

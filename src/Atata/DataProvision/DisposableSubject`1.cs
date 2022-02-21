@@ -58,7 +58,7 @@ namespace Atata
         {
             if (!_isDisposed)
             {
-                Value.Dispose();
+                Object.Dispose();
 
                 _isDisposed = true;
             }

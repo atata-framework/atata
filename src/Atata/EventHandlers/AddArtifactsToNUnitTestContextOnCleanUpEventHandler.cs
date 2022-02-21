@@ -3,7 +3,7 @@
     public class AddArtifactsToNUnitTestContextOnCleanUpEventHandler : AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler
     {
         public AddArtifactsToNUnitTestContextOnCleanUpEventHandler()
-            : base(context => context.Artifacts.Value.FullName)
+            : base(context => context.Artifacts.FullName.Value)
         {
         }
     }

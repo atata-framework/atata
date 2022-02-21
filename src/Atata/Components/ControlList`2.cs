@@ -79,7 +79,7 @@ return textValues;";
 
         TOwner IObjectProvider<IEnumerable<TItem>, TOwner>.Owner => Component.Owner;
 
-        IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Value => GetAll();
+        IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Object => GetAll();
 
         bool IObjectProvider<IEnumerable<TItem>, TOwner>.IsValueDynamic => true;
 

@@ -42,7 +42,7 @@ namespace Atata
                     {
                         try
                         {
-                            actual = ObjectProvider.Value;
+                            actual = ObjectProvider.Object;
 
                             if (actual is Action actualAsAction)
                             {
@@ -115,7 +115,7 @@ namespace Atata
                         {
                             try
                             {
-                                var actual = ObjectProvider.Value;
+                                var actual = ObjectProvider.Object;
 
                                 if (actual is Action actualAsAction)
                                     actualAsAction.Invoke();

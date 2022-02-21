@@ -25,7 +25,7 @@ namespace Atata
 
             valueGetFunction.CheckNotNull(nameof(valueGetFunction));
 
-            _lazyValue = new Lazy<TObject>(() => valueGetFunction.Invoke(_sourceProvider.Value));
+            _lazyValue = new Lazy<TObject>(() => valueGetFunction.Invoke(_sourceProvider.Object));
             _sourceProvider = sourceProvider;
         }
 

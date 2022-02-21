@@ -59,5 +59,9 @@
 [assembly: SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentScriptExecutor`1.ExecuteAsync``1(System.String,System.Object[])~Atata.ValueProvider{``0,`0}")]
 [assembly: SuppressMessage("Minor Code Smell", "S4136:Method overloads should be grouped together", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectVerificationProviderExtensions.Contain``1(Atata.IObjectVerificationProvider{System.String,``0},System.String)~``0")]
 [assembly: SuppressMessage("Globalization", "CA1309:Use ordinal string comparison", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IObjectVerificationProviderExtensions.EqualIgnoringCase``1(Atata.IObjectVerificationProvider{System.String,``0},System.String)~``0")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.ObjectProvider`2.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.SubjectBase`2.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.IObjectProvider`1.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.EnumerableProvider`2.Object")]
 
 #pragma warning restore S103 // Lines should not be too long

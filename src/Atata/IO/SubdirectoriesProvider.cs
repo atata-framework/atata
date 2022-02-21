@@ -40,7 +40,7 @@ namespace Atata
         /// <returns>A <see cref="DirectorySubject"/> instance.</returns>
         public DirectorySubject this[string directoryName] =>
             new DirectorySubject(
-                Path.Combine(Owner.Value.FullName, directoryName),
+                Path.Combine(Owner.Object.FullName, directoryName),
                 $"[\"{directoryName}\"]")
             {
                 SourceProviderName = ProviderName

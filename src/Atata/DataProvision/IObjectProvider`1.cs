@@ -9,7 +9,7 @@
         /// <summary>
         /// Gets the object value/instance.
         /// </summary>
-        TObject Value { get; }
+        TObject Object { get; }
 
         /// <summary>
         /// Gets the name of the provider.

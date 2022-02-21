@@ -52,9 +52,11 @@ namespace Atata
             set => _sourceProviderName = value;
         }
 
-        /// <inheritdoc/>
-        // TODO: Add logging.
-        public virtual TObject Value =>
+        TObject IObjectProvider<TObject>.Object =>
+            Object;
+
+        /// <inheritdoc cref="IObjectProvider{TObject}.Object"/>
+        protected virtual TObject Object =>
             _objectSource.Value;
 
         /// <summary>
@@ -93,7 +95,7 @@ namespace Atata
         /// <param name="objectProvider">The object provider.</param>
         /// <returns>The value of the <paramref name="objectProvider"/>.</returns>
         public static implicit operator TObject(ObjectProvider<TObject, TOwner> objectProvider) =>
-            objectProvider.Value;
+            objectProvider.Object;
 
         private static string BuildProviderName(string sourceProviderName, string providerName) =>
             providerName[0] == '['

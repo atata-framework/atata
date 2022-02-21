@@ -25,6 +25,8 @@ namespace Atata
             Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesValueCacheAttribute))
                 ?.UsesCache ?? false;
 
+        TValue IObjectProvider<TValue>.Object => Get();
+
         /// <summary>
         /// Gets the value.
         /// Also executes <see cref="TriggerEvents.BeforeGet"/> and <see cref="TriggerEvents.AfterGet"/> triggers.

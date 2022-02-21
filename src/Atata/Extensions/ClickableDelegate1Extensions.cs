@@ -47,7 +47,7 @@
         public static bool IsEnabled<TOwner>(this ClickableDelegate<TOwner> clickable)
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().IsEnabled.Value;
+            return clickable.GetControl().IsEnabled;
         }
 
         public static bool Exists<TOwner>(this ClickableDelegate<TOwner> clickable, SearchOptions options = null)

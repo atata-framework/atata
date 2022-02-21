@@ -27,7 +27,7 @@ namespace Atata
 
         /// <inheritdoc/>
         public TObject Value =>
-            _valueGetFunction.Invoke(_sourceProvider.Value);
+            _valueGetFunction.Invoke(_sourceProvider.Object);
 
         /// <inheritdoc/>
         public string SourceProviderName =>

@@ -46,7 +46,7 @@ namespace Atata
             this IEnumerableProvider<TSource, TOwner> source,
             int index)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.ElementAt(index);
+            TSource value = source.CheckNotNull(nameof(source)).Object.ElementAt(index);
 
             (value as IHasProviderName)?.SetProviderName($"ElementAt({index})");
 
@@ -57,7 +57,7 @@ namespace Atata
             this IEnumerableProvider<TSource, TOwner> source,
             int index)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.ElementAtOrDefault(index);
+            TSource value = source.CheckNotNull(nameof(source)).Object.ElementAtOrDefault(index);
 
             (value as IHasProviderName)?.SetProviderName($"ElementAtOrDefault({index})");
 
@@ -67,7 +67,7 @@ namespace Atata
         public static TSource First<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.First();
+            TSource value = source.CheckNotNull(nameof(source)).Object.First();
 
             (value as IHasProviderName)?.SetProviderName("First()");
 
@@ -80,7 +80,7 @@ namespace Atata
         {
             var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
 
-            TSource value = source.CheckNotNull(nameof(source)).Value.First(predicateFunction);
+            TSource value = source.CheckNotNull(nameof(source)).Object.First(predicateFunction);
 
             (value as IHasProviderName)?.SetProviderName($"First({ConvertToString(predicate)})");
 
@@ -90,7 +90,7 @@ namespace Atata
         public static TSource FirstOrDefault<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.FirstOrDefault();
+            TSource value = source.CheckNotNull(nameof(source)).Object.FirstOrDefault();
 
             (value as IHasProviderName)?.SetProviderName("FirstOrDefault()");
 
@@ -103,7 +103,7 @@ namespace Atata
         {
             var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
 
-            TSource value = source.CheckNotNull(nameof(source)).Value.FirstOrDefault(predicateFunction);
+            TSource value = source.CheckNotNull(nameof(source)).Object.FirstOrDefault(predicateFunction);
 
             (value as IHasProviderName)?.SetProviderName($"FirstOrDefault({ConvertToString(predicate)})");
 
@@ -113,7 +113,7 @@ namespace Atata
         public static TSource Last<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.Last();
+            TSource value = source.CheckNotNull(nameof(source)).Object.Last();
 
             (value as IHasProviderName)?.SetProviderName("Last()");
 
@@ -126,7 +126,7 @@ namespace Atata
         {
             var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
 
-            TSource value = source.CheckNotNull(nameof(source)).Value.Last(predicateFunction);
+            TSource value = source.CheckNotNull(nameof(source)).Object.Last(predicateFunction);
 
             (value as IHasProviderName)?.SetProviderName($"Last({ConvertToString(predicate)})");
 
@@ -136,7 +136,7 @@ namespace Atata
         public static TSource LastOrDefault<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.LastOrDefault();
+            TSource value = source.CheckNotNull(nameof(source)).Object.LastOrDefault();
 
             (value as IHasProviderName)?.SetProviderName("LastOrDefault()");
 
@@ -149,7 +149,7 @@ namespace Atata
         {
             var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
 
-            TSource value = source.CheckNotNull(nameof(source)).Value.LastOrDefault(predicateFunction);
+            TSource value = source.CheckNotNull(nameof(source)).Object.LastOrDefault(predicateFunction);
 
             (value as IHasProviderName)?.SetProviderName($"LastOrDefault({ConvertToString(predicate)})");
 
@@ -181,7 +181,7 @@ namespace Atata
         public static TSource Single<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.Single();
+            TSource value = source.CheckNotNull(nameof(source)).Object.Single();
 
             (value as IHasProviderName)?.SetProviderName("Single()");
 
@@ -194,7 +194,7 @@ namespace Atata
         {
             var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
 
-            TSource value = source.CheckNotNull(nameof(source)).Value.Single(predicateFunction);
+            TSource value = source.CheckNotNull(nameof(source)).Object.Single(predicateFunction);
 
             (value as IHasProviderName)?.SetProviderName($"Single({ConvertToString(predicate)})");
 
@@ -204,7 +204,7 @@ namespace Atata
         public static TSource SingleOrDefault<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source)
         {
-            TSource value = source.CheckNotNull(nameof(source)).Value.SingleOrDefault();
+            TSource value = source.CheckNotNull(nameof(source)).Object.SingleOrDefault();
 
             (value as IHasProviderName)?.SetProviderName("SingleOrDefault()");
 
@@ -217,7 +217,7 @@ namespace Atata
         {
             var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
 
-            TSource value = source.CheckNotNull(nameof(source)).Value.SingleOrDefault(predicateFunction);
+            TSource value = source.CheckNotNull(nameof(source)).Object.SingleOrDefault(predicateFunction);
 
             (value as IHasProviderName)?.SetProviderName($"SingleOrDefault({ConvertToString(predicate)})");
 

@@ -26,6 +26,9 @@ namespace Atata
         /// <inheritdoc/>
         protected override TSubject Owner => (TSubject)this;
 
+        /// <inheritdoc cref="IObjectProvider{TObject}.Object"/>
+        public new TObject Object => base.Object;
+
         /// <summary>
         /// Creates a new lazy result <see cref="Subject{TResult}"/> from the result of the specified <paramref name="functionExpression"/>.
         /// </summary>
@@ -172,7 +175,7 @@ namespace Atata
             action.CheckNotNull(nameof(action));
             actionName.CheckNotNull(nameof(actionName));
 
-            action.Invoke(Value);
+            action.Invoke(Object);
 
             ProviderName = _executedActionsCount == 0
                 ? $"{ProviderName}{{ {actionName} }}"

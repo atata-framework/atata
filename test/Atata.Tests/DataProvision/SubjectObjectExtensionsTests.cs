@@ -23,17 +23,17 @@ namespace Atata.Tests.DataProvision
             [Test]
             public static void ReferenceType() =>
                 new Uri("/", UriKind.Relative).ToSubject()
-                    .Value.Should().NotBeNull();
+                    .Object.Should().NotBeNull();
 
             [Test]
             public static void ValueType() =>
                 42.ToSubject()
-                    .Value.Should().Be(42);
+                    .Object.Should().Be(42);
 
             [Test]
             public static void NullValue() =>
                 (null as Uri).ToSubject()
-                    .Value.Should().BeNull();
+                    .Object.Should().BeNull();
         }
     }
 }

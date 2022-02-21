@@ -114,7 +114,7 @@ namespace Atata.Tests.DataProvision
                     .ReadAllText();
 
                 Assert.Throws<FileNotFoundException>(() =>
-                    _ = text.Value);
+                    _ = text.Object);
             }
         }
     }

@@ -12,7 +12,7 @@
         /// <returns>The instance of the owner page object.</returns>
         public static TOwner Get<TValue, TOwner>(this IObjectProvider<TValue, TOwner> provider, out TValue value)
         {
-            value = provider.Value;
+            value = provider.Object;
             return provider.Owner;
         }
 
@@ -25,7 +25,7 @@
         /// <returns>The instance of the owner page object.</returns>
         public static TOwner Get<TOwner>(this IObjectProvider<decimal?, TOwner> provider, out int? value)
         {
-            value = (int?)provider.Value;
+            value = (int?)provider.Object;
             return provider.Owner;
         }
     }

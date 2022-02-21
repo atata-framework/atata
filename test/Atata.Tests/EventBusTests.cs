@@ -40,7 +40,7 @@ namespace Atata.Tests
                 var actionMock = new Mock<Action<TestEvent>>();
                 var eventData = new TestEvent();
 
-                Sut.Value.Subscribe(actionMock.Object);
+                Sut.Object.Subscribe(actionMock.Object);
 
                 Sut.Act(x => x.Publish(eventData));
 
@@ -55,9 +55,9 @@ namespace Atata.Tests
                 var eventHandlerMock = new Mock<IEventHandler<TestEvent>>();
                 var eventData = new TestEvent();
 
-                Sut.Value.Subscribe(actionMock1.Object);
-                Sut.Value.Subscribe(actionMock2.Object);
-                Sut.Value.Subscribe(eventHandlerMock.Object);
+                Sut.Object.Subscribe(actionMock1.Object);
+                Sut.Object.Subscribe(actionMock2.Object);
+                Sut.Object.Subscribe(eventHandlerMock.Object);
 
                 Sut.Act(x => x.Publish(eventData));
 
@@ -73,9 +73,9 @@ namespace Atata.Tests
                 var actionMock2 = new Mock<Action<TestEvent, AtataContext>>();
                 var eventData = new TestEvent();
 
-                var subscription1 = Sut.Value.Subscribe(actionMock1.Object);
-                Sut.Value.Subscribe(actionMock2.Object);
-                Sut.Value.Unsubscribe(subscription1);
+                var subscription1 = Sut.Object.Subscribe(actionMock1.Object);
+                Sut.Object.Subscribe(actionMock2.Object);
+                Sut.Object.Unsubscribe(subscription1);
 
                 Sut.Act(x => x.Publish(eventData));
 
@@ -90,9 +90,9 @@ namespace Atata.Tests
                 var eventHandlerMock = new Mock<IEventHandler<TestEvent>>();
                 var eventData = new TestEvent();
 
-                Sut.Value.Subscribe(actionMock.Object);
-                Sut.Value.Subscribe(eventHandlerMock.Object);
-                Sut.Value.UnsubscribeHandler(eventHandlerMock.Object);
+                Sut.Object.Subscribe(actionMock.Object);
+                Sut.Object.Subscribe(eventHandlerMock.Object);
+                Sut.Object.UnsubscribeHandler(eventHandlerMock.Object);
 
                 Sut.Act(x => x.Publish(eventData));
 
@@ -107,9 +107,9 @@ namespace Atata.Tests
                 var actionMock2 = new Mock<Action<TestEvent, AtataContext>>();
                 var eventData = new TestEvent();
 
-                Sut.Value.Subscribe(actionMock1.Object);
-                Sut.Value.Subscribe(actionMock2.Object);
-                Sut.Value.UnsubscribeAll<TestEvent>();
+                Sut.Object.Subscribe(actionMock1.Object);
+                Sut.Object.Subscribe(actionMock2.Object);
+                Sut.Object.UnsubscribeAll<TestEvent>();
 
                 Sut.Act(x => x.Publish(eventData));
 
@@ -149,7 +149,7 @@ namespace Atata.Tests
             {
                 var actionMock = new Mock<Action<TestEvent>>();
 
-                var subscription = Sut.Value.Subscribe(actionMock.Object);
+                var subscription = Sut.Object.Subscribe(actionMock.Object);
 
                 Sut.Invoking(x => x.Unsubscribe(subscription))
                     .Should.Not.Throw();
@@ -160,7 +160,7 @@ namespace Atata.Tests
             {
                 var actionMock = new Mock<Action<TestEvent>>();
 
-                var subscription = Sut.Value.Subscribe(actionMock.Object);
+                var subscription = Sut.Object.Subscribe(actionMock.Object);
                 Sut.Act(x => x.Unsubscribe(subscription));
 
                 Sut.Invoking(x => x.Unsubscribe(subscription))
@@ -181,7 +181,7 @@ namespace Atata.Tests
             {
                 var actionMock = new Mock<IEventHandler<TestEvent>>();
 
-                Sut.Value.Subscribe(actionMock.Object);
+                Sut.Object.Subscribe(actionMock.Object);
 
                 Sut.Invoking(x => x.UnsubscribeHandler(actionMock.Object))
                     .Should.Not.Throw();
@@ -192,7 +192,7 @@ namespace Atata.Tests
             {
                 var actionMock = new Mock<IEventHandler<TestEvent>>();
 
-                Sut.Value.Subscribe(actionMock.Object);
+                Sut.Object.Subscribe(actionMock.Object);
                 Sut.Act(x => x.UnsubscribeHandler(actionMock.Object));
 
                 Sut.Invoking(x => x.UnsubscribeHandler(actionMock.Object))

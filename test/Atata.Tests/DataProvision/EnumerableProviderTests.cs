@@ -100,7 +100,7 @@ namespace Atata.Tests.DataProvision
                 _sourceValuesGetFunction = sourceValuesGetFunction;
             }
 
-            public TestOwner Value => this;
+            public TestOwner Object => this;
 
             public string ProviderName => nameof(TestOwner);
 

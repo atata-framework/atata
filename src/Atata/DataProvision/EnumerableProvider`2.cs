@@ -27,8 +27,8 @@ namespace Atata
         }
 
         /// <inheritdoc/>
-        public override IEnumerable<TItem> Value =>
-            base.Value.Select((item, index) =>
+        protected override IEnumerable<TItem> Object =>
+            base.Object.Select((item, index) =>
             {
                 (item as IHasSourceProviderName)?.SetSourceProviderName(ProviderName);
                 (item as IHasProviderName)?.SetProviderName($"[{index}]");
@@ -44,6 +44,6 @@ namespace Atata
         /// <param name="index">The index.</param>
         /// <returns>The found <typeparamref name="TItem"/> item.</returns>
         public TItem this[int index] =>
-            Value.ElementAt(index);
+            Object.ElementAt(index);
     }
 }

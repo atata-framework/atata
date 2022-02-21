@@ -55,7 +55,7 @@ namespace Atata
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
         {
-            return clickable.GetControl().IsEnabled.Value;
+            return clickable.GetControl().IsEnabled;
         }
 
         public static bool Exists<TNavigateTo, TOwner>(this ClickableDelegate<TNavigateTo, TOwner> clickable, SearchOptions options = null)

@@ -21,12 +21,12 @@ namespace Atata.Tests.DataProvision
         [Test]
         public static void Ctor_WithNullSource() =>
             new Subject<Uri>(null as Uri)
-                .Value.Should().BeNull();
+                .Object.Should().BeNull();
 
         [Test]
         public static void Ctor_WithObjectSourceContainingNull() =>
             new Subject<Uri>(new StaticObjectSource<Uri>(null))
-                .Value.Should().BeNull();
+                .Object.Should().BeNull();
 
         [Test]
         public static void Ctor_WithNullObjectSource_Throws() =>

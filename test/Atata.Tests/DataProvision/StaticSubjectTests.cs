@@ -27,7 +27,7 @@ namespace Atata.Tests.DataProvision
                 var result = Subject.ResultOf(() => TestClass.GetEntity(null));
 
                 Assert.Throws<ArgumentNullException>(() =>
-                    _ = result.Value);
+                    _ = result.Object);
             }
         }
 

@@ -38,7 +38,7 @@ namespace Atata
         /// <returns>A <see cref="FileSubject"/> instance.</returns>
         public FileSubject this[string fileName] =>
             new FileSubject(
-                Path.Combine(Owner.Value.FullName, fileName),
+                Path.Combine(Owner.Object.FullName, fileName),
                 $"[\"{fileName}\"]")
             {
                 SourceProviderName = ProviderName

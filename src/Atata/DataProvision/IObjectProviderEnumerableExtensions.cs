@@ -246,12 +246,12 @@ namespace Atata
         public static TSource[] ToArray<TSource, TOwner>(
             this IObjectProvider<IEnumerable<TSource>, TOwner> source)
             =>
-            source.CheckNotNull(nameof(source)).Value.ToArray();
+            source.CheckNotNull(nameof(source)).Object.ToArray();
 
         public static List<TSource> ToList<TSource, TOwner>(
             this IObjectProvider<IEnumerable<TSource>, TOwner> source)
             =>
-            source.CheckNotNull(nameof(source)).Value.ToList();
+            source.CheckNotNull(nameof(source)).Object.ToList();
 
         public static ValueProvider<IEnumerable<TSource>, TOwner> Where<TSource, TOwner>(
             this IObjectProvider<IEnumerable<TSource>, TOwner> source,

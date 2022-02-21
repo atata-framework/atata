@@ -62,7 +62,7 @@ namespace Atata
                     {
                         try
                         {
-                            actual = verifier.ObjectProvider.Value;
+                            actual = verifier.ObjectProvider.Object;
                             bool result = predicate(actual) != verifier.IsNegation;
                             exception = null;
                             return result;
@@ -148,7 +148,7 @@ namespace Atata
                     {
                         try
                         {
-                            actual = verifier.ObjectProvider.Value?.Select(x => x.Value).ToArray();
+                            actual = verifier.ObjectProvider.Object?.Select(x => x.Object).ToArray();
                             bool result = predicate(actual) != verifier.IsNegation;
                             exception = null;
                             return result;
