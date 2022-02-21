@@ -3,13 +3,13 @@
     /// <summary>
     /// Represents the interface of the object source.
     /// </summary>
-    /// <typeparam name="T">The type of the object.</typeparam>
-    public interface IObjectSource<out T>
+    /// <typeparam name="TObject">The type of the object.</typeparam>
+    public interface IObjectSource<out TObject>
     {
         /// <summary>
         /// Gets the object value/instance.
         /// </summary>
-        T Object { get; }
+        TObject Object { get; }
 
         /// <summary>
         /// Gets the name of the source provider.
