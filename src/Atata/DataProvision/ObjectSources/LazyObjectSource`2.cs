@@ -12,7 +12,7 @@ namespace Atata
     {
         private readonly IObjectProvider<TSource> _sourceProvider;
 
-        private readonly Lazy<TObject> _lazyValue;
+        private readonly Lazy<TObject> _lazyObject;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="LazyObjectSource{TObject, TSource}"/> class.
@@ -25,13 +25,13 @@ namespace Atata
 
             objectGetFunction.CheckNotNull(nameof(objectGetFunction));
 
-            _lazyValue = new Lazy<TObject>(() => objectGetFunction.Invoke(_sourceProvider.Object));
+            _lazyObject = new Lazy<TObject>(() => objectGetFunction.Invoke(_sourceProvider.Object));
             _sourceProvider = sourceProvider;
         }
 
         /// <inheritdoc/>
         public TObject Object =>
-            _lazyValue.Value;
+            _lazyObject.Value;
 
         /// <inheritdoc/>
         public string SourceProviderName =>
