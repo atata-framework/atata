@@ -15,17 +15,17 @@ namespace Atata
         private readonly Lazy<TObject> _lazyValue;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LazyObjectSource{TValue, TSource}"/> class.
+        /// Initializes a new instance of the <see cref="LazyObjectSource{TObject, TSource}"/> class.
         /// </summary>
         /// <param name="sourceProvider">The source provider.</param>
-        /// <param name="valueGetFunction">The value get function.</param>
-        public LazyObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> valueGetFunction)
+        /// <param name="objectGetFunction">The object get function.</param>
+        public LazyObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> objectGetFunction)
         {
             _sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
 
-            valueGetFunction.CheckNotNull(nameof(valueGetFunction));
+            objectGetFunction.CheckNotNull(nameof(objectGetFunction));
 
-            _lazyValue = new Lazy<TObject>(() => valueGetFunction.Invoke(_sourceProvider.Object));
+            _lazyValue = new Lazy<TObject>(() => objectGetFunction.Invoke(_sourceProvider.Object));
             _sourceProvider = sourceProvider;
         }
 
