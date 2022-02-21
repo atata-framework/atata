@@ -5,24 +5,24 @@ namespace Atata
     /// <summary>
     /// Represents the lazy object source that gets an object using function once.
     /// </summary>
-    /// <typeparam name="T">The type of the object.</typeparam>
-    public class LazyObjectSource<T> : IObjectSource<T>
+    /// <typeparam name="TObject">The type of the object.</typeparam>
+    public class LazyObjectSource<TObject> : IObjectSource<TObject>
     {
-        private readonly Lazy<T> _lazyValue;
+        private readonly Lazy<TObject> _lazyObject;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LazyObjectSource{TValue}"/> class.
+        /// Initializes a new instance of the <see cref="LazyObjectSource{TObject}"/> class.
         /// </summary>
-        /// <param name="valueGetFunction">The value get function.</param>
-        public LazyObjectSource(Func<T> valueGetFunction)
+        /// <param name="objectGetFunction">The object get function.</param>
+        public LazyObjectSource(Func<TObject> objectGetFunction)
         {
-            valueGetFunction.CheckNotNull(nameof(valueGetFunction));
-            _lazyValue = new Lazy<T>(valueGetFunction);
+            objectGetFunction.CheckNotNull(nameof(objectGetFunction));
+            _lazyObject = new Lazy<TObject>(objectGetFunction);
         }
 
         /// <inheritdoc/>
-        public T Object =>
-            _lazyValue.Value;
+        public TObject Object =>
+            _lazyObject.Value;
 
         /// <inheritdoc/>
         public string SourceProviderName => null;
