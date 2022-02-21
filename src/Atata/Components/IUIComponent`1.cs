@@ -26,12 +26,12 @@ namespace Atata
         IUIComponent<TOwner> Parent { get; }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the value indicating whether the control is visible.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating whether the control is visible.
         /// </summary>
         ValueProvider<bool, TOwner> IsVisible { get; }
 
         /// <summary>
-        /// Gets the <see cref="DataProvider{TData, TOwner}"/> instance for the text content.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the text content.
         /// </summary>
         ValueProvider<string, TOwner> Content { get; }
 

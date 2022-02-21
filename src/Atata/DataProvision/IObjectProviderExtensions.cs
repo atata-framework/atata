@@ -19,7 +19,7 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="source">The source.</param>
         /// <param name="valueExpression">The value expression.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static ValueProvider<TResult, TOwner> ValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Expression<Func<TSource, TResult>> valueExpression)
@@ -39,7 +39,7 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static ValueProvider<TResult, TOwner> ValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, TResult> valueGetFunction,
@@ -58,7 +58,7 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="source">The source.</param>
         /// <param name="valueExpression">The value expression.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static ValueProvider<TResult, TOwner> DynamicValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Expression<Func<TSource, TResult>> valueExpression)
@@ -82,7 +82,7 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static ValueProvider<TResult, TOwner> DynamicValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, TResult> valueGetFunction,
@@ -106,7 +106,7 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="source">The source.</param>
         /// <param name="valueExpression">The value expression.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static ValueProvider<TResult, TOwner> LazyValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Expression<Func<TSource, TResult>> valueExpression)
@@ -129,7 +129,7 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static ValueProvider<TResult, TOwner> LazyValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, TResult> valueGetFunction,
@@ -156,7 +156,7 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static EnumerableProvider<TResult, TOwner> EnumerableValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, IEnumerable<TResult>> valueGetFunction,
@@ -176,7 +176,7 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static EnumerableProvider<TResult, TOwner> DynamicEnumerableValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, IEnumerable<TResult>> valueGetFunction,
@@ -203,7 +203,7 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TResult, TOwner}"/> instance.</returns>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
         public static EnumerableProvider<TResult, TOwner> LazyEnumerableValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, IEnumerable<TResult>> valueGetFunction,

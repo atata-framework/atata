@@ -21,7 +21,7 @@ namespace Atata
         private string _providerName;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ObjectProvider{TValue, TOwner}"/> class.
+        /// Initializes a new instance of the <see cref="ObjectProvider{TObject, TOwner}"/> class.
         /// </summary>
         /// <param name="objectSource">The object source.</param>
         /// <param name="providerName">Name of the provider.</param>

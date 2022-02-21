@@ -323,11 +323,11 @@ return textValues;";
 
         /// <summary>
         /// Selects the specified data (property) set of each control.
-        /// Data can be a sub-control, an instance of <see cref="DataProvider{TData, TOwner}"/>, etc.
+        /// Data can be a sub-control, an instance of <see cref="ValueProvider{TValue, TOwner}"/>, etc.
         /// </summary>
         /// <typeparam name="TData">The type of the data.</typeparam>
         /// <param name="selector">The data selector.</param>
-        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
+        /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
         public ValueProvider<IEnumerable<TData>, TOwner> SelectData<TData>(Expression<Func<TItem, TData>> selector)
         {
             string dataPathName = ObjectExpressionStringBuilder.ExpressionToString(selector);
@@ -347,7 +347,7 @@ return textValues;";
         /// </param>
         /// <param name="valueProviderName">Name of the value provider to use in reporting.</param>
         /// <param name="valueTermOptions">The term options of value.</param>
-        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
+        /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
         public ValueProvider<IEnumerable<TData>, TOwner> SelectData<TData>(
             string elementValueJSPath,
             string valueProviderName = null,
@@ -398,7 +398,7 @@ return textValues;";
         /// <param name="elementXPath">The element XPath.</param>
         /// <param name="valueProviderName">Name of the value provider to use in reporting.</param>
         /// <param name="valueTermOptions">The term options of value.</param>
-        /// <returns>An instance of <see cref="DataProvider{TData, TOwner}"/>.</returns>
+        /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
         public ValueProvider<IEnumerable<string>, TOwner> SelectContentsByExtraXPath(
             string elementXPath,
             string valueProviderName = null,

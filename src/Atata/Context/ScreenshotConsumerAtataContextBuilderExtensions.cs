@@ -11,7 +11,7 @@ namespace Atata
         /// <typeparam name="TConsumer">The type of the file screenshot consumer.</typeparam>
         /// <param name="builder">The builder.</param>
         /// <param name="imageFormat">The image format.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public static AtataContextBuilder<TConsumer> With<TConsumer>(this AtataContextBuilder<TConsumer> builder, ScreenshotImageFormat imageFormat)
             where TConsumer : FileScreenshotConsumerBase
         {

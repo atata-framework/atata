@@ -7,7 +7,7 @@ namespace Atata
     /// Uses the <c>&lt;body&gt;</c> tag as a scope.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    /// <seealso cref="PageObject{T}" />
+    /// <seealso cref="PageObject{TOwner}" />
     [PageObjectDefinition("body", ComponentTypeName = "page", IgnoreNameEndings = "Page,PageObject")]
     public abstract class Page<TOwner> : PageObject<TOwner>
         where TOwner : Page<TOwner>

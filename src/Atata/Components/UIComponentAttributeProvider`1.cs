@@ -64,7 +64,7 @@ namespace Atata
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance for the value of the specified control's scope element attribute.
         /// </summary>
         /// <param name="attributeName">The name of the attribute.</param>
-        /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
+        /// <returns>The <see cref="ValueProvider{TValue, TOwner}"/> instance for the attribute's current value.</returns>
         public ValueProvider<string, TOwner> this[string attributeName] =>
             Get<string>(attributeName);
 
@@ -73,7 +73,7 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TValue">The type of the attribute value.</typeparam>
         /// <param name="attributeName">The name of the attribute.</param>
-        /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the attribute's current value.</returns>
+        /// <returns>The <see cref="ValueProvider{TValue, TOwner}"/> instance for the attribute's current value.</returns>
         public ValueProvider<TValue, TOwner> Get<TValue>(string attributeName)
         {
             attributeName.CheckNotNullOrWhitespace(nameof(attributeName));

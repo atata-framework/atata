@@ -11,7 +11,7 @@
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value of the specified control's scope element CSS property.
         /// </summary>
         /// <param name="propertyName">The name of the CSS property.</param>
-        /// <returns>The <see cref="DataProvider{TData, TOwner}"/> instance for the CSS property's current value.</returns>
+        /// <returns>The <see cref="ValueProvider{TValue, TOwner}"/> of the CSS property's current value.</returns>
         public ValueProvider<string, TOwner> this[string propertyName] =>
             Component.CreateValueProvider(propertyName + " CSS property", () => GetValue(propertyName));
 

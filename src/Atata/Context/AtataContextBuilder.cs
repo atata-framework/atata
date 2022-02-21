@@ -330,7 +330,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// The type of the log consumer.
         /// Should have default constructor.
         /// </typeparam>
-        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public AtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>()
             where TLogConsumer : ILogConsumer, new() =>
             AddLogConsumer(new TLogConsumer());
@@ -340,7 +340,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
         /// <param name="consumer">The log consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public AtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>(TLogConsumer consumer)
             where TLogConsumer : ILogConsumer
         {
@@ -355,7 +355,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// Predefined aliases are defined in <see cref="LogConsumerAliases"/> static class.
         /// </summary>
         /// <param name="typeNameOrAlias">The type name or alias of the log consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public AtataContextBuilder<ILogConsumer> AddLogConsumer(string typeNameOrAlias)
         {
             ILogConsumer consumer = LogConsumerAliases.Resolve(typeNameOrAlias);
@@ -365,7 +365,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <summary>
         /// Adds the <see cref="TraceLogConsumer"/> instance that uses <see cref="Trace"/> class for logging.
         /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder{TraceLogConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public AtataContextBuilder<TraceLogConsumer> AddTraceLogging()
         {
             return AddLogConsumer(new TraceLogConsumer());
@@ -470,7 +470,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// Adds the screenshot consumer.
         /// </summary>
         /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
-        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>()
             where TScreenshotConsumer : IScreenshotConsumer, new() =>
             AddScreenshotConsumer(new TScreenshotConsumer());
@@ -480,7 +480,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// </summary>
         /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
         /// <param name="consumer">The screenshot consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
             where TScreenshotConsumer : IScreenshotConsumer
         {
@@ -494,7 +494,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// Adds the screenshot consumer.
         /// </summary>
         /// <param name="typeNameOrAlias">The type name or alias of the log consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
         public AtataContextBuilder<IScreenshotConsumer> AddScreenshotConsumer(string typeNameOrAlias)
         {
             IScreenshotConsumer consumer = ScreenshotConsumerAliases.Resolve(typeNameOrAlias);
