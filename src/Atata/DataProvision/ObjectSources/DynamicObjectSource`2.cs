@@ -18,7 +18,7 @@ namespace Atata
         /// Initializes a new instance of the <see cref="DynamicObjectSource{TObject, TSource}"/> class.
         /// </summary>
         /// <param name="sourceProvider">The source provider.</param>
-        /// <param name="objectGetFunction">The value get function.</param>
+        /// <param name="objectGetFunction">The object get function.</param>
         public DynamicObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> objectGetFunction)
         {
             _sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
