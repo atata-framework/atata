@@ -81,7 +81,7 @@ return textValues;";
 
         IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Object => GetAll();
 
-        bool IObjectProvider<IEnumerable<TItem>, TOwner>.IsValueDynamic => true;
+        bool IObjectProvider<IEnumerable<TItem>, TOwner>.IsDynamic => true;
 
         UIComponentMetadata ISupportsMetadata.Metadata
         {

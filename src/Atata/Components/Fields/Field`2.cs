@@ -44,7 +44,7 @@ namespace Atata
 
         TOwner IObjectProvider<TValue, TOwner>.Owner => Owner;
 
-        bool IObjectProvider<TValue, TOwner>.IsValueDynamic => true;
+        bool IObjectProvider<TValue, TOwner>.IsDynamic => true;
 
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.

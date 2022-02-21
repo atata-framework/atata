@@ -10,7 +10,7 @@
         /// <summary>
         /// Gets a value indicating whether the provided object is dynamic (can it vary for every value request).
         /// </summary>
-        bool IsValueDynamic { get; }
+        bool IsDynamic { get; }
 
         /// <summary>
         /// Gets the owner object.

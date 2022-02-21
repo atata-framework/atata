@@ -12,7 +12,7 @@ namespace Atata
         /// <summary>
         /// Creates a provider of value resolved from <paramref name="valueExpression"/> argument.
         /// The created provider can be either dynamic or lazy,
-        /// according to <see cref="IObjectProvider{TObject, TOwner}.IsValueDynamic"/> property of <paramref name="source"/> object provider.
+        /// according to <see cref="IObjectProvider{TObject, TOwner}.IsDynamic"/> property of <paramref name="source"/> object provider.
         /// </summary>
         /// <typeparam name="TSource">The type of the source.</typeparam>
         /// <typeparam name="TResult">The type of the result.</typeparam>
@@ -24,14 +24,14 @@ namespace Atata
             this IObjectProvider<TSource, TOwner> source,
             Expression<Func<TSource, TResult>> valueExpression)
             =>
-            source.CheckNotNull(nameof(source)).IsValueDynamic
+            source.CheckNotNull(nameof(source)).IsDynamic
                 ? source.DynamicValueOf(valueExpression)
                 : source.LazyValueOf(valueExpression);
 
         /// <summary>
         /// Creates a provider of value that is taken from <paramref name="valueGetFunction"/> with <paramref name="valueName"/> as a provider name.
         /// The created provider can be either dynamic or lazy,
-        /// according to <see cref="IObjectProvider{TObject, TOwner}.IsValueDynamic"/> property of <paramref name="source"/> object provider.
+        /// according to <see cref="IObjectProvider{TObject, TOwner}.IsDynamic"/> property of <paramref name="source"/> object provider.
         /// </summary>
         /// <typeparam name="TSource">The type of the source.</typeparam>
         /// <typeparam name="TResult">The type of the result.</typeparam>
@@ -45,7 +45,7 @@ namespace Atata
             Func<TSource, TResult> valueGetFunction,
             string valueName)
             =>
-            source.CheckNotNull(nameof(source)).IsValueDynamic
+            source.CheckNotNull(nameof(source)).IsDynamic
                 ? source.DynamicValueOf(valueGetFunction, valueName)
                 : source.LazyValueOf(valueGetFunction, valueName);
 
@@ -148,7 +148,7 @@ namespace Atata
         /// <summary>
         /// Creates a enumerable provider of value that is taken from <paramref name="valueGetFunction"/> with <paramref name="valueName"/> as a provider name.
         /// The created provider can be either dynamic or lazy,
-        /// according to <see cref="IObjectProvider{TObject, TOwner}.IsValueDynamic"/> property of <paramref name="source"/> object provider.
+        /// according to <see cref="IObjectProvider{TObject, TOwner}.IsDynamic"/> property of <paramref name="source"/> object provider.
         /// </summary>
         /// <typeparam name="TSource">The type of the source.</typeparam>
         /// <typeparam name="TResult">The type of the result.</typeparam>
@@ -162,7 +162,7 @@ namespace Atata
             Func<TSource, IEnumerable<TResult>> valueGetFunction,
             string valueName)
             =>
-            source.CheckNotNull(nameof(source)).IsValueDynamic
+            source.CheckNotNull(nameof(source)).IsDynamic
                 ? source.DynamicEnumerableValueOf(valueGetFunction, valueName)
                 : source.LazyEnumerableValueOf(valueGetFunction, valueName);
 

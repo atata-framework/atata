@@ -22,7 +22,7 @@ namespace Atata
         public NegationObjectVerificationProvider Not => new NegationObjectVerificationProvider(ObjectProvider, this);
 
         protected override RetryOptions GetRetryOptions() =>
-            ObjectProvider.IsValueDynamic
+            ObjectProvider.IsDynamic
                 ? base.GetRetryOptions()
                 : new RetryOptions { Timeout = TimeSpan.Zero, Interval = TimeSpan.Zero };
 
@@ -98,7 +98,7 @@ namespace Atata
                 ObjectProvider.Owner;
 
             protected override RetryOptions GetRetryOptions() =>
-                ObjectProvider.IsValueDynamic
+                ObjectProvider.IsDynamic
                     ? base.GetRetryOptions()
                     : new RetryOptions { Timeout = TimeSpan.Zero, Interval = TimeSpan.Zero };
 

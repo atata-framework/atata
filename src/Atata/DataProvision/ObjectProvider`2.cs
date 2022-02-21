@@ -86,7 +86,7 @@ namespace Atata
             CreateVerificationProvider().Using<WaitingVerificationStrategy>();
 
         /// <inheritdoc/>
-        public bool IsValueDynamic =>
+        public bool IsDynamic =>
             _objectSource.IsDynamic;
 
         /// <summary>

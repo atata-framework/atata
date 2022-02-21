@@ -16,7 +16,7 @@ namespace Atata
             valueName.CheckNotNull(nameof(valueName));
             valueGetFunction.CheckNotNull(nameof(valueGetFunction));
 
-            IObjectSource<IEnumerable<TResult>> valueSource = source.IsValueDynamic
+            IObjectSource<IEnumerable<TResult>> valueSource = source.IsDynamic
                 ? new DynamicObjectSource<IEnumerable<TResult>, IEnumerable<TSource>>(
                     source,
                     valueGetFunction)
