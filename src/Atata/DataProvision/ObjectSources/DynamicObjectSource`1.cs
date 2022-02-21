@@ -11,7 +11,7 @@ namespace Atata
         private readonly Func<TObject> _objectGetFunction;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="DynamicObjectSource{TValue}"/> class.
+        /// Initializes a new instance of the <see cref="DynamicObjectSource{TObject}"/> class.
         /// </summary>
         /// <param name="objectGetFunction">The object get function.</param>
         public DynamicObjectSource(Func<TObject> objectGetFunction)
