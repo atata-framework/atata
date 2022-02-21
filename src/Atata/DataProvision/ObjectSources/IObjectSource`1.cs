@@ -9,7 +9,7 @@
         /// <summary>
         /// Gets the object value/instance.
         /// </summary>
-        T Value { get; }
+        T Object { get; }
 
         /// <summary>
         /// Gets the name of the source provider.

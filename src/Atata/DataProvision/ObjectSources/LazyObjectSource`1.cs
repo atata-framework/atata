@@ -21,7 +21,7 @@ namespace Atata
         }
 
         /// <inheritdoc/>
-        public T Value =>
+        public T Object =>
             _lazyValue.Value;
 
         /// <inheritdoc/>

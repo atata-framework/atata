@@ -63,5 +63,11 @@
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.SubjectBase`2.Object")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.IObjectProvider`1.Object")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.EnumerableProvider`2.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.IObjectSource`1.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.LazyObjectSource`1.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.LazyObjectSource`2.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.DynamicObjectSource`1.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.DynamicObjectSource`2.Object")]
+[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.StaticObjectSource`1.Object")]
 
 #pragma warning restore S103 // Lines should not be too long

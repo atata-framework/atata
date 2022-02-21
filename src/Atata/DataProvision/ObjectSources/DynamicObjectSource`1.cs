@@ -20,7 +20,7 @@ namespace Atata
         }
 
         /// <inheritdoc/>
-        public TValue Value =>
+        public TValue Object =>
             _valueGetFunction.Invoke();
 
         /// <inheritdoc/>

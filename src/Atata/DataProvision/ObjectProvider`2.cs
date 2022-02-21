@@ -57,7 +57,7 @@ namespace Atata
 
         /// <inheritdoc cref="IObjectProvider{TObject}.Object"/>
         protected virtual TObject Object =>
-            _objectSource.Value;
+            _objectSource.Object;
 
         /// <summary>
         /// Gets the owner object.

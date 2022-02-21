@@ -30,7 +30,7 @@ namespace Atata
         }
 
         /// <inheritdoc/>
-        public TObject Value =>
+        public TObject Object =>
             _lazyValue.Value;
 
         /// <inheritdoc/>

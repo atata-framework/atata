@@ -12,11 +12,11 @@
         /// <param name="source">The source object.</param>
         public StaticObjectSource(T source)
         {
-            Value = source;
+            Object = source;
         }
 
         /// <inheritdoc/>
-        public T Value { get; }
+        public T Object { get; }
 
         /// <inheritdoc/>
         public string SourceProviderName => null;
