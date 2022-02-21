@@ -30,11 +30,11 @@ namespace Atata
         public new TObject Object => base.Object;
 
         /// <summary>
-        /// Creates a new lazy result <see cref="Subject{T}"/> from the result of the specified <paramref name="functionExpression"/>.
+        /// Creates a new lazy result <see cref="Subject{TObject}"/> from the result of the specified <paramref name="functionExpression"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="functionExpression">The function expression.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> ResultOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
         {
             functionExpression.CheckNotNull(nameof(functionExpression));
@@ -46,21 +46,21 @@ namespace Atata
         }
 
         /// <summary>
-        /// Creates a new lazy result <see cref="Subject{T}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
+        /// Creates a new lazy result <see cref="Subject{TObject}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="function">The function.</param>
         /// <param name="functionName">Name of the function.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> ResultOf<TResult>(Func<TObject, TResult> function, string functionName) =>
             SubjectOf(function, Subject.BuildResultName(functionName));
 
         /// <summary>
-        /// Creates a new lazy <see cref="Subject{T}"/> from the result of the specified <paramref name="functionExpression"/>.
+        /// Creates a new lazy <see cref="Subject{TObject}"/> from the result of the specified <paramref name="functionExpression"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="functionExpression">The function expression.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> SubjectOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
         {
             functionExpression.CheckNotNull(nameof(functionExpression));
@@ -72,12 +72,12 @@ namespace Atata
         }
 
         /// <summary>
-        /// Creates a new lazy <see cref="Subject{T}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
+        /// Creates a new lazy <see cref="Subject{TObject}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="function">The function.</param>
         /// <param name="functionName">Name of the function.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> SubjectOf<TResult>(Func<TObject, TResult> function, string functionName)
         {
             function.CheckNotNull(nameof(function));
@@ -89,11 +89,11 @@ namespace Atata
         }
 
         /// <summary>
-        /// Creates a new dynamic result <see cref="Subject{T}"/> from the result of the specified <paramref name="functionExpression"/>.
+        /// Creates a new dynamic result <see cref="Subject{TObject}"/> from the result of the specified <paramref name="functionExpression"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="functionExpression">The function expression.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
         {
             functionExpression.CheckNotNull(nameof(functionExpression));
@@ -105,21 +105,21 @@ namespace Atata
         }
 
         /// <summary>
-        /// Creates a new dynamic result <see cref="Subject{T}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
+        /// Creates a new dynamic result <see cref="Subject{TObject}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="function">The function.</param>
         /// <param name="functionName">Name of the function.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> DynamicResultOf<TResult>(Func<TObject, TResult> function, string functionName) =>
             DynamicSubjectOf(function, Subject.BuildResultName(functionName));
 
         /// <summary>
-        /// Creates a new dynamic <see cref="Subject{T}"/> from the result of the specified <paramref name="functionExpression"/>.
+        /// Creates a new dynamic <see cref="Subject{TObject}"/> from the result of the specified <paramref name="functionExpression"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="functionExpression">The function expression.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TObject, TResult>> functionExpression)
         {
             functionExpression.CheckNotNull(nameof(functionExpression));
@@ -131,12 +131,12 @@ namespace Atata
         }
 
         /// <summary>
-        /// Creates a new dynamic <see cref="Subject{T}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
+        /// Creates a new dynamic <see cref="Subject{TObject}"/> from the result of the specified <paramref name="function"/> with the specified <paramref name="functionName"/>.
         /// </summary>
         /// <typeparam name="TResult">The type of the result.</typeparam>
         /// <param name="function">The function.</param>
         /// <param name="functionName">Name of the function.</param>
-        /// <returns>A new <see cref="Subject{T}"/> instance.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public Subject<TResult> DynamicSubjectOf<TResult>(Func<TObject, TResult> function, string functionName)
         {
             function.CheckNotNull(nameof(function));

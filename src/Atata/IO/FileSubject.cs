@@ -87,9 +87,9 @@ namespace Atata
             this.DynamicValueOf(x => x.Length);
 
         /// <summary>
-        /// Returns a new <see cref="Subject{T}"/> for the file text.
+        /// Returns a new <see cref="Subject{TObject}"/> for the file text.
         /// </summary>
-        /// <returns>A new <see cref="Subject{T}"/>.</returns>
+        /// <returns>A new <see cref="Subject{TObject}"/>.</returns>
         public Subject<string> ReadAllText() =>
             ResultOf(x => File.ReadAllText(FullName), $"{nameof(ReadAllText)}()");
 
