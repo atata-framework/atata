@@ -5,23 +5,23 @@ namespace Atata
     /// <summary>
     /// Represents the dynamic object source that gets an object using function.
     /// </summary>
-    /// <typeparam name="TValue">The type of the value.</typeparam>
-    public class DynamicObjectSource<TValue> : IObjectSource<TValue>
+    /// <typeparam name="TObject">The type of the object.</typeparam>
+    public class DynamicObjectSource<TObject> : IObjectSource<TObject>
     {
-        private readonly Func<TValue> _valueGetFunction;
+        private readonly Func<TObject> _objectGetFunction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicObjectSource{TValue}"/> class.
         /// </summary>
-        /// <param name="valueGetFunction">The value get function.</param>
-        public DynamicObjectSource(Func<TValue> valueGetFunction)
+        /// <param name="objectGetFunction">The object get function.</param>
+        public DynamicObjectSource(Func<TObject> objectGetFunction)
         {
-            _valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
+            _objectGetFunction = objectGetFunction.CheckNotNull(nameof(objectGetFunction));
         }
 
         /// <inheritdoc/>
-        public TValue Object =>
-            _valueGetFunction.Invoke();
+        public TObject Object =>
+            _objectGetFunction.Invoke();
 
         /// <inheritdoc/>
         public string SourceProviderName => null;
