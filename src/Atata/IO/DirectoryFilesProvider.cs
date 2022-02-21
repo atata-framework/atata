@@ -7,7 +7,7 @@ namespace Atata
     /// <summary>
     /// Represents the provider of enumerable <see cref="FileSubject"/> objects that represent the files in a certain directory.
     /// </summary>
-    public class DirectoryFilesProvider : EnumerableProvider<FileSubject, DirectorySubject>
+    public class DirectoryFilesProvider : EnumerableValueProvider<FileSubject, DirectorySubject>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectoryFilesProvider"/> class.
@@ -27,7 +27,7 @@ namespace Atata
         /// <summary>
         /// Gets the file names.
         /// </summary>
-        public EnumerableProvider<ValueProvider<string, FileSubject>, DirectorySubject> Names =>
+        public EnumerableValueProvider<ValueProvider<string, FileSubject>, DirectorySubject> Names =>
             this.Query(nameof(Names), q => q.Select(x => x.Name));
 
         /// <summary>

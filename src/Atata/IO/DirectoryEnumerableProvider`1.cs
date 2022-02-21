@@ -7,7 +7,7 @@ namespace Atata
     /// Represents the value provider class that wraps enumerable of <see cref="DirectorySubject"/> objects and is hosted in <typeparamref name="TOwner"/> object.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
-    public class DirectoryEnumerableProvider<TOwner> : EnumerableProvider<DirectorySubject, TOwner>
+    public class DirectoryEnumerableProvider<TOwner> : EnumerableValueProvider<DirectorySubject, TOwner>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectoryEnumerableProvider{TOwner}"/> class.
@@ -26,7 +26,7 @@ namespace Atata
         /// <summary>
         /// Gets the directory names.
         /// </summary>
-        public EnumerableProvider<ValueProvider<string, DirectorySubject>, TOwner> Names =>
+        public EnumerableValueProvider<ValueProvider<string, DirectorySubject>, TOwner> Names =>
             this.Query(nameof(Names), q => q.Select(x => x.Name));
 
         /// <summary>

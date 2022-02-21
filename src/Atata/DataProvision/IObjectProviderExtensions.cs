@@ -156,8 +156,8 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
-        public static EnumerableProvider<TResult, TOwner> EnumerableValueOf<TSource, TResult, TOwner>(
+        /// <returns>An <see cref="EnumerableValueProvider{TItem, TOwner}"/> instance.</returns>
+        public static EnumerableValueProvider<TResult, TOwner> EnumerableValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, IEnumerable<TResult>> valueGetFunction,
             string valueName)
@@ -176,8 +176,8 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
-        public static EnumerableProvider<TResult, TOwner> DynamicEnumerableValueOf<TSource, TResult, TOwner>(
+        /// <returns>An <see cref="EnumerableValueProvider{TItem, TOwner}"/> instance.</returns>
+        public static EnumerableValueProvider<TResult, TOwner> DynamicEnumerableValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, IEnumerable<TResult>> valueGetFunction,
             string valueName)
@@ -186,7 +186,7 @@ namespace Atata
             valueGetFunction.CheckNotNull(nameof(valueGetFunction));
             valueName.CheckNotNull(nameof(valueName));
 
-            return new EnumerableProvider<TResult, TOwner>(
+            return new EnumerableValueProvider<TResult, TOwner>(
                 source.Owner,
                 new DynamicObjectSource<IEnumerable<TResult>, TSource>(
                     source,
@@ -203,8 +203,8 @@ namespace Atata
         /// <param name="source">The source.</param>
         /// <param name="valueGetFunction">The value get function.</param>
         /// <param name="valueName">Name of the value.</param>
-        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> instance.</returns>
-        public static EnumerableProvider<TResult, TOwner> LazyEnumerableValueOf<TSource, TResult, TOwner>(
+        /// <returns>An <see cref="EnumerableValueProvider{TItem, TOwner}"/> instance.</returns>
+        public static EnumerableValueProvider<TResult, TOwner> LazyEnumerableValueOf<TSource, TResult, TOwner>(
             this IObjectProvider<TSource, TOwner> source,
             Func<TSource, IEnumerable<TResult>> valueGetFunction,
             string valueName)
@@ -213,7 +213,7 @@ namespace Atata
             valueGetFunction.CheckNotNull(nameof(valueGetFunction));
             valueName.CheckNotNull(nameof(valueName));
 
-            return new EnumerableProvider<TResult, TOwner>(
+            return new EnumerableValueProvider<TResult, TOwner>(
                 source.Owner,
                 new LazyObjectSource<IEnumerable<TResult>, TSource>(
                     source,

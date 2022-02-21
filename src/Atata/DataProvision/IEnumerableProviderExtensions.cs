@@ -7,7 +7,7 @@ namespace Atata
 {
     public static class IEnumerableProviderExtensions
     {
-        public static EnumerableProvider<TResult, TOwner> Query<TSource, TResult, TOwner>(
+        public static EnumerableValueProvider<TResult, TOwner> Query<TSource, TResult, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             string valueName,
             Func<IEnumerable<TSource>, IEnumerable<TResult>> valueGetFunction)
@@ -24,17 +24,17 @@ namespace Atata
                     source,
                     valueGetFunction);
 
-            return new EnumerableProvider<TResult, TOwner>(source.Owner, valueSource, valueName);
+            return new EnumerableValueProvider<TResult, TOwner>(source.Owner, valueSource, valueName);
         }
 
-        public static EnumerableProvider<TSource, TOwner> Distinct<TSource, TOwner>(
+        public static EnumerableValueProvider<TSource, TOwner> Distinct<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source)
             =>
             source.CheckNotNull(nameof(source)).Query(
                 "Distinct()",
                 x => x.Distinct());
 
-        public static EnumerableProvider<TSource, TOwner> Distinct<TSource, TOwner>(
+        public static EnumerableValueProvider<TSource, TOwner> Distinct<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             IEqualityComparer<TSource> comparer)
             =>
@@ -156,7 +156,7 @@ namespace Atata
             return value;
         }
 
-        public static EnumerableProvider<TResult, TOwner> Select<TSource, TResult, TOwner>(
+        public static EnumerableValueProvider<TResult, TOwner> Select<TSource, TResult, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             Expression<Func<TSource, TResult>> selector)
         {
@@ -167,7 +167,7 @@ namespace Atata
                 x => x.Select(selectorFunction));
         }
 
-        public static EnumerableProvider<TResult, TOwner> Select<TSource, TResult, TOwner>(
+        public static EnumerableValueProvider<TResult, TOwner> Select<TSource, TResult, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             Expression<Func<TSource, int, TResult>> selector)
         {
@@ -224,7 +224,7 @@ namespace Atata
             return value;
         }
 
-        public static EnumerableProvider<TSource, TOwner> Skip<TSource, TOwner>(
+        public static EnumerableValueProvider<TSource, TOwner> Skip<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             int count)
             =>
@@ -232,7 +232,7 @@ namespace Atata
                 $"Skip({count})",
                 x => x.Skip(count));
 
-        public static EnumerableProvider<TSource, TOwner> Take<TSource, TOwner>(
+        public static EnumerableValueProvider<TSource, TOwner> Take<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             int count)
             =>
@@ -240,7 +240,7 @@ namespace Atata
                 $"Take({count})",
                 x => x.Take(count));
 
-        public static EnumerableProvider<TSource, TOwner> Where<TSource, TOwner>(
+        public static EnumerableValueProvider<TSource, TOwner> Where<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             Expression<Func<TSource, int, bool>> predicate)
         {
@@ -251,7 +251,7 @@ namespace Atata
                 x => x.Where(predicateFunction));
         }
 
-        public static EnumerableProvider<TSource, TOwner> Where<TSource, TOwner>(
+        public static EnumerableValueProvider<TSource, TOwner> Where<TSource, TOwner>(
             this IEnumerableProvider<TSource, TOwner> source,
             Expression<Func<TSource, bool>> predicate)
         {

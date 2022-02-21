@@ -7,7 +7,7 @@ namespace Atata
     /// Represents the value provider class that wraps enumerable of <see cref="FileSubject"/> objects and is hosted in <typeparamref name="TOwner"/> object.
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
-    public class FileEnumerableProvider<TOwner> : EnumerableProvider<FileSubject, TOwner>
+    public class FileEnumerableProvider<TOwner> : EnumerableValueProvider<FileSubject, TOwner>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="FileEnumerableProvider{TOwner}"/> class.
@@ -26,7 +26,7 @@ namespace Atata
         /// <summary>
         /// Gets the file names.
         /// </summary>
-        public EnumerableProvider<ValueProvider<string, FileSubject>, TOwner> Names =>
+        public EnumerableValueProvider<ValueProvider<string, FileSubject>, TOwner> Names =>
             this.Query(nameof(Names), q => q.Select(x => x.Name));
 
         /// <summary>

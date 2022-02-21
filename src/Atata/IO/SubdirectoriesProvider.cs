@@ -7,7 +7,7 @@ namespace Atata
     /// <summary>
     /// Represents the provider of enumerable <see cref="DirectorySubject"/> objects that represent the subdirectories of a certain directory.
     /// </summary>
-    public class SubdirectoriesProvider : EnumerableProvider<DirectorySubject, DirectorySubject>
+    public class SubdirectoriesProvider : EnumerableValueProvider<DirectorySubject, DirectorySubject>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SubdirectoriesProvider"/> class.
@@ -27,7 +27,7 @@ namespace Atata
         /// <summary>
         /// Gets the directory names.
         /// </summary>
-        public EnumerableProvider<ValueProvider<string, DirectorySubject>, DirectorySubject> Names =>
+        public EnumerableValueProvider<ValueProvider<string, DirectorySubject>, DirectorySubject> Names =>
             this.Query(nameof(Names), q => q.Select(x => x.Name));
 
         /// <summary>

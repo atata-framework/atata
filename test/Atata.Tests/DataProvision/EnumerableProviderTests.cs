@@ -88,7 +88,7 @@ namespace Atata.Tests.DataProvision
                 .Where(x => x.Number != 20)
                 .Select(x => x.ProviderName).Should.EqualSequence("[0]", "[1]");
 
-        private static EnumerableProvider<TestItem, TestOwner> CreateSut(Func<IEnumerable<int>> sourceValuesGetFunction) =>
+        private static EnumerableValueProvider<TestItem, TestOwner> CreateSut(Func<IEnumerable<int>> sourceValuesGetFunction) =>
             new TestOwner(sourceValuesGetFunction).Items;
 
         public class TestOwner : IObjectProvider<TestOwner>
@@ -104,8 +104,8 @@ namespace Atata.Tests.DataProvision
 
             public string ProviderName => nameof(TestOwner);
 
-            public EnumerableProvider<TestItem, TestOwner> Items =>
-                new EnumerableProvider<TestItem, TestOwner>(
+            public EnumerableValueProvider<TestItem, TestOwner> Items =>
+                new EnumerableValueProvider<TestItem, TestOwner>(
                     this,
                     new DynamicObjectSource<IEnumerable<TestItem>, TestOwner>(
                         this,

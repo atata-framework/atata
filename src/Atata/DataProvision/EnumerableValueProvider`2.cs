@@ -8,17 +8,17 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TItem">The type of the enumerable item.</typeparam>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
-    public class EnumerableProvider<TItem, TOwner> :
+    public class EnumerableValueProvider<TItem, TOwner> :
         ValueProvider<IEnumerable<TItem>, TOwner>,
         IEnumerableProvider<TItem, TOwner>
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="EnumerableProvider{TItem, TOwner}"/> class.
+        /// Initializes a new instance of the <see cref="EnumerableValueProvider{TItem, TOwner}"/> class.
         /// </summary>
         /// <param name="owner">The owner.</param>
         /// <param name="objectSource">The object source.</param>
         /// <param name="providerName">Name of the provider.</param>
-        public EnumerableProvider(
+        public EnumerableValueProvider(
             TOwner owner,
             IObjectSource<IEnumerable<TItem>> objectSource,
             string providerName)
