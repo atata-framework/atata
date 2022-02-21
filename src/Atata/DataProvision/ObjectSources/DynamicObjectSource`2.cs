@@ -12,22 +12,22 @@ namespace Atata
     {
         private readonly IObjectProvider<TSource> _sourceProvider;
 
-        private readonly Func<TSource, TObject> _valueGetFunction;
+        private readonly Func<TSource, TObject> _objectGetFunction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DynamicObjectSource{TObject, TSource}"/> class.
         /// </summary>
         /// <param name="sourceProvider">The source provider.</param>
-        /// <param name="valueGetFunction">The value get function.</param>
-        public DynamicObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> valueGetFunction)
+        /// <param name="objectGetFunction">The value get function.</param>
+        public DynamicObjectSource(IObjectProvider<TSource> sourceProvider, Func<TSource, TObject> objectGetFunction)
         {
             _sourceProvider = sourceProvider.CheckNotNull(nameof(sourceProvider));
-            _valueGetFunction = valueGetFunction.CheckNotNull(nameof(valueGetFunction));
+            _objectGetFunction = objectGetFunction.CheckNotNull(nameof(objectGetFunction));
         }
 
         /// <inheritdoc/>
         public TObject Object =>
-            _valueGetFunction.Invoke(_sourceProvider.Object);
+            _objectGetFunction.Invoke(_sourceProvider.Object);
 
         /// <inheritdoc/>
         public string SourceProviderName =>
