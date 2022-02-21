@@ -99,6 +99,16 @@ namespace Atata
         public TVerificationProvider WithinSeconds(double timeoutSeconds, double? retryIntervalSeconds = null) =>
             Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? (TimeSpan?)TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
 
+        public TVerificationProvider WithRetryInterval(TimeSpan retryInterval)
+        {
+            RetryInterval = retryInterval;
+
+            return (TVerificationProvider)this;
+        }
+
+        public TVerificationProvider WithRetryIntervalSeconds(double retryIntervalSeconds) =>
+            WithRetryInterval(TimeSpan.FromSeconds(retryIntervalSeconds));
+
         string IVerificationProvider<TOwner>.GetShouldText() => GetShouldText();
 
         protected string GetShouldText() =>
