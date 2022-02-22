@@ -483,7 +483,7 @@ namespace Atata
             PureExecutionStopwatch.Stop();
 
             Log.ExecuteSection(
-                new LogSection("Clean up AtataContext"),
+                new LogSection("Clean up AtataContext", LogLevel.Trace),
                 () =>
                 {
                     EventBus.Publish(new AtataContextCleanUpEvent(this));
