@@ -22,13 +22,11 @@ namespace Atata
         /// <summary>
         /// Gets or sets the timeout.
         /// </summary>
-        // TODO: Should be non-nullable.
         TimeSpan? Timeout { get; set; }
 
         /// <summary>
         /// Gets or sets the retry interval.
         /// </summary>
-        // TODO: Should be non-nullable.
         TimeSpan? RetryInterval { get; set; }
 
         /// <summary>
@@ -40,8 +38,8 @@ namespace Atata
         /// <summary>
         /// Gets the retry options.
         /// </summary>
-        /// <returns>The <see cref="RetryOptions"/> instance.</returns>
-        RetryOptions GetRetryOptions();
+        /// <returns>The retry options.</returns>
+        (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions();
 
         /// <summary>
         /// Reports the failure.

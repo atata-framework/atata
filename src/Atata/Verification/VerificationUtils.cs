@@ -115,25 +115,18 @@ namespace Atata
             return StackTraceFilter.TakeBeforeInvokeMethodOfRuntimeMethodHandle(stackTrace);
         }
 
-        internal static bool ExecuteUntil(Func<bool> condition, RetryOptions retryOptions)
+        internal static bool ExecuteUntil(Func<bool> condition, (TimeSpan Timeout, TimeSpan RetryInterval) retryOptions)
         {
             var wait = CreateSafeWait(retryOptions);
             return wait.Until(_ => condition());
         }
 
-        private static SafeWait<object> CreateSafeWait(RetryOptions options)
-        {
-            var wait = new SafeWait<object>(string.Empty)
+        private static SafeWait<object> CreateSafeWait((TimeSpan Timeout, TimeSpan RetryInterval) retryOptions) =>
+            new SafeWait<object>(string.Empty)
             {
-                Timeout = options.Timeout,
-                PollingInterval = options.Interval
+                Timeout = retryOptions.Timeout,
+                PollingInterval = retryOptions.RetryInterval
             };
-
-            foreach (Type exceptionType in options.IgnoredExceptionTypes)
-                wait.IgnoreExceptionTypes(exceptionType);
-
-            return wait;
-        }
 
         internal static TOwner Verify<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, Action verificationAction, string expectedMessage, params TData[] arguments)
         {

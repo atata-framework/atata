@@ -1,5 +1,4 @@
 ﻿using System;
-using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -112,18 +111,11 @@ namespace Atata
         protected string GetShouldText() =>
             _isNegation ? "should not" : "should";
 
-        RetryOptions IVerificationProvider<TOwner>.GetRetryOptions() => GetRetryOptions();
+        (TimeSpan Timeout, TimeSpan RetryInterval) IVerificationProvider<TOwner>.GetRetryOptions() =>
+            GetRetryOptions();
 
-        protected virtual RetryOptions GetRetryOptions()
-        {
-            return new RetryOptions
-            {
-                Timeout = Timeout ?? Strategy.DefaultTimeout,
-                Interval = RetryInterval ?? Strategy.DefaultRetryInterval
-            }.
-            IgnoringStaleElementReferenceException().
-            IgnoringExceptionType(typeof(NoSuchElementException));
-        }
+        protected virtual (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions() =>
+            (Timeout: Timeout ?? Strategy.DefaultTimeout, RetryInterval: RetryInterval ?? Strategy.DefaultRetryInterval);
 
         void IVerificationProvider<TOwner>.ReportFailure(string message, Exception exception) =>
             ReportFailure(message, exception);

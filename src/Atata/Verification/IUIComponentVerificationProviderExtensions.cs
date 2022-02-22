@@ -251,8 +251,8 @@ namespace Atata
                     IEnumerable<TData> actualIndividualValues = null;
                     Exception exception = null;
 
-                    bool doesSatisfy = verifier.Component.Context.Driver.Try().Until(
-                        _ =>
+                    bool doesSatisfy = VerificationUtils.ExecuteUntil(
+                        () =>
                         {
                             try
                             {

@@ -21,10 +21,10 @@ namespace Atata
 
         public NegationObjectVerificationProvider Not => new NegationObjectVerificationProvider(ObjectProvider, this);
 
-        protected override RetryOptions GetRetryOptions() =>
+        protected override (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions() =>
             ObjectProvider.IsDynamic
                 ? base.GetRetryOptions()
-                : new RetryOptions { Timeout = TimeSpan.Zero, Interval = TimeSpan.Zero };
+                : (Timeout: TimeSpan.Zero, RetryInterval: TimeSpan.Zero);
 
         public Subject<TException> Throw<TException>()
             where TException : Exception
@@ -97,10 +97,10 @@ namespace Atata
             protected override TOwner Owner =>
                 ObjectProvider.Owner;
 
-            protected override RetryOptions GetRetryOptions() =>
+            protected override (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions() =>
                 ObjectProvider.IsDynamic
                     ? base.GetRetryOptions()
-                    : new RetryOptions { Timeout = TimeSpan.Zero, Interval = TimeSpan.Zero };
+                    : (Timeout: TimeSpan.Zero, RetryInterval: TimeSpan.Zero);
 
             public TOwner Throw()
             {
