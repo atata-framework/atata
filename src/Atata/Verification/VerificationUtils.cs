@@ -57,7 +57,7 @@ namespace Atata
                     formattedMessage = message;
                 }
 
-                return $"{verifier.GetShouldText()} {formattedMessage}";
+                return $"{ResolveShouldText(verifier)} {formattedMessage}";
             }
             else
             {
@@ -81,7 +81,7 @@ namespace Atata
                 .Append("Expected: ");
 
             if (prependShouldTextToExpected)
-                builder.Append(verifier.GetShouldText()).Append(' ');
+                builder.Append(ResolveShouldText(verifier)).Append(' ');
 
             builder.Append(expected);
 
@@ -148,5 +148,8 @@ namespace Atata
 
             return verifier.Owner;
         }
+
+        public static string ResolveShouldText<TOwner>(IVerificationProvider<TOwner> verifier) =>
+            verifier.IsNegation ? "should not" : "should";
     }
 }

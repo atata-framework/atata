@@ -106,11 +106,6 @@ namespace Atata
         public TVerificationProvider WithRetryIntervalSeconds(double retryIntervalSeconds) =>
             WithRetryInterval(TimeSpan.FromSeconds(retryIntervalSeconds));
 
-        string IVerificationProvider<TOwner>.GetShouldText() => GetShouldText();
-
-        protected string GetShouldText() =>
-            _isNegation ? "should not" : "should";
-
         (TimeSpan Timeout, TimeSpan RetryInterval) IVerificationProvider<TOwner>.GetRetryOptions() =>
             GetRetryOptions();
 

@@ -30,12 +30,6 @@ namespace Atata
         TimeSpan? RetryInterval { get; set; }
 
         /// <summary>
-        /// Gets the should text.
-        /// </summary>
-        /// <returns>Either <c>"should"</c> or <c>"should not"</c>.</returns>
-        string GetShouldText();
-
-        /// <summary>
         /// Gets the retry options.
         /// </summary>
         /// <returns>The retry options.</returns>

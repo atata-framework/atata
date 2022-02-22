@@ -26,7 +26,7 @@ namespace Atata
             verifier.CheckNotNull(nameof(verifier));
 
             verifier.Component.Context.Log.ExecuteSection(
-                new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{verifier.GetShouldText()} {expectedMessage}"),
+                new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
                 () =>
                 {
                     SearchOptions searchOptions = new SearchOptions
@@ -56,7 +56,7 @@ namespace Atata
                         var failureMessageBuilder = new StringBuilder().
                             Append($"{verifier.Component.ComponentFullName} {verificationStateName}").
                             AppendLine().
-                            Append($"Expected: {verifier.GetShouldText()} {expectedMessage}");
+                            Append($"Expected: {VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}");
 
                         if (exception is NoSuchElementException || exception is NotMissingElementException)
                         {
@@ -245,7 +245,7 @@ namespace Atata
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
             verifier.Component.Context.Log.ExecuteSection(
-                new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{verifier.GetShouldText()} {expectedMessage}"),
+                new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
                 () =>
                 {
                     IEnumerable<TData> actualIndividualValues = null;
