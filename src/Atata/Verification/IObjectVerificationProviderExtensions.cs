@@ -88,7 +88,7 @@ namespace Atata
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage, !isExpectedMessageShorten);
 
-                    verifier.ReportFailure(failureMessage, exception);
+                    verifier.Strategy.ReportFailure(failureMessage, exception);
                 }
             }
 
@@ -167,7 +167,7 @@ namespace Atata
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage);
 
-                    verifier.ReportFailure(failureMessage, exception);
+                    verifier.Strategy.ReportFailure(failureMessage, exception);
                 }
             }
 

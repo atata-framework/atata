@@ -61,11 +61,11 @@ namespace Atata
                         if (exception is NoSuchElementException || exception is NotMissingElementException)
                         {
                             failureMessageBuilder.AppendLine().Append($"  Actual: {exception.Message.ToLowerFirstLetter()}");
-                            verifier.ReportFailure(failureMessageBuilder.ToString());
+                            verifier.Strategy.ReportFailure(failureMessageBuilder.ToString(), exception: null);
                         }
                         else
                         {
-                            verifier.ReportFailure(failureMessageBuilder.ToString(), exception);
+                            verifier.Strategy.ReportFailure(failureMessageBuilder.ToString(), exception);
                         }
                     }
                 });
@@ -276,7 +276,7 @@ namespace Atata
 
                         string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage);
 
-                        verifier.ReportFailure(failureMessage, exception);
+                        verifier.Strategy.ReportFailure(failureMessage, exception);
                     }
                 });
 

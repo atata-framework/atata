@@ -111,11 +111,5 @@ namespace Atata
 
         protected virtual (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions() =>
             (Timeout: Timeout ?? Strategy.DefaultTimeout, RetryInterval: RetryInterval ?? Strategy.DefaultRetryInterval);
-
-        void IVerificationProvider<TOwner>.ReportFailure(string message, Exception exception) =>
-            ReportFailure(message, exception);
-
-        protected void ReportFailure(string message, Exception exception) =>
-            Strategy.ReportFailure(message, exception);
     }
 }

@@ -34,12 +34,5 @@ namespace Atata
         /// </summary>
         /// <returns>The retry options.</returns>
         (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions();
-
-        /// <summary>
-        /// Reports the failure.
-        /// </summary>
-        /// <param name="message">The message.</param>
-        /// <param name="exception">The exception.</param>
-        void ReportFailure(string message, Exception exception = null);
     }
 }
