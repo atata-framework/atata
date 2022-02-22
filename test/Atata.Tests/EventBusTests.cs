@@ -48,22 +48,54 @@ namespace Atata.Tests
             }
 
             [Test]
+            public void WhenThereIsSubscription_CanHandle_False()
+            {
+                var conditionalEventHandlerMock = new Mock<IConditionalEventHandler<TestEvent>>(MockBehavior.Strict);
+                var eventData = new TestEvent();
+
+                Sut.Object.Subscribe(conditionalEventHandlerMock.Object);
+
+                conditionalEventHandlerMock.Setup(x => x.CanHandle(eventData, Context)).Returns(false);
+
+                Sut.Act(x => x.Publish(eventData));
+            }
+
+            [Test]
+            public void WhenThereIsSubscription_CanHandle_True()
+            {
+                var conditionalEventHandlerMock = new Mock<IConditionalEventHandler<TestEvent>>(MockBehavior.Strict);
+                var eventData = new TestEvent();
+
+                Sut.Object.Subscribe(conditionalEventHandlerMock.Object);
+
+                conditionalEventHandlerMock.Setup(x => x.CanHandle(eventData, Context)).Returns(true);
+                conditionalEventHandlerMock.Setup(x => x.Handle(eventData, Context));
+
+                Sut.Act(x => x.Publish(eventData));
+            }
+
+            [Test]
             public void WhenThereAreMultipleSubscriptions()
             {
-                var actionMock1 = new Mock<Action<TestEvent>>();
-                var actionMock2 = new Mock<Action<TestEvent, AtataContext>>();
-                var eventHandlerMock = new Mock<IEventHandler<TestEvent>>();
+                var actionMock1 = new Mock<Action<TestEvent>>(MockBehavior.Strict);
+                var actionMock2 = new Mock<Action<TestEvent, AtataContext>>(MockBehavior.Strict);
+                var eventHandlerMock1 = new Mock<IConditionalEventHandler<TestEvent>>(MockBehavior.Strict);
+                var eventHandlerMock2 = new Mock<IEventHandler<TestEvent>>(MockBehavior.Strict);
                 var eventData = new TestEvent();
 
                 Sut.Object.Subscribe(actionMock1.Object);
                 Sut.Object.Subscribe(actionMock2.Object);
-                Sut.Object.Subscribe(eventHandlerMock.Object);
+                Sut.Object.Subscribe(eventHandlerMock1.Object);
+                Sut.Object.Subscribe(eventHandlerMock2.Object);
+
+                MockSequence sequence = new MockSequence();
+                actionMock1.InSequence(sequence).Setup(x => x(eventData));
+                actionMock2.InSequence(sequence).Setup(x => x(eventData, Context));
+                eventHandlerMock1.InSequence(sequence).Setup(x => x.CanHandle(eventData, Context)).Returns(true);
+                eventHandlerMock1.InSequence(sequence).Setup(x => x.Handle(eventData, Context));
+                eventHandlerMock2.InSequence(sequence).Setup(x => x.Handle(eventData, Context));
 
                 Sut.Act(x => x.Publish(eventData));
-
-                actionMock1.Verify(x => x(eventData), Times.Once);
-                actionMock2.Verify(x => x(eventData, Context), Times.Once);
-                eventHandlerMock.Verify(x => x.Handle(eventData, Context), Times.Once);
             }
 
             [Test]

@@ -2,7 +2,6 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using EventHandlerMap = System.Collections.Concurrent.ConcurrentDictionary<object, object>;
 
 namespace Atata
 {
@@ -13,7 +12,7 @@ namespace Atata
     {
         private readonly AtataContext _context;
 
-        private readonly ConcurrentDictionary<Type, EventHandlerMap> _subscriptionMap = new ConcurrentDictionary<Type, EventHandlerMap>();
+        private readonly ConcurrentDictionary<Type, List<EventHandlerSubscription>> _subscriptionMap = new ConcurrentDictionary<Type, List<EventHandlerSubscription>>();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventBus"/> class.
@@ -38,9 +37,16 @@ namespace Atata
         {
             eventData.CheckNotNull(nameof(eventData));
 
-            if (_subscriptionMap.TryGetValue(typeof(TEvent), out EventHandlerMap eventHandlers))
+            if (_subscriptionMap.TryGetValue(typeof(TEvent), out var eventHandlerSubscriptions))
             {
-                foreach (IEventHandler<TEvent> handler in eventHandlers.Values.ToArray())
+                object[] eventHandlersArray;
+
+                lock (eventHandlerSubscriptions)
+                {
+                    eventHandlersArray = eventHandlerSubscriptions.Select(x => x.EventHandler).ToArray();
+                }
+
+                foreach (IEventHandler<TEvent> handler in eventHandlersArray)
                 {
                     if (!(handler is IConditionalEventHandler<TEvent> conditionalEventHandler)
                         || conditionalEventHandler.CanHandle(eventData, _context))
@@ -87,8 +93,8 @@ namespace Atata
         public object Subscribe<TEvent>(IEventHandler<TEvent> eventHandler) =>
             Subscribe(typeof(TEvent), eventHandler);
 
-        private static EventHandlerMap CreateEventHandlerMap(Type eventType) =>
-            new EventHandlerMap();
+        private static List<EventHandlerSubscription> CreateEventHandlerSubscriptionList(Type eventType) =>
+            new List<EventHandlerSubscription>();
 
         private object Subscribe(Type eventType, object eventHandler)
         {
@@ -96,8 +102,12 @@ namespace Atata
 
             object subscription = new object();
 
-            EventHandlerMap eventHandlerMap = _subscriptionMap.GetOrAdd(eventType, CreateEventHandlerMap);
-            eventHandlerMap[subscription] = eventHandler;
+            var eventHandlerSubscriptions = _subscriptionMap.GetOrAdd(eventType, CreateEventHandlerSubscriptionList);
+
+            lock (eventHandlerSubscriptions)
+            {
+                eventHandlerSubscriptions.Add(new EventHandlerSubscription(subscription, eventHandler));
+            }
 
             return subscription;
         }
@@ -107,10 +117,13 @@ namespace Atata
         {
             subscription.CheckNotNull(nameof(subscription));
 
-            foreach (EventHandlerMap eventHandlerMap in _subscriptionMap.Values)
+            foreach (var eventHandlerSubscriptions in _subscriptionMap.Values)
             {
-                if (eventHandlerMap.TryRemove(subscription, out _))
-                    return;
+                lock (eventHandlerSubscriptions)
+                {
+                    if (eventHandlerSubscriptions.RemoveAll(x => x.SubscriptionObject == subscription) > 0)
+                        return;
+                }
             }
         }
 
@@ -119,12 +132,11 @@ namespace Atata
         {
             eventHandler.CheckNotNull(nameof(eventHandler));
 
-            foreach (EventHandlerMap eventHandlerMap in _subscriptionMap.Values)
+            foreach (var eventHandlerSubscriptions in _subscriptionMap.Values)
             {
-                foreach (var subscriptionEventHandlerPair in eventHandlerMap.ToArray())
+                lock (eventHandlerSubscriptions)
                 {
-                    if (Equals(subscriptionEventHandlerPair.Value, eventHandler))
-                        eventHandlerMap.TryRemove(subscriptionEventHandlerPair.Key, out _);
+                    eventHandlerSubscriptions.RemoveAll(x => Equals(x.EventHandler, eventHandler));
                 }
             }
         }
@@ -138,8 +150,26 @@ namespace Atata
         {
             eventType.CheckNotNull(nameof(eventType));
 
-            if (_subscriptionMap.TryGetValue(eventType, out EventHandlerMap eventHandlers))
-                eventHandlers.Clear();
+            if (_subscriptionMap.TryGetValue(eventType, out var eventHandlerSubscriptions))
+            {
+                lock (eventHandlerSubscriptions)
+                {
+                    eventHandlerSubscriptions.Clear();
+                }
+            }
+        }
+
+        private sealed class EventHandlerSubscription
+        {
+            public EventHandlerSubscription(object subscriptionObject, object eventHandler)
+            {
+                SubscriptionObject = subscriptionObject;
+                EventHandler = eventHandler;
+            }
+
+            public object SubscriptionObject { get; }
+
+            public object EventHandler { get; }
         }
     }
 }
