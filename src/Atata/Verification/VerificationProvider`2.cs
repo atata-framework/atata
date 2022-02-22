@@ -30,8 +30,6 @@ namespace Atata
 
         protected abstract TOwner Owner { get; }
 
-        string IVerificationProvider<TOwner>.VerificationKind => Strategy.VerificationKind;
-
         protected internal TimeSpan? Timeout { get; internal set; }
 
         protected internal TimeSpan? RetryInterval { get; internal set; }

@@ -26,7 +26,7 @@ namespace Atata
             verifier.CheckNotNull(nameof(verifier));
 
             verifier.Component.Context.Log.ExecuteSection(
-                new VerificationLogSection(verifier.VerificationKind, verifier.Component.ComponentFullName, $"{verifier.GetShouldText()} {expectedMessage}"),
+                new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{verifier.GetShouldText()} {expectedMessage}"),
                 () =>
                 {
                     SearchOptions searchOptions = new SearchOptions
@@ -245,7 +245,7 @@ namespace Atata
                 Append($" {expectedIndividualValuesAsString}").ToString();
 
             verifier.Component.Context.Log.ExecuteSection(
-                new VerificationLogSection(verifier.VerificationKind, verifier.Component.ComponentFullName, $"{verifier.GetShouldText()} {expectedMessage}"),
+                new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{verifier.GetShouldText()} {expectedMessage}"),
                 () =>
                 {
                     IEnumerable<TData> actualIndividualValues = null;

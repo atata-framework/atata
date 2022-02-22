@@ -20,11 +20,6 @@ namespace Atata
         TOwner Owner { get; }
 
         /// <summary>
-        /// Gets the text describing the kind of the verification.
-        /// </summary>
-        string VerificationKind { get; }
-
-        /// <summary>
         /// Gets or sets the timeout.
         /// </summary>
         // TODO: Should be non-nullable.
