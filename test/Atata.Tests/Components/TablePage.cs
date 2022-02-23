@@ -54,7 +54,7 @@
             public Text<_> LastName { get; private set; }
         }
 
-        public class UserNavigatableTableRow : TableRow<_>, INavigable<GoTo1Page, _>
+        public class UserNavigatableTableRow : TableRow<_>
         {
             public Text<_> FirstName { get; private set; }
 
