@@ -78,42 +78,62 @@ namespace Atata
             return builder;
         }
 
-        /// <summary>
-        /// Sets the <see cref="AtataContext"/> Artifacts folder as the folder path of the file screenshot consumer.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The same builder instance.</returns>
+        [Obsolete("Use " + nameof(WithArtifactsDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
         public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithArtifactsFolderPath(
             this LogConsumerAtataContextBuilder<NLogFileConsumer> builder)
             =>
-            builder.WithFolderPath(x => x.Artifacts.FullName);
+            builder.WithArtifactsDirectoryPath();
 
         /// <summary>
-        /// Specifies the folder path of the log file.
+        /// Sets the <see cref="AtataContext.Artifacts"/> directory as the directory path of the file screenshot consumer.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="folderPath">The folder path.</param>
         /// <returns>The same builder instance.</returns>
+        public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithArtifactsDirectoryPath(
+            this LogConsumerAtataContextBuilder<NLogFileConsumer> builder)
+            =>
+            builder.WithDirectoryPath(x => x.Artifacts.FullName);
+
+        [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
         public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFolderPath(
             this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
             string folderPath)
-        {
-            folderPath.CheckNotNullOrWhitespace(nameof(folderPath));
+            =>
+            builder.WithDirectoryPath(folderPath);
 
-            return builder.WithFolderPath(_ => folderPath);
-        }
-
-        /// <summary>
-        /// Specifies the folder path builder for the log file.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <param name="folderPathBuilder">The folder path builder function.</param>
-        /// <returns>The same builder instance.</returns>
+        [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
         public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFolderPath(
             this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
             Func<AtataContext, string> folderPathBuilder)
+            =>
+            builder.WithDirectoryPath(folderPathBuilder);
+
+        /// <summary>
+        /// Specifies the directory path of the log file.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="directoryPath">The directory path.</param>
+        /// <returns>The same builder instance.</returns>
+        public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithDirectoryPath(
+            this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
+            string directoryPath)
         {
-            builder.Context.FolderPathBuilder = folderPathBuilder;
+            directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+
+            return builder.WithDirectoryPath(_ => directoryPath);
+        }
+
+        /// <summary>
+        /// Specifies the directory path builder for the log file.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="directoryPathBuilder">The directory path builder function.</param>
+        /// <returns>The same builder instance.</returns>
+        public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithDirectoryPath(
+            this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
+            Func<AtataContext, string> directoryPathBuilder)
+        {
+            builder.Context.DirectoryPathBuilder = directoryPathBuilder;
             return builder;
         }
 

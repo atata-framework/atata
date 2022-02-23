@@ -49,13 +49,13 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ConfigureWithFolderPath()
+        public void ConfigureWithDirectoryPath()
         {
             using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
 
             ConfigureBaseAtataContext()
                 .LogConsumers.AddNLogFile()
-                    .WithFolderPath(directoryFixture.DirectoryPath)
+                    .WithDirectoryPath(directoryFixture.DirectoryPath)
                 .Build();
 
             WriteLogMessageAndAssertItInFile(
@@ -63,11 +63,11 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ConfigureWithFolderPathThatContainsVariables()
+        public void ConfigureWithDirectoryPathThatContainsVariables()
         {
             ConfigureBaseAtataContext()
                 .LogConsumers.AddNLogFile()
-                    .WithFolderPath("{artifacts}/1")
+                    .WithDirectoryPath("{artifacts}/1")
                 .Build();
 
             WriteLogMessageAndAssertItInFile(
@@ -75,11 +75,11 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ConfigureWithArtifactsFolderPath()
+        public void ConfigureWithArtifactsDirectoryPath()
         {
             ConfigureBaseAtataContext()
                 .LogConsumers.AddNLogFile()
-                    .WithArtifactsFolderPath()
+                    .WithArtifactsDirectoryPath()
                 .Build();
 
             WriteLogMessageAndAssertItInFile(

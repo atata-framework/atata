@@ -13,10 +13,17 @@ namespace Atata
         /// </summary>
         public const string DefaultFileName = "Trace.log";
 
+        [Obsolete("Use " + nameof(DirectoryPathBuilder) + " instead.")] // Obsolete since v2.0.0.
+        public Func<AtataContext, string> FolderPathBuilder
+        {
+            get => DirectoryPathBuilder;
+            set => DirectoryPathBuilder = value;
+        }
+
         /// <summary>
-        /// Gets or sets the builder of the folder path.
+        /// Gets or sets the builder of the directory path.
         /// </summary>
-        public Func<AtataContext, string> FolderPathBuilder { get; set; }
+        public Func<AtataContext, string> DirectoryPathBuilder { get; set; }
 
         /// <summary>
         /// Gets or sets the builder of the file name.
@@ -62,20 +69,20 @@ namespace Atata
             if (FilePathBuilder != null)
                 return FilePathBuilder.Invoke(context).SanitizeForPath();
 
-            string folderPath = FolderPathBuilder?.Invoke(context)
-                ?? BuildDefaultFolderPath();
+            string directoryPath = DirectoryPathBuilder?.Invoke(context)
+                ?? BuildDefaultDirectoryPath();
 
-            folderPath = folderPath.SanitizeForPath();
+            directoryPath = directoryPath.SanitizeForPath();
 
             string fileName = FileNameBuilder?.Invoke(context)
                 ?? BuildDefaultFileName(context);
 
             fileName = fileName.SanitizeForFileName();
 
-            return Path.Combine(folderPath, fileName);
+            return Path.Combine(directoryPath, fileName);
         }
 
-        protected virtual string BuildDefaultFolderPath() =>
+        protected virtual string BuildDefaultDirectoryPath() =>
             DefaultAtataContextArtifactsDirectory.BuildPath();
 
         protected virtual string BuildDefaultFileName(AtataContext context) =>
@@ -90,7 +97,7 @@ namespace Atata
         object ICloneable.Clone() =>
             new NLogFileConsumer
             {
-                FolderPathBuilder = FolderPathBuilder,
+                DirectoryPathBuilder = DirectoryPathBuilder,
                 FileNameBuilder = FileNameBuilder,
                 FilePathBuilder = FilePathBuilder,
                 Layout = Layout
