@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
@@ -44,6 +43,12 @@ namespace Atata
         /// which provides the methods to subscribe to Atata and custom events.
         /// </summary>
         public EventSubscriptionsAtataContextBuilder EventSubscriptions => new EventSubscriptionsAtataContextBuilder(BuildingContext);
+
+        /// <summary>
+        /// Gets the builder of log consumers,
+        /// which provides the methods to add log consumers.
+        /// </summary>
+        public LogConsumersAtataContextBuilder LogConsumers => new LogConsumersAtataContextBuilder(BuildingContext);
 
         /// <summary>
         /// Returns an existing or creates a new builder for <typeparamref name="TDriverBuilder"/> by the specified alias.
@@ -323,131 +328,57 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                 alias,
                 () => new RemoteDriverAtataContextBuilder(BuildingContext).WithAlias(alias));
 
-        /// <summary>
-        /// Adds the log consumer.
-        /// </summary>
-        /// <typeparam name="TLogConsumer">
-        /// The type of the log consumer.
-        /// Should have default constructor.
-        /// </typeparam>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public AtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>()
-            where TLogConsumer : ILogConsumer, new() =>
-            AddLogConsumer(new TLogConsumer());
+        [Obsolete("Use LogConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>()
+            where TLogConsumer : ILogConsumer, new()
+            =>
+            LogConsumers.Add<TLogConsumer>();
 
-        /// <summary>
-        /// Adds the log consumer.
-        /// </summary>
-        /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
-        /// <param name="consumer">The log consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public AtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>(TLogConsumer consumer)
+        [Obsolete("Use LogConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>(TLogConsumer consumer)
             where TLogConsumer : ILogConsumer
-        {
-            consumer.CheckNotNull(nameof(consumer));
+            =>
+            LogConsumers.Add(consumer);
 
-            BuildingContext.LogConsumerConfigurations.Add(new LogConsumerConfiguration(consumer));
-            return new AtataContextBuilder<TLogConsumer>(consumer, BuildingContext);
-        }
+        [Obsolete("Use LogConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<ILogConsumer> AddLogConsumer(string typeNameOrAlias) =>
+            LogConsumers.Add(typeNameOrAlias);
 
-        /// <summary>
-        /// Adds the log consumer by its type name or alias.
-        /// Predefined aliases are defined in <see cref="LogConsumerAliases"/> static class.
-        /// </summary>
-        /// <param name="typeNameOrAlias">The type name or alias of the log consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public AtataContextBuilder<ILogConsumer> AddLogConsumer(string typeNameOrAlias)
-        {
-            ILogConsumer consumer = LogConsumerAliases.Resolve(typeNameOrAlias);
-            return AddLogConsumer(consumer);
-        }
+        [Obsolete("Use LogConsumers.AddTrace() instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<TraceLogConsumer> AddTraceLogging() =>
+            LogConsumers.AddTrace();
 
-        /// <summary>
-        /// Adds the <see cref="TraceLogConsumer"/> instance that uses <see cref="Trace"/> class for logging.
-        /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public AtataContextBuilder<TraceLogConsumer> AddTraceLogging()
-        {
-            return AddLogConsumer(new TraceLogConsumer());
-        }
+        [Obsolete("Use LogConsumers.AddDebug() instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<DebugLogConsumer> AddDebugLogging() =>
+            LogConsumers.AddDebug();
 
-        /// <summary>
-        /// Adds the <see cref="DebugLogConsumer"/> instance that uses <see cref="Debug"/> class for logging.
-        /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder{DebugLogConsumer}"/> instance.</returns>
-        public AtataContextBuilder<DebugLogConsumer> AddDebugLogging()
-        {
-            return AddLogConsumer(new DebugLogConsumer());
-        }
+        [Obsolete("Use LogConsumers.AddConsole() instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<ConsoleLogConsumer> AddConsoleLogging() =>
+            LogConsumers.AddConsole();
 
-        /// <summary>
-        /// Adds the <see cref="ConsoleLogConsumer"/> instance that uses <see cref="Console"/> class for logging.
-        /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder{ConsoleLogConsumer}"/> instance.</returns>
-        public AtataContextBuilder<ConsoleLogConsumer> AddConsoleLogging()
-        {
-            return AddLogConsumer(new ConsoleLogConsumer());
-        }
+        [Obsolete("Use LogConsumers.AddNUnitTestContext() instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<NUnitTestContextLogConsumer> AddNUnitTestContextLogging() =>
+            LogConsumers.AddNUnitTestContext();
 
-        /// <summary>
-        /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses <c>NUnit.Framework.TestContext</c> class for logging.
-        /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder{NUnitTestContextLogConsumer}"/> instance.</returns>
-        public AtataContextBuilder<NUnitTestContextLogConsumer> AddNUnitTestContextLogging()
-        {
-            return AddLogConsumer(new NUnitTestContextLogConsumer());
-        }
+        [Obsolete("Use LogConsumers.AddNLog(...) instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<NLogConsumer> AddNLogLogging(string loggerName = null) =>
+            LogConsumers.AddNLog(loggerName);
 
-        /// <summary>
-        /// Adds the <see cref="NLogConsumer"/> instance that uses <c>NLog.Logger</c> class for logging.
-        /// </summary>
-        /// <param name="loggerName">The name of the logger.</param>
-        /// <returns>The <see cref="AtataContextBuilder{NLogConsumer}"/> instance.</returns>
-        public AtataContextBuilder<NLogConsumer> AddNLogLogging(string loggerName = null)
-        {
-            return AddLogConsumer(new NLogConsumer(loggerName));
-        }
+        [Obsolete("Use LogConsumers.AddNLogFile() instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<NLogFileConsumer> AddNLogFileLogging() =>
+            LogConsumers.AddNLogFile();
 
-        /// <summary>
-        /// Adds the <see cref="NLogFileConsumer"/> instance that uses <c>NLog.Logger</c> class for logging into file.
-        /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder{NLogFileConsumer}"/> instance.</returns>
-        public AtataContextBuilder<NLogFileConsumer> AddNLogFileLogging()
-        {
-            return AddLogConsumer(new NLogFileConsumer());
-        }
+        [Obsolete("Use LogConsumers.AddLog4Net(...) instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string loggerName = null) =>
+            LogConsumers.AddLog4Net(loggerName);
 
-        /// <summary>
-        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
-        /// </summary>
-        /// <param name="loggerName">The name of the logger.</param>
-        /// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
-        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string loggerName = null)
-        {
-            return AddLogConsumer(new Log4NetConsumer { LoggerName = loggerName });
-        }
+        [Obsolete("Use LogConsumers.AddLog4Net(...) instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string repositoryName, string loggerName = null) =>
+            LogConsumers.AddLog4Net(repositoryName, loggerName);
 
-        /// <summary>
-        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
-        /// </summary>
-        /// <param name="repositoryName">The name of the logger repository.</param>
-        /// <param name="loggerName">The name of the logger.</param>
-        /// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
-        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string repositoryName, string loggerName = null)
-        {
-            return AddLogConsumer(new Log4NetConsumer { RepositoryName = repositoryName, LoggerName = loggerName });
-        }
-
-        /// <summary>
-        /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
-        /// </summary>
-        /// <param name="repositoryAssembly">The assembly to use to lookup the repository.</param>
-        /// <param name="loggerName">The name of the logger.</param>
-        /// <returns>The <see cref="AtataContextBuilder{Log4NetConsumer}"/> instance.</returns>
-        public AtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(Assembly repositoryAssembly, string loggerName = null)
-        {
-            return AddLogConsumer(new Log4NetConsumer { RepositoryAssembly = repositoryAssembly, LoggerName = loggerName });
-        }
+        [Obsolete("Use LogConsumers.AddLog4Net(...) instead.")] // Obsolete since v2.0.0.
+        public LogConsumerAtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(Assembly repositoryAssembly, string loggerName = null) =>
+            LogConsumers.AddLog4Net(repositoryAssembly, loggerName);
 
         /// <summary>
         /// Adds the secret string to mask in log.
@@ -1080,26 +1011,24 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <item><see cref="UseNUnitAssertionExceptionType"/>,</item>
         /// <item><see cref="UseNUnitAggregateAssertionStrategy"/>,</item>
         /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
-        /// <item><see cref="AddNUnitTestContextLogging"/>,</item>
+        /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/>,</item>
         /// <item><see cref="LogNUnitError"/>,</item>
         /// <item><see cref="TakeScreenshotOnNUnitError(string)"/>,</item>
         /// <item><see cref="OnCleanUpAddArtifactsToNUnitTestContext"/>.</item>
         /// </list>
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseAllNUnitFeatures()
-        {
-            return UseNUnitTestName()
+        public AtataContextBuilder UseAllNUnitFeatures() =>
+            UseNUnitTestName()
                 .UseNUnitTestSuiteName()
                 .UseNUnitTestSuiteType()
                 .UseNUnitAssertionExceptionType()
                 .UseNUnitAggregateAssertionStrategy()
                 .UseNUnitWarningReportStrategy()
-                .AddNUnitTestContextLogging()
+                .LogConsumers.AddNUnitTestContext()
                 .LogNUnitError()
                 .TakeScreenshotOnNUnitError()
                 .OnCleanUpAddArtifactsToNUnitTestContext();
-        }
 
         private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
         {
@@ -1264,7 +1193,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             }
         }
 
-        protected IObjectMapper CreateObjectMapper()
+        protected internal IObjectMapper CreateObjectMapper()
         {
             IObjectConverter objectConverter = new ObjectConverter
             {

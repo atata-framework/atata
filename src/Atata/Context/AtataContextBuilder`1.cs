@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-
-namespace Atata
+﻿namespace Atata
 {
-    public class AtataContextBuilder<TContext> : AtataContextBuilder
+    public class AtataContextBuilder<TContext> : AtataContextBuilder, IHasContext<TContext>
     {
         public AtataContextBuilder(TContext context, AtataBuildingContext buildingContext)
             : base(buildingContext)
@@ -14,19 +12,5 @@ namespace Atata
         /// Gets the context.
         /// </summary>
         public TContext Context { get; private set; }
-
-        /// <summary>
-        /// Specifies the properties map for the context.
-        /// </summary>
-        /// <param name="propertiesMap">The properties map.</param>
-        /// <returns>The same builder instance.</returns>
-        public AtataContextBuilder<TContext> WithProperties(Dictionary<string, object> propertiesMap)
-        {
-            propertiesMap.CheckNotNull(nameof(propertiesMap));
-
-            CreateObjectMapper().Map(propertiesMap, Context);
-
-            return this;
-        }
     }
 }

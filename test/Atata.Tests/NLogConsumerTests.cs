@@ -10,7 +10,7 @@ namespace Atata.Tests
         public void NLogConsumer()
         {
             ConfigureBaseAtataContext().
-                AddNLogLogging().
+                LogConsumers.AddNLog().
                 Build();
 
             string testMessage = Guid.NewGuid().ToString();

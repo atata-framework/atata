@@ -12,7 +12,7 @@ namespace Atata.Tests
         public void ConfigureByDefault()
         {
             ConfigureBaseAtataContext()
-                .AddNLogFileLogging()
+                .LogConsumers.AddNLogFile()
                 .Build();
 
             WriteLogMessageAndAssertItInFile(
@@ -26,7 +26,7 @@ namespace Atata.Tests
             string filePath = Path.Combine(directoryFixture.DirectoryPath, "test.log");
 
             ConfigureBaseAtataContext()
-                .AddNLogFileLogging()
+                .LogConsumers.AddNLogFile()
                     .WithFilePath(filePath)
                 .Build();
 
@@ -40,7 +40,7 @@ namespace Atata.Tests
             string filePath = Path.Combine(directoryFixture.DirectoryPath, "{test-name-sanitized}-{driver-alias}", "test.log");
 
             ConfigureBaseAtataContext()
-                .AddNLogFileLogging()
+                .LogConsumers.AddNLogFile()
                     .WithFilePath(filePath)
                 .Build();
 
@@ -54,7 +54,7 @@ namespace Atata.Tests
             using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
 
             ConfigureBaseAtataContext()
-                .AddNLogFileLogging()
+                .LogConsumers.AddNLogFile()
                     .WithFolderPath(directoryFixture.DirectoryPath)
                 .Build();
 
@@ -66,7 +66,7 @@ namespace Atata.Tests
         public void ConfigureWithFolderPathThatContainsVariables()
         {
             ConfigureBaseAtataContext()
-                .AddNLogFileLogging()
+                .LogConsumers.AddNLogFile()
                     .WithFolderPath("{artifacts}/1")
                 .Build();
 
@@ -78,7 +78,7 @@ namespace Atata.Tests
         public void ConfigureWithArtifactsFolderPath()
         {
             ConfigureBaseAtataContext()
-                .AddNLogFileLogging()
+                .LogConsumers.AddNLogFile()
                     .WithArtifactsFolderPath()
                 .Build();
 
@@ -92,7 +92,7 @@ namespace Atata.Tests
             string fileName = Guid.NewGuid().ToString();
 
             ConfigureBaseAtataContext()
-                .AddNLogFileLogging()
+                .LogConsumers.AddNLogFile()
                     .WithFileName(fileName)
                 .Build();
 

@@ -38,8 +38,8 @@ namespace Atata.Tests
                 .UseNUnitTestName()
                 .UseNUnitTestSuiteName()
                 .UseNUnitTestSuiteType()
-                .AddNUnitTestContextLogging()
-                .AddLogConsumer(_eventListLogConsumer)
+                .LogConsumers.AddNUnitTestContext()
+                .LogConsumers.Add(_eventListLogConsumer)
                     .WithMessageNestingLevelIndent(string.Empty)
                 .LogNUnitError()
                 .OnCleanUpAddArtifactsToNUnitTestContext();

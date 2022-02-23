@@ -39,7 +39,7 @@ namespace Atata.Tests
             XmlConfigurator.Configure(ConfigFileInfo);
 
             ConfigureBaseAtataContext().
-                AddLog4NetLogging().
+                LogConsumers.AddLog4Net().
                 Build();
 
             string traceTestMessage = Guid.NewGuid().ToString();
@@ -60,7 +60,7 @@ namespace Atata.Tests
             XmlConfigurator.Configure(logRepository, ConfigFileInfo);
 
             ConfigureBaseAtataContext().
-                AddLog4NetLogging(logRepository.Name, InfoLoggerName).
+                LogConsumers.AddLog4Net(logRepository.Name, InfoLoggerName).
                 Build();
 
             string traceTestMessage = Guid.NewGuid().ToString();
@@ -88,7 +88,7 @@ namespace Atata.Tests
 
             var exception = Assert.Throws<LogException>(() =>
                 ConfigureBaseAtataContext().
-                    AddLog4NetLogging(repositoryName, InfoLoggerName).
+                    LogConsumers.AddLog4Net(repositoryName, InfoLoggerName).
                     Build());
 
             exception.Message.Should().Be($"Repository [{repositoryName}] is NOT defined.");
@@ -100,7 +100,7 @@ namespace Atata.Tests
             var repository = log4net.LogManager.CreateRepository(Guid.NewGuid().ToString());
 
             ConfigureBaseAtataContext().
-                AddLog4NetLogging(repository.Name, InfoLoggerName).
+                LogConsumers.AddLog4Net(repository.Name, InfoLoggerName).
                 Build();
         }
     }

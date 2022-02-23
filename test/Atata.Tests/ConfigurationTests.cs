@@ -19,10 +19,10 @@ namespace Atata.Tests
             Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
             Assert.That(globalContext.BaseUrl, Is.Null);
 
-            AtataContext.GlobalConfiguration.
-                UseNUnitTestName().
-                AddNUnitTestContextLogging().
-                LogNUnitError();
+            AtataContext.GlobalConfiguration
+                .UseNUnitTestName()
+                .LogConsumers.AddNUnitTestContext()
+                .LogNUnitError();
 
             var currentContext = AtataContext.Configure().
                 UseEdge().
