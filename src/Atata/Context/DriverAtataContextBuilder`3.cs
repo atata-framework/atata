@@ -224,7 +224,7 @@ namespace Atata
 
         /// <summary>
         /// Specifies that local/current directory should be used as the directory containing the driver executable file.
-        /// Uses <c>AppDomain.CurrentDomain.BaseDirectory</c> as driver folder path.
+        /// Uses <c>AppDomain.CurrentDomain.BaseDirectory</c> as driver directory path.
         /// This configuration option makes sense for .NET Core 2.0+ project that uses driver as a project package (hosted in the same build directory).
         /// </summary>
         /// <returns>The same builder instance.</returns>
