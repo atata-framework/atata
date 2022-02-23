@@ -51,6 +51,12 @@ namespace Atata
         public LogConsumersAtataContextBuilder LogConsumers => new LogConsumersAtataContextBuilder(BuildingContext);
 
         /// <summary>
+        /// Gets the builder of screenshot consumers,
+        /// which provides the methods to add screenshot consumers.
+        /// </summary>
+        public ScreenshotConsumersAtataContextBuilder ScreenshotConsumers => new ScreenshotConsumersAtataContextBuilder(BuildingContext);
+
+        /// <summary>
         /// Returns an existing or creates a new builder for <typeparamref name="TDriverBuilder"/> by the specified alias.
         /// </summary>
         /// <typeparam name="TDriverBuilder">The type of the driver builder.</typeparam>
@@ -397,62 +403,25 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             return this;
         }
 
-        /// <summary>
-        /// Adds the screenshot consumer.
-        /// </summary>
-        /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>()
-            where TScreenshotConsumer : IScreenshotConsumer, new() =>
-            AddScreenshotConsumer(new TScreenshotConsumer());
+        [Obsolete("Use ScreenshotConsumers.Add<TScreenshotConsumer>() instead.")] // Obsolete since v2.0.0.
+        public ScreenshotConsumerAtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>()
+            where TScreenshotConsumer : IScreenshotConsumer, new()
+            =>
+            ScreenshotConsumers.Add<TScreenshotConsumer>();
 
-        /// <summary>
-        /// Adds the screenshot consumer.
-        /// </summary>
-        /// <typeparam name="TScreenshotConsumer">The type of the screenshot consumer.</typeparam>
-        /// <param name="consumer">The screenshot consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public AtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
+        [Obsolete("Use ScreenshotConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
+        public ScreenshotConsumerAtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
             where TScreenshotConsumer : IScreenshotConsumer
-        {
-            consumer.CheckNotNull(nameof(consumer));
+            =>
+            ScreenshotConsumers.Add(consumer);
 
-            BuildingContext.ScreenshotConsumers.Add(consumer);
-            return new AtataContextBuilder<TScreenshotConsumer>(consumer, BuildingContext);
-        }
+        [Obsolete("Use ScreenshotConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
+        public ScreenshotConsumerAtataContextBuilder<IScreenshotConsumer> AddScreenshotConsumer(string typeNameOrAlias) =>
+            ScreenshotConsumers.Add(typeNameOrAlias);
 
-        /// <summary>
-        /// Adds the screenshot consumer.
-        /// </summary>
-        /// <param name="typeNameOrAlias">The type name or alias of the log consumer.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public AtataContextBuilder<IScreenshotConsumer> AddScreenshotConsumer(string typeNameOrAlias)
-        {
-            IScreenshotConsumer consumer = ScreenshotConsumerAliases.Resolve(typeNameOrAlias);
-
-            return AddScreenshotConsumer(consumer);
-        }
-
-        /// <summary>
-        /// Adds the <see cref="FileScreenshotConsumer"/> instance for the screenshot saving to file.
-        /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as folder path format,
-        /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as file name format
-        /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
-        /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
-        /// Available path variables are:
-        /// <c>{build-start}</c>,
-        /// <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
-        /// <c>{test-suite-name}</c>, <c>{test-suite-name-sanitized}</c>,
-        /// <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
-        /// <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>,
-        /// <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
-        /// Path variables support the formatting.
-        /// </summary>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public AtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving()
-        {
-            return AddScreenshotConsumer(new FileScreenshotConsumer());
-        }
+        [Obsolete("Use ScreenshotConsumers.AddFile() instead.")] // Obsolete since v2.0.0.
+        public ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving() =>
+            ScreenshotConsumers.AddFile();
 
         /// <summary>
         /// Sets the factory method of the test name.

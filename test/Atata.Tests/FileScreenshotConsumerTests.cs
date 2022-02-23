@@ -8,7 +8,7 @@ namespace Atata.Tests
     [TestFixture]
     public class FileScreenshotConsumerTests : UITestFixtureBase
     {
-        private AtataContextBuilder<FileScreenshotConsumer> _consumerBuilder;
+        private ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> _consumerBuilder;
 
         private List<string> _foldersToDelete;
 
@@ -16,7 +16,7 @@ namespace Atata.Tests
         public void SetUp()
         {
             _consumerBuilder = ConfigureBaseAtataContext().
-                AddScreenshotFileSaving();
+                ScreenshotConsumers.AddFile();
 
             _foldersToDelete = new List<string>();
         }

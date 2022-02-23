@@ -28,7 +28,7 @@ namespace Atata.Tests
                 UseEdge().
                 UseBaseUrl(UITestFixtureBase.BaseUrl).
                 TakeScreenshotOnNUnitError().
-                AddScreenshotFileSaving().
+                ScreenshotConsumers.AddFile().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(100)).
                 UseBaseRetryInterval(TimeSpan.FromSeconds(1)).
                 BuildingContext;
@@ -90,7 +90,7 @@ namespace Atata.Tests
                 UseInternetExplorer().
                 UseBaseUrl(UITestFixtureBase.BaseUrl).
                 TakeScreenshotOnNUnitError().
-                AddScreenshotFileSaving().
+                ScreenshotConsumers.AddFile().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(100)).
                 UseBaseRetryInterval(TimeSpan.FromSeconds(1)).
                 Clear().

@@ -11,8 +11,10 @@ namespace Atata
         /// <typeparam name="TConsumer">The type of the file screenshot consumer.</typeparam>
         /// <param name="builder">The builder.</param>
         /// <param name="imageFormat">The image format.</param>
-        /// <returns>The <see cref="AtataContextBuilder{TContext}"/> instance.</returns>
-        public static AtataContextBuilder<TConsumer> With<TConsumer>(this AtataContextBuilder<TConsumer> builder, ScreenshotImageFormat imageFormat)
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<TConsumer> With<TConsumer>(
+            this ScreenshotConsumerAtataContextBuilder<TConsumer> builder,
+            ScreenshotImageFormat imageFormat)
             where TConsumer : FileScreenshotConsumerBase
         {
             builder.Context.ImageFormat = imageFormat;
@@ -23,8 +25,10 @@ namespace Atata
         /// Sets the <see cref="AtataContext"/> Artifacts folder as the folder path of the file screenshot consumer.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> WithArtifactsFolderPath(this AtataContextBuilder<FileScreenshotConsumer> builder) =>
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithArtifactsFolderPath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder)
+            =>
             builder.WithFolderPath(() => AtataContext.Current.Artifacts.FullName.Value);
 
         /// <summary>
@@ -32,8 +36,10 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="folderPathBuilder">The folder path builder function.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> WithFolderPath(this AtataContextBuilder<FileScreenshotConsumer> builder, Func<string> folderPathBuilder)
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFolderPath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            Func<string> folderPathBuilder)
         {
             builder.Context.FolderPathBuilder = folderPathBuilder;
             return builder;
@@ -44,8 +50,10 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="folderPath">The folder path.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> WithFolderPath(this AtataContextBuilder<FileScreenshotConsumer> builder, string folderPath)
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFolderPath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            string folderPath)
         {
             builder.Context.FolderPath = folderPath;
             builder.Context.FolderPathBuilder = null;
@@ -57,8 +65,10 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="fileNameBuilder">The file name builder function that takes an instance of <see cref="ScreenshotInfo"/>.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> WithFileName(this AtataContextBuilder<FileScreenshotConsumer> builder, Func<ScreenshotInfo, string> fileNameBuilder)
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFileName(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            Func<ScreenshotInfo, string> fileNameBuilder)
         {
             builder.Context.FileNameBuilder = fileNameBuilder;
             return builder;
@@ -69,8 +79,10 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="fileName">The file name.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> WithFileName(this AtataContextBuilder<FileScreenshotConsumer> builder, string fileName)
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFileName(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            string fileName)
         {
             builder.Context.FileName = fileName;
             builder.Context.FileNameBuilder = null;
@@ -82,8 +94,10 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="filePathBuilder">The file path builder function that takes an instance of <see cref="ScreenshotInfo"/>.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> WithFilePath(this AtataContextBuilder<FileScreenshotConsumer> builder, Func<ScreenshotInfo, string> filePathBuilder)
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFilePath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            Func<ScreenshotInfo, string> filePathBuilder)
         {
             builder.Context.FilePathBuilder = filePathBuilder;
             return builder;
@@ -94,8 +108,10 @@ namespace Atata
         /// </summary>
         /// <param name="builder">The builder.</param>
         /// <param name="filePath">The file path.</param>
-        /// <returns>The <see cref="AtataContextBuilder{FileScreenshotConsumer}"/> instance.</returns>
-        public static AtataContextBuilder<FileScreenshotConsumer> WithFilePath(this AtataContextBuilder<FileScreenshotConsumer> builder, string filePath)
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFilePath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            string filePath)
         {
             builder.Context.FilePath = filePath;
             builder.Context.FilePathBuilder = null;
