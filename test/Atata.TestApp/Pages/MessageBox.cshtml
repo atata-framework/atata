@@ -4,7 +4,17 @@
 }
 <div class="row">
     <div class="col-md-6 col-md-offset-3">
+        <button class="btn btn-default">None</button>
         <button class="btn btn-default" onclick="alert('Alert!!!');">Alert</button>
+        <button class="btn btn-default" onclick="waitAndShowAlert();">Alert With Delay</button>
         <a class="btn btn-link" href="goto1" onclick="return confirm('Are you sure?');">Confirm</a>
     </div>
 </div>
+
+<script>
+    function waitAndShowAlert() {
+        setTimeout(function () {
+            alert('Alert with delay!!!');
+        }, 2000);
+    }
+</script>

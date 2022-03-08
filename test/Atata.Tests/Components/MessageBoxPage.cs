@@ -6,14 +6,19 @@
     [VerifyTitle]
     public class MessageBoxPage : Page<_>
     {
+        public Button<_> NoneButton { get; private set; }
+
         [CloseAlertBox]
-        public ButtonDelegate<_> AlertButton { get; private set; }
+        public Button<_> AlertButton { get; private set; }
+
+        [WaitForAlertBox]
+        public Button<_> AlertWithDelayButton { get; private set; }
 
         [CloseConfirmBox]
-        public LinkDelegate<GoTo1Page, _> ConfirmButton { get; private set; }
+        public Link<GoTo1Page, _> ConfirmButton { get; private set; }
 
         [Term("Confirm")]
         [CloseConfirmBox(false)]
-        public LinkDelegate<_> ConfirmButtonWithReject { get; private set; }
+        public Link<_> ConfirmButtonWithReject { get; private set; }
     }
 }
