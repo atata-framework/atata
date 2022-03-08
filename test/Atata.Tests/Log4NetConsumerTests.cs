@@ -16,11 +16,11 @@ namespace Atata.Tests
         private static FileInfo ConfigFileInfo =>
             new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config"));
 
-        private static string LogsFolder =>
+        private static string LogsDirectory =>
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", "Log4Net");
 
         private static string TraceLogFilePath =>
-            Path.Combine(LogsFolder, "Trace.log");
+            Path.Combine(LogsDirectory, "Trace.log");
 
         public override void TearDown()
         {
@@ -29,8 +29,8 @@ namespace Atata.Tests
             foreach (var repository in log4net.LogManager.GetAllRepositories())
                 repository.Shutdown();
 
-            if (Directory.Exists(LogsFolder))
-                Directory.Delete(LogsFolder, recursive: true);
+            if (Directory.Exists(LogsDirectory))
+                Directory.Delete(LogsDirectory, recursive: true);
         }
 
         [Test]
