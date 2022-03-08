@@ -7,7 +7,7 @@ namespace Atata
 {
     /// <summary>
     /// Represents the screenshot consumer that saves the screenshot to the file.
-    /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as folder path format,
+    /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as directory path format,
     /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as file name format
     /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
     /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
@@ -18,9 +18,8 @@ namespace Atata
     /// <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
     /// <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>,
     /// <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
-    /// Path variables support the formatting.
+    /// Path variables support a formatting.
     /// </summary>
-    /// <seealso cref="IScreenshotConsumer" />
     public class FileScreenshotConsumer : FileScreenshotConsumerBase
     {
         /// <summary>
@@ -28,10 +27,17 @@ namespace Atata
         /// </summary>
         public const string DefaultDateTimeFormat = DefaultAtataContextArtifactsDirectory.DefaultDateTimeFormat;
 
+        [Obsolete("Use " + nameof(DirectoryPathBuilder) + " instead.")] // Obsolete since v2.0.0.
+        public Func<string> FolderPathBuilder
+        {
+            get => DirectoryPathBuilder;
+            set => DirectoryPathBuilder = value;
+        }
+
         /// <summary>
-        /// Gets or sets the builder of the folder path.
+        /// Gets or sets the builder of the directory path.
         /// </summary>
-        public Func<string> FolderPathBuilder { get; set; }
+        public Func<string> DirectoryPathBuilder { get; set; }
 
         /// <summary>
         /// Gets or sets the builder of the file name.
@@ -43,10 +49,17 @@ namespace Atata
         /// </summary>
         public Func<ScreenshotInfo, string> FilePathBuilder { get; set; }
 
+        [Obsolete("Use " + nameof(DirectoryPath) + " instead.")] // Obsolete since v2.0.0.
+        public string FolderPath
+        {
+            get => DirectoryPath;
+            set => DirectoryPath = value;
+        }
+
         /// <summary>
-        /// Gets or sets the folder path.
+        /// Gets or sets the directory path.
         /// </summary>
-        public string FolderPath { get; set; }
+        public string DirectoryPath { get; set; }
 
         /// <summary>
         /// Gets or sets the file name.
@@ -97,12 +110,12 @@ namespace Atata
             else if (!string.IsNullOrWhiteSpace(FilePath))
                 return FormatPath(FilePath, screenshotInfo).SanitizeForPath();
 
-            string folderPath = FolderPathBuilder?.Invoke()
-                ?? (!string.IsNullOrWhiteSpace(FolderPath)
-                    ? FormatPath(FolderPath, screenshotInfo)
-                    : BuildDefaultFolderPath());
+            string directoryPath = DirectoryPathBuilder?.Invoke()
+                ?? (!string.IsNullOrWhiteSpace(DirectoryPath)
+                    ? FormatPath(DirectoryPath, screenshotInfo)
+                    : BuildDefaultDirectoryPath());
 
-            folderPath = folderPath.SanitizeForPath();
+            directoryPath = directoryPath.SanitizeForPath();
 
             string fileName = FileNameBuilder?.Invoke(screenshotInfo)
                 ?? (!string.IsNullOrWhiteSpace(FileName)
@@ -111,10 +124,10 @@ namespace Atata
 
             fileName = fileName.SanitizeForFileName();
 
-            return Path.Combine(folderPath, fileName);
+            return Path.Combine(directoryPath, fileName);
         }
 
-        protected virtual string BuildDefaultFolderPath() =>
+        protected virtual string BuildDefaultDirectoryPath() =>
             DefaultAtataContextArtifactsDirectory.BuildPath();
 
         protected virtual string BuildDefaultFileName(ScreenshotInfo screenshotInfo) =>

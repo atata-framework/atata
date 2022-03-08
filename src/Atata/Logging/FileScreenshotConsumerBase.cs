@@ -25,10 +25,10 @@ namespace Atata
             if (!Path.IsPathRooted(filePath))
                 filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
 
-            string folderPath = Path.GetDirectoryName(filePath);
+            string directoryPath = Path.GetDirectoryName(filePath);
 
-            if (!Directory.Exists(folderPath))
-                Directory.CreateDirectory(folderPath);
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
 
             screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
 

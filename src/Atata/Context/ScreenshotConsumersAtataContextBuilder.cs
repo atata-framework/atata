@@ -52,7 +52,7 @@
 
         /// <summary>
         /// Adds the <see cref="FileScreenshotConsumer"/> instance for the screenshot saving to file.
-        /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as folder path format,
+        /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as a directory path format,
         /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as file name format
         /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
         /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.

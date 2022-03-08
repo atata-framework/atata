@@ -21,42 +21,62 @@ namespace Atata
             return builder;
         }
 
-        /// <summary>
-        /// Sets the <see cref="AtataContext"/> Artifacts folder as the folder path of the file screenshot consumer.
-        /// </summary>
-        /// <param name="builder">The builder.</param>
-        /// <returns>The same builder instance.</returns>
+        [Obsolete("Use " + nameof(WithArtifactsDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
         public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithArtifactsFolderPath(
             this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder)
             =>
-            builder.WithFolderPath(() => AtataContext.Current.Artifacts.FullName.Value);
+            builder.WithArtifactsDirectoryPath();
 
         /// <summary>
-        /// Specifies the folder path builder of the file screenshot consumer.
+        /// Sets the <see cref="AtataContext.Artifacts"/> directory as the directory path of the file screenshot consumer.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="folderPathBuilder">The folder path builder function.</param>
         /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithArtifactsDirectoryPath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder)
+            =>
+            builder.WithDirectoryPath(() => AtataContext.Current.Artifacts.FullName.Value);
+
+        [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
         public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFolderPath(
             this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
             Func<string> folderPathBuilder)
+            =>
+            builder.WithDirectoryPath(folderPathBuilder);
+
+        [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFolderPath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            string folderPath)
+            =>
+            builder.WithDirectoryPath(folderPath);
+
+        /// <summary>
+        /// Specifies the directory path builder of the file screenshot consumer.
+        /// </summary>
+        /// <param name="builder">The builder.</param>
+        /// <param name="directoryPathBuilder">The directory path builder function.</param>
+        /// <returns>The same builder instance.</returns>
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithDirectoryPath(
+            this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
+            Func<string> directoryPathBuilder)
         {
-            builder.Context.FolderPathBuilder = folderPathBuilder;
+            builder.Context.DirectoryPathBuilder = directoryPathBuilder;
             return builder;
         }
 
         /// <summary>
-        /// Specifies the folder path of the file screenshot consumer.
+        /// Specifies the directory path of the file screenshot consumer.
         /// </summary>
         /// <param name="builder">The builder.</param>
-        /// <param name="folderPath">The folder path.</param>
+        /// <param name="directoryPath">The directory path.</param>
         /// <returns>The same builder instance.</returns>
-        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFolderPath(
+        public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithDirectoryPath(
             this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
-            string folderPath)
+            string directoryPath)
         {
-            builder.Context.FolderPath = folderPath;
-            builder.Context.FolderPathBuilder = null;
+            builder.Context.DirectoryPath = directoryPath;
+            builder.Context.DirectoryPathBuilder = null;
             return builder;
         }
 
