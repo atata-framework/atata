@@ -7,26 +7,22 @@ namespace Atata
 {
     /// <summary>
     /// Represents the screenshot consumer that saves the screenshot to the file.
-    /// By default uses <c>"Logs\{build-start}\{test-name-sanitized}"</c> as directory path format,
-    /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as file name format
-    /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as image format.
-    /// Example of screenshot file path using default settings: <c>"Logs\2018-03-03 14_34_04\SampleTest\01 - Home page - Screenshot title.png"</c>.
-    /// Available path variables are:
-    /// <c>{build-start}</c>,
+    /// By default uses <see cref="AtataContext.Artifacts"/> directory as a directory path format,
+    /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as a file name format
+    /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as an image format.
+    /// Example of a screenshot file path using default settings: <c>"artifacts\20220303T143404\SampleTest\01 - Home page - Screenshot title.png"</c>.
+    /// Available predefined path variables are:
+    /// <c>{build-start}</c>, <c>{build-start-utc}</c>
     /// <c>{test-name}</c>, <c>{test-name-sanitized}</c>,
     /// <c>{test-suite-name}</c>, <c>{test-suite-name-sanitized}</c>,
-    /// <c>{test-start}</c>, <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
+    /// <c>{test-start}</c>, <c>{test-start-utc}</c>,
+    /// <c>{driver-alias}</c>, <c>{screenshot-number}</c>,
     /// <c>{screenshot-title}</c>, <c>{screenshot-pageobjectname}</c>,
     /// <c>{screenshot-pageobjecttypename}</c>, <c>{screenshot-pageobjectfullname}</c>.
-    /// Path variables support a formatting.
+    /// Path variables support formatting.
     /// </summary>
     public class FileScreenshotConsumer : FileScreenshotConsumerBase
     {
-        /// <summary>
-        /// The default DateTime format for <c>"build-start"</c> and <c>"test-start"</c> path variables is <c>"yyyy-MM-dd HH_mm_ss"</c>.
-        /// </summary>
-        public const string DefaultDateTimeFormat = DefaultAtataContextArtifactsDirectory.DefaultDateTimeFormat;
-
         [Obsolete("Use " + nameof(DirectoryPathBuilder) + " instead.")] // Obsolete since v2.0.0.
         public Func<string> FolderPathBuilder
         {
@@ -128,7 +124,7 @@ namespace Atata
         }
 
         protected virtual string BuildDefaultDirectoryPath() =>
-            DefaultAtataContextArtifactsDirectory.BuildPath();
+            AtataContext.Current.Artifacts.FullName;
 
         protected virtual string BuildDefaultFileName(ScreenshotInfo screenshotInfo) =>
             $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectName} {screenshotInfo.PageObjectTypeName}{screenshotInfo.Title?.Prepend(" - ")}";

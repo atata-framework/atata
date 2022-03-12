@@ -18,8 +18,8 @@ namespace Atata.Tests
             AtataContext.Current.Log.Info(testMessage);
 
             string filePath = Path.Combine(
-                DefaultAtataContextArtifactsDirectory.BuildPath(),
-                $"{AtataContext.Current.TestName}.log");
+                AtataContext.Current.Artifacts.FullName,
+                $"{AtataContext.Current.TestNameSanitized}.log");
 
             AssertThatFileShouldContainText(filePath, testMessage);
         }

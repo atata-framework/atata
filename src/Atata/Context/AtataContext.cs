@@ -320,7 +320,7 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="DirectorySubject"/> of Artifacts directory.
         /// Artifacts directory can contain any files produced during test execution, logs, screenshots, downloads, etc.
-        /// The default Artifacts directory path is <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+        /// The default Artifacts directory path is <c>"{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
         /// </summary>
         public DirectorySubject Artifacts { get; internal set; }
 
@@ -374,6 +374,30 @@ namespace Atata
         public IEventBus EventBus { get; internal set; }
 
         /// <summary>
+        /// Gets the variables dictionary.
+        /// <para>
+        /// The list of predefined variables:
+        /// <list type="bullet">
+        /// <item><c>build-start</c></item>
+        /// <item><c>build-start-utc</c></item>
+        /// <item><c>basedir</c></item>
+        /// <item><c>artifacts</c></item>
+        /// <item><c>test-name-sanitized</c></item>
+        /// <item><c>test-name</c></item>
+        /// <item><c>test-suite-name-sanitized</c></item>
+        /// <item><c>test-suite-name</c></item>
+        /// <item><c>test-start</c></item>
+        /// <item><c>test-start-utc</c></item>
+        /// <item><c>driver-alias</c></item>
+        /// </list>
+        /// </para>
+        /// <para>
+        /// Custom variables can be added as well.
+        /// </para>
+        /// </summary>
+        public IDictionary<string, object> Variables { get; } = new Dictionary<string, object>();
+
+        /// <summary>
         /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
         /// Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
         /// </summary>
@@ -384,7 +408,7 @@ namespace Atata
             return new AtataContextBuilder(buildingContext);
         }
 
-        internal void InitDateTimeVariables()
+        internal void InitDateTimeProperties()
         {
             StartedAtUtc = DateTime.UtcNow;
             StartedAt = TimeZoneInfo.ConvertTimeFromUtc(StartedAtUtc, TimeZone);
@@ -403,6 +427,28 @@ namespace Atata
 
             BuildStartInTimeZone = TimeZoneInfo.ConvertTimeFromUtc(BuildStartUtc.Value, TimeZone);
         }
+
+        internal void InitMainVariables()
+        {
+            var variables = Variables;
+
+            variables["build-start"] = BuildStartInTimeZone;
+            variables["build-start-utc"] = BuildStartUtc;
+
+            variables["basedir"] = AppDomain.CurrentDomain.BaseDirectory;
+
+            variables["test-name-sanitized"] = TestNameSanitized;
+            variables["test-name"] = TestName;
+            variables["test-suite-name-sanitized"] = TestSuiteNameSanitized;
+            variables["test-suite-name"] = TestSuiteName;
+            variables["test-start"] = StartedAt;
+            variables["test-start-utc"] = StartedAtUtc;
+
+            variables["driver-alias"] = DriverAlias;
+        }
+
+        internal void InitArtifactsVariable() =>
+            Variables["artifacts"] = Artifacts.FullName.Value;
 
         internal void LogTestStart()
         {
@@ -577,6 +623,7 @@ namespace Atata
         /// The list of predefined variables:
         /// <list type="bullet">
         /// <item><c>{build-start}</c></item>
+        /// <item><c>{build-start-utc}</c></item>
         /// <item><c>{basedir}</c></item>
         /// <item><c>{artifacts}</c></item>
         /// <item><c>{test-name-sanitized}</c></item>
@@ -584,6 +631,7 @@ namespace Atata
         /// <item><c>{test-suite-name-sanitized}</c></item>
         /// <item><c>{test-suite-name}</c></item>
         /// <item><c>{test-start}</c></item>
+        /// <item><c>{test-start-utc}</c></item>
         /// <item><c>{driver-alias}</c></item>
         /// </list>
         /// </para>
@@ -603,38 +651,18 @@ namespace Atata
             if (!template.Contains('{'))
                 return template;
 
-            var variables = CreateVariablesDictionary();
+            var variables = Variables;
 
             if (additionalVariables != null)
+            {
+                variables = new Dictionary<string, object>(variables);
+
                 foreach (var variable in additionalVariables)
                     variables[variable.Key] = variable.Value;
-
-            // TODO: Remove the following block in Atata v2.
-            template = template.
-                Replace("{build-start}", $"{{build-start:{DefaultAtataContextArtifactsDirectory.DefaultDateTimeFormat}}}").
-                Replace("{test-start}", $"{{test-start:{DefaultAtataContextArtifactsDirectory.DefaultDateTimeFormat}}}");
+            }
 
             return TemplateStringTransformer.Transform(template, variables);
         }
-
-        private IDictionary<string, object> CreateVariablesDictionary() =>
-            new Dictionary<string, object>
-            {
-                ["build-start"] = BuildStartInTimeZone,
-                ["build-start-utc"] = BuildStartUtc,
-
-                ["basedir"] = AppDomain.CurrentDomain.BaseDirectory,
-                ["artifacts"] = Artifacts?.FullName.Value,
-
-                ["test-name-sanitized"] = TestNameSanitized,
-                ["test-name"] = TestName,
-                ["test-suite-name-sanitized"] = TestSuiteNameSanitized,
-                ["test-suite-name"] = TestSuiteName,
-                ["test-start"] = StartedAt,
-                ["test-start-utc"] = StartedAtUtc,
-
-                ["driver-alias"] = DriverAlias
-            };
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

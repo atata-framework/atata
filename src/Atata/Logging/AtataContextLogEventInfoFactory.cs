@@ -20,17 +20,8 @@ namespace Atata
             {
                 Level = level,
                 Message = message,
-
-                Context = _context,
                 Timestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _context.TimeZone),
-                BuildStart = _context.BuildStartInTimeZone,
-
-                TestName = _context.TestName,
-                TestNameSanitized = _context.TestNameSanitized,
-                TestSuiteName = _context.TestSuiteName,
-                TestSuiteNameSanitized = _context.TestSuiteNameSanitized,
-                TestStart = _context.StartedAt,
-                DriverAlias = _context.DriverAlias
+                Context = _context
             };
     }
 }

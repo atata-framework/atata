@@ -33,14 +33,6 @@ namespace Atata.Tests
         public void LogEventInfo_Timestamp() =>
             AssertDateTimeIsCloseToExpected(LogEntries.Last().Timestamp, _nowInSetTimeZone);
 
-        [Test]
-        public void LogEventInfo_TestStart() =>
-            AssertDateTimeIsCloseToExpected(LogEntries.Last().TestStart, _nowInSetTimeZone);
-
-        [Test]
-        public void LogEventInfo_BuildStart() =>
-            AssertDateTimeIsCloseToExpected(LogEntries.Last().BuildStart, _nowInSetTimeZone, withinMinutes: 20);
-
         private static void AssertDateTimeIsCloseToExpected(DateTime actual, DateTime expected, int withinMinutes = 1) =>
             Assert.That(actual, Is.EqualTo(expected).Within(withinMinutes).Minutes);
     }

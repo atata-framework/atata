@@ -82,13 +82,8 @@ namespace Atata
         {
             var properties = s_lazyThreadContextProperties.Value;
 
-            properties["build-start"] = eventInfo.BuildStart;
-            properties["test-name"] = eventInfo.TestName;
-            properties["test-name-sanitized"] = eventInfo.TestNameSanitized;
-            properties["test-suite-name"] = eventInfo.TestSuiteName;
-            properties["test-suite-name-sanitized"] = eventInfo.TestSuiteNameSanitized;
-            properties["test-start"] = eventInfo.TestStart;
-            properties["driver-alias"] = eventInfo.DriverAlias;
+            foreach (var item in eventInfo.Context.Variables)
+                properties[item.Key] = item.Value;
 
             var level = s_lazyLogLevelsMap.Value[eventInfo.Level];
 

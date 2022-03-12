@@ -16,7 +16,7 @@ namespace Atata.Tests
                 .Build();
 
             WriteLogMessageAndAssertItInFile(
-                Path.Combine(DefaultAtataContextArtifactsDirectory.BuildPath(), $"{AtataContext.Current.TestName}.log"));
+                Path.Combine(AtataContext.Current.Artifacts.FullName, NLogFileConsumer.DefaultFileName));
         }
 
         [Test]
@@ -97,7 +97,7 @@ namespace Atata.Tests
                 .Build();
 
             WriteLogMessageAndAssertItInFile(
-                Path.Combine(DefaultAtataContextArtifactsDirectory.BuildPath(), fileName));
+                Path.Combine(AtataContext.Current.Artifacts.FullName, fileName));
         }
 
         private static void WriteLogMessageAndAssertItInFile(string filePath)

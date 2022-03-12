@@ -83,7 +83,7 @@ namespace Atata
         }
 
         protected virtual string BuildDefaultDirectoryPath() =>
-            DefaultAtataContextArtifactsDirectory.BuildPath();
+            AtataContext.Current.Artifacts.FullName;
 
         protected virtual string BuildDefaultFileName(AtataContext context) =>
             DefaultFileName;

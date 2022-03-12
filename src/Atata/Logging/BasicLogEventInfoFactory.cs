@@ -14,8 +14,7 @@ namespace Atata
                 Level = level,
                 Message = message,
 
-                Timestamp = DateTime.Now,
-                BuildStart = AtataContext.BuildStart ?? DateTime.MinValue
+                Timestamp = DateTime.Now
             };
     }
 }

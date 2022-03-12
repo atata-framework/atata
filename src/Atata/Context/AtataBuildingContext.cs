@@ -11,7 +11,7 @@ namespace Atata
     /// </summary>
     public class AtataBuildingContext : ICloneable
     {
-        public const string DefaultArtifactsPath = "{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
+        public const string DefaultArtifactsPath = "{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
 
         public const string DefaultArtifactsPathWithoutBuildStartFolder = "{basedir}/artifacts{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
 
@@ -151,7 +151,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the Artifacts directory path builder.
-        /// The default builder returns <c>"{basedir}/artifacts/{build-start:yyyy-MM-dd HH_mm_ss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+        /// The default builder returns <c>"{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
         /// </summary>
         public Func<AtataContext, string> ArtifactsPathBuilder { get; set; } = _ => DefaultArtifactsPath;
 

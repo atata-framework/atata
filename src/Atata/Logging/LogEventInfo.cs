@@ -48,44 +48,29 @@ namespace Atata
         public LogSection SectionEnd { get; internal set; }
 
         /// <summary>
-        /// Gets the build start date and time.
-        /// Contains the same value for all the tests being executed within one build.
-        /// </summary>
-        public DateTime BuildStart { get; internal set; }
-
-        /// <summary>
-        /// Gets the name of the test.
-        /// </summary>
-        public string TestName { get; internal set; }
-
-        /// <summary>
-        /// Gets the name of the test sanitized for file path/name.
-        /// </summary>
-        public string TestNameSanitized { get; internal set; }
-
-        /// <summary>
-        /// Gets the name of the test suite.
-        /// </summary>
-        public string TestSuiteName { get; internal set; }
-
-        /// <summary>
-        /// Gets the name of the test suite sanitized for file path/name.
-        /// </summary>
-        public string TestSuiteNameSanitized { get; internal set; }
-
-        /// <summary>
-        /// Gets the test start date and time.
-        /// </summary>
-        public DateTime TestStart { get; internal set; }
-
-        /// <summary>
-        /// Gets the alias of the driver.
-        /// </summary>
-        public string DriverAlias { get; internal set; }
-
-        /// <summary>
         /// Gets the nesting level.
         /// </summary>
         public int NestingLevel { get; internal set; }
+
+        [Obsolete("Use Context." + nameof(AtataContext.BuildStartInTimeZone) + " instead.")] // Obsolete since v2.0.0.
+        public DateTime BuildStart => Context?.BuildStartInTimeZone ?? DateTime.MinValue;
+
+        [Obsolete("Use Context." + nameof(AtataContext.TestName) + " instead.")] // Obsolete since v2.0.0.
+        public string TestName => Context?.TestName;
+
+        [Obsolete("Use Context." + nameof(AtataContext.TestNameSanitized) + " instead.")] // Obsolete since v2.0.0.
+        public string TestNameSanitized => Context?.TestNameSanitized;
+
+        [Obsolete("Use Context." + nameof(AtataContext.TestSuiteName) + " instead.")] // Obsolete since v2.0.0.
+        public string TestSuiteName => Context?.TestSuiteName;
+
+        [Obsolete("Use Context." + nameof(AtataContext.TestSuiteNameSanitized) + " instead.")] // Obsolete since v2.0.0.
+        public string TestSuiteNameSanitized => Context?.TestSuiteNameSanitized;
+
+        [Obsolete("Use Context." + nameof(AtataContext.StartedAt) + " instead.")] // Obsolete since v2.0.0.
+        public DateTime TestStart => Context?.StartedAt ?? DateTime.MinValue;
+
+        [Obsolete("Use Context." + nameof(AtataContext.DriverAlias) + " instead.")] // Obsolete since v2.0.0.
+        public string DriverAlias => Context?.DriverAlias;
     }
 }

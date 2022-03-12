@@ -40,15 +40,21 @@ namespace Atata
             if (CanTransform(template))
             {
                 string workingTemplate = template;
+                var variablesKeys = variables.OrderByDescending(x => x.Key.Length)
+                    .Select(x => x.Key)
+                    .ToArray();
+                var variablesValues = variables.OrderByDescending(x => x.Key.Length)
+                    .Select(x => x.Value)
+                    .ToArray();
 
-                for (int i = 0; i < variables.Count; i++)
+                for (int i = 0; i < variablesKeys.Length; i++)
                 {
-                    workingTemplate = workingTemplate.Replace("{" + variables.Keys.ElementAt(i), $"{{{i}");
+                    workingTemplate = workingTemplate.Replace("{" + variablesKeys[i], $"{{{i}");
                 }
 
                 try
                 {
-                    return string.Format(AtataTemplateStringFormatter.Default, workingTemplate, variables.Values.ToArray());
+                    return string.Format(AtataTemplateStringFormatter.Default, workingTemplate, variablesValues);
                 }
                 catch (FormatException)
                 {

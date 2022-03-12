@@ -813,9 +813,9 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         }
 
         /// <summary>
-        /// Sets the default Artifacts path with optionally including <c>"{build-start}"</c> folder in the path.
+        /// Sets the default Artifacts path with optionally including <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.
         /// </summary>
-        /// <param name="include">Whether to include the <c>"{build-start}"</c> folder in the path.</param>
+        /// <param name="include">Whether to include the <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseDefaultArtifactsPathIncludingBuildStart(bool include) =>
             UseArtifactsPath(include
@@ -1070,8 +1070,10 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             context.DriverAlias = context.DriverFactory?.Alias;
             context.DriverInitializationStage = BuildingContext.DriverInitializationStage;
 
-            context.InitDateTimeVariables();
+            context.InitDateTimeProperties();
+            context.InitMainVariables();
             context.Artifacts = CreateArtifactsDirectorySubject(context);
+            context.InitArtifactsVariable();
 
             AtataContext.Current = context;
 
