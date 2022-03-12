@@ -28,7 +28,7 @@ namespace Atata.Tests
             Go.To<BasicControlsPage>()
                 .OptionBWithScrollUsingActions.ScrollTo();
 
-            double yOffset = (double)AtataContext.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
+            object yOffset = AtataContext.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
 
             Assert.That(yOffset, Is.GreaterThan(200));
         }
@@ -41,7 +41,7 @@ namespace Atata.Tests
             Go.To<BasicControlsPage>()
                 .OptionBWithScrollUsingScript.ScrollTo();
 
-            double yOffset = (double)AtataContext.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
+            object yOffset = AtataContext.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
 
             Assert.That(yOffset, Is.GreaterThan(200));
         }
