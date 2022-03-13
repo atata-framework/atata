@@ -1,4 +1,5 @@
-﻿using Atata.Tests.DataProvision;
+﻿using System;
+using Atata.Tests.DataProvision;
 using NUnit.Framework;
 
 namespace Atata.Tests
@@ -63,6 +64,62 @@ namespace Atata.Tests
                     AtataContext.Current.Artifacts.Directories[directoryFixture.DirectoryName]
                         .Should.ContainDirectories("dir1", "dir2");
             }
+        }
+
+        public class Variables : UITestFixtureBase
+        {
+            [Test]
+            public void AddViaBuilder()
+            {
+                var context = ConfigureBaseAtataContext()
+                    .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+                    .AddVariable("key1", "val1")
+                    .Build();
+
+                context.Variables.ToSutSubject()
+                    .ValueOf(x => x["key1"]).Should.Be("val1");
+            }
+
+            [Test]
+            public void AddViaContext()
+            {
+                var context = ConfigureBaseAtataContext()
+                    .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+                    .Build();
+
+                context.Variables["key1"] = "val1";
+
+                context.Variables.ToSutSubject()
+                    .ValueOf(x => x["key1"]).Should.Be("val1");
+            }
+        }
+
+        public class FillTemplateString : UITestFixtureBase
+        {
+            private Subject<AtataContext> _sut;
+
+            [SetUp]
+            public void SetUp() =>
+                _sut = ConfigureBaseAtataContext()
+                    .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+                    .AddVariable("key1", "val1")
+                    .Build()
+                    .ToSutSubject();
+
+            [Test]
+            public void WithPredefinedVariable() =>
+                _sut.ResultOf(x => x.FillTemplateString("start_{test-name}_end"))
+                    .Should.Be($"start_{nameof(WithPredefinedVariable)}_end");
+
+            [Test]
+            public void WithCustomVariable() =>
+                _sut.ResultOf(x => x.FillTemplateString("start_{key1}_end"))
+                    .Should.Be("start_val1_end");
+
+            [Test]
+            public void WithMissingVariable() =>
+                _sut.ResultOf(x => x.FillTemplateString("start_{missingkey}_end"))
+                    .Should.Throw<FormatException>();
         }
     }
 }

@@ -42,6 +42,11 @@ namespace Atata
         public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = new List<LogConsumerConfiguration>();
 
         /// <summary>
+        /// Gets the variables dictionary.
+        /// </summary>
+        public IDictionary<string, object> Variables { get; private set; } = new Dictionary<string, object>();
+
+        /// <summary>
         /// Gets the list of secret strings to mask in log.
         /// </summary>
         public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = new List<SecretStringToMask>();
@@ -293,6 +298,7 @@ namespace Atata
 
             copy.Attributes = Attributes.Clone();
             copy.EventSubscriptions = EventSubscriptions.ToList();
+            copy.Variables = new Dictionary<string, object>(Variables);
             copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
 
             return copy;

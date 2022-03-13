@@ -447,6 +447,14 @@ namespace Atata
             variables["driver-alias"] = DriverAlias;
         }
 
+        internal void InitCustomVariables(IDictionary<string, object> customVariables)
+        {
+            var variables = Variables;
+
+            foreach (var variable in customVariables)
+                variables[variable.Key] = variable.Value;
+        }
+
         internal void InitArtifactsVariable() =>
             Variables["artifacts"] = Artifacts.FullName.Value;
 

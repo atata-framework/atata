@@ -387,6 +387,36 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             LogConsumers.AddLog4Net(repositoryAssembly, loggerName);
 
         /// <summary>
+        /// Adds the variable.
+        /// </summary>
+        /// <param name="key">The variable key.</param>
+        /// <param name="value">The variable value.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder AddVariable(string key, object value)
+        {
+            key.CheckNotNullOrWhitespace(nameof(key));
+
+            BuildingContext.Variables[key] = value;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Adds the variables.
+        /// </summary>
+        /// <param name="variables">The variables to add.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder AddVariables(IDictionary<string, object> variables)
+        {
+            variables.CheckNotNull(nameof(variables));
+
+            foreach (var variable in variables)
+                BuildingContext.Variables[variable.Key] = variable.Value;
+
+            return this;
+        }
+
+        /// <summary>
         /// Adds the secret string to mask in log.
         /// </summary>
         /// <param name="value">The secret string value.</param>
@@ -1072,6 +1102,7 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
 
             context.InitDateTimeProperties();
             context.InitMainVariables();
+            context.InitCustomVariables(BuildingContext.Variables);
             context.Artifacts = CreateArtifactsDirectorySubject(context);
             context.InitArtifactsVariable();
 
