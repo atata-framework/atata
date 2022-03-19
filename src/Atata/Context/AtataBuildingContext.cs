@@ -233,6 +233,12 @@ namespace Atata
         }
 
         /// <summary>
+        /// Gets or sets the default control visibility.
+        /// The default value is <see cref="Visibility.Any"/>.
+        /// </summary>
+        public Visibility DefaultControlVisibility { get; set; }
+
+        /// <summary>
         /// Gets or sets the culture.
         /// </summary>
         public CultureInfo Culture { get; set; }
