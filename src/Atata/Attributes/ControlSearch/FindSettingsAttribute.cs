@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Defines the settings to apply for the specified finding strategy of a control.
+    /// Defines the finding settings to apply to the targeted control(s).
     /// Adds to or overrides properties of <see cref="FindAttribute"/>.
     /// </summary>
     public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalProperties

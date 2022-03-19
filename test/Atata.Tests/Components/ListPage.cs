@@ -73,7 +73,7 @@
             public Text<_> Name { get; private set; }
         }
 
-        [FindSettings(Visibility = Visibility.Visible)]
+        [FindOnlyVisible]
         public class HierarchicalOrderedListItem : HierarchicalListItem<HierarchicalOrderedListItem, _>
         {
             [FindByXPath("./span[1]")]
