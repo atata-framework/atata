@@ -12,8 +12,8 @@ namespace Atata
         private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_propertyAttributes =
             new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
 
-        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_classAttributes =
-            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
+        private static readonly ConcurrentDictionary<Type, Attribute[]> s_classAttributes =
+            new ConcurrentDictionary<Type, Attribute[]>();
 
         private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_assemblyAttributes =
             new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
@@ -442,9 +442,17 @@ namespace Atata
             return ResolveAndCacheAttributes(s_propertyAttributes, property);
         }
 
-        private static Attribute[] GetClassAttributes(Type type)
+        private static Attribute[] GetClassAttributes(Type type) =>
+            s_classAttributes.GetOrAdd(type, ResolveClassAttributes);
+
+        private static Attribute[] ResolveClassAttributes(Type type)
         {
-            return ResolveAndCacheAttributes(s_classAttributes, type);
+            var classOwnAttributes = type.GetCustomAttributes(false).Cast<Attribute>();
+
+            return (type.BaseType == null || type.BaseType == typeof(object)
+                ? classOwnAttributes
+                : classOwnAttributes.Concat(GetClassAttributes(type.BaseType)))
+                .ToArray();
         }
 
         private static Attribute[] GetAssemblyAttributes(Assembly assembly)
