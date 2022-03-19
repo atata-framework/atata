@@ -46,7 +46,7 @@
         [CustomWaitForScript("New value", TriggerEvents.AfterClick, Timeout = 1)]
         public ButtonDelegate<_> ButtonWithTimeoutScriptWait { get; private set; }
 
-        [FindByClass("result-block")]
+        [FindByClass("result-block", Visibility = Visibility.Visible)]
         public Text<_> Result { get; private set; }
 
         [IgnoreInit]

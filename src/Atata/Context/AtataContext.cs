@@ -267,6 +267,12 @@ namespace Atata
         public TimeSpan VerificationRetryInterval { get; internal set; }
 
         /// <summary>
+        /// Gets the default control visibility.
+        /// The default value is <see cref="Visibility.Any"/>.
+        /// </summary>
+        public Visibility DefaultControlVisibility { get; internal set; }
+
+        /// <summary>
         /// Gets the culture.
         /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
         /// </summary>

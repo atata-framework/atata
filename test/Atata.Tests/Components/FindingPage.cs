@@ -45,7 +45,7 @@
         [FindById(Visibility = Visibility.Hidden)]
         public TextInput<_> DisplayNoneInput { get; private set; }
 
-        [FindById("display-none-input")]
+        [FindById("display-none-input", Visibility = Visibility.Visible)]
         public TextInput<_> FailDisplayNoneInput { get; private set; }
 
         [FindById(Visibility = Visibility.Hidden)]
@@ -57,7 +57,7 @@
         [FindById(Visibility = Visibility.Hidden)]
         public TextInput<_> Opacity0Input { get; private set; }
 
-        [FindById("opacity-0-input")]
+        [FindById("opacity-0-input", Visibility = Visibility.Visible)]
         public TextInput<_> FailOpacity0Input { get; private set; }
 
         [FindById]

@@ -124,7 +124,7 @@ namespace Atata
         {
             string scopeXPath = Metadata.ComponentDefinitionAttribute?.ScopeXPath ?? "body";
 
-            return By.XPath($".//{scopeXPath}");
+            return By.XPath($".//{scopeXPath}").Visible();
         }
 
         private string GetTitle()

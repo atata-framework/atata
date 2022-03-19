@@ -83,7 +83,7 @@ namespace Atata
                     $"[.//{titleElementXPath}[{WindowTitleMatch.CreateXPathCondition(WindowTitleValues)}]]");
             }
 
-            return By.XPath(xPathBuilder.ToString()).PopupWindow(TermResolver.ToDisplayString(WindowTitleValues));
+            return By.XPath(xPathBuilder.ToString()).PopupWindow(TermResolver.ToDisplayString(WindowTitleValues)).Visible();
         }
     }
 }

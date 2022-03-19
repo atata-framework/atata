@@ -29,7 +29,7 @@ namespace Atata
 
         /// <summary>
         /// Gets or sets the visibility.
-        /// The default value is <see cref="Visibility.Visible"/>.
+        /// The default value is <see cref="Visibility.Any"/>.
         /// </summary>
         public Visibility Visibility
         {
@@ -154,9 +154,11 @@ namespace Atata
                 metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
 
         internal Visibility ResolveVisibility(UIComponentMetadata metadata = null) =>
-            OptionalProperties.Resolve<Visibility>(
+            OptionalProperties.Resolve<Visibility?>(
                 nameof(Visibility),
-                metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat(new[] { (IHasOptionalProperties)metadata.ComponentDefinitionAttribute }) : null);
+                metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat(new[] { (IHasOptionalProperties)metadata.ComponentDefinitionAttribute }) : null)
+            ?? AtataContext.Current?.DefaultControlVisibility
+            ?? SearchOptions.DefaultVisibility;
 
         internal ScopeSource ResolveScopeSource(UIComponentMetadata metadata = null) =>
             OptionalProperties.Resolve<ScopeSource>(

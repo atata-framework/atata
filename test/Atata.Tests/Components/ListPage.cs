@@ -73,6 +73,7 @@
             public Text<_> Name { get; private set; }
         }
 
+        [FindSettings(Visibility = Visibility.Visible)]
         public class HierarchicalOrderedListItem : HierarchicalListItem<HierarchicalOrderedListItem, _>
         {
             [FindByXPath("./span[1]")]
@@ -83,6 +84,7 @@
         }
 
         [ControlDefinition("li", ComponentTypeName = "list item", Visibility = Visibility.Any)]
+        [GetsContentFromSource(ContentSource.TextContent, TargetSelfAndChildren = true)]
         public class HierarchicalOrderedListItemWithAnyVisibilityUsingControlDefinition : HierarchicalListItem<HierarchicalOrderedListItemWithAnyVisibilityUsingControlDefinition, _>
         {
             [FindByXPath("./span[1]")]

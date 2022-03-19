@@ -63,7 +63,7 @@
         [FindSettings(Visibility = Visibility.Any)]
         public Content<string, _> HiddenDiv { get; private set; }
 
-        [FindById("hidden-div")]
+        [FindById("hidden-div", Visibility = Visibility.Visible)]
         public Content<string, _> HiddenDivWithVisibleVisibility { get; private set; }
 
         [FindById("hidden-div", Visibility = Visibility.Hidden)]

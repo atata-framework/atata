@@ -197,17 +197,17 @@ namespace Atata.Tests
             list.Descendants.IndexOf(x => x.Number == 2.12m).Should.Equal(6);
         }
 
-        ////[Test]
-        ////public void HierarchicalOrderedList_WithAnyVisibility()
-        ////{
-        ////    var list = page.ComplexHierarchicalOrderedListWithAnyVisibilityUsingControlDefinition;
+        [Test]
+        public void HierarchicalOrderedList_WithAnyVisibility()
+        {
+            var list = _page.ComplexHierarchicalOrderedListWithAnyVisibilityUsingControlDefinition;
 
-        ////    list.Children.Count.Should.Equal(3);
-        ////    list.Children[2].Content.Should.Equal("Item 3");
-        ////    list[2].Name.Should.Equal("Item 3");
-        ////    list.Children.SelectData(x => x.Name).Should.EqualSequence("Item 1", "Item 2", "Item 3");
+            list.Children.Count.Should.Equal(3);
+            list.Children[2].Content.Should.StartWith("Item 3");
+            list[2].Name.Should.Equal("Item 3");
+            list.Children.Select(x => x.Name).Should.EqualSequence("Item 1", "Item 2", "Item 3");
 
-        ////    list.Descendants.Count.Should.Equal(11);
-        ////}
+            list.Descendants.Count.Should.Equal(11);
+        }
     }
 }

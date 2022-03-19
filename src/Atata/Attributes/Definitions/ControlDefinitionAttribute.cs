@@ -16,12 +16,12 @@
 
         /// <summary>
         /// Gets or sets the visibility.
-        /// The default value is <see cref="Visibility.Visible"/>.
+        /// The default value is <see cref="Visibility.Any"/>.
         /// </summary>
         public Visibility Visibility
         {
-            get { return OptionalProperties.GetOrDefault(nameof(Visibility), Visibility.Visible); }
-            set { OptionalProperties[nameof(Visibility)] = value; }
+            get => OptionalProperties.GetOrDefault(nameof(Visibility), Visibility.Any);
+            set => OptionalProperties[nameof(Visibility)] = value;
         }
     }
 }

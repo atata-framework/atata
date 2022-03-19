@@ -18,10 +18,10 @@ namespace Atata.Tests
             VerifyMissing
         }
 
-        [FindByClass]
+        [FindByClass(Visibility = Visibility.Visible)]
         public Control<_> LoadingBlock { get; private set; }
 
-        [FindByClass]
+        [FindByClass(Visibility = Visibility.Visible)]
         public Text<_> ContentBlock { get; private set; }
 
         public WaitKind OnInitWaitKind { get; set; }

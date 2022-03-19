@@ -18,7 +18,7 @@ namespace Atata.Tests
                 ButtonWithoutWait.Click();
 
             AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
-                _page.Result.Should.AtOnce.Exist());
+                _page.Result.Should.AtOnce.BePresent());
         }
 
         [Test]

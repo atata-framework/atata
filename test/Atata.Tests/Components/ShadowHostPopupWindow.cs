@@ -6,6 +6,7 @@
     [UseParentScope(As = FindAs.ShadowHost, TargetAnyType = true)]
     public class ShadowHostPopupWindow : PopupWindow<_>
     {
+        [ControlDefinition("p")]
         public ControlList<Text<_>, _> Paragraphs { get; private set; }
 
         [FindByIndex(1)]
