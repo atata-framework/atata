@@ -38,7 +38,7 @@
             if (Index >= 0)
             {
                 var headingControl = context.Component.Owner.Find<TH>(
-                    new FindByIndexAttribute(Index) { Visibility = Visibility.Visible });
+                    new FindByIndexAttribute(Index).Visible());
 
                 headingControl.Should.WithinSeconds(Timeout, RetryInterval).MatchAny(match, values);
             }
