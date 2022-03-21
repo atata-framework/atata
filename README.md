@@ -147,7 +147,7 @@ If you faced an issue please report it to [Atata Issues](https://github.com/atat
 ### Links
 
 * Stack Overflow: https://stackoverflow.com/questions/tagged/atata
-* Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/enQtNDMzMzk3OTY5NjgzLTJlNzAyN2E3MzY3MDE4ZGE1ZDQzOGY2NThiYWExZTNkNDc5YjdlNzFjYmUwYjZmNDI2MDJlMGQ3ODNlMDljMzU)
+* Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
 * Atata Issues: https://github.com/atata-framework/atata/issues
 * Atata Gitter: https://gitter.im/atata-framework/atata
 * Twitter: https://twitter.com/AtataFramework
