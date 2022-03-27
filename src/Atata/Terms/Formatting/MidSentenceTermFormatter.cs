@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Atata.TermFormatting
+namespace Atata
 {
     public class MidSentenceTermFormatter : ITermFormatter
     {

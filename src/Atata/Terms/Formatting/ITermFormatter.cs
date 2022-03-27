@@ -1,4 +1,4 @@
-﻿namespace Atata.TermFormatting
+﻿namespace Atata
 {
     public interface ITermFormatter
     {

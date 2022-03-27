@@ -1,6 +1,4 @@
-﻿using Atata.TermFormatting;
-
-namespace Atata
+﻿namespace Atata
 {
     public static class TermCaseExtensions
     {

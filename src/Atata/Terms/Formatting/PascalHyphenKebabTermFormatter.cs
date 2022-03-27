@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 using System.Linq;
 
-namespace Atata.TermFormatting
+namespace Atata
 {
     public class PascalHyphenKebabTermFormatter : ITermFormatter
     {

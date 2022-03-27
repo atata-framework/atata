@@ -1,6 +1,6 @@
 ﻿using System.Globalization;
 
-namespace Atata.TermFormatting
+namespace Atata
 {
     public class LowerMergedTermFormatter : ITermFormatter
     {
