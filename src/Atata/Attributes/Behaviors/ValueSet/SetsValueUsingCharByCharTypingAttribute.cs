@@ -22,7 +22,7 @@
             {
                 foreach (char character in value)
                 {
-                    component.Owner.Wait(TypingIntervalInSeconds);
+                    component.Owner.WaitSeconds(TypingIntervalInSeconds);
                     scopeElement.SendKeysWithLogging(character.ToString());
                 }
             }

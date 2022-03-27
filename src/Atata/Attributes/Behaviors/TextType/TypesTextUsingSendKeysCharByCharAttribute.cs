@@ -24,7 +24,7 @@ namespace Atata
                 for (int i = 0; i < value.Length; i++)
                 {
                     if (i > 0 && TypingIntervalInSeconds > 0)
-                        component.Owner.Wait(TypingIntervalInSeconds);
+                        component.Owner.WaitSeconds(TypingIntervalInSeconds);
 
                     scopeElement.SendKeysWithLogging(value[i].ToString());
                 }

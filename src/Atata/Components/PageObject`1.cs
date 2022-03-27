@@ -587,12 +587,16 @@ namespace Atata
             return (TOwner)this;
         }
 
+        [Obsolete("Use " + nameof(WaitSeconds) + " instead.")] // Obsolete since v2.0.0.
+        public TOwner Wait(double seconds) =>
+            WaitSeconds(seconds);
+
         /// <summary>
         /// Waits the specified time in seconds.
         /// </summary>
         /// <param name="seconds">The time to wait in seconds.</param>
         /// <returns>The instance of this page object.</returns>
-        public TOwner Wait(double seconds)
+        public TOwner WaitSeconds(double seconds)
         {
             Thread.Sleep((int)(seconds * 1000));
 
