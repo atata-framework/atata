@@ -51,9 +51,7 @@ namespace Atata
                     if (!(handler is IConditionalEventHandler<TEvent> conditionalEventHandler)
                         || conditionalEventHandler.CanHandle(eventData, _context))
                     {
-                        _context.Log.ExecuteSection(
-                            new ExecuteEventHandlerLogSection(eventData, handler),
-                            () => handler.Handle(eventData, _context));
+                        handler.Handle(eventData, _context);
                     }
                 }
             }
