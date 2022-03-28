@@ -3,9 +3,9 @@
     /// <summary>
     /// Represents an event that occurs when <see cref="AtataContext"/> is started to initialize.
     /// </summary>
-    public class AtataContextInitEvent
+    public class AtataContextInitStartedEvent
     {
-        public AtataContextInitEvent(AtataContext context)
+        public AtataContextInitStartedEvent(AtataContext context)
         {
             Context = context;
         }

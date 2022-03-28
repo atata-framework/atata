@@ -14,7 +14,7 @@ namespace Atata.Tests
             int executionsCount = 0;
 
             ConfigureBaseAtataContext()
-                .EventSubscriptions.Add<AtataContextInitEvent>((eventData, context) =>
+                .EventSubscriptions.Add<AtataContextInitStartedEvent>((eventData, context) =>
                 {
                     eventData.Should().NotBeNull();
                     context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
@@ -37,7 +37,7 @@ namespace Atata.Tests
             Assert.Throws<InvalidOperationException>(() =>
                 AtataContext.Configure()
                     .UseDriver(() => null)
-                    .EventSubscriptions.Add<AtataContextInitEvent>(() => executionsCount++)
+                    .EventSubscriptions.Add<AtataContextInitStartedEvent>(() => executionsCount++)
                     .Build());
 
             executionsCount.Should().Be(1);
