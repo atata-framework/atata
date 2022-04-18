@@ -8,6 +8,10 @@ jobs:
   pool:
     vmImage: windows-latest
   steps:
+  - task: NuGetToolInstaller@1
+    displayName: Install NuGet tool
+    inputs:
+      versionSpec: 6.x
   - task: DotNetCoreCLI@2
     displayName: Pack
     inputs:
