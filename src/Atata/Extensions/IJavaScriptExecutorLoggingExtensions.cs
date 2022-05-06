@@ -10,7 +10,7 @@ namespace Atata
     /// Provides a set of extension methods for <see cref="IJavaScriptExecutor"/>
     /// that wrap actual methods with log sections.
     /// </summary>
-    public static class IIJavaScriptExecutorLoggingExtensions
+    public static class IJavaScriptExecutorLoggingExtensions
     {
         private const int ScriptMaxLength = 100;
 
