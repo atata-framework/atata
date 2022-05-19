@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -18,7 +17,6 @@ namespace Atata
         UIComponentPart<TOwner>,
         ISupportsMetadata,
         IEnumerableProvider<TItem, TOwner>,
-        IEnumerable<TItem>,
         IClearsCache
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
@@ -448,16 +446,19 @@ return textValues;";
                 ToArray();
         }
 
-        /// <inheritdoc cref="GetEnumerator"/>
-        IEnumerator IEnumerable.GetEnumerator() =>
-            GetEnumerator();
-
         /// <summary>
         /// Returns an enumerator that iterates through the collection.
         /// </summary>
         /// <returns>An enumerator that can be used to iterate through the collection.</returns>
         public IEnumerator<TItem> GetEnumerator() =>
             GetAll().GetEnumerator();
+
+        /// <summary>
+        /// Returns the controls as <see cref="IEnumerable{T}"/>.
+        /// </summary>
+        /// <returns>The controls as <see cref="IEnumerable{T}"/>.</returns>
+        public IEnumerable<TItem> AsEnumerable() =>
+            GetAll();
 
         protected virtual IEnumerable<TItem> GetAll() =>
             GetAll(null, null);
