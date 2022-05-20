@@ -133,7 +133,11 @@ namespace Atata.Tests
         protected static void AssertThatFileShouldContainText(string filePath, params string[] texts)
         {
             FileAssert.Exists(filePath);
-            string fileContent = File.ReadAllText(filePath);
+
+            using FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using StreamReader reader = new StreamReader(fileStream);
+
+            string fileContent = reader.ReadToEnd();
             fileContent.Should().ContainAll(texts);
         }
 
