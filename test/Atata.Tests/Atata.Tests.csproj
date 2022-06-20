@@ -28,10 +28,4 @@
     <ProjectReference Include="../../src/Atata/Atata.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Atata.WebDriverExtras">
-      <HintPath>..\..\lib\Atata.WebDriverExtras.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>
