@@ -6,7 +6,7 @@ namespace Atata
     /// <summary>
     /// Represents the behavior for control right-clicking by using a set of actions:
     /// <see cref="Actions.MoveToElement(IWebElement)"/> or
-    /// <see cref="Actions.MoveToElement(IWebElement, int, int, MoveToElementOffsetOrigin)"/> and
+    /// <see cref="Actions.MoveToElement(IWebElement, int, int)"/> and
     /// <see cref="Actions.ContextClick()"/>.
     /// </summary>
     public class RightClicksUsingActionsAttribute : RightClickBehaviorAttribute

@@ -24,26 +24,22 @@ namespace Atata
                     return actions.MoveToElement(
                         toElement,
                         (int)(elementSize.Width * ((float)offsetX / 100)),
-                        (int)(elementSize.Height * ((float)offsetY / 100)),
-                        MoveToElementOffsetOrigin.Center);
+                        (int)(elementSize.Height * ((float)offsetY / 100)));
                 case UIComponentOffsetKind.FromCenterInPixels:
                     return actions.MoveToElement(
                         toElement,
                         offsetX,
-                        offsetY,
-                        MoveToElementOffsetOrigin.Center);
+                        offsetY);
                 case UIComponentOffsetKind.FromTopLeftInPercents:
                     return actions.MoveToElement(
                         toElement,
                         (int)(elementSize.Width * ((float)offsetX / 100)) - (elementSize.Width / 2),
-                        (int)(elementSize.Height * ((float)offsetY / 100)) - (elementSize.Height / 2),
-                        MoveToElementOffsetOrigin.Center);
+                        (int)(elementSize.Height * ((float)offsetY / 100)) - (elementSize.Height / 2));
                 case UIComponentOffsetKind.FromTopLeftInPixels:
                     return actions.MoveToElement(
                         toElement,
                         offsetX - (elementSize.Width / 2),
-                        offsetY - (elementSize.Height / 2),
-                        MoveToElementOffsetOrigin.Center);
+                        offsetY - (elementSize.Height / 2));
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(offsetKind, nameof(offsetKind));
             }

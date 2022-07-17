@@ -5,7 +5,7 @@ namespace Atata
 {
     /// <summary>
     /// Represents the behavior for control hovering by using one of actions:
-    /// <see cref="Actions.MoveToElement(IWebElement)"/> or <see cref="Actions.MoveToElement(IWebElement, int, int, MoveToElementOffsetOrigin)"/>.
+    /// <see cref="Actions.MoveToElement(IWebElement)"/> or <see cref="Actions.MoveToElement(IWebElement, int, int)"/>.
     /// </summary>
     public class HoversUsingActionsAttribute : HoverBehaviorAttribute
     {
