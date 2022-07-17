@@ -50,9 +50,7 @@ namespace Atata.Tests
             yield return "disable-extensions";
             yield return "start-maximized";
             yield return "disable-infobars";
-
-            if (IsOSLinux)
-                yield return "headless";
+            yield return "headless";
         }
 
         [TearDown]
