@@ -12,8 +12,6 @@
 
         public const string Safari = "safari";
 
-        public const string Opera = "opera";
-
         public const string Edge = "edge";
     }
 }

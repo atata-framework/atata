@@ -5,7 +5,6 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Opera;
 using OpenQA.Selenium.Remote;
 
 namespace Atata
@@ -200,8 +199,6 @@ namespace Atata
                     firefoxOptions.AddAdditionalFirefoxOption(optionName, optionValue);
                 else if (options is InternetExplorerOptions internetExplorerOptions)
                     internetExplorerOptions.AddAdditionalInternetExplorerOption(optionName, optionValue);
-                else if (options is OperaOptions operaOptions)
-                    operaOptions.AddAdditionalOperaOption(optionName, optionValue);
                 else
                     throw new InvalidOperationException(
                         $"Cannot add \"{optionName}\"={optionValue} additional browser option to options " +

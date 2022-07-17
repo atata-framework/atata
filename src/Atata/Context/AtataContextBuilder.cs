@@ -10,7 +10,6 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Opera;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Safari;
 
@@ -159,8 +158,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
                     return UseInternetExplorer();
                 case DriverAliases.Safari:
                     return UseSafari();
-                case DriverAliases.Opera:
-                    return UseOpera();
                 case DriverAliases.Edge:
                     return UseEdge();
                 default:
@@ -215,15 +212,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
         /// <returns>The <see cref="EdgeAtataContextBuilder"/> instance.</returns>
         public EdgeAtataContextBuilder UseEdge() =>
             UseDriver(new EdgeAtataContextBuilder(BuildingContext));
-
-        /// <summary>
-        /// Creates and returns a new builder for <see cref="OperaDriver"/>
-        /// with default <see cref="DriverAliases.Opera"/> alias.
-        /// Sets this builder as a one to use for a driver creation.
-        /// </summary>
-        /// <returns>The <see cref="OperaAtataContextBuilder"/> instance.</returns>
-        public OperaAtataContextBuilder UseOpera() =>
-            UseDriver(new OperaAtataContextBuilder(BuildingContext));
 
         /// <summary>
         /// Creates and returns a new builder for <see cref="SafariDriver"/>
@@ -294,19 +282,6 @@ Actual: {driverFactory.GetType().FullName}", nameof(alias));
             ConfigureDriver(
                 alias,
                 () => new EdgeAtataContextBuilder(BuildingContext).WithAlias(alias));
-
-        /// <summary>
-        /// Returns an existing or creates a new builder for <see cref="OperaDriver"/> by the specified alias.
-        /// </summary>
-        /// <param name="alias">
-        /// The driver alias.
-        /// The default value is <see cref="DriverAliases.Opera"/>.
-        /// </param>
-        /// <returns>The <see cref="OperaAtataContextBuilder"/> instance.</returns>
-        public OperaAtataContextBuilder ConfigureOpera(string alias = DriverAliases.Opera) =>
-            ConfigureDriver(
-                alias,
-                () => new OperaAtataContextBuilder(BuildingContext).WithAlias(alias));
 
         /// <summary>
         /// Returns an existing or creates a new builder for <see cref="SafariDriver"/> by the specified alias.
