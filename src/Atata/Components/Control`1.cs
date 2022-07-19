@@ -16,7 +16,7 @@ namespace Atata
     [BlursUsingScript]
     [DragsAndDropsUsingActions]
     [DragsAndDropsToOffsetUsingActions]
-    [ScrollsUsingActions]
+    [ScrollsUsingScrollToElementAction]
     public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -348,7 +348,7 @@ namespace Atata
         /// <summary>
         /// Scrolls to the control.
         /// Executes an associated with the component <see cref="ScrollBehaviorAttribute"/>
-        /// that is <see cref="ScrollsUsingActionsAttribute"/> by default.
+        /// that is <see cref="ScrollsUsingScrollToElementActionAttribute"/> by default.
         /// Also executes <see cref="TriggerEvents.BeforeScroll" /> and <see cref="TriggerEvents.AfterScroll" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
