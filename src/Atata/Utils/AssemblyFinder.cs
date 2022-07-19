@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,8 +11,8 @@ namespace Atata
     /// </summary>
     public static class AssemblyFinder
     {
-        private static readonly ConcurrentDictionary<string, Assembly[]> s_assembliesMatchingNamePattern =
-            new ConcurrentDictionary<string, Assembly[]>();
+        private static readonly LockingConcurrentDictionary<string, Assembly[]> s_assembliesMatchingNamePattern =
+            new LockingConcurrentDictionary<string, Assembly[]>(DoFindAllByPattern);
 
         /// <summary>
         /// Finds the assembly by name.
@@ -59,12 +58,8 @@ namespace Atata
         /// </summary>
         /// <param name="assemblyNamePattern">The assembly name pattern.</param>
         /// <returns>The found assemblies.</returns>
-        public static Assembly[] FindAllByPattern(string assemblyNamePattern)
-        {
-            return s_assembliesMatchingNamePattern.GetOrAdd(
-                assemblyNamePattern ?? string.Empty,
-                DoFindAllByPattern);
-        }
+        public static Assembly[] FindAllByPattern(string assemblyNamePattern) =>
+            s_assembliesMatchingNamePattern.GetOrAdd(assemblyNamePattern ?? string.Empty);
 
         private static Assembly[] DoFindAllByPattern(string assemblyNamePattern)
         {

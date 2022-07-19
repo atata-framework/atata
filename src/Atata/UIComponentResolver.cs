@@ -9,17 +9,17 @@ namespace Atata
 {
     public static class UIComponentResolver
     {
-        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_propertyAttributes =
-            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
+        private static readonly LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_propertyAttributes =
+            new LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]>(ResolveAttributes);
 
-        private static readonly ConcurrentDictionary<Type, Attribute[]> s_classAttributes =
-            new ConcurrentDictionary<Type, Attribute[]>();
+        private static readonly LockingConcurrentDictionary<Type, Attribute[]> s_classAttributes =
+            new LockingConcurrentDictionary<Type, Attribute[]>(ResolveClassAttributes);
 
-        private static readonly ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_assemblyAttributes =
-            new ConcurrentDictionary<ICustomAttributeProvider, Attribute[]>();
+        private static readonly LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_assemblyAttributes =
+            new LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]>(ResolveAttributes);
 
-        private static readonly ConcurrentDictionary<Type, string> s_pageObjectNames =
-            new ConcurrentDictionary<Type, string>();
+        private static readonly LockingConcurrentDictionary<Type, string> s_pageObjectNames =
+            new LockingConcurrentDictionary<Type, string>(ResolvePageObjectNameFromMetadata);
 
         private static readonly ConcurrentDictionary<Type, Type> s_delegateControlsTypeMapping =
             new ConcurrentDictionary<Type, Type>
@@ -429,21 +429,22 @@ namespace Atata
             return metadata;
         }
 
-        private static Attribute[] ResolveAndCacheAttributes(ConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
+        private static Attribute[] ResolveAndCacheAttributes(LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
         {
             if (attributeProvider == null)
                 return new Attribute[0];
 
-            return cache.GetOrAdd(attributeProvider, x => x.GetCustomAttributes(true).Cast<Attribute>().ToArray());
+            return cache.GetOrAdd(attributeProvider);
         }
 
-        private static Attribute[] GetPropertyAttributes(PropertyInfo property)
-        {
-            return ResolveAndCacheAttributes(s_propertyAttributes, property);
-        }
+        private static Attribute[] GetPropertyAttributes(PropertyInfo property) =>
+            ResolveAndCacheAttributes(s_propertyAttributes, property);
 
         private static Attribute[] GetClassAttributes(Type type) =>
-            s_classAttributes.GetOrAdd(type, ResolveClassAttributes);
+            s_classAttributes.GetOrAdd(type);
+
+        private static Attribute[] ResolveAttributes(ICustomAttributeProvider attributeProvider) =>
+            attributeProvider.GetCustomAttributes(true).Cast<Attribute>().ToArray();
 
         private static Attribute[] ResolveClassAttributes(Type type)
         {
@@ -455,15 +456,13 @@ namespace Atata
                 .ToArray();
         }
 
-        private static Attribute[] GetAssemblyAttributes(Assembly assembly)
-        {
-            return ResolveAndCacheAttributes(s_assemblyAttributes, assembly);
-        }
+        private static Attribute[] GetAssemblyAttributes(Assembly assembly) =>
+            ResolveAndCacheAttributes(s_assemblyAttributes, assembly);
 
         public static string ResolvePageObjectName<TPageObject>()
             where TPageObject : PageObject<TPageObject>
         {
-            return s_pageObjectNames.GetOrAdd(typeof(TPageObject), ResolvePageObjectNameFromMetadata);
+            return s_pageObjectNames.GetOrAdd(typeof(TPageObject));
         }
 
         private static string ResolvePageObjectNameFromMetadata(Type type)
