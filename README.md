@@ -14,7 +14,7 @@ It uses fluent page object pattern.
 
 *The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.*
 
-- **[What's new in v2.0.0](https://atata.io/blog/2022/05/11/atata-2.0.0-released/)**
+- **[What's new in v2.1.0](https://atata.io/blog/2022/07/20/atata-2.1.0-released/)**
 - **[Migrating to Atata v2](https://atata.io/tutorials/migrating-to-atata-v2/)**
 
 ## Features
@@ -96,28 +96,25 @@ Sample test:
 
 ```C#
 [Test]
-public void User_Create()
+public void Create()
 {
-    string firstName, lastName, email;
-    Office office = Office.NewYork;
-    Gender gender = Gender.Male;
-
     Login()
         .New()
-            .ModalTitle.Should.Equal("New User")
-            .General.FirstName.SetRandom(out firstName)
-            .General.LastName.SetRandom(out lastName)
-            .General.Email.SetRandom(out email)
-            .General.Office.Set(office)
-            .General.Gender.Set(gender)
+            .ModalTitle.Should.Be("New User")
+            .General.FirstName.SetRandom(out string firstName)
+            .General.LastName.SetRandom(out string lastName)
+            .General.Email.SetRandom(out string email)
+            .General.Office.SetRandom(out Office office)
+            .General.Gender.SetRandom(out Gender gender)
             .Save()
-        .Users.Rows[x => x.FirstName == firstName && x.LastName == lastName && x.Email == email && x.Office == office].View()
-            .Header.Should.Equal($"{firstName} {lastName}")
-            .Email.Should.Equal(email)
-            .Office.Should.Equal(office)
-            .Gender.Should.Equal(gender)
-            .Birthday.Should.Not.Exist()
-            .Notes.Should.Not.Exist();
+        .GetUserRow(email).View()
+            .AggregateAssert(x => x
+                .Header.Should.Be($"{firstName} {lastName}")
+                .Email.Should.Be(email)
+                .Office.Should.Be(office)
+                .Gender.Should.Be(gender)
+                .Birthday.Should.Not.Exist()
+                .Notes.Should.Not.Exist());
 }
 ```
 
