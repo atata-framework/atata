@@ -134,13 +134,13 @@ namespace Atata
         {
             value.CheckNotNull(nameof(value));
 
-            const string Ellipses = "...";
-            length.CheckGreaterOrEqual(nameof(length), 1 + (withEllipsis ? Ellipses.Length : 0));
+            const string ellipses = "...";
+            length.CheckGreaterOrEqual(nameof(length), 1 + (withEllipsis ? ellipses.Length : 0));
 
             return value.Length <= length
                 ? value
                 : withEllipsis
-                ? value.Substring(0, length - Ellipses.Length) + Ellipses
+                ? value.Substring(0, length - ellipses.Length) + ellipses
                 : value.Substring(0, length);
         }
     }
