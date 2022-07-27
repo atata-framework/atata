@@ -1,11 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Atata.TestApp;
 using Atata.WebDriverSetup;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using NUnit.Framework;
 
 namespace Atata.Tests
@@ -13,76 +13,51 @@ namespace Atata.Tests
     [SetUpFixture]
     public class SetUpFixture
     {
-        private Process _coreRunProcess;
+        private IWebHost _testAppWebHost;
 
         [OneTimeSetUp]
         public async Task GlobalSetUpAsync()
         {
             await Task.WhenAll(
-                Task.Run(SetUpDriver),
-                Task.Run(SetUpTestApp));
+                DriverSetup.AutoSetUpAsync(BrowserNames.Chrome),
+                SetUpTestAppAsync());
         }
 
-        private static void SetUpDriver() =>
-            DriverSetup.AutoSetUp(BrowserNames.Chrome);
-
-        private static bool IsTestAppRunning()
+        private static bool IsTestAppRunningOnDefaultPort()
         {
             IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
             IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
 
-            return ipEndPoints.Any(x => x.Port == 50549);
+            return ipEndPoints.Any(x => x.Port == UITestFixtureBase.DefaultTestAppPort);
         }
 
-        private void SetUpTestApp()
+        private async Task SetUpTestAppAsync()
         {
-            if (!IsTestAppRunning())
-                RunTestApp();
+            if (!IsTestAppRunningOnDefaultPort())
+                await StartTestAppAsync();
         }
 
-        private void RunTestApp()
+        private async Task StartTestAppAsync()
         {
-            string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Atata.TestApp");
+            _testAppWebHost = new WebHostBuilder()
+                .UseStartup<Startup>()
+                .UseKestrel()
+                .Build();
 
-            _coreRunProcess = new Process
-            {
-                StartInfo = UITestFixtureBase.IsOSLinux
-                    ? new ProcessStartInfo
-                    {
-                        FileName = "/bin/bash",
-                        Arguments = "-c \"dotnet run\"",
-                        WorkingDirectory = testAppPath,
-                        RedirectStandardOutput = true,
-                        UseShellExecute = false,
-                        CreateNoWindow = true
-                    }
-                    : new ProcessStartInfo
-                    {
-                        FileName = "cmd.exe",
-                        Arguments = "/c dotnet run",
-                        WorkingDirectory = testAppPath
-                    }
-            };
+            await _testAppWebHost.StartAsync();
 
-            _coreRunProcess.Start();
+            var webHostUrls = _testAppWebHost.ServerFeatures
+                .Get<IServerAddressesFeature>()
+                .Addresses;
 
-            var testAppWait = new SafeWait<SetUpFixture>(this)
-            {
-                Timeout = TimeSpan.FromSeconds(40),
-                PollingInterval = TimeSpan.FromSeconds(1)
-            };
-
-            testAppWait.Until(x => IsTestAppRunning());
+            UITestFixtureBase.BaseUrl = webHostUrls.First();
         }
 
         [OneTimeTearDown]
-        public void GlobalTearDown()
+        public async Task GlobalTearDownAsync()
         {
-            if (_coreRunProcess != null)
-            {
-                _coreRunProcess.Kill(true);
-                _coreRunProcess.Dispose();
-            }
+            if (_testAppWebHost != null)
+                await _testAppWebHost.StopAsync();
         }
     }
 }

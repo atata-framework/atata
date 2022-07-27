@@ -11,7 +11,7 @@ namespace Atata.Tests
     [TestFixture]
     public abstract class UITestFixtureBase
     {
-        public const int TestAppPort = 50549;
+        public const int DefaultTestAppPort = 50549;
 
         /// <summary>
         /// Usage of 2046 on Azure DevOps pipeline port often leads to failure during WebDriver instance creation.
@@ -20,7 +20,7 @@ namespace Atata.Tests
 
         private EventListLogConsumer _eventListLogConsumer;
 
-        public static string BaseUrl { get; set; } = $"http://localhost:{TestAppPort}";
+        public static string BaseUrl { get; set; } = $"http://localhost:{DefaultTestAppPort}";
 
         protected IEnumerable<LogEventInfo> LogEntries => _eventListLogConsumer.Items;
 
@@ -52,7 +52,6 @@ namespace Atata.Tests
             yield return "disable-extensions";
             yield return "start-maximized";
             yield return "disable-infobars";
-            yield return "headless";
         }
 
         [TearDown]
