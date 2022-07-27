@@ -37,4 +37,4 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: Test results
-      targetPath: test/Atata.Tests/bin/$(buildConfiguration)/netcoreapp3.1/Logs
+      targetPath: test/Atata.Tests/bin/$(buildConfiguration)/net6.0/Logs
