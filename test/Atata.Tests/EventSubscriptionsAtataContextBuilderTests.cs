@@ -38,7 +38,7 @@ namespace Atata.Tests
 
             [Test]
             public void ActionWith2GenericParemeters() =>
-                _sut.Act(x => x.Add<TestEvent>((x, c) => StubMethod()))
+                _sut.Act(x => x.Add<TestEvent>((_, _) => StubMethod()))
                     .ResultOf(x => x.BuildingContext.EventSubscriptions)
                         .Should.ContainSingle()
                         .Single().Should.Satisfy(

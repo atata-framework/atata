@@ -26,7 +26,7 @@ namespace Atata.Tests
                     Enabled = true
                 };
 
-                _isTrueInASecondTimer.Elapsed += (s, e) =>
+                _isTrueInASecondTimer.Elapsed += (_, _) =>
                 {
                     _isTrueInASecond = true;
                     _isTrueInASecondTimer.Dispose();

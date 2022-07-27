@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Threading;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Atata.WebDriverSetup;
 using NUnit.Framework;
@@ -25,20 +26,19 @@ namespace Atata.Tests
         private static void SetUpDriver() =>
             DriverSetup.AutoSetUp(BrowserNames.Chrome);
 
-        private void SetUpTestApp()
+        private static bool IsTestAppRunning()
         {
-            try
-            {
-                PingTestApp();
-            }
-            catch (WebException)
-            {
-                RunTestApp();
-            }
+            IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
+            IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
+
+            return ipEndPoints.Any(x => x.Port == 50549);
         }
 
-        private static WebResponse PingTestApp() =>
-            WebRequest.CreateHttp(UITestFixtureBase.BaseUrl).GetResponse();
+        private void SetUpTestApp()
+        {
+            if (!IsTestAppRunning())
+                RunTestApp();
+        }
 
         private void RunTestApp()
         {
@@ -66,17 +66,13 @@ namespace Atata.Tests
 
             _coreRunProcess.Start();
 
-            Thread.Sleep(5000);
-
             var testAppWait = new SafeWait<SetUpFixture>(this)
             {
                 Timeout = TimeSpan.FromSeconds(40),
                 PollingInterval = TimeSpan.FromSeconds(1)
             };
 
-            testAppWait.IgnoreExceptionTypes(typeof(WebException));
-
-            testAppWait.Until(x => PingTestApp());
+            testAppWait.Until(x => IsTestAppRunning());
         }
 
         [OneTimeTearDown]

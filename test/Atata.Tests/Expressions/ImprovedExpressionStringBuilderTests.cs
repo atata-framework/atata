@@ -140,8 +140,8 @@ namespace Atata.Tests.Expressions
                 .Returns("x => x.Item.Value.Contains('!')");
 
             // Two arguments:
-            TestModelWithIndexPredicate((x, i) => i % 2 == 0)
-                .Returns("(x, i) => (i % 2) == 0");
+            TestModelWithIndexPredicate((_, i) => i % 2 == 0)
+                .Returns("(_, i) => (i % 2) == 0");
             TestModelWithIndexPredicate((x, i) => i >= 0 && Equals(x, null))
                 .Returns("(x, i) => i >= 0 && Equals(x, null)");
 

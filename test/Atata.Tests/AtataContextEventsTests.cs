@@ -92,7 +92,7 @@ namespace Atata.Tests
             IWebDriver initialDriver = null;
 
             ConfigureBaseAtataContext()
-                .EventSubscriptions.Add<DriverInitEvent>((eventData, context) =>
+                .EventSubscriptions.Add<DriverInitEvent>(eventData =>
                 {
                     if (executionsCount == 0)
                         initialDriver = eventData.Driver;
