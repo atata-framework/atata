@@ -161,8 +161,8 @@ namespace Atata.Tests
                 Add(new TimeSpan(10, 45, 15), "c", "10:45:15");
                 Add(new TimeSpan(10, 45, 15), "time: '{0:g}'");
                 Add(new TimeSpan(10, 45, 0), "time: '{0:hh\\:mm}'");
-                Add(new TimeSpan(10, 45, 0), "hh:mm tt", "10:45 AM");
-                Add(new TimeSpan(17, 45, 0), "time: {0:h\\:mm tt}", "time: 5:45 PM");
+                Add(new TimeSpan(10, 45, 0), "hh:mm tt", "10:45 am");
+                Add(new TimeSpan(17, 45, 0), "time: {0:h\\:mm tt}", "time: 5:45 pm");
 
                 Guid guid = new Guid("9d0aa4f2-4987-4395-be95-76abc329b7a0");
                 Add(guid);
