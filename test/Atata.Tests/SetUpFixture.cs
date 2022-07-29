@@ -1,11 +1,11 @@
-﻿using System.Linq;
+﻿using System;
+using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
-using Atata.TestApp;
+using Atata.Cli;
 using Atata.WebDriverSetup;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Hosting.Server.Features;
 using NUnit.Framework;
 
 namespace Atata.Tests
@@ -13,51 +13,56 @@ namespace Atata.Tests
     [SetUpFixture]
     public class SetUpFixture
     {
-        private IWebHost _testAppWebHost;
+        private CliCommand _dotnetRunCommand;
 
         [OneTimeSetUp]
         public async Task GlobalSetUpAsync()
         {
             await Task.WhenAll(
                 DriverSetup.AutoSetUpAsync(BrowserNames.Chrome),
-                SetUpTestAppAsync());
+                Task.Run(SetUpTestApp));
         }
 
-        private static bool IsTestAppRunningOnDefaultPort()
+        private static bool IsTestAppRunning()
         {
             IPGlobalProperties ipProperties = IPGlobalProperties.GetIPGlobalProperties();
             IPEndPoint[] ipEndPoints = ipProperties.GetActiveTcpListeners();
 
-            return ipEndPoints.Any(x => x.Port == UITestFixtureBase.DefaultTestAppPort);
+            return ipEndPoints.Any(x => x.Port == UITestFixtureBase.TestAppPort);
         }
 
-        private async Task SetUpTestAppAsync()
+        private void SetUpTestApp()
         {
-            if (!IsTestAppRunningOnDefaultPort())
-                await StartTestAppAsync();
+            if (!IsTestAppRunning())
+                StartTestApp();
         }
 
-        private async Task StartTestAppAsync()
+        private void StartTestApp()
         {
-            _testAppWebHost = new WebHostBuilder()
-                .UseStartup<Startup>()
-                .UseKestrel()
-                .Build();
+            string testAppPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "..", "Atata.TestApp");
 
-            await _testAppWebHost.StartAsync();
+            ProgramCli dotnetCli = new ProgramCli("dotnet", useCommandShell: true)
+                .WithWorkingDirectory(testAppPath);
 
-            var webHostUrls = _testAppWebHost.ServerFeatures
-                .Get<IServerAddressesFeature>()
-                .Addresses;
+            _dotnetRunCommand = dotnetCli.Start("run");
 
-            UITestFixtureBase.BaseUrl = webHostUrls.First();
+            var testAppWait = new SafeWait<SetUpFixture>(this)
+            {
+                Timeout = TimeSpan.FromSeconds(40),
+                PollingInterval = TimeSpan.FromSeconds(0.2)
+            };
+
+            testAppWait.Until(x => IsTestAppRunning());
         }
 
         [OneTimeTearDown]
-        public async Task GlobalTearDownAsync()
+        public void GlobalTearDown()
         {
-            if (_testAppWebHost != null)
-                await _testAppWebHost.StopAsync();
+            if (_dotnetRunCommand != null)
+            {
+                _dotnetRunCommand.Kill(true);
+                _dotnetRunCommand.Dispose();
+            }
         }
     }
 }
