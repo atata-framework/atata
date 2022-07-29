@@ -17,7 +17,7 @@ In order to set up this project for further contributing do the following:
 
 ### Development Prerequisites
 
-- Visual Studio 2019 with .NET Core tools installed or JetBrains Raider.
+- Visual Studio 2022 or JetBrains Raider.
 
 ### Development
 
@@ -28,4 +28,4 @@ Please follow the rules during development:
 - Run all tests in order to ensure the changes don't break anything.
 - Try to add/update tests respectively.
 - Follow [Semantic Versioning 2.0](https://semver.org/) during the source changes.
-- [Create pull request](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/creating-a-pull-request-from-a-fork) when it is done.
+- [Create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) when it is done.
