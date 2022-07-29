@@ -12,7 +12,7 @@ namespace Atata.Tests
 
             control.Should.BeNull();
 
-            DateTime value = new DateTime(2018, 7, 11);
+            DateTime value = new(2018, 7, 11);
             control.Set(value);
             control.Should.Equal(value);
 

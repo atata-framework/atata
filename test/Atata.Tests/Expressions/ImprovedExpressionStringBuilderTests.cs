@@ -22,11 +22,11 @@ namespace Atata.Tests.Expressions
 
         private static IEnumerable<TestCaseData> GetExpressionTestCases()
         {
-            List<TestCaseData> items = new List<TestCaseData>();
+            List<TestCaseData> items = new();
 
             TestCaseData Test(Expression expression)
             {
-                TestCaseData data = new TestCaseData(expression);
+                TestCaseData data = new(expression);
                 items.Add(data);
                 return data;
             }
@@ -57,7 +57,7 @@ namespace Atata.Tests.Expressions
 
             // Variable:
             string itemName = "VarStr";
-            TestModel item = new TestModel { Name = "PropStr" };
+            TestModel item = new() { Name = "PropStr" };
             ValueProvider<string, object> valueItem = null;
             bool? nullableBool = null;
             bool? nullableBoolIsTrue = true;

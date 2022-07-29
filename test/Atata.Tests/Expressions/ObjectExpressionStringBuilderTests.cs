@@ -10,17 +10,17 @@ namespace Atata.Tests.Expressions
     {
         public static IEnumerable<TestCaseData> GetExpressionTestCases()
         {
-            List<TestCaseData> items = new List<TestCaseData>();
+            List<TestCaseData> items = new();
 
             TestCaseData TestPredicate(Expression<Func<TestComponent, object>> expression)
             {
-                TestCaseData data = new TestCaseData(expression);
+                TestCaseData data = new(expression);
                 items.Add(data);
                 return data;
             }
 
             string itemName = "item";
-            TestModel item = new TestModel { Name = "item" };
+            TestModel item = new() { Name = "item" };
             string[] itemArray = { "item" };
 
             TestPredicate(x => x.Item1 == "item")

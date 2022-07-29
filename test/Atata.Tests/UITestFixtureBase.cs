@@ -131,7 +131,7 @@ namespace Atata.Tests
             FileAssert.Exists(filePath);
 
             using FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-            using StreamReader reader = new StreamReader(fileStream);
+            using StreamReader reader = new(fileStream);
 
             string fileContent = reader.ReadToEnd();
             fileContent.Should().ContainAll(texts);

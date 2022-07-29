@@ -62,7 +62,7 @@ namespace Atata.Tests.DataProvision
         public static class TestClass
         {
             public static TestEntity GetEntity(int id) =>
-                new TestEntity { Id = id };
+                new() { Id = id };
 
             public static TestEntity GetEntity(string name)
             {

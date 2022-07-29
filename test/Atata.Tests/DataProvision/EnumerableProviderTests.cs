@@ -105,7 +105,7 @@ namespace Atata.Tests.DataProvision
             public string ProviderName => nameof(TestOwner);
 
             public EnumerableValueProvider<TestItem, TestOwner> Items =>
-                new EnumerableValueProvider<TestItem, TestOwner>(
+                new(
                     this,
                     new DynamicObjectSource<IEnumerable<TestItem>, TestOwner>(
                         this,

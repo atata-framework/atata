@@ -69,7 +69,7 @@ namespace Atata.Tests
         [TestCaseSource(typeof(TermResolverFormatTestCaseSource))]
         public void TermResolver_WithFormat(object value, string format, string expectedFormattedValue)
         {
-            TermOptions options = new TermOptions { Format = format };
+            TermOptions options = new() { Format = format };
             string formatted = TermResolver.ToString(value, options);
 
             Assert.That(formatted, Is.EqualTo(expectedFormattedValue));
@@ -112,7 +112,7 @@ namespace Atata.Tests
         [TestCase(TermCasedOption.MidSentenceUsingTerm, TermCase.MidSentence, "mid-sentence using term")]
         public void TermResolver_Enum_WithCase(TermCasedOption value, TermCase termCase, string expectedValue)
         {
-            TermOptions options = new TermOptions { Case = termCase };
+            TermOptions options = new() { Case = termCase };
             string resolvedString = TermResolver.ToString(value, options);
 
             Assert.That(resolvedString, Is.EqualTo(expectedValue));
@@ -153,7 +153,7 @@ namespace Atata.Tests
                 Add(OptionWithTermSettingsFormat.SC, "{0:D}.", "++SC.");
                 Add(OptionWithTermSettingsFormat.SA, "_{0:G}_", "_+SA:_");
 
-                DateTime date = new DateTime(DateTime.Today.Year, 3, 28);
+                DateTime date = new(DateTime.Today.Year, 3, 28);
                 Add(date, "date: '{0:d}'");
                 Add(date, "date: '{0:yyyy-MM-dd}'");
                 Add(date, "MM/dd", "03/28");
@@ -164,7 +164,7 @@ namespace Atata.Tests
                 Add(new TimeSpan(10, 45, 0), "hh:mm tt", "10:45 am");
                 Add(new TimeSpan(17, 45, 0), "time: {0:h\\:mm tt}", "time: 5:45 pm");
 
-                Guid guid = new Guid("9d0aa4f2-4987-4395-be95-76abc329b7a0");
+                Guid guid = new("9d0aa4f2-4987-4395-be95-76abc329b7a0");
                 Add(guid);
                 Add(guid, "P", "(9d0aa4f2-4987-4395-be95-76abc329b7a0)");
                 Add(guid, "<{0:B}>");

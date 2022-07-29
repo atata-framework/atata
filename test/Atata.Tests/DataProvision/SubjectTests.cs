@@ -10,7 +10,7 @@ namespace Atata.Tests.DataProvision
     public static class SubjectTests
     {
         private static Subject<Dictionary<string, int>> CreateDictionarySubject() =>
-            new Subject<Dictionary<string, int>>(
+            new(
                 new Dictionary<string, int>
                 {
                     ["a"] = 1,

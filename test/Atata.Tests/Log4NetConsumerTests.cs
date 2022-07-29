@@ -14,7 +14,7 @@ namespace Atata.Tests
         private const string InfoLoggerName = "InfoLogger";
 
         private static FileInfo ConfigFileInfo =>
-            new FileInfo(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config"));
+            new(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config"));
 
         private static string LogsDirectory =>
             Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", "Log4Net");

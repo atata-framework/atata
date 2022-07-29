@@ -35,7 +35,7 @@ namespace Atata.Tests.DataProvision
         public abstract class ExtensionMethodTestFixture<TObject, TFixture>
             where TFixture : ExtensionMethodTestFixture<TObject, TFixture>
         {
-            private static readonly TestSuiteData s_testSuiteData = new TestSuiteData();
+            private static readonly TestSuiteData s_testSuiteData = new();
 
             private Subject<TObject> _sut;
 

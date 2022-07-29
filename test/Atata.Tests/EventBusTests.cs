@@ -88,7 +88,7 @@ namespace Atata.Tests
                 Sut.Object.Subscribe(eventHandlerMock1.Object);
                 Sut.Object.Subscribe(eventHandlerMock2.Object);
 
-                MockSequence sequence = new MockSequence();
+                MockSequence sequence = new();
                 actionMock1.InSequence(sequence).Setup(x => x(eventData));
                 actionMock2.InSequence(sequence).Setup(x => x(eventData, Context));
                 eventHandlerMock1.InSequence(sequence).Setup(x => x.CanHandle(eventData, Context)).Returns(true);

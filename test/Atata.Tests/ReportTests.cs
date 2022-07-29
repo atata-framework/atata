@@ -89,7 +89,7 @@ namespace Atata.Tests
         [Test]
         public void Report_Screenshot()
         {
-            MockScreenshotConsumer screenshotConsumer = new MockScreenshotConsumer();
+            MockScreenshotConsumer screenshotConsumer = new();
 
             ((LogManager)AtataContext.Current.Log).Use(screenshotConsumer);
 

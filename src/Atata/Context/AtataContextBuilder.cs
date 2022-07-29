@@ -80,7 +80,8 @@ namespace Atata
                 throw new ArgumentException(
                     $@"Existing driver with ""{alias}"" alias has other factory type in {nameof(AtataContextBuilder)}.
 Expected: {typeof(TDriverBuilder).FullName}
-Actual: {driverFactory.GetType().FullName}", nameof(alias));
+Actual: {driverFactory.GetType().FullName}",
+                    nameof(alias));
             }
 
             return (TDriverBuilder)driverFactory;
