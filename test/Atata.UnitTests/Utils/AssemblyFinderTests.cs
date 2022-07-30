@@ -33,10 +33,10 @@ public class AssemblyFinderTests
     [Test]
     public void FindAllByPatterns()
     {
-        var items = AssemblyFinder.FindAllByPatterns("^Atata$", "^Atata.Tests$");
+        var items = AssemblyFinder.FindAllByPatterns("^Atata$", "^Atata.UnitTests$");
 
         items.Should().HaveCount(2);
         items.Should().Contain(x => x.GetName().Name == "Atata");
-        items.Should().Contain(x => x.GetName().Name == "Atata.Tests");
+        items.Should().Contain(x => x.GetName().Name == "Atata.UnitTests");
     }
 }
