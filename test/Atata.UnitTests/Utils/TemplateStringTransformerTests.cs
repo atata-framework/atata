@@ -1,4 +1,4 @@
-﻿namespace Atata.UnitsTests.Utils;
+﻿namespace Atata.UnitTests.Utils;
 
 public static class TemplateStringTransformerTests
 {

@@ -16,6 +16,5 @@
 [assembly: SuppressMessage("Minor Code Smell", "S3962:\"static readonly\" constants should be \"const\" instead", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.s_testFieldValue")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetBool~System.Boolean")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.Tests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetInt~System.Int32")]
-[assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.Tests.DataProvision.EnumerableProviderTests.TestOwner.Object")]
 
 #pragma warning restore S103 // Lines should not be too long

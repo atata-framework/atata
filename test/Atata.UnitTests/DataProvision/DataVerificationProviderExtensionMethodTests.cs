@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace Atata.Tests.DataProvision;
+namespace Atata.UnitTests.DataProvision;
 
 public static class DataVerificationProviderExtensionMethodTests
 {
