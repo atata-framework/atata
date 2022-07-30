@@ -1,10 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using NUnit.Framework;
-
-namespace Atata.Tests
+﻿namespace Atata.UnitTests
 {
-    public abstract class TestCaseDataSource : IEnumerable
+    internal abstract class TestCaseDataSource : IEnumerable
     {
         private readonly List<TestCaseData> _items = new();
 

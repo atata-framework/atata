@@ -1,12 +1,12 @@
-﻿using System;
-using System.Globalization;
-using NUnit.Framework;
+﻿using System.Globalization;
 
-namespace Atata.Tests
+namespace Atata.UnitTests.Terms;
+
+public static class TermResolverTests
 {
     [TestFixture]
     [SetCulture(CultureName)]
-    public class TermResolverTests
+    public class FromString
     {
         private const string CultureName = "en-GB";
 
@@ -67,7 +67,7 @@ namespace Atata.Tests
         }
 
         [TestCaseSource(typeof(TermResolverFormatTestCaseSource))]
-        public void TermResolver_WithFormat(object value, string format, string expectedFormattedValue)
+        public void WithFormat(object value, string format, string expectedFormattedValue)
         {
             TermOptions options = new() { Format = format };
             string formatted = TermResolver.ToString(value, options);
@@ -89,7 +89,7 @@ namespace Atata.Tests
         [TestCase(TermCasedOption.SentenceUsingTerm, "Sentence using term")]
         [TestCase(TermCasedOption.MidSentenceUsingCase, "mid sentence using case")]
         [TestCase(TermCasedOption.MidSentenceUsingTerm, "mid-sentence using term")]
-        public void TermResolver_Enum(TermCasedOption value, string expectedValue)
+        public void Enum(TermCasedOption value, string expectedValue)
         {
             string resolvedString = TermResolver.ToString(value);
 
@@ -110,7 +110,7 @@ namespace Atata.Tests
         [TestCase(TermCasedOption.SentenceUsingTerm, TermCase.MidSentence, "sentence using term")]
         [TestCase(TermCasedOption.MidSentenceUsingCase, TermCase.MidSentence, "mid sentence using case")]
         [TestCase(TermCasedOption.MidSentenceUsingTerm, TermCase.MidSentence, "mid-sentence using term")]
-        public void TermResolver_Enum_WithCase(TermCasedOption value, TermCase termCase, string expectedValue)
+        public void Enum_WithCase(TermCasedOption value, TermCase termCase, string expectedValue)
         {
             TermOptions options = new() { Case = termCase };
             string resolvedString = TermResolver.ToString(value, options);
@@ -170,10 +170,8 @@ namespace Atata.Tests
                 Add(guid, "<{0:B}>");
             }
 
-            private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null)
-            {
+            private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null) =>
                 base.Add(value, format, expectedFormattedValue ?? string.Format(CultureInfo.GetCultureInfo(CultureName), format, value));
-            }
         }
 #pragma warning restore S1144, CA1812 // Unused private types or members should be removed
     }

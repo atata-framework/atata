@@ -10,6 +10,7 @@
     <Using Include="FluentAssertions.Execution" />
     <Using Include="Moq" />
     <Using Include="NUnit.Framework" />
+    <Using Include="System.Collections" />
   </ItemGroup>
 	
   <ItemGroup>
