@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using NUnit.Framework;
+﻿namespace Atata.UnitTests.Utils.Conversion;
 
-namespace Atata.Tests
+public static class ObjectCreatorTests
 {
     [TestFixture]
-    public class ObjectCreatorTests
+    public class Create
     {
         private ObjectCreator _sut;
 
@@ -20,7 +17,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ObjectCreator_Create_Empty()
+        public void Empty()
         {
             object result = _sut.Create(
                 typeof(IgnoreInitAttribute),
@@ -30,14 +27,14 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ObjectCreator_Create_WithPropertyValues_ForTypeWithDefaultConstructor()
+        public void WithPropertyValues_ForTypeWithDefaultConstructor()
         {
             object result = _sut.Create(
                 typeof(TraceLogAttribute),
                 new Dictionary<string, object>
                 {
                     ["targetName"] = "SomeName",
-                    ["targetParentTypes"] = new[] { nameof(InputPage), nameof(TablePage) }
+                    ["targetParentTypes"] = new[] { nameof(OrdinaryPage), nameof(TestPage) }
                 });
 
             var castedResult = result.Should().BeOfType<TraceLogAttribute>().Subject;
@@ -45,19 +42,19 @@ namespace Atata.Tests
             using (new AssertionScope())
             {
                 castedResult.TargetNames.Should().Equal("SomeName");
-                castedResult.TargetParentTypes.Should().Equal(typeof(InputPage), typeof(TablePage));
+                castedResult.TargetParentTypes.Should().Equal(typeof(OrdinaryPage), typeof(TestPage));
             }
         }
 
         [Test]
-        public void ObjectCreator_Create_WithPropertyValues_ForTypeWithoutDefaultConstructor()
+        public void WithPropertyValues_ForTypeWithoutDefaultConstructor()
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),
                 new Dictionary<string, object>
                 {
                     ["targetName"] = "SomeName",
-                    ["targetParentTypes"] = new[] { nameof(InputPage), nameof(TablePage) }
+                    ["targetParentTypes"] = new[] { nameof(OrdinaryPage), nameof(TestPage) }
                 });
 
             var castedResult = result.Should().BeOfType<FindByIdAttribute>().Subject;
@@ -65,12 +62,12 @@ namespace Atata.Tests
             using (new AssertionScope())
             {
                 castedResult.TargetNames.Should().Equal("SomeName");
-                castedResult.TargetParentTypes.Should().Equal(typeof(InputPage), typeof(TablePage));
+                castedResult.TargetParentTypes.Should().Equal(typeof(OrdinaryPage), typeof(TestPage));
             }
         }
 
         [Test]
-        public void ObjectCreator_Create_WithConstructorParametersAndPropertyValues()
+        public void WithConstructorParametersAndPropertyValues()
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),
@@ -92,7 +89,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ObjectCreator_Create_WithAlternativeConstructorParameterName_Value()
+        public void WithAlternativeConstructorParameterName_Value()
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),
@@ -117,7 +114,7 @@ namespace Atata.Tests
         }
 
         [Test]
-        public void ObjectCreator_Create_WithAlternativeConstructorParameterName_Case()
+        public void WithAlternativeConstructorParameterName_Case()
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),

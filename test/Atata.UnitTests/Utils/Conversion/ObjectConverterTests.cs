@@ -1,6 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Atata.UnitTests;
+namespace Atata.UnitTests.Utils.Conversion;
 
 public static class ObjectConverterTests
 {
