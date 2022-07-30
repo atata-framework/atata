@@ -26,11 +26,19 @@ jobs:
       projects: '*.sln'
       arguments: -c $(buildConfiguration) -p:RunCodeAnalysis=false
   - task: DotNetCoreCLI@2
-    displayName: Run tests
+    displayName: Run unit tests
+    timeoutInMinutes: 3
+    inputs:
+      command: test
+      projects: 'test/*/*UnitTests.csproj'
+      arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build
+  - task: DotNetCoreCLI@2
+    displayName: Run integration tests
+    condition: succeededOrFailed()
     timeoutInMinutes: 30
     inputs:
       command: test
-      projects: 'test/*/*Tests.csproj'
+      projects: 'test/*/Atata.Tests.csproj'
       arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build
   - task: PublishPipelineArtifact@1
     displayName: Publish test artifacts
