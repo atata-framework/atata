@@ -18,7 +18,7 @@ public class AttributesAtataContextBuilderTests
         _sut = new AttributesAtataContextBuilder(new AtataBuildingContext());
 
     [Test]
-    public void AttributesAtataContextBuilder_Global()
+    public void Global()
     {
         _sut.Global
             .Add(_stubAttributes);
@@ -28,7 +28,7 @@ public class AttributesAtataContextBuilderTests
     }
 
     [Test]
-    public void AttributesAtataContextBuilder_Assembly_ByAssemblyName()
+    public void Assembly_ByAssemblyName()
     {
         _sut.Assembly("Atata")
             .Add(_stubAttributes);
@@ -42,7 +42,7 @@ public class AttributesAtataContextBuilderTests
     }
 
     [Test]
-    public void AttributesAtataContextBuilder_Assembly_ByAssembly()
+    public void Assembly_ByAssembly()
     {
         Assembly assembly = Assembly.GetExecutingAssembly();
 
@@ -58,7 +58,7 @@ public class AttributesAtataContextBuilderTests
     }
 
     [Test]
-    public void AttributesAtataContextBuilder_Component_ByGenericParameter()
+    public void Component_ByGenericParameter()
     {
         _sut.Component<TestPage>()
             .Add(_stubAttributes);
@@ -72,7 +72,7 @@ public class AttributesAtataContextBuilderTests
     }
 
     [Test]
-    public void AttributesAtataContextBuilder_Component_ByType()
+    public void Component_ByType()
     {
         _sut.Component(typeof(TestPage))
             .Add(_stubAttributes);
@@ -88,7 +88,7 @@ public class AttributesAtataContextBuilderTests
     [TestCase("Atata.UnitTests." + nameof(TestPage) + ", Atata.UnitTests")]
     [TestCase("Atata.UnitTests." + nameof(TestPage))]
     [TestCase(nameof(TestPage))]
-    public void AttributesAtataContextBuilder_Component_ByTypeName(string typeName)
+    public void Component_ByTypeName(string typeName)
     {
         _sut.Component(typeName)
             .Add(_stubAttributes);
