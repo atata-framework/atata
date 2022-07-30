@@ -9,7 +9,7 @@ namespace Atata.Tests
         protected override bool ReuseDriver => false;
 
         [Test]
-        public void AtataContext_RestartDriver()
+        public void RestartDriver()
         {
             AtataContext.Current.RestartDriver();
 
