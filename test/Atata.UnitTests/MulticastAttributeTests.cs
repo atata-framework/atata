@@ -7,10 +7,6 @@ public static class MulticastAttributeTests
     {
     }
 
-    public class TestPage : Page<TestPage>
-    {
-    }
-
     [TestFixture]
     public class CalculateTargetRank
     {
