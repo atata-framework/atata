@@ -1,66 +1,61 @@
-﻿using FluentAssertions;
-using Moq;
-using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Controls;
 
-namespace Atata.IntegrationTests.Controls
+public class EditableTextFieldTests : UITestFixture
 {
-    public class EditableTextFieldTests : UITestFixture
+    private EditableTextField<string, InputPage> _sut;
+
+    protected override void OnSetUp()
     {
-        private EditableTextField<string, InputPage> _sut;
+        base.OnSetUp();
 
-        protected override void OnSetUp()
-        {
-            base.OnSetUp();
+        _sut = Go.To<InputPage>()
+            .Find<EditableTextField<string, InputPage>>("sut", new FindByXPathAttribute("input[@type='text']"));
+    }
 
-            _sut = Go.To<InputPage>()
-                .Find<EditableTextField<string, InputPage>>("sut", new FindByXPathAttribute("input[@type='text']"));
-        }
+    [Test]
+    public void Get_ExecutesBehavior()
+    {
+        var behaviorMock = new Mock<ValueGetBehaviorAttribute> { CallBase = true };
+        behaviorMock.Setup(x => x.Execute(_sut))
+            .Returns("abc")
+            .Verifiable();
+        _sut.Metadata.Push(behaviorMock.Object);
 
-        [Test]
-        public void Get_ExecutesBehavior()
-        {
-            var behaviorMock = new Mock<ValueGetBehaviorAttribute> { CallBase = true };
-            behaviorMock.Setup(x => x.Execute(_sut))
-                .Returns("abc")
-                .Verifiable();
-            _sut.Metadata.Push(behaviorMock.Object);
+        _sut.Get().Should().Be("abc");
 
-            _sut.Get().Should().Be("abc");
+        behaviorMock.Verify();
+    }
 
-            behaviorMock.Verify();
-        }
+    [Test]
+    public void Set_ExecutesBehavior()
+    {
+        var behaviorMock = new Mock<ValueSetBehaviorAttribute> { CallBase = true };
+        _sut.Metadata.Push(behaviorMock.Object);
 
-        [Test]
-        public void Set_ExecutesBehavior()
-        {
-            var behaviorMock = new Mock<ValueSetBehaviorAttribute> { CallBase = true };
-            _sut.Metadata.Push(behaviorMock.Object);
+        _sut.Set("abc");
 
-            _sut.Set("abc");
+        behaviorMock.Verify(x => x.Execute(_sut, "abc"), Times.Once);
+    }
 
-            behaviorMock.Verify(x => x.Execute(_sut, "abc"), Times.Once);
-        }
+    [Test]
+    public void Type_ExecutesBehavior()
+    {
+        var behaviorMock = new Mock<TextTypeBehaviorAttribute> { CallBase = true };
+        _sut.Metadata.Push(behaviorMock.Object);
 
-        [Test]
-        public void Type_ExecutesBehavior()
-        {
-            var behaviorMock = new Mock<TextTypeBehaviorAttribute> { CallBase = true };
-            _sut.Metadata.Push(behaviorMock.Object);
+        _sut.Type("abc");
 
-            _sut.Type("abc");
+        behaviorMock.Verify(x => x.Execute(_sut, "abc"), Times.Once);
+    }
 
-            behaviorMock.Verify(x => x.Execute(_sut, "abc"), Times.Once);
-        }
+    [Test]
+    public void Clear_ExecutesBehavior()
+    {
+        var behaviorMock = new Mock<ValueClearBehaviorAttribute> { CallBase = true };
+        _sut.Metadata.Push(behaviorMock.Object);
 
-        [Test]
-        public void Clear_ExecutesBehavior()
-        {
-            var behaviorMock = new Mock<ValueClearBehaviorAttribute> { CallBase = true };
-            _sut.Metadata.Push(behaviorMock.Object);
+        _sut.Clear();
 
-            _sut.Clear();
-
-            behaviorMock.Verify(x => x.Execute(_sut), Times.Once);
-        }
+        behaviorMock.Verify(x => x.Execute(_sut), Times.Once);
     }
 }

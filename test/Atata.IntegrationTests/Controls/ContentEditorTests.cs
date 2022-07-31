@@ -1,28 +1,25 @@
-﻿using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Controls;
 
-namespace Atata.IntegrationTests.Controls
+public class ContentEditorTests : UITestFixture
 {
-    public class ContentEditorTests : UITestFixture
+    [Test]
+    public void Interact()
     {
-        [Test]
-        public void ContentEditor()
-        {
-            var sut = Go.To<SummernotePage>().EditorAsContentEditor;
+        var sut = Go.To<SummernotePage>().EditorAsContentEditor;
 
-            sut.Should.BeEnabled();
-            sut.Should.Not.BeReadOnly();
+        sut.Should.BeEnabled();
+        sut.Should.Not.BeReadOnly();
 
-            sut.Set("Abc");
-            sut.Should.Equal("Abc");
+        sut.Set("Abc");
+        sut.Should.Equal("Abc");
 
-            sut.Set("Def");
-            sut.Should.Equal("Def");
+        sut.Set("Def");
+        sut.Should.Equal("Def");
 
-            sut.Type("Ghi");
-            sut.Should.Equal("DefGhi");
+        sut.Type("Ghi");
+        sut.Should.Equal("DefGhi");
 
-            sut.Clear();
-            sut.Should.BeEmpty();
-        }
+        sut.Clear();
+        sut.Should.BeEmpty();
     }
 }
