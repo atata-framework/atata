@@ -1,13 +1,10 @@
-﻿using System;
-using NUnit.Framework;
-
-namespace Atata.IntegrationTests
+﻿namespace Atata.IntegrationTests.Context
 {
     [Parallelizable(ParallelScope.None)]
-    public class DefaultTimeoutTests : UITestFixtureBase
+    public class AtataContextTimeoutTests : UITestFixtureBase
     {
         [Test]
-        public void DefaultTimeout_BaseRetryTimeout_ElementFind()
+        public void BaseRetryTimeout_ElementFind()
         {
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(2)).
@@ -20,7 +17,7 @@ namespace Atata.IntegrationTests
         }
 
         [Test]
-        public void DefaultTimeout_BaseRetryTimeout_Waiting()
+        public void BaseRetryTimeout_Waiting()
         {
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(2)).
@@ -33,7 +30,7 @@ namespace Atata.IntegrationTests
         }
 
         [Test]
-        public void DefaultTimeout_BaseRetryTimeout_Verification()
+        public void BaseRetryTimeout_Verification()
         {
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(2)).
@@ -47,7 +44,7 @@ namespace Atata.IntegrationTests
         }
 
         [Test]
-        public void DefaultTimeout_ElementFindTimeout()
+        public void ElementFindTimeout()
         {
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
@@ -61,7 +58,7 @@ namespace Atata.IntegrationTests
         }
 
         [Test]
-        public void DefaultTimeout_WaitingTimeout()
+        public void WaitingTimeout()
         {
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
@@ -75,7 +72,7 @@ namespace Atata.IntegrationTests
         }
 
         [Test]
-        public void DefaultTimeout_VerificationTimeout_DoesExist()
+        public void VerificationTimeout_ForControl()
         {
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
@@ -90,7 +87,7 @@ namespace Atata.IntegrationTests
         }
 
         [Test]
-        public void DefaultTimeout_VerificationTimeout_CheckDataProperty()
+        public void VerificationTimeout_ForValueProvider()
         {
             ConfigureBaseAtataContext().
                 UseBaseRetryTimeout(TimeSpan.FromSeconds(1)).
