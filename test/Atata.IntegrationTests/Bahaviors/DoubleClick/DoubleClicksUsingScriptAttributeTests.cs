@@ -1,19 +1,16 @@
-﻿using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Bahaviors;
 
-namespace Atata.IntegrationTests.Bahaviors
+public class DoubleClicksUsingScriptAttributeTests : UITestFixture
 {
-    public class DoubleClicksUsingScriptAttributeTests : UITestFixture
+    [Test]
+    public void Execute()
     {
-        [Test]
-        public void Execute()
-        {
-            var block = Go.To<ClickPage>().DoubleClickBlock;
+        var block = Go.To<ClickPage>().DoubleClickBlock;
 
-            block.Metadata.Push(new DoubleClicksUsingScriptAttribute());
+        block.Metadata.Push(new DoubleClicksUsingScriptAttribute());
 
-            block.DoubleClick();
+        block.DoubleClick();
 
-            block.Should.Equal(1);
-        }
+        block.Should.Equal(1);
     }
 }

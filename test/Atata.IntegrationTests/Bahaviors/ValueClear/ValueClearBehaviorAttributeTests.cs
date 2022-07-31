@@ -1,32 +1,28 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Bahaviors;
 
-namespace Atata.IntegrationTests.Bahaviors
+public class ValueClearBehaviorAttributeTests : UITestFixture
 {
-    public class ValueClearBehaviorAttributeTests : UITestFixture
-    {
-        private static IEnumerable<TestCaseData> Source =>
-            new[]
-            {
-                new TestCaseData(new ClearsValueUsingClearMethodAttribute()),
-                new TestCaseData(new ClearsValueUsingCtrlADeleteKeysAttribute()),
-                new TestCaseData(new ClearsValueUsingHomeShiftEndDeleteKeysAttribute()),
-                new TestCaseData(new ClearsValueUsingShiftHomeDeleteKeysAttribute()),
-                new TestCaseData(new ClearsValueUsingScriptAttribute()),
-                new TestCaseData(new ClearsValueUsingClearMethodOrScriptAttribute())
-            };
-
-        [TestCaseSource(nameof(Source))]
-        public void Execute(ValueClearBehaviorAttribute behavior)
+    private static IEnumerable<TestCaseData> Source =>
+        new[]
         {
-            var sut = Go.To<InputPage>().TextInput;
-            sut.Set("abc");
+            new TestCaseData(new ClearsValueUsingClearMethodAttribute()),
+            new TestCaseData(new ClearsValueUsingCtrlADeleteKeysAttribute()),
+            new TestCaseData(new ClearsValueUsingHomeShiftEndDeleteKeysAttribute()),
+            new TestCaseData(new ClearsValueUsingShiftHomeDeleteKeysAttribute()),
+            new TestCaseData(new ClearsValueUsingScriptAttribute()),
+            new TestCaseData(new ClearsValueUsingClearMethodOrScriptAttribute())
+        };
 
-            sut.Metadata.Push(behavior);
+    [TestCaseSource(nameof(Source))]
+    public void Execute(ValueClearBehaviorAttribute behavior)
+    {
+        var sut = Go.To<InputPage>().TextInput;
+        sut.Set("abc");
 
-            sut.Clear();
+        sut.Metadata.Push(behavior);
 
-            sut.Should.BeEmpty();
-        }
+        sut.Clear();
+
+        sut.Should.BeEmpty();
     }
 }

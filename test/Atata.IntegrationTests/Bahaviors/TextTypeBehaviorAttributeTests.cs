@@ -1,37 +1,33 @@
-﻿using System.Collections.Generic;
-using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Bahaviors;
 
-namespace Atata.IntegrationTests.Bahaviors
+public class TextTypeBehaviorAttributeTests : UITestFixture
 {
-    public class TextTypeBehaviorAttributeTests : UITestFixture
-    {
-        private const string InitialValue = "abc";
+    private const string InitialValue = "abc";
 
-        private const string SetValue = "def";
+    private const string SetValue = "def";
 
-        private const string ConcatValue = InitialValue + SetValue;
+    private const string ConcatValue = InitialValue + SetValue;
 
-        private static IEnumerable<TestCaseData> Source =>
-            new[]
-            {
-                new TestCaseData(new TypesTextUsingSendKeysAttribute()).Returns(ConcatValue),
-                new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysAttribute()).Returns(ConcatValue),
-                new TestCaseData(new TypesTextUsingScriptAttribute()).Returns(ConcatValue),
-                new TestCaseData(new TypesTextUsingSendKeysCharByCharAttribute()).Returns(ConcatValue),
-                new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysCharByCharAttribute()).Returns(ConcatValue)
-            };
-
-        [TestCaseSource(nameof(Source))]
-        public string Execute(TextTypeBehaviorAttribute behavior)
+    private static IEnumerable<TestCaseData> Source =>
+        new[]
         {
-            var sut = Go.To<InputPage>().TextInput;
-            sut.Set(InitialValue);
+            new TestCaseData(new TypesTextUsingSendKeysAttribute()).Returns(ConcatValue),
+            new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysAttribute()).Returns(ConcatValue),
+            new TestCaseData(new TypesTextUsingScriptAttribute()).Returns(ConcatValue),
+            new TestCaseData(new TypesTextUsingSendKeysCharByCharAttribute()).Returns(ConcatValue),
+            new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysCharByCharAttribute()).Returns(ConcatValue)
+        };
 
-            sut.Metadata.Push(behavior);
+    [TestCaseSource(nameof(Source))]
+    public string Execute(TextTypeBehaviorAttribute behavior)
+    {
+        var sut = Go.To<InputPage>().TextInput;
+        sut.Set(InitialValue);
 
-            sut.Type(SetValue);
+        sut.Metadata.Push(behavior);
 
-            return sut.Value;
-        }
+        sut.Type(SetValue);
+
+        return sut.Value;
     }
 }

@@ -1,19 +1,16 @@
-﻿using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Bahaviors;
 
-namespace Atata.IntegrationTests.Bahaviors
+public class RightClicksUsingActionsAttributeTests : UITestFixture
 {
-    public class RightClicksUsingActionsAttributeTests : UITestFixture
+    [Test]
+    public void Execute()
     {
-        [Test]
-        public void Execute()
-        {
-            var block = Go.To<ClickPage>().RightClickBlock;
+        var block = Go.To<ClickPage>().RightClickBlock;
 
-            block.Metadata.Push(new RightClicksUsingActionsAttribute());
+        block.Metadata.Push(new RightClicksUsingActionsAttribute());
 
-            block.RightClick();
+        block.RightClick();
 
-            block.Should.Equal(1);
-        }
+        block.Should.Equal(1);
     }
 }

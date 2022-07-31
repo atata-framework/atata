@@ -1,20 +1,17 @@
-﻿using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Bahaviors;
 
-namespace Atata.IntegrationTests.Bahaviors
+public class ClicksUsingScriptAttributeTests : UITestFixture
 {
-    public class ClicksUsingScriptAttributeTests : UITestFixture
+    [Test]
+    public void Execute()
     {
-        [Test]
-        public void Execute()
-        {
-            var cell = Go.To<ClickPage>()
-                .ClickableCellsTable.Rows[1].Cells[2];
+        var cell = Go.To<ClickPage>()
+            .ClickableCellsTable.Rows[1].Cells[2];
 
-            cell.Metadata.Push(new ClicksUsingScriptAttribute());
+        cell.Metadata.Push(new ClicksUsingScriptAttribute());
 
-            cell.Click();
+        cell.Click();
 
-            cell.Should.Equal(1);
-        }
+        cell.Should.Equal(1);
     }
 }

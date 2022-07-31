@@ -1,72 +1,69 @@
-﻿using NUnit.Framework;
+﻿namespace Atata.IntegrationTests.Bahaviors;
 
-namespace Atata.IntegrationTests.Bahaviors
+public class ClicksUsingActionsAttributeTests : UITestFixture
 {
-    public class ClicksUsingActionsAttributeTests : UITestFixture
+    private Table<ClickPage.ClickableCellsTableRow, ClickPage> _table;
+
+    protected override void OnSetUp()
     {
-        private Table<ClickPage.ClickableCellsTableRow, ClickPage> _table;
+        _table = Go.To<ClickPage>()
+            .RefreshPage()
+            .ClickableCellsTable;
+    }
 
-        protected override void OnSetUp()
+    [Test]
+    public void Execute_WithOffsetKind_FromTopLeftInPercents()
+    {
+        _table.Metadata.Push(new ClicksUsingActionsAttribute
         {
-            _table = Go.To<ClickPage>()
-                .RefreshPage()
-                .ClickableCellsTable;
-        }
+            OffsetKind = UIComponentOffsetKind.FromTopLeftInPercents,
+            OffsetX = 99,
+            OffsetY = 99
+        });
 
-        [Test]
-        public void Execute_WithOffsetKind_FromTopLeftInPercents()
+        _table.Click();
+        _table.Rows[2].Cells[2].Should.Equal(1);
+    }
+
+    [Test]
+    public void Execute_WithOffsetKind_FromTopLeftInPixels()
+    {
+        _table.Metadata.Push(new ClicksUsingActionsAttribute
         {
-            _table.Metadata.Push(new ClicksUsingActionsAttribute
-            {
-                OffsetKind = UIComponentOffsetKind.FromTopLeftInPercents,
-                OffsetX = 99,
-                OffsetY = 99
-            });
+            OffsetKind = UIComponentOffsetKind.FromTopLeftInPixels,
+            OffsetX = 5,
+            OffsetY = 5
+        });
 
-            _table.Click();
-            _table.Rows[2].Cells[2].Should.Equal(1);
-        }
+        _table.Click();
+        _table.Rows[0].Cells[0].Should.Equal(1);
+    }
 
-        [Test]
-        public void Execute_WithOffsetKind_FromTopLeftInPixels()
+    [Test]
+    public void Execute_WithOffsetKind_FromCenterInPercents()
+    {
+        _table.Metadata.Push(new ClicksUsingActionsAttribute
         {
-            _table.Metadata.Push(new ClicksUsingActionsAttribute
-            {
-                OffsetKind = UIComponentOffsetKind.FromTopLeftInPixels,
-                OffsetX = 5,
-                OffsetY = 5
-            });
+            OffsetKind = UIComponentOffsetKind.FromCenterInPercents,
+            OffsetX = 0,
+            OffsetY = -49
+        });
 
-            _table.Click();
-            _table.Rows[0].Cells[0].Should.Equal(1);
-        }
+        _table.Click();
+        _table.Rows[0].Cells[1].Should.Equal(1);
+    }
 
-        [Test]
-        public void Execute_WithOffsetKind_FromCenterInPercents()
+    [Test]
+    public void Execute_WithOffsetKind_FromCenterInPixels()
+    {
+        _table.Metadata.Push(new ClicksUsingActionsAttribute
         {
-            _table.Metadata.Push(new ClicksUsingActionsAttribute
-            {
-                OffsetKind = UIComponentOffsetKind.FromCenterInPercents,
-                OffsetX = 0,
-                OffsetY = -49
-            });
+            OffsetKind = UIComponentOffsetKind.FromCenterInPixels,
+            OffsetX = _table.ComponentSize.Width / 3,
+            OffsetY = _table.ComponentSize.Height / 3
+        });
 
-            _table.Click();
-            _table.Rows[0].Cells[1].Should.Equal(1);
-        }
-
-        [Test]
-        public void Execute_WithOffsetKind_FromCenterInPixels()
-        {
-            _table.Metadata.Push(new ClicksUsingActionsAttribute
-            {
-                OffsetKind = UIComponentOffsetKind.FromCenterInPixels,
-                OffsetX = _table.ComponentSize.Width / 3,
-                OffsetY = _table.ComponentSize.Height / 3
-            });
-
-            _table.Click();
-            _table.Rows[2].Cells[2].Should.Equal(1);
-        }
+        _table.Click();
+        _table.Rows[2].Cells[2].Should.Equal(1);
     }
 }

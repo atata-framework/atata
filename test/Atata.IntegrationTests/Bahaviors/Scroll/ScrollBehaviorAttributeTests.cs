@@ -1,38 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using NUnit.Framework;
+﻿using System.Drawing;
 
-namespace Atata.IntegrationTests.Bahaviors
+namespace Atata.IntegrationTests.Bahaviors;
+
+public class ScrollBehaviorAttributeTests : UITestFixture
 {
-    public class ScrollBehaviorAttributeTests : UITestFixture
-    {
-        private static IEnumerable<TestCaseData> Source =>
-            new[]
-            {
-                new TestCaseData(new ScrollsUsingScrollToElementActionAttribute()),
-                new TestCaseData(new ScrollsUsingMoveToElementActionAttribute()),
-                new TestCaseData(new ScrollsUsingScriptAttribute())
-            };
-
-        protected override bool ReuseDriver => false;
-
-        [TestCaseSource(nameof(Source))]
-        public void Execute(ScrollBehaviorAttribute behavior)
+    private static IEnumerable<TestCaseData> Source =>
+        new[]
         {
-            static object GetPageYOffset() =>
-                AtataContext.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
+            new TestCaseData(new ScrollsUsingScrollToElementActionAttribute()),
+            new TestCaseData(new ScrollsUsingMoveToElementActionAttribute()),
+            new TestCaseData(new ScrollsUsingScriptAttribute())
+        };
 
-            AtataContext.Current.Driver.Manage().Window.Size = new Size(400, 400);
+    protected override bool ReuseDriver => false;
 
-            ScrollablePage page = Go.To<ScrollablePage>();
-            Assume.That(GetPageYOffset(), Is.EqualTo(0));
+    [TestCaseSource(nameof(Source))]
+    public void Execute(ScrollBehaviorAttribute behavior)
+    {
+        static object GetPageYOffset() =>
+            AtataContext.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
 
-            var sut = page.BottomText;
-            sut.Metadata.Push(behavior);
+        AtataContext.Current.Driver.Manage().Window.Size = new Size(400, 400);
 
-            sut.ScrollTo();
+        ScrollablePage page = Go.To<ScrollablePage>();
+        Assume.That(GetPageYOffset(), Is.EqualTo(0));
 
-            Assert.That(GetPageYOffset(), Is.GreaterThan(200));
-        }
+        var sut = page.BottomText;
+        sut.Metadata.Push(behavior);
+
+        sut.ScrollTo();
+
+        Assert.That(GetPageYOffset(), Is.GreaterThan(200));
     }
 }
