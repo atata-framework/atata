@@ -35,8 +35,8 @@ Features:
   </ItemGroup>
   
   <ItemGroup>
+    <InternalsVisibleTo Include="Atata.IntegrationTests" />
     <InternalsVisibleTo Include="Atata.UnitTests" />
-    <InternalsVisibleTo Include="Atata.Tests" />
   </ItemGroup>
 
 </Project>

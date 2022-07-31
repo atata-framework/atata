@@ -38,11 +38,11 @@ jobs:
     timeoutInMinutes: 30
     inputs:
       command: test
-      projects: 'test/*/Atata.Tests.csproj'
+      projects: 'test/*/*IntegrationTests.csproj'
       arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build
   - task: PublishPipelineArtifact@1
     displayName: Publish test artifacts
     condition: succeededOrFailed()
     inputs:
       artifactName: Artifacts
-      targetPath: test/Atata.Tests/bin/$(buildConfiguration)/net6.0/artifacts
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net6.0/artifacts
