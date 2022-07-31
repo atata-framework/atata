@@ -1,4 +1,4 @@
-﻿namespace Atata.UnitTests;
+﻿namespace Atata.UnitTests.Utils;
 
 [TestFixture]
 public class UriUtilsTests
