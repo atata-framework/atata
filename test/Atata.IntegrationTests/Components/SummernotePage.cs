@@ -1,11 +1,10 @@
-﻿namespace Atata.IntegrationTests
-{
-    using _ = SummernotePage;
+﻿namespace Atata.IntegrationTests;
 
-    [Url("controls/summernote")]
-    [VerifyTitle]
-    public class SummernotePage : Page<_>
-    {
-        public ContentEditor<_> EditorAsContentEditor { get; private set; }
-    }
+using _ = SummernotePage;
+
+[Url("controls/summernote")]
+[VerifyTitle]
+public class SummernotePage : Page<_>
+{
+    public ContentEditor<_> EditorAsContentEditor { get; private set; }
 }

@@ -10,6 +10,7 @@
     <Using Include="FluentAssertions.Execution" />
     <Using Include="Moq" />
     <Using Include="NUnit.Framework" />
+    <Using Include="OpenQA.Selenium" />
     <Using Include="System.Collections" />
   </ItemGroup>
 

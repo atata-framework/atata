@@ -1,12 +1,11 @@
-﻿namespace Atata.IntegrationTests
+﻿namespace Atata.IntegrationTests;
+
+using _ = FrameInner1Page;
+
+[VerifyH1]
+public class FrameInner1Page : Page<_>
 {
-    using _ = FrameInner1Page;
+    public H1<_> Header { get; private set; }
 
-    [VerifyH1]
-    public class FrameInner1Page : Page<_>
-    {
-        public H1<_> Header { get; private set; }
-
-        public TextInput<_> TextInput { get; private set; }
-    }
+    public TextInput<_> TextInput { get; private set; }
 }

@@ -1,11 +1,10 @@
-﻿namespace Atata.IntegrationTests
-{
-    using _ = TinyMcePage;
+﻿namespace Atata.IntegrationTests;
 
-    [Url("controls/tinymce")]
-    [VerifyTitle("TinyMCE")]
-    public class TinyMcePage : Page<_>
-    {
-        public FrameWrappedContentEditor<_> EditorAsFrameWrappedContentEditor { get; private set; }
-    }
+using _ = TinyMcePage;
+
+[Url("controls/tinymce")]
+[VerifyTitle("TinyMCE")]
+public class TinyMcePage : Page<_>
+{
+    public FrameWrappedContentEditor<_> EditorAsFrameWrappedContentEditor { get; private set; }
 }
