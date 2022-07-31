@@ -13,5 +13,6 @@
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetBool~System.Boolean")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetInt~System.Int32")]
 [assembly: SuppressMessage("Major Code Smell", "S2326:Unused type parameters should be removed", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.StaticSubClass.GenericSubClass`1")]
+[assembly: SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.UnitTests.GenericCollectionAssertionsExtensions.ReferenceEqualityComparer`1.Default")]
 
 #pragma warning restore S103 // Lines should not be too long
