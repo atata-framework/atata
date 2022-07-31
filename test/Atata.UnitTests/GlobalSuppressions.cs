@@ -12,5 +12,6 @@
 [assembly: SuppressMessage("Minor Code Smell", "S3962:\"static readonly\" constants should be \"const\" instead", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.UnitTests.Expressions.ImprovedExpressionStringBuilderTests.s_testFieldValue")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetBool~System.Boolean")]
 [assembly: SuppressMessage("Design", "CA1024:Use properties where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.Expressions.ImprovedExpressionStringBuilderTests.StaticClass.GetInt~System.Int32")]
+[assembly: SuppressMessage("Major Code Smell", "S2326:Unused type parameters should be removed", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.StaticSubClass.GenericSubClass`1")]
 
 #pragma warning restore S103 // Lines should not be too long
