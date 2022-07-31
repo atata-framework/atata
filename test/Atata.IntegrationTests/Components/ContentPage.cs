@@ -12,7 +12,7 @@ public class ContentPage : Page<_>
     public Text<_> TextWithSpaces { get; private set; }
 
     [FindById]
-    public Text<_> TextNull { get; private set; }
+    public Text<_> TextEmpty { get; private set; }
 
     public Number<_> Number { get; private set; }
 
