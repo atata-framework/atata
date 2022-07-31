@@ -22,4 +22,17 @@ public class UriUtilsTests
         else
             result.Should().BeNull();
     }
+
+    [TestCase("http://some.com", "path", ExpectedResult = "http://some.com/path")]
+    [TestCase("http://some.com/", "path", ExpectedResult = "http://some.com/path")]
+    [TestCase("http://some.com", "/path", ExpectedResult = "http://some.com/path")]
+    [TestCase("http://some.com/", "/path", ExpectedResult = "http://some.com/path")]
+    [TestCase("http://some.com", null, ExpectedResult = "http://some.com/")]
+    public string Concat(string baseUri, string relativeUri) =>
+        UriUtils.Concat(baseUri, relativeUri).AbsoluteUri;
+
+    [Test]
+    public void Concat_WithNullBaseUrl() =>
+        Assert.Throws<ArgumentNullException>(() =>
+            UriUtils.Concat(null, "/path"));
 }

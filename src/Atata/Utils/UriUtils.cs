@@ -40,7 +40,7 @@ namespace Atata
         /// <returns>The created <see cref="Uri"/>.</returns>
         public static Uri Concat(string baseUri, string relativeUri)
         {
-            string fullUrl = baseUri;
+            string fullUrl = baseUri ?? throw new ArgumentNullException(nameof(baseUri));
 
             if (!string.IsNullOrWhiteSpace(relativeUri))
             {
