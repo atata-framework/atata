@@ -2,7 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Using Include="FluentAssertions" />
+    <Using Include="FluentAssertions.Execution" />
+    <Using Include="Moq" />
+    <Using Include="NUnit.Framework" />
+    <Using Include="System.Collections" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Update="log4net.config">

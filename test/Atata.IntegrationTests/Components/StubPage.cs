@@ -1,6 +1,4 @@
-﻿using System.Timers;
-
-namespace Atata.IntegrationTests
+﻿namespace Atata.IntegrationTests
 {
     using _ = StubPage;
 
@@ -8,7 +6,7 @@ namespace Atata.IntegrationTests
     {
         private bool _isTrueInASecond;
 
-        private Timer _isTrueInASecondTimer;
+        private System.Timers.Timer _isTrueInASecondTimer;
 
         public ValueProvider<bool, _> IsTrue =>
             CreateValueProvider(nameof(IsTrue), () => true);
@@ -20,7 +18,7 @@ namespace Atata.IntegrationTests
         {
             if (!_isTrueInASecond && _isTrueInASecondTimer == null)
             {
-                _isTrueInASecondTimer = new Timer(1000)
+                _isTrueInASecondTimer = new(1000)
                 {
                     AutoReset = false,
                     Enabled = true
