@@ -10,10 +10,10 @@ public class RadioButtonListTests : UITestFixture
     [Test]
     public void OfEnumType()
     {
-        _page.ByNameAndLabel.Should.Equal(null).
-            ByNameAndLabel.Should.BeNull();
+        _page.ByNameAndLabel.Should.Be(null)
+            .ByNameAndLabel.Should.BeNull();
 
-        _page.ByClassAndValue.Should.Equal(RadioButtonListPage.ByValue.None);
+        _page.ByClassAndValue.Should.Be(RadioButtonListPage.ByValue.None);
 
         SetAndVerifyValues(
             _page.ByNameAndLabel,
@@ -40,7 +40,7 @@ public class RadioButtonListTests : UITestFixture
     [Test]
     public void OfStringType()
     {
-        _page.VerticalItems.Should.Equal("Item 1");
+        _page.VerticalItems.Should.Be("Item 1");
         _page.VerticalItems.Should.Not.BeNull();
 
         SetAndVerifyValues(_page.VerticalItems, "Item 2", "Item 5");
