@@ -28,11 +28,11 @@ public class WaitingPage : Page<_>
 
     [Term("Wait")]
     [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 2, ThrowOnPresenceFailure = false)]
-    public ButtonDelegate<_> ButtonWithVisibleAndMissingWait { get; private set; }
+    public ButtonDelegate<_> ButtonWithVisibleThenMissingWait { get; private set; }
 
     [Term("Wait")]
     [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 1)]
-    public ButtonDelegate<_> ButtonWithVisibleAndMissingNonExistentWait { get; private set; }
+    public ButtonDelegate<_> ButtonWithVisibleThenMissingNonExistentWait { get; private set; }
 
     [Term("Wait")]
     [WaitForElement(WaitBy.Class, "result-block", Until.HiddenThenVisible)]
