@@ -1,56 +1,48 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿namespace Atata.IntegrationTests;
 
-namespace Atata.IntegrationTests
+[TestFixture]
+public abstract class UITestFixture : UITestFixtureBase
 {
-    [TestFixture]
-    public abstract class UITestFixture : UITestFixtureBase
+    protected virtual bool ReuseDriver => true;
+
+    protected IWebDriver PreservedDriver { get; private set; }
+
+    [SetUp]
+    public void SetUp()
     {
-        protected virtual bool ReuseDriver => true;
+        AtataContextBuilder contextBuilder = ConfigureBaseAtataContext();
 
-        protected IWebDriver PreservedDriver { get; set; }
+        if (ReuseDriver && PreservedDriver != null)
+            contextBuilder = contextBuilder.UseDriver(PreservedDriver);
 
-        [SetUp]
-        public void SetUp()
+        contextBuilder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
         {
-            AtataContextBuilder contextBuilder = ConfigureBaseAtataContext();
+            if (ReuseDriver && PreservedDriver is null)
+                PreservedDriver = eventData.Driver;
+        });
 
-            if (ReuseDriver && PreservedDriver != null)
-                contextBuilder = contextBuilder.UseDriver(PreservedDriver);
+        contextBuilder.Build();
 
-            contextBuilder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
-            {
-                if (ReuseDriver && PreservedDriver is null)
-                    PreservedDriver = eventData.Driver;
-            });
+        OnSetUp();
+    }
 
-            contextBuilder.Build();
+    protected virtual void OnSetUp()
+    {
+    }
 
-            OnSetUp();
-        }
+    public override void TearDown() =>
+        AtataContext.Current?.CleanUp(!ReuseDriver);
 
-        protected virtual void OnSetUp()
+    [OneTimeTearDown]
+    public virtual void FixtureTearDown() =>
+        CleanPreservedDriver();
+
+    private void CleanPreservedDriver()
+    {
+        if (PreservedDriver != null)
         {
-        }
-
-        public override void TearDown()
-        {
-            AtataContext.Current?.CleanUp(!ReuseDriver);
-        }
-
-        [OneTimeTearDown]
-        public virtual void FixtureTearDown()
-        {
-            CleanPreservedDriver();
-        }
-
-        private void CleanPreservedDriver()
-        {
-            if (PreservedDriver != null)
-            {
-                PreservedDriver.Dispose();
-                PreservedDriver = null;
-            }
+            PreservedDriver.Dispose();
+            PreservedDriver = null;
         }
     }
 }
