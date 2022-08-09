@@ -1,207 +1,188 @@
-﻿using NUnit.Framework;
+﻿namespace Atata.IntegrationTests;
 
-namespace Atata.IntegrationTests
+public class GoTests : UITestFixture
 {
-    public class GoTests : UITestFixture
+    [Test]
+    public void To_UsingDirectNavigation()
     {
-        [Test]
-        public void Go_To_SimpleNavigation()
-        {
-            var page1 = Go.To<GoTo1Page>();
-            AssertCurrentPageObject(page1);
+        var page1 = Go.To<GoTo1Page>();
+        AssertCurrentPageObject(page1);
 
-            var page2 = Go.To<GoTo2Page>();
-            AssertCurrentPageObject(page2);
-        }
+        var page2 = Go.To<GoTo2Page>();
+        AssertCurrentPageObject(page2);
+    }
 
-        [Test]
-        public void Go_To_LinkNavigation()
-        {
-            GoTo1Page page1 = Go.To<GoTo1Page>();
+    [Test]
+    public void To_UsingLinkNavigation()
+    {
+        GoTo1Page page1 = Go.To<GoTo1Page>();
 
-            AssertNoTemporarilyPreservedPageObjects();
+        AssertNoTemporarilyPreservedPageObjects();
 
-            GoTo1Page page1Returned = page1.
-                GoTo2.ClickAndGo().
-                    GoTo1();
+        GoTo1Page page1Returned = page1
+            .GoTo2.ClickAndGo()
+                .GoTo1();
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(page1Returned, Is.Not.EqualTo(page1));
-        }
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(page1Returned, Is.Not.EqualTo(page1));
+    }
 
-        [Test]
-        public void Go_To_AbsoluteUrlNavigation()
-        {
-            Go.To<GoTo1Page>();
-            string url = BaseUrl + "/goto2?somearg=1";
-            Go.To<GoTo2Page>(url: url);
+    [Test]
+    public void To_UsingAbsoluteUrlNavigation()
+    {
+        Go.To<GoTo1Page>();
+        string url = BaseUrl + "/goto2?somearg=1";
+        Go.To<GoTo2Page>(url: url);
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(AtataContext.Current.Driver.Url, Is.EqualTo(url));
-        }
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(AtataContext.Current.Driver.Url, Is.EqualTo(url));
+    }
 
-        [Test]
-        public void Go_To_RelativeUrlNavigation()
-        {
-            Go.To<GoTo1Page>();
-            string url = "goto2?somearg=1";
-            Go.To<GoTo2Page>(url: url);
+    [Test]
+    public void To_UsingRelativeUrlNavigation()
+    {
+        Go.To<GoTo1Page>();
+        string url = "goto2?somearg=1";
+        Go.To<GoTo2Page>(url: url);
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(AtataContext.Current.Driver.Url, Does.EndWith(url));
-        }
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(AtataContext.Current.Driver.Url, Does.EndWith(url));
+    }
 
-        [Test]
-        public void Go_To_RelativeUrlWithLeadingSlashNavigation()
-        {
-            Go.To<GoTo1Page>();
-            string url = "/goto2?somearg=1";
-            Go.To<GoTo2Page>(url: url);
+    [Test]
+    public void To_UsingRelativeUrlWithLeadingSlashNavigation()
+    {
+        Go.To<GoTo1Page>();
+        string url = "/goto2?somearg=1";
+        Go.To<GoTo2Page>(url: url);
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(AtataContext.Current.Driver.Url, Does.EndWith(url));
-        }
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(AtataContext.Current.Driver.Url, Does.EndWith(url));
+    }
 
-        [Test]
-        public void Go_To_Temporarily()
-        {
-            var page1 = Go.To<GoTo1Page>();
-            Go.To<GoTo2Page>(temporarily: true);
+    [Test]
+    public void To_WithTemporarilyTrue()
+    {
+        var page1 = Go.To<GoTo1Page>();
+        Go.To<GoTo2Page>(temporarily: true);
 
-            AssertTemporarilyPreservedPageObjects(page1);
+        AssertTemporarilyPreservedPageObjects(page1);
 
-            var page1Returned = Go.To<GoTo1Page>();
+        var page1Returned = Go.To<GoTo1Page>();
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(page1Returned, Is.EqualTo(page1));
-        }
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(page1Returned, Is.EqualTo(page1));
+    }
 
-        [Test]
-        public void Go_To_TemporarilyByLink()
-        {
-            var page1 = Go.To<GoTo1Page>();
+    [Test]
+    public void To_TemporarilyByLink()
+    {
+        var page1 = Go.To<GoTo1Page>();
+        var page2 = page1.GoTo2Temporarily();
 
-            var page2 = page1.
-                GoTo2Temporarily();
+        AssertTemporarilyPreservedPageObjects(page1);
 
-            AssertTemporarilyPreservedPageObjects(page1);
+        var page1Returned = page2.GoTo1();
 
-            var page1Returned = page2.
-                GoTo1();
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(page1Returned, Is.EqualTo(page1));
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(page1Returned, Is.EqualTo(page1));
+        page1Returned.GoTo2();
+    }
 
-            page1Returned.
-                GoTo2();
-        }
+    [Test]
+    public void To_TemporarilyByLink_Twice()
+    {
+        var page1 = Go.To<GoTo1Page>();
+        var page2 = page1.GoTo2Temporarily();
 
-        [Test]
-        public void Go_To_TemporarilyByLink2()
-        {
-            var page1 = Go.To<GoTo1Page>();
+        AssertTemporarilyPreservedPageObjects(page1);
 
-            var page2 = page1.
-                GoTo2Temporarily();
+        var page1Returned = page2.GoTo1Temporarily();
 
-            AssertTemporarilyPreservedPageObjects(page1);
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(page1Returned, Is.EqualTo(page1));
+    }
 
-            var page1Returned = page2.
-                GoTo1Temporarily();
+    [Test]
+    public void To_TemporarilyByLink_Complex()
+    {
+        var page1 = Go.To<GoTo1Page>();
+        var page2 = page1.GoTo2Temporarily();
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(page1Returned, Is.EqualTo(page1));
-        }
+        AssertTemporarilyPreservedPageObjects(page1);
 
-        [Test]
-        public void Go_To_TemporarilyByLinkComplex()
-        {
-            var page1 = Go.To<GoTo1Page>();
+        var page3 = page2.GoTo3Temporarily();
 
-            var page2 = page1.
-                GoTo2Temporarily();
+        AssertTemporarilyPreservedPageObjects(page1, page2);
 
-            AssertTemporarilyPreservedPageObjects(page1);
+        var page1Returned = page3.GoTo1();
 
-            var page3 = page2.
-                GoTo3Temporarily();
+        AssertNoTemporarilyPreservedPageObjects();
+        Assert.That(page1Returned, Is.EqualTo(page1));
+        AssertCurrentPageObject(page1);
+    }
 
-            AssertTemporarilyPreservedPageObjects(page1, page2);
+    [Test]
+    public void ToNextWindow()
+    {
+        var page1 = Go.To<GoTo1Page>();
 
-            var page1Returned = page3.
-                GoTo1();
+        page1.GoTo2Blank();
 
-            AssertNoTemporarilyPreservedPageObjects();
-            Assert.That(page1Returned, Is.EqualTo(page1));
-            AssertCurrentPageObject(page1);
-        }
+        Go.ToNextWindow<GoTo2Page>()
+            .CloseWindow();
 
-        [Test]
-        public void Go_ToNextWindow()
-        {
-            var page1 = Go.To<GoTo1Page>();
+        AssertNoTemporarilyPreservedPageObjects();
 
-            page1.
-                GoTo2Blank();
+        Go.To<GoTo1Page>(navigate: false);
+    }
 
-            Go.ToNextWindow<GoTo2Page>().
-                CloseWindow();
+    [Test]
+    public void ToNextWindow_WithTemporarilyTrue()
+    {
+        var page1 = Go.To<GoTo1Page>().
+            GoTo2Blank();
 
-            AssertNoTemporarilyPreservedPageObjects();
+        Go.ToNextWindow<GoTo2Page>(temporarily: true)
+            .CloseWindow();
 
-            Go.To<GoTo1Page>(navigate: false);
-        }
+        AssertTemporarilyPreservedPageObjects(page1);
 
-        [Test]
-        public void Go_ToNextWindow_Temporarily()
-        {
-            var page1 = Go.To<GoTo1Page>().
-                GoTo2Blank();
+        Go.To<GoTo1Page>(navigate: false);
 
-            Go.ToNextWindow<GoTo2Page>(temporarily: true).
-                CloseWindow();
+        AssertCurrentPageObject(page1);
+    }
 
-            AssertTemporarilyPreservedPageObjects(page1);
+    [Test]
+    public void ToNextWindow_WithTemporarilyTrue_Complex()
+    {
+        var page1 = Go.To<GoTo1Page>()
+            .GoTo2Blank();
 
-            Go.To<GoTo1Page>(navigate: false);
+        var page2 = Go.ToNextWindow<GoTo2Page>(temporarily: true);
 
-            AssertCurrentPageObject(page1);
-        }
+        page2
+            .GoTo3Temporarily()
+            .CloseWindow();
 
-        [Test]
-        public void Go_ToNextWindow_TemporarilyComplex()
-        {
-            var page1 = Go.To<GoTo1Page>().
-                GoTo2Blank();
+        AssertTemporarilyPreservedPageObjects(page1, page2);
 
-            var page2 = Go.ToNextWindow<GoTo2Page>(temporarily: true);
+        var page1Returned = Go.To<GoTo1Page>(navigate: false);
 
-            page2.
-                GoTo3Temporarily().
-                CloseWindow();
+        Assert.That(page1Returned, Is.EqualTo(page1));
+        AssertCurrentPageObject(page1);
+    }
 
-            AssertTemporarilyPreservedPageObjects(page1, page2);
+    private static void AssertCurrentPageObject(UIComponent pageObject) =>
+        Assert.That(AtataContext.Current.PageObject, Is.EqualTo(pageObject));
 
-            var page1Returned = Go.To<GoTo1Page>(navigate: false);
+    private static void AssertNoTemporarilyPreservedPageObjects() =>
+        Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.Empty);
 
-            Assert.That(page1Returned, Is.EqualTo(page1));
-            AssertCurrentPageObject(page1);
-        }
-
-        private static void AssertCurrentPageObject(UIComponent pageObject)
-        {
-            Assert.That(AtataContext.Current.PageObject, Is.EqualTo(pageObject));
-        }
-
-        private static void AssertNoTemporarilyPreservedPageObjects()
-        {
-            Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.Empty);
-        }
-
-        private static void AssertTemporarilyPreservedPageObjects(params UIComponent[] pageObjects)
-        {
-            Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
-            Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
-        }
+    private static void AssertTemporarilyPreservedPageObjects(params UIComponent[] pageObjects)
+    {
+        Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
+        Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
     }
 }
