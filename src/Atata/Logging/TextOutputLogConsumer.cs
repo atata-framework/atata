@@ -18,10 +18,8 @@ namespace Atata
         {
         }
 
-        public TextOutputLogConsumer(Action<string> writeAction)
-        {
+        public TextOutputLogConsumer(Action<string> writeAction) =>
             _writeAction = writeAction;
-        }
 
         /// <summary>
         /// Gets or sets the text parts separator.

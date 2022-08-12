@@ -10,10 +10,8 @@ namespace Atata
     public class CloseConfirmBoxAttribute : TriggerAttribute
     {
         public CloseConfirmBoxAttribute(bool accept = true, TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             Accept = accept;
-        }
 
         public bool Accept { get; }
 

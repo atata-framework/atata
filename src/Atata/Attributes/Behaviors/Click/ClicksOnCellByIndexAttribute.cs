@@ -10,10 +10,8 @@
         /// Initializes a new instance of the <see cref="ClicksOnCellByIndexAttribute"/> class.
         /// </summary>
         /// <param name="index">The index of a cell.</param>
-        public ClicksOnCellByIndexAttribute(int index)
-        {
+        public ClicksOnCellByIndexAttribute(int index) =>
             Index = index;
-        }
 
         /// <summary>
         /// Gets the index of a cell.

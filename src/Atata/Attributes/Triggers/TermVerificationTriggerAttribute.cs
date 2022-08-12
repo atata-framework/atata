@@ -10,10 +10,8 @@ namespace Atata
     public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute, ITermSettings, IHasOptionalProperties
     {
         protected TermVerificationTriggerAttribute(TermCase termCase)
-            : this()
-        {
+            : this() =>
             Case = termCase;
-        }
 
         protected TermVerificationTriggerAttribute(TermMatch match, TermCase termCase)
             : this()
@@ -23,16 +21,12 @@ namespace Atata
         }
 
         protected TermVerificationTriggerAttribute(TermMatch match, params string[] values)
-            : this(values)
-        {
+            : this(values) =>
             Match = match;
-        }
 
         protected TermVerificationTriggerAttribute(params string[] values)
-            : base(TriggerEvents.Init)
-        {
+            : base(TriggerEvents.Init) =>
             Values = values;
-        }
 
         PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
 

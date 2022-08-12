@@ -6,15 +6,11 @@
         {
         }
 
-        protected TermFindItemAttribute(TermCase termCase)
-        {
+        protected TermFindItemAttribute(TermCase termCase) =>
             Case = termCase;
-        }
 
-        protected TermFindItemAttribute(TermMatch match)
-        {
+        protected TermFindItemAttribute(TermMatch match) =>
             Match = match;
-        }
 
         protected TermFindItemAttribute(TermMatch match, TermCase termCase)
         {

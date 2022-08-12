@@ -20,10 +20,8 @@ namespace Atata
     /// </summary>
     public class AtataContextBuilder
     {
-        public AtataContextBuilder(AtataBuildingContext buildingContext)
-        {
+        public AtataContextBuilder(AtataBuildingContext buildingContext) =>
             BuildingContext = buildingContext.CheckNotNull(nameof(buildingContext));
-        }
 
         /// <summary>
         /// Gets the building context.

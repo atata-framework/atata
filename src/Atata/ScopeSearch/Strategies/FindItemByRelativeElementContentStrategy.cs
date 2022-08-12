@@ -7,21 +7,15 @@ namespace Atata
     /// </summary>
     public class FindItemByRelativeElementContentStrategy : TermItemElementFindStrategy
     {
-        public FindItemByRelativeElementContentStrategy(string relativeElementXPath)
-        {
+        public FindItemByRelativeElementContentStrategy(string relativeElementXPath) =>
             RelativeElementXPath = relativeElementXPath;
-        }
 
         public string RelativeElementXPath { get; }
 
-        public override string GetXPathCondition(object parameter, TermOptions termOptions)
-        {
-            return $"[{RelativeElementXPath}[{TermResolver.CreateXPathCondition(parameter, termOptions)}]]";
-        }
+        public override string GetXPathCondition(object parameter, TermOptions termOptions) =>
+            $"[{RelativeElementXPath}[{TermResolver.CreateXPathCondition(parameter, termOptions)}]]";
 
-        protected override string GetParameterAsString(IWebElement element)
-        {
-            return element.GetWithLogging(By.XPath(RelativeElementXPath).AtOnce()).Text;
-        }
+        protected override string GetParameterAsString(IWebElement element) =>
+            element.GetWithLogging(By.XPath(RelativeElementXPath).AtOnce()).Text;
     }
 }

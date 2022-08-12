@@ -6,10 +6,8 @@ namespace Atata
         where TBuilder : DriverAtataContextBuilder<TBuilder>
     {
         protected DriverAtataContextBuilder(AtataBuildingContext buildingContext, string alias = null)
-            : base(buildingContext)
-        {
+            : base(buildingContext) =>
             Alias = alias;
-        }
 
         /// <summary>
         /// Gets the alias.

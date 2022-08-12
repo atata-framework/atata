@@ -5,10 +5,8 @@
     /// </summary>
     public class AtataContextInitCompletedEvent
     {
-        public AtataContextInitCompletedEvent(AtataContext context)
-        {
+        public AtataContextInitCompletedEvent(AtataContext context) =>
             Context = context;
-        }
 
         /// <summary>
         /// Gets the context.

@@ -9,10 +9,8 @@ namespace Atata
     public class PressKeysAttribute : TriggerAttribute
     {
         public PressKeysAttribute(string keys, TriggerEvents on = TriggerEvents.AfterSet, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             Keys = keys;
-        }
 
         public string Keys { get; protected set; }
 

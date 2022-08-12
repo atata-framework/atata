@@ -6,10 +6,8 @@
     /// </summary>
     public class UrlAttribute : MulticastAttribute
     {
-        public UrlAttribute(string url)
-        {
+        public UrlAttribute(string url) =>
             Url = url;
-        }
 
         /// <summary>
         /// Gets the URL to navigate to.

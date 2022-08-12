@@ -3,9 +3,7 @@
     public class BlurLogSection : UIComponentLogSection
     {
         public BlurLogSection(UIComponent component)
-            : base(component)
-        {
+            : base(component) =>
             Message = $"Blur {component.ComponentFullName}";
-        }
     }
 }

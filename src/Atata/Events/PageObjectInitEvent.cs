@@ -5,10 +5,8 @@
     /// </summary>
     public class PageObjectInitEvent
     {
-        public PageObjectInitEvent(UIComponent pageObject)
-        {
+        public PageObjectInitEvent(UIComponent pageObject) =>
             PageObject = pageObject;
-        }
 
         /// <summary>
         /// Gets the page object.

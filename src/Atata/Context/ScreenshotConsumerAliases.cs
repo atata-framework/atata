@@ -9,16 +9,12 @@ namespace Atata
 
         private static readonly Dictionary<string, Func<IScreenshotConsumer>> s_aliasFactoryMap = new Dictionary<string, Func<IScreenshotConsumer>>(StringComparer.OrdinalIgnoreCase);
 
-        static ScreenshotConsumerAliases()
-        {
+        static ScreenshotConsumerAliases() =>
             Register<FileScreenshotConsumer>(File);
-        }
 
         public static void Register<T>(string typeAlias)
-            where T : IScreenshotConsumer, new()
-        {
+            where T : IScreenshotConsumer, new() =>
             Register(typeAlias, () => new T());
-        }
 
         public static void Register(string typeAlias, Func<IScreenshotConsumer> logConsumerFactory)
         {

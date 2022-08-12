@@ -30,10 +30,8 @@ namespace Atata
             AtataBuildingContext buildingContext,
             string alias,
             string browserName)
-            : base(buildingContext, alias)
-        {
+            : base(buildingContext, alias) =>
             _browserName = browserName;
-        }
 
         string IUsesLocalBrowser.BrowserName => _browserName;
 

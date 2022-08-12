@@ -11,10 +11,8 @@ namespace Atata
         AllowMultiple = true)]
     public class TagAttribute : Attribute
     {
-        public TagAttribute(params string[] values)
-        {
+        public TagAttribute(params string[] values) =>
             Values = new ReadOnlyCollection<string>(values ?? new string[0]);
-        }
 
         /// <summary>
         /// Gets the tag values.

@@ -7,10 +7,8 @@
             ComponentScopeFindOptions scopeFindOptions,
             SearchOptions searchOptions,
             ILayerScopeContextResolver scopeContextResolver)
-            : base(strategy, scopeFindOptions, searchOptions)
-        {
+            : base(strategy, scopeFindOptions, searchOptions) =>
             ScopeContextResolver = scopeContextResolver;
-        }
 
         public ILayerScopeContextResolver ScopeContextResolver { get; }
     }

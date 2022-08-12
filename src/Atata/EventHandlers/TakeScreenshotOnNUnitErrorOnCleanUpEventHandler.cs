@@ -4,10 +4,8 @@
     {
         private readonly string _screenshotTitle;
 
-        public TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(string screenshotTitle = "Failed")
-        {
+        public TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(string screenshotTitle = "Failed") =>
             _screenshotTitle = screenshotTitle;
-        }
 
         public bool CanHandle(AtataContextCleanUpEvent eventData, AtataContext context) =>
             NUnitAdapter.IsCurrentTestFailed() && context.HasDriver;

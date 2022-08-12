@@ -8,10 +8,8 @@ namespace Atata
     /// </summary>
     public class FindByColumnIndexAttribute : FindAttribute
     {
-        public FindByColumnIndexAttribute(int columnIndex)
-        {
+        public FindByColumnIndexAttribute(int columnIndex) =>
             ColumnIndex = columnIndex;
-        }
 
         public int ColumnIndex { get; }
 

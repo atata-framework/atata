@@ -95,26 +95,20 @@ public class TriggersPage : Page<_>
         {
         }
 
-        private void Execute(TriggerContext<_> context)
-        {
+        private void Execute(TriggerContext<_> context) =>
             context.Component.Owner.InputEvents.Add(context.Event);
-        }
     }
 
     public class CustomLogInfoAttribute : TriggerAttribute
     {
         public CustomLogInfoAttribute(string message, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             Message = message;
-        }
 
         public string Message { get; private set; }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
             context.Log.Info(Message);
-        }
     }
 
     public class HierarchyControl : Control<_>

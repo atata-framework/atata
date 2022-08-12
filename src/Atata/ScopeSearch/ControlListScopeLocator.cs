@@ -9,10 +9,8 @@ namespace Atata
     {
         private readonly Func<SearchOptions, IEnumerable<IWebElement>> _predicate;
 
-        public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> predicate)
-        {
+        public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> predicate) =>
             _predicate = predicate;
-        }
 
         public string ElementName { get; set; }
 

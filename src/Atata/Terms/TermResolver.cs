@@ -14,10 +14,8 @@ namespace Atata
 
         private static readonly Dictionary<Type, TermConverter> s_typeTermConverters = new Dictionary<Type, TermConverter>();
 
-        static TermResolver()
-        {
+        static TermResolver() =>
             RegisterStandardConverters();
-        }
 
         private static void RegisterStandardConverters()
         {

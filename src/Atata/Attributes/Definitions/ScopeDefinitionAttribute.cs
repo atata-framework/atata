@@ -15,10 +15,8 @@ namespace Atata
 
         private readonly string _baseScopeXPath;
 
-        protected ScopeDefinitionAttribute(string scopeXPath = DefaultScopeXPath)
-        {
+        protected ScopeDefinitionAttribute(string scopeXPath = DefaultScopeXPath) =>
             _baseScopeXPath = scopeXPath;
-        }
 
         /// <summary>
         /// Gets the XPath of the scope element which is a combination of XPath passed through the constructor and <see cref="ContainingClasses"/> property values.

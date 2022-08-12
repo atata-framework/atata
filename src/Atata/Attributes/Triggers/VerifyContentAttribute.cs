@@ -8,10 +8,8 @@
     public class VerifyContentAttribute : WaitingTriggerAttribute
     {
         public VerifyContentAttribute(params string[] values)
-            : base(TriggerEvents.Init)
-        {
+            : base(TriggerEvents.Init) =>
             Values = values;
-        }
 
         public string[] Values { get; }
 

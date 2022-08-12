@@ -13,10 +13,8 @@
         {
         }
 
-        public UsesColumnHeaderTextsCacheAttribute(bool useCache)
-        {
+        public UsesColumnHeaderTextsCacheAttribute(bool useCache) =>
             UsesCache = useCache;
-        }
 
         /// <inheritdoc/>
         public bool UsesCache { get; }

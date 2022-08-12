@@ -10,10 +10,8 @@
         {
         }
 
-        public UsesCacheAttribute(bool useCache)
-        {
+        public UsesCacheAttribute(bool useCache) =>
             UsesCache = useCache;
-        }
 
         /// <inheritdoc/>
         public bool UsesCache { get; }

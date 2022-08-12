@@ -13,16 +13,12 @@ namespace Atata
         }
 
         public SubsequentComponentScopeFindResult(IEnumerable<ISearchContext> scopeSources, IComponentScopeFindStrategy strategy, ComponentScopeFindOptions scopeFindOptions = null)
-            : this(strategy, scopeFindOptions)
-        {
+            : this(strategy, scopeFindOptions) =>
             ScopeSources = scopeSources ?? throw new ArgumentNullException(nameof(scopeSources));
-        }
 
         public SubsequentComponentScopeFindResult(By scopeSourceBy, IComponentScopeFindStrategy strategy, ComponentScopeFindOptions scopeFindOptions = null)
-            : this(strategy, scopeFindOptions)
-        {
+            : this(strategy, scopeFindOptions) =>
             ScopeSourceBy = scopeSourceBy ?? throw new ArgumentNullException(nameof(scopeSourceBy));
-        }
 
         private SubsequentComponentScopeFindResult(IComponentScopeFindStrategy strategy, ComponentScopeFindOptions scopeFindOptions)
         {

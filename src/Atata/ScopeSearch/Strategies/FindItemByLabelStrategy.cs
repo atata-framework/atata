@@ -6,10 +6,8 @@ namespace Atata
     {
         private readonly UIComponent _component;
 
-        public FindItemByLabelStrategy(UIComponent component)
-        {
+        public FindItemByLabelStrategy(UIComponent component) =>
             _component = component;
-        }
 
         public override string GetXPathCondition(object parameter, TermOptions termOptions)
         {

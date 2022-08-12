@@ -7,10 +7,8 @@ namespace Atata
     {
         private readonly Func<AtataContext, string> _directoryPathBuilder;
 
-        public AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler(Func<AtataContext, string> directoryPathBuilder)
-        {
+        public AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
             _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
-        }
 
         public void Handle(AtataContextCleanUpEvent eventData, AtataContext context)
         {

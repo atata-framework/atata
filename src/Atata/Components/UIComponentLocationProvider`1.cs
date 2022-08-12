@@ -13,10 +13,8 @@ namespace Atata
         private readonly UIComponent<TOwner> _component;
 
         public UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction, string providerName)
-            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName)
-        {
+            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
             _component = component;
-        }
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the X location coordinate of the component.

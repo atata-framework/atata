@@ -5,10 +5,8 @@
     /// </summary>
     public class AtataContextPreInitEvent
     {
-        public AtataContextPreInitEvent(AtataContext context)
-        {
+        public AtataContextPreInitEvent(AtataContext context) =>
             Context = context;
-        }
 
         /// <summary>
         /// Gets the context.

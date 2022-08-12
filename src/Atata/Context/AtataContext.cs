@@ -44,10 +44,8 @@ namespace Atata
         /// </summary>
         public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
-        internal AtataContext()
-        {
+        internal AtataContext() =>
             Go = new AtataNavigator(this);
-        }
 
         /// <summary>
         /// Gets or sets the current context.
@@ -677,9 +675,7 @@ namespace Atata
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         /// </summary>
-        public void Dispose()
-        {
+        public void Dispose() =>
             CleanUp();
-        }
     }
 }

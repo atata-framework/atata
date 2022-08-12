@@ -5,10 +5,8 @@
     /// </summary>
     public class AtataContextCleanUpEvent
     {
-        public AtataContextCleanUpEvent(AtataContext context)
-        {
+        public AtataContextCleanUpEvent(AtataContext context) =>
             Context = context;
-        }
 
         /// <summary>
         /// Gets the context.

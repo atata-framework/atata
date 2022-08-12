@@ -6,10 +6,8 @@ namespace Atata
         VerificationProvider<ObjectVerificationProvider<TObject, TOwner>, TOwner>,
         IObjectVerificationProvider<TObject, TOwner>
     {
-        public ObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider)
-        {
+        public ObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider) =>
             ObjectProvider = objectProvider;
-        }
 
         protected IObjectProvider<TObject, TOwner> ObjectProvider { get; }
 
@@ -84,10 +82,8 @@ namespace Atata
             IObjectVerificationProvider<TObject, TOwner>
         {
             internal NegationObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider, IVerificationProvider<TOwner> verificationProvider)
-                : base(verificationProvider)
-            {
+                : base(verificationProvider) =>
                 ObjectProvider = objectProvider;
-            }
 
             protected IObjectProvider<TObject, TOwner> ObjectProvider { get; }
 

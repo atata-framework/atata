@@ -10,10 +10,8 @@
         /// Initializes a new instance of the <see cref="GetsContentFromSourceAttribute"/> class using <see cref="ContentSource"/> value.
         /// </summary>
         /// <param name="source">The source.</param>
-        public GetsContentFromSourceAttribute(ContentSource source)
-        {
+        public GetsContentFromSourceAttribute(ContentSource source) =>
             Source = source;
-        }
 
         /// <summary>
         /// Gets the kind of source.

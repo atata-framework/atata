@@ -9,10 +9,8 @@
         /// Initializes a new instance of the <see cref="GetsContentFromAttributeAttribute"/> class using the name of HTML attribute.
         /// </summary>
         /// <param name="attributeName">Name of the attribute.</param>
-        public GetsContentFromAttributeAttribute(string attributeName)
-        {
+        public GetsContentFromAttributeAttribute(string attributeName) =>
             AttributeName = attributeName;
-        }
 
         /// <summary>
         /// Gets the name of HTML attribute.

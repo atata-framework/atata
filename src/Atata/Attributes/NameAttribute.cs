@@ -5,10 +5,8 @@
     /// </summary>
     public class NameAttribute : MulticastAttribute
     {
-        public NameAttribute(string value)
-        {
+        public NameAttribute(string value) =>
             Value = value;
-        }
 
         /// <summary>
         /// Gets the name value.

@@ -7,28 +7,20 @@ namespace Atata
     /// </summary>
     public class SelectsOptionByAttributeAttribute : SelectOptionBehaviorAttribute
     {
-        public SelectsOptionByAttributeAttribute(string attributeName)
-        {
+        public SelectsOptionByAttributeAttribute(string attributeName) =>
             AttributeName = attributeName;
-        }
 
         public SelectsOptionByAttributeAttribute(string attributeName, TermCase termCase)
-            : base(termCase)
-        {
+            : base(termCase) =>
             AttributeName = attributeName;
-        }
 
         public SelectsOptionByAttributeAttribute(string attributeName, TermMatch match)
-            : base(match)
-        {
+            : base(match) =>
             AttributeName = attributeName;
-        }
 
         public SelectsOptionByAttributeAttribute(string attributeName, TermMatch match, TermCase termCase)
-            : base(match, termCase)
-        {
+            : base(match, termCase) =>
             AttributeName = attributeName;
-        }
 
         /// <summary>
         /// Gets the name of the attribute.

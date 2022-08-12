@@ -12,10 +12,8 @@ namespace Atata
         {
         }
 
-        public NLogConsumer(string loggerName)
-        {
+        public NLogConsumer(string loggerName) =>
             LoggerName = loggerName;
-        }
 
         /// <inheritdoc/>
         public string LoggerName { get; set; }

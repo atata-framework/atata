@@ -17,10 +17,8 @@ namespace Atata
         public DirectorySubject(string directoryPath, string providerName = null)
             : this(
                 DynamicObjectSource.Create(() => new DirectoryInfo(directoryPath)),
-                providerName ?? BuildProviderName(directoryPath))
-        {
+                providerName ?? BuildProviderName(directoryPath)) =>
             directoryPath.CheckNotNullOrEmpty(nameof(directoryPath));
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DirectorySubject"/> class.

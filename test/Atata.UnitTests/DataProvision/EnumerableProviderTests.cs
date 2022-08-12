@@ -90,10 +90,8 @@ public class EnumerableProviderTests
     {
         private readonly Func<IEnumerable<int>> _sourceValuesGetFunction;
 
-        public TestOwner(Func<IEnumerable<int>> sourceValuesGetFunction)
-        {
+        public TestOwner(Func<IEnumerable<int>> sourceValuesGetFunction) =>
             _sourceValuesGetFunction = sourceValuesGetFunction;
-        }
 
         public TestOwner Object => this;
 

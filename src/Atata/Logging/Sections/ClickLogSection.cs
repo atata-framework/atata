@@ -3,9 +3,7 @@
     public class ClickLogSection : UIComponentLogSection
     {
         public ClickLogSection(UIComponent component)
-            : base(component)
-        {
+            : base(component) =>
             Message = $"Click {component.ComponentFullName}";
-        }
     }
 }

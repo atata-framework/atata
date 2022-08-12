@@ -14,10 +14,8 @@ namespace Atata
         /// Initializes a new instance of the <see cref="AtataNavigator"/> class.
         /// </summary>
         /// <param name="context">The context.</param>
-        public AtataNavigator(AtataContext context)
-        {
+        public AtataNavigator(AtataContext context) =>
             _context = context.CheckNotNull(nameof(context));
-        }
 
         /// <summary>
         /// Navigates to the specified page object.
@@ -31,10 +29,8 @@ namespace Atata
         /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
         /// <returns>The page object.</returns>
         public T To<T>(T pageObject = null, string url = null, bool navigate = true, bool temporarily = false)
-            where T : PageObject<T>
-        {
-            return To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url) && navigate, Temporarily = temporarily });
-        }
+            where T : PageObject<T> =>
+            To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url) && navigate, Temporarily = temporarily });
 
         /// <summary>
         /// Navigates to the window with the specified page object by name.

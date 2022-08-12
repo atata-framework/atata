@@ -10,10 +10,8 @@
         /// Initializes a new instance of the <see cref="StaticObjectSource{TObject}"/> class.
         /// </summary>
         /// <param name="source">The source object.</param>
-        public StaticObjectSource(TObject source)
-        {
+        public StaticObjectSource(TObject source) =>
             Object = source;
-        }
 
         /// <inheritdoc/>
         public TObject Object { get; }

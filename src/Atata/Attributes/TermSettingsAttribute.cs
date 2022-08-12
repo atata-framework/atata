@@ -9,15 +9,11 @@
         {
         }
 
-        public TermSettingsAttribute(TermCase termCase)
-        {
+        public TermSettingsAttribute(TermCase termCase) =>
             Case = termCase;
-        }
 
-        public TermSettingsAttribute(TermMatch match)
-        {
+        public TermSettingsAttribute(TermMatch match) =>
             Match = match;
-        }
 
         public TermSettingsAttribute(TermMatch match, TermCase termCase)
         {

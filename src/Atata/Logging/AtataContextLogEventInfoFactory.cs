@@ -9,10 +9,8 @@ namespace Atata
     {
         private readonly AtataContext _context;
 
-        public AtataContextLogEventInfoFactory(AtataContext context)
-        {
+        public AtataContextLogEventInfoFactory(AtataContext context) =>
             _context = context.CheckNotNull(nameof(context));
-        }
 
         /// <inheritdoc/>
         public LogEventInfo Create(LogLevel level, string message) =>

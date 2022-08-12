@@ -28,10 +28,8 @@ namespace Atata
         }
 
         public AggregateAssertionException(IEnumerable<AssertionResult> results)
-            : base(ConvertToMessage(results))
-        {
+            : base(ConvertToMessage(results)) =>
             Results = results.ToReadOnly();
-        }
 
         protected AggregateAssertionException(SerializationInfo info, StreamingContext context)
             : base(info, context)

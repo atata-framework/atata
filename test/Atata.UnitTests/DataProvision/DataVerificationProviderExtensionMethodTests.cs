@@ -107,10 +107,8 @@ public static class DataVerificationProviderExtensionMethodTests
         {
             private readonly TestSuiteData _context;
 
-            public TestSuiteBuilder(TestSuiteData context)
-            {
+            public TestSuiteBuilder(TestSuiteData context) =>
                 _context = context;
-            }
 
             public TestSuiteBuilder Pass(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> passFunction)
             {

@@ -7,10 +7,8 @@ namespace Atata
     {
         private readonly UIComponent _component;
 
-        public StrategyScopeLocatorExecutionDataCollector(UIComponent component)
-        {
+        public StrategyScopeLocatorExecutionDataCollector(UIComponent component) =>
             _component = component;
-        }
 
         public StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions)
         {

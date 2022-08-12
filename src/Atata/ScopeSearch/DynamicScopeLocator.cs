@@ -7,10 +7,8 @@ namespace Atata
     {
         private readonly Func<SearchOptions, IWebElement> _locateFunction;
 
-        public DynamicScopeLocator(Func<SearchOptions, IWebElement> locateFunction)
-        {
+        public DynamicScopeLocator(Func<SearchOptions, IWebElement> locateFunction) =>
             _locateFunction = locateFunction;
-        }
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
@@ -19,10 +17,8 @@ namespace Atata
             return _locateFunction(searchOptions);
         }
 
-        public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
-        {
-            return new[] { GetElement(searchOptions, xPathCondition) };
-        }
+        public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null) =>
+            new[] { GetElement(searchOptions, xPathCondition) };
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {

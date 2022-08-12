@@ -7,9 +7,7 @@
     /// </summary>
     public class FindOnlyVisibleAttribute : FindSettingsAttribute
     {
-        public FindOnlyVisibleAttribute()
-        {
+        public FindOnlyVisibleAttribute() =>
             Visibility = Visibility.Visible;
-        }
     }
 }

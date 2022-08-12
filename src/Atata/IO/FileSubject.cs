@@ -17,10 +17,8 @@ namespace Atata
         public FileSubject(string filePath, string providerName = null)
             : this(
                 DynamicObjectSource.Create(() => new FileInfo(filePath)),
-                providerName ?? BuildProviderName(filePath))
-        {
+                providerName ?? BuildProviderName(filePath)) =>
             filePath.CheckNotNullOrEmpty(nameof(filePath));
-        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="FileSubject"/> class.

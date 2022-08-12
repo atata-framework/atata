@@ -18,10 +18,8 @@ namespace Atata
         /// <param name="assembly">The assembly.</param>
         /// <param name="buildingContext">The building context.</param>
         public AssemblyAttributesAtataContextBuilder(Assembly assembly, AtataBuildingContext buildingContext)
-            : base(buildingContext)
-        {
+            : base(buildingContext) =>
             _assembly = assembly;
-        }
 
         protected override void OnAdd(IEnumerable<Attribute> attributes)
         {

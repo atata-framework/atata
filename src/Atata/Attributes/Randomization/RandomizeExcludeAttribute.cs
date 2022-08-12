@@ -5,10 +5,8 @@
     /// </summary>
     public class RandomizeExcludeAttribute : MulticastAttribute
     {
-        public RandomizeExcludeAttribute(params object[] values)
-        {
+        public RandomizeExcludeAttribute(params object[] values) =>
             Values = values;
-        }
 
         public object[] Values { get; private set; }
     }

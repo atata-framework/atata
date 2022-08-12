@@ -7,10 +7,8 @@ namespace Atata
     {
         private readonly bool _isNegation;
 
-        protected VerificationProvider(bool isNegation = false)
-        {
+        protected VerificationProvider(bool isNegation = false) =>
             _isNegation = isNegation;
-        }
 
         bool IVerificationProvider<TOwner>.IsNegation => _isNegation;
 

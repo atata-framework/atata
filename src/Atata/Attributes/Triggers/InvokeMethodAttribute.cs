@@ -10,10 +10,8 @@ namespace Atata
     public class InvokeMethodAttribute : TriggerAttribute
     {
         public InvokeMethodAttribute(string methodName, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             MethodName = methodName.CheckNotNullOrWhitespace(nameof(methodName));
-        }
 
         /// <summary>
         /// Gets the name of the method.

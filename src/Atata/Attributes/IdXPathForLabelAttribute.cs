@@ -2,10 +2,8 @@
 {
     public class IdXPathForLabelAttribute : MulticastAttribute
     {
-        public IdXPathForLabelAttribute(string xPathFormat)
-        {
+        public IdXPathForLabelAttribute(string xPathFormat) =>
             XPathFormat = xPathFormat;
-        }
 
         public string XPathFormat { get; }
     }

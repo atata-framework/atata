@@ -12,16 +12,12 @@
         }
 
         public ScreenshotAttribute(string title = null, TriggerEvents on = TriggerEvents.BeforeClick, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             Title = title;
-        }
 
         public string Title { get; }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
             context.Log.Screenshot(Title);
-        }
     }
 }

@@ -19,10 +19,8 @@ namespace Atata
         /// </summary>
         /// <param name="buildingContext">The building context.</param>
         public ComponentAttributesAtataContextBuilder(AtataBuildingContext buildingContext)
-            : base(buildingContext)
-        {
+            : base(buildingContext) =>
             _componentType = typeof(TComponent);
-        }
 
         /// <summary>
         /// Creates and returns the attributes builder for the property with the specified name.

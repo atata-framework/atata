@@ -5,10 +5,8 @@
     /// </summary>
     public class GoTemporarilyAttribute : MulticastAttribute
     {
-        public GoTemporarilyAttribute(bool isTemporarily = true)
-        {
+        public GoTemporarilyAttribute(bool isTemporarily = true) =>
             IsTemporarily = isTemporarily;
-        }
 
         public bool IsTemporarily { get; private set; }
     }

@@ -5,10 +5,8 @@
     /// </summary>
     public class RandomizeIncludeAttribute : MulticastAttribute
     {
-        public RandomizeIncludeAttribute(params object[] values)
-        {
+        public RandomizeIncludeAttribute(params object[] values) =>
             Values = values;
-        }
 
         public object[] Values { get; }
     }

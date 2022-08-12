@@ -9,10 +9,8 @@
         /// <param name="screenshotConsumer">The screenshot consumer.</param>
         /// <param name="buildingContext">The building context.</param>
         public ScreenshotConsumerAtataContextBuilder(TScreenshotConsumer screenshotConsumer, AtataBuildingContext buildingContext)
-            : base(buildingContext)
-        {
+            : base(buildingContext) =>
             Context = screenshotConsumer;
-        }
 
         /// <inheritdoc/>
         public TScreenshotConsumer Context { get; }

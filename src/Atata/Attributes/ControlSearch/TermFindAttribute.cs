@@ -10,10 +10,8 @@ namespace Atata
     public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITermMatchFindAttribute, ITermSettings
     {
         protected TermFindAttribute(TermCase termCase)
-            : this()
-        {
+            : this() =>
             Case = termCase;
-        }
 
         protected TermFindAttribute(TermMatch match, TermCase termCase)
             : this()
@@ -23,10 +21,8 @@ namespace Atata
         }
 
         protected TermFindAttribute(TermMatch match, params string[] values)
-            : this(values)
-        {
+            : this(values) =>
             Match = match;
-        }
 
         protected TermFindAttribute(params string[] values)
         {

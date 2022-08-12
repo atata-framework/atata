@@ -13,10 +13,8 @@ namespace Atata
         private readonly UIComponent<TOwner> _component;
 
         public UIComponentSizeProvider(UIComponent<TOwner> component, Func<Size> valueGetFunction, string providerName)
-            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName)
-        {
+            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
             _component = component;
-        }
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the width of the component.

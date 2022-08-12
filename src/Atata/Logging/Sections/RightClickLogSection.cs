@@ -3,9 +3,7 @@
     public class RightClickLogSection : UIComponentLogSection
     {
         public RightClickLogSection(UIComponent component)
-            : base(component)
-        {
+            : base(component) =>
             Message = $"Right-click {component.ComponentFullName}";
-        }
     }
 }

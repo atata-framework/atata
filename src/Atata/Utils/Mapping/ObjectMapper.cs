@@ -8,10 +8,8 @@ namespace Atata
     {
         private readonly IObjectConverter _objectConverter;
 
-        public ObjectMapper(IObjectConverter objectConverter)
-        {
+        public ObjectMapper(IObjectConverter objectConverter) =>
             _objectConverter = objectConverter;
-        }
 
         public void Map(Dictionary<string, object> propertiesMap, object destination)
         {
@@ -23,10 +21,8 @@ namespace Atata
             }
         }
 
-        public void Map(string propertyName, object propertyValue, object destination)
-        {
+        public void Map(string propertyName, object propertyValue, object destination) =>
             Map(propertyName, propertyValue, destination, destination.GetType());
-        }
 
         private void Map(string propertyName, object propertyValue, object destination, Type destinationType)
         {
@@ -64,9 +60,7 @@ namespace Atata
             }
         }
 
-        private static string BuildMappingExceptionMessage(Type type, string propertyName, string additionalMessage)
-        {
-            return $"Failed to map \"{propertyName}\" property for {type.FullName} type. {additionalMessage}";
-        }
+        private static string BuildMappingExceptionMessage(Type type, string propertyName, string additionalMessage) =>
+            $"Failed to map \"{propertyName}\" property for {type.FullName} type. {additionalMessage}";
     }
 }

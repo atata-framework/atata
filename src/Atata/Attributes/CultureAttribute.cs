@@ -5,10 +5,8 @@
     /// </summary>
     public class CultureAttribute : MulticastAttribute
     {
-        public CultureAttribute(string value)
-        {
+        public CultureAttribute(string value) =>
             Value = value;
-        }
 
         /// <summary>
         /// Gets the culture value.

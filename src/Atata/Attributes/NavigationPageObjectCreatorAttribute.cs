@@ -7,10 +7,8 @@ namespace Atata
     /// </summary>
     public class NavigationPageObjectCreatorAttribute : MulticastAttribute
     {
-        public NavigationPageObjectCreatorAttribute(Func<object> creator)
-        {
+        public NavigationPageObjectCreatorAttribute(Func<object> creator) =>
             Creator = creator;
-        }
 
         /// <summary>
         /// Gets the creator function.

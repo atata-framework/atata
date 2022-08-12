@@ -7,10 +7,8 @@ namespace Atata
 {
     public static class SpecialKeys
     {
-        static SpecialKeys()
-        {
+        static SpecialKeys() =>
             ValueNameMap = ResolveValueNameMap();
-        }
 
         public static Dictionary<char, string> ValueNameMap { get; }
 
@@ -19,10 +17,10 @@ namespace Atata
             try
             {
                 FieldInfo[] fields = typeof(OpenQA.Selenium.Keys).GetFields(BindingFlags.Static | BindingFlags.Public);
-                return fields.
-                    Select(x => new NameValuePair(x.Name, ((string)x.GetValue(null))[0])).
-                    Distinct(new NameValuePairComparer()).
-                    ToDictionary(x => x.Value, x => x.Name);
+                return fields
+                    .Select(x => new NameValuePair(x.Name, ((string)x.GetValue(null))[0]))
+                    .Distinct(new NameValuePairComparer())
+                    .ToDictionary(x => x.Value, x => x.Name);
             }
             catch
             {
@@ -61,15 +59,11 @@ namespace Atata
 
         private sealed class NameValuePairComparer : IEqualityComparer<NameValuePair>
         {
-            public bool Equals(NameValuePair x, NameValuePair y)
-            {
-                return Equals(x.Value, y.Value);
-            }
+            public bool Equals(NameValuePair x, NameValuePair y) =>
+                Equals(x.Value, y.Value);
 
-            public int GetHashCode(NameValuePair obj)
-            {
-                return obj.Value.GetHashCode();
-            }
+            public int GetHashCode(NameValuePair obj) =>
+                obj.Value.GetHashCode();
         }
     }
 }

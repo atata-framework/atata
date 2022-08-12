@@ -3,10 +3,8 @@
     public abstract class WaitUntilAttribute : TriggerAttribute
     {
         protected WaitUntilAttribute(Until until, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             Until = until;
-        }
 
         /// <summary>
         /// Gets the waiting approach.

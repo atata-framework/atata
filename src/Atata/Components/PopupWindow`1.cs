@@ -32,10 +32,8 @@ namespace Atata
         /// The window title values.
         /// None can be passed.
         /// </param>
-        protected PopupWindow(params string[] windowTitleValues)
-        {
+        protected PopupWindow(params string[] windowTitleValues) =>
             WindowTitleValues = windowTitleValues;
-        }
 
         /// <summary>
         /// Gets or sets the window title values.

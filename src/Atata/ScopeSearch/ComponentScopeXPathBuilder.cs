@@ -4,10 +4,8 @@ namespace Atata
 {
     public class ComponentScopeXPathBuilder : XPathBuilder<ComponentScopeXPathBuilder>
     {
-        public ComponentScopeXPathBuilder(ComponentScopeFindOptions options)
-        {
+        public ComponentScopeXPathBuilder(ComponentScopeFindOptions options) =>
             Options = options;
-        }
 
         public ComponentScopeFindOptions Options { get; private set; }
 

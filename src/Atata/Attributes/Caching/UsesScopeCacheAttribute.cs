@@ -12,10 +12,8 @@
         {
         }
 
-        public UsesScopeCacheAttribute(bool useCache)
-        {
+        public UsesScopeCacheAttribute(bool useCache) =>
             UsesCache = useCache;
-        }
 
         /// <inheritdoc/>
         public bool UsesCache { get; }

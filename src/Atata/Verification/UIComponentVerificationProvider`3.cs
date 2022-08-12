@@ -7,10 +7,8 @@
         where TVerificationProvider : UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected UIComponentVerificationProvider(TComponent component)
-        {
+        protected UIComponentVerificationProvider(TComponent component) =>
             Component = component;
-        }
 
         protected internal TComponent Component { get; }
 
@@ -26,10 +24,8 @@
             where TNegationUIComponentVerificationProvider : NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider>
         {
             protected NegationUIComponentVerificationProvider(TComponent component, IVerificationProvider<TOwner> verificationProvider)
-                : base(verificationProvider)
-            {
+                : base(verificationProvider) =>
                 Component = component;
-            }
 
             protected internal TComponent Component { get; }
 

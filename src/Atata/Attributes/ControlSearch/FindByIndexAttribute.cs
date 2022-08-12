@@ -7,10 +7,8 @@ namespace Atata
     /// </summary>
     public class FindByIndexAttribute : FindAttribute
     {
-        public FindByIndexAttribute(int index)
-        {
+        public FindByIndexAttribute(int index) =>
             Index = index;
-        }
 
         protected override Type DefaultStrategy => typeof(FindByIndexStrategy);
 

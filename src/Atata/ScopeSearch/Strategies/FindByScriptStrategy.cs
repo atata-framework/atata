@@ -8,10 +8,8 @@ namespace Atata
     {
         private static readonly IComponentScopeFindStrategy s_sequalStrategy = new FindFirstDescendantOrSelfStrategy();
 
-        public FindByScriptStrategy(string script)
-        {
+        public FindByScriptStrategy(string script) =>
             Script = script;
-        }
 
         /// <summary>
         /// Gets the script.

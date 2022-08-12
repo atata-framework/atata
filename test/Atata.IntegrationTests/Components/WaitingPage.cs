@@ -108,10 +108,8 @@ public class WaitingPage : Page<_>
     public class CustomWaitForScriptAttribute : WaitForScriptAttribute
     {
         public CustomWaitForScriptAttribute(string expectedValue, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             ExpectedValue = expectedValue;
-        }
 
         public string ExpectedValue { get; }
 

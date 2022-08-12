@@ -11,28 +11,20 @@ namespace Atata
     public class FindByAttributeAttribute : TermFindAttribute
     {
         public FindByAttributeAttribute(string attributeName, TermCase termCase)
-            : base(termCase)
-        {
+            : base(termCase) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public FindByAttributeAttribute(string attributeName, TermMatch match, TermCase termCase)
-            : base(match, termCase)
-        {
+            : base(match, termCase) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public FindByAttributeAttribute(string attributeName, TermMatch match, params string[] values)
-            : base(match, values)
-        {
+            : base(match, values) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public FindByAttributeAttribute(string attributeName, params string[] values)
-            : base(values)
-        {
+            : base(values) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public string AttributeName { get; }
 

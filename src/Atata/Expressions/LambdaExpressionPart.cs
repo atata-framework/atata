@@ -9,10 +9,8 @@ namespace Atata
         {
         }
 
-        internal LambdaExpressionPart(LambdaExpressionPart parent)
-        {
+        internal LambdaExpressionPart(LambdaExpressionPart parent) =>
             Parent = parent;
-        }
 
         internal LambdaExpressionPart Parent { get; }
 

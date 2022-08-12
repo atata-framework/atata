@@ -22,10 +22,8 @@ namespace Atata
 
         private int _screenshotNumber;
 
-        public LogManager(ILogEventInfoFactory logEventInfoFactory)
-        {
+        public LogManager(ILogEventInfoFactory logEventInfoFactory) =>
             _logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));
-        }
 
         /// <summary>
         /// Use the specified consumer configuration for logging.

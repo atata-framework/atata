@@ -9,10 +9,8 @@
         /// Initializes a new instance of the <see cref="FindByColumnIndexStrategy"/> class.
         /// </summary>
         /// <param name="columnIndex">Index of the column.</param>
-        public FindByColumnIndexStrategy(int columnIndex)
-        {
+        public FindByColumnIndexStrategy(int columnIndex) =>
             ColumnIndex = columnIndex;
-        }
 
         /// <summary>
         /// Gets the index of the column.
@@ -25,10 +23,7 @@
         /// </summary>
         public string CellXPath { get; set; } = "td";
 
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
-        {
-            return builder.
-                WrapWithIndex(x => x.OuterXPath._(CellXPath).WhereIndex(ColumnIndex).DescendantOrSelf.ComponentXPath);
-        }
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options) =>
+            builder.WrapWithIndex(x => x.OuterXPath._(CellXPath).WhereIndex(ColumnIndex).DescendantOrSelf.ComponentXPath);
     }
 }

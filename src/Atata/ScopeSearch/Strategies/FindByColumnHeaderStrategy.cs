@@ -28,10 +28,8 @@ namespace Atata
         /// using the specified <paramref name="headerXPath"/> argument value.
         /// </summary>
         /// <param name="headerXPath">The XPath of the header element.</param>
-        public FindByColumnHeaderStrategy(string headerXPath)
-        {
+        public FindByColumnHeaderStrategy(string headerXPath) =>
             HeaderXPath = headerXPath;
-        }
 
         /// <summary>
         /// Gets or sets the XPath of the header element.
@@ -102,9 +100,7 @@ namespace Atata
         /// </summary>
         /// <param name="columnIndex">Index of the column.</param>
         /// <returns>An instance of <see cref="FindByColumnIndexStrategy"/>.</returns>
-        protected virtual IComponentScopeFindStrategy CreateColumnIndexStrategy(int columnIndex)
-        {
-            return new FindByColumnIndexStrategy(columnIndex);
-        }
+        protected virtual IComponentScopeFindStrategy CreateColumnIndexStrategy(int columnIndex) =>
+            new FindByColumnIndexStrategy(columnIndex);
     }
 }

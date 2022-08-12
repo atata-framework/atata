@@ -3,10 +3,8 @@
     public class WaitForElementLogSection : UIComponentLogSection
     {
         public WaitForElementLogSection(UIComponent component, WaitBy waitBy, string selector, WaitUnit waitUnit)
-            : base(component)
-        {
+            : base(component) =>
             Message = $"Wait until element by \"{selector}\" {ConvertToString(waitBy)} is {waitUnit.GetWaitingText()}";
-        }
 
         private static string ConvertToString(WaitBy waitBy)
         {

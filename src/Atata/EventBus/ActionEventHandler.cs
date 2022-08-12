@@ -24,10 +24,8 @@ namespace Atata
             _action = (e, c) => action.Invoke(e);
         }
 
-        public ActionEventHandler(Action<TEvent, AtataContext> action)
-        {
+        public ActionEventHandler(Action<TEvent, AtataContext> action) =>
             _action = action.CheckNotNull(nameof(action));
-        }
 
         /// <inheritdoc/>
         public void Handle(TEvent eventData, AtataContext context) =>

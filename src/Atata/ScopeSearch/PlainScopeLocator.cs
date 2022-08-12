@@ -10,15 +10,11 @@ namespace Atata
 
         private By _by;
 
-        public PlainScopeLocator(By by)
-        {
+        public PlainScopeLocator(By by) =>
             _by = by.CheckNotNull(nameof(by));
-        }
 
-        public PlainScopeLocator(Func<By> byCreator)
-        {
+        public PlainScopeLocator(Func<By> byCreator) =>
             _byCreator = byCreator.CheckNotNull(nameof(byCreator));
-        }
 
         private By By =>
             _by ?? (_by = _byCreator());

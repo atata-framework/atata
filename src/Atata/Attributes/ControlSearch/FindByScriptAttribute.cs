@@ -17,10 +17,8 @@ namespace Atata
     /// </example>
     public class FindByScriptAttribute : FindAttribute
     {
-        public FindByScriptAttribute(string script)
-        {
+        public FindByScriptAttribute(string script) =>
             Script = script;
-        }
 
         /// <summary>
         /// Gets the script.

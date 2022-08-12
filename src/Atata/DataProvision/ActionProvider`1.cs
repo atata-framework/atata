@@ -17,10 +17,8 @@ namespace Atata
         /// <param name="objectSource">The object source.</param>
         /// <param name="providerName">Name of the provider.</param>
         public ActionProvider(TOwner owner, IObjectSource<Action> objectSource, string providerName)
-            : base(objectSource, providerName)
-        {
+            : base(objectSource, providerName) =>
             _owner = owner.CheckNotNull(nameof(owner));
-        }
 
         /// <inheritdoc/>
         protected override TOwner Owner => _owner;

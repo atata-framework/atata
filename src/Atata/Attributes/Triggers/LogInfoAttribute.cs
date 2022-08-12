@@ -6,10 +6,8 @@
     public class LogInfoAttribute : TriggerAttribute
     {
         public LogInfoAttribute(string message, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
+            : base(on, priority) =>
             Message = message;
-        }
 
         public string Message { get; }
 

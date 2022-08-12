@@ -6,10 +6,8 @@
     /// </summary>
     public class ValueGetFormatAttribute : MulticastAttribute
     {
-        public ValueGetFormatAttribute(string value)
-        {
+        public ValueGetFormatAttribute(string value) =>
             Value = value;
-        }
 
         /// <summary>
         /// Gets the format value.

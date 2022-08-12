@@ -7,10 +7,8 @@ namespace Atata
     /// </summary>
     public class DriverInitEvent
     {
-        public DriverInitEvent(IWebDriver driver)
-        {
+        public DriverInitEvent(IWebDriver driver) =>
             Driver = driver;
-        }
 
         /// <summary>
         /// Gets the driver.
