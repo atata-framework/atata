@@ -1,4 +1,4 @@
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Specifies the verification of the <c>&lt;h2&gt;</c> element content.

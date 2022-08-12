@@ -1,4 +1,4 @@
-namespace Atata
+﻿namespace Atata
 {
     public static class LinkDelegate2Extensions
     {
