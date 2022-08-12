@@ -20,15 +20,10 @@ namespace Atata
         /// </summary>
         public string[] Values { get; }
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByCssStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByCssStrategy);
 
-        public string[] GetTerms(UIComponentMetadata metadata)
-        {
-            return Values;
-        }
+        public string[] GetTerms(UIComponentMetadata metadata) =>
+            Values;
 
         public override string BuildComponentName(UIComponentMetadata metadata) =>
             BuildComponentNameWithArgument(string.Join("/", Values));

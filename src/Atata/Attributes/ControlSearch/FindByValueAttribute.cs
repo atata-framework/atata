@@ -30,15 +30,9 @@ namespace Atata
         {
         }
 
-        protected override TermCase DefaultCase
-        {
-            get { return TermCase.Title; }
-        }
+        protected override TermCase DefaultCase => TermCase.Title;
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByAttributeStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByAttributeStrategy);
 
         protected override IEnumerable<object> GetStrategyArguments()
         {

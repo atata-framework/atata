@@ -9,14 +9,12 @@ namespace Atata
 
         public object this[string name]
         {
-            get { return _values[name]; }
-            set { _values[name] = value; }
+            get => _values[name];
+            set => _values[name] = value;
         }
 
-        public bool Contains(string name)
-        {
-            return _values.ContainsKey(name);
-        }
+        public bool Contains(string name) =>
+            _values.ContainsKey(name);
 
         public T GetOrDefault<T>(string name, T defaultValue = default) =>
             _values.TryGetValue(name, out object value)

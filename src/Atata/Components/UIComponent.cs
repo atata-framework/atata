@@ -64,10 +64,8 @@ namespace Atata
         /// <summary>
         /// Gets the full name of the component including parent component full name, own component name and own component type name.
         /// </summary>
-        public string ComponentFullName
-        {
-            get { return BuildComponentFullName(); }
-        }
+        public string ComponentFullName =>
+            BuildComponentFullName();
 
         /// <summary>
         /// Gets the metadata of the component.

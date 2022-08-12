@@ -29,14 +29,8 @@ namespace Atata
         {
         }
 
-        protected override TermCase DefaultCase
-        {
-            get { return TermCase.Kebab; }
-        }
+        protected override TermCase DefaultCase => TermCase.Kebab;
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByNameStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByNameStrategy);
     }
 }

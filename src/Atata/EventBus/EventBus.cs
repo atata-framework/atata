@@ -46,7 +46,7 @@ namespace Atata
                     eventHandlersArray = eventHandlerSubscriptions.Select(x => x.EventHandler).ToArray();
                 }
 
-                foreach (IEventHandler<TEvent> handler in eventHandlersArray)
+                foreach (IEventHandler<TEvent> handler in eventHandlersArray.Cast<IEventHandler<TEvent>>())
                 {
                     if (!(handler is IConditionalEventHandler<TEvent> conditionalEventHandler)
                         || conditionalEventHandler.CanHandle(eventData, _context))

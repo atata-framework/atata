@@ -22,10 +22,7 @@ namespace Atata
             set => Strategy = value;
         }
 
-        TOwner IVerificationProvider<TOwner>.Owner
-        {
-            get { return Owner; }
-        }
+        TOwner IVerificationProvider<TOwner>.Owner => Owner;
 
         protected abstract TOwner Owner { get; }
 

@@ -30,10 +30,7 @@ namespace Atata
         {
         }
 
-        protected override TermCase DefaultCase
-        {
-            get { return TermCase.Title; }
-        }
+        protected override TermCase DefaultCase => TermCase.Title;
 
         /// <summary>
         /// Gets or sets the index of the child element.
@@ -41,10 +38,7 @@ namespace Atata
         /// </summary>
         public int ChildIndex { get; set; }
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByChildContentStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByChildContentStrategy);
 
         protected override IEnumerable<object> GetStrategyArguments()
         {

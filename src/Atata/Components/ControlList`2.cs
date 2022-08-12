@@ -83,16 +83,13 @@ return textValues;";
 
         UIComponentMetadata ISupportsMetadata.Metadata
         {
-            get { return Metadata; }
-            set { Metadata = value; }
+            get => Metadata;
+            set => Metadata = value;
         }
 
         public UIComponentMetadata Metadata { get; private set; }
 
-        Type ISupportsMetadata.ComponentType
-        {
-            get { return typeof(TItem); }
-        }
+        Type ISupportsMetadata.ComponentType => typeof(TItem);
 
         protected bool UsesScopeCache =>
             Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesScopeCacheAttribute))

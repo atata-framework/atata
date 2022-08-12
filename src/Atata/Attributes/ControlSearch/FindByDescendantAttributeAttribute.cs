@@ -11,40 +11,26 @@ namespace Atata
     public class FindByDescendantAttributeAttribute : TermFindAttribute
     {
         public FindByDescendantAttributeAttribute(string attributeName, TermCase termCase)
-            : base(termCase)
-        {
+            : base(termCase) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public FindByDescendantAttributeAttribute(string attributeName, TermMatch match, TermCase termCase)
-            : base(match, termCase)
-        {
+            : base(match, termCase) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public FindByDescendantAttributeAttribute(string attributeName, TermMatch match, params string[] values)
-            : base(match, values)
-        {
+            : base(match, values) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public FindByDescendantAttributeAttribute(string attributeName, params string[] values)
-            : base(values)
-        {
+            : base(values) =>
             AttributeName = attributeName.CheckNotNullOrWhitespace(nameof(attributeName));
-        }
 
         public string AttributeName { get; }
 
-        protected override TermCase DefaultCase
-        {
-            get { return TermCase.Title; }
-        }
+        protected override TermCase DefaultCase => TermCase.Title;
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByDescendantAttributeStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByDescendantAttributeStrategy);
 
         protected override IEnumerable<object> GetStrategyArguments()
         {

@@ -18,8 +18,8 @@ namespace Atata
         /// </summary>
         public int Index
         {
-            get { return OptionalProperties.GetOrDefault(nameof(Index), -1); }
-            set { OptionalProperties[nameof(Index)] = value; }
+            get => OptionalProperties.GetOrDefault(nameof(Index), -1);
+            set => OptionalProperties[nameof(Index)] = value;
         }
 
         /// <summary>
@@ -28,8 +28,8 @@ namespace Atata
         /// </summary>
         public Visibility Visibility
         {
-            get { return OptionalProperties.GetOrDefault(nameof(Visibility), Visibility.Any); }
-            set { OptionalProperties[nameof(Visibility)] = value; }
+            get => OptionalProperties.GetOrDefault(nameof(Visibility), Visibility.Any);
+            set => OptionalProperties[nameof(Visibility)] = value;
         }
 
         /// <summary>
@@ -38,8 +38,8 @@ namespace Atata
         /// </summary>
         public ScopeSource ScopeSource
         {
-            get { return OptionalProperties.GetOrDefault(nameof(ScopeSource), ScopeSource.Parent); }
-            set { OptionalProperties[nameof(ScopeSource)] = value; }
+            get => OptionalProperties.GetOrDefault(nameof(ScopeSource), ScopeSource.Parent);
+            set => OptionalProperties[nameof(ScopeSource)] = value;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ namespace Atata
         /// </summary>
         public string OuterXPath
         {
-            get { return OptionalProperties.GetOrDefault<string>(nameof(OuterXPath)); }
-            set { OptionalProperties[nameof(OuterXPath)] = value; }
+            get => OptionalProperties.GetOrDefault<string>(nameof(OuterXPath));
+            set => OptionalProperties[nameof(OuterXPath)] = value;
         }
 
         /// <summary>
@@ -59,8 +59,8 @@ namespace Atata
         /// </summary>
         public Type Strategy
         {
-            get { return OptionalProperties.GetOrDefault<Type>(nameof(Strategy)); }
-            set { OptionalProperties[nameof(Strategy)] = value; }
+            get => OptionalProperties.GetOrDefault<Type>(nameof(Strategy));
+            set => OptionalProperties[nameof(Strategy)] = value;
         }
 
         /// <summary>

@@ -19,12 +19,8 @@ public class AtataContextAggregateAssertTests : UITestFixture
     public void OneFailure()
     {
         AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
-        {
             AtataContext.Current.AggregateAssert(() =>
-            {
-                _page.IsTrue.Should.AtOnce.BeFalse();
-            });
-        });
+                _page.IsTrue.Should.AtOnce.BeFalse()));
 
         Assert.That(exception.Results, Has.Count.EqualTo(1));
         Assert.That(exception.Results[0].StackTrace, Does.Contain(nameof(OneFailure)));
@@ -35,14 +31,12 @@ public class AtataContextAggregateAssertTests : UITestFixture
     public void TwoFailures()
     {
         AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
-        {
             AtataContext.Current.AggregateAssert(() =>
             {
                 _page.IsTrue.Should.AtOnce.BeFalse();
                 _page.IsTrue.Should.AtOnce.BeTrue();
                 _page.IsTrue.Should.AtOnce.BeFalse();
-            });
-        });
+            }));
 
         Assert.That(exception.Results, Has.Count.EqualTo(2));
         Assert.That(exception.Results.Select(x => x.StackTrace), Has.All.Contain(nameof(TwoFailures)));

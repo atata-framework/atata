@@ -33,14 +33,8 @@ namespace Atata
         /// Gets the default term case.
         /// The default value is <see cref="TermCase.Kebab"/>.
         /// </summary>
-        protected override TermCase DefaultCase
-        {
-            get { return TermCase.Kebab; }
-        }
+        protected override TermCase DefaultCase => TermCase.Kebab;
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByIdStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByIdStrategy);
     }
 }

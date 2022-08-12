@@ -30,15 +30,9 @@ namespace Atata
         {
         }
 
-        protected override TermCase DefaultCase
-        {
-            get { return TermCase.Kebab; }
-        }
+        protected override TermCase DefaultCase => TermCase.Kebab;
 
-        protected override Type DefaultStrategy
-        {
-            get { return typeof(FindByDescendantAttributeStrategy); }
-        }
+        protected override Type DefaultStrategy => typeof(FindByDescendantAttributeStrategy);
 
         protected override IEnumerable<object> GetStrategyArguments()
         {

@@ -32,36 +32,22 @@ namespace Atata
             string value = null;
 
             DoWithinFrame(() =>
-            {
-                value = ContentEditor.Value;
-            });
+                value = ContentEditor.Value);
 
             return value;
         }
 
-        protected override void SetValue(string value)
-        {
+        protected override void SetValue(string value) =>
             DoWithinFrame(() =>
-            {
-                ContentEditor.Set(value);
-            });
-        }
+                ContentEditor.Set(value));
 
-        protected override void OnClear()
-        {
+        protected override void OnClear() =>
             DoWithinFrame(() =>
-            {
-                ContentEditor.Clear();
-            });
-        }
+                ContentEditor.Clear());
 
-        protected override void OnType(string text)
-        {
+        protected override void OnType(string text) =>
             DoWithinFrame(() =>
-            {
-                ContentEditor.Type(text);
-            });
-        }
+                ContentEditor.Type(text));
 
         /// <summary>
         /// Performs the action within the frame provided by <see cref="GetFrameControl()"/> method.

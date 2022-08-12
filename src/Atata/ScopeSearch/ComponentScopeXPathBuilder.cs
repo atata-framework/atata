@@ -11,35 +11,23 @@ namespace Atata
 
         public ComponentScopeFindOptions Options { get; private set; }
 
-        public ComponentScopeXPathBuilder OuterXPath
-        {
-            get { return Options.OuterXPath != null ? _(Options.OuterXPath) : Descendant; }
-        }
+        public ComponentScopeXPathBuilder OuterXPath =>
+            Options.OuterXPath != null ? _(Options.OuterXPath) : Descendant;
 
-        public ComponentScopeXPathBuilder ComponentXPath
-        {
-            get { return _(Options.ElementXPath); }
-        }
+        public ComponentScopeXPathBuilder ComponentXPath =>
+            _(Options.ElementXPath);
 
-        public ComponentScopeXPathBuilder TermsConditionOfContent
-        {
-            get { return _(Options.Match.CreateXPathCondition(Options.Terms)); }
-        }
+        public ComponentScopeXPathBuilder TermsConditionOfContent =>
+            _(Options.Match.CreateXPathCondition(Options.Terms));
 
-        public ComponentScopeXPathBuilder TermsConditionOfText
-        {
-            get { return _(Options.Match.CreateXPathCondition(Options.Terms, "text()")); }
-        }
+        public ComponentScopeXPathBuilder TermsConditionOfText =>
+            _(Options.Match.CreateXPathCondition(Options.Terms, "text()"));
 
-        public static implicit operator string(ComponentScopeXPathBuilder builder)
-        {
-            return builder?.XPath;
-        }
+        public static implicit operator string(ComponentScopeXPathBuilder builder) =>
+            builder?.XPath;
 
-        public ComponentScopeXPathBuilder TermsConditionOf(string attributeName)
-        {
-            return _(Options.Match.CreateXPathCondition(Options.Terms, "@" + attributeName));
-        }
+        public ComponentScopeXPathBuilder TermsConditionOf(string attributeName) =>
+            _(Options.Match.CreateXPathCondition(Options.Terms, "@" + attributeName));
 
         public ComponentScopeXPathBuilder WrapWithIndex(Func<ComponentScopeXPathBuilder, string> buildFunction)
         {
@@ -59,9 +47,7 @@ namespace Atata
             }
         }
 
-        protected override ComponentScopeXPathBuilder CreateInstance()
-        {
-            return new ComponentScopeXPathBuilder(Options);
-        }
+        protected override ComponentScopeXPathBuilder CreateInstance() =>
+            new ComponentScopeXPathBuilder(Options);
     }
 }

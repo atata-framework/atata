@@ -54,14 +54,12 @@ namespace Atata
         /// </summary>
         public static AtataContext Current
         {
-            get
-            {
-                return ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic
+            get =>
+                ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic
                     ? s_currentThreadStaticContext
                     : ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal
                     ? s_currentAsyncLocalContext.Value
                     : s_currentStaticContext;
-            }
 
             set
             {
@@ -349,10 +347,8 @@ namespace Atata
 
         internal Stopwatch PureExecutionStopwatch { get; } = new Stopwatch();
 
-        public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects
-        {
-            get { return TemporarilyPreservedPageObjectList.ToReadOnly(); }
-        }
+        public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects =>
+            TemporarilyPreservedPageObjectList.ToReadOnly();
 
         /// <summary>
         /// Gets the UI component access chain scope cache.

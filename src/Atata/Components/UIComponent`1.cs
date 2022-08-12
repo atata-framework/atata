@@ -39,8 +39,8 @@ return (
         /// </summary>
         public new TOwner Owner
         {
-            get { return (TOwner)base.Owner; }
-            internal set { base.Owner = value; }
+            get => (TOwner)base.Owner;
+            internal set => base.Owner = value;
         }
 
         /// <summary>
@@ -48,8 +48,8 @@ return (
         /// </summary>
         public new UIComponent<TOwner> Parent
         {
-            get { return (UIComponent<TOwner>)base.Parent; }
-            internal set { base.Parent = value; }
+            get => (UIComponent<TOwner>)base.Parent;
+            internal set => base.Parent = value;
         }
 
         /// <summary>

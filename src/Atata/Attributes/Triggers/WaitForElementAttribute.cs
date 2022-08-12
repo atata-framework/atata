@@ -46,8 +46,8 @@ namespace Atata
         /// </summary>
         public ScopeSource ScopeSource
         {
-            get { return _scopeSource ?? ScopeSource.Parent; }
-            set { _scopeSource = value; }
+            get => _scopeSource ?? ScopeSource.Parent;
+            set => _scopeSource = value;
         }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
