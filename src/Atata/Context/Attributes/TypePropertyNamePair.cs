@@ -30,26 +30,17 @@ namespace Atata
         /// </summary>
         public string PropertyName { get; }
 
-        public static bool operator ==(TypePropertyNamePair left, TypePropertyNamePair right)
-        {
-            return left.Equals(right);
-        }
+        public static bool operator ==(TypePropertyNamePair left, TypePropertyNamePair right) =>
+            left.Equals(right);
 
-        public static bool operator !=(TypePropertyNamePair left, TypePropertyNamePair right)
-        {
-            return !(left == right);
-        }
+        public static bool operator !=(TypePropertyNamePair left, TypePropertyNamePair right) =>
+            !(left == right);
 
-        public override bool Equals(object obj)
-        {
-            return obj is TypePropertyNamePair other && Equals(other);
-        }
+        public override bool Equals(object obj) =>
+            obj is TypePropertyNamePair other && Equals(other);
 
-        public bool Equals(TypePropertyNamePair other)
-        {
-            return Type == other.Type
-                && PropertyName == other.PropertyName;
-        }
+        public bool Equals(TypePropertyNamePair other) =>
+            Type == other.Type && PropertyName == other.PropertyName;
 
         public override int GetHashCode()
         {

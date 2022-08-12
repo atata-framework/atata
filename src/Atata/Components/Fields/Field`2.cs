@@ -62,20 +62,16 @@ namespace Atata
         /// </summary>
         public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
-        public static explicit operator TValue(Field<TValue, TOwner> field)
-        {
-            return field.Get();
-        }
+        public static explicit operator TValue(Field<TValue, TOwner> field) =>
+            field.Get();
 
-        public static bool operator ==(Field<TValue, TOwner> field, TValue value)
-        {
-            return field == null ? Equals(value, null) : field.Equals(value);
-        }
+        public static bool operator ==(Field<TValue, TOwner> field, TValue value) =>
+            field == null
+                ? Equals(value, null)
+                : field.Equals(value);
 
-        public static bool operator !=(Field<TValue, TOwner> field, TValue value)
-        {
-            return !(field == value);
-        }
+        public static bool operator !=(Field<TValue, TOwner> field, TValue value) =>
+            !(field == value);
 
         /// <summary>
         /// Gets the value.
