@@ -44,17 +44,16 @@ namespace Atata
 
         private string BuildCompleteMessage(LogEventInfo eventInfo)
         {
-            StringBuilder builder = new StringBuilder();
-
-            builder.
-                Append(eventInfo.Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture)).
-                Append(Separator).
-                Append($"{eventInfo.Level.ToString(TermCase.Upper),5}").
-                Append(Separator).
-                Append(eventInfo.Message);
+            StringBuilder builder = new StringBuilder()
+                .Append(eventInfo.Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture))
+                .Append(Separator)
+                .Append($"{eventInfo.Level.ToString(TermCase.Upper),5}")
+                .Append(Separator)
+                .Append(eventInfo.Message);
 
             if (eventInfo.Exception != null)
-                builder.AppendIf(!string.IsNullOrWhiteSpace(eventInfo.Message), Separator).Append(eventInfo.Exception.ToString());
+                builder.AppendIf(!string.IsNullOrWhiteSpace(eventInfo.Message), Separator)
+                    .Append(eventInfo.Exception.ToString());
 
             return builder.ToString();
         }

@@ -21,8 +21,8 @@ namespace Atata
             }
             catch (Exception exception)
             {
-                var failedResults = ExtractAndRemoveExclusiveFailedAssertionResults(assertionResultsBefore).
-                    Concat(new[] { AssertionResult.ForException(exception) });
+                var failedResults = ExtractAndRemoveExclusiveFailedAssertionResults(assertionResultsBefore)
+                    .Concat(new[] { AssertionResult.ForException(exception) });
 
                 throw VerificationUtils.CreateAggregateAssertionException(failedResults);
             }

@@ -54,10 +54,10 @@ namespace Atata
 
         protected override TValue GetValue()
         {
-            TValue[] selectedValues = GetItemElements().
-                Where(x => x.Selected).
-                Select(x => ItemElementFindStrategy.GetParameter<TValue>(x, GetValueTermOptions())).
-                ToArray();
+            TValue[] selectedValues = GetItemElements()
+                .Where(x => x.Selected)
+                .Select(x => ItemElementFindStrategy.GetParameter<TValue>(x, GetValueTermOptions()))
+                .ToArray();
 
             return selectedValues.Any()
                 ? JoinValues(selectedValues)

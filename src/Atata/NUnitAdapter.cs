@@ -149,16 +149,16 @@ namespace Atata
         {
             object testResult = GetCurrentTestResult();
 
-            s_testResultType.Value.GetMethodWithThrowOnError("RecordTestCompletion").
-                InvokeAsLambda(testResult);
+            s_testResultType.Value.GetMethodWithThrowOnError("RecordTestCompletion")
+                .InvokeAsLambda(testResult);
         }
 
         internal static object GetCurrentTestResult()
         {
             object testExecutionContext = GetCurrentTestExecutionContext();
 
-            return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentResult").
-                GetValue(testExecutionContext);
+            return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentResult")
+                .GetValue(testExecutionContext);
         }
 
         internal static object GetCurrentTestExecutionContext()

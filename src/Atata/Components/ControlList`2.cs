@@ -261,11 +261,11 @@ return textValues;";
         {
             var predicate = predicateExpression.Compile();
 
-            return GetItemElements().
-                Select((element, index) => new { Element = element, Index = index }).
-                Where(x => predicate(GetOrCreateItemByElement(x.Element, name))).
-                Select(x => (int?)x.Index).
-                FirstOrDefault() ?? -1;
+            return GetItemElements()
+                .Select((element, index) => new { Element = element, Index = index })
+                .Where(x => predicate(GetOrCreateItemByElement(x.Element, name)))
+                .Select(x => (int?)x.Index)
+                .FirstOrDefault() ?? -1;
         }
 
         protected TItem GetOrCreateItemByElement(IWebElement element, string name)
@@ -418,8 +418,8 @@ return textValues;";
         {
             var elements = GetItemElements(extraXPath: elementXPath);
 
-            return GetElementTextValues(elements, elementValueJSPath).
-                Select(x => TermResolver.FromString<TData>(x, valueTermOptions));
+            return GetElementTextValues(elements, elementValueJSPath)
+                .Select(x => TermResolver.FromString<TData>(x, valueTermOptions));
         }
 
         private IEnumerable<string> GetElementTextValues(
@@ -428,11 +428,10 @@ return textValues;";
         {
             string formattedScript = GetElementValuesScript.Replace("{0}", elementValueJSPath);
 
-            return Component.Script.Execute<IEnumerable<object>>(formattedScript, elements).
-                Value.
-                Cast<string>().
-                Select(x => x?.Trim()).
-                ToArray();
+            return Component.Script.Execute<IEnumerable<object>>(formattedScript, elements)
+                .Value.Cast<string>()
+                .Select(x => x?.Trim())
+                .ToArray();
         }
 
         /// <summary>
@@ -458,9 +457,9 @@ return textValues;";
                 ? "{0}"
                 : $"{{0}} of {nameSuffix}";
 
-            return GetItemElements(extraXPath: extraXPath).
-                Select((element, index) => GetOrCreateItemByElement(element, string.Format(nameFormat, (index + 1).Ordinalize()))).
-                ToArray();
+            return GetItemElements(extraXPath: extraXPath)
+                .Select((element, index) => GetOrCreateItemByElement(element, string.Format(nameFormat, (index + 1).Ordinalize())))
+                .ToArray();
         }
 
         protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null, string extraXPath = null)

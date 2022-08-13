@@ -382,11 +382,11 @@ namespace Atata
 
             var predicate = match.GetPredicate();
 
-            string message = new StringBuilder().
-                Append($"{match.GetShouldText()} ").
-                AppendIf(expected.Length > 1, "any of: ").
-                AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}")).
-                ToString();
+            string message = new StringBuilder()
+                .Append($"{match.GetShouldText()} ")
+                .AppendIf(expected.Length > 1, "any of: ")
+                .AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}"))
+                .ToString();
 
             return verifier.Satisfy(actual => actual != null && expected.Any(x => predicate(actual, x)), message, expected);
         }
@@ -395,11 +395,11 @@ namespace Atata
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
-            string message = new StringBuilder().
-                Append($"contain ").
-                AppendIf(expected.Length > 1, "all of: ").
-                AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}")).
-                ToString();
+            string message = new StringBuilder()
+                .Append($"contain ")
+                .AppendIf(expected.Length > 1, "all of: ")
+                .AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}"))
+                .ToString();
 
             return verifier.Satisfy(actual => actual != null && expected.All(x => actual.Contains(x)), message, expected);
         }

@@ -36,9 +36,9 @@ namespace Atata
 
         private static string FormatInnerString(string format, string argument)
         {
-            string normalizedFormat = format.
-                Replace(InnerFormatValueIndicator, "{0}").
-                Replace("{0}{0}", InnerFormatValueIndicator);
+            string normalizedFormat = format
+                .Replace(InnerFormatValueIndicator, "{0}")
+                .Replace("{0}{0}", InnerFormatValueIndicator);
 
             return string.Format(normalizedFormat, argument);
         }

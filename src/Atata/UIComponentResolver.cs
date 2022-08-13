@@ -73,35 +73,35 @@ namespace Atata
         private static void InitComponentTypeMembers<TOwner>(UIComponent<TOwner> component, Type type)
             where TOwner : PageObject<TOwner>
         {
-            PropertyInfo[] suitableProperties = type.
-                GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty | BindingFlags.SetProperty).
-                Where(x => x.CanWrite && x.GetIndexParameters().Length == 0).
-                Where(x => x.GetCustomAttribute<IgnoreInitAttribute>() == null).
-                ToArray();
+            PropertyInfo[] suitableProperties = type
+                .GetProperties(BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.GetProperty | BindingFlags.SetProperty)
+                .Where(x => x.CanWrite && x.GetIndexParameters().Length == 0)
+                .Where(x => x.GetCustomAttribute<IgnoreInitAttribute>() == null)
+                .ToArray();
 
             bool IsNullPropertyPredicate(PropertyInfo property) =>
                 property.GetValue(component) == null;
 
-            PropertyInfo[] controlProperties = suitableProperties.
-                Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(Control<>))).
-                Where(IsNullPropertyPredicate).
-                ToArray();
+            PropertyInfo[] controlProperties = suitableProperties
+                .Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(Control<>)))
+                .Where(IsNullPropertyPredicate)
+                .ToArray();
 
             foreach (var property in controlProperties)
                 InitControlProperty(component, property);
 
-            PropertyInfo[] componentPartProperties = suitableProperties.
-                Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(UIComponentPart<>))).
-                Where(IsNullPropertyPredicate).
-                ToArray();
+            PropertyInfo[] componentPartProperties = suitableProperties
+                .Where(x => x.PropertyType.IsSubclassOfRawGeneric(typeof(UIComponentPart<>)))
+                .Where(IsNullPropertyPredicate)
+                .ToArray();
 
             foreach (var property in componentPartProperties)
                 InitComponentPartProperty(component, property);
 
-            PropertyInfo[] delegateProperties = suitableProperties.
-                Where(x => typeof(MulticastDelegate).IsAssignableFrom(x.PropertyType.BaseType) && x.PropertyType.IsGenericType).
-                Where(IsNullPropertyPredicate).
-                ToArray();
+            PropertyInfo[] delegateProperties = suitableProperties
+                .Where(x => typeof(MulticastDelegate).IsAssignableFrom(x.PropertyType.BaseType) && x.PropertyType.IsGenericType)
+                .Where(IsNullPropertyPredicate)
+                .ToArray();
 
             foreach (var property in delegateProperties)
                 InitDelegateProperty(component, property);
@@ -147,9 +147,9 @@ namespace Atata
             {
                 var navigableGenericArguments = navigableInterfaceType.GetGenericArguments();
 
-                var clickAndGoMethod = typeof(INavigableExtensions).
-                    GetMethod(nameof(INavigableExtensions.ClickAndGo)).
-                    MakeGenericMethod(navigableGenericArguments);
+                var clickAndGoMethod = typeof(INavigableExtensions)
+                    .GetMethod(nameof(INavigableExtensions.ClickAndGo))
+                    .MakeGenericMethod(navigableGenericArguments);
 
                 return Delegate.CreateDelegate(property.PropertyType, component, clickAndGoMethod);
             }
@@ -336,9 +336,9 @@ namespace Atata
             }
             else
             {
-                return metadata.ComponentDefinitionAttribute.
-                    NormalizeNameIgnoringEnding(metadata.Name).
-                    ToString(TermCase.Title);
+                return metadata.ComponentDefinitionAttribute
+                    .NormalizeNameIgnoringEnding(metadata.Name)
+                    .ToString(TermCase.Title);
             }
         }
 
@@ -470,9 +470,9 @@ namespace Atata
         {
             string typeName = NormalizeTypeName(type);
 
-            return GetPageObjectDefinition(type).
-                NormalizeNameIgnoringEnding(typeName).
-                ToString(TermCase.Title);
+            return GetPageObjectDefinition(type)
+                .NormalizeNameIgnoringEnding(typeName)
+                .ToString(TermCase.Title);
         }
 
         public static string ResolvePageObjectTypeName<TPageObject>()

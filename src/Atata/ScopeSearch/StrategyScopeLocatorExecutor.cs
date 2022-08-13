@@ -91,11 +91,11 @@ namespace Atata
                     SearchOptions nextSearchOptions = SearchOptions.SafelyAtOnce();
 
                     // TODO: When there are no results, do retry.
-                    var results = nextScopeSources.
-                        Select(nextScopeSource => Execute(subsequentResult.Strategy, nextScopeSource, nextScopeFindOptions, nextSearchOptions)).
-                        Where(xPathResults => xPathResults != null).
-                        SelectMany(xPathResults => xPathResults).
-                        ToArray();
+                    var results = nextScopeSources
+                        .Select(nextScopeSource => Execute(subsequentResult.Strategy, nextScopeSource, nextScopeFindOptions, nextSearchOptions))
+                        .Where(xPathResults => xPathResults != null)
+                        .SelectMany(xPathResults => xPathResults)
+                        .ToArray();
 
                     if (results.Any())
                     {

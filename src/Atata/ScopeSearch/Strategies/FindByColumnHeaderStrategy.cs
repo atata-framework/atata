@@ -86,11 +86,11 @@ namespace Atata
             {
                 var headers = scope.GetAllWithLogging(By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
 
-                return headers.
-                    Select((x, i) => new { x.Text, Index = i }).
-                    Where(x => options.Terms.Any(term => headerNamePredicate(x.Text, term))).
-                    Select(x => (int?)x.Index).
-                    FirstOrDefault();
+                return headers
+                    .Select((x, i) => new { x.Text, Index = i })
+                    .Where(x => options.Terms.Any(term => headerNamePredicate(x.Text, term)))
+                    .Select(x => (int?)x.Index)
+                    .FirstOrDefault();
             }
         }
 

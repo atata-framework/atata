@@ -339,9 +339,9 @@ namespace Atata
                 new LogSection(actionMessage),
                 () =>
                 {
-                    bool isOk = Driver.
-                        Try(timeoutTime, retryIntervalTime).
-                        Until(x =>
+                    bool isOk = Driver
+                        .Try(timeoutTime, retryIntervalTime)
+                        .Until(x =>
                         {
                             activePageObject = activePageObject.RefreshPage();
                             return predicate(activePageObject);

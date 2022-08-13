@@ -42,9 +42,9 @@ namespace Atata
 
             foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))
             {
-                result[level] = allLevels.
-                    Cast<dynamic>().
-                    First(x => x.Name == Enum.GetName(typeof(LogLevel), level));
+                result[level] = allLevels
+                    .Cast<dynamic>()
+                    .First(x => x.Name == Enum.GetName(typeof(LogLevel), level));
             }
 
             return result;

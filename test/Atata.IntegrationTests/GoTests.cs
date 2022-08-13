@@ -141,8 +141,8 @@ public class GoTests : UITestFixture
     [Test]
     public void ToNextWindow_WithTemporarilyTrue()
     {
-        var page1 = Go.To<GoTo1Page>().
-            GoTo2Blank();
+        var page1 = Go.To<GoTo1Page>()
+            .GoTo2Blank();
 
         Go.ToNextWindow<GoTo2Page>(temporarily: true)
             .CloseWindow();

@@ -89,8 +89,8 @@ public class PageObjectTests : UITestFixture
     public void AggregateAssert()
     {
         var exception = Assert.Throws<AggregateAssertionException>(() =>
-            Go.To<StubPage>().
-                AggregateAssert(x => x
+            Go.To<StubPage>()
+                .AggregateAssert(x => x
                     .IsTrue.Should.AtOnce.BeFalse()
                     .IsTrue.Should.AtOnce.BeTrue()
                     .IsTrue.Should.AtOnce.BeFalse()));
@@ -102,8 +102,8 @@ public class PageObjectTests : UITestFixture
     public void AggregateAssert_WithComponentSelector()
     {
         var exception = Assert.Throws<AggregateAssertionException>(() =>
-           Go.To<StubPage>().
-               AggregateAssert(_ => _.IsTrue, x =>
+           Go.To<StubPage>()
+               .AggregateAssert(_ => _.IsTrue, x =>
                {
                    x.Should.AtOnce.BeFalse();
                    x.Should.AtOnce.BeTrue();

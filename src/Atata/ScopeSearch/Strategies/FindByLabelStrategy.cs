@@ -6,8 +6,8 @@ namespace Atata
     {
         public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
         {
-            string labelXPath = new ComponentScopeXPathBuilder(options).
-                WrapWithIndex(x => x.OuterXPath._("label")[y => y.TermsConditionOfContent]);
+            string labelXPath = new ComponentScopeXPathBuilder(options)
+                .WrapWithIndex(x => x.OuterXPath._("label")[y => y.TermsConditionOfContent]);
 
             IWebElement label = scope.GetWithLogging(By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
 

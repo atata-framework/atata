@@ -101,9 +101,9 @@ public class ContentTests : UITestFixture
     {
         VerifyEquals(_page.DateTime, new DateTime(2016, 5, 15, 13, 45, 0));
 
-        _page.DateTime.Should.EqualDate(new DateTime(2016, 5, 15)).
-            DateTime.Should.BeGreater(new DateTime(2016, 5, 15)).
-            DateTime.Should.BeLess(new DateTime(2016, 5, 16));
+        _page.DateTime.Should.EqualDate(new DateTime(2016, 5, 15))
+            .DateTime.Should.BeGreater(new DateTime(2016, 5, 15))
+            .DateTime.Should.BeLess(new DateTime(2016, 5, 16));
 
         VerifyEquals(_page.DateTimeWithFormat, new DateTime(2009, 6, 15, 13, 45, 0));
     }

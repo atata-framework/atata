@@ -122,12 +122,12 @@ namespace Atata
         /// <item>Component</item>
         /// </list>
         /// </summary>
-        public IEnumerable<Attribute> AllAttributes => DeclaredAttributesList.
-            Concat(ParentDeclaredAttributesList).
-            Concat(ParentComponentAttributesList).
-            Concat(AssemblyAttributesList).
-            Concat(GlobalAttributesList).
-            Concat(ComponentAttributesList);
+        public IEnumerable<Attribute> AllAttributes => DeclaredAttributesList
+            .Concat(ParentDeclaredAttributesList)
+            .Concat(ParentComponentAttributesList)
+            .Concat(AssemblyAttributesList)
+            .Concat(GlobalAttributesList)
+            .Concat(ComponentAttributesList);
 
         /// <summary>
         /// Determines whether this instance contains the attribute of the specified type.
@@ -264,20 +264,25 @@ namespace Atata
 
             if (filter.TargetAttributeType != null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute)))
             {
-                return rankedQuery.
-                    Select(x => new { x.Attribute, x.TargetRank, TargetAttributeRank = ((AttributeSettingsAttribute)x.Attribute).CalculateTargetAttributeRank(filter.TargetAttributeType) }).
-                    Where(x => x.TargetAttributeRank.HasValue).
-                    OrderByDescending(x => x.TargetRank.Value).
-                    ThenByDescending(x => x.TargetAttributeRank.Value).
-                    Select(x => x.Attribute).
-                    Cast<TAttribute>();
+                return rankedQuery
+                    .Select(x => new
+                    {
+                        x.Attribute,
+                        x.TargetRank,
+                        TargetAttributeRank = ((AttributeSettingsAttribute)x.Attribute).CalculateTargetAttributeRank(filter.TargetAttributeType)
+                    })
+                    .Where(x => x.TargetAttributeRank.HasValue)
+                    .OrderByDescending(x => x.TargetRank.Value)
+                    .ThenByDescending(x => x.TargetAttributeRank.Value)
+                    .Select(x => x.Attribute)
+                    .Cast<TAttribute>();
             }
             else
             {
-                return rankedQuery.
-                    OrderByDescending(x => x.TargetRank.Value).
-                    Select(x => x.Attribute).
-                    Cast<TAttribute>();
+                return rankedQuery
+                    .OrderByDescending(x => x.TargetRank.Value)
+                    .Select(x => x.Attribute)
+                    .Cast<TAttribute>();
             }
         }
 

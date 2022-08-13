@@ -93,10 +93,10 @@ namespace Atata
         {
             if (exception != null)
             {
-                StringBuilder builder = new StringBuilder(message).
-                    AppendLine().
-                    Append("  ----> ").
-                    Append(exception.ToString());
+                StringBuilder builder = new StringBuilder(message)
+                    .AppendLine()
+                    .Append("  ----> ")
+                    .Append(exception.ToString());
 
                 return builder.ToString();
             }

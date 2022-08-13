@@ -46,10 +46,10 @@ public class FindingTests : UITestFixture
     [Test]
     public void Visible()
     {
-        _page.VisibleInput.Should.Exist().
-            VisibleInput.Should.BeVisible().
-            FailDisplayNoneInput.Should.Not.Exist().
-            FailOpacity0Input.Should.Not.Exist();
+        _page.VisibleInput.Should.Exist()
+            .VisibleInput.Should.BeVisible()
+            .FailDisplayNoneInput.Should.Not.Exist()
+            .FailOpacity0Input.Should.Not.Exist();
 
         AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
             _page.FailDisplayNoneInput.Should.AtOnce.Exist());
@@ -61,18 +61,18 @@ public class FindingTests : UITestFixture
     [Test]
     public void Hidden()
     {
-        _page.DisplayNoneInput.Should.Exist().
-            DisplayNoneInput.Should.BeHidden().
-            HiddenInput.Should.Exist().
-            HiddenInput.Should.BeHidden().
-            CollapseInput.Should.Exist().
-            CollapseInput.Should.BeHidden().
-            Opacity0Input.Should.Exist().
-            Opacity0Input.Should.BeHidden().
-            TypeHiddenInput.Should.Exist().
-            TypeHiddenInput.Should.BeHidden().
-            TypeHiddenInputWithDeclaredDefinition.Should.Exist().
-            TypeHiddenInputWithDeclaredDefinition.Should.BeHidden();
+        _page.DisplayNoneInput.Should.Exist()
+            .DisplayNoneInput.Should.BeHidden()
+            .HiddenInput.Should.Exist()
+            .HiddenInput.Should.BeHidden()
+            .CollapseInput.Should.Exist()
+            .CollapseInput.Should.BeHidden()
+            .Opacity0Input.Should.Exist()
+            .Opacity0Input.Should.BeHidden()
+            .TypeHiddenInput.Should.Exist()
+            .TypeHiddenInput.Should.BeHidden()
+            .TypeHiddenInputWithDeclaredDefinition.Should.Exist()
+            .TypeHiddenInputWithDeclaredDefinition.Should.BeHidden();
 
         Assert.That(_page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
     }

@@ -25,32 +25,32 @@ namespace Atata
 
         protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
         {
-            string[] conditionalXPathTerms = builder.Options.Terms.
-                Where(x => (x[0] == '[' && x[x.Length - 1] == ']') || x[0] == '@').
-                ToArray();
+            string[] conditionalXPathTerms = builder.Options.Terms
+                .Where(x => (x[0] == '[' && x[x.Length - 1] == ']') || x[0] == '@')
+                .ToArray();
 
-            string[] conditionalXPathSelectors = conditionalXPathTerms.
-                Select(x => x[0] == '@' ? x : x.Substring(1, x.Length - 2)).
-                ToArray();
+            string[] conditionalXPathSelectors = conditionalXPathTerms
+                .Select(x => x[0] == '@' ? x : x.Substring(1, x.Length - 2))
+                .ToArray();
 
             if (conditionalXPathSelectors.Length > 1)
             {
-                conditionalXPathSelectors = conditionalXPathSelectors.
-                    Select(x => $"({x})").
-                    ToArray();
+                conditionalXPathSelectors = conditionalXPathSelectors
+                    .Select(x => $"({x})")
+                    .ToArray();
             }
 
             string conditionalXPath = conditionalXPathSelectors.Any()
                 ? builder.WrapWithIndex(x => x.OuterXPath.ComponentXPath[y => y.JoinOr(conditionalXPathSelectors)])
                 : null;
 
-            string[] completeXPathSelectors = builder.Options.Terms.
-                Except(conditionalXPathTerms).
-                Select(x =>
+            string[] completeXPathSelectors = builder.Options.Terms
+                .Except(conditionalXPathTerms)
+                .Select(x =>
                     _acceptableXPathPrefixValues.Any(prefix => x.StartsWith(prefix, StringComparison.Ordinal))
                         ? (options.OuterXPath?.Append(x) ?? x)
-                        : ((options.OuterXPath ?? ".//") + x)).
-                ToArray();
+                        : ((options.OuterXPath ?? ".//") + x))
+                .ToArray();
 
             string completeXPath = completeXPathSelectors.Any()
                 ? builder.WrapWithIndex(x => x._($"({string.Join(" | ", completeXPathSelectors)})")).DescendantOrSelf.ComponentXPath

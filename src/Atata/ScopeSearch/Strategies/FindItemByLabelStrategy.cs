@@ -14,9 +14,9 @@ namespace Atata
             ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
             IWebElement label = scopeContext.GetWithLogging(
-                By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]").
-                    SafelyAtOnce().
-                    Label(TermResolver.ToDisplayString(parameter)));
+                By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]")
+                    .SafelyAtOnce()
+                    .Label(TermResolver.ToDisplayString(parameter)));
 
             if (label != null)
             {
@@ -38,8 +38,7 @@ namespace Atata
                 ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
                 IWebElement label = scopeContext.GetWithLogging(
-                    By.XPath($".//label[@for='{elementId}']").
-                    SafelyAtOnce());
+                    By.XPath($".//label[@for='{elementId}']").SafelyAtOnce());
 
                 if (label != null)
                     return label.Text;

@@ -53,10 +53,10 @@ namespace Atata
                     }
                     catch (Exception exception)
                     {
-                        var failureMessageBuilder = new StringBuilder().
-                            Append($"{verifier.Component.ComponentFullName} {verificationStateName}").
-                            AppendLine().
-                            Append($"Expected: {VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}");
+                        var failureMessageBuilder = new StringBuilder()
+                            .Append($"{verifier.Component.ComponentFullName} {verificationStateName}")
+                            .AppendLine()
+                            .Append($"Expected: {VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}");
 
                         if (exception is NoSuchElementException || exception is NotMissingElementException)
                         {
@@ -239,10 +239,10 @@ namespace Atata
             IEnumerable<TData> expectedIndividualValues = verifier.Component.GetIndividualValues(value);
             string expectedIndividualValuesAsString = verifier.Component.ConvertIndividualValuesToString(expectedIndividualValues, true);
 
-            string expectedMessage = new StringBuilder().
-                Append("have checked").
-                AppendIf(expectedIndividualValues.Count() > 1, ":").
-                Append($" {expectedIndividualValuesAsString}").ToString();
+            string expectedMessage = new StringBuilder()
+                .Append("have checked")
+                .AppendIf(expectedIndividualValues.Count() > 1, ":")
+                .Append($" {expectedIndividualValuesAsString}").ToString();
 
             verifier.Component.Context.Log.ExecuteSection(
                 new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
