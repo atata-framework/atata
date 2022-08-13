@@ -14,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		CONTRIBUTING.md = CONTRIBUTING.md
 		Directory.Build.props = Directory.Build.props
 		Directory.Build.targets = Directory.Build.targets
-		General.ruleset = General.ruleset
 		GenerateControlDelegates.ps1 = GenerateControlDelegates.ps1
 		GenerateDriverAtataContextBuilders.ps1 = GenerateDriverAtataContextBuilders.ps1
 		GenerateHeadingVerificationTriggers.ps1 = GenerateHeadingVerificationTriggers.ps1
@@ -30,7 +29,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C03C2388-5E3
 		src\Directory.Build.props = src\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.UnitTests", "test\Atata.UnitTests\Atata.UnitTests.csproj", "{EB4A44FB-422A-4122-9758-A2EDAB56604A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.UnitTests", "test\Atata.UnitTests\Atata.UnitTests.csproj", "{EB4A44FB-422A-4122-9758-A2EDAB56604A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

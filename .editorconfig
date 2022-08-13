@@ -243,6 +243,147 @@ dotnet_diagnostic.CA2225.severity = none
 
 # CA5394: Do not use insecure randomness
 dotnet_diagnostic.CA5394.severity = none
+
+###############################
+# SonarAnalyzer.CSharp        #
+###############################
+
+dotnet_diagnostic.S101.severity = none
+
+dotnet_diagnostic.S103.severity = warning
+
+dotnet_diagnostic.S104.severity = warning
+
+dotnet_diagnostic.S105.severity = warning
+
+dotnet_diagnostic.S1067.severity = warning
+
+dotnet_diagnostic.S107.severity = warning
+
+dotnet_diagnostic.S1109.severity = warning
+
+dotnet_diagnostic.S113.severity = warning
+
+dotnet_diagnostic.S1135.severity = none
+
+dotnet_diagnostic.S1145.severity = warning
+
+dotnet_diagnostic.S1147.severity = warning
+
+dotnet_diagnostic.S1151.severity = warning
+
+dotnet_diagnostic.S1192.severity = warning
+
+dotnet_diagnostic.S122.severity = warning
+
+dotnet_diagnostic.S1227.severity = warning
+
+dotnet_diagnostic.S1244.severity = warning
+
+dotnet_diagnostic.S127.severity = warning
+
+dotnet_diagnostic.S131.severity = warning
+
+dotnet_diagnostic.S134.severity = warning
+
+dotnet_diagnostic.S138.severity = warning
+
+dotnet_diagnostic.S1541.severity = warning
+
+dotnet_diagnostic.S1696.severity = warning
+
+dotnet_diagnostic.S1858.severity = warning
+
+dotnet_diagnostic.S2187.severity = none
+
+dotnet_diagnostic.S2302.severity = warning
+
+dotnet_diagnostic.S2357.severity = warning
+
+dotnet_diagnostic.S2387.severity = warning
+
+dotnet_diagnostic.S2583.severity = none
+
+dotnet_diagnostic.S2699.severity = none
+
+dotnet_diagnostic.S3011.severity = none
+
+dotnet_diagnostic.S3052.severity = warning
+
+dotnet_diagnostic.S3235.severity = warning
+
+dotnet_diagnostic.S3240.severity = warning
+
+dotnet_diagnostic.S3253.severity = warning
+
+dotnet_diagnostic.S3254.severity = warning
+
+dotnet_diagnostic.S3257.severity = warning
+
+dotnet_diagnostic.S3358.severity = none
+
+dotnet_diagnostic.S3717.severity = warning
+
+dotnet_diagnostic.S3881.severity = none
+
+dotnet_diagnostic.S3962.severity = warning
+
+dotnet_diagnostic.S4004.severity = warning
+
+dotnet_diagnostic.S4023.severity = warning
+
+dotnet_diagnostic.S4035.severity = none
+
+dotnet_diagnostic.S4041.severity = warning
+
+dotnet_diagnostic.S4047.severity = warning
+
+dotnet_diagnostic.S4052.severity = warning
+
+dotnet_diagnostic.S4261.severity = warning
+
+dotnet_diagnostic.S881.severity = warning
+
+###############################
+# StyleCop.Analyzers          #
+###############################
+
+dotnet_diagnostic.SA0001.severity = none
+
+dotnet_diagnostic.SA1101.severity = none
+
+dotnet_diagnostic.SA1200.severity = none
+
+dotnet_diagnostic.SA1202.severity = none
+
+dotnet_diagnostic.SA1308.severity = none
+
+dotnet_diagnostic.SA1309.severity = none
+
+dotnet_diagnostic.SA1310.severity = none
+
+dotnet_diagnostic.SA1311.severity = none
+
+dotnet_diagnostic.SA1404.severity = none
+
+dotnet_diagnostic.SA1413.severity = none
+
+dotnet_diagnostic.SA1503.severity = none
+
+dotnet_diagnostic.SA1519.severity = none
+
+dotnet_diagnostic.SA1600.severity = none
+
+dotnet_diagnostic.SA1601.severity = none
+
+dotnet_diagnostic.SA1602.severity = none
+
+dotnet_diagnostic.SA1633.severity = none
+
+dotnet_diagnostic.SA1649.severity = none
+
+dotnet_diagnostic.SX1101.severity = warning
+
 ###############################
 # C# Coding Conventions       #
 ###############################
