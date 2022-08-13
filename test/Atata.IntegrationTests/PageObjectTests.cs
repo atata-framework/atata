@@ -132,4 +132,42 @@ public class PageObjectTests : UITestFixture
             .TopText.Should.Not.BeVisibleInViewPort()
             .ScrollUp()
             .TopText.Should.BeVisibleInViewPort();
+
+    [Test]
+    public void SwitchToFrame() =>
+        Go.To<FramePage>()
+           .SwitchToFrame1()
+               .TextInput.Set("abc")
+               .SwitchToRoot<FramePage>()
+           .Header.Should.Equal("Frame")
+           .SwitchToFrame2()
+               .Select.Set(4)
+               .SwitchBack()
+
+           .Header.Should.Equal("Frame")
+           .SwitchToFrame1()
+               .Header.Should.Equal("Frame Inner 1")
+               .TextInput.Should.Equal("abc")
+               .SwitchToRoot<FramePage>()
+           .SwitchToFrame2()
+               .Header.Should.Equal("Frame Inner 2")
+               .Select.Should.Equal(4);
+
+    [Test]
+    public void FrameSwitchingViaGo()
+    {
+        Go.To<FramePage>()
+            .Header.Should.Equal("Frame");
+
+        Go.To<FrameInner1SelfSwitchingPage>()
+            .Header.Should.Equal("Frame Inner 1")
+            .TextInput.Set("abc");
+
+        Go.To<FramePage>(navigate: false)
+            .Header.Should.Equal("Frame");
+
+        Go.To<FrameInner1SelfSwitchingPage>()
+            .Header.Should.Equal("Frame Inner 1")
+            .TextInput.Should.Equal("abc");
+    }
 }

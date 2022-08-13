@@ -99,41 +99,4 @@ public class FrameTests : UITestFixture
                 x => x.TextInput.Should.Equal("abc"),
                 temporarily: false)
             .State.Should.Equal(0);
-
-    [Test]
-    public void PageObject_NavigateViaSwitchTo() =>
-        _page
-           .SwitchToFrame1()
-               .TextInput.Set("abc")
-               .SwitchToRoot<FramePage>()
-           .Header.Should.Equal("Frame")
-           .SwitchToFrame2()
-               .Select.Set(4)
-               .SwitchBack()
-
-           .Header.Should.Equal("Frame")
-           .SwitchToFrame1()
-               .Header.Should.Equal("Frame Inner 1")
-               .TextInput.Should.Equal("abc")
-               .SwitchToRoot<FramePage>()
-           .SwitchToFrame2()
-               .Header.Should.Equal("Frame Inner 2")
-               .Select.Should.Equal(4);
-
-    [Test]
-    public void PageObject_NavigateViaGo()
-    {
-        _page.Header.Should.Equal("Frame");
-
-        Go.To<FrameInner1SelfSwitchingPage>()
-            .Header.Should.Equal("Frame Inner 1")
-            .TextInput.Set("abc");
-
-        Go.To<FramePage>(navigate: false)
-            .Header.Should.Equal("Frame");
-
-        Go.To<FrameInner1SelfSwitchingPage>()
-            .Header.Should.Equal("Frame Inner 1")
-            .TextInput.Should.Equal("abc");
-    }
 }
