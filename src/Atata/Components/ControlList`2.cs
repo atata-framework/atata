@@ -187,28 +187,22 @@ return textValues;";
                 () => GetAll(extraXPath, itemsName));
         }
 
-        private static FindAttribute ResolveItemFindAttribute()
-        {
-            return new FindControlListItemAttribute();
-        }
+        private static FindAttribute ResolveItemFindAttribute() =>
+            new FindControlListItemAttribute();
 
         /// <summary>
         /// Gets the controls count.
         /// </summary>
         /// <returns>The count of controls.</returns>
-        protected virtual int GetCount()
-        {
-            return GetItemElements().Count;
-        }
+        protected virtual int GetCount() =>
+            GetItemElements().Count;
 
         /// <summary>
         /// Gets the controls contents.
         /// </summary>
         /// <returns>The contents of controls.</returns>
-        protected virtual IEnumerable<string> GetContents()
-        {
-            return GetAll().Select(x => (string)x.Content);
-        }
+        protected virtual IEnumerable<string> GetContents() =>
+            GetAll().Select(x => (string)x.Content);
 
         protected TItem GetItemByIndex(int index)
         {
@@ -398,9 +392,8 @@ return textValues;";
             string elementXPath,
             string valueProviderName = null,
             TermOptions valueTermOptions = null)
-        {
-            return SelectContentsByExtraXPath<string>(elementXPath, valueProviderName, valueTermOptions);
-        }
+            =>
+            SelectContentsByExtraXPath<string>(elementXPath, valueProviderName, valueTermOptions);
 
         /// <summary>
         /// Selects the content of each control relative to element
@@ -415,9 +408,8 @@ return textValues;";
             string elementXPath,
             string valueProviderName = null,
             TermOptions valueTermOptions = null)
-        {
-            return SelectDataByExtraXPath<TData>(elementXPath, "textContent", valueProviderName, valueTermOptions);
-        }
+            =>
+            SelectDataByExtraXPath<TData>(elementXPath, "textContent", valueProviderName, valueTermOptions);
 
         protected IEnumerable<TData> SelectElementValues<TData>(
             string elementXPath,

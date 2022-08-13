@@ -18,10 +18,8 @@ namespace Atata
         }
 
         /// <inheritdoc/>
-        public object Create(Type type, Dictionary<string, object> valuesMap)
-        {
-            return Create(type, valuesMap, new Dictionary<string, string>());
-        }
+        public object Create(Type type, Dictionary<string, object> valuesMap) =>
+            Create(type, valuesMap, new Dictionary<string, string>());
 
         /// <inheritdoc/>
         public object Create(Type type, Dictionary<string, object> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
@@ -51,9 +49,8 @@ namespace Atata
             return instance;
         }
 
-        private static ConstructorInfo FindMostAppropriateConstructor(Type type, IEnumerable<string> parameterNames)
-        {
-            return type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+        private static ConstructorInfo FindMostAppropriateConstructor(Type type, IEnumerable<string> parameterNames) =>
+            type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
                 .Where(constructor =>
                 {
                     var parameters = constructor.GetParameters();
@@ -68,7 +65,6 @@ namespace Atata
                 .FirstOrDefault()
                 ?? throw new MissingMethodException(
                     $"No appropriate constructor found for {type.FullName} type.");
-        }
 
         private static IEnumerable<string> GetAlternativeParameterNames(
             IEnumerable<string> parameterNames,

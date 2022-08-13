@@ -7,8 +7,7 @@ public class ControlTests : UITestFixture
     protected override bool ReuseDriver => false;
 
     [Test]
-    public void DragAndDrop_WithDragsAndDropsUsingDomEvents()
-    {
+    public void DragAndDrop_WithDragsAndDropsUsingDomEvents() =>
         Go.To<DragAndDropPage>()
             .DropContainer.Items.Should.BeEmpty()
             .DragItems.Items.Should.HaveCount(2)
@@ -17,7 +16,6 @@ public class ControlTests : UITestFixture
             .DropContainer.Items.Should.HaveCount(2)
             .DragItems.Items.Should.BeEmpty()
             .DropContainer[1].Content.Should.Equal("Drag item 2");
-    }
 
     [Test]
     public void ScrollTo_WithScrollsUsingActionsAttribute()
@@ -46,20 +44,16 @@ public class ControlTests : UITestFixture
     }
 
     [Test]
-    public void ClickAndGo()
-    {
+    public void ClickAndGo() =>
         Go.To<GoTo1Page>()
             .GoTo2Control.ClickAndGo<GoTo2Page>();
-    }
 
     [Test]
-    public void Blur()
-    {
+    public void Blur() =>
         Go.To<InputPage>()
             .TelInput.Set("123")
             .TelInput.Blur()
             .ActiveControl.Attributes.Value.Should.Not.Equal("123");
-    }
 
     public class ComponentName : UITestFixture
     {

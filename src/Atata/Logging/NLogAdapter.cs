@@ -50,10 +50,8 @@ namespace Atata
             return result;
         }
 
-        private static Type GetType(string typeName)
-        {
-            return Type.GetType($"{typeName},{NLogAssemblyName}", true);
-        }
+        private static Type GetType(string typeName) =>
+            Type.GetType($"{typeName},{NLogAssemblyName}", true);
 
         internal static dynamic CreateFileTarget(string name, string filePath, string layout)
         {

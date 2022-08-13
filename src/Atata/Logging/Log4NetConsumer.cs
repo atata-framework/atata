@@ -65,18 +65,14 @@ namespace Atata
             return logLevelsMap;
         }
 
-        private static dynamic GetThreadContextProperties()
-        {
-            return Type.GetType("log4net.ThreadContext,log4net", true).
-                GetPropertyWithThrowOnError("Properties", BindingFlags.Public | BindingFlags.Static).
-                GetStaticValue();
-        }
+        private static dynamic GetThreadContextProperties() =>
+            Type.GetType("log4net.ThreadContext,log4net", true)
+                .GetPropertyWithThrowOnError("Properties", BindingFlags.Public | BindingFlags.Static)
+                .GetStaticValue();
 
-        private static MethodInfo GetGetLoggerMethod(params Type[] argumentTypes)
-        {
-            return Type.GetType("log4net.LogManager,log4net", true).
-                GetMethodWithThrowOnError("GetLogger", BindingFlags.Public | BindingFlags.Static, argumentTypes);
-        }
+        private static MethodInfo GetGetLoggerMethod(params Type[] argumentTypes) =>
+            Type.GetType("log4net.LogManager,log4net", true)
+                .GetMethodWithThrowOnError("GetLogger", BindingFlags.Public | BindingFlags.Static, argumentTypes);
 
         protected override void OnLog(LogEventInfo eventInfo)
         {
@@ -103,18 +99,18 @@ namespace Atata
         {
             if (RepositoryName != null)
             {
-                return GetGetLoggerMethod(typeof(string), typeof(string)).
-                    InvokeStaticAsLambda<dynamic>(RepositoryName, loggerName);
+                return GetGetLoggerMethod(typeof(string), typeof(string))
+                    .InvokeStaticAsLambda<dynamic>(RepositoryName, loggerName);
             }
             else if (RepositoryAssembly != null)
             {
-                return GetGetLoggerMethod(typeof(Assembly), typeof(string)).
-                    InvokeStaticAsLambda<dynamic>(RepositoryAssembly, loggerName);
+                return GetGetLoggerMethod(typeof(Assembly), typeof(string))
+                    .InvokeStaticAsLambda<dynamic>(RepositoryAssembly, loggerName);
             }
             else
             {
-                return GetGetLoggerMethod(typeof(string)).
-                    InvokeStaticAsLambda<dynamic>(loggerName);
+                return GetGetLoggerMethod(typeof(string))
+                    .InvokeStaticAsLambda<dynamic>(loggerName);
             }
         }
     }

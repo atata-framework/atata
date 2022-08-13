@@ -34,9 +34,8 @@ namespace Atata
 
         public static void Register<T>(string typeAlias)
             where T : ILogConsumer, new()
-        {
+            =>
             Register(typeAlias, () => new T());
-        }
 
         public static void Register(string typeAlias, Func<ILogConsumer> logConsumerFactory)
         {

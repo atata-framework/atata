@@ -226,10 +226,8 @@ namespace Atata
         /// This configuration option makes sense for .NET Core 2.0+ project that uses driver as a project package (hosted in the same build directory).
         /// </summary>
         /// <returns>The same builder instance.</returns>
-        public TBuilder WithLocalDriverPath()
-        {
-            return WithDriverPath(AppDomain.CurrentDomain.BaseDirectory);
-        }
+        public TBuilder WithLocalDriverPath() =>
+            WithDriverPath(AppDomain.CurrentDomain.BaseDirectory);
 
         /// <summary>
         /// Specifies the name of the driver executable file.
@@ -250,10 +248,8 @@ namespace Atata
         /// </summary>
         /// <param name="hostName">The host name.</param>
         /// <returns>The same builder instance.</returns>
-        public TBuilder WithHostName(string hostName)
-        {
-            return WithDriverService(x => x.HostName = hostName);
-        }
+        public TBuilder WithHostName(string hostName) =>
+            WithDriverService(x => x.HostName = hostName);
 
         /// <summary>
         /// Specifies that the fix of driver's HTTP command execution delay should be applied.
@@ -262,10 +258,8 @@ namespace Atata
         /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra <c>1</c> second.
         /// </summary>
         /// <returns>The same builder instance.</returns>
-        public TBuilder WithFixOfCommandExecutionDelay()
-        {
-            return WithHostName("127.0.0.1");
-        }
+        public TBuilder WithFixOfCommandExecutionDelay() =>
+            WithHostName("127.0.0.1");
 
         /// <summary>
         /// Specifies the command timeout (the maximum amount of time to wait for each command).

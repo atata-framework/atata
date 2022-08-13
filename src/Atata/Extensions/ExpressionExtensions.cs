@@ -14,10 +14,8 @@ namespace Atata
         /// </summary>
         /// <param name="expression">The expression.</param>
         /// <returns>The name of the member.</returns>
-        public static string ExtractMemberName(this Expression expression)
-        {
-            return expression.ExtractMember().Name;
-        }
+        public static string ExtractMemberName(this Expression expression) =>
+            expression.ExtractMember().Name;
 
         /// <summary>
         /// Extracts the member.

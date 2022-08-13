@@ -8,8 +8,7 @@ public class RadioButtonTests : UITestFixture
         _page = Go.To<RadioButtonListPage>();
 
     [Test]
-    public void Interact()
-    {
+    public void Interact() =>
         _page
             .OptionA.Should.BeFalse()
             .OptionA.Should.Not.BeChecked()
@@ -22,5 +21,4 @@ public class RadioButtonTests : UITestFixture
             .OptionB.Should.Not.BeUnchecked()
             .OptionA.Check()
             .OptionA.Should.BeChecked();
-    }
 }

@@ -25,9 +25,8 @@ namespace Atata
         /// <returns>The message or <see langword="null"/>.</returns>
         protected virtual string BuildReportMessage<TOwner>(TriggerContext<TOwner> context)
             where TOwner : PageObject<TOwner>, IPageObject<TOwner>
-        {
-            return DefaultReportMessage;
-        }
+            =>
+            DefaultReportMessage;
 
         /// <summary>
         /// Builds the script to wait until it returns <c>true</c>.

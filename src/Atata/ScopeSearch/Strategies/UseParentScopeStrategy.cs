@@ -2,9 +2,7 @@
 {
     public class UseParentScopeStrategy : XPathComponentScopeFindStrategy
     {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
-        {
-            return builder.Self.Any;
-        }
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options) =>
+            builder.Self.Any;
     }
 }

@@ -49,14 +49,12 @@ public class PageObjectTests : UITestFixture
     }
 
     [Test]
-    public void GoForward()
-    {
+    public void GoForward() =>
         Go.To<GoTo1Page>()
             .GoTo2()
                 .GoBack<GoTo1Page>()
             .GoForward<GoTo2Page>()
                 .Should.Exist();
-    }
 
     [Test]
     public void GoForward_WithInappropriateTOther()

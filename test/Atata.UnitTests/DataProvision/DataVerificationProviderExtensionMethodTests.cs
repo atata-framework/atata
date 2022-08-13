@@ -59,38 +59,28 @@ public static class DataVerificationProviderExtensionMethodTests
         }
 
         [OneTimeSetUp]
-        public void SetUpFixture()
-        {
+        public void SetUpFixture() =>
             _sut = s_testSuiteData.TestObject.ToSutSubject();
-        }
 
         [TestCaseSource(nameof(GetPassFunctionsTestCases), new object[] { nameof(Passes) })]
-        public void Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
-        {
+        public void Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
             Assert.DoesNotThrow(() =>
                 function(_sut.Should));
-        }
 
         [TestCaseSource(nameof(GetFailFunctionsTestCases), new object[] { nameof(Fails) })]
-        public void Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
-        {
+        public void Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
             Assert.Throws<AssertionException>(() =>
                 function(_sut.Should));
-        }
 
         [TestCaseSource(nameof(GetFailFunctionsTestCases), new object[] { nameof(Not_Passes) })]
-        public void Not_Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
-        {
+        public void Not_Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
             Assert.DoesNotThrow(() =>
                 function(_sut.Should.Not));
-        }
 
         [TestCaseSource(nameof(GetPassFunctionsTestCases), new object[] { nameof(Not_Fails) })]
-        public void Not_Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function)
-        {
+        public void Not_Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
             Assert.Throws<AssertionException>(() =>
                 function(_sut.Should.Not));
-        }
 
         public class TestSuiteData
         {

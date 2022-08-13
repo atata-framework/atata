@@ -33,10 +33,8 @@ namespace Atata
             s_randomizers[typeof(T)] = md => randomizeFunction(md);
         }
 
-        private static void RegisterNumberRandomizer<T>()
-        {
+        private static void RegisterNumberRandomizer<T>() =>
             s_randomizers[typeof(T)] = md => RandomizeNumber<T>(md);
-        }
 
         private static string RandomizeString(UIComponentMetadata metadata)
         {
@@ -65,10 +63,8 @@ namespace Atata
             return value;
         }
 
-        private static bool RandomizeBool(UIComponentMetadata metadata)
-        {
-            return Randomizer.GetBool();
-        }
+        private static bool RandomizeBool(UIComponentMetadata metadata) =>
+            Randomizer.GetBool();
 
         private static T RandomizeNonFlagEnum<T>(Type enumType, UIComponentMetadata metadata)
         {

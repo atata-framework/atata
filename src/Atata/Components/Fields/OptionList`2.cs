@@ -40,10 +40,8 @@ namespace Atata
             return elements;
         }
 
-        protected TValue GetElementValue(IWebElement element)
-        {
-            return ItemElementFindStrategy.GetParameter<TValue>(element, GetValueTermOptions());
-        }
+        protected TValue GetElementValue(IWebElement element) =>
+            ItemElementFindStrategy.GetParameter<TValue>(element, GetValueTermOptions());
 
         protected bool IsChecked(object parameter)
         {

@@ -69,64 +69,44 @@ namespace Atata
         }
 
         /// <inheritdoc/>
-        public void Trace(string message, params object[] args)
-        {
+        public void Trace(string message, params object[] args) =>
             Log(LogLevel.Trace, message, args);
-        }
 
         /// <inheritdoc/>
-        public void Debug(string message, params object[] args)
-        {
+        public void Debug(string message, params object[] args) =>
             Log(LogLevel.Debug, message, args);
-        }
 
         /// <inheritdoc/>
-        public void Info(string message, params object[] args)
-        {
+        public void Info(string message, params object[] args) =>
             Log(LogLevel.Info, message, args);
-        }
 
         /// <inheritdoc/>
-        public void Warn(string message, params object[] args)
-        {
+        public void Warn(string message, params object[] args) =>
             Log(LogLevel.Warn, message, args);
-        }
 
         /// <inheritdoc/>
-        public void Warn(Exception exception)
-        {
+        public void Warn(Exception exception) =>
             Log(LogLevel.Warn, null, exception);
-        }
 
         /// <inheritdoc/>
-        public void Warn(string message, Exception exception = null)
-        {
+        public void Warn(string message, Exception exception = null) =>
             Log(LogLevel.Warn, message, exception);
-        }
 
         /// <inheritdoc/>
-        public void Error(Exception exception)
-        {
+        public void Error(Exception exception) =>
             Log(LogLevel.Error, null, exception);
-        }
 
         /// <inheritdoc/>
-        public void Error(string message, Exception exception = null)
-        {
+        public void Error(string message, Exception exception = null) =>
             Log(LogLevel.Error, message, exception);
-        }
 
         /// <inheritdoc/>
-        public void Fatal(Exception exception)
-        {
+        public void Fatal(Exception exception) =>
             Log(LogLevel.Fatal, null, exception);
-        }
 
         /// <inheritdoc/>
-        public void Fatal(string message, Exception exception = null)
-        {
+        public void Fatal(string message, Exception exception = null) =>
             Log(LogLevel.Fatal, message, exception);
-        }
 
         /// <inheritdoc/>
         public void ExecuteSection(LogSection section, Action action)

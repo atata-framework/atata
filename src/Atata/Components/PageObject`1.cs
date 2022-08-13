@@ -127,15 +127,11 @@ namespace Atata
             return By.XPath($".//{scopeXPath}").Visible();
         }
 
-        private string GetTitle()
-        {
-            return Driver.Title;
-        }
+        private string GetTitle() =>
+            Driver.Title;
 
-        private string GetUrl()
-        {
-            return Driver.Url;
-        }
+        private string GetUrl() =>
+            Driver.Url;
 
         private Uri GetUri()
         {
@@ -143,10 +139,8 @@ namespace Atata
             return new Uri(url);
         }
 
-        private string GetPageSource()
-        {
-            return Driver.PageSource;
-        }
+        private string GetPageSource() =>
+            Driver.PageSource;
 
         internal void Init()
         {

@@ -65,10 +65,8 @@ namespace Atata
         /// </summary>
         /// <param name="exclusiveMax">The exclusive upper bound of the random number to be generated. Must be greater than or equal to <c>0</c>.</param>
         /// <returns>The random <see cref="int"/> value.</returns>
-        public static int GetInt(int exclusiveMax)
-        {
-            return CreateRandom().Next(exclusiveMax);
-        }
+        public static int GetInt(int exclusiveMax) =>
+            CreateRandom().Next(exclusiveMax);
 
         /// <summary>
         /// Returns a random integer that is within a specified range.
@@ -76,10 +74,8 @@ namespace Atata
         /// <param name="min">The inclusive lower bound of the random number returned.</param>
         /// <param name="max">The inclusive upper bound of the random number returned. Must be greater than or equal to <paramref name="min"/>.</param>
         /// <returns>The random <see cref="int"/> value.</returns>
-        public static int GetInt(int min, int max)
-        {
-            return CreateRandom().Next(min, max + 1);
-        }
+        public static int GetInt(int min, int max) =>
+            CreateRandom().Next(min, max + 1);
 
         public static decimal GetDecimal(decimal min, decimal max, int precision)
         {
@@ -95,10 +91,8 @@ namespace Atata
             return GetOneOf(values);
         }
 
-        public static T GetEnumExcluding<T>(params T[] valuesToExclude)
-        {
-            return GetEnumExcluding((IEnumerable<T>)valuesToExclude);
-        }
+        public static T GetEnumExcluding<T>(params T[] valuesToExclude) =>
+            GetEnumExcluding((IEnumerable<T>)valuesToExclude);
 
         public static T GetEnumExcluding<T>(IEnumerable<T> valuesToExclude)
         {
@@ -106,15 +100,11 @@ namespace Atata
             return GetOneOf(values);
         }
 
-        public static bool GetBool()
-        {
-            return CreateRandom().Next(2) == 0;
-        }
+        public static bool GetBool() =>
+            CreateRandom().Next(2) == 0;
 
-        public static T GetOneOf<T>(params T[] values)
-        {
-            return GetOneOf((IEnumerable<T>)values);
-        }
+        public static T GetOneOf<T>(params T[] values) =>
+            GetOneOf((IEnumerable<T>)values);
 
         public static T GetOneOf<T>(IEnumerable<T> values)
         {
@@ -124,20 +114,14 @@ namespace Atata
             return values.ElementAt(valueIndex);
         }
 
-        public static T[] GetManyOf<T>(int count, params T[] values)
-        {
-            return GetManyOf(count, count, values);
-        }
+        public static T[] GetManyOf<T>(int count, params T[] values) =>
+            GetManyOf(count, count, values);
 
-        public static T[] GetManyOf<T>(int count, IEnumerable<T> values)
-        {
-            return GetManyOf(count, count, values);
-        }
+        public static T[] GetManyOf<T>(int count, IEnumerable<T> values) =>
+            GetManyOf(count, count, values);
 
-        public static T[] GetManyOf<T>(int min, int max, params T[] values)
-        {
-            return GetManyOf(min, max, (IEnumerable<T>)values);
-        }
+        public static T[] GetManyOf<T>(int min, int max, params T[] values) =>
+            GetManyOf(min, max, (IEnumerable<T>)values);
 
         public static T[] GetManyOf<T>(int min, int max, IEnumerable<T> values)
         {
@@ -165,9 +149,7 @@ namespace Atata
             return randomValues;
         }
 
-        private static Random CreateRandom()
-        {
-            return new Random(Guid.NewGuid().GetHashCode());
-        }
+        private static Random CreateRandom() =>
+            new Random(Guid.NewGuid().GetHashCode());
     }
 }

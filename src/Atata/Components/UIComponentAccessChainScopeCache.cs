@@ -48,10 +48,8 @@ namespace Atata
             IsActive = false;
         }
 
-        public void Clear()
-        {
+        public void Clear() =>
             _accessChainItems.Clear();
-        }
 
         public void ExecuteWithin(Action action)
         {

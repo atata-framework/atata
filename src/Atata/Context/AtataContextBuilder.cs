@@ -674,10 +674,8 @@ Actual: {driverFactory.GetType().FullName}",
         /// </summary>
         /// <param name="cultureName">The name of the culture.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseCulture(string cultureName)
-        {
-            return UseCulture(CultureInfo.GetCultureInfo(cultureName));
-        }
+        public AtataContextBuilder UseCulture(string cultureName) =>
+            UseCulture(CultureInfo.GetCultureInfo(cultureName));
 
         /// <summary>
         /// Sets the type of the assertion exception.
@@ -687,9 +685,8 @@ Actual: {driverFactory.GetType().FullName}",
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseAssertionExceptionType<TException>()
             where TException : Exception
-        {
-            return UseAssertionExceptionType(typeof(TException));
-        }
+            =>
+            UseAssertionExceptionType(typeof(TException));
 
         /// <summary>
         /// Sets the type of the assertion exception.
@@ -714,9 +711,8 @@ Actual: {driverFactory.GetType().FullName}",
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
         public AtataContextBuilder UseAggregateAssertionExceptionType<TException>()
             where TException : Exception
-        {
-            return UseAggregateAssertionExceptionType(typeof(TException));
-        }
+            =>
+            UseAggregateAssertionExceptionType(typeof(TException));
 
         /// <summary>
         /// Sets the type of aggregate assertion exception.
@@ -842,38 +838,30 @@ Actual: {driverFactory.GetType().FullName}",
         /// Defines that the name of the test should be taken from the NUnit test.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitTestName()
-        {
-            return UseTestName(NUnitAdapter.GetCurrentTestName);
-        }
+        public AtataContextBuilder UseNUnitTestName() =>
+            UseTestName(NUnitAdapter.GetCurrentTestName);
 
         /// <summary>
         /// Defines that the name of the test suite should be taken from the NUnit test fixture.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitTestSuiteName()
-        {
-            return UseTestSuiteName(NUnitAdapter.GetCurrentTestFixtureName);
-        }
+        public AtataContextBuilder UseNUnitTestSuiteName() =>
+            UseTestSuiteName(NUnitAdapter.GetCurrentTestFixtureName);
 
         /// <summary>
         /// Defines that the type of the test suite should be taken from the NUnit test fixture.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitTestSuiteType()
-        {
-            return UseTestSuiteType(NUnitAdapter.GetCurrentTestFixtureType);
-        }
+        public AtataContextBuilder UseNUnitTestSuiteType() =>
+            UseTestSuiteType(NUnitAdapter.GetCurrentTestFixtureType);
 
         /// <summary>
         /// Sets <see cref="NUnitAggregateAssertionStrategy"/> as the aggregate assertion strategy.
         /// The <see cref="NUnitAggregateAssertionStrategy"/> uses NUnit's <c>Assert.Multiple</c> method for aggregate assertion.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitAggregateAssertionStrategy()
-        {
-            return UseAggregateAssertionStrategy(new NUnitAggregateAssertionStrategy());
-        }
+        public AtataContextBuilder UseNUnitAggregateAssertionStrategy() =>
+            UseAggregateAssertionStrategy(new NUnitAggregateAssertionStrategy());
 
         /// <summary>
         /// Sets the aggregate assertion strategy.
@@ -904,10 +892,8 @@ Actual: {driverFactory.GetType().FullName}",
         /// Sets <see cref="NUnitWarningReportStrategy"/> as the strategy for warning assertion reporting.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-        public AtataContextBuilder UseNUnitWarningReportStrategy()
-        {
-            return UseWarningReportStrategy(new NUnitWarningReportStrategy());
-        }
+        public AtataContextBuilder UseNUnitWarningReportStrategy() =>
+            UseWarningReportStrategy(new NUnitWarningReportStrategy());
 
         /// <summary>
         /// Sets the strategy for warning assertion reporting.
@@ -1214,10 +1200,8 @@ Actual: {driverFactory.GetType().FullName}",
 
         /// <inheritdoc cref="AutoSetUpDriverToUse"/>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public async Task AutoSetUpDriverToUseAsync()
-        {
+        public async Task AutoSetUpDriverToUseAsync() =>
             await Task.Run(AutoSetUpDriverToUse);
-        }
 
         /// <summary>
         /// <para>
@@ -1231,17 +1215,13 @@ Actual: {driverFactory.GetType().FullName}",
         /// ensure that <c>Atata.WebDriverSetup</c> package is installed.
         /// </para>
         /// </summary>
-        public void AutoSetUpConfiguredDrivers()
-        {
+        public void AutoSetUpConfiguredDrivers() =>
             InvokeAutoSetUpSafelyMethodOfDriverSetup(BuildingContext.ConfiguredLocalBrowserNames);
-        }
 
         /// <inheritdoc cref="AutoSetUpConfiguredDrivers"/>
         /// <returns>The task object representing the asynchronous operation.</returns>
-        public async Task AutoSetUpConfiguredDriversAsync()
-        {
+        public async Task AutoSetUpConfiguredDriversAsync() =>
             await Task.Run(AutoSetUpConfiguredDrivers);
-        }
 
         private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
         {

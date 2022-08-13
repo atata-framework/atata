@@ -29,9 +29,7 @@ namespace Atata
                 return values.ToQuotedValuesListOfString(true);
         }
 
-        protected string CreateItemInnerXPathByCellValues(params string[] values)
-        {
-            return string.Join(" and ", values.Select(x => "td[{0}]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))));
-        }
+        protected string CreateItemInnerXPathByCellValues(params string[] values) =>
+            string.Join(" and ", values.Select(x => "td[{0}]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))));
     }
 }

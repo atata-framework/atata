@@ -294,9 +294,8 @@ namespace Atata
         public static TOwner HaveClass<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier, params string[] classNames)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
-        {
-            return verifier.HaveClass(classNames.AsEnumerable());
-        }
+            =>
+            verifier.HaveClass(classNames.AsEnumerable());
 
         /// <summary>
         /// Verifies that the component has the specified class(es).

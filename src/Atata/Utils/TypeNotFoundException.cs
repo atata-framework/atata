@@ -28,10 +28,8 @@ namespace Atata
         {
         }
 
-        public static TypeNotFoundException For(string typeName, IEnumerable<Assembly> assembliesToFindIn)
-        {
-            return new TypeNotFoundException(
+        public static TypeNotFoundException For(string typeName, IEnumerable<Assembly> assembliesToFindIn) =>
+            new TypeNotFoundException(
                 $"Failed to find \"{typeName}\" type. Tried to find in assemblies: {string.Join(", ", assembliesToFindIn.Select(x => x.GetName().Name))}.");
-        }
     }
 }

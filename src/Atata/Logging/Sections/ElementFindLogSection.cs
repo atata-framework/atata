@@ -25,11 +25,9 @@ namespace Atata
             Level = LogLevel.Trace;
         }
 
-        private static string ResolveSearchContextName(ISearchContext searchContext)
-        {
-            return searchContext is IWebDriver
+        private static string ResolveSearchContextName(ISearchContext searchContext) =>
+            searchContext is IWebDriver
                 ? searchContext.GetType().Name
                 : Stringifier.ToString(searchContext);
-        }
     }
 }

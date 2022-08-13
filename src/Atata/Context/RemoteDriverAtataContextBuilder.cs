@@ -40,10 +40,8 @@ namespace Atata
             return CreateDriver(_remoteAddress, capabilities, _commandTimeout ?? DefaultCommandTimeout);
         }
 
-        protected virtual IWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout)
-        {
-            return new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
-        }
+        protected virtual IWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout) =>
+            new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
 
         protected virtual ICapabilities CreateCapabilities()
         {

@@ -123,10 +123,8 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value as string.</param>
         /// <returns>The value converted to <typeparamref name="TValue"/> type.</returns>
-        protected internal virtual TValue ConvertStringToValue(string value)
-        {
-            return TermResolver.FromString<TValue>(value, GetValueTermOptions());
-        }
+        protected internal virtual TValue ConvertStringToValue(string value) =>
+            TermResolver.FromString<TValue>(value, GetValueTermOptions());
 
         /// <summary>
         /// Converts the string to value of <typeparamref name="TValue"/> type for <see cref="GetValue"/> method.
@@ -167,10 +165,8 @@ namespace Atata
             return Equals(value, other);
         }
 
-        public override int GetHashCode()
-        {
-            return ComponentFullName.GetHashCode();
-        }
+        public override int GetHashCode() =>
+            ComponentFullName.GetHashCode();
 
         /// <summary>
         /// Gets the value term options (culture, format, etc.).

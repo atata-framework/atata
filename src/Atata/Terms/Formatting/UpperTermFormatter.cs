@@ -4,9 +4,8 @@ namespace Atata
 {
     public class UpperTermFormatter : ITermFormatter
     {
-        public string Format(string[] words)
-        {
-            return string.Join(" ", words).ToUpper(CultureInfo.CurrentCulture);
-        }
+        public string Format(string[] words) =>
+            string.Join(" ", words)
+                .ToUpper(CultureInfo.CurrentCulture);
     }
 }

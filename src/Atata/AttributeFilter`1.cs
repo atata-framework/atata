@@ -20,9 +20,8 @@ namespace Atata
 
         public AttributeFilter<TAttribute> ForAttribute<T>()
             where T : Attribute
-        {
-            return ForAttribute(typeof(T));
-        }
+            =>
+            ForAttribute(typeof(T));
 
         public AttributeFilter<TAttribute> ForAttribute(Type type)
         {

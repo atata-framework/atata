@@ -29,12 +29,10 @@ namespace Atata
                 : new AggregateAssertionException(assertionResults);
         }
 
-        public static string BuildExpectedMessage(string message, object[] args)
-        {
-            return args != null && args.Any()
+        public static string BuildExpectedMessage(string message, object[] args) =>
+            args != null && args.Any()
                 ? message.FormatWith(args.Select(x => Stringifier.ToString(x)).ToArray())
                 : message;
-        }
 
         public static string BuildConstraintMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string message, params TData[] args)
         {

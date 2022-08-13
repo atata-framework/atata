@@ -9,10 +9,8 @@ namespace Atata
 
         public static AtataTemplateStringFormatter Default { get; } = new AtataTemplateStringFormatter();
 
-        public object GetFormat(Type formatType)
-        {
-            return formatType == typeof(ICustomFormatter) ? this : null;
-        }
+        public object GetFormat(Type formatType) =>
+            formatType == typeof(ICustomFormatter) ? this : null;
 
         public string Format(string format, object arg, IFormatProvider formatProvider)
         {

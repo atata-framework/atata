@@ -39,10 +39,8 @@ namespace Atata
             Write(completeMessage);
         }
 
-        protected virtual void Write(string completeMessage)
-        {
+        protected virtual void Write(string completeMessage) =>
             _writeAction?.Invoke(completeMessage);
-        }
 
         private string BuildCompleteMessage(LogEventInfo eventInfo)
         {

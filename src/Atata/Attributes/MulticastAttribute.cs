@@ -216,11 +216,9 @@ namespace Atata
         /// <returns>
         /// <see langword="true"/> if the name applies the criteria; otherwise, <see langword="false"/>.
         /// </returns>
-        public bool IsNameApplicable(string name)
-        {
-            return (TargetNames == null || !TargetNames.Any() || TargetNames.Contains(name))
+        public bool IsNameApplicable(string name) =>
+            (TargetNames == null || !TargetNames.Any() || TargetNames.Contains(name))
                 && (ExcludeTargetNames == null || !ExcludeTargetNames.Any() || !ExcludeTargetNames.Contains(name));
-        }
 
         /// <summary>
         /// Determines whether the component tags apply the tag criteria.

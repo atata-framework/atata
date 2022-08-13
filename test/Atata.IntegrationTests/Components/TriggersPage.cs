@@ -73,20 +73,14 @@ public class TriggersPage : Page<_>
         Input.Metadata.Add(new WriteTriggerEventAttribute(allEvents));
     }
 
-    public static void OnStaticInit()
-    {
+    public static void OnStaticInit() =>
         s_isOnInitInvoked = true;
-    }
 
-    public void OnBeforePerform()
-    {
+    public void OnBeforePerform() =>
         IsBeforePerformInvoked = true;
-    }
 
-    public void OnAfterPerform()
-    {
+    public void OnAfterPerform() =>
         IsAfterPerformInvoked = true;
-    }
 
     public class WriteTriggerEventAttribute : SpecificTriggerAttribute
     {

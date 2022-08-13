@@ -26,10 +26,8 @@
                 ?? (Parent as Select<TValue, TOwner>)?.SelectOptionBehavior
                 ?? new SelectsOptionByTextAttribute();
 
-        protected virtual bool GetIsSelected()
-        {
-            return Scope.Selected;
-        }
+        protected virtual bool GetIsSelected() =>
+            Scope.Selected;
 
         protected override TValue GetValue()
         {
@@ -42,10 +40,8 @@
         /// Also executes <see cref="TriggerEvents.BeforeClick" /> and <see cref="TriggerEvents.AfterClick" /> triggers.
         /// </summary>
         /// <returns>The instance of the owner page object.</returns>
-        public TOwner Select()
-        {
-            return Click();
-        }
+        public TOwner Select() =>
+            Click();
 
         protected override TermOptions GetValueTermOptions() =>
             new TermOptions

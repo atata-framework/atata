@@ -7,10 +7,8 @@ namespace Atata
 {
     public static class StackTraceFilter
     {
-        public static string TakeBeforeInvokeMethodOfRuntimeMethodHandle(string stackTrace)
-        {
-            return TakeBefore(stackTrace, @" System\.RuntimeMethodHandle\.InvokeMethod");
-        }
+        public static string TakeBeforeInvokeMethodOfRuntimeMethodHandle(string stackTrace) =>
+            TakeBefore(stackTrace, @" System\.RuntimeMethodHandle\.InvokeMethod");
 
         public static string TakeBefore(string stackTrace, string pattern)
         {

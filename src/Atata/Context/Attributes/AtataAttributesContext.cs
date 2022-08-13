@@ -55,22 +55,18 @@ namespace Atata
         public Dictionary<TypePropertyNamePair, List<Attribute>> PropertyMap { get; }
 
         /// <inheritdoc cref="Clone"/>
-        object ICloneable.Clone()
-        {
-            return Clone();
-        }
+        object ICloneable.Clone() =>
+            Clone();
 
         /// <summary>
         /// Creates a copy of the current instance.
         /// </summary>
         /// <returns>The copied <see cref="AtataAttributesContext"/> instance.</returns>
-        public AtataAttributesContext Clone()
-        {
-            return new AtataAttributesContext(
+        public AtataAttributesContext Clone() =>
+            new AtataAttributesContext(
                 new List<Attribute>(Global),
                 AssemblyMap.ToDictionary(x => x.Key, x => x.Value.ToList()),
                 ComponentMap.ToDictionary(x => x.Key, x => x.Value.ToList()),
                 PropertyMap.ToDictionary(x => x.Key, x => x.Value.ToList()));
-        }
     }
 }

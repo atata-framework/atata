@@ -159,12 +159,10 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner SetValue(string value)
-        {
-            return ExecuteAgainst(
+        public TOwner SetValue(string value) =>
+            ExecuteAgainst(
                 "arguments[0].value = arguments[1];",
                 value ?? string.Empty);
-        }
 
         /// <summary>
         /// <para>
@@ -180,13 +178,11 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner AddValue(string value)
-        {
-            return ExecuteAgainst(
+        public TOwner AddValue(string value) =>
+            ExecuteAgainst(
                 "var currentValue = arguments[0].value;" +
                 "arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];",
                 value ?? string.Empty);
-        }
 
         /// <summary>
         /// <para>
@@ -202,13 +198,11 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner SetValueAndDispatchChangeEvent(string value)
-        {
-            return ExecuteAgainst(
+        public TOwner SetValueAndDispatchChangeEvent(string value) =>
+            ExecuteAgainst(
                 "arguments[0].value = arguments[1];" +
                 "arguments[0].dispatchEvent(new Event('change'));",
                 value ?? string.Empty);
-        }
 
         /// <summary>
         /// <para>
@@ -225,14 +219,12 @@ namespace Atata
         /// </summary>
         /// <param name="value">The value.</param>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner AddValueAndDispatchChangeEvent(string value)
-        {
-            return ExecuteAgainst(
+        public TOwner AddValueAndDispatchChangeEvent(string value) =>
+            ExecuteAgainst(
                 "var currentValue = arguments[0].value;" +
                 "arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];" +
                 "arguments[0].dispatchEvent(new Event('change'));",
                 value ?? string.Empty);
-        }
 
         /// <summary>
         /// <para>
@@ -268,10 +260,8 @@ namespace Atata
         /// </para>
         /// </summary>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner Click()
-        {
-            return ExecuteAgainst("arguments[0].click();");
-        }
+        public TOwner Click() =>
+            ExecuteAgainst("arguments[0].click();");
 
         /// <summary>
         /// <para>
@@ -285,10 +275,8 @@ namespace Atata
         /// </para>
         /// </summary>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner Focus()
-        {
-            return ExecuteAgainst("arguments[0].focus();");
-        }
+        public TOwner Focus() =>
+            ExecuteAgainst("arguments[0].focus();");
 
         /// <summary>
         /// <para>
@@ -302,10 +290,8 @@ namespace Atata
         /// </para>
         /// </summary>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner Blur()
-        {
-            return ExecuteAgainst("arguments[0].blur();");
-        }
+        public TOwner Blur() =>
+            ExecuteAgainst("arguments[0].blur();");
 
         /// <summary>
         /// <para>
@@ -319,10 +305,8 @@ namespace Atata
         /// </para>
         /// </summary>
         /// <returns>An instance of the owner page object.</returns>
-        public TOwner ScrollIntoView()
-        {
-            return ExecuteAgainst("arguments[0].scrollIntoView();");
-        }
+        public TOwner ScrollIntoView() =>
+            ExecuteAgainst("arguments[0].scrollIntoView();");
 
         private TResult ConvertResult<TResult>(object result)
         {

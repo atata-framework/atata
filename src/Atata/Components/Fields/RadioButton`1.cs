@@ -32,10 +32,8 @@
         /// </summary>
         public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
-        protected override bool GetValue()
-        {
-            return Scope.Selected;
-        }
+        protected override bool GetValue() =>
+            Scope.Selected;
 
         /// <summary>
         /// Checks the control.

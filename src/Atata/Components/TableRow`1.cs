@@ -13,9 +13,7 @@ namespace Atata
     public class TableRow<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        protected IWebElement GetCell(int index)
-        {
-            return Scope.GetWithLogging(By.XPath($".//td[{index + 1}]").TableColumn());
-        }
+        protected IWebElement GetCell(int index) =>
+            Scope.GetWithLogging(By.XPath($".//td[{index + 1}]").TableColumn());
     }
 }

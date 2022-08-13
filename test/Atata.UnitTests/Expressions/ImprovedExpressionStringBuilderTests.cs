@@ -167,10 +167,8 @@ public static class ImprovedExpressionStringBuilderTests
     }
 
     [TestCaseSource(nameof(GetExpressionTestCases))]
-    public static string ExpressionToString(Expression expression)
-    {
-        return ImprovedExpressionStringBuilder.ExpressionToString(expression);
-    }
+    public static string ExpressionToString(Expression expression) =>
+        ImprovedExpressionStringBuilder.ExpressionToString(expression);
 
     public static class StaticClass
     {

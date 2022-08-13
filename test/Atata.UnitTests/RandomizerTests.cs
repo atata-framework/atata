@@ -26,8 +26,6 @@ public class RandomizerTests
     [TestCase("s", 1)]
     [TestCase("s{0}", 1)]
     [TestCase("start{0}end", 8)]
-    public void GetString_ThrowsArgumentException(string format, int length)
-    {
+    public void GetString_ThrowsArgumentException(string format, int length) =>
         Assert.Throws<ArgumentException>(() => Randomizer.GetString(format, length));
-    }
 }

@@ -281,20 +281,16 @@ public class ShouldTests : UITestFixture
     }
 
     [Test]
-    public void Equal_Delayed()
-    {
+    public void Equal_Delayed() =>
         Go.To<WaitingPage>()
             .WaitAndUpdateValue.Click()
             .ValueBlock.Should.Equal("New value");
-    }
 
     [Test]
-    public void Equal_Delayed_WithParentReset()
-    {
+    public void Equal_Delayed_WithParentReset() =>
         Go.To<WaitingPage>()
             .WaitAndUpdateValue.Click()
             .ValueContainer.ValueBlock.Should.Equal("New value");
-    }
 
     [Test]
     public void Match()

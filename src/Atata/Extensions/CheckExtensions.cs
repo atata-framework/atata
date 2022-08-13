@@ -104,11 +104,9 @@ namespace Atata
             ? new ArgumentNullException(argumentName)
             : new ArgumentNullException(argumentName, message);
 
-        private static string ConcatMessage(string primaryMessage, string secondaryMessage)
-        {
-            return string.IsNullOrEmpty(secondaryMessage)
+        private static string ConcatMessage(string primaryMessage, string secondaryMessage) =>
+            string.IsNullOrEmpty(secondaryMessage)
                 ? primaryMessage
                 : $"{primaryMessage} {secondaryMessage}";
-        }
     }
 }

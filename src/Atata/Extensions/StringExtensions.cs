@@ -7,20 +7,14 @@ namespace Atata
 {
     public static class StringExtensions
     {
-        internal static string FormatWith(this string format, params object[] args)
-        {
-            return string.Format(format, args);
-        }
+        internal static string FormatWith(this string format, params object[] args) =>
+            string.Format(format, args);
 
-        public static string Prepend(this string value, string valueToPrepend)
-        {
-            return string.Concat(valueToPrepend, value);
-        }
+        public static string Prepend(this string value, string valueToPrepend) =>
+            string.Concat(valueToPrepend, value);
 
-        public static string Append(this string value, string valueToAppend)
-        {
-            return string.Concat(value, valueToAppend);
-        }
+        public static string Append(this string value, string valueToAppend) =>
+            string.Concat(value, valueToAppend);
 
         public static bool IsUpper(this string value)
         {
@@ -120,15 +114,11 @@ namespace Atata
             return invalidChars.Aggregate(value, (current, c) => current.Replace(c.ToString(), replaceWith));
         }
 
-        public static string SanitizeForFileName(this string value, string replaceWith = null)
-        {
-            return value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
-        }
+        public static string SanitizeForFileName(this string value, string replaceWith = null) =>
+            value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
 
-        public static string SanitizeForPath(this string value, string replaceWith = null)
-        {
-            return value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
-        }
+        public static string SanitizeForPath(this string value, string replaceWith = null) =>
+            value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
 
         public static string Truncate(this string value, int length, bool withEllipsis = true)
         {

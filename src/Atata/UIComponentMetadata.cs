@@ -134,10 +134,8 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <returns><see langword="true"/> if contains; otherwise, <see langword="false"/>.</returns>
-        public bool Contains<TAttribute>()
-        {
-            return Get<TAttribute>() != null;
-        }
+        public bool Contains<TAttribute>() =>
+            Get<TAttribute>() != null;
 
         /// <summary>
         /// Tries to get the first attribute of the specified type.
@@ -156,10 +154,8 @@ namespace Atata
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <returns>The first attribute found or <see langword="null"/>.</returns>
-        public TAttribute Get<TAttribute>()
-        {
-            return Get<TAttribute>(null);
-        }
+        public TAttribute Get<TAttribute>() =>
+            Get<TAttribute>(null);
 
         /// <summary>
         /// Gets the first attribute of the specified type or <see langword="null"/> if no such attribute is found.
@@ -167,20 +163,16 @@ namespace Atata
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <param name="filterConfiguration">The filter configuration function.</param>
         /// <returns>The first attribute found or <see langword="null"/>.</returns>
-        public TAttribute Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration)
-        {
-            return GetAll(filterConfiguration).FirstOrDefault();
-        }
+        public TAttribute Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration) =>
+            GetAll(filterConfiguration).FirstOrDefault();
 
         /// <summary>
         /// Gets the sequence of attributes of the specified type.
         /// </summary>
         /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
         /// <returns>The sequence of attributes found.</returns>
-        public IEnumerable<TAttribute> GetAll<TAttribute>()
-        {
-            return GetAll<TAttribute>(null);
-        }
+        public IEnumerable<TAttribute> GetAll<TAttribute>() =>
+            GetAll<TAttribute>(null);
 
         /// <summary>
         /// Gets the sequence of attributes of the specified type.
@@ -377,10 +369,8 @@ namespace Atata
         /// Gets the format by searching the <see cref="FormatAttribute"/> at all attribute levels or <see langword="null"/> if not found.
         /// </summary>
         /// <returns>The format or <see langword="null"/> if not found.</returns>
-        public string GetFormat()
-        {
-            return Get<FormatAttribute>()?.Value;
-        }
+        public string GetFormat() =>
+            Get<FormatAttribute>()?.Value;
 
         /// <summary>
         /// Gets the format to use for getting the value of the control.

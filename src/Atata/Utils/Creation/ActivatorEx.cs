@@ -19,10 +19,8 @@ namespace Atata
             return CreateInstance<T>(type);
         }
 
-        public static T CreateInstance<T>(Type type = null)
-        {
-            return (T)CreateInstance(type ?? typeof(T));
-        }
+        public static T CreateInstance<T>(Type type = null) =>
+            (T)CreateInstance(type ?? typeof(T));
 
         public static object CreateInstance(Type type)
         {

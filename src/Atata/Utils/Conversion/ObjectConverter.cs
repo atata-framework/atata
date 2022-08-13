@@ -65,28 +65,22 @@ namespace Atata
             return array;
         }
 
-        private static object CreateEnumerable(Type type, object sourceEnumerable)
-        {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+        private static object CreateEnumerable(Type type, object sourceEnumerable) =>
+            type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                 ? CreateEnumerable(
                     typeof(ReadOnlyCollection<>).MakeGenericType(type.GetGenericArguments().First()),
                     sourceEnumerable)
                 : Activator.CreateInstance(type, sourceEnumerable);
-        }
 
-        private static object ConvertToEnum(Type enumType, object value)
-        {
-            return value is string stringValue
+        private static object ConvertToEnum(Type enumType, object value) =>
+            value is string stringValue
                 ? Enum.Parse(enumType, stringValue, true)
                 : Enum.ToObject(enumType, value);
-        }
 
-        private static TimeSpan ConvertToTimeSpan(object value)
-        {
-            return value is double || value is int || value is float
+        private static TimeSpan ConvertToTimeSpan(object value) =>
+            value is double || value is int || value is float
                 ? TimeSpan.FromSeconds(System.Convert.ToDouble(value))
                 : TimeSpan.Parse(value.ToString());
-        }
 
         private static bool TryGetIEnumerableElementType(Type type, out Type elementType)
         {
@@ -98,10 +92,8 @@ namespace Atata
             return enumerableType != null;
         }
 
-        private static object ConvertViaSystemConversion(object value, Type destinationType)
-        {
-            return System.Convert.ChangeType(value, destinationType);
-        }
+        private static object ConvertViaSystemConversion(object value, Type destinationType) =>
+            System.Convert.ChangeType(value, destinationType);
 
         private object ConvertToArray(object value, Type elementType)
         {

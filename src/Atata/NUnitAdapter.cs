@@ -52,10 +52,8 @@ namespace Atata
 
         internal static Type AssertionExceptionType => GetType(AssertionExceptionTypeName);
 
-        private static Type GetType(string typeName)
-        {
-            return Type.GetType($"{typeName},{NUnitAssemblyName}", true);
-        }
+        private static Type GetType(string typeName) =>
+            Type.GetType($"{typeName},{NUnitAssemblyName}", true);
 
         internal static object GetCurrentTest()
         {
@@ -182,17 +180,13 @@ namespace Atata
             return IsTestResultAdapterFailed(testResult);
         }
 
-        internal static bool IsTestResultAdapterFailed(dynamic testResult)
-        {
-            return testResult.Outcome.Status.ToString().Contains("Fail");
-        }
+        internal static bool IsTestResultAdapterFailed(dynamic testResult) =>
+            testResult.Outcome.Status.ToString().Contains("Fail");
 
-        internal static void AddTestAttachment(string filePath, string description = null)
-        {
-            // TODO: Change implementation to: TestExecutionContext.CurrentContext.CurrentResult.TestAttachments.Add(new TestAttachment(filePath, description))
+        // TODO: Change implementation to: TestExecutionContext.CurrentContext.CurrentResult.TestAttachments.Add(new TestAttachment(filePath, description))
+        internal static void AddTestAttachment(string filePath, string description = null) =>
             s_testContextType.Value.GetMethodWithThrowOnError("AddTestAttachment", BindingFlags.Static | BindingFlags.Public)
                 .InvokeStatic(filePath, description);
-        }
 
         internal static object GetCurrentTestContext()
         {

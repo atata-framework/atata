@@ -21,9 +21,7 @@
         {
         }
 
-        public override IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata)
-        {
-            return new FindItemByLabelStrategy(component);
-        }
+        public override IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata) =>
+            new FindItemByLabelStrategy(component);
     }
 }

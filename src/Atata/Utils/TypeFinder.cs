@@ -116,11 +116,8 @@ namespace Atata
             }
         }
 
-        private static IEnumerable<Type> FilterByExactName(IEnumerable<Type> types, string typeName)
-        {
-            return types
-                .Where(x => x.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
-        }
+        private static IEnumerable<Type> FilterByExactName(IEnumerable<Type> types, string typeName) =>
+            types.Where(x => x.Name.Equals(typeName, StringComparison.OrdinalIgnoreCase));
 
         private static IEnumerable<Type> FilterByNameConsideringGeneric(IEnumerable<Type> types, string typeName)
         {
@@ -164,9 +161,7 @@ namespace Atata
             return types.Where(x => regex.IsMatch(x.Namespace));
         }
 
-        private static Regex CreateRegexForNameConsideringGeneric(string typeName)
-        {
-            return new Regex($"^{typeName}($|`.+)", RegexOptions.IgnoreCase);
-        }
+        private static Regex CreateRegexForNameConsideringGeneric(string typeName) =>
+            new Regex($"^{typeName}($|`.+)", RegexOptions.IgnoreCase);
     }
 }

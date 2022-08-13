@@ -12,9 +12,7 @@ namespace Atata
             return builder;
         }
 
-        public static StringBuilder AppendJoined(this StringBuilder builder, string separator, IEnumerable<string> values)
-        {
-            return builder.Append(string.Join(separator, values));
-        }
+        public static StringBuilder AppendJoined(this StringBuilder builder, string separator, IEnumerable<string> values) =>
+            builder.Append(string.Join(separator, values));
     }
 }

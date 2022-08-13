@@ -29,10 +29,10 @@ namespace Atata
         /// Gets the values of property name endings to ignore.
         /// </summary>
         /// <returns>An array of name endings to ignore.</returns>
-        public string[] GetIgnoreNameEndingValues()
-        {
-            return IgnoreNameEndings != null ? IgnoreNameEndings.Split(',').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray() : new string[0];
-        }
+        public string[] GetIgnoreNameEndingValues() =>
+            IgnoreNameEndings != null
+                ? IgnoreNameEndings.Split(',').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray()
+                : new string[0];
 
         /// <summary>
         /// Normalizes the name considering value of <see cref="IgnoreNameEndings"/>.
@@ -41,8 +41,8 @@ namespace Atata
         /// <returns>Normalized name.</returns>
         public string NormalizeNameIgnoringEnding(string name)
         {
-            string endingToIgnore = GetIgnoreNameEndingValues().
-                FirstOrDefault(x => name.EndsWith(x, StringComparison.Ordinal) && name.Length > x.Length);
+            string endingToIgnore = GetIgnoreNameEndingValues()
+                .FirstOrDefault(x => name.EndsWith(x, StringComparison.Ordinal) && name.Length > x.Length);
 
             return endingToIgnore != null
                 ? name.Substring(0, name.Length - endingToIgnore.Length).TrimEnd()

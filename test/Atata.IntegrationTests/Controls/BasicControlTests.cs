@@ -3,8 +3,7 @@
 public class BasicControlTests : UITestFixture
 {
     [Test]
-    public void Interact()
-    {
+    public void Interact() =>
         Go.To<BasicControlsPage>()
             .Header.Should.Equal("Basic Controls")
 
@@ -63,5 +62,4 @@ public class BasicControlTests : UITestFixture
             .DisabledButtonControl.Should.Exist()
             .DisabledButtonControl.Should.BeDisabled()
             .MissingButtonControl.Should.Not.Exist();
-    }
 }

@@ -52,8 +52,7 @@ public class ControlListTests : UITestFixture
     }
 
     [Test]
-    public void WithDeclaredAttributes()
-    {
+    public void WithDeclaredAttributes() =>
         Go.To<ListPage>()
             .ProductNameTextContolList[0].Should.Equal("Phone")
             .ProductNameTextContolList[1].Should.Equal("Book")
@@ -61,7 +60,6 @@ public class ControlListTests : UITestFixture
             .ProductNameTextContolList.Should.EqualSequence("Phone", "Book", "Table")
             .ProductPercentNumberContolList.Should.EqualSequence(0.05m, 0.10m, 0.15m)
             .ProductPercentNumberContolList[1].Should.Equal(0.10m);
-    }
 
     [Test]
     public void OfDescendantsAsControls()

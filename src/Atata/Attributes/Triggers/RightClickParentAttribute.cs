@@ -12,9 +12,7 @@
         {
         }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
             ((Control<TOwner>)context.Component.Parent).RightClick();
-        }
     }
 }

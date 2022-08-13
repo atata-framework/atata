@@ -8,10 +8,8 @@ namespace Atata
     /// </summary>
     public class NUnitAggregateAssertionStrategy : IAggregateAssertionStrategy
     {
-        public void Assert(Action action)
-        {
+        public void Assert(Action action) =>
             NUnitAdapter.AssertMultiple(action);
-        }
 
         public void ReportFailure(string message, string stackTrace)
         {

@@ -63,15 +63,11 @@ namespace Atata
             }
         }
 
-        protected override void Out(string s)
-        {
+        protected override void Out(string s) =>
             CurrentLiteral.Append(s);
-        }
 
-        protected override void Out(char c)
-        {
+        protected override void Out(char c) =>
             CurrentLiteral.Append(c);
-        }
 
         private static bool CanStringifyValue(Type valueType)
         {
@@ -287,12 +283,10 @@ namespace Atata
             return base.VisitNewArray(node);
         }
 
-        protected override Expression VisitNew(NewExpression node)
-        {
-            return node.Type.Name.StartsWith("<>", StringComparison.Ordinal)
+        protected override Expression VisitNew(NewExpression node) =>
+            node.Type.Name.StartsWith("<>", StringComparison.Ordinal)
                 ? VisitNewAnonymousType(node)
                 : VisitNewKnownType(node);
-        }
 
         private Expression VisitNewKnownType(NewExpression node, bool alwaysAddParentheses = true)
         {
@@ -434,9 +428,7 @@ namespace Atata
             return base.VisitConstant(node);
         }
 
-        public override string ToString()
-        {
-            return CurrentLambda.ToString();
-        }
+        public override string ToString() =>
+            CurrentLambda.ToString();
     }
 }

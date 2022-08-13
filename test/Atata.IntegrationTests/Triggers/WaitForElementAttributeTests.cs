@@ -3,20 +3,16 @@
 public class WaitForElementAttributeTests : UITestFixture
 {
     [Test]
-    public void Execute_WithUntilMissingOrHidden()
-    {
+    public void Execute_WithUntilMissingOrHidden() =>
         Go.To<WaitingPage>()
             .ButtonWithMissingOrHiddenWait.Click()
             .Result.Should.AtOnce.Exist();
-    }
 
     [Test]
-    public void Execute_WithUntilVisibleThenHidden()
-    {
+    public void Execute_WithUntilVisibleThenHidden() =>
         Go.To<WaitingPage>()
             .ButtonWithVisibleAndHiddenWait.Click()
             .Result.Should.AtOnce.Exist();
-    }
 
     [Test]
     public void Execute_WithUntilVisibleThenMissing()
@@ -54,33 +50,25 @@ public class WaitForElementAttributeTests : UITestFixture
     }
 
     [Test]
-    public void Execute_WhenOnInit_AtPageObject()
-    {
+    public void Execute_WhenOnInit_AtPageObject() =>
         Go.To(new WaitingOnInitPage { OnInitWaitKind = WaitingOnInitPage.WaitKind.WaitForElementVisible })
             .VerifyContentBlockIsLoaded();
-    }
 
     [Test]
-    public void Execute_WhenOnInit_AtPageObject_AfterGo()
-    {
+    public void Execute_WhenOnInit_AtPageObject_AfterGo() =>
         Go.To(new WaitingPage { NavigatingPageWaitKind = WaitingOnInitPage.WaitKind.WaitForElementVisible })
             .GoToWaitingOnInitPage.ClickAndGo()
             .VerifyContentBlockIsLoaded();
-    }
 
     [Test]
-    public void Execute_WhenOnInit_AtPageObject_AfterDelayedGo()
-    {
+    public void Execute_WhenOnInit_AtPageObject_AfterDelayedGo() =>
         Go.To(new WaitingPage { NavigatingPageWaitKind = WaitingOnInitPage.WaitKind.WaitForElementVisible })
             .WaitAndGoToWaitingOnInitPage.ClickAndGo()
             .VerifyContentBlockIsLoaded();
-    }
 
     [Test]
-    public void Execute_WhenOnDeInit()
-    {
+    public void Execute_WhenOnDeInit() =>
         Go.To(new WaitingPage { NavigatingWaitKind = WaitingPage.WaitKind.WaitForElementHiddenOrMissing })
             .WaitAndGoToWaitingOnInitPage.ClickAndGo()
             .PageUrl.Should.AtOnce.EndWith(WaitingOnInitPage.Url);
-    }
 }

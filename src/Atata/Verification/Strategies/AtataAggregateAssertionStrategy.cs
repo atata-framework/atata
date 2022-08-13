@@ -40,10 +40,10 @@ namespace Atata
         {
             var allAssertionResults = AtataContext.Current.PendingFailureAssertionResults;
 
-            IEnumerable<AssertionResult> exclusiveAssertions = allAssertionResults.
-                Where(x => !assertionResultsBefore.Contains(x)).
-                Where(x => x.Status == AssertionStatus.Failed || x.Status == AssertionStatus.Warning).
-                ToArray();
+            IEnumerable<AssertionResult> exclusiveAssertions = allAssertionResults
+                .Where(x => !assertionResultsBefore.Contains(x))
+                .Where(x => x.Status == AssertionStatus.Failed || x.Status == AssertionStatus.Warning)
+                .ToArray();
 
             if (exclusiveAssertions.Any())
                 allAssertionResults.RemoveAll(x => exclusiveAssertions.Contains(x));
@@ -51,9 +51,7 @@ namespace Atata
             return exclusiveAssertions;
         }
 
-        public void ReportFailure(string message, string stackTrace)
-        {
+        public void ReportFailure(string message, string stackTrace) =>
             AtataContext.Current.PendingFailureAssertionResults.Add(AssertionResult.ForFailure(message, stackTrace));
-        }
     }
 }

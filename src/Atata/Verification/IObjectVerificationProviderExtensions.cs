@@ -257,20 +257,14 @@ namespace Atata
         public static TOwner BeNull<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier) =>
             verifier.Satisfy(actual => Equals(actual, null), "be null");
 
-        public static TOwner BeNullOrEmpty<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier)
-        {
-            return verifier.Satisfy(actual => string.IsNullOrEmpty(actual), "be null or empty");
-        }
+        public static TOwner BeNullOrEmpty<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
+            verifier.Satisfy(actual => string.IsNullOrEmpty(actual), "be null or empty");
 
-        public static TOwner BeNullOrWhiteSpace<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier)
-        {
-            return verifier.Satisfy(actual => string.IsNullOrWhiteSpace(actual), "be null or white-space");
-        }
+        public static TOwner BeNullOrWhiteSpace<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
+            verifier.Satisfy(actual => string.IsNullOrWhiteSpace(actual), "be null or white-space");
 
-        public static TOwner EqualIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
-        {
-            return verifier.Satisfy(actual => string.Equals(expected, actual, StringComparison.CurrentCultureIgnoreCase), "equal {0} ignoring case", expected);
-        }
+        public static TOwner EqualIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected) =>
+            verifier.Satisfy(actual => string.Equals(expected, actual, StringComparison.CurrentCultureIgnoreCase), "equal {0} ignoring case", expected);
 
         public static TOwner Contain<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
         {
@@ -337,74 +331,50 @@ namespace Atata
         }
 
         public static TOwner BeGreater<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
-            where TObject : IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) > 0, "be greater than {0}", expected);
-        }
+            where TObject : IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) > 0, "be greater than {0}", expected);
 
         public static TOwner BeGreater<TObject, TOwner>(this IObjectVerificationProvider<TObject?, TOwner> verifier, TObject expected)
-            where TObject : struct, IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) > 0, "be greater than {0}", expected);
-        }
+            where TObject : struct, IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) > 0, "be greater than {0}", expected);
 
         public static TOwner BeGreaterOrEqual<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
-            where TObject : IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) >= 0, "be greater than or equal to {0}", expected);
-        }
+            where TObject : IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) >= 0, "be greater than or equal to {0}", expected);
 
         public static TOwner BeGreaterOrEqual<TObject, TOwner>(this IObjectVerificationProvider<TObject?, TOwner> verifier, TObject expected)
-            where TObject : struct, IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) >= 0, "be greater than or equal to {0}", expected);
-        }
+            where TObject : struct, IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) >= 0, "be greater than or equal to {0}", expected);
 
         public static TOwner BeLess<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
-            where TObject : IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) < 0, "be less than {0}", expected);
-        }
+            where TObject : IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) < 0, "be less than {0}", expected);
 
         public static TOwner BeLess<TObject, TOwner>(this IObjectVerificationProvider<TObject?, TOwner> verifier, TObject expected)
-            where TObject : struct, IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) < 0, "be less than {0}", expected);
-        }
+            where TObject : struct, IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) < 0, "be less than {0}", expected);
 
         public static TOwner BeLessOrEqual<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
-            where TObject : IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) <= 0, "be less than or equal to {0}", expected);
-        }
+            where TObject : IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.CompareTo(expected) <= 0, "be less than or equal to {0}", expected);
 
         public static TOwner BeLessOrEqual<TObject, TOwner>(this IObjectVerificationProvider<TObject?, TOwner> verifier, TObject expected)
-            where TObject : struct, IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) <= 0, "be less than or equal to {0}", expected);
-        }
+            where TObject : struct, IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(expected) <= 0, "be less than or equal to {0}", expected);
 
         public static TOwner BeInRange<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject from, TObject to)
-            where TObject : IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.CompareTo(from) >= 0 && actual.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
-        }
+            where TObject : IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.CompareTo(from) >= 0 && actual.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
 
         public static TOwner BeInRange<TObject, TOwner>(this IObjectVerificationProvider<TObject?, TOwner> verifier, TObject from, TObject to)
-            where TObject : struct, IComparable<TObject>, IComparable
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(from) >= 0 && actual.Value.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
-        }
+            where TObject : struct, IComparable<TObject>, IComparable =>
+            verifier.Satisfy(actual => actual != null && actual.Value.CompareTo(from) >= 0 && actual.Value.CompareTo(to) <= 0, "be in range {0} - {1}", from, to);
 
-        public static TOwner EqualDate<TOwner>(this IObjectVerificationProvider<DateTime, TOwner> verifier, DateTime expected)
-        {
-            return verifier.Satisfy(actual => Equals(actual.Date, expected.Date), "equal date {0}", expected);
-        }
+        public static TOwner EqualDate<TOwner>(this IObjectVerificationProvider<DateTime, TOwner> verifier, DateTime expected) =>
+            verifier.Satisfy(actual => Equals(actual.Date, expected.Date), "equal date {0}", expected);
 
-        public static TOwner EqualDate<TOwner>(this IObjectVerificationProvider<DateTime?, TOwner> verifier, DateTime expected)
-        {
-            return verifier.Satisfy(actual => actual != null && Equals(actual.Value.Date, expected.Date), "equal date {0}", expected);
-        }
+        public static TOwner EqualDate<TOwner>(this IObjectVerificationProvider<DateTime?, TOwner> verifier, DateTime expected) =>
+            verifier.Satisfy(actual => actual != null && Equals(actual.Value.Date, expected.Date), "equal date {0}", expected);
 
         public static TOwner MatchAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, TermMatch match, params string[] expected)
         {
@@ -434,25 +404,17 @@ namespace Atata
             return verifier.Satisfy(actual => actual != null && expected.All(x => actual.Contains(x)), message, expected);
         }
 
-        public static TOwner BeEmpty<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier)
-        {
-            return verifier.Satisfy(actual => actual != null && !actual.Any(), "be empty");
-        }
+        public static TOwner BeEmpty<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier) =>
+            verifier.Satisfy(actual => actual != null && !actual.Any(), "be empty");
 
-        public static TOwner HaveCount<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, int expected)
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
-        }
+        public static TOwner HaveCount<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, int expected) =>
+            verifier.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
 
-        public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected)
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
-        }
+        public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
+            verifier.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
 
-        public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, params TObject[] expected)
-        {
-            return verifier.BeEquivalent(expected.AsEnumerable());
-        }
+        public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, params TObject[] expected) =>
+            verifier.BeEquivalent(expected.AsEnumerable());
 
         public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, IEnumerable<TObject> expected)
         {
@@ -463,10 +425,8 @@ namespace Atata
                 $"be equivalent to {Stringifier.ToString(expected)}");
         }
 
-        public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected)
-        {
-            return verifier.BeEquivalent(expected.AsEnumerable());
-        }
+        public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
+            verifier.BeEquivalent(expected.AsEnumerable());
 
         public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
         {
@@ -477,10 +437,8 @@ namespace Atata
                 $"be equivalent to {Stringifier.ToString(expected)}");
         }
 
-        public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, params TObject[] expected)
-        {
-            return verifier.EqualSequence(expected.AsEnumerable());
-        }
+        public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, params TObject[] expected) =>
+            verifier.EqualSequence(expected.AsEnumerable());
 
         public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, IEnumerable<TObject> expected)
         {
@@ -491,10 +449,8 @@ namespace Atata
                 $"equal sequence {Stringifier.ToString(expected)}");
         }
 
-        public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected)
-        {
-            return verifier.EqualSequence(expected.AsEnumerable());
-        }
+        public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
+            verifier.EqualSequence(expected.AsEnumerable());
 
         public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
         {
@@ -512,10 +468,8 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
-        {
-            return verifier.Satisfy(actual => actual != null && actual.Count() == 1, $"contain single item");
-        }
+        public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier) =>
+            verifier.Satisfy(actual => actual != null && actual.Count() == 1, $"contain single item");
 
         /// <summary>
         /// Verifies that collection contains a single item equal to <paramref name="expected"/> parameter.
@@ -525,12 +479,10 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <param name="expected">An expected item value.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, TItem expected)
-        {
-            return verifier.Satisfy(
+        public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, TItem expected) =>
+            verifier.Satisfy(
                 actual => actual != null && actual.Count(x => Equals(x, expected)) == 1,
                 $"contain single {Stringifier.ToString(expected)}");
-        }
 
         /// <summary>
         /// Verifies that collection contains a single item equal to <paramref name="expected"/> parameter.
@@ -540,12 +492,10 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <param name="expected">An expected object value.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner ContainSingle<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, TObject expected)
-        {
-            return verifier.Satisfy(
+        public static TOwner ContainSingle<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, TObject expected) =>
+            verifier.Satisfy(
                 actual => actual != null && actual.Count((TObject x) => Equals(x, expected)) == 1,
                 $"contain single {Stringifier.ToString(expected)}");
-        }
 
         /// <summary>
         /// Verifies that collection contains a single item matching <paramref name="predicateExpression"/>.
@@ -577,11 +527,10 @@ namespace Atata
             this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
             int expectedCount,
             TItem expectedValue)
-        {
-            return verifier.Satisfy(
+            =>
+            verifier.Satisfy(
                 actual => actual != null && actual.Count(x => Equals(x, expectedValue)) == expectedCount,
                 $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} items");
-        }
 
         /// <summary>
         /// Verifies that collection contains exact count of items equal to <paramref name="expectedValue"/> parameter.
@@ -595,12 +544,10 @@ namespace Atata
         public static TOwner ContainExactly<TObject, TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
             int expectedCount,
-            TObject expectedValue)
-        {
-            return verifier.Satisfy(
+            TObject expectedValue) =>
+            verifier.Satisfy(
                 actual => actual != null && actual.Count((TObject x) => Equals(x, expectedValue)) == expectedCount,
                 $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} items");
-        }
 
         /// <summary>
         /// Verifies that collection contains exact count of items matching <paramref name="predicateExpression"/>.
@@ -635,9 +582,8 @@ namespace Atata
         public static TOwner Contain<TItem, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
             params TItem[] expected)
-        {
-            return verifier.Contain(expected.AsEnumerable());
-        }
+            =>
+            verifier.Contain(expected.AsEnumerable());
 
         /// <summary>
         /// Verifies that collection contains expected items.
@@ -671,9 +617,8 @@ namespace Atata
         public static TOwner Contain<TObject, TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
             params TObject[] expected)
-        {
-            return verifier.Contain(expected.AsEnumerable());
-        }
+            =>
+            verifier.Contain(expected.AsEnumerable());
 
         /// <summary>
         /// Verifies that collection contains items equal to expected values.
@@ -738,9 +683,8 @@ namespace Atata
             this IObjectVerificationProvider<IEnumerable<string>, TOwner> verifier,
             TermMatch match,
             params string[] expected)
-        {
-            return verifier.Contain(match, expected.AsEnumerable());
-        }
+            =>
+            verifier.Contain(match, expected.AsEnumerable());
 
         public static TOwner Contain<TOwner>(
             this IObjectVerificationProvider<IEnumerable<string>, TOwner> verifier,
@@ -760,9 +704,8 @@ namespace Atata
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<string>>, TOwner> verifier,
             TermMatch match,
             params string[] expected)
-        {
-            return verifier.Contain(match, expected.AsEnumerable());
-        }
+            =>
+            verifier.Contain(match, expected.AsEnumerable());
 
         public static TOwner Contain<TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<string>>, TOwner> verifier,
@@ -784,9 +727,8 @@ namespace Atata
             params string[] expected)
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
-        {
-            return verifier.ContainHavingContent(match, expected.AsEnumerable());
-        }
+            =>
+            verifier.ContainHavingContent(match, expected.AsEnumerable());
 
         public static TOwner ContainHavingContent<TControl, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TControl>, TOwner> verifier,
@@ -819,12 +761,10 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInAscendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
-            where TItem : IComparable<TItem>
-        {
-            return verifier.Satisfy(
+            where TItem : IComparable<TItem> =>
+            verifier.Satisfy(
                 actual => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
                 "be in ascending order");
-        }
 
         /// <summary>
         /// Verifies that collection is sorted in ascending order.
@@ -834,12 +774,10 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner BeInAscendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
-            where TItem : struct, IComparable<TItem>
-        {
-            return verifier.Satisfy(
+            where TItem : struct, IComparable<TItem> =>
+            verifier.Satisfy(
                 actual => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
                 "be in ascending order");
-        }
 
         /// <summary>
         /// Verifies that collection is sorted in ascending order.
@@ -848,12 +786,10 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeInAscendingOrder<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier)
-        {
-            return verifier.Satisfy(
+        public static TOwner BeInAscendingOrder<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier) =>
+            verifier.Satisfy(
                 (IEnumerable<TObject> actual) => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
                 "be in ascending order");
-        }
 
         /// <summary>
         /// Verifies that collection is sorted in descending order.
@@ -864,11 +800,10 @@ namespace Atata
         /// <returns>The owner instance.</returns>
         public static TOwner BeInDescendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
             where TItem : IComparable<TItem>
-        {
-            return verifier.Satisfy(
+            =>
+            verifier.Satisfy(
                 actual => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
                 "be in descending order");
-        }
 
         /// <summary>
         /// Verifies that collection is sorted in descending order.
@@ -879,11 +814,10 @@ namespace Atata
         /// <returns>The owner instance.</returns>
         public static TOwner BeInDescendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
             where TItem : struct, IComparable<TItem>
-        {
-            return verifier.Satisfy(
+            =>
+            verifier.Satisfy(
                 actual => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
                 "be in descending order");
-        }
 
         /// <summary>
         /// Verifies that collection is sorted in descending order.
@@ -892,11 +826,9 @@ namespace Atata
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeInDescendingOrder<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier)
-        {
-            return verifier.Satisfy(
+        public static TOwner BeInDescendingOrder<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier) =>
+            verifier.Satisfy(
                 (IEnumerable<TObject> actual) => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
                 "be in descending order");
-        }
     }
 }

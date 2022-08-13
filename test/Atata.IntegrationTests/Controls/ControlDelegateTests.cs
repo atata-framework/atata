@@ -4,8 +4,7 @@
 public class ControlDelegateTests : UITestFixture
 {
     [Test]
-    public void WithoutNavigation()
-    {
+    public void WithoutNavigation() =>
         Go.To<BasicControlsPage>()
             .RawButton.Should().Exist()
             .RawButton.Should().BeEnabled()
@@ -24,7 +23,6 @@ public class ControlDelegateTests : UITestFixture
             .DisabledButton.Should().Exist()
             .DisabledButton.Should().BeDisabled()
             .MissingButton.Should().Not.Exist();
-    }
 
     [Test]
     public void WithNavigaton()

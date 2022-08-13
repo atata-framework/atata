@@ -14,8 +14,7 @@ namespace Atata
         {
         }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
             context.Log.ExecuteSection(
                 new LogSection("Wait for alert box"),
                 () =>
@@ -38,6 +37,5 @@ namespace Atata
                     if (!isCompleted)
                         throw new TimeoutException("Timed out waiting for alert box.");
                 });
-        }
     }
 }

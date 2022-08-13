@@ -2,9 +2,7 @@
 {
     public class FindFirstDescendantStrategy : XPathComponentScopeFindStrategy
     {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
-        {
-            return builder.OuterXPath.ComponentXPath;
-        }
+        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options) =>
+            builder.OuterXPath.ComponentXPath;
     }
 }

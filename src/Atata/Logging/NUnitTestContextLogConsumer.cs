@@ -14,9 +14,7 @@ namespace Atata
             _writeMethod = testContextType.GetMethodWithThrowOnError("WriteLine", typeof(string));
         }
 
-        protected override void Write(string completeMessage)
-        {
+        protected override void Write(string completeMessage) =>
             _writeMethod.InvokeStaticAsLambda(completeMessage);
-        }
     }
 }

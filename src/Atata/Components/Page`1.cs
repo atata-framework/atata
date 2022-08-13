@@ -18,9 +18,7 @@ namespace Atata
         /// </summary>
         public override ScopeSource ScopeSource => ScopeSource.Page;
 
-        protected override ISearchContext OnGetScopeContext(SearchOptions searchOptions)
-        {
-            return Driver;
-        }
+        protected override ISearchContext OnGetScopeContext(SearchOptions searchOptions) =>
+            Driver;
     }
 }

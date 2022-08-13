@@ -39,10 +39,8 @@ namespace Atata
         /// </summary>
         public new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
-        protected virtual bool GetIsReadOnly()
-        {
-            return Attributes.ReadOnly;
-        }
+        protected virtual bool GetIsReadOnly() =>
+            Attributes.ReadOnly;
 
         /// <summary>
         /// Converts the value to string for <see cref="SetValue(TValue)"/> method.
@@ -133,9 +131,7 @@ namespace Atata
         /// Generates the random value.
         /// </summary>
         /// <returns>The generated value.</returns>
-        protected virtual TValue GenerateRandomValue()
-        {
-            return ValueRandomizer.GetRandom<TValue>(Metadata);
-        }
+        protected virtual TValue GenerateRandomValue() =>
+            ValueRandomizer.GetRandom<TValue>(Metadata);
     }
 }

@@ -84,11 +84,9 @@ namespace Atata
             return expressionParts;
         }
 
-        private static string TrimParentheses(string expression)
-        {
-            return expression[0] == '(' && expression[expression.Length - 1] == ')'
-                 ? expression.Substring(1, expression.Length - 2)
-                 : expression;
-        }
+        private static string TrimParentheses(string expression) =>
+            expression[0] == '(' && expression[expression.Length - 1] == ')'
+                ? expression.Substring(1, expression.Length - 2)
+                : expression;
     }
 }

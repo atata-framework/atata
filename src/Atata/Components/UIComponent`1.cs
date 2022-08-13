@@ -162,10 +162,8 @@ return (
                 child.OnInitCompleted();
         }
 
-        protected internal virtual void InitComponent()
-        {
+        protected internal virtual void InitComponent() =>
             UIComponentResolver.Resolve(this);
-        }
 
         internal sealed override IWebElement OnGetScopeElement(SearchOptions searchOptions)
         {
@@ -206,8 +204,7 @@ return (
             return Owner;
         }
 
-        protected virtual void OnWait(WaitUnit waitUnit)
-        {
+        protected virtual void OnWait(WaitUnit waitUnit) =>
             StaleSafely.Execute(
                 options =>
                 {
@@ -217,7 +214,6 @@ return (
                         Missing(options);
                 },
                 waitUnit.SearchOptions);
-        }
 
         internal sealed override bool OnMissing(SearchOptions options)
         {
@@ -244,15 +240,11 @@ return (
         protected virtual Size GetSize() =>
             Scope.Size;
 
-        protected virtual bool GetIsPresent()
-        {
-            return GetScope(SearchOptions.SafelyAtOnce()) != null;
-        }
+        protected virtual bool GetIsPresent() =>
+            GetScope(SearchOptions.SafelyAtOnce()) != null;
 
-        protected virtual bool GetIsVisible()
-        {
-            return GetScope(SearchOptions.SafelyAtOnce())?.Displayed ?? false;
-        }
+        protected virtual bool GetIsVisible() =>
+            GetScope(SearchOptions.SafelyAtOnce())?.Displayed ?? false;
 
         protected virtual bool GetIsVisibleInViewPort()
         {
@@ -394,9 +386,8 @@ return (
         /// <returns>The component or <see langword="null"/> if not found.</returns>
         public TComponentToFind GetAncestor<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>
-        {
-            return (Parent as TComponentToFind) ?? Parent?.GetAncestor<TComponentToFind>();
-        }
+            =>
+            (Parent as TComponentToFind) ?? Parent?.GetAncestor<TComponentToFind>();
 
         /// <summary>
         /// Gets the ancestor component of specified type or self.
@@ -405,9 +396,8 @@ return (
         /// <returns>The component or <see langword="null"/> if not found.</returns>
         public TComponentToFind GetAncestorOrSelf<TComponentToFind>()
             where TComponentToFind : UIComponent<TOwner>
-        {
-            return (this as TComponentToFind) ?? Parent?.GetAncestorOrSelf<TComponentToFind>();
-        }
+            =>
+            (this as TComponentToFind) ?? Parent?.GetAncestorOrSelf<TComponentToFind>();
 
         /// <inheritdoc/>
         public TOwner ClearCache()

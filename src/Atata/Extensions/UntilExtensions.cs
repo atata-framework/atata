@@ -76,9 +76,8 @@ namespace Atata
             }
         }
 
-        private static WaitUnit CreatePresenceUnit(Visibility visibility, Until until, WaitOptions options)
-        {
-            return new WaitUnit
+        private static WaitUnit CreatePresenceUnit(Visibility visibility, Until until, WaitOptions options) =>
+            new WaitUnit
             {
                 Method = WaitUnit.WaitMethod.Presence,
                 Until = until,
@@ -90,11 +89,9 @@ namespace Atata
                     IsSafely = !options.ThrowOnPresenceFailure
                 }
             };
-        }
 
-        private static WaitUnit CreateAbsenceUnit(Visibility visibility, Until until, WaitOptions options)
-        {
-            return new WaitUnit
+        private static WaitUnit CreateAbsenceUnit(Visibility visibility, Until until, WaitOptions options) =>
+            new WaitUnit
             {
                 Method = WaitUnit.WaitMethod.Absence,
                 Until = until,
@@ -106,6 +103,5 @@ namespace Atata
                     IsSafely = !options.ThrowOnAbsenceFailure
                 }
             };
-        }
     }
 }

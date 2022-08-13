@@ -42,10 +42,10 @@ namespace Atata
             return string.Join(" ", updatedWords);
         }
 
-        private static string CapitalizeFirstLetter(string word)
-        {
-            return word.IsUpper() ? word : word.ToUpperFirstLetter();
-        }
+        private static string CapitalizeFirstLetter(string word) =>
+            word.IsUpper()
+                ? word
+                : word.ToUpperFirstLetter();
 
         private static string CapitalizeFirstLetterExceptSpecial(string word)
         {

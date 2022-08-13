@@ -17,10 +17,8 @@ namespace Atata
         {
         }
 
-        protected override void OnAdd(IEnumerable<Attribute> attributes)
-        {
+        protected override void OnAdd(IEnumerable<Attribute> attributes) =>
             BuildingContext.Attributes.Global.AddRange(attributes);
-        }
 
         protected override GlobalAttributesAtataContextBuilder ResolveNextBuilder() => this;
     }

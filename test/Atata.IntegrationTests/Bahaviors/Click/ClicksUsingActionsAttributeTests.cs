@@ -4,12 +4,10 @@ public class ClicksUsingActionsAttributeTests : UITestFixture
 {
     private Table<ClickPage.ClickableCellsTableRow, ClickPage> _table;
 
-    protected override void OnSetUp()
-    {
+    protected override void OnSetUp() =>
         _table = Go.To<ClickPage>()
             .RefreshPage()
             .ClickableCellsTable;
-    }
 
     [Test]
     public void Execute_WithOffsetKind_FromTopLeftInPercents()

@@ -13,8 +13,7 @@
         public static TNavigateTo ClickAndGo<TNavigateTo, TOwner>(this INavigable<TNavigateTo, TOwner> navigableControl)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
-        {
-            return navigableControl.ClickAndGo<TNavigateTo>();
-        }
+            =>
+            navigableControl.ClickAndGo<TNavigateTo>();
     }
 }

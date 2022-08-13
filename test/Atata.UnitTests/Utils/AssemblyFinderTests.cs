@@ -15,11 +15,9 @@ public class AssemblyFinderTests
     }
 
     [Test]
-    public void Find_Throws_NotFound()
-    {
+    public void Find_Throws_NotFound() =>
         Assert.Throws<AssemblyNotFoundException>(() =>
             AssemblyFinder.Find("MissingName"));
-    }
 
     [Test]
     public void FindAllByPattern()

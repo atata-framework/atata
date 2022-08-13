@@ -30,20 +30,16 @@ namespace Atata
         /// </summary>
         /// <param name="arguments">The arguments.</param>
         /// <returns>The same builder instance.</returns>
-        public FirefoxAtataContextBuilder WithArguments(params string[] arguments)
-        {
-            return WithArguments(arguments.AsEnumerable());
-        }
+        public FirefoxAtataContextBuilder WithArguments(params string[] arguments) =>
+            WithArguments(arguments.AsEnumerable());
 
         /// <summary>
         /// Adds arguments to be used in launching the Firefox browser.
         /// </summary>
         /// <param name="arguments">The arguments.</param>
         /// <returns>The same builder instance.</returns>
-        public FirefoxAtataContextBuilder WithArguments(IEnumerable<string> arguments)
-        {
-            return WithOptions(options => options.AddArguments(arguments));
-        }
+        public FirefoxAtataContextBuilder WithArguments(IEnumerable<string> arguments) =>
+            WithOptions(options => options.AddArguments(arguments));
 
         /// <summary>
         /// Adds the additional Firefox browser option to the driver options.

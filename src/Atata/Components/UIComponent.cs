@@ -102,10 +102,8 @@ namespace Atata
         /// The search options.
         /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
-        public IWebElement GetScope(SearchOptions options = null)
-        {
-            return GetScopeElement(options ?? SearchOptions.Safely());
-        }
+        public IWebElement GetScope(SearchOptions options = null) =>
+            GetScopeElement(options ?? SearchOptions.Safely());
 
         /// <summary>
         /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
@@ -116,17 +114,13 @@ namespace Atata
         /// The search options.
         /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
         /// <returns>The <see cref="ISearchContext"/> instance of the scope context.</returns>
-        public ISearchContext GetScopeContext(SearchOptions searchOptions = null)
-        {
-            return OnGetScopeContext(searchOptions ?? SearchOptions.Safely());
-        }
+        public ISearchContext GetScopeContext(SearchOptions searchOptions = null) =>
+            OnGetScopeContext(searchOptions ?? SearchOptions.Safely());
 
-        protected virtual ISearchContext OnGetScopeContext(SearchOptions searchOptions)
-        {
-            return ShouldUseParentScope()
+        protected virtual ISearchContext OnGetScopeContext(SearchOptions searchOptions) =>
+            ShouldUseParentScope()
                 ? Parent.GetScopeContext(searchOptions)
                 : GetScopeElement(searchOptions);
-        }
 
         protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
         {
@@ -193,10 +187,11 @@ namespace Atata
             if (Parent != null && !Parent.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>)))
             {
                 string parentFullName = Parent.ComponentFullName;
-                builder.
-                    Append(parentFullName).
-                    Append(parentFullName[parentFullName.Length - 1] == 's' ? "'" : "'s").
-                    Append(' ');
+
+                builder
+                    .Append(parentFullName)
+                    .Append(parentFullName[parentFullName.Length - 1] == 's' ? "'" : "'s")
+                    .Append(' ');
             }
 
             builder.AppendFormat("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component");
@@ -214,10 +209,8 @@ namespace Atata
         /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
         /// equal to <see langword="false"/> value and the component doesn't exist.
         /// </exception>
-        public bool Exists(SearchOptions options = null)
-        {
-            return GetScopeElement(options ?? SearchOptions.Safely()) != null;
-        }
+        public bool Exists(SearchOptions options = null) =>
+            GetScopeElement(options ?? SearchOptions.Safely()) != null;
 
         /// <summary>
         /// Determines whether the component is missing.
@@ -230,15 +223,11 @@ namespace Atata
         /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
         /// equal to <see langword="false"/> value and the component exists.
         /// </exception>
-        public bool Missing(SearchOptions options = null)
-        {
-            return OnMissing(options ?? SearchOptions.Safely());
-        }
+        public bool Missing(SearchOptions options = null) =>
+            OnMissing(options ?? SearchOptions.Safely());
 
-        internal virtual bool OnMissing(SearchOptions options)
-        {
-            return ScopeLocator.IsMissing(options);
-        }
+        internal virtual bool OnMissing(SearchOptions options) =>
+            ScopeLocator.IsMissing(options);
 
         /// <summary>
         /// Returns a <see cref="string"/> that represents this instance including <see cref="ComponentFullName"/> and <see cref="Scope"/> element details.

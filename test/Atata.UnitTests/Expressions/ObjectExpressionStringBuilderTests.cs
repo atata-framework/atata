@@ -64,27 +64,19 @@ public class ObjectExpressionStringBuilderTests
     }
 
     [TestCaseSource(nameof(GetExpressionTestCases))]
-    public string ExpressionToString(Expression<Func<TestComponent, object>> expression)
-    {
-        return ObjectExpressionStringBuilder.ExpressionToString(expression);
-    }
+    public string ExpressionToString(Expression<Func<TestComponent, object>> expression) =>
+        ObjectExpressionStringBuilder.ExpressionToString(expression);
 
     public static class StaticClass
     {
-        public static int GetSomething()
-        {
-            return 4;
-        }
+        public static int GetSomething() =>
+            4;
 
-        public static string GetSomething(string value)
-        {
-            return value;
-        }
+        public static string GetSomething(string value) =>
+            value;
 
-        public static bool IsIt(object value)
-        {
-            return value is string;
-        }
+        public static bool IsIt(object value) =>
+            value is string;
     }
 
     public abstract class TestComponent

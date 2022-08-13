@@ -4,9 +4,7 @@ namespace Atata
 {
     public class TraceLogConsumer : TextOutputLogConsumer
     {
-        protected override void Write(string completeMessage)
-        {
+        protected override void Write(string completeMessage) =>
             Trace.WriteLine(completeMessage);
-        }
     }
 }

@@ -77,11 +77,9 @@ public class ContentPage : Page<_>
     [FindById]
     public Content<string, _> VisibleDiv { get; private set; }
 
-    public Text<_> GetComplexText(ContentSource contentSource)
-    {
-        return Find<Text<_>>(
+    public Text<_> GetComplexText(ContentSource contentSource) =>
+        Find<Text<_>>(
             $"Complex Text Using {contentSource} Source",
             new TermAttribute("Complex Text"),
             new GetsContentFromSourceAttribute(contentSource));
-    }
 }

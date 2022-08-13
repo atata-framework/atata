@@ -32,38 +32,30 @@
         /// </summary>
         public new FieldVerificationProvider<bool, CheckBox<TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
-        protected override bool GetValue()
-        {
-            return Scope.Selected;
-        }
+        protected override bool GetValue() =>
+            Scope.Selected;
 
-        protected override void SetValue(bool value)
-        {
+        protected override void SetValue(bool value) =>
             Context.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
             {
                 if (GetValue() != value)
                     OnClick();
             });
-        }
 
         /// <summary>
         /// Checks the control.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
-        public TOwner Check()
-        {
-            return Set(true);
-        }
+        public TOwner Check() =>
+            Set(true);
 
         /// <summary>
         /// Unchecks the control.
         /// Also executes <see cref="TriggerEvents.BeforeSet" /> and <see cref="TriggerEvents.AfterSet" /> triggers.
         /// </summary>
         /// <returns>The owner page object.</returns>
-        public TOwner Uncheck()
-        {
-            return Set(false);
-        }
+        public TOwner Uncheck() =>
+            Set(false);
     }
 }

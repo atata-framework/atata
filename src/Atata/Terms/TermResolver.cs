@@ -82,7 +82,7 @@ namespace Atata
         private static void RegisterNumberConverter<T>(
             Func<string, NumberStyles, IFormatProvider, T> parseFunction)
             where T : IFormattable
-        {
+            =>
             RegisterConverter(
                 typeof(T),
                 (s, opt) =>
@@ -94,9 +94,9 @@ namespace Atata
 
                     if (isPercentageFormat)
                     {
-                        stringValue = stringValue.
-                            Replace(opt.Culture.NumberFormat.PercentSymbol, string.Empty).
-                            Replace(opt.Culture.NumberFormat.PercentDecimalSeparator, opt.Culture.NumberFormat.NumberDecimalSeparator);
+                        stringValue = stringValue
+                            .Replace(opt.Culture.NumberFormat.PercentSymbol, string.Empty)
+                            .Replace(opt.Culture.NumberFormat.PercentDecimalSeparator, opt.Culture.NumberFormat.NumberDecimalSeparator);
 
                         decimal percent = decimal.Parse(stringValue, NumberStyles.Any, opt.Culture) / 100;
                         return Convert.ChangeType(percent, typeof(T), opt.Culture);
@@ -106,7 +106,6 @@ namespace Atata
                         return parseFunction(stringValue, NumberStyles.Any, opt.Culture);
                     }
                 });
-        }
 
         public static void RegisterConverter<T>(
             Func<string, TermOptions, T> fromStringConverter,
@@ -139,12 +138,10 @@ namespace Atata
             };
         }
 
-        public static string ToDisplayString(object value, TermOptions termOptions = null)
-        {
-            return value is IEnumerable<object> enumerable
+        public static string ToDisplayString(object value, TermOptions termOptions = null) =>
+            value is IEnumerable<object> enumerable
                 ? string.Join("/", enumerable.Select(x => ToDisplayString(x, termOptions)))
                 : ToString(value, termOptions);
-        }
 
         public static string ToString(object value, TermOptions termOptions = null)
         {
@@ -188,15 +185,11 @@ namespace Atata
                 return value?.ToString();
         }
 
-        private static bool IsComplexStringFormat(string format)
-        {
-            return format != null && format.Contains("{0");
-        }
+        private static bool IsComplexStringFormat(string format) =>
+            format != null && format.Contains("{0");
 
-        private static string RetrieveValueFromString(string value, string format)
-        {
-            return IsComplexStringFormat(format) ? RetrieveValuePart(value, format) : value;
-        }
+        private static string RetrieveValueFromString(string value, string format) =>
+            IsComplexStringFormat(format) ? RetrieveValuePart(value, format) : value;
 
         private static string RetrieveSpecificFormatFromStringFormat(string format)
         {
@@ -306,11 +299,9 @@ namespace Atata
             }
         }
 
-        public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null)
-        {
-            return enumType.GetIndividualEnumFlags().
-                FirstOrDefault(x => GetEnumMatch(x, termOptions).IsMatch(value, GetEnumTerms(x, termOptions)));
-        }
+        public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null) =>
+            enumType.GetIndividualEnumFlags()
+                .FirstOrDefault(x => GetEnumMatch(x, termOptions).IsMatch(value, GetEnumTerms(x, termOptions)));
 
         public static string[] GetEnumTerms(Enum value, TermOptions termOptions = null)
         {
@@ -321,10 +312,10 @@ namespace Atata
                 : GetIndividualEnumTerms(value, termOptions);
         }
 
-        private static string[] GetFlagsEnumTerms(Enum value, TermOptions termOptions)
-        {
-            return value.GetIndividualFlags().SelectMany(x => GetIndividualEnumTerms(x, termOptions)).ToArray();
-        }
+        private static string[] GetFlagsEnumTerms(Enum value, TermOptions termOptions) =>
+            value.GetIndividualFlags()
+                .SelectMany(x => GetIndividualEnumTerms(x, termOptions))
+                .ToArray();
 
         private static string[] GetIndividualEnumTerms(Enum value, TermOptions termOptions)
         {
@@ -378,20 +369,16 @@ namespace Atata
             return TermCaseResolver.ApplyCase(words, termCase);
         }
 
-        public static TermMatch GetMatch(object value, ITermSettings termSettings = null)
-        {
-            return value is Enum enumValue
+        public static TermMatch GetMatch(object value, ITermSettings termSettings = null) =>
+            value is Enum enumValue
                 ? GetEnumMatch(enumValue, termSettings)
                 : termSettings.GetMatchOrNull() ?? DefaultMatch;
-        }
 
-        public static TermMatch GetEnumMatch(Enum value, ITermSettings termSettings = null)
-        {
-            return termSettings.GetMatchOrNull()
+        public static TermMatch GetEnumMatch(Enum value, ITermSettings termSettings = null) =>
+            termSettings.GetMatchOrNull()
                 ?? GetEnumTermAttribute(value).GetMatchOrNull()
                 ?? GetTermSettingsAttribute(value.GetType()).GetMatchOrNull()
                 ?? DefaultMatch;
-        }
 
         private static TermAttribute GetEnumTermAttribute(Enum value)
         {

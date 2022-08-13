@@ -8,12 +8,10 @@ public class AtataContextAggregateAssertTests : UITestFixture
         _page = Go.To<StubPage>();
 
     [Test]
-    public void NoFailure()
-    {
+    public void NoFailure() =>
         Assert.DoesNotThrow(() =>
             AtataContext.Current.AggregateAssert(() =>
                 _page.IsTrue.Should.AtOnce.BeTrue()));
-    }
 
     [Test]
     public void OneFailure()

@@ -22,33 +22,27 @@ namespace Atata
         /// </summary>
         public string StackTrace { get; private set; }
 
-        public static AssertionResult ForFailure(string message, string stackTrace)
-        {
-            return new AssertionResult
+        public static AssertionResult ForFailure(string message, string stackTrace) =>
+            new AssertionResult
             {
                 Status = AssertionStatus.Failed,
                 Message = message,
                 StackTrace = stackTrace
             };
-        }
 
-        public static AssertionResult ForWarning(string message, string stackTrace)
-        {
-            return new AssertionResult
+        public static AssertionResult ForWarning(string message, string stackTrace) =>
+            new AssertionResult
             {
                 Status = AssertionStatus.Warning,
                 Message = message,
                 StackTrace = stackTrace
             };
-        }
 
-        public static AssertionResult ForException(Exception exception)
-        {
-            return new AssertionResult
+        public static AssertionResult ForException(Exception exception) =>
+            new AssertionResult
             {
                 Status = AssertionStatus.Exception,
                 Message = exception.ToString()
             };
-        }
     }
 }

@@ -64,20 +64,14 @@ namespace Atata
                 : default;
         }
 
-        private static TValue JoinValues(TValue[] values)
-        {
-            return (TValue)(object)JoinEnumValues(values.Cast<Enum>());
-        }
+        private static TValue JoinValues(TValue[] values) =>
+            (TValue)(object)JoinEnumValues(values.Cast<Enum>());
 
-        private static Enum JoinEnumValues(IEnumerable<Enum> values)
-        {
-            return values.Aggregate(EnumExtensions.AddFlag);
-        }
+        private static Enum JoinEnumValues(IEnumerable<Enum> values) =>
+            values.Aggregate(EnumExtensions.AddFlag);
 
-        protected override void SetValue(TValue value)
-        {
+        protected override void SetValue(TValue value) =>
             ClickItems(value, (isInValue, isSelected) => isInValue != isSelected);
-        }
 
         protected void ClickItems(TValue value, ClickItemPredicate predicate)
         {
@@ -150,10 +144,8 @@ namespace Atata
             return Owner;
         }
 
-        protected internal IEnumerable<TValue> GetIndividualValues(TValue value)
-        {
-            return ((Enum)(object)value).GetIndividualFlags().Cast<TValue>();
-        }
+        protected internal IEnumerable<TValue> GetIndividualValues(TValue value) =>
+            ((Enum)(object)value).GetIndividualFlags().Cast<TValue>();
 
         protected internal override string ConvertValueToString(TValue value)
         {

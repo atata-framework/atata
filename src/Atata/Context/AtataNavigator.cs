@@ -84,9 +84,9 @@ namespace Atata
 
             string currentWindowHandle = _context.Driver.CurrentWindowHandle;
 
-            string nextWindowHandle = _context.Driver.WindowHandles.
-                SkipWhile(x => x != currentWindowHandle).
-                ElementAt(1);
+            string nextWindowHandle = _context.Driver.WindowHandles
+                .SkipWhile(x => x != currentWindowHandle)
+                .ElementAt(1);
 
             return To(pageObject, new GoOptions { Navigate = false, WindowName = nextWindowHandle, Temporarily = temporarily });
         }
@@ -198,10 +198,10 @@ namespace Atata
         private bool TryResolvePreviousPageObjectNavigatedTemporarily<TPageObject>(ref TPageObject pageObject)
             where TPageObject : PageObject<TPageObject>
         {
-            var tempPageObjectsEnumerable = _context.TemporarilyPreservedPageObjects.
-                AsEnumerable().
-                Reverse().
-                OfType<TPageObject>();
+            var tempPageObjectsEnumerable = _context.TemporarilyPreservedPageObjects
+                .AsEnumerable()
+                .Reverse()
+                .OfType<TPageObject>();
 
             TPageObject pageObjectReferenceCopy = pageObject;
 
@@ -214,9 +214,9 @@ namespace Atata
 
             pageObject = foundPageObject;
 
-            var tempPageObjectsToRemove = _context.TemporarilyPreservedPageObjects.
-                SkipWhile(x => x != foundPageObject).
-                ToArray();
+            var tempPageObjectsToRemove = _context.TemporarilyPreservedPageObjects
+                .SkipWhile(x => x != foundPageObject)
+                .ToArray();
 
             UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove.Skip(1));
 
@@ -269,9 +269,7 @@ namespace Atata
             _context.IsNavigated = true;
         }
 
-        private void SetContextAsCurrent()
-        {
+        private void SetContextAsCurrent() =>
             AtataContext.Current = _context;
-        }
     }
 }

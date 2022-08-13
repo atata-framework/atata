@@ -6,9 +6,7 @@
     /// </summary>
     public class NUnitWarningReportStrategy : IWarningReportStrategy
     {
-        public void Report(string message, string stackTrace)
-        {
+        public void Report(string message, string stackTrace) =>
             NUnitAdapter.RecordAssertionIntoTestResult(NUnitAdapter.AssertionStatus.Warning, message, stackTrace);
-        }
     }
 }

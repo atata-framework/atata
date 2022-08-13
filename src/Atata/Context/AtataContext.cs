@@ -486,14 +486,12 @@ namespace Atata
                 yield return TestName;
         }
 
-        private string GetTestUnitKindName()
-        {
-            return TestName != null
+        private string GetTestUnitKindName() =>
+            TestName != null
                 ? "test"
                 : TestSuiteType != null
-                ? "test suite"
-                : "test unit";
-        }
+                    ? "test suite"
+                    : "test unit";
 
         /// <summary>
         /// Executes aggregate assertion using <see cref="AggregateAssertionStrategy" />.
@@ -595,8 +593,7 @@ namespace Atata
         /// <summary>
         /// Restarts the driver.
         /// </summary>
-        public void RestartDriver()
-        {
+        public void RestartDriver() =>
             Log.ExecuteSection(
                 new LogSection("Restart driver"),
                 () =>
@@ -613,7 +610,6 @@ namespace Atata
 
                     InitDriver();
                 });
-        }
 
         internal void CleanUpTemporarilyPreservedPageObjectList()
         {

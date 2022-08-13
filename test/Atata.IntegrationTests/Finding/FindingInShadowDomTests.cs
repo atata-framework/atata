@@ -36,8 +36,7 @@ public class FindingInShadowDomTests : UITestFixture
     }
 
     [Test]
-    public void ControlList()
-    {
+    public void ControlList() =>
         _page.AggregateAssert(x => x.Shadow1Paragraphs, controls =>
         {
             controls[0].Should.Equal("Shadow 1.1");
@@ -46,7 +45,6 @@ public class FindingInShadowDomTests : UITestFixture
             controls.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
             controls.Contents.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
         });
-    }
 
     [Test]
     public void UsingPropertyNameAsTerm() =>

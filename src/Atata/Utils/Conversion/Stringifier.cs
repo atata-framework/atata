@@ -31,10 +31,8 @@ namespace Atata
                 .Compile();
         });
 
-        public static string ToString(IEnumerable collection)
-        {
-            return ToString(collection?.Cast<object>());
-        }
+        public static string ToString(IEnumerable collection) =>
+            ToString(collection?.Cast<object>());
 
         public static string ToString<T>(IEnumerable<T> collection)
         {
@@ -56,15 +54,11 @@ namespace Atata
                 : $"[{string.Join(", ", itemStringValues)}]";
         }
 
-        public static string ToString<T>(Expression<Func<T, bool>> predicateExpression)
-        {
-            return $"\"{ObjectExpressionStringBuilder.ExpressionToString(predicateExpression)}\" {GetItemTypeName(typeof(T))}";
-        }
+        public static string ToString<T>(Expression<Func<T, bool>> predicateExpression) =>
+            $"\"{ObjectExpressionStringBuilder.ExpressionToString(predicateExpression)}\" {GetItemTypeName(typeof(T))}";
 
-        public static string ToString(Expression expression)
-        {
-            return $"\"{ObjectExpressionStringBuilder.ExpressionToString(expression)}\"";
-        }
+        public static string ToString(Expression expression) =>
+            $"\"{ObjectExpressionStringBuilder.ExpressionToString(expression)}\"";
 
         public static string ToString(object value)
         {
@@ -86,12 +80,10 @@ namespace Atata
                 return $"{{ {value} }}";
         }
 
-        private static string GetItemTypeName(Type type)
-        {
-            return type.IsInheritedFromOrIs(typeof(Control<>))
+        private static string GetItemTypeName(Type type) =>
+            type.IsInheritedFromOrIs(typeof(Control<>))
                 ? UIComponentResolver.ResolveControlTypeName(type)
                 : "item";
-        }
 
         public static string ToStringInSimpleStructuredForm(object value, Type excludeBaseType = null)
         {

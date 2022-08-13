@@ -25,12 +25,10 @@ namespace Atata
         {
         }
 
-        public static ConversionException For(object sourceValue, Type destinationType)
-        {
-            return new ConversionException(
+        public static ConversionException For(object sourceValue, Type destinationType) =>
+            new ConversionException(
                 sourceValue == null
-                ? $"Cannot convert null value to {destinationType.FullName} type."
-                : $"Cannot convert \"{sourceValue}\" value of {sourceValue.GetType().FullName} type to {destinationType.FullName} type.");
-        }
+                    ? $"Cannot convert null value to {destinationType.FullName} type."
+                    : $"Cannot convert \"{sourceValue}\" value of {sourceValue.GetType().FullName} type to {destinationType.FullName} type.");
     }
 }
