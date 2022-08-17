@@ -5,7 +5,7 @@ using System.Linq;
 namespace Atata
 {
     /// <summary>
-    /// Represents the base class for Atata attributes that can be applied to component at any level (declared, parent component, assembly, global and component).
+    /// Represents the base class for Atata attributes that can be applied to a component at any level (declared, parent component, assembly, global and component).
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Assembly,

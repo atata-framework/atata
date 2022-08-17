@@ -3,7 +3,8 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the base behavior class for implementation of control drag and drop to offset.
+    /// Represents the base behavior class for control drag and drop to offset implementation.
+    /// Responsible for the <see cref="Control{TOwner}.DragAndDropToOffset(int, int)"/> method action.
     /// </summary>
     public abstract class DragAndDropToOffsetBehaviorAttribute : MulticastAttribute
     {

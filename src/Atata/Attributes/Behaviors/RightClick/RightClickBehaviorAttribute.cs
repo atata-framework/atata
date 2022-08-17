@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for control right-click implementation.
+    /// Responsible for the <see cref="Control{TOwner}.RightClick"/> method action.
     /// </summary>
     public abstract class RightClickBehaviorAttribute : MulticastAttribute
     {

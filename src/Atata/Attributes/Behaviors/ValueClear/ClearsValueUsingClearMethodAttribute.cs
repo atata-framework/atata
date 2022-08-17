@@ -3,7 +3,7 @@
 namespace Atata
 {
     /// <summary>
-    /// Represents the behavior for control value clearing by <see cref="IWebElement.Clear()"/> method.
+    /// Represents the behavior for control value clearing by <see cref="IWebElement.Clear"/> method.
     /// </summary>
     public class ClearsValueUsingClearMethodAttribute : ValueClearBehaviorAttribute
     {

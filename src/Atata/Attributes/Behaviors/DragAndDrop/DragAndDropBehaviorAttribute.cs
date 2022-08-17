@@ -1,7 +1,9 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the base behavior class for drag and drop.
+    /// Represents the base behavior class for control drag and drop implementation.
+    /// Responsible for the <see cref="Control{TOwner}.DragAndDropTo(Control{TOwner})"/> and
+    /// <see cref="Control{TOwner}.DragAndDropTo(System.Func{TOwner, Control{TOwner}})"/> methods action.
     /// </summary>
     public abstract class DragAndDropBehaviorAttribute : MulticastAttribute
     {

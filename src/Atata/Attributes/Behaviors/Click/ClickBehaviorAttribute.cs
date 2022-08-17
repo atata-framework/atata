@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for control click implementation.
+    /// Responsible for the <see cref="Control{TOwner}.Click"/> method action.
     /// </summary>
     public abstract class ClickBehaviorAttribute : MulticastAttribute
     {

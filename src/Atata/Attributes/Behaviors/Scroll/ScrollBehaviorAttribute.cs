@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for scrolling to control.
+    /// Responsible for the <see cref="Control{TOwner}.ScrollTo"/> method action.
     /// </summary>
     public abstract class ScrollBehaviorAttribute : MulticastAttribute
     {

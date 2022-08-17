@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for control blur (removing focus) implementation.
+    /// Responsible for the <see cref="Control{TOwner}.Hover"/> method action.
     /// </summary>
     public abstract class BlurBehaviorAttribute : MulticastAttribute
     {

@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for control double-click implementation.
+    /// Responsible for the <see cref="Control{TOwner}.DoubleClick"/> method action.
     /// </summary>
     public abstract class DoubleClickBehaviorAttribute : MulticastAttribute
     {

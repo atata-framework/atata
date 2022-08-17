@@ -5,6 +5,7 @@ namespace Atata
 {
     /// <summary>
     /// Specifies the tag(s) of the component.
+    /// The tags can be targeted in other attributes by <see cref="MulticastAttribute"/> properties.
     /// </summary>
     [AttributeUsage(
         AttributeTargets.Property | AttributeTargets.Class | AttributeTargets.Interface,

@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for control focus implementation.
+    /// Responsible for the <see cref="Control{TOwner}.Focus"/> method action.
     /// </summary>
     public abstract class FocusBehaviorAttribute : MulticastAttribute
     {

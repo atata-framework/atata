@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for an implementation of control text typing.
+    /// Responsible for the <see cref="EditableTextField{TValue, TOwner}.Type(string)"/> method action.
     /// </summary>
     public abstract class TextTypeBehaviorAttribute : MulticastAttribute
     {

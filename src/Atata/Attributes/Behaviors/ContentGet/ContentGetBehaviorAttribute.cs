@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for getting the component's content.
+    /// Responsible for the <see cref="UIComponent{TOwner}.Content"/> property value getting.
     /// </summary>
     public abstract class ContentGetBehaviorAttribute : MulticastAttribute
     {

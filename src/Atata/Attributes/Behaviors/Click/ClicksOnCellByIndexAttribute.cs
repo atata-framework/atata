@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Represents the behavior for control clicking by actually clicking the nth <c>&lt;td&gt;</c> cell.
-    /// There is a sense to apply this behavior to <see cref="TableRow{TOwner}"/> classes.
+    /// There is a sense to apply this behavior to classes inherited from <see cref="TableRow{TOwner}"/>.
     /// </summary>
     public class ClicksOnCellByIndexAttribute : ClickBehaviorAttribute
     {

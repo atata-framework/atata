@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the base behavior class for an implementation of control value set.
+    /// Represents the base behavior class for an implementation of the <see cref="EditableTextField{TValue, TOwner}"/> value set.
     /// </summary>
     public abstract class ValueSetBehaviorAttribute : MulticastAttribute
     {

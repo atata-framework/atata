@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for control hover implementation.
+    /// Responsible for the <see cref="Control{TOwner}.Hover"/> method action.
     /// </summary>
     public abstract class HoverBehaviorAttribute : MulticastAttribute
     {

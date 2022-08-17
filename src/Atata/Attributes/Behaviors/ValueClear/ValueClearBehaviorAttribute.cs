@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base behavior class for an implementation of control value clearing.
+    /// Responsible for the <see cref="EditableTextField{TValue, TOwner}.Clear"/> method action.
     /// </summary>
     public abstract class ValueClearBehaviorAttribute : MulticastAttribute
     {
