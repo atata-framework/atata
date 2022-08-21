@@ -137,6 +137,9 @@ public static class TermResolverTests
                 Add(0.25, "P0", "25%");
                 Add(-0.257f, "tax {0:P1}", "tax -25.7%");
                 Add(15, "Percent: {0}%");
+                Add("txt", "{{{0}}}");
+                Add("txt", "{{{{{0}}}}}");
+                Add("txt", "}}}}}}{0}{{{{{{");
 
                 Add(Option.B);
                 Add(Option.D, null, "--d--");

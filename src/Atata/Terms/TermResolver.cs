@@ -228,8 +228,8 @@ namespace Atata
 
             formatParts[1] = formatParts[1].Substring(formatParts[1].IndexOf('}') + 1);
 
-            string formatStart = formatParts[0];
-            string formatEnd = formatParts[1];
+            string formatStart = ReplaceDoubleCurlyBracesWithSingleOnes(formatParts[0]);
+            string formatEnd = ReplaceDoubleCurlyBracesWithSingleOnes(formatParts[1]);
 
             if (!value.StartsWith(formatStart, StringComparison.Ordinal))
             {
@@ -247,6 +247,9 @@ namespace Atata
 
             return value.Substring(formatStart.Length, value.Length - formatStart.Length - formatEnd.Length);
         }
+
+        private static string ReplaceDoubleCurlyBracesWithSingleOnes(string value) =>
+            value.Replace("{{", "{").Replace("}}", "}");
 
         public static string CreateXPathCondition(object value, TermOptions termOptions = null, string operand = ".")
         {
