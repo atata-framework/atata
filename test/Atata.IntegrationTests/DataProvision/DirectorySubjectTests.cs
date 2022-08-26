@@ -81,7 +81,7 @@ public class DirectorySubjectTests
         }
 
         [OneTimeTearDown]
-        public static void TearDownFxture() =>
+        public static void TearDownFixture() =>
             s_directoryFixture.Dispose();
 
         [Test]
@@ -143,7 +143,7 @@ public class DirectorySubjectTests
         [Test]
         public static void Names() =>
             s_sut.Directories["dir1"].Directories.Names
-                .Should.EqualSequence("dir1_1", "dir1_2", "dir1_3");
+                .Should.BeEquivalent("dir1_1", "dir1_2", "dir1_3");
 
         [Test]
         public static void Names_ProviderName() =>
@@ -170,7 +170,7 @@ public class DirectorySubjectTests
         }
 
         [OneTimeTearDown]
-        public static void TearDownFxture() =>
+        public static void TearDownFixture() =>
             s_directoryFixture.Dispose();
 
         [Test]
