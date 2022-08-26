@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Runtime.InteropServices;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -12,10 +13,12 @@ namespace Atata
         {
             var scopeElement = component.Scope;
 
+            var platformSpecificKey = RuntimeInformation.IsOSPlatform(OSPlatform.OSX) ? Keys.Command : Keys.Control;
+
             component.Owner.Driver.Perform(x => x
-                .KeyDown(scopeElement, Keys.Control)
+                .KeyDown(scopeElement, platformSpecificKey)
                 .SendKeys("a")
-                .KeyUp(Keys.Control)
+                .KeyUp(platformSpecificKey)
                 .SendKeys(Keys.Delete));
         }
     }
