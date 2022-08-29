@@ -17,7 +17,10 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Build_WithoutUseDriverButWithConfigureChrome()
     {
-        var context = AtataContext.Configure().ConfigureChrome().Build();
+        var context = AtataContext.Configure()
+            .ConfigureChrome()
+                .WithArguments("headless")
+            .Build();
 
         context.Driver.Should().BeOfType<ChromeDriver>();
     }
@@ -63,6 +66,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
 
         AtataContext.Configure()
             .UseChrome()
+                .WithArguments("headless")
             .ConfigureChrome()
                 .WithOptions(x => isChromeConfigurationInvoked = true)
             .Build();
