@@ -94,8 +94,12 @@ public class DirectorySubjectTests
                 .Should.Equal("sut.Directories.Count()");
 
         [Test]
-        public static void IntIndexer() =>
-            s_sut.Directories[0].Name.Should.Equal("dir1");
+        public static void IntIndexer()
+        {
+            s_sut.Directories[0].Name.Should.StartWith("dir");
+            s_sut.Directories[1].Name.Should.StartWith("dir");
+            s_sut.Directories[0].Name.Should.Not.Equal(s_sut.Directories[1].Name);
+        }
 
         [Test]
         public static void IntIndexer_ProviderName() =>
@@ -126,7 +130,7 @@ public class DirectorySubjectTests
 
         [Test]
         public static void SubDirectoriesCount() =>
-            s_sut.Directories[0].Directories.Count().Should.Equal(3);
+            s_sut.Directories["dir1"].Directories.Count().Should.Equal(3);
 
         [Test]
         public static void SubDirectoriesCount_ProviderName() =>
@@ -137,7 +141,7 @@ public class DirectorySubjectTests
         public static void SubDirectories_Owner()
         {
             var directory = s_sut.Directories[0];
-            Assert.That(directory.Directories.Count().Should.Equal(3), Is.EqualTo(directory));
+            Assert.That(directory.Directories.Count().Should.BeGreaterOrEqual(0), Is.EqualTo(directory));
         }
 
         [Test]
@@ -194,8 +198,12 @@ public class DirectorySubjectTests
         }
 
         [Test]
-        public static void IntIndexer() =>
-            s_sut.Files[0].Name.Should.Equal("1.txt");
+        public static void IntIndexer()
+        {
+            s_sut.Files[0].Name.Should.EndWith(".txt");
+            s_sut.Files[1].Name.Should.EndWith(".txt");
+            s_sut.Files[0].Name.Should.Not.Equal(s_sut.Files[1].Name);
+        }
 
         [Test]
         public static void StringIndexer() =>
@@ -209,7 +217,7 @@ public class DirectorySubjectTests
         [Test]
         public static void Where_First() =>
             s_sut.Files.Where(x => x.Extension != ".ext").First()
-                .Name.Should.Equal("1.txt");
+                .Name.Should.EndWith(".txt");
 
         [Test]
         public static void Where_First_ProviderName() =>
