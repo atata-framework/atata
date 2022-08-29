@@ -47,7 +47,8 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
             .WithDirectoryPath(
                 Path.Combine(
                     AppDomain.CurrentDomain.BaseDirectory,
-                    @$"{{build-start:{DefaultDateTimeFormat}}}\{{test-name-sanitized}}"))
+                    $"{{build-start:{DefaultDateTimeFormat}}}",
+                    $"{{test-name-sanitized}}"))
             .Build();
 
         Go.To<BasicControlsPage>();
@@ -68,7 +69,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
     public void WithDirectoryPathBuilder()
     {
         _consumerBuilder
-            .WithDirectoryPath(() => $@"TestLogs\{AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat)}\{AtataContext.Current.TestName}")
+            .WithDirectoryPath(() => $@"TestLogs/{AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat)}/{AtataContext.Current.TestName}")
             .Build();
 
         Go.To<BasicControlsPage>();
@@ -112,7 +113,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
         Go.To<BasicControlsPage>();
 
         AtataContext.Current.Log.Screenshot();
-        AtataContext.Current.Log.Screenshot("Some\\ /:title");
+        AtataContext.Current.Log.Screenshot("Some /title");
 
         string directoryPath = AtataContext.Current.Artifacts.FullName;
 
