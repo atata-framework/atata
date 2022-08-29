@@ -15,14 +15,14 @@ jobs:
       arguments: -c $(buildConfiguration) -warnaserror
 
 - job: RunTests
-  displayName: Run tests
+  displayName: Run tests on
   strategy:
     matrix:
-      linux:
+      Linux:
         imageName: 'ubuntu-latest'
       macOS:
         imageName: 'macOS-latest'
-      windows:
+      Windows:
         imageName: 'windows-latest'
   pool:
     vmImage: $(imageName)
@@ -52,5 +52,5 @@ jobs:
     displayName: Publish test artifacts
     condition: succeededOrFailed()
     inputs:
-      artifactName: Artifacts
+      artifactName: Artifacts $(imageName)
       targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net6.0/artifacts
