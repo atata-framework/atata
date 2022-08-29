@@ -22,7 +22,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
     public void WithDirectoryPath_Relative()
     {
         _consumerBuilder
-            .WithDirectoryPath(@$"TestLogs\{{build-start:{DefaultDateTimeFormat}}}\{{test-name-sanitized}}")
+            .WithDirectoryPath(@$"TestLogs/{{build-start:{DefaultDateTimeFormat}}}/{{test-name-sanitized}}")
             .Build();
 
         Go.To<BasicControlsPage>();
@@ -126,7 +126,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
     public void FilePath()
     {
         _consumerBuilder
-            .WithFilePath(@$"TestLogs\{{build-start:{DefaultDateTimeFormat}}}\Test {{test-name-sanitized}}\{{screenshot-number:d2}}{{screenshot-title: - *}}")
+            .WithFilePath(@$"TestLogs/{{build-start:{DefaultDateTimeFormat}}}/Test {{test-name-sanitized}}/{{screenshot-number:d2}}{{screenshot-title: - *}}")
             .Build();
 
         Go.To<BasicControlsPage>();
