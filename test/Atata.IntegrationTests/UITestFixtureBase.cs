@@ -14,6 +14,12 @@ public abstract class UITestFixtureBase
 
     public static string BaseUrl { get; } = $"http://localhost:{TestAppPort}";
 
+    protected static IEnumerable<string> ChromeArguments { get; } = new[]
+    {
+        "window-size=1200,800",
+        "headless"
+    };
+
     protected IEnumerable<LogEventInfo> LogEntries => _eventListLogConsumer.Items;
 
     protected AtataContextBuilder ConfigureBaseAtataContext()
@@ -22,7 +28,7 @@ public abstract class UITestFixtureBase
 
         return AtataContext.Configure()
             .UseChrome()
-                .WithArguments(GetChromeArguments())
+                .WithArguments(ChromeArguments)
                 .WithPortsToIgnore(_portsToIgnore)
             .UseBaseUrl(BaseUrl)
             .UseCulture("en-US")
@@ -34,14 +40,6 @@ public abstract class UITestFixtureBase
                 .WithMessageNestingLevelIndent(string.Empty)
             .LogNUnitError()
             .OnCleanUpAddArtifactsToNUnitTestContext();
-    }
-
-    private static IEnumerable<string> GetChromeArguments()
-    {
-        yield return "disable-extensions";
-        yield return "start-maximized";
-        yield return "disable-infobars";
-        yield return "headless";
     }
 
     [TearDown]
