@@ -160,6 +160,10 @@ Contact me if you need a help in test automation using Atata Framework, or if yo
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
 * Gitter: https://gitter.im/YevgeniyShunevych
 
+## Contributing
+
+Check out [Contributing Guidelines](CONTRIBUTING.md) for details.
+
 ## SemVer
 
 Atata Framework tries to follow [Semantic Versioning 2.0](https://semver.org/) when possible.
