@@ -256,9 +256,12 @@ public static class SubjectTests
                 _subject.Invoking(x => x.Add(null, 0))
                     .Should.Throw<InvalidOperationException>());
 
-            exception.Message.Should().StartWith(@"Wrong subject.Add(null, 0)
-Expected: should throw exception of System.InvalidOperationException type
-  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
+            exception.Message.Should().StartWith(
+                string.Join(
+                    Environment.NewLine,
+                    "Wrong subject.Add(null, 0)",
+                    "Expected: should throw exception of System.InvalidOperationException type",
+                    "  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')"));
         }
 
         [Test]
@@ -268,9 +271,12 @@ Expected: should throw exception of System.InvalidOperationException type
                 _subject.Invoking(x => x.Add("d", 4))
                     .Should.Throw<InvalidOperationException>());
 
-            exception.Message.Should().Be(@"Wrong subject.Add(""d"", 4)
-Expected: should throw exception of System.InvalidOperationException type
-  Actual: no exception");
+            exception.Message.Should().StartWith(
+                string.Join(
+                    Environment.NewLine,
+                    "Wrong subject.Add(\"d\", 4)",
+                    "Expected: should throw exception of System.InvalidOperationException type",
+                    "  Actual: no exception"));
         }
 
         [Test]
@@ -280,9 +286,12 @@ Expected: should throw exception of System.InvalidOperationException type
                 _subject.Invoking(x => x.Add(null, 0))
                     .Should.Not.Throw());
 
-            exception.Message.Should().StartWith(@"Wrong subject.Add(null, 0)
-Expected: should not throw exception
-  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')");
+            exception.Message.Should().StartWith(
+                string.Join(
+                    Environment.NewLine,
+                    "Wrong subject.Add(null, 0)",
+                    "Expected: should not throw exception",
+                    "  Actual: System.ArgumentNullException: Value cannot be null. (Parameter 'key')"));
         }
 
         [Test]
