@@ -6,29 +6,73 @@ root = true
 [*]
 indent_style = space
 
+# Solution files
+[*.{sln}]
+indent_size = 4
+tab_width = 4
+end_of_line = crlf
+
 # XML project files
 [*.{csproj,vbproj,vcxproj,vcxproj.filters,proj,projitems,shproj}]
 indent_size = 2
+tab_width = 2
+end_of_line = crlf
 
 # XML config files
-[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vsct}]
+[*.{props,targets,ruleset,config,nuspec,resx,vsixmanifest,vstemplate,vsct}]
 indent_size = 2
+tab_width = 2
+end_of_line = crlf
 
 # Config files
-[*.{xml,json,yml,yaml}]
+[*.{xml,runsettings,json,yml,yaml,editorconfig,config,manifest}]
 indent_size = 2
+tab_width = 2
+end_of_line = crlf
+
+# Markdown files
+[*.{md}]
+end_of_line = crlf
+
+# PowerShell files
+[*.{ps1}]
+indent_size = 4
+tab_width = 4
+end_of_line = crlf
+
+# Batch files
+[*.{bat}]
+end_of_line = crlf
+
+# HTML+ files
+[*.{html,cshtml,aspx,razor}]
+indent_size = 4
+tab_width = 4
+end_of_line = crlf
+
+# CSS files
+[*.{css,scss,less}]
+indent_size = 4
+tab_width = 4
+end_of_line = crlf
+
+# JavaScript and TypeScript files
+[*.{js,ts}]
+indent_size = 4
+tab_width = 4
+end_of_line = crlf
 
 # Code files
 [*.{cs,csx,vb,vbx}]
 indent_size = 4
+tab_width = 4
+end_of_line = crlf
 insert_final_newline = true
 charset = utf-8-bom
 ###############################
 # .NET Coding Conventions     #
 ###############################
 [*.{cs,vb}]
-tab_width = 4
-end_of_line = crlf
 dotnet_code_quality_unused_parameters = all:warning
 # Organize usings
 dotnet_sort_system_directives_first = true
