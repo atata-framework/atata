@@ -6,12 +6,11 @@ public static class Program
         CreateWebApplication(new WebApplicationOptions { Args = args })
             .Run();
 
-    public static WebApplication CreateWebApplication(WebApplicationOptions options, Action<WebApplicationBuilder> builderConfiguration = null)
+    public static WebApplication CreateWebApplication(WebApplicationOptions options)
     {
         var builder = WebApplication.CreateBuilder(options);
 
         builder.Services.AddRazorPages();
-        builderConfiguration?.Invoke(builder);
 
         var app = builder.Build();
 
