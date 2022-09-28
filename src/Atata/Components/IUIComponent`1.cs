@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using OpenQA.Selenium;
 
 namespace Atata
@@ -180,6 +181,15 @@ namespace Atata
         /// <param name="valueGetFunction">The function that gets a value.</param>
         /// <returns>A new instance of <see cref="ValueProvider{TValue, TOwner}"/> type.</returns>
         ValueProvider<TValue, TOwner> CreateValueProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
+
+        /// <summary>
+        /// Creates an enumerable value provider with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the enumerable item.</typeparam>
+        /// <param name="providerName">The name of the provider.</param>
+        /// <param name="valueGetFunction">The function that gets a value.</param>
+        /// <returns>A new instance of <see cref="EnumerableValueProvider{TItem, TOwner}"/> type.</returns>
+        EnumerableValueProvider<TItem, TOwner> CreateEnumerableValueProvider<TItem>(string providerName, Func<IEnumerable<TItem>> valueGetFunction);
 
         /// <summary>
         /// Creates a control of the specified <typeparamref name="TControl"/> type,

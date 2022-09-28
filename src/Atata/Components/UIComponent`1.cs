@@ -296,13 +296,27 @@ return (
                 fullProviderName);
         }
 
+        EnumerableValueProvider<TItem, TOwner> IUIComponent<TOwner>.CreateEnumerableValueProvider<TItem>(string providerName, Func<IEnumerable<TItem>> valueGetFunction) =>
+            CreateEnumerableValueProvider(providerName, valueGetFunction);
+
+        /// <inheritdoc cref="IUIComponent{TOwner}.CreateEnumerableValueProvider{TItem}(string, Func{IEnumerable{TItem}})"/>
+        protected internal EnumerableValueProvider<TItem, TOwner> CreateEnumerableValueProvider<TItem>(string providerName, Func<IEnumerable<TItem>> valueGetFunction)
+        {
+            string fullProviderName = BuildFullValueProviderName(providerName);
+
+            return new EnumerableValueProvider<TItem, TOwner>(
+                Owner,
+                DynamicObjectSource.Create(valueGetFunction),
+                fullProviderName);
+        }
+
         protected string BuildFullValueProviderName(string providerName)
         {
             string componentProviderName = BuildComponentProviderName();
-            string fullProviderName = string.IsNullOrEmpty(componentProviderName)
+
+            return string.IsNullOrEmpty(componentProviderName)
                 ? providerName
                 : $"{componentProviderName} {providerName}";
-            return fullProviderName;
         }
 
         protected virtual string BuildComponentProviderName() =>
