@@ -21,6 +21,18 @@ namespace Atata
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
+        private const string ItemText = "item";
+
+        private const string ItemsText = "items";
+
+        private const string ValuesText = "values";
+
+        private const string ContentsText = "contents";
+
+        private const string ElementsText = "elements";
+
+        private const string ContentElementValueJSPath = "textContent";
+
         protected const string GetElementValuesScript = @"
 var elements = arguments[0];
 var textValues = [];
@@ -63,15 +75,19 @@ return textValues;";
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls count.
         /// </summary>
         public ValueProvider<int, TOwner> Count =>
-            Component.CreateValueProvider($"{ComponentPartName} count", GetCount);
+            Component.CreateValueProvider($"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName} count", GetCount);
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls contents.
         /// </summary>
         public ValueProvider<IEnumerable<string>, TOwner> Contents =>
-            Component.CreateValueProvider($"{ComponentPartName} contents", GetContents);
+            Component.CreateValueProvider(
+                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}contents", GetContents);
 
-        protected string ProviderName => $"{ComponentPartName}";
+        protected string ProviderName =>
+            Component.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>))
+                ? ComponentPartName
+                : $"{Component.ComponentFullName}{UIComponent.SubComponentSeparator}{ComponentPartName}";
 
         string IObjectProvider<IEnumerable<TItem>>.ProviderName => ProviderName;
 
@@ -149,7 +165,9 @@ return textValues;";
         {
             xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
 
-            itemName = itemName ?? $"XPath: '{xPathCondition}'";
+            itemName = itemName is null
+                ? $"[{xPathCondition}]"
+                : WrapSubProviderNameWithDoubleQuotes(itemName);
 
             return GetItemByInnerXPath(itemName, xPathCondition);
         }
@@ -161,7 +179,7 @@ return textValues;";
         /// The XPath condition.
         /// For example: <c>"@some-attr='some value'"</c>.</param>
         /// <returns>All items that match the XPath condition.</returns>
-        public ValueProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string xPathCondition) =>
+        public EnumerableValueProvider<TItem, TOwner> GetAllByXPathCondition(string xPathCondition) =>
             GetAllByXPathCondition(null, xPathCondition);
 
         /// <summary>
@@ -172,7 +190,7 @@ return textValues;";
         /// The XPath condition.
         /// For example: <c>"@some-attr='some value'"</c>.</param>
         /// <returns>All items that match the XPath condition.</returns>
-        public ValueProvider<IEnumerable<TItem>, TOwner> GetAllByXPathCondition(string itemsName, string xPathCondition)
+        public EnumerableValueProvider<TItem, TOwner> GetAllByXPathCondition(string itemsName, string xPathCondition)
         {
             xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
 
@@ -180,15 +198,22 @@ return textValues;";
                 ? xPathCondition
                 : $"[{xPathCondition}]";
 
-            itemsName = itemsName ?? $"XPath: '{extraXPath}'";
+            itemsName = itemsName is null
+                ? extraXPath
+                : WrapSubProviderNameWithDoubleQuotes(itemsName);
 
-            return Component.CreateValueProvider(
-                $"\"{itemsName}\" {ProviderName}",
+            return Component.CreateEnumerableValueProvider(
+                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}{itemsName} {ItemsText}",
                 () => GetAll(extraXPath, itemsName));
         }
 
         private static FindAttribute ResolveItemFindAttribute() =>
             new FindControlListItemAttribute();
+
+        private static string WrapSubProviderNameWithDoubleQuotes(string name) =>
+            name.Length > 0 && name[0] == '"'
+                ? name
+                : $"\"{name}\"";
 
         /// <summary>
         /// Gets the controls count.
@@ -253,7 +278,7 @@ return textValues;";
             string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
             return Component.CreateValueProvider(
-                $"{ComponentPartName} index of \"{itemName}\" {ItemComponentTypeName}",
+                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}{itemName} {ItemText} index",
                 () => IndexOf(itemName, predicateExpression));
         }
 
@@ -281,7 +306,9 @@ return textValues;";
 
         protected virtual TItem CreateItem(string name, params Attribute[] attributes)
         {
-            var itemAttributes = new Attribute[] { new NameAttribute(name) }.Concat(
+            string fullName = $"{ComponentPartName}{UIComponent.SubComponentSeparator}{name} {ItemText}";
+
+            var itemAttributes = new Attribute[] { new NameAttribute(fullName) }.Concat(
                 attributes?.Concat(GetItemDeclaredAttributes()) ?? GetItemDeclaredAttributes());
 
             return CreateItem(itemAttributes);
@@ -299,8 +326,12 @@ return textValues;";
             return item;
         }
 
-        private TItem CreateItem(IEnumerable<Attribute> itemAttributes) =>
-            Component.Find<TItem>(Metadata.Name, itemAttributes.ToArray());
+        private TItem CreateItem(IEnumerable<Attribute> itemAttributes)
+        {
+            var item = Component.Find<TItem>(Metadata.Name, itemAttributes.ToArray());
+            item.IncludeComponentTypeNameInFullName = false;
+            return item;
+        }
 
         protected virtual IEnumerable<Attribute> GetItemDeclaredAttributes()
         {
@@ -322,7 +353,7 @@ return textValues;";
             string dataPathName = ObjectExpressionStringBuilder.ExpressionToString(selector);
 
             return Component.CreateValueProvider(
-                $"\"{dataPathName}\" {ProviderName}",
+                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}\"{dataPathName}\" {ValuesText}",
                 () => GetAll().Select(selector.Compile()));
         }
 
@@ -364,19 +395,34 @@ return textValues;";
         {
             elementValueJSPath.CheckNotNullOrEmpty(nameof(elementValueJSPath));
 
-            if (valueProviderName == null)
+            if (valueProviderName is null)
             {
                 StringBuilder nameBuilder = new StringBuilder();
 
                 if (elementXPath != null)
-                    nameBuilder.Append($"XPath: '{elementXPath}', ");
+                {
+                    nameBuilder.Append($"XPath \"{elementXPath}\" {ElementsText}");
 
-                nameBuilder.Append($"JSPath: '{elementValueJSPath}'");
+                    if (elementValueJSPath != ContentElementValueJSPath)
+                        nameBuilder.Append(UIComponent.SubComponentSeparator);
+                }
+
+                if (elementValueJSPath != ContentElementValueJSPath)
+                    nameBuilder.Append($"JSPath \"{elementValueJSPath}\"");
+
                 valueProviderName = nameBuilder.ToString();
             }
+            else
+            {
+                valueProviderName = WrapSubProviderNameWithDoubleQuotes(valueProviderName);
+            }
+
+            string valuesText = elementValueJSPath == ContentElementValueJSPath
+                ? ContentsText
+                : ValuesText;
 
             return Component.CreateValueProvider(
-                $"\"{valueProviderName}\" of {ProviderName}",
+                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}{valueProviderName} {valuesText}",
                 () => SelectElementValues<TData>(elementXPath, elementValueJSPath, valueTermOptions));
         }
 
@@ -409,7 +455,7 @@ return textValues;";
             string valueProviderName = null,
             TermOptions valueTermOptions = null)
             =>
-            SelectDataByExtraXPath<TData>(elementXPath, "textContent", valueProviderName, valueTermOptions);
+            SelectDataByExtraXPath<TData>(elementXPath, ContentElementValueJSPath, valueProviderName, valueTermOptions);
 
         protected IEnumerable<TData> SelectElementValues<TData>(
             string elementXPath,
@@ -451,11 +497,11 @@ return textValues;";
         protected virtual IEnumerable<TItem> GetAll() =>
             GetAll(null, null);
 
-        protected virtual IEnumerable<TItem> GetAll(string extraXPath, string nameSuffix)
+        protected virtual IEnumerable<TItem> GetAll(string extraXPath, string itemsName)
         {
-            string nameFormat = string.IsNullOrEmpty(nameSuffix)
+            string nameFormat = string.IsNullOrEmpty(itemsName)
                 ? "{0}"
-                : $"{{0}} of {nameSuffix}";
+                : $"{itemsName} {ItemsText}{UIComponent.SubComponentSeparator}{{0}}";
 
             return GetItemElements(extraXPath: extraXPath)
                 .Select((element, index) => GetOrCreateItemByElement(element, string.Format(nameFormat, (index + 1).Ordinalize())))
@@ -494,7 +540,7 @@ return textValues;";
             if (_cachedAllElementsMap.Count > 0)
             {
                 _cachedAllElementsMap.Clear();
-                Component.Owner.Log.Trace($"Cleared scope cache of {Component.ComponentFullName} {ComponentPartName}");
+                Component.Owner.Log.Trace($"Cleared scope cache of {ProviderName}");
             }
 
             if (_cachedNamedItemsMap.Count > 0)

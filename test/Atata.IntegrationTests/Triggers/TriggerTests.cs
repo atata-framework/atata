@@ -134,14 +134,14 @@ public class TriggerTests : UITestFixture
 
         VerifyLastLogMessagesContain(
             minLogLevel: LogLevel.Info,
-            "> Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item",
-            "> Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
-            "> Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
-            "> Hover on \"Hierarchy\" control's \"Level 1\" item",
-            "< Hover on \"Hierarchy\" control's \"Level 1\" item",
-            "< Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item",
-            "< Hover on \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item",
-            "< Click \"Hierarchy\" control's \"Level 1\" item's \"Level 2\" item's \"Level 3\" item's \"Level 4\" item");
+            "> Click \"Hierarchy\" control / \"Level 1\" item / \"Level 2\" item / \"Level 3\" item / \"Level 4\" item",
+            "> Hover on \"Hierarchy\" control / \"Level 1\" item / \"Level 2\" item / \"Level 3\" item",
+            "> Hover on \"Hierarchy\" control / \"Level 1\" item / \"Level 2\" item",
+            "> Hover on \"Hierarchy\" control / \"Level 1\" item",
+            "< Hover on \"Hierarchy\" control / \"Level 1\" item",
+            "< Hover on \"Hierarchy\" control / \"Level 1\" item / \"Level 2\" item",
+            "< Hover on \"Hierarchy\" control / \"Level 1\" item / \"Level 2\" item / \"Level 3\" item",
+            "< Click \"Hierarchy\" control / \"Level 1\" item / \"Level 2\" item / \"Level 3\" item / \"Level 4\" item");
     }
 
     [Test]

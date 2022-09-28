@@ -9,6 +9,8 @@ namespace Atata
     /// </summary>
     public abstract class UIComponent
     {
+        internal const string SubComponentSeparator = " / ";
+
         protected UIComponent()
         {
         }
@@ -53,6 +55,8 @@ namespace Atata
         /// Gets or sets the name of the component.
         /// </summary>
         public string ComponentName { get; set; }
+
+        internal bool IncludeComponentTypeNameInFullName { get; set; } = true;
 
         /// <summary>
         /// Gets the name of the component type.
@@ -190,11 +194,14 @@ namespace Atata
 
                 builder
                     .Append(parentFullName)
-                    .Append(parentFullName[parentFullName.Length - 1] == 's' ? "'" : "'s")
-                    .Append(' ');
+                    .Append(SubComponentSeparator);
             }
 
-            builder.AppendFormat("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component");
+            if (IncludeComponentTypeNameInFullName)
+                builder.AppendFormat("\"{0}\" {1}", ComponentName, ComponentTypeName ?? "component");
+            else
+                builder.Append(ComponentName);
+
             return builder.ToString();
         }
 

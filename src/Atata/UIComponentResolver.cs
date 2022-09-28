@@ -505,7 +505,7 @@ namespace Atata
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
             =>
-            ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
+            $"[{ObjectExpressionStringBuilder.ExpressionToString(predicateExpression)}]";
 
         private static string NormalizeTypeName(Type type)
         {
