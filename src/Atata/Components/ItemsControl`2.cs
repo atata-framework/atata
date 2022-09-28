@@ -9,7 +9,7 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TItem">The type of the item control.</typeparam>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    [ControlDefinition(ComponentTypeName = "items control", IgnoreNameEndings = "ItemsControl,Control")]
+    [ControlDefinition(ComponentTypeName = "control", IgnoreNameEndings = "ItemsControl,Control")]
     public class ItemsControl<TItem, TOwner> : Control<TOwner>
         where TItem : Control<TOwner>
         where TOwner : PageObject<TOwner>
