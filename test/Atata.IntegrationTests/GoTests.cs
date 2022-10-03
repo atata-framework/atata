@@ -2,6 +2,8 @@
 
 public class GoTests : UITestFixture
 {
+    protected override bool ReuseDriver => false;
+
     [Test]
     public void To_UsingDirectNavigation()
     {
@@ -173,6 +175,76 @@ public class GoTests : UITestFixture
         Assert.That(page1Returned, Is.EqualTo(page1));
         AssertCurrentPageObject(page1);
     }
+
+    [Test]
+    public void ToNewWindowAsTab()
+    {
+        Go.To<GoTo1Page>();
+
+        Go.ToNewWindowAsTab<GoTo2Page>()
+            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+
+        AssertWindowHandlesCount(2);
+        AssertNoTemporarilyPreservedPageObjects();
+
+        Go.ToPreviousWindow<GoTo1Page>()
+            .PageUri.AbsolutePath.Should.EndWith("/goto1");
+    }
+
+    [Test]
+    public void ToNewWindow()
+    {
+        Go.To<GoTo1Page>();
+
+        Go.ToNewWindow<GoTo2Page>()
+            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+
+        AssertWindowHandlesCount(2);
+        AssertNoTemporarilyPreservedPageObjects();
+
+        Go.ToPreviousWindow<GoTo1Page>()
+            .PageUri.AbsolutePath.Should.EndWith("/goto1");
+    }
+
+    [Test]
+    public void ToNewWindow_WithUrl()
+    {
+        Go.To<GoTo1Page>();
+
+        var page2 = Go.ToNewWindow<ScrollablePage>(url: "/goto2")
+            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+
+        AssertWindowHandlesCount(2);
+        AssertNoTemporarilyPreservedPageObjects();
+
+        page2.CloseWindow();
+
+        Go.To<GoTo1Page>(navigate: false)
+            .PageUri.AbsolutePath.Should.EndWith("/goto1");
+    }
+
+    [Test]
+    public void ToNewWindow_WithTemporarilyTrue()
+    {
+        var page1 = Go.To<GoTo1Page>();
+
+        var page2 = Go.ToNewWindow<GoTo2Page>(temporarily: true)
+            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+
+        AssertWindowHandlesCount(2);
+        AssertTemporarilyPreservedPageObjects(page1);
+
+        page2.CloseWindow();
+        AssertCurrentPageObject(page2);
+
+        Go.To<GoTo1Page>(navigate: false)
+            .PageUri.AbsolutePath.Should.EndWith("/goto1");
+
+        AssertCurrentPageObject(page1);
+    }
+
+    private static void AssertWindowHandlesCount(int expected) =>
+        Assert.That(AtataContext.Current.Driver.WindowHandles.Count, Is.EqualTo(expected));
 
     private static void AssertCurrentPageObject(UIComponent pageObject) =>
         Assert.That(AtataContext.Current.PageObject, Is.EqualTo(pageObject));

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -114,6 +115,45 @@ namespace Atata
                 .ElementAt(1);
 
             return To(pageObject, new GoOptions { Navigate = false, WindowName = previousWindowHandle, Temporarily = temporarily });
+        }
+
+        /// <summary>
+        /// Navigates to the a tab window with the specified page object.
+        /// </summary>
+        /// <typeparam name="T">The type of the page object.</typeparam>
+        /// <param name="pageObject">
+        /// The page object.
+        /// If set to <see langword="null"/> creates an instance using the default constructor.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
+        /// <returns>The page object.</returns>
+        public T ToNewWindowAsTab<T>(T pageObject = null, string url = null, bool temporarily = false)
+            where T : PageObject<T> =>
+            ToNewWindow(pageObject, url, temporarily, WindowType.Tab);
+
+        /// <summary>
+        /// Navigates to a new window with the specified page object.
+        /// </summary>
+        /// <typeparam name="T">The type of the page object.</typeparam>
+        /// <param name="pageObject">
+        /// The page object.
+        /// If set to <see langword="null"/> creates an instance using the default constructor.</param>
+        /// <param name="url">The URL.</param>
+        /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
+        /// <returns>The page object.</returns>
+        public T ToNewWindow<T>(T pageObject = null, string url = null, bool temporarily = false)
+            where T : PageObject<T> =>
+            ToNewWindow(pageObject, url, temporarily, WindowType.Window);
+
+        private T ToNewWindow<T>(T pageObject, string url, bool temporarily, WindowType windowType)
+            where T : PageObject<T>
+        {
+            SetContextAsCurrent();
+            _context.Log.Info($"Switch to new {(windowType == WindowType.Tab ? "tab " : null)}window");
+
+            _context.Driver.SwitchTo().NewWindow(windowType);
+
+            return To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url), Temporarily = temporarily });
         }
 
         private T To<T>(T pageObject, GoOptions options)
