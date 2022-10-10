@@ -29,11 +29,13 @@ namespace Atata
                 new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
                 () =>
                 {
+                    var (timeout, retryInterval) = verifier.GetRetryOptions();
+
                     SearchOptions searchOptions = new SearchOptions
                     {
                         IsSafely = false,
-                        Timeout = verifier.Timeout ?? verifier.Component.Context.VerificationTimeout,
-                        RetryInterval = verifier.RetryInterval ?? verifier.Component.Context.VerificationRetryInterval
+                        Timeout = timeout,
+                        RetryInterval = retryInterval
                     };
 
                     if (visibility.HasValue)
