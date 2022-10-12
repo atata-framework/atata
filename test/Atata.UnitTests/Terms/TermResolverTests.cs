@@ -66,6 +66,15 @@ public static class TermResolverTests
             MidSentenceUsingTerm
         }
 
+        [TestCase("true", ExpectedResult = true)]
+        [TestCase("True", ExpectedResult = true)]
+        [TestCase("false", ExpectedResult = false)]
+        [TestCase("False", ExpectedResult = false)]
+        [TestCase("", ExpectedResult = null)]
+        [TestCase(null, ExpectedResult = null)]
+        public bool? NullableBool(string value) =>
+            TermResolver.FromString<bool?>(value);
+
         [TestCaseSource(typeof(TermResolverFormatTestCaseSource))]
         public void WithFormat(object value, string format, string expectedFormattedValue)
         {
