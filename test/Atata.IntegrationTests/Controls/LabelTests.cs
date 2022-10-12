@@ -8,11 +8,12 @@ public class LabelTests : UITestFixture
         _page = Go.To<LabelPage>();
 
     [Test]
-    public void Default()
-    {
+    public void Value() =>
         _page.FirstNameLabel.Should.Equal("First Name");
-        _page.FirstNameLabel.Attributes.For.Should.Equal("first-name");
-    }
+
+    [Test]
+    public void For() =>
+        _page.FirstNameLabel.For.Should.Equal("first-name");
 
     [Test]
     public void WithFindByAttributeAttribute() =>
