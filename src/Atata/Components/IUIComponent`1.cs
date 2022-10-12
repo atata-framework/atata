@@ -91,7 +91,23 @@ namespace Atata
         /// <summary>
         /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's attributes.
         /// </summary>
+        [Obsolete("Use DomProperties, DomAttributes or DomClasses instead.")] // Obsolete since v2.3.0.
         UIComponentAttributeProvider<TOwner> Attributes { get; }
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's DOM attributes.
+        /// </summary>
+        UIComponentDomAttributesProvider<TOwner> DomAttributes { get; }
+
+        /// <summary>
+        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's DOM properties.
+        /// </summary>
+        UIComponentDomPropertiesProvider<TOwner> DomProperties { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance that provides a list of the scope element's DOM classes.
+        /// </summary>
+        ValueProvider<IEnumerable<string>, TOwner> DomClasses { get; }
 
         /// <summary>
         /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.

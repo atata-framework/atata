@@ -40,7 +40,7 @@ namespace Atata
         public new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
 
         protected virtual bool GetIsReadOnly() =>
-            Attributes.ReadOnly;
+            DomProperties.ReadOnly.Value == true;
 
         /// <summary>
         /// Converts the value to string for <see cref="SetValue(TValue)"/> method.

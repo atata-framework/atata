@@ -81,9 +81,9 @@ public class PageObjectTests : UITestFixture
     public void ActiveControl() =>
         Go.To<InputPage>()
             .TelInput.Set("123")
-            .ActiveControl.Attributes.Value.Should.Equal("123")
+            .ActiveControl.DomProperties.Value.Should.Equal("123")
             .IntTextInput.Focus()
-            .ActiveControl.Attributes.Id.Should.Equal("int-text-input");
+            .ActiveControl.DomProperties.Id.Should.Equal("int-text-input");
 
     [Test]
     public void AggregateAssert()

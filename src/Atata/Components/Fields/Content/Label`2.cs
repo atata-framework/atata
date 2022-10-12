@@ -12,8 +12,9 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>for</c> attribute.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>for</c> DOM attribute.
         /// </summary>
-        public ValueProvider<string, TOwner> For => Attributes.For;
+        public ValueProvider<string, TOwner> For =>
+            DomAttributes["for"];
     }
 }

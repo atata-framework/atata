@@ -11,13 +11,15 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> attribute.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> DOM property.
         /// </summary>
-        public ValueProvider<string, TOwner> Source => Attributes.Src;
+        public ValueProvider<string, TOwner> Source =>
+            DomProperties["src"];
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>alt</c> attribute.
         /// </summary>
-        public ValueProvider<string, TOwner> Alt => Attributes.Alt;
+        public ValueProvider<string, TOwner> Alt =>
+            DomProperties["alt"];
     }
 }

@@ -18,6 +18,6 @@
         public string AttributeName { get; }
 
         public override string Execute<TOwner>(IUIComponent<TOwner> component) =>
-            component.Attributes[AttributeName];
+            component.DomAttributes[AttributeName];
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Represents the behavior for control value getting from <c>value</c> attribute.
+    /// Represents the behavior for control value getting from <c>value</c> DOM property.
     /// </summary>
     public class GetsValueFromValueAttribute : ValueGetBehaviorAttribute
     {
         /// <inheritdoc/>
         public override string Execute<TOwner>(IUIComponent<TOwner> component) =>
-            component.Attributes.Value;
+            component.DomProperties.Value;
     }
 }

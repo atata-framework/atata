@@ -29,7 +29,13 @@ return (
         protected UIComponent()
         {
             Controls = new UIComponentChildrenList<TOwner>(this);
+
+#pragma warning disable CS0618 // Type or member is obsolete
             Attributes = new UIComponentAttributeProvider<TOwner> { Component = this, ComponentPartName = "attributes" };
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            DomAttributes = new UIComponentDomAttributesProvider<TOwner>(this);
+            DomProperties = new UIComponentDomPropertiesProvider<TOwner>(this);
             Css = new UIComponentCssProvider<TOwner> { Component = this, ComponentPartName = "CSS" };
             Script = new UIComponentScriptExecutor<TOwner>(this);
         }
@@ -114,10 +120,21 @@ return (
         public UIComponentSizeProvider<TOwner> ComponentSize =>
             new UIComponentSizeProvider<TOwner>(this, GetSize, BuildFullValueProviderName("size"));
 
-        /// <summary>
-        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's attributes.
-        /// </summary>
+        /// <inheritdoc/>
+        [Obsolete("Use DomProperties, DomAttributes or DomClasses instead.")] // Obsolete since v2.3.0.
         public UIComponentAttributeProvider<TOwner> Attributes { get; }
+
+        /// <inheritdoc/>
+        public UIComponentDomAttributesProvider<TOwner> DomAttributes { get; }
+
+        /// <inheritdoc/>
+        public UIComponentDomPropertiesProvider<TOwner> DomProperties { get; }
+
+        /// <inheritdoc/>
+        public ValueProvider<IEnumerable<string>, TOwner> DomClasses =>
+            CreateValueProvider<IEnumerable<string>>(
+                "DOM classes",
+                () => DomProperties.GetValue("className").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
         /// <summary>
         /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.

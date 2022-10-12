@@ -68,9 +68,9 @@ public class ProviderNameTests : UITestFixture
     {
         var sut = _page
             .FindAll<Label<TestPage>>("labels")[x => x != "a" && x != "b"]
-            .Attributes.Title;
+            .DomProperties.Title;
 
-        AssertProviderNameIs(sut, "labels / [x != \"a\" && x != \"b\"] item title attribute");
+        AssertProviderNameIs(sut, "labels / [x != \"a\" && x != \"b\"] item \"title\" DOM property");
     }
 
     [Test]

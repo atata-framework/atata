@@ -10,10 +10,10 @@
         where TOwner : PageObject<TOwner>
     {
         /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> attribute.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> DOM property.
         /// </summary>
         public ValueProvider<string, TOwner> Source =>
-            Attributes.Src;
+            DomProperties["src"];
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the value indicating whether the image file is loaded.

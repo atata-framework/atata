@@ -16,7 +16,7 @@
         /// <returns>The <see cref="Label{TOwner}"/> control.</returns>
         protected override Label<TOwner> CreateAssociatedControl(Control<TOwner> control)
         {
-            string id = control.Attributes.Id;
+            string id = control.DomProperties.Id;
             return Component.Find<Label<TOwner>>(control.ComponentName, new FindByAttributeAttribute("for", id));
         }
     }

@@ -53,7 +53,7 @@ public class ControlTests : UITestFixture
         Go.To<InputPage>()
             .TelInput.Set("123")
             .TelInput.Blur()
-            .ActiveControl.Attributes.Value.Should.Not.Equal("123");
+            .ActiveControl.DomProperties.Value.Should.Not.Equal("123");
 
     public class ComponentName : UITestFixture
     {

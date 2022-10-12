@@ -183,19 +183,19 @@ public class UIComponentTests : UITestFixture
         public void WithoutAttributes_WithName() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>("Enum Text Input")
-                    .Attributes.Id.Should.Equal("enum-text-input");
+                    .DomProperties.Id.Should.Equal("enum-text-input");
 
         [Test]
         public void WithAttributes_WithoutName() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>(new FindByIdAttribute("enum-text-input"))
-                    .Attributes.Id.Should.Equal("enum-text-input");
+                    .DomProperties.Id.Should.Equal("enum-text-input");
 
         [Test]
         public void WithAttributes_WithName() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>("Email Input", new ControlDefinitionAttribute("input[@type='email']"))
-                    .Attributes.Type.Should.Equal("email");
+                    .DomProperties["type"].Should.Equal("email");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindByIdAttribute() =>

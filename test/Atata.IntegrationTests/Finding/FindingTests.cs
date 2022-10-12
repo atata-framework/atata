@@ -218,7 +218,7 @@ public class FindingTests : UITestFixture
     private static void VerifyValue<TOwner>(UIComponent<TOwner> component, string expectedValue)
         where TOwner : PageObject<TOwner>
         =>
-        Assert.That(component.Attributes.GetValue("value"), Is.EqualTo(expectedValue));
+        Assert.That(component.DomProperties.GetValue("value"), Is.EqualTo(expectedValue));
 
     private static void VerifyNotExist<TOwner>(UIComponent<TOwner> component)
         where TOwner : PageObject<TOwner>

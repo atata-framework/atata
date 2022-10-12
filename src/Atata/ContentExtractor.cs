@@ -82,11 +82,11 @@ return '';";
                 case ContentSource.Text:
                     return component.Scope.Text;
                 case ContentSource.TextContent:
-                    return component.Attributes.TextContent;
+                    return component.DomProperties.TextContent;
                 case ContentSource.InnerHtml:
-                    return component.Attributes.InnerHtml;
+                    return component.DomProperties.InnerHtml;
                 case ContentSource.Value:
-                    return component.Attributes.Value;
+                    return component.DomProperties.Value;
                 case ContentSource.ChildTextNodes:
                     return component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesScript);
                 case ContentSource.ChildTextNodesTrimmed:

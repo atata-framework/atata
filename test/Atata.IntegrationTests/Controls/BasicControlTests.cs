@@ -31,13 +31,13 @@ public class BasicControlTests : UITestFixture
             .ByLabel.ReadonlyField.Should.BeEnabled()
             .ByLabel.ReadonlyField.Should.BeReadOnly()
             .ByLabel.ReadonlyField.IsReadOnly.Should.BeTrue()
-            .ByLabel.ReadonlyField.Attributes.ReadOnly.Should.BeTrue()
+            .ByLabel.ReadonlyField.DomProperties.Get<bool?>("readOnly").Should.BeTrue()
             .ByLabel.ReadonlyField.Should.Equal("readme")
 
             .ByLabel.DisabledField.Should.Exist()
             .ByLabel.DisabledField.Should.Not.BeEnabled()
             .ByLabel.DisabledField.IsEnabled.Should.Not.BeTrue()
-            .ByLabel.DisabledField.Attributes.Disabled.Should.BeTrue()
+            .ByLabel.DisabledField.DomProperties.Get<bool?>("disabled").Should.BeTrue()
             .ByLabel.DisabledField.Should.Not.BeReadOnly()
             .ByLabel.DisabledField.Should.Equal("readme")
 

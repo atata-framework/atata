@@ -313,7 +313,7 @@ namespace Atata
         {
             verifier.CheckNotNull(nameof(verifier));
 
-            return verifier.Component.Attributes.Class.Should.WithSettings(verifier).Contain(classNames);
+            return verifier.Component.DomClasses.Should.WithSettings(verifier).Contain(classNames);
         }
     }
 }
