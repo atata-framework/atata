@@ -16,6 +16,18 @@
             DomProperties["src"];
 
         /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> DOM attribute.
+        /// </summary>
+        public ValueProvider<string, TOwner> SourceAttribue =>
+            DomAttributes["src"];
+
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>alt</c> DOM property.
+        /// </summary>
+        public ValueProvider<string, TOwner> Alt =>
+            DomProperties["alt"];
+
+        /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the value indicating whether the image file is loaded.
         /// </summary>
         public ValueProvider<bool, TOwner> IsLoaded =>

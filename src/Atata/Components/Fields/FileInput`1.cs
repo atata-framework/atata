@@ -11,5 +11,10 @@
     public class FileInput<TOwner> : Input<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>accept</c> DOM property.
+        /// </summary>
+        public ValueProvider<string, TOwner> Accept =>
+            DomProperties["accept"];
     }
 }

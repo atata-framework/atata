@@ -10,5 +10,10 @@
     public class TextArea<TOwner> : EditableTextField<string, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>placeholder</c> DOM property.
+        /// </summary>
+        public ValueProvider<string, TOwner> Placeholder =>
+            DomProperties["placeholder"];
     }
 }

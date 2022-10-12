@@ -17,7 +17,13 @@
             DomProperties["src"];
 
         /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>alt</c> attribute.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> DOM attribute.
+        /// </summary>
+        public ValueProvider<string, TOwner> SourceAttribue =>
+            DomAttributes["src"];
+
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>alt</c> DOM property.
         /// </summary>
         public ValueProvider<string, TOwner> Alt =>
             DomProperties["alt"];

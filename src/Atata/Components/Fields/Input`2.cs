@@ -11,5 +11,16 @@
     public class Input<TValue, TOwner> : EditableTextField<TValue, TOwner>
         where TOwner : PageObject<TOwner>
     {
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>placeholder</c> DOM property.
+        /// </summary>
+        public ValueProvider<string, TOwner> Placeholder =>
+            DomProperties["placeholder"];
+
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>pattern</c> DOM property.
+        /// </summary>
+        public ValueProvider<string, TOwner> Pattern =>
+            DomProperties["pattern"];
     }
 }
