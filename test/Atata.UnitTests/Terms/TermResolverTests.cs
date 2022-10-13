@@ -4,12 +4,12 @@ namespace Atata.UnitTests.Terms;
 
 public static class TermResolverTests
 {
+    private const string CultureName = "en-GB";
+
     [TestFixture]
     [SetCulture(CultureName)]
     public class FromString
     {
-        private const string CultureName = "en-GB";
-
         public enum Option
         {
             [Term(TermCase.Title, Format = ">>{0}:")]
@@ -186,5 +186,15 @@ public static class TermResolverTests
                 base.Add(value, format, expectedFormattedValue ?? string.Format(CultureInfo.GetCultureInfo(CultureName), format, value));
         }
 #pragma warning restore S1144, CA1812 // Unused private types or members should be removed
+    }
+
+    [TestFixture]
+    [SetCulture(CultureName)]
+    public new class ToString
+    {
+        [TestCase(true, ExpectedResult = "True")]
+        [TestCase(false, ExpectedResult = "False")]
+        public string Bool(object value) =>
+            TermResolver.ToString(value);
     }
 }
