@@ -79,6 +79,10 @@ return (
         public ValueProvider<bool, TOwner> IsVisibleInViewPort =>
             CreateValueProvider("visible in viewport state", GetIsVisibleInViewPort);
 
+        /// <inheritdoc/>
+        public ValueProvider<string, TOwner> TagName =>
+            CreateValueProvider("tag name", () => Scope.TagName);
+
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the text content.
         /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component,

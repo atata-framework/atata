@@ -126,6 +126,11 @@ public class UIComponentTests : UITestFixture
                 page.HiddenDivWithVisibleVisibility.IsVisible.Should.WithinSeconds(2).BeTrue());
     }
 
+    [Test]
+    public void TagName() =>
+        Go.To<InputPage>()
+            .TextInput.TagName.Should.Be("input");
+
     public class Wait : UITestFixture
     {
         private WaitingOnInitPage _page;

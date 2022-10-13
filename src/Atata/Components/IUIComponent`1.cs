@@ -32,6 +32,11 @@ namespace Atata
         ValueProvider<bool, TOwner> IsVisible { get; }
 
         /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the scope element tag name.
+        /// </summary>
+        ValueProvider<string, TOwner> TagName { get; }
+
+        /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the text content.
         /// </summary>
         ValueProvider<string, TOwner> Content { get; }
