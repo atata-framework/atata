@@ -43,9 +43,7 @@ namespace Atata
                 if (args != null && args.Any())
                 {
                     string[] convertedArgs = args
-                        .Select(x => x is bool
-                            ? x.ToString().ToLowerInvariant()
-                            : $"\"{ConvertValueToString(verifier.ObjectProvider, x) ?? Stringifier.NullString}\"")
+                        .Select(x => ConvertValueToString(verifier.ObjectProvider, x))
                         .ToArray();
 
                     formattedMessage = message.FormatWith(convertedArgs);
@@ -64,9 +62,9 @@ namespace Atata
         }
 
         private static string ConvertValueToString<TData, TOwner>(IObjectProvider<TData, TOwner> provider, TData value) =>
-            provider is IConvertsValueToString<TData> providerAsConverter
-                ? providerAsConverter.ConvertValueToString(value)
-                : TermResolver.ToString(value);
+            provider is IConvertsValueToString<TData> providerAsConverter && !(value is bool) && !(value is bool?)
+                ? $"\"{providerAsConverter.ConvertValueToString(value)}\""
+                : Stringifier.ToString(value);
 
         public static string BuildFailureMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string expected, string actual) =>
             BuildFailureMessage(verifier, expected, actual, true);
