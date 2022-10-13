@@ -40,42 +40,29 @@ return (
             Script = new UIComponentScriptExecutor<TOwner>(this);
         }
 
-        /// <summary>
-        /// Gets the owner page object.
-        /// </summary>
+        /// <inheritdoc cref="IUIComponent{TOwner}.Owner"/>
         public new TOwner Owner
         {
             get => (TOwner)base.Owner;
             internal set => base.Owner = value;
         }
 
-        /// <summary>
-        /// Gets the parent component.
-        /// </summary>
+        /// <inheritdoc cref="IUIComponent{TOwner}.Parent"/>
         public new UIComponent<TOwner> Parent
         {
             get => (UIComponent<TOwner>)base.Parent;
             internal set => base.Parent = value;
         }
 
-        /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
-        /// whether the component is present considering the <see cref="Visibility"/> of component.
-        /// </summary>
+        /// <inheritdoc/>
         public ValueProvider<bool, TOwner> IsPresent =>
             CreateValueProvider("presence state", GetIsPresent);
 
-        /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
-        /// whether the component is visible.
-        /// </summary>
+        /// <inheritdoc/>
         public ValueProvider<bool, TOwner> IsVisible =>
             CreateValueProvider("visible state", GetIsVisible);
 
-        /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
-        /// whether the component is visible in viewport.
-        /// </summary>
+        /// <inheritdoc/>
         public ValueProvider<bool, TOwner> IsVisibleInViewPort =>
             CreateValueProvider("visible in viewport state", GetIsVisibleInViewPort);
 
