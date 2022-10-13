@@ -158,6 +158,16 @@ public class ProviderNameTests : UITestFixture
     public void OfControlList_GetAllByXPathCondition_First()
     {
         var sut = _page
+            .Files.GetAllByXPathCondition("@id!='x'")
+            .First();
+
+        AssertProviderNameIs(sut, "files / [@id!='x'] items / 1st item content");
+    }
+
+    [Test]
+    public void OfNestedControlList_GetAllByXPathCondition_First()
+    {
+        var sut = _page
             .Folders[0]
             .Files.GetAllByXPathCondition("@id!='x'")
             .First();
@@ -190,6 +200,16 @@ public class ProviderNameTests : UITestFixture
     public void OfControlList_Contents()
     {
         var sut = _page
+            .Files.Contents
+            .FirstOrDefault();
+
+        AssertProviderNameIs(sut, "files / contents.FirstOrDefault()");
+    }
+
+    [Test]
+    public void OfNestedControlList_Contents()
+    {
+        var sut = _page
             .Folders[2]
             .Files.Contents
             .Skip(2)
@@ -212,6 +232,15 @@ public class ProviderNameTests : UITestFixture
     public void OfControlList_IndexOf()
     {
         var sut = _page
+            .Files.IndexOf(x => x.Name == "a");
+
+        AssertProviderNameIs(sut, "files / [Name == \"a\"] item index");
+    }
+
+    [Test]
+    public void OfNestedControlList_IndexOf()
+    {
+        var sut = _page
             .Folders[2]
             .Files.IndexOf(x => x.Name == "a");
 
@@ -220,6 +249,16 @@ public class ProviderNameTests : UITestFixture
 
     [Test]
     public void OfControlList_SelectData_WithSelecor()
+    {
+        var sut = _page
+            .Files.SelectData(x => x.Name)
+            .First();
+
+        AssertProviderNameIs(sut, "files / \"Name\" values.First()");
+    }
+
+    [Test]
+    public void OfNestedControlList_SelectData_WithSelecor()
     {
         var sut = _page
             .Folders[2]
@@ -253,6 +292,16 @@ public class ProviderNameTests : UITestFixture
 
     [Test]
     public void OfControlList_SelectDataByExtraXPath()
+    {
+        var sut = _page
+            .Files.SelectDataByExtraXPath<string>("/h4", "getAttribute('data-id')")
+            .First();
+
+        AssertProviderNameIs(sut, "files / XPath \"/h4\" elements / JSPath \"getAttribute('data-id')\" values.First()");
+    }
+
+    [Test]
+    public void OfNestedControlList_SelectDataByExtraXPath()
     {
         var sut = _page
             .Folders[2]

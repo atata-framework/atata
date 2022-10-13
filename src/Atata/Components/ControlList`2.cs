@@ -82,12 +82,16 @@ return textValues;";
         /// </summary>
         public ValueProvider<IEnumerable<string>, TOwner> Contents =>
             Component.CreateValueProvider(
-                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}contents", GetContents);
+                BuildValueProviderFullName("contents"),
+                GetContents);
 
         protected string ProviderName =>
-            Component.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>))
+            IsComponentPageObject
                 ? ComponentPartName
                 : $"{Component.ComponentFullName}{UIComponent.SubComponentSeparator}{ComponentPartName}";
+
+        private bool IsComponentPageObject =>
+            Component.GetType().IsSubclassOfRawGeneric(typeof(PageObject<>));
 
         string IObjectProvider<IEnumerable<TItem>>.ProviderName => ProviderName;
 
@@ -203,7 +207,7 @@ return textValues;";
                 : WrapSubProviderNameWithDoubleQuotes(itemsName);
 
             return Component.CreateEnumerableValueProvider(
-                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}{itemsName} {ItemsText}",
+                BuildValueProviderFullName($"{itemsName} {ItemsText}"),
                 () => GetAll(extraXPath, itemsName));
         }
 
@@ -278,7 +282,7 @@ return textValues;";
             string itemName = UIComponentResolver.ResolveControlName<TItem, TOwner>(predicateExpression);
 
             return Component.CreateValueProvider(
-                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}{itemName} {ItemText} index",
+                BuildValueProviderFullName($"{itemName} {ItemText} index"),
                 () => IndexOf(itemName, predicateExpression));
         }
 
@@ -353,7 +357,7 @@ return textValues;";
             string dataPathName = ObjectExpressionStringBuilder.ExpressionToString(selector);
 
             return Component.CreateValueProvider(
-                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}\"{dataPathName}\" {ValuesText}",
+                BuildValueProviderFullName($"\"{dataPathName}\" {ValuesText}"),
                 () => GetAll().Select(selector.Compile()));
         }
 
@@ -422,8 +426,21 @@ return textValues;";
                 : ValuesText;
 
             return Component.CreateValueProvider(
-                $"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName}{UIComponent.SubComponentSeparator}{valueProviderName} {valuesText}",
+                BuildValueProviderFullName($"{valueProviderName} {valuesText}"),
                 () => SelectElementValues<TData>(elementXPath, elementValueJSPath, valueTermOptions));
+        }
+
+        private string BuildValueProviderFullName(string name)
+        {
+            var builder = new StringBuilder();
+
+            if (!IsComponentPageObject)
+                builder.Append(UIComponent.SubComponentSeparator.TrimStart());
+
+            return builder.Append(ComponentPartName)
+                .Append(UIComponent.SubComponentSeparator)
+                .Append(name)
+                .ToString();
         }
 
         /// <summary>
