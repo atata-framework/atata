@@ -27,9 +27,22 @@ namespace Atata
         IUIComponent<TOwner> Parent { get; }
 
         /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating whether the control is visible.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
+        /// whether the component is present considering the <see cref="Visibility"/> of component.
+        /// </summary>
+        ValueProvider<bool, TOwner> IsPresent { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
+        /// whether the control is visible.
         /// </summary>
         ValueProvider<bool, TOwner> IsVisible { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
+        /// whether the component is visible in viewport.
+        /// </summary>
+        ValueProvider<bool, TOwner> IsVisibleInViewPort { get; }
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the scope element tag name.
