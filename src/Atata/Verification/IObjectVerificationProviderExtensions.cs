@@ -830,5 +830,36 @@ namespace Atata
             verifier.Satisfy(
                 (IEnumerable<TObject> actual) => actual != null && actual.OrderByDescending(x => x).SequenceEqual(actual),
                 "be in descending order");
+
+        /// <summary>
+        /// Verifies that collection consist of a single item and the item matches the <paramref name="predicateExpression"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="predicateExpression">The predicate expression.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ConsistOfSingle<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            Expression<Func<TItem, bool>> predicateExpression)
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count() == 1 && predicate(actual.Single()),
+                $"consist of single {Stringifier.ToString(predicateExpression)} item");
+        }
+
+        /// <inheritdoc cref="ConsistOfSingle{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}})"/>
+        public static TOwner ConsistOfSingle<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            Expression<Func<TObject, bool>> predicateExpression)
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count() == 1 && predicate(actual.Single()),
+                $"consist of single {Stringifier.ToString(predicateExpression)} item");
+        }
     }
 }
