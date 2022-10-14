@@ -832,7 +832,7 @@ namespace Atata
                 "be in descending order");
 
         /// <summary>
-        /// Verifies that collection consist of a single item and the item matches the <paramref name="predicateExpression"/>.
+        /// Verifies that collection consists of a single item and the item matches the <paramref name="predicateExpression"/>.
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
@@ -865,7 +865,7 @@ namespace Atata
         }
 
         /// <summary>
-        /// Verifies that collection consist sequentially of items that match one by one the <paramref name="predicateExpressions"/>.
+        /// Verifies that collection consists sequentially of items that match one by one the <paramref name="predicateExpressions"/>.
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
