@@ -28,7 +28,7 @@ namespace Atata
             predicateExpression.CheckNotNull(nameof(predicateExpression));
 
             var predicate = predicateExpression.Compile();
-            string expressionAsString = ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
+            string expressionAsString = Stringifier.ToString(predicateExpression);
 
             return verifier.Satisfy(predicate, $"satisfy {expressionAsString}");
         }
@@ -110,7 +110,7 @@ namespace Atata
             predicateExpression.CheckNotNull(nameof(predicateExpression));
 
             var predicate = predicateExpression.Compile();
-            string expressionAsString = ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
+            string expressionAsString = Stringifier.ToString(predicateExpression);
 
             return verifier.Satisfy(predicate, $"satisfy {expressionAsString}");
         }
@@ -511,7 +511,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count(predicate) == 1,
-                $"contain single {Stringifier.ToString(predicateExpression)}");
+                $"contain single {Stringifier.ToString(predicateExpression)} item");
         }
 
         /// <summary>
@@ -530,7 +530,7 @@ namespace Atata
             =>
             verifier.Satisfy(
                 actual => actual != null && actual.Count(x => Equals(x, expectedValue)) == expectedCount,
-                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} items");
+                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}");
 
         /// <summary>
         /// Verifies that collection contains exact count of items equal to <paramref name="expectedValue"/> parameter.
@@ -547,7 +547,7 @@ namespace Atata
             TObject expectedValue) =>
             verifier.Satisfy(
                 actual => actual != null && actual.Count((TObject x) => Equals(x, expectedValue)) == expectedCount,
-                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} items");
+                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}");
 
         /// <summary>
         /// Verifies that collection contains exact count of items matching <paramref name="predicateExpression"/>.
@@ -568,7 +568,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count(predicate) == expectedCount,
-                $"contain exactly {expectedCount} {Stringifier.ToString(predicateExpression)} items");
+                $"contain exactly {expectedCount} {Stringifier.ToString(predicateExpression)} item{(expectedCount != 1 ? "s" : null)}");
         }
 
         /// <summary>
@@ -657,7 +657,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Any(predicate),
-                $"contain {Stringifier.ToString(predicateExpression)}");
+                $"contain {Stringifier.ToString(predicateExpression)} item");
         }
 
         /// <summary>
@@ -676,7 +676,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Any(predicate),
-                $"contain {Stringifier.ToString(predicateExpression)}");
+                $"contain {Stringifier.ToString(predicateExpression)} item");
         }
 
         public static TOwner Contain<TOwner>(
