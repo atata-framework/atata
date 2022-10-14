@@ -863,5 +863,42 @@ namespace Atata
                 actual => actual != null && actual.Count() == 1 && predicate(actual.Single()),
                 $"consist of single {Stringifier.ToString(predicateExpression)} item");
         }
+
+        /// <summary>
+        /// Verifies that collection consist sequentially of items that match one by one the <paramref name="predicateExpressions"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="predicateExpressions">The predicate expressions.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ConsistSequentiallyOf<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            params Expression<Func<TItem, bool>>[] predicateExpressions)
+        {
+            var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+                .Select(x => x.Compile())
+                .ToArray();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count() == predicates.Length && actual.Select((x, index) => predicates[index](x)).All(x => x),
+                $"consist sequentially of {Stringifier.ToString(predicateExpressions)} items");
+        }
+
+        /// <inheritdoc cref="ConsistSequentiallyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}}[])"/>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        public static TOwner ConsistSequentiallyOf<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            params Expression<Func<TObject, bool>>[] predicateExpressions)
+        {
+            var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+                .Select(x => x.Compile())
+                .ToArray();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count() == predicates.Length && actual.Select((x, index) => predicates[index](x)).All(x => x),
+                $"consist sequentially of {Stringifier.ToString(predicateExpressions)} items");
+        }
     }
 }
