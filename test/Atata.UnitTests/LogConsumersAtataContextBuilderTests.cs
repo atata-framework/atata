@@ -23,8 +23,9 @@ public class LogConsumersAtataContextBuilderTests
             Sut.Act(x => x.Add<ConsoleLogConsumer>().WithMinLevel(LogLevel.Info))
                 .Act(x => x.Configure<TraceLogConsumer>().WithMinLevel(LogLevel.Warn))
                 .ResultOf(x => x.BuildingContext.LogConsumerConfigurations)
-                    .Should.HaveCount(2)
-                    .Last().Should.Satisfy(x => x.Consumer is TraceLogConsumer && x.MinLevel == LogLevel.Warn);
+                    .Should.ConsistSequentiallyOf(
+                        x => x.Consumer is ConsoleLogConsumer,
+                        x => x.Consumer is TraceLogConsumer && x.MinLevel == LogLevel.Warn);
 
         [Test]
         public void WhenExisting() =>

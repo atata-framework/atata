@@ -65,10 +65,8 @@ public static class EventSubscriptionsAtataContextBuilderTests
             _sut.Act(x => x.Add(eventHandler1))
                 .Act(x => x.Add<TestEvent>(eventHandler2))
                 .ResultOf(x => x.BuildingContext.EventSubscriptions)
-                    .Should.HaveCount(2)
-                    .ElementAt(0).Should.Satisfy(
-                        x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler1)
-                    .ElementAt(1).Should.Satisfy(
+                    .Should.ConsistSequentiallyOf(
+                        x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler1,
                         x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler2);
         }
 
