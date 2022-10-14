@@ -331,9 +331,9 @@ namespace Atata
 
             TOwner activePageObject = (TOwner)this;
 
-            string predicateMessage = ObjectExpressionStringBuilder.ExpressionToString(predicateExpression);
+            string predicateMessage = Stringifier.ToString(predicateExpression);
 
-            string actionMessage = $"Refresh page until \"{predicateMessage}\" within {timeoutTime.ToShortIntervalString()} with {retryIntervalTime.ToShortIntervalString()} retry interval";
+            string actionMessage = $"Refresh page until {predicateMessage} within {timeoutTime.ToShortIntervalString()} with {retryIntervalTime.ToShortIntervalString()} retry interval";
 
             Log.ExecuteSection(
                 new LogSection(actionMessage),
