@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Reflection;
 
 namespace Atata
@@ -57,6 +58,30 @@ namespace Atata
             var consumerConfiguration = new LogConsumerConfiguration(consumer);
             BuildingContext.LogConsumerConfigurations.Add(consumerConfiguration);
             return new LogConsumerAtataContextBuilder<TLogConsumer>(consumer, consumerConfiguration, BuildingContext);
+        }
+
+        /// <summary>
+        /// Returns a log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer or adds a new one.
+        /// </summary>
+        /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
+        /// <returns>The <see cref="LogConsumerAtataContextBuilder{TLogConsumer}"/> instance.</returns>
+        public LogConsumerAtataContextBuilder<TLogConsumer> Configure<TLogConsumer>()
+           where TLogConsumer : ILogConsumer
+        {
+            var consumerConfiguration = BuildingContext.LogConsumerConfigurations.LastOrDefault(x => x.Consumer is TLogConsumer);
+
+            if (consumerConfiguration is null)
+            {
+                var consumer = ActivatorEx.CreateInstance<TLogConsumer>();
+                return Add(consumer);
+            }
+            else
+            {
+                return new LogConsumerAtataContextBuilder<TLogConsumer>(
+                    (TLogConsumer)consumerConfiguration.Consumer,
+                    consumerConfiguration,
+                    BuildingContext);
+            }
         }
 
         /// <summary>
