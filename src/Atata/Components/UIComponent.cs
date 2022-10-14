@@ -71,9 +71,7 @@ namespace Atata
         public string ComponentFullName =>
             BuildComponentFullName();
 
-        /// <summary>
-        /// Gets the metadata of the component.
-        /// </summary>
+        /// <inheritdoc cref="IUIComponent{TOwner}.Metadata"/>
         public UIComponentMetadata Metadata { get; internal set; }
 
         /// <summary>

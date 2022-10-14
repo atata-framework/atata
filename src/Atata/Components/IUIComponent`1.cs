@@ -107,23 +107,27 @@ namespace Atata
         UIComponentSizeProvider<TOwner> ComponentSize { get; }
 
         /// <summary>
-        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's attributes.
+        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance
+        /// that provides an access to the scope element's attributes.
         /// </summary>
         [Obsolete("Use DomProperties, DomAttributes or DomClasses instead.")] // Obsolete since v2.3.0.
         UIComponentAttributeProvider<TOwner> Attributes { get; }
 
         /// <summary>
-        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's DOM attributes.
+        /// Gets the <see cref="UIComponentDomAttributesProvider{TOwner}"/> instance
+        /// that provides an access to the scope element's DOM attributes.
         /// </summary>
         UIComponentDomAttributesProvider<TOwner> DomAttributes { get; }
 
         /// <summary>
-        /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance that provides an access to the scope element's DOM properties.
+        /// Gets the <see cref="UIComponentDomPropertiesProvider{TOwner}"/> instance
+        /// that provides an access to the scope element's DOM properties.
         /// </summary>
         UIComponentDomPropertiesProvider<TOwner> DomProperties { get; }
 
         /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance that provides a list of the scope element's DOM classes.
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance
+        /// that provides a list of the scope element's DOM classes.
         /// </summary>
         ValueProvider<IEnumerable<string>, TOwner> DomClasses { get; }
 
@@ -144,6 +148,7 @@ namespace Atata
 
         /// <summary>
         /// Gets the metadata of the component.
+        /// It is possible to query/add/remove attributes in metadata at any moment.
         /// </summary>
         UIComponentMetadata Metadata { get; }
 
