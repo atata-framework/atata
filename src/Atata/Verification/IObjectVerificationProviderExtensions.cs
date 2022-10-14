@@ -851,6 +851,8 @@ namespace Atata
         }
 
         /// <inheritdoc cref="ConsistOfSingle{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}})"/>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
         public static TOwner ConsistOfSingle<TObject, TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
             Expression<Func<TObject, bool>> predicateExpression)
