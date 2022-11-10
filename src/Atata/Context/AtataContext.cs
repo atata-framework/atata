@@ -648,7 +648,48 @@ namespace Atata
         /// <inheritdoc cref="FillTemplateString(string)"/>
         /// <param name="template">The template string.</param>
         /// <param name="additionalVariables">The additional variables.</param>
-        public string FillTemplateString(string template, IDictionary<string, object> additionalVariables)
+        public string FillTemplateString(string template, IDictionary<string, object> additionalVariables) =>
+            TransformTemplateString(template, additionalVariables, TemplateStringTransformer.Transform);
+
+        /// <summary>
+        /// Fills the path template string with variables of this <see cref="AtataContext"/> instance.
+        /// The variables are sanitized for path by replacing invalid characters with <c>'_'</c>.
+        /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
+        /// and extended formatting for strings
+        /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// <para>
+        /// The list of predefined variables:
+        /// <list type="bullet">
+        /// <item><c>{build-start}</c></item>
+        /// <item><c>{build-start-utc}</c></item>
+        /// <item><c>{basedir}</c></item>
+        /// <item><c>{artifacts}</c></item>
+        /// <item><c>{test-name-sanitized}</c></item>
+        /// <item><c>{test-name}</c></item>
+        /// <item><c>{test-suite-name-sanitized}</c></item>
+        /// <item><c>{test-suite-name}</c></item>
+        /// <item><c>{test-start}</c></item>
+        /// <item><c>{test-start-utc}</c></item>
+        /// <item><c>{driver-alias}</c></item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="template">The template string.</param>
+        /// <returns>The filled string.</returns>
+        public string FillPathTemplateString(string template) =>
+            FillPathTemplateString(template, null);
+
+        /// <inheritdoc cref="FillPathTemplateString(string)"/>
+        /// <param name="template">The template string.</param>
+        /// <param name="additionalVariables">The additional variables.</param>
+        public string FillPathTemplateString(string template, IDictionary<string, object> additionalVariables) =>
+            TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformPath);
+
+        private string TransformTemplateString(
+            string template,
+            IDictionary<string, object> additionalVariables,
+            Func<string, IDictionary<string, object>, string> transformFunction)
         {
             template.CheckNotNull(nameof(template));
 
@@ -665,7 +706,7 @@ namespace Atata
                     variables[variable.Key] = variable.Value;
             }
 
-            return TemplateStringTransformer.Transform(template, variables);
+            return transformFunction(template, variables);
         }
 
         /// <summary>

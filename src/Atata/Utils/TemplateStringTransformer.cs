@@ -32,7 +32,24 @@ namespace Atata
         /// <param name="template">The template.</param>
         /// <param name="variables">The variables.</param>
         /// <returns>The string result.</returns>
-        public static string Transform(string template, IDictionary<string, object> variables)
+        public static string Transform(string template, IDictionary<string, object> variables) =>
+            Transform(template, variables, AtataTemplateStringFormatter.Default);
+
+        /// <summary>
+        /// Transforms the specified path template by filling it with variables.
+        /// The variables are sanitized for path by replacing invalid characters with <c>'_'</c>.
+        /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
+        /// and extended formatting for strings
+        /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// </summary>
+        /// <param name="template">The template.</param>
+        /// <param name="variables">The variables.</param>
+        /// <returns>The string result.</returns>
+        public static string TransformPath(string template, IDictionary<string, object> variables) =>
+            Transform(template, variables, AtataPathTemplateStringFormatter.Default);
+
+        private static string Transform(string template, IDictionary<string, object> variables, IFormatProvider formatProvider)
         {
             template.CheckNotNull(nameof(template));
             variables.CheckNotNull(nameof(variables));
@@ -54,7 +71,7 @@ namespace Atata
 
                 try
                 {
-                    return string.Format(AtataTemplateStringFormatter.Default, workingTemplate, variablesValues);
+                    return string.Format(formatProvider, workingTemplate, variablesValues);
                 }
                 catch (FormatException)
                 {

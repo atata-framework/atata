@@ -89,4 +89,39 @@ public static class TemplateStringTransformerTests
         private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
             Subject.ResultOf(() => TemplateStringTransformer.Transform(template, variables));
     }
+
+    [TestFixture]
+    public class TransformPath
+    {
+        [Test]
+        public void WithStringAndIntVariables()
+        {
+            string template = "{a}{b}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "1",
+                ["b"] = 2
+            };
+
+            Act(template, variables)
+                .Should.Equal("12");
+        }
+
+        [Test]
+        public void WithVariablesContainingInvalidChars()
+        {
+            string template = "{a}-{b}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "10:30",
+                ["b"] = "1*2/3=?"
+            };
+
+            Act(template, variables)
+                .Should.Equal("10_30-1_2_3=_");
+        }
+
+        private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
+            Subject.ResultOf(() => TemplateStringTransformer.TransformPath(template, variables));
+    }
 }

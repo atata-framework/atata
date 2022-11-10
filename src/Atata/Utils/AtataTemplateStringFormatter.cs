@@ -3,6 +3,7 @@ using System.Globalization;
 
 namespace Atata
 {
+    // TODO: Atata v3. Make AtataTemplateStringFormatter internal sealed with private constructor.
     public class AtataTemplateStringFormatter : IFormatProvider, ICustomFormatter
     {
         private const string InnerFormatValueIndicator = "*";
@@ -14,10 +15,7 @@ namespace Atata
 
         public string Format(string format, object arg, IFormatProvider formatProvider)
         {
-            if (!Equals(formatProvider))
-                return null;
-
-            if (arg == null)
+            if (arg is null)
                 return string.Empty;
 
             if (!string.IsNullOrEmpty(format))
