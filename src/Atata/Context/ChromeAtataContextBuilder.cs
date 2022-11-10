@@ -21,7 +21,11 @@ namespace Atata
             => ChromeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
         protected override IWebDriver CreateDriver(ChromeDriverService service, ChromeOptions options, TimeSpan commandTimeout)
-            => new ChromeDriver(service, options, commandTimeout);
+        {
+            var driver = new ChromeDriver(service, options, commandTimeout);
+            ReplaceLocalhostInDebuggerAddress(driver.Capabilities, "goog:chromeOptions");
+            return driver;
+        }
 
         /// <summary>
         /// Adds the additional Chrome browser option to the driver options.

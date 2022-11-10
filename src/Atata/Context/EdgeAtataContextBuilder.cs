@@ -21,7 +21,11 @@ namespace Atata
             => EdgeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
         protected override IWebDriver CreateDriver(EdgeDriverService service, EdgeOptions options, TimeSpan commandTimeout)
-            => new EdgeDriver(service, options, commandTimeout);
+        {
+            var driver = new EdgeDriver(service, options, commandTimeout);
+            ReplaceLocalhostInDebuggerAddress(driver.Capabilities, "ms:edgeOptions");
+            return driver;
+        }
 
         /// <summary>
         /// Adds the additional Edge browser option to the driver options.

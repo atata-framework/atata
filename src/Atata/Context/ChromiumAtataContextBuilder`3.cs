@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.NetworkInformation;
+using System.Net.Sockets;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Chromium;
 
 namespace Atata
@@ -74,6 +78,39 @@ namespace Atata
 
             return WithOptions(x => x
                 .AddUserProfilePreference("download.default_directory", directoryPathBuilder.Invoke()));
+        }
+
+        protected void ReplaceLocalhostInDebuggerAddress(ICapabilities capabilities, string optionsCapabilityName)
+        {
+            if (capabilities.GetCapability(optionsCapabilityName) is Dictionary<string, object> chromiumOptions
+                && chromiumOptions.TryGetValue("debuggerAddress", out object debuggerAddressObject)
+                && debuggerAddressObject is string debuggerAddress
+                && debuggerAddress.Contains("localhost:"))
+            {
+                string portString = debuggerAddress.Substring(debuggerAddress.IndexOf(':') + 1);
+
+                if (int.TryParse(portString, out int port))
+                {
+                    IPEndPoint ipEndPoint = GetIPEndPoint(port);
+
+                    if (ipEndPoint?.AddressFamily == AddressFamily.InterNetwork)
+                        chromiumOptions["debuggerAddress"] = $"127.0.0.1:{port}";
+                }
+            }
+        }
+
+        private static IPEndPoint GetIPEndPoint(int port)
+        {
+            try
+            {
+                return IPGlobalProperties.GetIPGlobalProperties()
+                    .GetActiveTcpListeners()
+                    .FirstOrDefault(x => x.Port == port);
+            }
+            catch
+            {
+                return null;
+            }
         }
     }
 }
