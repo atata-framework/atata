@@ -114,7 +114,6 @@ public class AtataContextTests : UITestFixture
                     .ReadAllText().Should.Equal("qwe");
 
         [TestCase("a/b.txt")]
-        [TestCase("/a/b.txt")]
         [TestCase("a/b/c.txt")]
         public void WithRelativeFilePath(string relativeFilePath) =>
             _sut.Act(x => x.AddArtifact(relativeFilePath, "123", null, null))
