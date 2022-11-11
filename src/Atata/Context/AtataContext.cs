@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -707,6 +708,116 @@ namespace Atata
             }
 
             return transformFunction(template, variables);
+        }
+
+        /// <summary>
+        /// Adds the file to the Artifacts directory.
+        /// </summary>
+        /// <param name="relativeFilePathWithoutExtension">The relative file path without extension.</param>
+        /// <param name="fileContentWithExtension">The file content with extension.</param>
+        /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
+        /// <param name="artifactTitle">The artifact title.</param>
+        public void AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, string artifactType = null, string artifactTitle = null)
+        {
+            relativeFilePathWithoutExtension.CheckNotNullOrWhitespace(nameof(relativeFilePathWithoutExtension));
+            fileContentWithExtension.CheckNotNull(nameof(fileContentWithExtension));
+
+            string relativeFilePath = relativeFilePathWithoutExtension + fileContentWithExtension.Extension;
+            string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
+
+            fileContentWithExtension.Save(absoluteFilePath);
+
+            EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+        }
+
+        /// <summary>
+        /// Adds the file to the Artifacts directory.
+        /// </summary>
+        /// <param name="relativeFilePath">The relative file path.</param>
+        /// <param name="fileBytes">The file bytes.</param>
+        /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
+        /// <param name="artifactTitle">The artifact title.</param>
+        public void AddArtifact(string relativeFilePath, byte[] fileBytes, string artifactType = null, string artifactTitle = null)
+        {
+            relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
+            fileBytes.CheckNotNull(nameof(fileBytes));
+
+            string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
+
+            File.WriteAllBytes(absoluteFilePath, fileBytes);
+
+            EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+        }
+
+        /// <summary>
+        /// Adds the file to the Artifacts directory.
+        /// </summary>
+        /// <param name="relativeFilePath">The relative file path.</param>
+        /// <param name="fileContent">Content of the file.</param>
+        /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
+        /// <param name="artifactTitle">The artifact title.</param>
+        public void AddArtifact(string relativeFilePath, string fileContent, string artifactType = null, string artifactTitle = null)
+        {
+            relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
+            fileContent.CheckNotNull(nameof(fileContent));
+
+            string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
+
+            File.WriteAllText(absoluteFilePath, fileContent);
+
+            EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+        }
+
+        /// <summary>
+        /// Adds the file to the Artifacts directory.
+        /// </summary>
+        /// <param name="relativeFilePath">The relative file path.</param>
+        /// <param name="fileContent">Content of the file.</param>
+        /// <param name="encoding">The encoding.</param>
+        /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
+        /// <param name="artifactTitle">The artifact title.</param>
+        public void AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string artifactType = null, string artifactTitle = null)
+        {
+            relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
+            fileContent.CheckNotNull(nameof(fileContent));
+            encoding.CheckNotNull(nameof(encoding));
+
+            string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
+
+            File.WriteAllText(absoluteFilePath, fileContent, encoding);
+
+            EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+        }
+
+        /// <summary>
+        /// Adds the file to the Artifacts directory.
+        /// </summary>
+        /// <param name="relativeFilePath">The relative file path.</param>
+        /// <param name="stream">The stream to write to the file.</param>
+        /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
+        /// <param name="artifactTitle">The artifact title.</param>
+        public void AddArtifact(string relativeFilePath, Stream stream, string artifactType = null, string artifactTitle = null)
+        {
+            relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
+            stream.CheckNotNull(nameof(stream));
+
+            string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
+
+            using (FileStream source = File.Create(absoluteFilePath))
+                stream.CopyTo(source);
+
+            EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
+        }
+
+        private string BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(string relativeFilePath)
+        {
+            string absoluteFilePath = Path.Combine(Artifacts.FullName, relativeFilePath);
+            string directoryPath = Path.GetDirectoryName(absoluteFilePath);
+
+            if (!Directory.Exists(directoryPath))
+                Directory.CreateDirectory(directoryPath);
+
+            return absoluteFilePath;
         }
 
         /// <summary>

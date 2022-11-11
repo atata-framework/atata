@@ -32,8 +32,15 @@ namespace Atata
 
             screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
 
-            AtataContext.Current.Log.Info($"Screenshot saved to file \"{filePath}\"");
-            AtataContext.Current.EventBus.Publish(new ScreenshotFileSavedEvent(screenshotInfo, filePath));
+            var context = AtataContext.Current;
+            context.Log.Info($"Screenshot saved to file \"{filePath}\"");
+            context.EventBus.Publish(new ScreenshotFileSavedEvent(screenshotInfo, filePath));
+
+            string artifactRelativeFilePath = filePath.StartsWith(context.Artifacts.FullName, StringComparison.OrdinalIgnoreCase)
+                ? filePath.Substring(context.Artifacts.FullName.Value.Length)
+                : filePath;
+
+            context.EventBus.Publish(new ArtifactAddedEvent(filePath, artifactRelativeFilePath, ArtifactTypes.Screenshot, screenshotInfo.Title));
         }
 
         /// <summary>

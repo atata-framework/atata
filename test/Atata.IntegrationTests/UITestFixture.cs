@@ -7,6 +7,9 @@ public abstract class UITestFixture : UITestFixtureBase
 
     protected IWebDriver PreservedDriver { get; private set; }
 
+    protected virtual AtataContextDriverInitializationStage DriverInitializationStage =>
+        AtataContextDriverInitializationStage.Build;
+
     [SetUp]
     public void SetUp()
     {
@@ -20,6 +23,8 @@ public abstract class UITestFixture : UITestFixtureBase
             if (ReuseDriver && PreservedDriver is null)
                 PreservedDriver = eventData.Driver;
         });
+
+        contextBuilder.UseDriverInitializationStage(DriverInitializationStage);
 
         contextBuilder.Build();
 
