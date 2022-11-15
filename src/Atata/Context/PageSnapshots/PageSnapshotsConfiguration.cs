@@ -21,8 +21,15 @@ namespace Atata
         public string FileNameTemplate { get; set; } =
             "{snapshot-number:D2} - {snapshot-pageobjectname} {snapshot-pageobjecttypename}{snapshot-title: - *}";
 
+        /// <inheritdoc cref="Clone"/>
         object ICloneable.Clone() => Clone();
 
+        /// <summary>
+        /// Creates a new object that is a copy of the current instance.
+        /// </summary>
+        /// <returns>
+        /// A new object that is a copy of this instance.
+        /// </returns>
         internal PageSnapshotsConfiguration Clone()
         {
             PageSnapshotsConfiguration clone = (PageSnapshotsConfiguration)MemberwiseClone();
