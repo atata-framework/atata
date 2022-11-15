@@ -3,6 +3,7 @@
 using _ = WaitingOnInitPage;
 
 [Url(Url)]
+[WaitForDocumentReadyState]
 public class WaitingOnInitPage : Page<_>
 {
     public const string Url = "waitingoninit";

@@ -8,10 +8,13 @@
         <span class="content-block" style="display: none"></span>
     </div>
 </div>
-
-<script>
-    setTimeout(function () {
-        $(".loading-block").hide();
-        $(".content-block").text("Loaded").show();
-    }, 2000);
-</script>
+@section scripts {
+    <script>
+        $(function () {
+            setTimeout(function () {
+                $(".loading-block").hide();
+                $(".content-block").text("Loaded").show();
+            }, 2000);
+        });
+    </script>
+}
