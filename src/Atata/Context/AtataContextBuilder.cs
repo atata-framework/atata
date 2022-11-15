@@ -54,6 +54,11 @@ namespace Atata
         public ScreenshotConsumersAtataContextBuilder ScreenshotConsumers => new ScreenshotConsumersAtataContextBuilder(BuildingContext);
 
         /// <summary>
+        /// Gets the builder of page snapshot configuration.
+        /// </summary>
+        public PageSnapshotsAtataContextBuilder PageSnapshots => new PageSnapshotsAtataContextBuilder(BuildingContext);
+
+        /// <summary>
         /// Returns an existing or creates a new builder for <typeparamref name="TDriverBuilder"/> by the specified alias.
         /// </summary>
         /// <typeparam name="TDriverBuilder">The type of the driver builder.</typeparam>
@@ -923,6 +928,14 @@ Actual: {driverFactory.GetType().FullName}",
             EventSubscriptions.Add(new TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(title));
 
         /// <summary>
+        /// Defines that an error occurred during the NUnit test execution should be captured by a page snapshot during the cleanup.
+        /// </summary>
+        /// <param name="title">The snapshot title.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder TakePageSnapshotOnNUnitError(string title = "Failed") =>
+            EventSubscriptions.Add(new TakePageSnapshotOnNUnitErrorOnCleanUpEventHandler(title));
+
+        /// <summary>
         /// Defines that on <see cref="AtataContext"/> clean-up the files stored in Artifacts directory
         /// should be added to NUnit <c>TestContext</c>.
         /// </summary>
@@ -985,6 +998,7 @@ Actual: {driverFactory.GetType().FullName}",
         /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/>,</item>
         /// <item><see cref="LogNUnitError"/>,</item>
         /// <item><see cref="TakeScreenshotOnNUnitError(string)"/>,</item>
+        /// <item><see cref="TakePageSnapshotOnNUnitError(string)"/>,</item>
         /// <item><see cref="OnCleanUpAddArtifactsToNUnitTestContext"/>.</item>
         /// </list>
         /// </summary>
@@ -999,6 +1013,7 @@ Actual: {driverFactory.GetType().FullName}",
                 .LogConsumers.AddNUnitTestContext()
                 .LogNUnitError()
                 .TakeScreenshotOnNUnitError()
+                .TakePageSnapshotOnNUnitError()
                 .OnCleanUpAddArtifactsToNUnitTestContext();
 
         private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
@@ -1064,6 +1079,10 @@ Actual: {driverFactory.GetType().FullName}",
             context.ObjectMapper = objectMapper;
             context.ObjectCreator = objectCreator;
             context.EventBus = new EventBus(context, BuildingContext.EventSubscriptions);
+            context.PageSnapshotTaker = new PageSnapshotTaker(
+                BuildingContext.PageSnapshots.Strategy,
+                BuildingContext.PageSnapshots.FileNameTemplate,
+                context);
 
             if (context.TestSuiteName is null && context.TestSuiteType != null)
                 context.TestSuiteName = context.TestSuiteType.Name;

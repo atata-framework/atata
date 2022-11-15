@@ -104,6 +104,25 @@ public class ReportTests : UITestFixture
         screenshotConsumer.Items[1].Title.Should().Be("sometitle");
     }
 
+    [Test]
+    public void PageSnapshot()
+    {
+        Go.To(new OrdinaryPage("Test"))
+            .Report.PageSnapshot()
+            .Report.PageSnapshot("sometitle");
+
+        VerifyLastLogMessagesMatch(
+            minLogLevel: LogLevel.Trace,
+            "^> Take page snapshot #01$",
+            "^< Take page snapshot #01 \\(.*\\) >> \"01 - Test page.mhtml\"$",
+            "^> Take page snapshot #02 - sometitle$",
+            "^< Take page snapshot #02 - sometitle \\(.*\\) >> \"02 - Test page - sometitle.mhtml\"$");
+
+        AtataContext.Current.Artifacts.Should.ContainFiles(
+            "01 - Test page.mhtml",
+            "02 - Test page - sometitle.mhtml");
+    }
+
     private class MockScreenshotConsumer : IScreenshotConsumer
     {
         public List<ScreenshotInfo> Items { get; } = new();

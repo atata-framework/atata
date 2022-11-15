@@ -346,6 +346,8 @@ namespace Atata
 
         internal Stopwatch PureExecutionStopwatch { get; } = new Stopwatch();
 
+        internal PageSnapshotTaker PageSnapshotTaker { get; set; }
+
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects =>
             TemporarilyPreservedPageObjectList.ToReadOnly();
 
@@ -709,6 +711,13 @@ namespace Atata
 
             return transformFunction(template, variables);
         }
+
+        /// <summary>
+        /// Takes a snapshot (HTML or MHTML file) of current page with the specified title optionally.
+        /// </summary>
+        /// <param name="title">The title of a snapshot.</param>
+        public void TakePageSnapshot(string title = null) =>
+            PageSnapshotTaker?.TakeSnapshot(title);
 
         /// <summary>
         /// Adds the file to the Artifacts directory.

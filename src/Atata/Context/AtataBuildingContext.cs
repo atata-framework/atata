@@ -269,6 +269,11 @@ namespace Atata
         public IWarningReportStrategy WarningReportStrategy { get; set; } = new AtataWarningReportStrategy();
 
         /// <summary>
+        /// Gets the configuration of page snapshots functionality.
+        /// </summary>
+        public PageSnapshotsConfiguration PageSnapshots { get; private set; } = new PageSnapshotsConfiguration();
+
+        /// <summary>
         /// Gets the driver factory by the specified alias.
         /// </summary>
         /// <param name="alias">The alias of the driver factory.</param>
@@ -306,6 +311,7 @@ namespace Atata
             copy.EventSubscriptions = EventSubscriptions.ToList();
             copy.Variables = new Dictionary<string, object>(Variables);
             copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
+            copy.PageSnapshots = PageSnapshots.Clone();
 
             return copy;
         }

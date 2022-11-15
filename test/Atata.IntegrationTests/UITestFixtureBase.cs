@@ -150,6 +150,16 @@ public abstract class UITestFixtureBase
         }
     }
 
+    protected void VerifyLastLogMessagesMatch(LogLevel minLogLevel, params string[] expectedMessagePatterns)
+    {
+        string[] actualMessages = GetLastLogMessages(minLogLevel, expectedMessagePatterns.Length);
+
+        for (int i = 0; i < expectedMessagePatterns.Length; i++)
+        {
+            Assert.That(actualMessages[i], Does.Match(expectedMessagePatterns[i]));
+        }
+    }
+
     protected void VerifyLastLogEntries(params (LogLevel Level, string Message, Exception Exception)[] expectedLogEntries)
     {
         LogEventInfo[] actualLogEntries = GetLastLogEntries(LogLevel.Trace, expectedLogEntries.Length);

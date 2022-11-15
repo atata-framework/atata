@@ -206,5 +206,16 @@ namespace Atata
             _logManager.Screenshot(title);
             return _owner;
         }
+
+        /// <summary>
+        /// Takes a snapshot (HTML or MHTML file) of current page with the specified title optionally.
+        /// </summary>
+        /// <param name="title">The title of a snapshot.</param>
+        /// <returns>The instance of the owner object.</returns>
+        public TOwner PageSnapshot(string title = null)
+        {
+            (_owner as UIComponent)?.Context.TakePageSnapshot(title);
+            return _owner;
+        }
     }
 }
