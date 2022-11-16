@@ -203,7 +203,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Screenshot(string title = null)
         {
-            _logManager.Screenshot(title);
+            (_owner as UIComponent)?.Context.TakeScreenshot(title);
             return _owner;
         }
 

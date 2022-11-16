@@ -27,7 +27,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         Go.To<BasicControlsPage>();
 
-        AtataContext.Current.Log.Screenshot();
+        AtataContext.Current.TakeScreenshot();
 
         string directoryPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
@@ -53,7 +53,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         Go.To<BasicControlsPage>();
 
-        AtataContext.Current.Log.Screenshot();
+        AtataContext.Current.TakeScreenshot();
 
         string directoryPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
@@ -74,7 +74,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         Go.To<BasicControlsPage>();
 
-        AtataContext.Current.Log.Screenshot();
+        AtataContext.Current.TakeScreenshot();
 
         string directoryPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,
@@ -96,8 +96,8 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         Go.To<BasicControlsPage>();
 
-        AtataContext.Current.Log.Screenshot();
-        AtataContext.Current.Log.Screenshot("Some title");
+        AtataContext.Current.TakeScreenshot();
+        AtataContext.Current.TakeScreenshot("Some title");
 
         string directoryPath = AtataContext.Current.Artifacts.FullName;
 
@@ -112,8 +112,8 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         Go.To<BasicControlsPage>();
 
-        AtataContext.Current.Log.Screenshot();
-        AtataContext.Current.Log.Screenshot("Some /title");
+        AtataContext.Current.TakeScreenshot();
+        AtataContext.Current.TakeScreenshot("Some /title");
 
         string directoryPath = AtataContext.Current.Artifacts.FullName;
 
@@ -132,8 +132,8 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         Go.To<BasicControlsPage>();
 
-        AtataContext.Current.Log.Screenshot();
-        AtataContext.Current.Log.Screenshot("Some title");
+        AtataContext.Current.TakeScreenshot();
+        AtataContext.Current.TakeScreenshot("Some title");
 
         string directoryPath = Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory,

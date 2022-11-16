@@ -110,6 +110,7 @@ namespace Atata
         /// Takes a screenshot of current page with the specified title optionally.
         /// </summary>
         /// <param name="title">The title of screenshot.</param>
+        [Obsolete("Use TakeScreenshot(...) method of AtataContext instead. For example: AtataContext.Current.TakeScreenshot().")] // Obsolete since v2.4.0.
         void Screenshot(string title = null);
     }
 }

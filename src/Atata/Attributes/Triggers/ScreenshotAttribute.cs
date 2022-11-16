@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the screenshot should be captured with an optional title.
+    /// Indicates that a screenshot should be captured with an optional title.
     /// By default occurs before the click.
     /// </summary>
     public class ScreenshotAttribute : TriggerAttribute
@@ -15,9 +15,12 @@
             : base(on, priority) =>
             Title = title;
 
+        /// <summary>
+        /// Gets the title of a screenshot.
+        /// </summary>
         public string Title { get; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-            context.Log.Screenshot(Title);
+            context.Component.Context.TakeScreenshot(Title);
     }
 }
