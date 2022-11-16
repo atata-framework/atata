@@ -22,11 +22,11 @@ It uses fluent page object pattern.
 * **WebDriver**. Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
 * **Page Object Model**. Provides unique fluent page object pattern that is easy to implement and maintain.
 * **Components**. Contains a rich set of ready to use [components](https://atata.io/components/) for inputs, tables, lists, etc.
-* **Integration**. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, Azure DevOps or TeamCity.
+* **Integration**. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, GitHub Actions or TeamCity.
 * **Triggers**. A bunch of [triggers](https://atata.io/triggers/) to bind with different events to extend component behavior.
-* **Verification**. A set of fluent assertion methods and triggers for the component and data verification.
+* **Verification**. A set of fluent assertion methods and triggers for a component and data verification.
 * **Configurable**. Defines the default component search strategies as well as additional settings. [Atata.Configuration.Json](https://github.com/atata-framework/atata-configuration-json) provides flexible JSON configurations.
-* **Reporting/Logging**. Built-in customizable logging and screenshot capturing functionality.
+* **Reporting/Logging**. Built-in customizable logging; screenshots and snapshots capturing functionality.
 * **Extensible**. [Atata.Bootstrap](https://github.com/atata-framework/atata-bootstrap) and [Atata.KendoUI](https://github.com/atata-framework/atata-kendoui) packages have a set of ready to use components. Framework supports any kind of extending.
 
 ## Usage
@@ -130,8 +130,8 @@ You can also check the following tutorials:
 * [Verification of Page](https://atata.io/tutorials/verification-of-page/) - how to verify web page data using different approaches of Atata Framework.
 * [Verification of Validation Messages](https://atata.io/tutorials/verification-of-validation-messages/) - how to verify validation messages on web pages using Atata Framework.
 * [Handle Confirmation Popups](https://atata.io/tutorials/handle-confirmation-popups/) - how to handle different confirmation popups using Atata Framework.
-* [Multi-Browser Configuration via Fixture Arguments](https://atata.io/tutorials/multi-browser-configuration-via-fixture-arguments/) - how to configure multi-browser tests application using NUnit fixture arguments.
-* [Visual Studio Team Services Configuration](https://atata.io/tutorials/vs-team-services-configuration/) - how to configure Atata test automation build on Visual Studio Team Services using any browser.
+* [Multi-Browser Configuration via .runsettings files](https://atata.io/tutorials/multi-browser-configuration-via-runsettings-files/) - how to configure multi-browser tests application using `.runsettings` files.
+* [Reporting to Extent Reports](https://atata.io/tutorials/reporting-to-extentreports/) - how to configure Atata reporting to Extent Reports.
 
 ## Contact
 
@@ -149,7 +149,7 @@ If you faced an issue please report it to [Atata Issues](https://github.com/atat
 * Atata Issues: https://github.com/atata-framework/atata/issues
 * Atata Gitter: https://gitter.im/atata-framework/atata
 * Twitter: https://twitter.com/AtataFramework
-* YouTube: https://www.youtube.com/channel/UCSNfv8sKpUR3a6dqPVy54KQ
+* YouTube: https://www.youtube.com/@atataframework
 
 ### Author
 
