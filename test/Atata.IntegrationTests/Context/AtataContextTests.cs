@@ -193,4 +193,25 @@ public class AtataContextTests : UITestFixture
             _sut.ResultOf(x => x.FillTemplateString("start_{missingkey}_end"))
                 .Should.Throw<FormatException>();
     }
+
+    public class TakePageSnapshot : UITestFixture
+    {
+        [Test]
+        public void WhenNavigated()
+        {
+            Go.To<InputPage>();
+
+            AtataContext.Current.TakePageSnapshot();
+
+            AtataContext.Current.Artifacts.Should.ContainFile("01 - Input page.mhtml");
+        }
+
+        [Test]
+        public void WhenNoNavigation()
+        {
+            AtataContext.Current.TakePageSnapshot();
+
+            AtataContext.Current.Artifacts.Should.ContainFile("01.mhtml");
+        }
+    }
 }

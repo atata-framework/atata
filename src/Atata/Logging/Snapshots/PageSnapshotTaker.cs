@@ -49,9 +49,9 @@ namespace Atata
             {
                 ["snapshot-number"] = _snapshotNumber,
                 ["snapshot-title"] = title,
-                ["snapshot-pageobjectname"] = pageObject.ComponentName,
-                ["snapshot-pageobjecttypename"] = pageObject.ComponentTypeName,
-                ["snapshot-pageobjectfullname"] = pageObject.ComponentFullName
+                ["snapshot-pageobjectname"] = pageObject?.ComponentName,
+                ["snapshot-pageobjecttypename"] = pageObject?.ComponentTypeName,
+                ["snapshot-pageobjectfullname"] = pageObject?.ComponentFullName
             };
 
             return AtataContext.Current.FillPathTemplateString(_filePathTemplate, snapshotVariables);
