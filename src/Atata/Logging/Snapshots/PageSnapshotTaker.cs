@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Atata
 {
@@ -29,16 +30,23 @@ namespace Atata
 
             _snapshotNumber++;
 
-            _context.Log.ExecuteSection(
-                new TakePageSnapshotLogSection(_snapshotNumber, title),
-                () =>
-                {
-                    FileContentWithExtension fileContent = _snapshotStrategy.TakeSnapshot(_context);
-                    string filePath = FormatFilePath(title);
+            try
+            {
+                _context.Log.ExecuteSection(
+                    new TakePageSnapshotLogSection(_snapshotNumber, title),
+                    () =>
+                    {
+                        FileContentWithExtension fileContent = _snapshotStrategy.TakeSnapshot(_context);
+                        string filePath = FormatFilePath(title);
 
-                    _context.AddArtifact(filePath, fileContent, ArtifactTypes.PageSnapshot);
-                    return filePath + fileContent.Extension;
-                });
+                        _context.AddArtifact(filePath, fileContent, ArtifactTypes.PageSnapshot);
+                        return filePath + fileContent.Extension;
+                    });
+            }
+            catch (Exception e)
+            {
+                _context.Log.Error("Page snapshot failed", e);
+            }
         }
 
         private string FormatFilePath(string title)

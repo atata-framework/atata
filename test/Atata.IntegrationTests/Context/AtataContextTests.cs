@@ -196,15 +196,12 @@ public class AtataContextTests : UITestFixture
 
     public class TakeScreenshot : UITestFixtureBase
     {
-        [SetUp]
-        public void SetUp() =>
-            ConfigureBaseAtataContext()
-                .ScreenshotConsumers.AddFile()
-                .Build();
-
         [Test]
         public void WhenNavigated()
         {
+            ConfigureBaseAtataContext()
+                .ScreenshotConsumers.AddFile()
+                .Build();
             Go.To<InputPage>();
 
             AtataContext.Current.TakeScreenshot();
@@ -215,17 +212,37 @@ public class AtataContextTests : UITestFixture
         [Test]
         public void WhenNoNavigation()
         {
+            ConfigureBaseAtataContext()
+                .ScreenshotConsumers.AddFile()
+                .Build();
+
             AtataContext.Current.TakeScreenshot();
 
             AtataContext.Current.Artifacts.Should.ContainFile("01.png");
         }
+
+        [Test]
+        public void WhenThrows()
+        {
+            ConfigureBaseAtataContext()
+                .ScreenshotConsumers.Add(Mock.Of<IScreenshotConsumer>(MockBehavior.Strict))
+                .Build();
+            Go.To<InputPage>();
+
+            AtataContext.Current.TakeScreenshot();
+
+            VerifyLastLogMessagesContain(LogLevel.Error, "Screenshot failed");
+            AtataContext.Current.Artifacts.Should.Not.Exist();
+        }
     }
 
-    public class TakePageSnapshot : UITestFixture
+    public class TakePageSnapshot : UITestFixtureBase
     {
         [Test]
         public void WhenNavigated()
         {
+            ConfigureBaseAtataContext()
+                .Build();
             Go.To<InputPage>();
 
             AtataContext.Current.TakePageSnapshot();
@@ -236,9 +253,26 @@ public class AtataContextTests : UITestFixture
         [Test]
         public void WhenNoNavigation()
         {
+            ConfigureBaseAtataContext()
+                .Build();
+
             AtataContext.Current.TakePageSnapshot();
 
             AtataContext.Current.Artifacts.Should.ContainFile("01.mhtml");
+        }
+
+        [Test]
+        public void WhenThrows()
+        {
+            ConfigureBaseAtataContext()
+                .PageSnapshots.UseStrategy(Mock.Of<IPageSnapshotStrategy>(MockBehavior.Strict))
+                .Build();
+            Go.To<InputPage>();
+
+            AtataContext.Current.TakePageSnapshot();
+
+            VerifyLastLogMessagesContain(LogLevel.Error, "Page snapshot failed");
+            AtataContext.Current.Artifacts.Should.Not.Exist();
         }
     }
 }
