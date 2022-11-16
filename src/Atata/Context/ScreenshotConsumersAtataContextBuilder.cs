@@ -53,7 +53,7 @@
         /// <summary>
         /// Adds the <see cref="FileScreenshotConsumer"/> instance for the screenshot saving to file.
         /// By default uses <see cref="AtataContext.Artifacts"/> directory as a directory path format,
-        /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as a file name format
+        /// <c>"{screenshot-number:D2}{screenshot-pageobjectname: - *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c> as a file name format
         /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as an image format.
         /// Example of a screenshot file path using default settings: <c>"artifacts\20220303T143404\SampleTest\01 - Home page - Screenshot title.png"</c>.
         /// Available predefined path variables are:

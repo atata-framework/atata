@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace Atata
 {
     /// <summary>
     /// Represents the screenshot consumer that saves the screenshot to the file.
     /// By default uses <see cref="AtataContext.Artifacts"/> directory as a directory path format,
-    /// <c>"{screenshot-number:D2} - {screenshot-pageobjectname} {screenshot-pageobjecttypename}{screenshot-title: - *}"</c> as a file name format
+    /// <c>"{screenshot-number:D2}{screenshot-pageobjectname: - *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c> as a file name format
     /// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as an image format.
     /// Example of a screenshot file path using default settings: <c>"artifacts\20220303T143404\SampleTest\01 - Home page - Screenshot title.png"</c>.
     /// Available predefined path variables are:
@@ -126,7 +127,20 @@ namespace Atata
         protected virtual string BuildDefaultDirectoryPath() =>
             AtataContext.Current.Artifacts.FullName;
 
-        protected virtual string BuildDefaultFileName(ScreenshotInfo screenshotInfo) =>
-            $"{screenshotInfo.Number:D2} - {screenshotInfo.PageObjectName} {screenshotInfo.PageObjectTypeName}{screenshotInfo.Title?.Prepend(" - ")}";
+        protected virtual string BuildDefaultFileName(ScreenshotInfo screenshotInfo)
+        {
+            StringBuilder builder = new StringBuilder($"{screenshotInfo.Number:D2}");
+
+            if (screenshotInfo.PageObjectName != null)
+                builder.Append($" - {screenshotInfo.PageObjectName}");
+
+            if (screenshotInfo.PageObjectTypeName != null)
+                builder.Append($" {screenshotInfo.PageObjectTypeName}");
+
+            if (screenshotInfo.Title != null)
+                builder.Append($" - {screenshotInfo.Title}");
+
+            return builder.ToString();
+        }
     }
 }

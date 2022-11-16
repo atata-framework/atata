@@ -194,6 +194,33 @@ public class AtataContextTests : UITestFixture
                 .Should.Throw<FormatException>();
     }
 
+    public class TakeScreenshot : UITestFixtureBase
+    {
+        [SetUp]
+        public void SetUp() =>
+            ConfigureBaseAtataContext()
+                .ScreenshotConsumers.AddFile()
+                .Build();
+
+        [Test]
+        public void WhenNavigated()
+        {
+            Go.To<InputPage>();
+
+            AtataContext.Current.TakeScreenshot();
+
+            AtataContext.Current.Artifacts.Should.ContainFile("01 - Input page.png");
+        }
+
+        [Test]
+        public void WhenNoNavigation()
+        {
+            AtataContext.Current.TakeScreenshot();
+
+            AtataContext.Current.Artifacts.Should.ContainFile("01.png");
+        }
+    }
+
     public class TakePageSnapshot : UITestFixture
     {
         [Test]

@@ -317,14 +317,16 @@ namespace Atata
 
                 Info(logMessage);
 
+                var context = AtataContext.Current;
+
                 ScreenshotInfo screenshotInfo = new ScreenshotInfo
                 {
-                    Screenshot = AtataContext.Current.Driver.AsScreenshotTaker().GetScreenshot(),
+                    Screenshot = context.Driver.AsScreenshotTaker().GetScreenshot(),
                     Number = _screenshotNumber,
                     Title = title,
-                    PageObjectName = AtataContext.Current.PageObject.ComponentName,
-                    PageObjectTypeName = AtataContext.Current.PageObject.ComponentTypeName,
-                    PageObjectFullName = AtataContext.Current.PageObject.ComponentFullName
+                    PageObjectName = context.PageObject?.ComponentName,
+                    PageObjectTypeName = context.PageObject?.ComponentTypeName,
+                    PageObjectFullName = context.PageObject?.ComponentFullName
                 };
 
                 foreach (IScreenshotConsumer screenshotConsumer in _screenshotConsumers)
