@@ -551,7 +551,7 @@ namespace Atata
             {
                 Log.ExecuteSection(
                     new PressKeysLogSection(this, keys),
-                    () => Driver.Perform(x => x.SendKeys(keys)));
+                    (Action)(() => Driver.Perform(x => x.SendKeys(keys))));
             }
 
             return (TOwner)this;

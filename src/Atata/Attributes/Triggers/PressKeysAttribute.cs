@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Atata
+﻿namespace Atata
 {
     /// <summary>
     /// Defines the keys to press on the specified event.
@@ -14,14 +12,7 @@ namespace Atata
 
         public string Keys { get; protected set; }
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
-            if (!string.IsNullOrEmpty(Keys))
-            {
-                context.Log.ExecuteSection(
-                    new PressKeysLogSection((UIComponent)context.Component, Keys),
-                    (Action)(() => context.Driver.Perform(x => x.SendKeys(Keys))));
-            }
-        }
+        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
+            context.Component.Owner.Press(Keys);
     }
 }
