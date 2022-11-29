@@ -280,6 +280,21 @@ namespace Atata
 
         /// <summary>
         /// <para>
+        /// Gets a value indicating whether the <see cref="UIComponent.Scope"/> element of the current component is focused.
+        /// </para>
+        /// <para>
+        /// Executable script:
+        /// <code>
+        /// return arguments[0] === document.activeElement;
+        /// </code>
+        /// </para>
+        /// </summary>
+        /// <returns>An instance of the <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
+        public ValueProvider<bool, TOwner> IsFocused() =>
+            ExecuteAgainst<bool>("return arguments[0] === document.activeElement;");
+
+        /// <summary>
+        /// <para>
         /// Removes focus from the <see cref="UIComponent.Scope"/> element of the current component.
         /// </para>
         /// <para>

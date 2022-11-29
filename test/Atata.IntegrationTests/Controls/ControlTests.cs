@@ -55,6 +55,28 @@ public class ControlTests : UITestFixture
             .TelInput.Blur()
             .ActiveControl.DomProperties.Value.Should.Not.Equal("123");
 
+    public class IsFocused : UITestFixture
+    {
+        [Test]
+        public void AfterSet() =>
+            Go.To<InputPage>()
+                .TelInput.Set("123")
+                .TelInput.IsFocused.Should.BeTrue();
+
+        [Test]
+        public void AfterFocus() =>
+            Go.To<InputPage>()
+                .TelInput.Focus()
+                .TelInput.IsFocused.Should.BeTrue();
+
+        [Test]
+        public void AfterBlur() =>
+            Go.To<InputPage>()
+                .TelInput.Set("123")
+                .TelInput.Blur()
+                .TelInput.IsFocused.Should.BeFalse();
+    }
+
     public class ComponentName : UITestFixture
     {
         [Test]

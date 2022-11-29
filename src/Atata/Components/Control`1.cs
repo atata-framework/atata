@@ -38,6 +38,13 @@ namespace Atata
             CreateValueProvider("enabled state", GetIsEnabled);
 
         /// <summary>
+        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> for the value
+        /// indicating whether the control is focused.
+        /// </summary>
+        public ValueProvider<bool, TOwner> IsFocused =>
+            CreateValueProvider("focused state", GetIsFocused);
+
+        /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should =>
@@ -58,6 +65,9 @@ namespace Atata
 
         protected virtual bool GetIsEnabled() =>
             Scope.Enabled;
+
+        protected virtual bool GetIsFocused() =>
+            Script.IsFocused();
 
         /// <summary>
         /// Clicks the control.
