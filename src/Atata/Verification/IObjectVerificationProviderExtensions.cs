@@ -414,11 +414,11 @@ namespace Atata
             verifier.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
 
         public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, params TObject[] expected) =>
-            verifier.BeEquivalent(expected.AsEnumerable());
+            verifier.BeEquivalent(expected?.AsEnumerable());
 
         public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, IEnumerable<TObject> expected)
         {
-            expected.CheckNotNullOrEmpty(nameof(expected));
+            expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count() == expected.Count() && actual.All(expected.Contains),
@@ -426,11 +426,11 @@ namespace Atata
         }
 
         public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
-            verifier.BeEquivalent(expected.AsEnumerable());
+            verifier.BeEquivalent(expected?.AsEnumerable());
 
         public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
         {
-            expected.CheckNotNullOrEmpty(nameof(expected));
+            expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count() == expected.Count() && actual.All(expected.Contains),
@@ -438,11 +438,11 @@ namespace Atata
         }
 
         public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, params TObject[] expected) =>
-            verifier.EqualSequence(expected.AsEnumerable());
+            verifier.EqualSequence(expected?.AsEnumerable());
 
         public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, IEnumerable<TObject> expected)
         {
-            expected.CheckNotNullOrEmpty(nameof(expected));
+            expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
                 actual => actual != null && actual.SequenceEqual(expected),
@@ -450,11 +450,11 @@ namespace Atata
         }
 
         public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
-            verifier.EqualSequence(expected.AsEnumerable());
+            verifier.EqualSequence(expected?.AsEnumerable());
 
         public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
         {
-            expected.CheckNotNullOrEmpty(nameof(expected));
+            expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
                 actual => actual != null && actual.SequenceEqual(expected),

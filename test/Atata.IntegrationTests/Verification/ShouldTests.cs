@@ -29,6 +29,11 @@ public class ShouldTests : UITestFixture
     }
 
     [Test]
+    public void BeEquivalent_Empty() =>
+        Go.To<TablePage>()
+           .FindAll<H6<TablePage>>().Should.BeEquivalent(new string[0]);
+
+    [Test]
     public void EqualSequence()
     {
         var should = Go.To<TablePage>()
@@ -49,6 +54,11 @@ public class ShouldTests : UITestFixture
         Assert.Throws<AssertionException>(() =>
             should.Not.EqualSequence(Country1Name, Country2Name, Country3Name));
     }
+
+    [Test]
+    public void EqualSequence_Empty() =>
+        Go.To<TablePage>()
+           .FindAll<H6<TablePage>>().Should.EqualSequence(new string[0]);
 
     [Test]
     public void ContainSingle_FromOne()
