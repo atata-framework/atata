@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace Atata
 {
@@ -30,6 +31,10 @@ namespace Atata
             control.ScopeLocator = scopeLocator;
             return control;
         }
+
+        public TControl Resolve<TControl>(Func<IEnumerable<Attribute>> additionalAttributesFactory = null, [CallerMemberName] string propertyName = null)
+            where TControl : Control<TOwner> =>
+            Resolve<TControl>(propertyName, additionalAttributesFactory);
 
         public TControl Resolve<TControl>(string propertyName, Func<IEnumerable<Attribute>> additionalAttributesFactory = null)
             where TControl : Control<TOwner>

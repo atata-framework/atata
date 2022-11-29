@@ -16,7 +16,7 @@
         /// Gets the parent control of <typeparamref name="TItem"/> type.
         /// </summary>
         [FindLast(OuterXPath = "ancestor::")]
-        public new TItem Parent => Controls.Resolve<TItem>(nameof(Parent));
+        public new TItem Parent => Controls.Resolve<TItem>();
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating whether the control has parent.
