@@ -10,6 +10,27 @@ namespace Atata
     /// </summary>
     public static class IObjectProviderEnumerableExtensions
     {
+        /// <summary>
+        /// Executes a foreach operation on source elements.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="action">The action to invoke once per iteration.</param>
+        /// <returns>An owner instance.</returns>
+        public static TOwner ForEach<TSource, TOwner>(
+            this IObjectProvider<IEnumerable<TSource>, TOwner> source,
+            Action<TSource> action)
+        {
+            source.CheckNotNull(nameof(source));
+            action.CheckNotNull(nameof(action));
+
+            foreach (TSource item in source.Object)
+                action.Invoke(item);
+
+            return source.Owner;
+        }
+
         public static ValueProvider<int, TOwner> Count<TSource, TOwner>(
             this IObjectProvider<IEnumerable<TSource>, TOwner> source)
             =>
