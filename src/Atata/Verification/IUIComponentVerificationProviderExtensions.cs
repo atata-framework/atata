@@ -297,7 +297,7 @@ namespace Atata
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
             =>
-            verifier.HaveClass(classNames.AsEnumerable());
+            verifier.HaveClass(classNames?.AsEnumerable());
 
         /// <summary>
         /// Verifies that the component has the specified class(es).

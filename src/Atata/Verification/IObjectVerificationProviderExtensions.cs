@@ -583,7 +583,7 @@ namespace Atata
             this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
             params TItem[] expected)
             =>
-            verifier.Contain(expected.AsEnumerable());
+            verifier.Contain(expected?.AsEnumerable());
 
         /// <summary>
         /// Verifies that collection contains expected items.
@@ -618,7 +618,7 @@ namespace Atata
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
             params TObject[] expected)
             =>
-            verifier.Contain(expected.AsEnumerable());
+            verifier.Contain(expected?.AsEnumerable());
 
         /// <summary>
         /// Verifies that collection contains items equal to expected values.
@@ -684,7 +684,7 @@ namespace Atata
             TermMatch match,
             params string[] expected)
             =>
-            verifier.Contain(match, expected.AsEnumerable());
+            verifier.Contain(match, expected?.AsEnumerable());
 
         public static TOwner Contain<TOwner>(
             this IObjectVerificationProvider<IEnumerable<string>, TOwner> verifier,
@@ -705,7 +705,7 @@ namespace Atata
             TermMatch match,
             params string[] expected)
             =>
-            verifier.Contain(match, expected.AsEnumerable());
+            verifier.Contain(match, expected?.AsEnumerable());
 
         public static TOwner Contain<TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<string>>, TOwner> verifier,
@@ -728,7 +728,7 @@ namespace Atata
             where TControl : Control<TOwner>
             where TOwner : PageObject<TOwner>
             =>
-            verifier.ContainHavingContent(match, expected.AsEnumerable());
+            verifier.ContainHavingContent(match, expected?.AsEnumerable());
 
         public static TOwner ContainHavingContent<TControl, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TControl>, TOwner> verifier,
