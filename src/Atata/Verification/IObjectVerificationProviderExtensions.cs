@@ -602,7 +602,7 @@ namespace Atata
             return verifier.Satisfy(
                 actual => actual != null && verifier.IsNegation
                     ? actual.Intersect(expected).Any()
-                    : actual.Intersect(expected).Count() == expected.Count(),
+                    : actual.Intersect(expected).Count() == expected.Distinct().Count(),
                 $"contain {Stringifier.ToString(expected)}");
         }
 
@@ -637,7 +637,7 @@ namespace Atata
             return verifier.Satisfy(
                 actual => actual != null && verifier.IsNegation
                     ? actual.Intersect(expected).Any()
-                    : actual.Intersect(expected).Count() == expected.Count(),
+                    : actual.Intersect(expected).Count() == expected.Distinct().Count(),
                 $"contain {Stringifier.ToString(expected)}");
         }
 

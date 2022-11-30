@@ -28,6 +28,16 @@ public static class DataVerificationProviderExtensionMethodTests
                 .Fail(x => x.Satisfy(x => x.Any(y => y.Contains('z'))));
     }
 
+    public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
+    {
+        static Contain_IEnumerable() =>
+            For(new[] { 1, 2, 3, 5 })
+                .Pass(x => x.Contain(2, 3))
+                .Pass(x => x.Contain(5))
+                .Pass(x => x.Contain(5, 5))
+                .Fail(x => x.Contain(4, 6));
+    }
+
     public abstract class ExtensionMethodTestFixture<TObject, TFixture>
         where TFixture : ExtensionMethodTestFixture<TObject, TFixture>
     {
