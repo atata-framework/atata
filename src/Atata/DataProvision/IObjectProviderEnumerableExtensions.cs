@@ -10,10 +10,60 @@ namespace Atata
     /// </summary>
     public static class IObjectProviderEnumerableExtensions
     {
+        /// <inheritdoc cref="Contains{TSource}(IObjectProvider{IEnumerable{TSource}}, IEnumerable{TSource})"/>
+        public static bool Contains<TSource>(
+            this IObjectProvider<IEnumerable<TSource>> source,
+            params TSource[] items) =>
+            source.Contains(items?.AsEnumerable());
+
+        /// <summary>
+        /// Determines whether the source sequence contains all of the specified items by using the default equality comparer.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source item.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="items">The items to locate.</param>
+        /// <returns>
+        /// <see langword="true"/> if the source sequence contains all; otherwise, <see langword="false"/>.
+        /// </returns>
+        public static bool Contains<TSource>(
+            this IObjectProvider<IEnumerable<TSource>> source,
+            IEnumerable<TSource> items)
+        {
+            source.CheckNotNull(nameof(source));
+            items.CheckNotNullOrEmpty(nameof(items));
+
+            return source.Object.Intersect(items).Count() == items.Distinct().Count();
+        }
+
+        /// <inheritdoc cref="ContainsAny{TSource}(IObjectProvider{IEnumerable{TSource}}, IEnumerable{TSource})"/>
+        public static bool ContainsAny<TSource>(
+            this IObjectProvider<IEnumerable<TSource>> source,
+            params TSource[] items) =>
+            source.ContainsAny(items?.AsEnumerable());
+
+        /// <summary>
+        /// Determines whether the source sequence contains any of the specified items by using the default equality comparer.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source item.</typeparam>
+        /// <param name="source">The source.</param>
+        /// <param name="items">The items to locate.</param>
+        /// <returns>
+        /// <see langword="true"/> if the source sequence contains any; otherwise, <see langword="false"/>.
+        /// </returns>
+        public static bool ContainsAny<TSource>(
+            this IObjectProvider<IEnumerable<TSource>> source,
+            IEnumerable<TSource> items)
+        {
+            source.CheckNotNull(nameof(source));
+            items.CheckNotNullOrEmpty(nameof(items));
+
+            return source.Object.Intersect(items).Any();
+        }
+
         /// <summary>
         /// Executes a foreach operation on source elements.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source.</typeparam>
+        /// <typeparam name="TSource">The type of the source item.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="source">The source.</param>
         /// <param name="action">The action to invoke once per iteration.</param>
