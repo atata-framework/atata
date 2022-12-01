@@ -721,6 +721,72 @@ namespace Atata
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
 
+        /// <summary>
+        /// Verifies that collection contains any of the expected items.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected item values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainAny<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            params TItem[] expected)
+            =>
+            verifier.ContainAny(expected?.AsEnumerable());
+
+        /// <summary>
+        /// Verifies that collection contains any of the expected items.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected item values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainAny<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            IEnumerable<TItem> expected)
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Intersect(expected).Any(),
+                $"contain any of {Stringifier.ToString(expected)}");
+        }
+
+        /// <summary>
+        /// Verifies that collection contains any of the expected items.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected object values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainAny<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            params TObject[] expected)
+            =>
+            verifier.ContainAny(expected?.AsEnumerable());
+
+        /// <summary>
+        /// Verifies that collection contains any of the expected items.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected object values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ContainAny<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            IEnumerable<TObject> expected)
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Intersect(expected).Any(),
+                $"contain any of {Stringifier.ToString(expected)}");
+        }
+
         public static TOwner ContainHavingContent<TControl, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TControl>, TOwner> verifier,
             TermMatch match,

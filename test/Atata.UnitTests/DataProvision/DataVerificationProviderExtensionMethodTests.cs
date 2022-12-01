@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace Atata.UnitTests.DataProvision;
 
@@ -8,6 +9,7 @@ public static class DataVerificationProviderExtensionMethodTests
     {
         static Satisfy_Expression() =>
             For("abc123")
+                .ThrowsArgumentNullException(x => x.Satisfy(null))
                 .Pass(x => x.Satisfy(x => x.Contains("abc") && x.Contains("123")))
                 .Fail(x => x.Satisfy(x => x == "xyz"));
     }
@@ -16,6 +18,7 @@ public static class DataVerificationProviderExtensionMethodTests
     {
         static Satisfy_Function() =>
             For(5)
+                .ThrowsArgumentNullException(x => x.Satisfy(null, "..."))
                 .Pass(x => x.Satisfy(x => x > 1 && x < 10, "..."))
                 .Fail(x => x.Satisfy(x => x == 7, "..."));
     }
@@ -24,18 +27,33 @@ public static class DataVerificationProviderExtensionMethodTests
     {
         static Satisfy_IEnumerable_Expression() =>
             For(new[] { "a".ToSubject(), "b".ToSubject(), "c".ToSubject() })
+                .ThrowsArgumentNullException(x => x.Satisfy(null as Expression<Func<IEnumerable<string>, bool>>))
                 .Pass(x => x.Satisfy(x => x.Contains("a") && x.Contains("c")))
-                .Fail(x => x.Satisfy(x => x.Any(y => y.Contains('z'))));
+                .Fail(x => x.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
     }
 
     public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
     {
         static Contain_IEnumerable() =>
             For(new[] { 1, 2, 3, 5 })
+                .ThrowsArgumentNullException(x => x.Contain(null as IEnumerable<int>))
+                .ThrowsArgumentException(x => x.Contain())
                 .Pass(x => x.Contain(2, 3))
                 .Pass(x => x.Contain(5))
                 .Pass(x => x.Contain(5, 5))
                 .Fail(x => x.Contain(4, 6));
+    }
+
+    public class ContainAny_IEnumerable : ExtensionMethodTestFixture<int[], ContainAny_IEnumerable>
+    {
+        static ContainAny_IEnumerable() =>
+            For(new[] { 1, 2, 3, 5 })
+                .ThrowsArgumentNullException(x => x.ContainAny(null as IEnumerable<int>))
+                .ThrowsArgumentException(x => x.ContainAny())
+                .Pass(x => x.ContainAny(4, 5))
+                .Pass(x => x.ContainAny(5))
+                .Pass(x => x.ContainAny(5, 5))
+                .Fail(x => x.ContainAny(4, 6));
     }
 
     public abstract class ExtensionMethodTestFixture<TObject, TFixture>
@@ -51,46 +69,64 @@ public static class DataVerificationProviderExtensionMethodTests
             return new TestSuiteBuilder(s_testSuiteData);
         }
 
-        public static IEnumerable<TestCaseData> GetPassFunctionsTestCases(string testName) =>
-            GetTestCases(s_testSuiteData.PassFunctions, testName);
+        public static IEnumerable<TestCaseData> GetTestActions() =>
+            GetTestActionGroups().SelectMany(x => x);
 
-        public static IEnumerable<TestCaseData> GetFailFunctionsTestCases(string testName) =>
-            GetTestCases(s_testSuiteData.FailFunctions, testName);
+        private static IEnumerable<IEnumerable<TestCaseData>> GetTestActionGroups()
+        {
+            yield return GenerateTestCaseData(
+                "Should passes",
+                s_testSuiteData.PassFunctions,
+                (sut, function) => Assert.DoesNotThrow(() => function(sut.Should)));
 
-        private static IEnumerable<TestCaseData> GetTestCases(
+            yield return GenerateTestCaseData(
+                "Should fails",
+                s_testSuiteData.FailFunctions,
+                (sut, function) => Assert.Throws<AssertionException>(() => function(sut.Should)));
+
+            yield return GenerateTestCaseData(
+                "Should.Not passes",
+                s_testSuiteData.FailFunctions,
+                (sut, function) => Assert.DoesNotThrow(() => function(sut.Should.Not)));
+
+            yield return GenerateTestCaseData(
+                "Should.Not fails",
+                s_testSuiteData.PassFunctions,
+                (sut, function) => Assert.Throws<AssertionException>(() => function(sut.Should.Not)));
+
+            yield return GenerateTestCaseData(
+                "Should throws ArgumentException",
+                s_testSuiteData.ThrowingArgumentExceptionFunctions,
+                (sut, function) => Assert.Throws<ArgumentException>(() => function(sut.Should)));
+
+            yield return GenerateTestCaseData(
+                "Should throws ArgumentNullException",
+                s_testSuiteData.ThrowingArgumentNullExceptionFunctions,
+                (sut, function) => Assert.Throws<ArgumentNullException>(() => function(sut.Should)));
+        }
+
+        private static IEnumerable<TestCaseData> GenerateTestCaseData(
+            string testName,
             List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> functions,
-            string testName)
+            Action<Subject<TObject>, Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> assertionFunction)
         {
             RuntimeHelpers.RunClassConstructor(typeof(TFixture).TypeHandle);
 
+            Action<Subject<TObject>> BuildTestAction(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
+                sut => assertionFunction(sut, function);
+
             return functions.Count == 1
-                ? new[] { new TestCaseData(functions[0]).SetName(testName) }
-                : functions.Select((x, i) => new TestCaseData(x).SetArgDisplayNames($"#{i + 1}"));
+                ? new[] { new TestCaseData(BuildTestAction(functions[0])).SetArgDisplayNames(testName) }
+                : functions.Select((x, i) => new TestCaseData(BuildTestAction(x)).SetArgDisplayNames($"{testName} #{i + 1}"));
         }
 
         [OneTimeSetUp]
         public void SetUpFixture() =>
             _sut = s_testSuiteData.TestObject.ToSutSubject();
 
-        [TestCaseSource(nameof(GetPassFunctionsTestCases), new object[] { nameof(Passes) })]
-        public void Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
-            Assert.DoesNotThrow(() =>
-                function(_sut.Should));
-
-        [TestCaseSource(nameof(GetFailFunctionsTestCases), new object[] { nameof(Fails) })]
-        public void Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
-            Assert.Throws<AssertionException>(() =>
-                function(_sut.Should));
-
-        [TestCaseSource(nameof(GetFailFunctionsTestCases), new object[] { nameof(Not_Passes) })]
-        public void Not_Passes(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
-            Assert.DoesNotThrow(() =>
-                function(_sut.Should.Not));
-
-        [TestCaseSource(nameof(GetPassFunctionsTestCases), new object[] { nameof(Not_Fails) })]
-        public void Not_Fails(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
-            Assert.Throws<AssertionException>(() =>
-                function(_sut.Should.Not));
+        [TestCaseSource(nameof(GetTestActions))]
+        public void When(Action<Subject<TObject>> testAction) =>
+            testAction.Invoke(_sut);
 
         public class TestSuiteData
         {
@@ -100,6 +136,12 @@ public static class DataVerificationProviderExtensionMethodTests
                 new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
 
             public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> FailFunctions { get; } =
+                new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+
+            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> ThrowingArgumentExceptionFunctions { get; } =
+                new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+
+            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> ThrowingArgumentNullExceptionFunctions { get; } =
                 new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
         }
 
@@ -119,6 +161,18 @@ public static class DataVerificationProviderExtensionMethodTests
             public TestSuiteBuilder Fail(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> failFunction)
             {
                 _context.FailFunctions.Add(failFunction);
+                return this;
+            }
+
+            public TestSuiteBuilder ThrowsArgumentException(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> throwingFunction)
+            {
+                _context.ThrowingArgumentExceptionFunctions.Add(throwingFunction);
+                return this;
+            }
+
+            public TestSuiteBuilder ThrowsArgumentNullException(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> throwingFunction)
+            {
+                _context.ThrowingArgumentNullExceptionFunctions.Add(throwingFunction);
                 return this;
             }
         }
