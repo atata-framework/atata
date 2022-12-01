@@ -891,6 +891,26 @@ namespace Atata
                 $"start with any of {Stringifier.ToString(expected)}");
         }
 
+        /// <inheritdoc cref="EndWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
+        public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected) =>
+            verifier.EndWithAny(expected?.AsEnumerable());
+
+        /// <summary>
+        /// Verifies that a string ends with any of the expected strings.
+        /// </summary>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">The expected values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, IEnumerable<string> expected)
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return verifier.Satisfy(
+                actual => actual != null && expected.Any(x => actual.EndsWith(x, StringComparison.CurrentCulture)),
+                $"end with any of {Stringifier.ToString(expected)}");
+        }
+
         public static TOwner ContainHavingContent<TControl, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TControl>, TOwner> verifier,
             TermMatch match,

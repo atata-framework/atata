@@ -80,6 +80,18 @@ public static class DataVerificationProviderExtensionMethodTests
                 .Fail(x => x.StartWithAny("z", "x"));
     }
 
+    public class EndWithAny_string : ExtensionMethodTestFixture<string, EndWithAny_string>
+    {
+        static EndWithAny_string() =>
+            For("abcdef")
+                .ThrowsArgumentNullException(x => x.EndWithAny(null))
+                .ThrowsArgumentException(x => x.EndWithAny())
+                .Pass(x => x.EndWithAny("f"))
+                .Pass(x => x.EndWithAny("def"))
+                .Fail(x => x.EndWithAny("dea"))
+                .Fail(x => x.EndWithAny("a", "b"));
+    }
+
     public abstract class ExtensionMethodTestFixture<TObject, TFixture>
         where TFixture : ExtensionMethodTestFixture<TObject, TFixture>
     {
