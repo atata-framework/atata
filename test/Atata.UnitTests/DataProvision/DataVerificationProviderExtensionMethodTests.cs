@@ -68,6 +68,18 @@ public static class DataVerificationProviderExtensionMethodTests
                 .Fail(x => x.StartWithAny(9));
     }
 
+    public class StartWithAny_string : ExtensionMethodTestFixture<string, StartWithAny_string>
+    {
+        static StartWithAny_string() =>
+            For("abcdef")
+                .ThrowsArgumentNullException(x => x.StartWithAny(null))
+                .ThrowsArgumentException(x => x.StartWithAny())
+                .Pass(x => x.StartWithAny("a"))
+                .Pass(x => x.StartWithAny("abc"))
+                .Fail(x => x.StartWithAny("zbc"))
+                .Fail(x => x.StartWithAny("z", "x"));
+    }
+
     public abstract class ExtensionMethodTestFixture<TObject, TFixture>
         where TFixture : ExtensionMethodTestFixture<TObject, TFixture>
     {
