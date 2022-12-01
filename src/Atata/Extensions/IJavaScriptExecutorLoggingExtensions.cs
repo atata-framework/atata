@@ -86,7 +86,7 @@ namespace Atata
             StringBuilder builder = new StringBuilder($@"""{scriptTruncated}""");
 
             if (args != null && args.Length > 0)
-                builder.Append($" with argument{(args.Length > 1 ? "s" : null)}: {Stringifier.ToString(args)}");
+                builder.Append($" with argument{(args.Length > 1 ? "s" : null)}: {Stringifier.ToStringInFormOfOneOrMany(args)}");
 
             return builder.ToString();
         }

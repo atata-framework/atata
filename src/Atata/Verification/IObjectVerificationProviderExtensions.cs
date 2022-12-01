@@ -603,7 +603,7 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? actual.Intersect(expected).Any()
                     : actual.Intersect(expected).Count() == expected.Distinct().Count(),
-                $"contain {Stringifier.ToString(expected)}");
+                $"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
 
         /// <summary>
@@ -638,7 +638,7 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? actual.Intersect(expected).Any()
                     : actual.Intersect(expected).Count() == expected.Distinct().Count(),
-                $"contain {Stringifier.ToString(expected)}");
+                $"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
 
         /// <summary>
@@ -697,7 +697,7 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? expected.Any(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
                     : expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
-                $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToString(expected)}");
+                $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
 
         public static TOwner Contain<TOwner>(
@@ -718,7 +718,7 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? expected.Any(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
                     : expected.All(expectedValue => actual.Any(actualValue => match.IsMatch(actualValue, expectedValue))),
-                $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToString(expected)}");
+                $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
 
         public static TOwner ContainHavingContent<TControl, TOwner>(
@@ -750,7 +750,7 @@ namespace Atata
                         ? expected.Any(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
                         : expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
                 },
-                $"contain having content that {match.ToString(TermCase.MidSentence)} {Stringifier.ToString(expected)}");
+                $"contain having content that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
 
         /// <summary>

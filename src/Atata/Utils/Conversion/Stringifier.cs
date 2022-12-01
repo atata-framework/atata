@@ -39,17 +39,9 @@ namespace Atata
             if (collection == null)
                 return NullString;
 
-            int count = collection.Count();
-
-            if (count == 0)
-                return "[]";
-
-            if (count == 1)
-                return ToString(collection.First());
-
             string[] itemStringValues = collection.Select(x => ToString(x)).ToArray();
 
-            return itemStringValues.Any(x => x.Contains(Environment.NewLine))
+            return itemStringValues.Any(x => x.Contains('\n'))
                 ? $"[{Environment.NewLine}{string.Join($",{Environment.NewLine}", itemStringValues)}]"
                 : $"[{string.Join(", ", itemStringValues)}]";
         }
@@ -75,6 +67,19 @@ namespace Atata
                 return $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asWebElement)} }}";
             else
                 return $"{{ {value} }}";
+        }
+
+        public static string ToStringInFormOfOneOrMany<T>(IEnumerable<T> collection)
+        {
+            if (collection == null)
+                return NullString;
+
+            int count = collection.Count();
+
+            if (count == 1)
+                return ToString(collection.First());
+
+            return ToString(collection);
         }
 
         public static string ToStringInSimpleStructuredForm(object value, Type excludeBaseType = null)
