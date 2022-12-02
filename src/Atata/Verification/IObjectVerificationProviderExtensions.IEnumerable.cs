@@ -35,8 +35,16 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <param name="predicate">The predicate.</param>
         /// <param name="message">The message that should sound in a way of "{Something} should {message}".</param>
-        /// <param name="args">The message arguments.</param>
         /// <returns>The owner instance.</returns>
+        public static TOwner Satisfy<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            Func<IEnumerable<TObject>, bool> predicate,
+#pragma warning disable CS0618 // Type or member is obsolete
+            string message) =>
+            verifier.Satisfy(predicate, message, null);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+        [Obsolete("Use Satisfy(predicate, message) without 'args' parameter instead. Inject arguments into the message with a help of Stringifier.ToString(expected).")] // Obsolete since v2.5.0.
         public static TOwner Satisfy<TObject, TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
             Func<IEnumerable<TObject>, bool> predicate,
