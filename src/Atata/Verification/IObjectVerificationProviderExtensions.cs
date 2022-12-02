@@ -863,6 +863,76 @@ namespace Atata
                 $"start with any of {Stringifier.ToString(expected)}");
         }
 
+        /// <inheritdoc cref="EndWithAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
+        public static TOwner EndWithAny<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            params TItem[] expected)
+            =>
+            verifier.EndWithAny(expected?.AsEnumerable());
+
+        /// <summary>
+        /// Verifies that collection ends with any of the expected items.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected item values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner EndWithAny<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            IEnumerable<TItem> expected)
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return verifier.Satisfy(
+                actual =>
+                {
+                    if (actual is null)
+                        return false;
+
+                    using (var actualEnumerator = actual.Reverse().GetEnumerator())
+                    {
+                        return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current);
+                    }
+                },
+                $"end with any of {Stringifier.ToString(expected)}");
+        }
+
+        /// <inheritdoc cref="EndWithAny{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
+        public static TOwner EndWithAny<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            params TObject[] expected)
+            =>
+            verifier.EndWithAny(expected?.AsEnumerable());
+
+        /// <summary>
+        /// Verifies that collection ends with any of the expected items.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected object values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner EndWithAny<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            IEnumerable<TObject> expected)
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return verifier.Satisfy(
+                actual =>
+                {
+                    if (actual is null)
+                        return false;
+
+                    using (var actualEnumerator = actual.Reverse().GetEnumerator())
+                    {
+                        return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current);
+                    }
+                },
+                $"end with any of {Stringifier.ToString(expected)}");
+        }
+
         /// <inheritdoc cref="EndWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
         public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected) =>
             verifier.EndWithAny(expected?.AsEnumerable());
