@@ -721,14 +721,7 @@ namespace Atata
                 $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
 
-        /// <summary>
-        /// Verifies that collection contains any of the expected items.
-        /// </summary>
-        /// <typeparam name="TItem">The type of the collection item.</typeparam>
-        /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verification provider.</param>
-        /// <param name="expected">An expected item values.</param>
-        /// <returns>The owner instance.</returns>
+        /// <inheritdoc cref="ContainAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
         public static TOwner ContainAny<TItem, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
             params TItem[] expected)
@@ -754,14 +747,7 @@ namespace Atata
                 $"contain any of {Stringifier.ToString(expected)}");
         }
 
-        /// <summary>
-        /// Verifies that collection contains any of the expected items.
-        /// </summary>
-        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
-        /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verification provider.</param>
-        /// <param name="expected">An expected object values.</param>
-        /// <returns>The owner instance.</returns>
+        /// <inheritdoc cref="ContainAny{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
         public static TOwner ContainAny<TObject, TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
             params TObject[] expected)
@@ -787,14 +773,7 @@ namespace Atata
                 $"contain any of {Stringifier.ToString(expected)}");
         }
 
-        /// <summary>
-        /// Verifies that collection starts with any of the expected items.
-        /// </summary>
-        /// <typeparam name="TItem">The type of the collection item.</typeparam>
-        /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verification provider.</param>
-        /// <param name="expected">An expected item values.</param>
-        /// <returns>The owner instance.</returns>
+        /// <inheritdoc cref="StartWithAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
         public static TOwner StartWithAny<TItem, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
             params TItem[] expected)
@@ -829,14 +808,7 @@ namespace Atata
                 $"start with any of {Stringifier.ToString(expected)}");
         }
 
-        /// <summary>
-        /// Verifies that collection starts with any of the expected items.
-        /// </summary>
-        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
-        /// <typeparam name="TOwner">The type of the owner.</typeparam>
-        /// <param name="verifier">The verification provider.</param>
-        /// <param name="expected">An expected object values.</param>
-        /// <returns>The owner instance.</returns>
+        /// <inheritdoc cref="StartWithAny{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
         public static TOwner StartWithAny<TObject, TOwner>(
             this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
             params TObject[] expected)
