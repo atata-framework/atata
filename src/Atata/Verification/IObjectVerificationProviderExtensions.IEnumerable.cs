@@ -452,6 +452,58 @@ namespace Atata
                 $"contain any of {Stringifier.ToString(expected)}");
         }
 
+        /// <inheritdoc cref="StartWith{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
+        public static TOwner StartWith<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            params TItem[] expected)
+            =>
+            verifier.StartWith(expected?.AsEnumerable());
+
+        /// <summary>
+        /// Verifies that collection starts sequentially with the expected items.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected item values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner StartWith<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            IEnumerable<TItem> expected)
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count() >= expected.Count() && actual.Zip(expected, (a, e) => EqualityComparer<TItem>.Default.Equals(a, e)).All(x => x),
+                $"start with {Stringifier.ToString(expected)}");
+        }
+
+        /// <inheritdoc cref="StartWith{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
+        public static TOwner StartWith<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            params TObject[] expected)
+            =>
+            verifier.StartWith(expected?.AsEnumerable());
+
+        /// <summary>
+        /// Verifies that collection starts sequentially with the expected items.
+        /// </summary>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">An expected object values.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner StartWith<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            IEnumerable<TObject> expected)
+        {
+            expected.CheckNotNullOrEmpty(nameof(expected));
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count() >= expected.Count() && actual.Zip(expected, (a, e) => EqualityComparer<TObject>.Default.Equals(a, e)).All(x => x),
+                $"start with {Stringifier.ToString(expected)}");
+        }
+
         /// <inheritdoc cref="StartWithAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
         public static TOwner StartWithAny<TItem, TOwner>(
             this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,

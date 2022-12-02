@@ -56,6 +56,19 @@ public static class DataVerificationProviderExtensionMethodTests
                 .Fail(x => x.ContainAny(4, 6));
     }
 
+    public class StartWith_IEnumerable : ExtensionMethodTestFixture<int[], StartWith_IEnumerable>
+    {
+        static StartWith_IEnumerable() =>
+            For(new[] { 1, 2, 3, 5 })
+                .ThrowsArgumentNullException(x => x.StartWith(null as IEnumerable<int>))
+                .ThrowsArgumentException(x => x.StartWith())
+                .Pass(x => x.StartWith(1))
+                .Pass(x => x.StartWith(1, 2, 3))
+                .Fail(x => x.StartWith(1, 2, 3, 4, 5, 6))
+                .Fail(x => x.StartWith(1, 3))
+                .Fail(x => x.StartWith(9));
+    }
+
     public class StartWithAny_IEnumerable : ExtensionMethodTestFixture<int[], StartWithAny_IEnumerable>
     {
         static StartWithAny_IEnumerable() =>
