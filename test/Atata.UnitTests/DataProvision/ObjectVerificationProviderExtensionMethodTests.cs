@@ -52,6 +52,26 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(x => x.BeEquivalent(1));
     }
 
+    public class EqualSequence : ExtensionMethodTestFixture<int[], EqualSequence>
+    {
+        static EqualSequence() =>
+            For(new[] { 1, 1, 2, 3, 5 })
+                .ThrowsArgumentNullException(x => x.EqualSequence(null))
+                .Pass(x => x.EqualSequence(1, 1, 2, 3, 5))
+                .Fail(x => x.EqualSequence(5, 1, 2, 3, 1))
+                .Fail(x => x.EqualSequence())
+                .Fail(x => x.EqualSequence(1, 2, 3, 4, 5))
+                .Fail(x => x.EqualSequence(1, 1, 2, 3));
+    }
+
+    public class EqualSequence_WhenEmpty : ExtensionMethodTestFixture<int[], EqualSequence_WhenEmpty>
+    {
+        static EqualSequence_WhenEmpty() =>
+            For(new int[0])
+                .Pass(x => x.EqualSequence())
+                .Fail(x => x.EqualSequence(1));
+    }
+
     public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
     {
         static Contain_IEnumerable() =>
