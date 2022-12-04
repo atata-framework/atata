@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace Atata.UnitTests.DataProvision;
 
-public static class DataVerificationProviderExtensionMethodTests
+public static class ObjectVerificationProviderExtensionMethodTests
 {
     public class Satisfy_Expression : ExtensionMethodTestFixture<string, Satisfy_Expression>
     {
