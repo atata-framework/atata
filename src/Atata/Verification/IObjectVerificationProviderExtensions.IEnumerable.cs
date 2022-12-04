@@ -108,7 +108,16 @@ namespace Atata
             expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
-                actual => actual != null && actual.Count() == expected.Count() && actual.All(expected.Contains),
+                actual =>
+                {
+                    if (actual is null || actual.Count() != expected.Count())
+                        return false;
+
+                    var expectedList = new List<TItem>(expected);
+                    var equalityComparer = EqualityComparer<TItem>.Default;
+
+                    return actual.All(x => RemoveFromListIfContains(expectedList, x, equalityComparer));
+                },
                 $"be equivalent to {Stringifier.ToString(expected)}");
         }
 
@@ -120,7 +129,16 @@ namespace Atata
             expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
-                actual => actual != null && actual.Count() == expected.Count() && actual.All(expected.Contains),
+                actual =>
+                {
+                    if (actual is null || actual.Count() != expected.Count())
+                        return false;
+
+                    var expectedList = new List<TObject>(expected);
+                    var equalityComparer = EqualityComparer<TObject>.Default;
+
+                    return actual.All(x => RemoveFromListIfContains(expectedList, x, equalityComparer));
+                },
                 $"be equivalent to {Stringifier.ToString(expected)}");
         }
 
@@ -850,6 +868,20 @@ namespace Atata
             return verifier.Satisfy(
                 actual => actual != null && actual.Count() == predicates.Length && actual.Select((x, index) => predicates[index](x)).All(x => x),
                 $"consist sequentially of {Stringifier.ToString(predicateExpressions)} items");
+        }
+
+        private static bool RemoveFromListIfContains<T>(List<T> list, T item, IEqualityComparer<T> equalityComparer)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (equalityComparer.Equals(list[i], item))
+                {
+                    list.RemoveAt(i);
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

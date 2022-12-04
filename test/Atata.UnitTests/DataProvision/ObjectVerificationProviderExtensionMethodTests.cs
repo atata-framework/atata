@@ -32,6 +32,26 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(x => x.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
     }
 
+    public class BeEquivalent : ExtensionMethodTestFixture<int[], BeEquivalent>
+    {
+        static BeEquivalent() =>
+            For(new[] { 1, 1, 2, 3, 5 })
+                .ThrowsArgumentNullException(x => x.BeEquivalent(null))
+                .Pass(x => x.BeEquivalent(1, 1, 2, 3, 5))
+                .Pass(x => x.BeEquivalent(5, 1, 2, 3, 1))
+                .Fail(x => x.BeEquivalent())
+                .Fail(x => x.BeEquivalent(1, 2, 3, 4, 5))
+                .Fail(x => x.BeEquivalent(1, 1, 2, 3));
+    }
+
+    public class BeEquivalent_WhenEmpty : ExtensionMethodTestFixture<int[], BeEquivalent_WhenEmpty>
+    {
+        static BeEquivalent_WhenEmpty() =>
+            For(new int[0])
+                .Pass(x => x.BeEquivalent())
+                .Fail(x => x.BeEquivalent(1));
+    }
+
     public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
     {
         static Contain_IEnumerable() =>
