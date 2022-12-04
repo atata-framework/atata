@@ -45,18 +45,21 @@ namespace Atata
             return terms.Any(term => predicate(text, term));
         }
 
-        public static Func<string, string, bool> GetPredicate(this TermMatch match)
+        public static Func<string, string, bool> GetPredicate(this TermMatch match) =>
+            match.GetPredicate(StringComparison.Ordinal);
+
+        public static Func<string, string, bool> GetPredicate(this TermMatch match, StringComparison stringComparison)
         {
             switch (match)
             {
                 case TermMatch.Contains:
-                    return (text, term) => text.Contains(term);
+                    return (text, term) => text != null && text.IndexOf(term, stringComparison) != -1;
                 case TermMatch.Equals:
-                    return (text, term) => text.Trim() == term;
+                    return (text, term) => text != null && text.Equals(term, stringComparison);
                 case TermMatch.StartsWith:
-                    return (text, term) => text.Trim().StartsWith(term, StringComparison.Ordinal);
+                    return (text, term) => text != null && text.StartsWith(term, stringComparison);
                 case TermMatch.EndsWith:
-                    return (text, term) => text.Trim().EndsWith(term, StringComparison.Ordinal);
+                    return (text, term) => text != null && text.EndsWith(term, stringComparison);
                 default:
                     throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
             }
