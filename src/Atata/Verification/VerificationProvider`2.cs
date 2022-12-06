@@ -40,6 +40,7 @@ namespace Atata
             set => RetryInterval = value;
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TVerificationProvider WithRetry
         {
             get
@@ -51,6 +52,7 @@ namespace Atata
             }
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public TVerificationProvider AtOnce
         {
             get
