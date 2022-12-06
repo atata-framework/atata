@@ -844,6 +844,43 @@ namespace Atata
                 "be in descending order");
 
         /// <summary>
+        /// Verifies that collection consists of items that match the <paramref name="predicateExpressions"/> in an arbitrary order.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="predicateExpressions">The predicate expressions.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ConsistOf<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            params Expression<Func<TItem, bool>>[] predicateExpressions)
+        {
+            var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+                .Select(x => x.Compile())
+                .ToArray();
+
+            return verifier.Satisfy(
+                actual => actual != null && ArrayItemsMatchPredicates(actual.ToArray(), predicates),
+                $"consist of {Stringifier.ToString(predicateExpressions)} items");
+        }
+
+        /// <inheritdoc cref="ConsistOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}}[])"/>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        public static TOwner ConsistOf<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            params Expression<Func<TObject, bool>>[] predicateExpressions)
+        {
+            var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
+                .Select(x => x.Compile())
+                .ToArray();
+
+            return verifier.Satisfy(
+                actual => actual != null && ArrayItemsMatchPredicates(actual.ToArray(), predicates),
+                $"consist of {Stringifier.ToString(predicateExpressions)} items");
+        }
+
+        /// <summary>
         /// Verifies that collection consists only of items that match the <paramref name="predicateExpression"/>.
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item.</typeparam>
@@ -1027,6 +1064,45 @@ namespace Atata
             }
 
             return false;
+        }
+
+        private static bool ArrayItemsMatchPredicates<T>(T[] array, Func<T, bool>[] predicates)
+        {
+            if (array.Length != predicates.Length)
+                return false;
+
+            List<List<int>> predicatePassers = Enumerable.Repeat(0, array.Length)
+                .Select(_ => new List<int>()).ToList();
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                for (int j = 0; j < predicates.Length; j++)
+                {
+                    if (predicates[j].Invoke(array[i]))
+                        predicatePassers[j].Add(i);
+                }
+            }
+
+            predicatePassers.Sort((a, b) => a.Count.CompareTo(b.Count));
+
+            return predicatePassers[0].Count != 0 && SortOut(predicatePassers, new List<int>());
+
+            bool SortOut(IEnumerable<List<int>> numbers, List<int> excludedNumbers)
+            {
+                var nonExcludedCurrentNumbers = numbers.First().Except(excludedNumbers).ToArray();
+
+                if (numbers.Count() == 1)
+                    return nonExcludedCurrentNumbers.Any();
+
+                foreach (int number in nonExcludedCurrentNumbers)
+                {
+                    excludedNumbers.Add(number);
+                    if (SortOut(numbers.Skip(1), excludedNumbers))
+                        return true;
+                }
+
+                return false;
+            }
         }
     }
 }

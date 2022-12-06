@@ -199,6 +199,29 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(x => x.EndWithAny("a", "b"));
     }
 
+    public class ConsistOf : ExtensionMethodTestFixture<int[], ConsistOf>
+    {
+        static ConsistOf() =>
+            For(new[] { 1, 2, 3 })
+                .ThrowsArgumentNullException(x => x.ConsistOf(null))
+                .ThrowsArgumentException(x => x.ConsistOf())
+                .Pass(x => x.ConsistOf(x => x == 3, x => x > 0, x => x == 2))
+                .Pass(x => x.ConsistOf(x => x < 3, x => x > 1, x => x != 2))
+                .Pass(x => x.ConsistOf(x => x > 1, x => x > 0, x => x > 1))
+                .Pass(x => x.ConsistOf(x => x > 0, x => x > 0, x => x > 0))
+                .Fail(x => x.ConsistOf(x => x > 0))
+                .Fail(x => x.ConsistOf(x => x > 0, x => x > 0, x => x > 0, x => x > 0))
+                .Fail(x => x.ConsistOf(x => x == 1, x => x == 2, x => x != 3));
+    }
+
+    public class ConsistOf_WhenHas1Item : ExtensionMethodTestFixture<int[], ConsistOf_WhenHas1Item>
+    {
+        static ConsistOf_WhenHas1Item() =>
+            For(new[] { 1 })
+                .Pass(x => x.ConsistOf(x => x == 1))
+                .Fail(x => x.ConsistOf(x => x == 2));
+    }
+
     public class ConsistOnlyOf : ExtensionMethodTestFixture<int[], ConsistOnlyOf>
     {
         static ConsistOnlyOf() =>
