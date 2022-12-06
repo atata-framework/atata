@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -9,6 +8,8 @@ namespace Atata
 {
     public static partial class IObjectVerificationProviderExtensions
     {
+        private const StringComparison DefaultIgnoreCaseComparison = StringComparison.OrdinalIgnoreCase;
+
         public static TOwner BeNullOrEmpty<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
             verifier.Satisfy(actual => string.IsNullOrEmpty(actual), "be null or empty");
 
@@ -22,7 +23,7 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
-            return verifier.Satisfy(actual => actual != null && actual.Contains(expected), "contain {0}", expected);
+            return verifier.Satisfy(actual => actual != null && actual.IndexOf(expected, verifier.ResolveStringComparison()) != -1, "contain {0}", expected);
         }
 
         public static TOwner ContainIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
@@ -30,7 +31,7 @@ namespace Atata
             expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
-                actual => actual != null && actual.ToUpper(CultureInfo.CurrentCulture).Contains(expected.ToUpper(CultureInfo.CurrentCulture)),
+                actual => actual != null && actual.IndexOf(expected, DefaultIgnoreCaseComparison) != -1,
                 "contain {0} ignoring case",
                 expected);
         }
@@ -40,7 +41,7 @@ namespace Atata
             expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
-                actual => actual != null && actual.StartsWith(expected, StringComparison.CurrentCulture),
+                actual => actual != null && actual.StartsWith(expected, verifier.ResolveStringComparison()),
                 "start with {0}",
                 expected);
         }
@@ -50,7 +51,7 @@ namespace Atata
             expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
-                actual => actual != null && actual.StartsWith(expected, StringComparison.CurrentCultureIgnoreCase),
+                actual => actual != null && actual.StartsWith(expected, DefaultIgnoreCaseComparison),
                 "start with {0} ignoring case",
                 expected);
         }
@@ -60,7 +61,7 @@ namespace Atata
             expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
-                actual => actual != null && actual.EndsWith(expected, StringComparison.CurrentCulture),
+                actual => actual != null && actual.EndsWith(expected, verifier.ResolveStringComparison()),
                 "end with {0}",
                 expected);
         }
@@ -70,7 +71,7 @@ namespace Atata
             expected.CheckNotNull(nameof(expected));
 
             return verifier.Satisfy(
-                actual => actual != null && actual.EndsWith(expected, StringComparison.CurrentCultureIgnoreCase),
+                actual => actual != null && actual.EndsWith(expected, DefaultIgnoreCaseComparison),
                 "end with {0} ignoring case",
                 expected);
         }
@@ -86,7 +87,7 @@ namespace Atata
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
-            var predicate = match.GetPredicate();
+            var predicate = match.GetPredicate(verifier.ResolveStringComparison());
 
             string message = new StringBuilder()
                 .Append($"{match.GetShouldText()} ")
@@ -107,7 +108,9 @@ namespace Atata
                 .AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}"))
                 .ToString();
 
-            return verifier.Satisfy(actual => actual != null && expected.All(x => actual.Contains(x)), message, expected);
+            StringComparison stringComparison = verifier.ResolveStringComparison();
+
+            return verifier.Satisfy(actual => actual != null && expected.All(x => actual.IndexOf(x, stringComparison) != -1), message, expected);
         }
 
         public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
@@ -128,8 +131,10 @@ namespace Atata
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
+            StringComparison stringComparison = verifier.ResolveStringComparison();
+
             return verifier.Satisfy(
-                actual => actual != null && expected.Any(x => actual.StartsWith(x, StringComparison.CurrentCulture)),
+                actual => actual != null && expected.Any(x => actual.StartsWith(x, stringComparison)),
                 $"start with any of {Stringifier.ToString(expected)}");
         }
 
@@ -148,8 +153,10 @@ namespace Atata
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
+            StringComparison stringComparison = verifier.ResolveStringComparison();
+
             return verifier.Satisfy(
-                actual => actual != null && expected.Any(x => actual.EndsWith(x, StringComparison.CurrentCulture)),
+                actual => actual != null && expected.Any(x => actual.EndsWith(x, stringComparison)),
                 $"end with any of {Stringifier.ToString(expected)}");
         }
     }

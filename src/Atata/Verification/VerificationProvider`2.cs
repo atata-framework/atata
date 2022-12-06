@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace Atata
@@ -6,6 +7,8 @@ namespace Atata
     public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVerificationProvider<TOwner>
         where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>
     {
+        private const StringComparison DefaultStringComparison = StringComparison.Ordinal;
+
         private readonly bool _isNegation;
 
         protected VerificationProvider(bool isNegation = false) =>
@@ -64,6 +67,27 @@ namespace Atata
             }
         }
 
+        /// <summary>
+        /// Gets the same instance of <typeparamref name="TVerificationProvider"/>
+        /// with <see cref="StringComparer.OrdinalIgnoreCase"/> equality comparer added to its <see cref="TypeEqualityComparerMap"/>.
+        /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public TVerificationProvider IgnoringCase =>
+            Using(StringComparer.OrdinalIgnoreCase);
+
+        /// <inheritdoc cref="IVerificationProvider{TOwner}.TypeEqualityComparerMap"/>
+        protected Dictionary<Type, object> TypeEqualityComparerMap { get; set; }
+
+        Dictionary<Type, object> IVerificationProvider<TOwner>.TypeEqualityComparerMap
+        {
+            get => TypeEqualityComparerMap;
+            set => TypeEqualityComparerMap = value;
+        }
+
+        public TVerificationProvider Using<TVerificationStrategy>()
+            where TVerificationStrategy : IVerificationStrategy, new() =>
+            Using(new TVerificationStrategy());
+
         public TVerificationProvider Using(IVerificationStrategy strategy)
         {
             Strategy = strategy;
@@ -71,10 +95,17 @@ namespace Atata
             return (TVerificationProvider)this;
         }
 
-        public TVerificationProvider Using<TVerificationStrategy>()
-            where TVerificationStrategy : IVerificationStrategy, new()
+        /// <summary>
+        /// Adds the specified equality comparer to the <see cref="TypeEqualityComparerMap"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of object.</typeparam>
+        /// <param name="equalityComparer">The equality comparer.</param>
+        /// <returns>The same instance of <typeparamref name="TVerificationProvider"/>.</returns>
+        public TVerificationProvider Using<T>(IEqualityComparer<T> equalityComparer)
         {
-            Strategy = new TVerificationStrategy();
+            TypeEqualityComparerMap = TypeEqualityComparerMap ?? new Dictionary<Type, object>(1);
+
+            TypeEqualityComparerMap[typeof(T)] = equalityComparer;
 
             return (TVerificationProvider)this;
         }
@@ -103,6 +134,35 @@ namespace Atata
 
         public TVerificationProvider WithRetryIntervalSeconds(double retryIntervalSeconds) =>
             WithRetryInterval(TimeSpan.FromSeconds(retryIntervalSeconds));
+
+        IEqualityComparer<T> IVerificationProvider<TOwner>.ResolveEqualityComparer<T>() =>
+            TypeEqualityComparerMap != null && TypeEqualityComparerMap.TryGetValue(typeof(T), out var equalityComparer)
+                ? equalityComparer as IEqualityComparer<T>
+                : EqualityComparer<T>.Default;
+
+        StringComparison IVerificationProvider<TOwner>.ResolveStringComparison() =>
+            TypeEqualityComparerMap != null && TypeEqualityComparerMap.TryGetValue(typeof(string), out var equalityComparer)
+                ? Convert((IEqualityComparer<string>)equalityComparer)
+                : DefaultStringComparison;
+
+        private StringComparison Convert(IEqualityComparer<string> equalityComparer)
+        {
+            if (equalityComparer == StringComparer.CurrentCulture)
+                return StringComparison.CurrentCulture;
+            else if (equalityComparer == StringComparer.CurrentCultureIgnoreCase)
+                return StringComparison.CurrentCultureIgnoreCase;
+            if (equalityComparer == StringComparer.InvariantCulture)
+                return StringComparison.InvariantCulture;
+            else if (equalityComparer == StringComparer.InvariantCultureIgnoreCase)
+                return StringComparison.InvariantCultureIgnoreCase;
+            else if (equalityComparer == StringComparer.Ordinal)
+                return StringComparison.Ordinal;
+            else if (equalityComparer == StringComparer.OrdinalIgnoreCase)
+                return StringComparison.OrdinalIgnoreCase;
+            else
+                throw new ArgumentException(
+                    $"Cannot resolve {nameof(StringComparison)} by the specified '{nameof(equalityComparer)}'. Unknown IEqualityComparer<string> instance.", nameof(equalityComparer));
+        }
 
         (TimeSpan Timeout, TimeSpan RetryInterval) IVerificationProvider<TOwner>.GetRetryOptions() =>
             GetRetryOptions();

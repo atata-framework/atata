@@ -32,6 +32,27 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(x => x.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
     }
 
+    public class StartWith_string : ExtensionMethodTestFixture<string, StartWith_string>
+    {
+        static StartWith_string() =>
+            For("abcdef")
+                .ThrowsArgumentNullException(x => x.StartWith(null))
+                .ThrowsArgumentException(x => x.StartWith())
+                .Pass(x => x.StartWith("a"))
+                .Pass(x => x.StartWith("abc"))
+                .Fail(x => x.StartWith("zbc"))
+                .Fail(x => x.StartWith("abcdefg"));
+    }
+
+    public class StartWith_string_IgnoringCase : ExtensionMethodTestFixture<string, StartWith_string_IgnoringCase>
+    {
+        static StartWith_string_IgnoringCase() =>
+            For("aBcDeF")
+                .When(x => x.IgnoringCase)
+                .Pass(x => x.StartWith("abc"))
+                .Pass(x => x.StartWith("ABcdEF"));
+    }
+
     public class BeEquivalent : ExtensionMethodTestFixture<int[], BeEquivalent>
     {
         static BeEquivalent() =>
@@ -70,6 +91,14 @@ public static class ObjectVerificationProviderExtensionMethodTests
             For(new int[0])
                 .Pass(x => x.EqualSequence())
                 .Fail(x => x.EqualSequence(1));
+    }
+
+    public class EqualSequence_IgnoringCase : ExtensionMethodTestFixture<string[], EqualSequence_IgnoringCase>
+    {
+        static EqualSequence_IgnoringCase() =>
+            For(new[] { "a", "b", "c" })
+                .When(x => x.IgnoringCase)
+                .Pass(x => x.EqualSequence("a", "B", "c"));
     }
 
     public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
@@ -191,43 +220,50 @@ public static class ObjectVerificationProviderExtensionMethodTests
             yield return GenerateTestCaseData(
                 "Should passes",
                 s_testSuiteData.PassFunctions,
-                (sut, function) => Assert.DoesNotThrow(() => function(sut.Should)));
+                (should, function) => Assert.DoesNotThrow(() => function(should)));
 
             yield return GenerateTestCaseData(
                 "Should fails",
                 s_testSuiteData.FailFunctions,
-                (sut, function) => Assert.Throws<AssertionException>(() => function(sut.Should)));
+                (should, function) => Assert.Throws<AssertionException>(() => function(should)));
 
             yield return GenerateTestCaseData(
                 "Should.Not passes",
                 s_testSuiteData.FailFunctions,
-                (sut, function) => Assert.DoesNotThrow(() => function(sut.Should.Not)));
+                (should, function) => Assert.DoesNotThrow(() => function(should.Not)));
 
             yield return GenerateTestCaseData(
                 "Should.Not fails",
                 s_testSuiteData.PassFunctions,
-                (sut, function) => Assert.Throws<AssertionException>(() => function(sut.Should.Not)));
+                (should, function) => Assert.Throws<AssertionException>(() => function(should.Not)));
 
             yield return GenerateTestCaseData(
                 "Should throws ArgumentException",
                 s_testSuiteData.ThrowingArgumentExceptionFunctions,
-                (sut, function) => Assert.Throws<ArgumentException>(() => function(sut.Should)));
+                (should, function) => Assert.Throws<ArgumentException>(() => function(should)));
 
             yield return GenerateTestCaseData(
                 "Should throws ArgumentNullException",
                 s_testSuiteData.ThrowingArgumentNullExceptionFunctions,
-                (sut, function) => Assert.Throws<ArgumentNullException>(() => function(sut.Should)));
+                (should, function) => Assert.Throws<ArgumentNullException>(() => function(should)));
         }
 
         private static IEnumerable<TestCaseData> GenerateTestCaseData(
             string testName,
             List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> functions,
-            Action<Subject<TObject>, Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> assertionFunction)
+            Action<ObjectVerificationProvider<TObject, Subject<TObject>>, Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> assertionFunction)
         {
             RuntimeHelpers.RunClassConstructor(typeof(TFixture).TypeHandle);
 
             Action<Subject<TObject>> BuildTestAction(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
-                sut => assertionFunction(sut, function);
+                sut =>
+                {
+                    var should = s_testSuiteData.VerifierSetup is null
+                        ? sut.Should
+                        : s_testSuiteData.VerifierSetup.Invoke(sut.Should);
+
+                    assertionFunction(should, function);
+                };
 
             return functions.Count == 1
                 ? new[] { new TestCaseData(BuildTestAction(functions[0])).SetArgDisplayNames(testName) }
@@ -245,6 +281,8 @@ public static class ObjectVerificationProviderExtensionMethodTests
         public class TestSuiteData
         {
             public TObject TestObject { get; set; }
+
+            public Func<ObjectVerificationProvider<TObject, Subject<TObject>>, ObjectVerificationProvider<TObject, Subject<TObject>>> VerifierSetup { get; set; }
 
             public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> PassFunctions { get; } =
                 new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
@@ -265,6 +303,12 @@ public static class ObjectVerificationProviderExtensionMethodTests
 
             public TestSuiteBuilder(TestSuiteData context) =>
                 _context = context;
+
+            public TestSuiteBuilder When(Func<ObjectVerificationProvider<TObject, Subject<TObject>>, ObjectVerificationProvider<TObject, Subject<TObject>>> verifierSetup)
+            {
+                _context.VerifierSetup = verifierSetup;
+                return this;
+            }
 
             public TestSuiteBuilder Pass(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> passFunction)
             {

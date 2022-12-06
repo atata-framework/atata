@@ -71,5 +71,8 @@
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.UIComponentAttributeProvider`1.Href")]
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.UIComponentAttributeProvider`1.Src")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataPathTemplateStringFormatter.Format(System.String,System.Object,System.IFormatProvider)~System.String")]
+[assembly: SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.IVerificationProvider`1.TypeEqualityComparerMap")]
+[assembly: SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.VerificationProvider`2.TypeEqualityComparerMap")]
+[assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.VerificationProvider`2.Atata#IVerificationProvider<TOwner>#TypeEqualityComparerMap")]
 
 #pragma warning restore S103 // Lines should not be too long

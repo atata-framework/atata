@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -126,6 +127,20 @@ namespace Atata
             resultVerificationProvider.Timeout = sourceVerificationProvider.Timeout;
             resultVerificationProvider.RetryInterval = sourceVerificationProvider.RetryInterval;
 
+            if (sourceVerificationProvider.TypeEqualityComparerMap != null)
+            {
+                if (resultVerificationProvider.TypeEqualityComparerMap is null)
+                {
+                    resultVerificationProvider.TypeEqualityComparerMap = new Dictionary<Type, object>(
+                        sourceVerificationProvider.TypeEqualityComparerMap);
+                }
+                else
+                {
+                    foreach (var item in sourceVerificationProvider.TypeEqualityComparerMap)
+                        resultVerificationProvider.TypeEqualityComparerMap[item.Key] = item.Value;
+                }
+            }
+
             return resultVerificationProvider;
         }
 
@@ -145,8 +160,12 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <param name="expected">The expected value.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner Equal<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected) =>
-            verifier.Satisfy(actual => Equals(actual, expected), "equal {0}", expected);
+        public static TOwner Equal<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
+        {
+            var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
+
+            return verifier.Satisfy(actual => equalityComparer.Equals(actual, expected), "equal {0}", expected);
+        }
 
         /// <summary>
         /// Verifies that object is equal to <paramref name="expected"/> value.
@@ -156,8 +175,12 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <param name="expected">The expected value.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner Be<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected) =>
-            verifier.Satisfy(actual => Equals(actual, expected), "be {0}", expected);
+        public static TOwner Be<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
+        {
+            var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
+
+            return verifier.Satisfy(actual => equalityComparer.Equals(actual, expected), "be {0}", expected);
+        }
 
         public static TOwner BeNull<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier) =>
             verifier.Satisfy(actual => Equals(actual, null), "be null");

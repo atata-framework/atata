@@ -23,6 +23,8 @@ namespace Atata
         {
             expected.CheckNotNullOrEmpty(nameof(expected));
 
+            var predicate = match.GetPredicate(verifier.ResolveStringComparison());
+
             return verifier.Satisfy(
                 actual =>
                 {
@@ -31,8 +33,8 @@ namespace Atata
 
                     var actualValues = actual.Select(x => x.Content.Value).ToArray();
                     return verifier.IsNegation
-                        ? expected.Any(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)))
-                        : expected.All(expectedValue => actualValues.Any(actualValue => match.IsMatch(actualValue, expectedValue)));
+                        ? expected.Any(expectedValue => actualValues.Any(actualValue => predicate(actualValue, expectedValue)))
+                        : expected.All(expectedValue => actualValues.Any(actualValue => predicate(actualValue, expectedValue)));
                 },
                 $"contain having content that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
         }
