@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Atata
 {
@@ -17,7 +18,9 @@ namespace Atata
         protected override TOwner Owner =>
             ObjectProvider.Owner;
 
-        public NegationObjectVerificationProvider Not => new NegationObjectVerificationProvider(ObjectProvider, this);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public NegationObjectVerificationProvider Not =>
+            new NegationObjectVerificationProvider(ObjectProvider, this);
 
         protected override (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions() =>
             ObjectProvider.IsDynamic

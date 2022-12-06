@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System.Diagnostics;
+
+namespace Atata
 {
     public class FieldVerificationProvider<TValue, TField, TOwner> :
         UIComponentVerificationProvider<TField, FieldVerificationProvider<TValue, TField, TOwner>, TOwner>,
@@ -11,6 +13,7 @@
         {
         }
 
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public NegationFieldVerificationProvider Not =>
             new NegationFieldVerificationProvider(Component, this);
 

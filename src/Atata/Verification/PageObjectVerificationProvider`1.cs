@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System.Diagnostics;
+
+namespace Atata
 {
     public class PageObjectVerificationProvider<TPageObject> :
         UIComponentVerificationProvider<TPageObject, PageObjectVerificationProvider<TPageObject>, TPageObject>,
@@ -10,7 +12,9 @@
         {
         }
 
-        public NegationPageObjectVerificationProvider Not => new NegationPageObjectVerificationProvider(Owner, this);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public NegationPageObjectVerificationProvider Not =>
+            new NegationPageObjectVerificationProvider(Owner, this);
 
         public class NegationPageObjectVerificationProvider :
             NegationUIComponentVerificationProvider<NegationPageObjectVerificationProvider>,

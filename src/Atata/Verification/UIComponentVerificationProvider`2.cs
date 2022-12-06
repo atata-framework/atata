@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System.Diagnostics;
+
+namespace Atata
 {
     public class UIComponentVerificationProvider<TComponent, TOwner> :
         UIComponentVerificationProvider<TComponent, UIComponentVerificationProvider<TComponent, TOwner>, TOwner>
@@ -10,7 +12,9 @@
         {
         }
 
-        public NegationUIComponentVerificationProvider Not => new NegationUIComponentVerificationProvider(Component, this);
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public NegationUIComponentVerificationProvider Not =>
+            new NegationUIComponentVerificationProvider(Component, this);
 
         public class NegationUIComponentVerificationProvider : NegationUIComponentVerificationProvider<NegationUIComponentVerificationProvider>
         {
