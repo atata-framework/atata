@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 
 namespace Atata
 {
@@ -46,21 +47,20 @@ namespace Atata
 
         bool IObjectProvider<TValue, TOwner>.IsDynamic => true;
 
-        /// <summary>
-        /// Gets the assertion verification provider that has a set of verification extension methods.
-        /// </summary>
-        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> Should => new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner>(this);
+        /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> Should =>
+            new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner>(this);
 
-        /// <summary>
-        /// Gets the expectation verification provider that has a set of verification extension methods.
-        /// </summary>
-        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> ExpectTo =>
+            Should.Using<ExpectationVerificationStrategy>();
 
-        /// <summary>
-        /// Gets the waiting verification provider that has a set of verification extension methods.
-        /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
-        /// </summary>
-        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> WaitTo =>
+            Should.Using<WaitingVerificationStrategy>();
 
         public static explicit operator TValue(Field<TValue, TOwner> field) =>
             field.Get();

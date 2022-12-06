@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace Atata
@@ -44,22 +45,18 @@ namespace Atata
         public ValueProvider<bool, TOwner> IsFocused =>
             CreateValueProvider("focused state", GetIsFocused);
 
-        /// <summary>
-        /// Gets the assertion verification provider that has a set of verification extension methods.
-        /// </summary>
+        /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should =>
             new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
 
-        /// <summary>
-        /// Gets the expectation verification provider that has a set of verification extension methods.
-        /// </summary>
+        /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo =>
             Should.Using<ExpectationVerificationStrategy>();
 
-        /// <summary>
-        /// Gets the waiting verification provider that has a set of verification extension methods.
-        /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
-        /// </summary>
+        /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo =>
             Should.Using<WaitingVerificationStrategy>();
 

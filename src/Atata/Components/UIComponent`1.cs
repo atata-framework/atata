@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using OpenQA.Selenium;
@@ -83,12 +84,14 @@ return (
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should =>
             new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> ExpectTo =>
             Should.Using<ExpectationVerificationStrategy>();
 
@@ -96,6 +99,7 @@ return (
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> WaitTo =>
             Should.Using<WaitingVerificationStrategy>();
 

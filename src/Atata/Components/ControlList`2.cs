@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
@@ -55,21 +56,20 @@ return textValues;";
         protected string ItemComponentTypeName =>
             _itemComponentTypeName ?? (_itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
 
-        /// <summary>
-        /// Gets the assertion verification provider that has a set of verification extension methods.
-        /// </summary>
-        public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> Should => new ObjectVerificationProvider<IEnumerable<TItem>, TOwner>(this);
+        /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> Should =>
+            new ObjectVerificationProvider<IEnumerable<TItem>, TOwner>(this);
 
-        /// <summary>
-        /// Gets the expectation verification provider that has a set of verification extension methods.
-        /// </summary>
-        public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> ExpectTo =>
+            Should.Using<ExpectationVerificationStrategy>();
 
-        /// <summary>
-        /// Gets the waiting verification provider that has a set of verification extension methods.
-        /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
-        /// </summary>
-        public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> WaitTo =>
+            Should.Using<WaitingVerificationStrategy>();
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls count.

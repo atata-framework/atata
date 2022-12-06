@@ -1,4 +1,6 @@
-﻿namespace Atata
+﻿using System.Diagnostics;
+
+namespace Atata
 {
     /// <summary>
     /// Represents the radio button control (<c>&lt;input type="radio"&gt;</c>).
@@ -16,21 +18,20 @@
         public ValueProvider<bool, TOwner> IsChecked =>
             CreateValueProvider("checked state", () => Value);
 
-        /// <summary>
-        /// Gets the assertion verification provider that has a set of verification extension methods.
-        /// </summary>
-        public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> Should => new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner>(this);
+        /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> Should =>
+            new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner>(this);
 
-        /// <summary>
-        /// Gets the expectation verification provider that has a set of verification extension methods.
-        /// </summary>
-        public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> ExpectTo => Should.Using<ExpectationVerificationStrategy>();
+        /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> ExpectTo =>
+            Should.Using<ExpectationVerificationStrategy>();
 
-        /// <summary>
-        /// Gets the waiting verification provider that has a set of verification extension methods.
-        /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
-        /// </summary>
-        public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> WaitTo => Should.Using<WaitingVerificationStrategy>();
+        /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+        public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> WaitTo =>
+            Should.Using<WaitingVerificationStrategy>();
 
         protected override bool GetValue() =>
             Scope.Selected;

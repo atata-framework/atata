@@ -69,12 +69,14 @@ namespace Atata
         /// <summary>
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectVerificationProvider<TObject, TOwner> Should =>
             CreateVerificationProvider();
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectVerificationProvider<TObject, TOwner> ExpectTo =>
             CreateVerificationProvider().Using<ExpectationVerificationStrategy>();
 
@@ -82,6 +84,7 @@ namespace Atata
         /// Gets the waiting verification provider that has a set of verification extension methods.
         /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
         /// </summary>
+        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectVerificationProvider<TObject, TOwner> WaitTo =>
             CreateVerificationProvider().Using<WaitingVerificationStrategy>();
 
