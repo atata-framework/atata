@@ -199,6 +199,23 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(x => x.EndWithAny("a", "b"));
     }
 
+    public class ConsistOnlyOf : ExtensionMethodTestFixture<int[], ConsistOnlyOf>
+    {
+        static ConsistOnlyOf() =>
+            For(new[] { 3, 3, 3 })
+                .Pass(x => x.ConsistOnlyOf(3))
+                .Fail(x => x.ConsistOnlyOf(7));
+    }
+
+    public class ConsistOnlyOf_Expression : ExtensionMethodTestFixture<int[], ConsistOnlyOf_Expression>
+    {
+        static ConsistOnlyOf_Expression() =>
+            For(new[] { 1, 2, 3, 5 })
+                .ThrowsArgumentNullException(x => x.ConsistOnlyOf(null))
+                .Pass(x => x.ConsistOnlyOf(x => x > 0))
+                .Fail(x => x.ConsistOnlyOf(x => x > 1));
+    }
+
     public abstract class ExtensionMethodTestFixture<TObject, TFixture>
         where TFixture : ExtensionMethodTestFixture<TObject, TFixture>
     {

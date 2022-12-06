@@ -844,6 +844,108 @@ namespace Atata
                 "be in descending order");
 
         /// <summary>
+        /// Verifies that collection consists only of items that match the <paramref name="predicateExpression"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="predicateExpression">The predicate expression.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ConsistOnlyOf<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            Expression<Func<TItem, bool>> predicateExpression)
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.All(x => predicate(x)),
+                $"consist only of {Stringifier.ToString(predicateExpression)} items");
+        }
+
+        /// <inheritdoc cref="ConsistOnlyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}})"/>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        public static TOwner ConsistOnlyOf<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            Expression<Func<TObject, bool>> predicateExpression)
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.All(x => predicate(x)),
+                $"consist only of {Stringifier.ToString(predicateExpression)} items");
+        }
+
+        /// <summary>
+        /// Verifies that collection consists only of items that match the <paramref name="predicate"/>.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="predicate">The predicate expression.</param>
+        /// <param name="message">The message that should sound in a way of "{Collection} should consist of items that {message}".</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ConsistOnlyOf<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            Func<TItem, bool> predicate,
+            string message)
+        {
+            predicate.CheckNotNull(nameof(predicate));
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.All(x => predicate(x)),
+                $"consist only of items that {message ?? "match predicate"}");
+        }
+
+        /// <inheritdoc cref="ConsistOnlyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Func{TItem, bool}, string)"/>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        public static TOwner ConsistOnlyOf<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            Func<TObject, bool> predicate,
+            string message)
+        {
+            predicate.CheckNotNull(nameof(predicate));
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.All(x => predicate(x)),
+                $"consist only of items that {message ?? "match predicate"}");
+        }
+
+        /// <summary>
+        /// Verifies that collection consists only of items that equal to the <paramref name="expected"/> value.
+        /// </summary>
+        /// <typeparam name="TItem">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="expected">The expected value.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner ConsistOnlyOf<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            TItem expected)
+        {
+            var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.All(x => equalityComparer.Equals(x, expected)),
+                $"consist only of {Stringifier.ToString(expected)} items");
+        }
+
+        /// <inheritdoc cref="ConsistOnlyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, TItem)"/>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        public static TOwner ConsistOnlyOf<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            TObject expected)
+        {
+            var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.All(x => equalityComparer.Equals(x, expected)),
+                $"consist only of {Stringifier.ToString(expected)} item");
+        }
+
+        /// <summary>
         /// Verifies that collection consists of a single item and the item matches the <paramref name="predicateExpression"/>.
         /// </summary>
         /// <typeparam name="TItem">The type of the collection item.</typeparam>
