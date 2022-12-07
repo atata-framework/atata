@@ -979,7 +979,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.All(x => equalityComparer.Equals(x, expected)),
-                $"consist only of {Stringifier.ToString(expected)} item");
+                $"consist only of {Stringifier.ToString(expected)} items");
         }
 
         /// <summary>
