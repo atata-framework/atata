@@ -76,11 +76,25 @@ namespace Atata
                 expected);
         }
 
-        public static TOwner Match<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern)
+        /// <summary>
+        /// Verifies that a string matches the specified regular expression pattern.
+        /// </summary>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="pattern">The regular expression pattern to match.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner Match<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern) =>
+            verifier.Match(pattern, RegexOptions.None);
+
+        /// <inheritdoc cref="Match{TOwner}(IObjectVerificationProvider{string, TOwner}, string)"/>
+        /// <param name="verifier">The verification provider.</param>
+        /// <param name="pattern">The regular expression pattern to match.</param>
+        /// <param name="regexOptions">The regular expression options.</param>
+        public static TOwner Match<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern, RegexOptions regexOptions)
         {
             pattern.CheckNotNull(nameof(pattern));
 
-            return verifier.Satisfy(actual => actual != null && Regex.IsMatch(actual, pattern), $"match pattern \"{pattern}\"");
+            return verifier.Satisfy(actual => actual != null && Regex.IsMatch(actual, pattern, regexOptions), $"match pattern \"{pattern}\"");
         }
 
         public static TOwner MatchAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, TermMatch match, params string[] expected)

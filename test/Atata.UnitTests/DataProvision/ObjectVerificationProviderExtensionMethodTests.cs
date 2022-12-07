@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 
 namespace Atata.UnitTests.DataProvision;
 
@@ -51,6 +52,17 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .When(x => x.IgnoringCase)
                 .Pass(x => x.StartWith("abc"))
                 .Pass(x => x.StartWith("ABcdEF"));
+    }
+
+    public class Match : ExtensionMethodTestFixture<string, Match>
+    {
+        static Match() =>
+            For("abcdef")
+                .ThrowsArgumentNullException(x => x.Match(null))
+                .Pass(x => x.Match("bcd"))
+                .Pass(x => x.Match("^abc"))
+                .Pass(x => x.Match("^abcdeF$", RegexOptions.IgnoreCase))
+                .Fail(x => x.Match("^abcdeF$"));
     }
 
     public class BeEquivalent : ExtensionMethodTestFixture<int[], BeEquivalent>
