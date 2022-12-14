@@ -107,6 +107,8 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
+            var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
+
             return verifier.Satisfy(
                 actual =>
                 {
@@ -114,11 +116,10 @@ namespace Atata
                         return false;
 
                     var expectedList = new List<TItem>(expected);
-                    var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
                     return actual.All(x => RemoveFromListIfContains(expectedList, x, equalityComparer));
                 },
-                $"be equivalent to {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"be equivalent to {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
@@ -128,6 +129,8 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
+            var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
+
             return verifier.Satisfy(
                 actual =>
                 {
@@ -135,11 +138,10 @@ namespace Atata
                         return false;
 
                     var expectedList = new List<TObject>(expected);
-                    var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
                     return actual.All(x => RemoveFromListIfContains(expectedList, x, equalityComparer));
                 },
-                $"be equivalent to {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"be equivalent to {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, params TItem[] expected) =>
@@ -149,9 +151,11 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
+            var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
+
             return verifier.Satisfy(
-                actual => actual != null && actual.SequenceEqual(expected, verifier.ResolveEqualityComparer<TItem>()),
-                $"equal sequence {Stringifier.ToString(expected)}");
+                actual => actual != null && actual.SequenceEqual(expected, equalityComparer),
+                VerificationMessage.Of($"equal sequence {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
@@ -161,9 +165,11 @@ namespace Atata
         {
             expected.CheckNotNull(nameof(expected));
 
+            var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
+
             return verifier.Satisfy(
-                actual => actual != null && actual.SequenceEqual(expected, verifier.ResolveEqualityComparer<TObject>()),
-                $"equal sequence {Stringifier.ToString(expected)}");
+                actual => actual != null && actual.SequenceEqual(expected, equalityComparer),
+                VerificationMessage.Of($"equal sequence {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <summary>
@@ -190,7 +196,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count(x => equalityComparer.Equals(x, expected)) == 1,
-                $"contain single {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"contain single {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <summary>
@@ -207,7 +213,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count(x => equalityComparer.Equals(x, expected)) == 1,
-                $"contain single {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"contain single {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <summary>
@@ -245,7 +251,9 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count(x => equalityComparer.Equals(x, expectedValue)) == expectedCount,
-                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}");
+                VerificationMessage.Of(
+                    $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}",
+                    equalityComparer));
         }
 
         /// <summary>
@@ -266,7 +274,9 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count(x => equalityComparer.Equals(x, expectedValue)) == expectedCount,
-                $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}");
+                VerificationMessage.Of(
+                    $"contain exactly {expectedCount} {Stringifier.ToString(expectedValue)} item{(expectedCount != 1 ? "s" : null)}",
+                    equalityComparer));
         }
 
         /// <summary>
@@ -325,7 +335,7 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? actual.Intersect(expected, equalityComparer).Any()
                     : actual.Intersect(expected, equalityComparer).Count() == expected.Distinct(equalityComparer).Count(),
-                $"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}");
+                VerificationMessage.Of($"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}", equalityComparer));
         }
 
         /// <summary>
@@ -362,7 +372,7 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? actual.Intersect(expected, equalityComparer).Any()
                     : actual.Intersect(expected, equalityComparer).Count() == expected.Distinct(equalityComparer).Count(),
-                $"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}");
+                VerificationMessage.Of($"contain {Stringifier.ToStringInFormOfOneOrMany(expected)}", equalityComparer));
         }
 
         /// <summary>
@@ -474,7 +484,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Intersect(expected, equalityComparer).Any(),
-                $"contain any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"contain any of {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="ContainAny{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
@@ -502,7 +512,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Intersect(expected, equalityComparer).Any(),
-                $"contain any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"contain any of {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="StartWith{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
@@ -530,7 +540,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count() >= expected.Count() && actual.Zip(expected, (a, e) => equalityComparer.Equals(a, e)).All(x => x),
-                $"start with {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"start with {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="StartWith{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
@@ -558,7 +568,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count() >= expected.Count() && actual.Zip(expected, (a, e) => equalityComparer.Equals(a, e)).All(x => x),
-                $"start with {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"start with {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="StartWithAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
@@ -595,7 +605,7 @@ namespace Atata
                         return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
                     }
                 },
-                $"start with any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"start with any of {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="StartWithAny{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
@@ -632,7 +642,7 @@ namespace Atata
                         return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
                     }
                 },
-                $"start with any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"start with any of {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="EndWith{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
@@ -660,7 +670,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count() >= expected.Count() && actual.Reverse().Zip(expected.Reverse(), (a, e) => equalityComparer.Equals(a, e)).All(x => x),
-                $"ends with {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"ends with {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="EndWith{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
@@ -688,7 +698,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.Count() >= expected.Count() && actual.Reverse().Zip(expected.Reverse(), (a, e) => equalityComparer.Equals(a, e)).All(x => x),
-                $"ends with {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"ends with {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="EndWithAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
@@ -725,7 +735,7 @@ namespace Atata
                         return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
                     }
                 },
-                $"end with any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <inheritdoc cref="EndWithAny{TObject, TOwner}(IObjectVerificationProvider{IEnumerable{IObjectProvider{TObject}}, TOwner}, IEnumerable{TObject})"/>
@@ -762,7 +772,7 @@ namespace Atata
                         return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
                     }
                 },
-                $"end with any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", equalityComparer));
         }
 
         /// <summary>
@@ -965,7 +975,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.All(x => equalityComparer.Equals(x, expected)),
-                $"consist only of {Stringifier.ToString(expected)} items");
+                VerificationMessage.Of($"consist only of {Stringifier.ToString(expected)} items", equalityComparer));
         }
 
         /// <inheritdoc cref="ConsistOnlyOf{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, TItem)"/>
@@ -979,7 +989,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.All(x => equalityComparer.Equals(x, expected)),
-                $"consist only of {Stringifier.ToString(expected)} items");
+                VerificationMessage.Of($"consist only of {Stringifier.ToString(expected)} items", equalityComparer));
         }
 
         /// <summary>

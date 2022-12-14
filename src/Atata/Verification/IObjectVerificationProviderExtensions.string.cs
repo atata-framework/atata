@@ -17,13 +17,16 @@ namespace Atata
             verifier.Satisfy(actual => string.IsNullOrWhiteSpace(actual), "be null or white-space");
 
         public static TOwner EqualIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected) =>
-            verifier.Satisfy(actual => string.Equals(expected, actual, StringComparison.CurrentCultureIgnoreCase), "equal {0} ignoring case", expected);
+            verifier.Satisfy(actual => string.Equals(expected, actual, DefaultIgnoreCaseComparison), "equal {0} ignoring case", expected);
 
         public static TOwner Contain<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
         {
             expected.CheckNotNull(nameof(expected));
 
-            return verifier.Satisfy(actual => actual != null && actual.IndexOf(expected, verifier.ResolveStringComparison()) != -1, "contain {0}", expected);
+            return verifier.Satisfy(
+                actual => actual != null && actual.IndexOf(expected, verifier.ResolveStringComparison()) != -1,
+                VerificationMessage.Of("contain {0}", verifier.ResolveEqualityComparer<string>()),
+                expected);
         }
 
         public static TOwner ContainIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
@@ -42,7 +45,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.StartsWith(expected, verifier.ResolveStringComparison()),
-                "start with {0}",
+                VerificationMessage.Of("start with {0}", verifier.ResolveEqualityComparer<string>()),
                 expected);
         }
 
@@ -62,7 +65,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && actual.EndsWith(expected, verifier.ResolveStringComparison()),
-                "end with {0}",
+                VerificationMessage.Of("end with {0}", verifier.ResolveEqualityComparer<string>()),
                 expected);
         }
 
@@ -109,7 +112,10 @@ namespace Atata
                 .AppendJoined(", ", Enumerable.Range(0, expected.Length).Select(x => $"{{{x}}}"))
                 .ToString();
 
-            return verifier.Satisfy(actual => actual != null && expected.Any(x => predicate(actual, x)), message, expected);
+            return verifier.Satisfy(
+                actual => actual != null && expected.Any(x => predicate(actual, x)),
+                VerificationMessage.Of(message, verifier.ResolveEqualityComparer<string>()),
+                expected);
         }
 
         public static TOwner ContainAll<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected)
@@ -124,7 +130,10 @@ namespace Atata
 
             StringComparison stringComparison = verifier.ResolveStringComparison();
 
-            return verifier.Satisfy(actual => actual != null && expected.All(x => actual.IndexOf(x, stringComparison) != -1), message, expected);
+            return verifier.Satisfy(
+                actual => actual != null && expected.All(x => actual.IndexOf(x, stringComparison) != -1),
+                VerificationMessage.Of(message, verifier.ResolveEqualityComparer<string>()),
+                expected);
         }
 
         public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
@@ -149,7 +158,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && expected.Any(x => actual.StartsWith(x, stringComparison)),
-                $"start with any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"start with any of {Stringifier.ToString(expected)}", verifier.ResolveEqualityComparer<string>()));
         }
 
         /// <inheritdoc cref="EndWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
@@ -171,7 +180,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && expected.Any(x => actual.EndsWith(x, stringComparison)),
-                $"end with any of {Stringifier.ToString(expected)}");
+                VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", verifier.ResolveEqualityComparer<string>()));
         }
     }
 }

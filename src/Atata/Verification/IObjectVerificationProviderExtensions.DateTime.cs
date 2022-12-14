@@ -10,7 +10,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => equalityComparer.Equals(actual.Date, expected.Date),
-                "equal date {0}",
+                VerificationMessage.Of("equal date {0}", equalityComparer),
                 expected);
         }
 
@@ -20,7 +20,7 @@ namespace Atata
 
             return verifier.Satisfy(
                 actual => actual != null && equalityComparer.Equals(actual.Value.Date, expected.Date),
-                "equal date {0}",
+                VerificationMessage.Of("equal date {0}", equalityComparer),
                 expected);
         }
     }

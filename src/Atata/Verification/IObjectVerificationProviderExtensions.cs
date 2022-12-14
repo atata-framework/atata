@@ -164,7 +164,10 @@ namespace Atata
         {
             var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
-            return verifier.Satisfy(actual => equalityComparer.Equals(actual, expected), "equal {0}", expected);
+            return verifier.Satisfy(
+                actual => equalityComparer.Equals(actual, expected),
+                VerificationMessage.Of("equal {0}", equalityComparer),
+                expected);
         }
 
         /// <summary>
@@ -179,7 +182,10 @@ namespace Atata
         {
             var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
 
-            return verifier.Satisfy(actual => equalityComparer.Equals(actual, expected), "be {0}", expected);
+            return verifier.Satisfy(
+                actual => equalityComparer.Equals(actual, expected),
+                VerificationMessage.Of("be {0}", equalityComparer),
+                expected);
         }
 
         public static TOwner BeNull<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier) =>

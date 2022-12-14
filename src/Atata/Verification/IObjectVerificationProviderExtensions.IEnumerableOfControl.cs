@@ -36,7 +36,9 @@ namespace Atata
                         ? expected.Any(expectedValue => actualValues.Any(actualValue => predicate(actualValue, expectedValue)))
                         : expected.All(expectedValue => actualValues.Any(actualValue => predicate(actualValue, expectedValue)));
                 },
-                $"contain having content that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
+                VerificationMessage.Of(
+                    $"contain having content that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}",
+                    verifier.ResolveEqualityComparer<string>()));
         }
     }
 }
