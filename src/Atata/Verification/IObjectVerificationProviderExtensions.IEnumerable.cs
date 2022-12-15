@@ -433,7 +433,9 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? expected.Any(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))
                     : expected.All(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue))),
-                $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
+                VerificationMessage.Of(
+                    $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}",
+                    verifier.ResolveEqualityComparer<string>()));
         }
 
         public static TOwner Contain<TOwner>(
@@ -456,7 +458,9 @@ namespace Atata
                 actual => actual != null && verifier.IsNegation
                     ? expected.Any(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue)))
                     : expected.All(expectedValue => actual.Any(actualValue => predicate(actualValue, expectedValue))),
-                $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}");
+                VerificationMessage.Of(
+                    $"contain having value that {match.ToString(TermCase.MidSentence)} {Stringifier.ToStringInFormOfOneOrMany(expected)}",
+                    verifier.ResolveEqualityComparer<string>()));
         }
 
         /// <inheritdoc cref="ContainAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
