@@ -16,6 +16,9 @@ namespace Atata
         public static TOwner BeNullOrWhiteSpace<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
             verifier.Satisfy(actual => string.IsNullOrWhiteSpace(actual), "be null or white-space");
 
+        public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
+            verifier.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
+
         public static TOwner EqualIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected) =>
             verifier.Satisfy(actual => string.Equals(expected, actual, DefaultIgnoreCaseComparison), "equal {0} ignoring case", expected);
 
@@ -135,9 +138,6 @@ namespace Atata
                 VerificationMessage.Of(message, verifier.ResolveEqualityComparer<string>()),
                 expected);
         }
-
-        public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
-            verifier.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
 
         /// <inheritdoc cref="StartWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
         public static TOwner StartWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected) =>
