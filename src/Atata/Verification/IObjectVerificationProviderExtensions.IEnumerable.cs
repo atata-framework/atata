@@ -224,7 +224,23 @@ namespace Atata
         /// <param name="verifier">The verification provider.</param>
         /// <param name="predicateExpression">The predicate expression.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, Expression<Func<TItem, bool>> predicateExpression)
+        public static TOwner ContainSingle<TItem, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            Expression<Func<TItem, bool>> predicateExpression)
+        {
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count(predicate) == 1,
+                $"contain single {Stringifier.ToString(predicateExpression)} item");
+        }
+
+        /// <inheritdoc cref="ContainSingle{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, Expression{Func{TItem, bool}})"/>
+        /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        public static TOwner ContainSingle<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            Expression<Func<TObject, bool>> predicateExpression)
         {
             var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
 
@@ -289,9 +305,25 @@ namespace Atata
         /// <param name="predicateExpression">The predicate expression.</param>
         /// <returns>The owner instance.</returns>
         public static TOwner ContainExactly<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
-        int expectedCount,
-        Expression<Func<TItem, bool>> predicateExpression)
+            this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+            int expectedCount,
+            Expression<Func<TItem, bool>> predicateExpression)
+        {
+            expectedCount.CheckGreaterOrEqual(nameof(expectedCount), 0);
+            var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
+
+            return verifier.Satisfy(
+                actual => actual != null && actual.Count(predicate) == expectedCount,
+                $"contain exactly {expectedCount} {Stringifier.ToString(predicateExpression)} item{(expectedCount != 1 ? "s" : null)}");
+        }
+
+        /// <inheritdoc cref="ContainExactly{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, int, Expression{Func{TItem, bool}})"/>
+        /// <typeparam name="TObject">The type of the collection item.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        public static TOwner ContainExactly<TObject, TOwner>(
+            this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
+            int expectedCount,
+            Expression<Func<TObject, bool>> predicateExpression)
         {
             expectedCount.CheckGreaterOrEqual(nameof(expectedCount), 0);
             var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
