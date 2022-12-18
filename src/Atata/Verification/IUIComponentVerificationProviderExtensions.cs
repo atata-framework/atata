@@ -195,13 +195,13 @@ namespace Atata
         /// <summary>
         /// Verifies that the control is read-only.
         /// </summary>
-        /// <typeparam name="TData">The type of the control's data.</typeparam>
+        /// <typeparam name="TValue">The type of the field control's value.</typeparam>
         /// <typeparam name="TControl">The type of the control.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeReadOnly<TData, TControl, TOwner>(this IFieldVerificationProvider<TData, TControl, TOwner> verifier)
-            where TControl : EditableField<TData, TOwner>
+        public static TOwner BeReadOnly<TValue, TControl, TOwner>(this IFieldVerificationProvider<TValue, TControl, TOwner> verifier)
+            where TControl : EditableField<TValue, TOwner>
             where TOwner : PageObject<TOwner>
         {
             verifier.CheckNotNull(nameof(verifier));
@@ -244,17 +244,17 @@ namespace Atata
         /// <summary>
         /// Verifies that the checkbox list has the specified value(s) checked.
         /// </summary>
-        /// <typeparam name="TData">The type of the control's data.</typeparam>
+        /// <typeparam name="TValue">The type of the field control's value.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <param name="value">The expected value or combination of enumeration flag values.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner HaveChecked<TData, TOwner>(this IFieldVerificationProvider<TData, CheckBoxList<TData, TOwner>, TOwner> verifier, TData value)
+        public static TOwner HaveChecked<TValue, TOwner>(this IFieldVerificationProvider<TValue, CheckBoxList<TValue, TOwner>, TOwner> verifier, TValue value)
             where TOwner : PageObject<TOwner>
         {
             verifier.CheckNotNull(nameof(verifier));
 
-            IEnumerable<TData> expectedIndividualValues = verifier.Component.GetIndividualValues(value);
+            IEnumerable<TValue> expectedIndividualValues = verifier.Component.GetIndividualValues(value);
             string expectedIndividualValuesAsString = verifier.Component.ConvertIndividualValuesToString(expectedIndividualValues, true);
 
             string expectedMessage = new StringBuilder()
@@ -266,7 +266,7 @@ namespace Atata
                 new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
                 () =>
                 {
-                    IEnumerable<TData> actualIndividualValues = null;
+                    IEnumerable<TValue> actualIndividualValues = null;
                     Exception exception = null;
 
                     bool doesSatisfy = VerificationUtils.ExecuteUntil(
