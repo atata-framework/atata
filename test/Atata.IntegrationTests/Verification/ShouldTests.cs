@@ -318,6 +318,18 @@ public class ShouldTests : UITestFixture
     }
 
     [Test]
+    public void BeFocused()
+    {
+        var sut = Go.To<InputPage>()
+            .TelInput;
+
+        sut.Should.Not.BeFocused();
+
+        sut.Focus();
+        sut.Should.BeFocused();
+    }
+
+    [Test]
     public void HaveClass()
     {
         var should = Go.To<TablePage>()

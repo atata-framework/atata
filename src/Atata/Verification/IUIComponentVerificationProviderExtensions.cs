@@ -177,6 +177,22 @@ namespace Atata
         }
 
         /// <summary>
+        /// Verifies that the control is focused.
+        /// </summary>
+        /// <typeparam name="TControl">The type of the control.</typeparam>
+        /// <typeparam name="TOwner">The type of the owner.</typeparam>
+        /// <param name="verifier">The verification provider.</param>
+        /// <returns>The owner instance.</returns>
+        public static TOwner BeFocused<TControl, TOwner>(this IUIComponentVerificationProvider<TControl, TOwner> verifier)
+            where TControl : Control<TOwner>
+            where TOwner : PageObject<TOwner>
+        {
+            verifier.CheckNotNull(nameof(verifier));
+
+            return verifier.Component.IsFocused.Should.WithSettings(verifier).BeTrue();
+        }
+
+        /// <summary>
         /// Verifies that the control is read-only.
         /// </summary>
         /// <typeparam name="TData">The type of the control's data.</typeparam>
