@@ -7,7 +7,7 @@ namespace Atata
     /// Represents the pair of type and property name.
     /// Can be used to identify a property within a class.
     /// </summary>
-    public struct TypePropertyNamePair : IEquatable<TypePropertyNamePair>
+    public readonly struct TypePropertyNamePair : IEquatable<TypePropertyNamePair>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="TypePropertyNamePair"/> struct.
