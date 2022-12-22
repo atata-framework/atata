@@ -1,6 +1,6 @@
 variables:
   buildConfiguration: 'Release'
-  netSdkVersion: '7.0.100'
+  netSdkVersion: '6.x'
 
 jobs:
 - job: BuildAndRunCodeAnalysis
@@ -8,11 +8,14 @@ jobs:
   pool:
     vmImage: windows-latest
   steps:
+  - task: UseDotNet@2
+    displayName: Install .NET SDK
+    inputs:
+      version: $(netSdkVersion)
   - task: DotNetCoreCLI@2
     displayName: Build solution with code analysis
     inputs:
       command: build
-      version: $(netSdkVersion)
       projects: '*.sln'
       arguments: -c $(buildConfiguration) -warnaserror
 
