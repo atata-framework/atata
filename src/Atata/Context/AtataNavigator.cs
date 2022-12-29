@@ -216,11 +216,11 @@ namespace Atata
             if (!options.Temporarily)
                 UIComponentResolver.CleanUpPageObject(currentPageObject);
 
-            if (!string.IsNullOrWhiteSpace(options.Url))
-                Go.ToUrl(options.Url);
-
             if (!string.IsNullOrWhiteSpace(options.WindowName))
                 ((IPageObject)currentPageObject).SwitchToWindow(options.WindowName);
+
+            if (!string.IsNullOrWhiteSpace(options.Url))
+                Go.ToUrl(options.Url);
 
             if (isReturnedFromTemporary)
             {
