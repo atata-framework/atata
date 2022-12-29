@@ -74,5 +74,6 @@
 [assembly: SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.IVerificationProvider`1.TypeEqualityComparerMap")]
 [assembly: SuppressMessage("Usage", "CA2227:Collection properties should be read only", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.VerificationProvider`2.TypeEqualityComparerMap")]
 [assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.VerificationProvider`2.Atata#IVerificationProvider<TOwner>#TypeEqualityComparerMap")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataNavigator.GoToFollowingPageObject``1(Atata.UIComponent,``0,Atata.GoOptions)~``0")]
 
 #pragma warning restore S103 // Lines should not be too long

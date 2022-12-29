@@ -146,15 +146,8 @@ namespace Atata
             ToNewWindow(pageObject, url, temporarily, WindowType.Window);
 
         private T ToNewWindow<T>(T pageObject, string url, bool temporarily, WindowType windowType)
-            where T : PageObject<T>
-        {
-            SetContextAsCurrent();
-            _context.Log.Info($"Switch to new {(windowType == WindowType.Tab ? "tab " : null)}window");
-
-            _context.Driver.SwitchTo().NewWindow(windowType);
-
-            return To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url), Temporarily = temporarily });
-        }
+            where T : PageObject<T> =>
+            To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url), NewWindowType = windowType, Temporarily = temporarily });
 
         private T To<T>(T pageObject, GoOptions options)
             where T : PageObject<T>
@@ -215,6 +208,13 @@ namespace Atata
             // TODO: Review this condition.
             if (!options.Temporarily)
                 UIComponentResolver.CleanUpPageObject(currentPageObject);
+
+            if (options.NewWindowType != null)
+            {
+                _context.Log.Info($"Switch to new {(options.NewWindowType == WindowType.Tab ? "tab " : null)}window");
+
+                _context.Driver.SwitchTo().NewWindow(options.NewWindowType.Value);
+            }
 
             if (!string.IsNullOrWhiteSpace(options.WindowName))
                 ((IPageObject)currentPageObject).SwitchToWindow(options.WindowName);
