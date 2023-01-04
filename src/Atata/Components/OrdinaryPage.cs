@@ -6,6 +6,6 @@
     public class OrdinaryPage : Page<OrdinaryPage>
     {
         public OrdinaryPage(string name = "<ordinary>") =>
-            ComponentName = name;
+            ComponentName = name.CheckNotNullOrEmpty(nameof(name));
     }
 }
