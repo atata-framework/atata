@@ -5,6 +5,14 @@ public class GoTests : UITestFixture
     protected override bool ReuseDriver => false;
 
     [Test]
+    public void To_WithoutUrl()
+    {
+        var page1 = Go.To<OrdinaryPage>();
+        AssertCurrentPageObject(page1);
+        page1.PageUri.Should.Be(new Uri(AtataContext.Current.BaseUrl));
+    }
+
+    [Test]
     public void To_UsingDirectNavigation()
     {
         var page1 = Go.To<GoTo1Page>();
@@ -182,13 +190,13 @@ public class GoTests : UITestFixture
         Go.To<GoTo1Page>();
 
         Go.ToNewWindowAsTab<GoTo2Page>()
-            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+            .PageUri.AbsolutePath.Should.Be("/goto2");
 
         AssertWindowHandlesCount(2);
         AssertNoTemporarilyPreservedPageObjects();
 
         Go.ToPreviousWindow<GoTo1Page>()
-            .PageUri.AbsolutePath.Should.EndWith("/goto1");
+            .PageUri.AbsolutePath.Should.Be("/goto1");
     }
 
     [Test]
@@ -197,13 +205,13 @@ public class GoTests : UITestFixture
         Go.To<GoTo1Page>();
 
         Go.ToNewWindow<GoTo2Page>()
-            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+            .PageUri.AbsolutePath.Should.Be("/goto2");
 
         AssertWindowHandlesCount(2);
         AssertNoTemporarilyPreservedPageObjects();
 
         Go.ToPreviousWindow<GoTo1Page>()
-            .PageUri.AbsolutePath.Should.EndWith("/goto1");
+            .PageUri.AbsolutePath.Should.Be("/goto1");
     }
 
     [Test]
@@ -212,7 +220,7 @@ public class GoTests : UITestFixture
         Go.To<GoTo1Page>();
 
         var page2 = Go.ToNewWindow<ScrollablePage>(url: "/goto2")
-            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+            .PageUri.AbsolutePath.Should.Be("/goto2");
 
         AssertWindowHandlesCount(2);
         AssertNoTemporarilyPreservedPageObjects();
@@ -220,7 +228,7 @@ public class GoTests : UITestFixture
         page2.CloseWindow();
 
         Go.To<GoTo1Page>(navigate: false)
-            .PageUri.AbsolutePath.Should.EndWith("/goto1");
+            .PageUri.AbsolutePath.Should.Be("/goto1");
     }
 
     [Test]
@@ -229,7 +237,7 @@ public class GoTests : UITestFixture
         var page1 = Go.To<GoTo1Page>();
 
         var page2 = Go.ToNewWindow<GoTo2Page>(temporarily: true)
-            .PageUri.AbsolutePath.Should.EndWith("/goto2");
+            .PageUri.AbsolutePath.Should.Be("/goto2");
 
         AssertWindowHandlesCount(2);
         AssertTemporarilyPreservedPageObjects(page1);
