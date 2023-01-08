@@ -323,6 +323,63 @@ namespace Atata
         public TOwner ScrollIntoView() =>
             ExecuteAgainst("arguments[0].scrollIntoView();");
 
+        /// <summary>
+        /// Waits until Angular (v2+) has finished rendering and has no outstanding HTTP calls.
+        /// The specific Angular app is determined by the value of <see cref="AngularSettings.RootSelector"/>,
+        /// which is <c>"[ng-app]"</c> by default.
+        /// </summary>
+        /// <returns>An instance of the owner page object.</returns>
+        public TOwner WaitForAngular() =>
+            WaitForAngular(AngularSettings.RootSelector);
+
+        /// <summary>
+        /// Waits until Angular (v2+) has finished rendering and has no outstanding HTTP calls.
+        /// The specific Angular app is determined by the <paramref name="rootSelector"/>.
+        /// </summary>
+        /// <param name="rootSelector">The root selector.</param>
+        /// <returns>An instance of the owner page object.</returns>
+        public TOwner WaitForAngular(string rootSelector) =>
+            ExecuteAsync(
+                @"
+var rootSelector = arguments[0];
+var callback = arguments[1];
+
+if (window.getAngularTestability) {
+  if (rootSelector) {
+    var testability = null;
+    var el = document.querySelector(rootSelector);
+    try {
+      testability = window.getAngularTestability(el);
+    }
+    catch (e) { }
+    if (testability) {
+      testability.whenStable(callback);
+      return;
+    }
+  }
+
+  var testabilities = window.getAllAngularTestabilities();
+  var count = testabilities.length;
+
+  if (count === 0) {
+    callback();
+    return;
+  }
+
+  var decrement = function () {
+    count--;
+    if (count === 0) {
+      callback();
+    }
+  };
+  testabilities.forEach(function (testability) {
+    testability.whenStable(decrement);
+  });
+
+}
+else { callback(); }",
+                rootSelector);
+
         private TResult ConvertResult<TResult>(object result)
         {
             IObjectConverter objectConverter = Component.Context.ObjectConverter;
