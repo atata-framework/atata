@@ -24,7 +24,6 @@ namespace Atata
                 ?? throw new InvalidOperationException(
                     $"Cannot instantiate {GetType().Name} because {nameof(AtataContext)}.{nameof(AtataContext.Current)} is null.");
 
-            NavigateOnInit = true;
             ScopeLocator = new PlainScopeLocator(CreateScopeBy);
 
             Owner = (TOwner)this;
@@ -34,6 +33,11 @@ namespace Atata
             PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
 
             UIComponentResolver.InitPageObject<TOwner>(this);
+
+            ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
+            ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
+
+            NavigationUrl = Metadata.Get<UrlAttribute>()?.Url;
         }
 
         /// <inheritdoc/>
@@ -68,7 +72,14 @@ namespace Atata
         /// <summary>
         /// Gets a value indicating whether the navigation should be performed upon initialization.
         /// </summary>
-        protected internal bool NavigateOnInit { get; internal set; }
+        // TODO: Atata v3. Remove NavigateOnInit property.
+        [Obsolete("Don't use NavigateOnInit property, as it will be removed.")] // Obsolete since v2.6.0.
+        protected internal bool NavigateOnInit { get; internal set; } = true;
+
+        /// <summary>
+        /// Gets or sets the navigation URL, which can be used during page object initialization.
+        /// </summary>
+        protected internal string NavigationUrl { get; set; }
 
         /// <summary>
         /// Gets a value indicating whether this instance is temporarily navigated using <see cref="GoTemporarilyAttribute"/> or other approach.
@@ -144,21 +155,19 @@ namespace Atata
 
         internal void Init()
         {
-            if (string.IsNullOrEmpty(ComponentName))
-                ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
-
-            ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
-
-            Log.Info($"Go to {ComponentFullName}");
-
+#pragma warning disable CS0618 // Type or member is obsolete
             InitComponent();
 
             if (NavigateOnInit)
                 Navigate();
+#pragma warning restore CS0618 // Type or member is obsolete
 
             OnInit();
             Context.EventBus.Publish(new PageObjectInitEvent(this));
+        }
 
+        internal void CompleteInit()
+        {
             ExecuteTriggers(TriggerEvents.Init);
 
             OnInitCompleted();
@@ -171,14 +180,31 @@ namespace Atata
         {
         }
 
+        // TODO: Atata v3. Remove Navigate method.
+        [Obsolete(
+            "Don't override/use Navigate method, as it will be removed. " +
+            "Instead, specify a navigation URL in a page object constructor by setting a URL value into NavigationUrl property.")] // Obsolete since v2.6.0.
         protected virtual void Navigate()
         {
-            string url = Metadata.Get<UrlAttribute>()?.Url;
+        }
 
-            if (url != null || !Context.IsNavigated)
-            {
-                Go.ToUrl(url);
-            }
+        /// <summary>
+        /// Appends the value to <see cref="NavigationUrl"/>.
+        /// </summary>
+        /// <param name="urlPart">The URL part.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner AppendNavigationUrl(string urlPart) =>
+            SetNavigationUrl(NavigationUrl is null ? urlPart : NavigationUrl + urlPart);
+
+        /// <summary>
+        /// Sets the <see cref="NavigationUrl"/>.
+        /// </summary>
+        /// <param name="url">The URL.</param>
+        /// <returns>The instance of this page object.</returns>
+        public TOwner SetNavigationUrl(string url)
+        {
+            NavigationUrl = url;
+            return (TOwner)this;
         }
 
         void IPageObject.SwitchToWindow(string windowHandle) =>

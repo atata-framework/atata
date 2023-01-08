@@ -174,6 +174,8 @@ return (
                 child.OnInitCompleted();
         }
 
+        // TODO: Atata v3. Remove InitComponent method.
+        [Obsolete("Don't override/use InitComponent method, as it will be removed.")] // Obsolete since v2.6.0.
         protected internal virtual void InitComponent() =>
             UIComponentResolver.Resolve(this);
 

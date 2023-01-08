@@ -34,6 +34,17 @@ namespace Atata
             To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url) && navigate, Temporarily = temporarily });
 
         /// <summary>
+        /// Navigates to the window by name.
+        /// </summary>
+        /// <typeparam name="T">The type of the page object.</typeparam>
+        /// <param name="windowName">Name of the browser window.</param>
+        /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
+        /// <returns>The page object.</returns>
+        public T ToWindow<T>(string windowName, bool temporarily = false)
+            where T : PageObject<T> =>
+            ToWindow<T>(null, windowName, temporarily);
+
+        /// <summary>
         /// Navigates to the window with the specified page object by name.
         /// </summary>
         /// <typeparam name="T">The type of the page object.</typeparam>
@@ -47,25 +58,16 @@ namespace Atata
             where T : PageObject<T>
         {
             SetContextAsCurrent();
-            _context.Log.Info($"Switch to \"{windowName}\" window");
 
-            return To(pageObject, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
-        }
-
-        /// <summary>
-        /// Navigates to the window by name.
-        /// </summary>
-        /// <typeparam name="T">The type of the page object.</typeparam>
-        /// <param name="windowName">Name of the browser window.</param>
-        /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
-        /// <returns>The page object.</returns>
-        public T ToWindow<T>(string windowName, bool temporarily = false)
-            where T : PageObject<T>
-        {
-            SetContextAsCurrent();
-            _context.Log.Info($"Switch to \"{windowName}\" window");
-
-            return To<T>(null, new GoOptions { Navigate = false, WindowName = windowName, Temporarily = temporarily });
+            return To(
+                pageObject,
+                new GoOptions
+                {
+                    Navigate = false,
+                    WindowNameResolver = () => windowName,
+                    NavigationTarget = $"in \"{windowName}\" window",
+                    Temporarily = temporarily
+                });
         }
 
         /// <summary>
@@ -81,15 +83,25 @@ namespace Atata
             where T : PageObject<T>
         {
             SetContextAsCurrent();
-            _context.Log.Info("Switch to next window");
 
+            return To(
+                pageObject,
+                new GoOptions
+                {
+                    Navigate = false,
+                    WindowNameResolver = GetNextWindowHandle,
+                    NavigationTarget = "in next window",
+                    Temporarily = temporarily
+                });
+        }
+
+        private string GetNextWindowHandle()
+        {
             string currentWindowHandle = _context.Driver.CurrentWindowHandle;
 
-            string nextWindowHandle = _context.Driver.WindowHandles
+            return _context.Driver.WindowHandles
                 .SkipWhile(x => x != currentWindowHandle)
                 .ElementAt(1);
-
-            return To(pageObject, new GoOptions { Navigate = false, WindowName = nextWindowHandle, Temporarily = temporarily });
         }
 
         /// <summary>
@@ -105,16 +117,26 @@ namespace Atata
             where T : PageObject<T>
         {
             SetContextAsCurrent();
-            _context.Log.Info("Switch to previous window");
 
+            return To(
+                pageObject,
+                new GoOptions
+                {
+                    Navigate = false,
+                    WindowNameResolver = GetPreviousWindowHandle,
+                    NavigationTarget = "in previous window",
+                    Temporarily = temporarily
+                });
+        }
+
+        private string GetPreviousWindowHandle()
+        {
             string currentWindowHandle = _context.Driver.CurrentWindowHandle;
 
-            string previousWindowHandle = _context.Driver.WindowHandles
+            return _context.Driver.WindowHandles
                 .Reverse()
                 .SkipWhile(x => x != currentWindowHandle)
                 .ElementAt(1);
-
-            return To(pageObject, new GoOptions { Navigate = false, WindowName = previousWindowHandle, Temporarily = temporarily });
         }
 
         /// <summary>
@@ -147,7 +169,16 @@ namespace Atata
 
         private T ToNewWindow<T>(T pageObject, string url, bool temporarily, WindowType windowType)
             where T : PageObject<T> =>
-            To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url), NewWindowType = windowType, Temporarily = temporarily });
+            To(
+                pageObject,
+                new GoOptions
+                {
+                    Url = url,
+                    Navigate = string.IsNullOrWhiteSpace(url),
+                    NewWindowType = windowType,
+                    NavigationTarget = $"in new {(windowType == WindowType.Tab ? "tab " : null)}window",
+                    Temporarily = temporarily
+                });
 
         private T To<T>(T pageObject, GoOptions options)
             where T : PageObject<T>
@@ -167,11 +198,26 @@ namespace Atata
             pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
             _context.PageObject = pageObject;
 
-            if (!string.IsNullOrWhiteSpace(options.Url))
-                ToUrl(options.Url);
+            string navigationUrl = NormalizeAsAbsoluteUrlSafely(
+                options.Navigate ? pageObject.NavigationUrl : options.Url);
 
-            pageObject.NavigateOnInit = options.Navigate;
-            pageObject.Init();
+            if (string.IsNullOrEmpty(navigationUrl))
+                navigationUrl = _context.BaseUrl;
+
+            _context.Log.ExecuteSection(
+                new GoToPageObjectLogSection(pageObject, navigationUrl, options.NavigationTarget),
+                () =>
+                {
+                    ToUrl(navigationUrl, false);
+
+#pragma warning disable CS0618 // Type or member is obsolete
+                    pageObject.NavigateOnInit = options.Navigate;
+#pragma warning restore CS0618 // Type or member is obsolete
+                    pageObject.Init();
+                });
+
+            pageObject.CompleteInit();
+
             return pageObject;
         }
 
@@ -188,11 +234,11 @@ namespace Atata
             if (!isReturnedFromTemporary)
             {
                 if (!options.Temporarily)
-                {
                     _context.CleanUpTemporarilyPreservedPageObjectList();
-                }
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 nextPageObject.NavigateOnInit = options.Navigate;
+#pragma warning restore CS0618 // Type or member is obsolete
 
                 if (options.Temporarily)
                 {
@@ -209,31 +255,39 @@ namespace Atata
             if (!options.Temporarily)
                 UIComponentResolver.CleanUpPageObject(currentPageObject);
 
-            if (options.NewWindowType != null)
-            {
-                _context.Log.Info($"Switch to new {(options.NewWindowType == WindowType.Tab ? "tab " : null)}window");
+            string navigationUrl = NormalizeAsAbsoluteUrlSafely(
+                options.Navigate ? nextPageObject.NavigationUrl : options.Url);
 
-                _context.Driver.SwitchTo().NewWindow(options.NewWindowType.Value);
-            }
+            _context.Log.ExecuteSection(
+                new GoToPageObjectLogSection(nextPageObject, navigationUrl, options.NavigationTarget),
+                () =>
+                {
+                    if (options.NewWindowType != null)
+                        SwitchToNewWindow(options.NewWindowType.Value);
 
-            if (!string.IsNullOrWhiteSpace(options.WindowName))
-                ((IPageObject)currentPageObject).SwitchToWindow(options.WindowName);
+                    if (options.WindowNameResolver != null)
+                        ((IPageObject)currentPageObject).SwitchToWindow(options.WindowNameResolver.Invoke());
 
-            if (!string.IsNullOrWhiteSpace(options.Url))
-                Go.ToUrl(options.Url);
+                    if (!string.IsNullOrWhiteSpace(navigationUrl))
+                        ToUrl(navigationUrl, false);
 
-            if (isReturnedFromTemporary)
-            {
-                _context.Log.Info("Go to {0}", nextPageObject.ComponentFullName);
-            }
-            else
-            {
-                nextPageObject.PreviousPageObject = currentPageObject;
-                nextPageObject.Init();
-            }
+                    if (!isReturnedFromTemporary)
+                    {
+                        nextPageObject.PreviousPageObject = currentPageObject;
+                        nextPageObject.Init();
+                    }
+                });
+
+            if (!isReturnedFromTemporary)
+                nextPageObject.CompleteInit();
 
             return nextPageObject;
         }
+
+        private void SwitchToNewWindow(WindowType windowType) =>
+            _context.Log.ExecuteSection(
+                new LogSection($"Switch to new {(windowType == WindowType.Tab ? "tab " : null)}window", LogLevel.Trace),
+                (Action)(() => _context.Driver.SwitchTo().NewWindow(windowType)));
 
         private bool TryResolvePreviousPageObjectNavigatedTemporarily<TPageObject>(ref TPageObject pageObject)
             where TPageObject : PageObject<TPageObject>
@@ -271,6 +325,9 @@ namespace Atata
         /// </summary>
         /// <param name="url">The URL.</param>
         public void ToUrl(string url)
+            => ToUrl(url, true);
+
+        private void ToUrl(string url, bool logAsInfo)
         {
             SetContextAsCurrent();
 
@@ -299,12 +356,18 @@ namespace Atata
                 }
             }
 
-            Navigate(absoluteUrl);
+            _context.Log.ExecuteSection(
+                new GoToUrlLogSection(absoluteUrl, logAsInfo),
+                () => Navigate(absoluteUrl));
         }
+
+        private string NormalizeAsAbsoluteUrlSafely(string url) =>
+            !string.IsNullOrEmpty(url) && !UriUtils.TryCreateAbsoluteUrl(url, out _) && _context.BaseUrl != null
+                ? UriUtils.Concat(_context.BaseUrl, url).ToString()
+                : url;
 
         private void Navigate(Uri uri)
         {
-            _context.Log.Info($"Go to URL \"{uri}\"");
             _context.Driver.Navigate().GoToUrl(uri);
             _context.IsNavigated = true;
         }
