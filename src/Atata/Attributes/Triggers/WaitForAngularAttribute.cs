@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates that the waiting should be performed until the Angular (v2+) AJAX is completed.
+    /// Indicates to wait until Angular (v2+) has finished rendering and has no outstanding HTTP calls.
     /// By default occurs after the click.
     /// </summary>
     public class WaitForAngularAttribute : TriggerAttribute
