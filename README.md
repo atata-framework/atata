@@ -14,7 +14,7 @@ It uses fluent page object pattern.
 
 *The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.*
 
-- **[What's new in v2.5.0](https://atata.io/blog/2022/12/22/atata-2.5.0-released/)**
+- **[What's new in v2.6.0](https://atata.io/blog/2023/01/09/atata-2.6.0-released/)**
 - **[Migrating to Atata v2](https://atata.io/tutorials/migrating-to-atata-v2/)**
 
 ## Features
