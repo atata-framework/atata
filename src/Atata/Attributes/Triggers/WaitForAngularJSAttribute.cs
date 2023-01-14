@@ -1,7 +1,7 @@
 ﻿namespace Atata
 {
     /// <summary>
-    /// Indicates to wait until Angular (v1) has finished rendering and has no outstanding HTTP calls.
+    /// Indicates to wait until AngularJS (v1) has finished rendering and has no outstanding HTTP calls.
     /// By default occurs after the click.
     /// </summary>
     public class WaitForAngularJSAttribute : WaitForScriptAttribute
