@@ -127,7 +127,7 @@ Actual: {driverFactory.GetType().FullName}",
         }
 
         /// <summary>
-        /// Use specified driver instance.
+        /// Use the specified driver instance.
         /// </summary>
         /// <param name="driver">The driver to use.</param>
         /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
@@ -139,7 +139,7 @@ Actual: {driverFactory.GetType().FullName}",
         }
 
         /// <summary>
-        /// Use custom driver factory method.
+        /// Use the custom driver factory method.
         /// </summary>
         /// <param name="driverFactory">The driver factory method.</param>
         /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
