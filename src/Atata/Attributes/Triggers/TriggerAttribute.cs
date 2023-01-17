@@ -2,6 +2,7 @@
 {
     /// <summary>
     /// Represents the base attribute class for the triggers.
+    /// An inherited class should implement <see cref="Execute{TOwner}(TriggerContext{TOwner})"/> method.
     /// </summary>
     public abstract class TriggerAttribute : MulticastAttribute
     {
