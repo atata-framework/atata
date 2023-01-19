@@ -71,6 +71,40 @@ public class GoTests : UITestFixture
     }
 
     [Test]
+    public void To_WithNavigateTrue()
+    {
+        Go.To<GoTo1Page>();
+
+        Go.To(new OrdinaryPage().SetNavigationUrl("/goto2"))
+            .PageUri.AbsolutePath.Should.Be("/goto2");
+    }
+
+    [Test]
+    public void To_WithNavigateFalse()
+    {
+        Go.To<GoTo1Page>();
+
+        Go.To(new OrdinaryPage().SetNavigationUrl("/goto2"), navigate: false)
+            .PageUri.AbsolutePath.Should.Be("/goto1");
+    }
+
+    [Test]
+    public void To_WithNavigateFalse_InReusedDriver()
+    {
+        Go.To<GoTo1Page>();
+
+        var driver = AtataContext.Current.Driver;
+        AtataContext.Current.CleanUp(false);
+
+        ConfigureBaseAtataContext()
+            .UseDriver(driver)
+            .Build();
+
+        Go.To(new OrdinaryPage().SetNavigationUrl("/goto2"), navigate: false)
+            .PageUri.AbsolutePath.Should.Be("/goto1");
+    }
+
+    [Test]
     public void To_WithTemporarilyTrue()
     {
         var page1 = Go.To<GoTo1Page>();
@@ -264,5 +298,64 @@ public class GoTests : UITestFixture
     {
         Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
         Assert.That(AtataContext.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
+    }
+
+    public class WithoutBaseUrl : UITestFixtureBase
+    {
+        [SetUp]
+        public void SetUp() =>
+            ConfigureBaseAtataContext()
+                .UseBaseUrl(null)
+                .Build();
+
+        [Test]
+        public void To_WithoutUrl_WhenNotNavigated()
+        {
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                Go.To<OrdinaryPage>());
+
+            exception.Message.Should().StartWith("Cannot navigate to empty or null URL.");
+        }
+
+        [Test]
+        public void To_WithoutUrl_WhenNavigated()
+        {
+            Go.To<OrdinaryPage>(url: BaseUrl + "/goto1");
+
+            Go.To<OrdinaryPage>()
+                .PageUri.Should.Be(new Uri(BaseUrl + "/goto1"));
+        }
+
+        [Test]
+        public void To_WithRelativeUrl_WhenNotNavigated()
+        {
+            var exception = Assert.Throws<InvalidOperationException>(() =>
+                Go.To<OrdinaryPage>(url: "/goto1"));
+
+            exception.Message.Should().StartWith("Cannot navigate to relative URL \"/goto1\".");
+        }
+
+        [Test]
+        public void To_WithRelativeUrl_WhenNavigated()
+        {
+            Go.To<OrdinaryPage>(url: BaseUrl + "/goto1");
+
+            Go.To<OrdinaryPage>(url: "/goto2")
+                .PageUri.Should.Be(new Uri(BaseUrl + "/goto2"));
+        }
+
+        [Test]
+        public void To_WithAbsoulteUrl_WhenNotNavigated() =>
+            Go.To<OrdinaryPage>(url: BaseUrl + "/goto1")
+                .PageUri.Should.Be(new Uri(BaseUrl + "/goto1"));
+
+        [Test]
+        public void To_WithAbsoluteUrl_WhenNavigated()
+        {
+            Go.To<OrdinaryPage>(url: BaseUrl + "/goto1");
+
+            Go.To<OrdinaryPage>(url: BaseUrl + "/goto2")
+                .PageUri.Should.Be(new Uri(BaseUrl + "/goto2"));
+        }
     }
 }

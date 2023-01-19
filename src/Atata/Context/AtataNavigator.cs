@@ -199,16 +199,18 @@ namespace Atata
             _context.PageObject = pageObject;
 
             string navigationUrl = NormalizeAsAbsoluteUrlSafely(
-                options.Navigate ? pageObject.NavigationUrl : options.Url);
-
-            if (string.IsNullOrEmpty(navigationUrl))
-                navigationUrl = _context.BaseUrl;
+                options.Navigate
+                    ? string.IsNullOrEmpty(pageObject.NavigationUrl)
+                        ? _context.BaseUrl
+                        : pageObject.NavigationUrl
+                    : options.Url);
 
             _context.Log.ExecuteSection(
                 new GoToPageObjectLogSection(pageObject, navigationUrl, options.NavigationTarget),
                 () =>
                 {
-                    ToUrl(navigationUrl, false);
+                    if (!string.IsNullOrEmpty(navigationUrl) || options.Navigate)
+                        ToUrl(navigationUrl, false);
 
 #pragma warning disable CS0618 // Type or member is obsolete
                     pageObject.NavigateOnInit = options.Navigate;
@@ -268,7 +270,7 @@ namespace Atata
                     if (options.WindowNameResolver != null)
                         ((IPageObject)currentPageObject).SwitchToWindow(options.WindowNameResolver.Invoke());
 
-                    if (!string.IsNullOrWhiteSpace(navigationUrl))
+                    if (!string.IsNullOrEmpty(navigationUrl))
                         ToUrl(navigationUrl, false);
 
                     if (!isReturnedFromTemporary)
