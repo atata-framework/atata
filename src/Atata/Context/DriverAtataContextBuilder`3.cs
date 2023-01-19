@@ -276,6 +276,7 @@ namespace Atata
 
         /// <summary>
         /// Specifies the command timeout (the maximum amount of time to wait for each command).
+        /// The default timeout is 60 seconds.
         /// </summary>
         /// <param name="commandTimeout">The maximum amount of time to wait for each command.</param>
         /// <returns>The same builder instance.</returns>
