@@ -58,8 +58,21 @@ namespace Atata
             }
             catch
             {
-                service?.Dispose();
+                DisposeServiceSafely(service);
+
                 throw;
+            }
+        }
+
+        private static void DisposeServiceSafely(TService service)
+        {
+            try
+            {
+                service?.Dispose();
+            }
+            catch (Exception exception)
+            {
+                AtataContext.Current?.Log.Error($"{service.GetType().Name}.Dispose() failed", exception);
             }
         }
 
