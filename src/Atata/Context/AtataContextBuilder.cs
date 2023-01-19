@@ -457,7 +457,7 @@ Actual: {driverFactory.GetType().FullName}",
         }
 
         /// <summary>
-        /// Sets the factory method of the test suite name.
+        /// Sets the factory method of the test suite (fixture/class) name.
         /// </summary>
         /// <param name="testSuiteNameFactory">The factory method of the test suite name.</param>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
