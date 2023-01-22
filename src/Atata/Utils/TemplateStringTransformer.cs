@@ -12,6 +12,8 @@ namespace Atata
     {
         private static readonly Regex s_variableMatchRegex = new Regex(@"{\D[^}]*}");
 
+        private static readonly char[] s_braces = new[] { '{', '}' };
+
         /// <summary>
         /// Determines whether the template has any variable and can be transformed.
         /// </summary>
@@ -20,7 +22,7 @@ namespace Atata
         /// <c>true</c> if the template can be transformed; otherwise, <c>false</c>.
         /// </returns>
         public static bool CanTransform(string template) =>
-            template?.Contains('{') ?? false;
+            template != null && template.IndexOfAny(s_braces) >= 0;
 
         /// <summary>
         /// Transforms the specified template by filling it with variables.

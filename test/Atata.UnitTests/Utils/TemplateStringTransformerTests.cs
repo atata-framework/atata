@@ -33,6 +33,20 @@ public static class TemplateStringTransformerTests
                 .ValueOf(x => x.Message).Should.Be($"Template \"{template}\" string is not in a correct format.");
         }
 
+        [TestCase("a{{b", ExpectedResult = "a{b")]
+        [TestCase("a}}b", ExpectedResult = "a}b")]
+        [TestCase("a{{b}}c", ExpectedResult = "a{b}c")]
+        [TestCase("{{{a}}}", ExpectedResult = "{1}")]
+        public string WithDoubleBraces(string template)
+        {
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = 1
+            };
+
+            return Act(template, variables);
+        }
+
         [Test]
         public void WithStringAndIntVariables()
         {
