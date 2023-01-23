@@ -45,11 +45,21 @@ public class UriProviderTests : UITestFixture
 
     [Test]
     public void Fragment() =>
-        Go.To<OrdinaryPage>(url: "/index#anchor")
+        Go.To<OrdinaryPage>(url: "/index?q=1#anchor")
             .PageUri.Fragment.Should.Equal("#anchor");
 
     [Test]
     public void AbsolutePath() =>
-        Go.To<OrdinaryPage>(url: "/index#anchor")
+        Go.To<OrdinaryPage>(url: "/index?q=1#anchor")
             .PageUri.AbsolutePath.Should.Equal("/index");
+
+    [Test]
+    public void PathAndQuery() =>
+        Go.To<OrdinaryPage>(url: "/index?q=1#anchor")
+            .PageUri.PathAndQuery.Should.Equal("/index?q=1");
+
+    [Test]
+    public void Relative() =>
+        Go.To<OrdinaryPage>(url: "/index?q=1#anchor")
+            .PageUri.Relative.Should.Equal("/index?q=1#anchor");
 }

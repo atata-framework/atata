@@ -38,5 +38,21 @@ namespace Atata
         /// </summary>
         public ValueProvider<string, TOwner> AbsolutePath =>
             _component.CreateValueProvider("URI absolute path", () => Value.AbsolutePath);
+
+        /// <summary>
+        /// Gets the absolute path and query provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"/some/path?arg=val"</c>.
+        /// </summary>
+        public ValueProvider<string, TOwner> PathAndQuery =>
+            _component.CreateValueProvider("URI path with query", () => Value.PathAndQuery);
+
+        /// <summary>
+        /// Gets the relative URI provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"/some/path?arg=val#frg"</c>.
+        /// </summary>
+        public ValueProvider<string, TOwner> Relative =>
+            _component.CreateValueProvider(
+                "relative URI",
+                () => Value.GetComponents(UriComponents.Path | UriComponents.Query | UriComponents.Fragment, UriFormat.Unescaped));
     }
 }
