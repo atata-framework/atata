@@ -626,6 +626,7 @@ namespace Atata
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
         /// <para>
         /// The list of predefined variables:
         /// <list type="bullet">
@@ -661,6 +662,7 @@ namespace Atata
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
         /// <para>
         /// The list of predefined variables:
         /// <list type="bullet">

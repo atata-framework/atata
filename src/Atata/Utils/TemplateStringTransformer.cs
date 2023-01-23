@@ -19,7 +19,7 @@ namespace Atata
         /// </summary>
         /// <param name="template">The template.</param>
         /// <returns>
-        /// <c>true</c> if the template can be transformed; otherwise, <c>false</c>.
+        /// <see langword="true"/> if the template can be transformed; otherwise, <see langword="false"/>.
         /// </returns>
         public static bool CanTransform(string template) =>
             template != null && template.IndexOfAny(s_braces) >= 0;
@@ -30,6 +30,7 @@ namespace Atata
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
         /// </summary>
         /// <param name="template">The template.</param>
         /// <param name="variables">The variables.</param>
@@ -44,6 +45,7 @@ namespace Atata
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
         /// </summary>
         /// <param name="template">The template.</param>
         /// <param name="variables">The variables.</param>
