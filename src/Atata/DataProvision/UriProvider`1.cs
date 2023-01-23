@@ -24,17 +24,20 @@ namespace Atata
 
         /// <summary>
         /// Gets the query parameters provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"?arg=val"</c>.
         /// </summary>
         public UriQueryProvider<TOwner> Query { get; }
 
         /// <summary>
         /// Gets the fragment provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"#frg"</c>.
         /// </summary>
         public ValueProvider<string, TOwner> Fragment =>
             _component.CreateValueProvider("URI fragment", () => Value.Fragment);
 
         /// <summary>
-        /// Gets the absolute path provider of the URL.
+        /// Gets the absolute path provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"/some/path"</c>.
         /// </summary>
         public ValueProvider<string, TOwner> AbsolutePath =>
             _component.CreateValueProvider("URI absolute path", () => Value.AbsolutePath);
