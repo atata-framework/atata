@@ -1,17 +1,27 @@
-﻿namespace Atata
+﻿using System;
+
+namespace Atata
 {
     /// <summary>
     /// Specifies the URL to navigate to during initialization of page object.
     /// Applies to page object types.
+    /// The URL can be either absolute or relative.
+    /// In case of relative URL, it is concatenated with the <see cref="AtataContext.BaseUrl"/>.
+    /// The URL can be represented in a template format, like <c>"/organization/{OrganizationId}/details"</c>.
+    /// The template is filled with <see cref="AtataContext.Variables"/>.
+    /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
     /// </summary>
     public class UrlAttribute : MulticastAttribute
     {
-        public UrlAttribute(string url) =>
-            Url = url;
+        public UrlAttribute(string value) =>
+            Value = value;
+
+        [Obsolete("Use " + nameof(Value) + " instead.")] // Obsolete since v2.7.0.
+        public string Url => Value;
 
         /// <summary>
-        /// Gets the URL to navigate to.
+        /// Gets the URL value.
         /// </summary>
-        public string Url { get; }
+        public string Value { get; }
     }
 }

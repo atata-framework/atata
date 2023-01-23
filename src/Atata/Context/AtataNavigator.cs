@@ -198,12 +198,16 @@ namespace Atata
             pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
             _context.PageObject = pageObject;
 
-            string navigationUrl = NormalizeAsAbsoluteUrlSafely(
-                options.Navigate
-                    ? string.IsNullOrEmpty(pageObject.NavigationUrl)
-                        ? _context.BaseUrl
-                        : pageObject.NavigationUrl
-                    : options.Url);
+            string navigationUrl = options.Navigate
+                ? string.IsNullOrEmpty(pageObject.NavigationUrl)
+                    ? _context.BaseUrl
+                    : pageObject.NavigationUrl
+                : options.Url;
+
+            if (!string.IsNullOrEmpty(navigationUrl))
+                navigationUrl = _context.FillTemplateString(navigationUrl);
+
+            navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
 
             _context.Log.ExecuteSection(
                 new GoToPageObjectLogSection(pageObject, navigationUrl, options.NavigationTarget),
@@ -257,8 +261,14 @@ namespace Atata
             if (!options.Temporarily)
                 UIComponentResolver.CleanUpPageObject(currentPageObject);
 
-            string navigationUrl = NormalizeAsAbsoluteUrlSafely(
-                options.Navigate ? nextPageObject.NavigationUrl : options.Url);
+            string navigationUrl = options.Navigate
+                ? nextPageObject.NavigationUrl
+                : options.Url;
+
+            if (!string.IsNullOrEmpty(navigationUrl))
+                navigationUrl = _context.FillTemplateString(navigationUrl);
+
+            navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
 
             _context.Log.ExecuteSection(
                 new GoToPageObjectLogSection(nextPageObject, navigationUrl, options.NavigationTarget),

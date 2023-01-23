@@ -37,7 +37,7 @@ namespace Atata
             ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
             ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
 
-            NavigationUrl = Metadata.Get<UrlAttribute>()?.Url;
+            NavigationUrl = Metadata.Get<UrlAttribute>()?.Value;
         }
 
         /// <inheritdoc/>

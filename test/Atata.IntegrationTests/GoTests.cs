@@ -23,6 +23,37 @@ public class GoTests : UITestFixture
     }
 
     [Test]
+    public void To_UsingDirectNavigation_WhenUrlIsTemplated()
+    {
+        AtataContext.Current.Variables["GoToNumber"] = 2;
+        AtataContext.Current.Variables["GoToArg"] = 42;
+        AtataContext.Current.Variables["GoToFragment"] = "fragment";
+
+        Go.To<PageWithTemplatedUrl>()
+            .PageUri.Relative.Should.Be("/goto2?arg=42#fragment");
+    }
+
+    [Test]
+    public void To_UsingDirectNavigation_WhenUrlIsTemplated_AndNoVariable()
+    {
+        AtataContext.Current.Variables["GoToNumber"] = 2;
+
+        var exception = Assert.Throws<FormatException>(
+            () => Go.To<PageWithTemplatedUrl>());
+
+        exception.Message.Should().Contain(@"{GoToArg}");
+    }
+
+    [Test]
+    public void To_UsingRelativeUrlNavigation_WhenUrlIsTemplated()
+    {
+        AtataContext.Current.Variables["GoToArg"] = 42;
+
+        Go.To<GoTo1Page>(url: "/goto1?q={GoToArg}")
+            .PageUri.Relative.Should.Be("/goto1?q=42");
+    }
+
+    [Test]
     public void To_UsingLinkNavigation()
     {
         GoTo1Page page1 = Go.To<GoTo1Page>();
@@ -357,5 +388,10 @@ public class GoTests : UITestFixture
             Go.To<OrdinaryPage>(url: BaseUrl + "/goto2")
                 .PageUri.Should.Be(new Uri(BaseUrl + "/goto2"));
         }
+    }
+
+    [Url("/goto{GoToNumber}?arg={GoToArg}#{GoToFragment}")]
+    public class PageWithTemplatedUrl : Page<PageWithTemplatedUrl>
+    {
     }
 }
