@@ -31,7 +31,10 @@ namespace Atata
         /// <returns>The page object.</returns>
         public T To<T>(T pageObject = null, string url = null, bool navigate = true, bool temporarily = false)
             where T : PageObject<T> =>
-            To(pageObject, new GoOptions { Url = url, Navigate = string.IsNullOrWhiteSpace(url) && navigate, Temporarily = temporarily });
+            To(pageObject, new GoOptions { Url = url, Navigate = navigate && !IsUrlHasPath(url), Temporarily = temporarily });
+
+        private static bool IsUrlHasPath(string url) =>
+            !string.IsNullOrWhiteSpace(url) && url[0] != '?' && url[0] != '&' && url[0] != ';' && url[0] != '#';
 
         /// <summary>
         /// Navigates to the window by name.
@@ -174,7 +177,7 @@ namespace Atata
                 new GoOptions
                 {
                     Url = url,
-                    Navigate = string.IsNullOrWhiteSpace(url),
+                    Navigate = !IsUrlHasPath(url),
                     NewWindowType = windowType,
                     NavigationTarget = $"in new {(windowType == WindowType.Tab ? "tab " : null)}window",
                     Temporarily = temporarily
@@ -204,10 +207,7 @@ namespace Atata
                     : pageObject.NavigationUrl
                 : options.Url;
 
-            if (!string.IsNullOrEmpty(navigationUrl))
-                navigationUrl = _context.FillTemplateString(navigationUrl);
-
-            navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
+            navigationUrl = PrepareNavigationUrl(navigationUrl, options);
 
             _context.Log.ExecuteSection(
                 new GoToPageObjectLogSection(pageObject, navigationUrl, options.NavigationTarget),
@@ -265,10 +265,7 @@ namespace Atata
                 ? nextPageObject.NavigationUrl
                 : options.Url;
 
-            if (!string.IsNullOrEmpty(navigationUrl))
-                navigationUrl = _context.FillTemplateString(navigationUrl);
-
-            navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
+            navigationUrl = PrepareNavigationUrl(navigationUrl, options);
 
             _context.Log.ExecuteSection(
                 new GoToPageObjectLogSection(nextPageObject, navigationUrl, options.NavigationTarget),
@@ -294,6 +291,22 @@ namespace Atata
                 nextPageObject.CompleteInit();
 
             return nextPageObject;
+        }
+
+        private string PrepareNavigationUrl(string navigationUrl, GoOptions options)
+        {
+            if (!string.IsNullOrEmpty(navigationUrl))
+                navigationUrl = _context.FillTemplateString(navigationUrl);
+
+            navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
+
+            if (options.Navigate && !string.IsNullOrEmpty(options.Url))
+            {
+                string additionalUrl = _context.FillTemplateString(options.Url);
+                navigationUrl = UriUtils.MergeAsString(navigationUrl, additionalUrl);
+            }
+
+            return navigationUrl;
         }
 
         private void SwitchToNewWindow(WindowType windowType) =>

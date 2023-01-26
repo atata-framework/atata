@@ -7,5 +7,8 @@
 [assembly: SuppressMessage("Major Code Smell", "S1144:Unused private types or members should be removed", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.TriggersPage.WriteTriggerEventAttribute.Execute(Atata.TriggerContext{Atata.IntegrationTests.TriggersPage})")]
 [assembly: SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.TriggersPage.WriteTriggerEventAttribute.Execute(Atata.TriggerContext{Atata.IntegrationTests.TriggersPage})")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.RandomizationTests.Int")]
+[assembly: SuppressMessage("Design", "CA1055:URI-like return values should not be strings", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.GoTests.To_UsingCombinedUrl_WhenNavigaionUrlIsNull(System.String)~System.String")]
+[assembly: SuppressMessage("Design", "CA1055:URI-like return values should not be strings", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.GoTests.To_UsingCombinedUrl_WhenNavigaionUrlHasOnlyPath(System.String)~System.String")]
+[assembly: SuppressMessage("Design", "CA1055:URI-like return values should not be strings", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.IntegrationTests.GoTests.To_UsingCombinedUrl_WhenNavigaionUrlIsComplex(System.String)~System.String")]
 
 #pragma warning restore S103 // Lines should not be too long

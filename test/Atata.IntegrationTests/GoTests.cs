@@ -54,6 +54,15 @@ public class GoTests : UITestFixture
     }
 
     [Test]
+    public void To_UsingQueryUrlNavigation_WhenUrlIsTemplated()
+    {
+        AtataContext.Current.Variables["GoToArg"] = 42;
+
+        Go.To<GoTo1Page>(url: "?q={GoToArg}")
+            .PageUri.Relative.Should.Be("/goto1?q=42");
+    }
+
+    [Test]
     public void To_UsingLinkNavigation()
     {
         GoTo1Page page1 = Go.To<GoTo1Page>();
@@ -100,6 +109,32 @@ public class GoTests : UITestFixture
         AssertNoTemporarilyPreservedPageObjects();
         Assert.That(AtataContext.Current.Driver.Url, Does.EndWith(url));
     }
+
+    [TestCase("?arg=1", ExpectedResult = "/?arg=1")]
+    [TestCase("&arg=1", ExpectedResult = "/?arg=1")]
+    [TestCase(";arg=1", ExpectedResult = "/?arg=1")]
+    [TestCase("#frag1", ExpectedResult = "/#frag1")]
+    public string To_UsingCombinedUrl_WhenNavigaionUrlIsNull(string url) =>
+        Go.To<OrdinaryPage>(url: url)
+            .PageUri.Relative;
+
+    [TestCase("?arg=1", ExpectedResult = "/goto1?arg=1")]
+    [TestCase("&arg=1", ExpectedResult = "/goto1?arg=1")]
+    [TestCase(";arg=1", ExpectedResult = "/goto1?arg=1")]
+    [TestCase("#frag1", ExpectedResult = "/goto1#frag1")]
+    public string To_UsingCombinedUrl_WhenNavigaionUrlHasOnlyPath(string url) =>
+        Go.To<GoTo1Page>(url: url)
+            .PageUri.Relative;
+
+    [TestCase("?argB=2&argC=3", ExpectedResult = "/goto1?argB=2&argC=3")]
+    [TestCase("&argB=2", ExpectedResult = "/goto1?argA=1&argB=2")]
+    [TestCase(";argB", ExpectedResult = "/goto1?argA=1;argB")]
+    [TestCase("#frag2", ExpectedResult = "/goto1?argA=1#frag2")]
+    [TestCase("?argB=2#frag2", ExpectedResult = "/goto1?argB=2#frag2")]
+    [TestCase("&argB=2#frag2", ExpectedResult = "/goto1?argA=1&argB=2#frag2")]
+    public string To_UsingCombinedUrl_WhenNavigaionUrlIsComplex(string url) =>
+        Go.To<PageWithComplexUrl>(url: url)
+            .PageUri.Relative;
 
     [Test]
     public void To_WithNavigateTrue()
@@ -392,6 +427,11 @@ public class GoTests : UITestFixture
 
     [Url("/goto{GoToNumber}?arg={GoToArg}#{GoToFragment}")]
     public class PageWithTemplatedUrl : Page<PageWithTemplatedUrl>
+    {
+    }
+
+    [Url("/goto1?argA=1#frag1")]
+    public class PageWithComplexUrl : Page<PageWithComplexUrl>
     {
     }
 }

@@ -54,5 +54,19 @@ namespace Atata
 
             return new Uri(fullUrl);
         }
+
+        internal static string MergeAsString(string uri1, string uri2)
+        {
+            if (uri1 is null)
+                return uri2;
+            else if (uri2 is null)
+                return uri1;
+            else if (uri1.Length == 0)
+                return uri2;
+            else if (uri2.Length == 0)
+                return uri1;
+
+            return DecomposedUri.Merge(uri1, uri2);
+        }
     }
 }
