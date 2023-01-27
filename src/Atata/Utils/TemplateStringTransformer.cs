@@ -25,12 +25,16 @@ namespace Atata
             template != null && template.IndexOfAny(s_braces) >= 0;
 
         /// <summary>
+        /// <para>
         /// Transforms the specified template by filling it with variables.
         /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// </para>
+        /// <para>
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
         /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
+        /// </para>
         /// </summary>
         /// <param name="template">The template.</param>
         /// <param name="variables">The variables.</param>
@@ -39,19 +43,54 @@ namespace Atata
             Transform(template, variables, AtataTemplateStringFormatter.Default);
 
         /// <summary>
+        /// <para>
         /// Transforms the specified path template by filling it with variables.
-        /// The variables are sanitized for path by replacing invalid characters with <c>'_'</c>.
         /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// </para>
+        /// <para>
+        /// Variables are sanitized for path by replacing invalid characters with <c>'_'</c>.
+        /// </para>
+        /// <para>
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
         /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
+        /// </para>
         /// </summary>
         /// <param name="template">The template.</param>
         /// <param name="variables">The variables.</param>
         /// <returns>The string result.</returns>
         public static string TransformPath(string template, IDictionary<string, object> variables) =>
             Transform(template, variables, AtataPathTemplateStringFormatter.Default);
+
+        /// <summary>
+        /// <para>
+        /// Transforms the specified URI template by filling it with variables.
+        /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// </para>
+        /// <para>
+        /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
+        /// and extended formatting for strings
+        /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
+        /// </para>
+        /// <para>
+        /// Variables are escaped by default using <see cref="Uri.EscapeDataString(string)"/> method.
+        /// In order to not escape a variable, use <c>:noescape</c> modifier, for example <c>"{stringVar:noescape}"</c>.
+        /// To escape a variable using <see cref="Uri.EscapeUriString(string)"/> method,
+        /// preserving special URI symbols,
+        /// use <c>:uriescape</c> modifier, for example <c>"{stringVar:uriescape}"</c>.
+        /// Use <c>:dataescape</c> in complex scenarios (like adding optional query parameter)
+        /// together with an extended formatting, for example <c>"{stringVar:dataescape:?q=*}"</c>,
+        /// to escape the value and prefix it with "?q=", but nothing will be output in case
+        /// <c>stringVar</c> is <see langword="null"/>.
+        /// </para>
+        /// </summary>
+        /// <param name="template">The template.</param>
+        /// <param name="variables">The variables.</param>
+        /// <returns>The string result.</returns>
+        public static string TransformUri(string template, IDictionary<string, object> variables) =>
+            Transform(template, variables, AtataUriTemplateStringFormatter.Default);
 
         private static string Transform(string template, IDictionary<string, object> variables, IFormatProvider formatProvider)
         {

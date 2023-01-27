@@ -621,12 +621,16 @@ namespace Atata
         }
 
         /// <summary>
+        /// <para>
         /// Fills the template string with variables of this <see cref="AtataContext"/> instance.
         /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// </para>
+        /// <para>
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
         /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
+        /// </para>
         /// <para>
         /// The list of predefined variables:
         /// <list type="bullet">
@@ -656,13 +660,19 @@ namespace Atata
             TransformTemplateString(template, additionalVariables, TemplateStringTransformer.Transform);
 
         /// <summary>
+        /// <para>
         /// Fills the path template string with variables of this <see cref="AtataContext"/> instance.
-        /// The variables are sanitized for path by replacing invalid characters with <c>'_'</c>.
         /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// </para>
+        /// <para>
+        /// Variables are sanitized for path by replacing invalid characters with <c>'_'</c>.
+        /// </para>
+        /// <para>
         /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
         /// and extended formatting for strings
         /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
         /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
+        /// </para>
         /// <para>
         /// The list of predefined variables:
         /// <list type="bullet">
@@ -690,6 +700,56 @@ namespace Atata
         /// <param name="additionalVariables">The additional variables.</param>
         public string FillPathTemplateString(string template, IDictionary<string, object> additionalVariables) =>
             TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformPath);
+
+        /// <summary>
+        /// <para>
+        /// Fills the path template string with variables of this <see cref="AtataContext"/> instance.
+        /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
+        /// </para>
+        /// <para>
+        /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
+        /// and extended formatting for strings
+        /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
+        /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
+        /// </para>
+        /// <para>
+        /// Variables are escaped by default using <see cref="Uri.EscapeDataString(string)"/> method.
+        /// In order to not escape a variable, use <c>:noescape</c> modifier, for example <c>"{stringVar:noescape}"</c>.
+        /// To escape a variable using <see cref="Uri.EscapeUriString(string)"/> method,
+        /// preserving special URI symbols,
+        /// use <c>:uriescape</c> modifier, for example <c>"{stringVar:uriescape}"</c>.
+        /// Use <c>:dataescape</c> in complex scenarios (like adding optional query parameter)
+        /// together with an extended formatting, for example <c>"{stringVar:dataescape:?q=*}"</c>,
+        /// to escape the value and prefix it with "?q=", but nothing will be output in case
+        /// <c>stringVar</c> is <see langword="null"/>.
+        /// </para>
+        /// <para>
+        /// The list of predefined variables:
+        /// <list type="bullet">
+        /// <item><c>{build-start}</c></item>
+        /// <item><c>{build-start-utc}</c></item>
+        /// <item><c>{basedir}</c></item>
+        /// <item><c>{artifacts}</c></item>
+        /// <item><c>{test-name-sanitized}</c></item>
+        /// <item><c>{test-name}</c></item>
+        /// <item><c>{test-suite-name-sanitized}</c></item>
+        /// <item><c>{test-suite-name}</c></item>
+        /// <item><c>{test-start}</c></item>
+        /// <item><c>{test-start-utc}</c></item>
+        /// <item><c>{driver-alias}</c></item>
+        /// </list>
+        /// </para>
+        /// </summary>
+        /// <param name="template">The template string.</param>
+        /// <returns>The filled string.</returns>
+        public string FillUriTemplateString(string template) =>
+            FillUriTemplateString(template, null);
+
+        /// <inheritdoc cref="FillUriTemplateString(string)"/>
+        /// <param name="template">The template string.</param>
+        /// <param name="additionalVariables">The additional variables.</param>
+        public string FillUriTemplateString(string template, IDictionary<string, object> additionalVariables) =>
+            TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformUri);
 
         private string TransformTemplateString(
             string template,

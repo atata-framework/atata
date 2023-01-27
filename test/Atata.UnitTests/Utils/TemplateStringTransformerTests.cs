@@ -33,6 +33,32 @@ public static class TemplateStringTransformerTests
                 .ValueOf(x => x.Message).Should.Be($"Template \"{template}\" string is not in a correct format.");
         }
 
+        [Test]
+        public void WithNullVariable()
+        {
+            string template = "-{a}-";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = null
+            };
+
+            Act(template, variables)
+                .Should.Equal("--");
+        }
+
+        [Test]
+        public void WithNullVariable_AndExtendedStringFormat()
+        {
+            string template = "-{a:+*+}-";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = null
+            };
+
+            Act(template, variables)
+                .Should.Equal("--");
+        }
+
         [TestCase("a{{b", ExpectedResult = "a{b")]
         [TestCase("a}}b", ExpectedResult = "a}b")]
         [TestCase("a{{b}}c", ExpectedResult = "a{b}c")]
@@ -100,6 +126,19 @@ public static class TemplateStringTransformerTests
                 .Should.Equal("-1-");
         }
 
+        [Test]
+        public void WithExtendedStringFormatThatHasDoubleStars()
+        {
+            string template = "{a:** * **}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "1"
+            };
+
+            Act(template, variables)
+                .Should.Equal("* 1 *");
+        }
+
         private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
             Subject.ResultOf(() => TemplateStringTransformer.Transform(template, variables));
     }
@@ -137,5 +176,70 @@ public static class TemplateStringTransformerTests
 
         private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
             Subject.ResultOf(() => TemplateStringTransformer.TransformPath(template, variables));
+    }
+
+    [TestFixture]
+    public class TransformUri
+    {
+        [Test]
+        public void WithNormalVariables()
+        {
+            string template = "{a}{b}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "1",
+                ["b"] = 2
+            };
+
+            Act(template, variables)
+                .Should.Equal("12");
+        }
+
+        [Test]
+        public void WithVariablesToBeDataEscaped()
+        {
+            string template = "{a}-{b}?q=z{c:dataescape:#*}{c:#*}{c:#*:dataescape}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "10:30",
+                ["b"] = "1*2/3=?",
+                ["c"] = "frg?"
+            };
+
+            Act(template, variables)
+                .Should.Equal("10%3A30-1%2A2%2F3%3D%3F?q=z#frg%3F%23frg%3F%23frg%3F");
+        }
+
+        [Test]
+        public void WithVariablesToBeNotEscaped()
+        {
+            string template = "/path/{a:d3:noescape}/{b:noescape}{c:_*_:noescape}{c:noescape:_*_}#frg";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = 42,
+                ["b"] = "x/?q=1&r",
+                ["c"] = null
+            };
+
+            Act(template, variables)
+                .Should.Equal("/path/042/x/?q=1&r#frg");
+        }
+
+        [Test]
+        public void WithVariablesToBeUriEscaped()
+        {
+            string template = "/path{a:/*:uriescape}/{b:uriescape}#frg";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "</>",
+                ["b"] = "x/?q=1%2&r"
+            };
+
+            Act(template, variables)
+                .Should.Equal("/path/%3C/%3E/x/?q=1%252&r#frg");
+        }
+
+        private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
+            Subject.ResultOf(() => TemplateStringTransformer.TransformUri(template, variables));
     }
 }
