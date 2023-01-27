@@ -1,12 +1,13 @@
 <Project>
-  
+
   <PropertyGroup>
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
     <Copyright>© Yevgeniy Shunevych 2023</Copyright>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
-    <AnalysisMode>All</AnalysisMode>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <AnalysisLevel>6.0-All</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup Label="Code analysis packages">

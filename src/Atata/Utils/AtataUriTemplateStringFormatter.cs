@@ -51,16 +51,16 @@ namespace Atata
             {
                 foreach (var item in s_aliasAndModifierFunctionMap)
                 {
-                    if (format == item.Key)
+                    if (format.Equals(item.Key, StringComparison.OrdinalIgnoreCase))
                     {
                         return new UriVariableProcessingResult(null, item.Value, true);
                     }
-                    else if (format.StartsWith(item.Key + ':'))
+                    else if (format.StartsWith(item.Key + ':', StringComparison.OrdinalIgnoreCase))
                     {
                         string leftFormat = format.Substring(item.Key.Length + 1);
                         return new UriVariableProcessingResult(leftFormat, item.Value, true);
                     }
-                    else if (format.EndsWith(':' + item.Key))
+                    else if (format.EndsWith(':' + item.Key, StringComparison.OrdinalIgnoreCase))
                     {
                         string leftFormat = format.Substring(0, format.Length - item.Key.Length - 1);
                         return new UriVariableProcessingResult(leftFormat, item.Value, false);
