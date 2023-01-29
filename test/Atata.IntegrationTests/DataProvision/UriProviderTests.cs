@@ -6,7 +6,7 @@ public class UriProviderTests : UITestFixture
     public void InComplex() =>
         Go.To<OrdinaryPage>(url: "/index?id=15&type=a&type=b&num=1&num=2#some-fragment")
             .AggregateAssert(x => x
-                .PageUri.AbsolutePath.Should.Equal("/index")
+                .PageUri.Path.Should.Equal("/index")
 
                 .PageUri.Query.Should.Be("?id=15&type=a&type=b&num=1&num=2")
 
@@ -41,7 +41,7 @@ public class UriProviderTests : UITestFixture
                 .PageUri.Query.Parameters.Get<string>("id").Should.BeNull()
                 .PageUri.Query.Parameters.GetAll<string>("id").Should.HaveCount(0)
                 .PageUri.Fragment.Should.BeEmpty()
-                .PageUri.AbsolutePath.Should.Equal("/"));
+                .PageUri.Path.Should.Equal("/"));
 
     [Test]
     public void Fragment() =>
@@ -49,9 +49,9 @@ public class UriProviderTests : UITestFixture
             .PageUri.Fragment.Should.Equal("#anchor");
 
     [Test]
-    public void AbsolutePath() =>
+    public void Path() =>
         Go.To<OrdinaryPage>(url: "/index?q=1#anchor")
-            .PageUri.AbsolutePath.Should.Equal("/index");
+            .PageUri.Path.Should.Equal("/index");
 
     [Test]
     public void PathAndQuery() =>

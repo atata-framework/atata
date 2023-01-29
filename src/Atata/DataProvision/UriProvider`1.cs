@@ -35,12 +35,15 @@ namespace Atata
         public ValueProvider<string, TOwner> Fragment =>
             _component.CreateValueProvider("URI fragment", () => Value.Fragment);
 
+        [Obsolete("Use " + nameof(Path) + " instead.")] // Obsolete since v2.7.0.
+        public ValueProvider<string, TOwner> AbsolutePath => Path;
+
         /// <summary>
-        /// Gets the absolute path provider of the URI.
+        /// Gets the path provider of the URI.
         /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"/some/path"</c>.
         /// </summary>
-        public ValueProvider<string, TOwner> AbsolutePath =>
-            _component.CreateValueProvider("URI absolute path", () => Value.AbsolutePath);
+        public ValueProvider<string, TOwner> Path =>
+            _component.CreateValueProvider("URI path", () => Value.AbsolutePath);
 
         /// <summary>
         /// Gets the absolute path and query provider of the URI.
