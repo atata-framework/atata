@@ -60,5 +60,32 @@ namespace Atata
             _component.CreateValueProvider(
                 "relative URI",
                 () => Value.GetComponents(UriComponents.Path | UriComponents.Query | UriComponents.Fragment, UriFormat.UriEscaped));
+
+        /// <summary>
+        /// Gets the unescaped relative URI provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=%3F"</c> -> <c>"/some/path?arg=?"</c>.
+        /// </summary>
+        public ValueProvider<string, TOwner> RelativeUnescaped =>
+            _component.CreateValueProvider(
+                "unescaped relative URI",
+                () => Value.GetComponents(UriComponents.Path | UriComponents.Query | UriComponents.Fragment, UriFormat.Unescaped));
+
+        /// <summary>
+        /// Gets the absolute URI provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"https://example.org/some/path?arg=val#frg"</c>.
+        /// </summary>
+        public ValueProvider<string, TOwner> Absolute =>
+            _component.CreateValueProvider(
+                "absolute URI",
+                () => Value.AbsoluteUri);
+
+        /// <summary>
+        /// Gets the unescaped absolute URI provider of the URI.
+        /// For example: <c>"https://example.org/some/path?arg=%3F"</c> -> <c>"https://example.org/some/path?arg=?"</c>.
+        /// </summary>
+        public ValueProvider<string, TOwner> AbsoluteUnescaped =>
+            _component.CreateValueProvider(
+                "unescaped absolute URI",
+                () => Value.GetComponents(UriComponents.AbsoluteUri, UriFormat.Unescaped));
     }
 }

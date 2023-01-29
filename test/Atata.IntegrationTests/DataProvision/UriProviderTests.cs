@@ -62,4 +62,19 @@ public class UriProviderTests : UITestFixture
     public void Relative() =>
         Go.To<OrdinaryPage>(url: $"/index?q={Uri.EscapeDataString("?")}#anchor")
             .PageUri.Relative.Should.Equal("/index?q=%3F#anchor");
+
+    [Test]
+    public void RelativeUnescaped() =>
+        Go.To<OrdinaryPage>(url: $"/index?q={Uri.EscapeDataString("?")}#anchor")
+            .PageUri.RelativeUnescaped.Should.Equal("/index?q=?#anchor");
+
+    [Test]
+    public void Absolute() =>
+        Go.To<OrdinaryPage>(url: $"/index?q={Uri.EscapeDataString("?")}#anchor")
+            .PageUri.Absolute.Should.Equal(BaseUrl + "/index?q=%3F#anchor");
+
+    [Test]
+    public void AbsoluteUnescaped() =>
+        Go.To<OrdinaryPage>(url: $"/index?q={Uri.EscapeDataString("?")}#anchor")
+            .PageUri.AbsoluteUnescaped.Should.Equal(BaseUrl + "/index?q=?#anchor");
 }
