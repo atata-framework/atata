@@ -59,6 +59,6 @@ namespace Atata
         public ValueProvider<string, TOwner> Relative =>
             _component.CreateValueProvider(
                 "relative URI",
-                () => Value.GetComponents(UriComponents.Path | UriComponents.Query | UriComponents.Fragment, UriFormat.Unescaped));
+                () => Value.GetComponents(UriComponents.Path | UriComponents.Query | UriComponents.Fragment, UriFormat.UriEscaped));
     }
 }

@@ -60,6 +60,6 @@ public class UriProviderTests : UITestFixture
 
     [Test]
     public void Relative() =>
-        Go.To<OrdinaryPage>(url: "/index?q=1#anchor")
-            .PageUri.Relative.Should.Equal("/index?q=1#anchor");
+        Go.To<OrdinaryPage>(url: $"/index?q={Uri.EscapeDataString("?")}#anchor")
+            .PageUri.Relative.Should.Equal("/index?q=%3F#anchor");
 }
