@@ -47,19 +47,28 @@ public class GoTests : UITestFixture
     [Test]
     public void To_UsingRelativeUrlNavigation_WhenUrlIsTemplated()
     {
-        AtataContext.Current.Variables["GoToArg"] = 42;
+        AtataContext.Current.Variables["GoToArg"] = "?";
 
-        Go.To<GoTo1Page>(url: "/goto1?q={GoToArg}")
-            .PageUri.Relative.Should.Be("/goto1?q=42");
+        Go.To<GoTo1Page>(url: "/goto1{GoToArg:dataescape:?q=*}")
+            .PageUrl.Should.EndWith("/goto1?q=%3F");
+    }
+
+    [Test]
+    public void To_UsingRelativeUrlNavigation_WhenUrlIsTemplated_AndVariableNull()
+    {
+        AtataContext.Current.Variables["GoToArg"] = null;
+
+        Go.To<GoTo1Page>(url: "/goto1{GoToArg:dataescape:?q=*}")
+            .PageUrl.Should.EndWith("/goto1");
     }
 
     [Test]
     public void To_UsingQueryUrlNavigation_WhenUrlIsTemplated()
     {
-        AtataContext.Current.Variables["GoToArg"] = 42;
+        AtataContext.Current.Variables["GoToArg"] = "/?";
 
-        Go.To<GoTo1Page>(url: "?q={GoToArg}")
-            .PageUri.Relative.Should.Be("/goto1?q=42");
+        Go.To<GoTo1Page>(url: "?q={GoToArg:dataescape}")
+            .PageUrl.Should.EndWith("/goto1?q=%2F%3F");
     }
 
     [Test]

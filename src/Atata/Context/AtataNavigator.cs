@@ -296,13 +296,13 @@ namespace Atata
         private string PrepareNavigationUrl(string navigationUrl, GoOptions options)
         {
             if (!string.IsNullOrEmpty(navigationUrl))
-                navigationUrl = _context.FillTemplateString(navigationUrl);
+                navigationUrl = _context.FillUriTemplateString(navigationUrl);
 
             navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
 
             if (options.Navigate && !string.IsNullOrEmpty(options.Url))
             {
-                string additionalUrl = _context.FillTemplateString(options.Url);
+                string additionalUrl = _context.FillUriTemplateString(options.Url);
                 navigationUrl = UriUtils.MergeAsString(navigationUrl, additionalUrl);
             }
 

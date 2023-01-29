@@ -8,7 +8,7 @@ namespace Atata
         {
             Url = url;
 
-            Message = $"Navigate to URL {url}";
+            Message = $"Navigate to URL {url.AbsoluteUri}";
             Level = useInfoLevel ? LogLevel.Info : LogLevel.Trace;
         }
 
