@@ -32,6 +32,12 @@ public class FindingPage : Page<_>
     [FindByClass("radio-options", Index = 2)]
     public RadioButton<_> OptionCByClass { get; private set; }
 
+    [FindByLabel("Option C")]
+    public RadioButton<_> OptionCByLabel { get; private set; }
+
+    [FindByLabel(TermMatch.StartsWith, "Option", Index = 2)]
+    public RadioButton<_> OptionCByLabelWithIndex { get; private set; }
+
     [FindLast]
     public RadioButton<_> OptionDAsLast { get; private set; }
 
@@ -122,6 +128,12 @@ public class FindingPage : Page<_>
     [ControlDefinition(ContainingClass = "custom-control")]
     [FindByDescendantId("custom-control-id")]
     public Control<_> ControlByDescendantIdMissing { get; private set; }
+
+    [FindByLabel("User Name")]
+    public TextInput<_> UserNameByLabel { get; private set; }
+
+    [FindByLabel(TermMatch.Contains, "Name", Index = 0)]
+    public TextInput<_> UserNameByLabelAndIndex { get; private set; }
 
     [FindByValue("OptionD")]
     public class CustomRadioButton : RadioButton<_>

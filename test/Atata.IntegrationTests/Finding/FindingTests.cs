@@ -40,6 +40,22 @@ public class FindingTests : UITestFixture
         VerifyRadioButton(_page.OptionCByClass);
 
     [Test]
+    public void ByLabel_WithId() =>
+        _page.UserNameByLabel.DomProperties.Id.Should.Be("user-name");
+
+    [Test]
+    public void ByLabelAndIndex_WithId() =>
+        _page.UserNameByLabelAndIndex.DomProperties.Id.Should.Be("user-name");
+
+    [Test]
+    public void ByLabel_WithoutId() =>
+        VerifyRadioButton(_page.OptionCByLabel, "OptionC");
+
+    [Test]
+    public void ByLabelAndIndex_WithoutId() =>
+        VerifyRadioButton(_page.OptionCByLabelWithIndex, "OptionC");
+
+    [Test]
     public void Last() =>
         VerifyRadioButton(_page.OptionDAsLast, "OptionD");
 
