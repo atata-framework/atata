@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Text;
 
 namespace Atata
 {
@@ -87,5 +89,31 @@ namespace Atata
             _component.CreateValueProvider(
                 "unescaped absolute URI",
                 () => Value.GetComponents(UriComponents.AbsoluteUri, UriFormat.Unescaped));
+
+        /// <summary>
+        /// Gets the specified components of the URI using the specified escaping format for special characters.
+        /// </summary>
+        /// <param name="components">The components.</param>
+        /// <param name="format">The format.</param>
+        /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the components string.</returns>
+        public ValueProvider<string, TOwner> GetComponents(UriComponents components, UriFormat format = UriFormat.UriEscaped) =>
+            _component.CreateValueProvider(
+                $"URI {ConvertUriComponentsToString(components)}",
+                () => Value.GetComponents(components, format));
+
+        private static string ConvertUriComponentsToString(UriComponents components)
+        {
+            var flags = components.GetIndividualFlags().Select(x => x.ToString()).ToArray();
+
+            StringBuilder builder = new StringBuilder()
+                .Append('(')
+                .AppendJoined(" | ", flags)
+                .Append(") component");
+
+            if (flags.Length > 1)
+                builder.Append('s');
+
+            return builder.ToString();
+        }
     }
 }
