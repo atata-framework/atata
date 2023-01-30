@@ -387,6 +387,8 @@ dotnet_diagnostic.S4047.severity = warning
 
 dotnet_diagnostic.S4052.severity = warning
 
+dotnet_diagnostic.S4070.severity = none
+
 dotnet_diagnostic.S4261.severity = warning
 
 dotnet_diagnostic.S881.severity = warning

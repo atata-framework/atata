@@ -13,5 +13,8 @@
 [assembly: SuppressMessage("Major Code Smell", "S2326:Unused type parameters should be removed", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.StaticSubClass.GenericSubClass`1")]
 [assembly: SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.UnitTests.GenericCollectionAssertionsExtensions.ReferenceEqualityComparer`1.Default")]
 [assembly: SuppressMessage("Design", "CA1000:Do not declare static members on generic types", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.DataProvision.ObjectVerificationProviderExtensionMethodTests.ExtensionMethodTestFixture`2.GetTestActions~System.Collections.Generic.IEnumerable{NUnit.Framework.TestCaseData}")]
+[assembly: SuppressMessage("Design", "CA1028:Enum Storage should be Int32", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EnumExtensionMethodsTests.UInt64EnumValues")]
+[assembly: SuppressMessage("Usage", "CA2217:Do not mark enums with FlagsAttribute", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EnumExtensionMethodsTests.UInt64EnumValues")]
+[assembly: SuppressMessage("Usage", "CA2217:Do not mark enums with FlagsAttribute", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EnumExtensionMethodsTests.Int64EnumValues")]
 
 #pragma warning restore S103 // Lines should not be too long
