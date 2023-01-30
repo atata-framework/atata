@@ -429,11 +429,14 @@ namespace Atata
         private string ResolveWindowHandleToSwitchAfterClose()
         {
             string currentWindowHandle = Driver.CurrentWindowHandle;
-            int indexOfCurrent = Driver.WindowHandles.IndexOf(currentWindowHandle);
+            var allWindowHandles = Driver.WindowHandles;
+
+            int indexOfCurrent = allWindowHandles.IndexOf(currentWindowHandle);
+
             if (indexOfCurrent > 0)
-                return Driver.WindowHandles[indexOfCurrent - 1];
-            else if (Driver.WindowHandles.Count > 1)
-                return Driver.WindowHandles[1];
+                return allWindowHandles[indexOfCurrent - 1];
+            else if (allWindowHandles.Count > 1)
+                return allWindowHandles[1];
             else
                 return null;
         }
