@@ -326,8 +326,10 @@ namespace Atata
         /// <returns>The instance of this page object.</returns>
         public virtual TOwner RefreshPage()
         {
-            Log.Info("Refresh page");
-            Driver.Navigate().Refresh();
+            Log.ExecuteSection(
+                "Refresh page",
+                () => Driver.Navigate().Refresh());
+
             return Go.To<TOwner>(navigate: false);
         }
 
@@ -391,8 +393,10 @@ namespace Atata
         public virtual TOther GoBack<TOther>(TOther previousPageObject = null)
             where TOther : PageObject<TOther>
         {
-            Log.Info("Go back");
-            Driver.Navigate().Back();
+            Log.ExecuteSection(
+                "Go back",
+                () => Driver.Navigate().Back());
+
             return Go.To(previousPageObject, navigate: false);
         }
 
@@ -407,8 +411,10 @@ namespace Atata
         public virtual TOther GoForward<TOther>(TOther nextPageObject = null)
             where TOther : PageObject<TOther>
         {
-            Log.Info("Go forward");
-            Driver.Navigate().Forward();
+            Log.ExecuteSection(
+                "Go forward",
+                () => Driver.Navigate().Forward());
+
             return Go.To(nextPageObject, navigate: false);
         }
 
@@ -417,10 +423,15 @@ namespace Atata
         /// </summary>
         public virtual void CloseWindow()
         {
-            string nextWindowHandle = ResolveWindowHandleToSwitchAfterClose();
+            string nextWindowHandle = null;
 
-            Log.Info("Close window");
-            Driver.Close();
+            _context.Log.ExecuteSection(
+                "Close window",
+                () =>
+                {
+                    nextWindowHandle = ResolveWindowHandleToSwitchAfterClose();
+                    Driver.Close();
+                });
 
             if (nextWindowHandle != null)
                 SwitchToWindow(nextWindowHandle);
@@ -632,11 +643,14 @@ namespace Atata
         /// <returns>The instance of this page object.</returns>
         public TOwner ScrollUp()
         {
-            Log.Info("Scroll up");
+            const string script = "document.body.scrollTop = 0;" +
+                "document.documentElement.scrollTop = 0;";
 
-            return Script.Execute(
-                "document.body.scrollTop = 0;" +
-                "document.documentElement.scrollTop = 0;");
+            Log.ExecuteSection(
+                "Scroll up",
+                (Action)(() => Script.Execute(script)));
+
+            return (TOwner)this;
         }
 
         /// <summary>
@@ -645,12 +659,15 @@ namespace Atata
         /// <returns>The instance of this page object.</returns>
         public TOwner ScrollDown()
         {
-            Log.Info("Scroll down");
-
-            return Script.Execute(
-                "var height = document.body.scrollHeight;" +
+            const string script = "var height = document.body.scrollHeight;" +
                 "document.body.scrollTop = height;" +
-                "document.documentElement.scrollTop = height;");
+                "document.documentElement.scrollTop = height;";
+
+            Log.ExecuteSection(
+                "Scroll down",
+                (Action)(() => Script.Execute(script)));
+
+            return (TOwner)this;
         }
 
         void IPageObject.DeInit()
