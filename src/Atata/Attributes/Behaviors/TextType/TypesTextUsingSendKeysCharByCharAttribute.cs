@@ -9,10 +9,10 @@ namespace Atata
     public class TypesTextUsingSendKeysCharByCharAttribute : TextTypeBehaviorAttribute
     {
         /// <summary>
-        /// Gets the typing interval in seconds.
+        /// Gets or sets the typing interval in seconds.
         /// The default value is <c>0.2</c>.
         /// </summary>
-        public double TypingIntervalInSeconds { get; } = 0.2;
+        public double TypingIntervalInSeconds { get; set; } = 0.2;
 
         /// <inheritdoc/>
         public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
