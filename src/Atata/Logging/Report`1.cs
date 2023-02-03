@@ -10,18 +10,23 @@ namespace Atata
     {
         private readonly TOwner _owner;
 
-        private readonly ILogManager _logManager;
+        private readonly AtataContext _context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Report{TOwner}"/> class.
         /// </summary>
         /// <param name="owner">The owner.</param>
-        /// <param name="logManager">The log manager.</param>
-        public Report(TOwner owner, ILogManager logManager)
+        /// <param name="context">The context.</param>
+        public Report(TOwner owner, AtataContext context)
         {
             _owner = owner;
-            _logManager = logManager;
+            _context = context;
         }
+
+        /// <summary>
+        /// Gets the associated <see cref="AtataContext"/> instance.
+        /// </summary>
+        public AtataContext Context => _context;
 
         /// <summary>
         /// Writes the log message at the <see cref="LogLevel.Trace"/> level optionally using the specified <paramref name="args"/> as a message format parameters.
@@ -31,7 +36,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Trace(string message, params object[] args)
         {
-            _logManager.Trace(message, args);
+            _context.Log.Trace(message, args);
             return _owner;
         }
 
@@ -43,7 +48,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Debug(string message, params object[] args)
         {
-            _logManager.Debug(message, args);
+            _context.Log.Debug(message, args);
             return _owner;
         }
 
@@ -55,7 +60,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Info(string message, params object[] args)
         {
-            _logManager.Info(message, args);
+            _context.Log.Info(message, args);
             return _owner;
         }
 
@@ -67,7 +72,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Warn(string message, params object[] args)
         {
-            _logManager.Warn(message, args);
+            _context.Log.Warn(message, args);
             return _owner;
         }
 
@@ -78,7 +83,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Warn(Exception exception)
         {
-            _logManager.Warn(exception);
+            _context.Log.Warn(exception);
             return _owner;
         }
 
@@ -90,7 +95,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Warn(string message, Exception exception = null)
         {
-            _logManager.Warn(message, exception);
+            _context.Log.Warn(message, exception);
             return _owner;
         }
 
@@ -101,7 +106,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Error(Exception exception)
         {
-            _logManager.Error(exception);
+            _context.Log.Error(exception);
             return _owner;
         }
 
@@ -113,7 +118,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Error(string message, Exception exception = null)
         {
-            _logManager.Error(message, exception);
+            _context.Log.Error(message, exception);
             return _owner;
         }
 
@@ -125,7 +130,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Error(string message, string stackTrace)
         {
-            _logManager.Error(message, stackTrace);
+            _context.Log.Error(message, stackTrace);
             return _owner;
         }
 
@@ -136,7 +141,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Fatal(Exception exception)
         {
-            _logManager.Fatal(exception);
+            _context.Log.Fatal(exception);
             return _owner;
         }
 
@@ -148,7 +153,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Fatal(string message, Exception exception = null)
         {
-            _logManager.Fatal(message, exception);
+            _context.Log.Fatal(message, exception);
             return _owner;
         }
 
@@ -159,7 +164,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Start(LogSection section)
         {
-            _logManager.Start(section);
+            _context.Log.Start(section);
             return _owner;
         }
 
@@ -170,7 +175,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Start(string sectionMessage)
         {
-            _logManager.Start(sectionMessage);
+            _context.Log.Start(sectionMessage);
             return _owner;
         }
 
@@ -182,7 +187,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Start(string sectionMessage, LogLevel level)
         {
-            _logManager.Start(sectionMessage, level);
+            _context.Log.Start(sectionMessage, level);
             return _owner;
         }
 
@@ -192,7 +197,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner EndSection()
         {
-            _logManager.EndSection();
+            _context.Log.EndSection();
             return _owner;
         }
 
@@ -203,7 +208,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner Screenshot(string title = null)
         {
-            (_owner as UIComponent)?.Context.TakeScreenshot(title);
+            _context.TakeScreenshot(title);
             return _owner;
         }
 
@@ -214,7 +219,7 @@ namespace Atata
         /// <returns>The instance of the owner object.</returns>
         public TOwner PageSnapshot(string title = null)
         {
-            (_owner as UIComponent)?.Context.TakePageSnapshot(title);
+            _context.TakePageSnapshot(title);
             return _owner;
         }
     }

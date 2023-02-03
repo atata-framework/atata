@@ -45,8 +45,11 @@ namespace Atata
         /// </summary>
         public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
-        internal AtataContext() =>
+        internal AtataContext()
+        {
             Go = new AtataNavigator(this);
+            Report = new Report<AtataContext>(this, this);
+        }
 
         /// <summary>
         /// Gets or sets the current context.
@@ -332,6 +335,11 @@ namespace Atata
         /// which provides the navigation functionality between pages and windows.
         /// </summary>
         public AtataNavigator Go { get; }
+
+        /// <summary>
+        /// Gets the <see cref="Report{TOwner}"/> instance that provides a reporting functionality.
+        /// </summary>
+        public Report<AtataContext> Report { get; }
 
         /// <summary>
         /// Gets the current page object.

@@ -28,7 +28,7 @@ namespace Atata
 
             Owner = (TOwner)this;
 
-            Report = new Report<TOwner>((TOwner)this, Log);
+            Report = new Report<TOwner>((TOwner)this, _context);
 
             PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
 
@@ -92,7 +92,7 @@ namespace Atata
         protected internal UIComponent PreviousPageObject { get; internal set; }
 
         /// <summary>
-        /// Gets the instance that provides reporting functionality.
+        /// Gets the <see cref="Report{TOwner}"/> instance that provides a reporting functionality.
         /// </summary>
         public Report<TOwner> Report { get; }
 
