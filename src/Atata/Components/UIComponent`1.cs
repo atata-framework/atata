@@ -16,7 +16,7 @@ namespace Atata
         where TOwner : PageObject<TOwner>
     {
         private const string IsInViewPortScript = @"
-const element = arguments[0];                
+const element = arguments[0];
 const rect = element.getBoundingClientRect();
 
 return (
