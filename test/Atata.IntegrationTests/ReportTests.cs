@@ -123,6 +123,36 @@ public class ReportTests : UITestFixture
             "02 - Test page - sometitle.mhtml");
     }
 
+    [Test]
+    public void Setup()
+    {
+        Go.To(new OrdinaryPage("Test"))
+            .Report.Setup("TEST SETUP", x => x
+                .PageTitle.Should.Not.BeEmpty());
+
+        VerifyLastLogMessagesMatch(
+            minLogLevel: LogLevel.Trace,
+            "^> TEST SETUP",
+            "^> Assert: title should not be empty$",
+            "^< Assert: title should not be empty",
+            "^< TEST SETUP");
+    }
+
+    [Test]
+    public void Step()
+    {
+        Go.To(new OrdinaryPage("Test"))
+            .Report.Step("TEST STEP", x => x
+                .PageTitle.Should.Not.BeEmpty());
+
+        VerifyLastLogMessagesMatch(
+            minLogLevel: LogLevel.Trace,
+            "^> TEST STEP$",
+            "^> Assert: title should not be empty$",
+            "^< Assert: title should not be empty",
+            "^< TEST STEP");
+    }
+
     private class MockScreenshotConsumer : IScreenshotConsumer
     {
         public List<ScreenshotInfo> Items { get; } = new();

@@ -202,6 +202,95 @@ namespace Atata
         }
 
         /// <summary>
+        /// Executes the specified action and represents it in a log as a setup section with the specified message.
+        /// The setup action time is not counted as pure test execution time.
+        /// </summary>
+        /// <param name="message">The setup message.</param>
+        /// <param name="action">The setup action.</param>
+        /// <returns>The instance of the owner object.</returns>
+        public TOwner Setup(string message, Action<TOwner> action)
+        {
+            message.CheckNotNullOrEmpty(nameof(message));
+            action.CheckNotNull(nameof(action));
+
+            _context.Log.ExecuteSection(message, () =>
+            {
+                bool shouldStopPureExecutionStopwatch = _context.PureExecutionStopwatch.IsRunning;
+                if (shouldStopPureExecutionStopwatch)
+                    _context.PureExecutionStopwatch.Stop();
+
+                action.Invoke(_owner);
+
+                if (shouldStopPureExecutionStopwatch)
+                    _context.PureExecutionStopwatch.Start();
+            });
+            return _owner;
+        }
+
+        /// <summary>
+        /// Executes the specified function and represents it in a log as a setup section with the specified message.
+        /// The setup function time is not counted as pure test execution time.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="message">The setup message.</param>
+        /// <param name="function">The setup function.</param>
+        /// <returns>The result of the <paramref name="function"/>.</returns>
+        public TResult Setup<TResult>(string message, Func<TOwner, TResult> function)
+        {
+            message.CheckNotNullOrEmpty(nameof(message));
+            function.CheckNotNull(nameof(function));
+
+            TResult result = default;
+
+            _context.Log.ExecuteSection(message, () =>
+            {
+                bool shouldStopPureExecutionStopwatch = _context.PureExecutionStopwatch.IsRunning;
+                if (shouldStopPureExecutionStopwatch)
+                    _context.PureExecutionStopwatch.Stop();
+
+                result = function.Invoke(_owner);
+
+                if (shouldStopPureExecutionStopwatch)
+                    _context.PureExecutionStopwatch.Start();
+            });
+
+            return result;
+        }
+
+        /// <summary>
+        /// Executes the specified action and represents it in a log as a section with the specified message.
+        /// </summary>
+        /// <param name="message">The step message.</param>
+        /// <param name="action">The step action.</param>
+        /// <returns>The instance of the owner object.</returns>
+        public TOwner Step(string message, Action<TOwner> action)
+        {
+            message.CheckNotNullOrEmpty(nameof(message));
+            action.CheckNotNull(nameof(action));
+
+            _context.Log.ExecuteSection(message, () => action.Invoke(_owner));
+            return _owner;
+        }
+
+        /// <summary>
+        /// Executes the specified function and represents it in a log as a section with the specified message.
+        /// </summary>
+        /// <typeparam name="TResult">The type of the result.</typeparam>
+        /// <param name="message">The step message.</param>
+        /// <param name="function">The step function.</param>
+        /// <returns>The result of the <paramref name="function"/>.</returns>
+        public TResult Step<TResult>(string message, Func<TOwner, TResult> function)
+        {
+            message.CheckNotNullOrEmpty(nameof(message));
+            function.CheckNotNull(nameof(function));
+
+            TResult result = default;
+            _context.Log.ExecuteSection(message, (Action)(() => result = function.Invoke(_owner)));
+
+            return result;
+        }
+
+        /// <summary>
         /// Takes a screenshot with the optionally specified title.
         /// </summary>
         /// <param name="title">The title.</param>
