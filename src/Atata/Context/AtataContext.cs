@@ -861,18 +861,20 @@ namespace Atata
         /// </summary>
         /// <param name="relativeFilePath">The relative file path.</param>
         /// <param name="fileContent">Content of the file.</param>
-        /// <param name="encoding">The encoding.</param>
+        /// <param name="encoding">The encoding. Can be <see langword="null"/>.</param>
         /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
         /// <param name="artifactTitle">The artifact title.</param>
         public void AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string artifactType = null, string artifactTitle = null)
         {
             relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
             fileContent.CheckNotNull(nameof(fileContent));
-            encoding.CheckNotNull(nameof(encoding));
 
             string absoluteFilePath = BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(relativeFilePath);
 
-            File.WriteAllText(absoluteFilePath, fileContent, encoding);
+            if (encoding is null)
+                File.WriteAllText(absoluteFilePath, fileContent);
+            else
+                File.WriteAllText(absoluteFilePath, fileContent, encoding);
 
             EventBus.Publish(new ArtifactAddedEvent(absoluteFilePath, relativeFilePath, artifactType, artifactTitle));
         }
