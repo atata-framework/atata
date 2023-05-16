@@ -25,14 +25,14 @@ public static class EventSubscriptionsAtataContextBuilderTests
                         x => x.EventType == typeof(TestEvent) && x.EventHandler != null);
 
         [Test]
-        public void ActionWith1GenericParemeter() =>
+        public void ActionWith1GenericParameter() =>
             _sut.Act(x => x.Add<TestEvent>(x => StubMethod()))
                 .ResultOf(x => x.BuildingContext.EventSubscriptions)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler != null);
 
         [Test]
-        public void ActionWith2GenericParemeters() =>
+        public void ActionWith2GenericParameters() =>
             _sut.Act(x => x.Add<TestEvent>((_, _) => StubMethod()))
                 .ResultOf(x => x.BuildingContext.EventSubscriptions)
                     .Should.ConsistOfSingle(

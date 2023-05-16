@@ -32,7 +32,7 @@ public class SelectTests : UITestFixture
     [Test]
     public void OfStringType_WithFormatAttribute()
     {
-        var sut = _page.TextSelectWithFromat;
+        var sut = _page.TextSelectWithFormat;
 
         SetAndVerifyValues(sut, "A", "B");
 

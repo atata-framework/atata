@@ -9,12 +9,12 @@ public class ListPage : Page<_>
 {
     [ControlDefinition("li[parent::ul]/span[1]", ComponentTypeName = "product name")]
     [FindSettings(OuterXPath = ".//div[@id='simple-list-section']/div[1]//")]
-    public ControlList<Text<_>, _> ProductNameTextContolList { get; private set; }
+    public ControlList<Text<_>, _> ProductNameTextControlList { get; private set; }
 
     [ControlDefinition("li[parent::ul]/span[2]", ComponentTypeName = "product percent")]
     [FindSettings(OuterXPath = ".//div[@id='simple-list-section']//")]
     [Format("p")]
-    public ControlList<Number<_>, _> ProductPercentNumberContolList { get; private set; }
+    public ControlList<Number<_>, _> ProductPercentNumberControlList { get; private set; }
 
     public UnorderedList<_> SimpleUnorderedList { get; private set; }
 

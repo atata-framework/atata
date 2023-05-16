@@ -40,7 +40,7 @@ public static class DecomposedUriTests
                 });
 
         [Test]
-        public void WithUrlThatIsAbsoulteAndHasAllParts() =>
+        public void WithUrlThatIsAbsoluteAndHasAllParts() =>
             new DecomposedUri("https://example.org/some/path?a=1&b=2#frg")
                 .Should().BeEquivalentTo(new DecomposedUri
                 {

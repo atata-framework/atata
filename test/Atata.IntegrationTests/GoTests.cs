@@ -123,7 +123,7 @@ public class GoTests : UITestFixture
     [TestCase("&arg=1", ExpectedResult = "/?arg=1")]
     [TestCase(";arg=1", ExpectedResult = "/?arg=1")]
     [TestCase("#frag1", ExpectedResult = "/#frag1")]
-    public string To_UsingCombinedUrl_WhenNavigaionUrlIsNull(string url) =>
+    public string To_UsingCombinedUrl_WhenNavigationUrlIsNull(string url) =>
         Go.To<OrdinaryPage>(url: url)
             .PageUri.Relative;
 
@@ -131,7 +131,7 @@ public class GoTests : UITestFixture
     [TestCase("&arg=1", ExpectedResult = "/goto1?arg=1")]
     [TestCase(";arg=1", ExpectedResult = "/goto1?arg=1")]
     [TestCase("#frag1", ExpectedResult = "/goto1#frag1")]
-    public string To_UsingCombinedUrl_WhenNavigaionUrlHasOnlyPath(string url) =>
+    public string To_UsingCombinedUrl_WhenNavigationUrlHasOnlyPath(string url) =>
         Go.To<GoTo1Page>(url: url)
             .PageUri.Relative;
 
@@ -141,7 +141,7 @@ public class GoTests : UITestFixture
     [TestCase("#frag2", ExpectedResult = "/goto1?argA=1#frag2")]
     [TestCase("?argB=2#frag2", ExpectedResult = "/goto1?argB=2#frag2")]
     [TestCase("&argB=2#frag2", ExpectedResult = "/goto1?argA=1&argB=2#frag2")]
-    public string To_UsingCombinedUrl_WhenNavigaionUrlIsComplex(string url) =>
+    public string To_UsingCombinedUrl_WhenNavigationUrlIsComplex(string url) =>
         Go.To<PageWithComplexUrl>(url: url)
             .PageUri.Relative;
 
@@ -420,7 +420,7 @@ public class GoTests : UITestFixture
         }
 
         [Test]
-        public void To_WithAbsoulteUrl_WhenNotNavigated() =>
+        public void To_WithAbsoluteUrl_WhenNotNavigated() =>
             Go.To<OrdinaryPage>(url: BaseUrl + "/goto1")
                 .PageUri.Should.Be(new Uri(BaseUrl + "/goto1"));
 

@@ -25,7 +25,7 @@ public class ControlDelegateTests : UITestFixture
             .MissingButton.Should().Not.Exist();
 
     [Test]
-    public void WithNavigaton()
+    public void WithNavigation()
     {
         Go.To<BasicControlsPage>()
             .GoToButton.Should().Exist()

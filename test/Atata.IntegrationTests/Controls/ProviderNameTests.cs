@@ -248,7 +248,7 @@ public class ProviderNameTests : UITestFixture
     }
 
     [Test]
-    public void OfControlList_SelectData_WithSelecor()
+    public void OfControlList_SelectData_WithSelector()
     {
         var sut = _page
             .Files.SelectData(x => x.Name)
@@ -258,7 +258,7 @@ public class ProviderNameTests : UITestFixture
     }
 
     [Test]
-    public void OfNestedControlList_SelectData_WithSelecor()
+    public void OfNestedControlList_SelectData_WithSelector()
     {
         var sut = _page
             .Folders[2]

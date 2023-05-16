@@ -51,7 +51,7 @@ namespace Atata
         /// and <paramref name="sourceName"/>.
         /// </summary>
         /// <param name="attributeType">Type of the attribute.</param>
-        /// <param name="sourceName">Name of the source where the finding of the attribute ocurred.</param>
+        /// <param name="sourceName">Name of the source where the finding of the attribute occurred.</param>
         /// <returns>An instance of <see cref="AttributeNotFoundException"/>.</returns>
         public static AttributeNotFoundException Create(Type attributeType, string sourceName) =>
             new AttributeNotFoundException($"{attributeType.FullName} attribute is not found in {sourceName}.");

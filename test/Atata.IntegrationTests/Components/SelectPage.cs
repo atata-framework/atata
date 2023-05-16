@@ -40,7 +40,7 @@ public class SelectPage : Page<_>
 
     [Term("Text Select")]
     [Format("Option {0}")]
-    public Select<_> TextSelectWithFromat { get; private set; }
+    public Select<_> TextSelectWithFormat { get; private set; }
 
     [Term("Text Select")]
     [SelectsOptionByText(TermMatch.Contains)]

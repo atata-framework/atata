@@ -54,12 +54,12 @@ public class ControlListTests : UITestFixture
     [Test]
     public void WithDeclaredAttributes() =>
         Go.To<ListPage>()
-            .ProductNameTextContolList[0].Should.Equal("Phone")
-            .ProductNameTextContolList[1].Should.Equal("Book")
-            .ProductNameTextContolList.Count.Should.Equal(3)
-            .ProductNameTextContolList.Should.EqualSequence("Phone", "Book", "Table")
-            .ProductPercentNumberContolList.Should.EqualSequence(0.05m, 0.10m, 0.15m)
-            .ProductPercentNumberContolList[1].Should.Equal(0.10m);
+            .ProductNameTextControlList[0].Should.Equal("Phone")
+            .ProductNameTextControlList[1].Should.Equal("Book")
+            .ProductNameTextControlList.Count.Should.Equal(3)
+            .ProductNameTextControlList.Should.EqualSequence("Phone", "Book", "Table")
+            .ProductPercentNumberControlList.Should.EqualSequence(0.05m, 0.10m, 0.15m)
+            .ProductPercentNumberControlList[1].Should.Equal(0.10m);
 
     [Test]
     public void OfDescendantsAsControls()

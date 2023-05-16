@@ -10,8 +10,6 @@ public class TablePage : Page<_>
 
     public Table<UserTableRow, _> ComplexTable { get; private set; }
 
-    public Table<UserNavigatableTableRow, _> NavigatableTable { get; private set; }
-
     [Term("Add USA")]
     public Button<_> AddUsa { get; private set; }
 
@@ -48,13 +46,6 @@ public class TablePage : Page<_>
     public Table<NumberedTableRow, _> NumberedTable { get; private set; }
 
     public class UserTableRow : TableRow<_>
-    {
-        public Text<_> FirstName { get; private set; }
-
-        public Text<_> LastName { get; private set; }
-    }
-
-    public class UserNavigatableTableRow : TableRow<_>
     {
         public Text<_> FirstName { get; private set; }
 
