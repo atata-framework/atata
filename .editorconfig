@@ -1,6 +1,7 @@
 ###############################
 # Core EditorConfig Options   #
 ###############################
+
 root = true
 
 # All files
@@ -47,9 +48,11 @@ indent_size = 4
 indent_size = 4
 insert_final_newline = true
 charset = utf-8-bom
+
 ###############################
 # .NET Coding Conventions     #
 ###############################
+
 [*.{cs,vb}]
 dotnet_code_quality_unused_parameters = all:warning
 # Organize usings
@@ -89,9 +92,11 @@ dotnet_style_prefer_simplified_interpolation = true:suggestion
 dotnet_style_namespace_match_folder = true:suggestion
 dotnet_style_allow_multiple_blank_lines_experimental = false:warning
 dotnet_style_allow_statement_immediately_after_block_experimental = true:silent
+
 ###############################
 # Naming Conventions          #
 ###############################
+
 # Style Definitions
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
@@ -149,11 +154,11 @@ dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i_style
 
 dotnet_naming_symbols.interface.applicable_kinds = interface
 dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.interface.required_modifiers = 
+dotnet_naming_symbols.interface.required_modifiers =
 
 dotnet_naming_style.begins_with_i_style.required_prefix = I
-dotnet_naming_style.begins_with_i_style.required_suffix = 
-dotnet_naming_style.begins_with_i_style.word_separator = 
+dotnet_naming_style.begins_with_i_style.required_suffix =
+dotnet_naming_style.begins_with_i_style.word_separator =
 dotnet_naming_style.begins_with_i_style.capitalization = pascal_case
 
 # Locals and parameters are camelCase
@@ -178,6 +183,7 @@ dotnet_naming_rule.members_should_be_pascal_case.symbols = all_members
 dotnet_naming_rule.members_should_be_pascal_case.style = pascal_case_style
 
 dotnet_naming_symbols.all_members.applicable_kinds = *
+
 ###############################
 # .NET Analyzers              #
 ###############################
@@ -414,6 +420,7 @@ dotnet_diagnostic.SX1101.severity = warning
 ###############################
 # C# Coding Conventions       #
 ###############################
+
 [*.cs]
 # var preferences
 csharp_style_var_for_built_in_types = true:silent
@@ -440,9 +447,11 @@ csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_prefer_simple_default_expression = true:suggestion
 csharp_style_prefer_local_over_anonymous_function = true:suggestion
 csharp_style_inlined_variable_declaration = true:suggestion
+
 ###############################
 # C# Formatting Rules         #
 ###############################
+
 # New line preferences
 csharp_new_line_before_open_brace = all
 csharp_new_line_before_else = true
@@ -493,9 +502,20 @@ csharp_style_prefer_switch_expression = true:suggestion
 csharp_style_prefer_pattern_matching = true:silent
 csharp_style_prefer_not_pattern = true:suggestion
 csharp_style_prefer_extended_property_pattern = true:suggestion
+
 ###############################
 # VB Coding Conventions       #
 ###############################
+
 [*.vb]
 # Modifier preferences
 visual_basic_preferred_modifier_order = Partial,Default,Private,Protected,Public,Friend,NotOverridable,Overridable,MustOverride,Overloads,Overrides,MustInherit,NotInheritable,Static,Shared,Shadows,ReadOnly,WriteOnly,Dim,Const,WithEvents,Widening,Narrowing,Custom,Async:suggestion
+
+###############################
+# Visual Studio Spell Checker #
+###############################
+
+[*]
+vsspell_section_id = 484a77584dd64a119b1fb8b038d40eae
+vsspell_additional_dictionary_folders_484a77584dd64a119b1fb8b038d40eae = .
+vsspell_dictionary_languages_484a77584dd64a119b1fb8b038d40eae = en-US
