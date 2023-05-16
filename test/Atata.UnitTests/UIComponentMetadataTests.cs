@@ -15,14 +15,6 @@ public class UIComponentMetadataTests
 
     public List<Attribute> Component => _metadata.ComponentAttributesList;
 
-    private static IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
-    {
-        if (attributeCollections == null || attributeCollections.Length == 0)
-            return Enumerable.Empty<Attribute>();
-
-        return attributeCollections.SelectMany(x => x).ToArray();
-    }
-
     [SetUp]
     public void SetUp() =>
         _metadata = new UIComponentMetadata("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage));
@@ -149,6 +141,14 @@ public class UIComponentMetadataTests
 
     public class GetAll : UIComponentMetadataTests
     {
+        private static IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
+        {
+            if (attributeCollections == null || attributeCollections.Length == 0)
+                return Enumerable.Empty<Attribute>();
+
+            return attributeCollections.SelectMany(x => x).ToArray();
+        }
+
         [Test]
         public void ForAttribute_AllLevelsHaveTargetAttributeType()
         {
