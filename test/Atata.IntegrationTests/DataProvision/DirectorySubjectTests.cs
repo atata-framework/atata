@@ -235,7 +235,7 @@ public class DirectorySubjectTests
                 .Should.Equal("sut.Files.Names");
 
         [Test]
-        public static void ThruMissingSubDirectory() =>
+        public static void ThroughMissingSubDirectory() =>
             s_sut.Directories["missing"].Files["missing.txt"].Should.Not.Exist();
     }
 }
