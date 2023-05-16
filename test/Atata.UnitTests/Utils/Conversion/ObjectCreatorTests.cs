@@ -83,7 +83,7 @@ public static class ObjectCreatorTests
             using (new AssertionScope())
             {
                 castedResult.Match.Should().Be(TermMatch.StartsWith);
-                castedResult.Values.Should().Equal(new[] { "val1", "val2" });
+                castedResult.Values.Should().Equal("val1", "val2");
                 castedResult.Format.Should().Be("{0}!");
             }
         }
@@ -109,7 +109,7 @@ public static class ObjectCreatorTests
             using (new AssertionScope())
             {
                 castedResult.Match.Should().Be(TermMatch.EndsWith);
-                castedResult.Values.Should().Equal(new[] { "val1" });
+                castedResult.Values.Should().Equal("val1");
             }
         }
 

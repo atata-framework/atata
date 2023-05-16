@@ -67,7 +67,7 @@ public static class ObjectConverterTests
         [Test]
         public void StringToArrayOfString() =>
             TestConvert<string[]>("abc")
-                .Should().Equal(new[] { "abc" });
+                .Should().Equal("abc");
 
         [Test]
         public void ListOfStringToArrayOfString() =>
