@@ -11,7 +11,7 @@
   </PropertyGroup>
 
   <ItemGroup Label="Code analysis packages">
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="8.52.0.60960" PrivateAssets="All" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="9.0.0.68202" PrivateAssets="All" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="All" />
   </ItemGroup>
 

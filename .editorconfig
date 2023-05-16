@@ -295,6 +295,8 @@ dotnet_diagnostic.S1109.severity = warning
 
 dotnet_diagnostic.S113.severity = warning
 
+dotnet_diagnostic.S1133.severity = none
+
 dotnet_diagnostic.S1135.severity = none
 
 dotnet_diagnostic.S1145.severity = warning
