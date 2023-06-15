@@ -30,7 +30,7 @@ namespace Atata
             if (!Directory.Exists(directoryPath))
                 Directory.CreateDirectory(directoryPath);
 
-            screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
+            SaveImage(screenshotInfo, filePath);
 
             var context = AtataContext.Current;
             context.Log.Info($"Screenshot saved to file \"{filePath}\"");
@@ -49,5 +49,13 @@ namespace Atata
         /// <param name="screenshotInfo">The screenshot information.</param>
         /// <returns>The file path without the extension.</returns>
         protected abstract string BuildFilePath(ScreenshotInfo screenshotInfo);
+
+        private void SaveImage(ScreenshotInfo screenshotInfo, string filePath)
+        {
+            if (ImageFormat == ScreenshotImageFormat.Png)
+                screenshotInfo.ScreenshotContent.Save(filePath);
+            else
+                screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
+        }
     }
 }

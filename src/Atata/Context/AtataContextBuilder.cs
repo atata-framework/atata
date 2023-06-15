@@ -54,6 +54,11 @@ namespace Atata
         public ScreenshotConsumersAtataContextBuilder ScreenshotConsumers => new ScreenshotConsumersAtataContextBuilder(BuildingContext);
 
         /// <summary>
+        /// Gets the builder of screenshot configuration.
+        /// </summary>
+        public ScreenshotsAtataContextBuilder Screenshots => new ScreenshotsAtataContextBuilder(BuildingContext);
+
+        /// <summary>
         /// Gets the builder of page snapshot configuration.
         /// </summary>
         public PageSnapshotsAtataContextBuilder PageSnapshots => new PageSnapshotsAtataContextBuilder(BuildingContext);
@@ -1079,6 +1084,13 @@ Actual: {driverFactory.GetType().FullName}",
             context.ObjectMapper = objectMapper;
             context.ObjectCreator = objectCreator;
             context.EventBus = new EventBus(context, BuildingContext.EventSubscriptions);
+
+            context.ScreenshotTaker = new ScreenshotTaker(
+                BuildingContext.Screenshots.Strategy,
+                context);
+            foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
+                context.ScreenshotTaker.AddConsumer(screenshotConsumer);
+
             context.PageSnapshotTaker = new PageSnapshotTaker(
                 BuildingContext.PageSnapshots.Strategy,
                 BuildingContext.PageSnapshots.FileNameTemplate,
@@ -1122,9 +1134,6 @@ Actual: {driverFactory.GetType().FullName}",
 
             foreach (var logConsumerItem in BuildingContext.LogConsumerConfigurations)
                 logManager.Use(logConsumerItem);
-
-            foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
-                logManager.Use(screenshotConsumer);
 
             return logManager;
         }

@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using System.Text;
 
 namespace Atata
 {
@@ -36,7 +38,19 @@ namespace Atata
             return new ByteArrayFileContentWithExtension(bytes, extension);
         }
 
+        public static FileContentWithExtension CreateFromBase64String(string base64String, string extension)
+        {
+            base64String.CheckNotNull(nameof(base64String));
+            extension.CheckNotNullOrWhitespace(nameof(extension));
+
+            var bytes = Convert.FromBase64String(base64String);
+
+            return new ByteArrayFileContentWithExtension(bytes, extension);
+        }
+
         internal abstract void Save(string absoluteFilePath);
+
+        internal abstract string ToBase64String();
 
         private sealed class TextFileContentWithExtension : FileContentWithExtension
         {
@@ -48,6 +62,12 @@ namespace Atata
 
             internal override void Save(string absoluteFilePath) =>
                 File.WriteAllText(absoluteFilePath, _text);
+
+            internal override string ToBase64String()
+            {
+                var bytes = Encoding.Unicode.GetBytes(_text);
+                return Convert.ToBase64String(bytes);
+            }
         }
 
         private sealed class ByteArrayFileContentWithExtension : FileContentWithExtension
@@ -60,6 +80,9 @@ namespace Atata
 
             internal override void Save(string absoluteFilePath) =>
                 File.WriteAllBytes(absoluteFilePath, _bytes);
+
+            internal override string ToBase64String() =>
+                Convert.ToBase64String(_bytes);
         }
     }
 }

@@ -354,6 +354,8 @@ namespace Atata
 
         internal Stopwatch PureExecutionStopwatch { get; } = new Stopwatch();
 
+        internal ScreenshotTaker ScreenshotTaker { get; set; }
+
         internal PageSnapshotTaker PageSnapshotTaker { get; set; }
 
         public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects =>
@@ -787,9 +789,7 @@ namespace Atata
         /// </summary>
         /// <param name="title">The title of a screenshot.</param>
         public void TakeScreenshot(string title = null) =>
-#pragma warning disable CS0618 // Type or member is obsolete
-            Log?.Screenshot(title);
-#pragma warning restore CS0618 // Type or member is obsolete
+            ScreenshotTaker?.TakeScreenshot(title);
 
         /// <summary>
         /// Takes a snapshot (HTML or MHTML file) of current page with the specified title optionally.

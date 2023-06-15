@@ -14,13 +14,10 @@ namespace Atata
         private readonly ILogEventInfoFactory _logEventInfoFactory;
 
         private readonly List<LogConsumerConfiguration> _logConsumerConfigurations = new List<LogConsumerConfiguration>();
-        private readonly List<IScreenshotConsumer> _screenshotConsumers = new List<IScreenshotConsumer>();
 
         private readonly List<SecretStringToMask> _secretStringsToMask = new List<SecretStringToMask>();
 
         private readonly Stack<LogSection> _sectionEndStack = new Stack<LogSection>();
-
-        private int _screenshotNumber;
 
         public LogManager(ILogEventInfoFactory logEventInfoFactory) =>
             _logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));
@@ -46,11 +43,11 @@ namespace Atata
         /// </summary>
         /// <param name="consumer">The screenshot consumer.</param>
         /// <returns>The same <see cref="LogManager"/> instance.</returns>
+        [Obsolete("Don't use this method. Configure screenshot consumers through the AtataContetBuilder instead.")] // Obsolete since v2.8.0.
         public LogManager Use(IScreenshotConsumer consumer)
         {
-            consumer.CheckNotNull(nameof(consumer));
+            AtataContext.Current?.ScreenshotTaker.AddConsumer(consumer);
 
-            _screenshotConsumers.Add(consumer);
             return this;
         }
 
@@ -300,51 +297,8 @@ namespace Atata
             return message;
         }
 
-        /// <inheritdoc/>
-        public void Screenshot(string title = null)
-        {
-            if (AtataContext.Current?.Driver == null || !_screenshotConsumers.Any())
-                return;
-
-            try
-            {
-                _screenshotNumber++;
-
-                string logMessage = $"Take screenshot #{_screenshotNumber:D2}";
-
-                if (!string.IsNullOrWhiteSpace(title))
-                    logMessage += $" - {title}";
-
-                Info(logMessage);
-
-                var context = AtataContext.Current;
-
-                ScreenshotInfo screenshotInfo = new ScreenshotInfo
-                {
-                    Screenshot = context.Driver.AsScreenshotTaker().GetScreenshot(),
-                    Number = _screenshotNumber,
-                    Title = title,
-                    PageObjectName = context.PageObject?.ComponentName,
-                    PageObjectTypeName = context.PageObject?.ComponentTypeName,
-                    PageObjectFullName = context.PageObject?.ComponentFullName
-                };
-
-                foreach (IScreenshotConsumer screenshotConsumer in _screenshotConsumers)
-                {
-                    try
-                    {
-                        screenshotConsumer.Take(screenshotInfo);
-                    }
-                    catch (Exception e)
-                    {
-                        Error("Screenshot failed", e);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Error("Screenshot failed", e);
-            }
-        }
+        [Obsolete("Use TakeScreenshot(...) method of AtataContext instead. For example: AtataContext.Current.TakeScreenshot().")] // Obsolete since v2.8.0.
+        public void Screenshot(string title = null) =>
+            AtataContext.Current?.TakeScreenshot(title);
     }
 }

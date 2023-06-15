@@ -70,41 +70,6 @@ public class ReportTests : UITestFixture
     }
 
     [Test]
-    public void Screenshot_WithoutScreenshotConsumer()
-    {
-        Go.To<OrdinaryPage>()
-            .Report.Screenshot()
-            .Report.Screenshot("sometitle");
-
-        VerifyLastLogMessagesContain(
-            minLogLevel: LogLevel.Trace,
-            "Go to");
-    }
-
-    [Test]
-    public void Screenshot()
-    {
-        MockScreenshotConsumer screenshotConsumer = new();
-
-        ((LogManager)AtataContext.Current.Log).Use(screenshotConsumer);
-
-        Go.To<OrdinaryPage>()
-            .Report.Screenshot()
-            .Report.Screenshot("sometitle");
-
-        VerifyLastLogMessages(
-            minLogLevel: LogLevel.Trace,
-            "Take screenshot #01",
-            "Take screenshot #02 - sometitle");
-
-        screenshotConsumer.Items.Should().HaveCount(2);
-        screenshotConsumer.Items[0].Number.Should().Be(1);
-        screenshotConsumer.Items[0].Title.Should().BeNull();
-        screenshotConsumer.Items[1].Number.Should().Be(2);
-        screenshotConsumer.Items[1].Title.Should().Be("sometitle");
-    }
-
-    [Test]
     public void PageSnapshot()
     {
         Go.To(new OrdinaryPage("Test"))
@@ -153,11 +118,77 @@ public class ReportTests : UITestFixture
             "^< TEST STEP");
     }
 
-    private class MockScreenshotConsumer : IScreenshotConsumer
+    public class Screenshot : UITestFixtureBase
     {
-        public List<ScreenshotInfo> Items { get; } = new();
+        [Test]
+        public void ViewportVsFullPage()
+        {
+            ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsAtataContextBuilder> screenshotsConfigurationAction)
+            {
+                var builder = ConfigureBaseAtataContext()
+                    .ScreenshotConsumers.AddFile();
+                screenshotsConfigurationAction?.Invoke(builder.Screenshots);
+                using var context = builder.Build();
 
-        public void Take(ScreenshotInfo screenshotInfo) =>
-            Items.Add(screenshotInfo);
+                context.Go.To<ScrollablePage>()
+                    .Report.Screenshot();
+
+                var file = context.Artifacts.Files.Single(x => x.Extension == ".png").Should.Exist();
+                return file.Length;
+            }
+
+            var viewportScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseWebDriverViewportStrategy());
+            var fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseFullPageOrViewportStrategy());
+            var cdpFullPageScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseCdpFullPageStrategy());
+
+            fullPageScreenshotSize.Should.BeGreater((long)(viewportScreenshotSize * 1.5));
+            cdpFullPageScreenshotSize.Should.Be(fullPageScreenshotSize);
+        }
+
+        [Test]
+        public void LogEntries_WithoutScreenshotConsumer()
+        {
+            ConfigureBaseAtataContext().Build();
+
+            Go.To<OrdinaryPage>()
+                .Report.Screenshot()
+                .Report.Screenshot("sometitle");
+
+            VerifyLastLogMessagesContain(
+                minLogLevel: LogLevel.Trace,
+                "Go to");
+        }
+
+        [Test]
+        public new void LogEntries()
+        {
+            ConfigureBaseAtataContext().Build();
+            MockScreenshotConsumer screenshotConsumer = new();
+
+            AtataContext.Current.ScreenshotTaker.AddConsumer(screenshotConsumer);
+
+            Go.To<OrdinaryPage>()
+                .Report.Screenshot()
+                .Report.Screenshot("sometitle");
+
+            VerifyLastLogMessages(
+                minLogLevel: LogLevel.Trace,
+                "Take screenshot #01",
+                "Take screenshot #02 - sometitle");
+
+            screenshotConsumer.Items.Should().HaveCount(2);
+            screenshotConsumer.Items[0].Number.Should().Be(1);
+            screenshotConsumer.Items[0].Title.Should().BeNull();
+            screenshotConsumer.Items[1].Number.Should().Be(2);
+            screenshotConsumer.Items[1].Title.Should().Be("sometitle");
+        }
+
+        private class MockScreenshotConsumer : IScreenshotConsumer
+        {
+            public List<ScreenshotInfo> Items { get; } = new();
+
+            public void Take(ScreenshotInfo screenshotInfo) =>
+                Items.Add(screenshotInfo);
+        }
     }
 }

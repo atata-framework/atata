@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using OpenQA.Selenium;
 
 namespace Atata
 {
@@ -8,10 +9,20 @@ namespace Atata
     /// </summary>
     public class ScreenshotInfo
     {
+        private readonly Lazy<Screenshot> _lazyScreenshot;
+
+        public ScreenshotInfo() =>
+            _lazyScreenshot = new Lazy<Screenshot>(CreateScreenshot);
+
+        /// <summary>
+        /// Gets the screenshot content with file extension.
+        /// </summary>
+        public FileContentWithExtension ScreenshotContent { get; internal set; }
+
         /// <summary>
         /// Gets the screenshot.
         /// </summary>
-        public Screenshot Screenshot { get; internal set; }
+        public Screenshot Screenshot => _lazyScreenshot.Value;
 
         /// <summary>
         /// Gets the number.
@@ -37,5 +48,11 @@ namespace Atata
         /// Gets the full name of the page object that was shot.
         /// </summary>
         public string PageObjectFullName { get; internal set; }
+
+        private Screenshot CreateScreenshot()
+        {
+            string base64String = ScreenshotContent.ToBase64String();
+            return new Screenshot(base64String);
+        }
     }
 }

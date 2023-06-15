@@ -269,6 +269,11 @@ namespace Atata
         public IWarningReportStrategy WarningReportStrategy { get; set; } = new AtataWarningReportStrategy();
 
         /// <summary>
+        /// Gets the configuration of screenshots functionality.
+        /// </summary>
+        public ScreenshotsConfiguration Screenshots { get; private set; } = new ScreenshotsConfiguration();
+
+        /// <summary>
         /// Gets the configuration of page snapshots functionality.
         /// </summary>
         public PageSnapshotsConfiguration PageSnapshots { get; private set; } = new PageSnapshotsConfiguration();

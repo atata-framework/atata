@@ -3,6 +3,7 @@
     /// <summary>
     /// Defines the interface for the screenshot consumer.
     /// </summary>
+    // TODO: Atata v3. Delete IScreenshotConsumer.
     public interface IScreenshotConsumer
     {
         /// <summary>
