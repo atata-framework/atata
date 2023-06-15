@@ -4,7 +4,6 @@
 [![GitHub release](https://img.shields.io/github/release/atata-framework/atata.svg)](https://github.com/atata-framework/atata/releases)
 [![Build status](https://dev.azure.com/atata-framework/atata/_apis/build/status/atata-ci?branchName=main)](https://dev.azure.com/atata-framework/atata/_build/latest?definitionId=17&branchName=main)
 [![Atata Templates](https://img.shields.io/badge/get-Atata_Templates-green.svg?color=4BC21F)](https://marketplace.visualstudio.com/items?itemName=YevgeniyShunevych.AtataTemplates)\
-[![Gitter](https://badges.gitter.im/atata-framework/atata.svg)](https://gitter.im/atata-framework/atata)
 [![Slack](https://img.shields.io/badge/join-Slack-green.svg?colorB=4EB898)](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
 [![Atata docs](https://img.shields.io/badge/docs-Atata_Framework-orange.svg)](https://atata.io)
 [![Twitter](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://twitter.com/AtataFramework)
@@ -140,14 +139,15 @@ Any feedback, issues and feature requests are welcome.
 
 You can [ask a question on Stack Overflow](https://stackoverflow.com/questions/ask?tags=atata+csharp) using [atata](https://stackoverflow.com/questions/tagged/atata) tag.
 
-If you faced an issue please report it to [Atata Issues](https://github.com/atata-framework/atata/issues), write to [Atata Gitter](https://gitter.im/atata-framework/atata) or just mail to yevgeniy.shunevych@gmail.com.
+If you faced an issue please report it to [Atata Issues](https://github.com/atata-framework/atata/issues),
+write to [Slack](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
+or just mail to yevgeniy.shunevych@gmail.com.
 
 ### Links
 
 * Stack Overflow: https://stackoverflow.com/questions/tagged/atata
 * Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
 * Atata Issues: https://github.com/atata-framework/atata/issues
-* Atata Gitter: https://gitter.im/atata-framework/atata
 * Twitter: https://twitter.com/AtataFramework
 * YouTube: https://www.youtube.com/@atataframework
 
@@ -158,7 +158,6 @@ Contact me if you need a help in test automation using Atata Framework, or if yo
 * Email: yevgeniy.shunevych@gmail.com
 * Skype: e.shunevich
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
-* Gitter: https://gitter.im/YevgeniyShunevych
 
 ## Contributing
 
