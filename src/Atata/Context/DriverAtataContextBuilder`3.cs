@@ -171,13 +171,19 @@ namespace Atata
             return WithOptions(opt => CreateObjectMapper().Map(optionsPropertiesMap, opt));
         }
 
+        [Obsolete("A typo. Use " + nameof(AddAdditionalOption) + " instead.")] // Obsolete since v2.8.0.
+#pragma warning disable VSSpell001 // Spell Check
+        public TBuilder AddAddionalOption(string optionName, object optionValue) =>
+            AddAdditionalOption(optionName, optionValue);
+#pragma warning restore VSSpell001 // Spell Check
+
         /// <summary>
         /// Adds the additional option to the driver options.
         /// </summary>
         /// <param name="optionName">The name of the option to add.</param>
         /// <param name="optionValue">The value of the option to add.</param>
         /// <returns>The same builder instance.</returns>
-        public TBuilder AddAddionalOption(string optionName, object optionValue)
+        public TBuilder AddAdditionalOption(string optionName, object optionValue)
         {
             optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
