@@ -933,6 +933,15 @@ Actual: {driverFactory.GetType().FullName}",
             EventSubscriptions.Add(new TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(title));
 
         /// <summary>
+        /// Defines that an error occurred during the NUnit test execution should be captured by a screenshot during the cleanup.
+        /// </summary>
+        /// <param name="kind">The kind of a screenshot.</param>
+        /// <param name="title">The screenshot title.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder TakeScreenshotOnNUnitError(ScreenshotKind kind, string title = "Failed") =>
+            EventSubscriptions.Add(new TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(kind, title));
+
+        /// <summary>
         /// Defines that an error occurred during the NUnit test execution should be captured by a page snapshot during the cleanup.
         /// </summary>
         /// <param name="title">The snapshot title.</param>
