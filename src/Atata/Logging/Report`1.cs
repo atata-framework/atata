@@ -290,10 +290,7 @@ namespace Atata
             return result;
         }
 
-        /// <summary>
-        /// Takes a screenshot with the optionally specified title.
-        /// </summary>
-        /// <param name="title">The title.</param>
+        /// <inheritdoc cref="AtataContext.TakeScreenshot(string)"/>
         /// <returns>The instance of the owner object.</returns>
         public TOwner Screenshot(string title = null)
         {
@@ -301,10 +298,15 @@ namespace Atata
             return _owner;
         }
 
-        /// <summary>
-        /// Takes a snapshot (HTML or MHTML file) of current page with the specified title optionally.
-        /// </summary>
-        /// <param name="title">The title of a snapshot.</param>
+        /// <inheritdoc cref="AtataContext.TakeScreenshot(ScreenshotKind, string)"/>
+        /// <returns>The instance of the owner object.</returns>
+        public TOwner Screenshot(ScreenshotKind kind, string title = null)
+        {
+            _context.TakeScreenshot(kind, title);
+            return _owner;
+        }
+
+        /// <inheritdoc cref="AtataContext.TakePageSnapshot(string)"/>
         /// <returns>The instance of the owner object.</returns>
         public TOwner PageSnapshot(string title = null)
         {

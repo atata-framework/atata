@@ -123,6 +123,36 @@ public class ReportTests : UITestFixture
         [Test]
         public void ViewportVsFullPage()
         {
+            var context = ConfigureBaseAtataContext()
+                .ScreenshotConsumers.AddFile()
+                .Build();
+
+            var page = context.Go.To<ScrollablePage>();
+
+            ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(ScreenshotKind kind)
+            {
+                page.Report.Screenshot(kind);
+
+                string fileName = context.Artifacts.Files.Value
+                    .OrderByDescending(x => x.Object.CreationTimeUtc)
+                    .First()
+                    .Name;
+
+                var file = context.Artifacts.Files.Single(x => x.Name == fileName).Should.Exist();
+                return file.Length;
+            }
+
+            var defaultScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Default);
+            var viewportScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Viewport);
+            var fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.FullPage);
+
+            viewportScreenshotSize.Should.Be(defaultScreenshotSize);
+            fullPageScreenshotSize.Should.BeGreater((long)(viewportScreenshotSize * 1.5));
+        }
+
+        [Test]
+        public void ViewportVsFullPage_ThroughConfiguration()
+        {
             ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsAtataContextBuilder> screenshotsConfigurationAction)
             {
                 var builder = ConfigureBaseAtataContext()

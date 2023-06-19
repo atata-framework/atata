@@ -785,14 +785,22 @@ namespace Atata
         }
 
         /// <summary>
-        /// Takes a screenshot of current page with the specified title optionally.
+        /// Takes a screenshot of the current page with an optionally specified title.
         /// </summary>
         /// <param name="title">The title of a screenshot.</param>
         public void TakeScreenshot(string title = null) =>
             ScreenshotTaker?.TakeScreenshot(title);
 
         /// <summary>
-        /// Takes a snapshot (HTML or MHTML file) of current page with the specified title optionally.
+        /// Takes a screenshot of the current page of a certain kind with an optionally specified title.
+        /// </summary>
+        /// <param name="kind">The kind of a screenshot.</param>
+        /// <param name="title">The title of a screenshot.</param>
+        public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
+            ScreenshotTaker?.TakeScreenshot(kind, title);
+
+        /// <summary>
+        /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
         /// </summary>
         /// <param name="title">The title of a snapshot.</param>
         public void TakePageSnapshot(string title = null) =>

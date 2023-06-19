@@ -32,7 +32,23 @@ namespace Atata
 
         public void TakeScreenshot(string title = null)
         {
-            if (_strategy is null || !_context.HasDriver || !_screenshotConsumers.Any())
+            if (_strategy != null)
+                TakeScreenshot(_strategy, title);
+        }
+
+        public void TakeScreenshot(ScreenshotKind kind, string title = null)
+        {
+            if (kind == ScreenshotKind.Viewport)
+                TakeScreenshot(WebDriverViewportScreenshotStrategy.Instance, title);
+            else if (kind == ScreenshotKind.FullPage)
+                TakeScreenshot(FullPageOrViewportScreenshotStrategy.Instance, title);
+            else
+                TakeScreenshot(title);
+        }
+
+        private void TakeScreenshot(IScreenshotStrategy strategy, string title = null)
+        {
+            if (!_context.HasDriver || !_screenshotConsumers.Any())
                 return;
 
             _screenshotNumber++;
@@ -48,7 +64,7 @@ namespace Atata
 
                 var context = AtataContext.Current;
 
-                FileContentWithExtension fileContent = _strategy.TakeScreenshot(context);
+                FileContentWithExtension fileContent = strategy.TakeScreenshot(context);
 
                 ScreenshotInfo screenshotInfo = new ScreenshotInfo
                 {
