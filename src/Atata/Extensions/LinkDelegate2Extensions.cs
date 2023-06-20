@@ -68,19 +68,19 @@
             =>
             clickable.GetControl().Content;
 
-        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> Should<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
+        public static FieldVerificationProvider<string, Field<string, TOwner>, TOwner> Should<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
             =>
             clickable.GetControl().Should;
 
-        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
+        public static FieldVerificationProvider<string, Field<string, TOwner>, TOwner> ExpectTo<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
             =>
             clickable.GetControl().ExpectTo;
 
-        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
+        public static FieldVerificationProvider<string, Field<string, TOwner>, TOwner> WaitTo<TNavigateTo, TOwner>(this LinkDelegate<TNavigateTo, TOwner> clickable)
             where TNavigateTo : PageObject<TNavigateTo>
             where TOwner : PageObject<TOwner>
             =>

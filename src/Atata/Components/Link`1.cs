@@ -9,7 +9,7 @@ namespace Atata
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("a", ComponentTypeName = "link", IgnoreNameEndings = "Button,Link")]
     [FindByContent]
-    public class Link<TOwner> : Control<TOwner>
+    public class Link<TOwner> : Text<TOwner>
         where TOwner : PageObject<TOwner>
     {
         /// <summary>

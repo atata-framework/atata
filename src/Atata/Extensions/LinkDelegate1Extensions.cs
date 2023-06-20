@@ -57,17 +57,17 @@
             =>
             clickable.GetControl().Content;
 
-        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> Should<TOwner>(this LinkDelegate<TOwner> clickable)
+        public static FieldVerificationProvider<string, Field<string, TOwner>, TOwner> Should<TOwner>(this LinkDelegate<TOwner> clickable)
             where TOwner : PageObject<TOwner>
             =>
             clickable.GetControl().Should;
 
-        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> ExpectTo<TOwner>(this LinkDelegate<TOwner> clickable)
+        public static FieldVerificationProvider<string, Field<string, TOwner>, TOwner> ExpectTo<TOwner>(this LinkDelegate<TOwner> clickable)
             where TOwner : PageObject<TOwner>
             =>
             clickable.GetControl().ExpectTo;
 
-        public static UIComponentVerificationProvider<Control<TOwner>, TOwner> WaitTo<TOwner>(this LinkDelegate<TOwner> clickable)
+        public static FieldVerificationProvider<string, Field<string, TOwner>, TOwner> WaitTo<TOwner>(this LinkDelegate<TOwner> clickable)
             where TOwner : PageObject<TOwner>
             =>
             clickable.GetControl().WaitTo;
