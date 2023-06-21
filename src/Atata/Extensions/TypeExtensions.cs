@@ -48,12 +48,8 @@ namespace Atata
             type.CheckNotNull(nameof(type));
             name.CheckNotNullOrWhitespace(nameof(name));
 
-            MethodInfo method = type.GetMethod(name, types);
-
-            if (method == null)
-                throw new MissingMethodException(type.FullName, name);
-
-            return method;
+            return type.GetMethod(name, types)
+                ?? throw new MissingMethodException(type.FullName, name);
         }
 
         internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags)
@@ -61,12 +57,8 @@ namespace Atata
             type.CheckNotNull(nameof(type));
             name.CheckNotNullOrWhitespace(nameof(name));
 
-            MethodInfo method = type.GetMethod(name, bindingFlags);
-
-            if (method == null)
-                throw new MissingMethodException(type.FullName, name);
-
-            return method;
+            return type.GetMethod(name, bindingFlags)
+                ?? throw new MissingMethodException(type.FullName, name);
         }
 
         internal static MethodInfo GetMethodWithThrowOnError(this Type type, string name, BindingFlags bindingFlags, params Type[] types)
@@ -74,12 +66,8 @@ namespace Atata
             type.CheckNotNull(nameof(type));
             name.CheckNotNullOrWhitespace(nameof(name));
 
-            MethodInfo method = type.GetMethod(name, bindingFlags, null, types, null);
-
-            if (method == null)
-                throw new MissingMethodException(type.FullName, name);
-
-            return method;
+            return type.GetMethod(name, bindingFlags, null, types, null)
+                ?? throw new MissingMethodException(type.FullName, name);
         }
 
         internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
@@ -91,12 +79,8 @@ namespace Atata
                 ? type.GetProperties()
                 : type.GetProperties(bindingFlags);
 
-            PropertyInfo property = properties.FirstOrDefault(x => x.Name == name);
-
-            if (property == null)
-                throw new MissingMemberException(type.FullName, name);
-
-            return property;
+            return properties.FirstOrDefault(x => x.Name == name)
+                ?? throw new MissingMemberException(type.FullName, name);
         }
 
         internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, Type propertyType, BindingFlags bindingFlags = BindingFlags.Default)
@@ -111,12 +95,8 @@ namespace Atata
                 ? type.GetProperties()
                 : type.GetProperties(bindingFlags);
 
-            PropertyInfo property = properties.FirstOrDefault(x => x.Name == name && x.PropertyType.IsAssignableFrom(propertyType));
-
-            if (property == null)
-                throw new MissingMemberException(type.FullName, name);
-
-            return property;
+            return properties.FirstOrDefault(x => x.Name == name && x.PropertyType.IsAssignableFrom(propertyType))
+                ?? throw new MissingMemberException(type.FullName, name);
         }
 
         internal static FieldInfo GetFieldWithThrowOnError(this Type type, string name, BindingFlags bindingFlags = BindingFlags.Default)
@@ -128,12 +108,8 @@ namespace Atata
                 ? type.GetFields()
                 : type.GetFields(bindingFlags);
 
-            FieldInfo field = fields.FirstOrDefault(x => x.Name == name);
-
-            if (field == null)
-                throw new MissingMemberException(type.FullName, name);
-
-            return field;
+            return fields.FirstOrDefault(x => x.Name == name)
+                ?? throw new MissingMemberException(type.FullName, name);
         }
 
         public static int? GetDepthOfInheritance(this Type type, Type baseType)
