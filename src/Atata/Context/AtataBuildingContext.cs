@@ -279,6 +279,18 @@ namespace Atata
         public PageSnapshotsConfiguration PageSnapshots { get; private set; } = new PageSnapshotsConfiguration();
 
         /// <summary>
+        /// Gets or sets the name of the DOM test identifier attribute.
+        /// The default value is <c>"data-testid"</c>.
+        /// </summary>
+        public string DomTestIdAttributeName { get; set; } = FindByTestIdAttribute.DefaultAttributeName;
+
+        /// <summary>
+        /// Gets or sets the default case of the DOM test identifier attribute.
+        /// The default value is <see cref="TermCase.Kebab"/>.
+        /// </summary>
+        public TermCase DomTestIdAttributeDefaultCase { get; set; } = FindByTestIdAttribute.DefaultAttributeCase;
+
+        /// <summary>
         /// Gets the driver factory by the specified alias.
         /// </summary>
         /// <param name="alias">The alias of the driver factory.</param>

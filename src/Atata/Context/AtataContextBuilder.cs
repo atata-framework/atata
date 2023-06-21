@@ -918,6 +918,33 @@ Actual: {driverFactory.GetType().FullName}",
         }
 
         /// <summary>
+        /// Sets the name of the DOM test identifier attribute.
+        /// The default value is <c>"data-testid"</c>.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseDomTestIdAttributeName(string name)
+        {
+            name.CheckNotNullOrWhitespace(nameof(name));
+            BuildingContext.DomTestIdAttributeName = name;
+
+            return this;
+        }
+
+        /// <summary>
+        /// Sets the default case of the DOM test identifier attribute.
+        /// The default value is <see cref="TermCase.Kebab"/>.
+        /// </summary>
+        /// <param name="defaultCase">The default case.</param>
+        /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+        public AtataContextBuilder UseDomTestIdAttributeDefaultCase(TermCase defaultCase)
+        {
+            BuildingContext.DomTestIdAttributeDefaultCase = defaultCase;
+
+            return this;
+        }
+
+        /// <summary>
         /// Defines that an error occurred during the NUnit test execution should be added to the log during the cleanup.
         /// </summary>
         /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -1089,6 +1116,8 @@ Actual: {driverFactory.GetType().FullName}",
             context.AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType;
             context.AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
             context.WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy();
+            context.DomTestIdAttributeName = BuildingContext.DomTestIdAttributeName;
+            context.DomTestIdAttributeDefaultCase = BuildingContext.DomTestIdAttributeDefaultCase;
             context.ObjectConverter = objectConverter;
             context.ObjectMapper = objectMapper;
             context.ObjectCreator = objectCreator;

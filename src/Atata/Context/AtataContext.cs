@@ -411,6 +411,18 @@ namespace Atata
         public IDictionary<string, object> Variables { get; } = new Dictionary<string, object>();
 
         /// <summary>
+        /// Gets the name of the DOM test identifier attribute.
+        /// The default value is <c>"data-testid"</c>.
+        /// </summary>
+        public string DomTestIdAttributeName { get; internal set; }
+
+        /// <summary>
+        /// Gets the default case of the DOM test identifier attribute.
+        /// The default value is <see cref="TermCase.Kebab"/>.
+        /// </summary>
+        public TermCase DomTestIdAttributeDefaultCase { get; internal set; }
+
+        /// <summary>
         /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
         /// Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
         /// </summary>
