@@ -68,7 +68,7 @@ namespace Atata
         private static object CreateEnumerable(Type type, object sourceEnumerable) =>
             type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>)
                 ? CreateEnumerable(
-                    typeof(ReadOnlyCollection<>).MakeGenericType(type.GetGenericArguments().First()),
+                    typeof(ReadOnlyCollection<>).MakeGenericType(type.GetGenericArguments()[0]),
                     sourceEnumerable)
                 : Activator.CreateInstance(type, sourceEnumerable);
 
@@ -88,7 +88,7 @@ namespace Atata
                 .Concat(type.GetInterfaces())
                 .FirstOrDefault(x => x.IsGenericType && x.GetGenericTypeDefinition() == typeof(IEnumerable<>));
 
-            elementType = enumerableType?.GetGenericArguments().First();
+            elementType = enumerableType?.GetGenericArguments()[0];
             return enumerableType != null;
         }
 

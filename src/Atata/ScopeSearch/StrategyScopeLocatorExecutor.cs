@@ -31,7 +31,7 @@ namespace Atata
                 {
                     if (!executionData.IsSafely)
                     {
-                        XPathComponentScopeFindResult firstResult = xPathResults.First();
+                        XPathComponentScopeFindResult firstResult = xPathResults[0];
 
                         throw ExceptionFactory.CreateForNoSuchElement(
                             new SearchFailureData

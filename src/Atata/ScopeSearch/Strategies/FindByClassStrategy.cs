@@ -24,7 +24,7 @@ namespace Atata
                 .ToArray();
 
             return conditionOrParts.Length == 1
-                ? conditionOrParts.First()
+                ? conditionOrParts[0]
                 : string.Join(" or ", conditionOrParts.Select(x => "({0})".FormatWith(x)));
         }
     }

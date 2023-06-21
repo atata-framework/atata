@@ -36,7 +36,7 @@ public class AtataContextBuilderTests
         Assert.That(globalContext.TestNameFactory(), Is.EqualTo(nameof(MixedConfiguration)));
         Assert.That(globalContext.DriverFactories, Is.Empty);
         Assert.That(globalContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
-        Assert.That(globalContext.LogConsumerConfigurations.First().Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
+        Assert.That(globalContext.LogConsumerConfigurations[0].Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
         Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
         Assert.That(globalContext.BaseUrl, Is.Null);
 
@@ -44,7 +44,7 @@ public class AtataContextBuilderTests
         Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
         Assert.That(currentContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
         Assert.That(currentContext.ScreenshotConsumers, Has.Count.EqualTo(1));
-        Assert.That(currentContext.ScreenshotConsumers.First(), Is.TypeOf<FileScreenshotConsumer>());
+        Assert.That(currentContext.ScreenshotConsumers[0], Is.TypeOf<FileScreenshotConsumer>());
         Assert.That(currentContext.BaseUrl, Is.EqualTo(BaseUrl));
         Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
         Assert.That(currentContext.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));

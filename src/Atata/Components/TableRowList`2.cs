@@ -24,7 +24,7 @@ namespace Atata
             if (values == null || !values.Any())
                 return null;
             else if (values.Length == 1)
-                return values.First();
+                return values[0];
             else
                 return values.ToQuotedValuesListOfString(true);
         }

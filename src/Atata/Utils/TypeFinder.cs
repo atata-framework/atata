@@ -84,7 +84,7 @@ namespace Atata
             if (pureTypeName.Contains(SubTypeSeparator))
             {
                 string[] typeNames = pureTypeName.Split(SubTypeSeparator);
-                pureTypeName = typeNames.Last();
+                pureTypeName = typeNames[typeNames.Length - 1];
                 declaringTypeNames = typeNames.Take(typeNames.Length - 1).ToArray();
             }
 
