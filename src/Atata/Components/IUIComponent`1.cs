@@ -38,11 +38,14 @@ namespace Atata
         /// </summary>
         ValueProvider<bool, TOwner> IsVisible { get; }
 
+        [Obsolete("Use " + nameof(IsVisibleInViewport) + " instead.")] // Obsolete since v2.8.0.
+        ValueProvider<bool, TOwner> IsVisibleInViewPort { get; }
+
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
         /// whether the component is visible in viewport.
         /// </summary>
-        ValueProvider<bool, TOwner> IsVisibleInViewPort { get; }
+        ValueProvider<bool, TOwner> IsVisibleInViewport { get; }
 
         /// <summary>
         /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the scope element tag name.

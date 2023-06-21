@@ -7,10 +7,10 @@ public class PressEndAttributeTests : UITestFixture
     {
         var sut = Go.To<ScrollablePage>().BottomText;
 
-        sut.Should.Not.BeVisibleInViewPort();
+        sut.Should.Not.BeVisibleInViewport();
         sut.Metadata.Add(new PressEndAttribute(TriggerEvents.BeforeGet));
 
         sut.Get(out _);
-        sut.Should.BeVisibleInViewPort();
+        sut.Should.BeVisibleInViewport();
     }
 }

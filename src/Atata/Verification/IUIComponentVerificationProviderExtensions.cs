@@ -115,20 +115,26 @@ namespace Atata
             =>
             VerifyExistence(verifier, "be visible", VisibilityVerificationStateName, Visibility.Visible);
 
+        [Obsolete("Use " + nameof(BeVisibleInViewport) + " instead.")] // Obsolete since v2.8.0.
+        public static TOwner BeVisibleInViewPort<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
+            where TComponent : UIComponent<TOwner>
+            where TOwner : PageObject<TOwner> =>
+            verifier.BeVisibleInViewport();
+
         /// <summary>
-        /// Verifies that the component is visible in view port (visible browser screen area).
+        /// Verifies that the component is visible in viewport (visible browser screen area).
         /// </summary>
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <typeparam name="TOwner">The type of the owner.</typeparam>
         /// <param name="verifier">The verification provider.</param>
         /// <returns>The owner instance.</returns>
-        public static TOwner BeVisibleInViewPort<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
+        public static TOwner BeVisibleInViewport<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
             where TComponent : UIComponent<TOwner>
             where TOwner : PageObject<TOwner>
         {
             verifier.CheckNotNull(nameof(verifier));
 
-            return verifier.Component.IsVisibleInViewPort.Should.WithSettings(verifier).BeTrue();
+            return verifier.Component.IsVisibleInViewport.Should.WithSettings(verifier).BeTrue();
         }
 
         /// <summary>

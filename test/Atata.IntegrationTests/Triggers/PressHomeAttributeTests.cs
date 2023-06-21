@@ -9,10 +9,10 @@ public class PressHomeAttributeTests : UITestFixture
             .Press(Keys.End)
             .TopText;
 
-        sut.Should.Not.BeVisibleInViewPort();
+        sut.Should.Not.BeVisibleInViewport();
         sut.Metadata.Add(new PressHomeAttribute(TriggerEvents.BeforeGet));
 
         sut.Get(out _);
-        sut.Should.BeVisibleInViewPort();
+        sut.Should.BeVisibleInViewport();
     }
 }

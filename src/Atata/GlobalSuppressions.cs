@@ -78,5 +78,8 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataNavigator.IsUrlHasPath(System.String)~System.Boolean")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.EnumExtensions.GetIndividualFlags(System.Enum)~System.Collections.Generic.IEnumerable{System.Enum}")]
 [assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverFullPageScreenshotStrategy.TakeScreenshot(Atata.AtataContext)~Atata.FileContentWithExtension")]
+[assembly: SuppressMessage("Naming", "CA1708:Identifiers should differ by more than case", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UIComponent`1")]
+[assembly: SuppressMessage("Naming", "CA1708:Identifiers should differ by more than case", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.IUIComponent`1")]
+[assembly: SuppressMessage("Naming", "CA1708:Identifiers should differ by more than case", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.IUIComponentVerificationProviderExtensions")]
 
 #pragma warning restore S103 // Lines should not be too long

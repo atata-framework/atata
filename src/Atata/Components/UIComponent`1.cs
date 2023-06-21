@@ -15,7 +15,7 @@ namespace Atata
     public abstract class UIComponent<TOwner> : UIComponent, IUIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
-        private const string IsInViewPortScript = @"
+        private const string IsInViewportScript = @"
 const element = arguments[0];
 const rect = element.getBoundingClientRect();
 
@@ -63,9 +63,15 @@ return (
         public ValueProvider<bool, TOwner> IsVisible =>
             CreateValueProvider("visible state", GetIsVisible);
 
-        /// <inheritdoc/>
+        [Obsolete("Use " + nameof(IsVisibleInViewport) + " instead.")] // Obsolete since v2.8.0.
         public ValueProvider<bool, TOwner> IsVisibleInViewPort =>
+            IsVisibleInViewport;
+
+        /// <inheritdoc/>
+#pragma warning disable CS0618 // Type or member is obsolete
+        public ValueProvider<bool, TOwner> IsVisibleInViewport =>
             CreateValueProvider("visible in viewport state", GetIsVisibleInViewPort);
+#pragma warning restore CS0618 // Type or member is obsolete
 
         /// <inheritdoc/>
         public ValueProvider<string, TOwner> TagName =>
@@ -260,11 +266,15 @@ return (
         protected virtual bool GetIsVisible() =>
             GetScope(SearchOptions.SafelyAtOnce())?.Displayed ?? false;
 
-        protected virtual bool GetIsVisibleInViewPort()
+        [Obsolete("Use " + nameof(GetIsVisibleInViewport) + " instead.")] // Obsolete since v2.8.0.
+        protected virtual bool GetIsVisibleInViewPort() =>
+            GetIsVisibleInViewport();
+
+        protected virtual bool GetIsVisibleInViewport()
         {
             IWebElement element = GetScope(SearchOptions.SafelyAtOnce());
 
-            return element != null && element.Displayed && Script.Execute<bool>(IsInViewPortScript, element);
+            return element != null && element.Displayed && Script.Execute<bool>(IsInViewportScript, element);
         }
 
         /// <summary>

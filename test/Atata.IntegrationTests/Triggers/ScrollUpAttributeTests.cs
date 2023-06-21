@@ -9,10 +9,10 @@ public class ScrollUpAttributeTests : UITestFixture
             .ScrollDown()
             .TopText;
 
-        sut.Should.Not.BeVisibleInViewPort();
+        sut.Should.Not.BeVisibleInViewport();
         sut.Metadata.Add(new ScrollUpAttribute(TriggerEvents.BeforeGet));
 
         sut.Get(out _);
-        sut.Should.BeVisibleInViewPort();
+        sut.Should.BeVisibleInViewport();
     }
 }

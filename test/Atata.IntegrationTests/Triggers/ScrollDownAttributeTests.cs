@@ -7,10 +7,10 @@ public class ScrollDownAttributeTests : UITestFixture
     {
         var sut = Go.To<ScrollablePage>().BottomText;
 
-        sut.Should.Not.BeVisibleInViewPort();
+        sut.Should.Not.BeVisibleInViewport();
         sut.Metadata.Add(new ScrollDownAttribute(TriggerEvents.BeforeGet));
 
         sut.Get(out _);
-        sut.Should.BeVisibleInViewPort();
+        sut.Should.BeVisibleInViewport();
     }
 }
