@@ -316,6 +316,7 @@ namespace Atata
             copy.EventSubscriptions = EventSubscriptions.ToList();
             copy.Variables = new Dictionary<string, object>(Variables);
             copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
+            copy.Screenshots = Screenshots.Clone();
             copy.PageSnapshots = PageSnapshots.Clone();
 
             return copy;
