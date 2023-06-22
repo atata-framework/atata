@@ -9,7 +9,9 @@ namespace Atata
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     [ControlDefinition("tr[parent::table or parent::tbody]", ComponentTypeName = "row")]
-    [FindByColumnHeader(TargetType = typeof(Content<,>))]
+    [FindByColumnHeader(
+        TargetType = typeof(Content<,>),
+        ExcludeTargetTypes = new[] { typeof(Link<>), typeof(Label<,>), typeof(TextListItem<>) })]
     public class TableRow<TOwner> : Control<TOwner>
         where TOwner : PageObject<TOwner>
     {
