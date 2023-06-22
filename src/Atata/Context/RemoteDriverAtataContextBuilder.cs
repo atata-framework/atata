@@ -18,7 +18,7 @@ namespace Atata
         /// </summary>
         public static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(60);
 
-        private readonly List<Action<DriverOptions>> _optionsInitializers = new List<Action<DriverOptions>>();
+        private readonly List<Action<DriverOptions>> _optionsInitializers = new();
 
         private Uri _remoteAddress;
 

@@ -10,7 +10,7 @@ namespace Atata
     /// </summary>
     public static class TemplateStringTransformer
     {
-        private static readonly Regex s_variableMatchRegex = new Regex(@"{\D[^}]*}");
+        private static readonly Regex s_variableMatchRegex = new(@"{\D[^}]*}");
 
         private static readonly char[] s_braces = new[] { '{', '}' };
 

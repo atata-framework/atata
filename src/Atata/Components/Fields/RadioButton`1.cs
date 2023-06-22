@@ -21,7 +21,7 @@ namespace Atata
         /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> Should =>
-            new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner>(this);
+            new(this);
 
         /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

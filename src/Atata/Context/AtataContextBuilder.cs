@@ -33,35 +33,35 @@ namespace Atata
         /// which provides the functionality to add extra attributes to different metadata levels:
         /// global, assembly, component and property.
         /// </summary>
-        public AttributesAtataContextBuilder Attributes => new AttributesAtataContextBuilder(BuildingContext);
+        public AttributesAtataContextBuilder Attributes => new(BuildingContext);
 
         /// <summary>
         /// Gets the builder of event subscriptions,
         /// which provides the methods to subscribe to Atata and custom events.
         /// </summary>
-        public EventSubscriptionsAtataContextBuilder EventSubscriptions => new EventSubscriptionsAtataContextBuilder(BuildingContext);
+        public EventSubscriptionsAtataContextBuilder EventSubscriptions => new(BuildingContext);
 
         /// <summary>
         /// Gets the builder of log consumers,
         /// which provides the methods to add log consumers.
         /// </summary>
-        public LogConsumersAtataContextBuilder LogConsumers => new LogConsumersAtataContextBuilder(BuildingContext);
+        public LogConsumersAtataContextBuilder LogConsumers => new(BuildingContext);
 
         /// <summary>
         /// Gets the builder of screenshot consumers,
         /// which provides the methods to add screenshot consumers.
         /// </summary>
-        public ScreenshotConsumersAtataContextBuilder ScreenshotConsumers => new ScreenshotConsumersAtataContextBuilder(BuildingContext);
+        public ScreenshotConsumersAtataContextBuilder ScreenshotConsumers => new(BuildingContext);
 
         /// <summary>
         /// Gets the builder of screenshot configuration.
         /// </summary>
-        public ScreenshotsAtataContextBuilder Screenshots => new ScreenshotsAtataContextBuilder(BuildingContext);
+        public ScreenshotsAtataContextBuilder Screenshots => new(BuildingContext);
 
         /// <summary>
         /// Gets the builder of page snapshot configuration.
         /// </summary>
-        public PageSnapshotsAtataContextBuilder PageSnapshots => new PageSnapshotsAtataContextBuilder(BuildingContext);
+        public PageSnapshotsAtataContextBuilder PageSnapshots => new(BuildingContext);
 
         /// <summary>
         /// Returns an existing or creates a new builder for <typeparamref name="TDriverBuilder"/> by the specified alias.
@@ -83,7 +83,7 @@ namespace Atata
                 driverFactory = driverBuilderCreator.Invoke();
                 BuildingContext.DriverFactories.Add(driverFactory);
             }
-            else if (!(driverFactory is TDriverBuilder))
+            else if (driverFactory is not TDriverBuilder)
             {
                 throw new ArgumentException(
                     $@"Existing driver with ""{alias}"" alias has other factory type in {nameof(AtataContextBuilder)}.

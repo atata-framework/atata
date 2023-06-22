@@ -26,7 +26,7 @@ namespace Atata
         /// Gets the attributes builder of global level.
         /// </summary>
         public GlobalAttributesAtataContextBuilder Global =>
-            new GlobalAttributesAtataContextBuilder(BuildingContext);
+            new(BuildingContext);
 
         /// <summary>
         /// Creates and returns the attributes builder for the assembly with the specified name.
@@ -45,7 +45,7 @@ namespace Atata
         /// <param name="assembly">The assembly.</param>
         /// <returns>An instance of <see cref="AssemblyAttributesAtataContextBuilder"/>.</returns>
         public AssemblyAttributesAtataContextBuilder Assembly(Assembly assembly) =>
-            new AssemblyAttributesAtataContextBuilder(assembly, BuildingContext);
+            new(assembly, BuildingContext);
 
         /// <summary>
         /// Creates and returns the attributes builder for the component specified by generic <typeparamref name="TComponent"/> parameter type.
@@ -53,7 +53,7 @@ namespace Atata
         /// <typeparam name="TComponent">The type of the component.</typeparam>
         /// <returns>An instance of <see cref="ComponentAttributesAtataContextBuilder{TComponent}"/>.</returns>
         public ComponentAttributesAtataContextBuilder<TComponent> Component<TComponent>() =>
-            new ComponentAttributesAtataContextBuilder<TComponent>(BuildingContext);
+            new(BuildingContext);
 
         /// <summary>
         /// Creates and returns the attributes builder for the component with the specified type name.
@@ -77,6 +77,6 @@ namespace Atata
         /// <param name="type">The type.</param>
         /// <returns>An instance of <see cref="ComponentAttributesAtataContextBuilder"/>.</returns>
         public ComponentAttributesAtataContextBuilder Component(Type type) =>
-            new ComponentAttributesAtataContextBuilder(type, BuildingContext);
+            new(type, BuildingContext);
     }
 }

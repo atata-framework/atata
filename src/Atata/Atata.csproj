@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0</TargetFrameworks>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>9.0</LangVersion>
     <RootNamespace>Atata</RootNamespace>
     <Version>2.7.0</Version>
     <Description>C#/.NET web UI test automation full featured framework based on Selenium WebDriver.

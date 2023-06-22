@@ -15,7 +15,7 @@ namespace Atata
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public NegationFieldVerificationProvider Not =>
-            new NegationFieldVerificationProvider(Component, this);
+            new(Component, this);
 
         IObjectProvider<TValue, TOwner> IObjectVerificationProvider<TValue, TOwner>.ObjectProvider =>
             Component;

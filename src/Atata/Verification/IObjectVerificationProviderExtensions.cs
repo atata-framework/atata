@@ -94,7 +94,7 @@ namespace Atata
 
         private static bool TryShortenExpectedMessage(string originalMessage, out string resultMessage)
         {
-            if (originalMessage == "equal {0}" || originalMessage == "be {0}")
+            if (originalMessage is "equal {0}" or "be {0}")
             {
                 resultMessage = "{0}";
                 return true;

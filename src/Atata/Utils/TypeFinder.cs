@@ -18,7 +18,7 @@ namespace Atata
 
         private const char GenericTypeSeparator = '`';
 
-        private static readonly ConcurrentDictionary<string, Type> s_typesByName = new ConcurrentDictionary<string, Type>();
+        private static readonly ConcurrentDictionary<string, Type> s_typesByName = new();
 
         /// <summary>
         /// Finds the type by name in current application domain.
@@ -162,6 +162,6 @@ namespace Atata
         }
 
         private static Regex CreateRegexForNameConsideringGeneric(string typeName) =>
-            new Regex($"^{typeName}($|`.+)", RegexOptions.IgnoreCase);
+            new($"^{typeName}($|`.+)", RegexOptions.IgnoreCase);
     }
 }

@@ -99,7 +99,7 @@ namespace Atata
 
         private static string BuildIntroMessage(IEnumerable<AssertionResult> results)
         {
-            int failuresCount = results.Count(x => x.Status == AssertionStatus.Failed || x.Status == AssertionStatus.Warning);
+            int failuresCount = results.Count(x => x.Status is AssertionStatus.Failed or AssertionStatus.Warning);
             int exceptionsCount = results.Count(x => x.Status == AssertionStatus.Exception);
 
             if (failuresCount == 0 && exceptionsCount == 0)

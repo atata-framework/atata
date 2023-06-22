@@ -14,14 +14,14 @@ namespace Atata
         {
             action.CheckNotNull(nameof(action));
 
-            _action = (e, c) => action.Invoke();
+            _action = (_, _) => action.Invoke();
         }
 
         public ActionEventHandler(Action<TEvent> action)
         {
             action.CheckNotNull(nameof(action));
 
-            _action = (e, c) => action.Invoke(e);
+            _action = (e, _) => action.Invoke(e);
         }
 
         public ActionEventHandler(Action<TEvent, AtataContext> action) =>

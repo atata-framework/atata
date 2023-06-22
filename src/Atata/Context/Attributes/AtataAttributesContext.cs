@@ -63,7 +63,7 @@ namespace Atata
         /// </summary>
         /// <returns>The copied <see cref="AtataAttributesContext"/> instance.</returns>
         public AtataAttributesContext Clone() =>
-            new AtataAttributesContext(
+            new(
                 new List<Attribute>(Global),
                 AssemblyMap.ToDictionary(x => x.Key, x => x.Value.ToList()),
                 ComponentMap.ToDictionary(x => x.Key, x => x.Value.ToList()),

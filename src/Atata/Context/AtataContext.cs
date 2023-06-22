@@ -16,9 +16,9 @@ namespace Atata
     /// </summary>
     public sealed class AtataContext : IDisposable
     {
-        private static readonly object s_buildStartSyncLock = new object();
+        private static readonly object s_buildStartSyncLock = new();
 
-        private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new AsyncLocal<AtataContext>();
+        private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new();
 
         private static AtataContextModeOfCurrent s_modeOfCurrent = AtataContextModeOfCurrent.AsyncLocal;
 

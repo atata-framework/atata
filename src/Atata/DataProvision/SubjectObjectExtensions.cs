@@ -30,7 +30,7 @@
         /// <param name="source">The instance to wrap with <see cref="Subject{TObject}"/>.</param>
         /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public static Subject<T> ToSubject<T>(this T source) =>
-            new Subject<T>(source);
+            new(source);
 
         /// <summary>
         /// Creates a new <see cref="Subject{TObject}"/> instance that wraps the <paramref name="source"/> with the specified <paramref name="providerName"/>.
@@ -40,6 +40,6 @@
         /// <param name="providerName">Name of the provider.</param>
         /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
         public static Subject<T> ToSubject<T>(this T source, string providerName) =>
-            new Subject<T>(source, providerName);
+            new(source, providerName);
     }
 }

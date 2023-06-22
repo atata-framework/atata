@@ -7,7 +7,7 @@
             if (xPath != null)
             {
                 RawXPath = xPath;
-                XPath = (xPath[0] == '/' || xPath[0] == '[') ? xPath : "/" + xPath;
+                XPath = (xPath[0] is '/' or '[') ? xPath : "/" + xPath;
             }
         }
 

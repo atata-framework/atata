@@ -14,7 +14,7 @@ namespace Atata
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public NegationPageObjectVerificationProvider Not =>
-            new NegationPageObjectVerificationProvider(Owner, this);
+            new(Owner, this);
 
         public class NegationPageObjectVerificationProvider :
             NegationUIComponentVerificationProvider<NegationPageObjectVerificationProvider>,

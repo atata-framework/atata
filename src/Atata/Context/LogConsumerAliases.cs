@@ -19,7 +19,7 @@ namespace Atata
 
         public const string Log4Net = "log4net";
 
-        private static readonly Dictionary<string, Func<ILogConsumer>> s_aliasFactoryMap = new Dictionary<string, Func<ILogConsumer>>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, Func<ILogConsumer>> s_aliasFactoryMap = new(StringComparer.OrdinalIgnoreCase);
 
         static LogConsumerAliases()
         {

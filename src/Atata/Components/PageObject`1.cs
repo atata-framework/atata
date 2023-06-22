@@ -54,7 +54,7 @@ namespace Atata
         /// Gets the assertion verification provider that has a set of verification extension methods.
         /// </summary>
         public new PageObjectVerificationProvider<TOwner> Should
-            => new PageObjectVerificationProvider<TOwner>((TOwner)this);
+            => new((TOwner)this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.

@@ -5,7 +5,7 @@ namespace Atata
 {
     internal class LockingConcurrentDictionary<TKey, TValue>
     {
-        private readonly ConcurrentDictionary<TKey, Lazy<TValue>> _dictionary = new ConcurrentDictionary<TKey, Lazy<TValue>>();
+        private readonly ConcurrentDictionary<TKey, Lazy<TValue>> _dictionary = new();
 
         private readonly Func<TKey, Lazy<TValue>> _valueFactory;
 

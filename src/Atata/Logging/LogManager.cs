@@ -13,11 +13,11 @@ namespace Atata
     {
         private readonly ILogEventInfoFactory _logEventInfoFactory;
 
-        private readonly List<LogConsumerConfiguration> _logConsumerConfigurations = new List<LogConsumerConfiguration>();
+        private readonly List<LogConsumerConfiguration> _logConsumerConfigurations = new();
 
-        private readonly List<SecretStringToMask> _secretStringsToMask = new List<SecretStringToMask>();
+        private readonly List<SecretStringToMask> _secretStringsToMask = new();
 
-        private readonly Stack<LogSection> _sectionEndStack = new Stack<LogSection>();
+        private readonly Stack<LogSection> _sectionEndStack = new();
 
         public LogManager(ILogEventInfoFactory logEventInfoFactory) =>
             _logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));

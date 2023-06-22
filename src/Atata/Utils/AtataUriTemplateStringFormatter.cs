@@ -9,7 +9,7 @@ namespace Atata
             Uri.EscapeDataString;
 
         private static readonly Dictionary<string, Func<string, string>> s_aliasAndModifierFunctionMap =
-            new Dictionary<string, Func<string, string>>
+            new()
             {
                 ["noescape"] = x => x,
                 ["uriescape"] = Uri.EscapeUriString,

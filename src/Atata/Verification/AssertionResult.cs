@@ -23,7 +23,7 @@ namespace Atata
         public string StackTrace { get; private set; }
 
         public static AssertionResult ForFailure(string message, string stackTrace) =>
-            new AssertionResult
+            new()
             {
                 Status = AssertionStatus.Failed,
                 Message = message,
@@ -31,7 +31,7 @@ namespace Atata
             };
 
         public static AssertionResult ForWarning(string message, string stackTrace) =>
-            new AssertionResult
+            new()
             {
                 Status = AssertionStatus.Warning,
                 Message = message,
@@ -39,7 +39,7 @@ namespace Atata
             };
 
         public static AssertionResult ForException(Exception exception) =>
-            new AssertionResult
+            new()
             {
                 Status = AssertionStatus.Exception,
                 Message = exception.ToString()

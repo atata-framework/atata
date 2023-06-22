@@ -39,7 +39,7 @@ namespace Atata
         /// <param name="directoryName">Name of the directory.</param>
         /// <returns>A <see cref="DirectorySubject"/> instance.</returns>
         public DirectorySubject this[string directoryName] =>
-            new DirectorySubject(
+            new(
                 Path.Combine(Owner.Object.FullName, directoryName),
                 $"[\"{directoryName}\"]")
             {

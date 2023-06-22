@@ -5,7 +5,7 @@ namespace Atata
 {
     public static class TermCaseResolver
     {
-        private static readonly Dictionary<TermCase, FormatterItem> s_formatters = new Dictionary<TermCase, FormatterItem>
+        private static readonly Dictionary<TermCase, FormatterItem> s_formatters = new()
         {
             [TermCase.Title] = FormatterItem.For<TitleTermFormatter>(),
             [TermCase.Capitalized] = FormatterItem.For<CapitalizedTermFormatter>(),

@@ -31,7 +31,7 @@ namespace Atata
 
             if (!string.IsNullOrWhiteSpace(xPathCondition))
             {
-                if (xPathCondition[0] != '[' && xPathCondition[0] != '/')
+                if (xPathCondition[0] is not '[' and not '/')
                     xPathBuilder.Append('/');
 
                 xPathBuilder.Append(xPathCondition);

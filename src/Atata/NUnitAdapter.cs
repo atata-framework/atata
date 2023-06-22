@@ -10,31 +10,31 @@ namespace Atata
 
         internal const string AssertionExceptionTypeName = "NUnit.Framework.AssertionException";
 
-        private static readonly Lazy<Type> s_testContextType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testContextType = new(
             () => GetType("NUnit.Framework.TestContext"));
 
-        private static readonly Lazy<Type> s_testExecutionContextType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testExecutionContextType = new(
             () => GetType("NUnit.Framework.Internal.TestExecutionContext"));
 
-        private static readonly Lazy<Type> s_assertType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_assertType = new(
             () => GetType("NUnit.Framework.Assert"));
 
-        private static readonly Lazy<Type> s_testDelegateType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testDelegateType = new(
             () => GetType("NUnit.Framework.TestDelegate"));
 
-        private static readonly Lazy<Type> s_assertionStatusType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_assertionStatusType = new(
             () => GetType("NUnit.Framework.Interfaces.AssertionStatus"));
 
-        private static readonly Lazy<Type> s_testResultType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testResultType = new(
             () => GetType("NUnit.Framework.Internal.TestResult"));
 
-        private static readonly Lazy<Type> s_testMethodType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testMethodType = new(
             () => GetType("NUnit.Framework.Internal.TestMethod"));
 
-        private static readonly Lazy<Type> s_testFixtureType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_testFixtureType = new(
             () => GetType("NUnit.Framework.Internal.TestFixture"));
 
-        private static readonly Lazy<Type> s_setUpFixtureType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_setUpFixtureType = new(
             () => GetType("NUnit.Framework.Internal.SetUpFixture"));
 
         internal enum AssertionStatus

@@ -150,6 +150,6 @@ namespace Atata
         }
 
         private static Random CreateRandom() =>
-            new Random(Guid.NewGuid().GetHashCode());
+            new(Guid.NewGuid().GetHashCode());
     }
 }

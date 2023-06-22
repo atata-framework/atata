@@ -26,6 +26,6 @@ namespace Atata
         }
 
         public static AssemblyNotFoundException For(string assemblyName) =>
-            new AssemblyNotFoundException($"Failed to find \"{assemblyName}\" assembly.");
+            new($"Failed to find \"{assemblyName}\" assembly.");
     }
 }

@@ -25,7 +25,7 @@ return (
   Math.floor(rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) &&
   Math.floor(rect.right) <= (window.innerWidth || document.documentElement.clientWidth));";
 
-        private readonly List<TriggerEvents> _currentDeniedTriggers = new List<TriggerEvents>();
+        private readonly List<TriggerEvents> _currentDeniedTriggers = new();
 
         protected UIComponent()
         {
@@ -92,7 +92,7 @@ return (
         /// </summary>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should =>
-            new UIComponentVerificationProvider<UIComponent<TOwner>, TOwner>(this);
+            new(this);
 
         /// <summary>
         /// Gets the expectation verification provider that has a set of verification extension methods.
@@ -113,13 +113,13 @@ return (
         /// Gets the <see cref="UIComponentLocationProvider{TOwner}"/> instance that provides an access to the scope element's location (X and Y).
         /// </summary>
         public UIComponentLocationProvider<TOwner> ComponentLocation =>
-            new UIComponentLocationProvider<TOwner>(this, GetLocation, BuildFullValueProviderName("location"));
+            new(this, GetLocation, BuildFullValueProviderName("location"));
 
         /// <summary>
         /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
         /// </summary>
         public UIComponentSizeProvider<TOwner> ComponentSize =>
-            new UIComponentSizeProvider<TOwner>(this, GetSize, BuildFullValueProviderName("size"));
+            new(this, GetSize, BuildFullValueProviderName("size"));
 
         /// <inheritdoc/>
         [Obsolete("Use DomProperties, DomAttributes or DomClasses instead.")] // Obsolete since v2.3.0.
@@ -388,7 +388,7 @@ return (
                 }
             }
 
-            if (on == TriggerEvents.Init || on == TriggerEvents.DeInit)
+            if (on is TriggerEvents.Init or TriggerEvents.DeInit)
                 foreach (UIComponent<TOwner> child in Controls)
                     child.ExecuteTriggers(on);
         }

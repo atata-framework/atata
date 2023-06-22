@@ -82,5 +82,6 @@
 [assembly: SuppressMessage("Naming", "CA1708:Identifiers should differ by more than case", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.IUIComponent`1")]
 [assembly: SuppressMessage("Naming", "CA1708:Identifiers should differ by more than case", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.IUIComponentVerificationProviderExtensions")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ContentExtractor.Get``1(Atata.IUIComponent{``0},Atata.ContentSource)~System.String")]
+[assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataPathTemplateStringFormatter.Format(System.String,System.Object,System.IFormatProvider)~System.String")]
 
 #pragma warning restore S103 // Lines should not be too long

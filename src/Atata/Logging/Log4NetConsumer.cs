@@ -9,9 +9,9 @@ namespace Atata
     /// </summary>
     public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     {
-        private static readonly Lazy<Dictionary<LogLevel, dynamic>> s_lazyLogLevelsMap = new Lazy<Dictionary<LogLevel, dynamic>>(CreateLogLevelsMap);
+        private static readonly Lazy<Dictionary<LogLevel, dynamic>> s_lazyLogLevelsMap = new(CreateLogLevelsMap);
 
-        private static readonly Lazy<dynamic> s_lazyThreadContextProperties = new Lazy<dynamic>(GetThreadContextProperties);
+        private static readonly Lazy<dynamic> s_lazyThreadContextProperties = new(GetThreadContextProperties);
 
         private string _repositoryName;
 

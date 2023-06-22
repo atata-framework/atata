@@ -4,7 +4,7 @@ namespace Atata
 {
     internal class LiteralExpressionPart
     {
-        private readonly StringBuilder _builder = new StringBuilder();
+        private readonly StringBuilder _builder = new();
 
         public void Append(string value)
             => _builder.Append(value);

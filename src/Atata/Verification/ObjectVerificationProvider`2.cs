@@ -20,7 +20,7 @@ namespace Atata
 
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public NegationObjectVerificationProvider Not =>
-            new NegationObjectVerificationProvider(ObjectProvider, this);
+            new(ObjectProvider, this);
 
         protected override (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions() =>
             ObjectProvider.IsDynamic

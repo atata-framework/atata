@@ -19,7 +19,7 @@ namespace Atata
         {
             if (context.Component is Control<TOwner> componentAsControl)
             {
-                if (context.Event != TriggerEvents.BeforeFocus && context.Event != TriggerEvents.AfterFocus)
+                if (context.Event is not TriggerEvents.BeforeFocus and not TriggerEvents.AfterFocus)
                     componentAsControl.Focus();
             }
             else

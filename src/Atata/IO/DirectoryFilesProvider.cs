@@ -37,7 +37,7 @@ namespace Atata
         /// <param name="fileName">Name of the file.</param>
         /// <returns>A <see cref="FileSubject"/> instance.</returns>
         public FileSubject this[string fileName] =>
-            new FileSubject(
+            new(
                 Path.Combine(Owner.Object.FullName, fileName),
                 $"[\"{fileName}\"]")
             {

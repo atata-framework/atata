@@ -19,7 +19,7 @@ namespace Atata
         {
             if (context.Component is Control<TOwner> componentAsControl)
             {
-                if (context.Event != TriggerEvents.BeforeBlur && context.Event != TriggerEvents.AfterBlur)
+                if (context.Event is not TriggerEvents.BeforeBlur and not TriggerEvents.AfterBlur)
                     componentAsControl.Blur();
             }
             else

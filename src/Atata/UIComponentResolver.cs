@@ -10,19 +10,19 @@ namespace Atata
     public static class UIComponentResolver
     {
         private static readonly LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_propertyAttributes =
-            new LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]>(ResolveAttributes);
+            new(ResolveAttributes);
 
         private static readonly LockingConcurrentDictionary<Type, Attribute[]> s_classAttributes =
-            new LockingConcurrentDictionary<Type, Attribute[]>(ResolveClassAttributes);
+            new(ResolveClassAttributes);
 
         private static readonly LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]> s_assemblyAttributes =
-            new LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]>(ResolveAttributes);
+            new(ResolveAttributes);
 
         private static readonly LockingConcurrentDictionary<Type, string> s_pageObjectNames =
-            new LockingConcurrentDictionary<Type, string>(ResolvePageObjectNameFromMetadata);
+            new(ResolvePageObjectNameFromMetadata);
 
         private static readonly ConcurrentDictionary<Type, Type> s_delegateControlsTypeMapping =
-            new ConcurrentDictionary<Type, Type>
+            new()
             {
                 [typeof(ClickableDelegate<>)] = typeof(Clickable<>),
                 [typeof(ClickableDelegate<,>)] = typeof(Clickable<,>),
@@ -35,7 +35,7 @@ namespace Atata
             };
 
         private static readonly ConcurrentDictionary<Delegate, UIComponent> s_delegateControls =
-            new ConcurrentDictionary<Delegate, UIComponent>();
+            new();
 
         public static void RegisterDelegateControlMapping(Type delegateType, Type controlType) =>
             s_delegateControlsTypeMapping[delegateType] = controlType;

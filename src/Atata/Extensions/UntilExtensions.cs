@@ -65,7 +65,7 @@ namespace Atata
         }
 
         private static WaitUnit CreatePresenceUnit(Visibility visibility, Until until, WaitOptions options) =>
-            new WaitUnit
+            new()
             {
                 Method = WaitUnit.WaitMethod.Presence,
                 Until = until,
@@ -79,7 +79,7 @@ namespace Atata
             };
 
         private static WaitUnit CreateAbsenceUnit(Visibility visibility, Until until, WaitOptions options) =>
-            new WaitUnit
+            new()
             {
                 Method = WaitUnit.WaitMethod.Absence,
                 Until = until,

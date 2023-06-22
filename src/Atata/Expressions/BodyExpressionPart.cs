@@ -7,7 +7,7 @@ namespace Atata
 {
     internal class BodyExpressionPart
     {
-        private readonly List<object> _subParts = new List<object>();
+        private readonly List<object> _subParts = new();
 
         internal int OperatorAndCount { get; set; }
 

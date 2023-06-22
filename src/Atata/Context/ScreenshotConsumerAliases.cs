@@ -7,7 +7,7 @@ namespace Atata
     {
         public const string File = "file";
 
-        private static readonly Dictionary<string, Func<IScreenshotConsumer>> s_aliasFactoryMap = new Dictionary<string, Func<IScreenshotConsumer>>(StringComparer.OrdinalIgnoreCase);
+        private static readonly Dictionary<string, Func<IScreenshotConsumer>> s_aliasFactoryMap = new(StringComparer.OrdinalIgnoreCase);
 
         static ScreenshotConsumerAliases() =>
             Register<FileScreenshotConsumer>(File);

@@ -14,8 +14,7 @@ namespace Atata
     /// </summary>
     public sealed class FullPageOrViewportScreenshotStrategy : IScreenshotStrategy
     {
-        private static readonly ConcurrentDictionary<string, bool> s_driverAliasSupportsCdpMap =
-            new ConcurrentDictionary<string, bool>();
+        private static readonly ConcurrentDictionary<string, bool> s_driverAliasSupportsCdpMap = new();
 
         /// <summary>
         /// Gets the singleton instance.

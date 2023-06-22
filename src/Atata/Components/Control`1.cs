@@ -48,7 +48,7 @@ namespace Atata
         /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public new UIComponentVerificationProvider<Control<TOwner>, TOwner> Should =>
-            new UIComponentVerificationProvider<Control<TOwner>, TOwner>(this);
+            new(this);
 
         /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]

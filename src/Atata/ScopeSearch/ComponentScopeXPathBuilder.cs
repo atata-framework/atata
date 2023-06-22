@@ -46,6 +46,6 @@ namespace Atata
         }
 
         protected override ComponentScopeXPathBuilder CreateInstance() =>
-            new ComponentScopeXPathBuilder(Options);
+            new(Options);
     }
 }

@@ -11,19 +11,25 @@ namespace Atata
     public class UIComponentMetadata
     {
         private static readonly ControlDefinitionAttribute s_defaultControlDefinitionAttribute =
-            new ControlDefinitionAttribute { ComponentTypeName = "control" };
+            new() { ComponentTypeName = "control" };
 
-        private readonly AttributeSearchSet _declaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
+        private readonly AttributeSearchSet _declaredAttributeSet =
+            new(AttributeTargetFilterOptions.NonTargeted);
 
-        private readonly AttributeSearchSet _parentDeclaredAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
+        private readonly AttributeSearchSet _parentDeclaredAttributeSet =
+            new(AttributeTargetFilterOptions.Targeted);
 
-        private readonly AttributeSearchSet _parentComponentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.Targeted);
+        private readonly AttributeSearchSet _parentComponentAttributeSet =
+            new(AttributeTargetFilterOptions.Targeted);
 
-        private readonly AttributeSearchSet _assemblyAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
+        private readonly AttributeSearchSet _assemblyAttributeSet =
+            new(AttributeTargetFilterOptions.All);
 
-        private readonly AttributeSearchSet _globalAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.All);
+        private readonly AttributeSearchSet _globalAttributeSet =
+            new(AttributeTargetFilterOptions.All);
 
-        private readonly AttributeSearchSet _componentAttributeSet = new AttributeSearchSet(AttributeTargetFilterOptions.NonTargeted);
+        private readonly AttributeSearchSet _componentAttributeSet =
+            new(AttributeTargetFilterOptions.NonTargeted);
 
         internal UIComponentMetadata(
             string name,
@@ -440,7 +446,7 @@ namespace Atata
 
         internal UIComponentMetadata CreateMetadataForLayerFindAttribute()
         {
-            bool LocalFilter(Attribute a) => a is TermAttribute;
+            static bool LocalFilter(Attribute a) => a is TermAttribute;
 
             UIComponentMetadata metadata = new UIComponentMetadata(Name, ComponentType, ParentComponentType);
 

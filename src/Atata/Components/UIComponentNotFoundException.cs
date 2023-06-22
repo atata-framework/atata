@@ -35,6 +35,6 @@ namespace Atata
             ForAncestor(componentFullName, "great grandparent");
 
         private static UIComponentNotFoundException ForAncestor(string componentFullName, string ancestorName) =>
-            new UIComponentNotFoundException($"Failed to find {ancestorName} component of {componentFullName}.");
+            new($"Failed to find {ancestorName} component of {componentFullName}.");
     }
 }

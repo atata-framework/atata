@@ -10,7 +10,7 @@ namespace Atata
 
         private readonly AtataContext _context;
 
-        private readonly List<IScreenshotConsumer> _screenshotConsumers = new List<IScreenshotConsumer>();
+        private readonly List<IScreenshotConsumer> _screenshotConsumers = new();
 
         private int _screenshotNumber;
 

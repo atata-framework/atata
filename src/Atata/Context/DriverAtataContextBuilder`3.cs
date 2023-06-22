@@ -13,10 +13,10 @@ namespace Atata
     {
         private readonly string _browserName;
 
-        private readonly List<Action<TService>> _serviceInitializers = new List<Action<TService>>();
-        private readonly List<Action<TOptions>> _optionsInitializers = new List<Action<TOptions>>();
+        private readonly List<Action<TService>> _serviceInitializers = new();
+        private readonly List<Action<TOptions>> _optionsInitializers = new();
 
-        private readonly List<int> _portsToIgnore = new List<int>();
+        private readonly List<int> _portsToIgnore = new();
 
         private Func<TService> _serviceFactory;
         private Func<TOptions> _optionsFactory;

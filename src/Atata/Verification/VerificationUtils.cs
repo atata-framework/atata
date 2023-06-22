@@ -62,7 +62,7 @@ namespace Atata
         }
 
         private static string ConvertValueToString<TData, TOwner>(IObjectProvider<TData, TOwner> provider, TData value) =>
-            provider is IConvertsValueToString<TData> providerAsConverter && !(value is bool) && !(value is bool?)
+            provider is IConvertsValueToString<TData> providerAsConverter && value is not bool
                 ? $"\"{providerAsConverter.ConvertValueToString(value)}\""
                 : Stringifier.ToString(value);
 
@@ -118,7 +118,7 @@ namespace Atata
         }
 
         private static SafeWait<object> CreateSafeWait((TimeSpan Timeout, TimeSpan RetryInterval) retryOptions) =>
-            new SafeWait<object>(string.Empty)
+            new(string.Empty)
             {
                 Timeout = retryOptions.Timeout,
                 PollingInterval = retryOptions.RetryInterval

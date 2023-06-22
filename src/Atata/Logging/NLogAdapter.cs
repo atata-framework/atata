@@ -10,27 +10,27 @@ namespace Atata
     {
         private const string NLogAssemblyName = "NLog";
 
-        private static readonly Lazy<Type> s_fileTargetType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_fileTargetType = new(
             () => GetType("NLog.Targets.FileTarget"));
 
-        private static readonly Lazy<Type> s_layoutType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_layoutType = new(
             () => GetType("NLog.Layouts.Layout"));
 
-        private static readonly Lazy<Type> s_loggingConfigurationType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_loggingConfigurationType = new(
             () => GetType("NLog.Config.LoggingConfiguration"));
 
-        private static readonly Lazy<Type> s_logManagerType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_logManagerType = new(
             () => GetType("NLog.LogManager"));
 
-        private static readonly Lazy<Type> s_logEventInfoType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_logEventInfoType = new(
             () => GetType("NLog.LogEventInfo"));
 
-        private static readonly Lazy<Type> s_logLevelType = new Lazy<Type>(
+        private static readonly Lazy<Type> s_logLevelType = new(
             () => GetType("NLog.LogLevel"));
 
-        private static readonly object s_configurationSyncLock = new object();
+        private static readonly object s_configurationSyncLock = new();
 
-        private static readonly Lazy<Dictionary<LogLevel, dynamic>> s_logLevelsMap = new Lazy<Dictionary<LogLevel, dynamic>>(
+        private static readonly Lazy<Dictionary<LogLevel, dynamic>> s_logLevelsMap = new(
             CreateLogLevelsMap);
 
         private static Dictionary<LogLevel, dynamic> CreateLogLevelsMap()

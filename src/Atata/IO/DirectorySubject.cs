@@ -64,13 +64,13 @@ namespace Atata
         /// Gets the subdirectories of the current directory.
         /// </summary>
         public SubdirectoriesProvider Directories =>
-            new SubdirectoriesProvider(this, nameof(Directories));
+            new(this, nameof(Directories));
 
         /// <summary>
         /// Gets the files of the current directory.
         /// </summary>
         public DirectoryFilesProvider Files =>
-            new DirectoryFilesProvider(this, nameof(Files));
+            new(this, nameof(Files));
 
         private static string BuildProviderName(string directoryPath) =>
             $"\"{directoryPath}\" directory";

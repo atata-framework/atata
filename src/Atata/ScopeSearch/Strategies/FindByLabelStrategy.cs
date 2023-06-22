@@ -5,7 +5,7 @@ namespace Atata
     public class FindByLabelStrategy : IComponentScopeFindStrategy
     {
         public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions) =>
-            scope is IWebDriver || scope is IWrapsDriver
+            scope is IWebDriver or IWrapsDriver
                 ? FindUsingOneQuery(scope, options, searchOptions)
                 : FindLabelThenComponent(scope, options, searchOptions);
 

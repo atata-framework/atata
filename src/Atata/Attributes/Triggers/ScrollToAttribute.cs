@@ -19,7 +19,7 @@ namespace Atata
         {
             if (context.Component is Control<TOwner> componentAsControl)
             {
-                if (context.Event != TriggerEvents.BeforeScroll && context.Event != TriggerEvents.AfterScroll)
+                if (context.Event is not TriggerEvents.BeforeScroll and not TriggerEvents.AfterScroll)
                     componentAsControl.ScrollTo();
             }
             else

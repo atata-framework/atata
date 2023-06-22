@@ -17,7 +17,7 @@ namespace Atata
     {
         public const string NullString = "null";
 
-        private static readonly Lazy<Func<WebElement, string>> s_elementIdRetrieveFunction = new Lazy<Func<WebElement, string>>(() =>
+        private static readonly Lazy<Func<WebElement, string>> s_elementIdRetrieveFunction = new(() =>
         {
             var idProperty = typeof(WebElement).GetPropertyWithThrowOnError(
                 "Id",

@@ -6,8 +6,7 @@ namespace Atata
 {
     public class UIComponentAccessChainScopeCache
     {
-        private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> _accessChainItems =
-            new Dictionary<UIComponent, Dictionary<Visibility, IWebElement>>();
+        private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> _accessChainItems = new();
 
         internal bool IsActive { get; private set; }
 

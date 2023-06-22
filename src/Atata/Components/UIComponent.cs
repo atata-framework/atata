@@ -48,7 +48,7 @@ namespace Atata
         /// Returns <see langword="false"/>, as by default, when the attribute is not associated.
         /// </summary>
         protected bool UsesScopeCache =>
-            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesScopeCacheAttribute))
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute or UsesScopeCacheAttribute))
                 ?.UsesCache ?? false;
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Atata
 
         private bool ShouldUseParentScope()
         {
-            if (!(ScopeLocator is StrategyScopeLocator))
+            if (ScopeLocator is not StrategyScopeLocator)
                 return false;
 
             FindAttribute findAttribute = Metadata.ResolveFindAttribute();

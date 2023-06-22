@@ -35,7 +35,7 @@ namespace Atata
         /// The default value is <see langword="true"/>.
         /// </summary>
         protected bool UsesColumnHeaderTextsCache =>
-            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesColumnHeaderTextsCacheAttribute))
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute or UsesColumnHeaderTextsCacheAttribute))
                 ?.UsesCache ?? true;
 
         /// <inheritdoc/>

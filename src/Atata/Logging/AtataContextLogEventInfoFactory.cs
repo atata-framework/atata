@@ -14,7 +14,7 @@ namespace Atata
 
         /// <inheritdoc/>
         public LogEventInfo Create(LogLevel level, string message) =>
-            new LogEventInfo
+            new()
             {
                 Level = level,
                 Message = message,

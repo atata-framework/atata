@@ -5,7 +5,7 @@
     /// </summary>
     public abstract class LazyInitializableLogConsumer : ILogConsumer
     {
-        private readonly object _loggerInitializationLock = new object();
+        private readonly object _loggerInitializationLock = new();
 
         private bool _isInitialized;
 

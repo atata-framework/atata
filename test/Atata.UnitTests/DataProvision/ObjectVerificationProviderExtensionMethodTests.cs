@@ -20,7 +20,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
         static Satisfy_Function() =>
             For(5)
                 .ThrowsArgumentNullException(x => x.Satisfy(null, "..."))
-                .Pass(x => x.Satisfy(x => x > 1 && x < 10, "..."))
+                .Pass(x => x.Satisfy(x => x is > 1 and < 10, "..."))
                 .Fail(x => x.Satisfy(x => x == 7, "..."));
     }
 

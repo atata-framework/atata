@@ -106,7 +106,7 @@ namespace Atata
                 : $"{sourceProviderName}.{providerName}";
 
         private ObjectVerificationProvider<TObject, TOwner> CreateVerificationProvider() =>
-            new ObjectVerificationProvider<TObject, TOwner>(this);
+            new(this);
 
         /// <summary>
         /// Resolves the current <see cref="AtataContext"/> instance.

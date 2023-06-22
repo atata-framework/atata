@@ -60,7 +60,7 @@ namespace Atata
                             .AppendLine()
                             .Append($"Expected: {VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}");
 
-                        if (exception is NoSuchElementException || exception is NotMissingElementException)
+                        if (exception is NoSuchElementException or NotMissingElementException)
                         {
                             failureMessageBuilder.AppendLine().Append($"  Actual: {exception.Message.ToLowerFirstLetter()}");
                             verifier.Strategy.ReportFailure(failureMessageBuilder.ToString(), exception: null);

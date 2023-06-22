@@ -14,6 +14,6 @@ namespace Atata
         /// <param name="objectGetFunction">The object get function.</param>
         /// <returns>An instance of <see cref="DynamicObjectSource{TValue}"/>.</returns>
         public static DynamicObjectSource<TObject> Create<TObject>(Func<TObject> objectGetFunction) =>
-            new DynamicObjectSource<TObject>(objectGetFunction);
+            new(objectGetFunction);
     }
 }

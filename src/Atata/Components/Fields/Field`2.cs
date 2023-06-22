@@ -23,7 +23,7 @@ namespace Atata
         protected bool HasCachedValue { get; private set; }
 
         protected bool UsesValueCache =>
-            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesValueCacheAttribute))
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute or UsesValueCacheAttribute))
                 ?.UsesCache ?? false;
 
         TValue IObjectProvider<TValue>.Object => Get();
@@ -50,7 +50,7 @@ namespace Atata
         /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> Should =>
-            new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner>(this);
+            new(this);
 
         /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -172,7 +172,7 @@ namespace Atata
         /// </summary>
         /// <returns>The <see cref="TermOptions"/> instance.</returns>
         protected virtual TermOptions GetValueTermOptions() =>
-            new TermOptions
+            new()
             {
                 Culture = Metadata.GetCulture(),
                 Format = Metadata.GetFormat()

@@ -26,7 +26,7 @@ namespace Atata
         }
 
         public static ConversionException For(object sourceValue, Type destinationType) =>
-            new ConversionException(
+            new(
                 sourceValue == null
                     ? $"Cannot convert null value to {destinationType.FullName} type."
                     : $"Cannot convert \"{sourceValue}\" value of {sourceValue.GetType().FullName} type to {destinationType.FullName} type.");

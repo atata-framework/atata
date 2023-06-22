@@ -44,12 +44,11 @@ for (var i = 0; i < elements.length; i++) {
 
 return textValues;";
 
-        private readonly Dictionary<string, TItem> _cachedNamedItemsMap = new Dictionary<string, TItem>();
+        private readonly Dictionary<string, TItem> _cachedNamedItemsMap = new();
 
-        private readonly Dictionary<(Visibility Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>> _cachedAllElementsMap =
-            new Dictionary<(Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>>();
+        private readonly Dictionary<(Visibility Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>> _cachedAllElementsMap = new();
 
-        private readonly Dictionary<IWebElement, TItem> _cachedElementItemsMap = new Dictionary<IWebElement, TItem>();
+        private readonly Dictionary<IWebElement, TItem> _cachedElementItemsMap = new();
 
         private string _itemComponentTypeName;
 
@@ -59,7 +58,7 @@ return textValues;";
         /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
         public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> Should =>
-            new ObjectVerificationProvider<IEnumerable<TItem>, TOwner>(this);
+            new(this);
 
         /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -112,7 +111,7 @@ return textValues;";
         Type ISupportsMetadata.ComponentType => typeof(TItem);
 
         protected bool UsesScopeCache =>
-            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute || x is UsesScopeCacheAttribute))
+            Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute or UsesScopeCacheAttribute))
                 ?.UsesCache ?? false;
 
         /// <summary>
@@ -543,7 +542,7 @@ return textValues;";
 
         // TODO: Resolve visibility.
         private SearchOptions ResolveSearchOptions() =>
-            new SearchOptions();
+            new();
 
         void IClearsCache.ClearCache() =>
             ClearCache();

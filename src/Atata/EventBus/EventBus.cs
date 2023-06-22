@@ -12,7 +12,7 @@ namespace Atata
     {
         private readonly AtataContext _context;
 
-        private readonly ConcurrentDictionary<Type, List<EventHandlerSubscription>> _subscriptionMap = new ConcurrentDictionary<Type, List<EventHandlerSubscription>>();
+        private readonly ConcurrentDictionary<Type, List<EventHandlerSubscription>> _subscriptionMap = new();
 
         /// <summary>
         /// Initializes a new instance of the <see cref="EventBus"/> class.
@@ -48,7 +48,7 @@ namespace Atata
 
                 foreach (IEventHandler<TEvent> handler in eventHandlersArray.Cast<IEventHandler<TEvent>>())
                 {
-                    if (!(handler is IConditionalEventHandler<TEvent> conditionalEventHandler)
+                    if (handler is not IConditionalEventHandler<TEvent> conditionalEventHandler
                         || conditionalEventHandler.CanHandle(eventData, _context))
                     {
                         handler.Handle(eventData, _context);
@@ -92,7 +92,7 @@ namespace Atata
             Subscribe(typeof(TEvent), eventHandler);
 
         private static List<EventHandlerSubscription> CreateEventHandlerSubscriptionList(Type eventType) =>
-            new List<EventHandlerSubscription>();
+            new();
 
         private object Subscribe(Type eventType, object eventHandler)
         {

@@ -36,7 +36,7 @@ namespace Atata
             {
                 string workingUri = uri;
 
-                if (workingUri[0] == '&' || workingUri[0] == ';')
+                if (workingUri[0] is '&' or ';')
                     workingUri = $"?{workingUri.Substring(1)}";
 
                 var (fragment, indexOfHash) = ExtractFragment(workingUri);
@@ -68,7 +68,7 @@ namespace Atata
         {
             if (!string.IsNullOrEmpty(query))
             {
-                string queryWithoutPrefix = query[0] == '?' || query[0] == '&' || query[0] == ';'
+                string queryWithoutPrefix = query[0] is '?' or '&' or ';'
                     ? query.Substring(1)
                     : query;
 
@@ -86,7 +86,7 @@ namespace Atata
             {
                 Fragment = uri.Substring(1);
             }
-            else if (uri[0] == '&' || uri[0] == ';')
+            else if (uri[0] is '&' or ';')
             {
                 var (fragment, indexOfHash) = ExtractFragment(uri);
                 Fragment = fragment;

@@ -36,9 +36,8 @@ namespace Atata
         /// <param name="source">The instance to wrap with <see cref="DisposableSubject{TObject}"/>.</param>
         /// <returns>A new <see cref="DisposableSubject{TObject}"/> instance.</returns>
         public static DisposableSubject<T> ToDisposableSubject<T>(this T source)
-            where T : IDisposable
-            =>
-            new DisposableSubject<T>(source);
+            where T : IDisposable =>
+            new(source);
 
         /// <summary>
         /// Creates a new <see cref="DisposableSubject{TObject}"/> instance that wraps the <paramref name="source"/> with the specified <paramref name="providerName"/>.
@@ -48,8 +47,7 @@ namespace Atata
         /// <param name="providerName">Name of the provider.</param>
         /// <returns>A new <see cref="DisposableSubject{TObject}"/> instance.</returns>
         public static DisposableSubject<T> ToDisposableSubject<T>(this T source, string providerName)
-            where T : IDisposable
-            =>
-            new DisposableSubject<T>(source, providerName);
+            where T : IDisposable =>
+            new(source, providerName);
     }
 }

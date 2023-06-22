@@ -14,7 +14,7 @@ namespace Atata
         public const string FullPageOrViewport = nameof(FullPageOrViewport);
 
         private static readonly Dictionary<string, Func<IScreenshotStrategy>> s_aliasFactoryMap =
-            new Dictionary<string, Func<IScreenshotStrategy>>(StringComparer.OrdinalIgnoreCase);
+            new(StringComparer.OrdinalIgnoreCase);
 
         static ScreenshotStrategyAliases()
         {

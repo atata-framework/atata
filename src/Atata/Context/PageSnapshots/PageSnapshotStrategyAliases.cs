@@ -12,7 +12,7 @@ namespace Atata
         public const string Cdp = nameof(Cdp);
 
         private static readonly Dictionary<string, Func<IPageSnapshotStrategy>> s_aliasFactoryMap =
-            new Dictionary<string, Func<IPageSnapshotStrategy>>(StringComparer.OrdinalIgnoreCase);
+            new(StringComparer.OrdinalIgnoreCase);
 
         static PageSnapshotStrategyAliases()
         {

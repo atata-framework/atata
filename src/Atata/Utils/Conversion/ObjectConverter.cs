@@ -78,7 +78,7 @@ namespace Atata
                 : Enum.ToObject(enumType, value);
 
         private static TimeSpan ConvertToTimeSpan(object value) =>
-            value is double || value is int || value is float
+            value is double or int or float
                 ? TimeSpan.FromSeconds(System.Convert.ToDouble(value))
                 : TimeSpan.Parse(value.ToString());
 

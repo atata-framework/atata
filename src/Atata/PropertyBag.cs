@@ -5,7 +5,7 @@ namespace Atata
 {
     public class PropertyBag
     {
-        private readonly Dictionary<string, object> _values = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> _values = new();
 
         public object this[string name]
         {

@@ -12,7 +12,7 @@ namespace Atata
     public static class AssemblyFinder
     {
         private static readonly LockingConcurrentDictionary<string, Assembly[]> s_assembliesMatchingNamePattern =
-            new LockingConcurrentDictionary<string, Assembly[]>(DoFindAllByPattern);
+            new(DoFindAllByPattern);
 
         /// <summary>
         /// Finds the assembly by name.
