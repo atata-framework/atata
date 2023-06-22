@@ -266,7 +266,9 @@ namespace Atata
 
             Log.ExecuteSection(
                 new ExecuteBehaviorLogSection(this, behavior),
-                () => behaviorExecutionAction.Invoke(behavior));
+                () => StaleSafely.Execute(
+                    _ => behaviorExecutionAction.Invoke(behavior),
+                    Context.ElementFindTimeout));
         }
 
         /// <inheritdoc cref="IUIComponent{TOwner}.ExecuteBehavior{TBehaviorAttribute}(Action{TBehaviorAttribute})"/>
@@ -279,7 +281,9 @@ namespace Atata
 
             return Log.ExecuteSection(
                 new ExecuteBehaviorLogSection(this, behavior),
-                () => behaviorExecutionFunction.Invoke(behavior));
+                () => StaleSafely.Execute(
+                    _ => behaviorExecutionFunction.Invoke(behavior),
+                    Context.ElementFindTimeout));
         }
 
         protected TAttribute GetAttributeOrThrow<TAttribute>() =>
