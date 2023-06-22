@@ -17,27 +17,27 @@ namespace Atata
             _byCreator = byCreator.CheckNotNull(nameof(byCreator));
 
         private By By =>
-            _by ?? (_by = _byCreator());
+            _by ??= _byCreator();
 
         public ISearchContext SearchContext { get; set; } = AtataContext.Current.Driver;
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? new SearchOptions();
+            searchOptions ??= new SearchOptions();
 
             return SearchContext.GetWithLogging(By.With(searchOptions));
         }
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? new SearchOptions();
+            searchOptions ??= new SearchOptions();
 
             return SearchContext.GetAllWithLogging(By.With(searchOptions)).ToArray();
         }
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? new SearchOptions();
+            searchOptions ??= new SearchOptions();
 
             return SearchContext.Missing(By.With(searchOptions));
         }

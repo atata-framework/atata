@@ -33,23 +33,20 @@
         }
 
         private static IUIComponent<TOwner> GetTargetComponent<TOwner>(IUIComponent<TOwner> component, ClearCacheTarget target)
-            where TOwner : PageObject<TOwner>
-        {
-            switch (target)
+            where TOwner : PageObject<TOwner> =>
+            target switch
             {
-                case ClearCacheTarget.Self:
-                    return component;
-                case ClearCacheTarget.Parent:
-                    return component.Parent ?? throw UIComponentNotFoundException.ForParentOf(component.ComponentFullName);
-                case ClearCacheTarget.Grandparent:
-                    return component.Parent?.Parent ?? throw UIComponentNotFoundException.ForGrandparentOf(component.ComponentFullName);
-                case ClearCacheTarget.GreatGrandparent:
-                    return component.Parent?.Parent?.Parent ?? throw UIComponentNotFoundException.ForGreatGrandparent(component.ComponentFullName);
-                case ClearCacheTarget.PageObject:
-                    return component.Owner;
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(target, nameof(target));
-            }
-        }
+                ClearCacheTarget.Self =>
+                    component,
+                ClearCacheTarget.Parent =>
+                    component.Parent ?? throw UIComponentNotFoundException.ForParentOf(component.ComponentFullName),
+                ClearCacheTarget.Grandparent =>
+                    component.Parent?.Parent ?? throw UIComponentNotFoundException.ForGrandparentOf(component.ComponentFullName),
+                ClearCacheTarget.GreatGrandparent =>
+                    component.Parent?.Parent?.Parent ?? throw UIComponentNotFoundException.ForGreatGrandparent(component.ComponentFullName),
+                ClearCacheTarget.PageObject =>
+                    component.Owner,
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(target, nameof(target))
+            };
     }
 }

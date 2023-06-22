@@ -12,39 +12,38 @@ namespace Atata
 
         public static ISearchContext GetScopeContext(this ScopeSource scopeSource, UIComponent component, SearchOptions options = null)
         {
-            options = options ?? new SearchOptions();
+            options ??= new SearchOptions();
 
-            switch (scopeSource)
+            return scopeSource switch
             {
-                case ScopeSource.Parent:
-                    return (component.Parent ?? throw UIComponentNotFoundException.ForParentOf(component.ComponentFullName)).GetScopeContext(options);
-                case ScopeSource.Grandparent:
-                    return (component.Parent?.Parent ?? throw UIComponentNotFoundException.ForGrandparentOf(component.ComponentFullName)).GetScopeContext(options);
-                case ScopeSource.PageObject:
-                    return component.Owner.GetScopeContext(options);
-                case ScopeSource.Page:
-                    return component.Driver;
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource));
-            }
+                ScopeSource.Parent =>
+                    (component.Parent ?? throw UIComponentNotFoundException.ForParentOf(component.ComponentFullName))
+                        .GetScopeContext(options),
+                ScopeSource.Grandparent =>
+                    (component.Parent?.Parent ?? throw UIComponentNotFoundException.ForGrandparentOf(component.ComponentFullName))
+                        .GetScopeContext(options),
+                ScopeSource.PageObject =>
+                    component.Owner.GetScopeContext(options),
+                ScopeSource.Page =>
+                    component.Driver,
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource))
+            };
         }
 
         public static ISearchContext GetScopeContextUsingParent<TOwner>(this ScopeSource scopeSource, IUIComponent<TOwner> parentComponent)
-            where TOwner : PageObject<TOwner>
-        {
-            switch (scopeSource)
+            where TOwner : PageObject<TOwner> =>
+            scopeSource switch
             {
-                case ScopeSource.Parent:
-                    return parentComponent.ScopeContext;
-                case ScopeSource.Grandparent:
-                    return (parentComponent.Parent ?? throw UIComponentNotFoundException.ForParentOf(parentComponent.ComponentFullName)).ScopeContext;
-                case ScopeSource.PageObject:
-                    return parentComponent.Owner.ScopeContext;
-                case ScopeSource.Page:
-                    return (parentComponent?.Context ?? AtataContext.Current).Driver;
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource));
-            }
-        }
+                ScopeSource.Parent =>
+                    parentComponent.ScopeContext,
+                ScopeSource.Grandparent =>
+                    (parentComponent.Parent ?? throw UIComponentNotFoundException.ForParentOf(parentComponent.ComponentFullName))
+                        .ScopeContext,
+                ScopeSource.PageObject =>
+                    parentComponent.Owner.ScopeContext,
+                ScopeSource.Page =>
+                    (parentComponent?.Context ?? AtataContext.Current).Driver,
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource))
+            };
     }
 }

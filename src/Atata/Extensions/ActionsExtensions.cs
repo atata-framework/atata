@@ -18,31 +18,30 @@ namespace Atata
 
             Size elementSize = toElement.Size;
 
-            switch (offsetKind)
+            return offsetKind switch
             {
-                case UIComponentOffsetKind.FromCenterInPercents:
-                    return actions.MoveToElement(
+                UIComponentOffsetKind.FromCenterInPercents =>
+                    actions.MoveToElement(
                         toElement,
                         (int)(elementSize.Width * ((float)offsetX / 100)),
-                        (int)(elementSize.Height * ((float)offsetY / 100)));
-                case UIComponentOffsetKind.FromCenterInPixels:
-                    return actions.MoveToElement(
+                        (int)(elementSize.Height * ((float)offsetY / 100))),
+                UIComponentOffsetKind.FromCenterInPixels =>
+                    actions.MoveToElement(
                         toElement,
                         offsetX,
-                        offsetY);
-                case UIComponentOffsetKind.FromTopLeftInPercents:
-                    return actions.MoveToElement(
+                        offsetY),
+                UIComponentOffsetKind.FromTopLeftInPercents =>
+                    actions.MoveToElement(
                         toElement,
                         (int)(elementSize.Width * ((float)offsetX / 100)) - (elementSize.Width / 2),
-                        (int)(elementSize.Height * ((float)offsetY / 100)) - (elementSize.Height / 2));
-                case UIComponentOffsetKind.FromTopLeftInPixels:
-                    return actions.MoveToElement(
+                        (int)(elementSize.Height * ((float)offsetY / 100)) - (elementSize.Height / 2)),
+                UIComponentOffsetKind.FromTopLeftInPixels =>
+                    actions.MoveToElement(
                         toElement,
                         offsetX - (elementSize.Width / 2),
-                        offsetY - (elementSize.Height / 2));
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(offsetKind, nameof(offsetKind));
-            }
+                        offsetY - (elementSize.Height / 2)),
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(offsetKind, nameof(offsetKind))
+            };
         }
     }
 }

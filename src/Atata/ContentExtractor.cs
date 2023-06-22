@@ -77,29 +77,28 @@ return '';";
         {
             component.CheckNotNull(nameof(component));
 
-            switch (contentSource)
+            return contentSource switch
             {
-                case ContentSource.Text:
-                    return component.Scope.Text;
-                case ContentSource.TextContent:
-                    return component.DomProperties.TextContent;
-                case ContentSource.InnerHtml:
-                    return component.DomProperties.InnerHtml;
-                case ContentSource.Value:
-                    return component.DomProperties.Value;
-                case ContentSource.ChildTextNodes:
-                    return component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesScript);
-                case ContentSource.ChildTextNodesTrimmed:
-                    return component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedScript);
-                case ContentSource.ChildTextNodesTrimmedAndSpaceJoined:
-                    return component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript);
-                case ContentSource.FirstChildTextNode:
-                    return component.Script.ExecuteAgainst<string>(GetTextContentOfFirstChildTextNodeScript);
-                case ContentSource.LastChildTextNode:
-                    return component.Script.ExecuteAgainst<string>(GetTextContentOfLastChildTextNodeScript);
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource));
-            }
+                ContentSource.Text =>
+                    component.Scope.Text,
+                ContentSource.TextContent =>
+                    component.DomProperties.TextContent,
+                ContentSource.InnerHtml =>
+                    component.DomProperties.InnerHtml,
+                ContentSource.Value =>
+                    component.DomProperties.Value,
+                ContentSource.ChildTextNodes =>
+                    component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesScript),
+                ContentSource.ChildTextNodesTrimmed =>
+                    component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedScript),
+                ContentSource.ChildTextNodesTrimmedAndSpaceJoined =>
+                    component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript),
+                ContentSource.FirstChildTextNode =>
+                    component.Script.ExecuteAgainst<string>(GetTextContentOfFirstChildTextNodeScript),
+                ContentSource.LastChildTextNode =>
+                    component.Script.ExecuteAgainst<string>(GetTextContentOfLastChildTextNodeScript),
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource))
+            };
         }
     }
 }

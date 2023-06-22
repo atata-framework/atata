@@ -87,22 +87,15 @@ namespace Atata
             return builder.ToString();
         }
 
-        private static string ResolveResultPrefix(AssertionStatus status)
-        {
-            switch (status)
+        private static string ResolveResultPrefix(AssertionStatus status) =>
+            status switch
             {
-                case AssertionStatus.Passed:
-                    return null;
-                case AssertionStatus.Warning:
-                    return WarningResultPrefix;
-                case AssertionStatus.Failed:
-                    return FailedResultPrefix;
-                case AssertionStatus.Exception:
-                    return ExceptionResultPrefix;
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(status, nameof(status));
-            }
-        }
+                AssertionStatus.Passed => null,
+                AssertionStatus.Warning => WarningResultPrefix,
+                AssertionStatus.Failed => FailedResultPrefix,
+                AssertionStatus.Exception => ExceptionResultPrefix,
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(status, nameof(status))
+            };
 
         private static string BuildIntroMessage(IEnumerable<AssertionResult> results)
         {

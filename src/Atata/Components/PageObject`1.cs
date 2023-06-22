@@ -123,9 +123,9 @@ namespace Atata
         /// Gets the active control.
         /// </summary>
         public Control<TOwner> ActiveControl =>
-            _activeControl ?? (_activeControl = Controls.Create<Control<TOwner>>(
+            _activeControl ??= Controls.Create<Control<TOwner>>(
                 "<Active>",
-                new DynamicScopeLocator(_ => Driver.SwitchTo().ActiveElement())));
+                new DynamicScopeLocator(_ => Driver.SwitchTo().ActiveElement()));
 
         /// <summary>
         /// Creates the <see cref="By"/> instance for Scope search.
@@ -546,7 +546,7 @@ namespace Atata
         {
             action.CheckNotNull(nameof(action));
 
-            assertionScopeName = assertionScopeName ?? ComponentFullName;
+            assertionScopeName ??= ComponentFullName;
 
             Context.AggregateAssert(() => action((TOwner)this), assertionScopeName);
 
@@ -572,8 +572,7 @@ namespace Atata
 
             TComponent component = componentSelector((TOwner)this);
 
-            assertionScopeName = assertionScopeName
-                ?? UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
+            assertionScopeName ??= UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
 
             Context.AggregateAssert(() => action(component), assertionScopeName);
 

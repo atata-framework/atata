@@ -155,24 +155,16 @@ Actual: {driverFactory.GetType().FullName}",
             return UseDriver(new CustomDriverAtataContextBuilder(BuildingContext, driverFactory));
         }
 
-        private IDriverFactory UsePredefinedDriver(string alias)
-        {
-            switch (alias.ToLowerInvariant())
+        private IDriverFactory UsePredefinedDriver(string alias) =>
+            alias.ToLowerInvariant() switch
             {
-                case DriverAliases.Chrome:
-                    return UseChrome();
-                case DriverAliases.Firefox:
-                    return UseFirefox();
-                case DriverAliases.InternetExplorer:
-                    return UseInternetExplorer();
-                case DriverAliases.Safari:
-                    return UseSafari();
-                case DriverAliases.Edge:
-                    return UseEdge();
-                default:
-                    return null;
-            }
-        }
+                DriverAliases.Chrome => UseChrome(),
+                DriverAliases.Firefox => UseFirefox(),
+                DriverAliases.InternetExplorer => UseInternetExplorer(),
+                DriverAliases.Safari => UseSafari(),
+                DriverAliases.Edge => UseEdge(),
+                _ => null
+            };
 
         /// <summary>
         /// Sets the driver initialization stage.

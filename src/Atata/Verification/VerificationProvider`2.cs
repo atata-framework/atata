@@ -103,7 +103,7 @@ namespace Atata
         /// <returns>The same instance of <typeparamref name="TVerificationProvider"/>.</returns>
         public TVerificationProvider Using<T>(IEqualityComparer<T> equalityComparer)
         {
-            TypeEqualityComparerMap = TypeEqualityComparerMap ?? new Dictionary<Type, object>(1);
+            TypeEqualityComparerMap ??= new Dictionary<Type, object>(1);
 
             TypeEqualityComparerMap[typeof(T)] = equalityComparer;
 

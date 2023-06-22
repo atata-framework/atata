@@ -12,7 +12,7 @@ namespace Atata
 
         public StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions)
         {
-            searchOptions = searchOptions ?? new SearchOptions();
+            searchOptions ??= new SearchOptions();
 
             FindAttribute[] layerFindAttributes = _component.Metadata.ResolveLayerFindAttributes().ToArray();
 
@@ -40,8 +40,7 @@ namespace Atata
                     ? finalExecutionUnit.ScopeFindOptions
                     : layerExecutionUnits[i + 1].ScopeFindOptions;
 
-                scopeFindOptions.OuterXPath = scopeFindOptions.OuterXPath
-                    ?? layerExecutionUnits[i].ScopeContextResolver.DefaultOuterXPath;
+                scopeFindOptions.OuterXPath ??= layerExecutionUnits[i].ScopeContextResolver.DefaultOuterXPath;
             }
         }
 

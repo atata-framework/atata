@@ -26,31 +26,23 @@
         {
             if (Method == WaitMethod.Presence)
             {
-                switch (SearchOptions.Visibility)
+                return SearchOptions.Visibility switch
                 {
-                    case Visibility.Visible:
-                        return "visible";
-                    case Visibility.Hidden:
-                        return "hidden";
-                    case Visibility.Any:
-                        return "visible or hidden";
-                    default:
-                        return null;
-                }
+                    Visibility.Visible => "visible",
+                    Visibility.Hidden => "hidden",
+                    Visibility.Any => "visible or hidden",
+                    _ => null
+                };
             }
             else
             {
-                switch (SearchOptions.Visibility)
+                return SearchOptions.Visibility switch
                 {
-                    case Visibility.Visible:
-                        return "missing or hidden";
-                    case Visibility.Hidden:
-                        return null;
-                    case Visibility.Any:
-                        return "missing";
-                    default:
-                        return null;
-                }
+                    Visibility.Visible => "missing or hidden",
+                    Visibility.Hidden => null,
+                    Visibility.Any => "missing",
+                    _ => null
+                };
             }
         }
     }

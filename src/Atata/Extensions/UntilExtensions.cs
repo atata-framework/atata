@@ -6,74 +6,62 @@ namespace Atata
     {
         public static WaitUnit[] GetWaitUnits(this Until until, WaitOptions options = null)
         {
-            options = options ?? new WaitOptions();
+            options ??= new WaitOptions();
 
-            switch (until)
+            return until switch
             {
-                case Until.Missing:
-                    return new[]
+                Until.Missing => new[]
                     {
                         CreateAbsenceUnit(Visibility.Any, until, options)
-                    };
-                case Until.Hidden:
-                    return new[]
+                    },
+                Until.Hidden => new[]
                     {
                         CreatePresenceUnit(Visibility.Hidden, until, options)
-                    };
-                case Until.MissingOrHidden:
-                    return new[]
+                    },
+                Until.MissingOrHidden => new[]
                     {
                         CreateAbsenceUnit(Visibility.Visible, until, options)
-                    };
-                case Until.Visible:
-                    return new[]
+                    },
+                Until.Visible => new[]
                     {
                         CreatePresenceUnit(Visibility.Visible, until, options)
-                    };
-                case Until.VisibleOrHidden:
-                    return new[]
+                    },
+                Until.VisibleOrHidden => new[]
                     {
                         CreatePresenceUnit(Visibility.Any, until, options)
-                    };
-                case Until.VisibleThenHidden:
-                    return new[]
+                    },
+                Until.VisibleThenHidden => new[]
                     {
                         CreatePresenceUnit(Visibility.Visible, until, options),
                         CreatePresenceUnit(Visibility.Hidden, until, options)
-                    };
-                case Until.VisibleThenMissing:
-                    return new[]
+                    },
+                Until.VisibleThenMissing => new[]
                     {
                         CreatePresenceUnit(Visibility.Visible, until, options),
                         CreateAbsenceUnit(Visibility.Any, until, options)
-                    };
-                case Until.VisibleThenMissingOrHidden:
-                    return new[]
+                    },
+                Until.VisibleThenMissingOrHidden => new[]
                     {
                         CreatePresenceUnit(Visibility.Visible, until, options),
                         CreateAbsenceUnit(Visibility.Visible, until, options)
-                    };
-                case Until.MissingThenVisible:
-                    return new[]
+                    },
+                Until.MissingThenVisible => new[]
                     {
                         CreateAbsenceUnit(Visibility.Any, until, options),
                         CreatePresenceUnit(Visibility.Visible, until, options)
-                    };
-                case Until.HiddenThenVisible:
-                    return new[]
+                    },
+                Until.HiddenThenVisible => new[]
                     {
                         CreatePresenceUnit(Visibility.Hidden, until, options),
                         CreatePresenceUnit(Visibility.Visible, until, options)
-                    };
-                case Until.MissingOrHiddenThenVisible:
-                    return new[]
+                    },
+                Until.MissingOrHiddenThenVisible => new[]
                     {
                         CreateAbsenceUnit(Visibility.Visible, until, options),
                         CreatePresenceUnit(Visibility.Visible, until, options)
-                    };
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(until, nameof(until));
-            }
+                    },
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(until, nameof(until))
+            };
         }
 
         private static WaitUnit CreatePresenceUnit(Visibility visibility, Until until, WaitOptions options) =>

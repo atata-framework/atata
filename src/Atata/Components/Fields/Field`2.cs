@@ -148,15 +148,14 @@ namespace Atata
             if (obj == null)
                 return false;
 
-            switch (obj)
+            return obj switch
             {
-                case Field<TValue, TOwner> objAsField:
-                    return ReferenceEquals(this, objAsField);
-                case TValue objAsValue:
-                    return Equals(objAsValue);
-                default:
-                    return false;
-            }
+                Field<TValue, TOwner> objAsField =>
+                    ReferenceEquals(this, objAsField),
+                TValue objAsValue =>
+                    Equals(objAsValue),
+                _ => false
+            };
         }
 
         public bool Equals(TValue other)

@@ -10,21 +10,14 @@
 
         private static readonly ILayerScopeContextResolver s_shadowHostResolver = new ShadowHostLayerScopeContextResolver();
 
-        public static ILayerScopeContextResolver Create(FindAs findAs)
-        {
-            switch (findAs)
+        public static ILayerScopeContextResolver Create(FindAs findAs) =>
+            findAs switch
             {
-                case FindAs.Parent:
-                    return s_parentResolver;
-                case FindAs.Sibling:
-                    return s_siblingResolver;
-                case FindAs.Ancestor:
-                    return s_ancestorResolver;
-                case FindAs.ShadowHost:
-                    return s_shadowHostResolver;
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(findAs, nameof(findAs));
-            }
-        }
+                FindAs.Parent => s_parentResolver,
+                FindAs.Sibling => s_siblingResolver,
+                FindAs.Ancestor => s_ancestorResolver,
+                FindAs.ShadowHost => s_shadowHostResolver,
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(findAs, nameof(findAs))
+            };
     }
 }

@@ -14,21 +14,16 @@ namespace Atata
 
             string valueString = XPathString.ConvertTo(value);
 
-            switch (match)
+            return match switch
             {
-                case TermMatch.Contains:
-                    return $"contains({operand}, {valueString})";
-                case TermMatch.Equals:
-                    return value is null && operand != "."
-                        ? $"not({operand})"
-                        : $"normalize-space({operand}) = {valueString}";
-                case TermMatch.StartsWith:
-                    return $"starts-with(normalize-space({operand}), {valueString})";
-                case TermMatch.EndsWith:
-                    return $"substring(normalize-space({operand}), string-length(normalize-space({operand})) - {value.Length - 1}) = {valueString}";
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
-            }
+                TermMatch.Contains => $"contains({operand}, {valueString})",
+                TermMatch.Equals => value is null && operand != "."
+                    ? $"not({operand})"
+                    : $"normalize-space({operand}) = {valueString}",
+                TermMatch.StartsWith => $"starts-with(normalize-space({operand}), {valueString})",
+                TermMatch.EndsWith => $"substring(normalize-space({operand}), string-length(normalize-space({operand})) - {value.Length - 1}) = {valueString}",
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match)),
+            };
         }
 
         public static string CreateXPathCondition(this TermMatch match, string[] values, string operand = ".")
@@ -48,62 +43,36 @@ namespace Atata
         public static Func<string, string, bool> GetPredicate(this TermMatch match) =>
             match.GetPredicate(StringComparison.Ordinal);
 
-        public static Func<string, string, bool> GetPredicate(this TermMatch match, StringComparison stringComparison)
-        {
-            switch (match)
+        public static Func<string, string, bool> GetPredicate(this TermMatch match, StringComparison stringComparison) =>
+            match switch
             {
-                case TermMatch.Contains:
-                    return (text, term) => text != null && text.IndexOf(term, stringComparison) != -1;
-                case TermMatch.Equals:
-                    return (text, term) => text != null && text.Equals(term, stringComparison);
-                case TermMatch.StartsWith:
-                    return (text, term) => text != null && text.StartsWith(term, stringComparison);
-                case TermMatch.EndsWith:
-                    return (text, term) => text != null && text.EndsWith(term, stringComparison);
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
-            }
-        }
+                TermMatch.Contains => (text, term) => text != null && text.IndexOf(term, stringComparison) != -1,
+                TermMatch.Equals => (text, term) => text != null && text.Equals(term, stringComparison),
+                TermMatch.StartsWith => (text, term) => text != null && text.StartsWith(term, stringComparison),
+                TermMatch.EndsWith => (text, term) => text != null && text.EndsWith(term, stringComparison),
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match))
+            };
 
-        internal static string GetShouldText(this TermMatch match)
-        {
-            switch (match)
+        internal static string GetShouldText(this TermMatch match) =>
+            match switch
             {
-                case TermMatch.Contains:
-                    return "contain";
-                case TermMatch.Equals:
-                    return "equal";
-                case TermMatch.StartsWith:
-                    return "start with";
-                case TermMatch.EndsWith:
-                    return "end with";
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
-            }
-        }
+                TermMatch.Contains => "contain",
+                TermMatch.Equals => "equal",
+                TermMatch.StartsWith => "start with",
+                TermMatch.EndsWith => "end with",
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match))
+            };
 
         internal static string FormatComponentName(this TermMatch match, string[] values)
         {
-            string format;
-
-            switch (match)
+            var format = match switch
             {
-                case TermMatch.Contains:
-                    format = "Containing '{0}'";
-                    break;
-                case TermMatch.Equals:
-                    format = "{0}";
-                    break;
-                case TermMatch.StartsWith:
-                    format = "Starting with '{0}'";
-                    break;
-                case TermMatch.EndsWith:
-                    format = "Ending with '{0}'";
-                    break;
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match));
-            }
-
+                TermMatch.Contains => "Containing '{0}'",
+                TermMatch.Equals => "{0}",
+                TermMatch.StartsWith => "Starting with '{0}'",
+                TermMatch.EndsWith => "Ending with '{0}'",
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match))
+            };
             string combinedValues = TermResolver.ToDisplayString(values);
 
             return string.Format(format, combinedValues);

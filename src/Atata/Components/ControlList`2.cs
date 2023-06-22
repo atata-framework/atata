@@ -54,7 +54,7 @@ return textValues;";
         private string _itemComponentTypeName;
 
         protected string ItemComponentTypeName =>
-            _itemComponentTypeName ?? (_itemComponentTypeName = UIComponentResolver.ResolveControlTypeName(Metadata));
+            _itemComponentTypeName ??= UIComponentResolver.ResolveControlTypeName(Metadata);
 
         /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
         [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -527,7 +527,7 @@ return textValues;";
 
         protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null, string extraXPath = null)
         {
-            searchOptions = searchOptions ?? ResolveSearchOptions();
+            searchOptions ??= ResolveSearchOptions();
 
             ReadOnlyCollection<IWebElement> DoGetItemElements()
             {

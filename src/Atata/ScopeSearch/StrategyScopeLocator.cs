@@ -21,7 +21,7 @@ namespace Atata
 
         public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? new SearchOptions();
+            searchOptions ??= new SearchOptions();
 
             var executionData = _executionDataCollector.Get(searchOptions);
             XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
@@ -53,7 +53,7 @@ namespace Atata
 
         public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? new SearchOptions();
+            searchOptions ??= new SearchOptions();
 
             var executionData = _executionDataCollector.Get(searchOptions);
             XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
@@ -74,7 +74,7 @@ namespace Atata
 
         public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
         {
-            searchOptions = searchOptions ?? new SearchOptions();
+            searchOptions ??= new SearchOptions();
 
             SearchOptions quickSearchOptions = searchOptions.Clone();
             quickSearchOptions.IsSafely = true;

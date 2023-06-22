@@ -266,7 +266,7 @@ namespace Atata
         {
             action.CheckNotNull(nameof(action));
 
-            assertionScopeName = assertionScopeName ?? ProviderName;
+            assertionScopeName ??= ProviderName;
 
             ResolveAtataContext()
                 .AggregateAssert(() => action((TSubject)this), assertionScopeName);

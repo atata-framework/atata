@@ -156,7 +156,7 @@ namespace Atata
         {
             value.CheckNotNull(nameof(value));
 
-            termOptions = termOptions ?? new TermOptions();
+            termOptions ??= new TermOptions();
 
             if (value is string stringValue)
                 return new[] { FormatStringValue(stringValue, termOptions) };
@@ -308,7 +308,7 @@ namespace Atata
 
         public static string[] GetEnumTerms(Enum value, TermOptions termOptions = null)
         {
-            termOptions = termOptions ?? new TermOptions();
+            termOptions ??= new TermOptions();
 
             return value.GetType().IsDefined(typeof(FlagsAttribute), false)
                 ? GetFlagsEnumTerms(value, termOptions)

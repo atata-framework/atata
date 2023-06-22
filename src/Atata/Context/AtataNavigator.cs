@@ -198,7 +198,7 @@ namespace Atata
         private T GoToInitialPageObject<T>(T pageObject, GoOptions options)
             where T : PageObject<T>
         {
-            pageObject = pageObject ?? ActivatorEx.CreateInstance<T>();
+            pageObject ??= ActivatorEx.CreateInstance<T>();
             _context.PageObject = pageObject;
 
             string navigationUrl = options.Navigate
@@ -235,7 +235,7 @@ namespace Atata
         {
             bool isReturnedFromTemporary = TryResolvePreviousPageObjectNavigatedTemporarily(ref nextPageObject);
 
-            nextPageObject = nextPageObject ?? ActivatorEx.CreateInstance<T>();
+            nextPageObject ??= ActivatorEx.CreateInstance<T>();
 
             if (!isReturnedFromTemporary)
             {

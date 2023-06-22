@@ -4,23 +4,15 @@ namespace Atata
 {
     public static class WaitByExtensions
     {
-        public static By GetBy(this WaitBy waitBy, string selector)
-        {
-            switch (waitBy)
+        public static By GetBy(this WaitBy waitBy, string selector) =>
+            waitBy switch
             {
-                case WaitBy.Id:
-                    return By.Id(selector);
-                case WaitBy.Name:
-                    return By.Name(selector);
-                case WaitBy.Class:
-                    return By.ClassName(selector);
-                case WaitBy.Css:
-                    return By.CssSelector(selector);
-                case WaitBy.XPath:
-                    return By.XPath(selector);
-                default:
-                    throw ExceptionFactory.CreateForUnsupportedEnumValue(waitBy, nameof(waitBy));
-            }
-        }
+                WaitBy.Id => By.Id(selector),
+                WaitBy.Name => By.Name(selector),
+                WaitBy.Class => By.ClassName(selector),
+                WaitBy.Css => By.CssSelector(selector),
+                WaitBy.XPath => By.XPath(selector),
+                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(waitBy, nameof(waitBy))
+            };
     }
 }
