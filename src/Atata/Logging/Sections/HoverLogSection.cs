@@ -1,9 +1,8 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class HoverLogSection : UIComponentLogSection
 {
-    public class HoverLogSection : UIComponentLogSection
-    {
-        public HoverLogSection(UIComponent component)
-            : base(component) =>
-            Message = $"Hover on {component.ComponentFullName}";
-    }
+    public HoverLogSection(UIComponent component)
+        : base(component) =>
+        Message = $"Hover on {component.ComponentFullName}";
 }

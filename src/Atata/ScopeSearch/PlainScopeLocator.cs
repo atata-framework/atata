@@ -1,45 +1,40 @@
-﻿using System;
-using System.Linq;
-using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+public class PlainScopeLocator : IScopeLocator
 {
-    public class PlainScopeLocator : IScopeLocator
+    private readonly Func<By> _byCreator;
+
+    private By _by;
+
+    public PlainScopeLocator(By by) =>
+        _by = by.CheckNotNull(nameof(by));
+
+    public PlainScopeLocator(Func<By> byCreator) =>
+        _byCreator = byCreator.CheckNotNull(nameof(byCreator));
+
+    private By By =>
+        _by ??= _byCreator();
+
+    public ISearchContext SearchContext { get; set; } = AtataContext.Current.Driver;
+
+    public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
     {
-        private readonly Func<By> _byCreator;
+        searchOptions ??= new SearchOptions();
 
-        private By _by;
+        return SearchContext.GetWithLogging(By.With(searchOptions));
+    }
 
-        public PlainScopeLocator(By by) =>
-            _by = by.CheckNotNull(nameof(by));
+    public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+    {
+        searchOptions ??= new SearchOptions();
 
-        public PlainScopeLocator(Func<By> byCreator) =>
-            _byCreator = byCreator.CheckNotNull(nameof(byCreator));
+        return SearchContext.GetAllWithLogging(By.With(searchOptions)).ToArray();
+    }
 
-        private By By =>
-            _by ??= _byCreator();
+    public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
+    {
+        searchOptions ??= new SearchOptions();
 
-        public ISearchContext SearchContext { get; set; } = AtataContext.Current.Driver;
-
-        public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
-        {
-            searchOptions ??= new SearchOptions();
-
-            return SearchContext.GetWithLogging(By.With(searchOptions));
-        }
-
-        public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
-        {
-            searchOptions ??= new SearchOptions();
-
-            return SearchContext.GetAllWithLogging(By.With(searchOptions)).ToArray();
-        }
-
-        public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
-        {
-            searchOptions ??= new SearchOptions();
-
-            return SearchContext.Missing(By.With(searchOptions));
-        }
+        return SearchContext.Missing(By.With(searchOptions));
     }
 }

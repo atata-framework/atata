@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
+﻿namespace Atata;
 
-namespace Atata
+public interface IObjectMapper
 {
-    public interface IObjectMapper
-    {
-        void Map(Dictionary<string, object> propertiesMap, object destination);
+    void Map(Dictionary<string, object> propertiesMap, object destination);
 
-        void Map(string propertyName, object propertyValue, object destination);
-    }
+    void Map(string propertyName, object propertyValue, object destination);
 }

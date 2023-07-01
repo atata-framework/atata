@@ -1,13 +1,10 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+internal class PrimitiveExpressionValueStringifier : IExpressionValueStringifier
 {
-    internal class PrimitiveExpressionValueStringifier : IExpressionValueStringifier
-    {
-        public bool CanHandle(Type type) =>
-            type.IsPrimitive;
+    public bool CanHandle(Type type) =>
+        type.IsPrimitive;
 
-        public string Handle(object value) =>
-            value.ToString();
-    }
+    public string Handle(object value) =>
+        value.ToString();
 }

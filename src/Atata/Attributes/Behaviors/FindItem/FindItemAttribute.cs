@@ -1,7 +1,6 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public abstract class FindItemAttribute : MulticastAttribute
 {
-    public abstract class FindItemAttribute : MulticastAttribute
-    {
-        public abstract IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata);
-    }
+    public abstract IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata);
 }

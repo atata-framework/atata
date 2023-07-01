@@ -1,84 +1,80 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+public static class TermCaseResolver
 {
-    public static class TermCaseResolver
+    private static readonly Dictionary<TermCase, FormatterItem> s_formatters = new()
     {
-        private static readonly Dictionary<TermCase, FormatterItem> s_formatters = new()
+        [TermCase.Title] = FormatterItem.For<TitleTermFormatter>(),
+        [TermCase.Capitalized] = FormatterItem.For<CapitalizedTermFormatter>(),
+        [TermCase.Sentence] = FormatterItem.For<SentenceTermFormatter>(),
+        [TermCase.MidSentence] = FormatterItem.For<MidSentenceTermFormatter>(),
+        [TermCase.Lower] = FormatterItem.For<LowerTermFormatter>(),
+        [TermCase.LowerMerged] = FormatterItem.For<LowerMergedTermFormatter>(),
+        [TermCase.Upper] = FormatterItem.For<UpperTermFormatter>(),
+        [TermCase.UpperMerged] = FormatterItem.For<UpperMergedTermFormatter>(),
+        [TermCase.Camel] = FormatterItem.For<CamelTermFormatter>(),
+        [TermCase.Pascal] = FormatterItem.For<PascalTermFormatter>(),
+        [TermCase.Kebab] = FormatterItem.For<KebabTermFormatter>(),
+        [TermCase.HyphenKebab] = FormatterItem.For<HyphenKebabTermFormatter>(),
+        [TermCase.Snake] = FormatterItem.For<SnakeTermFormatter>(),
+        [TermCase.PascalKebab] = FormatterItem.For<PascalKebabTermFormatter>(),
+        [TermCase.PascalHyphenKebab] = FormatterItem.For<PascalHyphenKebabTermFormatter>()
+    };
+
+    public static string ApplyCase(string value, TermCase termCase)
+    {
+        value.CheckNotNull(nameof(value));
+
+        if (termCase == TermCase.None)
+            return value;
+
+        string[] words = value.SplitIntoWords();
+
+        return ApplyCase(words, termCase);
+    }
+
+    public static string ApplyCase(string[] words, TermCase termCase)
+    {
+        words.CheckNotNull(nameof(words));
+
+        if (!words.Any())
+            return string.Empty;
+
+        if (termCase == TermCase.None)
+            return string.Concat(words);
+
+        if (s_formatters.TryGetValue(termCase, out FormatterItem formatterItem))
         {
-            [TermCase.Title] = FormatterItem.For<TitleTermFormatter>(),
-            [TermCase.Capitalized] = FormatterItem.For<CapitalizedTermFormatter>(),
-            [TermCase.Sentence] = FormatterItem.For<SentenceTermFormatter>(),
-            [TermCase.MidSentence] = FormatterItem.For<MidSentenceTermFormatter>(),
-            [TermCase.Lower] = FormatterItem.For<LowerTermFormatter>(),
-            [TermCase.LowerMerged] = FormatterItem.For<LowerMergedTermFormatter>(),
-            [TermCase.Upper] = FormatterItem.For<UpperTermFormatter>(),
-            [TermCase.UpperMerged] = FormatterItem.For<UpperMergedTermFormatter>(),
-            [TermCase.Camel] = FormatterItem.For<CamelTermFormatter>(),
-            [TermCase.Pascal] = FormatterItem.For<PascalTermFormatter>(),
-            [TermCase.Kebab] = FormatterItem.For<KebabTermFormatter>(),
-            [TermCase.HyphenKebab] = FormatterItem.For<HyphenKebabTermFormatter>(),
-            [TermCase.Snake] = FormatterItem.For<SnakeTermFormatter>(),
-            [TermCase.PascalKebab] = FormatterItem.For<PascalKebabTermFormatter>(),
-            [TermCase.PascalHyphenKebab] = FormatterItem.For<PascalHyphenKebabTermFormatter>()
-        };
+            string formattedValue = formatterItem.Formatter.Format(words);
 
-        public static string ApplyCase(string value, TermCase termCase)
+            if (!string.IsNullOrWhiteSpace(formatterItem.StringFormat))
+                formattedValue = string.Format(formatterItem.StringFormat, formattedValue);
+
+            return formattedValue;
+        }
+        else
         {
-            value.CheckNotNull(nameof(value));
+            throw ExceptionFactory.CreateForUnsupportedEnumValue(termCase, nameof(termCase));
+        }
+    }
 
-            if (termCase == TermCase.None)
-                return value;
-
-            string[] words = value.SplitIntoWords();
-
-            return ApplyCase(words, termCase);
+    private sealed class FormatterItem
+    {
+        public FormatterItem(ITermFormatter formatter, string stringFormat = null)
+        {
+            Formatter = formatter;
+            StringFormat = stringFormat;
         }
 
-        public static string ApplyCase(string[] words, TermCase termCase)
+        public ITermFormatter Formatter { get; }
+
+        public string StringFormat { get; }
+
+        public static FormatterItem For<T>(string stringFormat = null)
+            where T : ITermFormatter, new()
         {
-            words.CheckNotNull(nameof(words));
-
-            if (!words.Any())
-                return string.Empty;
-
-            if (termCase == TermCase.None)
-                return string.Concat(words);
-
-            if (s_formatters.TryGetValue(termCase, out FormatterItem formatterItem))
-            {
-                string formattedValue = formatterItem.Formatter.Format(words);
-
-                if (!string.IsNullOrWhiteSpace(formatterItem.StringFormat))
-                    formattedValue = string.Format(formatterItem.StringFormat, formattedValue);
-
-                return formattedValue;
-            }
-            else
-            {
-                throw ExceptionFactory.CreateForUnsupportedEnumValue(termCase, nameof(termCase));
-            }
-        }
-
-        private sealed class FormatterItem
-        {
-            public FormatterItem(ITermFormatter formatter, string stringFormat = null)
-            {
-                Formatter = formatter;
-                StringFormat = stringFormat;
-            }
-
-            public ITermFormatter Formatter { get; }
-
-            public string StringFormat { get; }
-
-            public static FormatterItem For<T>(string stringFormat = null)
-                where T : ITermFormatter, new()
-            {
-                ITermFormatter formatter = new T();
-                return new FormatterItem(formatter, stringFormat);
-            }
+            ITermFormatter formatter = new T();
+            return new FormatterItem(formatter, stringFormat);
         }
     }
 }

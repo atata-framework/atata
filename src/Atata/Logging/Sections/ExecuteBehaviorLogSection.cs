@@ -1,15 +1,14 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class ExecuteBehaviorLogSection : UIComponentLogSection
 {
-    public class ExecuteBehaviorLogSection : UIComponentLogSection
+    public ExecuteBehaviorLogSection(UIComponent component, MulticastAttribute behavior)
+        : base(component)
     {
-        public ExecuteBehaviorLogSection(UIComponent component, MulticastAttribute behavior)
-            : base(component)
-        {
-            string behaviorAsString = Stringifier.ToStringInSimpleStructuredForm(behavior, typeof(MulticastAttribute));
+        string behaviorAsString = Stringifier.ToStringInSimpleStructuredForm(behavior, typeof(MulticastAttribute));
 
-            Message = $"Execute behavior {behaviorAsString} against {component.ComponentFullName}";
+        Message = $"Execute behavior {behaviorAsString} against {component.ComponentFullName}";
 
-            Level = LogLevel.Trace;
-        }
+        Level = LogLevel.Trace;
     }
 }

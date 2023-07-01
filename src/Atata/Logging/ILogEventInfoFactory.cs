@@ -1,16 +1,15 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// A factory of <see cref="LogEventInfo"/>.
+/// </summary>
+public interface ILogEventInfoFactory
 {
     /// <summary>
-    /// A factory of <see cref="LogEventInfo"/>.
+    /// Creates the <see cref="LogEventInfo"/> instance with the specified <paramref name="level"/> and <paramref name="message"/>.
     /// </summary>
-    public interface ILogEventInfoFactory
-    {
-        /// <summary>
-        /// Creates the <see cref="LogEventInfo"/> instance with the specified <paramref name="level"/> and <paramref name="message"/>.
-        /// </summary>
-        /// <param name="level">The level.</param>
-        /// <param name="message">The message.</param>
-        /// <returns>The <see cref="LogEventInfo"/> instance.</returns>
-        LogEventInfo Create(LogLevel level, string message);
-    }
+    /// <param name="level">The level.</param>
+    /// <param name="message">The message.</param>
+    /// <returns>The <see cref="LogEventInfo"/> instance.</returns>
+    LogEventInfo Create(LogLevel level, string message);
 }

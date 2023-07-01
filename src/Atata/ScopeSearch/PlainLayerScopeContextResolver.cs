@@ -1,15 +1,12 @@
-﻿using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+public class PlainLayerScopeContextResolver : ILayerScopeContextResolver
 {
-    public class PlainLayerScopeContextResolver : ILayerScopeContextResolver
-    {
-        public PlainLayerScopeContextResolver(string defaultOuterXPath) =>
-            DefaultOuterXPath = defaultOuterXPath;
+    public PlainLayerScopeContextResolver(string defaultOuterXPath) =>
+        DefaultOuterXPath = defaultOuterXPath;
 
-        public string DefaultOuterXPath { get; }
+    public string DefaultOuterXPath { get; }
 
-        public ISearchContext Resolve(IWebElement element) =>
-            element;
-    }
+    public ISearchContext Resolve(IWebElement element) =>
+        element;
 }

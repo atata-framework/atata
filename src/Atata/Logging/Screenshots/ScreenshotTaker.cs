@@ -1,97 +1,92 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+internal sealed class ScreenshotTaker
 {
-    internal sealed class ScreenshotTaker
+    private readonly IScreenshotStrategy _strategy;
+
+    private readonly AtataContext _context;
+
+    private readonly List<IScreenshotConsumer> _screenshotConsumers = new();
+
+    private int _screenshotNumber;
+
+    public ScreenshotTaker(
+        IScreenshotStrategy strategy,
+        AtataContext context)
     {
-        private readonly IScreenshotStrategy _strategy;
+        _strategy = strategy;
+        _context = context;
+    }
 
-        private readonly AtataContext _context;
+    // TODO: Atata v3. Delete AddConsumer method.
+    public void AddConsumer(IScreenshotConsumer consumer)
+    {
+        consumer.CheckNotNull(nameof(consumer));
 
-        private readonly List<IScreenshotConsumer> _screenshotConsumers = new();
+        _screenshotConsumers.Add(consumer);
+    }
 
-        private int _screenshotNumber;
+    public void TakeScreenshot(string title = null)
+    {
+        if (_strategy != null)
+            TakeScreenshot(_strategy, title);
+    }
 
-        public ScreenshotTaker(
-            IScreenshotStrategy strategy,
-            AtataContext context)
+    public void TakeScreenshot(ScreenshotKind kind, string title = null)
+    {
+        if (kind == ScreenshotKind.Viewport)
+            TakeScreenshot(WebDriverViewportScreenshotStrategy.Instance, title);
+        else if (kind == ScreenshotKind.FullPage)
+            TakeScreenshot(FullPageOrViewportScreenshotStrategy.Instance, title);
+        else
+            TakeScreenshot(title);
+    }
+
+    private void TakeScreenshot(IScreenshotStrategy strategy, string title = null)
+    {
+        if (!_context.HasDriver || !_screenshotConsumers.Any())
+            return;
+
+        _screenshotNumber++;
+
+        try
         {
-            _strategy = strategy;
-            _context = context;
-        }
+            string logMessage = $"Take screenshot #{_screenshotNumber:D2}";
 
-        // TODO: Atata v3. Delete AddConsumer method.
-        public void AddConsumer(IScreenshotConsumer consumer)
-        {
-            consumer.CheckNotNull(nameof(consumer));
+            if (!string.IsNullOrWhiteSpace(title))
+                logMessage += $" - {title}";
 
-            _screenshotConsumers.Add(consumer);
-        }
+            _context.Log.Info(logMessage);
 
-        public void TakeScreenshot(string title = null)
-        {
-            if (_strategy != null)
-                TakeScreenshot(_strategy, title);
-        }
+            var context = AtataContext.Current;
 
-        public void TakeScreenshot(ScreenshotKind kind, string title = null)
-        {
-            if (kind == ScreenshotKind.Viewport)
-                TakeScreenshot(WebDriverViewportScreenshotStrategy.Instance, title);
-            else if (kind == ScreenshotKind.FullPage)
-                TakeScreenshot(FullPageOrViewportScreenshotStrategy.Instance, title);
-            else
-                TakeScreenshot(title);
-        }
+            FileContentWithExtension fileContent = strategy.TakeScreenshot(context);
 
-        private void TakeScreenshot(IScreenshotStrategy strategy, string title = null)
-        {
-            if (!_context.HasDriver || !_screenshotConsumers.Any())
-                return;
-
-            _screenshotNumber++;
-
-            try
+            ScreenshotInfo screenshotInfo = new ScreenshotInfo
             {
-                string logMessage = $"Take screenshot #{_screenshotNumber:D2}";
+                ScreenshotContent = fileContent,
+                Number = _screenshotNumber,
+                Title = title,
+                PageObjectName = context.PageObject?.ComponentName,
+                PageObjectTypeName = context.PageObject?.ComponentTypeName,
+                PageObjectFullName = context.PageObject?.ComponentFullName
+            };
 
-                if (!string.IsNullOrWhiteSpace(title))
-                    logMessage += $" - {title}";
-
-                _context.Log.Info(logMessage);
-
-                var context = AtataContext.Current;
-
-                FileContentWithExtension fileContent = strategy.TakeScreenshot(context);
-
-                ScreenshotInfo screenshotInfo = new ScreenshotInfo
+            foreach (IScreenshotConsumer screenshotConsumer in _screenshotConsumers)
+            {
+                try
                 {
-                    ScreenshotContent = fileContent,
-                    Number = _screenshotNumber,
-                    Title = title,
-                    PageObjectName = context.PageObject?.ComponentName,
-                    PageObjectTypeName = context.PageObject?.ComponentTypeName,
-                    PageObjectFullName = context.PageObject?.ComponentFullName
-                };
-
-                foreach (IScreenshotConsumer screenshotConsumer in _screenshotConsumers)
+                    screenshotConsumer.Take(screenshotInfo);
+                }
+                catch (Exception e)
                 {
-                    try
-                    {
-                        screenshotConsumer.Take(screenshotInfo);
-                    }
-                    catch (Exception e)
-                    {
-                        context.Log.Error("Screenshot failed", e);
-                    }
+                    context.Log.Error("Screenshot failed", e);
                 }
             }
-            catch (Exception e)
-            {
-                _context.Log.Error("Screenshot failed", e);
-            }
+        }
+        catch (Exception e)
+        {
+            _context.Log.Error("Screenshot failed", e);
         }
     }
 }

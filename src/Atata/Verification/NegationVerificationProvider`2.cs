@@ -1,15 +1,14 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public abstract class NegationVerificationProvider<TVerificationProvider, TOwner> : VerificationProvider<TVerificationProvider, TOwner>
+    where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>
 {
-    public abstract class NegationVerificationProvider<TVerificationProvider, TOwner> : VerificationProvider<TVerificationProvider, TOwner>
-        where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>
+    protected NegationVerificationProvider(IVerificationProvider<TOwner> verificationProvider)
+        : base(isNegation: true)
     {
-        protected NegationVerificationProvider(IVerificationProvider<TOwner> verificationProvider)
-            : base(isNegation: true)
-        {
-            Timeout = verificationProvider.Timeout;
-            RetryInterval = verificationProvider.RetryInterval;
-            Strategy = verificationProvider.Strategy;
-            TypeEqualityComparerMap = verificationProvider.TypeEqualityComparerMap;
-        }
+        Timeout = verificationProvider.Timeout;
+        RetryInterval = verificationProvider.RetryInterval;
+        Strategy = verificationProvider.Strategy;
+        TypeEqualityComparerMap = verificationProvider.TypeEqualityComparerMap;
     }
 }

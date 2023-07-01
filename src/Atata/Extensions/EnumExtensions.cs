@@ -1,77 +1,72 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+public static class EnumExtensions
 {
-    public static class EnumExtensions
+    public static Enum AddFlag(this Enum source, object flag)
     {
-        public static Enum AddFlag(this Enum source, object flag)
+        try
         {
-            try
-            {
-                ulong joinedValue = Convert.ToUInt64(source) | Convert.ToUInt64(flag);
-                return (Enum)Enum.ToObject(source.GetType(), joinedValue);
-            }
-            catch (Exception exception)
-            {
-                throw new ArgumentException(
-                    "Cannot add '{0}' value to '{1}' of enumerated type '{2}'.".FormatWith(source, flag, source.GetType().FullName),
-                    exception);
-            }
+            ulong joinedValue = Convert.ToUInt64(source) | Convert.ToUInt64(flag);
+            return (Enum)Enum.ToObject(source.GetType(), joinedValue);
         }
-
-        public static IEnumerable<Enum> GetIndividualFlags(this Enum flags)
+        catch (Exception exception)
         {
-            Type dataType = Enum.GetUnderlyingType(flags.GetType());
-
-            return dataType == typeof(int) || dataType == typeof(long) || dataType == typeof(short) || dataType == typeof(sbyte)
-                ? GetIndividualFlagsOfSignedNumberType(flags)
-                : GetIndividualFlagsOfUnsignedNumberType(flags);
+            throw new ArgumentException(
+                "Cannot add '{0}' value to '{1}' of enumerated type '{2}'.".FormatWith(source, flag, source.GetType().FullName),
+                exception);
         }
+    }
 
-        private static IEnumerable<Enum> GetIndividualFlagsOfSignedNumberType(this Enum flags)
+    public static IEnumerable<Enum> GetIndividualFlags(this Enum flags)
+    {
+        Type dataType = Enum.GetUnderlyingType(flags.GetType());
+
+        return dataType == typeof(int) || dataType == typeof(long) || dataType == typeof(short) || dataType == typeof(sbyte)
+            ? GetIndividualFlagsOfSignedNumberType(flags)
+            : GetIndividualFlagsOfUnsignedNumberType(flags);
+    }
+
+    private static IEnumerable<Enum> GetIndividualFlagsOfSignedNumberType(this Enum flags)
+    {
+        long flag = 0x1;
+
+        foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>())
         {
-            long flag = 0x1;
+            long bits = Convert.ToInt64(value);
 
-            foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>())
-            {
-                long bits = Convert.ToInt64(value);
+            while (flag > 0 && flag < bits)
+                flag <<= 1;
 
-                while (flag > 0 && flag < bits)
-                    flag <<= 1;
-
-                if (flag == bits && flags.HasFlag(value))
-                    yield return value;
-            }
+            if (flag == bits && flags.HasFlag(value))
+                yield return value;
         }
+    }
 
-        private static IEnumerable<Enum> GetIndividualFlagsOfUnsignedNumberType(this Enum flags)
+    private static IEnumerable<Enum> GetIndividualFlagsOfUnsignedNumberType(this Enum flags)
+    {
+        ulong flag = 0x1;
+
+        foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>())
         {
-            ulong flag = 0x1;
+            ulong bits = Convert.ToUInt64(value);
 
-            foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>())
-            {
-                ulong bits = Convert.ToUInt64(value);
+            while (flag > 0 && flag < bits)
+                flag <<= 1;
 
-                while (flag > 0 && flag < bits)
-                    flag <<= 1;
-
-                if (flag == bits && flags.HasFlag(value))
-                    yield return value;
-            }
+            if (flag == bits && flags.HasFlag(value))
+                yield return value;
         }
+    }
 
-        internal static string ToExpressionValueString(this Enum value, bool wrapCombinationalValueWithParentheses = false)
-        {
-            string[] valueStringParts = value.ToString().Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
-            string enumName = value.GetType().Name;
+    internal static string ToExpressionValueString(this Enum value, bool wrapCombinationalValueWithParentheses = false)
+    {
+        string[] valueStringParts = value.ToString().Split(new[] { ", " }, StringSplitOptions.RemoveEmptyEntries);
+        string enumName = value.GetType().Name;
 
-            string valueAsString = string.Join(" | ", valueStringParts.Select(x => $"{enumName}.{x}"));
+        string valueAsString = string.Join(" | ", valueStringParts.Select(x => $"{enumName}.{x}"));
 
-            return valueStringParts.Length > 1 && wrapCombinationalValueWithParentheses
-                ? $"({valueAsString})"
-                : valueAsString;
-        }
+        return valueStringParts.Length > 1 && wrapCombinationalValueWithParentheses
+            ? $"({valueAsString})"
+            : valueAsString;
     }
 }

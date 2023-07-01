@@ -1,33 +1,32 @@
 ﻿using Newtonsoft.Json.Linq;
 using OpenQA.Selenium.DevTools;
 
-namespace Atata
+namespace Atata;
+
+/// <summary>
+/// Represents the strategy that takes a page snapshot using CDP.
+/// </summary>
+public sealed class CdpPageSnapshotStrategy : IPageSnapshotStrategy
 {
     /// <summary>
-    /// Represents the strategy that takes a page snapshot using CDP.
+    /// Gets the singleton instance.
     /// </summary>
-    public sealed class CdpPageSnapshotStrategy : IPageSnapshotStrategy
+    public static CdpPageSnapshotStrategy Instance { get; } =
+        new CdpPageSnapshotStrategy();
+
+    /// <inheritdoc/>
+    public FileContentWithExtension TakeSnapshot(AtataContext context)
     {
-        /// <summary>
-        /// Gets the singleton instance.
-        /// </summary>
-        public static CdpPageSnapshotStrategy Instance { get; } =
-            new CdpPageSnapshotStrategy();
+        var devTools = context.Driver.As<IDevTools>();
+        var devToolsSession = devTools.GetDevToolsSession();
 
-        /// <inheritdoc/>
-        public FileContentWithExtension TakeSnapshot(AtataContext context)
-        {
-            var devTools = context.Driver.As<IDevTools>();
-            var devToolsSession = devTools.GetDevToolsSession();
+        var commandResult = devToolsSession.SendCommand(
+            "Page.captureSnapshot",
+            new JObject())
+            .GetAwaiter()
+            .GetResult();
 
-            var commandResult = devToolsSession.SendCommand(
-                "Page.captureSnapshot",
-                new JObject())
-                .GetAwaiter()
-                .GetResult();
-
-            var data = commandResult["data"].ToString();
-            return FileContentWithExtension.CreateFromText(data, ".mhtml");
-        }
+        var data = commandResult["data"].ToString();
+        return FileContentWithExtension.CreateFromText(data, ".mhtml");
     }
 }

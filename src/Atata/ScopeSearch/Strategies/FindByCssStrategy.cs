@@ -1,49 +1,46 @@
-﻿using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+public class FindByCssStrategy : IComponentScopeFindStrategy
 {
-    public class FindByCssStrategy : IComponentScopeFindStrategy
+    private readonly IComponentScopeFindStrategy _sequalStrategy = new FindFirstDescendantOrSelfStrategy();
+
+    public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
     {
-        private readonly IComponentScopeFindStrategy _sequalStrategy = new FindFirstDescendantOrSelfStrategy();
+        By by = By.CssSelector(string.Join(",", options.Terms));
 
-        public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
+        if (options.OuterXPath != null)
+            by = By.XPath(options.OuterXPath + "*").Then(by);
+
+        if (options.Index.HasValue)
         {
-            By by = By.CssSelector(string.Join(",", options.Terms));
+            var elements = scope.GetAllWithLogging(by.With(searchOptions));
 
-            if (options.OuterXPath != null)
-                by = By.XPath(options.OuterXPath + "*").Then(by);
-
-            if (options.Index.HasValue)
+            if (elements.Count <= options.Index.Value)
             {
-                var elements = scope.GetAllWithLogging(by.With(searchOptions));
-
-                if (elements.Count <= options.Index.Value)
+                if (searchOptions.IsSafely)
                 {
-                    if (searchOptions.IsSafely)
-                    {
-                        return ComponentScopeFindResult.Missing;
-                    }
-                    else
-                    {
-                        throw ExceptionFactory.CreateForNoSuchElement(
-                            new SearchFailureData
-                            {
-                                ElementName = $"{(options.Index.Value + 1).Ordinalize()} matching selector",
-                                By = by,
-                                SearchOptions = searchOptions,
-                                SearchContext = scope
-                            });
-                    }
+                    return ComponentScopeFindResult.Missing;
                 }
                 else
                 {
-                    return new SubsequentComponentScopeFindResult(elements[options.Index.Value], _sequalStrategy);
+                    throw ExceptionFactory.CreateForNoSuchElement(
+                        new SearchFailureData
+                        {
+                            ElementName = $"{(options.Index.Value + 1).Ordinalize()} matching selector",
+                            By = by,
+                            SearchOptions = searchOptions,
+                            SearchContext = scope
+                        });
                 }
             }
             else
             {
-                return new SubsequentComponentScopeFindResult(by, _sequalStrategy);
+                return new SubsequentComponentScopeFindResult(elements[options.Index.Value], _sequalStrategy);
             }
+        }
+        else
+        {
+            return new SubsequentComponentScopeFindResult(by, _sequalStrategy);
         }
     }
 }

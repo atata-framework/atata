@@ -1,21 +1,18 @@
-﻿using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Represents the driver factory.
+/// </summary>
+public interface IDriverFactory
 {
     /// <summary>
-    /// Represents the driver factory.
+    /// Gets the alias.
     /// </summary>
-    public interface IDriverFactory
-    {
-        /// <summary>
-        /// Gets the alias.
-        /// </summary>
-        string Alias { get; }
+    string Alias { get; }
 
-        /// <summary>
-        /// Creates the driver instance.
-        /// </summary>
-        /// <returns>The created <see cref="IWebDriver"/> instance.</returns>
-        IWebDriver Create();
-    }
+    /// <summary>
+    /// Creates the driver instance.
+    /// </summary>
+    /// <returns>The created <see cref="IWebDriver"/> instance.</returns>
+    IWebDriver Create();
 }

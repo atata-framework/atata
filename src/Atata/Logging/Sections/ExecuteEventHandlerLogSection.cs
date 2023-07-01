@@ -1,14 +1,13 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class ExecuteEventHandlerLogSection : LogSection
 {
-    public class ExecuteEventHandlerLogSection : LogSection
+    public ExecuteEventHandlerLogSection(object eventData, object eventHandler)
     {
-        public ExecuteEventHandlerLogSection(object eventData, object eventHandler)
-        {
-            string eventHandlerAsString = Stringifier.ToStringInSimpleStructuredForm(eventHandler);
+        string eventHandlerAsString = Stringifier.ToStringInSimpleStructuredForm(eventHandler);
 
-            Message = $"Execute event handler {eventHandlerAsString} on {eventData.GetType().Name}";
+        Message = $"Execute event handler {eventHandlerAsString} on {eventData.GetType().Name}";
 
-            Level = LogLevel.Trace;
-        }
+        Level = LogLevel.Trace;
     }
 }

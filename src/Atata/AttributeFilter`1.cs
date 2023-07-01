@@ -1,38 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Atata;
 
-namespace Atata
+public class AttributeFilter<TAttribute>
 {
-    public class AttributeFilter<TAttribute>
+    public AttributeLevels Levels { get; private set; } = AttributeLevels.All;
+
+    public List<Func<TAttribute, bool>> Predicates { get; } = new List<Func<TAttribute, bool>>();
+
+    public Type TargetAttributeType { get; private set; }
+
+    public AttributeFilter<TAttribute> Where(Func<TAttribute, bool> predicate)
     {
-        public AttributeLevels Levels { get; private set; } = AttributeLevels.All;
+        if (predicate != null)
+            Predicates.Add(predicate);
+        return this;
+    }
 
-        public List<Func<TAttribute, bool>> Predicates { get; } = new List<Func<TAttribute, bool>>();
+    public AttributeFilter<TAttribute> ForAttribute<T>()
+        where T : Attribute
+        =>
+        ForAttribute(typeof(T));
 
-        public Type TargetAttributeType { get; private set; }
+    public AttributeFilter<TAttribute> ForAttribute(Type type)
+    {
+        TargetAttributeType = type;
+        return this;
+    }
 
-        public AttributeFilter<TAttribute> Where(Func<TAttribute, bool> predicate)
-        {
-            if (predicate != null)
-                Predicates.Add(predicate);
-            return this;
-        }
-
-        public AttributeFilter<TAttribute> ForAttribute<T>()
-            where T : Attribute
-            =>
-            ForAttribute(typeof(T));
-
-        public AttributeFilter<TAttribute> ForAttribute(Type type)
-        {
-            TargetAttributeType = type;
-            return this;
-        }
-
-        public AttributeFilter<TAttribute> At(AttributeLevels levels)
-        {
-            Levels = levels;
-            return this;
-        }
+    public AttributeFilter<TAttribute> At(AttributeLevels levels)
+    {
+        Levels = levels;
+        return this;
     }
 }

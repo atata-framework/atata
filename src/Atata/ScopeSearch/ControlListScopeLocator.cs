@@ -1,72 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+public class ControlListScopeLocator : IScopeLocator
 {
-    public class ControlListScopeLocator : IScopeLocator
+    private readonly Func<SearchOptions, IEnumerable<IWebElement>> _predicate;
+
+    public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> predicate) =>
+        _predicate = predicate;
+
+    public string ElementName { get; set; }
+
+    public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
     {
-        private readonly Func<SearchOptions, IEnumerable<IWebElement>> _predicate;
+        searchOptions ??= new SearchOptions();
 
-        public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> predicate) =>
-            _predicate = predicate;
+        IWebElement element = AtataContext.Current.Driver
+            .Try(searchOptions.Timeout, searchOptions.RetryInterval)
+            .Until(_ => _predicate(searchOptions).FirstOrDefault());
 
-        public string ElementName { get; set; }
-
-        public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
+        if (element == null && !searchOptions.IsSafely)
         {
-            searchOptions ??= new SearchOptions();
-
-            IWebElement element = AtataContext.Current.Driver
-                .Try(searchOptions.Timeout, searchOptions.RetryInterval)
-                .Until(_ => _predicate(searchOptions).FirstOrDefault());
-
-            if (element == null && !searchOptions.IsSafely)
-            {
-                throw ExceptionFactory.CreateForNoSuchElement(
-                    new SearchFailureData
-                    {
-                        ElementName = ElementName,
-                        SearchOptions = searchOptions
-                    });
-            }
-            else
-            {
-                return element;
-            }
+            throw ExceptionFactory.CreateForNoSuchElement(
+                new SearchFailureData
+                {
+                    ElementName = ElementName,
+                    SearchOptions = searchOptions
+                });
         }
-
-        public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+        else
         {
-            searchOptions ??= new SearchOptions();
-
-            return AtataContext.Current.Driver
-                .Try(searchOptions.Timeout, searchOptions.RetryInterval)
-                .Until(_ => _predicate(searchOptions).ToArray());
+            return element;
         }
+    }
 
-        public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
+    public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+    {
+        searchOptions ??= new SearchOptions();
+
+        return AtataContext.Current.Driver
+            .Try(searchOptions.Timeout, searchOptions.RetryInterval)
+            .Until(_ => _predicate(searchOptions).ToArray());
+    }
+
+    public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
+    {
+        searchOptions ??= new SearchOptions();
+
+        bool isMissing = AtataContext.Current.Driver
+            .Try(searchOptions.Timeout, searchOptions.RetryInterval)
+            .Until(_ => !_predicate(searchOptions).Any());
+
+        if (!isMissing && !searchOptions.IsSafely)
         {
-            searchOptions ??= new SearchOptions();
-
-            bool isMissing = AtataContext.Current.Driver
-                .Try(searchOptions.Timeout, searchOptions.RetryInterval)
-                .Until(_ => !_predicate(searchOptions).Any());
-
-            if (!isMissing && !searchOptions.IsSafely)
-            {
-                throw ExceptionFactory.CreateForNotMissingElement(
-                    new SearchFailureData
-                    {
-                        ElementName = ElementName,
-                        SearchOptions = searchOptions
-                    });
-            }
-            else
-            {
-                return isMissing;
-            }
+            throw ExceptionFactory.CreateForNotMissingElement(
+                new SearchFailureData
+                {
+                    ElementName = ElementName,
+                    SearchOptions = searchOptions
+                });
+        }
+        else
+        {
+            return isMissing;
         }
     }
 }

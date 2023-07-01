@@ -1,10 +1,7 @@
-﻿using System.Globalization;
+﻿namespace Atata;
 
-namespace Atata
+public class LowerMergedTermFormatter : ITermFormatter
 {
-    public class LowerMergedTermFormatter : ITermFormatter
-    {
-        public string Format(string[] words) =>
-            string.Concat(words).ToLower(CultureInfo.CurrentCulture);
-    }
+    public string Format(string[] words) =>
+        string.Concat(words).ToLower(CultureInfo.CurrentCulture);
 }

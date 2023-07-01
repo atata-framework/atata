@@ -1,18 +1,15 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Specifies the function that creates a page object for navigation.
+/// </summary>
+public class NavigationPageObjectCreatorAttribute : MulticastAttribute
 {
-    /// <summary>
-    /// Specifies the function that creates a page object for navigation.
-    /// </summary>
-    public class NavigationPageObjectCreatorAttribute : MulticastAttribute
-    {
-        public NavigationPageObjectCreatorAttribute(Func<object> creator) =>
-            Creator = creator;
+    public NavigationPageObjectCreatorAttribute(Func<object> creator) =>
+        Creator = creator;
 
-        /// <summary>
-        /// Gets the creator function.
-        /// </summary>
-        public Func<object> Creator { get; }
-    }
+    /// <summary>
+    /// Gets the creator function.
+    /// </summary>
+    public Func<object> Creator { get; }
 }

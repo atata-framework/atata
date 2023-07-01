@@ -1,48 +1,43 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Reflection;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Provides a set of extension methods for <see cref="Expression"/>.
+/// </summary>
+public static class ExpressionExtensions
 {
     /// <summary>
-    /// Provides a set of extension methods for <see cref="Expression"/>.
+    /// Extracts the name of the member.
     /// </summary>
-    public static class ExpressionExtensions
+    /// <param name="expression">The expression.</param>
+    /// <returns>The name of the member.</returns>
+    public static string ExtractMemberName(this Expression expression) =>
+        expression.ExtractMember().Name;
+
+    /// <summary>
+    /// Extracts the member.
+    /// </summary>
+    /// <param name="expression">The expression.</param>
+    /// <returns>The member information.</returns>
+    public static MemberInfo ExtractMember(this Expression expression)
     {
-        /// <summary>
-        /// Extracts the name of the member.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns>The name of the member.</returns>
-        public static string ExtractMemberName(this Expression expression) =>
-            expression.ExtractMember().Name;
+        if (expression is null)
+            throw new ArgumentNullException(nameof(expression));
 
-        /// <summary>
-        /// Extracts the member.
-        /// </summary>
-        /// <param name="expression">The expression.</param>
-        /// <returns>The member information.</returns>
-        public static MemberInfo ExtractMember(this Expression expression)
+        if (expression is LambdaExpression lambdaExpression)
         {
-            if (expression == null)
-                throw new ArgumentNullException(nameof(expression));
-
-            if (expression is LambdaExpression lambdaExpression)
-            {
-                return ExtractMember(lambdaExpression.Body);
-            }
-            else if (expression is MemberExpression memberExpression)
-            {
-                return memberExpression.Member;
-            }
-            else if (expression is UnaryExpression unaryExpression)
-            {
-                return ExtractMember(unaryExpression.Operand);
-            }
-            else
-            {
-                throw new ArgumentException($"Inappropriate {nameof(expression)} kind.", nameof(expression));
-            }
+            return ExtractMember(lambdaExpression.Body);
+        }
+        else if (expression is MemberExpression memberExpression)
+        {
+            return memberExpression.Member;
+        }
+        else if (expression is UnaryExpression unaryExpression)
+        {
+            return ExtractMember(unaryExpression.Operand);
+        }
+        else
+        {
+            throw new ArgumentException($"Inappropriate {nameof(expression)} kind.", nameof(expression));
         }
     }
 }

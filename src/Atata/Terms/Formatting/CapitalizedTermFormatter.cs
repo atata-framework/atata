@@ -1,10 +1,7 @@
-﻿using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+public class CapitalizedTermFormatter : ITermFormatter
 {
-    public class CapitalizedTermFormatter : ITermFormatter
-    {
-        public string Format(string[] words) =>
-            string.Join(" ", words.Select(x => x.IsUpper() ? x : x.ToUpperFirstLetter()));
-    }
+    public string Format(string[] words) =>
+        string.Join(" ", words.Select(x => x.IsUpper() ? x : x.ToUpperFirstLetter()));
 }

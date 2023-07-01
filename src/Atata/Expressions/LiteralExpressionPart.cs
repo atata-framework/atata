@@ -1,18 +1,15 @@
-﻿using System.Text;
+﻿namespace Atata;
 
-namespace Atata
+internal class LiteralExpressionPart
 {
-    internal class LiteralExpressionPart
-    {
-        private readonly StringBuilder _builder = new();
+    private readonly StringBuilder _builder = new();
 
-        public void Append(string value)
-            => _builder.Append(value);
+    public void Append(string value)
+        => _builder.Append(value);
 
-        public void Append(char value)
-            => _builder.Append(value);
+    public void Append(char value)
+        => _builder.Append(value);
 
-        public override string ToString() =>
-            _builder.ToString();
-    }
+    public override string ToString() =>
+        _builder.ToString();
 }

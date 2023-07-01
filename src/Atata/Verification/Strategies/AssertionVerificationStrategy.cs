@@ -1,39 +1,36 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+public class AssertionVerificationStrategy : IVerificationStrategy
 {
-    public class AssertionVerificationStrategy : IVerificationStrategy
+    public string VerificationKind => "Assert";
+
+    public TimeSpan DefaultTimeout =>
+        AtataContext.Current?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
+
+    public TimeSpan DefaultRetryInterval =>
+        AtataContext.Current?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
+
+    public void ReportFailure(string message, Exception exception)
     {
-        public string VerificationKind => "Assert";
+        string completeMessage = $"Wrong {message}";
 
-        public TimeSpan DefaultTimeout =>
-            AtataContext.Current?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
+        string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
+        string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
 
-        public TimeSpan DefaultRetryInterval =>
-            AtataContext.Current?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
+        AtataContext context = AtataContext.Current;
 
-        public void ReportFailure(string message, Exception exception)
+        if (context != null)
         {
-            string completeMessage = $"Wrong {message}";
+            context.AssertionResults.Add(AssertionResult.ForFailure(completeMessageWithException, stackTrace));
 
-            string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
-            string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
-
-            AtataContext context = AtataContext.Current;
-
-            if (context != null)
+            if (context.AggregateAssertionLevel > 0)
             {
-                context.AssertionResults.Add(AssertionResult.ForFailure(completeMessageWithException, stackTrace));
-
-                if (context.AggregateAssertionLevel > 0)
-                {
-                    context.Log.Error(completeMessage);
-                    context.AggregateAssertionStrategy.ReportFailure(completeMessageWithException, stackTrace);
-                    return;
-                }
+                context.Log.Error(completeMessage);
+                context.AggregateAssertionStrategy.ReportFailure(completeMessageWithException, stackTrace);
+                return;
             }
-
-            throw VerificationUtils.CreateAssertionException(completeMessage, exception);
         }
+
+        throw VerificationUtils.CreateAssertionException(completeMessage, exception);
     }
 }

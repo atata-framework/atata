@@ -1,32 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
+﻿namespace Atata;
 
-namespace Atata
+public static class StackTraceFilter
 {
-    public static class StackTraceFilter
+    public static string TakeBeforeInvokeMethodOfRuntimeMethodHandle(string stackTrace) =>
+        TakeBefore(stackTrace, @" System\.RuntimeMethodHandle\.InvokeMethod");
+
+    public static string TakeBefore(string stackTrace, string pattern)
     {
-        public static string TakeBeforeInvokeMethodOfRuntimeMethodHandle(string stackTrace) =>
-            TakeBefore(stackTrace, @" System\.RuntimeMethodHandle\.InvokeMethod");
+        Regex regex = new Regex(pattern);
 
-        public static string TakeBefore(string stackTrace, string pattern)
-        {
-            Regex regex = new Regex(pattern);
+        return Filter(stackTrace, frames => frames.TakeWhile(x => !regex.IsMatch(x)));
+    }
 
-            return Filter(stackTrace, frames => frames.TakeWhile(x => !regex.IsMatch(x)));
-        }
+    public static string Filter(string stackTrace, Func<IEnumerable<string>, IEnumerable<string>> stackFramesFilter)
+    {
+        stackTrace.CheckNotNull(nameof(stackTrace));
+        stackFramesFilter.CheckNotNull(nameof(stackFramesFilter));
 
-        public static string Filter(string stackTrace, Func<IEnumerable<string>, IEnumerable<string>> stackFramesFilter)
-        {
-            stackTrace.CheckNotNull(nameof(stackTrace));
-            stackFramesFilter.CheckNotNull(nameof(stackFramesFilter));
+        IEnumerable<string> originalStackFrames = stackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
-            IEnumerable<string> originalStackFrames = stackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        IEnumerable<string> filteredStackFrames = stackFramesFilter.Invoke(originalStackFrames);
 
-            IEnumerable<string> filteredStackFrames = stackFramesFilter.Invoke(originalStackFrames);
-
-            return string.Join(Environment.NewLine, filteredStackFrames);
-        }
+        return string.Join(Environment.NewLine, filteredStackFrames);
     }
 }

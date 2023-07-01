@@ -1,30 +1,26 @@
-﻿using System;
-using System.IO;
+﻿namespace Atata;
 
-namespace Atata
+public class AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler : IEventHandler<AtataContextCleanUpEvent>
 {
-    public class AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler : IEventHandler<AtataContextCleanUpEvent>
+    private readonly Func<AtataContext, string> _directoryPathBuilder;
+
+    public AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
+        _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+
+    public void Handle(AtataContextCleanUpEvent eventData, AtataContext context)
     {
-        private readonly Func<AtataContext, string> _directoryPathBuilder;
+        string directoryPath = _directoryPathBuilder.Invoke(context);
 
-        public AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
-            _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
+        directoryPath = context.FillTemplateString(directoryPath);
 
-        public void Handle(AtataContextCleanUpEvent eventData, AtataContext context)
+        DirectoryInfo directory = new DirectoryInfo(directoryPath);
+
+        if (directory.Exists)
         {
-            string directoryPath = _directoryPathBuilder.Invoke(context);
+            var files = directory.EnumerateFiles("*", SearchOption.AllDirectories);
 
-            directoryPath = context.FillTemplateString(directoryPath);
-
-            DirectoryInfo directory = new DirectoryInfo(directoryPath);
-
-            if (directory.Exists)
-            {
-                var files = directory.EnumerateFiles("*", SearchOption.AllDirectories);
-
-                foreach (var file in files)
-                    NUnitAdapter.AddTestAttachment(file.FullName);
-            }
+            foreach (var file in files)
+                NUnitAdapter.AddTestAttachment(file.FullName);
         }
     }
 }

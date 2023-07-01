@@ -1,13 +1,30 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public abstract class UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner> :
+    VerificationProvider<TVerificationProvider, TOwner>,
+    IUIComponentVerificationProvider<TComponent, TOwner>
+    where TComponent : UIComponent<TOwner>
+    where TVerificationProvider : UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner>
+    where TOwner : PageObject<TOwner>
 {
-    public abstract class UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner> :
-        VerificationProvider<TVerificationProvider, TOwner>,
+    protected UIComponentVerificationProvider(TComponent component) =>
+        Component = component;
+
+    protected internal TComponent Component { get; }
+
+    TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component =>
+        Component;
+
+    protected override TOwner Owner =>
+        Component.Owner;
+
+    public abstract class NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider> :
+        NegationVerificationProvider<TNegationUIComponentVerificationProvider, TOwner>,
         IUIComponentVerificationProvider<TComponent, TOwner>
-        where TComponent : UIComponent<TOwner>
-        where TVerificationProvider : UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner>
-        where TOwner : PageObject<TOwner>
+        where TNegationUIComponentVerificationProvider : NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider>
     {
-        protected UIComponentVerificationProvider(TComponent component) =>
+        protected NegationUIComponentVerificationProvider(TComponent component, IVerificationProvider<TOwner> verificationProvider)
+            : base(verificationProvider) =>
             Component = component;
 
         protected internal TComponent Component { get; }
@@ -17,23 +34,5 @@
 
         protected override TOwner Owner =>
             Component.Owner;
-
-        public abstract class NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider> :
-            NegationVerificationProvider<TNegationUIComponentVerificationProvider, TOwner>,
-            IUIComponentVerificationProvider<TComponent, TOwner>
-            where TNegationUIComponentVerificationProvider : NegationUIComponentVerificationProvider<TNegationUIComponentVerificationProvider>
-        {
-            protected NegationUIComponentVerificationProvider(TComponent component, IVerificationProvider<TOwner> verificationProvider)
-                : base(verificationProvider) =>
-                Component = component;
-
-            protected internal TComponent Component { get; }
-
-            TComponent IUIComponentVerificationProvider<TComponent, TOwner>.Component =>
-                Component;
-
-            protected override TOwner Owner =>
-                Component.Owner;
-        }
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class ValueXPathAttribute : ExtraXPathAttribute
 {
-    public class ValueXPathAttribute : ExtraXPathAttribute
+    public ValueXPathAttribute(string xPath)
+        : base(xPath)
     {
-        public ValueXPathAttribute(string xPath)
-            : base(xPath)
-        {
-        }
     }
 }

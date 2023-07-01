@@ -1,34 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Sockets;
 
-namespace Atata
+namespace Atata;
+
+internal static class PortUtils
 {
-    internal static class PortUtils
+    internal static int FindFreePort()
     {
-        internal static int FindFreePort()
+        using (Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
         {
-            using (Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-            {
-                IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                portSocket.Bind(socketEndPoint);
-                return ((IPEndPoint)portSocket.LocalEndPoint).Port;
-            }
+            IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
+            portSocket.Bind(socketEndPoint);
+            return ((IPEndPoint)portSocket.LocalEndPoint).Port;
+        }
+    }
+
+    internal static int FindFreePortExcept(IEnumerable<int> portsToIgnore)
+    {
+        for (int i = 0; i < 500; i++)
+        {
+            int port = FindFreePort();
+
+            if (!portsToIgnore.Contains(port))
+                return port;
         }
 
-        internal static int FindFreePortExcept(IEnumerable<int> portsToIgnore)
-        {
-            for (int i = 0; i < 500; i++)
-            {
-                int port = FindFreePort();
-
-                if (!portsToIgnore.Contains(port))
-                    return port;
-            }
-
-            throw new InvalidOperationException("Failed to find free port.");
-        }
+        throw new InvalidOperationException("Failed to find free port.");
     }
 }

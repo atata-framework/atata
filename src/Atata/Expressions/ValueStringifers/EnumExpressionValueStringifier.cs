@@ -1,13 +1,10 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+internal class EnumExpressionValueStringifier : IExpressionValueStringifier
 {
-    internal class EnumExpressionValueStringifier : IExpressionValueStringifier
-    {
-        public bool CanHandle(Type type) =>
-            type.IsEnum;
+    public bool CanHandle(Type type) =>
+        type.IsEnum;
 
-        public string Handle(object value) =>
-            ((Enum)value).ToExpressionValueString();
-    }
+    public string Handle(object value) =>
+        ((Enum)value).ToExpressionValueString();
 }

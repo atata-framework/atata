@@ -1,7 +1,6 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public interface ITermFindAttribute
 {
-    public interface ITermFindAttribute
-    {
-        string[] GetTerms(UIComponentMetadata metadata);
-    }
+    string[] GetTerms(UIComponentMetadata metadata);
 }

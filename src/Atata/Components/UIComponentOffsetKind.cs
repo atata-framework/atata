@@ -1,28 +1,27 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// Specifies the offset kind relative to UI component.
+/// </summary>
+public enum UIComponentOffsetKind
 {
     /// <summary>
-    /// Specifies the offset kind relative to UI component.
+    /// An offset from center of UI component in percents.
     /// </summary>
-    public enum UIComponentOffsetKind
-    {
-        /// <summary>
-        /// An offset from center of UI component in percents.
-        /// </summary>
-        FromCenterInPercents,
+    FromCenterInPercents,
 
-        /// <summary>
-        /// An offset from center of UI component in pixels.
-        /// </summary>
-        FromCenterInPixels,
+    /// <summary>
+    /// An offset from center of UI component in pixels.
+    /// </summary>
+    FromCenterInPixels,
 
-        /// <summary>
-        /// An offset from top left point of UI component in percents.
-        /// </summary>
-        FromTopLeftInPercents,
+    /// <summary>
+    /// An offset from top left point of UI component in percents.
+    /// </summary>
+    FromTopLeftInPercents,
 
-        /// <summary>
-        /// An offset from top left point of UI component in pixels.
-        /// </summary>
-        FromTopLeftInPixels
-    }
+    /// <summary>
+    /// An offset from top left point of UI component in pixels.
+    /// </summary>
+    FromTopLeftInPixels
 }

@@ -1,79 +1,73 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
+﻿namespace Atata;
 
-namespace Atata
+public static class MethodInfoExtensions
 {
-    public static class MethodInfoExtensions
+    public static object InvokeStatic(this MethodInfo method, params object[] args) =>
+        method.Invoke(null, args);
+
+    public static TResult InvokeStatic<TResult>(this MethodInfo method, params object[] args) =>
+        (TResult)method.Invoke(null, args);
+
+    public static void InvokeAsLambda(this MethodInfo method, object instance, params object[] args)
     {
-        public static object InvokeStatic(this MethodInfo method, params object[] args) =>
-            method.Invoke(null, args);
-
-        public static TResult InvokeStatic<TResult>(this MethodInfo method, params object[] args) =>
-            (TResult)method.Invoke(null, args);
-
-        public static void InvokeAsLambda(this MethodInfo method, object instance, params object[] args)
+        if (instance == null)
         {
-            if (instance == null)
-            {
-                InvokeStaticAsLambda(method, args);
-            }
-            else
-            {
-                var callExpression = method.ToInstanceMethodCallExpression(instance, args);
-
-                var lambda = Expression.Lambda<Action>(callExpression);
-                lambda.Compile().Invoke();
-            }
+            InvokeStaticAsLambda(method, args);
         }
-
-        public static TResult InvokeAsLambda<TResult>(this MethodInfo method, object instance, params object[] args)
+        else
         {
-            if (instance == null)
-            {
-                return InvokeStaticAsLambda<TResult>(method, args);
-            }
-            else
-            {
-                var callExpression = method.ToInstanceMethodCallExpression(instance, args);
-
-                var lambda = Expression.Lambda<Func<TResult>>(callExpression);
-                return lambda.Compile().Invoke();
-            }
-        }
-
-        public static void InvokeStaticAsLambda(this MethodInfo method, params object[] args)
-        {
-            var callExpression = method.ToStaticMethodCallExpression(args);
+            var callExpression = method.ToInstanceMethodCallExpression(instance, args);
 
             var lambda = Expression.Lambda<Action>(callExpression);
             lambda.Compile().Invoke();
         }
+    }
 
-        public static TResult InvokeStaticAsLambda<TResult>(this MethodInfo method, params object[] args)
+    public static TResult InvokeAsLambda<TResult>(this MethodInfo method, object instance, params object[] args)
+    {
+        if (instance == null)
         {
-            var callExpression = method.ToStaticMethodCallExpression(args);
+            return InvokeStaticAsLambda<TResult>(method, args);
+        }
+        else
+        {
+            var callExpression = method.ToInstanceMethodCallExpression(instance, args);
 
             var lambda = Expression.Lambda<Func<TResult>>(callExpression);
             return lambda.Compile().Invoke();
         }
+    }
 
-        public static MethodCallExpression ToInstanceMethodCallExpression(this MethodInfo method, object instance, params object[] args)
-        {
-            method.CheckNotNull(nameof(method));
-            instance.CheckNotNull(nameof(instance));
+    public static void InvokeStaticAsLambda(this MethodInfo method, params object[] args)
+    {
+        var callExpression = method.ToStaticMethodCallExpression(args);
 
-            var parameterExpressions = args?.Select(x => Expression.Constant(x)) ?? new ConstantExpression[0];
-            return Expression.Call(Expression.Constant(instance), method, parameterExpressions);
-        }
+        var lambda = Expression.Lambda<Action>(callExpression);
+        lambda.Compile().Invoke();
+    }
 
-        public static MethodCallExpression ToStaticMethodCallExpression(this MethodInfo method, params object[] args)
-        {
-            method.CheckNotNull(nameof(method));
+    public static TResult InvokeStaticAsLambda<TResult>(this MethodInfo method, params object[] args)
+    {
+        var callExpression = method.ToStaticMethodCallExpression(args);
 
-            var parameterExpressions = args?.Select(x => Expression.Constant(x)) ?? new ConstantExpression[0];
-            return Expression.Call(method, parameterExpressions);
-        }
+        var lambda = Expression.Lambda<Func<TResult>>(callExpression);
+        return lambda.Compile().Invoke();
+    }
+
+    public static MethodCallExpression ToInstanceMethodCallExpression(this MethodInfo method, object instance, params object[] args)
+    {
+        method.CheckNotNull(nameof(method));
+        instance.CheckNotNull(nameof(instance));
+
+        var parameterExpressions = args?.Select(x => Expression.Constant(x)) ?? new ConstantExpression[0];
+        return Expression.Call(Expression.Constant(instance), method, parameterExpressions);
+    }
+
+    public static MethodCallExpression ToStaticMethodCallExpression(this MethodInfo method, params object[] args)
+    {
+        method.CheckNotNull(nameof(method));
+
+        var parameterExpressions = args?.Select(x => Expression.Constant(x)) ?? new ConstantExpression[0];
+        return Expression.Call(method, parameterExpressions);
     }
 }

@@ -1,61 +1,56 @@
-﻿using System;
-using System.IO;
-using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
 {
-    public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
+    /// <summary>
+    /// Gets or sets the image format.
+    /// The default format is <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/>.
+    /// </summary>
+    public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
+
+    /// <summary>
+    /// Takes the specified screenshot.
+    /// </summary>
+    /// <param name="screenshotInfo">The screenshot information.</param>
+    public void Take(ScreenshotInfo screenshotInfo)
     {
-        /// <summary>
-        /// Gets or sets the image format.
-        /// The default format is <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/>.
-        /// </summary>
-        public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
+        string filePath = BuildFilePath(screenshotInfo);
+        filePath = filePath.SanitizeForPath();
+        filePath += ImageFormat.GetExtension();
 
-        /// <summary>
-        /// Takes the specified screenshot.
-        /// </summary>
-        /// <param name="screenshotInfo">The screenshot information.</param>
-        public void Take(ScreenshotInfo screenshotInfo)
-        {
-            string filePath = BuildFilePath(screenshotInfo);
-            filePath = filePath.SanitizeForPath();
-            filePath += ImageFormat.GetExtension();
+        if (!Path.IsPathRooted(filePath))
+            filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
 
-            if (!Path.IsPathRooted(filePath))
-                filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
+        string directoryPath = Path.GetDirectoryName(filePath);
 
-            string directoryPath = Path.GetDirectoryName(filePath);
+        if (!Directory.Exists(directoryPath))
+            Directory.CreateDirectory(directoryPath);
 
-            if (!Directory.Exists(directoryPath))
-                Directory.CreateDirectory(directoryPath);
+        SaveImage(screenshotInfo, filePath);
 
-            SaveImage(screenshotInfo, filePath);
+        var context = AtataContext.Current;
+        context.Log.Info($"Screenshot saved to file \"{filePath}\"");
+        context.EventBus.Publish(new ScreenshotFileSavedEvent(screenshotInfo, filePath));
 
-            var context = AtataContext.Current;
-            context.Log.Info($"Screenshot saved to file \"{filePath}\"");
-            context.EventBus.Publish(new ScreenshotFileSavedEvent(screenshotInfo, filePath));
+        string artifactRelativeFilePath = filePath.StartsWith(context.Artifacts.FullName, StringComparison.OrdinalIgnoreCase)
+            ? filePath.Substring(context.Artifacts.FullName.Value.Length)
+            : filePath;
 
-            string artifactRelativeFilePath = filePath.StartsWith(context.Artifacts.FullName, StringComparison.OrdinalIgnoreCase)
-                ? filePath.Substring(context.Artifacts.FullName.Value.Length)
-                : filePath;
+        context.EventBus.Publish(new ArtifactAddedEvent(filePath, artifactRelativeFilePath, ArtifactTypes.Screenshot, screenshotInfo.Title));
+    }
 
-            context.EventBus.Publish(new ArtifactAddedEvent(filePath, artifactRelativeFilePath, ArtifactTypes.Screenshot, screenshotInfo.Title));
-        }
+    /// <summary>
+    /// Builds the path of the file without the extension.
+    /// </summary>
+    /// <param name="screenshotInfo">The screenshot information.</param>
+    /// <returns>The file path without the extension.</returns>
+    protected abstract string BuildFilePath(ScreenshotInfo screenshotInfo);
 
-        /// <summary>
-        /// Builds the path of the file without the extension.
-        /// </summary>
-        /// <param name="screenshotInfo">The screenshot information.</param>
-        /// <returns>The file path without the extension.</returns>
-        protected abstract string BuildFilePath(ScreenshotInfo screenshotInfo);
-
-        private void SaveImage(ScreenshotInfo screenshotInfo, string filePath)
-        {
-            if (ImageFormat == ScreenshotImageFormat.Png)
-                screenshotInfo.ScreenshotContent.Save(filePath);
-            else
-                screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
-        }
+    private void SaveImage(ScreenshotInfo screenshotInfo, string filePath)
+    {
+        if (ImageFormat == ScreenshotImageFormat.Png)
+            screenshotInfo.ScreenshotContent.Save(filePath);
+        else
+            screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
     }
 }

@@ -1,198 +1,193 @@
-﻿using System;
-using System.Linq.Expressions;
-using System.Reflection;
+﻿namespace Atata;
 
-namespace Atata
+internal static class NUnitAdapter
 {
-    internal static class NUnitAdapter
+    private const string NUnitAssemblyName = "nunit.framework";
+
+    internal const string AssertionExceptionTypeName = "NUnit.Framework.AssertionException";
+
+    private static readonly Lazy<Type> s_testContextType = new(
+        () => GetType("NUnit.Framework.TestContext"));
+
+    private static readonly Lazy<Type> s_testExecutionContextType = new(
+        () => GetType("NUnit.Framework.Internal.TestExecutionContext"));
+
+    private static readonly Lazy<Type> s_assertType = new(
+        () => GetType("NUnit.Framework.Assert"));
+
+    private static readonly Lazy<Type> s_testDelegateType = new(
+        () => GetType("NUnit.Framework.TestDelegate"));
+
+    private static readonly Lazy<Type> s_assertionStatusType = new(
+        () => GetType("NUnit.Framework.Interfaces.AssertionStatus"));
+
+    private static readonly Lazy<Type> s_testResultType = new(
+        () => GetType("NUnit.Framework.Internal.TestResult"));
+
+    private static readonly Lazy<Type> s_testMethodType = new(
+        () => GetType("NUnit.Framework.Internal.TestMethod"));
+
+    private static readonly Lazy<Type> s_testFixtureType = new(
+        () => GetType("NUnit.Framework.Internal.TestFixture"));
+
+    private static readonly Lazy<Type> s_setUpFixtureType = new(
+        () => GetType("NUnit.Framework.Internal.SetUpFixture"));
+
+    internal enum AssertionStatus
     {
-        private const string NUnitAssemblyName = "nunit.framework";
+        Inconclusive,
 
-        internal const string AssertionExceptionTypeName = "NUnit.Framework.AssertionException";
+        Passed,
 
-        private static readonly Lazy<Type> s_testContextType = new(
-            () => GetType("NUnit.Framework.TestContext"));
+        Warning,
 
-        private static readonly Lazy<Type> s_testExecutionContextType = new(
-            () => GetType("NUnit.Framework.Internal.TestExecutionContext"));
+        Failed,
 
-        private static readonly Lazy<Type> s_assertType = new(
-            () => GetType("NUnit.Framework.Assert"));
+        Error
+    }
 
-        private static readonly Lazy<Type> s_testDelegateType = new(
-            () => GetType("NUnit.Framework.TestDelegate"));
+    internal static Type AssertionExceptionType => GetType(AssertionExceptionTypeName);
 
-        private static readonly Lazy<Type> s_assertionStatusType = new(
-            () => GetType("NUnit.Framework.Interfaces.AssertionStatus"));
+    private static Type GetType(string typeName) =>
+        Type.GetType($"{typeName},{NUnitAssemblyName}", true);
 
-        private static readonly Lazy<Type> s_testResultType = new(
-            () => GetType("NUnit.Framework.Internal.TestResult"));
+    internal static object GetCurrentTest()
+    {
+        object testExecutionContext = GetCurrentTestExecutionContext();
 
-        private static readonly Lazy<Type> s_testMethodType = new(
-            () => GetType("NUnit.Framework.Internal.TestMethod"));
+        return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentTest")
+            .GetValue(testExecutionContext);
+    }
 
-        private static readonly Lazy<Type> s_testFixtureType = new(
-            () => GetType("NUnit.Framework.Internal.TestFixture"));
+    internal static string GetCurrentTestName()
+    {
+        object testItem = GetCurrentTest();
 
-        private static readonly Lazy<Type> s_setUpFixtureType = new(
-            () => GetType("NUnit.Framework.Internal.SetUpFixture"));
+        return testItem != null && testItem.GetType() == s_testMethodType.Value
+            ? s_testMethodType.Value.GetPropertyWithThrowOnError("Name").GetValue(testItem) as string
+            : null;
+    }
 
-        internal enum AssertionStatus
+    internal static string GetCurrentTestFixtureName()
+    {
+        dynamic testItem = GetCurrentTest();
+
+        if (testItem.GetType() == s_setUpFixtureType.Value)
+            return testItem.TypeInfo.Type.Name;
+
+        do
         {
-            Inconclusive,
+            if (testItem.GetType() == s_testFixtureType.Value)
+                return testItem.Name;
 
-            Passed,
-
-            Warning,
-
-            Failed,
-
-            Error
+            testItem = testItem.Parent;
         }
+        while (testItem != null);
 
-        internal static Type AssertionExceptionType => GetType(AssertionExceptionTypeName);
+        return null;
+    }
 
-        private static Type GetType(string typeName) =>
-            Type.GetType($"{typeName},{NUnitAssemblyName}", true);
+    internal static Type GetCurrentTestFixtureType()
+    {
+        dynamic testItem = GetCurrentTest();
 
-        internal static object GetCurrentTest()
+        if (testItem.GetType() == s_setUpFixtureType.Value)
+            return testItem.TypeInfo.Type;
+
+        do
         {
-            object testExecutionContext = GetCurrentTestExecutionContext();
-
-            return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentTest")
-                .GetValue(testExecutionContext);
-        }
-
-        internal static string GetCurrentTestName()
-        {
-            object testItem = GetCurrentTest();
-
-            return testItem != null && testItem.GetType() == s_testMethodType.Value
-                ? s_testMethodType.Value.GetPropertyWithThrowOnError("Name").GetValue(testItem) as string
-                : null;
-        }
-
-        internal static string GetCurrentTestFixtureName()
-        {
-            dynamic testItem = GetCurrentTest();
-
-            if (testItem.GetType() == s_setUpFixtureType.Value)
-                return testItem.TypeInfo.Type.Name;
-
-            do
-            {
-                if (testItem.GetType() == s_testFixtureType.Value)
-                    return testItem.Name;
-
-                testItem = testItem.Parent;
-            }
-            while (testItem != null);
-
-            return null;
-        }
-
-        internal static Type GetCurrentTestFixtureType()
-        {
-            dynamic testItem = GetCurrentTest();
-
-            if (testItem.GetType() == s_setUpFixtureType.Value)
+            if (testItem.GetType() == s_testFixtureType.Value)
                 return testItem.TypeInfo.Type;
 
-            do
-            {
-                if (testItem.GetType() == s_testFixtureType.Value)
-                    return testItem.TypeInfo.Type;
-
-                testItem = testItem.Parent;
-            }
-            while (testItem != null);
-
-            return null;
+            testItem = testItem.Parent;
         }
+        while (testItem != null);
 
-        internal static void AssertMultiple(Action action)
-        {
-            Delegate testDelegate = ConvertToDelegate(action, s_testDelegateType.Value);
+        return null;
+    }
 
-            MethodInfo assertMultipleMethod = s_assertType.Value.GetMethodWithThrowOnError("Multiple", s_testDelegateType.Value);
+    internal static void AssertMultiple(Action action)
+    {
+        Delegate testDelegate = ConvertToDelegate(action, s_testDelegateType.Value);
 
-            assertMultipleMethod.InvokeStaticAsLambda(testDelegate);
-        }
+        MethodInfo assertMultipleMethod = s_assertType.Value.GetMethodWithThrowOnError("Multiple", s_testDelegateType.Value);
 
-        private static Delegate ConvertToDelegate(Action action, Type delegateType)
-        {
-            var targetExpression = Expression.Constant(action.Target);
-            var callExpression = Expression.Call(targetExpression, action.Method);
+        assertMultipleMethod.InvokeStaticAsLambda(testDelegate);
+    }
 
-            var lambda = Expression.Lambda(delegateType, callExpression);
-            return lambda.Compile();
-        }
+    private static Delegate ConvertToDelegate(Action action, Type delegateType)
+    {
+        var targetExpression = Expression.Constant(action.Target);
+        var callExpression = Expression.Call(targetExpression, action.Method);
 
-        internal static void AssertFail(string message)
-        {
-            var reportFailureMethod = s_assertType.Value.GetMethodWithThrowOnError("Fail", typeof(string));
+        var lambda = Expression.Lambda(delegateType, callExpression);
+        return lambda.Compile();
+    }
 
-            reportFailureMethod.InvokeStaticAsLambda(message);
-        }
+    internal static void AssertFail(string message)
+    {
+        var reportFailureMethod = s_assertType.Value.GetMethodWithThrowOnError("Fail", typeof(string));
 
-        internal static void RecordAssertionIntoTestResult(AssertionStatus status, string message, string stackTrace)
-        {
-            object testResult = GetCurrentTestResult();
+        reportFailureMethod.InvokeStaticAsLambda(message);
+    }
 
-            object statusConverted = Enum.Parse(s_assertionStatusType.Value, status.ToString());
+    internal static void RecordAssertionIntoTestResult(AssertionStatus status, string message, string stackTrace)
+    {
+        object testResult = GetCurrentTestResult();
 
-            MethodInfo recordAssertionMethod = s_testResultType.Value.GetMethodWithThrowOnError("RecordAssertion", s_assertionStatusType.Value, typeof(string), typeof(string));
-            recordAssertionMethod.InvokeAsLambda(testResult, statusConverted, message, stackTrace);
-        }
+        object statusConverted = Enum.Parse(s_assertionStatusType.Value, status.ToString());
 
-        internal static void RecordTestCompletionIntoTestResult()
-        {
-            object testResult = GetCurrentTestResult();
+        MethodInfo recordAssertionMethod = s_testResultType.Value.GetMethodWithThrowOnError("RecordAssertion", s_assertionStatusType.Value, typeof(string), typeof(string));
+        recordAssertionMethod.InvokeAsLambda(testResult, statusConverted, message, stackTrace);
+    }
 
-            s_testResultType.Value.GetMethodWithThrowOnError("RecordTestCompletion")
-                .InvokeAsLambda(testResult);
-        }
+    internal static void RecordTestCompletionIntoTestResult()
+    {
+        object testResult = GetCurrentTestResult();
 
-        internal static object GetCurrentTestResult()
-        {
-            object testExecutionContext = GetCurrentTestExecutionContext();
+        s_testResultType.Value.GetMethodWithThrowOnError("RecordTestCompletion")
+            .InvokeAsLambda(testResult);
+    }
 
-            return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentResult")
-                .GetValue(testExecutionContext);
-        }
+    internal static object GetCurrentTestResult()
+    {
+        object testExecutionContext = GetCurrentTestExecutionContext();
 
-        internal static object GetCurrentTestExecutionContext()
-        {
-            PropertyInfo currentContextProperty = s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
+        return s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentResult")
+            .GetValue(testExecutionContext);
+    }
 
-            return currentContextProperty.GetStaticValue();
-        }
+    internal static object GetCurrentTestExecutionContext()
+    {
+        PropertyInfo currentContextProperty = s_testExecutionContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
 
-        internal static dynamic GetCurrentTestResultAdapter()
-        {
-            dynamic testContext = GetCurrentTestContext();
-            return testContext.Result;
-        }
+        return currentContextProperty.GetStaticValue();
+    }
 
-        internal static bool IsCurrentTestFailed()
-        {
-            dynamic testResult = GetCurrentTestResultAdapter();
-            return IsTestResultAdapterFailed(testResult);
-        }
+    internal static dynamic GetCurrentTestResultAdapter()
+    {
+        dynamic testContext = GetCurrentTestContext();
+        return testContext.Result;
+    }
 
-        internal static bool IsTestResultAdapterFailed(dynamic testResult) =>
-            testResult.Outcome.Status.ToString().Contains("Fail");
+    internal static bool IsCurrentTestFailed()
+    {
+        dynamic testResult = GetCurrentTestResultAdapter();
+        return IsTestResultAdapterFailed(testResult);
+    }
 
-        // TODO: Change implementation to: TestExecutionContext.CurrentContext.CurrentResult.TestAttachments.Add(new TestAttachment(filePath, description))
-        internal static void AddTestAttachment(string filePath, string description = null) =>
-            s_testContextType.Value.GetMethodWithThrowOnError("AddTestAttachment", BindingFlags.Static | BindingFlags.Public)
-                .InvokeStatic(filePath, description);
+    internal static bool IsTestResultAdapterFailed(dynamic testResult) =>
+        testResult.Outcome.Status.ToString().Contains("Fail");
 
-        internal static object GetCurrentTestContext()
-        {
-            PropertyInfo currentContextProperty = s_testContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
+    // TODO: Change implementation to: TestExecutionContext.CurrentContext.CurrentResult.TestAttachments.Add(new TestAttachment(filePath, description))
+    internal static void AddTestAttachment(string filePath, string description = null) =>
+        s_testContextType.Value.GetMethodWithThrowOnError("AddTestAttachment", BindingFlags.Static | BindingFlags.Public)
+            .InvokeStatic(filePath, description);
 
-            return currentContextProperty.GetStaticValue();
-        }
+    internal static object GetCurrentTestContext()
+    {
+        PropertyInfo currentContextProperty = s_testContextType.Value.GetPropertyWithThrowOnError("CurrentContext");
+
+        return currentContextProperty.GetStaticValue();
     }
 }

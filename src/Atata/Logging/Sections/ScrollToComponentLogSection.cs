@@ -1,12 +1,11 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class ScrollToComponentLogSection : UIComponentLogSection
 {
-    public class ScrollToComponentLogSection : UIComponentLogSection
+    public ScrollToComponentLogSection(UIComponent component)
+        : base(component)
     {
-        public ScrollToComponentLogSection(UIComponent component)
-            : base(component)
-        {
-            Level = LogLevel.Trace;
-            Message = $"Scroll to {component.ComponentFullName}";
-        }
+        Level = LogLevel.Trace;
+        Message = $"Scroll to {component.ComponentFullName}";
     }
 }

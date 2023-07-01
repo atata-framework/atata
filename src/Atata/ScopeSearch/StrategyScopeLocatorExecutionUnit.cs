@@ -1,21 +1,20 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class StrategyScopeLocatorExecutionUnit
 {
-    public class StrategyScopeLocatorExecutionUnit
+    public StrategyScopeLocatorExecutionUnit(
+        IComponentScopeFindStrategy strategy,
+        ComponentScopeFindOptions scopeFindOptions,
+        SearchOptions searchOptions)
     {
-        public StrategyScopeLocatorExecutionUnit(
-            IComponentScopeFindStrategy strategy,
-            ComponentScopeFindOptions scopeFindOptions,
-            SearchOptions searchOptions)
-        {
-            Strategy = strategy;
-            ScopeFindOptions = scopeFindOptions;
-            SearchOptions = searchOptions;
-        }
-
-        public IComponentScopeFindStrategy Strategy { get; }
-
-        public ComponentScopeFindOptions ScopeFindOptions { get; }
-
-        public SearchOptions SearchOptions { get; }
+        Strategy = strategy;
+        ScopeFindOptions = scopeFindOptions;
+        SearchOptions = searchOptions;
     }
+
+    public IComponentScopeFindStrategy Strategy { get; }
+
+    public ComponentScopeFindOptions ScopeFindOptions { get; }
+
+    public SearchOptions SearchOptions { get; }
 }

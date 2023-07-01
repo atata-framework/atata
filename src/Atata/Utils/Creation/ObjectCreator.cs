@@ -1,143 +1,137 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+﻿namespace Atata;
 
-namespace Atata
+public class ObjectCreator : IObjectCreator
 {
-    public class ObjectCreator : IObjectCreator
+    private readonly IObjectConverter _objectConverter;
+
+    private readonly IObjectMapper _objectMapper;
+
+    public ObjectCreator(IObjectConverter objectConverter, IObjectMapper objectMapper)
     {
-        private readonly IObjectConverter _objectConverter;
+        _objectConverter = objectConverter;
+        _objectMapper = objectMapper;
+    }
 
-        private readonly IObjectMapper _objectMapper;
+    /// <inheritdoc/>
+    public object Create(Type type, Dictionary<string, object> valuesMap) =>
+        Create(type, valuesMap, new Dictionary<string, string>());
 
-        public ObjectCreator(IObjectConverter objectConverter, IObjectMapper objectMapper)
-        {
-            _objectConverter = objectConverter;
-            _objectMapper = objectMapper;
-        }
+    /// <inheritdoc/>
+    public object Create(Type type, Dictionary<string, object> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
+    {
+        type.CheckNotNull(nameof(type));
+        valuesMap.CheckNotNull(nameof(valuesMap));
+        alternativeParameterNamesMap.CheckNotNull(nameof(alternativeParameterNamesMap));
 
-        /// <inheritdoc/>
-        public object Create(Type type, Dictionary<string, object> valuesMap) =>
-            Create(type, valuesMap, new Dictionary<string, string>());
+        if (!valuesMap.Any())
+            return ActivatorEx.CreateInstance(type);
 
-        /// <inheritdoc/>
-        public object Create(Type type, Dictionary<string, object> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
-        {
-            type.CheckNotNull(nameof(type));
-            valuesMap.CheckNotNull(nameof(valuesMap));
-            alternativeParameterNamesMap.CheckNotNull(nameof(alternativeParameterNamesMap));
+        string[] parameterNamesWithAlternatives = valuesMap.Keys
+            .Concat(GetAlternativeParameterNames(valuesMap.Keys, alternativeParameterNamesMap))
+            .ToArray();
 
-            if (!valuesMap.Any())
-                return ActivatorEx.CreateInstance(type);
+        ConstructorInfo constructor = FindMostAppropriateConstructor(type, parameterNamesWithAlternatives);
 
-            string[] parameterNamesWithAlternatives = valuesMap.Keys
-                .Concat(GetAlternativeParameterNames(valuesMap.Keys, alternativeParameterNamesMap))
-                .ToArray();
+        var workingValuesMap = new Dictionary<string, object>(valuesMap);
 
-            ConstructorInfo constructor = FindMostAppropriateConstructor(type, parameterNamesWithAlternatives);
+        object instance = CreateInstanceViaConstructorAndRemoveUsedValues(
+            constructor,
+            workingValuesMap,
+            alternativeParameterNamesMap);
 
-            var workingValuesMap = new Dictionary<string, object>(valuesMap);
+        _objectMapper.Map(workingValuesMap, instance);
 
-            object instance = CreateInstanceViaConstructorAndRemoveUsedValues(
-                constructor,
-                workingValuesMap,
-                alternativeParameterNamesMap);
+        return instance;
+    }
 
-            _objectMapper.Map(workingValuesMap, instance);
-
-            return instance;
-        }
-
-        private static ConstructorInfo FindMostAppropriateConstructor(Type type, IEnumerable<string> parameterNames) =>
-            type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
-                .Where(constructor =>
-                {
-                    var parameters = constructor.GetParameters();
-
-                    return parameters.Length == 0
-                        || parameters.All(parameter =>
-                            parameterNames.Contains(parameter.Name, StringComparer.OrdinalIgnoreCase)
-                            || parameter.IsOptional
-                            || parameter.GetCustomAttributes(true).Any(attr => attr is ParamArrayAttribute));
-                })
-                .OrderByDescending(x => x.GetParameters().Length)
-                .FirstOrDefault()
-                ?? throw new MissingMethodException(
-                    $"No appropriate constructor found for {type.FullName} type.");
-
-        private static IEnumerable<string> GetAlternativeParameterNames(
-            IEnumerable<string> parameterNames,
-            Dictionary<string, string> alternativeParameterNamesMap)
-        {
-            foreach (string parameterName in parameterNames)
+    private static ConstructorInfo FindMostAppropriateConstructor(Type type, IEnumerable<string> parameterNames) =>
+        type.GetConstructors(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
+            .Where(constructor =>
             {
-                if (TryGetAlternativeParameterName(alternativeParameterNamesMap, parameterName, out string alternativeParameterName))
-                    yield return alternativeParameterName;
-            }
-        }
+                var parameters = constructor.GetParameters();
 
-        private static bool TryGetAlternativeParameterName(
-            Dictionary<string, string> alternativeParameterNamesMap,
-            string parameterName,
-            out string alternativeParameterName)
+                return parameters.Length == 0
+                    || parameters.All(parameter =>
+                        parameterNames.Contains(parameter.Name, StringComparer.OrdinalIgnoreCase)
+                        || parameter.IsOptional
+                        || parameter.GetCustomAttributes(true).Any(attr => attr is ParamArrayAttribute));
+            })
+            .OrderByDescending(x => x.GetParameters().Length)
+            .FirstOrDefault()
+            ?? throw new MissingMethodException(
+                $"No appropriate constructor found for {type.FullName} type.");
+
+    private static IEnumerable<string> GetAlternativeParameterNames(
+        IEnumerable<string> parameterNames,
+        Dictionary<string, string> alternativeParameterNamesMap)
+    {
+        foreach (string parameterName in parameterNames)
         {
-            KeyValuePair<string, string> alternativePair = alternativeParameterNamesMap.FirstOrDefault(x => x.Key.Equals(parameterName, StringComparison.OrdinalIgnoreCase));
+            if (TryGetAlternativeParameterName(alternativeParameterNamesMap, parameterName, out string alternativeParameterName))
+                yield return alternativeParameterName;
+        }
+    }
 
-            if (alternativePair.Key != null)
+    private static bool TryGetAlternativeParameterName(
+        Dictionary<string, string> alternativeParameterNamesMap,
+        string parameterName,
+        out string alternativeParameterName)
+    {
+        KeyValuePair<string, string> alternativePair = alternativeParameterNamesMap.FirstOrDefault(x => x.Key.Equals(parameterName, StringComparison.OrdinalIgnoreCase));
+
+        if (alternativePair.Key != null)
+        {
+            alternativeParameterName = alternativePair.Value;
+            return true;
+        }
+        else
+        {
+            alternativeParameterName = null;
+            return false;
+        }
+    }
+
+    private object CreateInstanceViaConstructorAndRemoveUsedValues(
+        ConstructorInfo constructor,
+        Dictionary<string, object> valuesMap,
+        Dictionary<string, string> alternativeParameterNamesMap)
+    {
+        object[] arguments = constructor.GetParameters()
+            .Select(parameter =>
             {
-                alternativeParameterName = alternativePair.Value;
+                KeyValuePair<string, object> valuePair = RetrievePairByName(valuesMap, alternativeParameterNamesMap, parameter);
+
+                valuesMap.Remove(valuePair.Key);
+
+                return _objectConverter.Convert(valuePair.Value, parameter.ParameterType);
+            })
+            .ToArray();
+
+        return constructor.Invoke(arguments);
+    }
+
+    private static KeyValuePair<string, object> RetrievePairByName(
+        Dictionary<string, object> valuesMap,
+        Dictionary<string, string> alternativeParameterNamesMap,
+        ParameterInfo parameter)
+    {
+        KeyValuePair<string, object> valuePair = valuesMap.FirstOrDefault(pair =>
+        {
+            if (pair.Key.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase))
                 return true;
-            }
+            else if (TryGetAlternativeParameterName(alternativeParameterNamesMap, pair.Key, out string alternativeParameterName))
+                return alternativeParameterName.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase);
             else
-            {
-                alternativeParameterName = null;
                 return false;
-            }
-        }
+        });
 
-        private object CreateInstanceViaConstructorAndRemoveUsedValues(
-            ConstructorInfo constructor,
-            Dictionary<string, object> valuesMap,
-            Dictionary<string, string> alternativeParameterNamesMap)
-        {
-            object[] arguments = constructor.GetParameters()
-                .Select(parameter =>
-                {
-                    KeyValuePair<string, object> valuePair = RetrievePairByName(valuesMap, alternativeParameterNamesMap, parameter);
-
-                    valuesMap.Remove(valuePair.Key);
-
-                    return _objectConverter.Convert(valuePair.Value, parameter.ParameterType);
-                })
-                .ToArray();
-
-            return constructor.Invoke(arguments);
-        }
-
-        private static KeyValuePair<string, object> RetrievePairByName(
-            Dictionary<string, object> valuesMap,
-            Dictionary<string, string> alternativeParameterNamesMap,
-            ParameterInfo parameter)
-        {
-            KeyValuePair<string, object> valuePair = valuesMap.FirstOrDefault(pair =>
-            {
-                if (pair.Key.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase))
-                    return true;
-                else if (TryGetAlternativeParameterName(alternativeParameterNamesMap, pair.Key, out string alternativeParameterName))
-                    return alternativeParameterName.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase);
-                else
-                    return false;
-            });
-
-            if (valuePair.Key != null)
-                return valuePair;
-            else if (parameter.IsOptional)
-                return new KeyValuePair<string, object>(parameter.Name, parameter.DefaultValue);
-            else if (parameter.GetCustomAttributes(true).Any(attr => attr is ParamArrayAttribute))
-                return new KeyValuePair<string, object>(parameter.Name, null);
-            else
-                throw new InvalidOperationException($"Failed to find \"{parameter.Name}\" required constructor parameter value.");
-        }
+        if (valuePair.Key != null)
+            return valuePair;
+        else if (parameter.IsOptional)
+            return new KeyValuePair<string, object>(parameter.Name, parameter.DefaultValue);
+        else if (parameter.GetCustomAttributes(true).Any(attr => attr is ParamArrayAttribute))
+            return new KeyValuePair<string, object>(parameter.Name, null);
+        else
+            throw new InvalidOperationException($"Failed to find \"{parameter.Name}\" required constructor parameter value.");
     }
 }

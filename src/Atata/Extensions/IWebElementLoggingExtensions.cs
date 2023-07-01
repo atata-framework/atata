@@ -1,72 +1,69 @@
-﻿using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Provides a set of extension methods for <see cref="IWebElement"/>
+/// that wrap actual methods with log sections.
+/// </summary>
+public static class IWebElementLoggingExtensions
 {
     /// <summary>
-    /// Provides a set of extension methods for <see cref="IWebElement"/>
-    /// that wrap actual methods with log sections.
+    /// Clears the value of an element within a log section.
     /// </summary>
-    public static class IWebElementLoggingExtensions
+    /// <param name="element">The element.</param>
+    public static void ClearWithLogging(this IWebElement element)
     {
-        /// <summary>
-        /// Clears the value of an element within a log section.
-        /// </summary>
-        /// <param name="element">The element.</param>
-        public static void ClearWithLogging(this IWebElement element)
-        {
-            ILogManager log = AtataContext.Current?.Log;
+        ILogManager log = AtataContext.Current?.Log;
 
-            if (log != null)
-            {
-                log.ExecuteSection(
-                    new ElementClearLogSection(element),
-                    () => element.Clear());
-            }
-            else
-            {
-                element.Clear();
-            }
+        if (log != null)
+        {
+            log.ExecuteSection(
+                new ElementClearLogSection(element),
+                () => element.Clear());
         }
-
-        /// <summary>
-        /// Clicks an element within a log section.
-        /// </summary>
-        /// <param name="element">The element.</param>
-        public static void ClickWithLogging(this IWebElement element)
+        else
         {
-            ILogManager log = AtataContext.Current?.Log;
-
-            if (log != null)
-            {
-                log.ExecuteSection(
-                    new ElementClickLogSection(element),
-                    () => element.Click());
-            }
-            else
-            {
-                element.Click();
-            }
+            element.Clear();
         }
+    }
 
-        /// <summary>
-        /// Sends the keys to an element within a log section.
-        /// </summary>
-        /// <param name="element">The element.</param>
-        /// <param name="text">The text.</param>
-        public static void SendKeysWithLogging(this IWebElement element, string text)
+    /// <summary>
+    /// Clicks an element within a log section.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    public static void ClickWithLogging(this IWebElement element)
+    {
+        ILogManager log = AtataContext.Current?.Log;
+
+        if (log != null)
         {
-            ILogManager log = AtataContext.Current?.Log;
+            log.ExecuteSection(
+                new ElementClickLogSection(element),
+                () => element.Click());
+        }
+        else
+        {
+            element.Click();
+        }
+    }
 
-            if (log != null)
-            {
-                log.ExecuteSection(
-                    new ElementSendKeysLogSection(element, text),
-                    () => element.SendKeys(text));
-            }
-            else
-            {
-                element.SendKeys(text);
-            }
+    /// <summary>
+    /// Sends the keys to an element within a log section.
+    /// </summary>
+    /// <param name="element">The element.</param>
+    /// <param name="text">The text.</param>
+    public static void SendKeysWithLogging(this IWebElement element, string text)
+    {
+        ILogManager log = AtataContext.Current?.Log;
+
+        if (log != null)
+        {
+            log.ExecuteSection(
+                new ElementSendKeysLogSection(element, text),
+                () => element.SendKeys(text));
+        }
+        else
+        {
+            element.SendKeys(text);
         }
     }
 }

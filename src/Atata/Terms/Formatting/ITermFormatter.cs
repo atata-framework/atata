@@ -1,7 +1,6 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public interface ITermFormatter
 {
-    public interface ITermFormatter
-    {
-        string Format(string[] words);
-    }
+    string Format(string[] words);
 }

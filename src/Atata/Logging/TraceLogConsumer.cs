@@ -1,10 +1,7 @@
-﻿using System.Diagnostics;
+﻿namespace Atata;
 
-namespace Atata
+public class TraceLogConsumer : TextOutputLogConsumer
 {
-    public class TraceLogConsumer : TextOutputLogConsumer
-    {
-        protected override void Write(string completeMessage) =>
-            Trace.WriteLine(completeMessage);
-    }
+    protected override void Write(string completeMessage) =>
+        Trace.WriteLine(completeMessage);
 }

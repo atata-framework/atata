@@ -1,12 +1,11 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class ValueSetLogSection : UIComponentLogSection
 {
-    public class ValueSetLogSection : UIComponentLogSection
+    public ValueSetLogSection(UIComponent component, object value)
+        : base(component)
     {
-        public ValueSetLogSection(UIComponent component, object value)
-            : base(component)
-        {
-            string valueAsString = SpecialKeys.Replace(Stringifier.ToString(value));
-            Message = $"Set {valueAsString} to {component.ComponentFullName}";
-        }
+        string valueAsString = SpecialKeys.Replace(Stringifier.ToString(value));
+        Message = $"Set {valueAsString} to {component.ComponentFullName}";
     }
 }

@@ -1,11 +1,10 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// Represents the ordinary page.
+/// </summary>
+public class OrdinaryPage : Page<OrdinaryPage>
 {
-    /// <summary>
-    /// Represents the ordinary page.
-    /// </summary>
-    public class OrdinaryPage : Page<OrdinaryPage>
-    {
-        public OrdinaryPage(string name = "<ordinary>") =>
-            ComponentName = name.CheckNotNullOrEmpty(nameof(name));
-    }
+    public OrdinaryPage(string name = "<ordinary>") =>
+        ComponentName = name.CheckNotNullOrEmpty(nameof(name));
 }

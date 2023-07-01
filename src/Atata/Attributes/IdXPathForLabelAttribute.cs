@@ -1,10 +1,9 @@
-﻿namespace Atata
-{
-    public class IdXPathForLabelAttribute : MulticastAttribute
-    {
-        public IdXPathForLabelAttribute(string xPathFormat) =>
-            XPathFormat = xPathFormat;
+﻿namespace Atata;
 
-        public string XPathFormat { get; }
-    }
+public class IdXPathForLabelAttribute : MulticastAttribute
+{
+    public IdXPathForLabelAttribute(string xPathFormat) =>
+        XPathFormat = xPathFormat;
+
+    public string XPathFormat { get; }
 }

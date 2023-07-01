@@ -1,13 +1,12 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// Provides a property that can enable/disable caching.
+/// </summary>
+public interface ICanUseCache
 {
     /// <summary>
-    /// Provides a property that can enable/disable caching.
+    /// Gets a value indicating whether the cache is enabled.
     /// </summary>
-    public interface ICanUseCache
-    {
-        /// <summary>
-        /// Gets a value indicating whether the cache is enabled.
-        /// </summary>
-        bool UsesCache { get; }
-    }
+    bool UsesCache { get; }
 }

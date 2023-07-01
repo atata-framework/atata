@@ -1,20 +1,16 @@
-﻿using System;
-using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+internal class GoOptions
 {
-    internal class GoOptions
-    {
-        public string Url { get; set; }
+    public string Url { get; set; }
 
-        public Func<string> WindowNameResolver { get; set; }
+    public Func<string> WindowNameResolver { get; set; }
 
-        public WindowType? NewWindowType { get; set; }
+    public WindowType? NewWindowType { get; set; }
 
-        public bool Navigate { get; set; }
+    public bool Navigate { get; set; }
 
-        public bool Temporarily { get; set; }
+    public bool Temporarily { get; set; }
 
-        public string NavigationTarget { get; set; }
-    }
+    public string NavigationTarget { get; set; }
 }

@@ -1,18 +1,18 @@
-﻿namespace Atata
-{
-    /// <summary>
-    /// Indicates to wait until AngularJS (v1) has finished rendering and has no outstanding HTTP calls.
-    /// By default occurs after the click.
-    /// </summary>
-    public class WaitForAngularJSAttribute : WaitForScriptAttribute
-    {
-        public WaitForAngularJSAttribute(TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
-        {
-        }
+﻿namespace Atata;
 
-        protected override string BuildScript<TOwner>(TriggerContext<TOwner> context)
-            => @"
+/// <summary>
+/// Indicates to wait until AngularJS (v1) has finished rendering and has no outstanding HTTP calls.
+/// By default occurs after the click.
+/// </summary>
+public class WaitForAngularJSAttribute : WaitForScriptAttribute
+{
+    public WaitForAngularJSAttribute(TriggerEvents on = TriggerEvents.AfterClick, TriggerPriority priority = TriggerPriority.Medium)
+        : base(on, priority)
+    {
+    }
+
+    protected override string BuildScript<TOwner>(TriggerContext<TOwner> context) =>
+        @"
 try {
     if (document.readyState !== 'complete') {
         return false;
@@ -31,5 +31,4 @@ try {
 } catch (err) {
   return false;
 }";
-    }
 }

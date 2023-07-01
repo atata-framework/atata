@@ -1,13 +1,12 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// Contains optional properties bag.
+/// </summary>
+public interface IHasOptionalProperties
 {
     /// <summary>
-    /// Contains optional properties bag.
+    /// Gets the optional properties bag.
     /// </summary>
-    public interface IHasOptionalProperties
-    {
-        /// <summary>
-        /// Gets the optional properties bag.
-        /// </summary>
-        PropertyBag OptionalProperties { get; }
-    }
+    PropertyBag OptionalProperties { get; }
 }

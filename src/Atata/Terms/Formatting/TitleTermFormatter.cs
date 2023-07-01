@@ -1,56 +1,51 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+public class TitleTermFormatter : ITermFormatter
 {
-    public class TitleTermFormatter : ITermFormatter
+    private static readonly string[] s_wordsToKeepLower = new[]
     {
-        private static readonly string[] s_wordsToKeepLower = new[]
+        "a",
+        "an",
+        "the",
+        "and",
+        "or",
+        "but",
+        "nor",
+        "as",
+        "for",
+        "of",
+        "on",
+        "in",
+        "at",
+        "to",
+        "by",
+        "to"
+    };
+
+    public string Format(string[] words)
+    {
+        List<string> updatedWords = new List<string>
         {
-            "a",
-            "an",
-            "the",
-            "and",
-            "or",
-            "but",
-            "nor",
-            "as",
-            "for",
-            "of",
-            "on",
-            "in",
-            "at",
-            "to",
-            "by",
-            "to"
+            CapitalizeFirstLetter(words[0])
         };
 
-        public string Format(string[] words)
-        {
-            List<string> updatedWords = new List<string>
-            {
-                CapitalizeFirstLetter(words[0])
-            };
+        if (words.Length > 2)
+            updatedWords.AddRange(words.Skip(1).Take(words.Length - 2).Select(CapitalizeFirstLetterExceptSpecial));
 
-            if (words.Length > 2)
-                updatedWords.AddRange(words.Skip(1).Take(words.Length - 2).Select(CapitalizeFirstLetterExceptSpecial));
+        if (words.Length > 1)
+            updatedWords.Add(CapitalizeFirstLetter(words[words.Length - 1]));
 
-            if (words.Length > 1)
-                updatedWords.Add(CapitalizeFirstLetter(words[words.Length - 1]));
+        return string.Join(" ", updatedWords);
+    }
 
-            return string.Join(" ", updatedWords);
-        }
+    private static string CapitalizeFirstLetter(string word) =>
+        word.IsUpper()
+            ? word
+            : word.ToUpperFirstLetter();
 
-        private static string CapitalizeFirstLetter(string word) =>
-            word.IsUpper()
-                ? word
-                : word.ToUpperFirstLetter();
-
-        private static string CapitalizeFirstLetterExceptSpecial(string word)
-        {
-            string wordToLower = word.ToLower(CultureInfo.CurrentCulture);
-            return s_wordsToKeepLower.Contains(wordToLower) ? wordToLower : CapitalizeFirstLetter(word);
-        }
+    private static string CapitalizeFirstLetterExceptSpecial(string word)
+    {
+        string wordToLower = word.ToLower(CultureInfo.CurrentCulture);
+        return s_wordsToKeepLower.Contains(wordToLower) ? wordToLower : CapitalizeFirstLetter(word);
     }
 }

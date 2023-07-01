@@ -1,7 +1,6 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public interface IStrategyScopeLocatorExecutor
 {
-    public interface IStrategyScopeLocatorExecutor
-    {
-        XPathComponentScopeFindResult[] Execute(StrategyScopeLocatorExecutionData executionData);
-    }
+    XPathComponentScopeFindResult[] Execute(StrategyScopeLocatorExecutionData executionData);
 }

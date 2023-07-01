@@ -1,37 +1,32 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Defines the method to invoke on the specified event.
+/// </summary>
+public class InvokeMethodAttribute : TriggerAttribute
 {
+    public InvokeMethodAttribute(string methodName, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+        : base(on, priority) =>
+        MethodName = methodName.CheckNotNullOrWhitespace(nameof(methodName));
+
     /// <summary>
-    /// Defines the method to invoke on the specified event.
+    /// Gets the name of the method.
     /// </summary>
-    public class InvokeMethodAttribute : TriggerAttribute
+    public string MethodName { get; }
+
+    protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
     {
-        public InvokeMethodAttribute(string methodName, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority) =>
-            MethodName = methodName.CheckNotNullOrWhitespace(nameof(methodName));
+        bool isDefinedAtComponentLevel = context.Component.Metadata.ComponentAttributes.Contains(this);
 
-        /// <summary>
-        /// Gets the name of the method.
-        /// </summary>
-        public string MethodName { get; }
+        var methodOwner = isDefinedAtComponentLevel ? context.Component : context.Component.Parent;
+        MethodInfo method = methodOwner.GetType().GetMethodWithThrowOnError(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
-            bool isDefinedAtComponentLevel = context.Component.Metadata.ComponentAttributes.Contains(this);
+        if (method == null)
+            throw new MissingMethodException(methodOwner.GetType().FullName, MethodName);
 
-            var methodOwner = isDefinedAtComponentLevel ? context.Component : context.Component.Parent;
-            MethodInfo method = methodOwner.GetType().GetMethodWithThrowOnError(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-
-            if (method == null)
-                throw new MissingMethodException(methodOwner.GetType().FullName, MethodName);
-
-            if (method.IsStatic)
-                method.InvokeStaticAsLambda();
-            else
-                method.InvokeAsLambda(methodOwner);
-        }
+        if (method.IsStatic)
+            method.InvokeStaticAsLambda();
+        else
+            method.InvokeAsLambda(methodOwner);
     }
 }

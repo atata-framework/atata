@@ -1,11 +1,8 @@
-﻿using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+public interface IItemElementFindStrategy
 {
-    public interface IItemElementFindStrategy
-    {
-        string GetXPathCondition(object parameter, TermOptions termOptions);
+    string GetXPathCondition(object parameter, TermOptions termOptions);
 
-        T GetParameter<T>(IWebElement element, TermOptions termOptions);
-    }
+    T GetParameter<T>(IWebElement element, TermOptions termOptions);
 }

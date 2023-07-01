@@ -1,137 +1,131 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+public static class StringExtensions
 {
-    public static class StringExtensions
+    internal static string FormatWith(this string format, params object[] args) =>
+        string.Format(format, args);
+
+    public static string Prepend(this string value, string valueToPrepend) =>
+        string.Concat(valueToPrepend, value);
+
+    public static string Append(this string value, string valueToAppend) =>
+        string.Concat(value, valueToAppend);
+
+    public static bool IsUpper(this string value)
     {
-        internal static string FormatWith(this string format, params object[] args) =>
-            string.Format(format, args);
+        if (string.IsNullOrWhiteSpace(value))
+            return false;
 
-        public static string Prepend(this string value, string valueToPrepend) =>
-            string.Concat(valueToPrepend, value);
+        return value.ToCharArray().All(x => char.IsUpper(x));
+    }
 
-        public static string Append(this string value, string valueToAppend) =>
-            string.Concat(value, valueToAppend);
+    public static string ToUpperFirstLetter(this string value)
+    {
+        if (value == null)
+            return null;
+        else if (value.Length > 1)
+            return char.ToUpper(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
+        else
+            return value.ToUpper(CultureInfo.CurrentCulture);
+    }
 
-        public static bool IsUpper(this string value)
+    public static string ToLowerFirstLetter(this string value)
+    {
+        if (value == null)
+            return null;
+        else if (value.Length > 1)
+            return char.ToLower(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
+        else
+            return value.ToLower(CultureInfo.CurrentCulture);
+    }
+
+    public static string PascalDasherize(this string underscoredWord)
+    {
+        string[] parts = underscoredWord.Split('-');
+        return string.Join("-", parts.Select(x => x.ToUpperFirstLetter()));
+    }
+
+    public static string PascalHyphenate(this string underscoredWord)
+    {
+        string[] parts = underscoredWord.Split('_');
+        return string.Join("‐", parts.Select(x => x.ToUpperFirstLetter()));
+    }
+
+    public static string[] SplitIntoWords(this string value)
+    {
+        char[] chars = value.ToCharArray();
+
+        List<char> wordChars = new List<char>();
+        List<string> words = new List<string>();
+
+        if (char.IsLetterOrDigit(chars[0]))
+            wordChars.Add(chars[0]);
+
+        void EndWord()
         {
-            if (string.IsNullOrWhiteSpace(value))
-                return false;
-
-            return value.ToCharArray().All(x => char.IsUpper(x));
-        }
-
-        public static string ToUpperFirstLetter(this string value)
-        {
-            if (value == null)
-                return null;
-            else if (value.Length > 1)
-                return char.ToUpper(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
-            else
-                return value.ToUpper(CultureInfo.CurrentCulture);
-        }
-
-        public static string ToLowerFirstLetter(this string value)
-        {
-            if (value == null)
-                return null;
-            else if (value.Length > 1)
-                return char.ToLower(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
-            else
-                return value.ToLower(CultureInfo.CurrentCulture);
-        }
-
-        public static string PascalDasherize(this string underscoredWord)
-        {
-            string[] parts = underscoredWord.Split('-');
-            return string.Join("-", parts.Select(x => x.ToUpperFirstLetter()));
-        }
-
-        public static string PascalHyphenate(this string underscoredWord)
-        {
-            string[] parts = underscoredWord.Split('_');
-            return string.Join("‐", parts.Select(x => x.ToUpperFirstLetter()));
-        }
-
-        public static string[] SplitIntoWords(this string value)
-        {
-            char[] chars = value.ToCharArray();
-
-            List<char> wordChars = new List<char>();
-            List<string> words = new List<string>();
-
-            if (char.IsLetterOrDigit(chars[0]))
-                wordChars.Add(chars[0]);
-
-            void EndWord()
+            if (wordChars.Any())
             {
-                if (wordChars.Any())
-                {
-                    words.Add(new string(wordChars.ToArray()));
-                    wordChars.Clear();
-                }
+                words.Add(new string(wordChars.ToArray()));
+                wordChars.Clear();
             }
+        }
 
-            for (int i = 1; i < chars.Length; i++)
+        for (int i = 1; i < chars.Length; i++)
+        {
+            char current = chars[i];
+            char prev = chars[i - 1];
+            char? next = i + 1 < chars.Length ? (char?)chars[i + 1] : null;
+
+            if (!char.IsLetterOrDigit(current))
             {
-                char current = chars[i];
-                char prev = chars[i - 1];
-                char? next = i + 1 < chars.Length ? (char?)chars[i + 1] : null;
-
-                if (!char.IsLetterOrDigit(current))
-                {
-                    EndWord();
-                }
-                else if ((char.IsDigit(current) && char.IsLetter(prev)) ||
-                    (char.IsLetter(current) && char.IsDigit(prev)) ||
-                    (char.IsUpper(current) && char.IsLower(prev)) ||
-                    (char.IsUpper(current) && next != null && char.IsLower(next.Value)))
-                {
-                    EndWord();
-                    wordChars.Add(current);
-                }
-                else
-                {
-                    wordChars.Add(current);
-                }
+                EndWord();
             }
-
-            EndWord();
-
-            return words.ToArray();
+            else if ((char.IsDigit(current) && char.IsLetter(prev)) ||
+                (char.IsLetter(current) && char.IsDigit(prev)) ||
+                (char.IsUpper(current) && char.IsLower(prev)) ||
+                (char.IsUpper(current) && next != null && char.IsLower(next.Value)))
+            {
+                EndWord();
+                wordChars.Add(current);
+            }
+            else
+            {
+                wordChars.Add(current);
+            }
         }
 
-        public static string Sanitize(this string value, IEnumerable<char> invalidChars, string replaceWith = null)
-        {
-            invalidChars.CheckNotNull(nameof(invalidChars));
+        EndWord();
 
-            if (string.IsNullOrEmpty(value))
-                return value;
+        return words.ToArray();
+    }
 
-            return invalidChars.Aggregate(value, (current, c) => current.Replace(c.ToString(), replaceWith));
-        }
+    public static string Sanitize(this string value, IEnumerable<char> invalidChars, string replaceWith = null)
+    {
+        invalidChars.CheckNotNull(nameof(invalidChars));
 
-        public static string SanitizeForFileName(this string value, string replaceWith = null) =>
-            value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
+        if (string.IsNullOrEmpty(value))
+            return value;
 
-        public static string SanitizeForPath(this string value, string replaceWith = null) =>
-            value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
+        return invalidChars.Aggregate(value, (current, c) => current.Replace(c.ToString(), replaceWith));
+    }
 
-        public static string Truncate(this string value, int length, bool withEllipsis = true)
-        {
-            value.CheckNotNull(nameof(value));
+    public static string SanitizeForFileName(this string value, string replaceWith = null) =>
+        value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
 
-            const string ellipses = "...";
-            length.CheckGreaterOrEqual(nameof(length), 1 + (withEllipsis ? ellipses.Length : 0));
+    public static string SanitizeForPath(this string value, string replaceWith = null) =>
+        value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
 
-            return value.Length <= length
-                ? value
-                : withEllipsis
-                ? value.Substring(0, length - ellipses.Length) + ellipses
-                : value.Substring(0, length);
-        }
+    public static string Truncate(this string value, int length, bool withEllipsis = true)
+    {
+        value.CheckNotNull(nameof(value));
+
+        const string ellipses = "...";
+        length.CheckGreaterOrEqual(nameof(length), 1 + (withEllipsis ? ellipses.Length : 0));
+
+        return value.Length <= length
+            ? value
+            : withEllipsis
+            ? value.Substring(0, length - ellipses.Length) + ellipses
+            : value.Substring(0, length);
     }
 }

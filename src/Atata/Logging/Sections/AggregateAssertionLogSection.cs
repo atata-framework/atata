@@ -1,17 +1,14 @@
-﻿using System.Text;
+﻿namespace Atata;
 
-namespace Atata
+public class AggregateAssertionLogSection : LogSection
 {
-    public class AggregateAssertionLogSection : LogSection
+    public AggregateAssertionLogSection(string assertionScopeName)
     {
-        public AggregateAssertionLogSection(string assertionScopeName)
-        {
-            StringBuilder builder = new StringBuilder("Aggregate assert");
+        StringBuilder builder = new StringBuilder("Aggregate assert");
 
-            if (!string.IsNullOrEmpty(assertionScopeName))
-                builder.Append(' ').Append(assertionScopeName);
+        if (!string.IsNullOrEmpty(assertionScopeName))
+            builder.Append(' ').Append(assertionScopeName);
 
-            Message = builder.ToString();
-        }
+        Message = builder.ToString();
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class FindByFieldSetStrategy : XPathComponentScopeFindStrategy
 {
-    public class FindByFieldSetStrategy : XPathComponentScopeFindStrategy
-    {
-        protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options) =>
-            builder
-                .WrapWithIndex(x => x.OuterXPath._("fieldset")[y => y._("legend")[z => z.TermsConditionOfContent]])
-                .DescendantOrSelf.ComponentXPath;
-    }
+    protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options) =>
+        builder
+            .WrapWithIndex(x => x.OuterXPath._("fieldset")[y => y._("legend")[z => z.TermsConditionOfContent]])
+            .DescendantOrSelf.ComponentXPath;
 }

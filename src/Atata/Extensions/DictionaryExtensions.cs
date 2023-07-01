@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Atata;
 
-namespace Atata
+internal static class DictionaryExtensions
 {
-    internal static class DictionaryExtensions
+    internal static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
     {
-        internal static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
+        if (dictionary.TryGetValue(key, out var cachedValue))
         {
-            if (dictionary.TryGetValue(key, out var cachedValue))
-            {
-                return cachedValue;
-            }
-            else
-            {
-                TValue value = valueFactory.Invoke();
+            return cachedValue;
+        }
+        else
+        {
+            TValue value = valueFactory.Invoke();
 
-                dictionary[key] = value;
+            dictionary[key] = value;
 
-                return value;
-            }
+            return value;
         }
     }
 }

@@ -1,25 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Represents the builder of global level attributes.
+/// </summary>
+public class GlobalAttributesAtataContextBuilder : AttributesAtataContextBuilder<GlobalAttributesAtataContextBuilder>
 {
     /// <summary>
-    /// Represents the builder of global level attributes.
+    /// Initializes a new instance of the <see cref="GlobalAttributesAtataContextBuilder"/> class.
     /// </summary>
-    public class GlobalAttributesAtataContextBuilder : AttributesAtataContextBuilder<GlobalAttributesAtataContextBuilder>
+    /// <param name="buildingContext">The building context.</param>
+    public GlobalAttributesAtataContextBuilder(AtataBuildingContext buildingContext)
+        : base(buildingContext)
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="GlobalAttributesAtataContextBuilder"/> class.
-        /// </summary>
-        /// <param name="buildingContext">The building context.</param>
-        public GlobalAttributesAtataContextBuilder(AtataBuildingContext buildingContext)
-            : base(buildingContext)
-        {
-        }
-
-        protected override void OnAdd(IEnumerable<Attribute> attributes) =>
-            BuildingContext.Attributes.Global.AddRange(attributes);
-
-        protected override GlobalAttributesAtataContextBuilder ResolveNextBuilder() => this;
     }
+
+    protected override void OnAdd(IEnumerable<Attribute> attributes) =>
+        BuildingContext.Attributes.Global.AddRange(attributes);
+
+    protected override GlobalAttributesAtataContextBuilder ResolveNextBuilder() => this;
 }

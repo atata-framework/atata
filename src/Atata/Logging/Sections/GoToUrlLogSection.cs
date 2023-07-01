@@ -1,17 +1,14 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+public class GoToUrlLogSection : LogSection
 {
-    public class GoToUrlLogSection : LogSection
+    public GoToUrlLogSection(Uri url, bool useInfoLevel = true)
     {
-        public GoToUrlLogSection(Uri url, bool useInfoLevel = true)
-        {
-            Url = url;
+        Url = url;
 
-            Message = $"Navigate to URL {url.AbsoluteUri}";
-            Level = useInfoLevel ? LogLevel.Info : LogLevel.Trace;
-        }
-
-        public Uri Url { get; }
+        Message = $"Navigate to URL {url.AbsoluteUri}";
+        Level = useInfoLevel ? LogLevel.Info : LogLevel.Trace;
     }
+
+    public Uri Url { get; }
 }

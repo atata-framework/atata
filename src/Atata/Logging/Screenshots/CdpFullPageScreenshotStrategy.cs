@@ -3,39 +3,38 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Edge;
 
-namespace Atata
+namespace Atata;
+
+/// <summary>
+/// Represents the strategy that takes a full-page screenshot using CDP.
+/// Works only for <see cref="ChromeDriver"/> and <see cref="EdgeDriver"/>.
+/// </summary>
+public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy
 {
     /// <summary>
-    /// Represents the strategy that takes a full-page screenshot using CDP.
-    /// Works only for <see cref="ChromeDriver"/> and <see cref="EdgeDriver"/>.
+    /// Gets the singleton instance.
     /// </summary>
-    public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy
+    public static CdpFullPageScreenshotStrategy Instance { get; } =
+        new CdpFullPageScreenshotStrategy();
+
+    /// <inheritdoc/>
+    public FileContentWithExtension TakeScreenshot(AtataContext context)
     {
-        /// <summary>
-        /// Gets the singleton instance.
-        /// </summary>
-        public static CdpFullPageScreenshotStrategy Instance { get; } =
-            new CdpFullPageScreenshotStrategy();
+        var devTools = context.Driver.As<IDevTools>();
+        var devToolsSession = devTools.GetDevToolsSession();
 
-        /// <inheritdoc/>
-        public FileContentWithExtension TakeScreenshot(AtataContext context)
+        var commandParameters = new JObject
         {
-            var devTools = context.Driver.As<IDevTools>();
-            var devToolsSession = devTools.GetDevToolsSession();
+            ["captureBeyondViewport"] = true
+        };
 
-            var commandParameters = new JObject
-            {
-                ["captureBeyondViewport"] = true
-            };
+        var commandResult = devToolsSession.SendCommand(
+            "Page.captureScreenshot",
+            commandParameters)
+            .GetAwaiter()
+            .GetResult();
 
-            var commandResult = devToolsSession.SendCommand(
-                "Page.captureScreenshot",
-                commandParameters)
-                .GetAwaiter()
-                .GetResult();
-
-            var data = commandResult["data"].ToString();
-            return FileContentWithExtension.CreateFromBase64String(data, ".png");
-        }
+        var data = commandResult["data"].ToString();
+        return FileContentWithExtension.CreateFromBase64String(data, ".png");
     }
 }

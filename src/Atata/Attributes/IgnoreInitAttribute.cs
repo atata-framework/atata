@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+[AttributeUsage(AttributeTargets.Property)]
+public class IgnoreInitAttribute : Attribute
 {
-    [AttributeUsage(AttributeTargets.Property)]
-    public class IgnoreInitAttribute : Attribute
-    {
-    }
 }

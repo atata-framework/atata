@@ -1,9 +1,8 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class BlurLogSection : UIComponentLogSection
 {
-    public class BlurLogSection : UIComponentLogSection
-    {
-        public BlurLogSection(UIComponent component)
-            : base(component) =>
-            Message = $"Blur {component.ComponentFullName}";
-    }
+    public BlurLogSection(UIComponent component)
+        : base(component) =>
+        Message = $"Blur {component.ComponentFullName}";
 }

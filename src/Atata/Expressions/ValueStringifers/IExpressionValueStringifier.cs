@@ -1,11 +1,8 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+internal interface IExpressionValueStringifier
 {
-    internal interface IExpressionValueStringifier
-    {
-        bool CanHandle(Type type);
+    bool CanHandle(Type type);
 
-        string Handle(object value);
-    }
+    string Handle(object value);
 }

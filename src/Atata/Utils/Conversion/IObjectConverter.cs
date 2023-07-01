@@ -1,9 +1,6 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+public interface IObjectConverter
 {
-    public interface IObjectConverter
-    {
-        object Convert(object sourceValue, Type destinationType);
-    }
+    object Convert(object sourceValue, Type destinationType);
 }

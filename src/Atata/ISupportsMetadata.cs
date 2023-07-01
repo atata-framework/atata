@@ -1,17 +1,14 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+public interface ISupportsMetadata
 {
-    public interface ISupportsMetadata
-    {
-        /// <summary>
-        /// Gets or sets the metadata.
-        /// </summary>
-        UIComponentMetadata Metadata { get; set; }
+    /// <summary>
+    /// Gets or sets the metadata.
+    /// </summary>
+    UIComponentMetadata Metadata { get; set; }
 
-        /// <summary>
-        /// Gets the type of the component.
-        /// </summary>
-        Type ComponentType { get; }
-    }
+    /// <summary>
+    /// Gets the type of the component.
+    /// </summary>
+    Type ComponentType { get; }
 }

@@ -1,11 +1,7 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+public class HyphenKebabTermFormatter : ITermFormatter
 {
-    public class HyphenKebabTermFormatter : ITermFormatter
-    {
-        public string Format(string[] words) =>
-            string.Join("‐", words.Select(x => x.ToLower(CultureInfo.CurrentCulture)));
-    }
+    public string Format(string[] words) =>
+        string.Join("‐", words.Select(x => x.ToLower(CultureInfo.CurrentCulture)));
 }

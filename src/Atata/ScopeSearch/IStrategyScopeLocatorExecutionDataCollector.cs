@@ -1,7 +1,6 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public interface IStrategyScopeLocatorExecutionDataCollector
 {
-    public interface IStrategyScopeLocatorExecutionDataCollector
-    {
-        StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions);
-    }
+    StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions);
 }

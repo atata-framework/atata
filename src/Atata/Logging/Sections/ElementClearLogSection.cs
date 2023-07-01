@@ -1,13 +1,10 @@
-﻿using OpenQA.Selenium;
+﻿namespace Atata;
 
-namespace Atata
+public class ElementClearLogSection : LogSection
 {
-    public class ElementClearLogSection : LogSection
+    public ElementClearLogSection(IWebElement element)
     {
-        public ElementClearLogSection(IWebElement element)
-        {
-            Message = $"Clear {Stringifier.ToString(element).ToLowerFirstLetter()}";
-            Level = LogLevel.Trace;
-        }
+        Message = $"Clear {Stringifier.ToString(element).ToLowerFirstLetter()}";
+        Level = LogLevel.Trace;
     }
 }

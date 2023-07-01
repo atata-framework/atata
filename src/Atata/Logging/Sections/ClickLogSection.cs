@@ -1,9 +1,8 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class ClickLogSection : UIComponentLogSection
 {
-    public class ClickLogSection : UIComponentLogSection
-    {
-        public ClickLogSection(UIComponent component)
-            : base(component) =>
-            Message = $"Click {component.ComponentFullName}";
-    }
+    public ClickLogSection(UIComponent component)
+        : base(component) =>
+        Message = $"Click {component.ComponentFullName}";
 }

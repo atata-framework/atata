@@ -1,12 +1,11 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+internal interface IPageObject
 {
-    internal interface IPageObject
-    {
-        void SwitchToWindow(string windowHandle);
+    void SwitchToWindow(string windowHandle);
 
-        TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
-            where TPageObject : PageObject<TPageObject>;
+    TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
+        where TPageObject : PageObject<TPageObject>;
 
-        void DeInit();
-    }
+    void DeInit();
 }

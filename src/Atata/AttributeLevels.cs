@@ -1,26 +1,23 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+[Flags]
+public enum AttributeLevels
 {
-    [Flags]
-    public enum AttributeLevels
-    {
-        None = 0,
+    None = 0,
 
-        Declared = 1 << 0,
+    Declared = 1 << 0,
 
-        ParentComponent = 1 << 1,
+    ParentComponent = 1 << 1,
 
-        Assembly = 1 << 2,
+    Assembly = 1 << 2,
 
-        Global = 1 << 3,
+    Global = 1 << 3,
 
-        Component = 1 << 4,
+    Component = 1 << 4,
 
-        DeclaredAndComponent = Declared | Component,
+    DeclaredAndComponent = Declared | Component,
 
-        NonComponent = Declared | ParentComponent | Assembly | Global,
+    NonComponent = Declared | ParentComponent | Assembly | Global,
 
-        All = Declared | ParentComponent | Assembly | Global | Component
-    }
+    All = Declared | ParentComponent | Assembly | Global | Component
 }

@@ -1,171 +1,167 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Provides a set of static methods for testing static class methods and properties.
+/// </summary>
+public static class Subject
 {
+    internal const string ResultNameEnding = " => result";
+
+    internal const string ExceptionNameEnding = " => exception";
+
     /// <summary>
-    /// Provides a set of static methods for testing static class methods and properties.
+    /// Gets or sets the default name of the subject.
+    /// The default value is <c>"subject"</c>.
     /// </summary>
-    public static class Subject
+    public static string DefaultSubjectName { get; set; } = "subject";
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> ResultOf<TResult>(Expression<Func<TResult>> functionExpression)
     {
-        internal const string ResultNameEnding = " => result";
+        functionExpression.CheckNotNull(nameof(functionExpression));
 
-        internal const string ExceptionNameEnding = " => exception";
+        var function = functionExpression.Compile();
+        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
 
-        /// <summary>
-        /// Gets or sets the default name of the subject.
-        /// The default value is <c>"subject"</c>.
-        /// </summary>
-        public static string DefaultSubjectName { get; set; } = "subject";
+        return ResultOf(function, functionName);
+    }
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
-        public static Subject<TResult> ResultOf<TResult>(Expression<Func<TResult>> functionExpression)
-        {
-            functionExpression.CheckNotNull(nameof(functionExpression));
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> ResultOf<TResult>(Func<TResult> function, string functionName) =>
+        SubjectOf(function, BuildResultName(functionName));
 
-            var function = functionExpression.Compile();
-            string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> SubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
 
-            return ResultOf(function, functionName);
-        }
+        var function = functionExpression.Compile();
+        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Func{TObject, TResult}, string)"/>
-        public static Subject<TResult> ResultOf<TResult>(Func<TResult> function, string functionName) =>
-            SubjectOf(function, BuildResultName(functionName));
+        return SubjectOf(function, functionName);
+    }
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
-        public static Subject<TResult> SubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
-        {
-            functionExpression.CheckNotNull(nameof(functionExpression));
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> SubjectOf<TResult>(Func<TResult> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
 
-            var function = functionExpression.Compile();
-            string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        return new Subject<TResult>(
+            new LazyObjectSource<TResult>(function),
+            functionName);
+    }
 
-            return SubjectOf(function, functionName);
-        }
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TResult>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
-        public static Subject<TResult> SubjectOf<TResult>(Func<TResult> function, string functionName)
-        {
-            function.CheckNotNull(nameof(function));
-            functionName.CheckNotNull(nameof(functionName));
+        var function = functionExpression.Compile();
+        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
 
-            return new Subject<TResult>(
-                new LazyObjectSource<TResult>(function),
-                functionName);
-        }
+        return DynamicResultOf(function, functionName);
+    }
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
-        public static Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TResult>> functionExpression)
-        {
-            functionExpression.CheckNotNull(nameof(functionExpression));
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> DynamicResultOf<TResult>(Func<TResult> function, string functionName) =>
+        DynamicSubjectOf(function, BuildResultName(functionName));
 
-            var function = functionExpression.Compile();
-            string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
 
-            return DynamicResultOf(function, functionName);
-        }
+        var function = functionExpression.Compile();
+        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
-        public static Subject<TResult> DynamicResultOf<TResult>(Func<TResult> function, string functionName) =>
-            DynamicSubjectOf(function, BuildResultName(functionName));
+        return DynamicSubjectOf(function, functionName);
+    }
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
-        public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
-        {
-            functionExpression.CheckNotNull(nameof(functionExpression));
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> DynamicSubjectOf<TResult>(Func<TResult> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
 
-            var function = functionExpression.Compile();
-            string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        return new Subject<TResult>(
+            DynamicObjectSource.Create(function),
+            functionName);
+    }
 
-            return DynamicSubjectOf(function, functionName);
-        }
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="actionExpression"/>.
+    /// </summary>
+    /// <param name="actionExpression">The action expression.</param>
+    /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+    public static ActionProvider Invoking(Expression<Action> actionExpression)
+    {
+        actionExpression.CheckNotNull(nameof(actionExpression));
 
-        /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
-        public static Subject<TResult> DynamicSubjectOf<TResult>(Func<TResult> function, string functionName)
-        {
-            function.CheckNotNull(nameof(function));
-            functionName.CheckNotNull(nameof(functionName));
+        var action = actionExpression.Compile();
+        string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
 
-            return new Subject<TResult>(
-                DynamicObjectSource.Create(function),
-                functionName);
-        }
+        return Invoking(action, actionName);
+    }
 
-        /// <summary>
-        /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="actionExpression"/>.
-        /// </summary>
-        /// <param name="actionExpression">The action expression.</param>
-        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
-        public static ActionProvider Invoking(Expression<Action> actionExpression)
-        {
-            actionExpression.CheckNotNull(nameof(actionExpression));
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="action"/>
+    /// with the specified <paramref name="actionName"/>.
+    /// </summary>
+    /// <param name="action">The action.</param>
+    /// <param name="actionName">Name of the action.</param>
+    /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+    public static ActionProvider Invoking(Action action, string actionName)
+    {
+        action.CheckNotNull(nameof(action));
+        actionName.CheckNotNull(nameof(actionName));
 
-            var action = actionExpression.Compile();
-            string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+        return new ActionProvider(
+            new LazyObjectSource<Action>(() => action),
+            actionName);
+    }
 
-            return Invoking(action, actionName);
-        }
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="actionExpression"/>.
+    /// </summary>
+    /// <param name="actionExpression">The action expression.</param>
+    /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+    public static ActionProvider DynamicInvoking(Expression<Action> actionExpression)
+    {
+        actionExpression.CheckNotNull(nameof(actionExpression));
 
-        /// <summary>
-        /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="action"/>
-        /// with the specified <paramref name="actionName"/>.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <param name="actionName">Name of the action.</param>
-        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
-        public static ActionProvider Invoking(Action action, string actionName)
-        {
-            action.CheckNotNull(nameof(action));
-            actionName.CheckNotNull(nameof(actionName));
+        var action = actionExpression.Compile();
+        string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
 
-            return new ActionProvider(
-                new LazyObjectSource<Action>(() => action),
-                actionName);
-        }
+        return DynamicInvoking(action, actionName);
+    }
 
-        /// <summary>
-        /// Creates a new lazy <see cref="ActionProvider"/> from the invocation of the specified <paramref name="actionExpression"/>.
-        /// </summary>
-        /// <param name="actionExpression">The action expression.</param>
-        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
-        public static ActionProvider DynamicInvoking(Expression<Action> actionExpression)
-        {
-            actionExpression.CheckNotNull(nameof(actionExpression));
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider"/> from the invocation of the specified <paramref name="action"/>
+    /// with the specified <paramref name="actionName"/>.
+    /// </summary>
+    /// <param name="action">The action.</param>
+    /// <param name="actionName">Name of the action.</param>
+    /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
+    public static ActionProvider DynamicInvoking(Action action, string actionName)
+    {
+        action.CheckNotNull(nameof(action));
+        actionName.CheckNotNull(nameof(actionName));
 
-            var action = actionExpression.Compile();
-            string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+        return new ActionProvider(
+            DynamicObjectSource.Create(() => action),
+            actionName);
+    }
 
-            return DynamicInvoking(action, actionName);
-        }
+    internal static string BuildResultName(string functionName) =>
+        functionName + ResultNameEnding;
 
-        /// <summary>
-        /// Creates a new dynamic <see cref="ActionProvider"/> from the invocation of the specified <paramref name="action"/>
-        /// with the specified <paramref name="actionName"/>.
-        /// </summary>
-        /// <param name="action">The action.</param>
-        /// <param name="actionName">Name of the action.</param>
-        /// <returns>A new <see cref="ActionProvider"/> instance.</returns>
-        public static ActionProvider DynamicInvoking(Action action, string actionName)
-        {
-            action.CheckNotNull(nameof(action));
-            actionName.CheckNotNull(nameof(actionName));
+    internal static string BuildExceptionName(string methodName)
+    {
+        string exceptionName = methodName.EndsWith(ResultNameEnding, StringComparison.Ordinal)
+            ? methodName.Substring(0, methodName.Length - ResultNameEnding.Length)
+            : methodName;
 
-            return new ActionProvider(
-                DynamicObjectSource.Create(() => action),
-                actionName);
-        }
-
-        internal static string BuildResultName(string functionName) =>
-            functionName + ResultNameEnding;
-
-        internal static string BuildExceptionName(string methodName)
-        {
-            string exceptionName = methodName.EndsWith(ResultNameEnding, StringComparison.Ordinal)
-                ? methodName.Substring(0, methodName.Length - ResultNameEnding.Length)
-                : methodName;
-
-            return exceptionName + ExceptionNameEnding;
-        }
+        return exceptionName + ExceptionNameEnding;
     }
 }

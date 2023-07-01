@@ -1,49 +1,45 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿namespace Atata;
 
-namespace Atata
+public abstract class CompositeTriggerAttribute : TriggerAttribute
 {
-    public abstract class CompositeTriggerAttribute : TriggerAttribute
+    private TriggerAttribute[] _triggers;
+
+    protected CompositeTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+        : base(on, priority)
     {
-        private TriggerAttribute[] _triggers;
+    }
 
-        protected CompositeTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
+    protected abstract IEnumerable<TriggerAttribute> CreateTriggers();
+
+    protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
+    {
+        if (_triggers == null)
+            InitTriggers();
+
+        foreach (TriggerAttribute trigger in _triggers)
         {
+            trigger.Execute(context);
         }
+    }
 
-        protected abstract IEnumerable<TriggerAttribute> CreateTriggers();
+    private void InitTriggers()
+    {
+        _triggers = CreateTriggers().ToArray();
 
-        protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
+        foreach (TriggerAttribute trigger in _triggers)
         {
-            if (_triggers == null)
-                InitTriggers();
+            trigger.On = On;
+            trigger.Priority = Priority;
 
-            foreach (TriggerAttribute trigger in _triggers)
-            {
-                trigger.Execute(context);
-            }
-        }
+            trigger.TargetNames = TargetNames;
+            trigger.TargetTypes = TargetTypes;
+            trigger.TargetTags = TargetTags;
+            trigger.TargetParentTypes = TargetParentTypes;
 
-        private void InitTriggers()
-        {
-            _triggers = CreateTriggers().ToArray();
-
-            foreach (TriggerAttribute trigger in _triggers)
-            {
-                trigger.On = On;
-                trigger.Priority = Priority;
-
-                trigger.TargetNames = TargetNames;
-                trigger.TargetTypes = TargetTypes;
-                trigger.TargetTags = TargetTags;
-                trigger.TargetParentTypes = TargetParentTypes;
-
-                trigger.ExcludeTargetNames = ExcludeTargetNames;
-                trigger.ExcludeTargetTypes = ExcludeTargetTypes;
-                trigger.ExcludeTargetTags = ExcludeTargetTags;
-                trigger.ExcludeTargetParentTypes = ExcludeTargetParentTypes;
-            }
+            trigger.ExcludeTargetNames = ExcludeTargetNames;
+            trigger.ExcludeTargetTypes = ExcludeTargetTypes;
+            trigger.ExcludeTargetTags = ExcludeTargetTags;
+            trigger.ExcludeTargetParentTypes = ExcludeTargetParentTypes;
         }
     }
 }

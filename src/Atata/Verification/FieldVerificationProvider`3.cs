@@ -1,36 +1,33 @@
-﻿using System.Diagnostics;
+﻿namespace Atata;
 
-namespace Atata
+public class FieldVerificationProvider<TValue, TField, TOwner> :
+    UIComponentVerificationProvider<TField, FieldVerificationProvider<TValue, TField, TOwner>, TOwner>,
+    IFieldVerificationProvider<TValue, TField, TOwner>
+    where TField : Field<TValue, TOwner>
+    where TOwner : PageObject<TOwner>
 {
-    public class FieldVerificationProvider<TValue, TField, TOwner> :
-        UIComponentVerificationProvider<TField, FieldVerificationProvider<TValue, TField, TOwner>, TOwner>,
-        IFieldVerificationProvider<TValue, TField, TOwner>
-        where TField : Field<TValue, TOwner>
-        where TOwner : PageObject<TOwner>
+    public FieldVerificationProvider(TField control)
+        : base(control)
     {
-        public FieldVerificationProvider(TField control)
-            : base(control)
+    }
+
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+    public NegationFieldVerificationProvider Not =>
+        new(Component, this);
+
+    IObjectProvider<TValue, TOwner> IObjectVerificationProvider<TValue, TOwner>.ObjectProvider =>
+        Component;
+
+    public class NegationFieldVerificationProvider :
+        NegationUIComponentVerificationProvider<NegationFieldVerificationProvider>,
+        IFieldVerificationProvider<TValue, TField, TOwner>
+    {
+        internal NegationFieldVerificationProvider(TField control, IVerificationProvider<TOwner> verificationProvider)
+            : base(control, verificationProvider)
         {
         }
-
-        [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-        public NegationFieldVerificationProvider Not =>
-            new(Component, this);
 
         IObjectProvider<TValue, TOwner> IObjectVerificationProvider<TValue, TOwner>.ObjectProvider =>
             Component;
-
-        public class NegationFieldVerificationProvider :
-            NegationUIComponentVerificationProvider<NegationFieldVerificationProvider>,
-            IFieldVerificationProvider<TValue, TField, TOwner>
-        {
-            internal NegationFieldVerificationProvider(TField control, IVerificationProvider<TOwner> verificationProvider)
-                : base(control, verificationProvider)
-            {
-            }
-
-            IObjectProvider<TValue, TOwner> IObjectVerificationProvider<TValue, TOwner>.ObjectProvider =>
-                Component;
-        }
     }
 }

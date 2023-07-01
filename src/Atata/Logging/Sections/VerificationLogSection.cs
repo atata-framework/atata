@@ -1,24 +1,21 @@
-﻿using System.Text;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Represents the log section of verification.
+/// </summary>
+public class VerificationLogSection : LogSection
 {
-    /// <summary>
-    /// Represents the log section of verification.
-    /// </summary>
-    public class VerificationLogSection : LogSection
+    public VerificationLogSection(
+        string verificationKind,
+        string providerName,
+        string verificationConstraint)
     {
-        public VerificationLogSection(
-            string verificationKind,
-            string providerName,
-            string verificationConstraint)
-        {
-            var builder = new StringBuilder(verificationKind ?? "Verify")
-                .Append($": {providerName ?? "value"}");
+        var builder = new StringBuilder(verificationKind ?? "Verify")
+            .Append($": {providerName ?? "value"}");
 
-            if (!string.IsNullOrWhiteSpace(verificationConstraint))
-                builder.Append($" {verificationConstraint}");
+        if (!string.IsNullOrWhiteSpace(verificationConstraint))
+            builder.Append($" {verificationConstraint}");
 
-            Message = builder.ToString();
-        }
+        Message = builder.ToString();
     }
 }

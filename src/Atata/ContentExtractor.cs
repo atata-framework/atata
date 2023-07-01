@@ -1,11 +1,11 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// Provides the functionality to get the content of the component.
+/// </summary>
+public static class ContentExtractor
 {
-    /// <summary>
-    /// Provides the functionality to get the content of the component.
-    /// </summary>
-    public static class ContentExtractor
-    {
-        public const string GetTextContentOfChildTextNodesScript =
+    public const string GetTextContentOfChildTextNodesScript =
 @"var element = arguments[0];
 var text = '';
 for (var i = 0; i < element.childNodes.length; i++) {
@@ -15,7 +15,7 @@ for (var i = 0; i < element.childNodes.length; i++) {
 }
 return text.trim();";
 
-        public const string GetTextContentOfChildTextNodesTrimmedScript =
+    public const string GetTextContentOfChildTextNodesTrimmedScript =
 @"var element = arguments[0];
 var text = '';
 for (var i = 0; i < element.childNodes.length; i++) {
@@ -25,7 +25,7 @@ for (var i = 0; i < element.childNodes.length; i++) {
 }
 return text;";
 
-        public const string GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript =
+    public const string GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript =
 @"var element = arguments[0];
 var text = '';
 for (var i = 0; i < element.childNodes.length; i++) {
@@ -41,7 +41,7 @@ for (var i = 0; i < element.childNodes.length; i++) {
 }
 return text;";
 
-        public const string GetTextContentOfFirstChildTextNodeScript =
+    public const string GetTextContentOfFirstChildTextNodeScript =
 @"var element = arguments[0];
 for (var i = 0; i < element.childNodes.length; i++) {
     var child = element.childNodes[i];
@@ -53,7 +53,7 @@ for (var i = 0; i < element.childNodes.length; i++) {
 }
 return '';";
 
-        public const string GetTextContentOfLastChildTextNodeScript =
+    public const string GetTextContentOfLastChildTextNodeScript =
 @"var element = arguments[0];
 for (var i = element.childNodes.length - 1; i >= 0; i--) {
     var child = element.childNodes[i];
@@ -65,40 +65,39 @@ for (var i = element.childNodes.length - 1; i >= 0; i--) {
 }
 return '';";
 
-        /// <summary>
-        /// Gets the content of the component using <see cref="ContentSource"/> value.
-        /// </summary>
-        /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-        /// <param name="component">The component.</param>
-        /// <param name="contentSource">The content source.</param>
-        /// <returns>The content.</returns>
-        public static string Get<TOwner>(IUIComponent<TOwner> component, ContentSource contentSource)
-            where TOwner : PageObject<TOwner>, IPageObject<TOwner>
-        {
-            component.CheckNotNull(nameof(component));
+    /// <summary>
+    /// Gets the content of the component using <see cref="ContentSource"/> value.
+    /// </summary>
+    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
+    /// <param name="component">The component.</param>
+    /// <param name="contentSource">The content source.</param>
+    /// <returns>The content.</returns>
+    public static string Get<TOwner>(IUIComponent<TOwner> component, ContentSource contentSource)
+        where TOwner : PageObject<TOwner>, IPageObject<TOwner>
+    {
+        component.CheckNotNull(nameof(component));
 
-            return contentSource switch
-            {
-                ContentSource.Text =>
-                    component.Scope.Text,
-                ContentSource.TextContent =>
-                    component.DomProperties.TextContent,
-                ContentSource.InnerHtml =>
-                    component.DomProperties.InnerHtml,
-                ContentSource.Value =>
-                    component.DomProperties.Value,
-                ContentSource.ChildTextNodes =>
-                    component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesScript),
-                ContentSource.ChildTextNodesTrimmed =>
-                    component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedScript),
-                ContentSource.ChildTextNodesTrimmedAndSpaceJoined =>
-                    component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript),
-                ContentSource.FirstChildTextNode =>
-                    component.Script.ExecuteAgainst<string>(GetTextContentOfFirstChildTextNodeScript),
-                ContentSource.LastChildTextNode =>
-                    component.Script.ExecuteAgainst<string>(GetTextContentOfLastChildTextNodeScript),
-                _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource))
-            };
-        }
+        return contentSource switch
+        {
+            ContentSource.Text =>
+                component.Scope.Text,
+            ContentSource.TextContent =>
+                component.DomProperties.TextContent,
+            ContentSource.InnerHtml =>
+                component.DomProperties.InnerHtml,
+            ContentSource.Value =>
+                component.DomProperties.Value,
+            ContentSource.ChildTextNodes =>
+                component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesScript),
+            ContentSource.ChildTextNodesTrimmed =>
+                component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedScript),
+            ContentSource.ChildTextNodesTrimmedAndSpaceJoined =>
+                component.Script.ExecuteAgainst<string>(GetTextContentOfChildTextNodesTrimmedAndSpaceJoinedScript),
+            ContentSource.FirstChildTextNode =>
+                component.Script.ExecuteAgainst<string>(GetTextContentOfFirstChildTextNodeScript),
+            ContentSource.LastChildTextNode =>
+                component.Script.ExecuteAgainst<string>(GetTextContentOfLastChildTextNodeScript),
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource))
+        };
     }
 }

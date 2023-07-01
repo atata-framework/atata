@@ -1,55 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace Atata;
 
-namespace Atata
+public static class PageSnapshotStrategyAliases
 {
-    public static class PageSnapshotStrategyAliases
+    public const string CdpOrPageSource = nameof(CdpOrPageSource);
+
+    public const string PageSource = nameof(PageSource);
+
+    public const string Cdp = nameof(Cdp);
+
+    private static readonly Dictionary<string, Func<IPageSnapshotStrategy>> s_aliasFactoryMap =
+        new(StringComparer.OrdinalIgnoreCase);
+
+    static PageSnapshotStrategyAliases()
     {
-        public const string CdpOrPageSource = nameof(CdpOrPageSource);
+        Register(CdpOrPageSource, () => CdpOrPageSourcePageSnapshotStrategy.Instance);
+        Register(PageSource, () => PageSourcePageSnapshotStrategy.Instance);
+        Register(Cdp, () => CdpPageSnapshotStrategy.Instance);
+    }
 
-        public const string PageSource = nameof(PageSource);
+    public static void Register<T>(string typeAlias)
+        where T : IPageSnapshotStrategy, new() =>
+        Register(typeAlias, () => new T());
 
-        public const string Cdp = nameof(Cdp);
+    public static void Register(string typeAlias, IPageSnapshotStrategy strategy) =>
+        Register(typeAlias, () => strategy);
 
-        private static readonly Dictionary<string, Func<IPageSnapshotStrategy>> s_aliasFactoryMap =
-            new(StringComparer.OrdinalIgnoreCase);
+    public static void Register(string typeAlias, Func<IPageSnapshotStrategy> strategyFactory)
+    {
+        typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
+        strategyFactory.CheckNotNull(nameof(strategyFactory));
 
-        static PageSnapshotStrategyAliases()
+        s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = strategyFactory;
+    }
+
+    public static bool TryResolve(string alias, out IPageSnapshotStrategy strategy)
+    {
+        alias.CheckNotNullOrWhitespace(nameof(alias));
+
+        if (s_aliasFactoryMap.TryGetValue(alias, out var factory))
         {
-            Register(CdpOrPageSource, () => CdpOrPageSourcePageSnapshotStrategy.Instance);
-            Register(PageSource, () => PageSourcePageSnapshotStrategy.Instance);
-            Register(Cdp, () => CdpPageSnapshotStrategy.Instance);
+            strategy = factory.Invoke();
+            return true;
         }
-
-        public static void Register<T>(string typeAlias)
-            where T : IPageSnapshotStrategy, new() =>
-            Register(typeAlias, () => new T());
-
-        public static void Register(string typeAlias, IPageSnapshotStrategy strategy) =>
-            Register(typeAlias, () => strategy);
-
-        public static void Register(string typeAlias, Func<IPageSnapshotStrategy> strategyFactory)
+        else
         {
-            typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
-            strategyFactory.CheckNotNull(nameof(strategyFactory));
-
-            s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = strategyFactory;
-        }
-
-        public static bool TryResolve(string alias, out IPageSnapshotStrategy strategy)
-        {
-            alias.CheckNotNullOrWhitespace(nameof(alias));
-
-            if (s_aliasFactoryMap.TryGetValue(alias, out var factory))
-            {
-                strategy = factory.Invoke();
-                return true;
-            }
-            else
-            {
-                strategy = null;
-                return false;
-            }
+            strategy = null;
+            return false;
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public class AddArtifactsToNUnitTestContextOnCleanUpEventHandler : AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler
 {
-    public class AddArtifactsToNUnitTestContextOnCleanUpEventHandler : AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler
+    public AddArtifactsToNUnitTestContextOnCleanUpEventHandler()
+        : base(context => context.Artifacts.FullName.Value)
     {
-        public AddArtifactsToNUnitTestContextOnCleanUpEventHandler()
-            : base(context => context.Artifacts.FullName.Value)
-        {
-        }
     }
 }

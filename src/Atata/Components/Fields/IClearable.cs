@@ -1,13 +1,12 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// Represents the interface that can clear.
+/// </summary>
+public interface IClearable
 {
     /// <summary>
-    /// Represents the interface that can clear.
+    /// Clears the value.
     /// </summary>
-    public interface IClearable
-    {
-        /// <summary>
-        /// Clears the value.
-        /// </summary>
-        void Clear();
-    }
+    void Clear();
 }

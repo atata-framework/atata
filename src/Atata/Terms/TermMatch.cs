@@ -1,28 +1,27 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+/// <summary>
+/// Specifies the match approach for the term finding.
+/// </summary>
+public enum TermMatch
 {
     /// <summary>
-    /// Specifies the match approach for the term finding.
+    /// Checks whether the text equals the specified term.
     /// </summary>
-    public enum TermMatch
-    {
-        /// <summary>
-        /// Checks whether the text equals the specified term.
-        /// </summary>
-        Equals,
+    Equals,
 
-        /// <summary>
-        /// Checks whether the text contains the specified term.
-        /// </summary>
-        Contains,
+    /// <summary>
+    /// Checks whether the text contains the specified term.
+    /// </summary>
+    Contains,
 
-        /// <summary>
-        /// Checks whether the text starts with the specified term.
-        /// </summary>
-        StartsWith,
+    /// <summary>
+    /// Checks whether the text starts with the specified term.
+    /// </summary>
+    StartsWith,
 
-        /// <summary>
-        /// Checks whether the text ends with the specified term.
-        /// </summary>
-        EndsWith
-    }
+    /// <summary>
+    /// Checks whether the text ends with the specified term.
+    /// </summary>
+    EndsWith
 }

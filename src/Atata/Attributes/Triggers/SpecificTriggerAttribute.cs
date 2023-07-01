@@ -1,28 +1,24 @@
-﻿using System;
-using System.Reflection;
+﻿namespace Atata;
 
-namespace Atata
+public abstract class SpecificTriggerAttribute : TriggerAttribute
 {
-    public abstract class SpecificTriggerAttribute : TriggerAttribute
+    protected SpecificTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+        : base(on, priority)
     {
-        protected SpecificTriggerAttribute(TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
-            : base(on, priority)
+    }
+
+    protected internal sealed override void Execute<TOwner>(TriggerContext<TOwner> context)
+    {
+        MethodInfo declaredMethod = GetType().GetMethod("Execute", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+        if (declaredMethod != null)
         {
-        }
+            Type ownerType = context.Component.Owner.GetType();
 
-        protected internal sealed override void Execute<TOwner>(TriggerContext<TOwner> context)
-        {
-            MethodInfo declaredMethod = GetType().GetMethod("Execute", BindingFlags.DeclaredOnly | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-            if (declaredMethod != null)
-            {
-                Type ownerType = context.Component.Owner.GetType();
+            MethodInfo actualMethod = declaredMethod.IsGenericMethodDefinition
+                ? declaredMethod.MakeGenericMethod(ownerType)
+                : declaredMethod;
 
-                MethodInfo actualMethod = declaredMethod.IsGenericMethodDefinition
-                    ? declaredMethod.MakeGenericMethod(ownerType)
-                    : declaredMethod;
-
-                actualMethod.InvokeAsLambda(this, context);
-            }
+            actualMethod.InvokeAsLambda(this, context);
         }
     }
 }

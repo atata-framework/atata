@@ -1,13 +1,10 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+internal class StringExpressionValueStringifier : IExpressionValueStringifier
 {
-    internal class StringExpressionValueStringifier : IExpressionValueStringifier
-    {
-        public bool CanHandle(Type type) =>
-            type == typeof(string);
+    public bool CanHandle(Type type) =>
+        type == typeof(string);
 
-        public string Handle(object value) =>
-            $"\"{value}\"";
-    }
+    public string Handle(object value) =>
+        $"\"{value}\"";
 }

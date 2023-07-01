@@ -1,37 +1,33 @@
-﻿using System;
-using System.Drawing;
+﻿namespace Atata;
 
-namespace Atata
+/// <summary>
+/// Allows to access the component scope element's location (X and Y).
+/// </summary>
+/// <typeparam name="TOwner">The type of the owner page object.</typeparam>
+public class UIComponentLocationProvider<TOwner> : ValueProvider<Point, TOwner>
+    where TOwner : PageObject<TOwner>
 {
+    private readonly UIComponent<TOwner> _component;
+
+    public UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction, string providerName)
+        : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
+        _component = component;
+
     /// <summary>
-    /// Allows to access the component scope element's location (X and Y).
+    /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the X location coordinate of the component.
     /// </summary>
-    /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-    public class UIComponentLocationProvider<TOwner> : ValueProvider<Point, TOwner>
-        where TOwner : PageObject<TOwner>
-    {
-        private readonly UIComponent<TOwner> _component;
+    public ValueProvider<int, TOwner> X =>
+        _component.CreateValueProvider("X location", GetX);
 
-        public UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction, string providerName)
-            : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
-            _component = component;
+    /// <summary>
+    /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the Y location coordinate of the component.
+    /// </summary>
+    public ValueProvider<int, TOwner> Y =>
+        _component.CreateValueProvider("Y location", GetY);
 
-        /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the X location coordinate of the component.
-        /// </summary>
-        public ValueProvider<int, TOwner> X =>
-            _component.CreateValueProvider("X location", GetX);
+    private int GetX() =>
+        Value.X;
 
-        /// <summary>
-        /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the Y location coordinate of the component.
-        /// </summary>
-        public ValueProvider<int, TOwner> Y =>
-            _component.CreateValueProvider("Y location", GetY);
-
-        private int GetX() =>
-            Value.X;
-
-        private int GetY() =>
-            Value.Y;
-    }
+    private int GetY() =>
+        Value.Y;
 }

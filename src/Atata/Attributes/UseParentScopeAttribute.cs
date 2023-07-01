@@ -1,11 +1,8 @@
-﻿using System;
+﻿namespace Atata;
 
-namespace Atata
+public class UseParentScopeAttribute : FindAttribute
 {
-    public class UseParentScopeAttribute : FindAttribute
-    {
-        public new int Index => base.Index;
+    public new int Index => base.Index;
 
-        protected override Type DefaultStrategy => typeof(UseParentScopeStrategy);
-    }
+    protected override Type DefaultStrategy => typeof(UseParentScopeStrategy);
 }

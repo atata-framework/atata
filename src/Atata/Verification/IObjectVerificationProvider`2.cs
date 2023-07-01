@@ -1,10 +1,9 @@
-﻿namespace Atata
+﻿namespace Atata;
+
+public interface IObjectVerificationProvider<out TObject, out TOwner> : IVerificationProvider<TOwner>
 {
-    public interface IObjectVerificationProvider<out TObject, out TOwner> : IVerificationProvider<TOwner>
-    {
-        /// <summary>
-        /// Gets the object provider that is verified.
-        /// </summary>
-        IObjectProvider<TObject, TOwner> ObjectProvider { get; }
-    }
+    /// <summary>
+    /// Gets the object provider that is verified.
+    /// </summary>
+    IObjectProvider<TObject, TOwner> ObjectProvider { get; }
 }
