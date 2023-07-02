@@ -12,23 +12,24 @@ public class WaitForAngularJSAttribute : WaitForScriptAttribute
     }
 
     protected override string BuildScript<TOwner>(TriggerContext<TOwner> context) =>
-        @"
-try {
-    if (document.readyState !== 'complete') {
-        return false;
-    }
-    if (window.angular) {
-        var injector = window.angular.element('body').injector();
+        """
+        try {
+            if (document.readyState !== 'complete') {
+                return false;
+            }
+            if (window.angular) {
+                var injector = window.angular.element('body').injector();
     
-        var $rootScope = injector.get('$rootScope');
-        var $http = injector.get('$http');
+                var $rootScope = injector.get('$rootScope');
+                var $http = injector.get('$http');
 
-        if ($rootScope.$$phase === '$apply' || $rootScope.$$phase === '$digest' || $http.pendingRequests.length !== 0) {
-            return false;
+                if ($rootScope.$$phase === '$apply' || $rootScope.$$phase === '$digest' || $http.pendingRequests.length !== 0) {
+                    return false;
+                }
+            }
+            return true;
+        } catch (err) {
+          return false;
         }
-    }
-    return true;
-} catch (err) {
-  return false;
-}";
+        """;
 }

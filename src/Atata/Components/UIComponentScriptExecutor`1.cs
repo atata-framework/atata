@@ -337,44 +337,45 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner WaitForAngular(string rootSelector) =>
         ExecuteAsync(
-            @"
-var rootSelector = arguments[0];
-var callback = arguments[1];
+            """
+            var rootSelector = arguments[0];
+            var callback = arguments[1];
 
-if (window.getAngularTestability) {
-  if (rootSelector) {
-    var testability = null;
-    var el = document.querySelector(rootSelector);
-    try {
-      testability = window.getAngularTestability(el);
-    }
-    catch (e) { }
-    if (testability) {
-      testability.whenStable(callback);
-      return;
-    }
-  }
+            if (window.getAngularTestability) {
+              if (rootSelector) {
+                var testability = null;
+                var el = document.querySelector(rootSelector);
+                try {
+                  testability = window.getAngularTestability(el);
+                }
+                catch (e) { }
+                if (testability) {
+                  testability.whenStable(callback);
+                  return;
+                }
+              }
 
-  var testabilities = window.getAllAngularTestabilities();
-  var count = testabilities.length;
+              var testabilities = window.getAllAngularTestabilities();
+              var count = testabilities.length;
 
-  if (count === 0) {
-    callback();
-    return;
-  }
+              if (count === 0) {
+                callback();
+                return;
+              }
 
-  var decrement = function () {
-    count--;
-    if (count === 0) {
-      callback();
-    }
-  };
-  testabilities.forEach(function (testability) {
-    testability.whenStable(decrement);
-  });
+              var decrement = function () {
+                count--;
+                if (count === 0) {
+                  callback();
+                }
+              };
+              testabilities.forEach(function (testability) {
+                testability.whenStable(decrement);
+              });
 
-}
-else { callback(); }",
+            }
+            else { callback(); }
+            """,
             rootSelector);
 
     private TResult ConvertResult<TResult>(object result)
