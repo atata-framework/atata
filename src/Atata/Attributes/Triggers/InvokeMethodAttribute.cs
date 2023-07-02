@@ -19,10 +19,8 @@ public class InvokeMethodAttribute : TriggerAttribute
         bool isDefinedAtComponentLevel = context.Component.Metadata.ComponentAttributes.Contains(this);
 
         var methodOwner = isDefinedAtComponentLevel ? context.Component : context.Component.Parent;
-        MethodInfo method = methodOwner.GetType().GetMethodWithThrowOnError(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
-
-        if (method == null)
-            throw new MissingMethodException(methodOwner.GetType().FullName, MethodName);
+        MethodInfo method = methodOwner.GetType()
+            .GetMethodWithThrowOnError(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 
         if (method.IsStatic)
             method.InvokeStaticAsLambda();

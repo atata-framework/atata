@@ -24,10 +24,8 @@ public class ObjectMapper : IObjectMapper
     {
         PropertyInfo property = destinationType.GetProperty(
             propertyName,
-            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.IgnoreCase);
-
-        if (property == null)
-            throw new MappingException(
+            BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.IgnoreCase)
+            ?? throw new MappingException(
                 BuildMappingExceptionMessage(destinationType, propertyName, "Property is not found."));
 
         if (!property.CanWrite)

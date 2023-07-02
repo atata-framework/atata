@@ -131,7 +131,7 @@ public static class TermResolverTests
         }
 
 #pragma warning disable S1144, CA1812 // Unused private types or members should be removed
-        private class TermResolverFormatTestCaseSource : TestCaseDataSource
+        private sealed class TermResolverFormatTestCaseSource : TestCaseDataSource
         {
             public TermResolverFormatTestCaseSource()
             {

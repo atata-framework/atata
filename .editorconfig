@@ -79,7 +79,7 @@ dotnet_style_object_initializer = true:suggestion
 dotnet_style_collection_initializer = true:suggestion
 dotnet_style_explicit_tuple_names = true:suggestion
 dotnet_style_null_propagation = true:suggestion
-dotnet_style_coalesce_expression = true:suggestion
+dotnet_style_coalesce_expression = true:warning
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:silent
 dotnet_style_prefer_inferred_tuple_names = true:suggestion
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:suggestion
@@ -426,6 +426,9 @@ dotnet_diagnostic.SX1101.severity = warning
 # IDE0054: Use compound assignment
 dotnet_diagnostic.IDE0054.severity = none
 
+# IDE0062: Make local function 'static'
+dotnet_diagnostic.IDE0062.severity = warning
+
 # IDE0066: Convert switch statement to expression
 dotnet_diagnostic.IDE0066.severity = warning
 
@@ -440,6 +443,9 @@ dotnet_diagnostic.IDE0090.severity = warning
 
 # IDE0200: Remove unnecessary lambda expression
 dotnet_diagnostic.IDE0200.severity = warning
+
+# IDE0270: Use coalesce expression
+dotnet_diagnostic.IDE0270.severity = warning
 
 [*.cs]
 # var preferences

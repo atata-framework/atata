@@ -106,11 +106,11 @@ public static class EventSubscriptionsAtataContextBuilderTests
             // Method intentionally left empty.
         }
 
-        public class TestEvent
+        public sealed class TestEvent
         {
         }
 
-        private class TestEventHandler : IEventHandler<TestEvent>
+        private sealed class TestEventHandler : IEventHandler<TestEvent>
         {
             public void Handle(TestEvent eventData, AtataContext context)
             {
@@ -118,7 +118,7 @@ public static class EventSubscriptionsAtataContextBuilderTests
             }
         }
 
-        private class UniversalEventHandler : IEventHandler<object>
+        private sealed class UniversalEventHandler : IEventHandler<object>
         {
             public void Handle(object eventData, AtataContext context)
             {

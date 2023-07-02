@@ -213,7 +213,7 @@ public class ReportTests : UITestFixture
             screenshotConsumer.Items[1].Title.Should().Be("sometitle");
         }
 
-        private class MockScreenshotConsumer : IScreenshotConsumer
+        private sealed class MockScreenshotConsumer : IScreenshotConsumer
         {
             public List<ScreenshotInfo> Items { get; } = new();
 

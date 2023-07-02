@@ -631,10 +631,9 @@ public static partial class IObjectVerificationProviderExtensions
                 if (actual is null)
                     return false;
 
-                using (var actualEnumerator = actual.GetEnumerator())
-                {
-                    return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
-                }
+                using var actualEnumerator = actual.GetEnumerator();
+
+                return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
             },
             VerificationMessage.Of($"start with any of {Stringifier.ToString(expected)}", equalityComparer));
     }
@@ -668,10 +667,9 @@ public static partial class IObjectVerificationProviderExtensions
                 if (actual is null)
                     return false;
 
-                using (var actualEnumerator = actual.GetEnumerator())
-                {
-                    return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
-                }
+                using var actualEnumerator = actual.GetEnumerator();
+
+                return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
             },
             VerificationMessage.Of($"start with any of {Stringifier.ToString(expected)}", equalityComparer));
     }
@@ -761,10 +759,9 @@ public static partial class IObjectVerificationProviderExtensions
                 if (actual is null)
                     return false;
 
-                using (var actualEnumerator = actual.Reverse().GetEnumerator())
-                {
-                    return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
-                }
+                using var actualEnumerator = actual.Reverse().GetEnumerator();
+
+                return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
             },
             VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", equalityComparer));
     }
@@ -798,10 +795,9 @@ public static partial class IObjectVerificationProviderExtensions
                 if (actual is null)
                     return false;
 
-                using (var actualEnumerator = actual.Reverse().GetEnumerator())
-                {
-                    return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
-                }
+                using var actualEnumerator = actual.Reverse().GetEnumerator();
+
+                return actualEnumerator.MoveNext() && expected.Contains(actualEnumerator.Current, equalityComparer);
             },
             VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", equalityComparer));
     }
@@ -1128,7 +1124,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         return predicatePassers[0].Count != 0 && SortOut(predicatePassers, new List<int>());
 
-        bool SortOut(IEnumerable<List<int>> numbers, List<int> excludedNumbers)
+        static bool SortOut(IEnumerable<List<int>> numbers, List<int> excludedNumbers)
         {
             var nonExcludedCurrentNumbers = numbers.First().Except(excludedNumbers).ToArray();
 
