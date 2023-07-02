@@ -16,7 +16,7 @@ public static class StringExtensions
         if (string.IsNullOrWhiteSpace(value))
             return false;
 
-        return value.ToCharArray().All(x => char.IsUpper(x));
+        return value.ToCharArray().All(char.IsUpper);
     }
 
     public static string ToUpperFirstLetter(this string value)

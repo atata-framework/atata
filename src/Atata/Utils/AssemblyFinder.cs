@@ -39,7 +39,7 @@ public static class AssemblyFinder
     {
         assemblyNamePatterns.CheckNotNullOrEmpty(nameof(assemblyNamePatterns));
 
-        return assemblyNamePatterns.Any(x => string.IsNullOrEmpty(x))
+        return assemblyNamePatterns.Any(string.IsNullOrEmpty)
             ? FindAllByPattern(string.Empty)
             : assemblyNamePatterns.SelectMany(
                 FindAllByPattern)

@@ -18,7 +18,7 @@ public static class IWebElementLoggingExtensions
         {
             log.ExecuteSection(
                 new ElementClearLogSection(element),
-                () => element.Clear());
+                element.Clear);
         }
         else
         {
@@ -38,7 +38,7 @@ public static class IWebElementLoggingExtensions
         {
             log.ExecuteSection(
                 new ElementClickLogSection(element),
-                () => element.Click());
+                element.Click);
         }
         else
         {

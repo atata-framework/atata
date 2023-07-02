@@ -25,7 +25,7 @@ public static class VerificationUtils
 
     public static string BuildExpectedMessage(string message, object[] args) =>
         args != null && args.Any()
-            ? message.FormatWith(args.Select(x => Stringifier.ToString(x)).ToArray())
+            ? message.FormatWith(args.Select(Stringifier.ToString).ToArray())
             : message;
 
     public static string BuildConstraintMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string message, params TData[] args)

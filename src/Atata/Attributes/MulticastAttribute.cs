@@ -276,11 +276,11 @@ public abstract class MulticastAttribute : Attribute
 
     protected static int? GetDepthOfInheritance(Type typeToCheck, Type[] targetTypes, Type[] excludeTargetTypes = null)
     {
-        if (excludeTargetTypes?.Any(x => typeToCheck.IsInheritedFromOrIs(x)) ?? false)
+        if (excludeTargetTypes?.Any(typeToCheck.IsInheritedFromOrIs) ?? false)
             return null;
 
         return targetTypes == null || !targetTypes.Any()
             ? -1
-            : targetTypes.Select(x => typeToCheck.GetDepthOfInheritance(x)).Where(x => x != null).Min();
+            : targetTypes.Select(typeToCheck.GetDepthOfInheritance).Where(x => x != null).Min();
     }
 }

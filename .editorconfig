@@ -438,6 +438,9 @@ dotnet_diagnostic.IDE0083.severity = warning
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = warning
 
+# IDE0200: Remove unnecessary lambda expression
+dotnet_diagnostic.IDE0200.severity = warning
+
 [*.cs]
 # var preferences
 csharp_style_var_for_built_in_types = true:silent
@@ -499,7 +502,7 @@ csharp_preserve_single_line_blocks = true
 csharp_using_directive_placement = outside_namespace:silent
 csharp_prefer_simple_using_statement = true:warning
 csharp_style_namespace_declarations = file_scoped:warning
-csharp_style_prefer_method_group_conversion = true:silent
+csharp_style_prefer_method_group_conversion = true:warning
 csharp_style_prefer_top_level_statements = true:silent
 csharp_style_expression_bodied_lambdas = true:warning
 csharp_style_expression_bodied_local_functions = true:warning

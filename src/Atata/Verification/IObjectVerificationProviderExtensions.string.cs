@@ -5,10 +5,10 @@ public static partial class IObjectVerificationProviderExtensions
     private const StringComparison DefaultIgnoreCaseComparison = StringComparison.OrdinalIgnoreCase;
 
     public static TOwner BeNullOrEmpty<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
-        verifier.Satisfy(actual => string.IsNullOrEmpty(actual), "be null or empty");
+        verifier.Satisfy(string.IsNullOrEmpty, "be null or empty");
 
     public static TOwner BeNullOrWhiteSpace<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
-        verifier.Satisfy(actual => string.IsNullOrWhiteSpace(actual), "be null or white-space");
+        verifier.Satisfy(string.IsNullOrWhiteSpace, "be null or white-space");
 
     public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
         verifier.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");

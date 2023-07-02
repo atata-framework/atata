@@ -7,15 +7,13 @@ internal static class PortUtils
 {
     internal static int FindFreePort()
     {
-        using (Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-        {
-            IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
-            portSocket.Bind(socketEndPoint);
-            return ((IPEndPoint)portSocket.LocalEndPoint).Port;
-        }
+        using Socket portSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        IPEndPoint socketEndPoint = new IPEndPoint(IPAddress.Any, 0);
+        portSocket.Bind(socketEndPoint);
+        return ((IPEndPoint)portSocket.LocalEndPoint).Port;
     }
 
-    internal static int FindFreePortExcept(IEnumerable<int> portsToIgnore)
+    internal static int FindFreePortExcept(IReadOnlyList<int> portsToIgnore)
     {
         for (int i = 0; i < 500; i++)
         {
