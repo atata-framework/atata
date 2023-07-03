@@ -66,7 +66,7 @@ return textValues;";
     /// </summary>
     public ValueProvider<int, TOwner> Count =>
         Component.CreateValueProvider(
-            BuildValueProviderFullName("count"),
+            BuildCountValueProviderFullName(),
             GetCount);
 
     /// <summary>
@@ -432,6 +432,18 @@ return textValues;";
         return builder.Append(ComponentPartName)
             .Append(UIComponent.SubComponentSeparator)
             .Append(name)
+            .ToString();
+    }
+
+    private string BuildCountValueProviderFullName()
+    {
+        var builder = new StringBuilder();
+
+        if (!IsComponentPageObject)
+            builder.Append(UIComponent.SubComponentSeparator.TrimStart());
+
+        return builder.Append(ComponentPartName)
+            .Append(" count")
             .ToString();
     }
 
