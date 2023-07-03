@@ -6,7 +6,7 @@ public static class VerificationUtils
     {
         var exceptionType = AtataContext.Current?.AssertionExceptionType;
 
-        if (exceptionType == null)
+        if (exceptionType is null)
             return new AssertionException(message, innerException);
         else if (exceptionType.FullName == NUnitAdapter.AssertionExceptionTypeName)
             return (Exception)Activator.CreateInstance(exceptionType, AppendExceptionToFailureMessage(message, innerException));

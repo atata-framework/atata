@@ -42,25 +42,26 @@ public static class Stringifier
     public static string ToString(Expression expression) =>
         $"({ObjectExpressionStringBuilder.ExpressionToString(expression)})";
 
-    public static string ToString(object value)
-    {
-        if (Equals(value, null))
-            return NullString;
-        else if (value is string)
-            return $"\"{value}\"";
-        else if (value is bool)
-            return value.ToString().ToLowerInvariant();
-        else if (value is ValueType)
-            return value.ToString();
-        else if (value is IEnumerable enumerableValue)
-            return ToString(enumerableValue);
-        else if (value is Expression expressionValue)
-            return ToString(expressionValue);
-        else if (value is WebElement asWebElement)
-            return $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asWebElement)} }}";
-        else
-            return AnyObjectToString(value);
-    }
+    public static string ToString(object value) =>
+        value switch
+        {
+            null =>
+                NullString,
+            string =>
+                $"\"{value}\"",
+            bool =>
+                value.ToString().ToLowerInvariant(),
+            ValueType =>
+                value.ToString(),
+            IEnumerable enumerableValue =>
+                ToString(enumerableValue),
+            Expression expressionValue =>
+                ToString(expressionValue),
+            WebElement asWebElement =>
+                $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asWebElement)} }}",
+            _ =>
+                AnyObjectToString(value)
+        };
 
     private static string AnyObjectToString(object value)
     {
@@ -86,10 +87,9 @@ public static class Stringifier
 
         int count = collection.Count();
 
-        if (count == 1)
-            return ToString(collection.First());
-
-        return ToString(collection);
+        return count == 1
+            ? ToString(collection.First())
+            : ToString(collection);
     }
 
     public static string ToStringInSimpleStructuredForm(object value, Type excludeBaseType = null)
@@ -135,17 +135,14 @@ public static class Stringifier
         return name;
     }
 
-    private static bool TakeValueForSimpleStructuredForm(object value)
-    {
-        if (Equals(value, null))
-            return false;
-        else if (value is Array valueAsArray)
-            return valueAsArray.Length > 0;
-        else if (value is IEnumerable<object> valueAsGenericEnumerable)
-            return valueAsGenericEnumerable.Any();
-        else if (value is IEnumerable valueAsEnumerable)
-            return valueAsEnumerable.Cast<object>().Any();
-        else
-            return true;
-    }
+    private static bool TakeValueForSimpleStructuredForm(object value) =>
+        value switch
+        {
+            null => false,
+            Array valueAsArray => valueAsArray.Length > 0,
+            IReadOnlyCollection<object> valueAsCollection => valueAsCollection.Count > 0,
+            IEnumerable<object> valueAsGenericEnumerable => valueAsGenericEnumerable.Any(),
+            IEnumerable valueAsEnumerable => valueAsEnumerable.Cast<object>().Any(),
+            _ => true
+        };
 }

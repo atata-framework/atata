@@ -152,15 +152,13 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return base.VisitMember(node);
     }
 
-    private bool IsParameterExpression(Expression expression)
-    {
-        if (expression is ParameterExpression)
-            return true;
-        else if (expression is MemberExpression memberExpression)
-            return IsParameterExpression(memberExpression.Expression);
-        else
-            return false;
-    }
+    private bool IsParameterExpression(Expression expression) =>
+        expression switch
+        {
+            ParameterExpression => true,
+            MemberExpression memberExpression => IsParameterExpression(memberExpression.Expression),
+            _ => false
+        };
 
     protected override Expression VisitMemberInit(MemberInitExpression node)
     {

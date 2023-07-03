@@ -91,9 +91,8 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     {
         string valueAsString = GetValue(propertyName);
 
-        if (string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool))
-            return default;
-
-        return TermResolver.FromString<TValue>(valueAsString);
+        return string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool)
+            ? default
+            : TermResolver.FromString<TValue>(valueAsString);
     }
 }

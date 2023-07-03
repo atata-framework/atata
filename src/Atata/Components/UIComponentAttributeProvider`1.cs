@@ -125,9 +125,8 @@ public class UIComponentAttributeProvider<TOwner> : UIComponentPart<TOwner>
     {
         string valueAsString = GetValue(attributeName);
 
-        if (string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool))
-            return default;
-
-        return TermResolver.FromString<TValue>(valueAsString);
+        return string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool)
+            ? default
+            : TermResolver.FromString<TValue>(valueAsString);
     }
 }
