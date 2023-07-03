@@ -221,6 +221,14 @@ public class ProviderNameTests : UITestFixture
     [Test]
     public void OfControlList_Count()
     {
+        var sut = _page.Folders.Count;
+
+        AssertProviderNameIs(sut, "folders count");
+    }
+
+    [Test]
+    public void OfNestedControlList_Count()
+    {
         var sut = _page
             .Folders[2]
             .Files.Count;
