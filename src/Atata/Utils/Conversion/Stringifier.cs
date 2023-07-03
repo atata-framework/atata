@@ -8,6 +8,8 @@ public static class Stringifier
 {
     public const string NullString = "null";
 
+    public const string Indent = "  ";
+
     private static readonly Lazy<Func<WebElement, string>> s_elementIdRetrieveFunction = new(() =>
     {
         var idProperty = typeof(WebElement).GetPropertyWithThrowOnError(
@@ -33,7 +35,7 @@ public static class Stringifier
         string[] itemStringValues = collection.Select(x => ToString(x)).ToArray();
 
         return itemStringValues.Any(x => x.Contains('\n'))
-            ? $"[{Environment.NewLine}{string.Join($",{Environment.NewLine}", itemStringValues)}]"
+            ? $"[{Environment.NewLine}{string.Join($",{Environment.NewLine}", itemStringValues.Select(AddIndent))}{Environment.NewLine}]"
             : $"[{string.Join(", ", itemStringValues)}]";
     }
 
@@ -57,8 +59,25 @@ public static class Stringifier
         else if (value is WebElement asWebElement)
             return $"Element {{ Id={s_elementIdRetrieveFunction.Value.Invoke(asWebElement)} }}";
         else
-            return $"{{ {value} }}";
+            return AnyObjectToString(value);
     }
+
+    private static string AnyObjectToString(object value)
+    {
+        string valueAsString = value.ToString();
+        if (valueAsString.Contains('\n'))
+        {
+            string indentedValue = AddIndent(valueAsString);
+            return $"{{{Environment.NewLine}{indentedValue}{Environment.NewLine}}}";
+        }
+        else
+        {
+            return $"{{ {value} }}";
+        }
+    }
+
+    private static string AddIndent(string value) =>
+        Indent + value.Replace("\r\n", "\n").Replace("\n", Environment.NewLine + Indent);
 
     public static string ToStringInFormOfOneOrMany<T>(IEnumerable<T> collection)
     {
