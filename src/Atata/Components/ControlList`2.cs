@@ -65,7 +65,9 @@ return textValues;";
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls count.
     /// </summary>
     public ValueProvider<int, TOwner> Count =>
-        Component.CreateValueProvider($"{UIComponent.SubComponentSeparator.TrimStart()}{ComponentPartName} count", GetCount);
+        Component.CreateValueProvider(
+            BuildValueProviderFullName("count"),
+            GetCount);
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls contents.
