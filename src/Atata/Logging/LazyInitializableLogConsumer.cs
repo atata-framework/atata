@@ -5,21 +5,42 @@
 /// </summary>
 public abstract class LazyInitializableLogConsumer : ILogConsumer
 {
-    private readonly Lazy<dynamic> _lazyLogger;
+    private readonly object _loggerInitializationLock = new();
 
-    protected LazyInitializableLogConsumer() =>
-        _lazyLogger = new Lazy<dynamic>(GetLogger);
+    private volatile bool _isInitialized;
 
     /// <summary>
     /// Gets the logger.
     /// </summary>
-    protected dynamic Logger =>
-        _lazyLogger.Value;
+    protected dynamic Logger { get; private set; }
 
     public void Log(LogEventInfo eventInfo)
     {
-        if (Logger is not null)
+        EnsureLoggerIsInitialized();
+
+        if (Logger != null)
             OnLog(eventInfo);
+    }
+
+    private void EnsureLoggerIsInitialized()
+    {
+        if (!_isInitialized)
+        {
+            lock (_loggerInitializationLock)
+            {
+                if (!_isInitialized)
+                {
+                    try
+                    {
+                        Logger = GetLogger();
+                    }
+                    finally
+                    {
+                        _isInitialized = true;
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
