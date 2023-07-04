@@ -4,7 +4,7 @@ internal static class CheckExtensions
 {
     internal static T Check<T>(this T value, Predicate<T> checkPredicate, string argumentName, string errorMessage)
     {
-        if (checkPredicate != null && !checkPredicate(value))
+        if (checkPredicate is not null && !checkPredicate(value))
             throw new ArgumentException(errorMessage, argumentName);
 
         return value;
@@ -12,7 +12,7 @@ internal static class CheckExtensions
 
     internal static T CheckNotNull<T>(this T value, string argumentName, string errorMessage = null)
     {
-        if (value == null)
+        if (value is null)
             throw CreateArgumentNullException(argumentName, errorMessage);
 
         return value;
@@ -20,7 +20,7 @@ internal static class CheckExtensions
 
     internal static string CheckNotNullOrWhitespace(this string value, string argumentName, string errorMessage = null)
     {
-        if (value == null)
+        if (value is null)
             throw CreateArgumentNullException(argumentName, errorMessage);
         if (string.IsNullOrWhiteSpace(value))
             throw new ArgumentException(ConcatMessage("Should not be empty string or whitespace.", errorMessage), argumentName);
@@ -30,7 +30,7 @@ internal static class CheckExtensions
 
     internal static string CheckNotNullOrEmpty(this string value, string argumentName, string errorMessage = null)
     {
-        if (value == null)
+        if (value is null)
             throw CreateArgumentNullException(argumentName, errorMessage);
         if (value.Length == 0)
             throw new ArgumentException(ConcatMessage("Should not be empty string.", errorMessage), argumentName);
@@ -40,9 +40,14 @@ internal static class CheckExtensions
 
     internal static IEnumerable<T> CheckNotNullOrEmpty<T>(this IEnumerable<T> collection, string argumentName, string errorMessage = null)
     {
-        if (collection == null)
+        if (collection is null)
             throw CreateArgumentNullException(argumentName, errorMessage);
-        if (!collection.Any())
+
+        bool isEmpty = collection is IReadOnlyCollection<T> collectionCasted
+            ? collectionCasted.Count == 0
+            : !collection.Any();
+
+        if (isEmpty)
             throw new ArgumentException(ConcatMessage("Collection should contain at least one element.", errorMessage), argumentName);
 
         return collection;

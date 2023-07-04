@@ -27,21 +27,21 @@ public class AtataAggregateAssertionStrategy : IAggregateAssertionStrategy
         {
             var failedResults = ExtractAndRemoveExclusiveFailedAssertionResults(assertionResultsBefore);
 
-            if (failedResults.Any())
+            if (failedResults.Length > 0)
                 throw VerificationUtils.CreateAggregateAssertionException(failedResults);
         }
     }
 
-    private static IEnumerable<AssertionResult> ExtractAndRemoveExclusiveFailedAssertionResults(IEnumerable<AssertionResult> assertionResultsBefore)
+    private static AssertionResult[] ExtractAndRemoveExclusiveFailedAssertionResults(IEnumerable<AssertionResult> assertionResultsBefore)
     {
         var allAssertionResults = AtataContext.Current.PendingFailureAssertionResults;
 
-        IEnumerable<AssertionResult> exclusiveAssertions = allAssertionResults
+        AssertionResult[] exclusiveAssertions = allAssertionResults
             .Where(x => !assertionResultsBefore.Contains(x))
             .Where(x => x.Status is AssertionStatus.Failed or AssertionStatus.Warning)
             .ToArray();
 
-        if (exclusiveAssertions.Any())
+        if (exclusiveAssertions.Length > 0)
             allAssertionResults.RemoveAll(x => exclusiveAssertions.Contains(x));
 
         return exclusiveAssertions;

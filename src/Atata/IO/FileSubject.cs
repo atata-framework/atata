@@ -87,7 +87,7 @@ public class FileSubject : SubjectBase<FileInfo, _>
     /// </summary>
     /// <returns>A new <see cref="Subject{TObject}"/>.</returns>
     public Subject<string> ReadAllText() =>
-        ResultOf(x => File.ReadAllText(FullName), $"{nameof(ReadAllText)}()");
+        ResultOf(_ => File.ReadAllText(FullName), $"{nameof(ReadAllText)}()");
 
     private static string BuildProviderName(string filePath) =>
         $"\"{filePath}\" file";

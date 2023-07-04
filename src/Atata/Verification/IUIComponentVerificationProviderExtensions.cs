@@ -254,19 +254,19 @@ public static class IUIComponentVerificationProviderExtensions
     {
         verifier.CheckNotNull(nameof(verifier));
 
-        IEnumerable<TValue> expectedIndividualValues = verifier.Component.GetIndividualValues(value);
+        TValue[] expectedIndividualValues = verifier.Component.GetIndividualValues(value).ToArray();
         string expectedIndividualValuesAsString = verifier.Component.ConvertIndividualValuesToString(expectedIndividualValues, true);
 
         string expectedMessage = new StringBuilder()
             .Append("have checked")
-            .AppendIf(expectedIndividualValues.Count() > 1, ":")
+            .AppendIf(expectedIndividualValues.Length > 1, ":")
             .Append($" {expectedIndividualValuesAsString}").ToString();
 
         verifier.Component.Context.Log.ExecuteSection(
             new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
             () =>
             {
-                IEnumerable<TValue> actualIndividualValues = null;
+                TValue[] actualIndividualValues = null;
                 Exception exception = null;
 
                 bool doesSatisfy = VerificationUtils.ExecuteUntil(
@@ -274,9 +274,9 @@ public static class IUIComponentVerificationProviderExtensions
                     {
                         try
                         {
-                            actualIndividualValues = verifier.Component.GetIndividualValues(verifier.Component.Get());
+                            actualIndividualValues = verifier.Component.GetIndividualValues(verifier.Component.Get()).ToArray();
                             int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
-                            bool result = verifier.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Count();
+                            bool result = verifier.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Length;
                             exception = null;
                             return result;
                         }
