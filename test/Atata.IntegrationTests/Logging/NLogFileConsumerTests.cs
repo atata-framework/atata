@@ -1,5 +1,4 @@
 ﻿using Atata.IntegrationTests.DataProvision;
-using NUnit.Framework.Internal;
 
 namespace Atata.IntegrationTests.Logging;
 

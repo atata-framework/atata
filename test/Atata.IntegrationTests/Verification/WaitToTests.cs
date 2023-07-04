@@ -1,6 +1,4 @@
-﻿using NUnit.Framework.Internal;
-
-namespace Atata.IntegrationTests.Verification;
+﻿namespace Atata.IntegrationTests.Verification;
 
 public class WaitToTests : UITestFixture
 {

@@ -5,13 +5,9 @@
 /// </summary>
 public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
 {
-    protected FindAttribute()
-    {
-    }
-
     PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
 
-    protected internal PropertyBag OptionalProperties { get; } = new PropertyBag();
+    protected internal PropertyBag OptionalProperties { get; } = new();
 
     /// <summary>
     /// Gets or sets the index of the control.

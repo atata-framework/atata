@@ -1,11 +1,8 @@
-﻿using System.Runtime.Serialization;
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// The exception that is thrown when an attribute cannot be found.
 /// </summary>
-/// <seealso cref="System.Exception" />
 [Serializable]
 public class AttributeNotFoundException : Exception
 {

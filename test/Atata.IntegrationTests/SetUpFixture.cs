@@ -41,7 +41,7 @@ public class SetUpFixture
             PollingInterval = TimeSpan.FromSeconds(0.2)
         };
 
-        testAppWait.Until(x => IsTestAppRunning());
+        testAppWait.Until(_ => IsTestAppRunning());
     }
 
     [OneTimeTearDown]
