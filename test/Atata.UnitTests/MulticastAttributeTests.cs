@@ -22,7 +22,7 @@ public static class MulticastAttributeTests
 
         [Test]
         public void Default() =>
-            Test(x => { })
+            Test(_ => { })
                 .Should().Be(0);
 
         [Test]
@@ -118,7 +118,7 @@ public static class MulticastAttributeTests
     {
         [Test]
         public void Default() =>
-            Test(x => { })
+            Test(_ => { })
                 .Should().BeFalse();
 
         [Test]

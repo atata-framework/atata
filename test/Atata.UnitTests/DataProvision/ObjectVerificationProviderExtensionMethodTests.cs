@@ -10,99 +10,99 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static Satisfy_Expression() =>
             For("abc123")
-                .ThrowsArgumentNullException(x => x.Satisfy(null))
-                .Pass(x => x.Satisfy(x => x.Contains("abc") && x.Contains("123")))
-                .Fail(x => x.Satisfy(x => x == "xyz"));
+                .ThrowsArgumentNullException(should => should.Satisfy(null))
+                .Pass(should => should.Satisfy(x => x.Contains("abc") && x.Contains("123")))
+                .Fail(should => should.Satisfy(x => x == "xyz"));
     }
 
     public class Satisfy_Function : ExtensionMethodTestFixture<int, Satisfy_Function>
     {
         static Satisfy_Function() =>
             For(5)
-                .ThrowsArgumentNullException(x => x.Satisfy(null, "..."))
-                .Pass(x => x.Satisfy(x => x is > 1 and < 10, "..."))
-                .Fail(x => x.Satisfy(x => x == 7, "..."));
+                .ThrowsArgumentNullException(should => should.Satisfy(null, "..."))
+                .Pass(should => should.Satisfy(x => x is > 1 and < 10, "..."))
+                .Fail(should => should.Satisfy(x => x == 7, "..."));
     }
 
     public class Satisfy_IEnumerable_Expression : ExtensionMethodTestFixture<Subject<string>[], Satisfy_IEnumerable_Expression>
     {
         static Satisfy_IEnumerable_Expression() =>
             For(new[] { "a".ToSubject(), "b".ToSubject(), "c".ToSubject() })
-                .ThrowsArgumentNullException(x => x.Satisfy(null as Expression<Func<IEnumerable<string>, bool>>))
-                .Pass(x => x.Satisfy(x => x.Contains("a") && x.Contains("c")))
-                .Fail(x => x.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
+                .ThrowsArgumentNullException(should => should.Satisfy(null as Expression<Func<IEnumerable<string>, bool>>))
+                .Pass(should => should.Satisfy(x => x.Contains("a") && x.Contains("c")))
+                .Fail(should => should.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
     }
 
     public class StartWith_string : ExtensionMethodTestFixture<string, StartWith_string>
     {
         static StartWith_string() =>
             For("abcdef")
-                .ThrowsArgumentNullException(x => x.StartWith(null))
-                .ThrowsArgumentException(x => x.StartWith())
-                .Pass(x => x.StartWith("a"))
-                .Pass(x => x.StartWith("abc"))
-                .Fail(x => x.StartWith("zbc"))
-                .Fail(x => x.StartWith("abcdefg"));
+                .ThrowsArgumentNullException(should => should.StartWith(null))
+                .ThrowsArgumentException(should => should.StartWith())
+                .Pass(should => should.StartWith("a"))
+                .Pass(should => should.StartWith("abc"))
+                .Fail(should => should.StartWith("zbc"))
+                .Fail(should => should.StartWith("abcdefg"));
     }
 
     public class StartWith_string_IgnoringCase : ExtensionMethodTestFixture<string, StartWith_string_IgnoringCase>
     {
         static StartWith_string_IgnoringCase() =>
             For("aBcDeF")
-                .When(x => x.IgnoringCase)
-                .Pass(x => x.StartWith("abc"))
-                .Pass(x => x.StartWith("ABcdEF"));
+                .When(should => should.IgnoringCase)
+                .Pass(should => should.StartWith("abc"))
+                .Pass(should => should.StartWith("ABcdEF"));
     }
 
     public class Match : ExtensionMethodTestFixture<string, Match>
     {
         static Match() =>
             For("abcdef")
-                .ThrowsArgumentNullException(x => x.Match(null))
-                .Pass(x => x.Match("bcd"))
-                .Pass(x => x.Match("^abc"))
-                .Pass(x => x.Match("^abcdeF$", RegexOptions.IgnoreCase))
-                .Fail(x => x.Match("^abcdeF$"));
+                .ThrowsArgumentNullException(should => should.Match(null))
+                .Pass(should => should.Match("bcd"))
+                .Pass(should => should.Match("^abc"))
+                .Pass(should => should.Match("^abcdeF$", RegexOptions.IgnoreCase))
+                .Fail(should => should.Match("^abcdeF$"));
     }
 
     public class BeEquivalent : ExtensionMethodTestFixture<int[], BeEquivalent>
     {
         static BeEquivalent() =>
             For(new[] { 1, 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.BeEquivalent(null))
-                .Pass(x => x.BeEquivalent(1, 1, 2, 3, 5))
-                .Pass(x => x.BeEquivalent(5, 1, 2, 3, 1))
-                .Fail(x => x.BeEquivalent())
-                .Fail(x => x.BeEquivalent(1, 2, 3, 4, 5))
-                .Fail(x => x.BeEquivalent(1, 1, 2, 3));
+                .ThrowsArgumentNullException(should => should.BeEquivalent(null))
+                .Pass(should => should.BeEquivalent(1, 1, 2, 3, 5))
+                .Pass(should => should.BeEquivalent(5, 1, 2, 3, 1))
+                .Fail(should => should.BeEquivalent())
+                .Fail(should => should.BeEquivalent(1, 2, 3, 4, 5))
+                .Fail(should => should.BeEquivalent(1, 1, 2, 3));
     }
 
     public class BeEquivalent_WhenEmpty : ExtensionMethodTestFixture<int[], BeEquivalent_WhenEmpty>
     {
         static BeEquivalent_WhenEmpty() =>
             For(new int[0])
-                .Pass(x => x.BeEquivalent())
-                .Fail(x => x.BeEquivalent(1));
+                .Pass(should => should.BeEquivalent())
+                .Fail(should => should.BeEquivalent(1));
     }
 
     public class EqualSequence : ExtensionMethodTestFixture<int[], EqualSequence>
     {
         static EqualSequence() =>
             For(new[] { 1, 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.EqualSequence(null))
-                .Pass(x => x.EqualSequence(1, 1, 2, 3, 5))
-                .Fail(x => x.EqualSequence(5, 1, 2, 3, 1))
-                .Fail(x => x.EqualSequence())
-                .Fail(x => x.EqualSequence(1, 2, 3, 4, 5))
-                .Fail(x => x.EqualSequence(1, 1, 2, 3));
+                .ThrowsArgumentNullException(should => should.EqualSequence(null))
+                .Pass(should => should.EqualSequence(1, 1, 2, 3, 5))
+                .Fail(should => should.EqualSequence(5, 1, 2, 3, 1))
+                .Fail(should => should.EqualSequence())
+                .Fail(should => should.EqualSequence(1, 2, 3, 4, 5))
+                .Fail(should => should.EqualSequence(1, 1, 2, 3));
     }
 
     public class EqualSequence_WhenEmpty : ExtensionMethodTestFixture<int[], EqualSequence_WhenEmpty>
     {
         static EqualSequence_WhenEmpty() =>
             For(new int[0])
-                .Pass(x => x.EqualSequence())
-                .Fail(x => x.EqualSequence(1));
+                .Pass(should => should.EqualSequence())
+                .Fail(should => should.EqualSequence(1));
     }
 
     public class EqualSequence_IgnoringCase : ExtensionMethodTestFixture<string[], EqualSequence_IgnoringCase>
@@ -110,145 +110,145 @@ public static class ObjectVerificationProviderExtensionMethodTests
         static EqualSequence_IgnoringCase() =>
             For(new[] { "a", "b", "c" })
                 .When(x => x.IgnoringCase)
-                .Pass(x => x.EqualSequence("a", "B", "c"));
+                .Pass(should => should.EqualSequence("a", "B", "c"));
     }
 
     public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
     {
         static Contain_IEnumerable() =>
             For(new[] { 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.Contain(null as IEnumerable<int>))
-                .ThrowsArgumentException(x => x.Contain())
-                .Pass(x => x.Contain(2, 3))
-                .Pass(x => x.Contain(5))
-                .Pass(x => x.Contain(5, 5))
-                .Fail(x => x.Contain(4, 6));
+                .ThrowsArgumentNullException(should => should.Contain(null as IEnumerable<int>))
+                .ThrowsArgumentException(should => should.Contain())
+                .Pass(should => should.Contain(2, 3))
+                .Pass(should => should.Contain(5))
+                .Pass(should => should.Contain(5, 5))
+                .Fail(should => should.Contain(4, 6));
     }
 
     public class ContainAny_IEnumerable : ExtensionMethodTestFixture<int[], ContainAny_IEnumerable>
     {
         static ContainAny_IEnumerable() =>
             For(new[] { 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.ContainAny(null as IEnumerable<int>))
-                .ThrowsArgumentException(x => x.ContainAny())
-                .Pass(x => x.ContainAny(4, 5))
-                .Pass(x => x.ContainAny(5))
-                .Pass(x => x.ContainAny(5, 5))
-                .Fail(x => x.ContainAny(4, 6));
+                .ThrowsArgumentNullException(should => should.ContainAny(null as IEnumerable<int>))
+                .ThrowsArgumentException(should => should.ContainAny())
+                .Pass(should => should.ContainAny(4, 5))
+                .Pass(should => should.ContainAny(5))
+                .Pass(should => should.ContainAny(5, 5))
+                .Fail(should => should.ContainAny(4, 6));
     }
 
     public class StartWith_IEnumerable : ExtensionMethodTestFixture<int[], StartWith_IEnumerable>
     {
         static StartWith_IEnumerable() =>
             For(new[] { 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.StartWith(null as IEnumerable<int>))
-                .ThrowsArgumentException(x => x.StartWith())
-                .Pass(x => x.StartWith(1))
-                .Pass(x => x.StartWith(1, 2, 3))
-                .Fail(x => x.StartWith(1, 2, 3, 5, 6))
-                .Fail(x => x.StartWith(1, 3))
-                .Fail(x => x.StartWith(9));
+                .ThrowsArgumentNullException(should => should.StartWith(null as IEnumerable<int>))
+                .ThrowsArgumentException(should => should.StartWith())
+                .Pass(should => should.StartWith(1))
+                .Pass(should => should.StartWith(1, 2, 3))
+                .Fail(should => should.StartWith(1, 2, 3, 5, 6))
+                .Fail(should => should.StartWith(1, 3))
+                .Fail(should => should.StartWith(9));
     }
 
     public class StartWithAny_IEnumerable : ExtensionMethodTestFixture<int[], StartWithAny_IEnumerable>
     {
         static StartWithAny_IEnumerable() =>
             For(new[] { 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.StartWithAny(null as IEnumerable<int>))
-                .ThrowsArgumentException(x => x.StartWithAny())
-                .Pass(x => x.StartWithAny(1))
-                .Pass(x => x.StartWithAny(8, 1, 9))
-                .Fail(x => x.StartWithAny(2, 3))
-                .Fail(x => x.StartWithAny(9));
+                .ThrowsArgumentNullException(should => should.StartWithAny(null as IEnumerable<int>))
+                .ThrowsArgumentException(should => should.StartWithAny())
+                .Pass(should => should.StartWithAny(1))
+                .Pass(should => should.StartWithAny(8, 1, 9))
+                .Fail(should => should.StartWithAny(2, 3))
+                .Fail(should => should.StartWithAny(9));
     }
 
     public class StartWithAny_string : ExtensionMethodTestFixture<string, StartWithAny_string>
     {
         static StartWithAny_string() =>
             For("abcdef")
-                .ThrowsArgumentNullException(x => x.StartWithAny(null))
-                .ThrowsArgumentException(x => x.StartWithAny())
-                .Pass(x => x.StartWithAny("a"))
-                .Pass(x => x.StartWithAny("abc"))
-                .Fail(x => x.StartWithAny("zbc"))
-                .Fail(x => x.StartWithAny("z", "x"));
+                .ThrowsArgumentNullException(should => should.StartWithAny(null))
+                .ThrowsArgumentException(should => should.StartWithAny())
+                .Pass(should => should.StartWithAny("a"))
+                .Pass(should => should.StartWithAny("abc"))
+                .Fail(should => should.StartWithAny("zbc"))
+                .Fail(should => should.StartWithAny("z", "x"));
     }
 
     public class EndWith_IEnumerable : ExtensionMethodTestFixture<int[], EndWith_IEnumerable>
     {
         static EndWith_IEnumerable() =>
             For(new[] { 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.EndWith(null as IEnumerable<int>))
-                .ThrowsArgumentException(x => x.EndWith())
-                .Pass(x => x.EndWith(5))
-                .Pass(x => x.EndWith(2, 3, 5))
-                .Fail(x => x.EndWith(0, 1, 2, 3, 5))
-                .Fail(x => x.EndWith(2, 5))
-                .Fail(x => x.EndWith(9));
+                .ThrowsArgumentNullException(should => should.EndWith(null as IEnumerable<int>))
+                .ThrowsArgumentException(should => should.EndWith())
+                .Pass(should => should.EndWith(5))
+                .Pass(should => should.EndWith(2, 3, 5))
+                .Fail(should => should.EndWith(0, 1, 2, 3, 5))
+                .Fail(should => should.EndWith(2, 5))
+                .Fail(should => should.EndWith(9));
     }
 
     public class EndWithAny_IEnumerable : ExtensionMethodTestFixture<int[], EndWithAny_IEnumerable>
     {
         static EndWithAny_IEnumerable() =>
             For(new[] { 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.EndWithAny(null as IEnumerable<int>))
-                .ThrowsArgumentException(x => x.EndWithAny())
-                .Pass(x => x.EndWithAny(5))
-                .Pass(x => x.EndWithAny(8, 5, 9))
-                .Fail(x => x.EndWithAny(2, 3))
-                .Fail(x => x.EndWithAny(9));
+                .ThrowsArgumentNullException(should => should.EndWithAny(null as IEnumerable<int>))
+                .ThrowsArgumentException(should => should.EndWithAny())
+                .Pass(should => should.EndWithAny(5))
+                .Pass(should => should.EndWithAny(8, 5, 9))
+                .Fail(should => should.EndWithAny(2, 3))
+                .Fail(should => should.EndWithAny(9));
     }
 
     public class EndWithAny_string : ExtensionMethodTestFixture<string, EndWithAny_string>
     {
         static EndWithAny_string() =>
             For("abcdef")
-                .ThrowsArgumentNullException(x => x.EndWithAny(null))
-                .ThrowsArgumentException(x => x.EndWithAny())
-                .Pass(x => x.EndWithAny("f"))
-                .Pass(x => x.EndWithAny("def"))
-                .Fail(x => x.EndWithAny("dea"))
-                .Fail(x => x.EndWithAny("a", "b"));
+                .ThrowsArgumentNullException(should => should.EndWithAny(null))
+                .ThrowsArgumentException(should => should.EndWithAny())
+                .Pass(should => should.EndWithAny("f"))
+                .Pass(should => should.EndWithAny("def"))
+                .Fail(should => should.EndWithAny("dea"))
+                .Fail(should => should.EndWithAny("a", "b"));
     }
 
     public class ConsistOf : ExtensionMethodTestFixture<int[], ConsistOf>
     {
         static ConsistOf() =>
             For(new[] { 1, 2, 3 })
-                .ThrowsArgumentNullException(x => x.ConsistOf(null))
-                .ThrowsArgumentException(x => x.ConsistOf())
-                .Pass(x => x.ConsistOf(x => x == 3, x => x > 0, x => x == 2))
-                .Pass(x => x.ConsistOf(x => x < 3, x => x > 1, x => x != 2))
-                .Pass(x => x.ConsistOf(x => x > 1, x => x > 0, x => x > 1))
-                .Pass(x => x.ConsistOf(x => x > 0, x => x > 0, x => x > 0))
-                .Fail(x => x.ConsistOf(x => x > 0))
-                .Fail(x => x.ConsistOf(x => x > 0, x => x > 0, x => x > 0, x => x > 0))
-                .Fail(x => x.ConsistOf(x => x == 1, x => x == 2, x => x != 3));
+                .ThrowsArgumentNullException(should => should.ConsistOf(null))
+                .ThrowsArgumentException(should => should.ConsistOf())
+                .Pass(should => should.ConsistOf(x => x == 3, x => x > 0, x => x == 2))
+                .Pass(should => should.ConsistOf(x => x < 3, x => x > 1, x => x != 2))
+                .Pass(should => should.ConsistOf(x => x > 1, x => x > 0, x => x > 1))
+                .Pass(should => should.ConsistOf(x => x > 0, x => x > 0, x => x > 0))
+                .Fail(should => should.ConsistOf(x => x > 0))
+                .Fail(should => should.ConsistOf(x => x > 0, x => x > 0, x => x > 0, x => x > 0))
+                .Fail(should => should.ConsistOf(x => x == 1, x => x == 2, x => x != 3));
     }
 
     public class ConsistOf_WhenHas1Item : ExtensionMethodTestFixture<int[], ConsistOf_WhenHas1Item>
     {
         static ConsistOf_WhenHas1Item() =>
             For(new[] { 1 })
-                .Pass(x => x.ConsistOf(x => x == 1))
-                .Fail(x => x.ConsistOf(x => x == 2));
+                .Pass(should => should.ConsistOf(x => x == 1))
+                .Fail(should => should.ConsistOf(x => x == 2));
     }
 
     public class ConsistOnlyOf : ExtensionMethodTestFixture<int[], ConsistOnlyOf>
     {
         static ConsistOnlyOf() =>
             For(new[] { 3, 3, 3 })
-                .Pass(x => x.ConsistOnlyOf(3))
-                .Fail(x => x.ConsistOnlyOf(7));
+                .Pass(should => should.ConsistOnlyOf(3))
+                .Fail(should => should.ConsistOnlyOf(7));
     }
 
     public class ConsistOnlyOf_Expression : ExtensionMethodTestFixture<int[], ConsistOnlyOf_Expression>
     {
         static ConsistOnlyOf_Expression() =>
             For(new[] { 1, 2, 3, 5 })
-                .ThrowsArgumentNullException(x => x.ConsistOnlyOf(null))
-                .Pass(x => x.ConsistOnlyOf(x => x > 0))
-                .Fail(x => x.ConsistOnlyOf(x => x > 1));
+                .ThrowsArgumentNullException(should => should.ConsistOnlyOf(null))
+                .Pass(should => should.ConsistOnlyOf(x => x > 0))
+                .Fail(should => should.ConsistOnlyOf(x => x > 1));
     }
 
     public abstract class ExtensionMethodTestFixture<TObject, TFixture>

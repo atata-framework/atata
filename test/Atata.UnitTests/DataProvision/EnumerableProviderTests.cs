@@ -102,7 +102,7 @@ public class EnumerableProviderTests
                 this,
                 new DynamicObjectSource<IEnumerable<TestItem>, TestOwner>(
                     this,
-                    x => _sourceValuesGetFunction.Invoke()
+                    _ => _sourceValuesGetFunction.Invoke()
                         .Select((v, i) => new TestItem(v, i))),
                 nameof(Items));
     }

@@ -363,7 +363,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             {
                 bool isOk = Driver
                     .Try(timeoutTime, retryIntervalTime)
-                    .Until(x =>
+                    .Until(_ =>
                     {
                         activePageObject = activePageObject.RefreshPage();
                         return predicate(activePageObject);

@@ -68,7 +68,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
             .UseChrome()
                 .WithArguments(ChromeArguments)
             .ConfigureChrome()
-                .WithOptions(x => isChromeConfigurationInvoked = true)
+                .WithOptions(_ => isChromeConfigurationInvoked = true)
             .Build();
 
         isChromeConfigurationInvoked.Should().BeTrue();

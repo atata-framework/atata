@@ -17,7 +17,7 @@ public class UIComponentMetadataTests
 
     [SetUp]
     public void SetUp() =>
-        _metadata = new UIComponentMetadata("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage));
+        _metadata = new("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage));
 
     public class Get : UIComponentMetadataTests
     {
@@ -165,11 +165,11 @@ public class UIComponentMetadataTests
         [Test]
         public void ForAttribute_AllLevelsWithoutTarget()
         {
-            Declared.Add(new FindSettingsAttribute { });
-            ParentComponent.Add(new FindSettingsAttribute { });
-            Assembly.Add(new FindSettingsAttribute { });
-            Global.Add(new FindSettingsAttribute { });
-            Component.Add(new FindSettingsAttribute { });
+            Declared.Add(new FindSettingsAttribute());
+            ParentComponent.Add(new FindSettingsAttribute());
+            Assembly.Add(new FindSettingsAttribute());
+            Global.Add(new FindSettingsAttribute());
+            Component.Add(new FindSettingsAttribute());
 
             _metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>())
                 .Should().BeSameSequenceAs(All(Declared, Assembly, Global, Component));
@@ -191,11 +191,11 @@ public class UIComponentMetadataTests
         [Test]
         public void ForAttribute_AllLevelsHaveAppropriateTarget()
         {
-            Declared.Add(new FindSettingsAttribute { });
+            Declared.Add(new FindSettingsAttribute());
             ParentComponent.Add(new FindSettingsAttribute { TargetAnyType = true });
-            Assembly.Add(new FindSettingsAttribute { });
-            Global.Add(new FindSettingsAttribute { });
-            Component.Add(new FindSettingsAttribute { });
+            Assembly.Add(new FindSettingsAttribute());
+            Global.Add(new FindSettingsAttribute());
+            Component.Add(new FindSettingsAttribute());
 
             _metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute<FindByIdAttribute>())
                 .Should().BeSameSequenceAs(All(Declared, ParentComponent, Assembly, Global, Component));
@@ -206,7 +206,7 @@ public class UIComponentMetadataTests
         {
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(TermFindAttribute) });
             Declared.Add(new FindSettingsAttribute { TargetAttributeTypes = new[] { typeof(FindByXPathAttribute), typeof(FindByIdAttribute) } });
-            Declared.Add(new FindSettingsAttribute { });
+            Declared.Add(new FindSettingsAttribute());
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByLabelAttribute) });
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindAttribute) });
 
@@ -220,9 +220,9 @@ public class UIComponentMetadataTests
         [Test]
         public void One()
         {
-            Assembly.Add(new FindSettingsAttribute { });
+            Assembly.Add(new FindSettingsAttribute());
 
-            var pushed = new FindSettingsAttribute { };
+            var pushed = new FindSettingsAttribute();
 
             _metadata.Push(pushed);
 
@@ -239,9 +239,9 @@ public class UIComponentMetadataTests
         [Test]
         public void Multiple()
         {
-            Assembly.Add(new FindSettingsAttribute { });
+            Assembly.Add(new FindSettingsAttribute());
 
-            var pushed = new List<FindSettingsAttribute> { new FindSettingsAttribute { }, new FindSettingsAttribute { } };
+            var pushed = new List<FindSettingsAttribute> { new FindSettingsAttribute(), new FindSettingsAttribute() };
 
             _metadata.Push(pushed);
 

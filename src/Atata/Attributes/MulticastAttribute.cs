@@ -189,7 +189,7 @@ public abstract class MulticastAttribute : Attribute
             if (value)
             {
                 if (!IsTargetSpecified)
-                    TargetAnyType = value;
+                    TargetAnyType = true;
             }
             else
             {
