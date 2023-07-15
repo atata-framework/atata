@@ -295,6 +295,8 @@ dotnet_diagnostic.S1109.severity = warning
 
 dotnet_diagnostic.S113.severity = warning
 
+dotnet_diagnostic.S881.severity = warning
+
 dotnet_diagnostic.S1133.severity = none
 
 dotnet_diagnostic.S1135.severity = none
@@ -377,7 +379,8 @@ dotnet_diagnostic.S4070.severity = none
 
 dotnet_diagnostic.S4261.severity = warning
 
-dotnet_diagnostic.S881.severity = warning
+# S6562: Always set the "DateTimeKind" when creating new "DateTime" instances
+dotnet_diagnostic.S6562.severity = none
 
 ###############################
 # StyleCop.Analyzers          #
