@@ -3,6 +3,7 @@ Atata
 autocomplete
 CDP
 clearable
+CLI
 clickable
 combobox
 concat
@@ -26,6 +27,7 @@ metadata
 Mui
 multicast
 multiline
+mutex
 nullable
 polyline
 popup
