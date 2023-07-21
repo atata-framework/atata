@@ -561,6 +561,8 @@ public sealed class AtataContext : IDisposable
 
                 UIComponentAccessChainScopeCache.Release();
 
+                EventBus.Publish(new DriverDeInitEvent(_driver));
+
                 if (quitDriver)
                     _driver?.Dispose();
             });
@@ -620,6 +622,7 @@ public sealed class AtataContext : IDisposable
                     PageObject = null;
                 }
 
+                EventBus.Publish(new DriverDeInitEvent(_driver));
                 _driver.Dispose();
 
                 InitDriver();
