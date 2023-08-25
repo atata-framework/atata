@@ -16,6 +16,10 @@ public sealed class AtataContext : IDisposable
 
     private static AtataContext s_currentStaticContext;
 
+    private readonly AssertionVerificationStrategy _assertionVerificationStrategy;
+
+    private readonly ExpectationVerificationStrategy _expectationVerificationStrategy;
+
     private string _testName;
 
     private string _testSuiteName;
@@ -36,6 +40,9 @@ public sealed class AtataContext : IDisposable
 
     internal AtataContext()
     {
+        _assertionVerificationStrategy = new AssertionVerificationStrategy(this);
+        _expectationVerificationStrategy = new ExpectationVerificationStrategy(this);
+
         Go = new AtataNavigator(this);
         Report = new Report<AtataContext>(this, this);
     }
@@ -921,6 +928,22 @@ public sealed class AtataContext : IDisposable
 
         return absoluteFilePath;
     }
+
+    /// <summary>
+    /// Raises the error by throwing an assertion exception.
+    /// </summary>
+    /// <param name="message">The message.</param>
+    /// <param name="exception">The optional exception.</param>
+    public void RaiseError(string message, Exception exception = null) =>
+        _assertionVerificationStrategy.ReportFailure(message, exception);
+
+    /// <summary>
+    /// Raises the warning by recording an assertion warning.
+    /// </summary>
+    /// <param name="message">The message.</param>
+    /// <param name="exception">The optional exception.</param>
+    public void RaiseWarning(string message, Exception exception = null) =>
+        _expectationVerificationStrategy.ReportFailure(message, exception);
 
     /// <summary>
     /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

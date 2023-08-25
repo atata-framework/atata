@@ -8,24 +8,35 @@
 /// </summary>
 public class ExpectationVerificationStrategy : IVerificationStrategy
 {
+    private readonly AtataContext _context;
+
+    public ExpectationVerificationStrategy()
+        : this(null)
+    {
+    }
+
+    public ExpectationVerificationStrategy(AtataContext context) =>
+        _context = context;
+
     public string VerificationKind => "Expect";
 
     public TimeSpan DefaultTimeout =>
-        AtataContext.Current?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
+        (_context ?? AtataContext.Current)?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
 
     public TimeSpan DefaultRetryInterval =>
-        AtataContext.Current?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
+        (_context ?? AtataContext.Current)?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
 
     public void ReportFailure(string message, Exception exception)
     {
         string completeMessage = $"Unexpected {message}";
-        string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
-
-        string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
-        AtataContext context = AtataContext.Current;
+        AtataContext context = _context ?? AtataContext.Current;
 
         if (context != null)
         {
+            string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
+
+            string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
+
             context.AssertionResults.Add(AssertionResult.ForWarning(completeMessageWithException, stackTrace));
             context.Log.Warn(completeMessageWithException);
 
