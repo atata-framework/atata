@@ -1,12 +1,12 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Specifies the assertion status.
+/// Specifies an assertion status.
 /// </summary>
 public enum AssertionStatus
 {
     /// <summary>
-    /// The assertion condition is passed.
+    /// Assertion condition is passed.
     /// </summary>
     Passed,
 
@@ -16,12 +16,12 @@ public enum AssertionStatus
     Warning,
 
     /// <summary>
-    /// The assertion condition is not met.
+    /// Assertion condition is not met.
     /// </summary>
     Failed,
 
     /// <summary>
-    /// The exception occured during assertion.
+    /// An exception occurred during assertion.
     /// </summary>
     Exception
 }
