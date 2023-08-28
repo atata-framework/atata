@@ -83,6 +83,7 @@
 [assembly: SuppressMessage("Naming", "CA1708:Identifiers should differ by more than case", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.IUIComponentVerificationProviderExtensions")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ContentExtractor.Get``1(Atata.IUIComponent{``0},Atata.ContentSource)~System.String")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataPathTemplateStringFormatter.Format(System.String,System.Object,System.IFormatProvider)~System.String")]
+[assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.EnableBrowserLogMonitoringOnDriverInitEvent(OpenQA.Selenium.IWebDriver,Atata.AtataContext,System.Collections.Generic.IEnumerable{Atata.IBrowserLogHandler})")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseError(System.String,System.Exception)")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseWarning(System.String,System.Exception)")]
 

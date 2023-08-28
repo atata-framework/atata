@@ -274,6 +274,11 @@ public class AtataBuildingContext : ICloneable
     public PageSnapshotsConfiguration PageSnapshots { get; private set; } = new PageSnapshotsConfiguration();
 
     /// <summary>
+    /// Gets the configuration of browser logs monitoring and handling.
+    /// </summary>
+    public BrowserLogsConfiguration BrowserLogs { get; private set; } = new BrowserLogsConfiguration();
+
+    /// <summary>
     /// Gets or sets the name of the DOM test identifier attribute.
     /// The default value is <c>"data-testid"</c>.
     /// </summary>
@@ -325,6 +330,7 @@ public class AtataBuildingContext : ICloneable
         copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
         copy.Screenshots = Screenshots.Clone();
         copy.PageSnapshots = PageSnapshots.Clone();
+        copy.BrowserLogs = BrowserLogs.Clone();
 
         return copy;
     }

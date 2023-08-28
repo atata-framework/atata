@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Chromium;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
@@ -54,6 +55,11 @@ public class AtataContextBuilder
     /// Gets the builder of page snapshot configuration.
     /// </summary>
     public PageSnapshotsAtataContextBuilder PageSnapshots => new(BuildingContext);
+
+    /// <summary>
+    /// Gets the builder of browser logs configuration.
+    /// </summary>
+    public BrowserLogsAtataContextBuilder BrowserLogs => new(BuildingContext);
 
     /// <summary>
     /// Returns an existing or creates a new builder for <typeparamref name="TDriverBuilder"/> by the specified alias.
@@ -1174,6 +1180,8 @@ Actual: {driverFactory.GetType().FullName}",
 
         context.Log.Trace($"Set: Artifacts={context.Artifacts.FullName.Value}");
 
+        InitBrowserLogMonitoring(context);
+
         if (context.DriverInitializationStage == AtataContextDriverInitializationStage.Build)
             context.InitDriver();
 
@@ -1206,6 +1214,58 @@ Actual: {driverFactory.GetType().FullName}",
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
 
         context.Log.Trace($"Set: Culture={culture.Name}");
+    }
+
+    private void InitBrowserLogMonitoring(AtataContext context)
+    {
+        if (BuildingContext.BrowserLogs.HasPropertiesToUse)
+        {
+            if (context.DriverFactory is ChromeAtataContextBuilder chromeBuilder)
+            {
+                chromeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+            else if (context.DriverFactory is EdgeAtataContextBuilder edgeBuilder)
+            {
+                edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+
+            List<IBrowserLogHandler> browserLogHandlers = new(2);
+
+            if (BuildingContext.BrowserLogs.Log)
+                browserLogHandlers.Add(new LoggingBrowserLogHandler(context.Log));
+
+            if (BuildingContext.BrowserLogs.MinLevelOfWarning is not null)
+                browserLogHandlers.Add(new WarningBrowserLogHandler(context, BuildingContext.BrowserLogs.MinLevelOfWarning.Value));
+
+            context.EventBus.Subscribe<DriverInitEvent>(
+                (e, c) => EnableBrowserLogMonitoringOnDriverInitEvent(e.Driver, c, browserLogHandlers));
+        }
+    }
+
+    private static void EnableBrowserLogMonitoringOnDriverInitEvent(
+        IWebDriver driver,
+        AtataContext context,
+        IEnumerable<IBrowserLogHandler> browserLogHandlers)
+    {
+        if (driver is ChromiumDriver)
+        {
+            ChromiumBrowserLogMonitoringStrategy logMonitoringStrategy = new(driver, browserLogHandlers, context.TimeZone);
+
+            logMonitoringStrategy.Start();
+
+            object driverDeInitEventSubscription = null;
+
+            var eventBus = context.EventBus;
+            driverDeInitEventSubscription = eventBus.Subscribe<DriverDeInitEvent>(() =>
+            {
+                logMonitoringStrategy.Stop();
+                eventBus.Unsubscribe(driverDeInitEventSubscription);
+            });
+        }
+        else
+        {
+            context.Log.Warn("Browser logs monitoring cannot be enabled. The feature is currently only available for Chrome and Edge.");
+        }
     }
 
     private void ValidateBuildingContextBeforeBuild()
