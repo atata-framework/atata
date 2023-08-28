@@ -128,7 +128,7 @@ public static class ValueRandomizer
     {
         var includeAttribute = metadata.Get<RandomizeIncludeAttribute>();
 
-        return includeAttribute?.Values?.Cast<T>()?.ToArray();
+        return includeAttribute?.Values?.Cast<T>().ToArray();
     }
 
     public static T GetRandom<T>(UIComponentMetadata metadata)
