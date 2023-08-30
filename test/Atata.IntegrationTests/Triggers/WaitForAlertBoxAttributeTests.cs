@@ -12,7 +12,7 @@ public class WaitForAlertBoxAttributeTests : UITestFixture
 
         sut.Click();
 
-        AtataContext.Current.Driver.SwitchTo().Alert().Text.Should().Be("Alert with delay!!!");
+        AssertThatPopupBoxIsOpen();
     }
 
     [Test]

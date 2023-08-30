@@ -10,7 +10,6 @@ public class CloseAlertBoxAttributeTests : UITestFixture
 
         sut.Click();
 
-        Assert.Throws<NoAlertPresentException>(() =>
-            _ = AtataContext.Current.Driver.SwitchTo().Alert());
+        AssertThatPopupBoxIsNotOpen();
     }
 }

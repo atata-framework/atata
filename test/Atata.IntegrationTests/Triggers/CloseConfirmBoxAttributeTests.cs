@@ -13,8 +13,7 @@ public class CloseConfirmBoxAttributeTests : UITestFixture
 
         sut.Click();
 
-        Assert.Throws<NoAlertPresentException>(() =>
-            _ = AtataContext.Current.Driver.SwitchTo().Alert());
+        AssertThatPopupBoxIsNotOpen();
         page.PageTitle.Should.StartWith("Go");
     }
 
@@ -27,8 +26,7 @@ public class CloseConfirmBoxAttributeTests : UITestFixture
 
         sut.Click();
 
-        Assert.Throws<NoAlertPresentException>(() =>
-            _ = AtataContext.Current.Driver.SwitchTo().Alert());
+        AssertThatPopupBoxIsNotOpen();
         page.PageTitle.Should.StartWith("Popup Box");
     }
 }

@@ -133,6 +133,14 @@ public abstract class UITestFixtureBase
         fileContent.Should().NotContainAll(texts);
     }
 
+    protected static void AssertThatPopupBoxIsOpen() =>
+        Assert.DoesNotThrow(() =>
+            AtataContext.Current.Driver.SwitchTo().Alert());
+
+    protected static void AssertThatPopupBoxIsNotOpen() =>
+        Assert.Throws<NoAlertPresentException>(() =>
+            AtataContext.Current.Driver.SwitchTo().Alert());
+
     protected void VerifyLastLogMessages(LogLevel minLogLevel, params string[] expectedMessages)
     {
         string[] actualMessages = GetLastLogMessages(minLogLevel, expectedMessages.Length);
