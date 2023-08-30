@@ -11,9 +11,7 @@ public class CloseAlertBoxAttribute : TriggerAttribute
     {
     }
 
-    protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
-    {
-        context.Driver.SwitchTo().Alert().Accept();
-        context.Driver.SwitchTo().DefaultContent();
-    }
+    protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
+        context.Component.Owner.SwitchToAlertBox()
+            .Accept();
 }

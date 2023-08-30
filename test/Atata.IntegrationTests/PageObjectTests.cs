@@ -170,4 +170,86 @@ public class PageObjectTests : UITestFixture
             .Header.Should.Equal("Frame Inner 1")
             .TextInput.Should.Equal("abc");
     }
+
+    [Test]
+    public void SwitchToAlertBox()
+    {
+        var sut = Go.To<PopupBoxPage>()
+            .AlertButton.Click();
+        AssertThatPopupBoxIsOpen();
+
+        sut.SwitchToAlertBox()
+            .Text.Should.Be("Alert!!!")
+            .Accept();
+
+        AssertThatPopupBoxIsNotOpen();
+    }
+
+    [Test]
+    public void SwitchToAlertBox_WithDelayedOpen()
+    {
+        var sut = Go.To<PopupBoxPage>()
+            .AlertWithDelayButton.Click();
+
+        sut.SwitchToAlertBox()
+            .Accept();
+
+        AssertThatPopupBoxIsNotOpen();
+    }
+
+    [Test]
+    public void SwitchToConfirmBox_AndAccept()
+    {
+        var sut = Go.To<PopupBoxPage>()
+            .ConfirmButton.Click();
+        AssertThatPopupBoxIsOpen();
+
+        sut.SwitchToConfirmBox()
+            .Text.Should.Be("Are you sure?")
+            .Accept();
+
+        AssertThatPopupBoxIsNotOpen();
+    }
+
+    [Test]
+    public void SwitchToConfirmBox_AndCancel()
+    {
+        var sut = Go.To<PopupBoxPage>()
+            .ConfirmButton.Click();
+
+        sut.SwitchToConfirmBox()
+            .Cancel();
+
+        AssertThatPopupBoxIsNotOpen();
+    }
+
+    [Test]
+    public void SwitchToPromptBox_AndAccept()
+    {
+        var sut = Go.To<PopupBoxPage>()
+            .PromptButton.Click();
+        AssertThatPopupBoxIsOpen();
+
+        sut.SwitchToPromptBox()
+            .Text.Should.Be("What is your name?")
+            .Type("John")
+            .Accept();
+
+        AssertThatPopupBoxIsNotOpen();
+        sut.PromptEnteredValue.Should.Be("John");
+    }
+
+    [Test]
+    public void SwitchToPromptBox_AndCancel()
+    {
+        var sut = Go.To<PopupBoxPage>()
+            .PromptButton.Click();
+
+        sut.SwitchToPromptBox()
+            .Type("John")
+            .Cancel();
+
+        AssertThatPopupBoxIsNotOpen();
+        sut.PromptEnteredValue.Should.BeEmpty();
+    }
 }

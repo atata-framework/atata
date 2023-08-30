@@ -15,13 +15,11 @@ public class CloseConfirmBoxAttribute : TriggerAttribute
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
     {
-        IAlert alert = context.Driver.SwitchTo().Alert();
+        var confirmBox = context.Component.Owner.SwitchToConfirmBox();
 
         if (Accept)
-            alert.Accept();
+            confirmBox.Accept();
         else
-            alert.Dismiss();
-
-        context.Driver.SwitchTo().DefaultContent();
+            confirmBox.Cancel();
     }
 }

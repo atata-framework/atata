@@ -86,5 +86,6 @@
 [assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.EnableBrowserLogMonitoringOnDriverInitEvent(OpenQA.Selenium.IWebDriver,Atata.AtataContext,System.Collections.Generic.IEnumerable{Atata.IBrowserLogHandler})")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseError(System.String,System.Exception)")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseWarning(System.String,System.Exception)")]
+[assembly: SuppressMessage("Style", "IDE0053:Use expression body for lambda expression", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.PopupBox`2.WaitForAppearance(System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})~`0")]
 
 #pragma warning restore S103 // Lines should not be too long

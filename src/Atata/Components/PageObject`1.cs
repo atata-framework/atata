@@ -315,6 +315,51 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     }
 
     /// <summary>
+    /// Waits and switches to the open alert box.
+    /// By default, if <paramref name="waitTimeout"/> and <paramref name="waitRetryInterval"/>
+    /// arguments are not specified, the <see cref="AtataContext.WaitingTimeout"/>
+    /// and <see cref="AtataContext.WaitingRetryInterval"/> values are used correspondingly.
+    /// If alert box does not appear within the specified time, the <see cref="TimeoutException"/> is thrown.
+    /// </summary>
+    /// <param name="waitTimeout">The wait timeout.</param>
+    /// <param name="waitRetryInterval">The wait retry interval.</param>
+    /// <exception cref="TimeoutException">Timed out waiting for alert box.</exception>
+    /// <returns>The new <see cref="AlertBox{TOwner}"/> instance.</returns>
+    public AlertBox<TOwner> SwitchToAlertBox(TimeSpan? waitTimeout = null, TimeSpan? waitRetryInterval = null) =>
+        new AlertBox<TOwner>((TOwner)this)
+            .WaitForAppearance(waitTimeout, waitRetryInterval);
+
+    /// <summary>
+    /// Waits and switches to the open confirm box.
+    /// By default, if <paramref name="waitTimeout"/> and <paramref name="waitRetryInterval"/>
+    /// arguments are not specified, the <see cref="AtataContext.WaitingTimeout"/>
+    /// and <see cref="AtataContext.WaitingRetryInterval"/> values are used correspondingly.
+    /// If confirm box does not appear within the specified time, the <see cref="TimeoutException"/> is thrown.
+    /// </summary>
+    /// <param name="waitTimeout">The wait timeout.</param>
+    /// <param name="waitRetryInterval">The wait retry interval.</param>
+    /// <exception cref="TimeoutException">Timed out waiting for confirm box.</exception>
+    /// <returns>The new <see cref="ConfirmBox{TOwner}"/> instance.</returns>
+    public ConfirmBox<TOwner> SwitchToConfirmBox(TimeSpan? waitTimeout = null, TimeSpan? waitRetryInterval = null) =>
+        new ConfirmBox<TOwner>((TOwner)this)
+            .WaitForAppearance(waitTimeout, waitRetryInterval);
+
+    /// <summary>
+    /// Waits and switches to the open prompt box.
+    /// By default, if <paramref name="waitTimeout"/> and <paramref name="waitRetryInterval"/>
+    /// arguments are not specified, the <see cref="AtataContext.WaitingTimeout"/>
+    /// and <see cref="AtataContext.WaitingRetryInterval"/> values are used correspondingly.
+    /// If confirm box does not appear within the specified time, the <see cref="TimeoutException"/> is thrown.
+    /// </summary>
+    /// <param name="waitTimeout">The wait timeout.</param>
+    /// <param name="waitRetryInterval">The wait retry interval.</param>
+    /// <exception cref="TimeoutException">Timed out waiting for prompt box.</exception>
+    /// <returns>The new <see cref="PromptBox{TOwner}"/> instance.</returns>
+    public PromptBox<TOwner> SwitchToPromptBox(TimeSpan? waitTimeout = null, TimeSpan? waitRetryInterval = null) =>
+        new PromptBox<TOwner>((TOwner)this)
+            .WaitForAppearance(waitTimeout, waitRetryInterval);
+
+    /// <summary>
     /// Refreshes the current page.
     /// </summary>
     /// <returns>The instance of this page object.</returns>
