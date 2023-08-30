@@ -7,9 +7,11 @@ public class CloseConfirmBoxAttributeTests : UITestFixture
     [Test]
     public void Execute_WithAcceptTrue()
     {
-        var page = Go.To<MessageBoxPage>();
+        var page = Go.To<PopupBoxPage>();
+        var sut = page.ConfirmButton;
+        sut.Metadata.Push(new CloseConfirmBoxAttribute());
 
-        page.ConfirmButton.Click();
+        sut.Click();
 
         Assert.Throws<NoAlertPresentException>(() =>
             _ = AtataContext.Current.Driver.SwitchTo().Alert());
@@ -19,12 +21,14 @@ public class CloseConfirmBoxAttributeTests : UITestFixture
     [Test]
     public void Execute_WithAcceptFalse()
     {
-        var page = Go.To<MessageBoxPage>();
+        var page = Go.To<PopupBoxPage>();
+        var sut = page.ConfirmButton;
+        sut.Metadata.Push(new CloseConfirmBoxAttribute(false));
 
-        page.ConfirmButtonWithReject.Click();
+        sut.Click();
 
         Assert.Throws<NoAlertPresentException>(() =>
             _ = AtataContext.Current.Driver.SwitchTo().Alert());
-        page.PageTitle.Should.StartWith("Message Box");
+        page.PageTitle.Should.StartWith("Popup Box");
     }
 }

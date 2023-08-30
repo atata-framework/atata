@@ -7,8 +7,10 @@ public class WaitForAlertBoxAttributeTests : UITestFixture
     [Test]
     public void Execute()
     {
-        Go.To<MessageBoxPage>()
-            .AlertWithDelayButton.Click();
+        var sut = Go.To<PopupBoxPage>().AlertWithDelayButton;
+        sut.Metadata.Push(new WaitForAlertBoxAttribute());
+
+        sut.Click();
 
         AtataContext.Current.Driver.SwitchTo().Alert().Text.Should().Be("Alert with delay!!!");
     }
@@ -16,7 +18,7 @@ public class WaitForAlertBoxAttributeTests : UITestFixture
     [Test]
     public void Execute_WithTimeout()
     {
-        var sut = Go.To<MessageBoxPage>().NoneButton;
+        var sut = Go.To<PopupBoxPage>().NoneButton;
         sut.Metadata.Push(new WaitForAlertBoxAttribute { Timeout = 1 });
 
         Assert.Throws<TimeoutException>(() =>
