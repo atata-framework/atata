@@ -22,6 +22,9 @@ public class TablePage : Page<_>
     public Table<CountryTableRow, _> CountryTable { get; private set; }
 
     [FindByIndex(1)]
+    public Table<CountryTableWithCustomControlDefinitionRow, _> CountryTableWithCustomControlDefinitionOfRow { get; private set; }
+
+    [FindByIndex(1)]
     public Table<CountryByColumnIndexTableRow, _> CountryByColumnIndexTable { get; private set; }
 
     [FindById(CutEnding = false)]
@@ -53,6 +56,14 @@ public class TablePage : Page<_>
     }
 
     public class CountryTableRow : TableRow<_>
+    {
+        public Text<_> Country { get; private set; }
+
+        public Text<_> Capital { get; private set; }
+    }
+
+    [ControlDefinition("tbody/tr[position() > 1]", ComponentTypeName = "row")]
+    public class CountryTableWithCustomControlDefinitionRow : TableRow<_>
     {
         public Text<_> Country { get; private set; }
 

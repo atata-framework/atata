@@ -142,4 +142,33 @@ public class TableTests : UITestFixture
         sut.Rows[0].Value.Should.Equal(1);
         sut.Rows[x => x.Key == "A"].Value.Should.Equal(1);
     }
+
+    [Test]
+    public void Rows_ForEach()
+    {
+        Queue<string> expectedClountryNames = new Queue<string>(new[]
+        {
+            "England",
+            "France",
+            "Germany"
+        });
+
+        _page.CountryTable.Rows.ForEach(
+            x => x.Country.Value.Should().Be(expectedClountryNames.Dequeue()));
+        Assert.That(expectedClountryNames, Is.Empty);
+    }
+
+    [Test]
+    public void Rows_ForEach_WithCustomControlDefinitionOfRow()
+    {
+        Queue<string> expectedClountryNames = new Queue<string>(new[]
+        {
+            "France",
+            "Germany"
+        });
+
+        _page.CountryTableWithCustomControlDefinitionOfRow.Rows.ForEach(
+            x => x.Country.Value.Should().Be(expectedClountryNames.Dequeue()));
+        Assert.That(expectedClountryNames, Is.Empty);
+    }
 }
