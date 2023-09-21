@@ -1228,6 +1228,10 @@ Actual: {driverFactory.GetType().FullName}",
             {
                 edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
+            else if (context.DriverFactory is RemoteDriverAtataContextBuilder remoteBuilder)
+            {
+                remoteBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
 
             List<IBrowserLogHandler> browserLogHandlers = new(2);
 
@@ -1247,11 +1251,22 @@ Actual: {driverFactory.GetType().FullName}",
         AtataContext context,
         IEnumerable<IBrowserLogHandler> browserLogHandlers)
     {
-        if (driver is ChromiumDriver)
+        if (driver is RemoteWebDriver remoteWebDriver)
+            remoteWebDriver.RegisterCustomDriverCommand(DriverCommand.GetLog, new HttpCommandInfo(HttpCommandInfo.PostCommand, "/session/{sessionId}/se/log"));
+
+        if (driver is ChromiumDriver or RemoteWebDriver)
         {
             ChromiumBrowserLogMonitoringStrategy logMonitoringStrategy = new(driver, browserLogHandlers, context.TimeZone);
 
-            logMonitoringStrategy.Start();
+            try
+            {
+                logMonitoringStrategy.Start();
+            }
+            catch (Exception exception)
+            {
+                context.Log.Warn("Browser logs monitoring failed to enable.", exception);
+                return;
+            }
 
             object driverDeInitEventSubscription = null;
 
