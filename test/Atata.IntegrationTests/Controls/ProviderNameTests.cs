@@ -375,6 +375,17 @@ public class ProviderNameTests : UITestFixture
     }
 
     [Test]
+    public void OfControlList_TakeWhile_Select()
+    {
+        var sut = _page
+            .Folders[2]
+            .Files.TakeWhile((x, i) => x.Name != "x" && i > 10)
+            .Select(x => x.Name);
+
+        AssertProviderNameIs(sut, "folders / 3rd item / files.TakeWhile((x, i) => x.Name != \"x\" && i > 10).Select(x => x.Name)");
+    }
+
+    [Test]
     public void OfControlList_Select_First()
     {
         var sut = _page

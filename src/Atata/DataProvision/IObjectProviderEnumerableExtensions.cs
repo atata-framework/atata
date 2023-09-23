@@ -301,6 +301,28 @@ public static class IObjectProviderEnumerableExtensions
             x => x.Skip(count),
             $"Skip({count})");
 
+    public static ValueProvider<IEnumerable<TSource>, TOwner> SkipWhile<TSource, TOwner>(
+        this IObjectProvider<IEnumerable<TSource>, TOwner> source,
+        Expression<Func<TSource, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.ValueOf(
+            x => x.SkipWhile(predicateFunction),
+            $"SkipWhile({ConvertToString(predicate)})");
+    }
+
+    public static ValueProvider<IEnumerable<TSource>, TOwner> SkipWhile<TSource, TOwner>(
+        this IObjectProvider<IEnumerable<TSource>, TOwner> source,
+        Expression<Func<TSource, int, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.ValueOf(
+            x => x.SkipWhile(predicateFunction),
+            $"SkipWhile({ConvertToString(predicate)})");
+    }
+
     public static ValueProvider<IEnumerable<TSource>, TOwner> Take<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,
         int count)
@@ -308,6 +330,28 @@ public static class IObjectProviderEnumerableExtensions
         source.ValueOf(
             x => x.Take(count),
             $"Take({count})");
+
+    public static ValueProvider<IEnumerable<TSource>, TOwner> TakeWhile<TSource, TOwner>(
+        this IObjectProvider<IEnumerable<TSource>, TOwner> source,
+        Expression<Func<TSource, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.ValueOf(
+            x => x.TakeWhile(predicateFunction),
+            $"TakeWhile({ConvertToString(predicate)})");
+    }
+
+    public static ValueProvider<IEnumerable<TSource>, TOwner> TakeWhile<TSource, TOwner>(
+        this IObjectProvider<IEnumerable<TSource>, TOwner> source,
+        Expression<Func<TSource, int, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.ValueOf(
+            x => x.TakeWhile(predicateFunction),
+            $"TakeWhile({ConvertToString(predicate)})");
+    }
 
     public static TSource[] ToArray<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)

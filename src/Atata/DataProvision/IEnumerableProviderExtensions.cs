@@ -225,6 +225,28 @@ public static class IEnumerableProviderExtensions
             $"Skip({count})",
             x => x.Skip(count));
 
+    public static EnumerableValueProvider<TSource, TOwner> SkipWhile<TSource, TOwner>(
+        this IEnumerableProvider<TSource, TOwner> source,
+        Expression<Func<TSource, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.CheckNotNull(nameof(source)).Query(
+            $"SkipWhile({ConvertToString(predicate)})",
+            x => x.SkipWhile(predicateFunction));
+    }
+
+    public static EnumerableValueProvider<TSource, TOwner> SkipWhile<TSource, TOwner>(
+        this IEnumerableProvider<TSource, TOwner> source,
+        Expression<Func<TSource, int, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.CheckNotNull(nameof(source)).Query(
+            $"SkipWhile({ConvertToString(predicate)})",
+            x => x.SkipWhile(predicateFunction));
+    }
+
     public static EnumerableValueProvider<TSource, TOwner> Take<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
         int count)
@@ -232,6 +254,28 @@ public static class IEnumerableProviderExtensions
         source.CheckNotNull(nameof(source)).Query(
             $"Take({count})",
             x => x.Take(count));
+
+    public static EnumerableValueProvider<TSource, TOwner> TakeWhile<TSource, TOwner>(
+        this IEnumerableProvider<TSource, TOwner> source,
+        Expression<Func<TSource, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.CheckNotNull(nameof(source)).Query(
+            $"TakeWhile({ConvertToString(predicate)})",
+            x => x.TakeWhile(predicateFunction));
+    }
+
+    public static EnumerableValueProvider<TSource, TOwner> TakeWhile<TSource, TOwner>(
+        this IEnumerableProvider<TSource, TOwner> source,
+        Expression<Func<TSource, int, bool>> predicate)
+    {
+        var predicateFunction = predicate.CheckNotNull(nameof(predicate)).Compile();
+
+        return source.CheckNotNull(nameof(source)).Query(
+            $"TakeWhile({ConvertToString(predicate)})",
+            x => x.TakeWhile(predicateFunction));
+    }
 
     public static EnumerableValueProvider<TSource, TOwner> Where<TSource, TOwner>(
         this IEnumerableProvider<TSource, TOwner> source,
