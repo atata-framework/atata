@@ -8,6 +8,7 @@ namespace Atata;
 
 public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteDriverAtataContextBuilder>
 {
+    [Obsolete("Don't use this constant as it will be removed.")] // Obsolete since v2.10.0.
     public const string DefaultRemoteServerUrl = "http://127.0.0.1:4444/wd/hub";
 
     /// <summary>
@@ -17,7 +18,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
 
     private readonly List<Action<DriverOptions>> _optionsInitializers = new();
 
-    private Uri _remoteAddress;
+    private Uri _remoteAddress = new("http://127.0.0.1:4444/");
 
     private Func<DriverOptions> _optionsFactory;
 
@@ -62,6 +63,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
 
     /// <summary>
     /// Specifies the remote address URI.
+    /// The default value is <c>"http://127.0.0.1:4444/"</c>.
     /// </summary>
     /// <param name="remoteAddress">URI containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
     /// <returns>The same builder instance.</returns>
@@ -73,6 +75,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
 
     /// <summary>
     /// Specifies the remote address URI.
+    /// The default value is <c>"http://127.0.0.1:4444/"</c>.
     /// </summary>
     /// <param name="remoteAddress">URI string containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
     /// <returns>The same builder instance.</returns>
@@ -209,6 +212,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
 
     /// <summary>
     /// Specifies the command timeout (the maximum amount of time to wait for each command).
+    /// The default value is <c>60</c> seconds.
     /// </summary>
     /// <param name="commandTimeout">The maximum amount of time to wait for each command.</param>
     /// <returns>The same builder instance.</returns>
