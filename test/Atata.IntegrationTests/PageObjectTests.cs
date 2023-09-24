@@ -36,7 +36,7 @@ public class PageObjectTests : UITestFixture
         Go.To<GoTo1Page>()
             .GoTo2()
                 .GoBack<GoTo1Page>()
-                .Should.Exist();
+                .Should.BePresent();
 
     [Test]
     public void GoBack_WithInappropriateTOther()
@@ -54,7 +54,7 @@ public class PageObjectTests : UITestFixture
             .GoTo2()
                 .GoBack<GoTo1Page>()
             .GoForward<GoTo2Page>()
-                .Should.Exist();
+                .Should.BePresent();
 
     [Test]
     public void GoForward_WithInappropriateTOther()

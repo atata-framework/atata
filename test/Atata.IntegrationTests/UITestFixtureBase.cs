@@ -49,7 +49,7 @@ public abstract class UITestFixtureBase
     protected static void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
         where TPage : PageObject<TPage>
     {
-        control.Should.Exist();
+        control.Should.BePresent();
 
         for (int i = 0; i < values.Length; i++)
         {

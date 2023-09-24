@@ -12,7 +12,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow1_0;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.BeEmpty();
         sut.Scope.TagName.Should().Be("style");
     }
@@ -22,7 +22,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow1_1;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.Equal("Shadow 1.1");
     }
 
@@ -31,7 +31,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow1_2;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.Equal("Shadow 1.2");
     }
 
@@ -59,7 +59,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.YesNoRadios;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Should.BeNull();
         sut.Set("No");
         sut.Should.Equal("No");
@@ -72,7 +72,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow2_1_1;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.Equal("2.1.1");
     }
 
@@ -81,7 +81,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow2_1_1_1;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.Equal("Shadow 2.1.1.1");
     }
 
@@ -90,7 +90,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow2_1_1_1_AtDifferentLevels;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.Equal("Shadow 2.1.1.1");
     }
 
@@ -99,7 +99,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow2_1_1_1_AtDifferentLevelsWithSetLayers;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.Equal("Shadow 2.1.1.1");
     }
 
@@ -108,7 +108,7 @@ public class FindingInShadowDomTests : UITestFixture
     {
         var sut = _page.Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Content.Should.Equal("2.1.1.1");
     }
 
@@ -130,7 +130,7 @@ public class FindingInShadowDomTests : UITestFixture
         var sut = _page.InvalidShadowRoot;
 
         AssertThrowsWithInnerException<AssertionException, WebDriverException>(() =>
-            sut.Should.Exist())
+            sut.Should.BePresent())
             .InnerException.Message.Should().Contain("Element doesn't have shadowRoot value");
     }
 }

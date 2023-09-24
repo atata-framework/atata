@@ -11,7 +11,7 @@ public class WaitForScriptAttributeTests : UITestFixture
     public void Execute() =>
         _page
             .ButtonWithSuccessfulScriptWait()
-            .ValueBlock.Should.AtOnce.Exist();
+            .ValueBlock.Should.AtOnce.BePresent();
 
     [Test]
     public void Execute_WithTimeout()

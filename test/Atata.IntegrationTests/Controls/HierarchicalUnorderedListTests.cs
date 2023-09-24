@@ -22,7 +22,7 @@ public class HierarchicalUnorderedListTests : UITestFixture
         sut.Descendants[0].Content.Should.Equal("Phone 5%");
         sut.Descendants.Contents.Should.EqualSequence("Phone 5%", "Book 10%", "Table 15%");
 
-        sut[1].Parent.Should.Not.Exist();
+        sut[1].Parent.Should.Not.BePresent();
     }
 
     [Test]
@@ -41,13 +41,13 @@ public class HierarchicalUnorderedListTests : UITestFixture
         sut.Descendants[6].Content.Should.Equal("Item 2.1.2");
         sut.Descendants.Contents.Should.Contain(TermMatch.Contains, "Item 2", "Item 2.1.2", "Item 1.2", "Item 2.1");
 
-        sut.Descendants[x => x.Content == "Item 2.1.1"].Should.Exist();
-        sut.Descendants[x => x.Content == "missing"].Should.Not.Exist();
+        sut.Descendants[x => x.Content == "Item 2.1.1"].Should.BePresent();
+        sut.Descendants[x => x.Content == "missing"].Should.Not.BePresent();
         sut.Descendants.Contents.Should.Contain("Item 2.1.1");
 
-        sut.Descendants[6].Parent.Should.Exist();
-        sut.Descendants[6].Parent.Parent.Should.Exist();
-        sut.Descendants[6].Parent.Parent.Parent.Should.Not.Exist();
+        sut.Descendants[6].Parent.Should.BePresent();
+        sut.Descendants[6].Parent.Parent.Should.BePresent();
+        sut.Descendants[6].Parent.Parent.Parent.Should.Not.BePresent();
 
         sut[0].Children.Count.Should.Equal(2);
         sut[1].Children.Count.Should.Equal(2);
@@ -74,13 +74,13 @@ public class HierarchicalUnorderedListTests : UITestFixture
         sut.Descendants[6].Name.Should.Equal("Item 2.1.2");
         sut.Descendants.SelectData(x => x.Name).Should.Contain("Item 2", "Item 2.1.2", "Item 1.2", "Item 2.1");
 
-        sut.Descendants[x => x.Name == "Item 2.1.1"].Should.Exist();
-        sut.Descendants[x => x.Name == "missing"].Should.Not.Exist();
+        sut.Descendants[x => x.Name == "Item 2.1.1"].Should.BePresent();
+        sut.Descendants[x => x.Name == "missing"].Should.Not.BePresent();
         sut.Descendants.Should.Contain(x => x.Name == "Item 2.1.1");
 
         sut.Descendants[6].Parent.Name.Should.Equal("Item 2.1");
         sut.Descendants[6].Parent.Parent.Name.Should.Equal("Item 2");
-        sut.Descendants[6].Parent.Parent.Parent.Should.Not.Exist();
+        sut.Descendants[6].Parent.Parent.Parent.Should.Not.BePresent();
 
         sut[0].Children.Count.Should.Equal(2);
         sut[1].Children.Count.Should.Equal(2);

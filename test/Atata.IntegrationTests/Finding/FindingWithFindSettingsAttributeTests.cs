@@ -10,16 +10,16 @@ public class FindingWithFindSettingsAttributeTests : UITestFixture
     [Test]
     public void WhenAtPageObject() =>
         _page
-            .OptionA.Should.Not.Exist()
-            .OptionB.Should.Exist()
-            .OptionC.Should.Exist()
-            .OptionD.Should.Not.Exist();
+            .OptionA.Should.Not.BePresent()
+            .OptionB.Should.BePresent()
+            .OptionC.Should.BePresent()
+            .OptionD.Should.Not.BePresent();
 
     [Test]
     public void WhenAtParentControl() =>
         _page
-            .RadioSet.OptionA.Should.Not.Exist()
-            .RadioSet.OptionB.Should.Exist()
-            .RadioSet.OptionC.Should.Not.Exist()
-            .RadioSet.OptionD.Should.Exist();
+            .RadioSet.OptionA.Should.Not.BePresent()
+            .RadioSet.OptionB.Should.BePresent()
+            .RadioSet.OptionC.Should.Not.BePresent()
+            .RadioSet.OptionD.Should.BePresent();
 }

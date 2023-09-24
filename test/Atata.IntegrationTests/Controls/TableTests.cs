@@ -56,38 +56,38 @@ public class TableTests : UITestFixture
     [Test]
     public void WithFindByIndexAttribute() =>
         _page
-            .CountryTable.Should.Exist()
+            .CountryTable.Should.BePresent()
             .CountryTable.Rows.Count.Should.Equal(3)
             .CountryTable.Rows[0].Capital.Should.Equal("London")
             .CountryTable.Rows.IndexOf(r => r.Capital.Value.StartsWith("london", StringComparison.CurrentCultureIgnoreCase)).Should.Equal(0)
             .CountryTable.Rows.IndexOf(r => r.Capital == "Paris").Should.Equal(1)
             .Do(x => x.CountryTable.Rows[r => r.Capital == "Paris"], x =>
             {
-                x.Should.Exist();
+                x.Should.BePresent();
                 x.Country.Should.Equal("France");
             })
-            .CountryTable.Rows["Germany", "Berlin"].Should.Exist();
+            .CountryTable.Rows["Germany", "Berlin"].Should.BePresent();
 
     [Test]
     public void WithFindByColumnIndexAttributeOnRow() =>
         _page
-            .CountryByColumnIndexTable.Should.Exist()
+            .CountryByColumnIndexTable.Should.BePresent()
             .CountryByColumnIndexTable.Rows.Count.Should.Equal(3)
             .CountryByColumnIndexTable.Rows[0].CapitalName.Should.Equal("London")
             .Do(x => x.CountryByColumnIndexTable.Rows[r => r.CapitalName == "Paris"], x =>
             {
-                x.Should.Exist();
+                x.Should.BePresent();
                 x.CountryName.Should.Equal("France");
             })
-            .CountryByColumnIndexTable.Rows["Germany", "Berlin"].Should.Exist();
+            .CountryByColumnIndexTable.Rows["Germany", "Berlin"].Should.BePresent();
 
     [Test]
     public void WhenEmpty() =>
         _page
-            .EmptyTable.Should.Exist()
+            .EmptyTable.Should.BePresent()
             .EmptyTable.Rows.Count.Should.Equal(0)
             .EmptyTable.Rows.Should.BeEmpty()
-            .EmptyTable.Rows[x => x.Name == "missing"].Should.Not.Exist();
+            .EmptyTable.Rows[x => x.Name == "missing"].Should.Not.BePresent();
 
     [Test]
     public void WhenRowIsAppending() =>
@@ -136,7 +136,7 @@ public class TableTests : UITestFixture
     {
         var sut = _page.InsideAnotherTable;
 
-        sut.Should.Exist();
+        sut.Should.BePresent();
         sut.Rows.Count.Should.Equal(1);
         sut.Rows[0].Key.Should.Equal("A");
         sut.Rows[0].Value.Should.Equal(1);

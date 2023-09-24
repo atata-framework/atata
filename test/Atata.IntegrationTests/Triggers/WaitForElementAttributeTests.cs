@@ -6,13 +6,13 @@ public class WaitForElementAttributeTests : UITestFixture
     public void Execute_WithUntilMissingOrHidden() =>
         Go.To<WaitingPage>()
             .ButtonWithMissingOrHiddenWait.Click()
-            .Result.Should.AtOnce.Exist();
+            .Result.Should.AtOnce.BePresent();
 
     [Test]
     public void Execute_WithUntilVisibleThenHidden() =>
         Go.To<WaitingPage>()
             .ButtonWithVisibleAndHiddenWait.Click()
-            .Result.Should.AtOnce.Exist();
+            .Result.Should.AtOnce.BePresent();
 
     [Test]
     public void Execute_WithUntilVisibleThenMissing()
@@ -22,7 +22,7 @@ public class WaitForElementAttributeTests : UITestFixture
         using (StopwatchAsserter.WithinSeconds(2))
             page.ButtonWithVisibleThenMissingWait.Click();
 
-        page.Result.Should.AtOnce.Exist();
+        page.Result.Should.AtOnce.BePresent();
     }
 
     [Test]
@@ -46,7 +46,7 @@ public class WaitForElementAttributeTests : UITestFixture
         using (StopwatchAsserter.WithinSeconds(2))
             control.Click();
 
-        page.Result.Should.AtOnce.Exist();
+        page.Result.Should.AtOnce.BePresent();
     }
 
     [Test]

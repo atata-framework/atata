@@ -27,7 +27,7 @@ public class ControlListTests : UITestFixture
         sut.Count.Should.Not.BeLess(actualCount);
         sut.Should.Not.Contain(true);
         sut.Should.Not.Contain(x => x.IsChecked);
-        sut[x => x.IsChecked].Should.Not.Exist();
+        sut[x => x.IsChecked].Should.Not.BePresent();
         sut[2].Check();
         sut.Should.Contain(x => x.IsChecked);
         sut[2].IsChecked.Should.BeTrue();
@@ -42,7 +42,7 @@ public class ControlListTests : UITestFixture
         sut.Count.Should.Equal(4);
         sut.Should.Not.Contain(true);
         sut.Should.Not.Contain(x => x.IsChecked);
-        sut[x => x.IsChecked].Should.Not.Exist();
+        sut[x => x.IsChecked].Should.Not.BePresent();
         sut[3].Check();
         sut.Should.Contain(x => x.IsChecked);
         sut[3].IsChecked.Should.BeTrue();

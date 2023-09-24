@@ -56,10 +56,10 @@ public class TriggerTests : UITestFixture
         _page.MissingInput.Missing();
         VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
-        _page.Input.Should.Exist();
+        _page.Input.Should.BePresent();
         VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
-        _page.MissingInput.Should.Not.Exist();
+        _page.MissingInput.Should.Not.BePresent();
         VerifyInputEvents(TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess);
 
         _page.Input.DomClasses.Should.HaveCount(1);

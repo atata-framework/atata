@@ -83,7 +83,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
 
         using (StopwatchAsserter.WithinSeconds(3))
             AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
-                page.MissingControl.Should.Exist());
+                page.MissingControl.Should.BePresent());
     }
 
     [Test]

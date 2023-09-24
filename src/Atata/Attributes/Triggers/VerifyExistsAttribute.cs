@@ -12,5 +12,5 @@ public class VerifyExistsAttribute : WaitingTriggerAttribute
     }
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-        context.Component.Should.WithinSeconds(Timeout, RetryInterval).Exist();
+        context.Component.Should.WithinSeconds(Timeout, RetryInterval).BePresent();
 }

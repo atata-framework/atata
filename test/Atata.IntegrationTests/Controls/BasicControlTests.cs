@@ -7,7 +7,7 @@ public class BasicControlTests : UITestFixture
         Go.To<BasicControlsPage>()
             .Header.Should.Equal("Basic Controls")
 
-            .ByLabel.FirstName.Should.Exist()
+            .ByLabel.FirstName.Should.BePresent()
             .ByLabel.FirstName.Should.BeEnabled()
             .ByLabel.FirstName.Should.Not.AtOnce.BeReadOnly()
             .ByLabel.FirstName.SetRandom(out string firstName)
@@ -27,29 +27,29 @@ public class BasicControlTests : UITestFixture
                 })
             .ById.MiddleName.Should.Equal("md2name")
 
-            .ByLabel.ReadonlyField.Should.Exist()
+            .ByLabel.ReadonlyField.Should.BePresent()
             .ByLabel.ReadonlyField.Should.BeEnabled()
             .ByLabel.ReadonlyField.Should.BeReadOnly()
             .ByLabel.ReadonlyField.IsReadOnly.Should.BeTrue()
             .ByLabel.ReadonlyField.DomProperties.Get<bool?>("readOnly").Should.BeTrue()
             .ByLabel.ReadonlyField.Should.Equal("readme")
 
-            .ByLabel.DisabledField.Should.Exist()
+            .ByLabel.DisabledField.Should.BePresent()
             .ByLabel.DisabledField.Should.Not.BeEnabled()
             .ByLabel.DisabledField.IsEnabled.Should.Not.BeTrue()
             .ByLabel.DisabledField.DomProperties.Get<bool?>("disabled").Should.BeTrue()
             .ByLabel.DisabledField.Should.Not.BeReadOnly()
             .ByLabel.DisabledField.Should.Equal("readme")
 
-            .RawButtonControl.Should.Exist()
+            .RawButtonControl.Should.BePresent()
             .RawButtonControl.Should.BeEnabled()
             .RawButtonControl.Content.Should.Equal("Raw Button")
             .RawButtonControl.Click()
-            .InputButtonControl.Should.Exist()
+            .InputButtonControl.Should.BePresent()
             .InputButtonControl.Click()
             .Do(_ => _.LinkButtonControl, x =>
                 {
-                    x.Should.Exist();
+                    x.Should.BePresent();
                     x.Content.Should.Equal("Link Button");
                     x.Content.Should.StartWith("Link");
                     x.Content.Should.EndWith("utton");
@@ -57,9 +57,9 @@ public class BasicControlTests : UITestFixture
                     x.Content.Should.ContainIgnoringCase("k but");
                     x.Click();
                 })
-            .ClickableControl.Should.Exist()
+            .ClickableControl.Should.BePresent()
             .ClickableControl.Click()
-            .DisabledButtonControl.Should.Exist()
+            .DisabledButtonControl.Should.BePresent()
             .DisabledButtonControl.Should.BeDisabled()
-            .MissingButtonControl.Should.Not.Exist();
+            .MissingButtonControl.Should.Not.BePresent();
 }

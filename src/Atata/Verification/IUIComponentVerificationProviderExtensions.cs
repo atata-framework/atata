@@ -76,7 +76,7 @@ public static class IUIComponentVerificationProviderExtensions
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     /// <param name="verifier">The verification provider.</param>
     /// <returns>The owner instance.</returns>
-    // TODO: Atata v2. Make obsolete. Use BePresent instead.
+    [Obsolete("Use " + nameof(BePresent) + " instead.")] // Obsolete since v2.10.0.
     public static TOwner Exist<TComponent, TOwner>(this IUIComponentVerificationProvider<TComponent, TOwner> verifier)
         where TComponent : UIComponent<TOwner>
         where TOwner : PageObject<TOwner>

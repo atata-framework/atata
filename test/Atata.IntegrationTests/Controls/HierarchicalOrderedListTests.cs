@@ -24,13 +24,13 @@ public class HierarchicalOrderedListTests : UITestFixture
         sut.Descendants[6].Name.Should.Equal("Item 2.1.2");
         sut.Descendants.SelectData(x => x.Name).Should.Contain("Item 2", "Item 2.1.2", "Item 1.2", "Item 2.1");
 
-        sut.Descendants[x => x.Name == "Item 2.1.1"].Should.Exist();
-        sut.Descendants[x => x.Name == "missing"].Should.Not.Exist();
+        sut.Descendants[x => x.Name == "Item 2.1.1"].Should.BePresent();
+        sut.Descendants[x => x.Name == "missing"].Should.Not.BePresent();
         sut.Descendants.Should.Contain(x => x.Name == "Item 2.1.1");
 
         sut.Descendants[6].Parent.Name.Should.Equal("Item 2.1");
         sut.Descendants[6].Parent.Parent.Name.Should.Equal("Item 2");
-        sut.Descendants[6].Parent.Parent.Parent.Should.Not.Exist();
+        sut.Descendants[6].Parent.Parent.Parent.Should.Not.BePresent();
 
         sut[0].Children.Count.Should.Equal(2);
         sut[1].Children.Count.Should.Equal(2);

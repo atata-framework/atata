@@ -36,7 +36,7 @@ public class UIComponentTests : UITestFixture
             page.VisibleDiv.IsPresent.Should.BeTrue();
 
         using (StopwatchAsserter.WithinSeconds(0))
-            page.VisibleDiv.Should.Exist();
+            page.VisibleDiv.Should.BePresent();
 
         using (StopwatchAsserter.WithinSeconds(0))
             page.HiddenDiv.IsPresent.Value.Should().BeTrue();
@@ -45,7 +45,7 @@ public class UIComponentTests : UITestFixture
             page.HiddenDiv.IsPresent.Should.BeTrue();
 
         using (StopwatchAsserter.WithinSeconds(0))
-            page.HiddenDiv.Should.Exist();
+            page.HiddenDiv.Should.BePresent();
 
         using (StopwatchAsserter.WithinSeconds(0))
             page.HiddenDivWithVisibleVisibility.IsPresent.Value.Should().BeFalse();
@@ -54,7 +54,7 @@ public class UIComponentTests : UITestFixture
             page.HiddenDivWithVisibleVisibility.IsPresent.Should.BeFalse();
 
         using (StopwatchAsserter.WithinSeconds(0))
-            page.HiddenDivWithVisibleVisibility.Should.Not.Exist();
+            page.HiddenDivWithVisibleVisibility.Should.Not.BePresent();
     }
 
     [Test]

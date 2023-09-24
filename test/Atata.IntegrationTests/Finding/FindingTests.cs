@@ -62,32 +62,32 @@ public class FindingTests : UITestFixture
     [Test]
     public void Visible()
     {
-        _page.VisibleInput.Should.Exist()
+        _page.VisibleInput.Should.BePresent()
             .VisibleInput.Should.BeVisible()
-            .FailDisplayNoneInput.Should.Not.Exist()
-            .FailOpacity0Input.Should.Not.Exist();
+            .FailDisplayNoneInput.Should.Not.BePresent()
+            .FailOpacity0Input.Should.Not.BePresent();
 
         AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
-            _page.FailDisplayNoneInput.Should.AtOnce.Exist());
+            _page.FailDisplayNoneInput.Should.AtOnce.BePresent());
 
         AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
-            _page.FailOpacity0Input.Should.AtOnce.Exist());
+            _page.FailOpacity0Input.Should.AtOnce.BePresent());
     }
 
     [Test]
     public void Hidden()
     {
-        _page.DisplayNoneInput.Should.Exist()
+        _page.DisplayNoneInput.Should.BePresent()
             .DisplayNoneInput.Should.BeHidden()
-            .HiddenInput.Should.Exist()
+            .HiddenInput.Should.BePresent()
             .HiddenInput.Should.BeHidden()
-            .CollapseInput.Should.Exist()
+            .CollapseInput.Should.BePresent()
             .CollapseInput.Should.BeHidden()
-            .Opacity0Input.Should.Exist()
+            .Opacity0Input.Should.BePresent()
             .Opacity0Input.Should.BeHidden()
-            .TypeHiddenInput.Should.Exist()
+            .TypeHiddenInput.Should.BePresent()
             .TypeHiddenInput.Should.BeHidden()
-            .TypeHiddenInputWithDeclaredDefinition.Should.Exist()
+            .TypeHiddenInputWithDeclaredDefinition.Should.BePresent()
             .TypeHiddenInputWithDeclaredDefinition.Should.BeHidden();
 
         Assert.That(_page.FailDisplayNoneInput.Exists(SearchOptions.Hidden()), Is.True);
@@ -99,27 +99,27 @@ public class FindingTests : UITestFixture
 
     [Test]
     public void ByCss_OuterXPath_Missing() =>
-        VerifyNotExist(_page.MissingOptionByCssWithOuterXPath);
+        VerifyNotPresent(_page.MissingOptionByCssWithOuterXPath);
 
     [Test]
     public void ByCss_Missing() =>
-        VerifyNotExist(_page.MissingOptionByCss);
+        VerifyNotPresent(_page.MissingOptionByCss);
 
     [Test]
     public void ByLabel_Missing() =>
-        VerifyNotExist(_page.MissingOptionByLabel);
+        VerifyNotPresent(_page.MissingOptionByLabel);
 
     [Test]
     public void ByXPath_Missing() =>
-        VerifyNotExist(_page.MissingOptionByXPath);
+        VerifyNotPresent(_page.MissingOptionByXPath);
 
     [Test]
     public void ById_Missing() =>
-        VerifyNotExist(_page.MissingOptionById);
+        VerifyNotPresent(_page.MissingOptionById);
 
     [Test]
     public void ByColumnHeader_Missing() =>
-        VerifyNotExist(_page.MissingOptionByColumnHeader);
+        VerifyNotPresent(_page.MissingOptionByColumnHeader);
 
     [Test]
     public void ByScript() =>
@@ -131,11 +131,11 @@ public class FindingTests : UITestFixture
 
     [Test]
     public void ByScript_WithIncorrectIndex() =>
-        VerifyNotExist(_page.OptionByScriptWithIncorrectIndex);
+        VerifyNotPresent(_page.OptionByScriptWithIncorrectIndex);
 
     [Test]
     public void ByScript_Missing() =>
-        VerifyNotExist(_page.OptionByScriptMissing);
+        VerifyNotPresent(_page.OptionByScriptMissing);
 
     [Test]
     public void ByScript_WithInvalidScript()
@@ -158,7 +158,7 @@ public class FindingTests : UITestFixture
         Assert.That(exception.Message, Does.Contain("I am not OK."));
 
         AssertThrowsWithInnerException<AssertionException, InvalidOperationException>(() =>
-            _page.OptionByScriptWithIncorrectScriptResult.Should.AtOnce.Exist());
+            _page.OptionByScriptWithIncorrectScriptResult.Should.AtOnce.BePresent());
     }
 
     [Test]
@@ -167,7 +167,7 @@ public class FindingTests : UITestFixture
 
     [Test]
     public void ByDescendantId_Missing() =>
-        VerifyNotExist(_page.ControlByDescendantIdMissing);
+        VerifyNotPresent(_page.ControlByDescendantIdMissing);
 
     [Test]
     public void ByControlDefinition_MultipleClasses() =>
@@ -175,7 +175,7 @@ public class FindingTests : UITestFixture
 
     [Test]
     public void ByControlDefinition_MultipleClasses_Missing() =>
-        VerifyNotExist(_page.MissingSpanWithMultipleClasses);
+        VerifyNotPresent(_page.MissingSpanWithMultipleClasses);
 
     [Test]
     public void WhenFindAttributeAtParentLevel() =>
@@ -236,12 +236,12 @@ public class FindingTests : UITestFixture
         =>
         Assert.That(component.DomProperties.GetValue("value"), Is.EqualTo(expectedValue));
 
-    private static void VerifyNotExist<TOwner>(UIComponent<TOwner> component)
+    private static void VerifyNotPresent<TOwner>(UIComponent<TOwner> component)
         where TOwner : PageObject<TOwner>
     {
-        component.Should.Not.Exist();
+        component.Should.Not.BePresent();
 
         AssertThrowsAssertionExceptionWithUnableToLocateMessage(() =>
-            component.Should.AtOnce.Exist());
+            component.Should.AtOnce.BePresent());
     }
 }
