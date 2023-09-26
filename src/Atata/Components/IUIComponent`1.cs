@@ -62,7 +62,7 @@ public interface IUIComponent<TOwner>
     /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element associated with this component.
     /// Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
     /// </summary>
-    /// <exception cref="NoSuchElementException">Element not found.</exception>
+    /// <exception cref="ElementNotFoundException">Element not found.</exception>
     IWebElement Scope { get; }
 
     /// <summary>
@@ -190,7 +190,7 @@ public interface IUIComponent<TOwner>
     /// <param name="options">The search options.
     /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
     /// <returns><see langword="true"/> if the component exists; otherwise, <see langword="false"/>.</returns>
-    /// <exception cref="NoSuchElementException">
+    /// <exception cref="ElementNotFoundException">
     /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
     /// equal to <see langword="false"/> value and the component doesn't exist.
     /// </exception>
@@ -202,7 +202,7 @@ public interface IUIComponent<TOwner>
     /// <param name="options">The search options.
     /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
     /// <returns><see langword="true"/> if the component is missing; otherwise, <see langword="false"/>.</returns>
-    /// <exception cref="NotMissingElementException">
+    /// <exception cref="ElementNotMissingException">
     /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
     /// equal to <see langword="false"/> value and the component exists.
     /// </exception>

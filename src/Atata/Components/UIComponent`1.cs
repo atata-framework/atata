@@ -186,7 +186,7 @@ return (
 
         if (!searchOptions.IsSafely && element == null)
         {
-            throw ExceptionFactory.CreateForNoSuchElement(
+            throw ElementExceptionFactory.CreateForNotFound(
                 new SearchFailureData
                 {
                     ElementName = ComponentFullName,

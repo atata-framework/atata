@@ -119,7 +119,7 @@ public class UIComponentVerificationProviderExtensionMethodTests : UITestFixture
 
     [Test]
     public void BeEnabled_MissingComponent() =>
-        AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
+        AssertThrowsWithInnerException<AssertionException, ElementNotFoundException>(() =>
             _missingSutShould.BeEnabled());
 
     [Test]
@@ -134,6 +134,6 @@ public class UIComponentVerificationProviderExtensionMethodTests : UITestFixture
 
     [Test]
     public void Not_BeEnabled_MissingComponent() =>
-        AssertThrowsWithInnerException<AssertionException, NoSuchElementException>(() =>
+        AssertThrowsWithInnerException<AssertionException, ElementNotFoundException>(() =>
             _missingSutShould.Not.BeEnabled());
 }

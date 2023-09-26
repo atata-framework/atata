@@ -219,7 +219,7 @@ public class FindingTests : UITestFixture
         sut.Metadata.Get<FindAttribute>().Timeout = timeout;
 
         using (StopwatchAsserter.WithinSeconds(timeout))
-            Assert.Throws<NoSuchElementException>(() =>
+            Assert.Throws<ElementNotFoundException>(() =>
                 sut.Click());
     }
 

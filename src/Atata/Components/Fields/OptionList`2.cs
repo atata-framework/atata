@@ -29,7 +29,7 @@ public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
 
         // TODO: Review to throw more detailed exception.
         if (elements.Length == 0)
-            throw ExceptionFactory.CreateForNoSuchElement(ComponentFullName);
+            throw ElementExceptionFactory.CreateForNotFound(ComponentFullName);
 
         return elements;
     }

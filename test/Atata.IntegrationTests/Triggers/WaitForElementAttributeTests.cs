@@ -31,7 +31,7 @@ public class WaitForElementAttributeTests : UITestFixture
         var page = Go.To<WaitingPage>();
 
         using (StopwatchAsserter.WithinSeconds(1))
-            Assert.Throws<NoSuchElementException>(
+            Assert.Throws<ElementNotFoundException>(
                 () => page.ButtonWithVisibleThenMissingNonExistentWait.Click());
     }
 

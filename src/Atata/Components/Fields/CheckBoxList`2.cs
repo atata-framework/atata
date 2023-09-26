@@ -86,7 +86,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
 
         if (individualValues.Any())
         {
-            throw ExceptionFactory.CreateForNoSuchElement(
+            throw ElementExceptionFactory.CreateForNotFound(
                 new SearchFailureData
                 {
                     ElementName = $"{ConvertIndividualValuesToString(individualValues, true)} checkbox element{(individualValues.Count > 1 ? "s" : null)} of {ComponentFullName}"

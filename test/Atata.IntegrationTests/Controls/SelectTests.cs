@@ -23,7 +23,7 @@ public class SelectTests : UITestFixture
 
         VerifyDoesNotEqual(sut, "Option C");
 
-        Assert.Throws<NoSuchElementException>(() =>
+        Assert.Throws<ElementNotFoundException>(() =>
             sut.Set("Missing Value"));
 
         sut.Options.Should.EqualSequence("--select--", "Option A", "Option B", "Option C", "Option D");

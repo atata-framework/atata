@@ -170,7 +170,7 @@ public class UIComponentTests : UITestFixture
 
         [Test]
         public void WithTimeout() =>
-            Assert.Throws<NoSuchElementException>(() =>
+            Assert.Throws<ElementNotFoundException>(() =>
                 _page.ContentBlock.Wait(Until.Visible, new WaitOptions(1)));
 
         [Test]

@@ -54,7 +54,7 @@ public static class IUIComponentVerificationProviderExtensions
                         .AppendLine()
                         .Append($"Expected: {VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}");
 
-                    if (exception is NoSuchElementException or NotMissingElementException)
+                    if (exception is ElementNotFoundException or ElementNotMissingException)
                     {
                         failureMessageBuilder.AppendLine().Append($"  Actual: {exception.Message.ToLowerFirstLetter()}");
                         verifier.Strategy.ReportFailure(failureMessageBuilder.ToString(), exception: null);

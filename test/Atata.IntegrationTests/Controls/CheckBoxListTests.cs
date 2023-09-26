@@ -42,7 +42,7 @@ public class CheckBoxListTests : UITestFixture
         Assert.Throws<AssertionException>(() =>
             _page.ByIdAndLabel.Should.AtOnce.HaveChecked(CheckBoxListPage.Options.OptionA));
 
-        Assert.Throws<NoSuchElementException>(() =>
+        Assert.Throws<ElementNotFoundException>(() =>
             _page.ByIdAndLabel.Set(CheckBoxListPage.Options.MissingValue));
     }
 
@@ -78,7 +78,7 @@ public class CheckBoxListTests : UITestFixture
         Assert.Throws<AssertionException>(() =>
             sut.Should.AtOnce.HaveChecked(CheckBoxListPage.Options.OptionA));
 
-        Assert.Throws<NoSuchElementException>(() =>
+        Assert.Throws<ElementNotFoundException>(() =>
             sut.Set(CheckBoxListPage.Options.MissingValue));
     }
 }

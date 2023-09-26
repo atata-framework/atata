@@ -26,7 +26,7 @@ public class DynamicScopeLocator : IScopeLocator
 
         IWebElement element = GetElement(searchOptionsForElementGet, xPathCondition);
         if (element != null && !searchOptions.IsSafely)
-            throw ExceptionFactory.CreateForNotMissingElement();
+            throw ElementExceptionFactory.CreateForNotMissing();
         else
             return element == null;
     }
