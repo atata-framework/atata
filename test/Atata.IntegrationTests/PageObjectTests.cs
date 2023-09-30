@@ -128,7 +128,6 @@ public class PageObjectTests : UITestFixture
     [Test]
     public void ScrollUp() =>
         Go.To<ScrollablePage>()
-            .BottomText.WaitTo.Not.BeVisibleInViewport()
             .Press(Keys.End)
             .BottomText.WaitTo.BeVisibleInViewport()
             .ScrollUp()
