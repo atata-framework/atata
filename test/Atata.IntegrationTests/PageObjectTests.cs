@@ -121,13 +121,14 @@ public class PageObjectTests : UITestFixture
     [Test]
     public void ScrollDown() =>
         Go.To<ScrollablePage>()
-            .BottomText.Should.Not.BeVisibleInViewport()
+            .BottomText.WaitTo.Not.BeVisibleInViewport()
             .ScrollDown()
             .BottomText.Should.BeVisibleInViewport();
 
     [Test]
     public void ScrollUp() =>
         Go.To<ScrollablePage>()
+            .BottomText.WaitTo.Not.BeVisibleInViewport()
             .Press(Keys.End)
             .BottomText.WaitTo.BeVisibleInViewport()
             .ScrollUp()
