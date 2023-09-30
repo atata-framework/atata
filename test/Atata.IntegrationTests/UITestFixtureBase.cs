@@ -17,7 +17,7 @@ public abstract class UITestFixtureBase
     protected static IEnumerable<string> ChromeArguments { get; } = new[]
     {
         "window-size=1200,800",
-        "headless"
+        "headless=new"
     };
 
     protected IEnumerable<LogEventInfo> LogEntries => _eventListLogConsumer.Items;
