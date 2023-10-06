@@ -58,18 +58,16 @@ internal sealed class ScreenshotTaker
 
             _context.Log.Info(logMessage);
 
-            var context = AtataContext.Current;
-
-            FileContentWithExtension fileContent = strategy.TakeScreenshot(context);
+            FileContentWithExtension fileContent = strategy.TakeScreenshot(_context);
 
             ScreenshotInfo screenshotInfo = new ScreenshotInfo
             {
                 ScreenshotContent = fileContent,
                 Number = _screenshotNumber,
                 Title = title,
-                PageObjectName = context.PageObject?.ComponentName,
-                PageObjectTypeName = context.PageObject?.ComponentTypeName,
-                PageObjectFullName = context.PageObject?.ComponentFullName
+                PageObjectName = _context.PageObject?.ComponentName,
+                PageObjectTypeName = _context.PageObject?.ComponentTypeName,
+                PageObjectFullName = _context.PageObject?.ComponentFullName
             };
 
             foreach (IScreenshotConsumer screenshotConsumer in _screenshotConsumers)
@@ -80,7 +78,7 @@ internal sealed class ScreenshotTaker
                 }
                 catch (Exception e)
                 {
-                    context.Log.Error("Screenshot failed", e);
+                    _context.Log.Error("Screenshot failed", e);
                 }
             }
         }
