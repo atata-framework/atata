@@ -59,6 +59,6 @@ internal sealed class PageSnapshotTaker
             ["snapshot-pageobjectfullname"] = pageObject?.ComponentFullName
         };
 
-        return AtataContext.Current.FillPathTemplateString(_filePathTemplate, snapshotVariables);
+        return _context.FillPathTemplateString(_filePathTemplate, snapshotVariables);
     }
 }
