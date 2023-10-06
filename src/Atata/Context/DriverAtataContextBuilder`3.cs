@@ -257,8 +257,7 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
     /// <summary>
     /// Specifies the host name of the service.
     /// The default value is <c>"localhost"</c>.
-    /// This configuration option makes sense for .NET Core 2.0 to be set to <c>"127.0.0.1"</c> for IPv4 and <c>"[::1]"</c> for IPv6.
-    /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra <c>1</c> second.
+    /// Can be set to <c>"127.0.0.1"</c>, for example when you experience localhost resolve issues.
     /// </summary>
     /// <param name="hostName">The host name.</param>
     /// <returns>The same builder instance.</returns>
@@ -272,6 +271,7 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
     /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra <c>1</c> second.
     /// </summary>
     /// <returns>The same builder instance.</returns>
+    [Obsolete("Use WithHostName(\"127.0.0.1\") instead.")] // Obsolete since v2.11.0.
     public TBuilder WithFixOfCommandExecutionDelay() =>
         WithHostName("127.0.0.1");
 
