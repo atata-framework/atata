@@ -17,7 +17,8 @@ public class AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler : IEventHa
 
         if (directory.Exists)
         {
-            var files = directory.EnumerateFiles("*", SearchOption.AllDirectories);
+            var files = directory.EnumerateFiles("*", SearchOption.AllDirectories)
+                .OrderBy(x => x.CreationTimeUtc);
 
             foreach (var file in files)
                 NUnitAdapter.AddTestAttachment(file.FullName);
