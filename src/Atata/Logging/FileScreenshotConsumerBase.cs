@@ -30,7 +30,10 @@ public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
 
         var context = AtataContext.Current;
         context.Log.Info($"Screenshot saved to file \"{filePath}\"");
+
+#pragma warning disable CS0618 // Type or member is obsolete
         context.EventBus.Publish(new ScreenshotFileSavedEvent(screenshotInfo, filePath));
+#pragma warning restore CS0618 // Type or member is obsolete
 
         string artifactRelativeFilePath = filePath.StartsWith(context.Artifacts.FullName, StringComparison.OrdinalIgnoreCase)
             ? filePath.Substring(context.Artifacts.FullName.Value.Length)
