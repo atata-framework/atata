@@ -177,7 +177,7 @@ internal static class NUnitAdapter
     }
 
     internal static bool IsTestResultAdapterFailed(dynamic testResult) =>
-        testResult.Outcome.Status.ToString().Contains("Fail");
+        testResult.Outcome.Status.ToString().Contains("Fail") && testResult.Outcome.Site.ToString() != "Child";
 
     // TODO: Change implementation to: TestExecutionContext.CurrentContext.CurrentResult.TestAttachments.Add(new TestAttachment(filePath, description))
     internal static void AddTestAttachment(string filePath, string description = null) =>
