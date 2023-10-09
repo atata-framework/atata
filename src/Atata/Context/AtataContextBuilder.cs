@@ -177,6 +177,18 @@ Actual: {driverFactory.GetType().FullName}",
     }
 
     /// <summary>
+    /// Sets a value indicating whether to dispose the <see cref="AtataContext.Driver"/> when <see cref="AtataContext.Dispose"/> method is invoked.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    /// <param name="disposeDriver">Whether to dispose driver.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseDisposeDriver(bool disposeDriver)
+    {
+        BuildingContext.DisposeDriver = disposeDriver;
+        return this;
+    }
+
+    /// <summary>
     /// Creates and returns a new builder for <see cref="ChromeDriver"/>
     /// with default <see cref="DriverAliases.Chrome"/> alias.
     /// Sets this builder as a one to use for a driver creation.
@@ -1129,6 +1141,7 @@ Actual: {driverFactory.GetType().FullName}",
 
         context.DriverFactory = BuildingContext.DriverFactoryToUse
             ?? BuildingContext.DriverFactories.LastOrDefault();
+        context.DisposeDriver = BuildingContext.DisposeDriver;
         context.DriverAlias = context.DriverFactory?.Alias;
         context.DriverInitializationStage = BuildingContext.DriverInitializationStage;
 

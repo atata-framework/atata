@@ -75,6 +75,36 @@ public class AtataContextBuilderTests : UITestFixtureBase
     }
 
     [Test]
+    public void UseDisposeDriver_WithTrue()
+    {
+        var context = ConfigureBaseAtataContext()
+            .UseDisposeDriver(true)
+            .Build();
+        var driver = context.Driver;
+
+        context.Dispose();
+
+        Assert.Throws<ObjectDisposedException>(() =>
+            _ = driver.Url);
+    }
+
+    [Test]
+    public void UseDisposeDriver_WithFalse()
+    {
+        var context = ConfigureBaseAtataContext()
+            .UseDisposeDriver(false)
+            .Build();
+        var driver = context.Driver;
+
+        context.Dispose();
+
+        Assert.DoesNotThrow(() =>
+            _ = driver.Url);
+
+        driver.Dispose();
+    }
+
+    [Test]
     public void Attributes_Global()
     {
         ConfigureBaseAtataContext()

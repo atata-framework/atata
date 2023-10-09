@@ -142,6 +142,8 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public string DriverAlias { get; internal set; }
 
+    internal bool DisposeDriver { get; set; }
+
     /// <summary>
     /// Gets the driver initialization stage.
     /// </summary>
@@ -548,55 +550,8 @@ public sealed class AtataContext : IDisposable
     /// Cleans up the test context.
     /// </summary>
     /// <param name="quitDriver">if set to <see langword="true"/> quits WebDriver.</param>
-    public void CleanUp(bool quitDriver = true)
-    {
-        if (_disposed)
-            return;
-
-        PureExecutionStopwatch.Stop();
-
-        Log.ExecuteSection(
-            new LogSection("Clean up AtataContext", LogLevel.Trace),
-            () =>
-            {
-                EventBus.Publish(new AtataContextCleanUpEvent(this));
-
-                CleanUpTemporarilyPreservedPageObjectList();
-
-                if (PageObject != null)
-                    UIComponentResolver.CleanUpPageObject(PageObject);
-
-                UIComponentAccessChainScopeCache.Release();
-
-                EventBus.Publish(new DriverDeInitEvent(_driver));
-
-                if (quitDriver)
-                    _driver?.Dispose();
-            });
-
-        ExecutionStopwatch.Stop();
-
-        string testUnitKindName = GetTestUnitKindName();
-        Log.InfoWithExecutionTimeInBrackets($"Finished {testUnitKindName}", ExecutionStopwatch.Elapsed);
-        Log.InfoWithExecutionTime($"Pure {testUnitKindName} execution time:", PureExecutionStopwatch.Elapsed);
-
-        Log = null;
-
-        if (Current == this)
-            Current = null;
-
-        _disposed = true;
-
-        AssertionResults.Clear();
-
-        if (PendingFailureAssertionResults.Any())
-        {
-            var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
-            PendingFailureAssertionResults.Clear();
-
-            throw VerificationUtils.CreateAggregateAssertionException(copyOfPendingFailureAssertionResults);
-        }
-    }
+    public void CleanUp(bool quitDriver = true) =>
+        DisposeTogetherWithDriver(quitDriver);
 
     internal void InitDriver()
     {
@@ -946,8 +901,64 @@ public sealed class AtataContext : IDisposable
         _expectationVerificationStrategy.ReportFailure(message, exception);
 
     /// <summary>
-    /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+    /// Deinitializes and disposes the current instance and related objects.
+    /// Also writes the execution time to log;
+    /// throws <see cref="AggregateAssertionException"/> if
+    /// <see cref="PendingFailureAssertionResults"/> is not empty (contains warnings).
+    /// If <see cref="AtataBuildingContext.DisposeDriver"/> property is set to <see langword="true"/> (by default),
+    /// then the <see cref="Driver"/> will also be disposed.
+    /// Publishes events: <see cref="AtataContextCleanUpEvent"/>, <see cref="DriverDeInitEvent"/>.
     /// </summary>
     public void Dispose() =>
-        CleanUp();
+        DisposeTogetherWithDriver(DisposeDriver);
+
+    private void DisposeTogetherWithDriver(bool disposeDriver)
+    {
+        if (_disposed)
+            return;
+
+        PureExecutionStopwatch.Stop();
+
+        Log.ExecuteSection(
+            new LogSection("Clean up AtataContext", LogLevel.Trace),
+            () =>
+            {
+                EventBus.Publish(new AtataContextCleanUpEvent(this));
+
+                CleanUpTemporarilyPreservedPageObjectList();
+
+                if (PageObject != null)
+                    UIComponentResolver.CleanUpPageObject(PageObject);
+
+                UIComponentAccessChainScopeCache.Release();
+
+                EventBus.Publish(new DriverDeInitEvent(_driver));
+
+                if (disposeDriver)
+                    _driver?.Dispose();
+            });
+
+        ExecutionStopwatch.Stop();
+
+        string testUnitKindName = GetTestUnitKindName();
+        Log.InfoWithExecutionTimeInBrackets($"Finished {testUnitKindName}", ExecutionStopwatch.Elapsed);
+        Log.InfoWithExecutionTime($"Pure {testUnitKindName} execution time:", PureExecutionStopwatch.Elapsed);
+
+        Log = null;
+
+        if (Current == this)
+            Current = null;
+
+        _disposed = true;
+
+        AssertionResults.Clear();
+
+        if (PendingFailureAssertionResults.Any())
+        {
+            var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
+            PendingFailureAssertionResults.Clear();
+
+            throw VerificationUtils.CreateAggregateAssertionException(copyOfPendingFailureAssertionResults);
+        }
+    }
 }

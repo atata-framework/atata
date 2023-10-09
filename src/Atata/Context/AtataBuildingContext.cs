@@ -32,6 +32,12 @@ public class AtataBuildingContext : ICloneable
     public List<IDriverFactory> DriverFactories { get; private set; } = new List<IDriverFactory>();
 
     /// <summary>
+    /// Gets a value indicating whether to dispose the <see cref="AtataContext.Driver"/> when <see cref="AtataContext.Dispose"/> method is invoked.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    public bool DisposeDriver { get; internal set; } = true;
+
+    /// <summary>
     /// Gets the log consumer configurations.
     /// </summary>
     public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = new List<LogConsumerConfiguration>();
