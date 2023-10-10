@@ -44,7 +44,7 @@ public abstract class UITestFixtureBase
 
     [TearDown]
     public virtual void TearDown() =>
-        AtataContext.Current?.CleanUp();
+        AtataContext.Current?.Dispose();
 
     protected static void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
         where TPage : PageObject<TPage>

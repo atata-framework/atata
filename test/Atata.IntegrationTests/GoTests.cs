@@ -169,7 +169,9 @@ public class GoTests : UITestFixture
         Go.To<GoTo1Page>();
 
         var driver = AtataContext.Current.Driver;
-        AtataContext.Current.CleanUp(false);
+
+        AtataContext.Current.DisposeDriver = false;
+        AtataContext.Current.Dispose();
 
         ConfigureBaseAtataContext()
             .UseDriver(driver)

@@ -15,8 +15,13 @@ public abstract class UITestFixture : UITestFixtureBase
     {
         AtataContextBuilder contextBuilder = ConfigureBaseAtataContext();
 
-        if (ReuseDriver && PreservedDriver != null)
-            contextBuilder = contextBuilder.UseDriver(PreservedDriver);
+        if (ReuseDriver)
+        {
+            contextBuilder = contextBuilder.UseDisposeDriver(false);
+
+            if (PreservedDriver is not null)
+                contextBuilder = contextBuilder.UseDriver(PreservedDriver);
+        }
 
         contextBuilder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
         {
@@ -34,9 +39,6 @@ public abstract class UITestFixture : UITestFixtureBase
     protected virtual void OnSetUp()
     {
     }
-
-    public override void TearDown() =>
-        AtataContext.Current?.CleanUp(!ReuseDriver);
 
     [OneTimeTearDown]
     public virtual void FixtureTearDown() =>

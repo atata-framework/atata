@@ -24,9 +24,9 @@ public class DriverDeInitEventTests : UITestFixtureBase
     }
 
     [Test]
-    public void AfterCleanUp()
+    public void AfterDispose()
     {
-        _context.CleanUp();
+        _context.Dispose();
 
         _executionsCount.Should().Be(1);
     }

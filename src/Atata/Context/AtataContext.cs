@@ -546,11 +546,12 @@ public sealed class AtataContext : IDisposable
         });
     }
 
-    /// <summary>
-    /// Cleans up the test context.
-    /// </summary>
-    /// <param name="quitDriver">if set to <see langword="true"/> quits WebDriver.</param>
-    public void CleanUp(bool quitDriver = true) =>
+    [Obsolete("Use Dispose instead.")] // Obsolete since v2.11.0.
+    public void CleanUp() =>
+        Dispose();
+
+    [Obsolete("Use Dispose instead. If you don't need to quit driver, use UseDisposeDriver(false) method of AtataContextBuilder during AtataContext setup.")] // Obsolete since v2.11.0.
+    public void CleanUp(bool quitDriver) =>
         DisposeTogetherWithDriver(quitDriver);
 
     internal void InitDriver()

@@ -14,7 +14,7 @@ public class ExpectToTests : UITestFixture
 
         expectTo.BeTrue();
 
-        AtataContext.Current.CleanUp(false);
+        AtataContext.Current.Dispose();
     }
 
     [Test]
@@ -24,7 +24,7 @@ public class ExpectToTests : UITestFixture
 
         expectTo.BeTrue();
 
-        AtataContext.Current.CleanUp(false);
+        AtataContext.Current.Dispose();
     }
 
     [Test]
@@ -34,8 +34,8 @@ public class ExpectToTests : UITestFixture
 
         expectTo.BeFalse();
 
-        AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
-            AtataContext.Current.CleanUp(false));
+        var exception = Assert.Throws<AggregateAssertionException>(
+            AtataContext.Current.Dispose);
 
         Assert.That(exception.Results, Has.Count.EqualTo(1));
         Assert.That(exception.Results[0].StackTrace, Does.Contain(nameof(OneFailure)));
@@ -50,8 +50,8 @@ public class ExpectToTests : UITestFixture
         expectTo.BeFalse();
         expectTo.Not.BeTrue();
 
-        AggregateAssertionException exception = Assert.Throws<AggregateAssertionException>(() =>
-            AtataContext.Current.CleanUp(false));
+        var exception = Assert.Throws<AggregateAssertionException>(
+            AtataContext.Current.Dispose);
 
         Assert.That(exception.Results, Has.Count.EqualTo(2));
         Assert.That(exception.Results.Select(x => x.StackTrace), Has.All.Contain(nameof(TwoFailures)));
