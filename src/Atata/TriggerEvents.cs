@@ -17,7 +17,7 @@ public enum TriggerEvents
     Init = 1 << 0,
 
     /// <summary>
-    /// Occurs upon the page object de-initialization.
+    /// Occurs upon the page object deinitialization.
     /// </summary>
     DeInit = 1 << 1,
 

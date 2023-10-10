@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents an event that occurs when <see cref="AtataContext"/> driver is de-initializing.
+/// Represents an event that occurs when <see cref="AtataContext"/> driver is deinitializing.
 /// </summary>
 public class DriverDeInitEvent
 {

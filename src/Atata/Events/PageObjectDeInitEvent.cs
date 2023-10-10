@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents an event that occurs when <see cref="PageObject{TOwner}"/> is de-initialized.
+/// Represents an event that occurs when <see cref="PageObject{TOwner}"/> is deinitialized.
 /// </summary>
 public class PageObjectDeInitEvent
 {
