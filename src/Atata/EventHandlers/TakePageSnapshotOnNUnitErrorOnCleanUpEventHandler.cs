@@ -1,5 +1,6 @@
 ﻿namespace Atata;
 
+[Obsolete("Use " + nameof(TakePageSnapshotOnNUnitErrorEventHandler) + " instead.")] // Obsolete since v2.11.0.
 public class TakePageSnapshotOnNUnitErrorOnCleanUpEventHandler : IConditionalEventHandler<AtataContextCleanUpEvent>
 {
     private readonly string _snapshotTitle;

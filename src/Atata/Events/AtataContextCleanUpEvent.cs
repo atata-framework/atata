@@ -1,8 +1,6 @@
 ﻿namespace Atata;
 
-/// <summary>
-/// Represents an event that occurs when <see cref="AtataContext"/> is cleaning up.
-/// </summary>
+[Obsolete("Use AtataContextDeInitEvent or AtataContextDeInitCompletedEvent instead.")] // Obsolete since v2.11.0.
 public class AtataContextCleanUpEvent
 {
     public AtataContextCleanUpEvent(AtataContext context) =>

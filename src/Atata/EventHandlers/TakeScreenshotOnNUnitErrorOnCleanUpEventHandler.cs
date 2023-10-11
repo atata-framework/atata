@@ -1,5 +1,6 @@
 ﻿namespace Atata;
 
+[Obsolete("Use " + nameof(TakeScreenshotOnNUnitErrorEventHandler) + " instead.")] // Obsolete since v2.11.0.
 public class TakeScreenshotOnNUnitErrorOnCleanUpEventHandler : IConditionalEventHandler<AtataContextCleanUpEvent>
 {
     private readonly ScreenshotKind _screenshotKind;

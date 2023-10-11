@@ -1,14 +1,13 @@
 ﻿namespace Atata;
 
-[Obsolete("Use " + nameof(AddDirectoryFilesToNUnitTestContextEventHandler) + " instead.")] // Obsolete since v2.11.0.
-public class AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler : IEventHandler<AtataContextCleanUpEvent>
+public class AddDirectoryFilesToNUnitTestContextEventHandler : IEventHandler<AtataContextDeInitCompletedEvent>
 {
     private readonly Func<AtataContext, string> _directoryPathBuilder;
 
-    public AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
+    public AddDirectoryFilesToNUnitTestContextEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
         _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
 
-    public void Handle(AtataContextCleanUpEvent eventData, AtataContext context)
+    public void Handle(AtataContextDeInitCompletedEvent eventData, AtataContext context)
     {
         string directoryPath = _directoryPathBuilder.Invoke(context);
 

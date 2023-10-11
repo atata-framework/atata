@@ -20,12 +20,12 @@ public class AtataContextBuilderTests
         AtataContext.GlobalConfiguration
             .UseNUnitTestName()
             .LogConsumers.AddNUnitTestContext()
-            .LogNUnitError();
+            .EventSubscriptions.LogNUnitError();
 
         var currentContext = AtataContext.Configure()
             .UseEdge()
             .UseBaseUrl(BaseUrl)
-            .TakeScreenshotOnNUnitError()
+            .EventSubscriptions.TakeScreenshotOnNUnitError()
             .ScreenshotConsumers.AddFile()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(100))
             .UseBaseRetryInterval(TimeSpan.FromSeconds(1))
@@ -84,7 +84,7 @@ public class AtataContextBuilderTests
         var context = AtataContext.Configure()
             .UseInternetExplorer()
             .UseBaseUrl(BaseUrl)
-            .TakeScreenshotOnNUnitError()
+            .EventSubscriptions.TakeScreenshotOnNUnitError()
             .ScreenshotConsumers.AddFile()
             .PageSnapshots.UseCdpStrategy()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(100))

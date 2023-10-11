@@ -946,79 +946,37 @@ Actual: {driverFactory.GetType().FullName}",
         return this;
     }
 
-    /// <summary>
-    /// Defines that an error occurred during the NUnit test execution should be added to the log during the cleanup.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use EventSubscriptions.LogNUnitError instead.")] // Obsolete since v2.11.0.
     public AtataContextBuilder LogNUnitError() =>
-        EventSubscriptions.Add(new LogNUnitErrorOnCleanUpEventHandler());
+        EventSubscriptions.LogNUnitError();
 
-    /// <summary>
-    /// Defines that an error occurred during the NUnit test execution should be captured by a screenshot during the cleanup.
-    /// </summary>
-    /// <param name="title">The screenshot title.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use EventSubscriptions.TakeScreenshotOnNUnitError instead.")] // Obsolete since v2.11.0.
     public AtataContextBuilder TakeScreenshotOnNUnitError(string title = "Failed") =>
-        EventSubscriptions.Add(new TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(title));
+        EventSubscriptions.TakeScreenshotOnNUnitError(title);
 
-    /// <summary>
-    /// Defines that an error occurred during the NUnit test execution should be captured by a screenshot during the cleanup.
-    /// </summary>
-    /// <param name="kind">The kind of a screenshot.</param>
-    /// <param name="title">The screenshot title.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use EventSubscriptions.TakeScreenshotOnNUnitError instead.")] // Obsolete since v2.11.0.
     public AtataContextBuilder TakeScreenshotOnNUnitError(ScreenshotKind kind, string title = "Failed") =>
-        EventSubscriptions.Add(new TakeScreenshotOnNUnitErrorOnCleanUpEventHandler(kind, title));
+        EventSubscriptions.TakeScreenshotOnNUnitError(kind, title);
 
-    /// <summary>
-    /// Defines that an error occurred during the NUnit test execution should be captured by a page snapshot during the cleanup.
-    /// </summary>
-    /// <param name="title">The snapshot title.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use EventSubscriptions.TakePageSnapshotOnNUnitError instead.")] // Obsolete since v2.11.0.
     public AtataContextBuilder TakePageSnapshotOnNUnitError(string title = "Failed") =>
-        EventSubscriptions.Add(new TakePageSnapshotOnNUnitErrorOnCleanUpEventHandler(title));
+        EventSubscriptions.TakePageSnapshotOnNUnitError(title);
 
-    /// <summary>
-    /// Defines that on <see cref="AtataContext"/> clean-up the files stored in Artifacts directory
-    /// should be added to NUnit <c>TestContext</c>.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use EventSubscriptions.AddArtifactsToNUnitTestContext instead.")] // Obsolete since v2.11.0.
     public AtataContextBuilder OnCleanUpAddArtifactsToNUnitTestContext() =>
-        EventSubscriptions.Add(new AddArtifactsToNUnitTestContextOnCleanUpEventHandler());
+        EventSubscriptions.AddArtifactsToNUnitTestContext();
 
-    /// <summary>
-    /// Defines that on <see cref="AtataContext" /> clean-up the files stored in the directory
-    /// specified by <paramref name="directoryPath"/> should be added to NUnit <c>TestContext</c>.
-    /// Directory path supports template variables.
-    /// </summary>
-    /// <param name="directoryPath">The directory path.</param>
-    /// <returns>The <see cref="AtataContextBuilder" /> instance.</returns>
-    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(string directoryPath)
-    {
-        directoryPath.CheckNotNull(nameof(directoryPath));
-        return OnCleanUpAddDirectoryFilesToNUnitTestContext(_ => directoryPath);
-    }
+    [Obsolete("Use EventSubscriptions.AddDirectoryFilesToNUnitTestContext instead.")] // Obsolete since v2.11.0.
+    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(string directoryPath) =>
+        EventSubscriptions.AddDirectoryFilesToNUnitTestContext(directoryPath);
 
-    /// <inheritdoc cref="OnCleanUpAddDirectoryFilesToNUnitTestContext(Func{AtataContext, string})"/>
-    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<string> directoryPathBuilder)
-    {
-        directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
-        return OnCleanUpAddDirectoryFilesToNUnitTestContext(_ => directoryPathBuilder.Invoke());
-    }
+    [Obsolete("Use EventSubscriptions.AddDirectoryFilesToNUnitTestContext instead.")] // Obsolete since v2.11.0.
+    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<string> directoryPathBuilder) =>
+        EventSubscriptions.AddDirectoryFilesToNUnitTestContext(directoryPathBuilder);
 
-    /// <summary>
-    /// Defines that on <see cref="AtataContext" /> clean-up the files stored in the directory
-    /// specified by <paramref name="directoryPathBuilder"/> should be added to NUnit <c>TestContext</c>.
-    /// Directory path supports template variables.
-    /// </summary>
-    /// <param name="directoryPathBuilder">The directory path builder.</param>
-    /// <returns>The <see cref="AtataContextBuilder" /> instance.</returns>
-    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<AtataContext, string> directoryPathBuilder)
-    {
-        directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
-        return EventSubscriptions.Add(
-            new AddDirectoryFilesToNUnitTestContextOnCleanUpEventHandler(directoryPathBuilder));
-    }
+    [Obsolete("Use EventSubscriptions.AddDirectoryFilesToNUnitTestContext instead.")] // Obsolete since v2.11.0.
+    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<AtataContext, string> directoryPathBuilder) =>
+        EventSubscriptions.AddDirectoryFilesToNUnitTestContext(directoryPathBuilder);
 
     /// <summary>
     /// Sets the type of <c>NUnit.Framework.AssertionException</c> as the assertion exception type.
@@ -1038,11 +996,11 @@ Actual: {driverFactory.GetType().FullName}",
     /// <item><see cref="UseNUnitAssertionExceptionType"/>,</item>
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/>,</item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
-    /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/>,</item>
-    /// <item><see cref="LogNUnitError"/>,</item>
-    /// <item><see cref="TakeScreenshotOnNUnitError(string)"/>,</item>
-    /// <item><see cref="TakePageSnapshotOnNUnitError(string)"/>,</item>
-    /// <item><see cref="OnCleanUpAddArtifactsToNUnitTestContext"/>.</item>
+    /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/> of <see cref="LogConsumers"/> property,</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.LogNUnitError"/> of <see cref="EventSubscriptions"/> property,</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakeScreenshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property,</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakePageSnapshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property,</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.AddArtifactsToNUnitTestContext"/> of <see cref="EventSubscriptions"/> property.</item>
     /// </list>
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -1054,10 +1012,10 @@ Actual: {driverFactory.GetType().FullName}",
             .UseNUnitAggregateAssertionStrategy()
             .UseNUnitWarningReportStrategy()
             .LogConsumers.AddNUnitTestContext()
-            .LogNUnitError()
-            .TakeScreenshotOnNUnitError()
-            .TakePageSnapshotOnNUnitError()
-            .OnCleanUpAddArtifactsToNUnitTestContext();
+            .EventSubscriptions.LogNUnitError()
+            .EventSubscriptions.TakeScreenshotOnNUnitError()
+            .EventSubscriptions.TakePageSnapshotOnNUnitError()
+            .EventSubscriptions.AddArtifactsToNUnitTestContext();
 
     private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
     {

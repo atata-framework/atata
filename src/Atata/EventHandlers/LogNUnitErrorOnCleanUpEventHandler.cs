@@ -1,5 +1,6 @@
 ﻿namespace Atata;
 
+[Obsolete("Use " + nameof(LogNUnitErrorEventHandler) + " instead.")] // Obsolete since v2.11.0.
 public class LogNUnitErrorOnCleanUpEventHandler : IEventHandler<AtataContextCleanUpEvent>
 {
     public void Handle(AtataContextCleanUpEvent eventData, AtataContext context)

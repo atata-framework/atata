@@ -38,8 +38,8 @@ public abstract class UITestFixtureBase
             .LogConsumers.AddNUnitTestContext()
             .LogConsumers.Add(_eventListLogConsumer)
                 .WithMessageNestingLevelIndent(string.Empty)
-            .LogNUnitError()
-            .OnCleanUpAddArtifactsToNUnitTestContext();
+            .EventSubscriptions.LogNUnitError()
+            .EventSubscriptions.AddArtifactsToNUnitTestContext();
     }
 
     [TearDown]

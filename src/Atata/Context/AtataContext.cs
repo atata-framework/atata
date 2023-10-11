@@ -921,10 +921,14 @@ public sealed class AtataContext : IDisposable
         PureExecutionStopwatch.Stop();
 
         Log.ExecuteSection(
-            new LogSection("Clean up AtataContext", LogLevel.Trace),
+            new LogSection("Deinitialize AtataContext", LogLevel.Trace),
             () =>
             {
+#pragma warning disable CS0618 // Type or member is obsolete
                 EventBus.Publish(new AtataContextCleanUpEvent(this));
+#pragma warning restore CS0618 // Type or member is obsolete
+
+                EventBus.Publish(new AtataContextDeInitEvent(this));
 
                 CleanUpTemporarilyPreservedPageObjectList();
 
@@ -937,6 +941,8 @@ public sealed class AtataContext : IDisposable
 
                 if (disposeDriver)
                     _driver?.Dispose();
+
+                EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
             });
 
         ExecutionStopwatch.Stop();
