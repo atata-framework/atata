@@ -128,4 +128,13 @@ public static class StringExtensions
             ? value.Substring(0, length - ellipses.Length) + ellipses
             : value.Substring(0, length);
     }
+
+    public static string TrimStart(this string value, string trimString)
+    {
+        value.CheckNotNull(nameof(value));
+
+        return trimString is not null && value.StartsWith(trimString, StringComparison.Ordinal)
+            ? value.Substring(trimString.Length)
+            : value;
+    }
 }
