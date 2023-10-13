@@ -38,8 +38,14 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
         return CreateDriver(_remoteAddress, capabilities, _commandTimeout ?? DefaultCommandTimeout);
     }
 
-    protected virtual IWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout) =>
-        new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
+    protected virtual IWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout)
+    {
+        var driver = new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
+
+        AtataContext.Current?.Log.Trace($"Created {GetDriverStringForLog(driver)}");
+
+        return driver;
+    }
 
     protected virtual ICapabilities CreateCapabilities()
     {

@@ -47,9 +47,14 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
 
             CheckPortForIgnoring(service);
 
-            AtataContext.Current?.Log.Trace($"Set: DriverService={service.GetType().Name} on port {service.Port}");
+            AtataContext.Current?.Log.Trace($"Created {GetDriverServiceStringForLog(service)}");
 
-            return CreateDriver(service, options, _commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
+            var driver = CreateDriver(service, options, _commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
+
+            if (driver is not null)
+                AtataContext.Current?.Log.Trace($"Created {GetDriverStringForLog(driver)}");
+
+            return driver;
         }
         catch
         {

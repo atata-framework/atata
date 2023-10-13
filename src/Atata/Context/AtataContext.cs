@@ -554,20 +554,23 @@ public sealed class AtataContext : IDisposable
     public void CleanUp(bool quitDriver) =>
         DisposeTogetherWithDriver(quitDriver);
 
-    internal void InitDriver()
-    {
-        if (DriverFactory is null)
-            throw new InvalidOperationException(
-                $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory is not specified.");
+    internal void InitDriver() =>
+        Log.ExecuteSection(
+            new LogSection("Initialize Driver", LogLevel.Trace),
+            () =>
+            {
+                if (DriverFactory is null)
+                    throw new InvalidOperationException(
+                        $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory is not specified.");
 
-        _driver = DriverFactory.Create()
-            ?? throw new InvalidOperationException(
-                $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory returned null as a driver.");
+                _driver = DriverFactory.Create()
+                    ?? throw new InvalidOperationException(
+                        $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory returned null as a driver.");
 
-        _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
+                _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
 
-        EventBus.Publish(new DriverInitEvent(_driver));
-    }
+                EventBus.Publish(new DriverInitEvent(_driver));
+            });
 
     /// <summary>
     /// Restarts the driver.

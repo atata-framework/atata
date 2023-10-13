@@ -8,6 +8,13 @@ public class CustomDriverAtataContextBuilder : DriverAtataContextBuilder<CustomD
         : base(buildingContext) =>
         _driverFactory = driverFactory.CheckNotNull(nameof(driverFactory));
 
-    protected override IWebDriver CreateDriver() =>
-        _driverFactory.Invoke();
+    protected override IWebDriver CreateDriver()
+    {
+        var driver = _driverFactory.Invoke();
+
+        if (driver is not null)
+            AtataContext.Current?.Log.Trace($"Use {GetDriverStringForLog(driver)}");
+
+        return driver;
+    }
 }

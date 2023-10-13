@@ -1116,8 +1116,8 @@ Actual: {driverFactory.GetType().FullName}",
         context.LogTestStart();
 
         context.Log.ExecuteSection(
-            new LogSection("Set up AtataContext", LogLevel.Trace),
-            () => SetUp(context));
+            new LogSection("Initialize AtataContext", LogLevel.Trace),
+            () => InitializeContext(context));
 
         context.PureExecutionStopwatch.Start();
 
@@ -1137,7 +1137,7 @@ Actual: {driverFactory.GetType().FullName}",
         return logManager;
     }
 
-    private void SetUp(AtataContext context)
+    private void InitializeContext(AtataContext context)
     {
         context.EventBus.Publish(new AtataContextInitStartedEvent(context));
 
@@ -1155,15 +1155,6 @@ Actual: {driverFactory.GetType().FullName}",
 
         if (context.DriverInitializationStage == AtataContextDriverInitializationStage.Build)
             context.InitDriver();
-
-        if (context.DriverInitializationStage != AtataContextDriverInitializationStage.None)
-        {
-            string driverTypeName = context.DriverInitializationStage == AtataContextDriverInitializationStage.OnDemand
-                ? "{on demand}"
-                : context.Driver.GetType().Name;
-
-            context.Log.Trace($"Set: Driver={driverTypeName}{context.DriverFactory?.Alias?.ToFormattedString(" (alias={0})")}");
-        }
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
     }

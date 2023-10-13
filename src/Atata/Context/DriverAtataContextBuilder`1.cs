@@ -33,4 +33,29 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
         Alias = alias;
         return (TBuilder)this;
     }
+
+    protected string GetDriverServiceStringForLog(DriverService service)
+    {
+        string executablePath = Path.Combine(service.DriverServicePath, service.DriverServiceExecutableName);
+
+        return $"{service.GetType().Name} {{ Port={service.Port}, ExecutablePath={executablePath} }}";
+    }
+
+    protected string GetDriverStringForLog(IWebDriver driver)
+    {
+        StringBuilder builder = new(driver.GetType().Name);
+
+        List<string> properties = new List<string>();
+
+        if (!string.IsNullOrEmpty(Alias))
+            properties.Add($"Alias={Alias}");
+
+        if (driver.TryAs(out IHasSessionId driverWithSessionId))
+            properties.Add($"SessionId={driverWithSessionId.SessionId}");
+
+        if (properties.Count > 0)
+            builder.Append(" { ").AppendJoined(", ", properties).Append(" }");
+
+        return builder.ToString();
+    }
 }
