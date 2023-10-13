@@ -201,7 +201,7 @@ public class Report<TOwner>
 
     /// <summary>
     /// Executes the specified action and represents it in a log as a setup section with the specified message.
-    /// The setup action time is not counted as pure test execution time.
+    /// The setup action time is not counted as a "Test body" execution time, but counted as "Setup" time.
     /// </summary>
     /// <param name="message">The setup message.</param>
     /// <param name="action">The setup action.</param>
@@ -213,21 +213,30 @@ public class Report<TOwner>
 
         _context.Log.ExecuteSection(message, () =>
         {
-            bool shouldStopPureExecutionStopwatch = _context.PureExecutionStopwatch.IsRunning;
-            if (shouldStopPureExecutionStopwatch)
-                _context.PureExecutionStopwatch.Stop();
+            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            if (shouldStopBodyExecutionStopwatch)
+                _context.BodyExecutionStopwatch.Stop();
 
-            action.Invoke(_owner);
+            _context.SetupExecutionStopwatch.Start();
 
-            if (shouldStopPureExecutionStopwatch)
-                _context.PureExecutionStopwatch.Start();
+            try
+            {
+                action.Invoke(_owner);
+            }
+            finally
+            {
+                _context.SetupExecutionStopwatch.Stop();
+
+                if (shouldStopBodyExecutionStopwatch)
+                    _context.BodyExecutionStopwatch.Start();
+            }
         });
         return _owner;
     }
 
     /// <summary>
     /// Executes the specified function and represents it in a log as a setup section with the specified message.
-    /// The setup function time is not counted as pure test execution time.
+    /// The setup function time is not counted as a "Test body" execution time, but counted as "Setup" time.
     /// </summary>
     /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="message">The setup message.</param>
@@ -242,14 +251,23 @@ public class Report<TOwner>
 
         _context.Log.ExecuteSection(message, () =>
         {
-            bool shouldStopPureExecutionStopwatch = _context.PureExecutionStopwatch.IsRunning;
-            if (shouldStopPureExecutionStopwatch)
-                _context.PureExecutionStopwatch.Stop();
+            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            if (shouldStopBodyExecutionStopwatch)
+                _context.BodyExecutionStopwatch.Stop();
 
-            result = function.Invoke(_owner);
+            _context.SetupExecutionStopwatch.Start();
 
-            if (shouldStopPureExecutionStopwatch)
-                _context.PureExecutionStopwatch.Start();
+            try
+            {
+                result = function.Invoke(_owner);
+            }
+            finally
+            {
+                _context.SetupExecutionStopwatch.Stop();
+
+                if (shouldStopBodyExecutionStopwatch)
+                    _context.BodyExecutionStopwatch.Start();
+            }
         });
 
         return result;

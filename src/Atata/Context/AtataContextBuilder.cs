@@ -1119,7 +1119,7 @@ Actual: {driverFactory.GetType().FullName}",
             new LogSection("Initialize AtataContext", LogLevel.Trace),
             () => InitializeContext(context));
 
-        context.PureExecutionStopwatch.Start();
+        context.BodyExecutionStopwatch.Start();
 
         return context;
     }

@@ -350,7 +350,9 @@ public sealed class AtataContext : IDisposable
 
     internal Stopwatch ExecutionStopwatch { get; } = Stopwatch.StartNew();
 
-    internal Stopwatch PureExecutionStopwatch { get; } = new Stopwatch();
+    internal Stopwatch BodyExecutionStopwatch { get; } = new Stopwatch();
+
+    internal Stopwatch SetupExecutionStopwatch { get; } = new Stopwatch();
 
     internal ScreenshotTaker ScreenshotTaker { get; set; }
 
@@ -921,7 +923,8 @@ public sealed class AtataContext : IDisposable
         if (_disposed)
             return;
 
-        PureExecutionStopwatch.Stop();
+        BodyExecutionStopwatch.Stop();
+        Stopwatch deinitializationStopwatch = Stopwatch.StartNew();
 
         Log.ExecuteSection(
             new LogSection("Deinitialize AtataContext", LogLevel.Trace),
@@ -948,11 +951,10 @@ public sealed class AtataContext : IDisposable
                 EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
             });
 
+        deinitializationStopwatch.Stop();
         ExecutionStopwatch.Stop();
 
-        string testUnitKindName = GetTestUnitKindName();
-        Log.InfoWithExecutionTimeInBrackets($"Finished {testUnitKindName}", ExecutionStopwatch.Elapsed);
-        Log.InfoWithExecutionTime($"Pure {testUnitKindName} execution time:", PureExecutionStopwatch.Elapsed);
+        LogTestFinish(deinitializationStopwatch.Elapsed);
 
         Log = null;
 
@@ -970,5 +972,69 @@ public sealed class AtataContext : IDisposable
 
             throw VerificationUtils.CreateAggregateAssertionException(copyOfPendingFailureAssertionResults);
         }
+    }
+
+    private void LogTestFinish(TimeSpan deinitializationTime)
+    {
+        string testUnitKindName = GetTestUnitKindName();
+
+        TimeSpan overallTime = ExecutionStopwatch.Elapsed;
+        TimeSpan setupTime = SetupExecutionStopwatch.Elapsed;
+        TimeSpan testBodyTime = BodyExecutionStopwatch.Elapsed;
+        TimeSpan initializationTime = overallTime - setupTime - testBodyTime - deinitializationTime;
+
+        string totalTimeString = overallTime.ToLongIntervalString();
+        string initializationTimeString = initializationTime.ToLongIntervalString();
+        string setupTimeString = setupTime.ToLongIntervalString();
+        string testBodyTimeString = testBodyTime.ToLongIntervalString();
+        string deinitializationTimeString = deinitializationTime.ToLongIntervalString();
+
+        int maxTimeStringLength = new[]
+        {
+            totalTimeString.Length,
+            initializationTimeString.Length,
+            setupTimeString.Length,
+            testBodyTimeString.Length,
+            deinitializationTimeString.Length
+        }.Max();
+
+        double initializationTimePercent = initializationTime.TotalMilliseconds / overallTime.TotalMilliseconds;
+        double setupTimePercent = setupTime.TotalMilliseconds / overallTime.TotalMilliseconds;
+        double deinitializationTimePercent = deinitializationTime.TotalMilliseconds / overallTime.TotalMilliseconds;
+        double testBodyPercent = 1 - initializationTimePercent - setupTimePercent - deinitializationTimePercent;
+
+        const string percentFormat = "P1";
+        CultureInfo percentCulture = CultureInfo.InvariantCulture;
+        string initializationTimePercentString = initializationTimePercent.ToString(percentFormat, percentCulture);
+        string setupTimePercentString = setupTimePercent.ToString(percentFormat, percentCulture);
+        string deinitializationTimePercentString = deinitializationTimePercent.ToString(percentFormat, percentCulture);
+        string testBodyPercentString = testBodyPercent.ToString(percentFormat, percentCulture);
+
+        int maxPercentStringLength = new[]
+        {
+            initializationTimePercentString.Length,
+            setupTimePercentString.Length,
+            deinitializationTimePercentString.Length,
+            testBodyPercentString.Length
+        }.Max();
+
+        var messageBuilder = new StringBuilder(
+            $"""
+            Finished {testUnitKindName}
+            Total time:       {totalTimeString.PadLeft(maxTimeStringLength)}
+            Initialization:   {initializationTimeString.PadLeft(maxTimeStringLength)} | {initializationTimePercentString.PadLeft(maxPercentStringLength)}
+            """);
+
+        if (setupTime > TimeSpan.Zero)
+            messageBuilder.AppendLine().Append(
+                $"Setup:            {setupTimeString.PadLeft(maxTimeStringLength)} | {setupTimePercentString.PadLeft(maxPercentStringLength)}");
+
+        messageBuilder.AppendLine().Append(
+            $"""
+            {$"{testUnitKindName.ToUpperFirstLetter()} body:",-17} {testBodyTimeString.PadLeft(maxTimeStringLength)} | {testBodyPercentString.PadLeft(maxPercentStringLength)}
+            Deinitialization: {deinitializationTimeString.PadLeft(maxTimeStringLength)} | {deinitializationTimePercentString.PadLeft(maxPercentStringLength)}
+            """);
+
+        Log.Info(messageBuilder.ToString());
     }
 }
