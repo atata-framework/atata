@@ -1021,17 +1021,17 @@ public sealed class AtataContext : IDisposable
         var messageBuilder = new StringBuilder(
             $"""
             Finished {testUnitKindName}
-            Total time:       {totalTimeString.PadLeft(maxTimeStringLength)}
-            Initialization:   {initializationTimeString.PadLeft(maxTimeStringLength)} | {initializationTimePercentString.PadLeft(maxPercentStringLength)}
+                  Total time: {totalTimeString.PadLeft(maxTimeStringLength)}
+              Initialization: {initializationTimeString.PadLeft(maxTimeStringLength)} | {initializationTimePercentString.PadLeft(maxPercentStringLength)}
             """);
 
         if (setupTime > TimeSpan.Zero)
             messageBuilder.AppendLine().Append(
-                $"Setup:            {setupTimeString.PadLeft(maxTimeStringLength)} | {setupTimePercentString.PadLeft(maxPercentStringLength)}");
+                $"           Setup: {setupTimeString.PadLeft(maxTimeStringLength)} | {setupTimePercentString.PadLeft(maxPercentStringLength)}");
 
         messageBuilder.AppendLine().Append(
             $"""
-            {$"{testUnitKindName.ToUpperFirstLetter()} body:",-17} {testBodyTimeString.PadLeft(maxTimeStringLength)} | {testBodyPercentString.PadLeft(maxPercentStringLength)}
+            {$"{testUnitKindName.ToUpperFirstLetter()} body:",17} {testBodyTimeString.PadLeft(maxTimeStringLength)} | {testBodyPercentString.PadLeft(maxPercentStringLength)}
             Deinitialization: {deinitializationTimeString.PadLeft(maxTimeStringLength)} | {deinitializationTimePercentString.PadLeft(maxPercentStringLength)}
             """);
 
