@@ -6,6 +6,7 @@ public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
     /// Gets or sets the image format.
     /// The default format is <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/>.
     /// </summary>
+    [Obsolete("Don't use this property as it will be removed. Atata will only support the PNG format, as will Selenium.WebDriver.")] // Obsolete since v2.11.0.
     public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
 
     /// <summary>
@@ -16,7 +17,9 @@ public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
     {
         string filePath = BuildFilePath(screenshotInfo);
         filePath = filePath.SanitizeForPath();
+#pragma warning disable CS0618 // Type or member is obsolete
         filePath += ImageFormat.GetExtension();
+#pragma warning restore CS0618 // Type or member is obsolete
 
         if (!Path.IsPathRooted(filePath))
             filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
@@ -51,9 +54,11 @@ public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
 
     private void SaveImage(ScreenshotInfo screenshotInfo, string filePath)
     {
+#pragma warning disable CS0618 // Type or member is obsolete
         if (ImageFormat == ScreenshotImageFormat.Png)
             screenshotInfo.ScreenshotContent.Save(filePath);
         else
             screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

@@ -9,6 +9,7 @@ public static class ScreenshotConsumerAtataContextBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="imageFormat">The image format.</param>
     /// <returns>The same builder instance.</returns>
+    [Obsolete("Don't use this method as it will be removed. Atata will only support the PNG format, as will Selenium.WebDriver.")] // Obsolete since v2.11.0.
     public static ScreenshotConsumerAtataContextBuilder<TConsumer> With<TConsumer>(
         this ScreenshotConsumerAtataContextBuilder<TConsumer> builder,
         ScreenshotImageFormat imageFormat)
