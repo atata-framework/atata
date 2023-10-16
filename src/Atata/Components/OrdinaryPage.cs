@@ -3,8 +3,11 @@
 /// <summary>
 /// Represents the ordinary page.
 /// </summary>
+[Name(DefaultName)]
 public class OrdinaryPage : Page<OrdinaryPage>
 {
-    public OrdinaryPage(string name = "<ordinary>") =>
+    private const string DefaultName = "<ordinary>";
+
+    public OrdinaryPage(string name = DefaultName) =>
         ComponentName = name.CheckNotNullOrEmpty(nameof(name));
 }
