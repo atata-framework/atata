@@ -445,6 +445,11 @@ public static class UIComponentResolver
     private static Attribute[] GetAssemblyAttributes(Assembly assembly) =>
         ResolveAndCacheAttributes(s_assemblyAttributes, assembly);
 
+    public static string ResolvePageObjectFullName<TPageObject>()
+        where TPageObject : PageObject<TPageObject>
+        =>
+        $"\"{ResolvePageObjectName<TPageObject>()}\" {ResolvePageObjectTypeName<TPageObject>()}";
+
     public static string ResolvePageObjectName<TPageObject>()
         where TPageObject : PageObject<TPageObject>
         =>
