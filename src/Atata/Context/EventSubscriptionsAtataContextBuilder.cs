@@ -126,7 +126,7 @@ public class EventSubscriptionsAtataContextBuilder : AtataContextBuilder
         Add(new TakePageSnapshotOnNUnitErrorEventHandler(title));
 
     /// <summary>
-    /// Defines that during <see cref="AtataContext"/> deinitialization the files stored in Artifacts directory
+    /// Defines that after <see cref="AtataContext"/> deinitialization the files stored in Artifacts directory
     /// should be added to NUnit <c>TestContext</c>.
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -134,7 +134,7 @@ public class EventSubscriptionsAtataContextBuilder : AtataContextBuilder
         Add(new AddArtifactsToNUnitTestContextEventHandler());
 
     /// <summary>
-    /// Defines that during <see cref="AtataContext"/> deinitialization the files stored in the directory
+    /// Defines that after <see cref="AtataContext"/> deinitialization the files stored in the directory
     /// specified by <paramref name="directoryPath"/> should be added to NUnit <c>TestContext</c>.
     /// Directory path supports template variables.
     /// </summary>
@@ -154,7 +154,7 @@ public class EventSubscriptionsAtataContextBuilder : AtataContextBuilder
     }
 
     /// <summary>
-    /// Defines that during <see cref="AtataContext"/> deinitialization the files stored in the directory
+    /// Defines that after <see cref="AtataContext"/> deinitialization the files stored in the directory
     /// specified by <paramref name="directoryPathBuilder"/> should be added to NUnit <c>TestContext</c>.
     /// Directory path supports template variables.
     /// </summary>
