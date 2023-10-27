@@ -142,8 +142,8 @@ public class EventSubscriptionsAtataContextBuilder : AtataContextBuilder
     /// <returns>The <see cref="AtataContextBuilder" /> instance.</returns>
     public AtataContextBuilder AddDirectoryFilesToNUnitTestContext(string directoryPath)
     {
-        directoryPath.CheckNotNull(nameof(directoryPath));
-        return AddDirectoryFilesToNUnitTestContext(_ => directoryPath);
+        directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+        return Add(new AddDirectoryFilesToNUnitTestContextEventHandler(directoryPath));
     }
 
     /// <inheritdoc cref="AddDirectoryFilesToNUnitTestContext(Func{AtataContext, string})"/>

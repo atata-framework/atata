@@ -4,6 +4,12 @@ public class AddDirectoryFilesToNUnitTestContextEventHandler : IEventHandler<Ata
 {
     private readonly Func<AtataContext, string> _directoryPathBuilder;
 
+    public AddDirectoryFilesToNUnitTestContextEventHandler(string directoryPath)
+    {
+        directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+        _directoryPathBuilder = _ => directoryPath;
+    }
+
     public AddDirectoryFilesToNUnitTestContextEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
         _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
 
