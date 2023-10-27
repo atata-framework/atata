@@ -197,44 +197,28 @@ public class Report<TOwner>
         return _owner;
     }
 
-    /// <summary>
-    /// Starts the specified log section.
-    /// </summary>
-    /// <param name="section">The log section.</param>
-    /// <returns>The instance of the owner object.</returns>
+    [Obsolete("Use Step/Setup instead. ")] // Obsolete since v2.12.0.
     public TOwner Start(LogSection section)
     {
         _context.Log.Start(section);
         return _owner;
     }
 
-    /// <summary>
-    /// Starts the specified log section with message.
-    /// </summary>
-    /// <param name="sectionMessage">The section message.</param>
-    /// <returns>The instance of the owner object.</returns>
+    [Obsolete("Use Step/Setup instead. ")] // Obsolete since v2.12.0.
     public TOwner Start(string sectionMessage)
     {
         _context.Log.Start(sectionMessage);
         return _owner;
     }
 
-    /// <summary>
-    /// Starts the specified log section with message and log level.
-    /// </summary>
-    /// <param name="sectionMessage">The section message.</param>
-    /// <param name="level">The level.</param>
-    /// <returns>The instance of the owner object.</returns>
+    [Obsolete("Use Step/Setup instead. ")] // Obsolete since v2.12.0.
     public TOwner Start(string sectionMessage, LogLevel level)
     {
         _context.Log.Start(sectionMessage, level);
         return _owner;
     }
 
-    /// <summary>
-    /// Ends the latest log section.
-    /// </summary>
-    /// <returns>The instance of the owner object.</returns>
+    [Obsolete("Use Step/Setup instead. ")] // Obsolete since v2.12.0.
     public TOwner EndSection()
     {
         _context.Log.EndSection();

@@ -107,15 +107,10 @@ public interface ILogManager
     /// <returns>The result of <paramref name="function"/>.</returns>
     TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function);
 
-    /// <summary>
-    /// Starts the specified log section.
-    /// </summary>
-    /// <param name="section">The log section.</param>
+    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
     void Start(LogSection section);
 
-    /// <summary>
-    /// Ends the latest log section.
-    /// </summary>
+    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
     void EndSection();
 
     /// <summary>

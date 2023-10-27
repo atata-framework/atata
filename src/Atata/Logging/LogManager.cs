@@ -141,7 +141,9 @@ public class LogManager : ILogManager
     {
         action.CheckNotNull(nameof(action));
 
+#pragma warning disable CS0618 // Type or member is obsolete
         Start(section);
+#pragma warning restore CS0618 // Type or member is obsolete
 
         try
         {
@@ -154,7 +156,9 @@ public class LogManager : ILogManager
         }
         finally
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             EndSection();
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 
@@ -163,7 +167,9 @@ public class LogManager : ILogManager
     {
         function.CheckNotNull(nameof(function));
 
+#pragma warning disable CS0618 // Type or member is obsolete
         Start(section);
+#pragma warning restore CS0618 // Type or member is obsolete
 
         try
         {
@@ -178,11 +184,14 @@ public class LogManager : ILogManager
         }
         finally
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             EndSection();
+#pragma warning restore CS0618 // Type or member is obsolete
         }
     }
 
-    /// <inheritdoc/>
+    // TODO: v3. Make it private.
+    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
     public void Start(LogSection section)
     {
         section.CheckNotNull(nameof(section));
@@ -198,7 +207,8 @@ public class LogManager : ILogManager
         _sectionEndStack.Push(section);
     }
 
-    /// <inheritdoc/>
+    // TODO: v3. Make it private.
+    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
     public void EndSection()
     {
         if (_sectionEndStack.Any())

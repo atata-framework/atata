@@ -33,9 +33,11 @@ public static class ILogManagerExtensions
         logger.CheckNotNull(nameof(logger))
             .ExecuteSection(new LogSection(sectionMessage), function);
 
+    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
     public static void Start(this ILogManager logger, string sectionMessage) =>
         Start(logger, sectionMessage, LogLevel.Info);
 
+    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
     public static void Start(this ILogManager logger, string sectionMessage, LogLevel level) =>
         logger.Start(new LogSection(sectionMessage, level));
 
