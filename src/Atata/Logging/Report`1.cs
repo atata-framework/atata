@@ -27,7 +27,7 @@ public class Report<TOwner>
     public AtataContext Context => _context;
 
     /// <summary>
-    /// Writes the log message at the <see cref="LogLevel.Trace"/> level optionally using the specified <paramref name="args"/> as a message format parameters.
+    /// Writes a trace log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The arguments.</param>
@@ -39,7 +39,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the log message at the <see cref="LogLevel.Debug"/> level optionally using the specified <paramref name="args"/> as a message format parameters.
+    /// Writes a debug log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The arguments.</param>
@@ -51,7 +51,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the log message at the <see cref="LogLevel.Info"/> level optionally using the specified <paramref name="args"/> as a message format parameters.
+    /// Writes an informational log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The arguments.</param>
@@ -63,7 +63,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the log message at the <see cref="LogLevel.Warn"/> level optionally using the specified <paramref name="args"/> as a message format parameters.
+    /// Writes a warning log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The arguments.</param>
@@ -75,7 +75,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the exception at the <see cref="LogLevel.Warn"/> level.
+    /// Writes the exception as a warning log message.
     /// </summary>
     /// <param name="exception">The exception.</param>
     /// <returns>The instance of the owner object.</returns>
@@ -86,7 +86,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the log message and optionally exception at the <see cref="LogLevel.Warn"/> level.
+    /// Writes a warning log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
@@ -98,7 +98,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the exception at the <see cref="LogLevel.Error"/> level.
+    /// Writes the exception as an error log message.
     /// </summary>
     /// <param name="exception">The exception.</param>
     /// <returns>The instance of the owner object.</returns>
@@ -109,7 +109,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the log message and optionally exception at the <see cref="LogLevel.Error"/> level.
+    /// Writes an error log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
@@ -121,7 +121,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the log message and stack trace at the <see cref="LogLevel.Error"/> level.
+    /// Writes an error log message with the stack trace.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="stackTrace">The stack trace.</param>
@@ -133,7 +133,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the exception at the <see cref="LogLevel.Fatal"/> level.
+    /// Writes the exception as a critical log message.
     /// </summary>
     /// <param name="exception">The exception.</param>
     /// <returns>The instance of the owner object.</returns>
@@ -144,7 +144,7 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the log message and optionally exception at the <see cref="LogLevel.Fatal"/> level.
+    /// Writes a critical log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>

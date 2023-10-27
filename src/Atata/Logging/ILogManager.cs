@@ -6,67 +6,67 @@
 public interface ILogManager
 {
     /// <summary>
-    /// Writes the log message with <see cref="LogLevel.Trace"/> level.
+    /// Writes a trace log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The message arguments.</param>
     void Trace(string message, params object[] args);
 
     /// <summary>
-    /// Writes the log message with <see cref="LogLevel.Debug"/> level.
+    /// Writes a debug log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The message arguments.</param>
     void Debug(string message, params object[] args);
 
     /// <summary>
-    /// Writes the log message with <see cref="LogLevel.Info"/> level.
+    /// Writes an informational log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The message arguments.</param>
     void Info(string message, params object[] args);
 
     /// <summary>
-    /// Writes the log message with <see cref="LogLevel.Warn"/> level.
+    /// Writes a warning log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="args">The message arguments.</param>
     void Warn(string message, params object[] args);
 
     /// <summary>
-    /// Writes the exception with <see cref="LogLevel.Warn"/> level.
+    /// Writes the exception as a warning log message.
     /// </summary>
     /// <param name="exception">The exception.</param>
     void Warn(Exception exception);
 
     /// <summary>
-    /// Writes the log message and exception with <see cref="LogLevel.Warn"/> level.
+    /// Writes a warning log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
     void Warn(string message, Exception exception = null);
 
     /// <summary>
-    /// Writes the exception with <see cref="LogLevel.Error"/> level.
+    /// Writes the exception as an error log message.
     /// </summary>
     /// <param name="exception">The exception.</param>
     void Error(Exception exception);
 
     /// <summary>
-    /// Writes the log message and exception with <see cref="LogLevel.Error"/> level.
+    /// Writes an error log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
     void Error(string message, Exception exception = null);
 
     /// <summary>
-    /// Writes the exception with <see cref="LogLevel.Fatal"/> level.
+    /// Writes the exception as a critical log message.
     /// </summary>
     /// <param name="exception">The exception.</param>
     void Fatal(Exception exception);
 
     /// <summary>
-    /// Writes the log message and exception with <see cref="LogLevel.Error"/> level.
+    /// Writes a critical log message.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
