@@ -3,6 +3,7 @@
 /// <summary>
 /// Provides a set of extension methods for <see cref="ILogManager"/>.
 /// </summary>
+// TODO: v3. Remove ILogManagerExtensions. Move non-obsolete methods to ILogManager/LogManager.
 public static class ILogManagerExtensions
 {
     /// <summary>
@@ -46,10 +47,4 @@ public static class ILogManagerExtensions
 
         logger.Error(builder.ToString());
     }
-
-    internal static void InfoWithExecutionTime(this ILogManager logger, string message, TimeSpan executionTime) =>
-        logger.Info($"{message} {executionTime.ToLongIntervalString()}");
-
-    internal static void InfoWithExecutionTimeInBrackets(this ILogManager logger, string message, TimeSpan executionTime) =>
-        logger.Info($"{message} ({executionTime.ToLongIntervalString()})");
 }
