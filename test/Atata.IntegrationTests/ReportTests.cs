@@ -12,12 +12,11 @@ public class ReportTests : UITestFixture
             .Report.Trace("tracemessage")
             .Report.Debug("debugmessage")
             .Report.Info("infomessage")
-            .Report.Warn("{0}message", "warn")
-            .Report.Error(errorException)
-            .Report.Error("errormessage", errorException)
-            .Report.Error("errormessage", "stacktrace")
-            .Report.Fatal(fatalException)
-            .Report.Fatal("fatalmessage", fatalException);
+            .Report.Warn("warnmessage")
+            .Report.Error(errorException, null)
+            .Report.Error(errorException, "errormessage")
+            .Report.Fatal(fatalException, null)
+            .Report.Fatal(fatalException, "fatalmessage");
 
         VerifyLastLogEntries(
             (LogLevel.Trace, "tracemessage", null),
@@ -26,7 +25,6 @@ public class ReportTests : UITestFixture
             (LogLevel.Warn, "warnmessage", null),
             (LogLevel.Error, null, errorException),
             (LogLevel.Error, "errormessage", errorException),
-            (LogLevel.Error, $"errormessage{Environment.NewLine}stacktrace", null),
             (LogLevel.Fatal, null, fatalException),
             (LogLevel.Fatal, "fatalmessage", fatalException));
     }

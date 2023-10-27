@@ -76,15 +76,15 @@ internal sealed class ScreenshotTaker
                 {
                     screenshotConsumer.Take(screenshotInfo);
                 }
-                catch (Exception e)
+                catch (Exception exception)
                 {
-                    _context.Log.Error("Screenshot failed", e);
+                    _context.Log.Error(exception, "Screenshot failed.");
                 }
             }
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            _context.Log.Error("Screenshot failed", e);
+            _context.Log.Error(exception, "Screenshot failed.");
         }
     }
 }

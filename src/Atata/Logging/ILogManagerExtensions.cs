@@ -39,6 +39,7 @@ public static class ILogManagerExtensions
     public static void Start(this ILogManager logger, string sectionMessage, LogLevel level) =>
         logger.Start(new LogSection(sectionMessage, level));
 
+    [Obsolete("Use Error(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public static void Error(this ILogManager logger, string message, string stackTrace)
     {
         StringBuilder builder = new StringBuilder(message)

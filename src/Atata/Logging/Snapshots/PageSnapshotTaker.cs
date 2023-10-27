@@ -42,7 +42,7 @@ internal sealed class PageSnapshotTaker
         }
         catch (Exception e)
         {
-            _context.Log.Error("Page snapshot failed", e);
+            _context.Log.Error(e, "Page snapshot failed");
         }
     }
 

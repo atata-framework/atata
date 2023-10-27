@@ -7,6 +7,12 @@ public sealed class LogNUnitErrorEventHandler : IEventHandler<AtataContextDeInit
         dynamic testResult = NUnitAdapter.GetCurrentTestResultAdapter();
 
         if (NUnitAdapter.IsTestResultAdapterFailed(testResult))
-            context.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
+        {
+            StringBuilder builder = new StringBuilder((string)testResult.Message)
+                .AppendLine()
+                .Append((string)testResult.StackTrace);
+
+            context.Log.Error(builder.ToString());
+        }
     }
 }

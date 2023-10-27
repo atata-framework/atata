@@ -26,12 +26,7 @@ public class Report<TOwner>
     /// </summary>
     public AtataContext Context => _context;
 
-    /// <summary>
-    /// Writes a trace log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <param name="args">The arguments.</param>
-    /// <returns>The instance of the owner object.</returns>
+    [Obsolete("Use Trace(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public TOwner Trace(string message, params object[] args)
     {
         _context.Log.Trace(message, args);
@@ -39,11 +34,17 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes a debug log message.
+    /// Writes a trace log message.
     /// </summary>
     /// <param name="message">The message.</param>
-    /// <param name="args">The arguments.</param>
     /// <returns>The instance of the owner object.</returns>
+    public TOwner Trace(string message)
+    {
+        _context.Log.Trace(message);
+        return _owner;
+    }
+
+    [Obsolete("Use Debug(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public TOwner Debug(string message, params object[] args)
     {
         _context.Log.Debug(message, args);
@@ -51,11 +52,17 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes an informational log message.
+    /// Writes a debug log message.
     /// </summary>
     /// <param name="message">The message.</param>
-    /// <param name="args">The arguments.</param>
     /// <returns>The instance of the owner object.</returns>
+    public TOwner Debug(string message)
+    {
+        _context.Log.Debug(message);
+        return _owner;
+    }
+
+    [Obsolete("Use Info(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public TOwner Info(string message, params object[] args)
     {
         _context.Log.Info(message, args);
@@ -63,11 +70,17 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes a warning log message.
+    /// Writes an informational log message.
     /// </summary>
     /// <param name="message">The message.</param>
-    /// <param name="args">The arguments.</param>
     /// <returns>The instance of the owner object.</returns>
+    public TOwner Info(string message)
+    {
+        _context.Log.Info(message);
+        return _owner;
+    }
+
+    [Obsolete("Use Warn(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public TOwner Warn(string message, params object[] args)
     {
         _context.Log.Warn(message, args);
@@ -75,36 +88,50 @@ public class Report<TOwner>
     }
 
     /// <summary>
-    /// Writes the exception as a warning log message.
+    /// Writes a warning log message.
     /// </summary>
-    /// <param name="exception">The exception.</param>
+    /// <param name="message">The message.</param>
     /// <returns>The instance of the owner object.</returns>
+    public TOwner Warn(string message)
+    {
+        _context.Log.Warn(message);
+        return _owner;
+    }
+
+    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
     public TOwner Warn(Exception exception)
     {
         _context.Log.Warn(exception);
         return _owner;
     }
 
-    /// <summary>
-    /// Writes a warning log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <param name="exception">The exception.</param>
-    /// <returns>The instance of the owner object.</returns>
-    public TOwner Warn(string message, Exception exception = null)
+    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    public TOwner Warn(string message, Exception exception)
     {
         _context.Log.Warn(message, exception);
         return _owner;
     }
 
-    /// <summary>
-    /// Writes the exception as an error log message.
-    /// </summary>
+    /// <inheritdoc cref="Warn(string)"/>
     /// <param name="exception">The exception.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <param name="message">The message.</param>
+    public TOwner Warn(Exception exception, string message)
+    {
+        _context.Log.Warn(exception, message);
+        return _owner;
+    }
+
+    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
     public TOwner Error(Exception exception)
     {
         _context.Log.Error(exception);
+        return _owner;
+    }
+
+    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    public TOwner Error(string message, Exception exception)
+    {
+        _context.Log.Error(message, exception);
         return _owner;
     }
 
@@ -112,34 +139,41 @@ public class Report<TOwner>
     /// Writes an error log message.
     /// </summary>
     /// <param name="message">The message.</param>
-    /// <param name="exception">The exception.</param>
     /// <returns>The instance of the owner object.</returns>
-    public TOwner Error(string message, Exception exception = null)
+    public TOwner Error(string message)
     {
-        _context.Log.Error(message, exception);
+        _context.Log.Error(message);
         return _owner;
     }
 
-    /// <summary>
-    /// Writes an error log message with the stack trace.
-    /// </summary>
+    /// <inheritdoc cref="Error(string)"/>
+    /// <param name="exception">The exception.</param>
     /// <param name="message">The message.</param>
-    /// <param name="stackTrace">The stack trace.</param>
     /// <returns>The instance of the owner object.</returns>
+    public TOwner Error(Exception exception, string message)
+    {
+        _context.Log.Error(exception, message);
+        return _owner;
+    }
+
+    [Obsolete("Use Error(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public TOwner Error(string message, string stackTrace)
     {
         _context.Log.Error(message, stackTrace);
         return _owner;
     }
 
-    /// <summary>
-    /// Writes the exception as a critical log message.
-    /// </summary>
-    /// <param name="exception">The exception.</param>
-    /// <returns>The instance of the owner object.</returns>
+    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
     public TOwner Fatal(Exception exception)
     {
         _context.Log.Fatal(exception);
+        return _owner;
+    }
+
+    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    public TOwner Fatal(string message, Exception exception)
+    {
+        _context.Log.Fatal(message, exception);
         return _owner;
     }
 
@@ -147,11 +181,19 @@ public class Report<TOwner>
     /// Writes a critical log message.
     /// </summary>
     /// <param name="message">The message.</param>
-    /// <param name="exception">The exception.</param>
     /// <returns>The instance of the owner object.</returns>
-    public TOwner Fatal(string message, Exception exception = null)
+    public TOwner Fatal(string message)
     {
-        _context.Log.Fatal(message, exception);
+        _context.Log.Fatal(message);
+        return _owner;
+    }
+
+    /// <inheritdoc cref="Fatal(string)"/>
+    /// <param name="exception">The exception.</param>
+    /// <param name="message">The message.</param>
+    public TOwner Fatal(Exception exception, string message)
+    {
+        _context.Log.Fatal(exception, message);
         return _owner;
     }
 

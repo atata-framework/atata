@@ -72,7 +72,7 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
         }
         catch (Exception exception)
         {
-            AtataContext.Current?.Log.Error($"{service.GetType().Name}.Dispose() failed", exception);
+            AtataContext.Current?.Log.Error(exception, $"{service.GetType().Name}.Dispose() failed");
         }
     }
 

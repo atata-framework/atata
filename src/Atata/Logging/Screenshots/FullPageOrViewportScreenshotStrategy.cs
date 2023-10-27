@@ -51,7 +51,7 @@ public sealed class FullPageOrViewportScreenshotStrategy : IScreenshotStrategy
             {
                 s_driverAliasSupportsCdpMap[driverAlias] = false;
 
-                context.Log.Warn($"Failed to take a full-page screenshot via CDP. {nameof(ITakesScreenshot)}.{nameof(ITakesScreenshot.GetScreenshot)} will be used to take screenshot.", exception);
+                context.Log.Warn(exception, $"Failed to take a full-page screenshot via CDP. {nameof(ITakesScreenshot)}.{nameof(ITakesScreenshot.GetScreenshot)} will be used to take screenshot.");
             }
         }
 

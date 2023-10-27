@@ -1163,9 +1163,23 @@ Actual: {driverFactory.GetType().FullName}",
     {
         string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
 
-        context.Log.Trace(messageFormat, "ElementFind", context.ElementFindTimeout.ToShortIntervalString(), context.ElementFindRetryInterval.ToShortIntervalString());
-        context.Log.Trace(messageFormat, "Waiting", context.WaitingTimeout.ToShortIntervalString(), context.WaitingRetryInterval.ToShortIntervalString());
-        context.Log.Trace(messageFormat, "Verification", context.VerificationTimeout.ToShortIntervalString(), context.VerificationRetryInterval.ToShortIntervalString());
+        context.Log.Trace(
+            messageFormat.FormatWith(
+                "ElementFind",
+                context.ElementFindTimeout.ToShortIntervalString(),
+                context.ElementFindRetryInterval.ToShortIntervalString()));
+
+        context.Log.Trace(
+            messageFormat.FormatWith(
+                "Waiting",
+                context.WaitingTimeout.ToShortIntervalString(),
+                context.WaitingRetryInterval.ToShortIntervalString()));
+
+        context.Log.Trace(
+            messageFormat.FormatWith(
+                "Verification",
+                context.VerificationTimeout.ToShortIntervalString(),
+                context.VerificationRetryInterval.ToShortIntervalString()));
     }
 
     private static void ApplyCulture(AtataContext context, CultureInfo culture)
@@ -1226,7 +1240,7 @@ Actual: {driverFactory.GetType().FullName}",
             }
             catch (Exception exception)
             {
-                context.Log.Warn("Browser logs monitoring failed to enable.", exception);
+                context.Log.Warn(exception, "Browser logs monitoring failed to enable.");
                 return;
             }
 

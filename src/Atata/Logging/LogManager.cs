@@ -60,44 +60,80 @@ public class LogManager : ILogManager
         return this;
     }
 
-    /// <inheritdoc/>
+    [Obsolete("Use Trace(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public void Trace(string message, params object[] args) =>
         Log(LogLevel.Trace, message, args);
 
     /// <inheritdoc/>
+    public void Trace(string message) =>
+        Log(LogLevel.Trace, message);
+
+    [Obsolete("Use Debug(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public void Debug(string message, params object[] args) =>
         Log(LogLevel.Debug, message, args);
 
     /// <inheritdoc/>
+    public void Debug(string message) =>
+        Log(LogLevel.Debug, message);
+
+    [Obsolete("Use Info(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public void Info(string message, params object[] args) =>
         Log(LogLevel.Info, message, args);
 
     /// <inheritdoc/>
+    public void Info(string message) =>
+        Log(LogLevel.Info, message);
+
+    [Obsolete("Use Warn(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
     public void Warn(string message, params object[] args) =>
         Log(LogLevel.Warn, message, args);
 
     /// <inheritdoc/>
+    public void Warn(string message) =>
+        Log(LogLevel.Warn, message);
+
+    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
     public void Warn(Exception exception) =>
         Log(LogLevel.Warn, null, exception);
 
-    /// <inheritdoc/>
-    public void Warn(string message, Exception exception = null) =>
+    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    public void Warn(string message, Exception exception) =>
         Log(LogLevel.Warn, message, exception);
 
     /// <inheritdoc/>
+    public void Warn(Exception exception, string message) =>
+        Log(LogLevel.Warn, message, exception);
+
+    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
     public void Error(Exception exception) =>
         Log(LogLevel.Error, null, exception);
 
-    /// <inheritdoc/>
-    public void Error(string message, Exception exception = null) =>
+    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    public void Error(string message, Exception exception) =>
         Log(LogLevel.Error, message, exception);
 
     /// <inheritdoc/>
+    public void Error(string message) =>
+        Log(LogLevel.Error, message);
+
+    /// <inheritdoc/>
+    public void Error(Exception exception, string message) =>
+        Log(LogLevel.Error, message, exception);
+
+    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
     public void Fatal(Exception exception) =>
         Log(LogLevel.Fatal, null, exception);
 
+    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    public void Fatal(string message, Exception exception) =>
+        Log(LogLevel.Fatal, message, exception);
+
     /// <inheritdoc/>
-    public void Fatal(string message, Exception exception = null) =>
+    public void Fatal(string message) =>
+        Log(LogLevel.Fatal, message);
+
+    /// <inheritdoc/>
+    public void Fatal(Exception exception, string message) =>
         Log(LogLevel.Fatal, message, exception);
 
     /// <inheritdoc/>
@@ -243,6 +279,7 @@ public class LogManager : ILogManager
             : resultMessage;
     }
 
+    // TODO: v3. Remove.
     private void Log(LogLevel level, string message, object[] args)
     {
         string completeMessage = (args?.Length ?? 0) > 0
@@ -254,7 +291,7 @@ public class LogManager : ILogManager
         Log(logEvent);
     }
 
-    private void Log(LogLevel level, string message, Exception exception)
+    private void Log(LogLevel level, string message, Exception exception = null)
     {
         LogEventInfo logEvent = _logEventInfoFactory.Create(level, message);
         logEvent.Exception = exception;

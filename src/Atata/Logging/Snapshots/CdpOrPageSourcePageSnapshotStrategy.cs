@@ -47,7 +47,7 @@ public sealed class CdpOrPageSourcePageSnapshotStrategy : IPageSnapshotStrategy
             {
                 s_driverAliasSupportsCdpMap[driverAlias] = false;
 
-                context.Log.Warn("Failed to take CDP snapshot. PageSource snapshot will be taken.", exception);
+                context.Log.Warn(exception, "Failed to take CDP snapshot. PageSource snapshot will be taken.");
             }
         }
 
