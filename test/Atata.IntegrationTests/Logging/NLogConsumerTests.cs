@@ -15,7 +15,7 @@ public class NLogConsumerTests : UITestFixtureBase
 
         string filePath = Path.Combine(
             AtataContext.Current.Artifacts.FullName,
-            $"{AtataContext.Current.TestNameSanitized}.log");
+            $"{AtataContext.Current.Test.NameSanitized}.log");
 
         AssertThatFileShouldContainText(filePath, testMessage);
     }

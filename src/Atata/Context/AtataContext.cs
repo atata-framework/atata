@@ -20,10 +20,6 @@ public sealed class AtataContext : IDisposable
 
     private readonly ExpectationVerificationStrategy _expectationVerificationStrategy;
 
-    private string _testName;
-
-    private string _testSuiteName;
-
     private IWebDriver _driver;
 
     private bool _disposed;
@@ -154,46 +150,25 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public ILogManager Log { get; internal set; }
 
-    /// <summary>
-    /// Gets the name of the test.
-    /// </summary>
-    public string TestName
-    {
-        get => _testName;
-        internal set
-        {
-            _testName = value;
-            TestNameSanitized = value.SanitizeForFileName();
-        }
-    }
+    [Obsolete("Use Test.Name instead.")] // Obsolete since v2.12.0.
+    public string TestName => Test.Name;
+
+    [Obsolete("Use Test.NameSanitized instead.")] // Obsolete since v2.12.0.
+    public string TestNameSanitized => Test.NameSanitized;
+
+    [Obsolete("Use Test.SuiteName instead.")] // Obsolete since v2.12.0.
+    public string TestSuiteName => Test.SuiteName;
+
+    [Obsolete("Use Test.SuiteNameSanitized instead.")] // Obsolete since v2.12.0.
+    public string TestSuiteNameSanitized => Test.SuiteNameSanitized;
+
+    [Obsolete("Use Test.SuiteType instead.")] // Obsolete since v2.12.0.
+    public Type TestSuiteType => Test.SuiteType;
 
     /// <summary>
-    /// Gets the name of the test sanitized for file path/name.
+    /// Gets the test information.
     /// </summary>
-    public string TestNameSanitized { get; private set; }
-
-    /// <summary>
-    /// Gets the name of the test suite (fixture/class).
-    /// </summary>
-    public string TestSuiteName
-    {
-        get => _testSuiteName;
-        internal set
-        {
-            _testSuiteName = value;
-            TestSuiteNameSanitized = value.SanitizeForFileName();
-        }
-    }
-
-    /// <summary>
-    /// Gets the name of the test suite sanitized for file path/name.
-    /// </summary>
-    public string TestSuiteNameSanitized { get; private set; }
-
-    /// <summary>
-    /// Gets the test suite (fixture/class) type.
-    /// </summary>
-    public Type TestSuiteType { get; internal set; }
+    public TestInfo Test { get; } = new();
 
     /// <summary>
     /// Gets the local date/time of the start.
@@ -462,10 +437,10 @@ public sealed class AtataContext : IDisposable
 
         variables["basedir"] = AppDomain.CurrentDomain.BaseDirectory;
 
-        variables["test-name-sanitized"] = TestNameSanitized;
-        variables["test-name"] = TestName;
-        variables["test-suite-name-sanitized"] = TestSuiteNameSanitized;
-        variables["test-suite-name"] = TestSuiteName;
+        variables["test-name-sanitized"] = Test.NameSanitized;
+        variables["test-name"] = Test.Name;
+        variables["test-suite-name-sanitized"] = Test.SuiteNameSanitized;
+        variables["test-suite-name"] = Test.SuiteName;
         variables["test-start"] = StartedAt;
         variables["test-start-utc"] = StartedAtUtc;
 
@@ -486,37 +461,15 @@ public sealed class AtataContext : IDisposable
     internal void LogTestStart()
     {
         StringBuilder logMessageBuilder = new StringBuilder(
-            $"Starting {GetTestUnitKindName()}");
+            $"Starting {Test.GetTestUnitKindName()}");
 
-        string[] testFullNameParts = GetTestFullNameParts().ToArray();
+        string testFullName = Test.FullName;
 
-        if (testFullNameParts.Length > 0)
-        {
-            logMessageBuilder.Append(": ")
-                .Append(string.Join(".", testFullNameParts));
-        }
+        if (testFullName is not null)
+            logMessageBuilder.Append(": ").Append(testFullName);
 
         Log.Info(logMessageBuilder.ToString());
     }
-
-    private IEnumerable<string> GetTestFullNameParts()
-    {
-        if (TestSuiteType != null)
-            yield return TestSuiteType.Namespace;
-
-        if (TestSuiteName != null)
-            yield return TestSuiteName;
-
-        if (TestName != null)
-            yield return TestName;
-    }
-
-    private string GetTestUnitKindName() =>
-        TestName != null
-            ? "test"
-            : TestSuiteType != null
-                ? "test suite"
-                : "test unit";
 
     /// <summary>
     /// Executes aggregate assertion using <see cref="AggregateAssertionStrategy" />.
@@ -976,7 +929,7 @@ public sealed class AtataContext : IDisposable
 
     private void LogTestFinish(TimeSpan deinitializationTime)
     {
-        string testUnitKindName = GetTestUnitKindName();
+        string testUnitKindName = Test.GetTestUnitKindName();
 
         TimeSpan overallTime = ExecutionStopwatch.Elapsed;
         TimeSpan setupTime = SetupExecutionStopwatch.Elapsed;

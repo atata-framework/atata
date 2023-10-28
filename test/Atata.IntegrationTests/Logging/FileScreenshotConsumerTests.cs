@@ -69,7 +69,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
     public void WithDirectoryPathBuilder()
     {
         _consumerBuilder
-            .WithDirectoryPath(() => $@"TestLogs/{AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat)}/{AtataContext.Current.TestName}")
+            .WithDirectoryPath(() => $@"TestLogs/{AtataContext.BuildStart.Value.ToString(DefaultDateTimeFormat)}/{AtataContext.Current.Test.Name}")
             .Build();
 
         Go.To<BasicControlsPage>();

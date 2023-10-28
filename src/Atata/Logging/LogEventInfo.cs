@@ -53,17 +53,17 @@ public class LogEventInfo
     [Obsolete("Use Context." + nameof(AtataContext.BuildStartInTimeZone) + " instead.")] // Obsolete since v2.0.0.
     public DateTime BuildStart => Context?.BuildStartInTimeZone ?? DateTime.MinValue;
 
-    [Obsolete("Use Context." + nameof(AtataContext.TestName) + " instead.")] // Obsolete since v2.0.0.
-    public string TestName => Context?.TestName;
+    [Obsolete("Use Context.Test.Name instead.")] // Obsolete since v2.0.0.
+    public string TestName => Context?.Test.Name;
 
-    [Obsolete("Use Context." + nameof(AtataContext.TestNameSanitized) + " instead.")] // Obsolete since v2.0.0.
-    public string TestNameSanitized => Context?.TestNameSanitized;
+    [Obsolete("Use Context.Test.NameSanitized instead.")] // Obsolete since v2.0.0.
+    public string TestNameSanitized => Context?.Test.NameSanitized;
 
-    [Obsolete("Use Context." + nameof(AtataContext.TestSuiteName) + " instead.")] // Obsolete since v2.0.0.
-    public string TestSuiteName => Context?.TestSuiteName;
+    [Obsolete("Use Context.Test.SuiteName instead.")] // Obsolete since v2.0.0.
+    public string TestSuiteName => Context?.Test.SuiteName;
 
-    [Obsolete("Use Context." + nameof(AtataContext.TestSuiteNameSanitized) + " instead.")] // Obsolete since v2.0.0.
-    public string TestSuiteNameSanitized => Context?.TestSuiteNameSanitized;
+    [Obsolete("Use Context.Test.SuiteNameSanitized instead.")] // Obsolete since v2.0.0.
+    public string TestSuiteNameSanitized => Context?.Test.SuiteNameSanitized;
 
     [Obsolete("Use Context." + nameof(AtataContext.StartedAt) + " instead.")] // Obsolete since v2.0.0.
     public DateTime TestStart => Context?.StartedAt ?? DateTime.MinValue;

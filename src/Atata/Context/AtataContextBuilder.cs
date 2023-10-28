@@ -1055,9 +1055,9 @@ Actual: {driverFactory.GetType().FullName}",
         IObjectMapper objectMapper = new ObjectMapper(objectConverter);
         IObjectCreator objectCreator = new ObjectCreator(objectConverter, objectMapper);
 
-        context.TestName = BuildingContext.TestNameFactory?.Invoke();
-        context.TestSuiteName = BuildingContext.TestSuiteNameFactory?.Invoke();
-        context.TestSuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke();
+        context.Test.Name = BuildingContext.TestNameFactory?.Invoke();
+        context.Test.SuiteName = BuildingContext.TestSuiteNameFactory?.Invoke();
+        context.Test.SuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke();
         context.TimeZone = BuildingContext.TimeZone;
         context.BaseUrl = BuildingContext.BaseUrl;
         context.Log = logManager;
@@ -1094,8 +1094,8 @@ Actual: {driverFactory.GetType().FullName}",
             BuildingContext.PageSnapshots.FileNameTemplate,
             context);
 
-        if (context.TestSuiteName is null && context.TestSuiteType != null)
-            context.TestSuiteName = context.TestSuiteType.Name;
+        if (context.Test.SuiteName is null && context.Test.SuiteType is not null)
+            context.Test.SuiteName = context.Test.SuiteType.Name;
 
         context.DriverFactory = BuildingContext.DriverFactoryToUse
             ?? BuildingContext.DriverFactories.LastOrDefault();

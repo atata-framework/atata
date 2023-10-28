@@ -41,7 +41,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
             .Build();
 
         WriteLogMessageAndAssertItInFile(
-            Path.Combine(directoryFixture.DirectoryPath, $"{AtataContext.Current.TestNameSanitized}-{AtataContext.Current.DriverAlias}", "test.log"));
+            Path.Combine(directoryFixture.DirectoryPath, $"{AtataContext.Current.Test.NameSanitized}-{AtataContext.Current.DriverAlias}", "test.log"));
     }
 
     [Test]
