@@ -237,7 +237,7 @@ public class Report<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         action.CheckNotNull(nameof(action));
 
-        _context.Log.ExecuteSection(message, () =>
+        _context.Log.ExecuteSection(new SetupLogSection(message), () =>
         {
             bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
@@ -275,7 +275,7 @@ public class Report<TOwner>
 
         TResult result = default;
 
-        _context.Log.ExecuteSection(message, () =>
+        _context.Log.ExecuteSection(new SetupLogSection(message), () =>
         {
             bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
@@ -310,7 +310,7 @@ public class Report<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         action.CheckNotNull(nameof(action));
 
-        _context.Log.ExecuteSection(message, () => action.Invoke(_owner));
+        _context.Log.ExecuteSection(new StepLogSection(message), () => action.Invoke(_owner));
         return _owner;
     }
 
@@ -327,7 +327,7 @@ public class Report<TOwner>
         function.CheckNotNull(nameof(function));
 
         TResult result = default;
-        _context.Log.ExecuteSection(message, (Action)(() => result = function.Invoke(_owner)));
+        _context.Log.ExecuteSection(new StepLogSection(message), (Action)(() => result = function.Invoke(_owner)));
 
         return result;
     }
