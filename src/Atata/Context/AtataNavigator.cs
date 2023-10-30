@@ -15,6 +15,36 @@ public class AtataNavigator
         _context = context.CheckNotNull(nameof(context));
 
     /// <summary>
+    /// Continues with the specified page object type.
+    /// Firstly, checks whether the current <see cref="AtataContext.PageObject"/>
+    /// is <typeparamref name="T"/>, if it is, returns it;
+    /// otherwise, creates a new instance of <typeparamref name="T"/> without navigation.
+    /// The method is useful in case when in a particular step method (BDD step, for example)
+    /// you don't have an instance of current page object but you are sure that a browser is on the needed page.
+    /// </summary>
+    /// <typeparam name="T">The type of the page object.</typeparam>
+    /// <returns>The page object.</returns>
+    public T On<T>()
+        where T : PageObject<T> =>
+        (AtataContext.Current.PageObject as T)
+            ?? To<T>(null, new GoOptions { Navigate = false });
+
+    /// <summary>
+    /// Continues with the specified page object type or navigates to it.
+    /// Firstly, checks whether the current <see cref="AtataContext.PageObject"/>
+    /// is <typeparamref name="T"/>, if it is, returns it;
+    /// otherwise, creates a new instance of <typeparamref name="T"/> with navigation.
+    /// The method is useful in case when in a particular step method (BDD step, for example)
+    /// you don't have an instance of current page object and you are not sure that a browser is on the needed page, but can be.
+    /// </summary>
+    /// <typeparam name="T">The type of the page object.</typeparam>
+    /// <returns>The page object.</returns>
+    public T OnOrTo<T>()
+        where T : PageObject<T> =>
+        (AtataContext.Current.PageObject as T)
+            ?? To<T>(null, new GoOptions { Navigate = true });
+
+    /// <summary>
     /// Navigates to the specified page object.
     /// </summary>
     /// <typeparam name="T">The type of the page object.</typeparam>
@@ -395,4 +425,19 @@ public class AtataNavigator
 
     private void SetContextAsCurrent() =>
         AtataContext.Current = _context;
+
+    private sealed class GoOptions
+    {
+        public string Url { get; set; }
+
+        public Func<string> WindowNameResolver { get; set; }
+
+        public WindowType? NewWindowType { get; set; }
+
+        public bool Navigate { get; set; }
+
+        public bool Temporarily { get; set; }
+
+        public string NavigationTarget { get; set; }
+    }
 }

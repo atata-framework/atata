@@ -5,6 +5,64 @@ public class GoTests : UITestFixture
     protected override bool ReuseDriver => false;
 
     [Test]
+    public void On_WhenNoCurrent()
+    {
+        var result = Go.On<GoTo1Page>();
+
+        result.PageUri.Relative.Should.Not.Be(GoTo1Page.DefaultUrl);
+    }
+
+    [Test]
+    public void On_WhenItIsCurrent()
+    {
+        var initialPage = Go.To<GoTo1Page>();
+
+        var result = Go.On<GoTo1Page>();
+
+        result.Should().Be(initialPage);
+    }
+
+    [Test]
+    public void On_WhenItIsNotCurrent()
+    {
+        Go.To<GoTo1Page>();
+
+        var result = Go.On<GoTo2Page>();
+
+        result.PageUri.Relative.Should.Be(GoTo1Page.DefaultUrl);
+        AssertNoTemporarilyPreservedPageObjects();
+    }
+
+    [Test]
+    public void OnOrTo_WhenNoCurrent()
+    {
+        var result = Go.OnOrTo<GoTo1Page>();
+
+        result.PageUri.Relative.Should.Be(GoTo1Page.DefaultUrl);
+    }
+
+    [Test]
+    public void OnOrTo_WhenItIsCurrent()
+    {
+        var initialPage = Go.To<GoTo1Page>();
+
+        var result = Go.OnOrTo<GoTo1Page>();
+
+        result.Should().Be(initialPage);
+    }
+
+    [Test]
+    public void OnOrTo_WhenItIsNotCurrent()
+    {
+        Go.To<GoTo1Page>();
+
+        var result = Go.OnOrTo<GoTo2Page>();
+
+        result.PageUri.Relative.Should.Be(GoTo2Page.DefaultUrl);
+        AssertNoTemporarilyPreservedPageObjects();
+    }
+
+    [Test]
     public void To_WithoutUrl()
     {
         var page1 = Go.To<OrdinaryPage>();

@@ -44,8 +44,8 @@ public class PageObjectTests : UITestFixture
         var page2 = Go.To<GoTo1Page>()
             .GoTo2();
 
-        Assert.Throws<AssertionException>(
-            () => page2.GoBack<GoTo3Page>());
+        page2.GoBack<GoTo3Page>()
+            .PageUri.Relative.Should.Be(GoTo1Page.DefaultUrl);
     }
 
     [Test]
@@ -63,8 +63,8 @@ public class PageObjectTests : UITestFixture
             .GoTo2()
                 .GoBack<GoTo1Page>();
 
-        Assert.Throws<AssertionException>(
-            () => page1.GoForward<GoTo3Page>());
+        page1.GoForward<GoTo3Page>()
+            .PageUri.Relative.Should.Be(GoTo2Page.DefaultUrl);
     }
 
     [Test]

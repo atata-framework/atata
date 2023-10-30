@@ -2,10 +2,11 @@
 
 using _ = GoTo1Page;
 
-[Url("goto1")]
-[VerifyTitle("GoTo 1")]
+[Url(DefaultUrl)]
 public class GoTo1Page : Page<_>
 {
+    public const string DefaultUrl = "/goto1";
+
     public LinkDelegate<GoTo2Page, _> GoTo2 { get; private set; }
 
     [Term("Go to 2")]
