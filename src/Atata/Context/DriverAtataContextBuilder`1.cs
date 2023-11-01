@@ -36,9 +36,19 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
 
     protected string GetDriverServiceStringForLog(DriverService service)
     {
-        string executablePath = Path.Combine(service.DriverServicePath, service.DriverServiceExecutableName);
+        StringBuilder builder = new(service.GetType().Name);
 
-        return $"{service.GetType().Name} {{ Port={service.Port}, ExecutablePath={executablePath} }}";
+        builder.Append($" {{ Port={service.Port}");
+
+        if (!string.IsNullOrEmpty(service.DriverServicePath) && !string.IsNullOrEmpty(service.DriverServiceExecutableName))
+        {
+            string executablePath = Path.Combine(service.DriverServicePath, service.DriverServiceExecutableName);
+            builder.Append($", ExecutablePath={executablePath}");
+        }
+
+        builder.Append(" }");
+
+        return builder.ToString();
     }
 
     protected string GetDriverStringForLog(IWebDriver driver)
