@@ -70,47 +70,30 @@ return (
     public ValueProvider<string, TOwner> TagName =>
         CreateValueProvider("tag name", () => Scope.TagName);
 
-    /// <summary>
-    /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the text content.
-    /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component,
-    /// which by default is <see cref="GetsContentFromSourceAttribute"/> with <see cref="ContentSource.Text"/> argument,
-    /// meaning that by default it returns <see cref="IWebElement.Text"/> property value
-    /// of component scope's <see cref="IWebElement"/> element.
-    /// </summary>
+    /// <inheritdoc/>
     public ValueProvider<string, TOwner> Content =>
         CreateValueProvider("content", GetContent);
 
-    /// <summary>
-    /// Gets the assertion verification provider that has a set of verification extension methods.
-    /// </summary>
+    /// <inheritdoc/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should =>
         new(this);
 
-    /// <summary>
-    /// Gets the expectation verification provider that has a set of verification extension methods.
-    /// </summary>
+    /// <inheritdoc/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> ExpectTo =>
         Should.Using<ExpectationVerificationStrategy>();
 
-    /// <summary>
-    /// Gets the waiting verification provider that has a set of verification extension methods.
-    /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
-    /// </summary>
+    /// <inheritdoc/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> WaitTo =>
         Should.Using<WaitingVerificationStrategy>();
 
-    /// <summary>
-    /// Gets the <see cref="UIComponentLocationProvider{TOwner}"/> instance that provides an access to the scope element's location (X and Y).
-    /// </summary>
+    /// <inheritdoc/>
     public UIComponentLocationProvider<TOwner> ComponentLocation =>
         new(this, GetLocation, BuildFullValueProviderName("location"));
 
-    /// <summary>
-    /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
-    /// </summary>
+    /// <inheritdoc/>
     public UIComponentSizeProvider<TOwner> ComponentSize =>
         new(this, GetSize, BuildFullValueProviderName("size"));
 
@@ -130,26 +113,20 @@ return (
             "DOM classes",
             () => DomProperties.GetValue("className").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
 
-    /// <summary>
-    /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.
-    /// </summary>
+    /// <inheritdoc/>
     public UIComponentCssProvider<TOwner> Css { get; }
 
-    /// <summary>
-    /// Gets the <see cref="UIComponentScriptExecutor{TOwner}"/> instance that provides a set of methods for JavaScript execution.
-    /// </summary>
+    /// <inheritdoc/>
     public UIComponentScriptExecutor<TOwner> Script { get; }
+
+    /// <inheritdoc/>
+    public UIComponentChildrenList<TOwner> Controls { get; }
 
     IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;
 
     IScopeLocator IUIComponent<TOwner>.ScopeLocator => ScopeLocator;
 
     ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
-
-    /// <summary>
-    /// Gets the list of child controls.
-    /// </summary>
-    public UIComponentChildrenList<TOwner> Controls { get; }
 
     internal List<IClearsCache> CacheClearableComponentParts { get; } = new List<IClearsCache>();
 

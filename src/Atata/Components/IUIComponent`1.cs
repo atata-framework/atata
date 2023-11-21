@@ -30,7 +30,7 @@ public interface IUIComponent<TOwner>
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
-    /// whether the control is visible.
+    /// whether the component is visible.
     /// </summary>
     ValueProvider<bool, TOwner> IsVisible { get; }
 
@@ -50,11 +50,15 @@ public interface IUIComponent<TOwner>
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the text content.
+    /// Gets a content using <see cref="ContentGetBehaviorAttribute"/> associated with the component,
+    /// which by default is <see cref="GetsContentFromSourceAttribute"/> with <see cref="ContentSource.Text"/> argument,
+    /// meaning that by default it returns <see cref="IWebElement.Text"/> property value
+    /// of component scope's <see cref="IWebElement"/> element.
     /// </summary>
     ValueProvider<string, TOwner> Content { get; }
 
     /// <summary>
-    /// Gets the source of the scope.
+    /// Gets the source of the scope, e.g., <see cref="ScopeSource.Parent"/>, <see cref="ScopeSource.Page"/>, etc.
     /// </summary>
     ScopeSource ScopeSource { get; }
 
@@ -131,7 +135,8 @@ public interface IUIComponent<TOwner>
     ValueProvider<IEnumerable<string>, TOwner> DomClasses { get; }
 
     /// <summary>
-    /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance that provides an access to the scope element's CSS properties.
+    /// Gets the <see cref="UIComponentCssProvider{TOwner}"/> instance
+    /// that provides an access to the scope element's CSS properties.
     /// </summary>
     UIComponentCssProvider<TOwner> Css { get; }
 
@@ -152,9 +157,20 @@ public interface IUIComponent<TOwner>
     UIComponentMetadata Metadata { get; }
 
     /// <summary>
-    /// Gets the verification provider that provides a set of verification extension methods.
+    /// Gets the assertion verification provider that has a set of verification extension methods.
     /// </summary>
     UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> Should { get; }
+
+    /// <summary>
+    /// Gets the expectation verification provider that has a set of verification extension methods.
+    /// </summary>
+    UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> ExpectTo { get; }
+
+    /// <summary>
+    /// Gets the waiting verification provider that has a set of verification extension methods.
+    /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
+    /// </summary>
+    UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> WaitTo { get; }
 
     /// <summary>
     /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element.

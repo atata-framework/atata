@@ -12,23 +12,17 @@ public abstract class UIComponent
     /// </summary>
     public abstract AtataContext Context { get; }
 
-    /// <summary>
-    /// Gets the owner component.
-    /// </summary>
+    /// <inheritdoc cref="IUIComponent{TOwner}.Owner"/>
     public UIComponent Owner { get; internal set; }
 
-    /// <summary>
-    /// Gets the parent component.
-    /// </summary>
+    /// <inheritdoc cref="IUIComponent{TOwner}.Parent"/>
     public UIComponent Parent { get; internal set; }
 
     protected internal ILogManager Log => Context.Log;
 
     protected internal IWebDriver Driver => Context.Driver;
 
-    /// <summary>
-    /// Gets the source of the scope.
-    /// </summary>
+    /// <inheritdoc cref="IUIComponent{TOwner}.ScopeSource"/>
     public abstract ScopeSource ScopeSource { get; }
 
     protected internal IScopeLocator ScopeLocator { get; internal set; }
@@ -43,34 +37,22 @@ public abstract class UIComponent
         Metadata.Get<ICanUseCache>(filter => filter.Where(x => x is UsesCacheAttribute or UsesScopeCacheAttribute))
             ?.UsesCache ?? false;
 
-    /// <summary>
-    /// Gets or sets the name of the component.
-    /// </summary>
+    /// <inheritdoc cref="IUIComponent{TOwner}.ComponentName"/>
     public string ComponentName { get; set; }
 
     internal bool IncludeComponentTypeNameInFullName { get; set; } = true;
 
-    /// <summary>
-    /// Gets the name of the component type.
-    /// Returns the value of <see cref="UIComponentDefinitionAttribute.ComponentTypeName"/> property for control from <see cref="ControlDefinitionAttribute"/>
-    /// and for page object from <see cref="PageObjectDefinitionAttribute"/>.
-    /// </summary>
+    /// <inheritdoc cref="IUIComponent{TOwner}.ComponentTypeName"/>
     public string ComponentTypeName { get; internal set; }
 
-    /// <summary>
-    /// Gets the full name of the component including parent component full name, own component name and own component type name.
-    /// </summary>
+    /// <inheritdoc cref="IUIComponent{TOwner}.ComponentFullName"/>
     public string ComponentFullName =>
         BuildComponentFullName();
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Metadata"/>
     public UIComponentMetadata Metadata { get; internal set; }
 
-    /// <summary>
-    /// Gets the <see cref="IWebElement"/> instance that represents the scope HTML element associated with this component.
-    /// Also executes <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
-    /// </summary>
-    /// <exception cref="ElementNotFoundException">Element not found.</exception>
+    /// <inheritdoc cref="IUIComponent{TOwner}.Scope"/>
     public IWebElement Scope =>
         GetScopeElement();
 
@@ -79,12 +61,7 @@ public abstract class UIComponent
     /// </summary>
     protected IWebElement CachedScope { get; set; }
 
-    /// <summary>
-    /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
-    /// (where to find the children of this component).
-    /// By default is the same as <see cref="Scope"/>.
-    /// Also can execute <see cref="TriggerEvents.BeforeAccess" /> and <see cref="TriggerEvents.AfterAccess" /> triggers.
-    /// </summary>
+    /// <inheritdoc cref="IUIComponent{TOwner}.ScopeContext"/>
     public ISearchContext ScopeContext =>
         OnGetScopeContext(new SearchOptions());
 
