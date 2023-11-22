@@ -26,7 +26,7 @@ public class AtataNavigator
     /// <returns>The page object.</returns>
     public T On<T>()
         where T : PageObject<T> =>
-        (AtataContext.Current.PageObject as T)
+        (_context.PageObject as T)
             ?? To<T>(null, new GoOptions { Navigate = false });
 
     /// <summary>
@@ -41,7 +41,7 @@ public class AtataNavigator
     /// <returns>The page object.</returns>
     public T OnOrTo<T>()
         where T : PageObject<T> =>
-        (AtataContext.Current.PageObject as T)
+        (_context.PageObject as T)
             ?? To<T>(null, new GoOptions { Navigate = true });
 
     /// <summary>
