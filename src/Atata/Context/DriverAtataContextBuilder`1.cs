@@ -12,8 +12,33 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
     /// </summary>
     public string Alias { get; private set; }
 
-    IWebDriver IDriverFactory.Create() =>
-        CreateDriver();
+    /// <summary>
+    /// Gets the count of possible driver creation retries in case exceptions occur during creation.
+    /// The default value is <c>2</c>.
+    /// </summary>
+    public int CreateRetries { get; private set; } = 2;
+
+    IWebDriver IDriverFactory.Create()
+    {
+        int retriesLeft = CreateRetries;
+
+        while (true)
+        {
+            try
+            {
+                return CreateDriver();
+            }
+            catch (Exception exception)
+            {
+                if (retriesLeft == 0)
+                    throw;
+
+                // TODO: v3. Add ILogManager parameter to IDriverFactory.Create method and use it below.
+                AtataContext.Current?.Log.Warn(exception, "Failed to create driver. Will retry.");
+                retriesLeft--;
+            }
+        }
+    }
 
     /// <summary>
     /// Creates the driver instance.
@@ -31,6 +56,21 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
         alias.CheckNotNullOrWhitespace(nameof(alias));
 
         Alias = alias;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Specifies the count of possible driver creation retries in case exceptions occur during creation.
+    /// The default value is <c>2</c>.
+    /// Set <c>0</c> to omit retries.
+    /// </summary>
+    /// <param name="createRetries">The count of retries.</param>
+    /// <returns>The same builder instance.</returns>
+    public TBuilder WithCreateRetries(int createRetries)
+    {
+        createRetries.CheckGreaterOrEqual(nameof(createRetries), 0);
+
+        CreateRetries = createRetries;
         return (TBuilder)this;
     }
 
