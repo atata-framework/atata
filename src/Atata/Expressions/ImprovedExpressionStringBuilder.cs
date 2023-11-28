@@ -152,7 +152,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return base.VisitMember(node);
     }
 
-    private bool IsParameterExpression(Expression expression) =>
+    private static bool IsParameterExpression(Expression expression) =>
         expression switch
         {
             ParameterExpression => true,

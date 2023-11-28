@@ -241,7 +241,7 @@ public class UIComponentMetadataTests
         {
             Assembly.Add(new FindSettingsAttribute());
 
-            var pushed = new List<FindSettingsAttribute> { new FindSettingsAttribute(), new FindSettingsAttribute() };
+            var pushed = new List<FindSettingsAttribute> { new(), new() };
 
             _metadata.Push(pushed);
 
