@@ -32,7 +32,7 @@ public class WindowTitleAttribute : MulticastAttribute, ITermSettings
     {
     }
 
-    private WindowTitleAttribute(string[] values = null, TermMatch match = DefaultMatch, TermCase termCase = DefaultCase)
+    private WindowTitleAttribute(string[] values, TermMatch match = DefaultMatch, TermCase termCase = DefaultCase)
     {
         Values = values;
         Match = match;
