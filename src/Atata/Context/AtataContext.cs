@@ -363,9 +363,12 @@ public sealed class AtataContext : IDisposable
     public IEventBus EventBus { get; internal set; }
 
     /// <summary>
+    /// <para>
     /// Gets the variables dictionary.
+    /// </para>
     /// <para>
     /// The list of predefined variables:
+    /// </para>
     /// <list type="bullet">
     /// <item><c>build-start</c></item>
     /// <item><c>build-start-utc</c></item>
@@ -379,7 +382,6 @@ public sealed class AtataContext : IDisposable
     /// <item><c>test-start-utc</c></item>
     /// <item><c>driver-alias</c></item>
     /// </list>
-    /// </para>
     /// <para>
     /// Custom variables can be added as well.
     /// </para>
@@ -569,6 +571,7 @@ public sealed class AtataContext : IDisposable
     /// </para>
     /// <para>
     /// The list of predefined variables:
+    /// </para>
     /// <list type="bullet">
     /// <item><c>{build-start}</c></item>
     /// <item><c>{build-start-utc}</c></item>
@@ -582,7 +585,6 @@ public sealed class AtataContext : IDisposable
     /// <item><c>{test-start-utc}</c></item>
     /// <item><c>{driver-alias}</c></item>
     /// </list>
-    /// </para>
     /// </summary>
     /// <param name="template">The template string.</param>
     /// <returns>The filled string.</returns>
@@ -611,6 +613,7 @@ public sealed class AtataContext : IDisposable
     /// </para>
     /// <para>
     /// The list of predefined variables:
+    /// </para>
     /// <list type="bullet">
     /// <item><c>{build-start}</c></item>
     /// <item><c>{build-start-utc}</c></item>
@@ -624,7 +627,6 @@ public sealed class AtataContext : IDisposable
     /// <item><c>{test-start-utc}</c></item>
     /// <item><c>{driver-alias}</c></item>
     /// </list>
-    /// </para>
     /// </summary>
     /// <param name="template">The template string.</param>
     /// <returns>The filled string.</returns>
@@ -661,6 +663,7 @@ public sealed class AtataContext : IDisposable
     /// </para>
     /// <para>
     /// The list of predefined variables:
+    /// </para>
     /// <list type="bullet">
     /// <item><c>{build-start}</c></item>
     /// <item><c>{build-start-utc}</c></item>
@@ -674,7 +677,6 @@ public sealed class AtataContext : IDisposable
     /// <item><c>{test-start-utc}</c></item>
     /// <item><c>{driver-alias}</c></item>
     /// </list>
-    /// </para>
     /// </summary>
     /// <param name="template">The template string.</param>
     /// <returns>The filled string.</returns>

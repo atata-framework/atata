@@ -6,11 +6,11 @@
 /// </para>
 /// <para>
 /// In addition to regular page object attributes, supports:
+/// </para>
 /// <list type="bullet">
 /// <item><see cref="WindowTitleElementDefinitionAttribute"/></item>
 /// <item><see cref="WindowTitleAttribute"/></item>
 /// </list>
-/// </para>
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
 [PageObjectDefinition(ComponentTypeName = "window", IgnoreNameEndings = "PopupWindow,Window,Popup")]

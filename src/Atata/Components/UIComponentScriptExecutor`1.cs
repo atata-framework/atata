@@ -149,10 +149,10 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// arguments[0].value = arguments[1];
     /// </code>
-    /// </para>
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>An instance of the owner page object.</returns>
@@ -167,11 +167,11 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// var currentValue = arguments[0].value;
     /// arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];
     /// </code>
-    /// </para>
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>An instance of the owner page object.</returns>
@@ -187,11 +187,11 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// arguments[0].value = arguments[1];
     /// arguments[0].dispatchEvent(new Event('change'));
     /// </code>
-    /// </para>
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>An instance of the owner page object.</returns>
@@ -207,12 +207,12 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// var currentValue = arguments[0].value;
     /// arguments[0].value = currentValue ? currentValue + arguments[1] : arguments[1];
     /// arguments[0].dispatchEvent(new Event('change'));
     /// </code>
-    /// </para>
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>An instance of the owner page object.</returns>
@@ -229,10 +229,10 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// arguments[0].dispatchEvent(new Event(arguments[1]));
     /// </code>
-    /// </para>
     /// </summary>
     /// <param name="eventName">The name of the event.</param>
     /// <returns>An instance of the owner page object.</returns>
@@ -251,10 +251,10 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// arguments[0].click();
     /// </code>
-    /// </para>
     /// </summary>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner Click() =>
@@ -266,10 +266,10 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// arguments[0].focus();
     /// </code>
-    /// </para>
     /// </summary>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner Focus() =>
@@ -281,10 +281,10 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// return arguments[0] === document.activeElement;
     /// </code>
-    /// </para>
     /// </summary>
     /// <returns>An instance of the <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
     public ValueProvider<bool, TOwner> IsFocused() =>
@@ -296,10 +296,10 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// arguments[0].blur();
     /// </code>
-    /// </para>
     /// </summary>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner Blur() =>
@@ -311,10 +311,10 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// </para>
     /// <para>
     /// Executable script:
+    /// </para>
     /// <code>
     /// arguments[0].scrollIntoView();
     /// </code>
-    /// </para>
     /// </summary>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner ScrollIntoView() =>

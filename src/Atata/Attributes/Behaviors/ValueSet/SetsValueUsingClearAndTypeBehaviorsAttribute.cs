@@ -20,7 +20,7 @@ public class SetsValueUsingClearAndTypeBehaviorsAttribute : ValueSetBehaviorAttr
     /// <summary>
     /// Initializes a new instance of the <see cref="SetsValueUsingClearAndTypeBehaviorsAttribute"/> class.
     /// </summary>
-    /// <param name="useUIComponentScopeCache">If set to <c>true</c>, uses UI component scope cache.</param>
+    /// <param name="useUIComponentScopeCache">If set to <see langword="true"/>, uses UI component scope cache.</param>
     public SetsValueUsingClearAndTypeBehaviorsAttribute(bool useUIComponentScopeCache) =>
         _useUIComponentScopeCache = useUIComponentScopeCache;
 
