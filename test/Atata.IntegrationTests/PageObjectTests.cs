@@ -126,6 +126,7 @@ public class PageObjectTests : UITestFixture
             .BottomText.Should.BeVisibleInViewport();
 
     [Test]
+    [Platform(Exclude = Platforms.MacOS)]
     public void ScrollUp() =>
         Go.To<ScrollablePage>()
             .Press(Keys.End)

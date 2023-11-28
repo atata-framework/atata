@@ -3,6 +3,7 @@
 public class PressHomeAttributeTests : UITestFixture
 {
     [Test]
+    [Platform(Exclude = Platforms.MacOS)]
     public void Execute()
     {
         var sut = Go.To<ScrollablePage>()
