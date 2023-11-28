@@ -1,6 +1,6 @@
 variables:
   buildConfiguration: 'Release'
-  netSdkVersion: '8.x'
+  netSdkVersion: '7.x'
 
 trigger: none
 

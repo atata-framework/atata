@@ -1,6 +1,6 @@
 variables:
   buildConfiguration: 'Release'
-  netSdkVersion: '8.x'
+  netSdkVersion: '7.x'
 
 jobs:
 - job: BuildAndRunCodeAnalysis
@@ -62,4 +62,4 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: Artifacts $(imageName)
-      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net7.0/artifacts
