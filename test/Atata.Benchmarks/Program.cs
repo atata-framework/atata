@@ -1,1 +1,5 @@
-﻿////BenchmarkRunner.Run<SomeBenchmarks>();
+﻿Console.WriteLine(
+    """
+    Use:
+    BenchmarkRunner.Run<SomeBenchmarks>();
+    """);
