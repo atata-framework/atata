@@ -1,6 +1,6 @@
 variables:
   buildConfiguration: 'Release'
-  netSdkVersion: '7.x'
+  netSdkVersion: '8.x'
 
 jobs:
 - job: BuildAndRunCodeAnalysis
@@ -9,7 +9,7 @@ jobs:
     vmImage: windows-latest
   steps:
   - task: UseDotNet@2
-    displayName: Install .NET SDK
+    displayName: Set up .NET SDK
     inputs:
       version: $(netSdkVersion)
   - task: DotNetCoreCLI@2
@@ -32,6 +32,10 @@ jobs:
   pool:
     vmImage: $(imageName)
   steps:
+  - task: UseDotNet@2
+    displayName: Set up .NET SDK
+    inputs:
+      version: $(netSdkVersion)
   - task: DotNetCoreCLI@2
     displayName: Build solution
     inputs:
@@ -58,4 +62,4 @@ jobs:
     condition: succeededOrFailed()
     inputs:
       artifactName: Artifacts $(imageName)
-      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net7.0/artifacts
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts

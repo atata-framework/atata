@@ -1,6 +1,6 @@
 variables:
   buildConfiguration: 'Release'
-  netSdkVersion: '7.x'
+  netSdkVersion: '8.x'
 
 trigger: none
 
@@ -13,7 +13,7 @@ jobs:
   - task: NuGetToolInstaller@1
     displayName: Install NuGet tool
   - task: UseDotNet@2
-    displayName: Install .NET SDK
+    displayName: Set up .NET SDK
     inputs:
       version: $(netSdkVersion)
   - task: DotNetCoreCLI@2
