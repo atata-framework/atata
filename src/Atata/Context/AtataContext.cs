@@ -48,19 +48,18 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static AtataContext Current
     {
-        get =>
-            ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic
-                ? s_currentThreadStaticContext
-                : ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal
-                ? s_currentAsyncLocalContext.Value
-                : s_currentStaticContext;
-
+        get => ModeOfCurrent switch
+        {
+            AtataContextModeOfCurrent.AsyncLocal => s_currentAsyncLocalContext.Value,
+            AtataContextModeOfCurrent.ThreadStatic => s_currentThreadStaticContext,
+            _ => s_currentStaticContext
+        };
         set
         {
-            if (ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
-                s_currentThreadStaticContext = value;
-            else if (ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
+            if (ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
                 s_currentAsyncLocalContext.Value = value;
+            else if (ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
+                s_currentThreadStaticContext = value;
             else
                 s_currentStaticContext = value;
         }
@@ -77,11 +76,12 @@ public sealed class AtataContext : IDisposable
         {
             s_modeOfCurrent = value;
 
-            RetrySettings.ThreadBoundary = value == AtataContextModeOfCurrent.ThreadStatic
-                ? RetrySettingsThreadBoundary.ThreadStatic
-                : value == AtataContextModeOfCurrent.AsyncLocal
-                    ? RetrySettingsThreadBoundary.AsyncLocal
-                    : RetrySettingsThreadBoundary.Static;
+            RetrySettings.ThreadBoundary = value switch
+            {
+                AtataContextModeOfCurrent.AsyncLocal => RetrySettingsThreadBoundary.AsyncLocal,
+                AtataContextModeOfCurrent.ThreadStatic => RetrySettingsThreadBoundary.ThreadStatic,
+                _ => RetrySettingsThreadBoundary.Static
+            };
         }
     }
 
@@ -110,6 +110,7 @@ public sealed class AtataContext : IDisposable
     /// <summary>
     /// Gets the driver.
     /// </summary>
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public IWebDriver Driver
     {
         get
@@ -858,6 +859,28 @@ public sealed class AtataContext : IDisposable
     /// <param name="exception">The optional exception.</param>
     public void RaiseWarning(string message, Exception exception = null) =>
         _expectationVerificationStrategy.ReportFailure(message, exception);
+
+    /// <summary>
+    /// Sets this context as current, by setting it to <see cref="Current"/> property.
+    /// </summary>
+    public void SetAsCurrent()
+    {
+        if (s_modeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
+        {
+            if (s_currentAsyncLocalContext.Value != this)
+                s_currentAsyncLocalContext.Value = this;
+        }
+        else if (s_modeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
+        {
+            if (s_currentThreadStaticContext != this)
+                s_currentThreadStaticContext = this;
+        }
+        else
+        {
+            if (s_currentStaticContext != this)
+                s_currentStaticContext = this;
+        }
+    }
 
     /// <summary>
     /// Deinitializes and disposes the current instance and related objects.

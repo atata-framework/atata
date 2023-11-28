@@ -88,5 +88,6 @@
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseWarning(System.String,System.Exception)")]
 [assembly: SuppressMessage("Style", "IDE0053:Use expression body for lambda expression", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.PopupBox`2.WaitForAppearance(System.Nullable{System.TimeSpan},System.Nullable{System.TimeSpan})~`0")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DriverAtataContextBuilder`3.CreateDriver~OpenQA.Selenium.IWebDriver")]
+[assembly: SuppressMessage("Critical Code Smell", "S2696:Instance members should not write to \"static\" fields", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.SetAsCurrent")]
 
 #pragma warning restore S103 // Lines should not be too long

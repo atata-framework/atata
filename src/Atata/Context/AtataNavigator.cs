@@ -424,7 +424,7 @@ public class AtataNavigator
     }
 
     private void SetContextAsCurrent() =>
-        AtataContext.Current = _context;
+        _context.SetAsCurrent();
 
     private sealed class GoOptions
     {
