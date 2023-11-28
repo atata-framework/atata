@@ -115,9 +115,12 @@ public abstract class UITestFixtureBase
         return exception;
     }
 
+    protected static void AssertThatFileExists(string filePath) =>
+        Assert.That(new FileInfo(filePath), Does.Exist);
+
     protected static void AssertThatFileShouldContainText(string filePath, params string[] texts)
     {
-        FileAssert.Exists(filePath);
+        AssertThatFileExists(filePath);
 
         using FileStream fileStream = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
         using StreamReader reader = new(fileStream);
@@ -128,7 +131,8 @@ public abstract class UITestFixtureBase
 
     protected static void AssertThatFileShouldNotContainText(string filePath, params string[] texts)
     {
-        FileAssert.Exists(filePath);
+        AssertThatFileExists(filePath);
+
         string fileContent = File.ReadAllText(filePath);
         fileContent.Should().NotContainAll(texts);
     }

@@ -37,7 +37,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         _directoriesToDelete.Add(directoryPath);
 
-        FileAssert.Exists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
     }
 
     [Test]
@@ -62,7 +62,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         _directoriesToDelete.Add(directoryPath);
 
-        FileAssert.Exists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
     }
 
     [Test]
@@ -84,7 +84,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         _directoriesToDelete.Add(directoryPath);
 
-        FileAssert.Exists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
     }
 
     [Test]
@@ -101,8 +101,8 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         string directoryPath = AtataContext.Current.Artifacts.FullName;
 
-        FileAssert.Exists(Path.Combine(directoryPath, "001 Basic Controls.png"));
-        FileAssert.Exists(Path.Combine(directoryPath, "002 Some title - Basic Controls.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "001 Basic Controls.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "002 Some title - Basic Controls.png"));
     }
 
     [Test]
@@ -119,8 +119,8 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         _directoriesToDelete.Add(directoryPath);
 
-        FileAssert.Exists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
-        FileAssert.Exists(Path.Combine(directoryPath, "02 - Basic Controls page - Some title.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "01 - Basic Controls page.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "02 - Basic Controls page - Some title.png"));
     }
 
     [Test]
@@ -143,8 +143,8 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
 
         _directoriesToDelete.Add(directoryPath);
 
-        FileAssert.Exists(Path.Combine(directoryPath, "01.png"));
-        FileAssert.Exists(Path.Combine(directoryPath, "02 - Some title.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "01.png"));
+        AssertThatFileExists(Path.Combine(directoryPath, "02 - Some title.png"));
     }
 
     public override void TearDown()
