@@ -979,7 +979,7 @@ public sealed class AtataContext : IDisposable
         double initializationTimePercent = initializationTime.TotalMilliseconds / overallTime.TotalMilliseconds;
         double setupTimePercent = setupTime.TotalMilliseconds / overallTime.TotalMilliseconds;
         double deinitializationTimePercent = deinitializationTime.TotalMilliseconds / overallTime.TotalMilliseconds;
-        double testBodyPercent = 1 - initializationTimePercent - setupTimePercent - deinitializationTimePercent;
+        double testBodyPercent = Math.Max(1d - initializationTimePercent - setupTimePercent - deinitializationTimePercent, 0);
 
         const string percentFormat = "P1";
         CultureInfo percentCulture = CultureInfo.InvariantCulture;
