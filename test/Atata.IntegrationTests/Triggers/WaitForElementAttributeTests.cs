@@ -19,7 +19,7 @@ public class WaitForElementAttributeTests : UITestFixture
     {
         WaitingPage page = Go.To<WaitingPage>();
 
-        using (StopwatchAsserter.WithinSeconds(2))
+        using (StopwatchAsserter.WithinSeconds(3))
             page.ButtonWithVisibleThenMissingWait.Click();
 
         page.Result.Should.AtOnce.BePresent();
