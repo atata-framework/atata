@@ -266,8 +266,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
     {
         if (node.NodeType == ExpressionType.NewArrayInit)
         {
-            Out("new[] ");
-            VisitExpressions('{', node.Expressions, '}');
+            VisitExpressions('[', node.Expressions, ']');
             return node;
         }
 

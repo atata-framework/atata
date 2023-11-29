@@ -159,9 +159,9 @@ public static class ImprovedExpressionStringBuilderTests
 
         // Array construction:
         TestModelSelector(x => new[] { new { x.Name }, new { Name = "nm" } })
-            .Returns("x => new[] {new { Name = x.Name }, new { Name = \"nm\" }}");
+            .Returns("x => [new { Name = x.Name }, new { Name = \"nm\" }]");
         TestModelSelector(x => new object[] { x.Name, 1 })
-            .Returns("x => new[] {x.Name, 1}");
+            .Returns("x => [x.Name, 1]");
 
         return items;
     }
