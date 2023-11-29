@@ -15,7 +15,7 @@ public class DynamicScopeLocator : IScopeLocator
     }
 
     public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null) =>
-        new[] { GetElement(searchOptions, xPathCondition) };
+        [GetElement(searchOptions, xPathCondition)];
 
     public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
     {

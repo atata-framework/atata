@@ -211,7 +211,7 @@ public static class TermResolver
         if (string.IsNullOrEmpty(format))
             return value;
 
-        string[] formatParts = format.Split(new[] { "{0" }, 2, StringSplitOptions.None);
+        string[] formatParts = format.Split(["{0"], 2, StringSplitOptions.None);
 
         if (formatParts.Length != 2)
         {

@@ -3,7 +3,7 @@
 public sealed class SubsequentComponentScopeFindResult : ComponentScopeFindResult
 {
     public SubsequentComponentScopeFindResult(ISearchContext scopeSource, IComponentScopeFindStrategy strategy, ComponentScopeFindOptions scopeFindOptions = null)
-        : this(new[] { scopeSource ?? throw new ArgumentNullException(nameof(scopeSource)) }, strategy, scopeFindOptions)
+        : this([scopeSource ?? throw new ArgumentNullException(nameof(scopeSource))], strategy, scopeFindOptions)
     {
     }
 

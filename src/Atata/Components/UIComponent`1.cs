@@ -111,7 +111,7 @@ return (
     public ValueProvider<IEnumerable<string>, TOwner> DomClasses =>
         CreateValueProvider<IEnumerable<string>>(
             "DOM classes",
-            () => DomProperties.GetValue("className").Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries));
+            () => DomProperties.GetValue("className").Split([' '], StringSplitOptions.RemoveEmptyEntries));
 
     /// <inheritdoc/>
     public UIComponentCssProvider<TOwner> Css { get; }

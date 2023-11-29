@@ -86,5 +86,5 @@ public class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
 
     private static Attribute[] ConcatWithNavigationPageObjectCreatorAttribute<TNavigateTo>(Attribute[] attributes, Func<TNavigateTo> navigationPageObjectCreator)
         where TNavigateTo : PageObject<TNavigateTo> =>
-        attributes.Concat(new[] { new NavigationPageObjectCreatorAttribute(navigationPageObjectCreator) }).ToArray();
+        [.. attributes, new NavigationPageObjectCreatorAttribute(navigationPageObjectCreator)];
 }

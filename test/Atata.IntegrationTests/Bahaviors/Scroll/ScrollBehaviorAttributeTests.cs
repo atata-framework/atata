@@ -4,13 +4,12 @@ namespace Atata.IntegrationTests.Bahaviors;
 
 public class ScrollBehaviorAttributeTests : UITestFixture
 {
-    private static IEnumerable<TestCaseData> Source =>
-        new[]
-        {
-            new TestCaseData(new ScrollsUsingScrollToElementActionAttribute()),
-            new TestCaseData(new ScrollsUsingMoveToElementActionAttribute()),
-            new TestCaseData(new ScrollsUsingScriptAttribute())
-        };
+    private static TestCaseData[] Source =>
+    [
+        new TestCaseData(new ScrollsUsingScrollToElementActionAttribute()),
+        new TestCaseData(new ScrollsUsingMoveToElementActionAttribute()),
+        new TestCaseData(new ScrollsUsingScriptAttribute())
+    ];
 
     protected override bool ReuseDriver => false;
 

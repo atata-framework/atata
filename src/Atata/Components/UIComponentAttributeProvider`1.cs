@@ -77,7 +77,7 @@ public class UIComponentAttributeProvider<TOwner> : UIComponentPart<TOwner>
     [Obsolete("Use {component}.DomClasses instead.")] // Obsolete since v2.3.0.
     public ValueProvider<IEnumerable<string>, TOwner> Class => Component.CreateValueProvider<IEnumerable<string>>(
         "class attribute",
-        () => GetValue("class").Split(new[] { " " }, StringSplitOptions.RemoveEmptyEntries));
+        () => GetValue("class").Split([" "], StringSplitOptions.RemoveEmptyEntries));
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance for the value of the specified control's scope element attribute.

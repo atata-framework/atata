@@ -18,7 +18,7 @@ public class RandomizerTests
         result.Should().HaveLength(length);
 
         if (format is not null and not "{0}")
-            result.Should().ContainAll(format.Split(new[] { "{0}" }, StringSplitOptions.RemoveEmptyEntries));
+            result.Should().ContainAll(format.Split(["{0}"], StringSplitOptions.RemoveEmptyEntries));
     }
 
     [TestCase(null, -1)]

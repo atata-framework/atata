@@ -14,11 +14,11 @@ public abstract class UITestFixtureBase
 
     public static string BaseUrl { get; } = $"http://localhost:{TestAppPort}";
 
-    protected static IEnumerable<string> ChromeArguments { get; } = new[]
-    {
+    protected static IEnumerable<string> ChromeArguments { get; } =
+    [
         "window-size=1200,800",
         "headless=new"
-    };
+    ];
 
     protected IEnumerable<LogEventInfo> LogEntries => _eventListLogConsumer.Items;
 

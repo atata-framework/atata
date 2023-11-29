@@ -36,50 +36,50 @@ public class EnumerableProviderTests
 
     [Test]
     public void Indexer() =>
-        CreateSut(() => new[] { 10, 20, 30 })[1]
+        CreateSut(() => [10, 20, 30])[1]
             .Number.ToSubject().Should.Equal(20);
 
     [Test]
     public void Indexer_ProviderNameOfItem() =>
-        CreateSut(() => new[] { 10, 20, 30 })[1]
+        CreateSut(() => [10, 20, 30])[1]
             .ProviderName.ToSubject().Should.Equal("[1]");
 
     [Test]
     public void ItemsAreInSameSequence() =>
-        CreateSut(() => new[] { 10, 20, 30 })
+        CreateSut(() => [10, 20, 30])
             .Select(x => x.Number).Should.EqualSequence(10, 20, 30);
 
     [Test]
     public void ItemsHaveOrderedIndexes() =>
-        CreateSut(() => new[] { 10, 20, 30 })
+        CreateSut(() => [10, 20, 30])
             .Select(x => x.Index).Should.EqualSequence(0, 1, 2);
 
     [Test]
     public void ItemsHaveSourceProviderName() =>
-        CreateSut(() => new[] { 10, 20, 30 })
+        CreateSut(() => [10, 20, 30])
             .Select(x => x.SourceProviderName).Should.ContainExactly(3, ExpectedSourceProviderName);
 
     [Test]
     public void ItemsHaveProviderName() =>
-        CreateSut(() => new[] { 10, 20, 30 })
+        CreateSut(() => [10, 20, 30])
             .Select(x => x.ProviderName).Should.EqualSequence("[0]", "[1]", "[2]");
 
     [Test]
     public void ItemsHaveSourceProviderName_AfterWhere() =>
-        CreateSut(() => new[] { 10, 20, 30 })
+        CreateSut(() => [10, 20, 30])
             .Where(x => x.Number != 20)
             .Select(x => x.SourceProviderName).Should.AtOnce.ContainExactly(2, ExpectedSourceProviderName + ".Where(x => x.Number != 20)");
 
     [Test]
     public void ItemsHaveSourceProviderName_AfterMultipleWhere() =>
-        CreateSut(() => new[] { 10, 20, 30 })
+        CreateSut(() => [10, 20, 30])
             .Where(x => x.Number != 20)
             .Where(x => x.Number < 30)
             .Select(x => x.SourceProviderName).Should.AtOnce.ContainExactly(1, ExpectedSourceProviderName + ".Where(x => x.Number != 20).Where(x => x.Number < 30)");
 
     [Test]
     public void ItemsHaveProviderName_AfterWhere() =>
-        CreateSut(() => new[] { 10, 20, 30 })
+        CreateSut(() => [10, 20, 30])
             .Where(x => x.Number != 20)
             .Select(x => x.ProviderName).Should.EqualSequence("[0]", "[1]");
 

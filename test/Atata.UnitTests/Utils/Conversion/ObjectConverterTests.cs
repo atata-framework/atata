@@ -76,42 +76,42 @@ public static class ObjectConverterTests
 
         [Test]
         public void ReadOnlyCollectionOfStringToArrayOfString() =>
-            TestConvert<string[]>(new ReadOnlyCollection<string>(new[] { "abc", "def" }))
+            TestConvert<string[]>(new ReadOnlyCollection<string>(["abc", "def"]))
                 .Should().Equal("abc", "def");
 
         [Test]
         public void ReadOnlyCollectionOfStringToIEnumerableOfString() =>
-            TestConvert<IEnumerable<string>>(new ReadOnlyCollection<string>(new[] { "abc", "def" }))
+            TestConvert<IEnumerable<string>>(new ReadOnlyCollection<string>(["abc", "def"]))
                 .Should().Equal("abc", "def");
 
         [Test]
         public void ReadOnlyCollectionOfObjectToIEnumerableOfString() =>
-            TestConvert<IEnumerable<string>>(new ReadOnlyCollection<object>(new[] { "abc", "def" }))
+            TestConvert<IEnumerable<string>>(new ReadOnlyCollection<object>(["abc", "def"]))
                 .Should().Equal("abc", "def");
 
         [Test]
         public void ReadOnlyCollectionOfObjectToReadOnlyCollectionOfString() =>
-            TestConvert<ReadOnlyCollection<string>>(new ReadOnlyCollection<object>(new[] { "abc", "def" }))
+            TestConvert<ReadOnlyCollection<string>>(new ReadOnlyCollection<object>(["abc", "def"]))
                 .Should().Equal("abc", "def");
 
         [Test]
         public void ReadOnlyCollectionOfObjectToQueueOfString() =>
-            TestConvert<Queue<string>>(new ReadOnlyCollection<object>(new[] { "abc", "def" }))
+            TestConvert<Queue<string>>(new ReadOnlyCollection<object>(["abc", "def"]))
                 .Should().Equal("abc", "def");
 
         [Test]
         public void ReadOnlyCollectionOfIntToReadOnlyCollectionOfString() =>
-            TestConvert<ReadOnlyCollection<string>>(new ReadOnlyCollection<int>(new[] { 3, 2, 1 }))
+            TestConvert<ReadOnlyCollection<string>>(new ReadOnlyCollection<int>([3, 2, 1]))
                 .Should().Equal("3", "2", "1");
 
         [Test]
         public void ReadOnlyCollectionOfStringToReadOnlyCollectionOfInt() =>
-            TestConvert<ReadOnlyCollection<int>>(new ReadOnlyCollection<string>(new[] { "3", "2", "1" }))
+            TestConvert<ReadOnlyCollection<int>>(new ReadOnlyCollection<string>(["3", "2", "1"]))
                 .Should().Equal(3, 2, 1);
 
         [Test]
         public void ReadOnlyCollectionOfIntToListOfInt() =>
-            TestConvert<List<int>>(new ReadOnlyCollection<int>(new[] { 3, 2, 1 }))
+            TestConvert<List<int>>(new ReadOnlyCollection<int>([3, 2, 1]))
                 .Should().Equal(3, 2, 1);
 
         [Test]

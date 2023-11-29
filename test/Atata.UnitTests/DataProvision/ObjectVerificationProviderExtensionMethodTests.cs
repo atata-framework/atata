@@ -318,7 +318,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 };
 
             return functions.Count == 1
-                ? new[] { new TestCaseData(BuildTestAction(functions[0])).SetArgDisplayNames(testName) }
+                ? [new TestCaseData(BuildTestAction(functions[0])).SetArgDisplayNames(testName)]
                 : functions.Select((x, i) => new TestCaseData(BuildTestAction(x)).SetArgDisplayNames($"{testName} #{i + 1}"));
         }
 

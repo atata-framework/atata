@@ -148,7 +148,7 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
     internal Visibility ResolveVisibility(UIComponentMetadata metadata = null) =>
         OptionalProperties.Resolve<Visibility?>(
             nameof(Visibility),
-            metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat(new[] { (IHasOptionalProperties)metadata.ComponentDefinitionAttribute }) : null)
+            metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat([(IHasOptionalProperties)metadata.ComponentDefinitionAttribute]) : null)
         ?? AtataContext.Current?.DefaultControlVisibility
         ?? SearchOptions.DefaultVisibility;
 

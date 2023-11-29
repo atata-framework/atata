@@ -4,18 +4,17 @@ public class ContentTests : UITestFixture
 {
     private ContentPage _page;
 
-    private static IEnumerable ContentSourceTestCaseSource =>
-        new[]
-        {
-            new TestCaseData(ContentSource.Text).Returns("The quick brown fox jumps over the lazy dog."),
-            new TestCaseData(ContentSource.TextContent).Returns("The quick brown fox jumps over the lazy dog."),
-            new TestCaseData(ContentSource.InnerHtml).Returns("The quick <strong>brown</strong> fox <span><span>jumps</span> over</span> the lazy dog."),
-            new TestCaseData(ContentSource.ChildTextNodes).Returns("The quick  fox  the lazy dog."),
-            new TestCaseData(ContentSource.ChildTextNodesTrimmed).Returns("The quickfoxthe lazy dog."),
-            new TestCaseData(ContentSource.ChildTextNodesTrimmedAndSpaceJoined).Returns("The quick fox the lazy dog."),
-            new TestCaseData(ContentSource.FirstChildTextNode).Returns("The quick"),
-            new TestCaseData(ContentSource.LastChildTextNode).Returns("the lazy dog.")
-        };
+    private static TestCaseData[] ContentSourceTestCaseSource =>
+    [
+        new TestCaseData(ContentSource.Text).Returns("The quick brown fox jumps over the lazy dog."),
+        new TestCaseData(ContentSource.TextContent).Returns("The quick brown fox jumps over the lazy dog."),
+        new TestCaseData(ContentSource.InnerHtml).Returns("The quick <strong>brown</strong> fox <span><span>jumps</span> over</span> the lazy dog."),
+        new TestCaseData(ContentSource.ChildTextNodes).Returns("The quick  fox  the lazy dog."),
+        new TestCaseData(ContentSource.ChildTextNodesTrimmed).Returns("The quickfoxthe lazy dog."),
+        new TestCaseData(ContentSource.ChildTextNodesTrimmedAndSpaceJoined).Returns("The quick fox the lazy dog."),
+        new TestCaseData(ContentSource.FirstChildTextNode).Returns("The quick"),
+        new TestCaseData(ContentSource.LastChildTextNode).Returns("the lazy dog.")
+    ];
 
     protected override void OnSetUp() =>
         _page = Go.To<ContentPage>();

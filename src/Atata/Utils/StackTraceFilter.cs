@@ -17,7 +17,7 @@ public static class StackTraceFilter
         stackTrace.CheckNotNull(nameof(stackTrace));
         stackFramesFilter.CheckNotNull(nameof(stackFramesFilter));
 
-        IEnumerable<string> originalStackFrames = stackTrace.Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+        IEnumerable<string> originalStackFrames = stackTrace.Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries);
 
         IEnumerable<string> filteredStackFrames = stackFramesFilter.Invoke(originalStackFrames);
 

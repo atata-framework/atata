@@ -27,7 +27,7 @@ public class UriQueryProvider<TOwner> : ValueProvider<string, TOwner>
 
     private static KeyValuePair<string, string> ExtractParameterKeyValue(string quertyParameterString)
     {
-        string[] parts = quertyParameterString.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries);
+        string[] parts = quertyParameterString.Split(['='], StringSplitOptions.RemoveEmptyEntries);
 
         return new KeyValuePair<string, string>(parts[0], parts.Length > 1 ? parts[1] : null);
     }
@@ -40,7 +40,7 @@ public class UriQueryProvider<TOwner> : ValueProvider<string, TOwner>
             return new List<KeyValuePair<string, string>>();
 
         return query.TrimStart('?')
-            .Split(new[] { '&', ';' }, StringSplitOptions.RemoveEmptyEntries)
+            .Split(['&', ';'], StringSplitOptions.RemoveEmptyEntries)
             .Select(ExtractParameterKeyValue);
     }
 }

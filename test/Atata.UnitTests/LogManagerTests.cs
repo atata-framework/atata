@@ -16,7 +16,7 @@ public class LogManagerTests
         _sut.Use(new LogConsumerConfiguration(logConsumerMock.Object));
 
         _sut.AddSecretStringsToMask(
-            new[] { new SecretStringToMask("abc123", "***") });
+            [new SecretStringToMask("abc123", "***")]);
 
         _sut.Info(@"Set ""abc123"" to something");
 

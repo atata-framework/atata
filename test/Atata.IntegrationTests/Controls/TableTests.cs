@@ -146,12 +146,12 @@ public class TableTests : UITestFixture
     [Test]
     public void Rows_ForEach()
     {
-        Queue<string> expectedClountryNames = new Queue<string>(new[]
-        {
+        Queue<string> expectedClountryNames = new(
+        [
             "England",
             "France",
             "Germany"
-        });
+        ]);
 
         _page.CountryTable.Rows.ForEach(
             x => x.Country.Value.Should().Be(expectedClountryNames.Dequeue()));
@@ -161,11 +161,11 @@ public class TableTests : UITestFixture
     [Test]
     public void Rows_ForEach_WithCustomControlDefinitionOfRow()
     {
-        Queue<string> expectedClountryNames = new Queue<string>(new[]
-        {
+        Queue<string> expectedClountryNames = new(
+        [
             "France",
             "Germany"
-        });
+        ]);
 
         _page.CountryTableWithCustomControlDefinitionOfRow.Rows.ForEach(
             x => x.Country.Value.Should().Be(expectedClountryNames.Dequeue()));

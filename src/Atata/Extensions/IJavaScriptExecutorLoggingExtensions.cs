@@ -71,7 +71,7 @@ public static class IJavaScriptExecutorLoggingExtensions
     private static string BuildLogMessageForScript(string script, object[] args)
     {
         IEnumerable<string> scriptLines = script
-            .Split(new[] { Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries)
+            .Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim());
 
         string scriptTruncated = string.Join(" ", scriptLines)

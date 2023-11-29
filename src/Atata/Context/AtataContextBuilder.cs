@@ -1296,7 +1296,7 @@ Actual: {driverFactory.GetType().FullName}",
     public void AutoSetUpDriverToUse()
     {
         if (BuildingContext.UsesLocalBrowser)
-            InvokeAutoSetUpSafelyMethodOfDriverSetup(new[] { BuildingContext.LocalBrowserToUseName });
+            InvokeAutoSetUpSafelyMethodOfDriverSetup([BuildingContext.LocalBrowserToUseName]);
     }
 
     /// <inheritdoc cref="AutoSetUpDriverToUse"/>

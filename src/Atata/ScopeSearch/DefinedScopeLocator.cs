@@ -11,7 +11,7 @@ public class DefinedScopeLocator : IScopeLocator
         _element;
 
     public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null) =>
-        new[] { _element };
+        [_element];
 
     public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null) =>
         _element == null;

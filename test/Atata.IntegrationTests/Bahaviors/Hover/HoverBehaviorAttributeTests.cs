@@ -4,11 +4,10 @@ namespace Atata.IntegrationTests.Bahaviors;
 
 public class HoverBehaviorAttributeTests : UITestFixture
 {
-    private static IEnumerable<TestCaseData> Source =>
-        new[]
-        {
-            new TestCaseData(new HoversUsingActionsAttribute())
-        };
+    private static TestCaseData[] Source =>
+    [
+        new TestCaseData(new HoversUsingActionsAttribute())
+    ];
 
     protected override bool ReuseDriver => false;
 

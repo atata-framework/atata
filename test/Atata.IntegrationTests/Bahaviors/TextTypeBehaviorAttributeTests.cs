@@ -8,15 +8,14 @@ public class TextTypeBehaviorAttributeTests : UITestFixture
 
     private const string ConcatValue = InitialValue + SetValue;
 
-    private static IEnumerable<TestCaseData> Source =>
-        new[]
-        {
-            new TestCaseData(new TypesTextUsingSendKeysAttribute()).Returns(ConcatValue),
-            new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysAttribute()).Returns(ConcatValue),
-            new TestCaseData(new TypesTextUsingScriptAttribute()).Returns(ConcatValue),
-            new TestCaseData(new TypesTextUsingSendKeysCharByCharAttribute()).Returns(ConcatValue),
-            new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysCharByCharAttribute()).Returns(ConcatValue)
-        };
+    private static TestCaseData[] Source =>
+    [
+        new TestCaseData(new TypesTextUsingSendKeysAttribute()).Returns(ConcatValue),
+        new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysAttribute()).Returns(ConcatValue),
+        new TestCaseData(new TypesTextUsingScriptAttribute()).Returns(ConcatValue),
+        new TestCaseData(new TypesTextUsingSendKeysCharByCharAttribute()).Returns(ConcatValue),
+        new TestCaseData(new TypesTextUsingFocusBehaviorAndSendKeysCharByCharAttribute()).Returns(ConcatValue)
+    ];
 
     [TestCaseSource(nameof(Source))]
     public string Execute(TextTypeBehaviorAttribute behavior)
