@@ -27,7 +27,7 @@ public class WaitingPage : Page<_>
     public ButtonDelegate<_> ButtonWithVisibleAndHiddenWait { get; private set; }
 
     [Term("Wait")]
-    [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 3, ThrowOnPresenceFailure = false)]
+    [WaitForElement(WaitBy.Css, ".nonexistent-block", Until.VisibleThenMissing, PresenceTimeout = 2, ThrowOnPresenceFailure = false)]
     public ButtonDelegate<_> ButtonWithVisibleThenMissingWait { get; private set; }
 
     [Term("Wait")]
