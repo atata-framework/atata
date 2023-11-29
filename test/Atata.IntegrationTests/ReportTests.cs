@@ -189,7 +189,7 @@ public class ReportTests : UITestFixture
 
         private sealed class MockScreenshotConsumer : IScreenshotConsumer
         {
-            public List<ScreenshotInfo> Items { get; } = new();
+            public List<ScreenshotInfo> Items { get; } = [];
 
             public void Take(ScreenshotInfo screenshotInfo) =>
                 Items.Add(screenshotInfo);

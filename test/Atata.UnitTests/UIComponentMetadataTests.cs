@@ -205,7 +205,7 @@ public class UIComponentMetadataTests
         public void ForAttribute_MoreSpecificTargetAttributeType()
         {
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(TermFindAttribute) });
-            Declared.Add(new FindSettingsAttribute { TargetAttributeTypes = new[] { typeof(FindByXPathAttribute), typeof(FindByIdAttribute) } });
+            Declared.Add(new FindSettingsAttribute { TargetAttributeTypes = [typeof(FindByXPathAttribute), typeof(FindByIdAttribute)] });
             Declared.Add(new FindSettingsAttribute());
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindByLabelAttribute) });
             Declared.Add(new FindSettingsAttribute { TargetAttributeType = typeof(FindAttribute) });

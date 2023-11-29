@@ -5,11 +5,11 @@ namespace Atata.UnitTests;
 [TestFixture]
 public class AttributesAtataContextBuilderTests
 {
-    private readonly Attribute[] _stubAttributes = new Attribute[]
-    {
+    private readonly Attribute[] _stubAttributes =
+    [
         new FindByIdAttribute(),
         new TermAttribute("some-id")
-    };
+    ];
 
     private AttributesAtataContextBuilder _sut;
 

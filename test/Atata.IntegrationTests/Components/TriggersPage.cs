@@ -32,7 +32,7 @@ public class TriggersPage : Page<_>
 
     public bool IsAfterPerformInvoked { get; private set; }
 
-    public List<TriggerEvents> InputEvents { get; private set; } = new List<TriggerEvents>();
+    public List<TriggerEvents> InputEvents { get; private set; } = [];
 
     [InvokeMethod(nameof(OnBeforePerform), TriggerEvents.BeforeClick)]
     [InvokeMethod(nameof(OnAfterPerform), TriggerEvents.AfterClick)]

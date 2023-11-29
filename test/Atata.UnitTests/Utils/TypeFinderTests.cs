@@ -9,11 +9,11 @@ public class TypeFinderTests
 
     [OneTimeSetUp]
     public void SetUpFixture() =>
-        _assembliesToFindIn = new[]
-        {
+        _assembliesToFindIn =
+        [
             Assembly.GetAssembly(typeof(AtataContext)),
             Assembly.GetAssembly(typeof(TypeFinderTests))
-        };
+        ];
 
     [TestCase("Atata.UnitTests.TestPage, Atata.UnitTests", ExpectedResult = typeof(TestPage))]
     [TestCase("Atata.UnitTests.TestPage", ExpectedResult = typeof(TestPage))]

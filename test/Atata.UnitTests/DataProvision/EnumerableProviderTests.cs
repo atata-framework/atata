@@ -27,7 +27,7 @@ public class EnumerableProviderTests
         var subject = CreateSut(() =>
             tryCount++ < 3
             ? new int[0]
-            : new[] { 1, 2 });
+            : [1, 2]);
 
         subject.Should.Not.BeEmpty();
 

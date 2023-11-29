@@ -15,7 +15,7 @@ public class FileScreenshotConsumerTests : UITestFixtureBase
         _consumerBuilder = ConfigureBaseAtataContext()
             .ScreenshotConsumers.AddFile();
 
-        _directoriesToDelete = new List<string>();
+        _directoriesToDelete = [];
     }
 
     [Test]

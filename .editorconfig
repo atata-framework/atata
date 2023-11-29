@@ -391,6 +391,10 @@ dotnet_diagnostic.S6562.severity = none
 
 dotnet_diagnostic.SA0001.severity = none
 
+# SA1010: OpeningSquareBracketsMustBeSpacedCorrectly
+# Temporarily disabled until StyleCop is able to handle collection initializers correctly.
+dotnet_diagnostic.SA1010.severity = none
+
 dotnet_diagnostic.SA1101.severity = none
 
 dotnet_diagnostic.SA1200.severity = none
@@ -429,6 +433,9 @@ dotnet_diagnostic.SX1101.severity = warning
 # C# Coding Conventions       #
 ###############################
 
+# IDE0028: Use collection initializers
+dotnet_diagnostic.IDE0028.severity = warning
+
 # IDE0054: Use compound assignment
 dotnet_diagnostic.IDE0054.severity = none
 
@@ -452,6 +459,9 @@ dotnet_diagnostic.IDE0200.severity = warning
 
 # IDE0270: Use coalesce expression
 dotnet_diagnostic.IDE0270.severity = warning
+
+# IDE0300: Use collection initializers
+dotnet_diagnostic.IDE0300.severity = warning
 
 [*.cs]
 # var preferences

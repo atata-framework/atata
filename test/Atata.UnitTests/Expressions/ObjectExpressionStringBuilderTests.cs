@@ -6,7 +6,7 @@ public class ObjectExpressionStringBuilderTests
 {
     public static IEnumerable<TestCaseData> GetExpressionTestCases()
     {
-        List<TestCaseData> items = new();
+        List<TestCaseData> items = [];
 
         TestCaseData TestPredicate(Expression<Func<TestComponent, object>> expression)
         {
@@ -17,7 +17,7 @@ public class ObjectExpressionStringBuilderTests
 
         string itemName = "item";
         TestModel item = new() { Name = "item" };
-        string[] itemArray = { "item" };
+        string[] itemArray = ["item"];
 
         TestPredicate(x => x.Item1 == "item")
             .Returns("Item1 == \"item\"");

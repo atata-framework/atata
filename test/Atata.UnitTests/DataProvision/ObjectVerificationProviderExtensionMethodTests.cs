@@ -27,7 +27,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class Satisfy_IEnumerable_Expression : ExtensionMethodTestFixture<Subject<string>[], Satisfy_IEnumerable_Expression>
     {
         static Satisfy_IEnumerable_Expression() =>
-            For(new[] { "a".ToSubject(), "b".ToSubject(), "c".ToSubject() })
+            For(["a".ToSubject(), "b".ToSubject(), "c".ToSubject()])
                 .ThrowsArgumentNullException(should => should.Satisfy(null as Expression<Func<IEnumerable<string>, bool>>))
                 .Pass(should => should.Satisfy(x => x.Contains("a") && x.Contains("c")))
                 .Fail(should => should.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
@@ -68,7 +68,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class BeEquivalent : ExtensionMethodTestFixture<int[], BeEquivalent>
     {
         static BeEquivalent() =>
-            For(new[] { 1, 1, 2, 3, 5 })
+            For([1, 1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.BeEquivalent(null))
                 .Pass(should => should.BeEquivalent(1, 1, 2, 3, 5))
                 .Pass(should => should.BeEquivalent(5, 1, 2, 3, 1))
@@ -88,7 +88,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class EqualSequence : ExtensionMethodTestFixture<int[], EqualSequence>
     {
         static EqualSequence() =>
-            For(new[] { 1, 1, 2, 3, 5 })
+            For([1, 1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.EqualSequence(null))
                 .Pass(should => should.EqualSequence(1, 1, 2, 3, 5))
                 .Fail(should => should.EqualSequence(5, 1, 2, 3, 1))
@@ -108,7 +108,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class EqualSequence_IgnoringCase : ExtensionMethodTestFixture<string[], EqualSequence_IgnoringCase>
     {
         static EqualSequence_IgnoringCase() =>
-            For(new[] { "a", "b", "c" })
+            For(["a", "b", "c"])
                 .When(x => x.IgnoringCase)
                 .Pass(should => should.EqualSequence("a", "B", "c"));
     }
@@ -116,7 +116,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
     {
         static Contain_IEnumerable() =>
-            For(new[] { 1, 2, 3, 5 })
+            For([1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.Contain(null as IEnumerable<int>))
                 .ThrowsArgumentException(should => should.Contain())
                 .Pass(should => should.Contain(2, 3))
@@ -128,7 +128,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class ContainAny_IEnumerable : ExtensionMethodTestFixture<int[], ContainAny_IEnumerable>
     {
         static ContainAny_IEnumerable() =>
-            For(new[] { 1, 2, 3, 5 })
+            For([1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.ContainAny(null as IEnumerable<int>))
                 .ThrowsArgumentException(should => should.ContainAny())
                 .Pass(should => should.ContainAny(4, 5))
@@ -140,7 +140,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class StartWith_IEnumerable : ExtensionMethodTestFixture<int[], StartWith_IEnumerable>
     {
         static StartWith_IEnumerable() =>
-            For(new[] { 1, 2, 3, 5 })
+            For([1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.StartWith(null as IEnumerable<int>))
                 .ThrowsArgumentException(should => should.StartWith())
                 .Pass(should => should.StartWith(1))
@@ -153,7 +153,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class StartWithAny_IEnumerable : ExtensionMethodTestFixture<int[], StartWithAny_IEnumerable>
     {
         static StartWithAny_IEnumerable() =>
-            For(new[] { 1, 2, 3, 5 })
+            For([1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.StartWithAny(null as IEnumerable<int>))
                 .ThrowsArgumentException(should => should.StartWithAny())
                 .Pass(should => should.StartWithAny(1))
@@ -177,7 +177,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class EndWith_IEnumerable : ExtensionMethodTestFixture<int[], EndWith_IEnumerable>
     {
         static EndWith_IEnumerable() =>
-            For(new[] { 1, 2, 3, 5 })
+            For([1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.EndWith(null as IEnumerable<int>))
                 .ThrowsArgumentException(should => should.EndWith())
                 .Pass(should => should.EndWith(5))
@@ -190,7 +190,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class EndWithAny_IEnumerable : ExtensionMethodTestFixture<int[], EndWithAny_IEnumerable>
     {
         static EndWithAny_IEnumerable() =>
-            For(new[] { 1, 2, 3, 5 })
+            For([1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.EndWithAny(null as IEnumerable<int>))
                 .ThrowsArgumentException(should => should.EndWithAny())
                 .Pass(should => should.EndWithAny(5))
@@ -214,7 +214,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class ConsistOf : ExtensionMethodTestFixture<int[], ConsistOf>
     {
         static ConsistOf() =>
-            For(new[] { 1, 2, 3 })
+            For([1, 2, 3])
                 .ThrowsArgumentNullException(should => should.ConsistOf(null))
                 .ThrowsArgumentException(should => should.ConsistOf())
                 .Pass(should => should.ConsistOf(x => x == 3, x => x > 0, x => x == 2))
@@ -229,7 +229,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class ConsistOf_WhenHas1Item : ExtensionMethodTestFixture<int[], ConsistOf_WhenHas1Item>
     {
         static ConsistOf_WhenHas1Item() =>
-            For(new[] { 1 })
+            For([1])
                 .Pass(should => should.ConsistOf(x => x == 1))
                 .Fail(should => should.ConsistOf(x => x == 2));
     }
@@ -237,7 +237,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class ConsistOnlyOf : ExtensionMethodTestFixture<int[], ConsistOnlyOf>
     {
         static ConsistOnlyOf() =>
-            For(new[] { 3, 3, 3 })
+            For([3, 3, 3])
                 .Pass(should => should.ConsistOnlyOf(3))
                 .Fail(should => should.ConsistOnlyOf(7));
     }
@@ -245,7 +245,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class ConsistOnlyOf_Expression : ExtensionMethodTestFixture<int[], ConsistOnlyOf_Expression>
     {
         static ConsistOnlyOf_Expression() =>
-            For(new[] { 1, 2, 3, 5 })
+            For([1, 2, 3, 5])
                 .ThrowsArgumentNullException(should => should.ConsistOnlyOf(null))
                 .Pass(should => should.ConsistOnlyOf(x => x > 0))
                 .Fail(should => should.ConsistOnlyOf(x => x > 1));
@@ -336,17 +336,13 @@ public static class ObjectVerificationProviderExtensionMethodTests
 
             public Func<ObjectVerificationProvider<TObject, Subject<TObject>>, ObjectVerificationProvider<TObject, Subject<TObject>>> VerifierSetup { get; set; }
 
-            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> PassFunctions { get; } =
-                new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> PassFunctions { get; } = [];
 
-            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> FailFunctions { get; } =
-                new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> FailFunctions { get; } = [];
 
-            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> ThrowingArgumentExceptionFunctions { get; } =
-                new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> ThrowingArgumentExceptionFunctions { get; } = [];
 
-            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> ThrowingArgumentNullExceptionFunctions { get; } =
-                new List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>>();
+            public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> ThrowingArgumentNullExceptionFunctions { get; } = [];
         }
 
         public class TestSuiteBuilder

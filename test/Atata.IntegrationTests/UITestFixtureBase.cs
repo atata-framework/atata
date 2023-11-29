@@ -8,7 +8,7 @@ public abstract class UITestFixtureBase
     /// <summary>
     /// Usage of 2046 on Azure DevOps pipeline port often leads to failure during WebDriver instance creation.
     /// </summary>
-    private readonly int[] _portsToIgnore = new[] { 2046 };
+    private readonly int[] _portsToIgnore = [2046];
 
     private EventListLogConsumer _eventListLogConsumer;
 

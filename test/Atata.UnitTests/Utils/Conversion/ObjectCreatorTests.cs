@@ -21,7 +21,7 @@ public static class ObjectCreatorTests
         {
             object result = _sut.Create(
                 typeof(IgnoreInitAttribute),
-                new Dictionary<string, object>());
+                []);
 
             result.Should().BeOfType<IgnoreInitAttribute>();
         }

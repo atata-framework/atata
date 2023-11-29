@@ -18,7 +18,7 @@ public static class ImprovedExpressionStringBuilderTests
 
     private static IEnumerable<TestCaseData> GetExpressionTestCases()
     {
-        List<TestCaseData> items = new();
+        List<TestCaseData> items = [];
 
         TestCaseData Test(Expression expression)
         {
@@ -74,7 +74,7 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => x.Item.Attributes.Checked == true");
 
         // Indexer:
-        string[] itemArray = { "item" };
+        string[] itemArray = ["item"];
 
         TestPredicate(x => x.Item.Attributes["data-id"] == "15")
             .Returns("x => x.Item.Attributes[\"data-id\"] == \"15\"");
