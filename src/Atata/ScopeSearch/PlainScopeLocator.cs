@@ -28,7 +28,7 @@ public class PlainScopeLocator : IScopeLocator
     {
         searchOptions ??= new SearchOptions();
 
-        return SearchContext.GetAllWithLogging(By.With(searchOptions)).ToArray();
+        return [.. SearchContext.GetAllWithLogging(By.With(searchOptions))];
     }
 
     public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)

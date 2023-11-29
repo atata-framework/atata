@@ -7,7 +7,7 @@ public static class TemplateStringTransformer
 {
     private static readonly Regex s_variableMatchRegex = new(@"{\D[^}]*}");
 
-    private static readonly char[] s_braces = new[] { '{', '}' };
+    private static readonly char[] s_braces = ['{', '}'];
 
     /// <summary>
     /// Determines whether the template has any variable and can be transformed.

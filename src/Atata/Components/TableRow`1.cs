@@ -9,7 +9,7 @@
 [ControlDefinition("tr[parent::table or parent::tbody]", ComponentTypeName = "row")]
 [FindByColumnHeader(
     TargetType = typeof(Content<,>),
-    ExcludeTargetTypes = new[] { typeof(Link<>), typeof(Label<,>), typeof(TextListItem<>) })]
+    ExcludeTargetTypes = [typeof(Link<>), typeof(Label<,>), typeof(TextListItem<>)])]
 public class TableRow<TOwner> : Control<TOwner>
     where TOwner : PageObject<TOwner>
 {

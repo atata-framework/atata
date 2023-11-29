@@ -285,12 +285,12 @@ public sealed class AtataContext : IDisposable
     /// <summary>
     /// Gets the list of all assertion results.
     /// </summary>
-    public List<AssertionResult> AssertionResults { get; } = new List<AssertionResult>();
+    public List<AssertionResult> AssertionResults { get; } = [];
 
     /// <summary>
     /// Gets the list of pending assertion results with <see cref="AssertionStatus.Failed"/> or <see cref="AssertionStatus.Warning"/> status.
     /// </summary>
-    public List<AssertionResult> PendingFailureAssertionResults { get; } = new List<AssertionResult>();
+    public List<AssertionResult> PendingFailureAssertionResults { get; } = [];
 
     /// <summary>
     /// Gets the context of the attributes.
@@ -320,7 +320,7 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public UIComponent PageObject { get; internal set; }
 
-    internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; } = new List<UIComponent>();
+    internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; } = [];
 
     internal bool IsNavigated { get; set; }
 

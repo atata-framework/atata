@@ -6,7 +6,7 @@ internal sealed class ScreenshotTaker
 
     private readonly AtataContext _context;
 
-    private readonly List<IScreenshotConsumer> _screenshotConsumers = new();
+    private readonly List<IScreenshotConsumer> _screenshotConsumers = [];
 
     private int _screenshotNumber;
 

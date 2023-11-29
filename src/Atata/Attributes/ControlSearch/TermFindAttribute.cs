@@ -123,7 +123,7 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
 
     protected virtual string[] GetRawTerms(UIComponentMetadata metadata) =>
         ResolveValues(metadata)
-            ?? new[] { GetTermFromProperty(metadata) };
+            ?? [GetTermFromProperty(metadata)];
 
     private string GetTermFromProperty(UIComponentMetadata metadata)
     {

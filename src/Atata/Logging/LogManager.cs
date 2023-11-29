@@ -8,9 +8,9 @@ public class LogManager : ILogManager
 {
     private readonly ILogEventInfoFactory _logEventInfoFactory;
 
-    private readonly List<LogConsumerConfiguration> _logConsumerConfigurations = new();
+    private readonly List<LogConsumerConfiguration> _logConsumerConfigurations = [];
 
-    private readonly List<SecretStringToMask> _secretStringsToMask = new();
+    private readonly List<SecretStringToMask> _secretStringsToMask = [];
 
     private readonly Stack<LogSection> _sectionEndStack = new();
 

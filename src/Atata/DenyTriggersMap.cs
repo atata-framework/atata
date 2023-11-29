@@ -2,9 +2,9 @@
 
 internal static class DenyTriggersMap
 {
-    internal static Dictionary<TriggerEvents, TriggerEvents[]> Values { get; } = new Dictionary<TriggerEvents, TriggerEvents[]>
+    internal static Dictionary<TriggerEvents, TriggerEvents[]> Values { get; } = new()
     {
-        [TriggerEvents.BeforeAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess },
-        [TriggerEvents.AfterAccess] = new[] { TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess }
+        [TriggerEvents.BeforeAccess] = [TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess],
+        [TriggerEvents.AfterAccess] = [TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess]
     };
 }

@@ -55,8 +55,8 @@ public static class StringExtensions
     {
         char[] chars = value.ToCharArray();
 
-        List<char> wordChars = new List<char>();
-        List<string> words = new List<string>();
+        List<char> wordChars = [];
+        List<string> words = [];
 
         if (char.IsLetterOrDigit(chars[0]))
             wordChars.Add(chars[0]);
@@ -65,7 +65,7 @@ public static class StringExtensions
         {
             if (wordChars.Any())
             {
-                words.Add(new string(wordChars.ToArray()));
+                words.Add(new string([.. wordChars]));
                 wordChars.Clear();
             }
         }
@@ -96,7 +96,7 @@ public static class StringExtensions
 
         EndWord();
 
-        return words.ToArray();
+        return [.. words];
     }
 
     public static string Sanitize(this string value, IEnumerable<char> invalidChars, string replaceWith = null)

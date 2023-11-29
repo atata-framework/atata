@@ -35,11 +35,11 @@ for (var i = 0; i < elements.length; i++) {
 
 return textValues;";
 
-    private readonly Dictionary<string, TItem> _cachedNamedItemsMap = new();
+    private readonly Dictionary<string, TItem> _cachedNamedItemsMap = [];
 
-    private readonly Dictionary<(Visibility Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>> _cachedAllElementsMap = new();
+    private readonly Dictionary<(Visibility Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>> _cachedAllElementsMap = [];
 
-    private readonly Dictionary<IWebElement, TItem> _cachedElementItemsMap = new();
+    private readonly Dictionary<IWebElement, TItem> _cachedElementItemsMap = [];
 
     private string _itemComponentTypeName;
 

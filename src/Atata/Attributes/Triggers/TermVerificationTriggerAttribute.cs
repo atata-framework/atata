@@ -86,7 +86,7 @@ public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute
     {
         string[] rawValues = Values?.Any() ?? false
             ? Values
-            : new[] { ResolveCase(metadata).ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue))) };
+            : [ResolveCase(metadata).ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue)))];
 
         string format = ResolveFormat(metadata);
 

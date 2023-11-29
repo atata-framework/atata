@@ -29,7 +29,7 @@ public class AtataBuildingContext : ICloneable
     /// <summary>
     /// Gets the driver factories.
     /// </summary>
-    public List<IDriverFactory> DriverFactories { get; private set; } = new List<IDriverFactory>();
+    public List<IDriverFactory> DriverFactories { get; private set; } = [];
 
     /// <summary>
     /// Gets a value indicating whether to dispose the <see cref="AtataContext.Driver"/> when <see cref="AtataContext.Dispose"/> method is invoked.
@@ -40,7 +40,7 @@ public class AtataBuildingContext : ICloneable
     /// <summary>
     /// Gets the log consumer configurations.
     /// </summary>
-    public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = new List<LogConsumerConfiguration>();
+    public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = [];
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -50,12 +50,12 @@ public class AtataBuildingContext : ICloneable
     /// <summary>
     /// Gets the list of secret strings to mask in log.
     /// </summary>
-    public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = new List<SecretStringToMask>();
+    public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = [];
 
     /// <summary>
     /// Gets the screenshot consumers.
     /// </summary>
-    public List<IScreenshotConsumer> ScreenshotConsumers { get; private set; } = new List<IScreenshotConsumer>();
+    public List<IScreenshotConsumer> ScreenshotConsumers { get; private set; } = [];
 
     /// <summary>
     /// Gets the driver factory to use.
@@ -123,7 +123,7 @@ public class AtataBuildingContext : ICloneable
     /// <summary>
     /// Gets the list of event subscriptions.
     /// </summary>
-    public List<EventSubscriptionItem> EventSubscriptions { get; private set; } = new List<EventSubscriptionItem>();
+    public List<EventSubscriptionItem> EventSubscriptions { get; private set; } = [];
 
     /// <summary>
     /// Gets or sets the default assembly name pattern that is used to filter assemblies to find types in them.
@@ -320,7 +320,7 @@ public class AtataBuildingContext : ICloneable
     {
         AtataBuildingContext copy = (AtataBuildingContext)MemberwiseClone();
 
-        copy.DriverFactories = DriverFactories.ToList();
+        copy.DriverFactories = [.. DriverFactories];
 
         copy.LogConsumerConfigurations = LogConsumerConfigurations
             .Select(x => x.Consumer is ICloneable ? x.Clone() : x)
@@ -331,9 +331,9 @@ public class AtataBuildingContext : ICloneable
             .ToList();
 
         copy.Attributes = Attributes.Clone();
-        copy.EventSubscriptions = EventSubscriptions.ToList();
+        copy.EventSubscriptions = [.. EventSubscriptions];
         copy.Variables = new Dictionary<string, object>(Variables);
-        copy.SecretStringsToMaskInLog = SecretStringsToMaskInLog.ToList();
+        copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
         copy.Screenshots = Screenshots.Clone();
         copy.PageSnapshots = PageSnapshots.Clone();
         copy.BrowserLogs = BrowserLogs.Clone();

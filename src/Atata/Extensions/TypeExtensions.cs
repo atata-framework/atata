@@ -29,7 +29,7 @@ public static class TypeExtensions
                     individualFlags.Add(currentFlag);
             }
 
-            return individualFlags.ToArray();
+            return [.. individualFlags];
         }
         else
         {

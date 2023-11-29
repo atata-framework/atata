@@ -18,7 +18,7 @@ return (
   Math.floor(rect.bottom) <= (window.innerHeight || document.documentElement.clientHeight) &&
   Math.floor(rect.right) <= (window.innerWidth || document.documentElement.clientWidth));";
 
-    private readonly List<TriggerEvents> _currentDeniedTriggers = new();
+    private readonly List<TriggerEvents> _currentDeniedTriggers = [];
 
     protected UIComponent()
     {
@@ -128,7 +128,7 @@ return (
 
     ScopeSource IUIComponent<TOwner>.ScopeSource => ScopeSource;
 
-    internal List<IClearsCache> CacheClearableComponentParts { get; } = new List<IClearsCache>();
+    internal List<IClearsCache> CacheClearableComponentParts { get; } = [];
 
     /// <summary>
     /// Called upon initialization before the <see cref="TriggerEvents.Init"/> triggers are executed.

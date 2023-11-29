@@ -45,7 +45,7 @@ public class ComponentAttributesAtataContextBuilder
     {
         if (!BuildingContext.Attributes.ComponentMap.TryGetValue(_componentType, out var attributeSet))
         {
-            attributeSet = new List<Attribute>();
+            attributeSet = [];
             BuildingContext.Attributes.ComponentMap[_componentType] = attributeSet;
         }
 

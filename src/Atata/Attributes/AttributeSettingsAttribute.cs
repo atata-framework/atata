@@ -16,7 +16,7 @@ public abstract class AttributeSettingsAttribute : MulticastAttribute
     public Type TargetAttributeType
     {
         get => TargetAttributeTypes?.FirstOrDefault();
-        set => TargetAttributeTypes = value == null ? null : new[] { value };
+        set => TargetAttributeTypes = value == null ? null : [value];
     }
 
     /// <summary>
@@ -30,7 +30,7 @@ public abstract class AttributeSettingsAttribute : MulticastAttribute
     public Type ExcludeTargetAttributeType
     {
         get => ExcludeTargetAttributeTypes?.FirstOrDefault();
-        set => ExcludeTargetAttributeTypes = value == null ? null : new[] { value };
+        set => ExcludeTargetAttributeTypes = value == null ? null : [value];
     }
 
     public virtual int? CalculateTargetAttributeRank(Type targetAttributeType)

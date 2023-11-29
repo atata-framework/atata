@@ -6,7 +6,7 @@ public static class TermResolver
 
     private const TermMatch DefaultMatch = TermMatch.Equals;
 
-    private static readonly Dictionary<Type, TermConverter> s_typeTermConverters = new();
+    private static readonly Dictionary<Type, TermConverter> s_typeTermConverters = [];
 
     static TermResolver() =>
         RegisterStandardConverters();
@@ -153,13 +153,13 @@ public static class TermResolver
         termOptions ??= new TermOptions();
 
         if (value is string stringValue)
-            return new[] { FormatStringValue(stringValue, termOptions) };
+            return [FormatStringValue(stringValue, termOptions)];
         else if (value is Enum enumValue)
             return GetEnumTerms(enumValue, termOptions);
         else if (s_typeTermConverters.TryGetValue(value.GetType(), out TermConverter termConverter) && termConverter.ToStringConverter != null)
-            return new[] { termConverter.ToStringConverter(value, termOptions) };
+            return [termConverter.ToStringConverter(value, termOptions)];
         else
-            return new[] { FormatValue(value, termOptions.Format, termOptions.Culture) };
+            return [FormatValue(value, termOptions.Format, termOptions.Culture)];
     }
 
     private static string FormatStringValue(string value, TermOptions termOptions)
@@ -333,12 +333,12 @@ public static class TermResolver
         }
         else if (termCase == null && (termFormat != null && !termFormat.Contains("{0}")))
         {
-            return new[] { FormatValue(value, termFormat, termOptions.Culture) };
+            return [FormatValue(value, termFormat, termOptions.Culture)];
         }
         else
         {
             string term = TermCaseResolver.ApplyCase(value.ToString(), termCase ?? DefaultCase);
-            return new[] { FormatValue(term, termFormat, termOptions.Culture) };
+            return [FormatValue(term, termFormat, termOptions.Culture)];
         }
     }
 
@@ -346,12 +346,11 @@ public static class TermResolver
     {
         string[] values = termAttribute?.Values?.Any() ?? false
             ? termAttribute.Values
-            : new[]
-            {
+            : [
                 TermCaseResolver.ApplyCase(
                     value.ToString(),
                     termAttribute.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultCase)
-            };
+            ];
 
         string termFormat = termAttribute.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
 

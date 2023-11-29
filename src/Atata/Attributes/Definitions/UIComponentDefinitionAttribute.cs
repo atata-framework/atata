@@ -29,7 +29,7 @@ public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute
     public string[] GetIgnoreNameEndingValues() =>
         IgnoreNameEndings != null
             ? IgnoreNameEndings.Split(',').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray()
-            : new string[0];
+            : [];
 
     /// <summary>
     /// Normalizes the name considering value of <see cref="IgnoreNameEndings"/>.

@@ -4,7 +4,7 @@ public class AttributeFilter<TAttribute>
 {
     public AttributeLevels Levels { get; private set; } = AttributeLevels.All;
 
-    public List<Func<TAttribute, bool>> Predicates { get; } = new List<Func<TAttribute, bool>>();
+    public List<Func<TAttribute, bool>> Predicates { get; } = [];
 
     public Type TargetAttributeType { get; private set; }
 

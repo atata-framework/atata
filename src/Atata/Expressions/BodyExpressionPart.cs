@@ -2,7 +2,7 @@
 
 internal class BodyExpressionPart
 {
-    private readonly List<object> _subParts = new();
+    private readonly List<object> _subParts = [];
 
     internal int OperatorAndCount { get; set; }
 

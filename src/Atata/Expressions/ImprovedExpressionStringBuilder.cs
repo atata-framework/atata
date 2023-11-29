@@ -6,13 +6,13 @@
 public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 {
     private static readonly IExpressionValueStringifier[] s_expressionValueStringifiers =
-    {
+    [
         new StringExpressionValueStringifier(),
         new BoolExpressionValueStringifier(),
         new CharExpressionValueStringifier(),
         new PrimitiveExpressionValueStringifier(),
         new EnumExpressionValueStringifier()
-    };
+    ];
 
     private bool _expectLambdaVisit;
 

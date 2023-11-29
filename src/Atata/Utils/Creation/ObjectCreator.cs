@@ -14,7 +14,7 @@ public class ObjectCreator : IObjectCreator
 
     /// <inheritdoc/>
     public object Create(Type type, Dictionary<string, object> valuesMap) =>
-        Create(type, valuesMap, new Dictionary<string, string>());
+        Create(type, valuesMap, []);
 
     /// <inheritdoc/>
     public object Create(Type type, Dictionary<string, object> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
@@ -26,9 +26,10 @@ public class ObjectCreator : IObjectCreator
         if (!valuesMap.Any())
             return ActivatorEx.CreateInstance(type);
 
-        string[] parameterNamesWithAlternatives = valuesMap.Keys
-            .Concat(GetAlternativeParameterNames(valuesMap.Keys, alternativeParameterNamesMap))
-            .ToArray();
+        string[] parameterNamesWithAlternatives = [
+            .. valuesMap.Keys,
+            .. GetAlternativeParameterNames(valuesMap.Keys, alternativeParameterNamesMap)
+        ];
 
         ConstructorInfo constructor = FindMostAppropriateConstructor(type, parameterNamesWithAlternatives);
 

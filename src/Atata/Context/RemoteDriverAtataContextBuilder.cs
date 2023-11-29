@@ -16,7 +16,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     public static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(60);
 
-    private readonly List<Action<DriverOptions>> _optionsInitializers = new();
+    private readonly List<Action<DriverOptions>> _optionsInitializers = [];
 
     private Uri _remoteAddress = new("http://127.0.0.1:4444/");
 

@@ -224,14 +224,15 @@ public static class UIComponentResolver
     {
         parentComponent.CheckNotNull(nameof(parentComponent));
 
-        attributes = attributes?.Where(x => x != null).ToArray() ?? new Attribute[0];
+        attributes = attributes?.Where(x => x != null).ToArray() ?? [];
 
         if (!attributes.OfType<NameAttribute>().Any())
         {
-            attributes = attributes.Concat(new[]
-                {
-                    new NameAttribute(name)
-                }).ToArray();
+            attributes =
+            [
+                .. attributes,
+                new NameAttribute(name)
+            ];
         }
 
         UIComponentMetadata metadata = CreateComponentMetadata(
@@ -418,7 +419,7 @@ public static class UIComponentResolver
     private static Attribute[] ResolveAndCacheAttributes(LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)
     {
         if (attributeProvider == null)
-            return new Attribute[0];
+            return [];
 
         return cache.GetOrAdd(attributeProvider);
     }

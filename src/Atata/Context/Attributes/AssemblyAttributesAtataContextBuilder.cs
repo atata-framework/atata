@@ -21,7 +21,7 @@ public class AssemblyAttributesAtataContextBuilder
     {
         if (!BuildingContext.Attributes.AssemblyMap.TryGetValue(_assembly, out var attributeSet))
         {
-            attributeSet = new List<Attribute>();
+            attributeSet = [];
             BuildingContext.Attributes.AssemblyMap[_assembly] = attributeSet;
         }
 

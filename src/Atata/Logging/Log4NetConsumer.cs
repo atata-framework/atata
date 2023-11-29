@@ -46,7 +46,7 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
 
     private static Dictionary<LogLevel, dynamic> CreateLogLevelsMap()
     {
-        Dictionary<LogLevel, dynamic> logLevelsMap = new Dictionary<LogLevel, dynamic>();
+        Dictionary<LogLevel, dynamic> logLevelsMap = [];
         Type logLevelType = Type.GetType("log4net.Core.Level,log4net", true);
 
         foreach (LogLevel level in Enum.GetValues(typeof(LogLevel)))

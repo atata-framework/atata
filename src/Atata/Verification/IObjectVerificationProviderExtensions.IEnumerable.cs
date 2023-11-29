@@ -1122,7 +1122,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         predicatePassers.Sort((a, b) => a.Count.CompareTo(b.Count));
 
-        return predicatePassers[0].Count != 0 && SortOut(predicatePassers, new List<int>());
+        return predicatePassers[0].Count != 0 && SortOut(predicatePassers, []);
 
         static bool SortOut(IEnumerable<List<int>> numbers, List<int> excludedNumbers)
         {

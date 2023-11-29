@@ -9,11 +9,7 @@ public class AtataAttributesContext : ICloneable
     /// Initializes a new instance of the <see cref="AtataAttributesContext"/> class.
     /// </summary>
     public AtataAttributesContext()
-        : this(
-            new List<Attribute>(),
-            new Dictionary<Assembly, List<Attribute>>(),
-            new Dictionary<Type, List<Attribute>>(),
-            new Dictionary<TypePropertyNamePair, List<Attribute>>())
+        : this([], [], [], [])
     {
     }
 

@@ -8,10 +8,10 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
 {
     private readonly string _browserName;
 
-    private readonly List<Action<TService>> _serviceInitializers = new();
-    private readonly List<Action<TOptions>> _optionsInitializers = new();
+    private readonly List<Action<TService>> _serviceInitializers = [];
+    private readonly List<Action<TOptions>> _optionsInitializers = [];
 
-    private readonly List<int> _portsToIgnore = new();
+    private readonly List<int> _portsToIgnore = [];
 
     private Func<TService> _serviceFactory;
     private Func<TOptions> _optionsFactory;

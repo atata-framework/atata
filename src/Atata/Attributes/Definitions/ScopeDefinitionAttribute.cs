@@ -27,7 +27,7 @@ public abstract class ScopeDefinitionAttribute : MulticastAttribute
     public string ContainingClass
     {
         get => ContainingClasses?.FirstOrDefault();
-        set => ContainingClasses = value == null ? null : new[] { value };
+        set => ContainingClasses = value == null ? null : [value];
     }
 
     /// <summary>

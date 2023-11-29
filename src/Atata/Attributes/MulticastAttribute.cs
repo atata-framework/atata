@@ -21,7 +21,7 @@ public abstract class MulticastAttribute : Attribute
     public string TargetName
     {
         get => TargetNames?.FirstOrDefault();
-        set => TargetNames = value == null ? null : new[] { value };
+        set => TargetNames = value == null ? null : [value];
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public abstract class MulticastAttribute : Attribute
     public Type TargetType
     {
         get => TargetTypes?.FirstOrDefault();
-        set => TargetTypes = value == null ? null : new[] { value };
+        set => TargetTypes = value == null ? null : [value];
     }
 
     /// <summary>
@@ -49,7 +49,7 @@ public abstract class MulticastAttribute : Attribute
     public string TargetTag
     {
         get => TargetTags?.FirstOrDefault();
-        set => TargetTags = value == null ? null : new[] { value };
+        set => TargetTags = value == null ? null : [value];
     }
 
     /// <summary>
@@ -63,11 +63,11 @@ public abstract class MulticastAttribute : Attribute
     public Type TargetParentType
     {
         get => TargetParentTypes?.FirstOrDefault();
-        set => TargetParentTypes = value == null ? null : new[] { value };
+        set => TargetParentTypes = value == null ? null : [value];
     }
 
     /// <summary>
-    /// Gets or sets the target component names to exlcude.
+    /// Gets or sets the target component names to exclude.
     /// </summary>
     public string[] ExcludeTargetNames { get; set; }
 
@@ -77,7 +77,7 @@ public abstract class MulticastAttribute : Attribute
     public string ExcludeTargetName
     {
         get => ExcludeTargetNames?.FirstOrDefault();
-        set => ExcludeTargetNames = value == null ? null : new[] { value };
+        set => ExcludeTargetNames = value == null ? null : [value];
     }
 
     /// <summary>
@@ -91,7 +91,7 @@ public abstract class MulticastAttribute : Attribute
     public Type ExcludeTargetType
     {
         get => ExcludeTargetTypes?.FirstOrDefault();
-        set => ExcludeTargetTypes = value == null ? null : new[] { value };
+        set => ExcludeTargetTypes = value == null ? null : [value];
     }
 
     /// <summary>
@@ -105,7 +105,7 @@ public abstract class MulticastAttribute : Attribute
     public string ExcludeTargetTag
     {
         get => ExcludeTargetTags?.FirstOrDefault();
-        set => ExcludeTargetTags = value == null ? null : new[] { value };
+        set => ExcludeTargetTags = value == null ? null : [value];
     }
 
     /// <summary>
@@ -119,7 +119,7 @@ public abstract class MulticastAttribute : Attribute
     public Type ExcludeTargetParentType
     {
         get => ExcludeTargetParentTypes?.FirstOrDefault();
-        set => ExcludeTargetParentTypes = value == null ? null : new[] { value };
+        set => ExcludeTargetParentTypes = value == null ? null : [value];
     }
 
     /// <summary>
@@ -165,7 +165,7 @@ public abstract class MulticastAttribute : Attribute
     public bool TargetAnyType
     {
         get => TargetTypes?.Any(x => x == typeof(object)) ?? false;
-        set => TargetTypes = value ? new[] { typeof(object) } : null;
+        set => TargetTypes = value ? [typeof(object)] : null;
     }
 
     /// <summary>

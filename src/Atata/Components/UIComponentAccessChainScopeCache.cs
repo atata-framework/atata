@@ -2,7 +2,7 @@
 
 public class UIComponentAccessChainScopeCache
 {
-    private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> _accessChainItems = new();
+    private readonly Dictionary<UIComponent, Dictionary<Visibility, IWebElement>> _accessChainItems = [];
 
     internal bool IsActive { get; private set; }
 
@@ -29,7 +29,7 @@ public class UIComponentAccessChainScopeCache
         {
             if (!_accessChainItems.TryGetValue(component, out Dictionary<Visibility, IWebElement> visibiltyElementMap))
             {
-                visibiltyElementMap = new Dictionary<Visibility, IWebElement>();
+                visibiltyElementMap = [];
                 _accessChainItems.Add(component, visibiltyElementMap);
             }
 

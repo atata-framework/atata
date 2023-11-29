@@ -51,7 +51,7 @@ public class WindowTitleAttribute : MulticastAttribute, ITermSettings
     {
         string[] rawValues = Values?.Any() ?? false
             ? Values
-            : new[] { Case.ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue))) };
+            : [Case.ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue)))];
 
         return !string.IsNullOrEmpty(Format)
             ? rawValues.Select(x => string.Format(Format, x)).ToArray()

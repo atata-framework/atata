@@ -2,7 +2,7 @@
 
 public class PropertyBag
 {
-    private readonly Dictionary<string, object> _values = new();
+    private readonly Dictionary<string, object> _values = [];
 
     public object this[string name]
     {

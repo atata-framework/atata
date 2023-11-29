@@ -2,8 +2,8 @@
 
 public class TitleTermFormatter : ITermFormatter
 {
-    private static readonly string[] s_wordsToKeepLower = new[]
-    {
+    private static readonly string[] s_wordsToKeepLower =
+    [
         "a",
         "an",
         "the",
@@ -20,14 +20,14 @@ public class TitleTermFormatter : ITermFormatter
         "to",
         "by",
         "to"
-    };
+    ];
 
     public string Format(string[] words)
     {
-        List<string> updatedWords = new List<string>
-        {
+        List<string> updatedWords =
+        [
             CapitalizeFirstLetter(words[0])
-        };
+        ];
 
         if (words.Length > 2)
             updatedWords.AddRange(words.Skip(1).Take(words.Length - 2).Select(CapitalizeFirstLetterExceptSpecial));

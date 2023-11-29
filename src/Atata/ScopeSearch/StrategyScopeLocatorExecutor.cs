@@ -64,10 +64,10 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
         result.CheckNotNull(nameof(result));
 
         if (result is MissingComponentScopeFindResult)
-            return new XPathComponentScopeFindResult[0];
+            return [];
 
         if (result is XPathComponentScopeFindResult xPathResult)
-            return new[] { xPathResult };
+            return [xPathResult];
 
         if (result is SubsequentComponentScopeFindResult subsequentResult)
         {

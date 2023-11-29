@@ -61,7 +61,7 @@ public static class TypeFinder
     {
         string pureTypeName;
         string namespacePart = null;
-        string[] declaringTypeNames = new string[0];
+        string[] declaringTypeNames = [];
 
         if (typeName.Contains(NamespaceSeparator))
         {

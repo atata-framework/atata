@@ -36,7 +36,7 @@ public class FindByLabelStrategy : IComponentScopeFindStrategy
         else if (options.Metadata.TryGet(out IdXPathForLabelAttribute idXPathForLabelAttribute))
         {
             ComponentScopeFindOptions idOptions = options.Clone();
-            idOptions.Terms = new[] { idXPathForLabelAttribute.XPathFormat.FormatWith(elementId) };
+            idOptions.Terms = [idXPathForLabelAttribute.XPathFormat.FormatWith(elementId)];
             idOptions.Index = null;
 
             return new SubsequentComponentScopeFindResult(scope, new FindByXPathStrategy(), idOptions);
@@ -44,7 +44,7 @@ public class FindByLabelStrategy : IComponentScopeFindStrategy
         else
         {
             ComponentScopeFindOptions idOptions = options.Clone();
-            idOptions.Terms = new[] { elementId };
+            idOptions.Terms = [elementId];
             idOptions.Index = null;
             idOptions.Match = TermMatch.Equals;
 

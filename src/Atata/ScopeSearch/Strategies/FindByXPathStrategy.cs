@@ -3,7 +3,7 @@
 public class FindByXPathStrategy : XPathComponentScopeFindStrategy
 {
     private readonly string[] _acceptableXPathPrefixValues =
-    {
+    [
         ".",
         "/",
         "(",
@@ -18,7 +18,7 @@ public class FindByXPathStrategy : XPathComponentScopeFindStrategy
         "preceding::",
         "preceding-sibling::",
         "self::"
-    };
+    ];
 
     protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
     {

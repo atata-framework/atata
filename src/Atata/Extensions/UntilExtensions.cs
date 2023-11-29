@@ -8,56 +8,56 @@ public static class UntilExtensions
 
         return until switch
         {
-            Until.Missing => new[]
-                {
+            Until.Missing =>
+                [
                     CreateAbsenceUnit(Visibility.Any, until, options)
-                },
-            Until.Hidden => new[]
-                {
+                ],
+            Until.Hidden =>
+                [
                     CreatePresenceUnit(Visibility.Hidden, until, options)
-                },
-            Until.MissingOrHidden => new[]
-                {
+                ],
+            Until.MissingOrHidden =>
+                [
                     CreateAbsenceUnit(Visibility.Visible, until, options)
-                },
-            Until.Visible => new[]
-                {
+                ],
+            Until.Visible =>
+                [
                     CreatePresenceUnit(Visibility.Visible, until, options)
-                },
-            Until.VisibleOrHidden => new[]
-                {
+                ],
+            Until.VisibleOrHidden =>
+                [
                     CreatePresenceUnit(Visibility.Any, until, options)
-                },
-            Until.VisibleThenHidden => new[]
-                {
+                ],
+            Until.VisibleThenHidden =>
+                [
                     CreatePresenceUnit(Visibility.Visible, until, options),
                     CreatePresenceUnit(Visibility.Hidden, until, options)
-                },
-            Until.VisibleThenMissing => new[]
-                {
+                ],
+            Until.VisibleThenMissing =>
+                [
                     CreatePresenceUnit(Visibility.Visible, until, options),
                     CreateAbsenceUnit(Visibility.Any, until, options)
-                },
-            Until.VisibleThenMissingOrHidden => new[]
-                {
+                ],
+            Until.VisibleThenMissingOrHidden =>
+                [
                     CreatePresenceUnit(Visibility.Visible, until, options),
                     CreateAbsenceUnit(Visibility.Visible, until, options)
-                },
-            Until.MissingThenVisible => new[]
-                {
+                ],
+            Until.MissingThenVisible =>
+                [
                     CreateAbsenceUnit(Visibility.Any, until, options),
                     CreatePresenceUnit(Visibility.Visible, until, options)
-                },
-            Until.HiddenThenVisible => new[]
-                {
+                ],
+            Until.HiddenThenVisible =>
+                [
                     CreatePresenceUnit(Visibility.Hidden, until, options),
                     CreatePresenceUnit(Visibility.Visible, until, options)
-                },
-            Until.MissingOrHiddenThenVisible => new[]
-                {
+                ],
+            Until.MissingOrHiddenThenVisible =>
+                [
                     CreateAbsenceUnit(Visibility.Visible, until, options),
                     CreatePresenceUnit(Visibility.Visible, until, options)
-                },
+                ],
             _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(until, nameof(until))
         };
     }

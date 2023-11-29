@@ -460,7 +460,7 @@ public class UIComponentMetadata
         public AttributeSearchSet(AttributeTargetFilterOptions targetFilterOptions) =>
             TargetFilterOptions = targetFilterOptions;
 
-        public List<Attribute> Attributes { get; set; } = new List<Attribute>();
+        public List<Attribute> Attributes { get; set; } = [];
 
         public AttributeTargetFilterOptions TargetFilterOptions { get; }
     }

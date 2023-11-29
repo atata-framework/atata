@@ -463,6 +463,9 @@ dotnet_diagnostic.IDE0270.severity = warning
 # IDE0300: Use collection initializers
 dotnet_diagnostic.IDE0300.severity = warning
 
+# IDE0305: Use collection initializers
+dotnet_diagnostic.IDE0305.severity = warning
+
 [*.cs]
 # var preferences
 csharp_style_var_for_built_in_types = true:silent

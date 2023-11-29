@@ -30,7 +30,7 @@ public class PropertyAttributesAtataContextBuilder<TNextBuilder>
     {
         if (!BuildingContext.Attributes.PropertyMap.TryGetValue(_typeProperty, out var attributeSet))
         {
-            attributeSet = new List<Attribute>();
+            attributeSet = [];
             BuildingContext.Attributes.PropertyMap[_typeProperty] = attributeSet;
         }
 

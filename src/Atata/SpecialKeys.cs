@@ -20,7 +20,7 @@ public static class SpecialKeys
         catch
         {
             // For the case when something will change in OpenQA.Selenium.Keys class.
-            return new Dictionary<char, string>();
+            return [];
         }
     }
 

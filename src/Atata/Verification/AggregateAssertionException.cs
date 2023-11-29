@@ -101,7 +101,7 @@ public class AggregateAssertionException : Exception
         }
         else
         {
-            List<string> groupMessages = new List<string>();
+            List<string> groupMessages = [];
 
             if (failuresCount > 0)
                 groupMessages.Add($"{failuresCount} assertion failure{(failuresCount > 1 ? "s" : null)}");

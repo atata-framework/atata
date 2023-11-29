@@ -4,7 +4,7 @@ namespace Atata;
 
 public static class ValueRandomizer
 {
-    private static readonly Dictionary<Type, RandomizeFunc> s_randomizers = new();
+    private static readonly Dictionary<Type, RandomizeFunc> s_randomizers = [];
 
     static ValueRandomizer()
     {

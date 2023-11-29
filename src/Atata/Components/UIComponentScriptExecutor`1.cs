@@ -55,7 +55,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner ExecuteAgainst(string script, params object[] arguments)
     {
-        object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
+        object[] combinedArguments = [Component, .. arguments];
 
         return Execute(script, combinedArguments);
     }
@@ -71,7 +71,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
     public ValueProvider<TResult, TOwner> ExecuteAgainst<TResult>(string script, params object[] arguments)
     {
-        object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
+        object[] combinedArguments = [Component, .. arguments];
 
         return Execute<TResult>(script, combinedArguments);
     }
@@ -110,7 +110,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>An instance of the owner page object.</returns>
     public TOwner ExecuteAsyncAgainst(string script, params object[] arguments)
     {
-        object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
+        object[] combinedArguments = [Component, .. arguments];
 
         return ExecuteAsync(script, combinedArguments);
     }
@@ -126,7 +126,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
     public ValueProvider<TResult, TOwner> ExecuteAsyncAgainst<TResult>(string script, params object[] arguments)
     {
-        object[] combinedArguments = new object[] { Component }.Concat(arguments).ToArray();
+        object[] combinedArguments = [Component, .. arguments];
 
         return ExecuteAsync<TResult>(script, combinedArguments);
     }

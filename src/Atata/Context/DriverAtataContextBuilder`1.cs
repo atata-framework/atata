@@ -95,7 +95,7 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
     {
         StringBuilder builder = new(driver.GetType().Name);
 
-        List<string> properties = new List<string>();
+        List<string> properties = [];
 
         if (!string.IsNullOrEmpty(Alias))
             properties.Add($"Alias={Alias}");
