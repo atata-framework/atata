@@ -176,7 +176,7 @@ public class UIComponentTests : UITestFixture
         [Test]
         public void WithoutThrow() =>
             _page
-                .ContentBlock.Wait(Until.Visible, new WaitOptions(1) { ThrowOnPresenceFailure = false })
+                .ContentBlock.Wait(Until.Visible, new WaitOptions(0.5) { ThrowOnPresenceFailure = false })
                 .LoadingBlock.Should.AtOnce.BeVisible();
     }
 
