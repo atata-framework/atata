@@ -30,7 +30,7 @@ public class AtataContextEventsTests : UITestFixtureBase
     {
         int executionsCount = 0;
 
-        Assert.Throws<InvalidOperationException>(() =>
+        Assert.Throws<WebDriverInitializationException>(() =>
             AtataContext.Configure()
                 .UseDriver(() => null)
                 .EventSubscriptions.Add<AtataContextInitStartedEvent>(() => executionsCount++)

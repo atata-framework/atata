@@ -31,7 +31,7 @@ public class AtataContextWithoutDriverTests : UITestFixtureBase
 
         sut.Build();
 
-        Assert.Throws<InvalidOperationException>(() =>
+        Assert.Throws<WebDriverInitializationException>(() =>
             _ = AtataContext.Current.Driver);
     }
 }
