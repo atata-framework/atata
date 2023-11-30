@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Atata;
+﻿namespace Atata;
 
 [Serializable]
 public class UIComponentNotFoundException : Exception
