@@ -518,12 +518,12 @@ public sealed class AtataContext : IDisposable
             () =>
             {
                 if (DriverFactory is null)
-                    throw new InvalidOperationException(
-                        $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory is not specified.");
+                    throw new WebDriverInitializationException(
+                        $"Failed to create a driver as driver factory is not specified.");
 
                 _driver = DriverFactory.Create()
-                    ?? throw new InvalidOperationException(
-                        $"Failed to create an instance of {typeof(IWebDriver).FullName} as driver factory returned null as a driver.");
+                    ?? throw new WebDriverInitializationException(
+                        $"Driver factory returned null as a driver.");
 
                 _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
 
