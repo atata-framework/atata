@@ -91,5 +91,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S2696:Instance members should not write to \"static\" fields", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.SetAsCurrent")]
 [assembly: SuppressMessage("Minor Code Smell", "S3254:Default parameter values should not be passed as arguments", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WindowTitleAttribute.#ctor(System.String[])")]
 [assembly: SuppressMessage("Minor Code Smell", "S3254:Default parameter values should not be passed as arguments", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ScreenshotAttribute.#ctor(Atata.TriggerEvents,Atata.TriggerPriority)")]
+[assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DriverAtataContextBuilder`1.Atata#IDriverFactory#Create~OpenQA.Selenium.IWebDriver")]
 
 #pragma warning restore S103 // Lines should not be too long

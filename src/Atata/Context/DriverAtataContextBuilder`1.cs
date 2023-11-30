@@ -3,6 +3,8 @@
 public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder, IDriverFactory
     where TBuilder : DriverAtataContextBuilder<TBuilder>
 {
+    private Func<IWebDriver, bool> _initialHealthCheckFunction = CheckHealthByRequestingDriverUrl;
+
     protected DriverAtataContextBuilder(AtataBuildingContext buildingContext, string alias = null)
         : base(buildingContext) =>
         Alias = alias;
@@ -18,25 +20,84 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
     /// </summary>
     public int CreateRetries { get; private set; } = 2;
 
+    /// <summary>
+    /// Gets a value indicating whether to execute an initial health check.
+    /// </summary>
+    public bool InitialHealthCheck { get; private set; }
+
+    // TODO: v3. Add ILogManager (supports null) parameter to IDriverFactory.Create method and use it below.
     IWebDriver IDriverFactory.Create()
     {
         int retriesLeft = CreateRetries;
 
         while (true)
         {
+            IWebDriver driver;
+            const string creationErrorMessage = "Failed to create driver.";
+
             try
             {
-                return CreateDriver();
+                driver = CreateDriver();
+            }
+            catch (Exception exception) when (retriesLeft > 0)
+            {
+                AtataContext.Current?.Log.Warn(exception, $"{creationErrorMessage} Will retry.");
+                retriesLeft--;
+                continue;
             }
             catch (Exception exception)
             {
-                if (retriesLeft == 0)
-                    throw;
-
-                // TODO: v3. Add ILogManager parameter to IDriverFactory.Create method and use it below.
-                AtataContext.Current?.Log.Warn(exception, "Failed to create driver. Will retry.");
-                retriesLeft--;
+                throw new WebDriverInitializationException(creationErrorMessage, exception);
             }
+
+            const string healthCheckErrorMessage = "Driver initial health check failed.";
+            const string healthCheckWarningMessage = $"{healthCheckErrorMessage} Will retry with new driver.";
+
+            if (InitialHealthCheck && _initialHealthCheckFunction is not null)
+            {
+                bool isHealthOk;
+
+                try
+                {
+                    isHealthOk = _initialHealthCheckFunction.Invoke(driver);
+                }
+                catch (Exception exception) when (retriesLeft > 0)
+                {
+                    AtataContext.Current?.Log.Warn(exception, healthCheckWarningMessage);
+                    DisposeSafely(driver);
+                    retriesLeft--;
+                    continue;
+                }
+                catch (Exception exception)
+                {
+                    throw new WebDriverInitializationException(healthCheckErrorMessage, exception);
+                }
+
+                if (!isHealthOk)
+                {
+                    if (retriesLeft == 0)
+                        throw new WebDriverInitializationException(healthCheckErrorMessage);
+
+                    AtataContext.Current?.Log.Warn(healthCheckWarningMessage);
+                    DisposeSafely(driver);
+                    retriesLeft--;
+                    continue;
+                }
+            }
+
+            return driver;
+        }
+    }
+
+    private static void DisposeSafely(IDisposable disposable)
+    {
+        try
+        {
+            disposable.Dispose();
+        }
+        catch
+        {
+            // Do nothing.
         }
     }
 
@@ -74,6 +135,34 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
         return (TBuilder)this;
     }
 
+    /// <summary>
+    /// Enables or disables an initial health check.
+    /// By default it is disabled.
+    /// When enabled, the default health check function requests <see cref="IWebDriver.Url"/>.
+    /// The health check function can be changed by using <see cref="WithInitialHealthCheckFunction(Func{IWebDriver, bool})"/> method.
+    /// </summary>
+    /// <param name="enable">Whether to enable an initial health check.</param>
+    /// <returns>The same builder instance.</returns>
+    public TBuilder WithInitialHealthCheck(bool enable = true)
+    {
+        InitialHealthCheck = enable;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the initial health check function.
+    /// The default function requests <see cref="IWebDriver.Url"/>.
+    /// </summary>
+    /// <param name="function">The function.</param>
+    /// <returns>The same builder instance.</returns>
+    public TBuilder WithInitialHealthCheckFunction(Func<IWebDriver, bool> function)
+    {
+        function.CheckNotNull(nameof(function));
+
+        _initialHealthCheckFunction = function;
+        return (TBuilder)this;
+    }
+
     protected string GetDriverServiceStringForLog(DriverService service)
     {
         StringBuilder builder = new(service.GetType().Name);
@@ -107,5 +196,11 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
             builder.Append(" { ").AppendJoined(", ", properties).Append(" }");
 
         return builder.ToString();
+    }
+
+    private static bool CheckHealthByRequestingDriverUrl(IWebDriver driver)
+    {
+        _ = driver.Url;
+        return true;
     }
 }

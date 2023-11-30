@@ -30,6 +30,7 @@ public abstract class UITestFixtureBase
             .UseChrome()
                 .WithArguments(ChromeArguments)
                 .WithPortsToIgnore(_portsToIgnore)
+                .WithInitialHealthCheck()
             .UseBaseUrl(BaseUrl)
             .UseCulture("en-US")
             .UseNUnitTestName()
