@@ -21,18 +21,23 @@ public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataCon
     /// <inheritdoc/>
     public TLogConsumer Context { get; }
 
+    [Obsolete($"Use {nameof(WithSectionEnd)} instead.")] // Obsolete since v2.13.0.
+    public LogConsumerAtataContextBuilder<TLogConsumer> WithoutSectionFinish() =>
+        WithSectionEnd(LogSectionEndOption.Exclude);
+
     /// <summary>
-    /// Defines that the logging should not use section-like pair messages (not <c>"Starting: {action}"</c> and <c>"Finished: {action}"</c>, but just <c>"{action}"</c>).
+    /// Sets the output option of log section end.
     /// </summary>
+    /// <param name="logSectionEnd">The log section end option.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerAtataContextBuilder<TLogConsumer> WithoutSectionFinish()
+    public LogConsumerAtataContextBuilder<TLogConsumer> WithSectionEnd(LogSectionEndOption logSectionEnd)
     {
-        _logConsumerConfiguration.LogSectionFinish = false;
+        _logConsumerConfiguration.SectionEnd = logSectionEnd;
         return this;
     }
 
     /// <summary>
-    /// Specifies the minimum level of the log event to write to the log.
+    /// Sets the minimum level of the log event to write to the log.
     /// The default value is <see cref="LogLevel.Trace"/>.
     /// </summary>
     /// <param name="level">The log level.</param>
@@ -44,7 +49,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataCon
     }
 
     /// <summary>
-    /// Specifies the nesting level indent of the log message.
+    /// Sets the nesting level indent of the log message.
     /// The default value is <c>"- "</c>.
     /// </summary>
     /// <param name="messageNestingLevelIndent">The message nesting level indent.</param>
@@ -56,7 +61,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataCon
     }
 
     /// <summary>
-    /// Specifies the start section prefix of the log message.
+    /// Sets the start section prefix of the log message.
     /// The default value is <c>"&gt; "</c>.
     /// </summary>
     /// <param name="messageStartSectionPrefix">The message start section prefix.</param>
@@ -68,7 +73,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataCon
     }
 
     /// <summary>
-    /// Specifies the end section prefix of the log message.
+    /// Sets the end section prefix of the log message.
     /// The default value is <c>"&lt; "</c>.
     /// </summary>
     /// <param name="messageEndSectionPrefix">The message end section prefix.</param>

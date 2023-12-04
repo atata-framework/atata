@@ -274,12 +274,18 @@ public class LogManager : ILogManager
             }
         }
 
-        if (logConsumerConfiguration.LogSectionFinish)
+        if (logConsumerConfiguration.SectionEnd != LogSectionEndOption.Exclude)
         {
-            if (eventInfo.SectionStart != null)
-                builder.Append(logConsumerConfiguration.MessageStartSectionPrefix);
-            else if (eventInfo.SectionEnd != null)
-                builder.Append(logConsumerConfiguration.MessageEndSectionPrefix);
+            var logSection = eventInfo.SectionStart ?? eventInfo.SectionEnd;
+
+            if (logSection is not null &&
+                (logConsumerConfiguration.SectionEnd == LogSectionEndOption.Include || IsBlockLogSection(logSection)))
+            {
+                builder.Append(
+                    eventInfo.SectionStart != null
+                        ? logConsumerConfiguration.MessageStartSectionPrefix
+                        : logConsumerConfiguration.MessageEndSectionPrefix);
+            }
         }
 
         string resultMessage = builder.Append(message).ToString();
@@ -288,6 +294,21 @@ public class LogManager : ILogManager
             ? null
             : resultMessage;
     }
+
+    private static IEnumerable<LogConsumerConfiguration> FilterByLogSectionEnd(
+        IEnumerable<LogConsumerConfiguration> configurations,
+        LogSection logSection)
+    {
+        foreach (var configuration in configurations)
+        {
+            if (configuration.SectionEnd == LogSectionEndOption.Include ||
+                (configuration.SectionEnd == LogSectionEndOption.IncludeForBlocks && IsBlockLogSection(logSection)))
+                yield return configuration;
+        }
+    }
+
+    private static bool IsBlockLogSection(LogSection logSection) =>
+        logSection is AggregateAssertionLogSection or SetupLogSection or StepLogSection;
 
     // TODO: v3. Remove.
     private void Log(LogLevel level, string message, object[] args)
@@ -315,10 +336,7 @@ public class LogManager : ILogManager
             .Where(x => eventInfo.Level >= x.MinLevel);
 
         if (eventInfo.SectionEnd != null)
-        {
-            appropriateConsumerItems = appropriateConsumerItems
-                .Where(x => x.LogSectionFinish);
-        }
+            appropriateConsumerItems = FilterByLogSectionEnd(appropriateConsumerItems, eventInfo.SectionEnd);
 
         string originalMessage = ApplySecretMasks(eventInfo.Message);
 
