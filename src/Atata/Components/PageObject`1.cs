@@ -282,7 +282,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     {
         SwitchToFrame(frameElement);
 
-        return Go.To(framePageObject, navigate: false, temporarily: temporarily);
+        return _context.Go.To(framePageObject, navigate: false, temporarily: temporarily);
     }
 
     /// <summary>
@@ -311,7 +311,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     {
         SwitchToRoot();
 
-        return Go.To(rootPageObject, navigate: false);
+        return _context.Go.To(rootPageObject, navigate: false);
     }
 
     /// <summary>
@@ -369,7 +369,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             "Refresh page",
             () => Driver.Navigate().Refresh());
 
-        return Go.To<TOwner>(navigate: false);
+        return _context.Go.To<TOwner>(navigate: false);
     }
 
     /// <summary>
@@ -436,7 +436,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             "Go back",
             () => Driver.Navigate().Back());
 
-        return Go.To(previousPageObject, navigate: false);
+        return _context.Go.To(previousPageObject, navigate: false);
     }
 
     /// <summary>
@@ -454,7 +454,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             "Go forward",
             () => Driver.Navigate().Forward());
 
-        return Go.To(nextPageObject, navigate: false);
+        return _context.Go.To(nextPageObject, navigate: false);
     }
 
     /// <summary>
