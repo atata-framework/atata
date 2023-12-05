@@ -1,5 +1,4 @@
 variables:
-  buildConfiguration: 'Release'
   netSdkVersion: '8.x'
 
 trigger: none
@@ -20,8 +19,8 @@ jobs:
     displayName: Pack
     inputs:
       command: pack
-      projects: 'src/*/*.csproj'
-      arguments: -c $(buildConfiguration)
+      packagesToPack: 'src/*/*.csproj'
+      configuration: 'Release'
   - task: NuGetCommand@2
     displayName: NuGet push
     inputs:
