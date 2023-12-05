@@ -100,11 +100,8 @@ public class AtataNavigator
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
     public T ToWindow<T>(T pageObject, string windowName, bool temporarily = false)
-        where T : PageObject<T>
-    {
-        SetContextAsCurrent();
-
-        return To(
+        where T : PageObject<T> =>
+        To(
             pageObject,
             new GoOptions
             {
@@ -113,7 +110,6 @@ public class AtataNavigator
                 NavigationTarget = $"in \"{windowName}\" window",
                 Temporarily = temporarily
             });
-    }
 
     /// <summary>
     /// Navigates to the next window with the specified page object.
@@ -125,11 +121,8 @@ public class AtataNavigator
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
     public T ToNextWindow<T>(T pageObject = null, bool temporarily = false)
-        where T : PageObject<T>
-    {
-        SetContextAsCurrent();
-
-        return To(
+        where T : PageObject<T> =>
+        To(
             pageObject,
             new GoOptions
             {
@@ -138,7 +131,6 @@ public class AtataNavigator
                 NavigationTarget = "in next window",
                 Temporarily = temporarily
             });
-    }
 
     private string GetNextWindowHandle()
     {
@@ -159,11 +151,8 @@ public class AtataNavigator
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
     public T ToPreviousWindow<T>(T pageObject = null, bool temporarily = false)
-        where T : PageObject<T>
-    {
-        SetContextAsCurrent();
-
-        return To(
+        where T : PageObject<T> =>
+        To(
             pageObject,
             new GoOptions
             {
@@ -172,7 +161,6 @@ public class AtataNavigator
                 NavigationTarget = "in previous window",
                 Temporarily = temporarily
             });
-    }
 
     private string GetPreviousWindowHandle()
     {
