@@ -10,6 +10,11 @@ public static class Go
        where T : PageObject<T> =>
         ResolveAtataContext().Go.On<T>();
 
+    /// <inheritdoc cref="AtataNavigator.OnRefreshed{T}"/>
+    public static T OnRefreshed<T>()
+       where T : PageObject<T> =>
+        ResolveAtataContext().Go.OnRefreshed<T>();
+
     /// <inheritdoc cref="AtataNavigator.OnOrTo{T}"/>
     public static T OnOrTo<T>()
        where T : PageObject<T> =>

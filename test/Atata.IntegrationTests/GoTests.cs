@@ -34,6 +34,37 @@ public class GoTests : UITestFixture
     }
 
     [Test]
+    public void OnRefreshed_WhenNoCurrent()
+    {
+        var result = Go.OnRefreshed<GoTo1Page>();
+
+        result.PageUri.Relative.Should.Not.Be(GoTo1Page.DefaultUrl);
+    }
+
+    [Test]
+    public void OnRefreshed_WhenItIsCurrent()
+    {
+        var initialPage = Go.To<InputPage>()
+            .TextInput.Type("init");
+
+        var result = Go.OnRefreshed<InputPage>();
+
+        result.Should().NotBe(initialPage);
+        result.TextInput.Should.BeEmpty();
+    }
+
+    [Test]
+    public void OnRefreshed_WhenItIsNotCurrent()
+    {
+        Go.To<GoTo1Page>();
+
+        var result = Go.OnRefreshed<GoTo2Page>();
+
+        result.PageUri.Relative.Should.Be(GoTo1Page.DefaultUrl);
+        AssertNoTemporarilyPreservedPageObjects();
+    }
+
+    [Test]
     public void OnOrTo_WhenNoCurrent()
     {
         var result = Go.OnOrTo<GoTo1Page>();

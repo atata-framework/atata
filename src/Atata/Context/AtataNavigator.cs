@@ -30,6 +30,22 @@ public class AtataNavigator
             ?? To<T>(null, new GoOptions { Navigate = false });
 
     /// <summary>
+    /// Continues with the specified page object type with rage refresh.
+    /// Firstly, checks whether the current <see cref="AtataContext.PageObject"/>
+    /// is <typeparamref name="T"/>, if it is, returns it;
+    /// otherwise, creates a new instance of <typeparamref name="T"/> without navigation.
+    /// Then a page is refreshed.
+    /// The method is useful in case when you reuse a single test suite driver by tests and
+    /// want to refresh a page on start of each test to ensure that the page is in clean start state.
+    /// </summary>
+    /// <typeparam name="T">The type of the page object.</typeparam>
+    /// <returns>The page object.</returns>
+    public T OnRefreshed<T>()
+        where T : PageObject<T> =>
+        On<T>()
+            .RefreshPage();
+
+    /// <summary>
     /// Continues with the specified page object type or navigates to it.
     /// Firstly, checks whether the current <see cref="AtataContext.PageObject"/>
     /// is <typeparamref name="T"/>, if it is, returns it;
