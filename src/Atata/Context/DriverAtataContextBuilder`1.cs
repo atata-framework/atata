@@ -22,6 +22,7 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
 
     /// <summary>
     /// Gets a value indicating whether to execute an initial health check.
+    /// The default value is <see langword="false"/>.
     /// </summary>
     public bool InitialHealthCheck { get; private set; }
 
