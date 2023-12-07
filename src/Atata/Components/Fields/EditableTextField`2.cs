@@ -5,9 +5,9 @@
 /// Represents the editable text field control.
 /// </para>
 /// <para>
-/// To set the value, executes an associated with the component <see cref="ValueSetBehaviorAttribute"/>
+/// To set a value, executes an associated with the component <see cref="ValueSetBehaviorAttribute"/>
 /// that is <see cref="SetsValueUsingClearAndTypeBehaviorsAttribute"/> by default.
-/// To get the value, executes an associated with the component <see cref="ValueGetBehaviorAttribute"/>
+/// To get a value, executes an associated with the component <see cref="ValueGetBehaviorAttribute"/>
 /// that is <see cref="GetsValueFromValueAttribute"/> by default.
 /// </para>
 /// </summary>

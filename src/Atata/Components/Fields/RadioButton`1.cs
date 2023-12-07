@@ -11,7 +11,7 @@ public class RadioButton<TOwner> : Field<bool, TOwner>, ICheckable<TOwner>
     where TOwner : PageObject<TOwner>
 {
     /// <summary>
-    /// Gets the <see cref="ValueProvider{TValue, TOwner}" /> of the checked state value.
+    /// Gets the <see cref="ValueProvider{TValue, TOwner}" /> of the value indicating whether the control is checked.
     /// </summary>
     public ValueProvider<bool, TOwner> IsChecked =>
         CreateValueProvider("checked state", () => Value);

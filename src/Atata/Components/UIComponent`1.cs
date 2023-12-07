@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the base class for UI components.
+/// Represents the base class for UI components (page objects and controls).
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
 [GetsContentFromSource(ContentSource.Text)]
