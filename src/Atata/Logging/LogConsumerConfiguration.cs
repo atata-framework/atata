@@ -68,6 +68,7 @@ public class LogConsumerConfiguration : ICloneable
 
     /// <summary>
     /// Gets the output option of log section end.
+    /// The default value is <see cref="LogSectionEndOption.Include"/>.
     /// </summary>
     public LogSectionEndOption SectionEnd { get; internal set; }
 

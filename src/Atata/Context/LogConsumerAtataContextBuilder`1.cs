@@ -27,6 +27,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataCon
 
     /// <summary>
     /// Sets the output option of log section end.
+    /// The default value is <see cref="LogSectionEndOption.Include"/>.
     /// </summary>
     /// <param name="logSectionEnd">The log section end option.</param>
     /// <returns>The same builder instance.</returns>
