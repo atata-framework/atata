@@ -249,6 +249,11 @@ public class Report<TOwner>
             {
                 action.Invoke(_owner);
             }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
             finally
             {
                 _context.SetupExecutionStopwatch.Stop();
@@ -287,6 +292,11 @@ public class Report<TOwner>
             {
                 result = function.Invoke(_owner);
             }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
             finally
             {
                 _context.SetupExecutionStopwatch.Stop();
@@ -310,7 +320,18 @@ public class Report<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         action.CheckNotNull(nameof(action));
 
-        _context.Log.ExecuteSection(new StepLogSection(message), () => action.Invoke(_owner));
+        _context.Log.ExecuteSection(new StepLogSection(message), () =>
+        {
+            try
+            {
+                action.Invoke(_owner);
+            }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
+        });
         return _owner;
     }
 
@@ -327,7 +348,18 @@ public class Report<TOwner>
         function.CheckNotNull(nameof(function));
 
         TResult result = default;
-        _context.Log.ExecuteSection(new StepLogSection(message), (Action)(() => result = function.Invoke(_owner)));
+        _context.Log.ExecuteSection(new StepLogSection(message), () =>
+        {
+            try
+            {
+                result = function.Invoke(_owner);
+            }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
+        });
 
         return result;
     }

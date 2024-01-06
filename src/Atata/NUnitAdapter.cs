@@ -149,6 +149,14 @@ internal static class NUnitAdapter
             .InvokeAsLambda(testResult);
     }
 
+    internal static string GetTestResultMessage()
+    {
+        object testResult = GetCurrentTestResult();
+
+        return s_testResultType.Value.GetPropertyWithThrowOnError("Message")
+            .GetValue(testResult) as string;
+    }
+
     internal static object GetCurrentTestResult()
     {
         object testExecutionContext = GetCurrentTestExecutionContext();

@@ -8,6 +8,11 @@ public class LogNUnitErrorOnCleanUpEventHandler : IEventHandler<AtataContextClea
         dynamic testResult = NUnitAdapter.GetCurrentTestResultAdapter();
 
         if (NUnitAdapter.IsTestResultAdapterFailed(testResult))
-            context.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
+        {
+            string testResultMessage = testResult.Message;
+
+            if (context.LastLoggedException is null || !testResultMessage.Contains(context.LastLoggedException.Message))
+                context.Log.Error((string)testResult.Message, (string)testResult.StackTrace);
+        }
     }
 }

@@ -283,6 +283,12 @@ public sealed class AtataContext : IDisposable
     public IWarningReportStrategy WarningReportStrategy { get; internal set; }
 
     /// <summary>
+    /// Gets the strategy for assertion failure reporting.
+    /// The default value is an instance of <see cref="AtataAssertionFailureReportStrategy"/>.
+    /// </summary>
+    public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; internal set; }
+
+    /// <summary>
     /// Gets the list of all assertion results.
     /// </summary>
     public List<AssertionResult> AssertionResults { get; } = [];
@@ -291,6 +297,8 @@ public sealed class AtataContext : IDisposable
     /// Gets the list of pending assertion results with <see cref="AssertionStatus.Failed"/> or <see cref="AssertionStatus.Warning"/> status.
     /// </summary>
     public List<AssertionResult> PendingFailureAssertionResults { get; } = [];
+
+    internal Exception LastLoggedException { get; set; }
 
     /// <summary>
     /// Gets the context of the attributes.
@@ -487,21 +495,49 @@ public sealed class AtataContext : IDisposable
     {
         action.CheckNotNull(nameof(action));
 
-        AggregateAssertionStrategy.Assert(() =>
+        try
         {
-            AggregateAssertionLevel++;
+            AggregateAssertionStrategy.Assert(() =>
+            {
+                AggregateAssertionLevel++;
 
-            try
-            {
-                Log.ExecuteSection(
-                    new AggregateAssertionLogSection(assertionScopeName),
-                    action);
-            }
-            finally
-            {
-                AggregateAssertionLevel--;
-            }
-        });
+                try
+                {
+                    Log.ExecuteSection(
+                        new AggregateAssertionLogSection(assertionScopeName),
+                        () =>
+                        {
+                            try
+                            {
+                                action.Invoke();
+                            }
+                            catch (Exception exception)
+                            {
+                                EnsureExceptionIsLogged(exception);
+                                throw;
+                            }
+                        });
+                }
+                finally
+                {
+                    AggregateAssertionLevel--;
+                }
+            });
+        }
+        catch (Exception exception)
+        {
+            LastLoggedException = exception;
+            throw;
+        }
+    }
+
+    internal void EnsureExceptionIsLogged(Exception exception)
+    {
+        if (exception != LastLoggedException)
+        {
+            Log.Error(exception.ToString());
+            LastLoggedException = exception;
+        }
     }
 
     [Obsolete("Use Dispose instead.")] // Obsolete since v2.11.0.
@@ -945,11 +981,16 @@ public sealed class AtataContext : IDisposable
 
         if (PendingFailureAssertionResults.Any())
         {
-            var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
-            PendingFailureAssertionResults.Clear();
-
-            throw VerificationUtils.CreateAggregateAssertionException(copyOfPendingFailureAssertionResults);
+            var pendingFailureAssertionResults = GetAndClearPendingFailureAssertionResults();
+            throw VerificationUtils.CreateAggregateAssertionException(pendingFailureAssertionResults);
         }
+    }
+
+    internal IReadOnlyList<AssertionResult> GetAndClearPendingFailureAssertionResults()
+    {
+        var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
+        PendingFailureAssertionResults.Clear();
+        return copyOfPendingFailureAssertionResults;
     }
 
     private void LogTestFinish(TimeSpan deinitializationTime)

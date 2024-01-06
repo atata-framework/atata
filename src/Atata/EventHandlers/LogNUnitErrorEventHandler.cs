@@ -8,11 +8,16 @@ public sealed class LogNUnitErrorEventHandler : IEventHandler<AtataContextDeInit
 
         if (NUnitAdapter.IsTestResultAdapterFailed(testResult))
         {
-            StringBuilder builder = new StringBuilder((string)testResult.Message)
-                .AppendLine()
-                .Append((string)testResult.StackTrace);
+            string testResultMessage = testResult.Message;
 
-            context.Log.Error(builder.ToString());
+            if (context.LastLoggedException is null || !testResultMessage.Contains(context.LastLoggedException.Message))
+            {
+                string completeErrorMessage = VerificationUtils.AppendStackTraceToFailureMessage(
+                    testResultMessage,
+                    (string)testResult.StackTrace);
+
+                context.Log.Error(completeErrorMessage);
+            }
         }
     }
 }

@@ -87,7 +87,7 @@ public static class VerificationUtils
         {
             StringBuilder builder = new StringBuilder(message)
                 .AppendLine()
-                .Append("  ----> ")
+                .Append(" ---> ")
                 .Append(exception.ToString());
 
             return builder.ToString();
@@ -98,7 +98,23 @@ public static class VerificationUtils
         }
     }
 
-    internal static string BuildStackTraceForAggregateAssertion()
+    internal static string AppendStackTraceToFailureMessage(string message, string stackTrace)
+    {
+        if (!string.IsNullOrEmpty(stackTrace))
+        {
+            StringBuilder builder = new StringBuilder(message)
+                .AppendLine()
+                .Append(stackTrace);
+
+            return builder.ToString();
+        }
+        else
+        {
+            return message;
+        }
+    }
+
+    internal static string CreateStackTraceForAssertionFailiure()
     {
         string stackTrace = new StackTrace(1, true).ToString();
 

@@ -35,7 +35,7 @@ public class ExpectationVerificationStrategy : IVerificationStrategy
         {
             string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
 
-            string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
+            string stackTrace = VerificationUtils.CreateStackTraceForAssertionFailiure();
 
             context.AssertionResults.Add(AssertionResult.ForWarning(completeMessageWithException, stackTrace));
             context.Log.Warn(completeMessageWithException);

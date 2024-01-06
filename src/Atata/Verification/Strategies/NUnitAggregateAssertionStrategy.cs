@@ -11,7 +11,10 @@ public class NUnitAggregateAssertionStrategy : IAggregateAssertionStrategy
 
     public void ReportFailure(string message, string stackTrace)
     {
-        NUnitAdapter.RecordAssertionIntoTestResult(NUnitAdapter.AssertionStatus.Failed, message, stackTrace);
+        NUnitAdapter.RecordAssertionIntoTestResult(
+            NUnitAdapter.AssertionStatus.Failed,
+            message + Environment.NewLine,
+            stackTrace);
         NUnitAdapter.RecordTestCompletionIntoTestResult();
     }
 }

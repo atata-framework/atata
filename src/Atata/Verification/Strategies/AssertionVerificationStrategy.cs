@@ -25,21 +25,30 @@ public class AssertionVerificationStrategy : IVerificationStrategy
         string completeMessage = $"Wrong {message}";
         AtataContext context = _context ?? AtataContext.Current;
 
+        string stackTrace = VerificationUtils.CreateStackTraceForAssertionFailiure();
+        string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
+
         if (context != null)
         {
-            string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
-            string stackTrace = VerificationUtils.BuildStackTraceForAggregateAssertion();
-
             context.AssertionResults.Add(AssertionResult.ForFailure(completeMessageWithException, stackTrace));
+
+            string completeMessageWithExceptionAndStackTrace = VerificationUtils.AppendStackTraceToFailureMessage(
+                completeMessageWithException,
+                stackTrace);
+            context.Log.Error(completeMessageWithExceptionAndStackTrace);
 
             if (context.AggregateAssertionLevel > 0)
             {
-                context.Log.Error(completeMessage);
                 context.AggregateAssertionStrategy.ReportFailure(completeMessageWithException, stackTrace);
-                return;
+            }
+            else
+            {
+                context.AssertionFailureReportStrategy.Report(completeMessage, exception, stackTrace);
             }
         }
-
-        throw VerificationUtils.CreateAssertionException(completeMessage, exception);
+        else
+        {
+            AtataAssertionFailureReportStrategy.Instance.Report(completeMessage, exception, stackTrace);
+        }
     }
 }

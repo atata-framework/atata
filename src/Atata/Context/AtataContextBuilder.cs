@@ -920,6 +920,25 @@ Actual: {driverFactory.GetType().FullName}",
     }
 
     /// <summary>
+    /// Uses the <see cref="NUnitAssertionFailureReportStrategy"/> as the strategy for assertion failure reporting.
+    /// </summary>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseNUnitAssertionFailureReportStrategy() =>
+        UseAssertionFailureReportStrategy(NUnitAssertionFailureReportStrategy.Instance);
+
+    /// <summary>
+    /// Sets the strategy for assertion failure reporting.
+    /// </summary>
+    /// <param name="strategy">The assertion failure reporting strategy.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseAssertionFailureReportStrategy(IAssertionFailureReportStrategy strategy)
+    {
+        BuildingContext.AssertionFailureReportStrategy = strategy;
+
+        return this;
+    }
+
+    /// <summary>
     /// Sets the name of the DOM test identifier attribute.
     /// The default value is <c>"data-testid"</c>.
     /// </summary>
@@ -996,6 +1015,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// <item><see cref="UseNUnitAssertionExceptionType"/>,</item>
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/>,</item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
+    /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/>,</item>
     /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/> of <see cref="LogConsumers"/> property,</item>
     /// <item><see cref="EventSubscriptionsAtataContextBuilder.LogNUnitError"/> of <see cref="EventSubscriptions"/> property,</item>
     /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakeScreenshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property,</item>
@@ -1011,6 +1031,7 @@ Actual: {driverFactory.GetType().FullName}",
             .UseNUnitAssertionExceptionType()
             .UseNUnitAggregateAssertionStrategy()
             .UseNUnitWarningReportStrategy()
+            .UseNUnitAssertionFailureReportStrategy()
             .LogConsumers.AddNUnitTestContext()
             .EventSubscriptions.LogNUnitError()
             .EventSubscriptions.TakeScreenshotOnNUnitError()
@@ -1076,6 +1097,7 @@ Actual: {driverFactory.GetType().FullName}",
         context.AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType;
         context.AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
         context.WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy();
+        context.AssertionFailureReportStrategy = BuildingContext.AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
         context.DomTestIdAttributeName = BuildingContext.DomTestIdAttributeName;
         context.DomTestIdAttributeDefaultCase = BuildingContext.DomTestIdAttributeDefaultCase;
         context.ObjectConverter = objectConverter;

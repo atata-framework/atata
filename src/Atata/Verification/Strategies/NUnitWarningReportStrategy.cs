@@ -7,5 +7,8 @@
 public class NUnitWarningReportStrategy : IWarningReportStrategy
 {
     public void Report(string message, string stackTrace) =>
-        NUnitAdapter.RecordAssertionIntoTestResult(NUnitAdapter.AssertionStatus.Warning, message, stackTrace);
+        NUnitAdapter.RecordAssertionIntoTestResult(
+            NUnitAdapter.AssertionStatus.Warning,
+            message + Environment.NewLine,
+            stackTrace);
 }

@@ -270,6 +270,12 @@ public class AtataBuildingContext : ICloneable
     public IWarningReportStrategy WarningReportStrategy { get; set; } = new AtataWarningReportStrategy();
 
     /// <summary>
+    /// Gets or sets the strategy for assertion failure reporting.
+    /// The default value is an instance of <see cref="AtataAssertionFailureReportStrategy"/>.
+    /// </summary>
+    public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; set; } = AtataAssertionFailureReportStrategy.Instance;
+
+    /// <summary>
     /// Gets the configuration of screenshots functionality.
     /// </summary>
     public ScreenshotsConfiguration Screenshots { get; private set; } = new ScreenshotsConfiguration();
