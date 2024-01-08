@@ -12,7 +12,9 @@ public class SelectPage : Page<_>
 #pragma warning disable CA1712 // Do not prefix enum values with type name
         [Term("--select--")]
         None,
+        [Term("Option A", "InvalidValid")]
         OptionA,
+        [Term("InvalidValid", "Option B")]
         OptionB,
         OptionC,
         OptionD

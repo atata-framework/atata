@@ -60,9 +60,15 @@ public class Select<TValue, TOwner> : EditableField<TValue, TOwner>
     /// <returns>The <see cref="Option{TValue, TOwner}"/> instance.</returns>
     public Option<TValue, TOwner> GetOption(TValue value)
     {
-        string valueAsString = ConvertValueToString(value);
-        string xPathCondition = SelectOptionBehavior.FormatOptionXPathCondition(valueAsString);
+        var terms = value is null
+            ? [string.Empty]
+            : TermResolver.GetTerms(value, GetValueTermOptions());
 
-        return Options.GetByXPathCondition(valueAsString, xPathCondition);
+        string xPathCondition = string.Join(
+            " or ",
+            terms.Select(SelectOptionBehavior.FormatOptionXPathCondition));
+
+        string optionItemName = string.Join("/", terms);
+        return Options.GetByXPathCondition(optionItemName, xPathCondition);
     }
 }
