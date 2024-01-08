@@ -49,6 +49,8 @@ public static class Stringifier
                 NullString,
             string =>
                 $"\"{value}\"",
+            char =>
+                $"'{value}'",
             bool =>
                 value.ToString().ToLowerInvariant(),
             ValueType =>
