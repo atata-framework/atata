@@ -2,23 +2,6 @@
 
 public static class ScreenshotConsumerAtataContextBuilderExtensions
 {
-    /// <summary>
-    /// Specifies the image format of the file screenshot consumer.
-    /// </summary>
-    /// <typeparam name="TConsumer">The type of the file screenshot consumer.</typeparam>
-    /// <param name="builder">The builder.</param>
-    /// <param name="imageFormat">The image format.</param>
-    /// <returns>The same builder instance.</returns>
-    [Obsolete("Don't use this method as it will be removed. Atata will only support the PNG format, as will Selenium.WebDriver.")] // Obsolete since v2.11.0.
-    public static ScreenshotConsumerAtataContextBuilder<TConsumer> With<TConsumer>(
-        this ScreenshotConsumerAtataContextBuilder<TConsumer> builder,
-        ScreenshotImageFormat imageFormat)
-        where TConsumer : FileScreenshotConsumerBase
-    {
-        builder.Context.ImageFormat = imageFormat;
-        return builder;
-    }
-
     [Obsolete("Use " + nameof(WithArtifactsDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
     public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithArtifactsFolderPath(
         this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder)

@@ -2,12 +2,7 @@
 
 public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
 {
-    /// <summary>
-    /// Gets or sets the image format.
-    /// The default format is <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/>.
-    /// </summary>
-    [Obsolete("Don't use this property as it will be removed. Atata will only support the PNG format, as will Selenium.WebDriver.")] // Obsolete since v2.11.0.
-    public ScreenshotImageFormat ImageFormat { get; set; } = ScreenshotImageFormat.Png;
+    private const string DefaultFileExtension = ".png";
 
     /// <summary>
     /// Takes the specified screenshot.
@@ -17,9 +12,9 @@ public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
     {
         string filePath = BuildFilePath(screenshotInfo);
         filePath = filePath.SanitizeForPath();
-#pragma warning disable CS0618 // Type or member is obsolete
-        filePath += ImageFormat.GetExtension();
-#pragma warning restore CS0618 // Type or member is obsolete
+
+        if (!filePath.EndsWith(DefaultFileExtension, StringComparison.Ordinal))
+            filePath += DefaultFileExtension;
 
         if (!Path.IsPathRooted(filePath))
             filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, filePath);
@@ -52,13 +47,6 @@ public abstract class FileScreenshotConsumerBase : IScreenshotConsumer
     /// <returns>The file path without the extension.</returns>
     protected abstract string BuildFilePath(ScreenshotInfo screenshotInfo);
 
-    private void SaveImage(ScreenshotInfo screenshotInfo, string filePath)
-    {
-#pragma warning disable CS0618 // Type or member is obsolete
-        if (ImageFormat == ScreenshotImageFormat.Png)
-            screenshotInfo.ScreenshotContent.Save(filePath);
-        else
-            screenshotInfo.Screenshot.SaveAsFile(filePath, ImageFormat);
-#pragma warning restore CS0618 // Type or member is obsolete
-    }
+    private static void SaveImage(ScreenshotInfo screenshotInfo, string filePath) =>
+        screenshotInfo.ScreenshotContent.Save(filePath);
 }

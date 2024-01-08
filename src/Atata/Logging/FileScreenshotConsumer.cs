@@ -2,9 +2,8 @@
 
 /// <summary>
 /// Represents the screenshot consumer that saves the screenshot to the file.
-/// By default uses <see cref="AtataContext.Artifacts"/> directory as a directory path format,
-/// <c>"{screenshot-number:D2}{screenshot-pageobjectname: - *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c> as a file name format
-/// and <see cref="OpenQA.Selenium.ScreenshotImageFormat.Png"/> as an image format.
+/// By default uses <see cref="AtataContext.Artifacts"/> directory as a directory path format and
+/// <c>"{screenshot-number:D2}{screenshot-pageobjectname: - *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c> as a file name format.
 /// Example of a screenshot file path using default settings: <c>"artifacts\20220303T143404\SampleTest\01 - Home page - Screenshot title.png"</c>.
 /// Available predefined path variables are:
 /// <c>{build-start}</c>, <c>{build-start-utc}</c>
