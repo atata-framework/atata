@@ -119,6 +119,7 @@ public class PageObjectTests : UITestFixture
             .PageSource.Should.ContainAll("<head>", "</body>", "<input", "<button");
 
     [Test]
+    [Platform(Exclude = Platforms.MacOS)]
     public void ScrollDown() =>
         Go.To<ScrollablePage>()
             .BottomText.WaitTo.Not.BeVisibleInViewport()
