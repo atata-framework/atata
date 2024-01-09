@@ -1006,21 +1006,21 @@ Actual: {driverFactory.GetType().FullName}",
         UseAssertionExceptionType(NUnitAdapter.AssertionExceptionType);
 
     /// <summary>
-    /// Enables all NUnit features for Atata.
+    /// Enables all Atata features for NUnit.
     /// Executes the following methods:
     /// <list type="bullet">
-    /// <item><see cref="UseNUnitTestName"/>,</item>
-    /// <item><see cref="UseNUnitTestSuiteName"/>,</item>
-    /// <item><see cref="UseNUnitTestSuiteType"/>,</item>
-    /// <item><see cref="UseNUnitAssertionExceptionType"/>,</item>
-    /// <item><see cref="UseNUnitAggregateAssertionStrategy"/>,</item>
-    /// <item><see cref="UseNUnitWarningReportStrategy"/>,</item>
-    /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/>,</item>
-    /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/> of <see cref="LogConsumers"/> property,</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.LogNUnitError"/> of <see cref="EventSubscriptions"/> property,</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakeScreenshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property,</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakePageSnapshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property,</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.AddArtifactsToNUnitTestContext"/> of <see cref="EventSubscriptions"/> property.</item>
+    /// <item><see cref="UseNUnitTestName"/></item>
+    /// <item><see cref="UseNUnitTestSuiteName"/></item>
+    /// <item><see cref="UseNUnitTestSuiteType"/></item>
+    /// <item><see cref="UseNUnitAssertionExceptionType"/></item>
+    /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
+    /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
+    /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
+    /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/> of <see cref="LogConsumers"/> property</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.LogNUnitError"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakeScreenshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakePageSnapshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.AddArtifactsToNUnitTestContext"/> of <see cref="EventSubscriptions"/> property</item>
     /// </list>
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -1037,6 +1037,35 @@ Actual: {driverFactory.GetType().FullName}",
             .EventSubscriptions.TakeScreenshotOnNUnitError()
             .EventSubscriptions.TakePageSnapshotOnNUnitError()
             .EventSubscriptions.AddArtifactsToNUnitTestContext();
+
+    /// <summary>
+    /// Enables all Atata features for SpecFlow+NUnit.
+    /// Executes the following methods:
+    /// <list type="bullet">
+    /// <item><see cref="UseNUnitTestName"/></item>
+    /// <item><see cref="UseNUnitTestSuiteName"/></item>
+    /// <item><see cref="UseNUnitTestSuiteType"/></item>
+    /// <item><see cref="UseNUnitAssertionExceptionType"/></item>
+    /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
+    /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
+    /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.LogNUnitError"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakeScreenshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakePageSnapshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// </list>
+    /// </summary>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseSpecFlowNUnitFeatures() =>
+        UseNUnitTestName()
+            .UseNUnitTestSuiteName()
+            .UseNUnitTestSuiteType()
+            .UseNUnitAssertionExceptionType()
+            .UseNUnitAggregateAssertionStrategy()
+            .UseNUnitWarningReportStrategy()
+            .UseNUnitAssertionFailureReportStrategy()
+            .EventSubscriptions.LogNUnitError()
+            .EventSubscriptions.TakeScreenshotOnNUnitError()
+            .EventSubscriptions.TakePageSnapshotOnNUnitError();
 
     private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
     {
