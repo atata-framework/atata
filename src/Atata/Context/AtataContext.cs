@@ -583,7 +583,7 @@ public sealed class AtataContext : IDisposable
                 }
 
                 EventBus.Publish(new DriverDeInitEvent(_driver));
-                _driver.Dispose();
+                DisposeDriverSafely();
 
                 InitDriver();
             });
@@ -957,10 +957,13 @@ public sealed class AtataContext : IDisposable
 
                 UIComponentAccessChainScopeCache.Release();
 
-                EventBus.Publish(new DriverDeInitEvent(_driver));
+                if (_driver is not null)
+                {
+                    EventBus.Publish(new DriverDeInitEvent(_driver));
 
-                if (disposeDriver)
-                    _driver?.Dispose();
+                    if (disposeDriver)
+                        DisposeDriverSafely();
+                }
 
                 EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
             });
@@ -991,6 +994,18 @@ public sealed class AtataContext : IDisposable
         var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
         PendingFailureAssertionResults.Clear();
         return copyOfPendingFailureAssertionResults;
+    }
+
+    private void DisposeDriverSafely()
+    {
+        try
+        {
+            _driver.Dispose();
+        }
+        catch (Exception exception)
+        {
+            Log.Warn(exception, "Deinitialization of driver failed.");
+        }
     }
 
     private void LogTestFinish(TimeSpan deinitializationTime)
