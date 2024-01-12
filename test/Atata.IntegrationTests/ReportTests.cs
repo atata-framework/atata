@@ -127,8 +127,6 @@ public class ReportTests : UITestFixture
         [Test]
         public void ViewportVsFullPage_ThroughConfiguration()
         {
-            int screenshotNumber = 0;
-
             ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsAtataContextBuilder> screenshotsConfigurationAction)
             {
                 var builder = ConfigureBaseAtataContext()
@@ -136,12 +134,12 @@ public class ReportTests : UITestFixture
                 screenshotsConfigurationAction?.Invoke(builder.Screenshots);
                 using var context = builder.Build();
 
-                string screenshotNameIndicator = $"num{screenshotNumber++}";
+                string screenshotNameIndicator = Guid.NewGuid().ToString();
                 context.Go.To<ScrollablePage>()
                     .Report.Screenshot(screenshotNameIndicator);
 
                 var file = context.Artifacts.Files
-                    .Single(x => x.Extension == ".png" && x.Name.Value.Contains(screenshotNameIndicator)).Should.Exist();
+                    .Single(x => x.Name.Value.Contains(screenshotNameIndicator)).Should.Exist();
                 return file.Length;
             }
 
