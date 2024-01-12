@@ -132,11 +132,20 @@ public class FindingPage : Page<_>
     [FindByLabel("User Name")]
     public TextInput<_> UserNameByLabel { get; private set; }
 
+    [FindByLabel("Custom Control With IdXPathForLabel")]
+    public CustomControlWithIdXPathForLabel ControlWithIdXPathForLabel { get; private set; }
+
     [FindByLabel(TermMatch.Contains, "Name", Index = 0)]
     public TextInput<_> UserNameByLabelAndIndex { get; private set; }
 
     [FindByValue("OptionD")]
     public class CustomRadioButton : RadioButton<_>
+    {
+    }
+
+    [ControlDefinition("div", ContainingClass = "custom-control")]
+    [IdXPathForLabel("[.//input[@id='{0}']]")]
+    public class CustomControlWithIdXPathForLabel : Control<_>
     {
     }
 }

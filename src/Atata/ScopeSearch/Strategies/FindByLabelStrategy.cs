@@ -3,7 +3,7 @@
 public class FindByLabelStrategy : IComponentScopeFindStrategy
 {
     public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions) =>
-        scope is IWebDriver or IWrapsDriver
+        scope is IWebDriver or IWrapsDriver && !options.Metadata.Contains<IdXPathForLabelAttribute>()
             ? FindUsingOneQuery(scope, options, searchOptions)
             : FindLabelThenComponent(scope, options, searchOptions);
 

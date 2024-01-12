@@ -44,6 +44,10 @@ public class FindingTests : UITestFixture
         _page.UserNameByLabel.DomProperties.Id.Should.Be("user-name");
 
     [Test]
+    public void ByLabel_AndIdXPathForLabel_WithId() =>
+        _page.ControlWithIdXPathForLabel.DomClasses.Should.Contain("custom-control");
+
+    [Test]
     public void ByLabelAndIndex_WithId() =>
         _page.UserNameByLabelAndIndex.DomProperties.Id.Should.Be("user-name");
 
