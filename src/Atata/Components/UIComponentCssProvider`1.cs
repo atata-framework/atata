@@ -11,7 +11,7 @@ public sealed class UIComponentCssProvider<TOwner> : UIComponentPart<TOwner>
 
     internal UIComponentCssProvider(IUIComponent<TOwner> component)
     {
-        Component = component.CheckNotNull(nameof(component));
+        Component = component;
         ComponentPartName = "CSS properties";
     }
 

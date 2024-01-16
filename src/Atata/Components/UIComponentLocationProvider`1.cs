@@ -4,12 +4,12 @@
 /// Allows to access the component scope element's location (X and Y).
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-public class UIComponentLocationProvider<TOwner> : ValueProvider<Point, TOwner>
+public sealed class UIComponentLocationProvider<TOwner> : ValueProvider<Point, TOwner>
     where TOwner : PageObject<TOwner>
 {
     private readonly UIComponent<TOwner> _component;
 
-    public UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction, string providerName)
+    internal UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction, string providerName)
         : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
         _component = component;
 

@@ -4,12 +4,12 @@
 /// Allows to access the component scope element's size (width and height).
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
-public class UIComponentSizeProvider<TOwner> : ValueProvider<Size, TOwner>
+public sealed class UIComponentSizeProvider<TOwner> : ValueProvider<Size, TOwner>
     where TOwner : PageObject<TOwner>
 {
     private readonly UIComponent<TOwner> _component;
 
-    public UIComponentSizeProvider(UIComponent<TOwner> component, Func<Size> valueGetFunction, string providerName)
+    internal UIComponentSizeProvider(UIComponent<TOwner> component, Func<Size> valueGetFunction, string providerName)
         : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
         _component = component;
 

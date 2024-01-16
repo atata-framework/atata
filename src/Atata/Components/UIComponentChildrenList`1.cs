@@ -1,11 +1,11 @@
 ﻿namespace Atata;
 
-public class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
+public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
     where TOwner : PageObject<TOwner>
 {
     private readonly UIComponent<TOwner> _component;
 
-    public UIComponentChildrenList(UIComponent<TOwner> component) =>
+    internal UIComponentChildrenList(UIComponent<TOwner> component) =>
         _component = component;
 
     public TControl Create<TControl>(string name, params Attribute[] attributes)

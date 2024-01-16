@@ -7,14 +7,9 @@
 public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     where TOwner : PageObject<TOwner>
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="UIComponentScriptExecutor{TOwner}"/> class.
-    /// </summary>
-    /// <param name="component">The component.</param>
-    /// <exception cref="ArgumentNullException"><paramref name="component"/> is null.</exception>
-    public UIComponentScriptExecutor(IUIComponent<TOwner> component)
+    internal UIComponentScriptExecutor(IUIComponent<TOwner> component)
     {
-        Component = component ?? throw new ArgumentNullException(nameof(component));
+        Component = component;
         ComponentPartName = "scripts";
     }
 

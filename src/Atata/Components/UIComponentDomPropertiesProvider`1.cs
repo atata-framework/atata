@@ -9,9 +9,9 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
 {
     private const string ItemProviderNameFormat = "\"{0}\" DOM property";
 
-    public UIComponentDomPropertiesProvider(IUIComponent<TOwner> component)
+    internal UIComponentDomPropertiesProvider(IUIComponent<TOwner> component)
     {
-        Component = component.CheckNotNull(nameof(component));
+        Component = component;
         ComponentPartName = "DOM properties";
     }
 
