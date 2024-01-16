@@ -131,6 +131,11 @@ public class UIComponentTests : UITestFixture
         Go.To<InputPage>()
             .TextInput.TagName.Should.Be("input");
 
+    [Test]
+    public void Css() =>
+        Go.To<InputPage>()
+            .HiddenFileInput.Css["display"].Should.Be("none");
+
     public class Wait : UITestFixture
     {
         private WaitingOnInitPage _page;
