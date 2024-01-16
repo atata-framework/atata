@@ -16,12 +16,6 @@ public class ImageInput<TOwner> : Control<TOwner>
     public ValueProvider<string, TOwner> Source =>
         DomProperties["src"];
 
-    [Obsolete("A typo. Use " + nameof(SourceAttribute) + " instead.")] // Obsolete since v2.8.0.
-#pragma warning disable VSSpell001 // Spell Check
-    public ValueProvider<string, TOwner> SourceAttribue =>
-        SourceAttribute;
-#pragma warning restore VSSpell001 // Spell Check
-
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> DOM attribute.
     /// </summary>

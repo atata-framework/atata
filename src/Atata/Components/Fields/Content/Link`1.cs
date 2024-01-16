@@ -16,12 +16,6 @@ public class Link<TOwner> : Text<TOwner>
     public ValueProvider<string, TOwner> Href =>
         DomProperties["href"];
 
-    [Obsolete("A typo. Use " + nameof(HrefAttribute) + " instead.")] // Obsolete since v2.8.0.
-#pragma warning disable VSSpell001 // Spell Check
-    public ValueProvider<string, TOwner> HrefAttribue =>
-        HrefAttribute;
-#pragma warning restore VSSpell001 // Spell Check
-
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>href</c> DOM attribute.
     /// </summary>

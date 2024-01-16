@@ -33,9 +33,6 @@ public class UriProvider<TOwner> : ValueProvider<Uri, TOwner>
     public ValueProvider<string, TOwner> Fragment =>
         _component.CreateValueProvider("URI fragment", () => Value.Fragment);
 
-    [Obsolete("Use " + nameof(Path) + " instead.")] // Obsolete since v2.7.0.
-    public ValueProvider<string, TOwner> AbsolutePath => Path;
-
     /// <summary>
     /// Gets the path provider of the URI.
     /// For example: <c>"https://example.org/some/path?arg=val#frg"</c> -> <c>"/some/path"</c>.

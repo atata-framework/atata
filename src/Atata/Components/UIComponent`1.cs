@@ -23,11 +23,6 @@ return (
     protected UIComponent()
     {
         Controls = new UIComponentChildrenList<TOwner>(this);
-
-#pragma warning disable CS0618 // Type or member is obsolete
-        Attributes = new UIComponentAttributeProvider<TOwner> { Component = this, ComponentPartName = "attributes" };
-#pragma warning restore CS0618 // Type or member is obsolete
-
         DomAttributes = new UIComponentDomAttributesProvider<TOwner>(this);
         DomProperties = new UIComponentDomPropertiesProvider<TOwner>(this);
         Css = new UIComponentCssProvider<TOwner>(this);
@@ -56,15 +51,9 @@ return (
     public ValueProvider<bool, TOwner> IsVisible =>
         CreateValueProvider("visible state", GetIsVisible);
 
-    [Obsolete("Use " + nameof(IsVisibleInViewport) + " instead.")] // Obsolete since v2.8.0.
-    public ValueProvider<bool, TOwner> IsVisibleInViewPort =>
-        IsVisibleInViewport;
-
     /// <inheritdoc/>
-#pragma warning disable CS0618 // Type or member is obsolete
     public ValueProvider<bool, TOwner> IsVisibleInViewport =>
-        CreateValueProvider("visible in viewport state", GetIsVisibleInViewPort);
-#pragma warning restore CS0618 // Type or member is obsolete
+        CreateValueProvider("visible in viewport state", GetIsVisibleInViewport);
 
     /// <inheritdoc/>
     public ValueProvider<string, TOwner> TagName =>
@@ -96,10 +85,6 @@ return (
     /// <inheritdoc/>
     public UIComponentSizeProvider<TOwner> ComponentSize =>
         new(this, GetSize, BuildFullValueProviderName("size"));
-
-    /// <inheritdoc/>
-    [Obsolete("Use DomProperties, DomAttributes or DomClasses instead.")] // Obsolete since v2.3.0.
-    public UIComponentAttributeProvider<TOwner> Attributes { get; }
 
     /// <inheritdoc/>
     public UIComponentDomAttributesProvider<TOwner> DomAttributes { get; }
@@ -149,11 +134,6 @@ return (
         foreach (UIComponent<TOwner> child in Controls)
             child.OnInitCompleted();
     }
-
-    // TODO: Atata v3. Remove InitComponent method.
-    [Obsolete("Don't override/use InitComponent method, as it will be removed.")] // Obsolete since v2.6.0.
-    protected internal virtual void InitComponent() =>
-        UIComponentResolver.Resolve(this);
 
     internal sealed override IWebElement OnGetScopeElement(SearchOptions searchOptions)
     {
@@ -236,10 +216,6 @@ return (
     protected virtual bool GetIsVisible() =>
         GetScope(SearchOptions.SafelyAtOnce())?.Displayed ?? false;
 
-    [Obsolete("Use " + nameof(GetIsVisibleInViewport) + " instead.")] // Obsolete since v2.8.0.
-    protected virtual bool GetIsVisibleInViewPort() =>
-        GetIsVisibleInViewport();
-
     protected virtual bool GetIsVisibleInViewport()
     {
         IWebElement element = GetScope(SearchOptions.SafelyAtOnce());
@@ -263,18 +239,6 @@ return (
         CreateValueProvider(
             $"content ({source.ToString(TermCase.MidSentence)})",
             () => ContentExtractor.Get(this, source));
-
-    [Obsolete("Use " + nameof(CreateValueProvider) + " instead.")] // Obsolete since v2.0.0.
-    public DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction) =>
-        CreateDataProvider(providerName, valueGetFunction);
-
-    [Obsolete("Use " + nameof(CreateValueProvider) + " instead.")] // Obsolete since v2.0.0.
-    protected internal DataProvider<TValue, TOwner> CreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction)
-    {
-        string fullProviderName = BuildFullValueProviderName(providerName);
-
-        return new DataProvider<TValue, TOwner>(this, valueGetFunction, fullProviderName);
-    }
 
     ValueProvider<TValue, TOwner> IUIComponent<TOwner>.CreateValueProvider<TValue>(string providerName, Func<TValue> valueGetFunction) =>
         CreateValueProvider(providerName, valueGetFunction);

@@ -34,9 +34,6 @@ public interface IUIComponent<TOwner>
     /// </summary>
     ValueProvider<bool, TOwner> IsVisible { get; }
 
-    [Obsolete("Use " + nameof(IsVisibleInViewport) + " instead.")] // Obsolete since v2.8.0.
-    ValueProvider<bool, TOwner> IsVisibleInViewPort { get; }
-
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
     /// whether the component is visible in viewport.
@@ -108,13 +105,6 @@ public interface IUIComponent<TOwner>
     /// Gets the <see cref="UIComponentSizeProvider{TOwner}"/> instance that provides an access to the scope element's size (Width and Height).
     /// </summary>
     UIComponentSizeProvider<TOwner> ComponentSize { get; }
-
-    /// <summary>
-    /// Gets the <see cref="UIComponentAttributeProvider{TOwner}"/> instance
-    /// that provides an access to the scope element's attributes.
-    /// </summary>
-    [Obsolete("Use DomProperties, DomAttributes or DomClasses instead.")] // Obsolete since v2.3.0.
-    UIComponentAttributeProvider<TOwner> Attributes { get; }
 
     /// <summary>
     /// Gets the <see cref="UIComponentDomAttributesProvider{TOwner}"/> instance
@@ -223,9 +213,6 @@ public interface IUIComponent<TOwner>
     /// equal to <see langword="false"/> value and the component exists.
     /// </exception>
     bool Missing(SearchOptions options = null);
-
-    [Obsolete("Use " + nameof(CreateValueProvider) + " instead.")] // Obsolete since v2.0.0.
-    DataProvider<TValue, TOwner> GetOrCreateDataProvider<TValue>(string providerName, Func<TValue> valueGetFunction);
 
     /// <summary>
     /// Creates a value provider with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.

@@ -246,9 +246,6 @@ public class AtataNavigator
                 if (!string.IsNullOrEmpty(navigationUrl) || options.Navigate)
                     ToUrl(navigationUrl, false);
 
-#pragma warning disable CS0618 // Type or member is obsolete
-                pageObject.NavigateOnInit = options.Navigate;
-#pragma warning restore CS0618 // Type or member is obsolete
                 pageObject.Init();
             });
 
@@ -271,10 +268,6 @@ public class AtataNavigator
         {
             if (!options.Temporarily)
                 _context.CleanUpTemporarilyPreservedPageObjectList();
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            nextPageObject.NavigateOnInit = options.Navigate;
-#pragma warning restore CS0618 // Type or member is obsolete
 
             if (options.Temporarily)
             {

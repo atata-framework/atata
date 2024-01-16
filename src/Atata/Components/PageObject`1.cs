@@ -64,13 +64,6 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
         => Should.Using<WaitingVerificationStrategy>();
 
     /// <summary>
-    /// Gets a value indicating whether the navigation should be performed upon initialization.
-    /// </summary>
-    // TODO: Atata v3. Remove NavigateOnInit property.
-    [Obsolete("Don't use NavigateOnInit property, as it will be removed.")] // Obsolete since v2.6.0.
-    protected internal bool NavigateOnInit { get; internal set; } = true;
-
-    /// <summary>
     /// Gets or sets the navigation URL, which can be used during page object initialization.
     /// </summary>
     protected internal string NavigationUrl { get; set; }
@@ -149,12 +142,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
     internal void Init()
     {
-#pragma warning disable CS0618 // Type or member is obsolete
-        InitComponent();
-
-        if (NavigateOnInit)
-            Navigate();
-#pragma warning restore CS0618 // Type or member is obsolete
+        UIComponentResolver.Resolve(this);
 
         OnInit();
         Context.EventBus.Publish(new PageObjectInitEvent(this));
@@ -171,14 +159,6 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     }
 
     protected virtual void OnVerify()
-    {
-    }
-
-    // TODO: Atata v3. Remove Navigate method.
-    [Obsolete(
-        "Don't override/use Navigate method, as it will be removed. " +
-        "Instead, specify a navigation URL in a page object constructor by setting a URL value into NavigationUrl property.")] // Obsolete since v2.6.0.
-    protected virtual void Navigate()
     {
     }
 
@@ -658,10 +638,6 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
         return (TOwner)this;
     }
-
-    [Obsolete("Use " + nameof(WaitSeconds) + " instead.")] // Obsolete since v2.0.0.
-    public TOwner Wait(double seconds) =>
-        WaitSeconds(seconds);
 
     /// <summary>
     /// Waits the specified time in seconds.
