@@ -30,7 +30,7 @@ return (
 
         DomAttributes = new UIComponentDomAttributesProvider<TOwner>(this);
         DomProperties = new UIComponentDomPropertiesProvider<TOwner>(this);
-        Css = new UIComponentCssProvider<TOwner> { Component = this, ComponentPartName = "CSS" };
+        Css = new UIComponentCssProvider<TOwner>(this);
         Script = new UIComponentScriptExecutor<TOwner>(this);
     }
 
