@@ -171,12 +171,6 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
         return WithOptions(opt => CreateObjectMapper().Map(optionsPropertiesMap, opt));
     }
 
-    [Obsolete("A typo. Use " + nameof(AddAdditionalOption) + " instead.")] // Obsolete since v2.8.0.
-#pragma warning disable VSSpell001 // Spell Check
-    public TBuilder AddAddionalOption(string optionName, object optionValue) =>
-        AddAdditionalOption(optionName, optionValue);
-#pragma warning restore VSSpell001 // Spell Check
-
     /// <summary>
     /// Adds the additional option to the driver options.
     /// </summary>
@@ -268,17 +262,6 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithHostName(string hostName) =>
         WithDriverService(x => x.HostName = hostName);
-
-    /// <summary>
-    /// Specifies that the fix of driver's HTTP command execution delay should be applied.
-    /// Invokes <c>WithHostName("127.0.0.1")</c> method.
-    /// This configuration option makes sense for .NET Core 2.0 that works within IPv4.
-    /// There is a bug (https://github.com/dotnet/corefx/issues/24104) in .NET Core 2.0: each WebDriver request takes extra <c>1</c> second.
-    /// </summary>
-    /// <returns>The same builder instance.</returns>
-    [Obsolete("Use WithHostName(\"127.0.0.1\") instead.")] // Obsolete since v2.11.0.
-    public TBuilder WithFixOfCommandExecutionDelay() =>
-        WithHostName("127.0.0.1");
 
     /// <summary>
     /// Specifies the command timeout (the maximum amount of time to wait for each command).

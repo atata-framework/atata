@@ -21,10 +21,6 @@ public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataCon
     /// <inheritdoc/>
     public TLogConsumer Context { get; }
 
-    [Obsolete($"Use {nameof(WithSectionEnd)} instead.")] // Obsolete since v2.13.0.
-    public LogConsumerAtataContextBuilder<TLogConsumer> WithoutSectionFinish() =>
-        WithSectionEnd(LogSectionEndOption.Exclude);
-
     /// <summary>
     /// Sets the output option of log section end.
     /// The default value is <see cref="LogSectionEndOption.Include"/>.

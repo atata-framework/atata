@@ -8,9 +8,6 @@ namespace Atata;
 
 public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteDriverAtataContextBuilder>
 {
-    [Obsolete("Don't use this constant as it will be removed.")] // Obsolete since v2.10.0.
-    public const string DefaultRemoteServerUrl = "http://127.0.0.1:4444/wd/hub";
-
     /// <summary>
     /// The default command timeout is <c>60</c> seconds.
     /// </summary>
@@ -169,12 +166,6 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
         _capabilitiesFactory = capabilitiesFactory;
         return this;
     }
-
-    [Obsolete("A typo. Use " + nameof(AddAdditionalOption) + " instead.")] // Obsolete since v2.8.0.
-#pragma warning disable VSSpell001 // Spell Check
-    public RemoteDriverAtataContextBuilder AddAddionalOption(string optionName, object optionValue) =>
-        AddAdditionalOption(optionName, optionValue);
-#pragma warning restore VSSpell001 // Spell Check
 
     /// <summary>
     /// Adds the additional option to the driver options.

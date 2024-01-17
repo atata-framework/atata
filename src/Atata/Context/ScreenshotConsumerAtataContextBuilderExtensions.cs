@@ -2,12 +2,6 @@
 
 public static class ScreenshotConsumerAtataContextBuilderExtensions
 {
-    [Obsolete("Use " + nameof(WithArtifactsDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
-    public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithArtifactsFolderPath(
-        this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder)
-        =>
-        builder.WithArtifactsDirectoryPath();
-
     /// <summary>
     /// Sets the <see cref="AtataContext.Artifacts"/> directory as the directory path of the file screenshot consumer.
     /// </summary>
@@ -17,20 +11,6 @@ public static class ScreenshotConsumerAtataContextBuilderExtensions
         this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder)
         =>
         builder.WithDirectoryPath(() => AtataContext.Current.Artifacts.FullName.Value);
-
-    [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
-    public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFolderPath(
-        this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
-        Func<string> folderPathBuilder)
-        =>
-        builder.WithDirectoryPath(folderPathBuilder);
-
-    [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
-    public static ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> WithFolderPath(
-        this ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> builder,
-        string folderPath)
-        =>
-        builder.WithDirectoryPath(folderPath);
 
     /// <summary>
     /// Specifies the directory path builder of the file screenshot consumer.

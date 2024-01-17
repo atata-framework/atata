@@ -320,58 +320,6 @@ Actual: {driverFactory.GetType().FullName}",
             alias,
             () => new RemoteDriverAtataContextBuilder(BuildingContext).WithAlias(alias));
 
-    [Obsolete("Use LogConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>()
-        where TLogConsumer : ILogConsumer, new()
-        =>
-        LogConsumers.Add<TLogConsumer>();
-
-    [Obsolete("Use LogConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<TLogConsumer> AddLogConsumer<TLogConsumer>(TLogConsumer consumer)
-        where TLogConsumer : ILogConsumer
-        =>
-        LogConsumers.Add(consumer);
-
-    [Obsolete("Use LogConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<ILogConsumer> AddLogConsumer(string typeNameOrAlias) =>
-        LogConsumers.Add(typeNameOrAlias);
-
-    [Obsolete("Use LogConsumers.AddTrace() instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<TraceLogConsumer> AddTraceLogging() =>
-        LogConsumers.AddTrace();
-
-    [Obsolete("Use LogConsumers.AddDebug() instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<DebugLogConsumer> AddDebugLogging() =>
-        LogConsumers.AddDebug();
-
-    [Obsolete("Use LogConsumers.AddConsole() instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<ConsoleLogConsumer> AddConsoleLogging() =>
-        LogConsumers.AddConsole();
-
-    [Obsolete("Use LogConsumers.AddNUnitTestContext() instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<NUnitTestContextLogConsumer> AddNUnitTestContextLogging() =>
-        LogConsumers.AddNUnitTestContext();
-
-    [Obsolete("Use LogConsumers.AddNLog(...) instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<NLogConsumer> AddNLogLogging(string loggerName = null) =>
-        LogConsumers.AddNLog(loggerName);
-
-    [Obsolete("Use LogConsumers.AddNLogFile() instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<NLogFileConsumer> AddNLogFileLogging() =>
-        LogConsumers.AddNLogFile();
-
-    [Obsolete("Use LogConsumers.AddLog4Net(...) instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string loggerName = null) =>
-        LogConsumers.AddLog4Net(loggerName);
-
-    [Obsolete("Use LogConsumers.AddLog4Net(...) instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(string repositoryName, string loggerName = null) =>
-        LogConsumers.AddLog4Net(repositoryName, loggerName);
-
-    [Obsolete("Use LogConsumers.AddLog4Net(...) instead.")] // Obsolete since v2.0.0.
-    public LogConsumerAtataContextBuilder<Log4NetConsumer> AddLog4NetLogging(Assembly repositoryAssembly, string loggerName = null) =>
-        LogConsumers.AddLog4Net(repositoryAssembly, loggerName);
-
     /// <summary>
     /// Adds the variable.
     /// </summary>
@@ -418,26 +366,6 @@ Actual: {driverFactory.GetType().FullName}",
 
         return this;
     }
-
-    [Obsolete("Use ScreenshotConsumers.Add<TScreenshotConsumer>() instead.")] // Obsolete since v2.0.0.
-    public ScreenshotConsumerAtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>()
-        where TScreenshotConsumer : IScreenshotConsumer, new()
-        =>
-        ScreenshotConsumers.Add<TScreenshotConsumer>();
-
-    [Obsolete("Use ScreenshotConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
-    public ScreenshotConsumerAtataContextBuilder<TScreenshotConsumer> AddScreenshotConsumer<TScreenshotConsumer>(TScreenshotConsumer consumer)
-        where TScreenshotConsumer : IScreenshotConsumer
-        =>
-        ScreenshotConsumers.Add(consumer);
-
-    [Obsolete("Use ScreenshotConsumers.Add(...) instead.")] // Obsolete since v2.0.0.
-    public ScreenshotConsumerAtataContextBuilder<IScreenshotConsumer> AddScreenshotConsumer(string typeNameOrAlias) =>
-        ScreenshotConsumers.Add(typeNameOrAlias);
-
-    [Obsolete("Use ScreenshotConsumers.AddFile() instead.")] // Obsolete since v2.0.0.
-    public ScreenshotConsumerAtataContextBuilder<FileScreenshotConsumer> AddScreenshotFileSaving() =>
-        ScreenshotConsumers.AddFile();
 
     /// <summary>
     /// Sets the factory method of the test name.
@@ -964,38 +892,6 @@ Actual: {driverFactory.GetType().FullName}",
 
         return this;
     }
-
-    [Obsolete("Use EventSubscriptions.LogNUnitError instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder LogNUnitError() =>
-        EventSubscriptions.LogNUnitError();
-
-    [Obsolete("Use EventSubscriptions.TakeScreenshotOnNUnitError instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder TakeScreenshotOnNUnitError(string title = "Failed") =>
-        EventSubscriptions.TakeScreenshotOnNUnitError(title);
-
-    [Obsolete("Use EventSubscriptions.TakeScreenshotOnNUnitError instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder TakeScreenshotOnNUnitError(ScreenshotKind kind, string title = "Failed") =>
-        EventSubscriptions.TakeScreenshotOnNUnitError(kind, title);
-
-    [Obsolete("Use EventSubscriptions.TakePageSnapshotOnNUnitError instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder TakePageSnapshotOnNUnitError(string title = "Failed") =>
-        EventSubscriptions.TakePageSnapshotOnNUnitError(title);
-
-    [Obsolete("Use EventSubscriptions.AddArtifactsToNUnitTestContext instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder OnCleanUpAddArtifactsToNUnitTestContext() =>
-        EventSubscriptions.AddArtifactsToNUnitTestContext();
-
-    [Obsolete("Use EventSubscriptions.AddDirectoryFilesToNUnitTestContext instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(string directoryPath) =>
-        EventSubscriptions.AddDirectoryFilesToNUnitTestContext(directoryPath);
-
-    [Obsolete("Use EventSubscriptions.AddDirectoryFilesToNUnitTestContext instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<string> directoryPathBuilder) =>
-        EventSubscriptions.AddDirectoryFilesToNUnitTestContext(directoryPathBuilder);
-
-    [Obsolete("Use EventSubscriptions.AddDirectoryFilesToNUnitTestContext instead.")] // Obsolete since v2.11.0.
-    public AtataContextBuilder OnCleanUpAddDirectoryFilesToNUnitTestContext(Func<AtataContext, string> directoryPathBuilder) =>
-        EventSubscriptions.AddDirectoryFilesToNUnitTestContext(directoryPathBuilder);
 
     /// <summary>
     /// Sets the type of <c>NUnit.Framework.AssertionException</c> as the assertion exception type.

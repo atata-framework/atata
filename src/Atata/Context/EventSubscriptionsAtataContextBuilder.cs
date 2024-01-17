@@ -98,7 +98,7 @@ public class EventSubscriptionsAtataContextBuilder : AtataContextBuilder
     /// should be added to the log during <see cref="AtataContext"/> deinitialization.
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public new AtataContextBuilder LogNUnitError() =>
+    public AtataContextBuilder LogNUnitError() =>
         Add(new LogNUnitErrorEventHandler());
 
     /// <summary>
@@ -107,13 +107,13 @@ public class EventSubscriptionsAtataContextBuilder : AtataContextBuilder
     /// </summary>
     /// <param name="title">The screenshot title.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public new AtataContextBuilder TakeScreenshotOnNUnitError(string title = "Failed") =>
+    public AtataContextBuilder TakeScreenshotOnNUnitError(string title = "Failed") =>
         Add(new TakeScreenshotOnNUnitErrorEventHandler(title));
 
     /// <inheritdoc cref="TakeScreenshotOnNUnitError(string)"/>
     /// <param name="kind">The kind of a screenshot.</param>
     /// <param name="title">The screenshot title.</param>
-    public new AtataContextBuilder TakeScreenshotOnNUnitError(ScreenshotKind kind, string title = "Failed") =>
+    public AtataContextBuilder TakeScreenshotOnNUnitError(ScreenshotKind kind, string title = "Failed") =>
         Add(new TakeScreenshotOnNUnitErrorEventHandler(kind, title));
 
     /// <summary>
@@ -122,7 +122,7 @@ public class EventSubscriptionsAtataContextBuilder : AtataContextBuilder
     /// </summary>
     /// <param name="title">The snapshot title.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public new AtataContextBuilder TakePageSnapshotOnNUnitError(string title = "Failed") =>
+    public AtataContextBuilder TakePageSnapshotOnNUnitError(string title = "Failed") =>
         Add(new TakePageSnapshotOnNUnitErrorEventHandler(title));
 
     /// <summary>

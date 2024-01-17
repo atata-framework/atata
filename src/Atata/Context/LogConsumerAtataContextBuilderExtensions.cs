@@ -75,12 +75,6 @@ public static class LogConsumerAtataContextBuilderExtensions
         return builder;
     }
 
-    [Obsolete("Use " + nameof(WithArtifactsDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithArtifactsFolderPath(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder)
-        =>
-        builder.WithArtifactsDirectoryPath();
-
     /// <summary>
     /// Sets the <see cref="AtataContext.Artifacts"/> directory as the directory path of the file screenshot consumer.
     /// </summary>
@@ -90,20 +84,6 @@ public static class LogConsumerAtataContextBuilderExtensions
         this LogConsumerAtataContextBuilder<NLogFileConsumer> builder)
         =>
         builder.WithDirectoryPath(x => x.Artifacts.FullName);
-
-    [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFolderPath(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        string folderPath)
-        =>
-        builder.WithDirectoryPath(folderPath);
-
-    [Obsolete("Use " + nameof(WithDirectoryPath) + " instead.")] // Obsolete since v2.0.0.
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFolderPath(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        Func<AtataContext, string> folderPathBuilder)
-        =>
-        builder.WithDirectoryPath(folderPathBuilder);
 
     /// <summary>
     /// Specifies the directory path of the log file.
