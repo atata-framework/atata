@@ -4,7 +4,6 @@
 
 [assembly: SuppressMessage("Sonar Code Smell", "S4041:Type names should not match namespaces", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.Text`1")]
 [assembly: SuppressMessage("Sonar Code Smell", "S4023:Interfaces should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.INavigable`2")]
-[assembly: SuppressMessage("Sonar Code Smell", "S1075:URIs should not be hardcoded", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.RemoteDriverAtataContextBuilder.DefaultRemoteServerUrl")]
 [assembly: SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1513:Closing brace must be followed by blank line", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.AtataContext.Current")]
 [assembly: SuppressMessage("Sonar Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UntilExtensions.GetWaitUnits(Atata.Until,Atata.WaitOptions)~Atata.WaitUnit[]")]
 [assembly: SuppressMessage("Sonar Code Smell", "S3427:Method overloads with default parameter values should not overlap ", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WaitForElementAttribute.#ctor(Atata.WaitBy,System.String,Atata.Until,Atata.TriggerEvents,Atata.TriggerPriority)")]
@@ -88,7 +87,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DriverAtataContextBuilder`3.CreateDriver~OpenQA.Selenium.IWebDriver")]
 [assembly: SuppressMessage("Critical Code Smell", "S2696:Instance members should not write to \"static\" fields", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.SetAsCurrent")]
 [assembly: SuppressMessage("Minor Code Smell", "S3254:Default parameter values should not be passed as arguments", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WindowTitleAttribute.#ctor(System.String[])")]
-[assembly: SuppressMessage("Minor Code Smell", "S3254:Default parameter values should not be passed as arguments", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.ScreenshotAttribute.#ctor(Atata.TriggerEvents,Atata.TriggerPriority)")]
 [assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DriverAtataContextBuilder`1.Atata#IDriverFactory#Create~OpenQA.Selenium.IWebDriver")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogManager.PrependHierarchyPrefixesToMessage(System.String,Atata.LogEventInfo,Atata.LogConsumerConfiguration)~System.String")]
 
