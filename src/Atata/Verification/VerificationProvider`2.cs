@@ -114,12 +114,8 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
         return (TVerificationProvider)this;
     }
 
-    [Obsolete("Use " + nameof(WithinSeconds) + " instead.")] // Obsolete since v2.0.0.
-    public TVerificationProvider Within(double timeoutSeconds, double? retryIntervalSeconds = null) =>
-        WithinSeconds(timeoutSeconds, retryIntervalSeconds);
-
     public TVerificationProvider WithinSeconds(double timeoutSeconds, double? retryIntervalSeconds = null) =>
-        Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? (TimeSpan?)TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
+        Within(TimeSpan.FromSeconds(timeoutSeconds), retryIntervalSeconds.HasValue ? TimeSpan.FromSeconds(retryIntervalSeconds.Value) : null);
 
     public TVerificationProvider WithRetryInterval(TimeSpan retryInterval)
     {

@@ -18,9 +18,6 @@ public class UrlAttribute : MulticastAttribute
     public UrlAttribute(string value) =>
         Value = value;
 
-    [Obsolete("Use " + nameof(Value) + " instead.")] // Obsolete since v2.7.0.
-    public string Url => Value;
-
     /// <summary>
     /// Gets the URL value.
     /// </summary>

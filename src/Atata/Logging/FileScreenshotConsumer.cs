@@ -17,13 +17,6 @@
 /// </summary>
 public class FileScreenshotConsumer : FileScreenshotConsumerBase
 {
-    [Obsolete("Use " + nameof(DirectoryPathBuilder) + " instead.")] // Obsolete since v2.0.0.
-    public Func<string> FolderPathBuilder
-    {
-        get => DirectoryPathBuilder;
-        set => DirectoryPathBuilder = value;
-    }
-
     /// <summary>
     /// Gets or sets the builder of the directory path.
     /// </summary>
@@ -38,13 +31,6 @@ public class FileScreenshotConsumer : FileScreenshotConsumerBase
     /// Gets or sets the builder of the file path.
     /// </summary>
     public Func<ScreenshotInfo, string> FilePathBuilder { get; set; }
-
-    [Obsolete("Use " + nameof(DirectoryPath) + " instead.")] // Obsolete since v2.0.0.
-    public string FolderPath
-    {
-        get => DirectoryPath;
-        set => DirectoryPath = value;
-    }
 
     /// <summary>
     /// Gets or sets the directory path.

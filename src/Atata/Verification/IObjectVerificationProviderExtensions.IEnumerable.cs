@@ -34,24 +34,12 @@ public static partial class IObjectVerificationProviderExtensions
     public static TOwner Satisfy<TObject, TOwner>(
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         Func<IEnumerable<TObject>, bool> predicate,
-#pragma warning disable CS0618 // Type or member is obsolete
-        string message) =>
-        verifier.Satisfy(predicate, message, null);
-#pragma warning restore CS0618 // Type or member is obsolete
-
-    [Obsolete("Use Satisfy(predicate, message) without 'args' parameter instead. Inject arguments into the message with a help of Stringifier.ToString(expected).")] // Obsolete since v2.5.0.
-    public static TOwner Satisfy<TObject, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
-        Func<IEnumerable<TObject>, bool> predicate,
-        string message,
-        params TObject[] args)
+        string message)
     {
         verifier.CheckNotNull(nameof(verifier));
         predicate.CheckNotNull(nameof(predicate));
 
-        string expectedMessage = (args != null && args.Any())
-            ? message?.FormatWith(Stringifier.ToString(args))
-            : message;
+        string expectedMessage = message;
 
         void ExecuteVerification()
         {
