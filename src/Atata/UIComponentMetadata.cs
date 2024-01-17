@@ -378,38 +378,6 @@ public class UIComponentMetadata
     public string GetFormat() =>
         Get<FormatAttribute>()?.Value;
 
-    /// <summary>
-    /// Gets the format to use for getting the value of the control.
-    /// Searches for the <see cref="ValueGetFormatAttribute"/> or <see cref="FormatAttribute"/> at all attribute levels.
-    /// Returns <see langword="null"/> when neither attribute found.
-    /// </summary>
-    /// <returns>The format or <see langword="null"/> if not found.</returns>
-    // TODO: Update GetValueGetFormat method to consider all formatting attributes, like behaviors. Then make it public and use it.
-    internal string GetValueGetFormat()
-    {
-        ValueGetFormatAttribute valueGetFormatAttribute = Get<ValueGetFormatAttribute>();
-
-        return valueGetFormatAttribute != null
-            ? valueGetFormatAttribute.Value
-            : Get<FormatAttribute>()?.Value;
-    }
-
-    /// <summary>
-    /// Gets the format to use for setting the value to the control.
-    /// Searches for the <see cref="ValueSetFormatAttribute"/> or <see cref="FormatAttribute"/> at all attribute levels.
-    /// Returns <see langword="null"/> when neither attribute found.
-    /// </summary>
-    /// <returns>The format or <see langword="null"/> if not found.</returns>
-    // TODO: Update GetValueSetFormat method to consider all formatting attributes, like behaviors. Then make it public and use it.
-    internal string GetValueSetFormat()
-    {
-        ValueSetFormatAttribute valueSetFormatAttribute = Get<ValueSetFormatAttribute>();
-
-        return valueSetFormatAttribute != null
-            ? valueSetFormatAttribute.Value
-            : Get<FormatAttribute>()?.Value;
-    }
-
     public FindAttribute ResolveFindAttribute() =>
         GetDefinedFindAttribute()
             ?? GetDefaultFindAttribute();
