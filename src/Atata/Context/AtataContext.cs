@@ -151,21 +151,6 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public ILogManager Log { get; internal set; }
 
-    [Obsolete("Use Test.Name instead.")] // Obsolete since v2.12.0.
-    public string TestName => Test.Name;
-
-    [Obsolete("Use Test.NameSanitized instead.")] // Obsolete since v2.12.0.
-    public string TestNameSanitized => Test.NameSanitized;
-
-    [Obsolete("Use Test.SuiteName instead.")] // Obsolete since v2.12.0.
-    public string TestSuiteName => Test.SuiteName;
-
-    [Obsolete("Use Test.SuiteNameSanitized instead.")] // Obsolete since v2.12.0.
-    public string TestSuiteNameSanitized => Test.SuiteNameSanitized;
-
-    [Obsolete("Use Test.SuiteType instead.")] // Obsolete since v2.12.0.
-    public Type TestSuiteType => Test.SuiteType;
-
     /// <summary>
     /// Gets the test information.
     /// </summary>
@@ -539,14 +524,6 @@ public sealed class AtataContext : IDisposable
             LastLoggedException = exception;
         }
     }
-
-    [Obsolete("Use Dispose instead.")] // Obsolete since v2.11.0.
-    public void CleanUp() =>
-        Dispose();
-
-    [Obsolete("Use Dispose instead. If you don't need to quit driver, use UseDisposeDriver(false) method of AtataContextBuilder during AtataContext setup.")] // Obsolete since v2.11.0.
-    public void CleanUp(bool quitDriver) =>
-        DisposeTogetherWithDriver(quitDriver);
 
     internal void InitDriver() =>
         Log.ExecuteSection(
