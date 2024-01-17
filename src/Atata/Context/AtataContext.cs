@@ -904,7 +904,7 @@ public sealed class AtataContext : IDisposable
     /// <see cref="PendingFailureAssertionResults"/> is not empty (contains warnings).
     /// If <see cref="AtataBuildingContext.DisposeDriver"/> property is set to <see langword="true"/> (by default),
     /// then the <see cref="Driver"/> will also be disposed.
-    /// Publishes events: <see cref="AtataContextCleanUpEvent"/>, <see cref="DriverDeInitEvent"/>.
+    /// Publishes events: <see cref="AtataContextDeInitEvent"/>, <see cref="DriverDeInitEvent"/>, <see cref="AtataContextDeInitCompletedEvent"/>.
     /// </summary>
     public void Dispose() =>
         DisposeTogetherWithDriver(DisposeDriver);
@@ -921,10 +921,6 @@ public sealed class AtataContext : IDisposable
             new LogSection("Deinitialize AtataContext", LogLevel.Trace),
             () =>
             {
-#pragma warning disable CS0618 // Type or member is obsolete
-                EventBus.Publish(new AtataContextCleanUpEvent(this));
-#pragma warning restore CS0618 // Type or member is obsolete
-
                 EventBus.Publish(new AtataContextDeInitEvent(this));
 
                 CleanUpTemporarilyPreservedPageObjectList();
