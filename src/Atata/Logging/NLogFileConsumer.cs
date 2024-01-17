@@ -10,13 +10,6 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     /// </summary>
     public const string DefaultFileName = "Trace.log";
 
-    [Obsolete("Use " + nameof(DirectoryPathBuilder) + " instead.")] // Obsolete since v2.0.0.
-    public Func<AtataContext, string> FolderPathBuilder
-    {
-        get => DirectoryPathBuilder;
-        set => DirectoryPathBuilder = value;
-    }
-
     /// <summary>
     /// Gets or sets the builder of the directory path.
     /// </summary>

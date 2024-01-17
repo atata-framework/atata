@@ -5,17 +5,11 @@
 /// </summary>
 public interface ILogManager
 {
-    [Obsolete("Use Trace(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    void Trace(string message, params object[] args);
-
     /// <summary>
     /// Writes a trace log message.
     /// </summary>
     /// <param name="message">The message.</param>
     void Trace(string message);
-
-    [Obsolete("Use Debug(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    void Debug(string message, params object[] args);
 
     /// <summary>
     /// Writes a debug log message.
@@ -23,17 +17,11 @@ public interface ILogManager
     /// <param name="message">The message.</param>
     void Debug(string message);
 
-    [Obsolete("Use Info(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    void Info(string message, params object[] args);
-
     /// <summary>
     /// Writes an informational log message.
     /// </summary>
     /// <param name="message">The message.</param>
     void Info(string message);
-
-    [Obsolete("Use Warn(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    void Warn(string message, params object[] args);
 
     /// <summary>
     /// Writes a warning log message.
@@ -41,22 +29,18 @@ public interface ILogManager
     /// <param name="message">The message.</param>
     void Warn(string message);
 
-    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    /// <inheritdoc cref="Warn(string)"/>
+    /// <param name="exception">The exception.</param>
     void Warn(Exception exception);
-
-    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
-    void Warn(string message, Exception exception);
 
     /// <inheritdoc cref="Warn(string)"/>
     /// <param name="exception">The exception.</param>
     /// <param name="message">The message.</param>
     void Warn(Exception exception, string message);
 
-    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    /// <inheritdoc cref="Error(string)"/>
+    /// <param name="exception">The exception.</param>
     void Error(Exception exception);
-
-    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
-    void Error(string message, Exception exception);
 
     /// <summary>
     /// Writes an error log message.
@@ -69,11 +53,9 @@ public interface ILogManager
     /// <param name="message">The message.</param>
     void Error(Exception exception, string message);
 
-    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    /// <inheritdoc cref="Fatal(string)"/>
+    /// <param name="exception">The exception.</param>
     void Fatal(Exception exception);
-
-    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
-    void Fatal(string message, Exception exception);
 
     /// <summary>
     /// Writes a critical log message.
@@ -106,17 +88,4 @@ public interface ILogManager
     /// <param name="function">The function to execute.</param>
     /// <returns>The result of <paramref name="function"/>.</returns>
     TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function);
-
-    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
-    void Start(LogSection section);
-
-    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
-    void EndSection();
-
-    /// <summary>
-    /// Takes a screenshot of current page with the specified title optionally.
-    /// </summary>
-    /// <param name="title">The title of screenshot.</param>
-    [Obsolete("Use TakeScreenshot(...) method of AtataContext or Report.Screenshot(...) instead. For example: AtataContext.Current.TakeScreenshot().")] // Obsolete since v2.4.0.
-    void Screenshot(string title = null);
 }

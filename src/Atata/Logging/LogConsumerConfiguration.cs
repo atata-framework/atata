@@ -18,23 +18,6 @@ public class LogConsumerConfiguration : ICloneable
     {
     }
 
-    [Obsolete($"Use constructor with {nameof(LogSectionEndOption)} instead.")] // Obsolete since v2.13.0.
-    public LogConsumerConfiguration(
-        ILogConsumer consumer,
-        bool logSectionFinish)
-        : this(consumer, LogLevel.Trace, logSectionFinish ? LogSectionEndOption.Include : LogSectionEndOption.Exclude)
-    {
-    }
-
-    [Obsolete($"Use constructor with {nameof(LogSectionEndOption)} instead.")] // Obsolete since v2.13.0.
-    public LogConsumerConfiguration(
-        ILogConsumer consumer,
-        LogLevel minLevel,
-        bool logSectionFinish)
-        : this(consumer, minLevel, logSectionFinish ? LogSectionEndOption.Include : LogSectionEndOption.Exclude)
-    {
-    }
-
     public LogConsumerConfiguration(
         ILogConsumer consumer,
         LogSectionEndOption sectionEnd)
@@ -62,9 +45,6 @@ public class LogConsumerConfiguration : ICloneable
     /// The default value is <see cref="LogLevel.Trace"/>.
     /// </summary>
     public LogLevel MinLevel { get; internal set; }
-
-    [Obsolete($"Use {nameof(SectionEnd)} instead.")] // Obsolete since v2.13.0.
-    public bool LogSectionFinish => SectionEnd != LogSectionEndOption.Exclude;
 
     /// <summary>
     /// Gets the output option of log section end.

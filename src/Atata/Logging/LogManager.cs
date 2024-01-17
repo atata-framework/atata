@@ -34,19 +34,6 @@ public class LogManager : ILogManager
     }
 
     /// <summary>
-    /// Use the specified screenshot consumer.
-    /// </summary>
-    /// <param name="consumer">The screenshot consumer.</param>
-    /// <returns>The same <see cref="LogManager"/> instance.</returns>
-    [Obsolete("Don't use this method. Configure screenshot consumers through the AtataContetBuilder instead.")] // Obsolete since v2.8.0.
-    public LogManager Use(IScreenshotConsumer consumer)
-    {
-        AtataContext.Current?.ScreenshotTaker.AddConsumer(consumer);
-
-        return this;
-    }
-
-    /// <summary>
     /// Adds the secret strings to mask.
     /// </summary>
     /// <param name="secretStringsToMask">The secret strings to mask.</param>
@@ -60,57 +47,33 @@ public class LogManager : ILogManager
         return this;
     }
 
-    [Obsolete("Use Trace(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    public void Trace(string message, params object[] args) =>
-        Log(LogLevel.Trace, message, args);
-
     /// <inheritdoc/>
     public void Trace(string message) =>
         Log(LogLevel.Trace, message);
-
-    [Obsolete("Use Debug(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    public void Debug(string message, params object[] args) =>
-        Log(LogLevel.Debug, message, args);
 
     /// <inheritdoc/>
     public void Debug(string message) =>
         Log(LogLevel.Debug, message);
 
-    [Obsolete("Use Info(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    public void Info(string message, params object[] args) =>
-        Log(LogLevel.Info, message, args);
-
     /// <inheritdoc/>
     public void Info(string message) =>
         Log(LogLevel.Info, message);
-
-    [Obsolete("Use Warn(string) with string interpolation instead. ")] // Obsolete since v2.12.0.
-    public void Warn(string message, params object[] args) =>
-        Log(LogLevel.Warn, message, args);
 
     /// <inheritdoc/>
     public void Warn(string message) =>
         Log(LogLevel.Warn, message);
 
-    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    /// <inheritdoc/>
     public void Warn(Exception exception) =>
         Log(LogLevel.Warn, null, exception);
-
-    [Obsolete("Use Warn(Exception, string) instead. ")] // Obsolete since v2.12.0.
-    public void Warn(string message, Exception exception) =>
-        Log(LogLevel.Warn, message, exception);
 
     /// <inheritdoc/>
     public void Warn(Exception exception, string message) =>
         Log(LogLevel.Warn, message, exception);
 
-    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    /// <inheritdoc/>
     public void Error(Exception exception) =>
         Log(LogLevel.Error, null, exception);
-
-    [Obsolete("Use Error(Exception, string) instead. ")] // Obsolete since v2.12.0.
-    public void Error(string message, Exception exception) =>
-        Log(LogLevel.Error, message, exception);
 
     /// <inheritdoc/>
     public void Error(string message) =>
@@ -120,13 +83,9 @@ public class LogManager : ILogManager
     public void Error(Exception exception, string message) =>
         Log(LogLevel.Error, message, exception);
 
-    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
+    /// <inheritdoc/>
     public void Fatal(Exception exception) =>
         Log(LogLevel.Fatal, null, exception);
-
-    [Obsolete("Use Fatal(Exception, string) instead. ")] // Obsolete since v2.12.0.
-    public void Fatal(string message, Exception exception) =>
-        Log(LogLevel.Fatal, message, exception);
 
     /// <inheritdoc/>
     public void Fatal(string message) =>
@@ -139,11 +98,10 @@ public class LogManager : ILogManager
     /// <inheritdoc/>
     public void ExecuteSection(LogSection section, Action action)
     {
+        section.CheckNotNull(nameof(section));
         action.CheckNotNull(nameof(action));
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        Start(section);
-#pragma warning restore CS0618 // Type or member is obsolete
+        StartSection(section);
 
         try
         {
@@ -156,20 +114,17 @@ public class LogManager : ILogManager
         }
         finally
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            EndSection();
-#pragma warning restore CS0618 // Type or member is obsolete
+            EndCurrentSection();
         }
     }
 
     /// <inheritdoc/>
     public TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function)
     {
+        section.CheckNotNull(nameof(section));
         function.CheckNotNull(nameof(function));
 
-#pragma warning disable CS0618 // Type or member is obsolete
-        Start(section);
-#pragma warning restore CS0618 // Type or member is obsolete
+        StartSection(section);
 
         try
         {
@@ -184,50 +139,7 @@ public class LogManager : ILogManager
         }
         finally
         {
-#pragma warning disable CS0618 // Type or member is obsolete
-            EndSection();
-#pragma warning restore CS0618 // Type or member is obsolete
-        }
-    }
-
-    // TODO: v3. Make it private.
-    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
-    public void Start(LogSection section)
-    {
-        section.CheckNotNull(nameof(section));
-
-        LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, section.Message);
-        eventInfo.SectionStart = section;
-
-        section.StartedAt = eventInfo.Timestamp;
-        section.Stopwatch.Start();
-
-        Log(eventInfo);
-
-        _sectionEndStack.Push(section);
-    }
-
-    // TODO: v3. Make it private.
-    [Obsolete("Use ExecuteSection instead. ")] // Obsolete since v2.12.0.
-    public void EndSection()
-    {
-        if (_sectionEndStack.Any())
-        {
-            LogSection section = _sectionEndStack.Pop();
-
-            section.Stopwatch.Stop();
-
-            string message = $"{section.Message} ({section.ElapsedTime.ToLongIntervalString()})";
-
-            if (section.IsResultSet)
-                message = AppendSectionResultToMessage(message, section.Result);
-            else if (section.Exception != null)
-                message = AppendSectionResultToMessage(message, section.Exception);
-
-            LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, message);
-            eventInfo.SectionEnd = section;
-
-            Log(eventInfo);
+            EndCurrentSection();
         }
     }
 
@@ -310,16 +222,39 @@ public class LogManager : ILogManager
     private static bool IsBlockLogSection(LogSection logSection) =>
         logSection is AggregateAssertionLogSection or SetupLogSection or StepLogSection;
 
-    // TODO: v3. Remove.
-    private void Log(LogLevel level, string message, object[] args)
+    private void StartSection(LogSection section)
     {
-        string completeMessage = (args?.Length ?? 0) > 0
-            ? message.FormatWith(args)
-            : message;
+        LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, section.Message);
+        eventInfo.SectionStart = section;
 
-        LogEventInfo logEvent = _logEventInfoFactory.Create(level, completeMessage);
+        section.StartedAt = eventInfo.Timestamp;
+        section.Stopwatch.Start();
 
-        Log(logEvent);
+        Log(eventInfo);
+
+        _sectionEndStack.Push(section);
+    }
+
+    private void EndCurrentSection()
+    {
+        if (_sectionEndStack.Any())
+        {
+            LogSection section = _sectionEndStack.Pop();
+
+            section.Stopwatch.Stop();
+
+            string message = $"{section.Message} ({section.ElapsedTime.ToLongIntervalString()})";
+
+            if (section.IsResultSet)
+                message = AppendSectionResultToMessage(message, section.Result);
+            else if (section.Exception != null)
+                message = AppendSectionResultToMessage(message, section.Exception);
+
+            LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, message);
+            eventInfo.SectionEnd = section;
+
+            Log(eventInfo);
+        }
     }
 
     private void Log(LogLevel level, string message, Exception exception = null)
@@ -356,8 +291,4 @@ public class LogManager : ILogManager
 
         return message;
     }
-
-    [Obsolete("Use TakeScreenshot(...) method of AtataContext instead. For example: AtataContext.Current.TakeScreenshot().")] // Obsolete since v2.8.0.
-    public void Screenshot(string title = null) =>
-        AtataContext.Current?.TakeScreenshot(title);
 }
