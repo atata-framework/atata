@@ -32,14 +32,11 @@ public class LogManager : ILogManager
     /// Adds the secret strings to mask.
     /// </summary>
     /// <param name="secretStringsToMask">The secret strings to mask.</param>
-    /// <returns>The same <see cref="LogManager"/> instance.</returns>
-    public LogManager AddSecretStringsToMask(IEnumerable<SecretStringToMask> secretStringsToMask)
+    public void AddSecretStringsToMask(IEnumerable<SecretStringToMask> secretStringsToMask)
     {
         secretStringsToMask.CheckNotNull(nameof(secretStringsToMask));
 
         _secretStringsToMask.AddRange(secretStringsToMask);
-
-        return this;
     }
 
     /// <inheritdoc/>
