@@ -341,7 +341,6 @@ public static class UIComponentResolver
     {
         Type type = typeof(TPageObject);
 
-        // TODO: Review name set.
         return CreateComponentMetadata<TPageObject>(
             null,
             type.Name,
