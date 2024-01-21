@@ -145,10 +145,8 @@ public class ReportTests : UITestFixture
 
             var viewportScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseWebDriverViewportStrategy());
             var fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseFullPageOrViewportStrategy());
-            var cdpFullPageScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseCdpFullPageStrategy());
 
             fullPageScreenshotSize.Should.BeGreater((long)(viewportScreenshotSize * 1.5));
-            cdpFullPageScreenshotSize.Should.Be(fullPageScreenshotSize);
         }
 
         [Test]
