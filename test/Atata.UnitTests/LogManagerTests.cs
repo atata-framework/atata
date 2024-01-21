@@ -19,7 +19,7 @@ public class LogManagerTests
     [Test]
     public void AddSecretStringsToMask()
     {
-        _sut.Use(new LogConsumerConfiguration(_consumerSpy));
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy));
 
         _sut.AddSecretStringsToMask(
             [new SecretStringToMask("abc123", "***")]);
@@ -33,7 +33,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsExclude()
     {
-        _sut.Use(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude));
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude));
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
 
@@ -47,7 +47,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsExclude_AndMinLogLevelIsInfo()
     {
-        _sut.Use(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Exclude));
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Exclude));
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
 
@@ -59,7 +59,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsIncludeForBlocks()
     {
-        _sut.Use(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.IncludeForBlocks));
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.IncludeForBlocks));
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
 
@@ -74,7 +74,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsIncludeForBlocks_AndMinLogLevelIsInfo()
     {
-        _sut.Use(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.IncludeForBlocks));
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.IncludeForBlocks));
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
 
@@ -87,7 +87,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsInclude()
     {
-        _sut.Use(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Include));
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Include));
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
 
@@ -103,7 +103,7 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsInclude_AndMinLogLevelIsInfo()
     {
-        _sut.Use(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Include));
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Include));
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
 

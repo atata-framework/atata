@@ -1078,8 +1078,8 @@ Actual: {driverFactory.GetType().FullName}",
 
         logManager.AddSecretStringsToMask(BuildingContext.SecretStringsToMaskInLog);
 
-        foreach (var logConsumerItem in BuildingContext.LogConsumerConfigurations)
-            logManager.Use(logConsumerItem);
+        foreach (var logConsumerConfiguration in BuildingContext.LogConsumerConfigurations)
+            logManager.AddConfiguration(logConsumerConfiguration);
 
         return logManager;
     }
