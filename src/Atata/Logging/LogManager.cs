@@ -17,7 +17,11 @@ public class LogManager : ILogManager
     public LogManager(ILogEventInfoFactory logEventInfoFactory) =>
         _logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));
 
-    internal void AddConfiguration(LogConsumerConfiguration logConsumerConfiguration)
+    /// <summary>
+    /// Adds the log consumer configuration.
+    /// </summary>
+    /// <param name="logConsumerConfiguration">The log consumer configuration.</param>
+    public void AddConfiguration(LogConsumerConfiguration logConsumerConfiguration)
     {
         logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
 
