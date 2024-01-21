@@ -3,8 +3,6 @@
 using _ = WaitingPage;
 
 [Url("waiting")]
-[VerifyTitle]
-[VerifyH1]
 public class WaitingPage : Page<_>
 {
     public enum WaitKind
