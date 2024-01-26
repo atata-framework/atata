@@ -443,7 +443,7 @@ public sealed class AtataContext : IDisposable
         variables["driver-alias"] = DriverAlias;
     }
 
-    internal void InitCustomVariables(IDictionary<string, object> customVariables)
+    internal void InitCustomVariables(IEnumerable<KeyValuePair<string, object>> customVariables)
     {
         var variables = Variables;
 
@@ -607,7 +607,7 @@ public sealed class AtataContext : IDisposable
     /// <inheritdoc cref="FillTemplateString(string)"/>
     /// <param name="template">The template string.</param>
     /// <param name="additionalVariables">The additional variables.</param>
-    public string FillTemplateString(string template, IDictionary<string, object> additionalVariables) =>
+    public string FillTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
         TransformTemplateString(template, additionalVariables, TemplateStringTransformer.Transform);
 
     /// <summary>
@@ -649,7 +649,7 @@ public sealed class AtataContext : IDisposable
     /// <inheritdoc cref="FillPathTemplateString(string)"/>
     /// <param name="template">The template string.</param>
     /// <param name="additionalVariables">The additional variables.</param>
-    public string FillPathTemplateString(string template, IDictionary<string, object> additionalVariables) =>
+    public string FillPathTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
         TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformPath);
 
     /// <summary>
@@ -699,12 +699,12 @@ public sealed class AtataContext : IDisposable
     /// <inheritdoc cref="FillUriTemplateString(string)"/>
     /// <param name="template">The template string.</param>
     /// <param name="additionalVariables">The additional variables.</param>
-    public string FillUriTemplateString(string template, IDictionary<string, object> additionalVariables) =>
+    public string FillUriTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
         TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformUri);
 
     private string TransformTemplateString(
         string template,
-        IDictionary<string, object> additionalVariables,
+        IEnumerable<KeyValuePair<string, object>> additionalVariables,
         Func<string, IDictionary<string, object>, string> transformFunction)
     {
         template.CheckNotNull(nameof(template));

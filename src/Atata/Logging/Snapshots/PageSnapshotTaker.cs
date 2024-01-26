@@ -50,14 +50,14 @@ internal sealed class PageSnapshotTaker
     {
         var pageObject = _context.PageObject;
 
-        var snapshotVariables = new Dictionary<string, object>
-        {
-            ["snapshot-number"] = _snapshotNumber,
-            ["snapshot-title"] = title,
-            ["snapshot-pageobjectname"] = pageObject?.ComponentName,
-            ["snapshot-pageobjecttypename"] = pageObject?.ComponentTypeName,
-            ["snapshot-pageobjectfullname"] = pageObject?.ComponentFullName
-        };
+        KeyValuePair<string, object>[] snapshotVariables =
+        [
+            new("snapshot-number", _snapshotNumber),
+            new("snapshot-title", title),
+            new("snapshot-pageobjectname", pageObject?.ComponentName),
+            new("snapshot-pageobjecttypename", pageObject?.ComponentTypeName),
+            new("snapshot-pageobjectfullname", pageObject?.ComponentFullName)
+        ];
 
         return _context.FillPathTemplateString(_filePathTemplate, snapshotVariables);
     }
