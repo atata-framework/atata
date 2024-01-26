@@ -22,7 +22,7 @@ internal sealed class PageSnapshotTaker
 
     public void TakeSnapshot(string title = null)
     {
-        if (_snapshotStrategy is null)
+        if (_snapshotStrategy is null || !_context.HasDriver)
             return;
 
         _snapshotNumber++;
@@ -40,9 +40,9 @@ internal sealed class PageSnapshotTaker
                     return filePath + fileContent.Extension;
                 });
         }
-        catch (Exception e)
+        catch (Exception exception)
         {
-            _context.Log.Error(e, "Page snapshot failed");
+            _context.Log.Error(exception, "Page snapshot failed.");
         }
     }
 
