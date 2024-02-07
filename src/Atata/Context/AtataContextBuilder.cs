@@ -41,12 +41,6 @@ public class AtataContextBuilder
     public LogConsumersAtataContextBuilder LogConsumers => new(BuildingContext);
 
     /// <summary>
-    /// Gets the builder of screenshot consumers,
-    /// which provides the methods to add screenshot consumers.
-    /// </summary>
-    public ScreenshotConsumersAtataContextBuilder ScreenshotConsumers => new(BuildingContext);
-
-    /// <summary>
     /// Gets the builder of screenshot configuration.
     /// </summary>
     public ScreenshotsAtataContextBuilder Screenshots => new(BuildingContext);
@@ -1032,9 +1026,8 @@ Actual: {driverFactory.GetType().FullName}",
 
         context.ScreenshotTaker = new ScreenshotTaker(
             BuildingContext.Screenshots.Strategy,
+            BuildingContext.Screenshots.FileNameTemplate,
             context);
-        foreach (var screenshotConsumer in BuildingContext.ScreenshotConsumers)
-            context.ScreenshotTaker.AddConsumer(screenshotConsumer);
 
         context.PageSnapshotTaker = new PageSnapshotTaker(
             BuildingContext.PageSnapshots.Strategy,

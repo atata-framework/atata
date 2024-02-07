@@ -2,34 +2,28 @@
 
 internal sealed class ScreenshotTaker
 {
-    private readonly IScreenshotStrategy _strategy;
+    private readonly IScreenshotStrategy _screenshotStrategy;
+
+    private readonly string _filePathTemplate;
 
     private readonly AtataContext _context;
-
-    private readonly List<IScreenshotConsumer> _screenshotConsumers = [];
 
     private int _screenshotNumber;
 
     public ScreenshotTaker(
-        IScreenshotStrategy strategy,
+        IScreenshotStrategy screenshotStrategy,
+        string filePathTemplate,
         AtataContext context)
     {
-        _strategy = strategy;
+        _screenshotStrategy = screenshotStrategy;
+        _filePathTemplate = filePathTemplate;
         _context = context;
-    }
-
-    // TODO: Atata v3. Delete AddConsumer method.
-    public void AddConsumer(IScreenshotConsumer consumer)
-    {
-        consumer.CheckNotNull(nameof(consumer));
-
-        _screenshotConsumers.Add(consumer);
     }
 
     public void TakeScreenshot(string title = null)
     {
-        if (_strategy != null)
-            TakeScreenshot(_strategy, title);
+        if (_screenshotStrategy is not null)
+            TakeScreenshot(_screenshotStrategy, title);
     }
 
     public void TakeScreenshot(ScreenshotKind kind, string title = null)
@@ -44,47 +38,43 @@ internal sealed class ScreenshotTaker
 
     private void TakeScreenshot(IScreenshotStrategy strategy, string title = null)
     {
-        if (!_context.HasDriver || !_screenshotConsumers.Any())
+        if (strategy is null || !_context.HasDriver)
             return;
 
         _screenshotNumber++;
 
         try
         {
-            string logMessage = $"Take screenshot #{_screenshotNumber:D2}";
-
-            if (!string.IsNullOrWhiteSpace(title))
-                logMessage += $" - {title}";
-
-            _context.Log.Info(logMessage);
-
-            FileContentWithExtension fileContent = strategy.TakeScreenshot(_context);
-
-            ScreenshotInfo screenshotInfo = new ScreenshotInfo
-            {
-                ScreenshotContent = fileContent,
-                Number = _screenshotNumber,
-                Title = title,
-                PageObjectName = _context.PageObject?.ComponentName,
-                PageObjectTypeName = _context.PageObject?.ComponentTypeName,
-                PageObjectFullName = _context.PageObject?.ComponentFullName
-            };
-
-            foreach (IScreenshotConsumer screenshotConsumer in _screenshotConsumers)
-            {
-                try
+            _context.Log.ExecuteSection(
+                new TakeScreenshotLogSection(_screenshotNumber, title),
+                () =>
                 {
-                    screenshotConsumer.Take(screenshotInfo);
-                }
-                catch (Exception exception)
-                {
-                    _context.Log.Error(exception, "Screenshot failed.");
-                }
-            }
+                    FileContentWithExtension fileContent = strategy.TakeScreenshot(_context);
+                    string filePath = FormatFilePath(title);
+
+                    _context.AddArtifact(filePath, fileContent, ArtifactTypes.Screenshot);
+                    return filePath + fileContent.Extension;
+                });
         }
         catch (Exception exception)
         {
             _context.Log.Error(exception, "Screenshot failed.");
         }
+    }
+
+    private string FormatFilePath(string title)
+    {
+        var pageObject = _context.PageObject;
+
+        KeyValuePair<string, object>[] snapshotVariables =
+        [
+            new("screenshot-number", _screenshotNumber),
+            new("screenshot-title", title),
+            new("screenshot-pageobjectname", pageObject?.ComponentName),
+            new("screenshot-pageobjecttypename", pageObject?.ComponentTypeName),
+            new("screenshot-pageobjectfullname", pageObject?.ComponentFullName)
+        ];
+
+        return _context.FillPathTemplateString(_filePathTemplate, snapshotVariables);
     }
 }

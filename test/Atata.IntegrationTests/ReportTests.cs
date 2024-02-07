@@ -97,9 +97,7 @@ public class ReportTests : UITestFixture
         [Test]
         public void ViewportVsFullPage()
         {
-            var context = ConfigureBaseAtataContext()
-                .ScreenshotConsumers.AddFile()
-                .Build();
+            var context = ConfigureBaseAtataContext().Build();
 
             var page = context.Go.To<ScrollablePage>();
 
@@ -129,8 +127,7 @@ public class ReportTests : UITestFixture
         {
             ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsAtataContextBuilder> screenshotsConfigurationAction)
             {
-                var builder = ConfigureBaseAtataContext()
-                    .ScreenshotConsumers.AddFile();
+                var builder = ConfigureBaseAtataContext();
                 screenshotsConfigurationAction?.Invoke(builder.Screenshots);
                 using var context = builder.Build();
 
@@ -150,49 +147,24 @@ public class ReportTests : UITestFixture
         }
 
         [Test]
-        public void LogEntries_WithoutScreenshotConsumer()
+        public void FilesAndLogEntries()
         {
             ConfigureBaseAtataContext().Build();
 
-            Go.To<OrdinaryPage>()
+            Go.To(new OrdinaryPage("Test"))
                 .Report.Screenshot()
                 .Report.Screenshot("sometitle");
 
-            VerifyLastLogMessagesContain(
+            VerifyLastLogMessagesMatch(
                 minLogLevel: LogLevel.Trace,
-                "Go to");
-        }
+                "^> Take screenshot #01$",
+                "^< Take screenshot #01 \\(.*\\) >> \"01 Test page.png\"$",
+                "^> Take screenshot #02 sometitle$",
+                "^< Take screenshot #02 sometitle \\(.*\\) >> \"02 Test page - sometitle.png\"$");
 
-        [Test]
-        public new void LogEntries()
-        {
-            ConfigureBaseAtataContext().Build();
-            MockScreenshotConsumer screenshotConsumer = new();
-
-            AtataContext.Current.ScreenshotTaker.AddConsumer(screenshotConsumer);
-
-            Go.To<OrdinaryPage>()
-                .Report.Screenshot()
-                .Report.Screenshot("sometitle");
-
-            VerifyLastLogMessages(
-                minLogLevel: LogLevel.Trace,
-                "Take screenshot #01",
-                "Take screenshot #02 - sometitle");
-
-            screenshotConsumer.Items.Should().HaveCount(2);
-            screenshotConsumer.Items[0].Number.Should().Be(1);
-            screenshotConsumer.Items[0].Title.Should().BeNull();
-            screenshotConsumer.Items[1].Number.Should().Be(2);
-            screenshotConsumer.Items[1].Title.Should().Be("sometitle");
-        }
-
-        private sealed class MockScreenshotConsumer : IScreenshotConsumer
-        {
-            public List<ScreenshotInfo> Items { get; } = [];
-
-            public void Take(ScreenshotInfo screenshotInfo) =>
-                Items.Add(screenshotInfo);
+            AtataContext.Current.Artifacts.Should.ContainFiles(
+                "01 Test page.png",
+                "02 Test page - sometitle.png");
         }
     }
 }

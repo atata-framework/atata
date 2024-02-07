@@ -200,20 +200,18 @@ public class AtataContextTests : UITestFixture
         public void WhenNavigated()
         {
             ConfigureBaseAtataContext()
-                .ScreenshotConsumers.AddFile()
                 .Build();
             Go.To<InputPage>();
 
             AtataContext.Current.TakeScreenshot();
 
-            AtataContext.Current.Artifacts.Should.ContainFile("01 - Input page.png");
+            AtataContext.Current.Artifacts.Should.ContainFile("01 Input page.png");
         }
 
         [Test]
         public void WhenNoNavigation()
         {
             ConfigureBaseAtataContext()
-                .ScreenshotConsumers.AddFile()
                 .Build();
 
             AtataContext.Current.TakeScreenshot();
@@ -225,7 +223,7 @@ public class AtataContextTests : UITestFixture
         public void WhenThrows()
         {
             ConfigureBaseAtataContext()
-                .ScreenshotConsumers.Add(Mock.Of<IScreenshotConsumer>(MockBehavior.Strict))
+                .Screenshots.UseStrategy(Mock.Of<IScreenshotStrategy>(MockBehavior.Strict))
                 .Build();
             Go.To<InputPage>();
 

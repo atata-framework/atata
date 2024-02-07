@@ -55,4 +55,16 @@ public sealed class ScreenshotsAtataContextBuilder : AtataContextBuilder
         BuildingContext.Screenshots.Strategy = strategy;
         return this;
     }
+
+    /// <summary>
+    /// Sets the file name template of page screenshots.
+    /// The default value is <c>"{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
+    /// </summary>
+    /// <param name="fileNameTemplate">The file name template.</param>
+    /// <returns>The <see cref="ScreenshotsAtataContextBuilder"/> instance.</returns>
+    public ScreenshotsAtataContextBuilder UseFileNameTemplate(string fileNameTemplate)
+    {
+        BuildingContext.Screenshots.FileNameTemplate = fileNameTemplate;
+        return this;
+    }
 }

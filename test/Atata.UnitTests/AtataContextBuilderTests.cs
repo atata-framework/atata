@@ -14,7 +14,6 @@ public class AtataContextBuilderTests
         Assert.That(globalContext.TestNameFactory, Is.Null);
         Assert.That(globalContext.DriverFactories, Is.Empty);
         Assert.That(globalContext.LogConsumerConfigurations, Is.Empty);
-        Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
         Assert.That(globalContext.BaseUrl, Is.Null);
 
         AtataContext.GlobalConfiguration
@@ -26,7 +25,6 @@ public class AtataContextBuilderTests
             .UseEdge()
             .UseBaseUrl(BaseUrl)
             .EventSubscriptions.TakeScreenshotOnNUnitError()
-            .ScreenshotConsumers.AddFile()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(100))
             .UseBaseRetryInterval(TimeSpan.FromSeconds(1))
             .BuildingContext;
@@ -37,14 +35,11 @@ public class AtataContextBuilderTests
         Assert.That(globalContext.DriverFactories, Is.Empty);
         Assert.That(globalContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
         Assert.That(globalContext.LogConsumerConfigurations[0].Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
-        Assert.That(globalContext.ScreenshotConsumers, Is.Empty);
         Assert.That(globalContext.BaseUrl, Is.Null);
 
         Assert.That(currentContext.DriverFactories, Has.Count.EqualTo(1));
         Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
         Assert.That(currentContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
-        Assert.That(currentContext.ScreenshotConsumers, Has.Count.EqualTo(1));
-        Assert.That(currentContext.ScreenshotConsumers[0], Is.TypeOf<FileScreenshotConsumer>());
         Assert.That(currentContext.BaseUrl, Is.EqualTo(BaseUrl));
         Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
         Assert.That(currentContext.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));
@@ -85,7 +80,6 @@ public class AtataContextBuilderTests
             .UseInternetExplorer()
             .UseBaseUrl(BaseUrl)
             .EventSubscriptions.TakeScreenshotOnNUnitError()
-            .ScreenshotConsumers.AddFile()
             .PageSnapshots.UseCdpStrategy()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(100))
             .UseBaseRetryInterval(TimeSpan.FromSeconds(1))
@@ -96,7 +90,6 @@ public class AtataContextBuilderTests
         Assert.That(context.DriverFactories, Is.Empty);
         Assert.That(context.DriverFactoryToUse, Is.Null);
         Assert.That(context.LogConsumerConfigurations, Is.Empty);
-        Assert.That(context.ScreenshotConsumers, Is.Empty);
         Assert.That(context.PageSnapshots.Strategy, Is.EqualTo(CdpOrPageSourcePageSnapshotStrategy.Instance));
         Assert.That(context.BaseUrl, Is.Null);
         Assert.That(context.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));

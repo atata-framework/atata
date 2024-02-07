@@ -53,11 +53,6 @@ public class AtataBuildingContext : ICloneable
     public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = [];
 
     /// <summary>
-    /// Gets the screenshot consumers.
-    /// </summary>
-    public List<IScreenshotConsumer> ScreenshotConsumers { get; private set; } = [];
-
-    /// <summary>
     /// Gets the driver factory to use.
     /// </summary>
     public IDriverFactory DriverFactoryToUse { get; internal set; }
@@ -330,10 +325,6 @@ public class AtataBuildingContext : ICloneable
 
         copy.LogConsumerConfigurations = LogConsumerConfigurations
             .Select(x => x.Consumer is ICloneable ? x.Clone() : x)
-            .ToList();
-
-        copy.ScreenshotConsumers = ScreenshotConsumers
-            .Select(x => x is ICloneable cloneableConsumer ? (IScreenshotConsumer)cloneableConsumer.Clone() : x)
             .ToList();
 
         copy.Attributes = Attributes.Clone();
