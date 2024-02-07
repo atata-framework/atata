@@ -391,10 +391,6 @@ dotnet_diagnostic.S6562.severity = none
 
 dotnet_diagnostic.SA0001.severity = none
 
-# SA1010: OpeningSquareBracketsMustBeSpacedCorrectly
-# Temporarily disabled until StyleCop is able to handle collection initializers correctly.
-dotnet_diagnostic.SA1010.severity = none
-
 dotnet_diagnostic.SA1101.severity = none
 
 dotnet_diagnostic.SA1200.severity = none
