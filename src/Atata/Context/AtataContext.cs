@@ -464,7 +464,7 @@ public sealed class AtataContext : IDisposable
         if (testFullName is not null)
             logMessageBuilder.Append(": ").Append(testFullName);
 
-        Log.Info(logMessageBuilder.ToString());
+        Log.Debug(logMessageBuilder.ToString());
     }
 
     /// <summary>
@@ -1042,6 +1042,6 @@ public sealed class AtataContext : IDisposable
             Deinitialization: {deinitializationTimeString.PadLeft(maxTimeStringLength)} | {deinitializationTimePercentString.PadLeft(maxPercentStringLength)}
             """);
 
-        Log.Info(messageBuilder.ToString());
+        Log.Debug(messageBuilder.ToString());
     }
 }
