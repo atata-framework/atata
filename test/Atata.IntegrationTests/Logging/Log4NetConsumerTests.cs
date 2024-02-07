@@ -12,7 +12,7 @@ public class Log4NetConsumerTests : UITestFixtureBase
         new(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "log4net.config"));
 
     private static string LogsDirectory =>
-        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Logs", "Log4Net");
+        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Log4NetLogs");
 
     private static string TraceLogFilePath =>
         Path.Combine(LogsDirectory, "Trace.log");
