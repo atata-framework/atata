@@ -8,5 +8,5 @@ internal sealed class LoggingBrowserLogHandler : IBrowserLogHandler
         _logManager = logManager;
 
     public void Handle(BrowserLogEntry entry) =>
-        _logManager.Trace($"Browser log: {entry.Timestamp:HH:mm:ss.ffff} {entry.Level.ToString(TermCase.Upper)} {entry.Message}");
+        _logManager.Trace($"Browser log: {entry.Timestamp:HH:mm:ss.fff} {entry.Level.ToString(TermCase.Upper)} {entry.Message}");
 }

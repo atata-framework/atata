@@ -28,7 +28,7 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     /// <summary>
     /// Gets or sets the layout of log event.
     /// </summary>
-    public string Layout { get; set; } = "${shortdate} ${time} ${uppercase:${level}:padding=5} ${message}${onexception:inner= }${exception:format=toString}";
+    public string Layout { get; set; } = @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${uppercase:${level}:padding=5} ${message}${onexception:inner= }${exception:format=toString}";
 
     /// <inheritdoc/>
     protected override dynamic GetLogger()

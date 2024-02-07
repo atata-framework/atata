@@ -25,9 +25,9 @@ public class TextOutputLogConsumer : ILogConsumer
 
     /// <summary>
     /// Gets or sets the timestamp format.
-    /// The default value is <c>"yyyy-MM-dd HH:mm:ss.ffff"</c>.
+    /// The default value is <c>"yyyy-MM-dd HH:mm:ss.fff"</c>.
     /// </summary>
-    public string TimestampFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.ffff";
+    public string TimestampFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff";
 
     public void Log(LogEventInfo eventInfo)
     {
