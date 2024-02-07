@@ -245,7 +245,7 @@ public class AtataContextTests : UITestFixture
 
             AtataContext.Current.TakePageSnapshot();
 
-            AtataContext.Current.Artifacts.Should.ContainFile("01 - Input page.mhtml");
+            AtataContext.Current.Artifacts.Should.ContainFile("01 Input page.mhtml");
         }
 
         [Test]
