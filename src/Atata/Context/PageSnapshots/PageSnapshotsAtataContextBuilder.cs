@@ -45,7 +45,7 @@ public sealed class PageSnapshotsAtataContextBuilder : AtataContextBuilder
 
     /// <summary>
     /// Sets the file name template of page snapshots.
-    /// The default value is <c>"{snapshot-number:D2}{snapshot-pageobjectname: - *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
+    /// The default value is <c>"{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
     /// </summary>
     /// <param name="fileNameTemplate">The file name template.</param>
     /// <returns>The <see cref="PageSnapshotsAtataContextBuilder"/> instance.</returns>

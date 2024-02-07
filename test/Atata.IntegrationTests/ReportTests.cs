@@ -53,13 +53,13 @@ public class ReportTests : UITestFixture
         VerifyLastLogMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> Take page snapshot #01$",
-            "^< Take page snapshot #01 \\(.*\\) >> \"01 - Test page.mhtml\"$",
-            "^> Take page snapshot #02 - sometitle$",
-            "^< Take page snapshot #02 - sometitle \\(.*\\) >> \"02 - Test page - sometitle.mhtml\"$");
+            "^< Take page snapshot #01 \\(.*\\) >> \"01 Test page.mhtml\"$",
+            "^> Take page snapshot #02 sometitle$",
+            "^< Take page snapshot #02 sometitle \\(.*\\) >> \"02 Test page - sometitle.mhtml\"$");
 
         AtataContext.Current.Artifacts.Should.ContainFiles(
-            "01 - Test page.mhtml",
-            "02 - Test page - sometitle.mhtml");
+            "01 Test page.mhtml",
+            "02 Test page - sometitle.mhtml");
     }
 
     [Test]
