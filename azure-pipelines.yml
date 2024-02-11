@@ -6,7 +6,7 @@ jobs:
 - job: BuildAndRunCodeAnalysis
   displayName: Build and run code analysis
   pool:
-    vmImage: windows-latest
+    vmImage: ubuntu-latest
   steps:
   - task: UseDotNet@2
     displayName: Set up .NET SDK
@@ -19,16 +19,69 @@ jobs:
       projects: '*.sln'
       arguments: -c $(buildConfiguration) -warnaserror
 
-- job: RunTests
-  displayName: Run tests on
+- job: RunTestsOnUbuntu
+  displayName: Run tests on Ubuntu
+  pool:
+    vmImage: ubuntu-latest
+  steps:
+  - task: UseDotNet@2
+    displayName: Set up .NET SDK
+    inputs:
+      version: $(netSdkVersion)
+  - task: DotNetCoreCLI@2
+    displayName: Build solution
+    inputs:
+      command: build
+      projects: '*.sln'
+      arguments: -c $(buildConfiguration) -p:RunCodeAnalysis=false
+  - task: DotNetCoreCLI@2
+    displayName: Install dotnet-coverage
+    inputs:
+      command: custom
+      custom: tool
+      arguments: install -g dotnet-coverage
+  - task: DotNetCoreCLI@2
+    displayName: Run unit tests
+    timeoutInMinutes: 3
+    inputs:
+      command: test
+      projects: 'test/*/*UnitTests.csproj'
+      arguments: -c $(buildConfiguration) -s "azure-pipelines.codecoverage.runsettings" --no-build
+  - task: DotNetCoreCLI@2
+    displayName: Run integration tests
+    condition: succeededOrFailed()
+    timeoutInMinutes: 20
+    inputs:
+      command: test
+      projects: 'test/*/*IntegrationTests.csproj'
+      arguments: -c $(buildConfiguration) -s "azure-pipelines.codecoverage.runsettings" --no-build
+  - task: Bash@3
+    displayName: Merge coverage results
+    condition: succeededOrFailed()
+    inputs:
+      targetType: inline
+      script: dotnet-coverage merge "**/*.coverage" -f cobertura -o merged.cobertura.xml --remove-input-files
+      workingDirectory: $(Agent.TempDirectory)
+  - task: PublishCodeCoverageResults@2
+    displayName: Publish code coverage results
+    condition: succeededOrFailed()
+    inputs:
+      summaryFileLocation: $(Agent.TempDirectory)/merged.cobertura.xml
+  - task: PublishPipelineArtifact@1
+    displayName: Publish test artifacts
+    condition: succeededOrFailed()
+    inputs:
+      artifactName: Artifacts-ubuntu-latest
+      targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts
+
+- job: RunTestsOnWindowsAndMacOS
+  displayName: Run tests on 
   strategy:
     matrix:
-      Linux:
-        imageName: 'ubuntu-latest'
-      macOS:
-        imageName: 'macOS-latest'
       Windows:
-        imageName: 'windows-latest'
+        imageName: windows-latest
+      macOS:
+        imageName: macOS-latest
   pool:
     vmImage: $(imageName)
   steps:
@@ -52,7 +105,7 @@ jobs:
   - task: DotNetCoreCLI@2
     displayName: Run integration tests
     condition: succeededOrFailed()
-    timeoutInMinutes: 30
+    timeoutInMinutes: 20
     inputs:
       command: test
       projects: 'test/*/*IntegrationTests.csproj'
@@ -61,5 +114,5 @@ jobs:
     displayName: Publish test artifacts
     condition: succeededOrFailed()
     inputs:
-      artifactName: Artifacts $(imageName)
+      artifactName: Artifacts-$(imageName)
       targetPath: test/Atata.IntegrationTests/bin/$(buildConfiguration)/net8.0/artifacts
