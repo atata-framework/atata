@@ -199,7 +199,7 @@ public static class UIComponentResolver
         componentPart.Component = parentComponent;
         componentPart.ComponentPartName = name;
 
-        attributes = attributes?.Where(x => x != null).ToArray() ?? new Attribute[0];
+        attributes = attributes?.Where(x => x != null).ToArray() ?? [];
 
         if (componentPart is ISupportsMetadata supportsMetadata)
         {
@@ -345,7 +345,7 @@ public static class UIComponentResolver
             null,
             type.Name,
             type,
-            new Attribute[0]);
+            []);
     }
 
     private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(

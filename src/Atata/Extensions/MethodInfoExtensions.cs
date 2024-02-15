@@ -59,7 +59,7 @@ public static class MethodInfoExtensions
         method.CheckNotNull(nameof(method));
         instance.CheckNotNull(nameof(instance));
 
-        var parameterExpressions = args?.Select(Expression.Constant) ?? new ConstantExpression[0];
+        var parameterExpressions = args?.Select(Expression.Constant) ?? [];
         return Expression.Call(Expression.Constant(instance), method, parameterExpressions);
     }
 
@@ -67,7 +67,7 @@ public static class MethodInfoExtensions
     {
         method.CheckNotNull(nameof(method));
 
-        var parameterExpressions = args?.Select(Expression.Constant) ?? new ConstantExpression[0];
+        var parameterExpressions = args?.Select(Expression.Constant) ?? [];
         return Expression.Call(method, parameterExpressions);
     }
 }

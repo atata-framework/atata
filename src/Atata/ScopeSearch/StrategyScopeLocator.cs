@@ -64,7 +64,7 @@ public class StrategyScopeLocator : IScopeLocator
 
         return xPathResults.Any()
             ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray()
-            : new IWebElement[0];
+            : [];
     }
 
     public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)

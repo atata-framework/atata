@@ -10,7 +10,7 @@
 public class TagAttribute : Attribute
 {
     public TagAttribute(params string[] values) =>
-        Values = new ReadOnlyCollection<string>(values ?? new string[0]);
+        Values = new ReadOnlyCollection<string>(values ?? []);
 
     /// <summary>
     /// Gets the tag values.

@@ -11,7 +11,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
             SearchOptions.Safely(executionData.IsSafely));
 
         if (scopeContext is null)
-            return new XPathComponentScopeFindResult[0];
+            return [];
 
         foreach (var unit in executionData.LayerUnits)
         {
@@ -38,7 +38,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
                 }
                 else
                 {
-                    return new XPathComponentScopeFindResult[0];
+                    return [];
                 }
             }
 
@@ -98,7 +98,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
                 }
                 else if (searchOptions.IsSafely)
                 {
-                    return new XPathComponentScopeFindResult[0];
+                    return [];
                 }
                 else
                 {

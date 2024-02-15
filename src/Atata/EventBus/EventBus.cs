@@ -87,7 +87,7 @@ public class EventBus : IEventBus
         Subscribe(typeof(TEvent), eventHandler);
 
     private static List<EventHandlerSubscription> CreateEventHandlerSubscriptionList(Type eventType) =>
-        new();
+        [];
 
     private object Subscribe(Type eventType, object eventHandler)
     {

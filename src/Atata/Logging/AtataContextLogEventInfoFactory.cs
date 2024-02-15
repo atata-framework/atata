@@ -16,7 +16,7 @@ public class AtataContextLogEventInfoFactory : ILogEventInfoFactory
         {
             Level = level,
             Message = message,
-            Timestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _context.TimeZone),
+            Timestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, AtataContext.TimeZone),
             Context = _context
         };
 }

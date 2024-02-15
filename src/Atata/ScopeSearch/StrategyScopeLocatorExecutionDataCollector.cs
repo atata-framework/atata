@@ -77,7 +77,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
         }
         else
         {
-            return new StrategyScopeLocatorLayerExecutionUnit[0];
+            return [];
         }
     }
 

@@ -37,7 +37,7 @@ public class UriQueryProvider<TOwner> : ValueProvider<string, TOwner>
         var query = Value;
 
         if (query.Length == 0)
-            return new List<KeyValuePair<string, string>>();
+            return [];
 
         return query.TrimStart('?')
             .Split(['&', ';'], StringSplitOptions.RemoveEmptyEntries)
