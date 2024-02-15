@@ -80,7 +80,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class BeEquivalent_WhenEmpty : ExtensionMethodTestFixture<int[], BeEquivalent_WhenEmpty>
     {
         static BeEquivalent_WhenEmpty() =>
-            For(new int[0])
+            For([])
                 .Pass(should => should.BeEquivalent())
                 .Fail(should => should.BeEquivalent(1));
     }
@@ -100,7 +100,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     public class EqualSequence_WhenEmpty : ExtensionMethodTestFixture<int[], EqualSequence_WhenEmpty>
     {
         static EqualSequence_WhenEmpty() =>
-            For(new int[0])
+            For([])
                 .Pass(should => should.EqualSequence())
                 .Fail(should => should.EqualSequence(1));
     }
