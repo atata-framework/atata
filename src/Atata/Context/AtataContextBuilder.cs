@@ -723,7 +723,22 @@ Actual: {driverFactory.GetType().FullName}",
     }
 
     /// <summary>
-    /// Sets the path template of the Artifacts directory.
+    /// <para>
+    /// Sets the Artifacts directory path template.
+    /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+    /// </para>
+    /// <para>
+    /// The list of predefined variables:
+    /// </para>
+    /// <list type="bullet">
+    /// <item><c>{test-name-sanitized}</c></item>
+    /// <item><c>{test-name}</c></item>
+    /// <item><c>{test-suite-name-sanitized}</c></item>
+    /// <item><c>{test-suite-name}</c></item>
+    /// <item><c>{test-start}</c></item>
+    /// <item><c>{test-start-utc}</c></item>
+    /// <item><c>{driver-alias}</c></item>
+    /// </list>
     /// </summary>
     /// <param name="directoryPathTemplate">The directory path template.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
