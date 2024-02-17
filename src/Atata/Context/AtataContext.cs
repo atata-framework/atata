@@ -5,11 +5,7 @@
 /// </summary>
 public sealed class AtataContext : IDisposable
 {
-    private static readonly object s_buildStartSyncLock = new();
-
     private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new();
-
-    private static AtataContextModeOfCurrent s_modeOfCurrent = AtataContextModeOfCurrent.AsyncLocal;
 
     [ThreadStatic]
     private static AtataContext s_currentThreadStaticContext;
@@ -48,7 +44,7 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static AtataContext Current
     {
-        get => ModeOfCurrent switch
+        get => GlobalProperties.ModeOfCurrent switch
         {
             AtataContextModeOfCurrent.AsyncLocal => s_currentAsyncLocalContext.Value,
             AtataContextModeOfCurrent.ThreadStatic => s_currentThreadStaticContext,
@@ -56,9 +52,9 @@ public sealed class AtataContext : IDisposable
         };
         set
         {
-            if (ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
+            if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
                 s_currentAsyncLocalContext.Value = value;
-            else if (ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
+            else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
                 s_currentThreadStaticContext = value;
             else
                 s_currentStaticContext = value;
@@ -66,44 +62,17 @@ public sealed class AtataContext : IDisposable
     }
 
     /// <summary>
-    /// Gets or sets the mode of <see cref="Current"/> property.
-    /// The default value is <see cref="AtataContextModeOfCurrent.AsyncLocal"/>.
+    /// Gets the global properties that should be configured as early as possible,
+    /// typically in global setup method
+    /// before any creation of <see cref="AtataContext"/>, and not changed later,
+    /// because these properties should have the same values for all the contexts within an execution.
     /// </summary>
-    public static AtataContextModeOfCurrent ModeOfCurrent
-    {
-        get => s_modeOfCurrent;
-        set
-        {
-            s_modeOfCurrent = value;
-
-            RetrySettings.ThreadBoundary = value switch
-            {
-                AtataContextModeOfCurrent.AsyncLocal => RetrySettingsThreadBoundary.AsyncLocal,
-                AtataContextModeOfCurrent.ThreadStatic => RetrySettingsThreadBoundary.ThreadStatic,
-                _ => RetrySettingsThreadBoundary.Static
-            };
-        }
-    }
+    public static AtataContextGlobalProperties GlobalProperties { get; } = new();
 
     /// <summary>
     /// Gets the global configuration.
     /// </summary>
     public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
-
-    /// <summary>
-    /// Gets the build start local date and time.
-    /// Contains the same value for all the tests being executed within one build.
-    /// </summary>
-    public static DateTime? BuildStart { get; private set; }
-
-    /// <summary>
-    /// Gets the build start UTC date and time.
-    /// Contains the same value for all the tests being executed within one build.
-    /// </summary>
-    public static DateTime? BuildStartUtc { get; private set; }
-
-    // TODO: Review BuildStartInTimeZone property.
-    internal DateTime BuildStartInTimeZone { get; private set; }
 
     internal IDriverFactory DriverFactory { get; set; }
 
@@ -165,12 +134,6 @@ public sealed class AtataContext : IDisposable
     /// Gets the UTC date/time of the start.
     /// </summary>
     public DateTime StartedAtUtc { get; private set; }
-
-    /// <summary>
-    /// Gets the time zone.
-    /// The default value is <see cref="TimeZoneInfo.Local"/>.
-    /// </summary>
-    public TimeZoneInfo TimeZone { get; internal set; }
 
     /// <summary>
     /// Gets or sets the base URL.
@@ -293,7 +256,9 @@ public sealed class AtataContext : IDisposable
     /// <summary>
     /// Gets the <see cref="DirectorySubject"/> of Artifacts directory.
     /// Artifacts directory can contain any files produced during test execution, logs, screenshots, downloads, etc.
-    /// The default Artifacts directory path is <c>"{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+    /// The default Artifacts directory path is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>
+    /// relative to <see cref="AtataContextGlobalProperties.ArtifactsRootPath"/> value
+    /// of <see cref="GlobalProperties"/>.
     /// </summary>
     public DirectorySubject Artifacts { get; internal set; }
 
@@ -363,9 +328,6 @@ public sealed class AtataContext : IDisposable
     /// The list of predefined variables:
     /// </para>
     /// <list type="bullet">
-    /// <item><c>build-start</c></item>
-    /// <item><c>build-start-utc</c></item>
-    /// <item><c>basedir</c></item>
     /// <item><c>artifacts</c></item>
     /// <item><c>test-name-sanitized</c></item>
     /// <item><c>test-name</c></item>
@@ -407,31 +369,12 @@ public sealed class AtataContext : IDisposable
     internal void InitDateTimeProperties()
     {
         StartedAtUtc = DateTime.UtcNow;
-        StartedAt = TimeZoneInfo.ConvertTimeFromUtc(StartedAtUtc, TimeZone);
-
-        if (BuildStartUtc is null)
-        {
-            lock (s_buildStartSyncLock)
-            {
-                if (BuildStartUtc is null)
-                {
-                    BuildStartUtc = StartedAtUtc;
-                    BuildStart = BuildStartUtc.Value.ToLocalTime();
-                }
-            }
-        }
-
-        BuildStartInTimeZone = TimeZoneInfo.ConvertTimeFromUtc(BuildStartUtc.Value, TimeZone);
+        StartedAt = TimeZoneInfo.ConvertTimeFromUtc(StartedAtUtc, GlobalProperties.TimeZone);
     }
 
     internal void InitMainVariables()
     {
         var variables = Variables;
-
-        variables["build-start"] = BuildStartInTimeZone;
-        variables["build-start-utc"] = BuildStartUtc;
-
-        variables["basedir"] = AppDomain.CurrentDomain.BaseDirectory;
 
         variables["test-name-sanitized"] = Test.NameSanitized;
         variables["test-name"] = Test.Name;
@@ -586,9 +529,6 @@ public sealed class AtataContext : IDisposable
     /// The list of predefined variables:
     /// </para>
     /// <list type="bullet">
-    /// <item><c>{build-start}</c></item>
-    /// <item><c>{build-start-utc}</c></item>
-    /// <item><c>{basedir}</c></item>
     /// <item><c>{artifacts}</c></item>
     /// <item><c>{test-name-sanitized}</c></item>
     /// <item><c>{test-name}</c></item>
@@ -628,9 +568,6 @@ public sealed class AtataContext : IDisposable
     /// The list of predefined variables:
     /// </para>
     /// <list type="bullet">
-    /// <item><c>{build-start}</c></item>
-    /// <item><c>{build-start-utc}</c></item>
-    /// <item><c>{basedir}</c></item>
     /// <item><c>{artifacts}</c></item>
     /// <item><c>{test-name-sanitized}</c></item>
     /// <item><c>{test-name}</c></item>
@@ -678,9 +615,6 @@ public sealed class AtataContext : IDisposable
     /// The list of predefined variables:
     /// </para>
     /// <list type="bullet">
-    /// <item><c>{build-start}</c></item>
-    /// <item><c>{build-start-utc}</c></item>
-    /// <item><c>{basedir}</c></item>
     /// <item><c>{artifacts}</c></item>
     /// <item><c>{test-name-sanitized}</c></item>
     /// <item><c>{test-name}</c></item>
@@ -880,12 +814,12 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public void SetAsCurrent()
     {
-        if (s_modeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
+        if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
         {
             if (s_currentAsyncLocalContext.Value != this)
                 s_currentAsyncLocalContext.Value = this;
         }
-        else if (s_modeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
+        else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
         {
             if (s_currentThreadStaticContext != this)
                 s_currentThreadStaticContext = this;

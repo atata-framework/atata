@@ -6,9 +6,7 @@
 /// </summary>
 public class AtataBuildingContext : ICloneable
 {
-    public const string DefaultArtifactsPath = "{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
-
-    public const string DefaultArtifactsPathWithoutBuildStartFolder = "{basedir}/artifacts{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
+    public const string DefaultArtifactsPathTemplate = "{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
 
     private TimeSpan? _elementFindTimeout;
 
@@ -100,12 +98,6 @@ public class AtataBuildingContext : ICloneable
     public Func<Type> TestSuiteTypeFactory { get; set; }
 
     /// <summary>
-    /// Gets or sets the time zone.
-    /// The default value is <see cref="TimeZoneInfo.Local"/>.
-    /// </summary>
-    public TimeZoneInfo TimeZone { get; set; } = TimeZoneInfo.Local;
-
-    /// <summary>
     /// Gets or sets the base URL.
     /// </summary>
     public string BaseUrl { get; set; }
@@ -151,10 +143,10 @@ public class AtataBuildingContext : ICloneable
     public string AssemblyNamePatternToFindEventHandlerTypes { get; set; }
 
     /// <summary>
-    /// Gets or sets the Artifacts directory path builder.
-    /// The default builder returns <c>"{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+    /// Gets or sets the Artifacts directory path template.
+    /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
     /// </summary>
-    public Func<AtataContext, string> ArtifactsPathBuilder { get; set; } = _ => DefaultArtifactsPath;
+    public string ArtifactsPathTemplate { get; set; } = DefaultArtifactsPathTemplate;
 
     /// <summary>
     /// Gets the base retry timeout.

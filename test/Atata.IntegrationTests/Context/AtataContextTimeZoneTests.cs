@@ -1,16 +1,24 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
+[Parallelizable(ParallelScope.None)]
 public class AtataContextTimeZoneTests : UITestFixtureBase
 {
     private readonly TimeZoneInfo _timeZone = TimeZoneInfo.FindSystemTimeZoneById("UTC-02");
 
     private DateTime _nowInSetTimeZone;
 
+    [OneTimeSetUp]
+    public void SetUpFixture() =>
+        AtataContext.GlobalProperties.UseTimeZone(_timeZone);
+
+    [OneTimeTearDown]
+    public void TearDownFixture() =>
+        AtataContext.GlobalProperties.UseTimeZone(TimeZoneInfo.Local);
+
     [SetUp]
     public void SetUp()
     {
         ConfigureBaseAtataContext()
-            .UseTimeZone(_timeZone)
             .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
             .Build();
 
@@ -22,8 +30,8 @@ public class AtataContextTimeZoneTests : UITestFixtureBase
         AssertDateTimeIsCloseToExpected(AtataContext.Current.StartedAt, _nowInSetTimeZone);
 
     [Test]
-    public void AtataContext_BuildStartInTimeZone() =>
-        AssertDateTimeIsCloseToExpected(AtataContext.Current.BuildStartInTimeZone, _nowInSetTimeZone, withinMinutes: 20);
+    public void AtataContext_GlobalProperties_BuildStart() =>
+        AssertDateTimeIsCloseToExpected(AtataContext.GlobalProperties.BuildStart, _nowInSetTimeZone, withinMinutes: 30);
 
     [Test]
     public void LogEventInfo_Timestamp() =>

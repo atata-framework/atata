@@ -435,18 +435,11 @@ Actual: {driverFactory.GetType().FullName}",
         return this;
     }
 
-    /// <summary>
-    /// Sets the UTC time zone.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use AtataContext.UseUtcTimeZone(...) static method instead.")] // Obsolete since v3.0.0.
     public AtataContextBuilder UseUtcTimeZone() =>
         UseTimeZone(TimeZoneInfo.Utc);
 
-    /// <summary>
-    /// Sets the time zone by identifier, which corresponds to the <see cref="TimeZoneInfo.Id"/> property.
-    /// </summary>
-    /// <param name="timeZoneId">The time zone identifier.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use AtataContext.UseTimeZone(...) static method instead.")] // Obsolete since v3.0.0.
     public AtataContextBuilder UseTimeZone(string timeZoneId)
     {
         timeZoneId.CheckNotNullOrWhitespace(nameof(timeZoneId));
@@ -455,16 +448,12 @@ Actual: {driverFactory.GetType().FullName}",
         return UseTimeZone(timeZone);
     }
 
-    /// <summary>
-    /// Sets the time zone.
-    /// </summary>
-    /// <param name="timeZone">The time zone.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use AtataContext.UseTimeZone(...) static method instead.")] // Obsolete since v3.0.0.
     public AtataContextBuilder UseTimeZone(TimeZoneInfo timeZone)
     {
         timeZone.CheckNotNull(nameof(timeZone));
 
-        BuildingContext.TimeZone = timeZone;
+        AtataContext.GlobalProperties.TimeZone = timeZone;
         return this;
     }
 
@@ -734,39 +723,17 @@ Actual: {driverFactory.GetType().FullName}",
     }
 
     /// <summary>
-    /// Sets the path to the Artifacts directory.
+    /// Sets the path template of the Artifacts directory.
     /// </summary>
-    /// <param name="directoryPath">The directory path.</param>
+    /// <param name="directoryPathTemplate">The directory path template.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseArtifactsPath(string directoryPath)
+    public AtataContextBuilder UseArtifactsPathTemplate(string directoryPathTemplate)
     {
-        directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
+        directoryPathTemplate.CheckNotNullOrWhitespace(nameof(directoryPathTemplate));
 
-        return UseArtifactsPath(_ => directoryPath);
-    }
-
-    /// <summary>
-    /// Sets the builder of the path to the Artifacts directory.
-    /// </summary>
-    /// <param name="directoryPathBuilder">The directory path builder.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseArtifactsPath(Func<AtataContext, string> directoryPathBuilder)
-    {
-        directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
-
-        BuildingContext.ArtifactsPathBuilder = directoryPathBuilder;
+        BuildingContext.ArtifactsPathTemplate = directoryPathTemplate;
         return this;
     }
-
-    /// <summary>
-    /// Sets the default Artifacts path with optionally including <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.
-    /// </summary>
-    /// <param name="include">Whether to include the <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseDefaultArtifactsPathIncludingBuildStart(bool include) =>
-        UseArtifactsPath(include
-            ? AtataBuildingContext.DefaultArtifactsPath
-            : AtataBuildingContext.DefaultArtifactsPathWithoutBuildStartFolder);
 
     /// <summary>
     /// Defines that the name of the test should be taken from the NUnit test.
@@ -959,11 +926,24 @@ Actual: {driverFactory.GetType().FullName}",
 
     private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
     {
-        string pathTemplate = BuildingContext.ArtifactsPathBuilder.Invoke(context);
+        string pathTemplate = BuildingContext.ArtifactsPathTemplate;
 
         string path = context.FillTemplateString(pathTemplate);
+        string fullPath;
 
-        return new DirectorySubject(path, "Artifacts");
+        if (path.Length > 0)
+        {
+            if (path[0] == Path.DirectorySeparatorChar || path[0] == Path.AltDirectorySeparatorChar)
+                path = path.Substring(1);
+
+            fullPath = Path.Combine(AtataContext.GlobalProperties.ArtifactsRootPath, path);
+        }
+        else
+        {
+            fullPath = AtataContext.GlobalProperties.ArtifactsRootPath;
+        }
+
+        return new DirectorySubject(fullPath, "Artifacts");
     }
 
     /// <summary>
@@ -998,7 +978,6 @@ Actual: {driverFactory.GetType().FullName}",
         context.Test.Name = BuildingContext.TestNameFactory?.Invoke();
         context.Test.SuiteName = BuildingContext.TestSuiteNameFactory?.Invoke();
         context.Test.SuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke();
-        context.TimeZone = BuildingContext.TimeZone;
         context.BaseUrl = BuildingContext.BaseUrl;
         context.Log = logManager;
         context.Attributes = BuildingContext.Attributes.Clone();
@@ -1126,7 +1105,7 @@ Actual: {driverFactory.GetType().FullName}",
     {
         Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
 
-        if (AtataContext.ModeOfCurrent == AtataContextModeOfCurrent.Static)
+        if (AtataContext.GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.Static)
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
 
         context.Log.Trace($"Set: Culture={culture.Name}");
@@ -1172,7 +1151,7 @@ Actual: {driverFactory.GetType().FullName}",
 
         if (driver is ChromiumDriver or RemoteWebDriver)
         {
-            ChromiumBrowserLogMonitoringStrategy logMonitoringStrategy = new(driver, browserLogHandlers, context.TimeZone);
+            ChromiumBrowserLogMonitoringStrategy logMonitoringStrategy = new(driver, browserLogHandlers, AtataContext.GlobalProperties.TimeZone);
 
             try
             {

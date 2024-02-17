@@ -1,7 +1,11 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the factory of <see cref="LogEventInfo"/>, which populates the log event with information from <see cref="AtataContext"/>.
+/// Represents the factory of <see cref="LogEventInfo"/>,
+/// which populates the log event <see cref="LogEventInfo.Context"/> property and
+/// sets <see cref="LogEventInfo.Timestamp"/> with a date/time relative to
+/// time zone of <see cref="AtataContextGlobalProperties.TimeZone"/> value
+/// of <see cref="AtataContext.GlobalProperties"/>.
 /// </summary>
 public class AtataContextLogEventInfoFactory : ILogEventInfoFactory
 {
@@ -16,7 +20,7 @@ public class AtataContextLogEventInfoFactory : ILogEventInfoFactory
         {
             Level = level,
             Message = message,
-            Timestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _context.TimeZone),
+            Timestamp = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, AtataContext.GlobalProperties.TimeZone),
             Context = _context
         };
 }
