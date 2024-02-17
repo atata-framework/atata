@@ -263,6 +263,15 @@ public sealed class AtataContext : IDisposable
     public DirectorySubject Artifacts { get; internal set; }
 
     /// <summary>
+    /// Gets the path of Artifacts directory.
+    /// Artifacts directory can contain any files produced during test execution, logs, screenshots, downloads, etc.
+    /// The default Artifacts directory path is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>
+    /// relative to <see cref="AtataContextGlobalProperties.ArtifactsRootPath"/> value
+    /// of <see cref="GlobalProperties"/>.
+    /// </summary>
+    public string ArtifactsPath => Artifacts?.FullName.Value;
+
+    /// <summary>
     /// Gets the <see cref="AtataNavigator"/> instance,
     /// which provides the navigation functionality between pages and windows.
     /// </summary>
@@ -395,7 +404,7 @@ public sealed class AtataContext : IDisposable
     }
 
     internal void InitArtifactsVariable() =>
-        Variables["artifacts"] = Artifacts.FullName.Value;
+        Variables["artifacts"] = ArtifactsPath;
 
     internal void LogTestStart()
     {
@@ -784,7 +793,7 @@ public sealed class AtataContext : IDisposable
 
     private string BuildAbsoluteArtifactFilePathAndEnsureDirectoryExists(string relativeFilePath)
     {
-        string absoluteFilePath = Path.Combine(Artifacts.FullName, relativeFilePath);
+        string absoluteFilePath = Path.Combine(ArtifactsPath, relativeFilePath);
         string directoryPath = Path.GetDirectoryName(absoluteFilePath);
 
         if (!Directory.Exists(directoryPath))

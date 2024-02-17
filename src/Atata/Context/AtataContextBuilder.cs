@@ -1068,7 +1068,7 @@ Actual: {driverFactory.GetType().FullName}",
         if (BuildingContext.Culture != null)
             ApplyCulture(context, BuildingContext.Culture);
 
-        context.Log.Trace($"Set: Artifacts={context.Artifacts.FullName.Value}");
+        context.Log.Trace($"Set: Artifacts={context.ArtifactsPath}");
 
         InitBrowserLogMonitoring(context);
 

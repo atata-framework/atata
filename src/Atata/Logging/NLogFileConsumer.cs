@@ -73,7 +73,7 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     }
 
     protected virtual string BuildDefaultDirectoryPath() =>
-        AtataContext.Current.Artifacts.FullName;
+        AtataContext.Current.ArtifactsPath;
 
     protected virtual string BuildDefaultFileName(AtataContext context) =>
         DefaultFileName;

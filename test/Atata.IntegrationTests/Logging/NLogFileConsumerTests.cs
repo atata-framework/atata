@@ -12,7 +12,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
             .Build();
 
         WriteLogMessageAndAssertItInFile(
-            Path.Combine(AtataContext.Current.Artifacts.FullName, NLogFileConsumer.DefaultFileName));
+            Path.Combine(AtataContext.Current.ArtifactsPath, NLogFileConsumer.DefaultFileName));
     }
 
     [Test]
@@ -67,7 +67,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
             .Build();
 
         WriteLogMessageAndAssertItInFile(
-            Path.Combine(AtataContext.Current.Artifacts.FullName, "1", NLogFileConsumer.DefaultFileName));
+            Path.Combine(AtataContext.Current.ArtifactsPath, "1", NLogFileConsumer.DefaultFileName));
     }
 
     [Test]
@@ -79,7 +79,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
             .Build();
 
         WriteLogMessageAndAssertItInFile(
-            Path.Combine(AtataContext.Current.Artifacts.FullName, NLogFileConsumer.DefaultFileName));
+            Path.Combine(AtataContext.Current.ArtifactsPath, NLogFileConsumer.DefaultFileName));
     }
 
     [Test]
@@ -93,7 +93,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
             .Build();
 
         WriteLogMessageAndAssertItInFile(
-            Path.Combine(AtataContext.Current.Artifacts.FullName, fileName));
+            Path.Combine(AtataContext.Current.ArtifactsPath, fileName));
     }
 
     private static void WriteLogMessageAndAssertItInFile(string filePath)

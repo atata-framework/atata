@@ -45,7 +45,7 @@ public class AtataContextTests : UITestFixture
         [Test]
         public void SubDirectory_Should_ContainFiles()
         {
-            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(AtataContext.Current.Artifacts.FullName)
+            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(AtataContext.Current.ArtifactsPath)
                 .CreateFiles("1.txt", "2.txt");
 
             using (directoryFixture)
@@ -56,7 +56,7 @@ public class AtataContextTests : UITestFixture
         [Test]
         public void SubDirectory_Should_ContainDirectories()
         {
-            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(AtataContext.Current.Artifacts.FullName)
+            var directoryFixture = DirectoryFixture.CreateUniqueDirectoryIn(AtataContext.Current.ArtifactsPath)
                 .CreateDirectories("dir1", "dir2");
 
             using (directoryFixture)
@@ -131,7 +131,7 @@ public class AtataContextTests : UITestFixture
             handlerActionMock.Verify(
                 action => action(It.Is<ArtifactAddedEvent>(ev =>
                     ev.RelativeFilePath == "f/g.txt" &&
-                    ev.AbsoluteFilePath == Path.Combine(_sut.Object.Artifacts.FullName, "f/g.txt") &&
+                    ev.AbsoluteFilePath == Path.Combine(_sut.Object.ArtifactsPath, "f/g.txt") &&
                     ev.ArtifactType == "art type" &&
                     ev.ArtifactTitle == "art title")),
                 Times.Once);

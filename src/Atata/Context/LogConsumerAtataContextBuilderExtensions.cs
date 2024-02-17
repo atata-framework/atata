@@ -83,7 +83,7 @@ public static class LogConsumerAtataContextBuilderExtensions
     public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithArtifactsDirectoryPath(
         this LogConsumerAtataContextBuilder<NLogFileConsumer> builder)
         =>
-        builder.WithDirectoryPath(x => x.Artifacts.FullName);
+        builder.WithDirectoryPath(x => x.ArtifactsPath);
 
     /// <summary>
     /// Specifies the directory path of the log file.

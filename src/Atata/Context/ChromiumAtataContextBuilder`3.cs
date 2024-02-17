@@ -47,7 +47,7 @@ public abstract class ChromiumAtataContextBuilder<TBuilder, TService, TOptions>
     /// </summary>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithArtifactsAsDownloadDirectory() =>
-        WithDownloadDirectory(() => AtataContext.Current.Artifacts.FullName);
+        WithDownloadDirectory(() => AtataContext.Current.ArtifactsPath);
 
     /// <summary>
     /// Adds the <c>download.default_directory</c> user profile preference to options

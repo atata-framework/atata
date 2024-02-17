@@ -3,7 +3,7 @@
 public sealed class AddArtifactsToNUnitTestContextEventHandler : AddDirectoryFilesToNUnitTestContextEventHandler
 {
     public AddArtifactsToNUnitTestContextEventHandler()
-        : base(context => context.Artifacts.FullName.Value)
+        : base(context => context.ArtifactsPath)
     {
     }
 }
