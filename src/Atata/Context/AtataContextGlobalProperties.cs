@@ -113,7 +113,7 @@ public sealed class AtataContextGlobalProperties
     public string ArtifactsRootPath => ArtifactsRoot.FullName.Value;
 
     /// <summary>
-    /// Sets the default Artifacts root path template with optionally
+    /// Sets the default Artifacts Root path template with optionally
     /// including <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.
     /// </summary>
     /// <param name="include">Whether to include the <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.</param>
