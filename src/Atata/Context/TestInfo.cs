@@ -15,7 +15,7 @@ public sealed class TestInfo
         internal set
         {
             _name = value;
-            NameSanitized = value.SanitizeForFileName();
+            NameSanitized = value.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
         }
     }
 
@@ -33,7 +33,7 @@ public sealed class TestInfo
         internal set
         {
             _suiteName = value;
-            SuiteNameSanitized = value.SanitizeForFileName();
+            SuiteNameSanitized = value.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
         }
     }
 

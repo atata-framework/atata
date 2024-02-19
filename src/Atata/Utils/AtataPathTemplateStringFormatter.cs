@@ -2,6 +2,8 @@
 
 internal sealed class AtataPathTemplateStringFormatter : IFormatProvider, ICustomFormatter
 {
+    internal const char CharToReplaceWith = '_';
+
     private readonly AtataTemplateStringFormatter _templateFormatter = AtataTemplateStringFormatter.Default;
 
     private AtataPathTemplateStringFormatter()
@@ -66,7 +68,7 @@ internal sealed class AtataPathTemplateStringFormatter : IFormatProvider, ICusto
                 '*' or
                 '?' or
                 '\\' or
-                '/' => '_',
+                '/' => CharToReplaceWith,
                 _ => origin[i],
             };
         }

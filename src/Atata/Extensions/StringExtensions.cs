@@ -109,10 +109,26 @@ public static class StringExtensions
         return invalidChars.Aggregate(value, (current, c) => current.Replace(c.ToString(), replaceWith));
     }
 
+    public static string Sanitize(this string value, IEnumerable<char> invalidChars, char replaceWith)
+    {
+        invalidChars.CheckNotNull(nameof(invalidChars));
+
+        if (string.IsNullOrEmpty(value))
+            return value;
+
+        return invalidChars.Aggregate(value, (current, c) => current.Replace(c, replaceWith));
+    }
+
     public static string SanitizeForFileName(this string value, string replaceWith = null) =>
         value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
 
+    public static string SanitizeForFileName(this string value, char replaceWith) =>
+        value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
+
     public static string SanitizeForPath(this string value, string replaceWith = null) =>
+        value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
+
+    public static string SanitizeForPath(this string value, char replaceWith) =>
         value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
 
     public static string Truncate(this string value, int length, bool withEllipsis = true)
