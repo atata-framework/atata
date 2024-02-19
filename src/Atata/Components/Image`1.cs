@@ -2,10 +2,11 @@
 
 /// <summary>
 /// Represents the image control (<c>&lt;img&gt;</c>).
-/// Default search finds the first occurring <c>&lt;img&gt;</c> element.
+/// Default search is performed by <c>alt</c> attribute using <see cref="FindByAltAttribute"/>.
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
 [ControlDefinition("img", ComponentTypeName = "image")]
+[FindByAlt]
 public class Image<TOwner> : Control<TOwner>
     where TOwner : PageObject<TOwner>
 {
