@@ -1,6 +1,4 @@
-﻿using Atata.IntegrationTests.DataProvision;
-
-namespace Atata.IntegrationTests.Logging;
+﻿namespace Atata.IntegrationTests.Logging;
 
 public class NLogFileConsumerTests : UITestFixtureBase
 {
@@ -8,6 +6,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
     public void WithDefaultConfiguration()
     {
         ConfigureBaseAtataContext()
+            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
             .LogConsumers.AddNLogFile()
             .Build();
 
@@ -16,84 +15,37 @@ public class NLogFileConsumerTests : UITestFixtureBase
     }
 
     [Test]
-    public void WithFilePath()
+    public void WithFileNameTemplate()
     {
-        using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
-        string filePath = Path.Combine(directoryFixture.DirectoryPath, "test.log");
+        string fileName = Guid.NewGuid().ToString() + ".txt";
 
         ConfigureBaseAtataContext()
+            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
             .LogConsumers.AddNLogFile()
-                .WithFilePath(filePath)
-            .Build();
-
-        WriteLogMessageAndAssertItInFile(filePath);
-    }
-
-    [Test]
-    public void WithFilePathThatContainsVariables()
-    {
-        using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
-        string filePath = Path.Combine(directoryFixture.DirectoryPath, "{test-name-sanitized}-{driver-alias}", "test.log");
-
-        ConfigureBaseAtataContext()
-            .LogConsumers.AddNLogFile()
-                .WithFilePath(filePath)
-            .Build();
-
-        WriteLogMessageAndAssertItInFile(
-            Path.Combine(directoryFixture.DirectoryPath, $"{AtataContext.Current.Test.NameSanitized}-{AtataContext.Current.DriverAlias}", "test.log"));
-    }
-
-    [Test]
-    public void WithDirectoryPath()
-    {
-        using var directoryFixture = DirectoryFixture.CreateUniqueDirectory();
-
-        ConfigureBaseAtataContext()
-            .LogConsumers.AddNLogFile()
-                .WithDirectoryPath(directoryFixture.DirectoryPath)
-            .Build();
-
-        WriteLogMessageAndAssertItInFile(
-            Path.Combine(directoryFixture.DirectoryPath, NLogFileConsumer.DefaultFileName));
-    }
-
-    [Test]
-    public void WithDirectoryPathThatContainsVariables()
-    {
-        ConfigureBaseAtataContext()
-            .LogConsumers.AddNLogFile()
-                .WithDirectoryPath("{artifacts}/1")
-            .Build();
-
-        WriteLogMessageAndAssertItInFile(
-            Path.Combine(AtataContext.Current.ArtifactsPath, "1", NLogFileConsumer.DefaultFileName));
-    }
-
-    [Test]
-    public void WithArtifactsDirectoryPath()
-    {
-        ConfigureBaseAtataContext()
-            .LogConsumers.AddNLogFile()
-                .WithArtifactsDirectoryPath()
-            .Build();
-
-        WriteLogMessageAndAssertItInFile(
-            Path.Combine(AtataContext.Current.ArtifactsPath, NLogFileConsumer.DefaultFileName));
-    }
-
-    [Test]
-    public void WithFileName()
-    {
-        string fileName = Guid.NewGuid().ToString();
-
-        ConfigureBaseAtataContext()
-            .LogConsumers.AddNLogFile()
-                .WithFileName(fileName)
+                .WithFileNameTemplate(fileName)
             .Build();
 
         WriteLogMessageAndAssertItInFile(
             Path.Combine(AtataContext.Current.ArtifactsPath, fileName));
+    }
+
+    [Test]
+    public void WithFileNameTemplate_ThatContainsVariables()
+    {
+        string filePath = "logs/{test-name-sanitized}/{driver-alias}.log";
+
+        ConfigureBaseAtataContext()
+            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+            .LogConsumers.AddNLogFile()
+                .WithFileNameTemplate(filePath)
+            .Build();
+
+        WriteLogMessageAndAssertItInFile(
+            Path.Combine(
+                AtataContext.Current.ArtifactsPath,
+                "logs",
+                AtataContext.Current.Test.NameSanitized,
+                $"{AtataContext.Current.DriverAlias}.log"));
     }
 
     private static void WriteLogMessageAndAssertItInFile(string filePath)

@@ -47,99 +47,19 @@ public static class LogConsumerAtataContextBuilderExtensions
     }
 
     /// <summary>
-    /// Specifies the full file path of the log file.
+    /// Sets the file name template of the log file.
+    /// The default value is <c>"Trace.log"</c>.
     /// </summary>
     /// <param name="builder">The builder.</param>
-    /// <param name="filePath">The file path.</param>
+    /// <param name="fileNameTemplate">The file name template.</param>
     /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFilePath(
+    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFileNameTemplate(
         this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        string filePath)
+        string fileNameTemplate)
     {
-        filePath.CheckNotNullOrWhitespace(nameof(filePath));
+        fileNameTemplate.CheckNotNullOrWhitespace(nameof(fileNameTemplate));
 
-        return builder.WithFilePath(_ => filePath);
-    }
-
-    /// <summary>
-    /// Specifies the full file path builder for the log file.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <param name="filePathBuilder">The file path builder function.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFilePath(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        Func<AtataContext, string> filePathBuilder)
-    {
-        builder.Context.FilePathBuilder = filePathBuilder;
-        return builder;
-    }
-
-    /// <summary>
-    /// Sets the <see cref="AtataContext.Artifacts"/> directory as the directory path of the file screenshot consumer.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithArtifactsDirectoryPath(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder)
-        =>
-        builder.WithDirectoryPath(x => x.ArtifactsPath);
-
-    /// <summary>
-    /// Specifies the directory path of the log file.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <param name="directoryPath">The directory path.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithDirectoryPath(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        string directoryPath)
-    {
-        directoryPath.CheckNotNullOrWhitespace(nameof(directoryPath));
-
-        return builder.WithDirectoryPath(_ => directoryPath);
-    }
-
-    /// <summary>
-    /// Specifies the directory path builder for the log file.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <param name="directoryPathBuilder">The directory path builder function.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithDirectoryPath(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        Func<AtataContext, string> directoryPathBuilder)
-    {
-        builder.Context.DirectoryPathBuilder = directoryPathBuilder;
-        return builder;
-    }
-
-    /// <summary>
-    /// Specifies the file name of the log file.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <param name="fileName">The file path.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFileName(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        string fileName)
-    {
-        fileName.CheckNotNullOrWhitespace(nameof(fileName));
-
-        return builder.WithFileName(_ => fileName);
-    }
-
-    /// <summary>
-    /// Specifies the file name builder for the log file.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <param name="fileNameBuilder">The file path builder function.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFileName(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
-        Func<AtataContext, string> fileNameBuilder)
-    {
-        builder.Context.FileNameBuilder = fileNameBuilder;
+        builder.Context.FileNameTemplate = fileNameTemplate;
         return builder;
     }
 

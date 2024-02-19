@@ -11,19 +11,10 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     public const string DefaultFileName = "Trace.log";
 
     /// <summary>
-    /// Gets or sets the builder of the directory path.
+    /// Gets or sets the file name template.
+    /// The default value is <c>"Trace.log"</c>.
     /// </summary>
-    public Func<AtataContext, string> DirectoryPathBuilder { get; set; }
-
-    /// <summary>
-    /// Gets or sets the builder of the file name.
-    /// </summary>
-    public Func<AtataContext, string> FileNameBuilder { get; set; }
-
-    /// <summary>
-    /// Gets or sets the builder of the file path.
-    /// </summary>
-    public Func<AtataContext, string> FilePathBuilder { get; set; }
+    public string FileNameTemplate { get; set; } = DefaultFileName;
 
     /// <summary>
     /// Gets or sets the layout of log event.
@@ -34,9 +25,7 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     protected override dynamic GetLogger()
     {
         string uniqueLoggerName = Guid.NewGuid().ToString();
-        string filePathTemplate = BuildFilePath();
-
-        string filePath = AtataContext.Current.FillTemplateString(filePathTemplate);
+        string filePath = BuildFilePath();
 
         var target = NLogAdapter.CreateFileTarget(uniqueLoggerName, filePath, Layout);
 
@@ -56,27 +45,9 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     {
         AtataContext context = AtataContext.Current;
 
-        if (FilePathBuilder != null)
-            return FilePathBuilder.Invoke(context).SanitizeForPath();
-
-        string directoryPath = DirectoryPathBuilder?.Invoke(context)
-            ?? BuildDefaultDirectoryPath();
-
-        directoryPath = directoryPath.SanitizeForPath();
-
-        string fileName = FileNameBuilder?.Invoke(context)
-            ?? BuildDefaultFileName(context);
-
-        fileName = fileName.SanitizeForFileName();
-
-        return Path.Combine(directoryPath, fileName);
+        string fileName = context.FillPathTemplateString(FileNameTemplate);
+        return Path.Combine(context.ArtifactsPath, fileName);
     }
-
-    protected virtual string BuildDefaultDirectoryPath() =>
-        AtataContext.Current.ArtifactsPath;
-
-    protected virtual string BuildDefaultFileName(AtataContext context) =>
-        DefaultFileName;
 
     /// <summary>
     /// Creates a new object that is a copy of the current instance.
@@ -87,9 +58,7 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     object ICloneable.Clone() =>
         new NLogFileConsumer
         {
-            DirectoryPathBuilder = DirectoryPathBuilder,
-            FileNameBuilder = FileNameBuilder,
-            FilePathBuilder = FilePathBuilder,
+            FileNameTemplate = FileNameTemplate,
             Layout = Layout
         };
 }

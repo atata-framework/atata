@@ -6,6 +6,7 @@ public class NLogConsumerTests : UITestFixtureBase
     public void WithDefaultConfiguration()
     {
         ConfigureBaseAtataContext()
+            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
             .LogConsumers.AddNLog()
             .Build();
 
@@ -14,7 +15,7 @@ public class NLogConsumerTests : UITestFixtureBase
         AtataContext.Current.Log.Info(testMessage);
 
         string filePath = Path.Combine(
-            AtataContext.Current.Artifacts.FullName,
+            AtataContext.Current.ArtifactsPath,
             $"{AtataContext.Current.Test.NameSanitized}.log");
 
         AssertThatFileShouldContainText(filePath, testMessage);
