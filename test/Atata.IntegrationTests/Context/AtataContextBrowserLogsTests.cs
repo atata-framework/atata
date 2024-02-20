@@ -54,7 +54,8 @@ public class AtataContextBrowserLogsTests : UITestFixtureBase
         ConfigureBaseAtataContext()
             .BrowserLogs.UseMinLevelOfWarning(LogLevel.Error)
             .Build();
-        Go.To<OrdinaryPage>(url: "/browserlogs");
+        Go.To<OrdinaryPage>(url: "/browserlogs")
+            .WaitSeconds(1);
 
         Subject.Invoking(() => AtataContext.Current.Dispose())
             .Should.Throw<AggregateAssertionException>()
