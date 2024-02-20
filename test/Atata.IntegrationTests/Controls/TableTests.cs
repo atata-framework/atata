@@ -8,6 +8,14 @@ public class TableTests : UITestFixture
         _page = Go.To<TablePage>();
 
     [Test]
+    public void Headers() =>
+        _page
+            .SimpleTable.Headers.Should.HaveCount(2)
+            .SimpleTable.Headers["First Name"].Content.Should.Be("First Name")
+            .SimpleTable.Headers["Last Name"].Content.Should.Be("Last Name")
+            .SimpleTable.Headers.Contents.Should.EqualSequence("First Name", "Last Name");
+
+    [Test]
     public void OfTypeWithoutTRow() =>
         _page
             .SimpleTable.Should.BePresent()

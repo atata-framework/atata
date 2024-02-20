@@ -23,7 +23,7 @@ public class Table<THeader, TRow, TOwner> : Control<TOwner>, ITable
     /// <summary>
     /// Gets the headers list.
     /// </summary>
-    public ControlList<THeader, TOwner> Headers { get; private set; }
+    public TableHeaderList<THeader, TOwner> Headers { get; private set; }
 
     /// <summary>
     /// Gets a value indicating whether to the cache of column header texts.
