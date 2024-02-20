@@ -1,9 +1,22 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents the list of <c>&lt;tr&gt;</c> table row components.
+/// </summary>
+/// <typeparam name="TItem">The type of the row component.</typeparam>
+/// <typeparam name="TOwner">The type of the owner page object.</typeparam>
 public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
     where TItem : TableRow<TOwner>
     where TOwner : PageObject<TOwner>
 {
+    /// <summary>
+    /// Gets the row with the specified cell values.
+    /// </summary>
+    /// <value>
+    /// The <typeparamref name="TItem"/> component.
+    /// </value>
+    /// <param name="cellValues">The cell values.</param>
+    /// <returns>A row component.</returns>
     public TItem this[params string[] cellValues]
     {
         get
@@ -22,7 +35,7 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
         if (values == null || !values.Any())
             return null;
         else if (values.Length == 1)
-            return values[0];
+            return $"\"{values[0]}\"";
         else
             return values.ToQuotedValuesListOfString(true);
     }
