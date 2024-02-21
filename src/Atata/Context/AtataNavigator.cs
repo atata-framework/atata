@@ -244,7 +244,10 @@ public class AtataNavigator
             () =>
             {
                 if (!string.IsNullOrEmpty(navigationUrl) || options.Navigate)
-                    ToUrl(navigationUrl, false);
+                {
+                    Uri uri = CreateAbsoluteUriForNavigation(navigationUrl);
+                    Navigate(uri);
+                }
 
                 pageObject.Init();
             });
@@ -301,7 +304,10 @@ public class AtataNavigator
                     ((IPageObject)currentPageObject).SwitchToWindow(options.WindowNameResolver.Invoke());
 
                 if (!string.IsNullOrEmpty(navigationUrl))
-                    ToUrl(navigationUrl, false);
+                {
+                    Uri uri = CreateAbsoluteUriForNavigation(navigationUrl);
+                    Navigate(uri);
+                }
 
                 if (!isReturnedFromTemporary)
                 {
@@ -373,40 +379,42 @@ public class AtataNavigator
     /// </summary>
     /// <param name="url">The URL.</param>
     public void ToUrl(string url)
-        => ToUrl(url, true);
-
-    private void ToUrl(string url, bool logAsInfo)
     {
         SetContextAsCurrent();
 
-        if (!UriUtils.TryCreateAbsoluteUrl(url, out Uri absoluteUrl))
-        {
-            if (!_context.IsNavigated && _context.BaseUrl is null)
-            {
-                if (string.IsNullOrWhiteSpace(url))
-                    throw new InvalidOperationException("Cannot navigate to empty or null URL. AtataContext.Current.BaseUrl can be set with base URL.");
-                else
-                    throw new InvalidOperationException($"Cannot navigate to relative URL \"{url}\". AtataContext.Current.BaseUrl can be set with base URL.");
-            }
-
-            if (_context.BaseUrl is null)
-            {
-                Uri currentUri = new Uri(_context.Driver.Url, UriKind.Absolute);
-
-                string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
-                Uri domainUri = new Uri(domainPart);
-
-                absoluteUrl = new Uri(domainUri, url);
-            }
-            else
-            {
-                absoluteUrl = UriUtils.Concat(_context.BaseUrl, url);
-            }
-        }
+        Uri absoluteUrl = CreateAbsoluteUriForNavigation(url);
 
         _context.Log.ExecuteSection(
-            new GoToUrlLogSection(absoluteUrl, logAsInfo),
+            new GoToUrlLogSection(absoluteUrl),
             () => Navigate(absoluteUrl));
+    }
+
+    private Uri CreateAbsoluteUriForNavigation(string url)
+    {
+        if (UriUtils.TryCreateAbsoluteUrl(url, out Uri absoluteUrl))
+            return absoluteUrl;
+
+        if (!_context.IsNavigated && _context.BaseUrl is null)
+        {
+            if (string.IsNullOrWhiteSpace(url))
+                throw new InvalidOperationException("Cannot navigate to empty or null URL. AtataContext.Current.BaseUrl can be set with base URL.");
+            else
+                throw new InvalidOperationException($"Cannot navigate to relative URL \"{url}\". AtataContext.Current.BaseUrl can be set with base URL.");
+        }
+
+        if (_context.BaseUrl is null)
+        {
+            Uri currentUri = new Uri(_context.Driver.Url, UriKind.Absolute);
+
+            string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
+            Uri domainUri = new Uri(domainPart);
+
+            return new Uri(domainUri, url);
+        }
+        else
+        {
+            return UriUtils.Concat(_context.BaseUrl, url);
+        }
     }
 
     private string NormalizeAsAbsoluteUrlSafely(string url) =>

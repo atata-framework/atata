@@ -5,6 +5,14 @@ public class GoTests : UITestFixture
     protected override bool ReuseDriver => false;
 
     [Test]
+    public void ToUrl_Relative_WithoutPriorNavigation()
+    {
+        Go.ToUrl(GoTo1Page.DefaultUrl);
+
+        AtataContext.Current.Driver.Url.Should().Be(BaseUrl + GoTo1Page.DefaultUrl);
+    }
+
+    [Test]
     public void On_WhenNoCurrent()
     {
         var result = Go.On<GoTo1Page>();
@@ -473,6 +481,11 @@ public class GoTests : UITestFixture
             ConfigureBaseAtataContext()
                 .UseBaseUrl(null)
                 .Build();
+
+        [Test]
+        public void ToUrl_Relative_WithoutPriorNavigation() =>
+            Assert.Throws<InvalidOperationException>(() =>
+                Go.ToUrl(GoTo1Page.DefaultUrl));
 
         [Test]
         public void To_WithoutUrl_WhenNotNavigated()

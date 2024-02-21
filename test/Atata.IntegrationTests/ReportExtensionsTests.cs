@@ -12,8 +12,6 @@ public class ReportExtensionsTests : UITestFixture
             minLogLevel: LogLevel.Trace,
             "^> Set up \"<ordinary>\" page$",
             "^> Go to \"<ordinary>\" page",
-            "^> Navigate to URL",
-            "^< Navigate to URL",
             "^< Go to \"<ordinary>\" page",
             "^< Set up \"<ordinary>\" page");
     }
