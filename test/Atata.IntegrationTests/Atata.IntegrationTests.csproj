@@ -27,7 +27,7 @@
     <PackageReference Include="Atata.Cli" Version="2.2.0" />
     <PackageReference Include="Atata.WebDriverSetup" Version="2.10.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
-    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="NLog" Version="5.2.8" />
