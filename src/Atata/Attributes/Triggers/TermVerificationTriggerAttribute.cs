@@ -70,7 +70,7 @@ public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute
             metadata != null ? GetSettingsAttributes(metadata) : null);
 
     protected virtual IEnumerable<IHasOptionalProperties> GetSettingsAttributes(UIComponentMetadata metadata) =>
-        Enumerable.Empty<IHasOptionalProperties>();
+        [];
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context)
     {

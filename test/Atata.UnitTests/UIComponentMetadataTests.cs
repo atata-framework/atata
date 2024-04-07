@@ -144,7 +144,7 @@ public class UIComponentMetadataTests
         private static IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
         {
             if (attributeCollections == null || attributeCollections.Length == 0)
-                return Enumerable.Empty<Attribute>();
+                return [];
 
             return attributeCollections.SelectMany(x => x).ToArray();
         }

@@ -247,7 +247,7 @@ public class UIComponentMetadata
     private IEnumerable<TAttribute> FilterAndOrderByTarget<TAttribute>(IEnumerable<TAttribute> attributes, AttributeFilter<TAttribute> filter, AttributeTargetFilterOptions targetFilterOptions)
     {
         if (targetFilterOptions == AttributeTargetFilterOptions.None)
-            return Enumerable.Empty<TAttribute>();
+            return [];
 
         var query = attributes.OfType<MulticastAttribute>();
 

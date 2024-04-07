@@ -15,7 +15,7 @@ public sealed class AtataAssertionFailureReportStrategy : IAssertionFailureRepor
         AtataContext context = AtataContext.Current;
 
         var pendingFailureAssertionResults = context?.GetAndClearPendingFailureAssertionResults()
-            ?? Array.Empty<AssertionResult>();
+            ?? [];
 
         Exception assertionException = pendingFailureAssertionResults.Count > 0
             ? VerificationUtils.CreateAggregateAssertionException(
