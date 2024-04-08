@@ -17,9 +17,9 @@ public class ScrollBehaviorAttributeTests : UITestFixture
     public void Execute(ScrollBehaviorAttribute behavior)
     {
         static object GetPageYOffset() =>
-            AtataContext.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
+            WebDriverSession.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
 
-        AtataContext.Current.Driver.Manage().Window.Size = new Size(400, 400);
+        WebDriverSession.Current.Driver.Manage().Window.Size = new Size(400, 400);
 
         ScrollablePage page = Go.To<ScrollablePage>();
         Assume.That(GetPageYOffset(), Is.EqualTo(0));

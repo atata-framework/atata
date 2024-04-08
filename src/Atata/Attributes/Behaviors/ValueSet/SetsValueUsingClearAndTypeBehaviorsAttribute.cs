@@ -36,7 +36,7 @@ public class SetsValueUsingClearAndTypeBehaviorsAttribute : ValueSetBehaviorAttr
         }
 
         if (_useUIComponentScopeCache)
-            component.Context.UIComponentAccessChainScopeCache.ExecuteWithin(DoExecute);
+            component.Session.UIComponentAccessChainScopeCache.ExecuteWithin(DoExecute);
         else
             DoExecute();
     }

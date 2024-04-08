@@ -20,5 +20,5 @@ public class TakePageSnapshotAttribute : TriggerAttribute
     public string Title { get; }
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-        context.Component.Context.TakePageSnapshot(Title);
+        context.Component.Session.TakePageSnapshot(Title);
 }

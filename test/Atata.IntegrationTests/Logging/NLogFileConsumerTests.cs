@@ -45,7 +45,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
                 AtataContext.Current.ArtifactsPath,
                 "logs",
                 AtataContext.Current.Test.NameSanitized,
-                $"{AtataContext.Current.DriverAlias}.log"));
+                $"{WebDriverSession.Current.DriverAlias}.log"));
     }
 
     private static void WriteLogMessageAndAssertItInFile(string filePath)

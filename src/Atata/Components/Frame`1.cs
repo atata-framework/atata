@@ -48,6 +48,6 @@ public class Frame<TOwner> : Control<TOwner>
 
         action(framePageObject);
 
-        return ((IPageObject)Context.PageObject).SwitchToRoot(Owner);
+        return ((IPageObject)Session.PageObject).SwitchToRoot(Owner);
     }
 }

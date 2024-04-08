@@ -172,13 +172,13 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
         OptionalProperties.Resolve<double?>(
             nameof(Timeout),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null)
-            ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            ?? (WebSession.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
 
     internal double ResolveRetryInterval(UIComponentMetadata metadata = null) =>
         OptionalProperties.Resolve<double?>(
             nameof(RetryInterval),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null)
-            ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            ?? (WebSession.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
 
     private IEnumerable<IHasOptionalProperties> GetFindSettingsPropertyAttributes(UIComponentMetadata metadata) =>
         metadata.GetAll<FindSettingsAttribute>(x => x.ForAttribute(GetType()));

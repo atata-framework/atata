@@ -3,20 +3,20 @@
 /// <summary>
 /// Represents the navigation functionality between pages and windows.
 /// </summary>
-public class AtataNavigator
+public sealed class AtataNavigator
 {
-    private readonly AtataContext _context;
+    private readonly WebDriverSession _session;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AtataNavigator"/> class.
     /// </summary>
-    /// <param name="context">The context.</param>
-    public AtataNavigator(AtataContext context) =>
-        _context = context.CheckNotNull(nameof(context));
+    /// <param name="session">The session.</param>
+    internal AtataNavigator(WebDriverSession session) =>
+        _session = session.CheckNotNull(nameof(session));
 
     /// <summary>
     /// Continues with the specified page object type.
-    /// Firstly, checks whether the current <see cref="AtataContext.PageObject"/>
+    /// Firstly, checks whether the current <see cref="WebSession.PageObject"/>
     /// is <typeparamref name="T"/>, if it is, returns it;
     /// otherwise, creates a new instance of <typeparamref name="T"/> without navigation.
     /// The method is useful in case when in a particular step method (BDD step, for example)
@@ -26,12 +26,12 @@ public class AtataNavigator
     /// <returns>The page object.</returns>
     public T On<T>()
         where T : PageObject<T> =>
-        (_context.PageObject as T)
+        (_session.PageObject as T)
             ?? To<T>(null, new GoOptions { Navigate = false });
 
     /// <summary>
     /// Continues with the specified page object type with rage refresh.
-    /// Firstly, checks whether the current <see cref="AtataContext.PageObject"/>
+    /// Firstly, checks whether the current <see cref="WebSession.PageObject"/>
     /// is <typeparamref name="T"/>, if it is, returns it;
     /// otherwise, creates a new instance of <typeparamref name="T"/> without navigation.
     /// Then a page is refreshed.
@@ -47,7 +47,7 @@ public class AtataNavigator
 
     /// <summary>
     /// Continues with the specified page object type or navigates to it.
-    /// Firstly, checks whether the current <see cref="AtataContext.PageObject"/>
+    /// Firstly, checks whether the current <see cref="WebSession.PageObject"/>
     /// is <typeparamref name="T"/>, if it is, returns it;
     /// otherwise, creates a new instance of <typeparamref name="T"/> with navigation.
     /// The method is useful in case when in a particular step method (BDD step, for example)
@@ -57,7 +57,7 @@ public class AtataNavigator
     /// <returns>The page object.</returns>
     public T OnOrTo<T>()
         where T : PageObject<T> =>
-        (_context.PageObject as T)
+        (_session.PageObject as T)
             ?? To<T>(null, new GoOptions { Navigate = true });
 
     /// <summary>
@@ -134,9 +134,9 @@ public class AtataNavigator
 
     private string GetNextWindowHandle()
     {
-        string currentWindowHandle = _context.Driver.CurrentWindowHandle;
+        string currentWindowHandle = _session.Driver.CurrentWindowHandle;
 
-        return _context.Driver.WindowHandles
+        return _session.Driver.WindowHandles
             .SkipWhile(x => x != currentWindowHandle)
             .ElementAt(1);
     }
@@ -164,9 +164,9 @@ public class AtataNavigator
 
     private string GetPreviousWindowHandle()
     {
-        string currentWindowHandle = _context.Driver.CurrentWindowHandle;
+        string currentWindowHandle = _session.Driver.CurrentWindowHandle;
 
-        return _context.Driver.WindowHandles
+        return _session.Driver.WindowHandles
             .Reverse()
             .SkipWhile(x => x != currentWindowHandle)
             .ElementAt(1);
@@ -218,7 +218,7 @@ public class AtataNavigator
     {
         SetContextAsCurrent();
 
-        var currentPageObject = _context.PageObject;
+        var currentPageObject = _session.PageObject;
 
         return currentPageObject is null
             ? GoToInitialPageObject(pageObject, options)
@@ -229,17 +229,17 @@ public class AtataNavigator
         where T : PageObject<T>
     {
         pageObject ??= ActivatorEx.CreateInstance<T>();
-        _context.PageObject = pageObject;
+        _session.PageObject = pageObject;
 
         string navigationUrl = options.Navigate
             ? string.IsNullOrEmpty(pageObject.NavigationUrl)
-                ? _context.BaseUrl
+                ? _session.BaseUrl
                 : pageObject.NavigationUrl
             : options.Url;
 
         navigationUrl = PrepareNavigationUrl(navigationUrl, options);
 
-        _context.Log.ExecuteSection(
+        _session.Log.ExecuteSection(
             new GoToPageObjectLogSection(pageObject, navigationUrl, options.NavigationTarget),
             () =>
             {
@@ -270,18 +270,18 @@ public class AtataNavigator
         if (!isReturnedFromTemporary)
         {
             if (!options.Temporarily)
-                _context.CleanUpTemporarilyPreservedPageObjectList();
+                _session.CleanUpTemporarilyPreservedPageObjectList();
 
             if (options.Temporarily)
             {
                 nextPageObject.IsTemporarilyNavigated = options.Temporarily;
-                _context.TemporarilyPreservedPageObjectList.Add(currentPageObject);
+                _session.TemporarilyPreservedPageObjectList.Add(currentPageObject);
             }
         }
 
         ((IPageObject)currentPageObject).DeInit();
 
-        _context.PageObject = nextPageObject;
+        _session.PageObject = nextPageObject;
 
         // TODO: Review this condition.
         if (!options.Temporarily)
@@ -293,7 +293,7 @@ public class AtataNavigator
 
         navigationUrl = PrepareNavigationUrl(navigationUrl, options);
 
-        _context.Log.ExecuteSection(
+        _session.Log.ExecuteSection(
             new GoToPageObjectLogSection(nextPageObject, navigationUrl, options.NavigationTarget),
             () =>
             {
@@ -325,13 +325,13 @@ public class AtataNavigator
     private string PrepareNavigationUrl(string navigationUrl, GoOptions options)
     {
         if (!string.IsNullOrEmpty(navigationUrl))
-            navigationUrl = _context.FillUriTemplateString(navigationUrl);
+            navigationUrl = _session.Context.FillUriTemplateString(navigationUrl);
 
         navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
 
         if (options.Navigate && !string.IsNullOrEmpty(options.Url))
         {
-            string additionalUrl = _context.FillUriTemplateString(options.Url);
+            string additionalUrl = _session.Context.FillUriTemplateString(options.Url);
             navigationUrl = UriUtils.MergeAsString(navigationUrl, additionalUrl);
         }
 
@@ -339,14 +339,14 @@ public class AtataNavigator
     }
 
     private void SwitchToNewWindow(WindowType windowType) =>
-        _context.Log.ExecuteSection(
+        _session.Log.ExecuteSection(
             new LogSection($"Switch to new {(windowType == WindowType.Tab ? "tab " : null)}window", LogLevel.Trace),
-            (Action)(() => _context.Driver.SwitchTo().NewWindow(windowType)));
+            (Action)(() => _session.Driver.SwitchTo().NewWindow(windowType)));
 
     private bool TryResolvePreviousPageObjectNavigatedTemporarily<TPageObject>(ref TPageObject pageObject)
         where TPageObject : PageObject<TPageObject>
     {
-        var tempPageObjectsEnumerable = _context.TemporarilyPreservedPageObjects
+        var tempPageObjectsEnumerable = _session.TemporarilyPreservedPageObjects
             .AsEnumerable()
             .Reverse()
             .OfType<TPageObject>();
@@ -362,14 +362,14 @@ public class AtataNavigator
 
         pageObject = foundPageObject;
 
-        var tempPageObjectsToRemove = _context.TemporarilyPreservedPageObjects
+        var tempPageObjectsToRemove = _session.TemporarilyPreservedPageObjects
             .SkipWhile(x => x != foundPageObject)
             .ToArray();
 
         UIComponentResolver.CleanUpPageObjects(tempPageObjectsToRemove.Skip(1));
 
         foreach (var item in tempPageObjectsToRemove)
-            _context.TemporarilyPreservedPageObjectList.Remove(item);
+            _session.TemporarilyPreservedPageObjectList.Remove(item);
 
         return true;
     }
@@ -384,7 +384,7 @@ public class AtataNavigator
 
         Uri absoluteUrl = CreateAbsoluteUriForNavigation(url);
 
-        _context.Log.ExecuteSection(
+        _session.Log.ExecuteSection(
             new GoToUrlLogSection(absoluteUrl),
             () => Navigate(absoluteUrl));
     }
@@ -394,7 +394,7 @@ public class AtataNavigator
         if (UriUtils.TryCreateAbsoluteUrl(url, out Uri absoluteUrl))
             return absoluteUrl;
 
-        if (!_context.IsNavigated && _context.BaseUrl is null)
+        if (!_session.IsNavigated && _session.BaseUrl is null)
         {
             if (string.IsNullOrWhiteSpace(url))
                 throw new InvalidOperationException("Cannot navigate to empty or null URL. AtataContext.Current.BaseUrl can be set with base URL.");
@@ -402,9 +402,9 @@ public class AtataNavigator
                 throw new InvalidOperationException($"Cannot navigate to relative URL \"{url}\". AtataContext.Current.BaseUrl can be set with base URL.");
         }
 
-        if (_context.BaseUrl is null)
+        if (_session.BaseUrl is null)
         {
-            Uri currentUri = new Uri(_context.Driver.Url, UriKind.Absolute);
+            Uri currentUri = new Uri(_session.Driver.Url, UriKind.Absolute);
 
             string domainPart = currentUri.GetComponents(UriComponents.SchemeAndServer | UriComponents.UserInfo, UriFormat.Unescaped);
             Uri domainUri = new Uri(domainPart);
@@ -413,23 +413,23 @@ public class AtataNavigator
         }
         else
         {
-            return UriUtils.Concat(_context.BaseUrl, url);
+            return UriUtils.Concat(_session.BaseUrl, url);
         }
     }
 
     private string NormalizeAsAbsoluteUrlSafely(string url) =>
-        !string.IsNullOrEmpty(url) && !UriUtils.TryCreateAbsoluteUrl(url, out _) && _context.BaseUrl != null
-            ? UriUtils.Concat(_context.BaseUrl, url).ToString()
+        !string.IsNullOrEmpty(url) && !UriUtils.TryCreateAbsoluteUrl(url, out _) && _session.BaseUrl != null
+            ? UriUtils.Concat(_session.BaseUrl, url).ToString()
             : url;
 
     private void Navigate(Uri uri)
     {
-        _context.Driver.Navigate().GoToUrl(uri);
-        _context.IsNavigated = true;
+        _session.Driver.Navigate().GoToUrl(uri);
+        _session.IsNavigated = true;
     }
 
     private void SetContextAsCurrent() =>
-        _context.SetAsCurrent();
+        _session.SetAsCurrent();
 
     private sealed class GoOptions
     {

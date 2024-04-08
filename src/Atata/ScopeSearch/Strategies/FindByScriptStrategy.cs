@@ -46,7 +46,7 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
 
     private object ExecuteScript(ISearchContext scope)
     {
-        IJavaScriptExecutor scriptExecutor = AtataContext.Current.Driver.AsScriptExecutor();
+        IJavaScriptExecutor scriptExecutor = WebDriverSession.Current.Driver.AsScriptExecutor();
 
         if (scope is IWebElement element)
         {

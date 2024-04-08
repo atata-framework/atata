@@ -7,5 +7,5 @@
 public class DragsAndDropsUsingActionsAttribute : DragAndDropBehaviorAttribute
 {
     public override void Execute<TOwner>(IControl<TOwner> component, IControl<TOwner> target) =>
-        component.Context.Driver.Perform(x => x.DragAndDrop(component.Scope, target.Scope));
+        component.Session.Driver.Perform(x => x.DragAndDrop(component.Scope, target.Scope));
 }

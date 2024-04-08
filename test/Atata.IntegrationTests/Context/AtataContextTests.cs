@@ -3,24 +3,8 @@ using Atata.IntegrationTests.DataProvision;
 
 namespace Atata.IntegrationTests.Context;
 
-public class AtataContextTests : UITestFixture
+public static class AtataContextTests
 {
-    protected override bool ReuseDriver => false;
-
-    [Test]
-    public void RestartDriver()
-    {
-        AtataContext.Current.RestartDriver();
-
-        Go.To<BasicControlsPage>();
-        Assert.That(AtataContext.Current.Driver.Title, Is.Not.Null.Or.Empty);
-
-        AtataContext.Current.RestartDriver();
-
-        Assert.That(AtataContext.Current.Driver.Title, Is.Null.Or.Empty);
-        Go.To<BasicControlsPage>();
-    }
-
     public class Artifacts : UITestFixture
     {
         [Test]

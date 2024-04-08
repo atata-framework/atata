@@ -22,7 +22,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
                 .WithArguments(ChromeArguments)
             .Build();
 
-        context.Driver.Should().BeOfType<ChromeDriver>();
+        context.GetWebDriverSession().Driver.Should().BeOfType<ChromeDriver>();
     }
 
     [Test]
@@ -94,7 +94,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
         var context = ConfigureBaseAtataContext()
             .UseDisposeDriver(false)
             .Build();
-        var driver = context.Driver;
+        var driver = context.GetWebDriverSession().Driver;
 
         context.Dispose();
 

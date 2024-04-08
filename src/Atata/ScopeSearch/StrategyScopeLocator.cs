@@ -75,7 +75,7 @@ public class StrategyScopeLocator : IScopeLocator
         quickSearchOptions.IsSafely = true;
         quickSearchOptions.Timeout = TimeSpan.Zero;
 
-        var driver = AtataContext.Current.Driver;
+        var driver = WebDriverSession.Current.Driver;
         StrategyScopeLocatorExecutionData executionData = _executionDataCollector.Get(quickSearchOptions);
 
         bool isMissing = driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>

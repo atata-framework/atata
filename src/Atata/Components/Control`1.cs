@@ -18,7 +18,7 @@ public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
     where TOwner : PageObject<TOwner>
 {
     /// <inheritdoc/>
-    public sealed override AtataContext Context => Owner.Context;
+    public sealed override WebDriverSession Session => Owner.Session;
 
     /// <summary>
     /// Gets the source of the scope.

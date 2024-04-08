@@ -5,6 +5,7 @@ public class TriggerContext<TOwner>
 {
     public TriggerEvents Event { get; internal set; }
 
+    // TODO: Review properties.
     public IWebDriver Driver { get; internal set; }
 
     public ILogManager Log { get; internal set; }

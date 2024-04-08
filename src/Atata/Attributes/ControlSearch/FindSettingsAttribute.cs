@@ -68,7 +68,7 @@ public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalPro
     public double Timeout
     {
         get => OptionalProperties.GetOrDefault<double?>(nameof(Timeout))
-            ?? (AtataContext.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            ?? (WebSession.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
         set => OptionalProperties[nameof(Timeout)] = value;
     }
 
@@ -79,7 +79,7 @@ public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalPro
     public double RetryInterval
     {
         get => OptionalProperties.GetOrDefault<double?>(nameof(RetryInterval))
-            ?? (AtataContext.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            ?? (WebSession.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
         set => OptionalProperties[nameof(RetryInterval)] = value;
     }
 }

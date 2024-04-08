@@ -35,7 +35,7 @@ public class CheckBox<TOwner> : EditableField<bool, TOwner>, ICheckable<TOwner>
         Scope.Selected;
 
     protected override void SetValue(bool value) =>
-        Context.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
+        Session.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
         {
             if (GetValue() != value)
                 OnClick();

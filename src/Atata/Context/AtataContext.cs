@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿using Atata.Context;
+
+namespace Atata;
 
 /// <summary>
 /// Represents the Atata context, the entry point for the test set-up.
@@ -35,7 +37,6 @@ public sealed class AtataContext : IDisposable
         _assertionVerificationStrategy = new AssertionVerificationStrategy(this);
         _expectationVerificationStrategy = new ExpectationVerificationStrategy(this);
 
-        Go = new AtataNavigator(this);
         Report = new Report<AtataContext>(this, this);
     }
 
@@ -74,45 +75,30 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
 
+    public AtataSessionCollection Sessions { get; } = [];
+
+    [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v3.0.0.
     internal IDriverFactory DriverFactory { get; set; }
 
-    /// <summary>
-    /// Gets the driver.
-    /// </summary>
+    [Obsolete("Use GetWebDriver() or GetWebDriverSession().Driver instead.")] // Obsolete since v3.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public IWebDriver Driver
-    {
-        get
-        {
-            switch (DriverInitializationStage)
-            {
-                case AtataContextDriverInitializationStage.Build:
-                    return _driver;
-                case AtataContextDriverInitializationStage.OnDemand:
-                    if (_driver is null)
-                        InitDriver();
-                    return _driver;
-                default:
-                    return null;
-            }
-        }
-    }
+    public IWebDriver Driver =>
+        this.GetWebDriverSession().Driver;
 
-    /// <summary>
-    /// Gets a value indicating whether this instance has <see cref="Driver"/> instance.
-    /// </summary>
-    public bool HasDriver => _driver != null;
+    [Obsolete("Use GetWebDriverSession().HasDriver instead.")] // Obsolete since v3.0.0.
+    public bool HasDriver =>
+        this.GetWebDriverSession().HasDriver;
 
-    /// <summary>
-    /// Gets the driver alias.
-    /// </summary>
-    public string DriverAlias { get; internal set; }
+    [Obsolete("Use GetWebDriverSession().DriverAlias instead.")] // Obsolete since v3.0.0.
+    public string DriverAlias =>
+        this.GetWebDriverSession().DriverAlias;
 
     internal bool DisposeDriver { get; set; }
 
     /// <summary>
     /// Gets the driver initialization stage.
     /// </summary>
+    // TODO: v3. Remove DriverInitializationStage. Add another property for session init/start options.
     public AtataContextDriverInitializationStage DriverInitializationStage { get; internal set; }
 
     /// <summary>
@@ -135,9 +121,7 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public DateTime StartedAtUtc { get; private set; }
 
-    /// <summary>
-    /// Gets or sets the base URL.
-    /// </summary>
+    [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v3.0.0.
     public string BaseUrl { get; set; }
 
     /// <summary>
@@ -152,17 +136,13 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public TimeSpan BaseRetryInterval { get; internal set; }
 
-    /// <summary>
-    /// Gets the element find timeout.
-    /// The default value is <c>5</c> seconds.
-    /// </summary>
-    public TimeSpan ElementFindTimeout { get; internal set; }
+    [Obsolete("Use GetWebSession().ElementFindTimeout instead.")] // Obsolete since v3.0.0.
+    public TimeSpan ElementFindTimeout =>
+        this.GetWebSession().ElementFindTimeout;
 
-    /// <summary>
-    /// Gets the element find retry interval.
-    /// The default value is <c>500</c> milliseconds.
-    /// </summary>
-    public TimeSpan ElementFindRetryInterval { get; internal set; }
+    [Obsolete("Use GetWebSession().ElementFindRetryInterval instead.")] // Obsolete since v3.0.0.
+    public TimeSpan ElementFindRetryInterval =>
+        this.GetWebSession().ElementFindRetryInterval;
 
     /// <summary>
     /// Gets the waiting timeout.
@@ -271,25 +251,18 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public string ArtifactsPath => Artifacts?.FullName.Value;
 
-    /// <summary>
-    /// Gets the <see cref="AtataNavigator"/> instance,
-    /// which provides the navigation functionality between pages and windows.
-    /// </summary>
-    public AtataNavigator Go { get; }
+    [Obsolete("Use GetWebSession().Go instead.")] // Obsolete since v3.0.0.
+    public AtataNavigator Go =>
+        this.GetWebSession().Go;
 
     /// <summary>
     /// Gets the <see cref="Report{TOwner}"/> instance that provides a reporting functionality.
     /// </summary>
     public Report<AtataContext> Report { get; }
 
-    /// <summary>
-    /// Gets the current page object.
-    /// </summary>
-    public UIComponent PageObject { get; internal set; }
-
-    internal List<UIComponent> TemporarilyPreservedPageObjectList { get; private set; } = [];
-
-    internal bool IsNavigated { get; set; }
+    [Obsolete("Use GetWebSession().PageObject instead.")] // Obsolete since v3.0.0.
+    public UIComponent PageObject =>
+        this.GetWebSession().PageObject;
 
     internal Stopwatch ExecutionStopwatch { get; } = Stopwatch.StartNew();
 
@@ -301,13 +274,13 @@ public sealed class AtataContext : IDisposable
 
     internal PageSnapshotTaker PageSnapshotTaker { get; set; }
 
-    public ReadOnlyCollection<UIComponent> TemporarilyPreservedPageObjects =>
-        TemporarilyPreservedPageObjectList.ToReadOnly();
+    [Obsolete("Use GetWebDriverSession().TemporarilyPreservedPageObjects instead.")] // Obsolete since v3.0.0.
+    public IReadOnlyList<UIComponent> TemporarilyPreservedPageObjects =>
+        this.GetWebDriverSession().TemporarilyPreservedPageObjects;
 
-    /// <summary>
-    /// Gets the UI component access chain scope cache.
-    /// </summary>
-    public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache { get; } = new UIComponentAccessChainScopeCache();
+    [Obsolete("Use GetWebDriverSession().UIComponentAccessChainScopeCache instead.")] // Obsolete since v3.0.0.
+    public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache =>
+        this.GetWebDriverSession().UIComponentAccessChainScopeCache;
 
     /// <summary>
     /// Gets the object creator.
@@ -495,33 +468,9 @@ public sealed class AtataContext : IDisposable
                 EventBus.Publish(new DriverInitEvent(_driver));
             });
 
-    /// <summary>
-    /// Restarts the driver.
-    /// </summary>
+    [Obsolete("Use GetWebDriverSession().RestartDriver() instead.")] // Obsolete since v3.0.0.
     public void RestartDriver() =>
-        Log.ExecuteSection(
-            new LogSection("Restart driver"),
-            () =>
-            {
-                CleanUpTemporarilyPreservedPageObjectList();
-
-                if (PageObject != null)
-                {
-                    UIComponentResolver.CleanUpPageObject(PageObject);
-                    PageObject = null;
-                }
-
-                EventBus.Publish(new DriverDeInitEvent(_driver));
-                DisposeDriverSafely();
-
-                InitDriver();
-            });
-
-    internal void CleanUpTemporarilyPreservedPageObjectList()
-    {
-        UIComponentResolver.CleanUpPageObjects(TemporarilyPreservedPageObjects);
-        TemporarilyPreservedPageObjectList.Clear();
-    }
+        this.GetWebDriverSession().RestartDriver();
 
     /// <summary>
     /// <para>
@@ -849,10 +798,7 @@ public sealed class AtataContext : IDisposable
     /// then the <see cref="Driver"/> will also be disposed.
     /// Publishes events: <see cref="AtataContextDeInitEvent"/>, <see cref="DriverDeInitEvent"/>, <see cref="AtataContextDeInitCompletedEvent"/>.
     /// </summary>
-    public void Dispose() =>
-        DisposeTogetherWithDriver(DisposeDriver);
-
-    private void DisposeTogetherWithDriver(bool disposeDriver)
+    public void Dispose()
     {
         if (_disposed)
             return;
@@ -866,20 +812,7 @@ public sealed class AtataContext : IDisposable
             {
                 EventBus.Publish(new AtataContextDeInitEvent(this));
 
-                CleanUpTemporarilyPreservedPageObjectList();
-
-                if (PageObject != null)
-                    UIComponentResolver.CleanUpPageObject(PageObject);
-
-                UIComponentAccessChainScopeCache.Release();
-
-                if (_driver is not null)
-                {
-                    EventBus.Publish(new DriverDeInitEvent(_driver));
-
-                    if (disposeDriver)
-                        DisposeDriverSafely();
-                }
+                // TODO: Dispose sessions, which are needed to be disposed.
 
                 EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
             });
@@ -910,18 +843,6 @@ public sealed class AtataContext : IDisposable
         var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
         PendingFailureAssertionResults.Clear();
         return copyOfPendingFailureAssertionResults;
-    }
-
-    private void DisposeDriverSafely()
-    {
-        try
-        {
-            _driver.Dispose();
-        }
-        catch (Exception exception)
-        {
-            Log.Warn(exception, "Deinitialization of driver failed.");
-        }
     }
 
     private void LogTestFinish(TimeSpan deinitializationTime)

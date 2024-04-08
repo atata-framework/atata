@@ -8,21 +8,19 @@
 public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
     where TOwner : PageObject<TOwner>
 {
-    private readonly AtataContext _context;
+    private readonly WebDriverSession _session;
 
     private Control<TOwner> _activeControl;
 
     protected PageObject()
     {
-        _context = AtataContext.Current
-            ?? throw new InvalidOperationException(
-                $"Cannot instantiate {GetType().Name} because {nameof(AtataContext)}.{nameof(AtataContext.Current)} is null.");
+        _session = WebDriverSession.Current;
 
         ScopeLocator = new PlainScopeLocator(CreateScopeBy);
 
         Owner = (TOwner)this;
 
-        Report = new Report<TOwner>((TOwner)this, _context);
+        Report = new Report<TOwner>((TOwner)this, _session);
 
         PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
 
@@ -35,7 +33,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     }
 
     /// <inheritdoc/>
-    public sealed override AtataContext Context => _context;
+    public sealed override WebDriverSession Session => _session;
 
     /// <summary>
     /// Gets the source of the scope.
@@ -262,7 +260,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     {
         SwitchToFrame(frameElement);
 
-        return _context.Go.To(framePageObject, navigate: false, temporarily: temporarily);
+        return _session.Go.To(framePageObject, navigate: false, temporarily: temporarily);
     }
 
     /// <summary>
@@ -291,7 +289,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     {
         SwitchToRoot();
 
-        return _context.Go.To(rootPageObject, navigate: false);
+        return _session.Go.To(rootPageObject, navigate: false);
     }
 
     /// <summary>
@@ -349,7 +347,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             "Refresh page",
             () => Driver.Navigate().Refresh());
 
-        return _context.Go.To<TOwner>(navigate: false);
+        return _session.Go.To<TOwner>(navigate: false);
     }
 
     /// <summary>
@@ -416,7 +414,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             "Go back",
             () => Driver.Navigate().Back());
 
-        return _context.Go.To(previousPageObject, navigate: false);
+        return _session.Go.To(previousPageObject, navigate: false);
     }
 
     /// <summary>
@@ -434,7 +432,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             "Go forward",
             () => Driver.Navigate().Forward());
 
-        return _context.Go.To(nextPageObject, navigate: false);
+        return _session.Go.To(nextPageObject, navigate: false);
     }
 
     /// <summary>
@@ -444,7 +442,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     {
         string nextWindowHandle = null;
 
-        _context.Log.ExecuteSection(
+        _session.Log.ExecuteSection(
             "Close window",
             () =>
             {

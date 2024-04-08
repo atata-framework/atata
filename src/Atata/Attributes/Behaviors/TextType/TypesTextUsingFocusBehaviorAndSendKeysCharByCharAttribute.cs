@@ -12,7 +12,7 @@ public class TypesTextUsingFocusBehaviorAndSendKeysCharByCharAttribute : TypesTe
     {
         if (!string.IsNullOrEmpty(value))
         {
-            component.Context.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
+            component.Session.UIComponentAccessChainScopeCache.ExecuteWithin(() =>
             {
                 component.ExecuteBehavior<FocusBehaviorAttribute>(x => x.Execute(component));
 

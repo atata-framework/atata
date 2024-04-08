@@ -16,7 +16,7 @@ public class AtataContextEventsTests : UITestFixtureBase
                 context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
 
                 context.Log.Should().NotBeNull();
-                context.Driver.Should().BeNull();
+                context.GetWebDriverSession().Driver.Should().BeNull();
 
                 executionsCount++;
             })

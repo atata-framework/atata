@@ -6,7 +6,7 @@ public class ReportExtensionsTests : UITestFixture
     public void Setup()
     {
         AtataContext.Current.Report.Setup(x => x
-            .Go.To<OrdinaryPage>());
+            .GetWebDriverSession().Go.To<OrdinaryPage>());
 
         VerifyLastLogMessagesMatch(
             minLogLevel: LogLevel.Trace,

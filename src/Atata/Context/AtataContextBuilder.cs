@@ -55,6 +55,8 @@ public class AtataContextBuilder
     /// </summary>
     public BrowserLogsAtataContextBuilder BrowserLogs => new(BuildingContext);
 
+    public AtataSessionsBuilder Sessions { get; } = new AtataSessionsBuilder();
+
     /// <summary>
     /// Returns an existing or creates a new builder for <typeparamref name="TDriverBuilder"/> by the specified alias.
     /// </summary>
@@ -1085,11 +1087,13 @@ Actual: {driverFactory.GetType().FullName}",
 
         context.Log.Trace($"Set: Artifacts={context.ArtifactsPath}");
 
+        // TODO: Init sessions.
         InitBrowserLogMonitoring(context);
 
         if (context.DriverInitializationStage == AtataContextDriverInitializationStage.Build)
             context.InitDriver();
 
+        // <-
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
     }
 
@@ -1126,19 +1130,19 @@ Actual: {driverFactory.GetType().FullName}",
         context.Log.Trace($"Set: Culture={culture.Name}");
     }
 
-    private void InitBrowserLogMonitoring(AtataContext context)
+    private void InitBrowserLogMonitoring(WebDriverSession session)
     {
         if (BuildingContext.BrowserLogs.HasPropertiesToUse)
         {
-            if (context.DriverFactory is ChromeAtataContextBuilder chromeBuilder)
+            if (session.DriverFactory is ChromeAtataContextBuilder chromeBuilder)
             {
                 chromeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
-            else if (context.DriverFactory is EdgeAtataContextBuilder edgeBuilder)
+            else if (session.DriverFactory is EdgeAtataContextBuilder edgeBuilder)
             {
                 edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
-            else if (context.DriverFactory is RemoteDriverAtataContextBuilder remoteBuilder)
+            else if (session.DriverFactory is RemoteDriverAtataContextBuilder remoteBuilder)
             {
                 remoteBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
@@ -1146,12 +1150,12 @@ Actual: {driverFactory.GetType().FullName}",
             List<IBrowserLogHandler> browserLogHandlers = new(2);
 
             if (BuildingContext.BrowserLogs.Log)
-                browserLogHandlers.Add(new LoggingBrowserLogHandler(context.Log));
+                browserLogHandlers.Add(new LoggingBrowserLogHandler(session.Log));
 
             if (BuildingContext.BrowserLogs.MinLevelOfWarning is not null)
-                browserLogHandlers.Add(new WarningBrowserLogHandler(context, BuildingContext.BrowserLogs.MinLevelOfWarning.Value));
+                browserLogHandlers.Add(new WarningBrowserLogHandler(session, BuildingContext.BrowserLogs.MinLevelOfWarning.Value));
 
-            context.EventBus.Subscribe<DriverInitEvent>(
+            session.EventBus.Subscribe<DriverInitEvent>(
                 (e, c) => EnableBrowserLogMonitoringOnDriverInitEvent(e.Driver, c, browserLogHandlers));
         }
     }

@@ -8,6 +8,11 @@ public interface IUIComponent<TOwner>
     where TOwner : PageObject<TOwner>
 {
     /// <summary>
+    /// Gets the associated session.
+    /// </summary>
+    WebDriverSession Session { get; }
+
+    /// <summary>
     /// Gets the <see cref="AtataContext"/> instance with which this component is associated.
     /// </summary>
     AtataContext Context { get; }

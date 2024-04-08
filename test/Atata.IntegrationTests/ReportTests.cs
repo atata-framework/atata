@@ -99,7 +99,7 @@ public class ReportTests : UITestFixture
         {
             var context = ConfigureBaseAtataContext().Build();
 
-            var page = context.Go.To<ScrollablePage>();
+            var page = context.GetWebSession().Go.To<ScrollablePage>();
 
             ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(ScreenshotKind kind)
             {
@@ -132,7 +132,7 @@ public class ReportTests : UITestFixture
                 using var context = builder.Build();
 
                 string screenshotNameIndicator = Guid.NewGuid().ToString();
-                context.Go.To<ScrollablePage>()
+                context.GetWebDriverSession().Go.To<ScrollablePage>()
                     .Report.Screenshot(screenshotNameIndicator);
 
                 var file = context.Artifacts.Files

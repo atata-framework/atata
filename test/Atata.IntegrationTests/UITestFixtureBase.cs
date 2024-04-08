@@ -140,11 +140,11 @@ public abstract class UITestFixtureBase
 
     protected static void AssertThatPopupBoxIsOpen() =>
         Assert.DoesNotThrow(() =>
-            AtataContext.Current.Driver.SwitchTo().Alert());
+            WebDriverSession.Current.Driver.SwitchTo().Alert());
 
     protected static void AssertThatPopupBoxIsNotOpen() =>
         Assert.Throws<NoAlertPresentException>(() =>
-            AtataContext.Current.Driver.SwitchTo().Alert());
+            WebDriverSession.Current.Driver.SwitchTo().Alert());
 
     protected void VerifyLastLogMessages(LogLevel minLogLevel, params string[] expectedMessages)
     {

@@ -3,6 +3,7 @@
 /// <summary>
 /// Specifies the stage of <see cref="AtataContext"/> driver initialization.
 /// </summary>
+#warning Rename AtataContextDriverInitializationStage to WebDriverInitializationStage or common SessionInitializationStage; or most likely remove it completely.
 public enum AtataContextDriverInitializationStage
 {
     /// <summary>
