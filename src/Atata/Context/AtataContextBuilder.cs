@@ -435,11 +435,11 @@ Actual: {driverFactory.GetType().FullName}",
         return this;
     }
 
-    [Obsolete("Use AtataContext.UseUtcTimeZone(...) static method instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use AtataContext.GlobalProperties.UseUtcTimeZone() method instead.")] // Obsolete since v3.0.0.
     public AtataContextBuilder UseUtcTimeZone() =>
         UseTimeZone(TimeZoneInfo.Utc);
 
-    [Obsolete("Use AtataContext.UseTimeZone(...) static method instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use AtataContext.GlobalProperties.UseTimeZone(...) method instead.")] // Obsolete since v3.0.0.
     public AtataContextBuilder UseTimeZone(string timeZoneId)
     {
         timeZoneId.CheckNotNullOrWhitespace(nameof(timeZoneId));
@@ -448,12 +448,12 @@ Actual: {driverFactory.GetType().FullName}",
         return UseTimeZone(timeZone);
     }
 
-    [Obsolete("Use AtataContext.UseTimeZone(...) static method instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use AtataContext.GlobalProperties.UseTimeZone(...) method instead.")] // Obsolete since v3.0.0.
     public AtataContextBuilder UseTimeZone(TimeZoneInfo timeZone)
     {
         timeZone.CheckNotNull(nameof(timeZone));
 
-        AtataContext.GlobalProperties.TimeZone = timeZone;
+        AtataContext.GlobalProperties.UseTimeZone(timeZone);
         return this;
     }
 
