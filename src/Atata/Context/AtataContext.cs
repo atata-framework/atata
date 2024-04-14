@@ -490,7 +490,9 @@ public sealed class AtataContext : IDisposable
                     ?? throw new WebDriverInitializationException(
                         $"Driver factory returned null as a driver.");
 
-                _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
+                // TODO: v4. Move these RetrySettings out of here.
+                RetrySettings.Timeout = ElementFindTimeout;
+                RetrySettings.Interval = ElementFindRetryInterval;
 
                 EventBus.Publish(new DriverInitEvent(_driver));
             });
