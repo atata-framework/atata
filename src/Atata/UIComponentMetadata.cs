@@ -136,7 +136,7 @@ public class UIComponentMetadata
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <returns><see langword="true"/> if contains; otherwise, <see langword="false"/>.</returns>
     public bool Contains<TAttribute>() =>
-        Get<TAttribute>() != null;
+        Get<TAttribute>() is not null;
 
     /// <summary>
     /// Tries to get the first attribute of the specified type.
@@ -147,7 +147,7 @@ public class UIComponentMetadata
     public bool TryGet<TAttribute>(out TAttribute attribute)
     {
         attribute = Get<TAttribute>();
-        return attribute != null;
+        return attribute is not null;
     }
 
     /// <summary>

@@ -1,9 +1,12 @@
 ﻿namespace Atata;
 
-// TODO: Atata v3. Make AtataTemplateStringFormatter internal sealed with private constructor.
-public class AtataTemplateStringFormatter : IFormatProvider, ICustomFormatter
+internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFormatter
 {
     private const string InnerFormatValueIndicator = "*";
+
+    private AtataTemplateStringFormatter()
+    {
+    }
 
     public static AtataTemplateStringFormatter Default { get; } = new AtataTemplateStringFormatter();
 

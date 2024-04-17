@@ -89,6 +89,8 @@
 [assembly: SuppressMessage("Minor Code Smell", "S3254:Default parameter values should not be passed as arguments", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WindowTitleAttribute.#ctor(System.String[])")]
 [assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.DriverAtataContextBuilder`1.Atata#IDriverFactory#Create~OpenQA.Selenium.IWebDriver")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogManager.PrependHierarchyPrefixesToMessage(System.String,Atata.LogEventInfo,Atata.LogConsumerConfiguration)~System.String")]
+[assembly: SuppressMessage("Critical Code Smell", "S1994:\"for\" loop increment clauses should modify the loops' counters", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TypeExtensions.GetDepthOfInheritanceOfRegularType(System.Type,System.Type)~System.Nullable{System.Int32}")]
+[assembly: SuppressMessage("Minor Code Smell", "S6670:\"Trace.Write\" and \"Trace.WriteLine\" should not be used", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TraceLogConsumer.Write(System.String)")]
 [assembly: SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverSession.Dispose")]
 
 #pragma warning restore S103 // Lines should not be too long
