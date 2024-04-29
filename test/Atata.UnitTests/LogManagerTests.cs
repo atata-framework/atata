@@ -31,6 +31,53 @@ public class LogManagerTests
     }
 
     [Test]
+    public async Task ExecuteSectionAsync()
+    {
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy));
+
+        await _sut.ExecuteSectionAsync(
+            new StepLogSection("step section"),
+            async () => await _sut.ExecuteSectionAsync(
+                new LogSection("trace sub-section", LogLevel.Trace),
+                () =>
+                {
+                    _sut.Trace("inner trace message");
+                    return Task.CompletedTask;
+                }));
+
+        _consumerSpy.CollectedEvents.Select(x => x.Message).Should.ConsistSequentiallyOf(
+            x => x == "> step section",
+            x => x == "- > trace sub-section",
+            x => x == "- - inner trace message",
+            x => x.StartsWith("- < trace sub-section ("),
+            x => x.StartsWith("< step section ("));
+    }
+
+    [Test]
+    public async Task ExecuteSectionAsync_WithResult()
+    {
+        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy));
+
+        var result = (await _sut.ExecuteSectionAsync(
+            new StepLogSection("step section"),
+            async () => await _sut.ExecuteSectionAsync(
+                new LogSection("trace sub-section", LogLevel.Trace),
+                () =>
+                {
+                    _sut.Trace("inner trace message");
+                    return Task.FromResult("ok");
+                }))).ToResultSubject();
+
+        result.Should.Be("ok");
+        _consumerSpy.CollectedEvents.Select(x => x.Message).Should.ConsistSequentiallyOf(
+            x => x == "> step section",
+            x => x == "- > trace sub-section",
+            x => x == "- - inner trace message",
+            x => x.StartsWith("- < trace sub-section ("),
+            x => x.StartsWith("< step section ("));
+    }
+
+    [Test]
     public void WhenConsumerSectionEndIsExclude()
     {
         _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude));

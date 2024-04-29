@@ -88,4 +88,21 @@ public interface ILogManager
     /// <param name="function">The function to execute.</param>
     /// <returns>The result of <paramref name="function"/>.</returns>
     TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function);
+
+    /// <summary>
+    /// Executes asynchronously the task-based function within the log section.
+    /// </summary>
+    /// <param name="section">The section.</param>
+    /// <param name="function">The function to execute.</param>
+    /// <returns>The <see cref="Task"/> object.</returns>
+    Task ExecuteSectionAsync(LogSection section, Func<Task> function);
+
+    /// <summary>
+    /// Executes asynchronously the task-based function within the log section.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="section">The section.</param>
+    /// <param name="function">The function to execute.</param>
+    /// <returns>The <see cref="Task{TResult}"/> object with the result of the <paramref name="function"/>.</returns>
+    Task<TResult> ExecuteSectionAsync<TResult>(LogSection section, Func<Task<TResult>> function);
 }
