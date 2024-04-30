@@ -228,6 +228,89 @@ public class Report<TOwner>
     }
 
     /// <summary>
+    /// Executes asynchronously the specified task-based function and represents it in a log as a setup section with the specified message.
+    /// The setup action time is not counted as a "Test body" execution time, but counted as "Setup" time.
+    /// </summary>
+    /// <param name="message">The setup message.</param>
+    /// <param name="function">The setup function.</param>
+    /// <returns>The <see cref="Task"/> object.</returns>
+    public async Task SetupAsync(string message, Func<TOwner, Task> function)
+    {
+        message.CheckNotNullOrEmpty(nameof(message));
+        function.CheckNotNull(nameof(function));
+
+        await _context.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
+        {
+            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            if (shouldStopBodyExecutionStopwatch)
+                _context.BodyExecutionStopwatch.Stop();
+
+            _context.SetupExecutionStopwatch.Start();
+
+            try
+            {
+                await function.Invoke(_owner);
+            }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
+            finally
+            {
+                _context.SetupExecutionStopwatch.Stop();
+
+                if (shouldStopBodyExecutionStopwatch)
+                    _context.BodyExecutionStopwatch.Start();
+            }
+        });
+    }
+
+    /// <summary>
+    /// Executes asynchronously the specified task-based function and represents it in a log as a setup section with the specified message.
+    /// The setup function time is not counted as a "Test body" execution time, but counted as "Setup" time.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="message">The setup message.</param>
+    /// <param name="function">The setup function.</param>
+    /// <returns>The <see cref="Task{TResult}"/> object with the result of the <paramref name="function"/>.</returns>
+    public async Task<TResult> SetupAsync<TResult>(string message, Func<TOwner, Task<TResult>> function)
+    {
+        message.CheckNotNullOrEmpty(nameof(message));
+        function.CheckNotNull(nameof(function));
+
+        TResult result = default;
+
+        await _context.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
+        {
+            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            if (shouldStopBodyExecutionStopwatch)
+                _context.BodyExecutionStopwatch.Stop();
+
+            _context.SetupExecutionStopwatch.Start();
+
+            try
+            {
+                result = await function.Invoke(_owner);
+            }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
+            finally
+            {
+                _context.SetupExecutionStopwatch.Stop();
+
+                if (shouldStopBodyExecutionStopwatch)
+                    _context.BodyExecutionStopwatch.Start();
+            }
+        });
+
+        return result;
+    }
+
+    /// <summary>
     /// Executes the specified action and represents it in a log as a section with the specified message.
     /// </summary>
     /// <param name="message">The step message.</param>
@@ -266,11 +349,67 @@ public class Report<TOwner>
         function.CheckNotNull(nameof(function));
 
         TResult result = default;
+
         _context.Log.ExecuteSection(new StepLogSection(message), () =>
         {
             try
             {
                 result = function.Invoke(_owner);
+            }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
+        });
+
+        return result;
+    }
+
+    /// <summary>
+    /// Executes asynchronously the specified task-based function and represents it in a log as a section with the specified message.
+    /// </summary>
+    /// <param name="message">The step message.</param>
+    /// <param name="function">The step action.</param>
+    /// <returns>The <see cref="Task"/> object.</returns>
+    public async Task StepAsync(string message, Func<TOwner, Task> function)
+    {
+        message.CheckNotNullOrEmpty(nameof(message));
+        function.CheckNotNull(nameof(function));
+
+        await _context.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
+        {
+            try
+            {
+                await function.Invoke(_owner);
+            }
+            catch (Exception exception)
+            {
+                _context.EnsureExceptionIsLogged(exception);
+                throw;
+            }
+        });
+    }
+
+    /// <summary>
+    /// Executes asynchronously the specified task-based function and represents it in a log as a section with the specified message.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the result.</typeparam>
+    /// <param name="message">The step message.</param>
+    /// <param name="function">The step function.</param>
+    /// <returns>The <see cref="Task{TResult}"/> object with the result of the <paramref name="function"/>.</returns>
+    public async Task<TResult> StepAsync<TResult>(string message, Func<TOwner, Task<TResult>> function)
+    {
+        message.CheckNotNullOrEmpty(nameof(message));
+        function.CheckNotNull(nameof(function));
+
+        TResult result = default;
+
+        await _context.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
+        {
+            try
+            {
+                result = await function.Invoke(_owner);
             }
             catch (Exception exception)
             {
