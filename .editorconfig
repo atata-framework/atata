@@ -304,6 +304,9 @@ dotnet_diagnostic.S1133.severity = none
 
 dotnet_diagnostic.S1135.severity = none
 
+# S1144: Unused private types or members should be removed
+dotnet_diagnostic.S1144.severity = none
+
 dotnet_diagnostic.S1145.severity = warning
 
 dotnet_diagnostic.S1147.severity = warning

@@ -97,7 +97,7 @@ public class LogManager : ILogManager
 
         try
         {
-            action?.Invoke();
+            action.Invoke();
         }
         catch (Exception exception)
         {
@@ -121,6 +121,54 @@ public class LogManager : ILogManager
         try
         {
             TResult result = function.Invoke();
+            section.Result = result;
+            return result;
+        }
+        catch (Exception exception)
+        {
+            section.Exception = exception;
+            throw;
+        }
+        finally
+        {
+            EndCurrentSection();
+        }
+    }
+
+    /// <inheritdoc/>
+    public async Task ExecuteSectionAsync(LogSection section, Func<Task> function)
+    {
+        section.CheckNotNull(nameof(section));
+        function.CheckNotNull(nameof(function));
+
+        StartSection(section);
+
+        try
+        {
+            await function.Invoke();
+        }
+        catch (Exception exception)
+        {
+            section.Exception = exception;
+            throw;
+        }
+        finally
+        {
+            EndCurrentSection();
+        }
+    }
+
+    /// <inheritdoc/>
+    public async Task<TResult> ExecuteSectionAsync<TResult>(LogSection section, Func<Task<TResult>> function)
+    {
+        section.CheckNotNull(nameof(section));
+        function.CheckNotNull(nameof(function));
+
+        StartSection(section);
+
+        try
+        {
+            TResult result = await function.Invoke();
             section.Result = result;
             return result;
         }

@@ -8,25 +8,41 @@
 [![Atata docs](https://img.shields.io/badge/docs-Atata_Framework-orange.svg)](https://atata.io)
 [![Twitter](https://img.shields.io/badge/follow-@AtataFramework-blue.svg)](https://twitter.com/AtataFramework)
 
-C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
-It uses fluent page object pattern.
+C#/.NET web UI test automation full-featured framework based on Selenium WebDriver.
+It uses a fluent page object pattern;
+has a built-in logging system;
+contains a unique triggers functionality;
+has a set of ready-to-use components.
+One of the key ideas of the framework is to provide a simple and intuitive syntax for defining and using page objects.
+A page object implementation requires as less code as possible.
+You can describe a page object class without any methods and only have a set of properties marked with attributes representing page components.
 
 *The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.*
 
-- **[What's new in v3.0.0](https://atata.io/blog/2024/04/16/atata-framework-3-released/)**
+- **[What's new in v3.1.0](https://atata.io/blog/2024/04/30/atata-3.1.0-released/)**
 - **[Migrating to Atata 3](https://atata.io/upgrade/to-atata-3/)**
 
 ## Features
 
-* **WebDriver**. Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
-* **Page Object Model**. Provides unique fluent page object pattern that is easy to implement and maintain.
-* **Components**. Contains a rich set of ready to use [components](https://atata.io/components/) for inputs, tables, lists, etc.
-* **Integration**. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, GitHub Actions or TeamCity.
-* **Triggers**. A bunch of [triggers](https://atata.io/triggers/) to bind with different events to extend component behavior.
-* **Verification**. A set of fluent assertion methods and triggers for a component and data verification.
-* **Configurable**. Defines the default component search strategies as well as additional settings. [Atata.Configuration.Json](https://github.com/atata-framework/atata-configuration-json) provides flexible JSON configurations.
-* **Reporting/Logging**. Built-in customizable logging; screenshots and snapshots capturing functionality.
-* **Extensible**. [Atata.Bootstrap](https://github.com/atata-framework/atata-bootstrap) and [Atata.KendoUI](https://github.com/atata-framework/atata-kendoui) packages have a set of ready to use components. Framework supports any kind of extending.
+- **WebDriver**.
+  Based on [Selenium WebDriver](https://github.com/SeleniumHQ/selenium) and preserves all its features.
+- **Page object model**.
+  Provides a unique fluent page object pattern, which is easy to implement and maintain.
+- **Components**.
+  Contains a rich set of ready-to-use [components](https://atata.io/components/) for inputs, tables, lists, etc.
+- **Integration**.
+  Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, GitHub Actions, or TeamCity.
+- **Triggers**.
+  A bunch of [triggers](https://atata.io/triggers/) to bind with different events to extend component behavior.
+- **Verification**.
+  A set of fluent assertion methods and triggers for a component and data verification.
+- **Configurable**.
+  Defines the default component search strategies as well as additional settings. [Atata.Configuration.Json](https://github.com/atata-framework/atata-configuration-json) provides flexible JSON configurations.
+- **Reporting/Logging**.
+  Built-in customizable logging; screenshots and snapshots capturing functionality.
+- **Extensible**.
+  [Atata.HtmlValidation](https://github.com/atata-framework/atata-htmlvalidation) adds HTML page validation.
+  [Atata.Bootstrap](https://github.com/atata-framework/atata-bootstrap) and [Atata.KendoUI](https://github.com/atata-framework/atata-kendoui) provide extra components.
 
 ## Usage
 

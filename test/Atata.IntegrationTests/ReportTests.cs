@@ -65,30 +65,104 @@ public class ReportTests : UITestFixture
     [Test]
     public void Setup()
     {
-        Go.To(new OrdinaryPage("Test"))
-            .Report.Setup("TEST SETUP", x => x
-                .PageTitle.Should.Not.BeEmpty());
+        var page = Go.To<StubPage>();
+        page.Report.Setup("TEST SETUP", x => x
+            .IsTrue.Should.BeTrue());
 
         VerifyLastLogMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST SETUP",
-            "^> Assert: title should not be empty$",
-            "^< Assert: title should not be empty",
+            "^> Assert: IsTrue should be true$",
+            "^< Assert: IsTrue should be true",
+            "^< TEST SETUP");
+    }
+
+    [Test]
+    public async Task SetupAsync()
+    {
+        var page = Go.To<StubPage>();
+        await page.Report.SetupAsync("TEST SETUP", async x =>
+        {
+            x.IsTrue.Should.BeTrue();
+            await Task.CompletedTask;
+        });
+
+        VerifyLastLogMessagesMatch(
+            minLogLevel: LogLevel.Trace,
+            "^> TEST SETUP",
+            "^> Assert: IsTrue should be true$",
+            "^< Assert: IsTrue should be true",
+            "^< TEST SETUP");
+    }
+
+    [Test]
+    public async Task SetupAsyncWithResult()
+    {
+        var page = Go.To<StubPage>();
+        string result = await page.Report.SetupAsync("TEST SETUP", async x =>
+        {
+            x.IsTrue.Should.BeTrue();
+            return await Task.FromResult("ok");
+        });
+
+        result.Should().Be("ok");
+        VerifyLastLogMessagesMatch(
+            minLogLevel: LogLevel.Trace,
+            "^> TEST SETUP",
+            "^> Assert: IsTrue should be true$",
+            "^< Assert: IsTrue should be true",
             "^< TEST SETUP");
     }
 
     [Test]
     public void Step()
     {
-        Go.To(new OrdinaryPage("Test"))
-            .Report.Step("TEST STEP", x => x
-                .PageTitle.Should.Not.BeEmpty());
+        var page = Go.To<StubPage>();
+        page.Report.Step("TEST STEP", x => x
+            .IsTrue.Should.BeTrue());
 
         VerifyLastLogMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST STEP$",
-            "^> Assert: title should not be empty$",
-            "^< Assert: title should not be empty",
+            "^> Assert: IsTrue should be true$",
+            "^< Assert: IsTrue should be true",
+            "^< TEST STEP");
+    }
+
+    [Test]
+    public async Task StepAsync()
+    {
+        var page = Go.To<StubPage>();
+        await page.Report.StepAsync("TEST STEP", async x =>
+        {
+            x.IsTrue.Should.BeTrue();
+            await Task.CompletedTask;
+        });
+
+        VerifyLastLogMessagesMatch(
+            minLogLevel: LogLevel.Trace,
+            "^> TEST STEP$",
+            "^> Assert: IsTrue should be true$",
+            "^< Assert: IsTrue should be true",
+            "^< TEST STEP");
+    }
+
+    [Test]
+    public async Task StepAsyncWithResult()
+    {
+        var page = Go.To<StubPage>();
+        string result = await page.Report.StepAsync("TEST STEP", async x =>
+        {
+            x.IsTrue.Should.BeTrue();
+            return await Task.FromResult("ok");
+        });
+
+        result.Should().Be("ok");
+        VerifyLastLogMessagesMatch(
+            minLogLevel: LogLevel.Trace,
+            "^> TEST STEP$",
+            "^> Assert: IsTrue should be true$",
+            "^< Assert: IsTrue should be true",
             "^< TEST STEP");
     }
 

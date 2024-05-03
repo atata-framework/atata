@@ -5,8 +5,8 @@
     <LangVersion>12.0</LangVersion>
     <ImplicitUsings>enable</ImplicitUsings>
     <RootNamespace>Atata</RootNamespace>
-    <Version>3.0.0</Version>
-    <Description>C#/.NET web UI test automation full featured framework based on Selenium WebDriver.
+    <Version>3.1.0</Version>
+    <Description>C#/.NET web UI test automation full-featured framework based on Selenium WebDriver.
 
 The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.
 
@@ -15,25 +15,25 @@ Atata Framework documentation: https://atata.io
 
 Features:
 - WebDriver. Based on Selenium WebDriver and preserves all its features.
-- Page Object Model. Provides unique fluent page object pattern that is easy to implement and maintain.
-- Components. Contains a rich set of ready to use components for inputs, tables, lists, etc.
-- Integration. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, Azure DevOps or TeamCity.
+- Page object model. Provides a unique fluent page object pattern, which is easy to implement and maintain.
+- Components. Contains a rich set of ready-to-use components for inputs, tables, lists, etc.
+- Integration. Works on any .NET test engine (e.g. NUnit, xUnit, SpecFlow) as well as on CI systems like Jenkins, GitHub Actions, or TeamCity.
 - Triggers. A bunch of triggers to bind with different events to extend component behavior.
-- Verification. A set of fluent assertion methods and triggers for the component and data verification.
-- Configurable. Defines the default component search strategies as well as additional settings. Atata.Configuration.Json provides flexible JSON configurations.
-- Reporting/Logging. Built-in customizable logging and screenshot capturing functionality.
-- Extensible. Atata.Bootstrap and Atata.KendoUI packages have a set of ready to use components. Framework supports any kind of extending.</Description>
+- Verification. A set of fluent assertion methods and triggers for a component and data verification.
+- Configurable.  Defines the default component search strategies as well as additional settings. Atata.Configuration.Json provides flexible JSON configurations.
+- Reporting/Logging. Built-in customizable logging; screenshots and snapshots capturing functionality.
+- Extensible. Atata.HtmlValidation adds HTML page validation. Atata.Bootstrap and Atata.KendoUI provide extra components.</Description>
     <RepositoryUrl>https://github.com/atata-framework/atata</RepositoryUrl>
     <PackageId>Atata</PackageId>
     <PackageTags>atata automation testing test selenium webdriver browser</PackageTags>
-    <PackageReleaseNotes>https://atata.io/blog/2024/04/16/atata-framework-3-released/</PackageReleaseNotes>
+    <PackageReleaseNotes>https://atata.io/blog/2024/04/30/atata-3.1.0-released/</PackageReleaseNotes>
     <PackageProjectUrl>https://atata.io</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="3.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.19.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.20.0" />
   </ItemGroup>
   
   <ItemGroup>
