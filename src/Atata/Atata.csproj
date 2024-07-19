@@ -33,7 +33,7 @@ Features:
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="3.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.20.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.23.0" />
   </ItemGroup>
   
   <ItemGroup>
