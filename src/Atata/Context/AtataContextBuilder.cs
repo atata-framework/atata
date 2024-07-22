@@ -1062,15 +1062,11 @@ Actual: {driverFactory.GetType().FullName}",
 
     private LogManager CreateLogManager(AtataContext context)
     {
-        LogManager logManager = new LogManager(
-            new AtataContextLogEventInfoFactory(context));
+        LogManagerConfiguration configuration = new(
+            [.. BuildingContext.LogConsumerConfigurations],
+            [.. BuildingContext.SecretStringsToMaskInLog]);
 
-        logManager.AddSecretStringsToMask(BuildingContext.SecretStringsToMaskInLog);
-
-        foreach (var logConsumerConfiguration in BuildingContext.LogConsumerConfigurations)
-            logManager.AddConfiguration(logConsumerConfiguration);
-
-        return logManager;
+        return new(configuration, new AtataContextLogEventInfoFactory(context));
     }
 
     private void InitializeContext(AtataContext context)

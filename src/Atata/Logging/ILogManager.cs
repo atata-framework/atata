@@ -105,4 +105,31 @@ public interface ILogManager
     /// <param name="function">The function to execute.</param>
     /// <returns>The <see cref="Task{TResult}"/> object with the result of the <paramref name="function"/>.</returns>
     Task<TResult> ExecuteSectionAsync<TResult>(LogSection section, Func<Task<TResult>> function);
+
+    /// <summary>
+    /// Creates another log manager with the same configuration that additionally sets
+    /// <see cref="LogEventInfo.ExternalSource"/> of a log event with
+    /// the specified <paramref name="externalSource"/>.
+    /// </summary>
+    /// <param name="externalSource">The external source name.</param>
+    /// <returns>A new <see cref="ILogManager"/> instance for the external source.</returns>
+    ILogManager ForExternalSource(string externalSource);
+
+    /// <summary>
+    /// Creates another log manager with the same configuration that additionally sets
+    /// <see cref="LogEventInfo.Category"/> of a log event with
+    /// the specified <paramref name="category"/>.
+    /// </summary>
+    /// <param name="category">The category name.</param>
+    /// <returns>A new <see cref="ILogManager"/> instance for the category.</returns>
+    ILogManager ForCategory(string category);
+
+    /// <summary>
+    /// Creates another log manager with the same configuration that additionally sets
+    /// <see cref="LogEventInfo.Category"/> of a log event with
+    /// the specified <typeparamref name="TCategory"/> type name.
+    /// </summary>
+    /// <typeparam name="TCategory">The type of the category.</typeparam>
+    /// <returns>A new <see cref="ILogManager"/> instance for the category.</returns>
+    ILogManager ForCategory<TCategory>();
 }

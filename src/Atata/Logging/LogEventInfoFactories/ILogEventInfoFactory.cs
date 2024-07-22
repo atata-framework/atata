@@ -3,7 +3,7 @@
 /// <summary>
 /// A factory of <see cref="LogEventInfo"/>.
 /// </summary>
-public interface ILogEventInfoFactory
+internal interface ILogEventInfoFactory
 {
     /// <summary>
     /// Creates the <see cref="LogEventInfo"/> instance with the specified <paramref name="level"/> and <paramref name="message"/>.

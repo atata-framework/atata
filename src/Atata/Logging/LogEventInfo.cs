@@ -11,9 +11,26 @@ public sealed class LogEventInfo
 
     /// <summary>
     /// Gets the context of the logging event.
-    /// Can be <see langword="null"/>.
     /// </summary>
     public AtataContext Context { get; internal set; }
+
+    /// <summary>
+    /// Gets the session of the logging event.
+    /// Can be <see langword="null"/> when the log event is written directly to <see cref="AtataContext"/>.
+    /// </summary>
+    public AtataSession Session { get; internal set; }
+
+    /// <summary>
+    /// Gets the category name.
+    /// Can be <see langword="null"/> by default.
+    /// </summary>
+    public string Category { get; internal set; }
+
+    /// <summary>
+    /// Gets the external source.
+    /// Can be <see langword="null"/> by default.
+    /// </summary>
+    public string ExternalSource { get; internal set; }
 
     /// <summary>
     /// Gets the timestamp of the logging event.

@@ -4,39 +4,24 @@
 /// Represents the log manager, an entry point for the Atata logging functionality.
 /// </summary>
 /// <seealso cref="ILogManager" />
-public class LogManager : ILogManager
+internal sealed class LogManager : ILogManager
 {
+    private readonly LogManagerConfiguration _configuration;
+
     private readonly ILogEventInfoFactory _logEventInfoFactory;
 
-    private readonly List<LogConsumerConfiguration> _logConsumerConfigurations = [];
+    private readonly Lazy<ConcurrentDictionary<string, ILogManager>> _lazyExternalSourceLogManagerMap = new();
 
-    private readonly List<SecretStringToMask> _secretStringsToMask = [];
+    private readonly Lazy<ConcurrentDictionary<string, ILogManager>> _lazyCategoryLogManagerMap = new();
 
     private readonly Stack<LogSection> _sectionEndStack = new();
 
-    public LogManager(ILogEventInfoFactory logEventInfoFactory) =>
-        _logEventInfoFactory = logEventInfoFactory.CheckNotNull(nameof(logEventInfoFactory));
-
-    /// <summary>
-    /// Adds the log consumer configuration.
-    /// </summary>
-    /// <param name="logConsumerConfiguration">The log consumer configuration.</param>
-    public void AddConfiguration(LogConsumerConfiguration logConsumerConfiguration)
+    internal LogManager(
+        LogManagerConfiguration configuration,
+        ILogEventInfoFactory logEventInfoFactory)
     {
-        logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
-
-        _logConsumerConfigurations.Add(logConsumerConfiguration);
-    }
-
-    /// <summary>
-    /// Adds the secret strings to mask.
-    /// </summary>
-    /// <param name="secretStringsToMask">The secret strings to mask.</param>
-    public void AddSecretStringsToMask(IEnumerable<SecretStringToMask> secretStringsToMask)
-    {
-        secretStringsToMask.CheckNotNull(nameof(secretStringsToMask));
-
-        _secretStringsToMask.AddRange(secretStringsToMask);
+        _configuration = configuration;
+        _logEventInfoFactory = logEventInfoFactory;
     }
 
     /// <inheritdoc/>
@@ -183,6 +168,34 @@ public class LogManager : ILogManager
         }
     }
 
+    /// <inheritdoc/>
+    public ILogManager ForExternalSource(string externalSource)
+    {
+        externalSource.CheckNotNullOrWhitespace(nameof(externalSource));
+
+        return _lazyExternalSourceLogManagerMap.Value.GetOrAdd(
+            externalSource,
+            x => new LogManager(
+                _configuration,
+                new ExternalSourceLogEventInfoFactory(_logEventInfoFactory, x)));
+    }
+
+    /// <inheritdoc/>
+    public ILogManager ForCategory(string category)
+    {
+        category.CheckNotNullOrWhitespace(nameof(category));
+
+        return _lazyCategoryLogManagerMap.Value.GetOrAdd(
+            category,
+            x => new LogManager(
+                _configuration,
+                new CategoryLogEventInfoFactory(_logEventInfoFactory, x)));
+    }
+
+    /// <inheritdoc/>
+    public ILogManager ForCategory<TCategory>() =>
+        ForCategory(typeof(TCategory).FullName);
+
     private static string AppendSectionResultToMessage(string message, object result)
     {
         string resultAsString = result is Exception resultAsException
@@ -307,7 +320,7 @@ public class LogManager : ILogManager
 
     private void Log(LogEventInfo eventInfo)
     {
-        var appropriateConsumerItems = _logConsumerConfigurations
+        var appropriateConsumerItems = _configuration.ConsumerConfigurations
             .Where(x => eventInfo.Level >= x.MinLevel);
 
         if (eventInfo.SectionEnd != null)
@@ -326,7 +339,7 @@ public class LogManager : ILogManager
 
     private string ApplySecretMasks(string message)
     {
-        foreach (var secret in _secretStringsToMask)
+        foreach (var secret in _configuration.SecretStringsToMask)
             message = message.Replace(secret.Value, secret.Mask);
 
         return message;

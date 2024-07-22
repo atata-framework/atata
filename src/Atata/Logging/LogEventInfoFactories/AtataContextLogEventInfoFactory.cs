@@ -7,11 +7,11 @@
 /// time zone of <see cref="AtataContextGlobalProperties.TimeZone"/> value
 /// of <see cref="AtataContext.GlobalProperties"/>.
 /// </summary>
-public class AtataContextLogEventInfoFactory : ILogEventInfoFactory
+internal sealed class AtataContextLogEventInfoFactory : ILogEventInfoFactory
 {
     private readonly AtataContext _context;
 
-    public AtataContextLogEventInfoFactory(AtataContext context) =>
+    internal AtataContextLogEventInfoFactory(AtataContext context) =>
         _context = context.CheckNotNull(nameof(context));
 
     /// <inheritdoc/>

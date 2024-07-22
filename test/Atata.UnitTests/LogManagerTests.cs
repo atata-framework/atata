@@ -5,26 +5,20 @@ namespace Atata.UnitTests;
 [TestFixture]
 public class LogManagerTests
 {
-    private LogManager _sut;
-
     private LogConsumerSpy _consumerSpy;
 
     [SetUp]
-    public void SetUp()
-    {
+    public void SetUp() =>
         _consumerSpy = new LogConsumerSpy();
-        _sut = new LogManager(new BasicLogEventInfoFactory());
-    }
 
     [Test]
-    public void AddSecretStringsToMask()
+    public void Info_WithSecretString()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy));
-
-        _sut.AddSecretStringsToMask(
+        var sut = CreateSut(
+            [new LogConsumerConfiguration(_consumerSpy)],
             [new SecretStringToMask("abc123", "***")]);
 
-        _sut.Info(@"Set ""abc123"" to something");
+        sut.Info(@"Set ""abc123"" to something");
 
         _consumerSpy.CollectedEvents.Should.ContainSingle()
             .Single().ValueOf(x => x.Message).Should.Be(@"Set ""***"" to something");
@@ -33,15 +27,15 @@ public class LogManagerTests
     [Test]
     public async Task ExecuteSectionAsync()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
 
-        await _sut.ExecuteSectionAsync(
+        await sut.ExecuteSectionAsync(
             new StepLogSection("step section"),
-            async () => await _sut.ExecuteSectionAsync(
+            async () => await sut.ExecuteSectionAsync(
                 new LogSection("trace sub-section", LogLevel.Trace),
                 () =>
                 {
-                    _sut.Trace("inner trace message");
+                    sut.Trace("inner trace message");
                     return Task.CompletedTask;
                 }));
 
@@ -56,15 +50,15 @@ public class LogManagerTests
     [Test]
     public async Task ExecuteSectionAsync_WithResult()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
 
-        var result = (await _sut.ExecuteSectionAsync(
+        var result = (await sut.ExecuteSectionAsync(
             new StepLogSection("step section"),
-            async () => await _sut.ExecuteSectionAsync(
+            async () => await sut.ExecuteSectionAsync(
                 new LogSection("trace sub-section", LogLevel.Trace),
                 () =>
                 {
-                    _sut.Trace("inner trace message");
+                    sut.Trace("inner trace message");
                     return Task.FromResult("ok");
                 }))).ToResultSubject();
 
@@ -80,9 +74,9 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsExclude()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Exclude)]);
 
-        LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
         _consumerSpy.CollectedEvents.Select(x => x.Message).Should.EqualSequence(
             "step section",
@@ -94,9 +88,9 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsExclude_AndMinLogLevelIsInfo()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Exclude));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Exclude)]);
 
-        LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
         _consumerSpy.CollectedEvents.Select(x => x.Message).Should.EqualSequence(
             "step section",
@@ -106,9 +100,9 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsIncludeForBlocks()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.IncludeForBlocks));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.IncludeForBlocks)]);
 
-        LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
         _consumerSpy.CollectedEvents.Select(x => x.Message).Should.ConsistSequentiallyOf(
             x => x == "> step section",
@@ -121,9 +115,9 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsIncludeForBlocks_AndMinLogLevelIsInfo()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.IncludeForBlocks));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.IncludeForBlocks)]);
 
-        LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
         _consumerSpy.CollectedEvents.Select(x => x.Message).Should.ConsistSequentiallyOf(
             x => x == "> step section",
@@ -134,9 +128,9 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsInclude()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Include));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogSectionEndOption.Include)]);
 
-        LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
         _consumerSpy.CollectedEvents.Select(x => x.Message).Should.ConsistSequentiallyOf(
             x => x == "> step section",
@@ -150,9 +144,9 @@ public class LogManagerTests
     [Test]
     public void WhenConsumerSectionEndIsInclude_AndMinLogLevelIsInfo()
     {
-        _sut.AddConfiguration(new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Include));
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy, LogLevel.Info, LogSectionEndOption.Include)]);
 
-        LogStepSectionWithTraceSubSectionContainingTraceAndInfo();
+        LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
         _consumerSpy.CollectedEvents.Select(x => x.Message).Should.ConsistSequentiallyOf(
             x => x == "> step section",
@@ -160,16 +154,37 @@ public class LogManagerTests
             x => x.StartsWith("< step section ("));
     }
 
-    private void LogStepSectionWithTraceSubSectionContainingTraceAndInfo() =>
-        _sut.ExecuteSection(
+    private static LogManager CreateSut(
+        LogConsumerConfiguration[] consumerConfigurations,
+        SecretStringToMask[] secretStringsToMask = null) =>
+        new(
+            new(
+                consumerConfigurations,
+                secretStringsToMask ?? []),
+            new BasicLogEventInfoFactory());
+
+    private static void LogStepSectionWithTraceSubSectionContainingTraceAndInfo(LogManager sut) =>
+        sut.ExecuteSection(
             new StepLogSection("step section"),
-            () => _sut.ExecuteSection(
+            () => sut.ExecuteSection(
                 new LogSection("trace sub-section", LogLevel.Trace),
                 () =>
                 {
-                    _sut.Info("inner info message");
-                    _sut.Trace("inner trace message");
+                    sut.Info("inner info message");
+                    sut.Trace("inner trace message");
                 }));
+
+    private sealed class BasicLogEventInfoFactory : ILogEventInfoFactory
+    {
+        public LogEventInfo Create(LogLevel level, string message) =>
+            new()
+            {
+                Level = level,
+                Message = message,
+
+                Timestamp = DateTime.Now
+            };
+    }
 
     public sealed class LogConsumerSpy : ILogConsumer
     {
