@@ -8,7 +8,7 @@ public interface IScreenshotStrategy
     /// <summary>
     /// Takes the screenshot.
     /// </summary>
-    /// <param name="context">The <see cref="AtataContext"/> instance.</param>
+    /// <param name="session">The <see cref="WebDriverSession"/> instance.</param>
     /// <returns>The screenshot file content with extension for further saving.</returns>
-    FileContentWithExtension TakeScreenshot(AtataContext context);
+    FileContentWithExtension TakeScreenshot(WebDriverSession session);
 }

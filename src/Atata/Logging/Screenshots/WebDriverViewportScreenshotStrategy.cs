@@ -13,9 +13,9 @@ public sealed class WebDriverViewportScreenshotStrategy : IScreenshotStrategy
         new WebDriverViewportScreenshotStrategy();
 
     /// <inheritdoc/>
-    public FileContentWithExtension TakeScreenshot(AtataContext context)
+    public FileContentWithExtension TakeScreenshot(WebDriverSession session)
     {
-        Screenshot screenshot = context.Driver.AsScreenshotTaker().GetScreenshot();
+        Screenshot screenshot = session.Driver.AsScreenshotTaker().GetScreenshot();
         return FileContentWithExtension.CreateFromByteArray(screenshot.AsByteArray, ".png");
     }
 }

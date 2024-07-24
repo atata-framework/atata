@@ -18,9 +18,9 @@ public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy
         new CdpFullPageScreenshotStrategy();
 
     /// <inheritdoc/>
-    public FileContentWithExtension TakeScreenshot(AtataContext context)
+    public FileContentWithExtension TakeScreenshot(WebDriverSession session)
     {
-        var devTools = context.Driver.As<IDevTools>();
+        var devTools = session.Driver.As<IDevTools>();
         var devToolsSession = devTools.GetDevToolsSession();
 
         var commandParameters = new JObject

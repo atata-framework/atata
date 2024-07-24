@@ -15,11 +15,11 @@ public sealed class WebDriverFullPageScreenshotStrategy : IScreenshotStrategy
         new WebDriverFullPageScreenshotStrategy();
 
     /// <inheritdoc/>
-    public FileContentWithExtension TakeScreenshot(AtataContext context)
+    public FileContentWithExtension TakeScreenshot(WebDriverSession session)
     {
-        if (!context.Driver.TryAs(out FirefoxDriver firefoxDriver))
+        if (!session.Driver.TryAs(out FirefoxDriver firefoxDriver))
             throw new InvalidOperationException(
-                $"{GetType().FullName} works only with Driver of {typeof(FirefoxDriver).FullName} type, but was {context.Driver.GetType().FullName}.");
+                $"{GetType().FullName} works only with Driver of {typeof(FirefoxDriver).FullName} type, but was {session.Driver.GetType().FullName}.");
 
         Screenshot screenshot = firefoxDriver.GetFullPageScreenshot();
         return FileContentWithExtension.CreateFromByteArray(screenshot.AsByteArray, ".png");
