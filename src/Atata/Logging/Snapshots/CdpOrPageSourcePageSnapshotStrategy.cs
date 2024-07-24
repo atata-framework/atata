@@ -19,16 +19,16 @@ public sealed class CdpOrPageSourcePageSnapshotStrategy : IPageSnapshotStrategy
         new CdpOrPageSourcePageSnapshotStrategy();
 
     /// <inheritdoc/>
-    public FileContentWithExtension TakeSnapshot(AtataContext context)
+    public FileContentWithExtension TakeSnapshot(WebDriverSession session)
     {
-        string driverAlias = context.DriverAlias;
+        string driverAlias = session.DriverAlias;
 
         if (string.IsNullOrEmpty(driverAlias))
-            driverAlias = context.Driver.GetType().Name;
+            driverAlias = session.Driver.GetType().Name;
 
         if (!s_driverAliasSupportsCdpMap.TryGetValue(driverAlias, out bool isCdpSupported))
         {
-            var driver = context.Driver;
+            var driver = session.Driver;
 
             isCdpSupported = driver.Is<ChromeDriver>()
                 || driver.Is<EdgeDriver>()
@@ -41,16 +41,16 @@ public sealed class CdpOrPageSourcePageSnapshotStrategy : IPageSnapshotStrategy
         {
             try
             {
-                return CdpPageSnapshotStrategy.Instance.TakeSnapshot(context);
+                return CdpPageSnapshotStrategy.Instance.TakeSnapshot(session);
             }
             catch (Exception exception)
             {
                 s_driverAliasSupportsCdpMap[driverAlias] = false;
 
-                context.Log.Warn(exception, "Failed to take CDP snapshot. PageSource snapshot will be taken.");
+                session.Log.Warn(exception, "Failed to take CDP snapshot. PageSource snapshot will be taken.");
             }
         }
 
-        return PageSourcePageSnapshotStrategy.Instance.TakeSnapshot(context);
+        return PageSourcePageSnapshotStrategy.Instance.TakeSnapshot(session);
     }
 }

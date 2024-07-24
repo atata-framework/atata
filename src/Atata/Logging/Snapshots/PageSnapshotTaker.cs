@@ -13,11 +13,11 @@ internal sealed class PageSnapshotTaker
     public PageSnapshotTaker(
         IPageSnapshotStrategy snapshotStrategy,
         string filePathTemplate,
-        WebDriverSession context)
+        WebDriverSession session)
     {
         _snapshotStrategy = snapshotStrategy;
         _filePathTemplate = filePathTemplate;
-        _session = context;
+        _session = session;
     }
 
     public void TakeSnapshot(string title = null)
@@ -59,6 +59,6 @@ internal sealed class PageSnapshotTaker
             new("snapshot-pageobjectfullname", pageObject?.ComponentFullName)
         ];
 
-        return _session.Context.FillPathTemplateString(_filePathTemplate, snapshotVariables);
+        return _session.FillPathTemplateString(_filePathTemplate, snapshotVariables);
     }
 }

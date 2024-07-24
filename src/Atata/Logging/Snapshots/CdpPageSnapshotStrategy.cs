@@ -15,9 +15,9 @@ public sealed class CdpPageSnapshotStrategy : IPageSnapshotStrategy
         new CdpPageSnapshotStrategy();
 
     /// <inheritdoc/>
-    public FileContentWithExtension TakeSnapshot(AtataContext context)
+    public FileContentWithExtension TakeSnapshot(WebDriverSession session)
     {
-        var devTools = context.Driver.As<IDevTools>();
+        var devTools = session.Driver.As<IDevTools>();
         var devToolsSession = devTools.GetDevToolsSession();
 
         var commandResult = devToolsSession.SendCommand(

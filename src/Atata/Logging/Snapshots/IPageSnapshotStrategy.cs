@@ -8,7 +8,7 @@ public interface IPageSnapshotStrategy
     /// <summary>
     /// Takes the snapshot.
     /// </summary>
-    /// <param name="context">The <see cref="AtataContext"/> instance.</param>
+    /// <param name="session">The <see cref="WebDriverSession"/> instance.</param>
     /// <returns>The snapshot file content with extension for further saving.</returns>
-    FileContentWithExtension TakeSnapshot(AtataContext context);
+    FileContentWithExtension TakeSnapshot(WebDriverSession session);
 }

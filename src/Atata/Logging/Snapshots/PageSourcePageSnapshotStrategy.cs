@@ -12,9 +12,9 @@ public sealed class PageSourcePageSnapshotStrategy : IPageSnapshotStrategy
         new PageSourcePageSnapshotStrategy();
 
     /// <inheritdoc/>
-    public FileContentWithExtension TakeSnapshot(AtataContext context)
+    public FileContentWithExtension TakeSnapshot(WebDriverSession session)
     {
-        var content = context.Driver.PageSource;
+        var content = session.Driver.PageSource;
         return FileContentWithExtension.CreateFromText(content, ".html");
     }
 }
