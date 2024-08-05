@@ -17,7 +17,8 @@ public abstract class UITestFixtureBase
     protected static IEnumerable<string> ChromeArguments { get; } =
     [
         "window-size=1200,800",
-        "headless=new"
+        "headless=new",
+        "disable-search-engine-choice-screen"
     ];
 
     protected IEnumerable<LogEventInfo> LogEntries => _eventListLogConsumer.Items;
