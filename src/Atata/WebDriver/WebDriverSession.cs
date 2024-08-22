@@ -1,7 +1,18 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// <para>
+/// Represents a session that manages <see cref="IWebDriver"/> instance
+/// and provides a set of functionality to manipulate the driver.
+/// </para>
+/// <para>
+/// The class adds additional variable to its <see cref="AtataSession.Variables"/>: <c>{driver-alias}</c>.
+/// </para>
+/// </summary>
 public class WebDriverSession : WebSession, IDisposable
 {
+    private IDriverFactory _driverFactory;
+
     private IWebDriver _driver;
 
     private bool _disposed;
@@ -17,7 +28,17 @@ public class WebDriverSession : WebSession, IDisposable
         AtataContext.Current?.Sessions.Get<WebDriverSession>()
             ?? throw AtataContextNotFoundException.Create();
 
-    internal IDriverFactory DriverFactory { get; set; }
+    internal IDriverFactory DriverFactory
+    {
+        get => _driverFactory;
+        set
+        {
+            _driverFactory = value;
+
+            // TODO: Review the "driver-alias" variable set along with DriverFactory set.
+            Variables.SetInitialValue("driver-alias", DriverAlias);
+        }
+    }
 
     /// <summary>
     /// Gets the driver.
@@ -50,7 +71,8 @@ public class WebDriverSession : WebSession, IDisposable
     /// <summary>
     /// Gets the driver alias.
     /// </summary>
-    public string DriverAlias { get; internal set; }
+    public string DriverAlias =>
+        DriverFactory?.Alias;
 
     internal bool DisposeDriver { get; set; }
 
@@ -87,7 +109,9 @@ public class WebDriverSession : WebSession, IDisposable
                     ?? throw new WebDriverInitializationException(
                         $"Driver factory returned null as a driver.");
 
-                _driver.Manage().Timeouts().SetRetryTimeout(ElementFindTimeout, ElementFindRetryInterval);
+                // TODO: v4. Move these RetrySettings out of here.
+                RetrySettings.Timeout = ElementFindTimeout;
+                RetrySettings.Interval = ElementFindRetryInterval;
 
                 EventBus.Publish(new DriverInitEvent(_driver));
             });

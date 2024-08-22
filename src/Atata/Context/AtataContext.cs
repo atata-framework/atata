@@ -3,7 +3,7 @@
 namespace Atata;
 
 /// <summary>
-/// Represents the Atata context, the entry point for the test set-up.
+/// Represents the context of a test scope (test, test suite, global test context).
 /// </summary>
 public sealed class AtataContext : IDisposable
 {
@@ -18,8 +18,6 @@ public sealed class AtataContext : IDisposable
 
     private readonly ExpectationVerificationStrategy _expectationVerificationStrategy;
 
-    private IWebDriver _driver;
-
     private bool _disposed;
 
     /// <summary>
@@ -32,12 +30,17 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
-    internal AtataContext()
+    internal AtataContext(AtataContext parentContext)
     {
+        ParentContext = parentContext;
+
         _assertionVerificationStrategy = new AssertionVerificationStrategy(this);
         _expectationVerificationStrategy = new ExpectationVerificationStrategy(this);
 
         Report = new Report<AtataContext>(this, this);
+
+        Variables = new(parentContext?.Variables);
+        State = new(parentContext?.State);
     }
 
     /// <summary>
@@ -74,6 +77,8 @@ public sealed class AtataContext : IDisposable
     /// Gets the global configuration.
     /// </summary>
     public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
+
+    public AtataContext ParentContext { get; }
 
     public AtataSessionCollection Sessions { get; } = [];
 
@@ -304,10 +309,10 @@ public sealed class AtataContext : IDisposable
 
     /// <summary>
     /// <para>
-    /// Gets the variables dictionary.
+    /// Gets the variables hierarchical dictionary of this context.
     /// </para>
     /// <para>
-    /// The list of predefined variables:
+    /// List of predefined variables:
     /// </para>
     /// <list type="bullet">
     /// <item><c>artifacts</c></item>
@@ -317,13 +322,18 @@ public sealed class AtataContext : IDisposable
     /// <item><c>test-suite-name</c></item>
     /// <item><c>test-start</c></item>
     /// <item><c>test-start-utc</c></item>
-    /// <item><c>driver-alias</c></item>
     /// </list>
     /// <para>
     /// Custom variables can be added as well.
     /// </para>
     /// </summary>
-    public IDictionary<string, object> Variables { get; } = new Dictionary<string, object>();
+    public VariableHierarchicalDictionary Variables { get; }
+
+    /// <summary>
+    /// Gets the state hierarchical dictionary of this context.
+    /// By default the dictionary is empty.
+    /// </summary>
+    public StateHierarchicalDictionary State { get; }
 
     /// <summary>
     /// Gets the name of the DOM test identifier attribute.
@@ -358,14 +368,12 @@ public sealed class AtataContext : IDisposable
     {
         var variables = Variables;
 
-        variables["test-name-sanitized"] = Test.NameSanitized;
-        variables["test-name"] = Test.Name;
-        variables["test-suite-name-sanitized"] = Test.SuiteNameSanitized;
-        variables["test-suite-name"] = Test.SuiteName;
-        variables["test-start"] = StartedAt;
-        variables["test-start-utc"] = StartedAtUtc;
-
-        variables["driver-alias"] = DriverAlias;
+        variables.SetInitialValue("test-name-sanitized", Test.NameSanitized);
+        variables.SetInitialValue("test-name", Test.Name);
+        variables.SetInitialValue("test-suite-name-sanitized", Test.SuiteNameSanitized);
+        variables.SetInitialValue("test-suite-name", Test.SuiteName);
+        variables.SetInitialValue("test-start", StartedAt);
+        variables.SetInitialValue("test-start-utc", StartedAtUtc);
     }
 
     internal void InitCustomVariables(IEnumerable<KeyValuePair<string, object>> customVariables)
@@ -373,11 +381,11 @@ public sealed class AtataContext : IDisposable
         var variables = Variables;
 
         foreach (var variable in customVariables)
-            variables[variable.Key] = variable.Value;
+            variables.SetInitialValue(variable.Key, variable.Value);
     }
 
     internal void InitArtifactsVariable() =>
-        Variables["artifacts"] = ArtifactsPath;
+        Variables.SetInitialValue("artifacts", ArtifactsPath);
 
     internal void LogTestStart()
     {
@@ -450,174 +458,9 @@ public sealed class AtataContext : IDisposable
         }
     }
 
-    internal void InitDriver() =>
-        Log.ExecuteSection(
-            new LogSection("Initialize Driver", LogLevel.Trace),
-            () =>
-            {
-                if (DriverFactory is null)
-                    throw new WebDriverInitializationException(
-                        $"Failed to create a driver as driver factory is not specified.");
-
-                _driver = DriverFactory.Create()
-                    ?? throw new WebDriverInitializationException(
-                        $"Driver factory returned null as a driver.");
-
-                // TODO: v4. Move these RetrySettings out of here.
-                RetrySettings.Timeout = ElementFindTimeout;
-                RetrySettings.Interval = ElementFindRetryInterval;
-
-                EventBus.Publish(new DriverInitEvent(_driver));
-            });
-
     [Obsolete("Use GetWebDriverSession().RestartDriver() instead.")] // Obsolete since v3.0.0.
     public void RestartDriver() =>
         this.GetWebDriverSession().RestartDriver();
-
-    /// <summary>
-    /// <para>
-    /// Fills the template string with variables of this <see cref="AtataContext"/> instance.
-    /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
-    /// </para>
-    /// <para>
-    /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
-    /// and extended formatting for strings
-    /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
-    /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
-    /// </para>
-    /// <para>
-    /// The list of predefined variables:
-    /// </para>
-    /// <list type="bullet">
-    /// <item><c>{artifacts}</c></item>
-    /// <item><c>{test-name-sanitized}</c></item>
-    /// <item><c>{test-name}</c></item>
-    /// <item><c>{test-suite-name-sanitized}</c></item>
-    /// <item><c>{test-suite-name}</c></item>
-    /// <item><c>{test-start}</c></item>
-    /// <item><c>{test-start-utc}</c></item>
-    /// <item><c>{driver-alias}</c></item>
-    /// </list>
-    /// </summary>
-    /// <param name="template">The template string.</param>
-    /// <returns>The filled string.</returns>
-    public string FillTemplateString(string template) =>
-        FillTemplateString(template, null);
-
-    /// <inheritdoc cref="FillTemplateString(string)"/>
-    /// <param name="template">The template string.</param>
-    /// <param name="additionalVariables">The additional variables.</param>
-    public string FillTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
-        TransformTemplateString(template, additionalVariables, TemplateStringTransformer.Transform);
-
-    /// <summary>
-    /// <para>
-    /// Fills the path template string with variables of this <see cref="AtataContext"/> instance.
-    /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
-    /// </para>
-    /// <para>
-    /// Variables are sanitized for path by replacing invalid characters with <c>'_'</c>.
-    /// </para>
-    /// <para>
-    /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
-    /// and extended formatting for strings
-    /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
-    /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
-    /// </para>
-    /// <para>
-    /// The list of predefined variables:
-    /// </para>
-    /// <list type="bullet">
-    /// <item><c>{artifacts}</c></item>
-    /// <item><c>{test-name-sanitized}</c></item>
-    /// <item><c>{test-name}</c></item>
-    /// <item><c>{test-suite-name-sanitized}</c></item>
-    /// <item><c>{test-suite-name}</c></item>
-    /// <item><c>{test-start}</c></item>
-    /// <item><c>{test-start-utc}</c></item>
-    /// <item><c>{driver-alias}</c></item>
-    /// </list>
-    /// </summary>
-    /// <param name="template">The template string.</param>
-    /// <returns>The filled string.</returns>
-    public string FillPathTemplateString(string template) =>
-        FillPathTemplateString(template, null);
-
-    /// <inheritdoc cref="FillPathTemplateString(string)"/>
-    /// <param name="template">The template string.</param>
-    /// <param name="additionalVariables">The additional variables.</param>
-    public string FillPathTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
-        TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformPath);
-
-    /// <summary>
-    /// <para>
-    /// Fills the path template string with variables of this <see cref="AtataContext"/> instance.
-    /// The <paramref name="template"/> can contain variables wrapped with curly braces, e.g. <c>"{varName}"</c>.
-    /// </para>
-    /// <para>
-    /// Variables support standard .NET formatting (<c>"{numberVar:D5}"</c> or <c>"{dateTimeVar:yyyy-MM-dd}"</c>)
-    /// and extended formatting for strings
-    /// (for example, <c>"{stringVar:/*}"</c> appends <c>"/"</c> to the beginning of the string, if variable is not null).
-    /// In order to output a <c>{</c> use <c>{{</c>, and to output a <c>}</c> use <c>}}</c>.
-    /// </para>
-    /// <para>
-    /// Variables are escaped by default using <see cref="Uri.EscapeDataString(string)"/> method.
-    /// In order to not escape a variable, use <c>:noescape</c> modifier, for example <c>"{stringVar:noescape}"</c>.
-    /// To escape a variable using <see cref="Uri.EscapeUriString(string)"/> method,
-    /// preserving special URI symbols,
-    /// use <c>:uriescape</c> modifier, for example <c>"{stringVar:uriescape}"</c>.
-    /// Use <c>:dataescape</c> in complex scenarios (like adding optional query parameter)
-    /// together with an extended formatting, for example <c>"{stringVar:dataescape:?q=*}"</c>,
-    /// to escape the value and prefix it with "?q=", but nothing will be output in case
-    /// <c>stringVar</c> is <see langword="null"/>.
-    /// </para>
-    /// <para>
-    /// The list of predefined variables:
-    /// </para>
-    /// <list type="bullet">
-    /// <item><c>{artifacts}</c></item>
-    /// <item><c>{test-name-sanitized}</c></item>
-    /// <item><c>{test-name}</c></item>
-    /// <item><c>{test-suite-name-sanitized}</c></item>
-    /// <item><c>{test-suite-name}</c></item>
-    /// <item><c>{test-start}</c></item>
-    /// <item><c>{test-start-utc}</c></item>
-    /// <item><c>{driver-alias}</c></item>
-    /// </list>
-    /// </summary>
-    /// <param name="template">The template string.</param>
-    /// <returns>The filled string.</returns>
-    public string FillUriTemplateString(string template) =>
-        FillUriTemplateString(template, null);
-
-    /// <inheritdoc cref="FillUriTemplateString(string)"/>
-    /// <param name="template">The template string.</param>
-    /// <param name="additionalVariables">The additional variables.</param>
-    public string FillUriTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
-        TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformUri);
-
-    private string TransformTemplateString(
-        string template,
-        IEnumerable<KeyValuePair<string, object>> additionalVariables,
-        Func<string, IDictionary<string, object>, string> transformFunction)
-    {
-        template.CheckNotNull(nameof(template));
-
-        if (!template.Contains('{'))
-            return template;
-
-        var variables = Variables;
-
-        if (additionalVariables != null)
-        {
-            variables = new Dictionary<string, object>(variables);
-
-            foreach (var variable in additionalVariables)
-                variables[variable.Key] = variable.Value;
-        }
-
-        return transformFunction(template, variables);
-    }
 
     /// <summary>
     /// Takes a screenshot of the current page with an optionally specified title.

@@ -730,7 +730,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
     /// </para>
     /// <para>
-    /// The list of predefined variables:
+    /// List of predefined variables:
     /// </para>
     /// <list type="bullet">
     /// <item><c>{test-name-sanitized}</c></item>
@@ -739,7 +739,6 @@ Actual: {driverFactory.GetType().FullName}",
     /// <item><c>{test-suite-name}</c></item>
     /// <item><c>{test-start}</c></item>
     /// <item><c>{test-start-utc}</c></item>
-    /// <item><c>{driver-alias}</c></item>
     /// </list>
     /// </summary>
     /// <param name="directoryPathTemplate">The directory path template.</param>
@@ -945,7 +944,7 @@ Actual: {driverFactory.GetType().FullName}",
     {
         string pathTemplate = BuildingContext.ArtifactsPathTemplate;
 
-        string path = context.FillTemplateString(pathTemplate);
+        string path = context.Variables.FillPathTemplateString(pathTemplate);
         string fullPath;
 
         if (path.Length > 0)

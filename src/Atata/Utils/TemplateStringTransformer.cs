@@ -34,7 +34,7 @@ public static class TemplateStringTransformer
     /// <param name="template">The template.</param>
     /// <param name="variables">The variables.</param>
     /// <returns>The string result.</returns>
-    public static string Transform(string template, IDictionary<string, object> variables) =>
+    public static string Transform(string template, IEnumerable<KeyValuePair<string, object>> variables) =>
         Transform(template, variables, AtataTemplateStringFormatter.Default);
 
     /// <summary>
@@ -55,7 +55,7 @@ public static class TemplateStringTransformer
     /// <param name="template">The template.</param>
     /// <param name="variables">The variables.</param>
     /// <returns>The string result.</returns>
-    public static string TransformPath(string template, IDictionary<string, object> variables) =>
+    public static string TransformPath(string template, IEnumerable<KeyValuePair<string, object>> variables) =>
         Transform(template, variables, AtataPathTemplateStringFormatter.Default);
 
     /// <summary>
@@ -84,10 +84,10 @@ public static class TemplateStringTransformer
     /// <param name="template">The template.</param>
     /// <param name="variables">The variables.</param>
     /// <returns>The string result.</returns>
-    public static string TransformUri(string template, IDictionary<string, object> variables) =>
+    public static string TransformUri(string template, IEnumerable<KeyValuePair<string, object>> variables) =>
         Transform(template, variables, AtataUriTemplateStringFormatter.Default);
 
-    private static string Transform(string template, IDictionary<string, object> variables, IFormatProvider formatProvider)
+    private static string Transform(string template, IEnumerable<KeyValuePair<string, object>> variables, IFormatProvider formatProvider)
     {
         template.CheckNotNull(nameof(template));
         variables.CheckNotNull(nameof(variables));
@@ -95,21 +95,30 @@ public static class TemplateStringTransformer
         if (CanTransform(template))
         {
             string workingTemplate = template;
-            var variablesKeys = variables.OrderByDescending(x => x.Key.Length)
-                .Select(x => x.Key)
-                .ToArray();
-            var variablesValues = variables.OrderByDescending(x => x.Key.Length)
-                .Select(x => x.Value)
-                .ToArray();
 
-            for (int i = 0; i < variablesKeys.Length; i++)
+            List<object> variablesValuesList = [];
+            int variableIndex = 0;
+
+            foreach (var variable in variables)
             {
-                workingTemplate = workingTemplate.Replace("{" + variablesKeys[i], $"{{{i}");
+                if (workingTemplate.Contains(variable.Key))
+                {
+                    string newWorkingTemplate = workingTemplate.Replace("{" + variable.Key, $"{{{variableIndex}");
+
+                    if (newWorkingTemplate != workingTemplate)
+                    {
+                        workingTemplate = newWorkingTemplate;
+                        variableIndex++;
+                        variablesValuesList.Add(variable.Value);
+                    }
+                }
             }
+
+            object[] variablesValuesArray = [.. variablesValuesList];
 
             try
             {
-                return string.Format(formatProvider, workingTemplate, variablesValues);
+                return string.Format(formatProvider, workingTemplate, variablesValuesArray);
             }
             catch (FormatException)
             {

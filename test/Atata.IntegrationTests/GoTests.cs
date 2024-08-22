@@ -123,8 +123,8 @@ public class GoTests : UITestFixture
     public void To_UsingDirectNavigation_WhenUrlIsTemplated()
     {
         AtataContext.Current.Variables["GoToNumber"] = 2;
-        AtataContext.Current.Variables["GoToArg"] = 42;
-        AtataContext.Current.Variables["GoToFragment"] = "fragment";
+        WebDriverSession.Current.Variables["GoToArg"] = 42;
+        WebDriverSession.Current.Variables["GoToFragment"] = "fragment";
 
         Go.To<PageWithTemplatedUrl>()
             .PageUri.Relative.Should.Be("/goto2?arg=42#fragment");

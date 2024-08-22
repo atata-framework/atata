@@ -2,8 +2,13 @@
 
 public abstract class AtataSession
 {
-    protected AtataSession(AtataContext context) =>
+    protected AtataSession(AtataContext context)
+    {
         OwnerContext = Context = context.CheckNotNull(nameof(context));
+
+        Variables = new(context.Variables);
+        State = new(context.State);
+    }
 
     public AtataContext OwnerContext { get; }
 
@@ -21,10 +26,24 @@ public abstract class AtataSession
     /// </summary>
     protected IEventBus EventBus => Context.EventBus;
 
+    // TODO: Set initial variables, such as {session-name}.
+    public VariableHierarchicalDictionary Variables { get; }
+
+    public StateHierarchicalDictionary State { get; }
+
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
 
-    public void Start()
+    public Task StartAsync(CancellationToken cancellationToken = default) =>
+        Task.CompletedTask;
+
+    internal void ReassignToContext(AtataContext context)
     {
+        Context = context;
+        Variables.ChangeParentDictionary(context.Variables);
+        State.ChangeParentDictionary(context.State);
     }
+
+    internal void ReassignToOwnerContext() =>
+        ReassignToContext(OwnerContext);
 }

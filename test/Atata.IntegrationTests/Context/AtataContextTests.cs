@@ -148,34 +148,34 @@ public static class AtataContextTests
             context.Variables.ToSutSubject()
                 .ValueOf(x => x["key1"]).Should.Be("val1");
         }
-    }
 
-    public class FillTemplateString : UITestFixtureBase
-    {
-        private Subject<AtataContext> _sut;
+        public class FillTemplateString : UITestFixtureBase
+        {
+            private Subject<AtataContext> _sut;
 
-        [SetUp]
-        public void SetUp() =>
-            _sut = ConfigureBaseAtataContext()
-                .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
-                .AddVariable("key1", "val1")
-                .Build()
-                .ToSutSubject();
+            [SetUp]
+            public void SetUp() =>
+                _sut = ConfigureBaseAtataContext()
+                    .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+                    .AddVariable("key1", "val1")
+                    .Build()
+                    .ToSutSubject();
 
-        [Test]
-        public void WithPredefinedVariable() =>
-            _sut.ResultOf(x => x.FillTemplateString("start_{test-name}_end"))
-                .Should.Be($"start_{nameof(WithPredefinedVariable)}_end");
+            [Test]
+            public void WithPredefinedVariable() =>
+                _sut.ResultOf(x => x.Variables.FillTemplateString("start_{test-name}_end"))
+                    .Should.Be($"start_{nameof(WithPredefinedVariable)}_end");
 
-        [Test]
-        public void WithCustomVariable() =>
-            _sut.ResultOf(x => x.FillTemplateString("start_{key1}_end"))
-                .Should.Be("start_val1_end");
+            [Test]
+            public void WithCustomVariable() =>
+                _sut.ResultOf(x => x.Variables.FillTemplateString("start_{key1}_end"))
+                    .Should.Be("start_val1_end");
 
-        [Test]
-        public void WithMissingVariable() =>
-            _sut.ResultOf(x => x.FillTemplateString("start_{missingkey}_end"))
-                .Should.Throw<FormatException>();
+            [Test]
+            public void WithMissingVariable() =>
+                _sut.ResultOf(x => x.Variables.FillTemplateString("start_{missingkey}_end"))
+                    .Should.Throw<FormatException>();
+        }
     }
 
     public class TakeScreenshot : UITestFixtureBase

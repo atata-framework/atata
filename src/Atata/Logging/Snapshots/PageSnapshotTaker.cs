@@ -59,6 +59,6 @@ internal sealed class PageSnapshotTaker
             new("snapshot-pageobjectfullname", pageObject?.ComponentFullName)
         ];
 
-        return _session.FillPathTemplateString(_filePathTemplate, snapshotVariables);
+        return _session.Variables.FillPathTemplateString(_filePathTemplate, snapshotVariables);
     }
 }

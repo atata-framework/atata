@@ -9,8 +9,8 @@
 /// </para>
 /// <para>
 /// The URL can be represented in a template format, like <c>"/organization/{OrganizationId}/details"</c>.
-/// The template is filled with <see cref="AtataContext.Variables"/>
-/// by using <see cref="AtataContext.FillUriTemplateString(string)"/> method.
+/// The template is filled with <see cref="AtataSession.Variables"/>
+/// by using <see cref="VariableHierarchicalDictionary.FillUriTemplateString(string)"/> method.
 /// </para>
 /// </summary>
 public class UrlAttribute : MulticastAttribute

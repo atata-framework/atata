@@ -17,7 +17,7 @@ public class AddDirectoryFilesToNUnitTestContextEventHandler : IEventHandler<Ata
     {
         string directoryPath = _directoryPathBuilder.Invoke(context);
 
-        directoryPath = context.FillTemplateString(directoryPath);
+        directoryPath = context.Variables.FillPathTemplateString(directoryPath);
 
         DirectoryInfo directory = new DirectoryInfo(directoryPath);
 

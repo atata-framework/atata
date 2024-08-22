@@ -74,7 +74,9 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     {
         var properties = s_lazyThreadContextProperties.Value;
 
-        foreach (var item in eventInfo.Context.Variables)
+        var variables = eventInfo.Session?.Variables ?? eventInfo.Context.Variables;
+
+        foreach (var item in variables)
             properties[item.Key] = item.Value;
 
         var level = s_lazyLogLevelsMap.Value[eventInfo.Level];

@@ -325,13 +325,13 @@ public sealed class AtataNavigator
     private string PrepareNavigationUrl(string navigationUrl, GoOptions options)
     {
         if (!string.IsNullOrEmpty(navigationUrl))
-            navigationUrl = _session.Context.FillUriTemplateString(navigationUrl);
+            navigationUrl = _session.Variables.FillUriTemplateString(navigationUrl);
 
         navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
 
         if (options.Navigate && !string.IsNullOrEmpty(options.Url))
         {
-            string additionalUrl = _session.Context.FillUriTemplateString(options.Url);
+            string additionalUrl = _session.Variables.FillUriTemplateString(options.Url);
             navigationUrl = UriUtils.MergeAsString(navigationUrl, additionalUrl);
         }
 

@@ -45,7 +45,7 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     {
         AtataContext context = AtataContext.Current;
 
-        string fileName = context.FillPathTemplateString(FileNameTemplate);
+        string fileName = context.Variables.FillPathTemplateString(FileNameTemplate);
         return Path.Combine(context.ArtifactsPath, fileName);
     }
 
