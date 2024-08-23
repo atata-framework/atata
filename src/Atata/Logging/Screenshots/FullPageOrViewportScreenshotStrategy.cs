@@ -6,10 +6,10 @@ using OpenQA.Selenium.Remote;
 namespace Atata;
 
 /// <summary>
-/// Represents the strategy that tries to take a full-page screenshot,
+/// Represents a <see cref="WebDriverSession"/> screenshot strategy that tries to take a full-page screenshot,
 /// when it cannot be taken, takes a screenshot of viewport area.
 /// </summary>
-public sealed class FullPageOrViewportScreenshotStrategy : IScreenshotStrategy
+public sealed class FullPageOrViewportScreenshotStrategy : IScreenshotStrategy<WebDriverSession>
 {
     private static readonly ConcurrentDictionary<string, bool> s_driverAliasSupportsCdpMap = new();
 

@@ -3,10 +3,10 @@
 namespace Atata;
 
 /// <summary>
-/// Represents the strategy that takes a full-page screenshot.
+/// Represents a <see cref="WebDriverSession"/> screenshot strategy that takes a full-page screenshot.
 /// Works only for <see cref="FirefoxDriver"/>, invoking its <see cref="FirefoxDriver.GetFullPageScreenshot"/> method.
 /// </summary>
-public sealed class WebDriverFullPageScreenshotStrategy : IScreenshotStrategy
+public sealed class WebDriverFullPageScreenshotStrategy : IScreenshotStrategy<WebDriverSession>
 {
     /// <summary>
     /// Gets the singleton instance.

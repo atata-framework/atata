@@ -1019,8 +1019,10 @@ Actual: {driverFactory.GetType().FullName}",
         context.ObjectCreator = objectCreator;
         context.EventBus = new EventBus(context, BuildingContext.EventSubscriptions);
 
-        context.ScreenshotTaker = new ScreenshotTaker(
+        context.ScreenshotTaker = new ScreenshotTaker<WebDriverSession>(
             BuildingContext.Screenshots.Strategy,
+            WebDriverViewportScreenshotStrategy.Instance,
+            FullPageOrViewportScreenshotStrategy.Instance,
             BuildingContext.Screenshots.FileNameTemplate,
             context);
 

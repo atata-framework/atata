@@ -1,44 +1,53 @@
 ﻿namespace Atata;
 
-internal sealed class ScreenshotTaker
+internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
+    where TSession : WebSession
 {
-    private readonly IScreenshotStrategy _screenshotStrategy;
+    private readonly IScreenshotStrategy<TSession> _defaultScreenshotStrategy;
+
+    private readonly IScreenshotStrategy<TSession> _viewportScreenshotStrategy;
+
+    private readonly IScreenshotStrategy<TSession> _fullPageScreenshotStrategy;
 
     private readonly string _filePathTemplate;
 
-    private readonly WebDriverSession _session;
+    private readonly TSession _session;
 
     private int _screenshotNumber;
 
     public ScreenshotTaker(
-        IScreenshotStrategy screenshotStrategy,
+        IScreenshotStrategy<TSession> defaultScreenshotStrategy,
+        IScreenshotStrategy<TSession> viewportScreenshotStrategy,
+        IScreenshotStrategy<TSession> fullPageScreenshotStrategy,
         string filePathTemplate,
-        WebDriverSession session)
+        TSession session)
     {
-        _screenshotStrategy = screenshotStrategy;
+        _defaultScreenshotStrategy = defaultScreenshotStrategy;
+        _viewportScreenshotStrategy = viewportScreenshotStrategy;
+        _fullPageScreenshotStrategy = fullPageScreenshotStrategy;
         _filePathTemplate = filePathTemplate;
         _session = session;
     }
 
     public void TakeScreenshot(string title = null)
     {
-        if (_screenshotStrategy is not null)
-            TakeScreenshot(_screenshotStrategy, title);
+        if (_defaultScreenshotStrategy is not null)
+            TakeScreenshot(_defaultScreenshotStrategy, title);
     }
 
     public void TakeScreenshot(ScreenshotKind kind, string title = null)
     {
         if (kind == ScreenshotKind.Viewport)
-            TakeScreenshot(WebDriverViewportScreenshotStrategy.Instance, title);
+            TakeScreenshot(_viewportScreenshotStrategy, title);
         else if (kind == ScreenshotKind.FullPage)
-            TakeScreenshot(FullPageOrViewportScreenshotStrategy.Instance, title);
+            TakeScreenshot(_fullPageScreenshotStrategy, title);
         else
             TakeScreenshot(title);
     }
 
-    private void TakeScreenshot(IScreenshotStrategy strategy, string title = null)
+    private void TakeScreenshot(IScreenshotStrategy<TSession> strategy, string title = null)
     {
-        if (strategy is null || !_session.HasDriver)
+        if (strategy is null || _session.IsActive)
             return;
 
         _screenshotNumber++;

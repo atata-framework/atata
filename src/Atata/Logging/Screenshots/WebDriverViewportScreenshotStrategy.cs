@@ -1,10 +1,10 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the strategy that takes a page viewport screenshot using <see cref="ITakesScreenshot.GetScreenshot"/> method
-/// of <see cref="AtataContext.Driver"/> instance.
+/// Represents a <see cref="WebDriverSession"/> screenshot strategy that takes a page viewport screenshot
+/// using <see cref="ITakesScreenshot.GetScreenshot"/> method of <see cref="WebDriverSession.Driver"/> instance.
 /// </summary>
-public sealed class WebDriverViewportScreenshotStrategy : IScreenshotStrategy
+public sealed class WebDriverViewportScreenshotStrategy : IScreenshotStrategy<WebDriverSession>
 {
     /// <summary>
     /// Gets the singleton instance.

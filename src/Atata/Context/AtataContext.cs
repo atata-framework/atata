@@ -82,19 +82,20 @@ public sealed class AtataContext : IDisposable
 
     public AtataSessionCollection Sessions { get; } = [];
 
-    [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v4.0.0.
     internal IDriverFactory DriverFactory { get; set; }
 
-    [Obsolete("Use GetWebDriver() or GetWebDriverSession().Driver instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebDriver() or GetWebDriverSession().Driver instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public IWebDriver Driver =>
         this.GetWebDriverSession().Driver;
 
-    [Obsolete("Use GetWebDriverSession().HasDriver instead.")] // Obsolete since v3.0.0.
+    // TODO: Change HasDriver obsolete message.
+    [Obsolete("Use GetWebDriverSession().HasDriver instead.")] // Obsolete since v4.0.0.
     public bool HasDriver =>
         this.GetWebDriverSession().HasDriver;
 
-    [Obsolete("Use GetWebDriverSession().DriverAlias instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebDriverSession().DriverAlias instead.")] // Obsolete since v4.0.0.
     public string DriverAlias =>
         this.GetWebDriverSession().DriverAlias;
 
@@ -126,7 +127,7 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public DateTime StartedAtUtc { get; private set; }
 
-    [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v4.0.0.
     public string BaseUrl { get; set; }
 
     /// <summary>
@@ -141,11 +142,11 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public TimeSpan BaseRetryInterval { get; internal set; }
 
-    [Obsolete("Use GetWebSession().ElementFindTimeout instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebSession().ElementFindTimeout instead.")] // Obsolete since v4.0.0.
     public TimeSpan ElementFindTimeout =>
         this.GetWebSession().ElementFindTimeout;
 
-    [Obsolete("Use GetWebSession().ElementFindRetryInterval instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebSession().ElementFindRetryInterval instead.")] // Obsolete since v4.0.0.
     public TimeSpan ElementFindRetryInterval =>
         this.GetWebSession().ElementFindRetryInterval;
 
@@ -256,7 +257,7 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public string ArtifactsPath => Artifacts?.FullName.Value;
 
-    [Obsolete("Use GetWebSession().Go instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebSession().Go instead.")] // Obsolete since v4.0.0.
     public AtataNavigator Go =>
         this.GetWebSession().Go;
 
@@ -265,7 +266,7 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public Report<AtataContext> Report { get; }
 
-    [Obsolete("Use GetWebSession().PageObject instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebSession().PageObject instead.")] // Obsolete since v4.0.0.
     public UIComponent PageObject =>
         this.GetWebSession().PageObject;
 
@@ -275,15 +276,13 @@ public sealed class AtataContext : IDisposable
 
     internal Stopwatch SetupExecutionStopwatch { get; } = new Stopwatch();
 
-    internal ScreenshotTaker ScreenshotTaker { get; set; }
-
     internal PageSnapshotTaker PageSnapshotTaker { get; set; }
 
-    [Obsolete("Use GetWebDriverSession().TemporarilyPreservedPageObjects instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebDriverSession().TemporarilyPreservedPageObjects instead.")] // Obsolete since v4.0.0.
     public IReadOnlyList<UIComponent> TemporarilyPreservedPageObjects =>
         this.GetWebDriverSession().TemporarilyPreservedPageObjects;
 
-    [Obsolete("Use GetWebDriverSession().UIComponentAccessChainScopeCache instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebDriverSession().UIComponentAccessChainScopeCache instead.")] // Obsolete since v4.0.0.
     public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache =>
         this.GetWebDriverSession().UIComponentAccessChainScopeCache;
 
@@ -458,31 +457,21 @@ public sealed class AtataContext : IDisposable
         }
     }
 
-    [Obsolete("Use GetWebDriverSession().RestartDriver() instead.")] // Obsolete since v3.0.0.
+    [Obsolete("Use GetWebDriverSession().RestartDriver() instead.")] // Obsolete since v4.0.0.
     public void RestartDriver() =>
         this.GetWebDriverSession().RestartDriver();
 
-    /// <summary>
-    /// Takes a screenshot of the current page with an optionally specified title.
-    /// </summary>
-    /// <param name="title">The title of a screenshot.</param>
+    [Obsolete("Use GetWebDriverSession().TakeScreenshot(string) instead.")] // Obsolete since v4.0.0.
     public void TakeScreenshot(string title = null) =>
-        ScreenshotTaker?.TakeScreenshot(title);
+        this.GetWebDriverSession().TakeScreenshot(title);
 
-    /// <summary>
-    /// Takes a screenshot of the current page of a certain kind with an optionally specified title.
-    /// </summary>
-    /// <param name="kind">The kind of a screenshot.</param>
-    /// <param name="title">The title of a screenshot.</param>
+    [Obsolete("Use GetWebDriverSession().TakeScreenshot(ScreenshotKind, string) instead.")] // Obsolete since v4.0.0.
     public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
-        ScreenshotTaker?.TakeScreenshot(kind, title);
+        this.GetWebDriverSession().TakeScreenshot(kind, title);
 
-    /// <summary>
-    /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
-    /// </summary>
-    /// <param name="title">The title of a snapshot.</param>
+    [Obsolete("Use GetWebDriverSession().TakePageSnapshot(string) instead.")] // Obsolete since v4.0.0.
     public void TakePageSnapshot(string title = null) =>
-        PageSnapshotTaker?.TakeSnapshot(title);
+        this.GetWebDriverSession().TakePageSnapshot(title);
 
     /// <summary>
     /// Adds the file to the Artifacts directory.

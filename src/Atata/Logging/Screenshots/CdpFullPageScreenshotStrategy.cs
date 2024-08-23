@@ -6,10 +6,10 @@ using OpenQA.Selenium.Edge;
 namespace Atata;
 
 /// <summary>
-/// Represents the strategy that takes a full-page screenshot using CDP.
+/// Represents a <see cref="WebDriverSession"/> screenshot strategy that takes a full-page screenshot using CDP.
 /// Works only for <see cref="ChromeDriver"/> and <see cref="EdgeDriver"/>.
 /// </summary>
-public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy
+public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy<WebDriverSession>
 {
     /// <summary>
     /// Gets the singleton instance.

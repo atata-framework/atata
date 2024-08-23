@@ -16,6 +16,9 @@ public abstract class AtataSession
 
     public string Name { get; internal set; }
 
+    public bool IsActive =>
+        throw new NotImplementedException();
+
     /// <summary>
     /// Gets the instance of the log manager associated with the session.
     /// </summary>

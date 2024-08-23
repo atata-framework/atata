@@ -65,6 +65,7 @@ public class WebDriverSession : WebSession, IDisposable
     /// <summary>
     /// Gets a value indicating whether this instance has <see cref="Driver"/> instance.
     /// </summary>
+    // TODO: Remove HasDriver property.
     public bool HasDriver =>
         _driver != null;
 
@@ -139,26 +140,19 @@ public class WebDriverSession : WebSession, IDisposable
             });
 
     /// <summary>
-    /// Takes a screenshot of the current page with an optionally specified title.
-    /// </summary>
-    /// <param name="title">The title of a screenshot.</param>
-    public void TakeScreenshot(string title = null) =>
-        ScreenshotTaker?.TakeScreenshot(title);
-
-    /// <summary>
-    /// Takes a screenshot of the current page of a certain kind with an optionally specified title.
-    /// </summary>
-    /// <param name="kind">The kind of a screenshot.</param>
-    /// <param name="title">The title of a screenshot.</param>
-    public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
-        ScreenshotTaker?.TakeScreenshot(kind, title);
-
-    /// <summary>
     /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
     /// </summary>
     /// <param name="title">The title of a snapshot.</param>
     public void TakePageSnapshot(string title = null) =>
         PageSnapshotTaker?.TakeSnapshot(title);
+
+    protected override IScreenshotTaker CreateScreenshotTaker() =>
+        new ScreenshotTaker<WebDriverSession>(
+            null, //!
+            WebDriverViewportScreenshotStrategy.Instance,
+            FullPageOrViewportScreenshotStrategy.Instance,
+            null, //!
+            this);
 
     public void Dispose()
     {

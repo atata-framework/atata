@@ -38,5 +38,5 @@ public class TakeScreenshotAttribute : TriggerAttribute
     public string Title { get; }
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-        context.Component.Context.TakeScreenshot(Kind, Title);
+        context.Component.Session.TakeScreenshot(Kind, Title);
 }

@@ -2,6 +2,8 @@
 
 public abstract class WebSession : AtataSession
 {
+    private IScreenshotTaker _screenshotTaker;
+
     protected WebSession(AtataContext context)
         : base(context)
     {
@@ -94,9 +96,26 @@ public abstract class WebSession : AtataSession
     /// </summary>
     public TermCase DomTestIdAttributeDefaultCase { get; internal set; }
 
+    /// <summary>
+    /// Takes a screenshot of the current page with an optionally specified title.
+    /// </summary>
+    /// <param name="title">The title of a screenshot.</param>
+    public void TakeScreenshot(string title = null) =>
+        _screenshotTaker.TakeScreenshot(title);
+
+    /// <summary>
+    /// Takes a screenshot of the current page of a certain kind with an optionally specified title.
+    /// </summary>
+    /// <param name="kind">The kind of a screenshot.</param>
+    /// <param name="title">The title of a screenshot.</param>
+    public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
+        _screenshotTaker.TakeScreenshot(kind, title);
+
     internal void CleanUpTemporarilyPreservedPageObjectList()
     {
         UIComponentResolver.CleanUpPageObjects(TemporarilyPreservedPageObjects);
         TemporarilyPreservedPageObjectList.Clear();
     }
+
+    protected abstract IScreenshotTaker CreateScreenshotTaker();
 }
