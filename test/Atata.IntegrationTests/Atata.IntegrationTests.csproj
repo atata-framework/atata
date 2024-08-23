@@ -25,14 +25,14 @@
 
   <ItemGroup>
     <PackageReference Include="Atata.Cli" Version="2.2.0" />
-    <PackageReference Include="Atata.WebDriverSetup" Version="2.11.0" />
+    <PackageReference Include="Atata.WebDriverSetup" Version="2.13.0" />
     <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="log4net" Version="2.0.17" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="NLog" Version="5.3.2" />
     <PackageReference Include="NUnit" Version="4.1.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
   </ItemGroup>
 
   <ItemGroup>
