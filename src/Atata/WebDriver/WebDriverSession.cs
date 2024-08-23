@@ -88,10 +88,6 @@ public class WebDriverSession : WebSession, IDisposable
     /// </summary>
     public Visibility DefaultControlVisibility { get; internal set; }
 
-    internal ScreenshotTaker ScreenshotTaker { get; set; }
-
-    internal PageSnapshotTaker PageSnapshotTaker { get; set; }
-
     /// <summary>
     /// Gets the UI component access chain scope cache.
     /// </summary>
@@ -139,19 +135,18 @@ public class WebDriverSession : WebSession, IDisposable
                 InitDriver();
             });
 
-    /// <summary>
-    /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
-    /// </summary>
-    /// <param name="title">The title of a snapshot.</param>
-    public void TakePageSnapshot(string title = null) =>
-        PageSnapshotTaker?.TakeSnapshot(title);
-
     protected override IScreenshotTaker CreateScreenshotTaker() =>
         new ScreenshotTaker<WebDriverSession>(
-            null, //!
+            null, //BuildingContext.Screenshots.Strategy,
             WebDriverViewportScreenshotStrategy.Instance,
             FullPageOrViewportScreenshotStrategy.Instance,
-            null, //!
+            null, //BuildingContext.Screenshots.FileNameTemplate,
+            this);
+
+    protected override IPageSnapshotTaker CreatePageSnapshotTaker() =>
+        new PageSnapshotTaker<WebDriverSession>(
+            null, //BuildingContext.PageSnapshots.Strategy,
+            null, //BuildingContext.PageSnapshots.FileNameTemplate,
             this);
 
     public void Dispose()

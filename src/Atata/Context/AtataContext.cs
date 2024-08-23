@@ -276,8 +276,6 @@ public sealed class AtataContext : IDisposable
 
     internal Stopwatch SetupExecutionStopwatch { get; } = new Stopwatch();
 
-    internal PageSnapshotTaker PageSnapshotTaker { get; set; }
-
     [Obsolete("Use GetWebDriverSession().TemporarilyPreservedPageObjects instead.")] // Obsolete since v4.0.0.
     public IReadOnlyList<UIComponent> TemporarilyPreservedPageObjects =>
         this.GetWebDriverSession().TemporarilyPreservedPageObjects;
@@ -461,17 +459,17 @@ public sealed class AtataContext : IDisposable
     public void RestartDriver() =>
         this.GetWebDriverSession().RestartDriver();
 
-    [Obsolete("Use GetWebDriverSession().TakeScreenshot(string) instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use GetWebSession().TakeScreenshot(string) instead.")] // Obsolete since v4.0.0.
     public void TakeScreenshot(string title = null) =>
-        this.GetWebDriverSession().TakeScreenshot(title);
+        this.GetWebSession().TakeScreenshot(title);
 
-    [Obsolete("Use GetWebDriverSession().TakeScreenshot(ScreenshotKind, string) instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use GetWebSession().TakeScreenshot(ScreenshotKind, string) instead.")] // Obsolete since v4.0.0.
     public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
-        this.GetWebDriverSession().TakeScreenshot(kind, title);
+        this.GetWebSession().TakeScreenshot(kind, title);
 
-    [Obsolete("Use GetWebDriverSession().TakePageSnapshot(string) instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use GetWebSession().TakePageSnapshot(string) instead.")] // Obsolete since v4.0.0.
     public void TakePageSnapshot(string title = null) =>
-        this.GetWebDriverSession().TakePageSnapshot(title);
+        this.GetWebSession().TakePageSnapshot(title);
 
     /// <summary>
     /// Adds the file to the Artifacts directory.

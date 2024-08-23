@@ -1026,7 +1026,7 @@ Actual: {driverFactory.GetType().FullName}",
             BuildingContext.Screenshots.FileNameTemplate,
             context);
 
-        context.PageSnapshotTaker = new PageSnapshotTaker(
+        context.PageSnapshotTaker = new PageSnapshotTaker<WebDriverSession>(
             BuildingContext.PageSnapshots.Strategy,
             BuildingContext.PageSnapshots.FileNameTemplate,
             context);

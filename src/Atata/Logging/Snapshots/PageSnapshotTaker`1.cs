@@ -1,19 +1,20 @@
 ﻿namespace Atata;
 
-internal sealed class PageSnapshotTaker
+internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
+    where TSession : WebSession
 {
-    private readonly IPageSnapshotStrategy _snapshotStrategy;
+    private readonly IPageSnapshotStrategy<TSession> _snapshotStrategy;
 
     private readonly string _filePathTemplate;
 
-    private readonly WebDriverSession _session;
+    private readonly TSession _session;
 
     private int _snapshotNumber;
 
     public PageSnapshotTaker(
-        IPageSnapshotStrategy snapshotStrategy,
+        IPageSnapshotStrategy<TSession> snapshotStrategy,
         string filePathTemplate,
-        WebDriverSession session)
+        TSession session)
     {
         _snapshotStrategy = snapshotStrategy;
         _filePathTemplate = filePathTemplate;
@@ -22,7 +23,7 @@ internal sealed class PageSnapshotTaker
 
     public void TakeSnapshot(string title = null)
     {
-        if (_snapshotStrategy is null || !_session.HasDriver)
+        if (_snapshotStrategy is null || !_session.IsActive)
             return;
 
         _snapshotNumber++;

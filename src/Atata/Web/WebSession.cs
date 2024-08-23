@@ -4,6 +4,8 @@ public abstract class WebSession : AtataSession
 {
     private IScreenshotTaker _screenshotTaker;
 
+    private IPageSnapshotTaker _pageSnapshotTaker;
+
     protected WebSession(AtataContext context)
         : base(context)
     {
@@ -111,6 +113,13 @@ public abstract class WebSession : AtataSession
     public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
         _screenshotTaker.TakeScreenshot(kind, title);
 
+    /// <summary>
+    /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
+    /// </summary>
+    /// <param name="title">The title of a snapshot.</param>
+    public void TakePageSnapshot(string title = null) =>
+        _pageSnapshotTaker.TakeSnapshot(title);
+
     internal void CleanUpTemporarilyPreservedPageObjectList()
     {
         UIComponentResolver.CleanUpPageObjects(TemporarilyPreservedPageObjects);
@@ -118,4 +127,6 @@ public abstract class WebSession : AtataSession
     }
 
     protected abstract IScreenshotTaker CreateScreenshotTaker();
+
+    protected abstract IPageSnapshotTaker CreatePageSnapshotTaker();
 }
