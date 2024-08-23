@@ -9,7 +9,8 @@ public sealed class PageSnapshotsConfiguration : ICloneable
     /// Gets or sets the strategy for a page snapshot taking.
     /// The default value is an instance of <see cref="CdpOrPageSourcePageSnapshotStrategy"/>.
     /// </summary>
-    public IPageSnapshotStrategy<WebDriverSession> Strategy { get; set; } = CdpOrPageSourcePageSnapshotStrategy.Instance;
+    public IPageSnapshotStrategy<WebDriverSession> Strategy { get; set; } =
+        CdpOrPageSourcePageSnapshotStrategy.Instance;
 
     /// <summary>
     /// Gets or sets the page snapshot file name template.

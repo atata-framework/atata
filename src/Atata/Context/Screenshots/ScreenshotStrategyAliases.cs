@@ -10,7 +10,7 @@ public static class ScreenshotStrategyAliases
 
     public const string FullPageOrViewport = nameof(FullPageOrViewport);
 
-    private static readonly Dictionary<string, Func<IScreenshotStrategy>> s_aliasFactoryMap =
+    private static readonly Dictionary<string, Func<IScreenshotStrategy<WebDriverSession>>> s_aliasFactoryMap =
         new(StringComparer.OrdinalIgnoreCase);
 
     static ScreenshotStrategyAliases()
@@ -22,13 +22,13 @@ public static class ScreenshotStrategyAliases
     }
 
     public static void Register<T>(string typeAlias)
-        where T : IScreenshotStrategy, new() =>
+        where T : IScreenshotStrategy<WebDriverSession>, new() =>
         Register(typeAlias, () => new T());
 
-    public static void Register(string typeAlias, IScreenshotStrategy strategy) =>
+    public static void Register(string typeAlias, IScreenshotStrategy<WebDriverSession> strategy) =>
         Register(typeAlias, () => strategy);
 
-    public static void Register(string typeAlias, Func<IScreenshotStrategy> strategyFactory)
+    public static void Register(string typeAlias, Func<IScreenshotStrategy<WebDriverSession>> strategyFactory)
     {
         typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
         strategyFactory.CheckNotNull(nameof(strategyFactory));
@@ -36,7 +36,7 @@ public static class ScreenshotStrategyAliases
         s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = strategyFactory;
     }
 
-    public static bool TryResolve(string alias, out IScreenshotStrategy strategy)
+    public static bool TryResolve(string alias, out IScreenshotStrategy<WebDriverSession> strategy)
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
 

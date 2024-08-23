@@ -50,7 +50,7 @@ public sealed class ScreenshotsAtataContextBuilder : AtataContextBuilder
     /// </summary>
     /// <param name="strategy">The screenshot strategy.</param>
     /// <returns>The <see cref="ScreenshotsAtataContextBuilder"/> instance.</returns>
-    public ScreenshotsAtataContextBuilder UseStrategy(IScreenshotStrategy strategy)
+    public ScreenshotsAtataContextBuilder UseStrategy(IScreenshotStrategy<WebDriverSession> strategy)
     {
         BuildingContext.Screenshots.Strategy = strategy;
         return this;

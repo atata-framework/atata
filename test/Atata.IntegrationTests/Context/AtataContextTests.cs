@@ -207,7 +207,7 @@ public static class AtataContextTests
         public void WhenThrows()
         {
             ConfigureBaseAtataContext()
-                .Screenshots.UseStrategy(Mock.Of<IScreenshotStrategy>(MockBehavior.Strict))
+                .Screenshots.UseStrategy(Mock.Of<IScreenshotStrategy<WebDriverSession>>(MockBehavior.Strict))
                 .Build();
             Go.To<InputPage>();
 

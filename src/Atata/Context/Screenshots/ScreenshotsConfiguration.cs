@@ -9,7 +9,8 @@ public sealed class ScreenshotsConfiguration : ICloneable
     /// Gets or sets the strategy for a page screenshot taking.
     /// The default value is an instance of <see cref="WebDriverViewportScreenshotStrategy"/>.
     /// </summary>
-    public IScreenshotStrategy Strategy { get; set; } = WebDriverViewportScreenshotStrategy.Instance;
+    public IScreenshotStrategy<WebDriverSession> Strategy { get; set; } =
+        WebDriverViewportScreenshotStrategy.Instance;
 
     /// <summary>
     /// Gets or sets the page screenshot file name template.
@@ -33,7 +34,7 @@ public sealed class ScreenshotsConfiguration : ICloneable
         ScreenshotsConfiguration clone = (ScreenshotsConfiguration)MemberwiseClone();
 
         if (Strategy is ICloneable cloneableScreenshotStrategy)
-            clone.Strategy = (IScreenshotStrategy)cloneableScreenshotStrategy.Clone();
+            clone.Strategy = (IScreenshotStrategy<WebDriverSession>)cloneableScreenshotStrategy.Clone();
 
         return clone;
     }
