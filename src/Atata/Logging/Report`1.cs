@@ -27,6 +27,11 @@ public class Report<TOwner>
     public AtataContext Context => _context;
 
     /// <summary>
+    /// Gets the owner.
+    /// </summary>
+    protected TOwner Owner => _owner;
+
+    /// <summary>
     /// Writes a trace log message.
     /// </summary>
     /// <param name="message">The message.</param>
@@ -419,29 +424,5 @@ public class Report<TOwner>
         });
 
         return result;
-    }
-
-    /// <inheritdoc cref="AtataContext.TakeScreenshot(string)"/>
-    /// <returns>The instance of the owner object.</returns>
-    public TOwner Screenshot(string title = null)
-    {
-        _context.TakeScreenshot(title);
-        return _owner;
-    }
-
-    /// <inheritdoc cref="AtataContext.TakeScreenshot(ScreenshotKind, string)"/>
-    /// <returns>The instance of the owner object.</returns>
-    public TOwner Screenshot(ScreenshotKind kind, string title = null)
-    {
-        _context.TakeScreenshot(kind, title);
-        return _owner;
-    }
-
-    /// <inheritdoc cref="AtataContext.TakePageSnapshot(string)"/>
-    /// <returns>The instance of the owner object.</returns>
-    public TOwner PageSnapshot(string title = null)
-    {
-        _context.TakePageSnapshot(title);
-        return _owner;
     }
 }

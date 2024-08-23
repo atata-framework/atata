@@ -20,7 +20,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
         Owner = (TOwner)this;
 
-        Report = new Report<TOwner>((TOwner)this, _session);
+        Report = new WebSessionReport<TOwner>((TOwner)this, _session);
 
         PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
 
@@ -77,9 +77,9 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     protected internal UIComponent PreviousPageObject { get; internal set; }
 
     /// <summary>
-    /// Gets the <see cref="Report{TOwner}"/> instance that provides a reporting functionality.
+    /// Gets the <see cref="WebSessionReport{TOwner}"/> instance that provides a reporting functionality.
     /// </summary>
-    public Report<TOwner> Report { get; }
+    public WebSessionReport<TOwner> Report { get; }
 
     /// <summary>
     /// Gets the title provider of the current HTML page.
