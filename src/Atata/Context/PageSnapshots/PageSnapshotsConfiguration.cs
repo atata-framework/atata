@@ -9,7 +9,7 @@ public sealed class PageSnapshotsConfiguration : ICloneable
     /// Gets or sets the strategy for a page snapshot taking.
     /// The default value is an instance of <see cref="CdpOrPageSourcePageSnapshotStrategy"/>.
     /// </summary>
-    public IPageSnapshotStrategy Strategy { get; set; } = CdpOrPageSourcePageSnapshotStrategy.Instance;
+    public IPageSnapshotStrategy<WebDriverSession> Strategy { get; set; } = CdpOrPageSourcePageSnapshotStrategy.Instance;
 
     /// <summary>
     /// Gets or sets the page snapshot file name template.
@@ -33,7 +33,7 @@ public sealed class PageSnapshotsConfiguration : ICloneable
         PageSnapshotsConfiguration clone = (PageSnapshotsConfiguration)MemberwiseClone();
 
         if (Strategy is ICloneable cloneablePageSnapshotStrategy)
-            clone.Strategy = (IPageSnapshotStrategy)cloneablePageSnapshotStrategy.Clone();
+            clone.Strategy = (IPageSnapshotStrategy<WebDriverSession>)cloneablePageSnapshotStrategy.Clone();
 
         return clone;
     }

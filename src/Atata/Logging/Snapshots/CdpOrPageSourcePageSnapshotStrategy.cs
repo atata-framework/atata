@@ -5,10 +5,10 @@ using OpenQA.Selenium.Remote;
 namespace Atata;
 
 /// <summary>
-/// Represents the strategy that takes a page snapshot using CDP,
+/// Represents a <see cref="WebDriverSession"/> page snapshot strategy that takes a page snapshot using CDP,
 /// or when CDP is not available takes <see cref="IWebDriver.PageSource"/>.
 /// </summary>
-public sealed class CdpOrPageSourcePageSnapshotStrategy : IPageSnapshotStrategy
+public sealed class CdpOrPageSourcePageSnapshotStrategy : IPageSnapshotStrategy<WebDriverSession>
 {
     private static readonly ConcurrentDictionary<string, bool> s_driverAliasSupportsCdpMap = new();
 

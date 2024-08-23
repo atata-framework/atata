@@ -1,9 +1,9 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the strategy that takes a page snapshot using <see cref="IWebDriver.PageSource"/>.
+/// Represents a <see cref="WebDriverSession"/> page snapshot strategy that takes a page snapshot using <see cref="IWebDriver.PageSource"/>.
 /// </summary>
-public sealed class PageSourcePageSnapshotStrategy : IPageSnapshotStrategy
+public sealed class PageSourcePageSnapshotStrategy : IPageSnapshotStrategy<WebDriverSession>
 {
     /// <summary>
     /// Gets the singleton instance.

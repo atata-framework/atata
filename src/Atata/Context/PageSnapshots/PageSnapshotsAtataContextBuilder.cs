@@ -37,7 +37,7 @@ public sealed class PageSnapshotsAtataContextBuilder : AtataContextBuilder
     /// </summary>
     /// <param name="strategy">The snapshot take strategy.</param>
     /// <returns>The <see cref="PageSnapshotsAtataContextBuilder"/> instance.</returns>
-    public PageSnapshotsAtataContextBuilder UseStrategy(IPageSnapshotStrategy strategy)
+    public PageSnapshotsAtataContextBuilder UseStrategy(IPageSnapshotStrategy<WebDriverSession> strategy)
     {
         BuildingContext.PageSnapshots.Strategy = strategy;
         return this;

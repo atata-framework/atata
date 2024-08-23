@@ -8,7 +8,7 @@ public static class PageSnapshotStrategyAliases
 
     public const string Cdp = nameof(Cdp);
 
-    private static readonly Dictionary<string, Func<IPageSnapshotStrategy>> s_aliasFactoryMap =
+    private static readonly Dictionary<string, Func<IPageSnapshotStrategy<WebDriverSession>>> s_aliasFactoryMap =
         new(StringComparer.OrdinalIgnoreCase);
 
     static PageSnapshotStrategyAliases()
@@ -19,13 +19,13 @@ public static class PageSnapshotStrategyAliases
     }
 
     public static void Register<T>(string typeAlias)
-        where T : IPageSnapshotStrategy, new() =>
+        where T : IPageSnapshotStrategy<WebDriverSession>, new() =>
         Register(typeAlias, () => new T());
 
-    public static void Register(string typeAlias, IPageSnapshotStrategy strategy) =>
+    public static void Register(string typeAlias, IPageSnapshotStrategy<WebDriverSession> strategy) =>
         Register(typeAlias, () => strategy);
 
-    public static void Register(string typeAlias, Func<IPageSnapshotStrategy> strategyFactory)
+    public static void Register(string typeAlias, Func<IPageSnapshotStrategy<WebDriverSession>> strategyFactory)
     {
         typeAlias.CheckNotNullOrWhitespace(nameof(typeAlias));
         strategyFactory.CheckNotNull(nameof(strategyFactory));
@@ -33,7 +33,7 @@ public static class PageSnapshotStrategyAliases
         s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = strategyFactory;
     }
 
-    public static bool TryResolve(string alias, out IPageSnapshotStrategy strategy)
+    public static bool TryResolve(string alias, out IPageSnapshotStrategy<WebDriverSession> strategy)
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
 
