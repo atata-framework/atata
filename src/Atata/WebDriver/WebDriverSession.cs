@@ -93,6 +93,10 @@ public class WebDriverSession : WebSession, IDisposable
     /// </summary>
     public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache { get; } = new UIComponentAccessChainScopeCache();
 
+    internal ScreenshotTaker<WebDriverSession> ScreenshotTaker { get; set; }
+
+    internal PageSnapshotTaker<WebDriverSession> PageSnapshotTaker { get; set; }
+
     internal void InitDriver() =>
         Log.ExecuteSection(
             new LogSection("Initialize Driver", LogLevel.Trace),
@@ -135,19 +139,11 @@ public class WebDriverSession : WebSession, IDisposable
                 InitDriver();
             });
 
-    protected override IScreenshotTaker CreateScreenshotTaker() =>
-        new ScreenshotTaker<WebDriverSession>(
-            null, //BuildingContext.Screenshots.Strategy,
-            WebDriverViewportScreenshotStrategy.Instance,
-            FullPageOrViewportScreenshotStrategy.Instance,
-            null, //BuildingContext.Screenshots.FileNameTemplate,
-            this);
+    protected override IScreenshotTaker ResolveScreenshotTaker() =>
+        ScreenshotTaker;
 
-    protected override IPageSnapshotTaker CreatePageSnapshotTaker() =>
-        new PageSnapshotTaker<WebDriverSession>(
-            null, //BuildingContext.PageSnapshots.Strategy,
-            null, //BuildingContext.PageSnapshots.FileNameTemplate,
-            this);
+    protected override IPageSnapshotTaker ResolvePageSnapshotTaker() =>
+        PageSnapshotTaker;
 
     public void Dispose()
     {

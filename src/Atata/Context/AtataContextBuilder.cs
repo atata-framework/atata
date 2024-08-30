@@ -1019,18 +1019,6 @@ Actual: {driverFactory.GetType().FullName}",
         context.ObjectCreator = objectCreator;
         context.EventBus = new EventBus(context, BuildingContext.EventSubscriptions);
 
-        context.ScreenshotTaker = new ScreenshotTaker<WebDriverSession>(
-            BuildingContext.Screenshots.Strategy,
-            WebDriverViewportScreenshotStrategy.Instance,
-            FullPageOrViewportScreenshotStrategy.Instance,
-            BuildingContext.Screenshots.FileNameTemplate,
-            context);
-
-        context.PageSnapshotTaker = new PageSnapshotTaker<WebDriverSession>(
-            BuildingContext.PageSnapshots.Strategy,
-            BuildingContext.PageSnapshots.FileNameTemplate,
-            context);
-
         if (context.Test.SuiteName is null && context.Test.SuiteType is not null)
             context.Test.SuiteName = context.Test.SuiteType.Name;
 

@@ -2,10 +2,6 @@
 
 public abstract class WebSession : AtataSession
 {
-    private IScreenshotTaker _screenshotTaker;
-
-    private IPageSnapshotTaker _pageSnapshotTaker;
-
     protected WebSession(AtataContext context)
         : base(context)
     {
@@ -103,7 +99,8 @@ public abstract class WebSession : AtataSession
     /// </summary>
     /// <param name="title">The title of a screenshot.</param>
     public void TakeScreenshot(string title = null) =>
-        _screenshotTaker.TakeScreenshot(title);
+        ResolveScreenshotTaker()
+            .TakeScreenshot(title);
 
     /// <summary>
     /// Takes a screenshot of the current page of a certain kind with an optionally specified title.
@@ -111,14 +108,16 @@ public abstract class WebSession : AtataSession
     /// <param name="kind">The kind of a screenshot.</param>
     /// <param name="title">The title of a screenshot.</param>
     public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
-        _screenshotTaker.TakeScreenshot(kind, title);
+        ResolveScreenshotTaker()
+            .TakeScreenshot(kind, title);
 
     /// <summary>
     /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
     /// </summary>
     /// <param name="title">The title of a snapshot.</param>
     public void TakePageSnapshot(string title = null) =>
-        _pageSnapshotTaker.TakeSnapshot(title);
+        ResolvePageSnapshotTaker()
+            .TakeSnapshot(title);
 
     internal void CleanUpTemporarilyPreservedPageObjectList()
     {
@@ -126,7 +125,7 @@ public abstract class WebSession : AtataSession
         TemporarilyPreservedPageObjectList.Clear();
     }
 
-    protected abstract IScreenshotTaker CreateScreenshotTaker();
+    protected abstract IScreenshotTaker ResolveScreenshotTaker();
 
-    protected abstract IPageSnapshotTaker CreatePageSnapshotTaker();
+    protected abstract IPageSnapshotTaker ResolvePageSnapshotTaker();
 }
