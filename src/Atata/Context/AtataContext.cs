@@ -133,7 +133,8 @@ public sealed class AtataContext : IDisposable
     public DateTime StartedAtUtc { get; private set; }
 
     [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v4.0.0.
-    public string BaseUrl { get; set; }
+    public string BaseUrl =>
+        this.GetWebSession().BaseUrl;
 
     /// <summary>
     /// Gets the base retry timeout.

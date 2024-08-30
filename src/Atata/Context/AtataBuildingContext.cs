@@ -98,11 +98,6 @@ public class AtataBuildingContext : ICloneable
     public Func<Type> TestSuiteTypeFactory { get; set; }
 
     /// <summary>
-    /// Gets or sets the base URL.
-    /// </summary>
-    public string BaseUrl { get; set; }
-
-    /// <summary>
     /// Gets the context of the attributes.
     /// </summary>
     public AtataAttributesContext Attributes { get; private set; } = new AtataAttributesContext();

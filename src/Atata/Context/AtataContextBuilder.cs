@@ -450,20 +450,6 @@ Actual: {driverFactory.GetType().FullName}",
     }
 
     /// <summary>
-    /// Sets the base URL.
-    /// </summary>
-    /// <param name="baseUrl">The base URL.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseBaseUrl(string baseUrl)
-    {
-        if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
-            throw new ArgumentException($"Invalid URL format \"{baseUrl}\".", nameof(baseUrl));
-
-        BuildingContext.BaseUrl = baseUrl;
-        return this;
-    }
-
-    /// <summary>
     /// Sets the base retry timeout.
     /// The default value is <c>5</c> seconds.
     /// </summary>
@@ -984,7 +970,6 @@ Actual: {driverFactory.GetType().FullName}",
         context.Test.Name = BuildingContext.TestNameFactory?.Invoke();
         context.Test.SuiteName = BuildingContext.TestSuiteNameFactory?.Invoke();
         context.Test.SuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke();
-        context.BaseUrl = BuildingContext.BaseUrl;
         context.Log = logManager;
         context.Attributes = BuildingContext.Attributes.Clone();
         context.BaseRetryTimeout = BuildingContext.BaseRetryTimeout;
