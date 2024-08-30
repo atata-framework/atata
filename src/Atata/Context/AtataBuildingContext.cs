@@ -263,16 +263,6 @@ public class AtataBuildingContext : ICloneable
     public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; set; } = AtataAssertionFailureReportStrategy.Instance;
 
     /// <summary>
-    /// Gets the configuration of screenshots functionality.
-    /// </summary>
-    public ScreenshotsConfiguration Screenshots { get; private set; } = new ScreenshotsConfiguration();
-
-    /// <summary>
-    /// Gets the configuration of page snapshots functionality.
-    /// </summary>
-    public PageSnapshotsConfiguration PageSnapshots { get; private set; } = new PageSnapshotsConfiguration();
-
-    /// <summary>
     /// Gets the configuration of browser logs monitoring and handling.
     /// </summary>
     public BrowserLogsConfiguration BrowserLogs { get; private set; } = new BrowserLogsConfiguration();
@@ -323,8 +313,6 @@ public class AtataBuildingContext : ICloneable
         copy.EventSubscriptions = [.. EventSubscriptions];
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
-        copy.Screenshots = Screenshots.Clone();
-        copy.PageSnapshots = PageSnapshots.Clone();
         copy.BrowserLogs = BrowserLogs.Clone();
 
         return copy;

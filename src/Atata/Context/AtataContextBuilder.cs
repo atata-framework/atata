@@ -41,16 +41,6 @@ public class AtataContextBuilder
     public LogConsumersAtataContextBuilder LogConsumers => new(BuildingContext);
 
     /// <summary>
-    /// Gets the builder of screenshot configuration.
-    /// </summary>
-    public ScreenshotsAtataContextBuilder Screenshots => new(BuildingContext);
-
-    /// <summary>
-    /// Gets the builder of page snapshot configuration.
-    /// </summary>
-    public PageSnapshotsAtataContextBuilder PageSnapshots => new(BuildingContext);
-
-    /// <summary>
     /// Gets the builder of browser logs configuration.
     /// </summary>
     public BrowserLogsAtataContextBuilder BrowserLogs => new(BuildingContext);
