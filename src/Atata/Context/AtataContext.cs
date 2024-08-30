@@ -30,6 +30,11 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
+    internal AtataContext()
+        : this(null)
+    {
+    }
+
     internal AtataContext(AtataContext parentContext)
     {
         ParentContext = parentContext;

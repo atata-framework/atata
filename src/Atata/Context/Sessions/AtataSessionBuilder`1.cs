@@ -1,6 +1,7 @@
 ﻿namespace Atata;
 
-public abstract class AtataSessionBuilder : IAtataSessionBuilder
+public abstract class AtataSessionBuilder<TBuilder> : IAtataSessionBuilder
+    where TBuilder : AtataSessionBuilder<TBuilder>
 {
     public string Name { get; internal set; }
 
@@ -10,14 +11,14 @@ public abstract class AtataSessionBuilder : IAtataSessionBuilder
 
     object ICloneable.Clone()
     {
-        var copy = (AtataSessionBuilder)MemberwiseClone();
+        var copy = (TBuilder)MemberwiseClone();
 
         OnClone(copy);
 
         return copy;
     }
 
-    protected virtual void OnClone(AtataSessionBuilder copy)
+    protected virtual void OnClone(TBuilder copy)
     {
     }
 }

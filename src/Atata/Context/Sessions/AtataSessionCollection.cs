@@ -35,7 +35,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     }
 
     public TSession Start<TSessionBuilder, TSession>(Action<TSessionBuilder> sessionConfiguration)
-        where TSessionBuilder : AtataSessionBuilder
+        where TSessionBuilder : IAtataSessionBuilder
     {
         var sessionBuilder = ActivatorEx.CreateInstance<TSessionBuilder>();
 
