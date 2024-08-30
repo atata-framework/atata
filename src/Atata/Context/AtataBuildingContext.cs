@@ -8,10 +8,6 @@ public class AtataBuildingContext : ICloneable
 {
     public const string DefaultArtifactsPathTemplate = "{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
 
-    private TimeSpan? _elementFindTimeout;
-
-    private TimeSpan? _elementFindRetryInterval;
-
     private TimeSpan? _waitingTimeout;
 
     private TimeSpan? _waitingRetryInterval;
@@ -154,26 +150,6 @@ public class AtataBuildingContext : ICloneable
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
     public TimeSpan BaseRetryInterval { get; internal set; } = AtataContext.DefaultRetryInterval;
-
-    /// <summary>
-    /// Gets the element find timeout.
-    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
-    /// </summary>
-    public TimeSpan ElementFindTimeout
-    {
-        get => _elementFindTimeout ?? BaseRetryTimeout;
-        internal set => _elementFindTimeout = value;
-    }
-
-    /// <summary>
-    /// Gets the element find retry interval.
-    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
-    /// </summary>
-    public TimeSpan ElementFindRetryInterval
-    {
-        get => _elementFindRetryInterval ?? BaseRetryInterval;
-        internal set => _elementFindRetryInterval = value;
-    }
 
     /// <summary>
     /// Gets the waiting timeout.

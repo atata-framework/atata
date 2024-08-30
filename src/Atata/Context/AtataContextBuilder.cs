@@ -454,7 +454,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// The default value is <c>5</c> seconds.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseBaseRetryTimeout(TimeSpan timeout)
     {
         BuildingContext.BaseRetryTimeout = timeout;
@@ -466,34 +466,10 @@ Actual: {driverFactory.GetType().FullName}",
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseBaseRetryInterval(TimeSpan interval)
     {
         BuildingContext.BaseRetryInterval = interval;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the element find timeout.
-    /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
-    /// </summary>
-    /// <param name="timeout">The retry timeout.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseElementFindTimeout(TimeSpan timeout)
-    {
-        BuildingContext.ElementFindTimeout = timeout;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the element find retry interval.
-    /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
-    /// </summary>
-    /// <param name="interval">The retry interval.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseElementFindRetryInterval(TimeSpan interval)
-    {
-        BuildingContext.ElementFindRetryInterval = interval;
         return this;
     }
 
@@ -502,7 +478,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseWaitingTimeout(TimeSpan timeout)
     {
         BuildingContext.WaitingTimeout = timeout;
@@ -514,7 +490,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseWaitingRetryInterval(TimeSpan interval)
     {
         BuildingContext.WaitingRetryInterval = interval;
@@ -526,7 +502,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseVerificationTimeout(TimeSpan timeout)
     {
         BuildingContext.VerificationTimeout = timeout;
@@ -538,7 +514,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseVerificationRetryInterval(TimeSpan interval)
     {
         BuildingContext.VerificationRetryInterval = interval;
@@ -974,8 +950,6 @@ Actual: {driverFactory.GetType().FullName}",
         context.Attributes = BuildingContext.Attributes.Clone();
         context.BaseRetryTimeout = BuildingContext.BaseRetryTimeout;
         context.BaseRetryInterval = BuildingContext.BaseRetryInterval;
-        context.ElementFindTimeout = BuildingContext.ElementFindTimeout;
-        context.ElementFindRetryInterval = BuildingContext.ElementFindRetryInterval;
         context.WaitingTimeout = BuildingContext.WaitingTimeout;
         context.WaitingRetryInterval = BuildingContext.WaitingRetryInterval;
         context.VerificationTimeout = BuildingContext.VerificationTimeout;

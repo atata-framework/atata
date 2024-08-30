@@ -63,23 +63,23 @@ public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalPro
 
     /// <summary>
     /// Gets or sets the element find timeout in seconds.
-    /// The default value is taken from <see cref="AtataContext.ElementFindTimeout"/> property of <see cref="AtataContext.Current"/>.
+    /// The default value is taken from <see cref="WebSession.ElementFindTimeout"/> property of <see cref="WebSession.Current"/>.
     /// </summary>
     public double Timeout
     {
         get => OptionalProperties.GetOrDefault<double?>(nameof(Timeout))
-            ?? (WebSession.Current?.ElementFindTimeout ?? RetrySettings.Timeout).TotalSeconds;
+            ?? (WebSession.Current?.ElementFindTimeout ?? AtataContext.DefaultRetryTimeout).TotalSeconds;
         set => OptionalProperties[nameof(Timeout)] = value;
     }
 
     /// <summary>
     /// Gets or sets the element find retry interval in seconds.
-    /// The default value is taken from <see cref="AtataContext.ElementFindRetryInterval"/> property of <see cref="AtataContext.Current"/>.
+    /// The default value is taken from <see cref="WebSession.ElementFindRetryInterval"/> property of <see cref="WebSession.Current"/>.
     /// </summary>
     public double RetryInterval
     {
         get => OptionalProperties.GetOrDefault<double?>(nameof(RetryInterval))
-            ?? (WebSession.Current?.ElementFindRetryInterval ?? RetrySettings.Interval).TotalSeconds;
+            ?? (WebSession.Current?.ElementFindRetryInterval ?? AtataContext.DefaultRetryInterval).TotalSeconds;
         set => OptionalProperties[nameof(RetryInterval)] = value;
     }
 }

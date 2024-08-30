@@ -34,6 +34,42 @@ public abstract class AtataSession
 
     public StateHierarchicalDictionary State { get; }
 
+    /// <summary>
+    /// Gets the base retry timeout.
+    /// The default value is <c>5</c> seconds.
+    /// </summary>
+    public TimeSpan BaseRetryTimeout { get; internal set; }
+
+    /// <summary>
+    /// Gets the base retry interval.
+    /// The default value is <c>500</c> milliseconds.
+    /// </summary>
+    public TimeSpan BaseRetryInterval { get; internal set; }
+
+    /// <summary>
+    /// Gets the waiting timeout.
+    /// The default value is <c>5</c> seconds.
+    /// </summary>
+    public TimeSpan WaitingTimeout { get; internal set; }
+
+    /// <summary>
+    /// Gets the waiting retry interval.
+    /// The default value is <c>500</c> milliseconds.
+    /// </summary>
+    public TimeSpan WaitingRetryInterval { get; internal set; }
+
+    /// <summary>
+    /// Gets the verification timeout.
+    /// The default value is <c>5</c> seconds.
+    /// </summary>
+    public TimeSpan VerificationTimeout { get; internal set; }
+
+    /// <summary>
+    /// Gets the verification retry interval.
+    /// The default value is <c>500</c> milliseconds.
+    /// </summary>
+    public TimeSpan VerificationRetryInterval { get; internal set; }
+
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
 
