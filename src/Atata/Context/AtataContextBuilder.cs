@@ -522,18 +522,6 @@ Actual: {driverFactory.GetType().FullName}",
     }
 
     /// <summary>
-    /// Sets the default control visibility.
-    /// The default value is <see cref="Visibility.Any"/>.
-    /// </summary>
-    /// <param name="visibility">The visibility.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseDefaultControlVisibility(Visibility visibility)
-    {
-        BuildingContext.DefaultControlVisibility = visibility;
-        return this;
-    }
-
-    /// <summary>
     /// Sets the culture.
     /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
     /// </summary>
@@ -954,7 +942,6 @@ Actual: {driverFactory.GetType().FullName}",
         context.WaitingRetryInterval = BuildingContext.WaitingRetryInterval;
         context.VerificationTimeout = BuildingContext.VerificationTimeout;
         context.VerificationRetryInterval = BuildingContext.VerificationRetryInterval;
-        context.DefaultControlVisibility = BuildingContext.DefaultControlVisibility;
         context.Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture;
         context.AssertionExceptionType = BuildingContext.AssertionExceptionType;
         context.AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType;

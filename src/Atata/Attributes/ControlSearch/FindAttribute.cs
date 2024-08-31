@@ -149,7 +149,7 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
         OptionalProperties.Resolve<Visibility?>(
             nameof(Visibility),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat([(IHasOptionalProperties)metadata.ComponentDefinitionAttribute]) : null)
-        ?? AtataContext.Current?.DefaultControlVisibility
+        ?? WebDriverSession.Current?.DefaultControlVisibility
         ?? SearchOptions.DefaultVisibility;
 
     internal ScopeSource ResolveScopeSource(UIComponentMetadata metadata = null) =>
