@@ -784,33 +784,6 @@ Actual: {driverFactory.GetType().FullName}",
     }
 
     /// <summary>
-    /// Sets the name of the DOM test identifier attribute.
-    /// The default value is <c>"data-testid"</c>.
-    /// </summary>
-    /// <param name="name">The name.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseDomTestIdAttributeName(string name)
-    {
-        name.CheckNotNullOrWhitespace(nameof(name));
-        BuildingContext.DomTestIdAttributeName = name;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the default case of the DOM test identifier attribute.
-    /// The default value is <see cref="TermCase.Kebab"/>.
-    /// </summary>
-    /// <param name="defaultCase">The default case.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseDomTestIdAttributeDefaultCase(TermCase defaultCase)
-    {
-        BuildingContext.DomTestIdAttributeDefaultCase = defaultCase;
-
-        return this;
-    }
-
-    /// <summary>
     /// Sets the type of <c>NUnit.Framework.AssertionException</c> as the assertion exception type.
     /// The default value is a type of <see cref="AssertionException"/>.
     /// </summary>
@@ -948,8 +921,6 @@ Actual: {driverFactory.GetType().FullName}",
         context.AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
         context.WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy();
         context.AssertionFailureReportStrategy = BuildingContext.AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
-        context.DomTestIdAttributeName = BuildingContext.DomTestIdAttributeName;
-        context.DomTestIdAttributeDefaultCase = BuildingContext.DomTestIdAttributeDefaultCase;
         context.ObjectConverter = objectConverter;
         context.ObjectMapper = objectMapper;
         context.ObjectCreator = objectCreator;

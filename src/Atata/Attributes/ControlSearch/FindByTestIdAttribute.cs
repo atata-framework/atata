@@ -32,12 +32,12 @@ public class FindByTestIdAttribute : TermFindAttribute
     }
 
     protected override TermCase DefaultCase =>
-        AtataContext.Current?.DomTestIdAttributeDefaultCase ?? DefaultAttributeCase;
+        WebSession.Current?.DomTestIdAttributeDefaultCase ?? DefaultAttributeCase;
 
     protected override Type DefaultStrategy => typeof(FindByAttributeStrategy);
 
     protected override IEnumerable<object> GetStrategyArguments()
     {
-        yield return AtataContext.Current?.DomTestIdAttributeName ?? DefaultAttributeName;
+        yield return WebSession.Current?.DomTestIdAttributeName ?? DefaultAttributeName;
     }
 }

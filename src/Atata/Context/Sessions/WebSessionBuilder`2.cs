@@ -28,6 +28,18 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     public string BaseUrl { get; set; }
 
     /// <summary>
+    /// Gets or sets the name of the DOM test identifier attribute.
+    /// The default value is <c>"data-testid"</c>.
+    /// </summary>
+    public string DomTestIdAttributeName { get; set; } = FindByTestIdAttribute.DefaultAttributeName;
+
+    /// <summary>
+    /// Gets or sets the default case of the DOM test identifier attribute.
+    /// The default value is <see cref="TermCase.Kebab"/>.
+    /// </summary>
+    public TermCase DomTestIdAttributeDefaultCase { get; set; } = FindByTestIdAttribute.DefaultAttributeCase;
+
+    /// <summary>
     /// Sets the base URL.
     /// </summary>
     /// <param name="baseUrl">The base URL.</param>
@@ -60,6 +72,33 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     public TBuilder UseElementFindRetryInterval(TimeSpan? interval)
     {
         ElementFindRetryInterval = interval;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the name of the DOM test identifier attribute.
+    /// The default value is <c>"data-testid"</c>.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseDomTestIdAttributeName(string name)
+    {
+        name.CheckNotNullOrWhitespace(nameof(name));
+        DomTestIdAttributeName = name;
+
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the default case of the DOM test identifier attribute.
+    /// The default value is <see cref="TermCase.Kebab"/>.
+    /// </summary>
+    /// <param name="defaultCase">The default case.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseDomTestIdAttributeDefaultCase(TermCase defaultCase)
+    {
+        DomTestIdAttributeDefaultCase = defaultCase;
+
         return (TBuilder)this;
     }
 

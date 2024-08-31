@@ -180,6 +180,10 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public TimeSpan VerificationRetryInterval { get; internal set; }
 
+    [Obsolete("Use GetWebDriverSession().DefaultControlVisibility instead.")] // Obsolete since v4.0.0.
+    public Visibility DefaultControlVisibility =>
+        this.GetWebDriverSession().DefaultControlVisibility;
+
     /// <summary>
     /// Gets the culture.
     /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
@@ -332,17 +336,13 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public StateHierarchicalDictionary State { get; }
 
-    /// <summary>
-    /// Gets the name of the DOM test identifier attribute.
-    /// The default value is <c>"data-testid"</c>.
-    /// </summary>
-    public string DomTestIdAttributeName { get; internal set; }
+    [Obsolete("Use GetWebSession().DomTestIdAttributeName instead.")] // Obsolete since v4.0.0.
+    public string DomTestIdAttributeName =>
+        this.GetWebSession().DomTestIdAttributeName;
 
-    /// <summary>
-    /// Gets the default case of the DOM test identifier attribute.
-    /// The default value is <see cref="TermCase.Kebab"/>.
-    /// </summary>
-    public TermCase DomTestIdAttributeDefaultCase { get; internal set; }
+    [Obsolete("Use GetWebSession().DomTestIdAttributeDefaultCase instead.")] // Obsolete since v4.0.0.
+    public TermCase DomTestIdAttributeDefaultCase =>
+        this.GetWebSession().DomTestIdAttributeDefaultCase;
 
     /// <summary>
     /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
