@@ -17,8 +17,7 @@ public class WebDriverSession : WebSession, IDisposable
 
     private bool _disposed;
 
-    public WebDriverSession(AtataContext context)
-        : base(context) =>
+    public WebDriverSession() =>
         Go = new AtataNavigator(this);
 
     ~WebDriverSession() =>
@@ -91,11 +90,7 @@ public class WebDriverSession : WebSession, IDisposable
     /// <summary>
     /// Gets the UI component access chain scope cache.
     /// </summary>
-    public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache { get; } = new UIComponentAccessChainScopeCache();
-
-    internal ScreenshotTaker<WebDriverSession> ScreenshotTaker { get; set; }
-
-    internal PageSnapshotTaker<WebDriverSession> PageSnapshotTaker { get; set; }
+    public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache { get; } = new();
 
     internal void InitDriver() =>
         Log.ExecuteSection(
@@ -138,12 +133,6 @@ public class WebDriverSession : WebSession, IDisposable
 
                 InitDriver();
             });
-
-    protected override IScreenshotTaker ResolveScreenshotTaker() =>
-        ScreenshotTaker;
-
-    protected override IPageSnapshotTaker ResolvePageSnapshotTaker() =>
-        PageSnapshotTaker;
 
     public void Dispose()
     {

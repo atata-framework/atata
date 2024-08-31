@@ -163,7 +163,8 @@ public interface IUIComponent<TOwner>
 
     /// <summary>
     /// Gets the waiting verification provider that has a set of verification extension methods.
-    /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
+    /// Uses <see cref="AtataSession.WaitingTimeout"/> and <see cref="AtataSession.WaitingRetryInterval"/>
+    /// values of the associated session for timeout and retry interval.
     /// </summary>
     UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> WaitTo { get; }
 

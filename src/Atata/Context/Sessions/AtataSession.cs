@@ -2,16 +2,9 @@
 
 public abstract class AtataSession
 {
-    protected AtataSession(AtataContext context)
-    {
-        OwnerContext = Context = context.CheckNotNull(nameof(context));
+    public AtataContext OwnerContext { get; private set; }
 
-        AssignToContext(context);
-    }
-
-    public AtataContext OwnerContext { get; }
-
-    public AtataContext Context { get; internal set; }
+    public AtataContext Context { get; private set; }
 
     public string Name { get; internal set; }
 
@@ -36,43 +29,67 @@ public abstract class AtataSession
     /// Gets the base retry timeout.
     /// The default value is <c>5</c> seconds.
     /// </summary>
-    public TimeSpan BaseRetryTimeout { get; internal set; }
+    public TimeSpan BaseRetryTimeout =>
+        BaseRetryTimeoutOptional ?? Context.BaseRetryTimeout;
 
     /// <summary>
     /// Gets the base retry interval.
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
-    public TimeSpan BaseRetryInterval { get; internal set; }
+    public TimeSpan BaseRetryInterval =>
+        BaseRetryIntervalOptional ?? Context.BaseRetryInterval;
 
     /// <summary>
     /// Gets the waiting timeout.
     /// The default value is <c>5</c> seconds.
     /// </summary>
-    public TimeSpan WaitingTimeout { get; internal set; }
+    public TimeSpan WaitingTimeout =>
+        WaitingTimeoutOptional ?? BaseRetryTimeoutOptional ?? Context.WaitingTimeout;
 
     /// <summary>
     /// Gets the waiting retry interval.
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
-    public TimeSpan WaitingRetryInterval { get; internal set; }
+    public TimeSpan WaitingRetryInterval =>
+        WaitingRetryIntervalOptional ?? BaseRetryTimeoutOptional ?? Context.WaitingRetryInterval;
 
     /// <summary>
     /// Gets the verification timeout.
     /// The default value is <c>5</c> seconds.
     /// </summary>
-    public TimeSpan VerificationTimeout { get; internal set; }
+    public TimeSpan VerificationTimeout =>
+        VerificationTimeoutOptional ?? BaseRetryTimeoutOptional ?? Context.VerificationTimeout;
 
     /// <summary>
     /// Gets the verification retry interval.
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
-    public TimeSpan VerificationRetryInterval { get; internal set; }
+    public TimeSpan VerificationRetryInterval =>
+        VerificationRetryIntervalOptional ?? BaseRetryTimeoutOptional ?? Context.VerificationRetryInterval;
+
+    internal TimeSpan? BaseRetryTimeoutOptional { get; set; }
+
+    internal TimeSpan? BaseRetryIntervalOptional { get; set; }
+
+    internal TimeSpan? WaitingTimeoutOptional { get; set; }
+
+    internal TimeSpan? WaitingRetryIntervalOptional { get; set; }
+
+    internal TimeSpan? VerificationTimeoutOptional { get; set; }
+
+    internal TimeSpan? VerificationRetryIntervalOptional { get; set; }
 
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
 
     public Task StartAsync(CancellationToken cancellationToken = default) =>
         Task.CompletedTask;
+
+    internal void AssignToOwnerContext(AtataContext context)
+    {
+        OwnerContext = context;
+        ReassignToContext(context);
+    }
 
     internal void ReassignToContext(AtataContext context)
     {

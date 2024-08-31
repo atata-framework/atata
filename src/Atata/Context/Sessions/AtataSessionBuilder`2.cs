@@ -1,7 +1,8 @@
 ﻿namespace Atata;
 
-public abstract class AtataSessionBuilder<TBuilder> : IAtataSessionBuilder
-    where TBuilder : AtataSessionBuilder<TBuilder>
+public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBuilder
+    where TSession : AtataSession, new()
+    where TBuilder : AtataSessionBuilder<TSession, TBuilder>
 {
     public string Name { get; internal set; }
 
@@ -135,19 +136,23 @@ public abstract class AtataSessionBuilder<TBuilder> : IAtataSessionBuilder
 
     public AtataSession Build(AtataContext context)
     {
-        AtataSession session = Create(context);
+        TSession session = new();
 
-        session.BaseRetryTimeout = BaseRetryTimeout ?? context.BaseRetryTimeout;
-        session.BaseRetryInterval = BaseRetryInterval ?? context.BaseRetryInterval;
-        session.WaitingTimeout = WaitingTimeout ?? BaseRetryTimeout ?? context.WaitingTimeout;
-        session.WaitingRetryInterval = WaitingRetryInterval ?? BaseRetryTimeout ?? context.WaitingRetryInterval;
-        session.VerificationTimeout = VerificationTimeout ?? BaseRetryTimeout ?? context.VerificationTimeout;
-        session.VerificationRetryInterval = VerificationRetryInterval ?? BaseRetryTimeout ?? context.VerificationRetryInterval;
+        session.AssignToOwnerContext(context);
+        ConfigureSession(session, context);
 
         return session;
     }
 
-    protected abstract AtataSession Create(AtataContext context);
+    protected virtual void ConfigureSession(TSession session, AtataContext context)
+    {
+        session.BaseRetryTimeoutOptional = BaseRetryTimeout;
+        session.BaseRetryIntervalOptional = BaseRetryInterval;
+        session.WaitingTimeoutOptional = WaitingTimeout;
+        session.WaitingRetryIntervalOptional = WaitingRetryInterval;
+        session.VerificationTimeoutOptional = VerificationTimeout;
+        session.VerificationRetryIntervalOptional = VerificationRetryInterval;
+    }
 
     object ICloneable.Clone()
     {
