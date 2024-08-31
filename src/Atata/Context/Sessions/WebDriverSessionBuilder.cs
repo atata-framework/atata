@@ -87,7 +87,7 @@ public class WebDriverSessionBuilder : AtataSessionBuilder<WebDriverSessionBuild
             Screenshots.FileNameTemplate,
             session);
 
-        session.PageSnapshotTaker = new PageSnapshotTaker<WebDriverSession>(
+        session.PageSnapshotTaker = new(
             PageSnapshots.Strategy,
             PageSnapshots.FileNameTemplate,
             session);

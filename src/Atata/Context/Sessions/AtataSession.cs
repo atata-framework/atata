@@ -6,8 +6,7 @@ public abstract class AtataSession
     {
         OwnerContext = Context = context.CheckNotNull(nameof(context));
 
-        Variables = new(context.Variables);
-        State = new(context.State);
+        AssignToContext(context);
     }
 
     public AtataContext OwnerContext { get; }
@@ -22,16 +21,16 @@ public abstract class AtataSession
     /// <summary>
     /// Gets the instance of the log manager associated with the session.
     /// </summary>
-    public ILogManager Log { get; internal set; }
+    public ILogManager Log { get; private set; }
 
     /// <summary>
     /// Gets the event bus, which can used to subscribe to and publish events.
     /// </summary>
     protected IEventBus EventBus => Context.EventBus;
 
-    public VariableHierarchicalDictionary Variables { get; internal set; }
+    public VariableHierarchicalDictionary Variables { get; private set; }
 
-    public StateHierarchicalDictionary State { get; internal set; }
+    public StateHierarchicalDictionary State { get; private set; }
 
     /// <summary>
     /// Gets the base retry timeout.
@@ -78,10 +77,29 @@ public abstract class AtataSession
     internal void ReassignToContext(AtataContext context)
     {
         Context = context;
-        Variables.ChangeParentDictionary(context.Variables);
-        State.ChangeParentDictionary(context.State);
+        AssignToContext(context);
     }
 
     internal void ReassignToOwnerContext() =>
         ReassignToContext(OwnerContext);
+
+    protected virtual void AssignToContext(AtataContext context)
+    {
+        Log = ((LogManager)context.Log).ForSession(this);
+
+        if (Variables is null)
+        {
+            Variables = new(context.Variables);
+            Variables.SetInitialValue("session-name", Name);
+        }
+        else
+        {
+            Variables.ChangeParentDictionary(context.Variables);
+        }
+
+        if (State is null)
+            State = new(context.State);
+        else
+            State.ChangeParentDictionary(context.State);
+    }
 }
