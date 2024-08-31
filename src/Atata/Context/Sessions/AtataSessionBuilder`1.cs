@@ -144,6 +144,11 @@ public abstract class AtataSessionBuilder<TBuilder> : IAtataSessionBuilder
         session.VerificationTimeout = VerificationTimeout ?? BaseRetryTimeout ?? context.VerificationTimeout;
         session.VerificationRetryInterval = VerificationRetryInterval ?? BaseRetryTimeout ?? context.VerificationRetryInterval;
 
+        session.Log = ((LogManager)context.Log).ForSession(session);
+        session.Variables = new(context.Variables);
+        session.Variables.SetInitialValue("session-name", Name);
+        session.State = new(context.State);
+
         return session;
     }
 

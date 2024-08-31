@@ -168,6 +168,11 @@ internal sealed class LogManager : ILogManager
         }
     }
 
+    internal ILogManager ForSession(AtataSession session) =>
+        new LogManager(
+            _configuration,
+            new AtataSessionLogEventInfoFactory(_logEventInfoFactory, session));
+
     /// <inheritdoc/>
     public ILogManager ForExternalSource(string externalSource)
     {

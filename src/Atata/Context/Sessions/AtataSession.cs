@@ -29,10 +29,9 @@ public abstract class AtataSession
     /// </summary>
     protected IEventBus EventBus => Context.EventBus;
 
-    // TODO: Set initial variables, such as {session-name}.
-    public VariableHierarchicalDictionary Variables { get; }
+    public VariableHierarchicalDictionary Variables { get; internal set; }
 
-    public StateHierarchicalDictionary State { get; }
+    public StateHierarchicalDictionary State { get; internal set; }
 
     /// <summary>
     /// Gets the base retry timeout.
