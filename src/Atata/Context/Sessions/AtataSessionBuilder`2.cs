@@ -9,6 +9,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     public AtataSessionStart Start { get; internal set; }
 
     /// <summary>
+    /// Gets the variables dictionary.
+    /// </summary>
+    public IDictionary<string, object> Variables { get; private set; } = new Dictionary<string, object>();
+
+    /// <summary>
     /// Gets or sets the base retry timeout for session.
     /// The default value is <see langword="null"/>.
     /// When <see langword="null"/>, the value for session will be taken from
@@ -61,6 +66,36 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// which are equal to <c>500</c> milliseconds by default.
     /// </summary>
     public TimeSpan? VerificationRetryInterval { get; set; }
+
+    /// <summary>
+    /// Adds the variable.
+    /// </summary>
+    /// <param name="key">The variable key.</param>
+    /// <param name="value">The variable value.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder AddVariable(string key, object value)
+    {
+        key.CheckNotNullOrWhitespace(nameof(key));
+
+        Variables[key] = value;
+
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Adds the variables.
+    /// </summary>
+    /// <param name="variables">The variables to add.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder AddVariables(IDictionary<string, object> variables)
+    {
+        variables.CheckNotNull(nameof(variables));
+
+        foreach (var variable in variables)
+            Variables[variable.Key] = variable.Value;
+
+        return (TBuilder)this;
+    }
 
     /// <summary>
     /// Sets the <see cref="BaseRetryTimeout"/> value.
@@ -146,6 +181,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
     protected virtual void ConfigureSession(TSession session, AtataContext context)
     {
+        foreach (var variable in Variables)
+            session.Variables.SetInitialValue(variable.Key, variable.Value);
+
         session.BaseRetryTimeoutOptional = BaseRetryTimeout;
         session.BaseRetryIntervalOptional = BaseRetryInterval;
         session.WaitingTimeoutOptional = WaitingTimeout;
@@ -163,7 +201,6 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return copy;
     }
 
-    protected virtual void OnClone(TBuilder copy)
-    {
-    }
+    protected virtual void OnClone(TBuilder copy) =>
+        copy.Variables = new Dictionary<string, object>(Variables);
 }

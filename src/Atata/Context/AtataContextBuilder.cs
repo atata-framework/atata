@@ -311,7 +311,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// </summary>
     /// <param name="key">The variable key.</param>
     /// <param name="value">The variable value.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder AddVariable(string key, object value)
     {
         key.CheckNotNullOrWhitespace(nameof(key));
@@ -325,7 +325,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// Adds the variables.
     /// </summary>
     /// <param name="variables">The variables to add.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder AddVariables(IDictionary<string, object> variables)
     {
         variables.CheckNotNull(nameof(variables));
@@ -341,7 +341,7 @@ Actual: {driverFactory.GetType().FullName}",
     /// </summary>
     /// <param name="value">The secret string value.</param>
     /// <param name="mask">The mask, which should replace the secret string.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder AddSecretStringToMaskInLog(string value, string mask = "{*****}")
     {
         value.CheckNotNullOrWhitespace(nameof(value));
