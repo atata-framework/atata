@@ -665,12 +665,6 @@ public class AtataContextBuilder
         if (context.Test.SuiteName is null && context.Test.SuiteType is not null)
             context.Test.SuiteName = context.Test.SuiteType.Name;
 
-        context.DriverFactory = BuildingContext.DriverFactoryToUse
-            ?? BuildingContext.DriverFactories.LastOrDefault();
-        context.DisposeDriver = BuildingContext.DisposeDriver;
-        context.DriverAlias = context.DriverFactory?.Alias;
-        context.DriverInitializationStage = BuildingContext.DriverInitializationStage;
-
         context.InitDateTimeProperties();
         context.InitMainVariables();
         context.InitCustomVariables(BuildingContext.Variables);

@@ -352,6 +352,9 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     {
         base.ConfigureSession(session, context);
 
+        session.DriverFactory = DriverFactoryToUse ?? DriverFactories.LastOrDefault();
+        session.DisposeDriver = DisposeDriver;
+
         session.DefaultControlVisibility = DefaultControlVisibility;
     }
 
