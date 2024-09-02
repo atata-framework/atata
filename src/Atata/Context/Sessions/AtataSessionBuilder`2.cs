@@ -4,9 +4,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     where TSession : AtataSession, new()
     where TBuilder : AtataSessionBuilder<TSession, TBuilder>
 {
-    public string Name { get; internal set; }
+    public string Name { get; set; }
 
-    public AtataSessionStart Start { get; internal set; }
+    public AtataSessionStart Start { get; set; }
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -66,6 +66,18 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// which are equal to <c>500</c> milliseconds by default.
     /// </summary>
     public TimeSpan? VerificationRetryInterval { get; set; }
+
+    public TBuilder WithName(string name)
+    {
+        Name = name;
+        return (TBuilder)this;
+    }
+
+    public TBuilder WithStart(AtataSessionStart sessionStart)
+    {
+        Start = sessionStart;
+        return (TBuilder)this;
+    }
 
     /// <summary>
     /// Adds the variable.
