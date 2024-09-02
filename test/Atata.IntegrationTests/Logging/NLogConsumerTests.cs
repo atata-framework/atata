@@ -1,12 +1,11 @@
 ﻿namespace Atata.IntegrationTests.Logging;
 
-public class NLogConsumerTests : UITestFixtureBase
+public class NLogConsumerTests : SessionlessTestSuite
 {
     [Test]
     public void WithDefaultConfiguration()
     {
-        ConfigureBaseAtataContext()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+        ConfigureSessionlessAtataContext()
             .LogConsumers.AddNLog()
             .Build();
 

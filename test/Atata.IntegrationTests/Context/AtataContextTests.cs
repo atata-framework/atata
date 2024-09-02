@@ -49,12 +49,9 @@ public static class AtataContextTests
         }
     }
 
-    public class AddArtifact : UITestFixture
+    public class AddArtifact : SessionlessTestSuite
     {
         private Subject<AtataContext> _sut;
-
-        protected override AtataContextDriverInitializationStage DriverInitializationStage =>
-            AtataContextDriverInitializationStage.None;
 
         protected override void OnSetUp() =>
             _sut = AtataContext.Current.ToSutSubject();
@@ -122,13 +119,12 @@ public static class AtataContextTests
         }
     }
 
-    public class Variables : UITestFixtureBase
+    public class Variables : SessionlessTestSuite
     {
         [Test]
         public void AddViaBuilder()
         {
-            var context = ConfigureBaseAtataContext()
-                .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+            var context = ConfigureSessionlessAtataContext()
                 .AddVariable("key1", "val1")
                 .Build();
 
@@ -139,8 +135,7 @@ public static class AtataContextTests
         [Test]
         public void AddViaContext()
         {
-            var context = ConfigureBaseAtataContext()
-                .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+            var context = ConfigureSessionlessAtataContext()
                 .Build();
 
             context.Variables["key1"] = "val1";
@@ -155,8 +150,7 @@ public static class AtataContextTests
 
             [SetUp]
             public void SetUp() =>
-                _sut = ConfigureBaseAtataContext()
-                    .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+                _sut = ConfigureSessionlessAtataContext()
                     .AddVariable("key1", "val1")
                     .Build()
                     .ToSutSubject();
@@ -178,6 +172,7 @@ public static class AtataContextTests
         }
     }
 
+#warning Move to some WebDriverSessionTests.
     public class TakeScreenshot : UITestFixtureBase
     {
         [Test]
@@ -187,7 +182,7 @@ public static class AtataContextTests
                 .Build();
             Go.To<InputPage>();
 
-            AtataContext.Current.TakeScreenshot();
+            WebSession.Current.TakeScreenshot();
 
             AtataContext.Current.Artifacts.Should.ContainFile("01 Input page.png");
         }
@@ -198,7 +193,7 @@ public static class AtataContextTests
             ConfigureBaseAtataContext()
                 .Build();
 
-            AtataContext.Current.TakeScreenshot();
+            WebSession.Current.TakeScreenshot();
 
             AtataContext.Current.Artifacts.Should.ContainFile("01.png");
         }
@@ -211,7 +206,7 @@ public static class AtataContextTests
                 .Build();
             Go.To<InputPage>();
 
-            AtataContext.Current.TakeScreenshot();
+            WebSession.Current.TakeScreenshot();
 
             VerifyLastLogMessagesContain(LogLevel.Error, "Screenshot failed");
             AtataContext.Current.Artifacts.Should.Not.Exist();
@@ -227,7 +222,7 @@ public static class AtataContextTests
                 .Build();
             Go.To<InputPage>();
 
-            AtataContext.Current.TakePageSnapshot();
+            WebSession.Current.TakePageSnapshot();
 
             AtataContext.Current.Artifacts.Should.ContainFile("01 Input page.mhtml");
         }
@@ -238,7 +233,7 @@ public static class AtataContextTests
             ConfigureBaseAtataContext()
                 .Build();
 
-            AtataContext.Current.TakePageSnapshot();
+            WebSession.Current.TakePageSnapshot();
 
             AtataContext.Current.Artifacts.Should.ContainFile("01.mhtml");
         }
@@ -251,7 +246,7 @@ public static class AtataContextTests
                 .Build();
             Go.To<InputPage>();
 
-            AtataContext.Current.TakePageSnapshot();
+            WebSession.Current.TakePageSnapshot();
 
             VerifyLastLogMessagesContain(LogLevel.Error, "Page snapshot failed");
             AtataContext.Current.Artifacts.Should.Not.Exist();

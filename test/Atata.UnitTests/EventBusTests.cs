@@ -10,7 +10,6 @@ public class EventBusTests
     public void SetUp()
     {
         Context = AtataContext.Configure()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
             .Build();
 
         Sut = new EventBus(Context)

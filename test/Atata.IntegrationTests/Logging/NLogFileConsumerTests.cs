@@ -1,12 +1,11 @@
 ﻿namespace Atata.IntegrationTests.Logging;
 
-public class NLogFileConsumerTests : UITestFixtureBase
+public class NLogFileConsumerTests : SessionlessTestSuite
 {
     [Test]
     public void WithDefaultConfiguration()
     {
-        ConfigureBaseAtataContext()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+        ConfigureSessionlessAtataContext()
             .LogConsumers.AddNLogFile()
             .Build();
 
@@ -19,8 +18,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
     {
         string fileName = Guid.NewGuid().ToString() + ".txt";
 
-        ConfigureBaseAtataContext()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+        ConfigureSessionlessAtataContext()
             .LogConsumers.AddNLogFile()
                 .WithFileNameTemplate(fileName)
             .Build();
@@ -34,8 +32,7 @@ public class NLogFileConsumerTests : UITestFixtureBase
     {
         string filePath = "logs/{test-name-sanitized}/{driver-alias}.log";
 
-        ConfigureBaseAtataContext()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
+        ConfigureSessionlessAtataContext()
             .LogConsumers.AddNLogFile()
                 .WithFileNameTemplate(filePath)
             .Build();

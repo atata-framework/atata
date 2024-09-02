@@ -138,7 +138,6 @@ public abstract class MixedVerificationTests
     {
         protected override AtataContext BuildAtataContext() =>
             AtataContext.Configure()
-                .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
                 .LogConsumers.AddNUnitTestContext()
                 .Build();
     }
@@ -147,7 +146,6 @@ public abstract class MixedVerificationTests
     {
         protected override AtataContext BuildAtataContext() =>
             AtataContext.Configure()
-                .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
                 .UseAllNUnitFeatures()
                 .Build();
     }
