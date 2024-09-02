@@ -77,11 +77,6 @@ public class WebDriverSession : WebSession, IDisposable
     internal bool DisposeDriver { get; set; }
 
     /// <summary>
-    /// Gets the driver initialization stage.
-    /// </summary>
-    public AtataContextDriverInitializationStage DriverInitializationStage { get; internal set; }
-
-    /// <summary>
     /// Gets the default control visibility.
     /// The default value is <see cref="Visibility.Any"/>.
     /// </summary>
@@ -101,7 +96,7 @@ public class WebDriverSession : WebSession, IDisposable
                     throw new WebDriverInitializationException(
                         $"Failed to create a driver as driver factory is not specified.");
 
-                _driver = DriverFactory.Create()
+                _driver = DriverFactory.Create(Log)
                     ?? throw new WebDriverInitializationException(
                         $"Driver factory returned null as a driver.");
 

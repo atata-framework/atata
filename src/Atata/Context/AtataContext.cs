@@ -104,14 +104,6 @@ public sealed class AtataContext : IDisposable
     public string DriverAlias =>
         this.GetWebDriverSession().DriverAlias;
 
-    internal bool DisposeDriver { get; set; }
-
-    /// <summary>
-    /// Gets the driver initialization stage.
-    /// </summary>
-    // TODO: v3. Remove DriverInitializationStage. Add another property for session init/start options.
-    public AtataContextDriverInitializationStage DriverInitializationStage { get; internal set; }
-
     /// <summary>
     /// Gets the instance of the log manager.
     /// </summary>

@@ -5,6 +5,7 @@
 /// </summary>
 public static class AtataContextBuilderExtensions
 {
+#warning Review WithProperties method and probably remove it.
     /// <summary>
     /// Specifies the properties map for the context.
     /// </summary>

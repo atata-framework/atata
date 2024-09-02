@@ -23,26 +23,31 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
 
     private TimeSpan? _commandTimeout;
 
-    public RemoteDriverAtataContextBuilder(AtataBuildingContext buildingContext)
-        : base(buildingContext, DriverAliases.Remote)
+    public RemoteDriverAtataContextBuilder()
+        : base(DriverAliases.Remote)
     {
     }
 
-    protected sealed override IWebDriver CreateDriver()
+    protected sealed override IWebDriver CreateDriver(ILogManager logManager)
     {
         ICapabilities capabilities = CreateCapabilities();
 
-        return CreateDriver(_remoteAddress, capabilities, _commandTimeout ?? DefaultCommandTimeout);
-    }
+        var driver = CreateDriver(
+            _remoteAddress,
+            capabilities,
+            _commandTimeout ?? DefaultCommandTimeout);
 
-    protected virtual IWebDriver CreateDriver(Uri remoteAddress, ICapabilities capabilities, TimeSpan commandTimeout)
-    {
-        var driver = new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
-
-        AtataContext.Current?.Log.Trace($"Created {GetDriverStringForLog(driver)}");
+        if (driver is not null)
+            logManager?.Trace($"Created {GetDriverStringForLog(driver)}");
 
         return driver;
     }
+
+    protected virtual IWebDriver CreateDriver(
+        Uri remoteAddress,
+        ICapabilities capabilities,
+        TimeSpan commandTimeout) =>
+        new RemoteWebDriver(remoteAddress, capabilities, commandTimeout);
 
     protected virtual ICapabilities CreateCapabilities()
     {

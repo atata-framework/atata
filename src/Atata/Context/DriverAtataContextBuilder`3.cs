@@ -21,16 +21,13 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
 
     private TimeSpan? _commandTimeout;
 
-    protected DriverAtataContextBuilder(
-        AtataBuildingContext buildingContext,
-        string alias,
-        string browserName)
-        : base(buildingContext, alias) =>
+    protected DriverAtataContextBuilder(string alias, string browserName)
+        : base(alias) =>
         _browserName = browserName;
 
     string IUsesLocalBrowser.BrowserName => _browserName;
 
-    protected sealed override IWebDriver CreateDriver()
+    protected sealed override IWebDriver CreateDriver(ILogManager logManager)
     {
         var options = _optionsFactory?.Invoke() ?? new TOptions();
 
@@ -47,24 +44,24 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
 
             CheckPortForIgnoring(service);
 
-            AtataContext.Current?.Log.Trace($"Created {GetDriverServiceStringForLog(service)}");
+            logManager?.Trace($"Created {GetDriverServiceStringForLog(service)}");
 
             var driver = CreateDriver(service, options, _commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
 
             if (driver is not null)
-                AtataContext.Current?.Log.Trace($"Created {GetDriverStringForLog(driver)}");
+                logManager?.Trace($"Created {GetDriverStringForLog(driver)}");
 
             return driver;
         }
         catch
         {
-            DisposeServiceSafely(service);
+            DisposeServiceSafely(service, logManager);
 
             throw;
         }
     }
 
-    private static void DisposeServiceSafely(TService service)
+    private static void DisposeServiceSafely(TService service, ILogManager logManager)
     {
         try
         {
@@ -72,7 +69,7 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
         }
         catch (Exception exception)
         {
-            AtataContext.Current?.Log.Error(exception, $"{service.GetType().Name}.Dispose() failed");
+            logManager?.Error(exception, $"{service.GetType().Name}.Dispose() failed");
         }
     }
 

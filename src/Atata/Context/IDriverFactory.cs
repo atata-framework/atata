@@ -6,13 +6,14 @@
 public interface IDriverFactory
 {
     /// <summary>
-    /// Gets the alias.
+    /// Gets the driver alias.
     /// </summary>
     string Alias { get; }
 
     /// <summary>
     /// Creates the driver instance.
     /// </summary>
-    /// <returns>The created <see cref="IWebDriver"/> instance.</returns>
-    IWebDriver Create();
+    /// <param name="logManager">The log manager, which can be <see langword="null"/>.</param>
+    /// <returns>The created <see cref="IWebDriver" /> instance.</returns>
+    IWebDriver Create(ILogManager logManager);
 }

@@ -4,19 +4,19 @@ namespace Atata;
 
 public class EdgeAtataContextBuilder : ChromiumAtataContextBuilder<EdgeAtataContextBuilder, EdgeDriverService, EdgeOptions>
 {
-    public EdgeAtataContextBuilder(AtataBuildingContext buildingContext)
-        : base(buildingContext, DriverAliases.Edge, "Edge")
+    public EdgeAtataContextBuilder()
+        : base(DriverAliases.Edge, "Edge")
     {
     }
 
-    protected override EdgeDriverService CreateService()
-        => EdgeDriverService.CreateDefaultService();
+    protected override EdgeDriverService CreateService() =>
+        EdgeDriverService.CreateDefaultService();
 
-    protected override EdgeDriverService CreateService(string driverPath)
-        => EdgeDriverService.CreateDefaultService(driverPath);
+    protected override EdgeDriverService CreateService(string driverPath) =>
+        EdgeDriverService.CreateDefaultService(driverPath);
 
-    protected override EdgeDriverService CreateService(string driverPath, string driverExecutableFileName)
-        => EdgeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
+    protected override EdgeDriverService CreateService(string driverPath, string driverExecutableFileName) =>
+        EdgeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
     protected override IWebDriver CreateDriver(EdgeDriverService service, EdgeOptions options, TimeSpan commandTimeout)
     {

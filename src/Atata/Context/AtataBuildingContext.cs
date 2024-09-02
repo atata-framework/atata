@@ -21,17 +21,6 @@ public class AtataBuildingContext : ICloneable
     }
 
     /// <summary>
-    /// Gets the driver factories.
-    /// </summary>
-    public List<IDriverFactory> DriverFactories { get; private set; } = [];
-
-    /// <summary>
-    /// Gets a value indicating whether to dispose the <see cref="AtataContext.Driver"/> when <see cref="AtataContext.Dispose"/> method is invoked.
-    /// The default value is <see langword="true"/>.
-    /// </summary>
-    public bool DisposeDriver { get; internal set; } = true;
-
-    /// <summary>
     /// Gets the log consumer configurations.
     /// </summary>
     public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = [];
@@ -45,38 +34,6 @@ public class AtataBuildingContext : ICloneable
     /// Gets the list of secret strings to mask in log.
     /// </summary>
     public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = [];
-
-    /// <summary>
-    /// Gets the driver factory to use.
-    /// </summary>
-    public IDriverFactory DriverFactoryToUse { get; internal set; }
-
-    /// <summary>
-    /// Gets or sets the driver initialization stage.
-    /// The default value is <see cref="AtataContextDriverInitializationStage.Build"/>.
-    /// </summary>
-    public AtataContextDriverInitializationStage DriverInitializationStage { get; set; } = AtataContextDriverInitializationStage.Build;
-
-    /// <summary>
-    /// Gets a value indicating whether it uses a local browser.
-    /// Basically, determines whether <see cref="DriverFactoryToUse"/> is <see cref="IUsesLocalBrowser"/>.
-    /// </summary>
-    public bool UsesLocalBrowser =>
-        DriverFactoryToUse is IUsesLocalBrowser;
-
-    /// <summary>
-    /// Gets the name of the local browser to use or <see langword="null"/>.
-    /// Returns <see cref="IUsesLocalBrowser.BrowserName"/> value if <see cref="DriverFactoryToUse"/> is <see cref="IUsesLocalBrowser"/>.
-    /// </summary>
-    public string LocalBrowserToUseName =>
-        (DriverFactoryToUse as IUsesLocalBrowser)?.BrowserName;
-
-    /// <summary>
-    /// Gets the names of local browsers that this instance uses.
-    /// Distinctly returns <see cref="IUsesLocalBrowser.BrowserName"/> values of all <see cref="DriverFactories"/> that are <see cref="IUsesLocalBrowser"/>.
-    /// </summary>
-    public IEnumerable<string> ConfiguredLocalBrowserNames =>
-        DriverFactories.OfType<IUsesLocalBrowser>().Select(x => x.BrowserName).Distinct();
 
     /// <summary>
     /// Gets or sets the factory method of the test name.
@@ -232,18 +189,6 @@ public class AtataBuildingContext : ICloneable
     /// </summary>
     public BrowserLogsConfiguration BrowserLogs { get; private set; } = new BrowserLogsConfiguration();
 
-    /// <summary>
-    /// Gets the driver factory by the specified alias.
-    /// </summary>
-    /// <param name="alias">The alias of the driver factory.</param>
-    /// <returns>The driver factory or <see langword="null"/>.</returns>
-    public IDriverFactory GetDriverFactory(string alias)
-    {
-        alias.CheckNotNullOrWhitespace(nameof(alias));
-
-        return DriverFactories.LastOrDefault(x => alias.Equals(x.Alias, StringComparison.OrdinalIgnoreCase));
-    }
-
     /// <inheritdoc cref="Clone"/>
     object ICloneable.Clone() =>
         Clone();
@@ -255,8 +200,6 @@ public class AtataBuildingContext : ICloneable
     public AtataBuildingContext Clone()
     {
         AtataBuildingContext copy = (AtataBuildingContext)MemberwiseClone();
-
-        copy.DriverFactories = [.. DriverFactories];
 
         copy.LogConsumerConfigurations = LogConsumerConfigurations
             .Select(x => x.Consumer is ICloneable ? x.Clone() : x)

@@ -1,12 +1,11 @@
 ﻿namespace Atata;
 
-public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder, IDriverFactory
+public abstract class DriverAtataContextBuilder<TBuilder> : IDriverFactory
     where TBuilder : DriverAtataContextBuilder<TBuilder>
 {
     private Func<IWebDriver, bool> _initialHealthCheckFunction = CheckHealthByRequestingDriverUrl;
 
-    protected DriverAtataContextBuilder(AtataBuildingContext buildingContext, string alias = null)
-        : base(buildingContext) =>
+    protected DriverAtataContextBuilder(string alias = null) =>
         Alias = alias;
 
     /// <summary>
@@ -26,8 +25,7 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
     /// </summary>
     public bool InitialHealthCheck { get; private set; }
 
-    // TODO: v3. Add ILogManager (supports null) parameter to IDriverFactory.Create method and use it below.
-    IWebDriver IDriverFactory.Create()
+    IWebDriver IDriverFactory.Create(ILogManager logManager)
     {
         int retriesLeft = CreateRetries;
 
@@ -38,11 +36,11 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
 
             try
             {
-                driver = CreateDriver();
+                driver = CreateDriver(logManager);
             }
             catch (Exception exception) when (retriesLeft > 0)
             {
-                AtataContext.Current?.Log.Warn(exception, $"{creationErrorMessage} Will retry.");
+                logManager?.Warn(exception, $"{creationErrorMessage} Will retry.");
                 retriesLeft--;
                 continue;
             }
@@ -64,7 +62,7 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
                 }
                 catch (Exception exception) when (retriesLeft > 0)
                 {
-                    AtataContext.Current?.Log.Warn(exception, healthCheckWarningMessage);
+                    logManager?.Warn(exception, healthCheckWarningMessage);
                     DisposeSafely(driver);
                     retriesLeft--;
                     continue;
@@ -79,7 +77,7 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
                     if (retriesLeft == 0)
                         throw new WebDriverInitializationException(healthCheckErrorMessage);
 
-                    AtataContext.Current?.Log.Warn(healthCheckWarningMessage);
+                    logManager?.Warn(healthCheckWarningMessage);
                     DisposeSafely(driver);
                     retriesLeft--;
                     continue;
@@ -105,8 +103,9 @@ public abstract class DriverAtataContextBuilder<TBuilder> : AtataContextBuilder,
     /// <summary>
     /// Creates the driver instance.
     /// </summary>
+    /// <param name="logManager">The log manager, which can be <see langword="null"/>.</param>
     /// <returns>The created <see cref="IWebDriver"/> instance.</returns>
-    protected abstract IWebDriver CreateDriver();
+    protected abstract IWebDriver CreateDriver(ILogManager logManager);
 
     /// <summary>
     /// Specifies the driver alias.

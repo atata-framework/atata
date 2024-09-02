@@ -17,11 +17,8 @@ public abstract class ChromiumAtataContextBuilder<TBuilder, TService, TOptions>
     where TService : ChromiumDriverService
     where TOptions : ChromiumOptions, new()
 {
-    protected ChromiumAtataContextBuilder(
-        AtataBuildingContext buildingContext,
-        string alias,
-        string browserName)
-        : base(buildingContext, alias, browserName)
+    protected ChromiumAtataContextBuilder(string alias, string browserName)
+        : base(alias, browserName)
     {
     }
 

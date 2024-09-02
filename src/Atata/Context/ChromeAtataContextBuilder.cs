@@ -4,19 +4,19 @@ namespace Atata;
 
 public class ChromeAtataContextBuilder : ChromiumAtataContextBuilder<ChromeAtataContextBuilder, ChromeDriverService, ChromeOptions>
 {
-    public ChromeAtataContextBuilder(AtataBuildingContext buildingContext)
-        : base(buildingContext, DriverAliases.Chrome, "Chrome")
+    public ChromeAtataContextBuilder()
+        : base(DriverAliases.Chrome, "Chrome")
     {
     }
 
-    protected override ChromeDriverService CreateService()
-        => ChromeDriverService.CreateDefaultService();
+    protected override ChromeDriverService CreateService() =>
+        ChromeDriverService.CreateDefaultService();
 
-    protected override ChromeDriverService CreateService(string driverPath)
-        => ChromeDriverService.CreateDefaultService(driverPath);
+    protected override ChromeDriverService CreateService(string driverPath) =>
+        ChromeDriverService.CreateDefaultService(driverPath);
 
-    protected override ChromeDriverService CreateService(string driverPath, string driverExecutableFileName)
-        => ChromeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
+    protected override ChromeDriverService CreateService(string driverPath, string driverExecutableFileName) =>
+        ChromeDriverService.CreateDefaultService(driverPath, driverExecutableFileName);
 
     protected override IWebDriver CreateDriver(ChromeDriverService service, ChromeOptions options, TimeSpan commandTimeout)
     {
