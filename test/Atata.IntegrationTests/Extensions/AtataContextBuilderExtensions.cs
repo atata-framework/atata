@@ -2,6 +2,6 @@
 
 internal static class AtataContextBuilderExtensions
 {
-    internal static CustomDriverAtataContextBuilder UseFakeDriver(this AtataContextBuilder builder) =>
+    internal static CustomWebDriverBuilder UseFakeDriver(this AtataContextBuilder builder) =>
         builder.UseDriver(FakeWebDriver.Create());
 }

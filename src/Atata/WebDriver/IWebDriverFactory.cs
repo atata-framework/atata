@@ -1,9 +1,9 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the driver factory.
+/// Represents the factory of <see cref="IWebDriver"/>.
 /// </summary>
-public interface IDriverFactory
+public interface IWebDriverFactory
 {
     /// <summary>
     /// Gets the driver alias.

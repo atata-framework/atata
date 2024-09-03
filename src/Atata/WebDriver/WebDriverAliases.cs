@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-public static class DriverAliases
+public static class WebDriverAliases
 {
     public const string Remote = "remote";
 

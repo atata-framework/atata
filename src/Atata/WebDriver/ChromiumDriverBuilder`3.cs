@@ -6,18 +6,18 @@ using OpenQA.Selenium.Chromium;
 namespace Atata;
 
 /// <summary>
-/// Represents the base class for Chromium-based <see cref="DriverAtataContextBuilder{TBuilder, TService, TOptions}"/> builder.
+/// Represents the base class for Chromium-based web driver builder.
 /// </summary>
 /// <typeparam name="TBuilder">The type of the builder.</typeparam>
 /// <typeparam name="TService">The type of the driver service.</typeparam>
 /// <typeparam name="TOptions">The type of the options.</typeparam>
-public abstract class ChromiumAtataContextBuilder<TBuilder, TService, TOptions>
-    : DriverAtataContextBuilder<TBuilder, TService, TOptions>
-    where TBuilder : ChromiumAtataContextBuilder<TBuilder, TService, TOptions>
+public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
+    : WebDriverBuilder<TBuilder, TService, TOptions>
+    where TBuilder : ChromiumDriverBuilder<TBuilder, TService, TOptions>
     where TService : ChromiumDriverService
     where TOptions : ChromiumOptions, new()
 {
-    protected ChromiumAtataContextBuilder(string alias, string browserName)
+    protected ChromiumDriverBuilder(string alias, string browserName)
         : base(alias, browserName)
     {
     }

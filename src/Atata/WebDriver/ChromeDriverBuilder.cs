@@ -2,10 +2,10 @@
 
 namespace Atata;
 
-public class ChromeAtataContextBuilder : ChromiumAtataContextBuilder<ChromeAtataContextBuilder, ChromeDriverService, ChromeOptions>
+public class ChromeDriverBuilder : ChromiumDriverBuilder<ChromeDriverBuilder, ChromeDriverService, ChromeOptions>
 {
-    public ChromeAtataContextBuilder()
-        : base(DriverAliases.Chrome, "Chrome")
+    public ChromeDriverBuilder()
+        : base(WebDriverAliases.Chrome, "Chrome")
     {
     }
 
@@ -31,7 +31,7 @@ public class ChromeAtataContextBuilder : ChromiumAtataContextBuilder<ChromeAtata
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public ChromeAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
+    public ChromeDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 

@@ -38,7 +38,7 @@ public class AtataContextBuilderTests
         Assert.That(globalContext.BaseUrl, Is.Null);
 
         Assert.That(currentContext.DriverFactories, Has.Count.EqualTo(1));
-        Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
+        Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Edge));
         Assert.That(currentContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
         Assert.That(currentContext.BaseUrl, Is.EqualTo(BaseUrl));
         Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
@@ -55,22 +55,22 @@ public class AtataContextBuilderTests
         var context = contextBuilder.BuildingContext;
 
         Assert.That(context.DriverFactories, Has.Count.EqualTo(2));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Chrome));
+        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Chrome));
 
         contextBuilder.UseFirefox();
 
         Assert.That(context.DriverFactories, Has.Count.EqualTo(3));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Firefox));
+        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Firefox));
 
-        contextBuilder.UseDriver(DriverAliases.Edge);
+        contextBuilder.UseDriver(WebDriverAliases.Edge);
 
         Assert.That(context.DriverFactories, Has.Count.EqualTo(3));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.Edge));
+        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Edge));
 
-        contextBuilder.UseDriver(DriverAliases.InternetExplorer);
+        contextBuilder.UseDriver(WebDriverAliases.InternetExplorer);
 
         Assert.That(context.DriverFactories, Has.Count.EqualTo(4));
-        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(DriverAliases.InternetExplorer));
+        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.InternetExplorer));
     }
 
     [Test]

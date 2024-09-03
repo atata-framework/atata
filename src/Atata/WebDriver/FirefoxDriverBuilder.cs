@@ -2,10 +2,10 @@
 
 namespace Atata;
 
-public class FirefoxAtataContextBuilder : DriverAtataContextBuilder<FirefoxAtataContextBuilder, FirefoxDriverService, FirefoxOptions>
+public class FirefoxDriverBuilder : WebDriverBuilder<FirefoxDriverBuilder, FirefoxDriverService, FirefoxOptions>
 {
-    public FirefoxAtataContextBuilder()
-        : base(DriverAliases.Firefox, "Firefox")
+    public FirefoxDriverBuilder()
+        : base(WebDriverAliases.Firefox, "Firefox")
     {
     }
 
@@ -26,7 +26,7 @@ public class FirefoxAtataContextBuilder : DriverAtataContextBuilder<FirefoxAtata
     /// </summary>
     /// <param name="arguments">The arguments.</param>
     /// <returns>The same builder instance.</returns>
-    public FirefoxAtataContextBuilder WithArguments(params string[] arguments) =>
+    public FirefoxDriverBuilder WithArguments(params string[] arguments) =>
         WithArguments(arguments.AsEnumerable());
 
     /// <summary>
@@ -34,7 +34,7 @@ public class FirefoxAtataContextBuilder : DriverAtataContextBuilder<FirefoxAtata
     /// </summary>
     /// <param name="arguments">The arguments.</param>
     /// <returns>The same builder instance.</returns>
-    public FirefoxAtataContextBuilder WithArguments(IEnumerable<string> arguments) =>
+    public FirefoxDriverBuilder WithArguments(IEnumerable<string> arguments) =>
         WithOptions(options => options.AddArguments(arguments));
 
     /// <summary>
@@ -43,7 +43,7 @@ public class FirefoxAtataContextBuilder : DriverAtataContextBuilder<FirefoxAtata
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public FirefoxAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
+    public FirefoxDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 

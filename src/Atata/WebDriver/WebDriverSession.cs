@@ -11,7 +11,7 @@
 /// </summary>
 public class WebDriverSession : WebSession, IDisposable
 {
-    private IDriverFactory _driverFactory;
+    private IWebDriverFactory _driverFactory;
 
     private IWebDriver _driver;
 
@@ -27,7 +27,7 @@ public class WebDriverSession : WebSession, IDisposable
         AtataContext.Current?.Sessions.Get<WebDriverSession>()
             ?? throw AtataContextNotFoundException.Create();
 
-    internal IDriverFactory DriverFactory
+    internal IWebDriverFactory DriverFactory
     {
         get => _driverFactory;
         set

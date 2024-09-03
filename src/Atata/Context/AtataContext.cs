@@ -88,7 +88,7 @@ public sealed class AtataContext : IDisposable
     public AtataSessionCollection Sessions { get; } = [];
 
     [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v4.0.0.
-    internal IDriverFactory DriverFactory { get; set; }
+    internal IWebDriverFactory DriverFactory { get; set; }
 
     [Obsolete("Use GetWebDriver() or GetWebDriverSession().Driver instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

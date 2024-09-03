@@ -6,7 +6,7 @@ using OpenQA.Selenium.Remote;
 
 namespace Atata;
 
-public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteDriverAtataContextBuilder>
+public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
 {
     /// <summary>
     /// The default command timeout is <c>60</c> seconds.
@@ -23,8 +23,8 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
 
     private TimeSpan? _commandTimeout;
 
-    public RemoteDriverAtataContextBuilder()
-        : base(DriverAliases.Remote)
+    public RemoteDriverBuilder()
+        : base(WebDriverAliases.Remote)
     {
     }
 
@@ -65,7 +65,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
             return _capabilitiesFactory?.Invoke()
                 ?? throw new InvalidOperationException(
                     $"Type or instance of {nameof(DriverOptions)} is not set. " +
-                    $"Use one of {nameof(RemoteDriverAtataContextBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
+                    $"Use one of {nameof(RemoteDriverBuilder)}.{nameof(WithOptions)} methods to set driver options type or instance.");
         }
     }
 
@@ -75,7 +75,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="remoteAddress">URI containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithRemoteAddress(Uri remoteAddress)
+    public RemoteDriverBuilder WithRemoteAddress(Uri remoteAddress)
     {
         _remoteAddress = remoteAddress;
         return this;
@@ -87,7 +87,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="remoteAddress">URI string containing the address of the WebDriver remote server (e.g. http://127.0.0.1:4444/wd/hub).</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithRemoteAddress(string remoteAddress)
+    public RemoteDriverBuilder WithRemoteAddress(string remoteAddress)
     {
         remoteAddress.CheckNotNullOrWhitespace(nameof(remoteAddress));
 
@@ -100,7 +100,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <typeparam name="TOptions">The type of the options.</typeparam>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithOptions<TOptions>()
+    public RemoteDriverBuilder WithOptions<TOptions>()
         where TOptions : DriverOptions, new()
     {
         _optionsFactory = () => new TOptions();
@@ -112,7 +112,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="options">The driver options.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithOptions(DriverOptions options)
+    public RemoteDriverBuilder WithOptions(DriverOptions options)
     {
         options.CheckNotNull(nameof(options));
 
@@ -125,7 +125,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="optionsFactory">The factory method of the driver options.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithOptions(Func<DriverOptions> optionsFactory)
+    public RemoteDriverBuilder WithOptions(Func<DriverOptions> optionsFactory)
     {
         optionsFactory.CheckNotNull(nameof(optionsFactory));
 
@@ -138,7 +138,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="optionsInitializer">The initialization method of the driver options.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithOptions(Action<DriverOptions> optionsInitializer)
+    public RemoteDriverBuilder WithOptions(Action<DriverOptions> optionsInitializer)
     {
         optionsInitializer.CheckNotNull(nameof(optionsInitializer));
 
@@ -151,7 +151,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="capabilities">The driver capabilities.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithCapabilities(ICapabilities capabilities)
+    public RemoteDriverBuilder WithCapabilities(ICapabilities capabilities)
     {
         capabilities.CheckNotNull(nameof(capabilities));
 
@@ -164,7 +164,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="capabilitiesFactory">The factory method of the driver capabilities.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithCapabilities(Func<ICapabilities> capabilitiesFactory)
+    public RemoteDriverBuilder WithCapabilities(Func<ICapabilities> capabilitiesFactory)
     {
         capabilitiesFactory.CheckNotNull(nameof(capabilitiesFactory));
 
@@ -178,7 +178,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder AddAdditionalOption(string optionName, object optionValue)
+    public RemoteDriverBuilder AddAdditionalOption(string optionName, object optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
@@ -191,7 +191,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
+    public RemoteDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
@@ -218,7 +218,7 @@ public class RemoteDriverAtataContextBuilder : DriverAtataContextBuilder<RemoteD
     /// </summary>
     /// <param name="commandTimeout">The maximum amount of time to wait for each command.</param>
     /// <returns>The same builder instance.</returns>
-    public RemoteDriverAtataContextBuilder WithCommandTimeout(TimeSpan commandTimeout)
+    public RemoteDriverBuilder WithCommandTimeout(TimeSpan commandTimeout)
     {
         _commandTimeout = commandTimeout;
         return this;

@@ -756,15 +756,15 @@ public class AtataContextBuilder
     {
         if (BuildingContext.BrowserLogs.HasPropertiesToUse)
         {
-            if (session.DriverFactory is ChromeAtataContextBuilder chromeBuilder)
+            if (session.DriverFactory is ChromeDriverBuilder chromeBuilder)
             {
                 chromeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
-            else if (session.DriverFactory is EdgeAtataContextBuilder edgeBuilder)
+            else if (session.DriverFactory is EdgeDriverBuilder edgeBuilder)
             {
                 edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }
-            else if (session.DriverFactory is RemoteDriverAtataContextBuilder remoteBuilder)
+            else if (session.DriverFactory is RemoteDriverBuilder remoteBuilder)
             {
                 remoteBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
             }

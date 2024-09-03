@@ -1,8 +1,8 @@
 ﻿namespace Atata;
 
-public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
-    : DriverAtataContextBuilder<TBuilder>, IUsesLocalBrowser
-    where TBuilder : DriverAtataContextBuilder<TBuilder, TService, TOptions>
+public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
+    : WebDriverBuilder<TBuilder>, IUsesLocalBrowser
+    where TBuilder : WebDriverBuilder<TBuilder, TService, TOptions>
     where TService : DriverService
     where TOptions : DriverOptions, new()
 {
@@ -21,7 +21,7 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
 
     private TimeSpan? _commandTimeout;
 
-    protected DriverAtataContextBuilder(string alias, string browserName)
+    protected WebDriverBuilder(string alias, string browserName)
         : base(alias) =>
         _browserName = browserName;
 
@@ -46,7 +46,7 @@ public abstract class DriverAtataContextBuilder<TBuilder, TService, TOptions>
 
             logManager?.Trace($"Created {GetDriverServiceStringForLog(service)}");
 
-            var driver = CreateDriver(service, options, _commandTimeout ?? RemoteDriverAtataContextBuilder.DefaultCommandTimeout);
+            var driver = CreateDriver(service, options, _commandTimeout ?? RemoteDriverBuilder.DefaultCommandTimeout);
 
             if (driver is not null)
                 logManager?.Trace($"Created {GetDriverStringForLog(driver)}");

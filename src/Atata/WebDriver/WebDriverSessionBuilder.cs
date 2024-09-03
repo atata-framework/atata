@@ -12,12 +12,12 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <summary>
     /// Gets the driver factories.
     /// </summary>
-    public List<IDriverFactory> DriverFactories { get; private set; } = [];
+    public List<IWebDriverFactory> DriverFactories { get; private set; } = [];
 
     /// <summary>
     /// Gets the driver factory to use.
     /// </summary>
-    public IDriverFactory DriverFactoryToUse { get; private set; }
+    public IWebDriverFactory DriverFactoryToUse { get; private set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to dispose the <see cref="WebDriverSession.Driver"/>
@@ -70,7 +70,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// </summary>
     /// <param name="alias">The alias of the driver factory.</param>
     /// <returns>The driver factory or <see langword="null"/>.</returns>
-    public IDriverFactory GetDriverFactory(string alias)
+    public IWebDriverFactory GetDriverFactory(string alias)
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
 
@@ -85,7 +85,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <param name="driverBuilderCreator">The function that creates a driver builder.</param>
     /// <returns>The <typeparamref name="TDriverBuilder"/> instance.</returns>
     public TDriverBuilder ConfigureDriver<TDriverBuilder>(string alias, Func<TDriverBuilder> driverBuilderCreator)
-        where TDriverBuilder : DriverAtataContextBuilder<TDriverBuilder>
+        where TDriverBuilder : WebDriverBuilder<TDriverBuilder>
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
         driverBuilderCreator.CheckNotNull(nameof(driverBuilderCreator));
@@ -117,7 +117,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <typeparam name="TDriverBuilder">The type of the driver builder.</typeparam>
     /// <returns>The <typeparamref name="TDriverBuilder"/> instance.</returns>
     public TDriverBuilder UseDriver<TDriverBuilder>()
-        where TDriverBuilder : DriverAtataContextBuilder<TDriverBuilder>, new() =>
+        where TDriverBuilder : WebDriverBuilder<TDriverBuilder>, new() =>
         UseDriver(new TDriverBuilder());
 
     /// <summary>
@@ -127,7 +127,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <param name="driverBuilder">The driver builder.</param>
     /// <returns>The <typeparamref name="TDriverBuilder"/> instance.</returns>
     public TDriverBuilder UseDriver<TDriverBuilder>(TDriverBuilder driverBuilder)
-        where TDriverBuilder : DriverAtataContextBuilder<TDriverBuilder>
+        where TDriverBuilder : WebDriverBuilder<TDriverBuilder>
     {
         driverBuilder.CheckNotNull(nameof(driverBuilder));
 
@@ -146,7 +146,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
 
-        IDriverFactory driverFactory = GetDriverFactory(alias);
+        IWebDriverFactory driverFactory = GetDriverFactory(alias);
 
         if (driverFactory != null)
             DriverFactoryToUse = driverFactory;
@@ -160,8 +160,8 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// Use the specified driver instance.
     /// </summary>
     /// <param name="driver">The driver to use.</param>
-    /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
-    public CustomDriverAtataContextBuilder UseDriver(IWebDriver driver)
+    /// <returns>The <see cref="CustomWebDriverBuilder"/> instance.</returns>
+    public CustomWebDriverBuilder UseDriver(IWebDriver driver)
     {
         driver.CheckNotNull(nameof(driver));
 
@@ -172,22 +172,22 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// Use the custom driver factory method.
     /// </summary>
     /// <param name="driverFactory">The driver factory method.</param>
-    /// <returns>The <see cref="CustomDriverAtataContextBuilder"/> instance.</returns>
-    public CustomDriverAtataContextBuilder UseDriver(Func<IWebDriver> driverFactory)
+    /// <returns>The <see cref="CustomWebDriverBuilder"/> instance.</returns>
+    public CustomWebDriverBuilder UseDriver(Func<IWebDriver> driverFactory)
     {
         driverFactory.CheckNotNull(nameof(driverFactory));
 
-        return UseDriver(new CustomDriverAtataContextBuilder(driverFactory));
+        return UseDriver(new CustomWebDriverBuilder(driverFactory));
     }
 
-    private IDriverFactory UsePredefinedDriver(string alias) =>
+    private IWebDriverFactory UsePredefinedDriver(string alias) =>
         alias.ToLowerInvariant() switch
         {
-            DriverAliases.Chrome => UseChrome(),
-            DriverAliases.Firefox => UseFirefox(),
-            DriverAliases.InternetExplorer => UseInternetExplorer(),
-            DriverAliases.Safari => UseSafari(),
-            DriverAliases.Edge => UseEdge(),
+            WebDriverAliases.Chrome => UseChrome(),
+            WebDriverAliases.Firefox => UseFirefox(),
+            WebDriverAliases.InternetExplorer => UseInternetExplorer(),
+            WebDriverAliases.Safari => UseSafari(),
+            WebDriverAliases.Edge => UseEdge(),
             _ => null
         };
 
@@ -206,135 +206,135 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
 
     /// <summary>
     /// Creates and returns a new builder for <see cref="ChromeDriver"/>
-    /// with default <see cref="DriverAliases.Chrome"/> alias.
+    /// with default <see cref="WebDriverAliases.Chrome"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="ChromeAtataContextBuilder"/> instance.</returns>
-    public ChromeAtataContextBuilder UseChrome() =>
-        UseDriver(new ChromeAtataContextBuilder());
+    /// <returns>The <see cref="ChromeDriverBuilder"/> instance.</returns>
+    public ChromeDriverBuilder UseChrome() =>
+        UseDriver(new ChromeDriverBuilder());
 
     /// <summary>
     /// Creates and returns a new builder for <see cref="FirefoxDriver"/>
-    /// with default <see cref="DriverAliases.Firefox"/> alias.
+    /// with default <see cref="WebDriverAliases.Firefox"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="FirefoxAtataContextBuilder"/> instance.</returns>
-    public FirefoxAtataContextBuilder UseFirefox() =>
-        UseDriver(new FirefoxAtataContextBuilder());
+    /// <returns>The <see cref="FirefoxDriverBuilder"/> instance.</returns>
+    public FirefoxDriverBuilder UseFirefox() =>
+        UseDriver(new FirefoxDriverBuilder());
 
     /// <summary>
     /// Creates and returns a new builder for <see cref="InternetExplorerDriver"/>
-    /// with default <see cref="DriverAliases.InternetExplorer"/> alias.
+    /// with default <see cref="WebDriverAliases.InternetExplorer"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="InternetExplorerAtataContextBuilder"/> instance.</returns>
-    public InternetExplorerAtataContextBuilder UseInternetExplorer() =>
-        UseDriver(new InternetExplorerAtataContextBuilder());
+    /// <returns>The <see cref="InternetExplorerDriverBuilder"/> instance.</returns>
+    public InternetExplorerDriverBuilder UseInternetExplorer() =>
+        UseDriver(new InternetExplorerDriverBuilder());
 
     /// <summary>
     /// Creates and returns a new builder for <see cref="EdgeDriver"/>
-    /// with default <see cref="DriverAliases.Edge"/> alias.
+    /// with default <see cref="WebDriverAliases.Edge"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="EdgeAtataContextBuilder"/> instance.</returns>
-    public EdgeAtataContextBuilder UseEdge() =>
-        UseDriver(new EdgeAtataContextBuilder());
+    /// <returns>The <see cref="EdgeDriverBuilder"/> instance.</returns>
+    public EdgeDriverBuilder UseEdge() =>
+        UseDriver(new EdgeDriverBuilder());
 
     /// <summary>
     /// Creates and returns a new builder for <see cref="SafariDriver"/>
-    /// with default <see cref="DriverAliases.Safari"/> alias.
+    /// with default <see cref="WebDriverAliases.Safari"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="SafariAtataContextBuilder"/> instance.</returns>
-    public SafariAtataContextBuilder UseSafari() =>
-        UseDriver(new SafariAtataContextBuilder());
+    /// <returns>The <see cref="SafariDriverBuilder"/> instance.</returns>
+    public SafariDriverBuilder UseSafari() =>
+        UseDriver(new SafariDriverBuilder());
 
     /// <summary>
     /// Creates and returns a new builder for <see cref="RemoteWebDriver"/>
-    /// with default <see cref="DriverAliases.Remote"/> alias.
+    /// with default <see cref="WebDriverAliases.Remote"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="RemoteDriverAtataContextBuilder"/> instance.</returns>
-    public RemoteDriverAtataContextBuilder UseRemoteDriver() =>
-        UseDriver(new RemoteDriverAtataContextBuilder());
+    /// <returns>The <see cref="RemoteDriverBuilder"/> instance.</returns>
+    public RemoteDriverBuilder UseRemoteDriver() =>
+        UseDriver(new RemoteDriverBuilder());
 
     /// <summary>
     /// Returns an existing or creates a new builder for <see cref="ChromeDriver"/> by the specified alias.
     /// </summary>
     /// <param name="alias">
     /// The driver alias.
-    /// The default value is <see cref="DriverAliases.Chrome"/>.
+    /// The default value is <see cref="WebDriverAliases.Chrome"/>.
     /// </param>
-    /// <returns>The <see cref="ChromeAtataContextBuilder"/> instance.</returns>
-    public ChromeAtataContextBuilder ConfigureChrome(string alias = DriverAliases.Chrome) =>
+    /// <returns>The <see cref="ChromeDriverBuilder"/> instance.</returns>
+    public ChromeDriverBuilder ConfigureChrome(string alias = WebDriverAliases.Chrome) =>
         ConfigureDriver(
             alias,
-            () => new ChromeAtataContextBuilder().WithAlias(alias));
+            () => new ChromeDriverBuilder().WithAlias(alias));
 
     /// <summary>
     /// Returns an existing or creates a new builder for <see cref="FirefoxDriver"/> by the specified alias.
     /// </summary>
     /// <param name="alias">
     /// The driver alias.
-    /// The default value is <see cref="DriverAliases.Firefox"/>.
+    /// The default value is <see cref="WebDriverAliases.Firefox"/>.
     /// </param>
-    /// <returns>The <see cref="FirefoxAtataContextBuilder"/> instance.</returns>
-    public FirefoxAtataContextBuilder ConfigureFirefox(string alias = DriverAliases.Firefox) =>
+    /// <returns>The <see cref="FirefoxDriverBuilder"/> instance.</returns>
+    public FirefoxDriverBuilder ConfigureFirefox(string alias = WebDriverAliases.Firefox) =>
         ConfigureDriver(
             alias,
-            () => new FirefoxAtataContextBuilder().WithAlias(alias));
+            () => new FirefoxDriverBuilder().WithAlias(alias));
 
     /// <summary>
     /// Returns an existing or creates a new builder for <see cref="InternetExplorerDriver"/> by the specified alias.
     /// </summary>
     /// <param name="alias">
     /// The driver alias.
-    /// The default value is <see cref="DriverAliases.InternetExplorer"/>.
+    /// The default value is <see cref="WebDriverAliases.InternetExplorer"/>.
     /// </param>
-    /// <returns>The <see cref="InternetExplorerAtataContextBuilder"/> instance.</returns>
-    public InternetExplorerAtataContextBuilder ConfigureInternetExplorer(string alias = DriverAliases.InternetExplorer) =>
+    /// <returns>The <see cref="InternetExplorerDriverBuilder"/> instance.</returns>
+    public InternetExplorerDriverBuilder ConfigureInternetExplorer(string alias = WebDriverAliases.InternetExplorer) =>
         ConfigureDriver(
             alias,
-            () => new InternetExplorerAtataContextBuilder().WithAlias(alias));
+            () => new InternetExplorerDriverBuilder().WithAlias(alias));
 
     /// <summary>
     /// Returns an existing or creates a new builder for <see cref="EdgeDriver"/> by the specified alias.
     /// </summary>
     /// <param name="alias">
     /// The driver alias.
-    /// The default value is <see cref="DriverAliases.Edge"/>.
+    /// The default value is <see cref="WebDriverAliases.Edge"/>.
     /// </param>
-    /// <returns>The <see cref="EdgeAtataContextBuilder"/> instance.</returns>
-    public EdgeAtataContextBuilder ConfigureEdge(string alias = DriverAliases.Edge) =>
+    /// <returns>The <see cref="EdgeDriverBuilder"/> instance.</returns>
+    public EdgeDriverBuilder ConfigureEdge(string alias = WebDriverAliases.Edge) =>
         ConfigureDriver(
             alias,
-            () => new EdgeAtataContextBuilder().WithAlias(alias));
+            () => new EdgeDriverBuilder().WithAlias(alias));
 
     /// <summary>
     /// Returns an existing or creates a new builder for <see cref="SafariDriver"/> by the specified alias.
     /// </summary>
     /// <param name="alias">
     /// The driver alias.
-    /// The default value is <see cref="DriverAliases.Safari"/>.
+    /// The default value is <see cref="WebDriverAliases.Safari"/>.
     /// </param>
-    /// <returns>The <see cref="SafariAtataContextBuilder"/> instance.</returns>
-    public SafariAtataContextBuilder ConfigureSafari(string alias = DriverAliases.Safari) =>
+    /// <returns>The <see cref="SafariDriverBuilder"/> instance.</returns>
+    public SafariDriverBuilder ConfigureSafari(string alias = WebDriverAliases.Safari) =>
         ConfigureDriver(
             alias,
-            () => new SafariAtataContextBuilder().WithAlias(alias));
+            () => new SafariDriverBuilder().WithAlias(alias));
 
     /// <summary>
     /// Returns an existing or creates a new builder for <see cref="RemoteWebDriver"/> by the specified alias.
     /// </summary>
     /// <param name="alias">
     /// The driver alias.
-    /// The default value is <see cref="DriverAliases.Remote"/>.
+    /// The default value is <see cref="WebDriverAliases.Remote"/>.
     /// </param>
-    /// <returns>The <see cref="RemoteDriverAtataContextBuilder"/> instance.</returns>
-    public RemoteDriverAtataContextBuilder ConfigureRemoteDriver(string alias = DriverAliases.Remote) =>
+    /// <returns>The <see cref="RemoteDriverBuilder"/> instance.</returns>
+    public RemoteDriverBuilder ConfigureRemoteDriver(string alias = WebDriverAliases.Remote) =>
         ConfigureDriver(
             alias,
-            () => new RemoteDriverAtataContextBuilder().WithAlias(alias));
+            () => new RemoteDriverBuilder().WithAlias(alias));
 
     /// <summary>
     /// Sets the default control visibility.

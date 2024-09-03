@@ -1,10 +1,10 @@
 ﻿namespace Atata;
 
-public class CustomDriverAtataContextBuilder : DriverAtataContextBuilder<CustomDriverAtataContextBuilder>
+public class CustomWebDriverBuilder : WebDriverBuilder<CustomWebDriverBuilder>
 {
     private readonly Func<IWebDriver> _driverFactory;
 
-    public CustomDriverAtataContextBuilder(Func<IWebDriver> driverFactory) =>
+    public CustomWebDriverBuilder(Func<IWebDriver> driverFactory) =>
         _driverFactory = driverFactory.CheckNotNull(nameof(driverFactory));
 
     protected override IWebDriver CreateDriver(ILogManager logManager)

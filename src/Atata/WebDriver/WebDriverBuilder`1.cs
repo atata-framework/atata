@@ -1,11 +1,11 @@
 ﻿namespace Atata;
 
-public abstract class DriverAtataContextBuilder<TBuilder> : IDriverFactory
-    where TBuilder : DriverAtataContextBuilder<TBuilder>
+public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory
+    where TBuilder : WebDriverBuilder<TBuilder>
 {
     private Func<IWebDriver, bool> _initialHealthCheckFunction = CheckHealthByRequestingDriverUrl;
 
-    protected DriverAtataContextBuilder(string alias = null) =>
+    protected WebDriverBuilder(string alias = null) =>
         Alias = alias;
 
     /// <summary>
@@ -25,7 +25,7 @@ public abstract class DriverAtataContextBuilder<TBuilder> : IDriverFactory
     /// </summary>
     public bool InitialHealthCheck { get; private set; }
 
-    IWebDriver IDriverFactory.Create(ILogManager logManager)
+    IWebDriver IWebDriverFactory.Create(ILogManager logManager)
     {
         int retriesLeft = CreateRetries;
 

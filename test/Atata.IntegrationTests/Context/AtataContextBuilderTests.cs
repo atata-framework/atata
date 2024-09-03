@@ -33,7 +33,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
             .ConfigureChrome();
 
         builder.BuildingContext.DriverFactories.Should().HaveCount(1);
-        builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Chrome);
+        builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
     }
 
     [Test]
@@ -44,7 +44,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
             .ConfigureChrome("chrome_other");
 
         builder.BuildingContext.DriverFactories.Should().HaveCount(2);
-        builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(DriverAliases.Chrome);
+        builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
         builder.BuildingContext.DriverFactories[1].Alias.Should().Be("chrome_other");
     }
 

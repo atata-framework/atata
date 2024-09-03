@@ -2,10 +2,10 @@
 
 namespace Atata;
 
-public class InternetExplorerAtataContextBuilder : DriverAtataContextBuilder<InternetExplorerAtataContextBuilder, InternetExplorerDriverService, InternetExplorerOptions>
+public class InternetExplorerDriverBuilder : WebDriverBuilder<InternetExplorerDriverBuilder, InternetExplorerDriverService, InternetExplorerOptions>
 {
-    public InternetExplorerAtataContextBuilder()
-        : base(DriverAliases.InternetExplorer, "Internet Explorer")
+    public InternetExplorerDriverBuilder()
+        : base(WebDriverAliases.InternetExplorer, "Internet Explorer")
     {
     }
 
@@ -27,7 +27,7 @@ public class InternetExplorerAtataContextBuilder : DriverAtataContextBuilder<Int
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public InternetExplorerAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
+    public InternetExplorerDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 

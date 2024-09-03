@@ -2,10 +2,10 @@
 
 namespace Atata;
 
-public class EdgeAtataContextBuilder : ChromiumAtataContextBuilder<EdgeAtataContextBuilder, EdgeDriverService, EdgeOptions>
+public class EdgeDriverBuilder : ChromiumDriverBuilder<EdgeDriverBuilder, EdgeDriverService, EdgeOptions>
 {
-    public EdgeAtataContextBuilder()
-        : base(DriverAliases.Edge, "Edge")
+    public EdgeDriverBuilder()
+        : base(WebDriverAliases.Edge, "Edge")
     {
     }
 
@@ -31,7 +31,7 @@ public class EdgeAtataContextBuilder : ChromiumAtataContextBuilder<EdgeAtataCont
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public EdgeAtataContextBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
+    public EdgeDriverBuilder AddAdditionalBrowserOption(string optionName, object optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
