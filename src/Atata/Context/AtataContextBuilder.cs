@@ -8,8 +8,11 @@ namespace Atata;
 /// </summary>
 public class AtataContextBuilder
 {
-    public AtataContextBuilder(AtataBuildingContext buildingContext) =>
+    public AtataContextBuilder(AtataBuildingContext buildingContext)
+    {
         BuildingContext = buildingContext.CheckNotNull(nameof(buildingContext));
+        Sessions = new AtataSessionsBuilder(this, []);
+    }
 
     /// <summary>
     /// Gets the building context.
@@ -40,7 +43,7 @@ public class AtataContextBuilder
     /// </summary>
     public BrowserLogsAtataContextBuilder BrowserLogs => new(BuildingContext);
 
-    public AtataSessionsBuilder Sessions { get; } = new AtataSessionsBuilder();
+    public AtataSessionsBuilder Sessions { get; }
 
     /// <summary>
     /// Adds the variable.

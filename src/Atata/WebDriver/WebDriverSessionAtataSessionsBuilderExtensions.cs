@@ -2,10 +2,9 @@
 
 public static class WebDriverSessionAtataSessionsBuilderExtensions
 {
-    public static WebDriverSessionBuilder AddWebDriver(this AtataSessionsBuilder builder, Action<WebDriverSessionBuilder> configure = null)
-    {
-        var sessionBuilder = builder.Add<WebDriverSessionBuilder>();
-        configure?.Invoke(sessionBuilder);
-        return sessionBuilder;
-    }
+    public static AtataContextBuilder AddWebDriver(this AtataSessionsBuilder builder, Action<WebDriverSessionBuilder> configure = null) =>
+        builder.Add(configure);
+
+    public static AtataContextBuilder ConfigureWebDriver(this AtataSessionsBuilder builder, Action<WebDriverSessionBuilder> configure = null) =>
+        builder.Configure(configure);
 }

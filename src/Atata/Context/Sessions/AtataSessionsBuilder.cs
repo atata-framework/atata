@@ -2,31 +2,59 @@
 
 public sealed class AtataSessionsBuilder
 {
-    private readonly List<IAtataSessionBuilder> _sessionBuilders = [];
+    private readonly AtataContextBuilder _atataContextBuilder;
 
-    internal AtataSessionsBuilder()
+    private readonly List<IAtataSessionBuilder> _sessionBuilders;
+
+    internal AtataSessionsBuilder(
+        AtataContextBuilder atataContextBuilder,
+        List<IAtataSessionBuilder> sessionBuilders)
     {
+        _atataContextBuilder = atataContextBuilder;
+        _sessionBuilders = sessionBuilders;
     }
 
-    public IReadOnlyList<IAtataSessionBuilder> Builders => _sessionBuilders;
+    public IReadOnlyList<IAtataSessionBuilder> Builders =>
+        _sessionBuilders;
 
-    public TSessionBuilder Add<TSessionBuilder>()
-        where TSessionBuilder : IAtataSessionBuilder, new() =>
-        Add(new TSessionBuilder());
+    public AtataContextBuilder Add<TSessionBuilder>(Action<TSessionBuilder> configure = null)
+        where TSessionBuilder : IAtataSessionBuilder, new()
+    {
+        var sessionBuilder = new TSessionBuilder();
+        configure?.Invoke(sessionBuilder);
 
-    public TSessionBuilder Add<TSessionBuilder>(TSessionBuilder builder)
+        _sessionBuilders.Add(sessionBuilder);
+        return _atataContextBuilder;
+    }
+
+    public AtataContextBuilder Configure<TSessionBuilder>(Action<TSessionBuilder> configure = null)
         where TSessionBuilder : IAtataSessionBuilder
     {
-        _sessionBuilders.Add(builder);
-        return builder;
+        var sessionBuilder = _sessionBuilders.OfType<TSessionBuilder>().LastOrDefault();
+
+        bool isExisiting = sessionBuilder is not null;
+
+        if (!isExisiting)
+            sessionBuilder = ActivatorEx.CreateInstance<TSessionBuilder>();
+
+        configure?.Invoke(sessionBuilder);
+
+        if (!isExisiting)
+            _sessionBuilders.Add(sessionBuilder);
+
+        return _atataContextBuilder;
     }
 
-    public TSessionBuilder Configure<TSessionBuilder>()
-        where TSessionBuilder : IAtataSessionBuilder =>
-        _sessionBuilders.OfType<TSessionBuilder>().LastOrDefault()
-            ?? ActivatorEx.CreateInstance<TSessionBuilder>();
-
-    public void RemoveAll<TSessionBuilder>()
-        where TSessionBuilder : IAtataSessionBuilder =>
+    public AtataContextBuilder RemoveAll<TSessionBuilder>()
+        where TSessionBuilder : IAtataSessionBuilder
+    {
         _sessionBuilders.RemoveAll(x => x is TSessionBuilder);
+        return _atataContextBuilder;
+    }
+
+    public AtataContextBuilder Clear()
+    {
+        _sessionBuilders.Clear();
+        return _atataContextBuilder;
+    }
 }
