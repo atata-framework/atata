@@ -58,26 +58,24 @@ public static class DriverAtataContextBuilderTests
         {
             var checkFunctionMock = new Mock<Func<IWebDriver, bool>>();
 
-            var context = ConfigureAtataContextWithWebDriverSession()
+            var context = BuildAtataContextWithWebDriverSession(x => x
                 .UseFakeDriver()
                     .WithInitialHealthCheck(false)
-                    .WithInitialHealthCheckFunction(checkFunctionMock.Object)
-                .Build();
+                    .WithInitialHealthCheckFunction(checkFunctionMock.Object));
 
-            context.Driver.Should().NotBeNull();
+            context.GetWebDriverSession().Driver.Should().NotBeNull();
             checkFunctionMock.Verify(x => x(It.IsAny<IWebDriver>()), Times.Never);
         }
 
         [Test]
         public void WhenCheckReturnsTrue()
         {
-            var context = ConfigureAtataContextWithWebDriverSession()
+            var context = BuildAtataContextWithWebDriverSession(x => x
                 .UseFakeDriver()
                     .WithInitialHealthCheck()
-                    .WithInitialHealthCheckFunction(_ => true)
-                .Build();
+                    .WithInitialHealthCheckFunction(_ => true));
 
-            context.Driver.Should().NotBeNull();
+            context.GetWebDriverSession().Driver.Should().NotBeNull();
             LogEntries.Where(x => x.Level == LogLevel.Warn).Should().BeEmpty();
         }
 
@@ -86,7 +84,7 @@ public static class DriverAtataContextBuilderTests
         {
             bool shouldThrow = true;
 
-            ConfigureAtataContextWithWebDriverSession()
+            BuildAtataContextWithWebDriverSession(x => x
                 .UseFakeDriver()
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ =>
@@ -98,8 +96,7 @@ public static class DriverAtataContextBuilderTests
                         }
 
                         return true;
-                    })
-                .Build();
+                    }));
 
             var warning = LogEntries.Where(x => x.Level == LogLevel.Warn).Should().ContainSingle().Subject;
             warning.Message.Should().Contain("initial health check failed");
@@ -111,7 +108,7 @@ public static class DriverAtataContextBuilderTests
         {
             int countOfReturnedFalse = 0;
 
-            ConfigureAtataContextWithWebDriverSession()
+            BuildAtataContextWithWebDriverSession(x => x
                 .UseFakeDriver()
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ =>
@@ -123,8 +120,7 @@ public static class DriverAtataContextBuilderTests
                         }
 
                         return true;
-                    })
-                .Build();
+                    }));
 
             var warnings = LogEntries.Where(x => x.Level == LogLevel.Warn).ToArray();
             warnings.Should().HaveCount(2);
@@ -140,13 +136,14 @@ public static class DriverAtataContextBuilderTests
         [TestCase(4)]
         public void WhenAllChecksThrowException_WithCreateRetries(int retries)
         {
+            var builder = ConfigureAtataContextWithWebDriverSession(x => x
+                .UseFakeDriver()
+                    .WithCreateRetries(retries)
+                    .WithInitialHealthCheck()
+                    .WithInitialHealthCheckFunction(_ => throw new InvalidOperationException("Fail.")));
+
             AssertThrowsWithInnerException<WebDriverInitializationException, InvalidOperationException>(() =>
-                ConfigureAtataContextWithWebDriverSession()
-                    .UseFakeDriver()
-                        .WithCreateRetries(retries)
-                        .WithInitialHealthCheck()
-                        .WithInitialHealthCheckFunction(_ => throw new InvalidOperationException("Fail."))
-                    .Build());
+                builder.Build());
 
             var warnings = LogEntries.Where(x => x.Level == LogLevel.Warn).ToArray();
             warnings.Should().HaveCount(retries);
