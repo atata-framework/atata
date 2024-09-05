@@ -199,10 +199,11 @@ public class ReportTests : WebDriverSessionTestSuite
         [Test]
         public void ViewportVsFullPage_ThroughConfiguration()
         {
-            ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsAtataContextBuilder> screenshotsConfigurationAction)
+            ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsWebDriverSessionOptions> screenshotsConfigurationAction)
             {
-                var builder = ConfigureAtataContextWithWebDriverSession();
-                screenshotsConfigurationAction?.Invoke(builder.Screenshots);
+                var builder = ConfigureAtataContextWithWebDriverSession(
+                    session => screenshotsConfigurationAction?.Invoke(session.Screenshots));
+
                 using var context = builder.Build();
 
                 string screenshotNameIndicator = Guid.NewGuid().ToString();

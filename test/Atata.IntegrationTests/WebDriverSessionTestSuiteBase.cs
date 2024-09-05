@@ -19,16 +19,21 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
         "disable-search-engine-choice-screen"
     ];
 
-    protected AtataContextBuilder ConfigureAtataContextWithWebDriverSession()
+    protected AtataContextBuilder ConfigureAtataContextWithWebDriverSession(
+        Action<WebDriverSessionBuilder> configureWebDriverSession = null)
     {
         AtataContextBuilder atataContextBuilder = ConfigureSessionlessAtataContext();
 
-        atataContextBuilder.Sessions.AddWebDriver(x => x
-            .UseBaseUrl(BaseUrl)
-            .UseChrome()
+        atataContextBuilder.Sessions.AddWebDriver(session =>
+        {
+            session.UseBaseUrl(BaseUrl)
+                .UseChrome()
                 .WithArguments(ChromeArguments)
                 .WithPortsToIgnore(_portsToIgnore)
-                .WithInitialHealthCheck());
+                .WithInitialHealthCheck();
+
+            configureWebDriverSession?.Invoke(session);
+        });
 
         return atataContextBuilder;
     }
