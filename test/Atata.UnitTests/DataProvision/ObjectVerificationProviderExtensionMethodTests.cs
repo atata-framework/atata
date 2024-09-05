@@ -6,7 +6,7 @@ namespace Atata.UnitTests.DataProvision;
 
 public static class ObjectVerificationProviderExtensionMethodTests
 {
-    public class Satisfy_Expression : ExtensionMethodTestFixture<string, Satisfy_Expression>
+    public class Satisfy_Expression : ExtensionMethodTestSuite<string, Satisfy_Expression>
     {
         static Satisfy_Expression() =>
             For("abc123")
@@ -15,7 +15,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.Satisfy(x => x == "xyz"));
     }
 
-    public class Satisfy_Function : ExtensionMethodTestFixture<int, Satisfy_Function>
+    public class Satisfy_Function : ExtensionMethodTestSuite<int, Satisfy_Function>
     {
         static Satisfy_Function() =>
             For(5)
@@ -24,7 +24,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.Satisfy(x => x == 7, "..."));
     }
 
-    public class Satisfy_IEnumerable_Expression : ExtensionMethodTestFixture<Subject<string>[], Satisfy_IEnumerable_Expression>
+    public class Satisfy_IEnumerable_Expression : ExtensionMethodTestSuite<Subject<string>[], Satisfy_IEnumerable_Expression>
     {
         static Satisfy_IEnumerable_Expression() =>
             For(["a".ToSubject(), "b".ToSubject(), "c".ToSubject()])
@@ -33,7 +33,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
     }
 
-    public class StartWith_string : ExtensionMethodTestFixture<string, StartWith_string>
+    public class StartWith_string : ExtensionMethodTestSuite<string, StartWith_string>
     {
         static StartWith_string() =>
             For("abcdef")
@@ -45,7 +45,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.StartWith("abcdefg"));
     }
 
-    public class StartWith_string_IgnoringCase : ExtensionMethodTestFixture<string, StartWith_string_IgnoringCase>
+    public class StartWith_string_IgnoringCase : ExtensionMethodTestSuite<string, StartWith_string_IgnoringCase>
     {
         static StartWith_string_IgnoringCase() =>
             For("aBcDeF")
@@ -54,7 +54,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Pass(should => should.StartWith("ABcdEF"));
     }
 
-    public class Match : ExtensionMethodTestFixture<string, Match>
+    public class Match : ExtensionMethodTestSuite<string, Match>
     {
         static Match() =>
             For("abcdef")
@@ -65,7 +65,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.Match("^abcdeF$"));
     }
 
-    public class BeEquivalent : ExtensionMethodTestFixture<int[], BeEquivalent>
+    public class BeEquivalent : ExtensionMethodTestSuite<int[], BeEquivalent>
     {
         static BeEquivalent() =>
             For([1, 1, 2, 3, 5])
@@ -77,7 +77,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.BeEquivalent(1, 1, 2, 3));
     }
 
-    public class BeEquivalent_WhenEmpty : ExtensionMethodTestFixture<int[], BeEquivalent_WhenEmpty>
+    public class BeEquivalent_WhenEmpty : ExtensionMethodTestSuite<int[], BeEquivalent_WhenEmpty>
     {
         static BeEquivalent_WhenEmpty() =>
             For([])
@@ -85,7 +85,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.BeEquivalent(1));
     }
 
-    public class EqualSequence : ExtensionMethodTestFixture<int[], EqualSequence>
+    public class EqualSequence : ExtensionMethodTestSuite<int[], EqualSequence>
     {
         static EqualSequence() =>
             For([1, 1, 2, 3, 5])
@@ -97,7 +97,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.EqualSequence(1, 1, 2, 3));
     }
 
-    public class EqualSequence_WhenEmpty : ExtensionMethodTestFixture<int[], EqualSequence_WhenEmpty>
+    public class EqualSequence_WhenEmpty : ExtensionMethodTestSuite<int[], EqualSequence_WhenEmpty>
     {
         static EqualSequence_WhenEmpty() =>
             For([])
@@ -105,7 +105,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.EqualSequence(1));
     }
 
-    public class EqualSequence_IgnoringCase : ExtensionMethodTestFixture<string[], EqualSequence_IgnoringCase>
+    public class EqualSequence_IgnoringCase : ExtensionMethodTestSuite<string[], EqualSequence_IgnoringCase>
     {
         static EqualSequence_IgnoringCase() =>
             For(["a", "b", "c"])
@@ -113,7 +113,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Pass(should => should.EqualSequence("a", "B", "c"));
     }
 
-    public class Contain_IEnumerable : ExtensionMethodTestFixture<int[], Contain_IEnumerable>
+    public class Contain_IEnumerable : ExtensionMethodTestSuite<int[], Contain_IEnumerable>
     {
         static Contain_IEnumerable() =>
             For([1, 2, 3, 5])
@@ -125,7 +125,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.Contain(4, 6));
     }
 
-    public class ContainAny_IEnumerable : ExtensionMethodTestFixture<int[], ContainAny_IEnumerable>
+    public class ContainAny_IEnumerable : ExtensionMethodTestSuite<int[], ContainAny_IEnumerable>
     {
         static ContainAny_IEnumerable() =>
             For([1, 2, 3, 5])
@@ -137,7 +137,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.ContainAny(4, 6));
     }
 
-    public class StartWith_IEnumerable : ExtensionMethodTestFixture<int[], StartWith_IEnumerable>
+    public class StartWith_IEnumerable : ExtensionMethodTestSuite<int[], StartWith_IEnumerable>
     {
         static StartWith_IEnumerable() =>
             For([1, 2, 3, 5])
@@ -150,7 +150,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.StartWith(9));
     }
 
-    public class StartWithAny_IEnumerable : ExtensionMethodTestFixture<int[], StartWithAny_IEnumerable>
+    public class StartWithAny_IEnumerable : ExtensionMethodTestSuite<int[], StartWithAny_IEnumerable>
     {
         static StartWithAny_IEnumerable() =>
             For([1, 2, 3, 5])
@@ -162,7 +162,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.StartWithAny(9));
     }
 
-    public class StartWithAny_string : ExtensionMethodTestFixture<string, StartWithAny_string>
+    public class StartWithAny_string : ExtensionMethodTestSuite<string, StartWithAny_string>
     {
         static StartWithAny_string() =>
             For("abcdef")
@@ -174,7 +174,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.StartWithAny("z", "x"));
     }
 
-    public class EndWith_IEnumerable : ExtensionMethodTestFixture<int[], EndWith_IEnumerable>
+    public class EndWith_IEnumerable : ExtensionMethodTestSuite<int[], EndWith_IEnumerable>
     {
         static EndWith_IEnumerable() =>
             For([1, 2, 3, 5])
@@ -187,7 +187,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.EndWith(9));
     }
 
-    public class EndWithAny_IEnumerable : ExtensionMethodTestFixture<int[], EndWithAny_IEnumerable>
+    public class EndWithAny_IEnumerable : ExtensionMethodTestSuite<int[], EndWithAny_IEnumerable>
     {
         static EndWithAny_IEnumerable() =>
             For([1, 2, 3, 5])
@@ -199,7 +199,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.EndWithAny(9));
     }
 
-    public class EndWithAny_string : ExtensionMethodTestFixture<string, EndWithAny_string>
+    public class EndWithAny_string : ExtensionMethodTestSuite<string, EndWithAny_string>
     {
         static EndWithAny_string() =>
             For("abcdef")
@@ -211,7 +211,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.EndWithAny("a", "b"));
     }
 
-    public class ConsistOf : ExtensionMethodTestFixture<int[], ConsistOf>
+    public class ConsistOf : ExtensionMethodTestSuite<int[], ConsistOf>
     {
         static ConsistOf() =>
             For([1, 2, 3])
@@ -226,7 +226,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.ConsistOf(x => x == 1, x => x == 2, x => x != 3));
     }
 
-    public class ConsistOf_WhenHas1Item : ExtensionMethodTestFixture<int[], ConsistOf_WhenHas1Item>
+    public class ConsistOf_WhenHas1Item : ExtensionMethodTestSuite<int[], ConsistOf_WhenHas1Item>
     {
         static ConsistOf_WhenHas1Item() =>
             For([1])
@@ -234,7 +234,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.ConsistOf(x => x == 2));
     }
 
-    public class ConsistOnlyOf : ExtensionMethodTestFixture<int[], ConsistOnlyOf>
+    public class ConsistOnlyOf : ExtensionMethodTestSuite<int[], ConsistOnlyOf>
     {
         static ConsistOnlyOf() =>
             For([3, 3, 3])
@@ -242,7 +242,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.ConsistOnlyOf(7));
     }
 
-    public class ConsistOnlyOf_Expression : ExtensionMethodTestFixture<int[], ConsistOnlyOf_Expression>
+    public class ConsistOnlyOf_Expression : ExtensionMethodTestSuite<int[], ConsistOnlyOf_Expression>
     {
         static ConsistOnlyOf_Expression() =>
             For([1, 2, 3, 5])
@@ -251,8 +251,8 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.ConsistOnlyOf(x => x > 1));
     }
 
-    public abstract class ExtensionMethodTestFixture<TObject, TFixture>
-        where TFixture : ExtensionMethodTestFixture<TObject, TFixture>
+    public abstract class ExtensionMethodTestSuite<TObject, TTestSuite>
+        where TTestSuite : ExtensionMethodTestSuite<TObject, TTestSuite>
     {
         private static readonly TestSuiteData s_testSuiteData = new();
 
@@ -305,7 +305,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
             List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> functions,
             Action<ObjectVerificationProvider<TObject, Subject<TObject>>, Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> assertionFunction)
         {
-            RuntimeHelpers.RunClassConstructor(typeof(TFixture).TypeHandle);
+            RuntimeHelpers.RunClassConstructor(typeof(TTestSuite).TypeHandle);
 
             Action<Subject<TObject>> BuildTestAction(Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>> function) =>
                 sut =>
