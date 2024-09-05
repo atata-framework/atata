@@ -10,15 +10,17 @@ public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
     [SetUp]
     public void SetUp()
     {
-        AtataContextBuilder contextBuilder = ConfigureAtataContextWithWebDriverSession();
+        AtataContextBuilder contextBuilder = ConfigureAtataContextWithWebDriverSession(
+            session =>
+            {
+                if (ReuseDriver)
+                {
+                    session.UseDisposeDriver(false);
 
-        if (ReuseDriver)
-        {
-            contextBuilder = contextBuilder.UseDisposeDriver(false);
-
-            if (PreservedDriver is not null)
-                contextBuilder = contextBuilder.UseDriver(PreservedDriver);
-        }
+                    if (PreservedDriver is not null)
+                        session.UseDriver(PreservedDriver);
+                }
+            });
 
         contextBuilder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
         {

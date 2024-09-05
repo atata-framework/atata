@@ -18,8 +18,9 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     public void Build_WithoutUseDriverButWithConfigureChrome()
     {
         var context = AtataContext.Configure()
-            .ConfigureChrome()
-                .WithArguments(ChromeArguments)
+            .Sessions.AddWebDriver(x => x
+                .ConfigureChrome()
+                    .WithArguments(ChromeArguments))
             .Build();
 
         context.GetWebDriverSession().Driver.Should().BeOfType<ChromeDriver>();
@@ -29,35 +30,44 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     public void ConfigureChrome_After_UseChrome_ExtendsSameFactory()
     {
         var builder = AtataContext.Configure()
-            .UseChrome()
-            .ConfigureChrome();
+            .Sessions.AddWebDriver(x =>
+            {
+                x.UseChrome();
+                x.ConfigureChrome();
+            });
 
-        builder.BuildingContext.DriverFactories.Should().HaveCount(1);
-        builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
+        var sessionBuilder = builder.Sessions.Builders.OfType<WebDriverSessionBuilder>().Single();
+        sessionBuilder.DriverFactories.Should().HaveCount(1);
+        sessionBuilder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
     }
 
     [Test]
     public void ConfigureChrome_After_UseChrome_CreatesNewFactory_WhenOtherAliasIsSpecified()
     {
         var builder = AtataContext.Configure()
-            .UseChrome()
-            .ConfigureChrome("chrome_other");
+            .Sessions.AddWebDriver(x =>
+            {
+                x.UseChrome();
+                x.ConfigureChrome("chrome_other");
+            });
 
-        builder.BuildingContext.DriverFactories.Should().HaveCount(2);
-        builder.BuildingContext.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
-        builder.BuildingContext.DriverFactories[1].Alias.Should().Be("chrome_other");
+        var sessionBuilder = builder.Sessions.Builders.OfType<WebDriverSessionBuilder>().Single();
+        sessionBuilder.DriverFactories.Should().HaveCount(2);
+        sessionBuilder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
+        sessionBuilder.DriverFactories[1].Alias.Should().Be("chrome_other");
     }
 
     [Test]
-    public void ConfigureChrome_After_UseFirefox_WithSameAlias_Throws()
-    {
-        var builder = AtataContext.Configure()
-            .UseFirefox()
-                .WithAlias("drv");
+    public void ConfigureChrome_After_UseFirefox_WithSameAlias_Throws() =>
+        AtataContext.Configure()
+            .Sessions.AddWebDriver(x =>
+            {
+                x.UseFirefox()
+                    .WithAlias("drv");
 
-        Assert.Throws<ArgumentException>(() =>
-            builder.ConfigureChrome("drv"));
-    }
+                Assert.Throws<ArgumentException>(() =>
+                    x.ConfigureChrome("drv"));
+            });
 
     [Test]
     public void ConfigureChrome_After_UseChrome_Executes()
@@ -65,10 +75,13 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
         bool isChromeConfigurationInvoked = false;
 
         AtataContext.Configure()
-            .UseChrome()
-                .WithArguments(ChromeArguments)
-            .ConfigureChrome()
-                .WithOptions(_ => isChromeConfigurationInvoked = true)
+            .Sessions.AddWebDriver(x =>
+            {
+                x.UseChrome()
+                    .WithArguments(ChromeArguments);
+                x.ConfigureChrome()
+                    .WithOptions(_ => isChromeConfigurationInvoked = true);
+            })
             .Build();
 
         isChromeConfigurationInvoked.Should().BeTrue();
@@ -77,10 +90,9 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void UseDisposeDriver_WithTrue()
     {
-        var context = ConfigureAtataContextWithWebDriverSession()
-            .UseDisposeDriver(true)
-            .Build();
-        var driver = context.Driver;
+        var context = BuildAtataContextWithWebDriverSession(
+            x => x.UseDisposeDriver(true));
+        var driver = context.GetWebDriver();
 
         context.Dispose();
 
@@ -91,10 +103,9 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void UseDisposeDriver_WithFalse()
     {
-        var context = ConfigureAtataContextWithWebDriverSession()
-            .UseDisposeDriver(false)
-            .Build();
-        var driver = context.GetWebDriverSession().Driver;
+        var context = BuildAtataContextWithWebDriverSession(
+            x => x.UseDisposeDriver(false));
+        var driver = context.GetWebDriver();
 
         context.Dispose();
 

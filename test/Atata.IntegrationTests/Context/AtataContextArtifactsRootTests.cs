@@ -1,7 +1,7 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
 [Parallelizable(ParallelScope.None)]
-public class AtataContextArtifactsRootTests : WebDriverSessionTestSuiteBase
+public class AtataContextArtifactsRootTests : SessionlessTestSuite
 {
     private readonly string _rootPath = $"{AppDomain.CurrentDomain.BaseDirectory}artifacts{Path.DirectorySeparatorChar}{Guid.NewGuid()}";
 
@@ -12,12 +12,6 @@ public class AtataContextArtifactsRootTests : WebDriverSessionTestSuiteBase
     [OneTimeTearDown]
     public void TearDownFixture() =>
         AtataContext.GlobalProperties.UseArtifactsRootPathTemplate(AtataContextGlobalProperties.DefaultArtifactsRootPathTemplate);
-
-    [SetUp]
-    public void SetUp() =>
-        ConfigureAtataContextWithWebDriverSession()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
-            .Build();
 
     [Test]
     public void AtataContext_Artifacts() =>

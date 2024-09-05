@@ -9,7 +9,7 @@ public static class DriverAtataContextBuilderTests
         {
             bool shouldThrow = true;
 
-            var context = ConfigureAtataContextWithWebDriverSession()
+            var context = BuildAtataContextWithWebDriverSession(x => x
                 .UseDriver(() =>
                 {
                     if (shouldThrow)
@@ -21,10 +21,9 @@ public static class DriverAtataContextBuilderTests
                     {
                         return FakeWebDriver.Create();
                     }
-                })
-                .Build();
+                }));
 
-            context.Driver.Should().NotBeNull();
+            context.GetWebDriverSession().Driver.Should().NotBeNull();
             LogEntries.Where(x => x.Level == LogLevel.Warn).Should().ContainSingle();
         }
 
@@ -34,10 +33,9 @@ public static class DriverAtataContextBuilderTests
         public void WhenAllAttemptsFail(int retries)
         {
             AssertThrowsWithInnerException<WebDriverInitializationException, InvalidOperationException>(() =>
-                ConfigureAtataContextWithWebDriverSession()
+                BuildAtataContextWithWebDriverSession(x => x
                     .UseDriver(() => throw new InvalidOperationException("Fail."))
-                        .WithCreateRetries(retries)
-                    .Build());
+                        .WithCreateRetries(retries)));
 
             var warnings = LogEntries.Where(x => x.Level == LogLevel.Warn).ToArray();
             warnings.Should().HaveCount(retries);

@@ -1,5 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
+#warning Change to test suite for SessionStart.
 public class AtataContextWithoutDriverTests : WebDriverSessionTestSuiteBase
 {
     [Test]

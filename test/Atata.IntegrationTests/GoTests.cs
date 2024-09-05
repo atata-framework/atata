@@ -267,12 +267,11 @@ public class GoTests : WebDriverSessionTestSuite
 
         var driver = WebDriverSession.Current.Driver;
 
-        AtataContext.Current.DisposeDriver = false;
+        WebDriverSession.Current.DisposeDriver = false;
         AtataContext.Current.Dispose();
 
-        ConfigureAtataContextWithWebDriverSession()
-            .UseDriver(driver)
-            .Build();
+        BuildAtataContextWithWebDriverSession(
+            x => x.UseDriver(driver));
 
         Go.To(new OrdinaryPage().SetNavigationUrl("/goto2"), navigate: false)
             .PageUri.Relative.Should.Be("/goto1");
@@ -478,9 +477,8 @@ public class GoTests : WebDriverSessionTestSuite
     {
         [SetUp]
         public void SetUp() =>
-            ConfigureAtataContextWithWebDriverSession()
-                .UseBaseUrl(null)
-                .Build();
+            BuildAtataContextWithWebDriverSession(
+                x => x.UseBaseUrl(null));
 
         [Test]
         public void ToUrl_Relative_WithoutPriorNavigation() =>

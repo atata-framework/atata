@@ -27,10 +27,9 @@ public class FindByTestIdAttributeTests : WebDriverSessionTestSuiteBase
     [Test]
     public void WhenDomTestIdAttributePropertiesAreConfigured()
     {
-        ConfigureAtataContextWithWebDriverSession()
+        BuildAtataContextWithWebDriverSession(x => x
             .UseDomTestIdAttributeName("data-autoid")
-            .UseDomTestIdAttributeDefaultCase(TermCase.PascalKebab)
-            .Build();
+            .UseDomTestIdAttributeDefaultCase(TermCase.PascalKebab));
 
         Go.To<FindingPage>()
             .Find<Control<FindingPage>>("TestId2", new FindByTestIdAttribute())

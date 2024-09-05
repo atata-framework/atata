@@ -46,9 +46,9 @@ public class AtataContextTimeoutTests : WebDriverSessionTestSuiteBase
     [Test]
     public void ElementFindTimeout()
     {
-        ConfigureAtataContextWithWebDriverSession()
+        ConfigureAtataContextWithWebDriverSession(
+            x => x.UseElementFindTimeout(TimeSpan.FromSeconds(3)))
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(1))
-            .UseElementFindTimeout(TimeSpan.FromSeconds(3))
             .Build();
 
         var page = Go.To<WaitingPage>();
