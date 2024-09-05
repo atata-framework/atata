@@ -1,7 +1,7 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
 [Parallelizable(ParallelScope.None)]
-public class AtataContextTimeZoneTests : UITestFixtureBase
+public class AtataContextTimeZoneTests : SessionlessTestSuite
 {
     private readonly TimeZoneInfo _timeZone = TimeZoneInfo.FindSystemTimeZoneById("UTC-02");
 
@@ -15,15 +15,8 @@ public class AtataContextTimeZoneTests : UITestFixtureBase
     public void TearDownFixture() =>
         AtataContext.GlobalProperties.UseTimeZone(TimeZoneInfo.Local);
 
-    [SetUp]
-    public void SetUp()
-    {
-        ConfigureBaseAtataContext()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
-            .Build();
-
+    protected override void OnSetUp() =>
         _nowInSetTimeZone = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _timeZone);
-    }
 
     [Test]
     public void AtataContext_StartedAt() =>
