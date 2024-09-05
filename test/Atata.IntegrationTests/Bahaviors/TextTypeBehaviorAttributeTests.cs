@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Bahaviors;
 
-public class TextTypeBehaviorAttributeTests : UITestFixture
+public class TextTypeBehaviorAttributeTests : WebDriverSessionTestSuite
 {
     private const string InitialValue = "abc";
 

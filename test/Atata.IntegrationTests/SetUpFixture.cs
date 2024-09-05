@@ -18,7 +18,7 @@ public class SetUpFixture
     private static bool IsTestAppRunning() =>
         Array.Exists(
             IPGlobalProperties.GetIPGlobalProperties().GetActiveTcpListeners(),
-            x => x.Port == UITestFixtureBase.TestAppPort);
+            x => x.Port == WebDriverSessionTestSuiteBase.TestAppPort);
 
     private void SetUpTestApp()
     {

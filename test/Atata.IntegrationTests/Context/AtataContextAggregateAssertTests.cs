@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
-public class AtataContextAggregateAssertTests : UITestFixture
+public class AtataContextAggregateAssertTests : WebDriverSessionTestSuite
 {
     private StubPage _page;
 

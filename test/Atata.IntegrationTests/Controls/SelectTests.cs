@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class SelectTests : UITestFixture
+public class SelectTests : WebDriverSessionTestSuite
 {
     private SelectPage _page;
 

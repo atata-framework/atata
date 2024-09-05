@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class ScrollUpAttributeTests : UITestFixture
+public class ScrollUpAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute()

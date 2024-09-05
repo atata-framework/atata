@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class WaitForAttributeTests : UITestFixture
+public class WaitForAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute_WhenOnInit_AtPageObject() =>

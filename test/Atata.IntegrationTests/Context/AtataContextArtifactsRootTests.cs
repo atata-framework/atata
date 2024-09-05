@@ -1,7 +1,7 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
 [Parallelizable(ParallelScope.None)]
-public class AtataContextArtifactsRootTests : UITestFixtureBase
+public class AtataContextArtifactsRootTests : WebDriverSessionTestSuiteBase
 {
     private readonly string _rootPath = $"{AppDomain.CurrentDomain.BaseDirectory}artifacts{Path.DirectorySeparatorChar}{Guid.NewGuid()}";
 

@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Finding;
 
-public sealed class FindByPrecedingSiblingContentAttributeTests : UITestFixture
+public sealed class FindByPrecedingSiblingContentAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void WithValue() =>

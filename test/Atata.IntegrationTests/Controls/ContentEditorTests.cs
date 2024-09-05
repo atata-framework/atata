@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class ContentEditorTests : UITestFixture
+public class ContentEditorTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Interact()

@@ -1,7 +1,7 @@
 ﻿namespace Atata.IntegrationTests;
 
 [TestFixture]
-public abstract class UITestFixture : UITestFixtureBase
+public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
 {
     protected virtual bool ReuseDriver => true;
 

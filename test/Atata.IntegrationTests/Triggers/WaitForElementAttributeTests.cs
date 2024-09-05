@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class WaitForElementAttributeTests : UITestFixture
+public class WaitForElementAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute_WithUntilMissingOrHidden() =>

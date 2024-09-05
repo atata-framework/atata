@@ -2,7 +2,7 @@
 
 namespace Atata.IntegrationTests.Controls;
 
-public class ControlTests : UITestFixture
+public class ControlTests : WebDriverSessionTestSuite
 {
     protected override bool ReuseDriver => false;
 
@@ -55,7 +55,7 @@ public class ControlTests : UITestFixture
             .TelInput.Blur()
             .ActiveControl.DomProperties.Value.Should.Not.Equal("123");
 
-    public class IsFocused : UITestFixture
+    public class IsFocused : WebDriverSessionTestSuite
     {
         [Test]
         public void AfterSet() =>
@@ -77,7 +77,7 @@ public class ControlTests : UITestFixture
                 .TelInput.IsFocused.Should.BeFalse();
     }
 
-    public class ComponentName : UITestFixture
+    public class ComponentName : WebDriverSessionTestSuite
     {
         [Test]
         public void FromPropertyName() =>

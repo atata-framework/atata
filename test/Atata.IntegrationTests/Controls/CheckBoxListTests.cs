@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class CheckBoxListTests : UITestFixture
+public class CheckBoxListTests : WebDriverSessionTestSuite
 {
     private CheckBoxListPage _page;
 

@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class PressEndAttributeTests : UITestFixture
+public class PressEndAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute()

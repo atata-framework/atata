@@ -3,7 +3,7 @@ using OpenQA.Selenium.Chrome;
 
 namespace Atata.IntegrationTests.Context;
 
-public class AtataContextBuilderTests : UITestFixtureBase
+public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
 {
     [Test]
     public void Build_WithoutDriver()

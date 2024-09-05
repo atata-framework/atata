@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Verification;
 
-public class ExpectToTests : UITestFixture
+public class ExpectToTests : WebDriverSessionTestSuite
 {
     private StubPage _page;
 

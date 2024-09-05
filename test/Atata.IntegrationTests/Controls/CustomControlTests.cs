@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class CustomControlTests : UITestFixture
+public class CustomControlTests : WebDriverSessionTestSuite
 {
     [Test]
     public void CustomDatePicker_WithFormat()

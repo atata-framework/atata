@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class OrdinaryPageTests : UITestFixture
+public class OrdinaryPageTests : WebDriverSessionTestSuite
 {
     [Test]
     public void WithoutName()

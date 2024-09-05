@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Events;
 
-public class DriverDeInitEventTests : UITestFixtureBase
+public class DriverDeInitEventTests : WebDriverSessionTestSuiteBase
 {
     private int _executionsCount;
 

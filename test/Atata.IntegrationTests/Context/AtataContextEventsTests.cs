@@ -2,7 +2,7 @@
 
 namespace Atata.IntegrationTests.Context;
 
-public class AtataContextEventsTests : UITestFixtureBase
+public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
 {
     [Test]
     public void Init()

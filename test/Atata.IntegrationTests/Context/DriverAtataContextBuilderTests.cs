@@ -2,7 +2,7 @@
 
 public static class DriverAtataContextBuilderTests
 {
-    public sealed class WithCreateRetries : UITestFixtureBase
+    public sealed class WithCreateRetries : WebDriverSessionTestSuiteBase
     {
         [Test]
         public void WhenFirstAttemptFails()
@@ -53,7 +53,7 @@ public static class DriverAtataContextBuilderTests
         }
     }
 
-    public sealed class WithInitialHealthCheck : UITestFixtureBase
+    public sealed class WithInitialHealthCheck : WebDriverSessionTestSuiteBase
     {
         [Test]
         public void WithFalse_WhenInitialHealthCheckFunctionIsSet()

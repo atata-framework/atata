@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.DataProvision;
 
-public class UriProviderTests : UITestFixture
+public class UriProviderTests : WebDriverSessionTestSuite
 {
     [Test]
     public void InComplex() =>

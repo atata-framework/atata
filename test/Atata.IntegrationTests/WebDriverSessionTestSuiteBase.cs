@@ -1,7 +1,7 @@
 ﻿namespace Atata.IntegrationTests;
 
 [TestFixture]
-public abstract class UITestFixtureBase : TestSuiteBase
+public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
 {
     public const int TestAppPort = 50549;
 

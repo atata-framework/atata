@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class ImageTests : UITestFixture
+public class ImageTests : WebDriverSessionTestSuite
 {
     private ImagePage _page;
 

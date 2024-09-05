@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class ReportExtensionsTests : UITestFixture
+public class ReportExtensionsTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Setup()

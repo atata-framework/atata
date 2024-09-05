@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.DataProvision;
 
-public class UIComponentVerificationProviderExtensionMethodTests : UITestFixture
+public class UIComponentVerificationProviderExtensionMethodTests : WebDriverSessionTestSuite
 {
     private FieldVerificationProvider<string, EditableField<string, FindingPage>, FindingPage> _visibleSutShould;
 

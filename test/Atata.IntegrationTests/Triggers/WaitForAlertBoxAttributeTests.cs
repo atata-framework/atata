@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class WaitForAlertBoxAttributeTests : UITestFixture
+public class WaitForAlertBoxAttributeTests : WebDriverSessionTestSuite
 {
     protected override bool ReuseDriver => false;
 

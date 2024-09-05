@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls.Inputs;
 
-public class InputTests : UITestFixture
+public class InputTests : WebDriverSessionTestSuite
 {
     private InputPage _page;
 

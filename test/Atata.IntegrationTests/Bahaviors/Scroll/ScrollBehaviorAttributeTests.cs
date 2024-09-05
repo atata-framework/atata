@@ -2,7 +2,7 @@
 
 namespace Atata.IntegrationTests.Bahaviors;
 
-public class ScrollBehaviorAttributeTests : UITestFixture
+public class ScrollBehaviorAttributeTests : WebDriverSessionTestSuite
 {
     private static TestCaseData[] Source =>
     [

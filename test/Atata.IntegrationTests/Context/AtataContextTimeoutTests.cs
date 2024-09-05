@@ -1,7 +1,7 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
 [Parallelizable(ParallelScope.None)]
-public class AtataContextTimeoutTests : UITestFixtureBase
+public class AtataContextTimeoutTests : WebDriverSessionTestSuiteBase
 {
     [Test]
     public void BaseRetryTimeout_ElementFind()

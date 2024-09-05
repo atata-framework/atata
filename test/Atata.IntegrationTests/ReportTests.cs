@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class ReportTests : UITestFixture
+public class ReportTests : WebDriverSessionTestSuite
 {
     [Test]
     public void BulkLog()
@@ -166,7 +166,7 @@ public class ReportTests : UITestFixture
             "^< TEST STEP");
     }
 
-    public class Screenshot : UITestFixtureBase
+    public class Screenshot : WebDriverSessionTestSuiteBase
     {
         [Test]
         public void ViewportVsFullPage()

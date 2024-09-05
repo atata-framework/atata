@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class UIComponentTests : UITestFixture
+public class UIComponentTests : WebDriverSessionTestSuite
 {
     [Test]
     public void ComponentLocation() =>
@@ -136,7 +136,7 @@ public class UIComponentTests : UITestFixture
         Go.To<InputPage>()
             .HiddenFileInput.Css["display"].Should.Be("none");
 
-    public class Wait : UITestFixture
+    public class Wait : WebDriverSessionTestSuite
     {
         private WaitingOnInitPage _page;
 
@@ -185,7 +185,7 @@ public class UIComponentTests : UITestFixture
                 .LoadingBlock.Should.AtOnce.BeVisible();
     }
 
-    public class Find : UITestFixture
+    public class Find : WebDriverSessionTestSuite
     {
         private const string TestName = "some control";
 
@@ -280,7 +280,7 @@ public class UIComponentTests : UITestFixture
                     .ValueOf(x => x.ComponentName).Should.Equal(TestName);
     }
 
-    public class FindAll : UITestFixture
+    public class FindAll : WebDriverSessionTestSuite
     {
         private const string TestName = "some list";
 

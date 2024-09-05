@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Verification;
 
-public class ShouldTests : UITestFixture
+public class ShouldTests : WebDriverSessionTestSuite
 {
     private const string Country1Name = "England";
 

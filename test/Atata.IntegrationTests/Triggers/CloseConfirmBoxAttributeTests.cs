@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class CloseConfirmBoxAttributeTests : UITestFixture
+public class CloseConfirmBoxAttributeTests : WebDriverSessionTestSuite
 {
     protected override bool ReuseDriver => false;
 

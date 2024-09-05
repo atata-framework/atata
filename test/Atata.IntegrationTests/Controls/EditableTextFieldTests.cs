@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class EditableTextFieldTests : UITestFixture
+public class EditableTextFieldTests : WebDriverSessionTestSuite
 {
     private EditableTextField<string, InputPage> _sut;
 

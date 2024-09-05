@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
-public class AtataContextWithoutDriverTests : UITestFixtureBase
+public class AtataContextWithoutDriverTests : WebDriverSessionTestSuiteBase
 {
     [Test]
     public void WhenDriverInitializationStageIsNone()

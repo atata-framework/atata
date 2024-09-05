@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class HierarchicalOrderedListTests : UITestFixture
+public class HierarchicalOrderedListTests : WebDriverSessionTestSuite
 {
     private ListPage _page;
 

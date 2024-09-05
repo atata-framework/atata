@@ -2,7 +2,7 @@
 
 public static class EditableFieldTests
 {
-    public class GetSet : UITestFixture
+    public class GetSet : WebDriverSessionTestSuite
     {
         [Test]
         public void WithValueGetFormatAttribute()

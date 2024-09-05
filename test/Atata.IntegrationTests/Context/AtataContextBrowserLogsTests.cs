@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
-public class AtataContextBrowserLogsTests : UITestFixtureBase
+public class AtataContextBrowserLogsTests : WebDriverSessionTestSuiteBase
 {
     [Test]
     public void Log()

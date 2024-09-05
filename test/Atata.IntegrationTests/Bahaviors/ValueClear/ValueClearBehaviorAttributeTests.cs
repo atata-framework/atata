@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Bahaviors;
 
-public class ValueClearBehaviorAttributeTests : UITestFixture
+public class ValueClearBehaviorAttributeTests : WebDriverSessionTestSuite
 {
     private static TestCaseData[] Source =>
     [

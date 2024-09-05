@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class WebDriverSessionTests : UITestFixture
+public class WebDriverSessionTests : WebDriverSessionTestSuite
 {
     protected override bool ReuseDriver => false;
 

@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Finding;
 
-public class FindingWithFindSettingsAttributeTests : UITestFixture
+public class FindingWithFindSettingsAttributeTests : WebDriverSessionTestSuite
 {
     private FindingWithSettingsPage _page;
 

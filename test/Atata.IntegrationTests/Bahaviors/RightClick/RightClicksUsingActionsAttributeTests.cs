@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Bahaviors;
 
-public class RightClicksUsingActionsAttributeTests : UITestFixture
+public class RightClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute()

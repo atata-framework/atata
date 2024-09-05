@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class InvokeMethodAttributeTests : UITestFixture
+public class InvokeMethodAttributeTests : WebDriverSessionTestSuite
 {
     private TriggersPage _page;
 

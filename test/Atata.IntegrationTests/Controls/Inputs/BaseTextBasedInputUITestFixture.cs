@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls.Inputs;
 
-public abstract class BaseTextBasedInputUITestFixture : UITestFixture
+public abstract class BaseTextBasedInputUITestFixture : WebDriverSessionTestSuite
 {
     private InputPage _page;
 

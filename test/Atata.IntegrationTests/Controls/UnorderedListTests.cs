@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class UnorderedListTests : UITestFixture
+public class UnorderedListTests : WebDriverSessionTestSuite
 {
     private ListPage _page;
 

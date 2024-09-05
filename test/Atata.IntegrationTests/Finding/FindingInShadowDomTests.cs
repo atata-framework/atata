@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Finding;
 
-public class FindingInShadowDomTests : UITestFixture
+public class FindingInShadowDomTests : WebDriverSessionTestSuite
 {
     private ShadowDomPage _page;
 

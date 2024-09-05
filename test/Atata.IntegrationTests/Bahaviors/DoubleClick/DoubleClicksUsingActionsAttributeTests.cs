@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Bahaviors;
 
-public class DoubleClicksUsingActionsAttributeTests : UITestFixture
+public class DoubleClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute()

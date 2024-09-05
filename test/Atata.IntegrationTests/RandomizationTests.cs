@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class RandomizationTests : UITestFixture
+public class RandomizationTests : WebDriverSessionTestSuite
 {
     private const int MaxTriesNumber = 100;
 

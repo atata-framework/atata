@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class WaitForScriptAttributeTests : UITestFixture
+public class WaitForScriptAttributeTests : WebDriverSessionTestSuite
 {
     private WaitingPage _page;
 

@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class RadioButtonTests : UITestFixture
+public class RadioButtonTests : WebDriverSessionTestSuite
 {
     private RadioButtonListPage _page;
 

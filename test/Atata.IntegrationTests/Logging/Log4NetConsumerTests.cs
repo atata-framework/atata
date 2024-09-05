@@ -4,7 +4,7 @@ using log4net.Core;
 
 namespace Atata.IntegrationTests.Logging;
 
-public class Log4NetConsumerTests : UITestFixtureBase
+public class Log4NetConsumerTests : WebDriverSessionTestSuiteBase
 {
     private const string InfoLoggerName = "InfoLogger";
 

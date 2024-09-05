@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Bahaviors;
 
-public class ClicksOnCellByIndexAttributeTests : UITestFixture
+public class ClicksOnCellByIndexAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute()

@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class LocalDateTimeInputTests : UITestFixture
+public class LocalDateTimeInputTests : WebDriverSessionTestSuite
 {
     private LocalDateTimeInputPage _page;
 

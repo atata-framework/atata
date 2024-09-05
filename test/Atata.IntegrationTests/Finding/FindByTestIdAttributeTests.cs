@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Finding;
 
-public class FindByTestIdAttributeTests : UITestFixtureBase
+public class FindByTestIdAttributeTests : WebDriverSessionTestSuiteBase
 {
     [Test]
     public void WithValue()

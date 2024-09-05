@@ -2,7 +2,7 @@
 
 namespace Atata.IntegrationTests.Bahaviors;
 
-public class HoverBehaviorAttributeTests : UITestFixture
+public class HoverBehaviorAttributeTests : WebDriverSessionTestSuite
 {
     private static TestCaseData[] Source =>
     [

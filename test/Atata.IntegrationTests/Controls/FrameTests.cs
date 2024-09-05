@@ -1,7 +1,7 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
 [Category("Unstable")]
-public class FrameTests : UITestFixture
+public class FrameTests : WebDriverSessionTestSuite
 {
     private FramePage _page;
 

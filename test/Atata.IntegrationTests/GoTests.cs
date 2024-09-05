@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class GoTests : UITestFixture
+public class GoTests : WebDriverSessionTestSuite
 {
     protected override bool ReuseDriver => false;
 
@@ -474,7 +474,7 @@ public class GoTests : UITestFixture
         Assert.That(WebDriverSession.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
     }
 
-    public class WithoutBaseUrl : UITestFixtureBase
+    public class WithoutBaseUrl : WebDriverSessionTestSuiteBase
     {
         [SetUp]
         public void SetUp() =>

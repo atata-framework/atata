@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Verification;
 
-public class VerificationTests : UITestFixture
+public class VerificationTests : WebDriverSessionTestSuite
 {
     private WaitingPage _page;
 

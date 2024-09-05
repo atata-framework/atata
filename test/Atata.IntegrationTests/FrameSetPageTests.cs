@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class FrameSetPageTests : UITestFixture
+public class FrameSetPageTests : WebDriverSessionTestSuite
 {
     private FrameSetPage _page;
 

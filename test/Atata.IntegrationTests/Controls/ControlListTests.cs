@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class ControlListTests : UITestFixture
+public class ControlListTests : WebDriverSessionTestSuite
 {
     [Test]
     public void OfTextInput()
@@ -172,7 +172,7 @@ public class ControlListTests : UITestFixture
                 .Name.Should.Equal(dictionary["Name"]);
     }
 
-    public class UsesScopeCache : UITestFixture
+    public class UsesScopeCache : WebDriverSessionTestSuite
     {
         private ControlList<TablePage.NumberedTableRow, TablePage> _sut;
 
@@ -307,7 +307,7 @@ public class ControlListTests : UITestFixture
         }
     }
 
-    public class UsesValueCache : UITestFixture
+    public class UsesValueCache : WebDriverSessionTestSuite
     {
         private ControlList<TablePage.NumberedTableRow, TablePage> _sut;
 
@@ -419,7 +419,7 @@ public class ControlListTests : UITestFixture
         }
     }
 
-    public class UsesCache : UITestFixture
+    public class UsesCache : WebDriverSessionTestSuite
     {
         private ControlList<TablePage.NumberedTableRow, TablePage> _sut;
 

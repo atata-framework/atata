@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class VerifyMissingAttributeTests : UITestFixture
+public class VerifyMissingAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute_WhenOnInit() =>

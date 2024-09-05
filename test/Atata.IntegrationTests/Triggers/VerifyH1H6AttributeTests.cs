@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class VerifyH1H6AttributeTests : UITestFixture
+public class VerifyH1H6AttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute()

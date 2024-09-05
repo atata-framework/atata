@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Finding;
 
-public class FindingInAncestorTests : UITestFixture
+public class FindingInAncestorTests : WebDriverSessionTestSuite
 {
     private FindingInAncestorPage _page;
 

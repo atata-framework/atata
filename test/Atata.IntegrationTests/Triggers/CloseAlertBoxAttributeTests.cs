@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class CloseAlertBoxAttributeTests : UITestFixture
+public class CloseAlertBoxAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Execute()

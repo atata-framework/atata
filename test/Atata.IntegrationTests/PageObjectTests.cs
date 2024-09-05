@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class PageObjectTests : UITestFixture
+public class PageObjectTests : WebDriverSessionTestSuite
 {
     [Test]
     public void RefreshPage() =>

@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Bahaviors;
 
-public class ClicksUsingActionsAttributeTests : UITestFixture
+public class ClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
 {
     private Table<ClickPage.ClickableCellsTableRow, ClickPage> _table;
 

@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Triggers;
 
-public class PressHomeAttributeTests : UITestFixture
+public class PressHomeAttributeTests : WebDriverSessionTestSuite
 {
     [Test]
     [Platform(Exclude = Platforms.MacOS)]

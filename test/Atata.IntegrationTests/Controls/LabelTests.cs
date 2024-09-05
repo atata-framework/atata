@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class LabelTests : UITestFixture
+public class LabelTests : WebDriverSessionTestSuite
 {
     private LabelPage _page;
 

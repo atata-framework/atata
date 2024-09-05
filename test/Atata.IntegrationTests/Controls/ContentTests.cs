@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-public class ContentTests : UITestFixture
+public class ContentTests : WebDriverSessionTestSuite
 {
     private ContentPage _page;
 

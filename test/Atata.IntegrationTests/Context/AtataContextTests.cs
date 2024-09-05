@@ -5,7 +5,7 @@ namespace Atata.IntegrationTests.Context;
 
 public static class AtataContextTests
 {
-    public class Artifacts : UITestFixture
+    public class Artifacts : WebDriverSessionTestSuite
     {
         [Test]
         public void SubDirectory_Should_Not_Exist() =>
@@ -144,7 +144,7 @@ public static class AtataContextTests
                 .ValueOf(x => x["key1"]).Should.Be("val1");
         }
 
-        public class FillTemplateString : UITestFixtureBase
+        public class FillTemplateString : WebDriverSessionTestSuiteBase
         {
             private Subject<AtataContext> _sut;
 
@@ -173,7 +173,7 @@ public static class AtataContextTests
     }
 
 #warning Move to some WebDriverSessionTests.
-    public class TakeScreenshot : UITestFixtureBase
+    public class TakeScreenshot : WebDriverSessionTestSuiteBase
     {
         [Test]
         public void WhenNavigated()
@@ -213,7 +213,7 @@ public static class AtataContextTests
         }
     }
 
-    public class TakePageSnapshot : UITestFixtureBase
+    public class TakePageSnapshot : WebDriverSessionTestSuiteBase
     {
         [Test]
         public void WhenNavigated()
