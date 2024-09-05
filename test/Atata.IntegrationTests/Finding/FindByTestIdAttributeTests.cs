@@ -5,7 +5,7 @@ public class FindByTestIdAttributeTests : UITestFixtureBase
     [Test]
     public void WithValue()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Build();
 
         Go.To<FindingPage>()
@@ -16,7 +16,7 @@ public class FindByTestIdAttributeTests : UITestFixtureBase
     [Test]
     public void WithoutArguments()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Build();
 
         Go.To<FindingPage>()
@@ -27,7 +27,7 @@ public class FindByTestIdAttributeTests : UITestFixtureBase
     [Test]
     public void WhenDomTestIdAttributePropertiesAreConfigured()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseDomTestIdAttributeName("data-autoid")
             .UseDomTestIdAttributeDefaultCase(TermCase.PascalKebab)
             .Build();

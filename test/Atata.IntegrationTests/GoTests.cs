@@ -270,7 +270,7 @@ public class GoTests : UITestFixture
         AtataContext.Current.DisposeDriver = false;
         AtataContext.Current.Dispose();
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseDriver(driver)
             .Build();
 
@@ -478,7 +478,7 @@ public class GoTests : UITestFixture
     {
         [SetUp]
         public void SetUp() =>
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .UseBaseUrl(null)
                 .Build();
 

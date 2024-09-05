@@ -11,7 +11,7 @@ public class DriverDeInitEventTests : UITestFixtureBase
     {
         _executionsCount = 0;
 
-        _context = ConfigureBaseAtataContext()
+        _context = ConfigureAtataContextWithWebDriverSession()
             .EventSubscriptions.Add<DriverDeInitEvent>((eventData, _) =>
             {
                 eventData.Driver.Should().NotBeNull().And.Be(_context.Driver);

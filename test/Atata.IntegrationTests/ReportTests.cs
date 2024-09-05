@@ -171,7 +171,7 @@ public class ReportTests : UITestFixture
         [Test]
         public void ViewportVsFullPage()
         {
-            var context = ConfigureBaseAtataContext().Build();
+            var context = ConfigureAtataContextWithWebDriverSession().Build();
 
             var page = context.GetWebSession().Go.To<ScrollablePage>();
 
@@ -201,7 +201,7 @@ public class ReportTests : UITestFixture
         {
             ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsAtataContextBuilder> screenshotsConfigurationAction)
             {
-                var builder = ConfigureBaseAtataContext();
+                var builder = ConfigureAtataContextWithWebDriverSession();
                 screenshotsConfigurationAction?.Invoke(builder.Screenshots);
                 using var context = builder.Build();
 
@@ -223,7 +223,7 @@ public class ReportTests : UITestFixture
         [Test]
         public void FilesAndLogEntries()
         {
-            ConfigureBaseAtataContext().Build();
+            ConfigureAtataContextWithWebDriverSession().Build();
 
             Go.To(new OrdinaryPage("Test"))
                 .Report.Screenshot()

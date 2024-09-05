@@ -10,7 +10,7 @@ public abstract class UITestFixture : UITestFixtureBase
     [SetUp]
     public void SetUp()
     {
-        AtataContextBuilder contextBuilder = ConfigureBaseAtataContext();
+        AtataContextBuilder contextBuilder = ConfigureAtataContextWithWebDriverSession();
 
         if (ReuseDriver)
         {

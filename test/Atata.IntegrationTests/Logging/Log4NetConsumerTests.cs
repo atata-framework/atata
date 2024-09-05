@@ -33,7 +33,7 @@ public class Log4NetConsumerTests : UITestFixtureBase
     {
         XmlConfigurator.Configure(ConfigFileInfo);
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .LogConsumers.AddLog4Net()
             .Build();
 
@@ -54,7 +54,7 @@ public class Log4NetConsumerTests : UITestFixtureBase
         var logRepository = log4net.LogManager.CreateRepository(Guid.NewGuid().ToString());
         XmlConfigurator.Configure(logRepository, ConfigFileInfo);
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .LogConsumers.AddLog4Net(logRepository.Name, InfoLoggerName)
             .Build();
 
@@ -82,7 +82,7 @@ public class Log4NetConsumerTests : UITestFixtureBase
         string repositoryName = "MissingRepository";
 
         var exception = Assert.Throws<LogException>(() =>
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .LogConsumers.AddLog4Net(repositoryName, InfoLoggerName)
                 .Build());
 
@@ -94,7 +94,7 @@ public class Log4NetConsumerTests : UITestFixtureBase
     {
         var repository = log4net.LogManager.CreateRepository(Guid.NewGuid().ToString());
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .LogConsumers.AddLog4Net(repository.Name, InfoLoggerName)
             .Build();
     }

@@ -6,7 +6,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
     [Test]
     public void BaseRetryTimeout_ElementFind()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(2))
             .Build();
 
@@ -19,7 +19,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
     [Test]
     public void BaseRetryTimeout_Waiting()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(2))
             .Build();
 
@@ -32,7 +32,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
     [Test]
     public void BaseRetryTimeout_Verification()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(2))
             .Build();
 
@@ -46,7 +46,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
     [Test]
     public void ElementFindTimeout()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(1))
             .UseElementFindTimeout(TimeSpan.FromSeconds(3))
             .Build();
@@ -60,7 +60,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
     [Test]
     public void WaitingTimeout()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(1))
             .UseWaitingTimeout(TimeSpan.FromSeconds(3))
             .Build();
@@ -74,7 +74,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
     [Test]
     public void VerificationTimeout_ForControl()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(1))
             .UseVerificationTimeout(TimeSpan.FromSeconds(3))
             .Build();
@@ -89,7 +89,7 @@ public class AtataContextTimeoutTests : UITestFixtureBase
     [Test]
     public void VerificationTimeout_ForValueProvider()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseBaseRetryTimeout(TimeSpan.FromSeconds(1))
             .UseVerificationTimeout(TimeSpan.FromSeconds(3))
             .Build();

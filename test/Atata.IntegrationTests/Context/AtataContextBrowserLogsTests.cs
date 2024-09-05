@@ -5,7 +5,7 @@ public class AtataContextBrowserLogsTests : UITestFixtureBase
     [Test]
     public void Log()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .BrowserLogs.UseLog()
             .Build();
 
@@ -15,7 +15,7 @@ public class AtataContextBrowserLogsTests : UITestFixtureBase
     [Test]
     public void Log_AfterRestartDriver()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .BrowserLogs.UseLog()
             .Build();
         Go.To<OrdinaryPage>(url: "/input");
@@ -27,7 +27,7 @@ public class AtataContextBrowserLogsTests : UITestFixtureBase
     [Test]
     public void UseMinLevelOfWarning_Warn()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .BrowserLogs.UseMinLevelOfWarning(LogLevel.Warn)
             .Build();
         Go.To<OrdinaryPage>(url: "/browserlogs");
@@ -51,7 +51,7 @@ public class AtataContextBrowserLogsTests : UITestFixtureBase
     [Test]
     public void UseMinLevelOfWarning_Error()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .BrowserLogs.UseMinLevelOfWarning(LogLevel.Error)
             .Build();
         Go.To<OrdinaryPage>(url: "/browserlogs")

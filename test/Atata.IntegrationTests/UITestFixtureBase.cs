@@ -19,13 +19,19 @@ public abstract class UITestFixtureBase : TestSuiteBase
         "disable-search-engine-choice-screen"
     ];
 
-    protected AtataContextBuilder ConfigureBaseAtataContext() =>
-        ConfigureSessionlessAtataContext()
+    protected AtataContextBuilder ConfigureAtataContextWithWebDriverSession()
+    {
+        AtataContextBuilder atataContextBuilder = ConfigureSessionlessAtataContext();
+
+        atataContextBuilder.Sessions.AddWebDriver(x => x
+            .UseBaseUrl(BaseUrl)
             .UseChrome()
                 .WithArguments(ChromeArguments)
                 .WithPortsToIgnore(_portsToIgnore)
-                .WithInitialHealthCheck()
-            .UseBaseUrl(BaseUrl);
+                .WithInitialHealthCheck());
+
+        return atataContextBuilder;
+    }
 
     protected static void SetAndVerifyValues<T, TPage>(EditableField<T, TPage> control, params T[] values)
         where TPage : PageObject<TPage>

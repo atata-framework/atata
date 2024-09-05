@@ -15,7 +15,7 @@ public class AtataContextArtifactsRootTests : UITestFixtureBase
 
     [SetUp]
     public void SetUp() =>
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .UseDriverInitializationStage(AtataContextDriverInitializationStage.None)
             .Build();
 

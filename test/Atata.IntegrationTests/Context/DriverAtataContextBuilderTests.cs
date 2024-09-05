@@ -9,7 +9,7 @@ public static class DriverAtataContextBuilderTests
         {
             bool shouldThrow = true;
 
-            var context = ConfigureBaseAtataContext()
+            var context = ConfigureAtataContextWithWebDriverSession()
                 .UseDriver(() =>
                 {
                     if (shouldThrow)
@@ -34,7 +34,7 @@ public static class DriverAtataContextBuilderTests
         public void WhenAllAttemptsFail(int retries)
         {
             AssertThrowsWithInnerException<WebDriverInitializationException, InvalidOperationException>(() =>
-                ConfigureBaseAtataContext()
+                ConfigureAtataContextWithWebDriverSession()
                     .UseDriver(() => throw new InvalidOperationException("Fail."))
                         .WithCreateRetries(retries)
                     .Build());
@@ -60,7 +60,7 @@ public static class DriverAtataContextBuilderTests
         {
             var checkFunctionMock = new Mock<Func<IWebDriver, bool>>();
 
-            var context = ConfigureBaseAtataContext()
+            var context = ConfigureAtataContextWithWebDriverSession()
                 .UseFakeDriver()
                     .WithInitialHealthCheck(false)
                     .WithInitialHealthCheckFunction(checkFunctionMock.Object)
@@ -73,7 +73,7 @@ public static class DriverAtataContextBuilderTests
         [Test]
         public void WhenCheckReturnsTrue()
         {
-            var context = ConfigureBaseAtataContext()
+            var context = ConfigureAtataContextWithWebDriverSession()
                 .UseFakeDriver()
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ => true)
@@ -88,7 +88,7 @@ public static class DriverAtataContextBuilderTests
         {
             bool shouldThrow = true;
 
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .UseFakeDriver()
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ =>
@@ -113,7 +113,7 @@ public static class DriverAtataContextBuilderTests
         {
             int countOfReturnedFalse = 0;
 
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .UseFakeDriver()
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ =>
@@ -143,7 +143,7 @@ public static class DriverAtataContextBuilderTests
         public void WhenAllChecksThrowException_WithCreateRetries(int retries)
         {
             AssertThrowsWithInnerException<WebDriverInitializationException, InvalidOperationException>(() =>
-                ConfigureBaseAtataContext()
+                ConfigureAtataContextWithWebDriverSession()
                     .UseFakeDriver()
                         .WithCreateRetries(retries)
                         .WithInitialHealthCheck()

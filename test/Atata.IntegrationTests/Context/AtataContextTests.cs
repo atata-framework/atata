@@ -178,7 +178,7 @@ public static class AtataContextTests
         [Test]
         public void WhenNavigated()
         {
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .Build();
             Go.To<InputPage>();
 
@@ -190,7 +190,7 @@ public static class AtataContextTests
         [Test]
         public void WhenNoNavigation()
         {
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .Build();
 
             WebSession.Current.TakeScreenshot();
@@ -201,7 +201,7 @@ public static class AtataContextTests
         [Test]
         public void WhenThrows()
         {
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .Screenshots.UseStrategy(Mock.Of<IScreenshotStrategy<WebDriverSession>>(MockBehavior.Strict))
                 .Build();
             Go.To<InputPage>();
@@ -218,7 +218,7 @@ public static class AtataContextTests
         [Test]
         public void WhenNavigated()
         {
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .Build();
             Go.To<InputPage>();
 
@@ -230,7 +230,7 @@ public static class AtataContextTests
         [Test]
         public void WhenNoNavigation()
         {
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .Build();
 
             WebSession.Current.TakePageSnapshot();
@@ -241,7 +241,7 @@ public static class AtataContextTests
         [Test]
         public void WhenThrows()
         {
-            ConfigureBaseAtataContext()
+            ConfigureAtataContextWithWebDriverSession()
                 .PageSnapshots.UseStrategy(Mock.Of<IPageSnapshotStrategy<WebDriverSession>>(MockBehavior.Strict))
                 .Build();
             Go.To<InputPage>();

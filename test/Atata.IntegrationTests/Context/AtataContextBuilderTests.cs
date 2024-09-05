@@ -77,7 +77,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void UseDisposeDriver_WithTrue()
     {
-        var context = ConfigureBaseAtataContext()
+        var context = ConfigureAtataContextWithWebDriverSession()
             .UseDisposeDriver(true)
             .Build();
         var driver = context.Driver;
@@ -91,7 +91,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void UseDisposeDriver_WithFalse()
     {
-        var context = ConfigureBaseAtataContext()
+        var context = ConfigureAtataContextWithWebDriverSession()
             .UseDisposeDriver(false)
             .Build();
         var driver = context.GetWebDriverSession().Driver;
@@ -107,7 +107,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Global()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Global.Add(
                 new FindByContentAttribute("_missing_")
                 {
@@ -127,7 +127,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Assembly()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Assembly(Assembly.GetAssembly(GetType())).Add(
                 new FindByContentAttribute("_missing_")
                 {
@@ -149,7 +149,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     {
         bool isDelegateInvoked = false;
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<BasicControlsPage>().Add(
                 new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
             .Build();
@@ -164,7 +164,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     {
         bool isDelegateInvoked = false;
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component(typeof(Page<>)).Add(
                 new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
             .Build();
@@ -179,7 +179,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     {
         bool isDelegateInvoked = false;
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<TablePage>().Add(
                 new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
             .Build();
@@ -192,7 +192,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Component_PageObject_TargetingChild()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<BasicControlsPage>().Add(
                 new FindByContentAttribute("_missing_")
                 {
@@ -210,7 +210,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Component_Control_Generic()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<Button<BasicControlsPage>>().Add(
                 new FindByContentAttribute("_missing_"),
                 new FindFirstAttribute())
@@ -222,7 +222,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Component_Control_Generic_DoesNotApply()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<Button<OrdinaryPage>>().Add(
                 new FindByContentAttribute("_missing_"),
                 new FindFirstAttribute())
@@ -234,7 +234,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Component_Control_Type_Generic()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component(typeof(Button<>)).Add(
                 new FindByContentAttribute("_missing_"),
                 new FindFirstAttribute())
@@ -246,7 +246,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Component_Control_Type_NonGeneric()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component(typeof(Button<BasicControlsPage>)).Add(
                 new FindByContentAttribute("_missing_"),
                 new FindFirstAttribute())
@@ -258,7 +258,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Component_Control_TypeName()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component("button").Add(
                 new FindByContentAttribute("_missing_"),
                 new FindFirstAttribute())
@@ -270,7 +270,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Property_Expression()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<BasicControlsPage>()
                 .Property(x => x.MissingButtonControl).Add(
                     new FindByContentAttribute("_missing_"),
@@ -283,7 +283,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Property_Name()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<BasicControlsPage>()
                 .Property(nameof(BasicControlsPage.MissingButtonControl)).Add(
                     new FindByContentAttribute("_missing_"),
@@ -296,7 +296,7 @@ public class AtataContextBuilderTests : UITestFixtureBase
     [Test]
     public void Attributes_Property_Name_DoesNotApply()
     {
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .Attributes.Component<BasicControlsPage>()
                 .Property("fwefwefwe").Add(new FindFirstAttribute())
             .Build();

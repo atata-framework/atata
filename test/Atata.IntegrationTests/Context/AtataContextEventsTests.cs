@@ -9,7 +9,7 @@ public class AtataContextEventsTests : UITestFixtureBase
     {
         int executionsCount = 0;
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .EventSubscriptions.Add<AtataContextInitStartedEvent>((eventData, context) =>
             {
                 eventData.Should().NotBeNull();
@@ -44,7 +44,7 @@ public class AtataContextEventsTests : UITestFixtureBase
     {
         int executionsCount = 0;
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .EventSubscriptions.Add<AtataContextInitCompletedEvent>((eventData, context) =>
             {
                 eventData.Should().NotBeNull();
@@ -65,7 +65,7 @@ public class AtataContextEventsTests : UITestFixtureBase
     {
         int executionsCount = 0;
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .EventSubscriptions.Add<DriverInitEvent>((eventData, context) =>
             {
                 eventData.Should().NotBeNull();
@@ -87,7 +87,7 @@ public class AtataContextEventsTests : UITestFixtureBase
         int executionsCount = 0;
         IWebDriver initialDriver = null;
 
-        ConfigureBaseAtataContext()
+        ConfigureAtataContextWithWebDriverSession()
             .EventSubscriptions.Add<DriverInitEvent>(eventData =>
             {
                 if (executionsCount == 0)
