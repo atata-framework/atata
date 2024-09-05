@@ -42,24 +42,8 @@ public class WebDriverSession : WebSession, IDisposable
     /// <summary>
     /// Gets the driver.
     /// </summary>
-    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public IWebDriver Driver
-    {
-        get
-        {
-            switch (DriverInitializationStage)
-            {
-                case AtataContextDriverInitializationStage.Build:
-                    return _driver;
-                case AtataContextDriverInitializationStage.OnDemand:
-                    if (_driver is null)
-                        InitDriver();
-                    return _driver;
-                default:
-                    return null;
-            }
-        }
-    }
+    public IWebDriver Driver =>
+        _driver;
 
     /// <summary>
     /// Gets a value indicating whether this instance has <see cref="Driver"/> instance.
@@ -87,7 +71,13 @@ public class WebDriverSession : WebSession, IDisposable
     /// </summary>
     public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache { get; } = new();
 
-    internal void InitDriver() =>
+    protected internal override Task StartAsync(CancellationToken cancellationToken = default)
+    {
+        InitDriver();
+        return Task.CompletedTask;
+    }
+
+    private void InitDriver() =>
         Log.ExecuteSection(
             new LogSection("Initialize Driver", LogLevel.Trace),
             () =>

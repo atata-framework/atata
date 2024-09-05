@@ -82,8 +82,7 @@ public abstract class AtataSession
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
 
-    public Task StartAsync(CancellationToken cancellationToken = default) =>
-        Task.CompletedTask;
+    protected internal abstract Task StartAsync(CancellationToken cancellationToken = default);
 
     internal void AssignToOwnerContext(AtataContext context)
     {
