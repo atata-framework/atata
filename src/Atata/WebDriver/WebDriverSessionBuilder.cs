@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Chromium;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
@@ -64,6 +65,11 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// Gets the page snapshots configuration options.
     /// </summary>
     public PageSnapshotsWebDriverSessionOptions PageSnapshots { get; private set; } = new();
+
+    /// <summary>
+    /// Gets the configuration of browser logs monitoring and handling.
+    /// </summary>
+    public BrowserLogsBuilder BrowserLogs { get; private set; } = new();
 
     /// <summary>
     /// Gets the driver factory by the specified alias.
@@ -356,6 +362,8 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         session.DisposeDriver = DisposeDriver;
 
         session.DefaultControlVisibility = DefaultControlVisibility;
+
+        InitBrowserLogMonitoring(session);
     }
 
     protected override IScreenshotTaker CreateScreenshotTaker(WebDriverSession session) =>
@@ -379,5 +387,75 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         copy.DriverFactories = [.. DriverFactories];
         copy.Screenshots = Screenshots.Clone();
         copy.PageSnapshots = PageSnapshots.Clone();
+        copy.BrowserLogs = BrowserLogs.Clone();
+    }
+
+    private void InitBrowserLogMonitoring(WebDriverSession session)
+    {
+        if (BrowserLogs.HasPropertiesToUse)
+        {
+            if (session.DriverFactory is ChromeDriverBuilder chromeBuilder)
+            {
+                chromeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+            else if (session.DriverFactory is EdgeDriverBuilder edgeBuilder)
+            {
+                edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+            else if (session.DriverFactory is RemoteDriverBuilder remoteBuilder)
+            {
+                remoteBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+
+            List<IBrowserLogHandler> browserLogHandlers = new(2);
+
+            if (BrowserLogs.Log)
+                browserLogHandlers.Add(new LoggingBrowserLogHandler(session.Log));
+
+            if (BrowserLogs.MinLevelOfWarning is not null)
+                browserLogHandlers.Add(new WarningBrowserLogHandler(session, BrowserLogs.MinLevelOfWarning.Value));
+
+            session.EventBus.Subscribe<DriverInitEvent>(
+                (e, _) => EnableBrowserLogMonitoringOnDriverInitEvent(e.Driver, session, browserLogHandlers));
+        }
+    }
+
+    private static void EnableBrowserLogMonitoringOnDriverInitEvent(
+        IWebDriver driver,
+        WebDriverSession session,
+        IEnumerable<IBrowserLogHandler> browserLogHandlers)
+    {
+        if (driver is RemoteWebDriver remoteWebDriver)
+            remoteWebDriver.RegisterCustomDriverCommand(
+                DriverCommand.GetLog,
+                new HttpCommandInfo(HttpCommandInfo.PostCommand, "/session/{sessionId}/se/log"));
+
+        if (driver is ChromiumDriver or RemoteWebDriver)
+        {
+            ChromiumBrowserLogMonitoringStrategy logMonitoringStrategy = new(driver, browserLogHandlers, AtataContext.GlobalProperties.TimeZone);
+
+            try
+            {
+                logMonitoringStrategy.Start();
+            }
+            catch (Exception exception)
+            {
+                session.Log.Warn(exception, "Browser logs monitoring failed to enable.");
+                return;
+            }
+
+            object driverDeInitEventSubscription = null;
+
+            var eventBus = session.EventBus;
+            driverDeInitEventSubscription = eventBus.Subscribe<DriverDeInitEvent>(() =>
+            {
+                logMonitoringStrategy.Stop();
+                eventBus.Unsubscribe(driverDeInitEventSubscription);
+            });
+        }
+        else
+        {
+            session.Log.Warn("Browser logs monitoring cannot be enabled. The feature is currently only available for Chrome and Edge.");
+        }
     }
 }

@@ -5,9 +5,8 @@ public class AtataContextBrowserLogsTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Log()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .BrowserLogs.UseLog()
-            .Build();
+        BuildAtataContextWithWebDriverSession(
+            x => x.BrowserLogs.UseLog());
 
         GoToTestPageAndVerifyLogs();
     }
@@ -15,9 +14,8 @@ public class AtataContextBrowserLogsTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Log_AfterRestartDriver()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .BrowserLogs.UseLog()
-            .Build();
+        BuildAtataContextWithWebDriverSession(
+            x => x.BrowserLogs.UseLog());
         Go.To<OrdinaryPage>(url: "/input");
         AtataContext.Current.RestartDriver();
 
@@ -27,9 +25,8 @@ public class AtataContextBrowserLogsTests : WebDriverSessionTestSuiteBase
     [Test]
     public void UseMinLevelOfWarning_Warn()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .BrowserLogs.UseMinLevelOfWarning(LogLevel.Warn)
-            .Build();
+        BuildAtataContextWithWebDriverSession(
+            x => x.BrowserLogs.UseMinLevelOfWarning(LogLevel.Warn));
         Go.To<OrdinaryPage>(url: "/browserlogs");
 
         Subject.Invoking(() => AtataContext.Current.Dispose())
@@ -51,9 +48,8 @@ public class AtataContextBrowserLogsTests : WebDriverSessionTestSuiteBase
     [Test]
     public void UseMinLevelOfWarning_Error()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .BrowserLogs.UseMinLevelOfWarning(LogLevel.Error)
-            .Build();
+        BuildAtataContextWithWebDriverSession(
+            x => x.BrowserLogs.UseMinLevelOfWarning(LogLevel.Error));
         Go.To<OrdinaryPage>(url: "/browserlogs")
             .WaitSeconds(1);
 

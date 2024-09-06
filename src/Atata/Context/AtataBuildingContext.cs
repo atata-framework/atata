@@ -184,11 +184,6 @@ public class AtataBuildingContext : ICloneable
     /// </summary>
     public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; set; } = AtataAssertionFailureReportStrategy.Instance;
 
-    /// <summary>
-    /// Gets the configuration of browser logs monitoring and handling.
-    /// </summary>
-    public BrowserLogsConfiguration BrowserLogs { get; private set; } = new BrowserLogsConfiguration();
-
     /// <inheritdoc cref="Clone"/>
     object ICloneable.Clone() =>
         Clone();
@@ -209,7 +204,6 @@ public class AtataBuildingContext : ICloneable
         copy.EventSubscriptions = [.. EventSubscriptions];
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
-        copy.BrowserLogs = BrowserLogs.Clone();
 
         return copy;
     }
