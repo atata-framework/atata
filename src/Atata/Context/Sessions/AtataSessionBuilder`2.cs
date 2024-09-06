@@ -186,12 +186,12 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         TSession session = new();
 
         session.AssignToOwnerContext(context);
-        ConfigureSession(session, context);
+        ConfigureSession(session);
 
         return session;
     }
 
-    protected virtual void ConfigureSession(TSession session, AtataContext context)
+    protected virtual void ConfigureSession(TSession session)
     {
         foreach (var variable in Variables)
             session.Variables.SetInitialValue(variable.Key, variable.Value);

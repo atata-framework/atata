@@ -102,9 +102,9 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
         return (TBuilder)this;
     }
 
-    protected override void ConfigureSession(TSession session, AtataContext context)
+    protected override void ConfigureSession(TSession session)
     {
-        base.ConfigureSession(session, context);
+        base.ConfigureSession(session);
 
         session.BaseUrl = BaseUrl;
         session.ElementFindTimeoutOptional = ElementFindTimeout;

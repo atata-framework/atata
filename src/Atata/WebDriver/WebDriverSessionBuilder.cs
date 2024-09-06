@@ -354,9 +354,9 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         return this;
     }
 
-    protected override void ConfigureSession(WebDriverSession session, AtataContext context)
+    protected override void ConfigureSession(WebDriverSession session)
     {
-        base.ConfigureSession(session, context);
+        base.ConfigureSession(session);
 
         session.DriverFactory = DriverFactoryToUse ?? DriverFactories.LastOrDefault();
         session.DisposeDriver = DisposeDriver;
