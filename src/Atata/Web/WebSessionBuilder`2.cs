@@ -104,6 +104,8 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
 
     protected override void ConfigureSession(TSession session, AtataContext context)
     {
+        base.ConfigureSession(session, context);
+
         session.BaseUrl = BaseUrl;
         session.ElementFindTimeoutOptional = ElementFindTimeout;
         session.ElementFindRetryIntervalOptional = ElementFindRetryInterval;
