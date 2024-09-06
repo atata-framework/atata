@@ -183,12 +183,23 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
     public AtataSession Build(AtataContext context)
     {
+        ValidateConfiguration();
+
         TSession session = new();
 
         session.AssignToOwnerContext(context);
         ConfigureSession(session);
 
         return session;
+    }
+
+    /// <summary>
+    /// Validates the configuration.
+    /// In case of invalid configuration the <see cref="AtataSessionBuilderValidationException"/>
+    /// can be thrown.
+    /// </summary>
+    protected virtual void ValidateConfiguration()
+    {
     }
 
     protected virtual void ConfigureSession(TSession session)

@@ -622,8 +622,6 @@ public class AtataContextBuilder
     /// <returns>The created <see cref="AtataContext"/> instance.</returns>
     public AtataContext Build()
     {
-        ValidateBuildingContextBeforeBuild();
-
         AtataContext context = new AtataContext();
         LogManager logManager = CreateLogManager(context);
 
@@ -742,18 +740,6 @@ public class AtataContextBuilder
             CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
 
         context.Log.Trace($"Set: Culture={culture.Name}");
-    }
-
-    private void ValidateBuildingContextBeforeBuild()
-    {
-        if (BuildingContext.DriverInitializationStage == AtataContextDriverInitializationStage.Build
-            && BuildingContext.DriverFactoryToUse == null
-            && BuildingContext.DriverFactories.Count == 0)
-        {
-            throw new InvalidOperationException(
-                $"Cannot build {nameof(AtataContext)} as no driver is specified. " +
-                $"Use one of \"Use*\" methods to specify the driver to use, e.g.:AtataContext.Configure().UseChrome().Build();");
-        }
     }
 
     protected internal IObjectMapper CreateObjectMapper()

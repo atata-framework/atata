@@ -390,6 +390,18 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         copy.BrowserLogs = BrowserLogs.Clone();
     }
 
+    protected override void ValidateConfiguration()
+    {
+        base.ValidateConfiguration();
+
+        if (DriverFactoryToUse is null && DriverFactories.Count == 0)
+        {
+            throw new AtataSessionBuilderValidationException(
+                $"Cannot build {nameof(WebDriverSession)} as no driver is specified. " +
+                $"Use one of \"Use*\" methods to specify the driver to use, e.g.: UseChrome().");
+        }
+    }
+
     private void InitBrowserLogMonitoring(WebDriverSession session)
     {
         if (BrowserLogs.HasPropertiesToUse)
