@@ -17,9 +17,10 @@ public abstract class AtataSession
     public ILogManager Log { get; private set; }
 
     /// <summary>
-    /// Gets the event bus, which can used to subscribe to and publish events.
+    /// Gets the event bus of session,
+    /// which can used to subscribe to and publish events.
     /// </summary>
-    protected IEventBus EventBus => Context.EventBus;
+    public IEventBus EventBus { get; internal set; }
 
     public VariableHierarchicalDictionary Variables { get; private set; }
 

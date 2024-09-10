@@ -27,7 +27,7 @@ public class AtataContextBuilder
     /// Gets the builder of event subscriptions,
     /// which provides the methods to subscribe to Atata and custom events.
     /// </summary>
-    public EventSubscriptionsAtataContextBuilder EventSubscriptions => new(BuildingContext);
+    public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new();
 
     /// <summary>
     /// Gets the builder of log consumers,
@@ -534,26 +534,30 @@ public class AtataContextBuilder
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
     /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/> of <see cref="LogConsumers"/> property</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.LogNUnitError"/> of <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakeScreenshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakePageSnapshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.AddArtifactsToNUnitTestContext"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsBuilderExtensions.LogNUnitError(EventSubscriptionsBuilder)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError(EventSubscriptionsBuilder, string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError(EventSubscriptionsBuilder, string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsBuilderExtensions.AddArtifactsToNUnitTestContext(EventSubscriptionsBuilder)"/> of <see cref="EventSubscriptions"/> property</item>
     /// </list>
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseAllNUnitFeatures() =>
-        UseNUnitTestName()
-            .UseNUnitTestSuiteName()
-            .UseNUnitTestSuiteType()
-            .UseNUnitAssertionExceptionType()
-            .UseNUnitAggregateAssertionStrategy()
-            .UseNUnitWarningReportStrategy()
-            .UseNUnitAssertionFailureReportStrategy()
-            .LogConsumers.AddNUnitTestContext()
-            .EventSubscriptions.LogNUnitError()
-            .EventSubscriptions.TakeScreenshotOnNUnitError()
-            .EventSubscriptions.TakePageSnapshotOnNUnitError()
-            .EventSubscriptions.AddArtifactsToNUnitTestContext();
+    public AtataContextBuilder UseAllNUnitFeatures()
+    {
+        UseNUnitTestName();
+        UseNUnitTestSuiteName();
+        UseNUnitTestSuiteType();
+        UseNUnitAssertionExceptionType();
+        UseNUnitAggregateAssertionStrategy();
+        UseNUnitWarningReportStrategy();
+        UseNUnitAssertionFailureReportStrategy();
+        LogConsumers.AddNUnitTestContext();
+        EventSubscriptions.LogNUnitError();
+        EventSubscriptions.TakeScreenshotOnNUnitError();
+        EventSubscriptions.TakePageSnapshotOnNUnitError();
+        EventSubscriptions.AddArtifactsToNUnitTestContext();
+
+        return this;
+    }
 
     /// <summary>
     /// Enables all Atata features for SpecFlow+NUnit.
@@ -566,23 +570,27 @@ public class AtataContextBuilder
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.LogNUnitError"/> of <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakeScreenshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="EventSubscriptionsAtataContextBuilder.TakePageSnapshotOnNUnitError(string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsBuilderExtensions.LogNUnitError(EventSubscriptionsBuilder)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError(EventSubscriptionsBuilder, string)"/> of <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="EventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError(EventSubscriptionsBuilder, string)"/> of <see cref="EventSubscriptions"/> property</item>
     /// </list>
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseSpecFlowNUnitFeatures() =>
-        UseNUnitTestName()
-            .UseNUnitTestSuiteName()
-            .UseNUnitTestSuiteType()
-            .UseNUnitAssertionExceptionType()
-            .UseNUnitAggregateAssertionStrategy()
-            .UseNUnitWarningReportStrategy()
-            .UseNUnitAssertionFailureReportStrategy()
-            .EventSubscriptions.LogNUnitError()
-            .EventSubscriptions.TakeScreenshotOnNUnitError()
-            .EventSubscriptions.TakePageSnapshotOnNUnitError();
+    public AtataContextBuilder UseSpecFlowNUnitFeatures()
+    {
+        UseNUnitTestName();
+        UseNUnitTestSuiteName();
+        UseNUnitTestSuiteType();
+        UseNUnitAssertionExceptionType();
+        UseNUnitAggregateAssertionStrategy();
+        UseNUnitWarningReportStrategy();
+        UseNUnitAssertionFailureReportStrategy();
+        EventSubscriptions.LogNUnitError();
+        EventSubscriptions.TakeScreenshotOnNUnitError();
+        EventSubscriptions.TakePageSnapshotOnNUnitError();
+
+        return this;
+    }
 
     private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
     {
@@ -653,7 +661,7 @@ public class AtataContextBuilder
         context.ObjectConverter = objectConverter;
         context.ObjectMapper = objectMapper;
         context.ObjectCreator = objectCreator;
-        context.EventBus = new EventBus(context, BuildingContext.EventSubscriptions);
+        context.EventBus = new EventBus(context, EventSubscriptions.Items);
 
         if (context.Test.SuiteName is null && context.Test.SuiteType is not null)
             context.Test.SuiteName = context.Test.SuiteType.Name;

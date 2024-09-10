@@ -12,16 +12,20 @@ public abstract class TestSuiteBase
     {
         _eventListLogConsumer = new EventListLogConsumer();
 
-        return AtataContext.Configure()
+        var builder = AtataContext.Configure()
             .UseCulture("en-US")
             .UseNUnitTestName()
             .UseNUnitTestSuiteName()
-            .UseNUnitTestSuiteType()
-            .LogConsumers.AddNUnitTestContext()
-            .LogConsumers.Add(_eventListLogConsumer)
-                .WithMessageNestingLevelIndent(string.Empty)
-            .EventSubscriptions.LogNUnitError()
-            .EventSubscriptions.AddArtifactsToNUnitTestContext();
+            .UseNUnitTestSuiteType();
+
+        builder.LogConsumers.AddNUnitTestContext();
+        builder.LogConsumers.Add(_eventListLogConsumer)
+            .WithMessageNestingLevelIndent(string.Empty);
+
+        builder.EventSubscriptions.LogNUnitError();
+        builder.EventSubscriptions.AddArtifactsToNUnitTestContext();
+
+        return builder;
     }
 
     [TearDown]

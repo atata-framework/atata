@@ -9,8 +9,8 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
     {
         int executionsCount = 0;
 
-        ConfigureAtataContextWithWebDriverSession()
-            .EventSubscriptions.Add<AtataContextInitStartedEvent>((eventData, context) =>
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.EventSubscriptions.Add<AtataContextInitStartedEvent>((eventData, context) =>
             {
                 eventData.Should().NotBeNull();
                 context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
@@ -19,8 +19,8 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
                 context.GetWebDriverSession().Driver.Should().BeNull();
 
                 executionsCount++;
-            })
-            .Build();
+            });
+        builder.Build();
 
         executionsCount.Should().Be(1);
     }
@@ -29,12 +29,12 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
     public void Init_WithNullDriver()
     {
         int executionsCount = 0;
+        var builder = ConfigureSessionlessAtataContext();
+        builder.Sessions.AddWebDriver(x => x.UseDriver(() => null));
+        builder.EventSubscriptions.Add<AtataContextInitStartedEvent>(() => executionsCount++);
 
-        Assert.Throws<WebDriverInitializationException>(() =>
-            AtataContext.Configure()
-                .UseDriver(() => null)
-                .EventSubscriptions.Add<AtataContextInitStartedEvent>(() => executionsCount++)
-                .Build());
+        Assert.Throws<WebDriverInitializationException>(
+            () => builder.Build());
 
         executionsCount.Should().Be(1);
     }
@@ -44,18 +44,18 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
     {
         int executionsCount = 0;
 
-        ConfigureAtataContextWithWebDriverSession()
-            .EventSubscriptions.Add<AtataContextInitCompletedEvent>((eventData, context) =>
-            {
-                eventData.Should().NotBeNull();
-                context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.EventSubscriptions.Add<AtataContextInitCompletedEvent>((eventData, context) =>
+        {
+            eventData.Should().NotBeNull();
+            context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
 
-                context.Log.Should().NotBeNull();
-                context.Driver.Should().BeOfType<ChromeDriver>();
+            context.Log.Should().NotBeNull();
+            context.GetWebDriver().Should().BeOfType<ChromeDriver>();
 
-                executionsCount++;
-            })
-            .Build();
+            executionsCount++;
+        });
+        builder.Build();
 
         executionsCount.Should().Be(1);
     }
@@ -65,18 +65,18 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
     {
         int executionsCount = 0;
 
-        ConfigureAtataContextWithWebDriverSession()
-            .EventSubscriptions.Add<DriverInitEvent>((eventData, context) =>
-            {
-                eventData.Should().NotBeNull();
-                context.Should().NotBeNull().And.Be(AtataContext.Current);
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.EventSubscriptions.Add<DriverInitEvent>((eventData, context) =>
+        {
+            eventData.Should().NotBeNull();
+            context.Should().NotBeNull().And.Be(AtataContext.Current);
 
-                context.Log.Should().NotBeNull();
-                eventData.Driver.Should().NotBeNull().And.Be(AtataContext.Current.Driver);
+            context.Log.Should().NotBeNull();
+            eventData.Driver.Should().NotBeNull().And.Be(AtataContext.Current.GetWebDriver());
 
-                executionsCount++;
-            })
-            .Build();
+            executionsCount++;
+        });
+        builder.Build();
 
         executionsCount.Should().Be(1);
     }
@@ -87,19 +87,19 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
         int executionsCount = 0;
         IWebDriver initialDriver = null;
 
-        ConfigureAtataContextWithWebDriverSession()
-            .EventSubscriptions.Add<DriverInitEvent>(eventData =>
-            {
-                if (executionsCount == 0)
-                    initialDriver = eventData.Driver;
-                else
-                    eventData.Driver.Should().NotBe(initialDriver);
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
+        {
+            if (executionsCount == 0)
+                initialDriver = eventData.Driver;
+            else
+                eventData.Driver.Should().NotBe(initialDriver);
 
-                executionsCount++;
-            })
-            .Build();
+            executionsCount++;
+        });
+        var context = builder.Build();
 
-        AtataContext.Current.RestartDriver();
+        context.RestartDriver();
 
         executionsCount.Should().Be(2);
     }

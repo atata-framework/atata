@@ -11,14 +11,16 @@ public class DriverDeInitEventTests : WebDriverSessionTestSuiteBase
     {
         _executionsCount = 0;
 
-        _context = ConfigureAtataContextWithWebDriverSession()
-            .EventSubscriptions.Add<DriverDeInitEvent>((eventData, _) =>
-            {
-                eventData.Driver.Should().NotBeNull().And.Be(_context.Driver);
+        var builder = ConfigureAtataContextWithWebDriverSession();
 
-                _executionsCount++;
-            })
-            .Build();
+        builder.EventSubscriptions.Add<DriverDeInitEvent>((eventData, _) =>
+        {
+            eventData.Driver.Should().NotBeNull().And.Be(_context.GetWebDriver());
+
+            _executionsCount++;
+        });
+
+        _context = builder.Build();
 
         _executionsCount.Should().Be(0);
     }

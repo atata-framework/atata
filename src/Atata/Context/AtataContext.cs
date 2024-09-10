@@ -296,7 +296,8 @@ public sealed class AtataContext : IDisposable
     public IObjectMapper ObjectMapper { get; internal set; }
 
     /// <summary>
-    /// Gets the event bus, which can used to subscribe to and publish events.
+    /// Gets the event bus of <see cref="AtataContext"/>,
+    /// which can used to subscribe to and publish events.
     /// </summary>
     public IEventBus EventBus { get; internal set; }
 

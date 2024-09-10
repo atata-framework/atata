@@ -47,6 +47,7 @@ prepend
 screenshot
 screenshots
 serializer
+sessionless
 stringifier
 sudo
 Summernote

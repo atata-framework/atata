@@ -17,7 +17,7 @@
 [assembly: SuppressMessage("Usage", "CA2217:Do not mark enums with FlagsAttribute", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EnumExtensionMethodsTests.UInt64EnumValues")]
 [assembly: SuppressMessage("Usage", "CA2217:Do not mark enums with FlagsAttribute", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EnumExtensionMethodsTests.Int64EnumValues")]
 [assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EventBusTests.TestEvent")]
-[assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EventSubscriptionsAtataContextBuilderTests.Add.TestEvent")]
+[assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.EventSubscriptionsBuilderTests.Add.TestEvent")]
 [assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.StaticSubClass.NonGenericSubClass")]
 [assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.StaticSubClass.GenericSubClass`1")]
 [assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.SubClass")]

@@ -67,6 +67,12 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// </summary>
     public TimeSpan? VerificationRetryInterval { get; set; }
 
+    /// <summary>
+    /// Gets the builder of event subscriptions,
+    /// which provides the methods to subscribe to Atata and custom events.
+    /// </summary>
+    public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new();
+
     public TBuilder WithName(string name)
     {
         Name = name;
@@ -213,6 +219,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         session.WaitingRetryIntervalOptional = WaitingRetryInterval;
         session.VerificationTimeoutOptional = VerificationTimeout;
         session.VerificationRetryIntervalOptional = VerificationRetryInterval;
+
+        session.EventBus = new EventBus(session.Context, EventSubscriptions.Items);
     }
 
     object ICloneable.Clone()
@@ -224,6 +232,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return copy;
     }
 
-    protected virtual void OnClone(TBuilder copy) =>
+    protected virtual void OnClone(TBuilder copy)
+    {
         copy.Variables = new Dictionary<string, object>(Variables);
+        copy.EventSubscriptions = new EventSubscriptionsBuilder(EventSubscriptions.Items);
+    }
 }

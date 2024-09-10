@@ -1,15 +1,15 @@
 ﻿namespace Atata.UnitTests;
 
-public static class EventSubscriptionsAtataContextBuilderTests
+public static class EventSubscriptionsBuilderTests
 {
     [TestFixture]
     public class Add
     {
-        private Subject<EventSubscriptionsAtataContextBuilder> _sut;
+        private Subject<EventSubscriptionsBuilder> _sut;
 
         [SetUp]
         public void SetUp() =>
-            _sut = new EventSubscriptionsAtataContextBuilder(new AtataBuildingContext())
+            _sut = new EventSubscriptionsBuilder()
                 .ToSutSubject();
 
         [Test]
@@ -20,28 +20,28 @@ public static class EventSubscriptionsAtataContextBuilderTests
         [Test]
         public void Action() =>
             _sut.Act(x => x.Add<TestEvent>(StubMethod))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler != null);
 
         [Test]
         public void ActionWith1GenericParameter() =>
             _sut.Act(x => x.Add<TestEvent>(x => StubMethod()))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler != null);
 
         [Test]
         public void ActionWith2GenericParameters() =>
             _sut.Act(x => x.Add<TestEvent>((_, _) => StubMethod()))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler != null);
 
         [Test]
         public void TwoGenericParameters() =>
             _sut.Act(x => x.Add<TestEvent, TestEventHandler>())
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler is TestEventHandler);
 
@@ -51,7 +51,7 @@ public static class EventSubscriptionsAtataContextBuilderTests
             var eventHandler = new TestEventHandler();
 
             _sut.Act(x => x.Add(eventHandler))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler);
         }
@@ -64,7 +64,7 @@ public static class EventSubscriptionsAtataContextBuilderTests
 
             _sut.Act(x => x.Add(eventHandler1))
                 .Act(x => x.Add<TestEvent>(eventHandler2))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistSequentiallyOf(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler1,
                         x => x.EventType == typeof(TestEvent) && x.EventHandler == eventHandler2);
@@ -73,32 +73,32 @@ public static class EventSubscriptionsAtataContextBuilderTests
         [Test]
         public void EventHandlerType() =>
             _sut.Act(x => x.Add(typeof(TestEventHandler)))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler is TestEventHandler);
 
         [Test]
         public void EventHandlerType_WithInvalidValue() =>
-            _sut.Invoking(x => x.Add(typeof(EventSubscriptionsAtataContextBuilderTests)))
+            _sut.Invoking(x => x.Add(typeof(EventSubscriptionsBuilderTests)))
                 .Should.Throw<ArgumentException>();
 
         [Test]
         public void EventTypeAndEventHandlerType_WithExactEventHandlerType() =>
             _sut.Act(x => x.Add(typeof(TestEvent), typeof(TestEventHandler)))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler is TestEventHandler);
 
         [Test]
         public void EventTypeAndEventHandlerType_WithBaseEventHandlerType() =>
             _sut.Act(x => x.Add(typeof(TestEvent), typeof(UniversalEventHandler)))
-                .ResultOf(x => x.BuildingContext.EventSubscriptions)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler is UniversalEventHandler);
 
         [Test]
         public void EventTypeAndEventHandlerType_WithInvalidEventHandlerType() =>
-            _sut.Invoking(x => x.Add(typeof(TestEvent), typeof(EventSubscriptionsAtataContextBuilderTests)))
+            _sut.Invoking(x => x.Add(typeof(TestEvent), typeof(EventSubscriptionsBuilderTests)))
                 .Should.Throw<ArgumentException>();
 
         private static void StubMethod()
