@@ -98,30 +98,4 @@ public class LogConsumersBuilder
     /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
     public LogConsumerBuilder<ConsoleLogConsumer> AddConsole() =>
         Add(new ConsoleLogConsumer());
-
-    /// <summary>
-    /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
-    /// </summary>
-    /// <param name="loggerName">The name of the logger.</param>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<Log4NetConsumer> AddLog4Net(string loggerName = null) =>
-        Add(new Log4NetConsumer { LoggerName = loggerName });
-
-    /// <summary>
-    /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
-    /// </summary>
-    /// <param name="repositoryName">The name of the logger repository.</param>
-    /// <param name="loggerName">The name of the logger.</param>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<Log4NetConsumer> AddLog4Net(string repositoryName, string loggerName = null) =>
-        Add(new Log4NetConsumer { RepositoryName = repositoryName, LoggerName = loggerName });
-
-    /// <summary>
-    /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
-    /// </summary>
-    /// <param name="repositoryAssembly">The assembly to use to lookup the repository.</param>
-    /// <param name="loggerName">The name of the logger.</param>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<Log4NetConsumer> AddLog4Net(Assembly repositoryAssembly, string loggerName = null) =>
-        Add(new Log4NetConsumer { RepositoryAssembly = repositoryAssembly, LoggerName = loggerName });
 }

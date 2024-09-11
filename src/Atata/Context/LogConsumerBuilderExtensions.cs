@@ -20,32 +20,4 @@ public static class LogConsumerBuilderExtensions
         builder.Consumer.LoggerName = loggerName;
         return builder;
     }
-
-    /// <summary>
-    /// Specifies the name of the logger repository.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <param name="repositoryName">The name of the logger repository.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerBuilder<Log4NetConsumer> WithRepositoryName(
-        this LogConsumerBuilder<Log4NetConsumer> builder,
-        string repositoryName)
-    {
-        builder.Consumer.RepositoryName = repositoryName;
-        return builder;
-    }
-
-    /// <summary>
-    /// Specifies the assembly to use to lookup the logger repository.
-    /// </summary>
-    /// <param name="builder">The builder.</param>
-    /// <param name="repositoryAssembly">The name of the assembly to use to lookup the repository.</param>
-    /// <returns>The same builder instance.</returns>
-    public static LogConsumerBuilder<Log4NetConsumer> WithRepositoryAssembly(
-        this LogConsumerBuilder<Log4NetConsumer> builder,
-        Assembly repositoryAssembly)
-    {
-        builder.Consumer.RepositoryAssembly = repositoryAssembly;
-        return builder;
-    }
 }
