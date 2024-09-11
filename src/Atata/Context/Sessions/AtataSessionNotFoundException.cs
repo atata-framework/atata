@@ -22,9 +22,9 @@ public class AtataSessionNotFoundException : Exception
     {
     }
 
-    public static AssemblyNotFoundException For<TSession>() =>
+    public static AtataSessionNotFoundException For<TSession>() =>
         For(typeof(TSession));
 
-    public static AssemblyNotFoundException For(Type sessionType) =>
+    public static AtataSessionNotFoundException For(Type sessionType) =>
         new($"Failed to find session of type {sessionType.FullName} in {nameof(AtataContext)}.");
 }
