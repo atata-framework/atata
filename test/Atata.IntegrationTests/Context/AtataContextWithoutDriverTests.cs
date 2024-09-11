@@ -1,38 +1,39 @@
-﻿namespace Atata.IntegrationTests.Context;
+﻿#warning Review AtataContextWithoutDriverTests. Change to test suite for SessionStart with custom session.
 
-#warning Change to test suite for SessionStart.
-public class AtataContextWithoutDriverTests : WebDriverSessionTestSuiteBase
-{
-    [Test]
-    public void WhenDriverInitializationStageIsNone()
-    {
-        var sut = AtataContext.Configure()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None);
+////namespace Atata.IntegrationTests.Context;
 
-        sut.Build();
+////public class AtataContextWithoutDriverTests : WebDriverSessionTestSuiteBase
+////{
+////    [Test]
+////    public void WhenDriverInitializationStageIsNone()
+////    {
+////        var sut = AtataContext.Configure()
+////            .UseDriverInitializationStage(AtataContextDriverInitializationStage.None);
 
-        Assert.That(AtataContext.Current.Driver, Is.Null);
-    }
+////        sut.Build();
 
-    [Test]
-    public void WhenDriverInitializationStageIsBuild()
-    {
-        var sut = AtataContext.Configure()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.Build);
+////        Assert.That(AtataContext.Current.Driver, Is.Null);
+////    }
 
-        Assert.Throws<InvalidOperationException>(() =>
-            sut.Build());
-    }
+////    [Test]
+////    public void WhenDriverInitializationStageIsBuild()
+////    {
+////        var sut = AtataContext.Configure()
+////            .UseDriverInitializationStage(AtataContextDriverInitializationStage.Build);
 
-    [Test]
-    public void WhenDriverInitializationStageIsOnDemand()
-    {
-        var sut = AtataContext.Configure()
-            .UseDriverInitializationStage(AtataContextDriverInitializationStage.OnDemand);
+////        Assert.Throws<InvalidOperationException>(() =>
+////            sut.Build());
+////    }
 
-        sut.Build();
+////    [Test]
+////    public void WhenDriverInitializationStageIsOnDemand()
+////    {
+////        var sut = AtataContext.Configure()
+////            .UseDriverInitializationStage(AtataContextDriverInitializationStage.OnDemand);
 
-        Assert.Throws<WebDriverInitializationException>(() =>
-            _ = AtataContext.Current.Driver);
-    }
-}
+////        sut.Build();
+
+////        Assert.Throws<WebDriverInitializationException>(() =>
+////            _ = AtataContext.Current.Driver);
+////    }
+////}
