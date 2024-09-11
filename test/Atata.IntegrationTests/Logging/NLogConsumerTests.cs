@@ -5,17 +5,17 @@ public class NLogConsumerTests : SessionlessTestSuite
     [Test]
     public void WithDefaultConfiguration()
     {
-        ConfigureSessionlessAtataContext()
-            .LogConsumers.AddNLog()
-            .Build();
+        // Arrange
+        var builder = ConfigureSessionlessAtataContext();
+        builder.LogConsumers.AddNLog();
+        var context = builder.Build();
 
+        // Act
         string testMessage = Guid.NewGuid().ToString();
+        context.Log.Info(testMessage);
 
-        AtataContext.Current.Log.Info(testMessage);
-
-        string filePath = Path.Combine(
-            AtataContext.Current.ArtifactsPath,
-            $"{AtataContext.Current.Test.NameSanitized}.log");
+        // Assert
+        string filePath = Path.Combine(context.ArtifactsPath, $"{context.Test.NameSanitized}.log");
 
         AssertThatFileShouldContainText(filePath, testMessage);
     }

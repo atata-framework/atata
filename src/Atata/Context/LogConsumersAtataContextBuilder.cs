@@ -52,7 +52,7 @@ public class LogConsumersAtataContextBuilder : AtataContextBuilder
 
         var consumerConfiguration = new LogConsumerConfiguration(consumer);
         BuildingContext.LogConsumerConfigurations.Add(consumerConfiguration);
-        return new LogConsumerAtataContextBuilder<TLogConsumer>(consumer, consumerConfiguration, BuildingContext);
+        return new LogConsumerAtataContextBuilder<TLogConsumer>(consumerConfiguration);
     }
 
     /// <summary>
@@ -72,10 +72,7 @@ public class LogConsumersAtataContextBuilder : AtataContextBuilder
         }
         else
         {
-            return new LogConsumerAtataContextBuilder<TLogConsumer>(
-                (TLogConsumer)consumerConfiguration.Consumer,
-                consumerConfiguration,
-                BuildingContext);
+            return new LogConsumerAtataContextBuilder<TLogConsumer>(consumerConfiguration);
         }
     }
 

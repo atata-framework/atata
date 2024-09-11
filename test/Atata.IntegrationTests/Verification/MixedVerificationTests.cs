@@ -136,10 +136,12 @@ public abstract class MixedVerificationTests
 
     public sealed class Native : MixedVerificationTests
     {
-        protected override AtataContext BuildAtataContext() =>
-            AtataContext.Configure()
-                .LogConsumers.AddNUnitTestContext()
-                .Build();
+        protected override AtataContext BuildAtataContext()
+        {
+            var builder = AtataContext.Configure();
+            builder.LogConsumers.AddNUnitTestContext();
+            return builder.Build();
+        }
     }
 
     public sealed class NUnit : MixedVerificationTests

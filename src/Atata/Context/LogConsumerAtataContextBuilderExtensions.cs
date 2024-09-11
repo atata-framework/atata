@@ -14,7 +14,7 @@ public static class LogConsumerAtataContextBuilderExtensions
         string loggerName)
         where TLogConsumer : INamedLogConsumer
     {
-        builder.Context.LoggerName = loggerName;
+        builder.Consumer.LoggerName = loggerName;
         return builder;
     }
 
@@ -28,7 +28,7 @@ public static class LogConsumerAtataContextBuilderExtensions
         this LogConsumerAtataContextBuilder<Log4NetConsumer> builder,
         string repositoryName)
     {
-        builder.Context.RepositoryName = repositoryName;
+        builder.Consumer.RepositoryName = repositoryName;
         return builder;
     }
 
@@ -42,7 +42,7 @@ public static class LogConsumerAtataContextBuilderExtensions
         this LogConsumerAtataContextBuilder<Log4NetConsumer> builder,
         Assembly repositoryAssembly)
     {
-        builder.Context.RepositoryAssembly = repositoryAssembly;
+        builder.Consumer.RepositoryAssembly = repositoryAssembly;
         return builder;
     }
 
@@ -59,7 +59,7 @@ public static class LogConsumerAtataContextBuilderExtensions
     {
         fileNameTemplate.CheckNotNullOrWhitespace(nameof(fileNameTemplate));
 
-        builder.Context.FileNameTemplate = fileNameTemplate;
+        builder.Consumer.FileNameTemplate = fileNameTemplate;
         return builder;
     }
 
@@ -73,7 +73,7 @@ public static class LogConsumerAtataContextBuilderExtensions
         this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
         string layout)
     {
-        builder.Context.Layout = layout;
+        builder.Consumer.Layout = layout;
         return builder;
     }
 }

@@ -30,7 +30,7 @@ public class LogConsumerConfiguration : ICloneable
         LogLevel minLevel,
         LogSectionEndOption sectionEnd)
     {
-        Consumer = consumer;
+        Consumer = consumer.CheckNotNull(nameof(consumer));
         MinLevel = minLevel;
         SectionEnd = sectionEnd;
     }

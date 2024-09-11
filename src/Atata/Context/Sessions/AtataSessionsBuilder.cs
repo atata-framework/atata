@@ -1,5 +1,6 @@
 ﻿namespace Atata;
 
+#warning Probably update methods to return AtataSessionsBuilder instead of AtataContextBuilder.
 public sealed class AtataSessionsBuilder
 {
     private readonly AtataContextBuilder _atataContextBuilder;

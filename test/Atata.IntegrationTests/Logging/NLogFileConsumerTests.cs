@@ -5,12 +5,11 @@ public class NLogFileConsumerTests : SessionlessTestSuite
     [Test]
     public void WithDefaultConfiguration()
     {
-        ConfigureSessionlessAtataContext()
-            .LogConsumers.AddNLogFile()
-            .Build();
+        var context = CreateAtataContextWithNLogFileConsumer();
 
         WriteLogMessageAndAssertItInFile(
-            Path.Combine(AtataContext.Current.ArtifactsPath, NLogFileConsumer.DefaultFileName));
+            context,
+            Path.Combine(context.ArtifactsPath, NLogFileConsumer.DefaultFileName));
     }
 
     [Test]
@@ -18,39 +17,47 @@ public class NLogFileConsumerTests : SessionlessTestSuite
     {
         string fileName = Guid.NewGuid().ToString() + ".txt";
 
-        ConfigureSessionlessAtataContext()
-            .LogConsumers.AddNLogFile()
-                .WithFileNameTemplate(fileName)
-            .Build();
+        var context = CreateAtataContextWithNLogFileConsumer(
+            x => x.WithFileNameTemplate(fileName));
 
         WriteLogMessageAndAssertItInFile(
+            context,
             Path.Combine(AtataContext.Current.ArtifactsPath, fileName));
     }
 
     [Test]
     public void WithFileNameTemplate_ThatContainsVariables()
     {
-        string filePath = "logs/{test-name-sanitized}/{driver-alias}.log";
+        string filePath = "logs/{test-name-sanitized}.log";
 
-        ConfigureSessionlessAtataContext()
-            .LogConsumers.AddNLogFile()
-                .WithFileNameTemplate(filePath)
-            .Build();
+        var context = CreateAtataContextWithNLogFileConsumer(
+            x => x.WithFileNameTemplate(filePath));
 
         WriteLogMessageAndAssertItInFile(
+            context,
             Path.Combine(
-                AtataContext.Current.ArtifactsPath,
+                context.ArtifactsPath,
                 "logs",
-                AtataContext.Current.Test.NameSanitized,
-                $"{WebDriverSession.Current.DriverAlias}.log"));
+                $"{context.Test.NameSanitized}.log"));
     }
 
-    private static void WriteLogMessageAndAssertItInFile(string filePath)
+    private static void WriteLogMessageAndAssertItInFile(AtataContext context, string filePath)
     {
         string testMessage = Guid.NewGuid().ToString();
 
-        AtataContext.Current.Log.Info(testMessage);
+        context.Log.Info(testMessage);
 
         AssertThatFileShouldContainText(filePath, testMessage);
+    }
+
+    private AtataContext CreateAtataContextWithNLogFileConsumer(
+        Action<LogConsumerAtataContextBuilder<NLogFileConsumer>> configure = null)
+    {
+        var contextBuilder = ConfigureSessionlessAtataContext();
+
+        var logConsumerBuilder = contextBuilder.LogConsumers.AddNLogFile();
+        configure?.Invoke(logConsumerBuilder);
+
+        return contextBuilder.Build();
     }
 }

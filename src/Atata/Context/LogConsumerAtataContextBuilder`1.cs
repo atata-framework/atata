@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataContextBuilder, IHasContext<TLogConsumer>
+public class LogConsumerAtataContextBuilder<TLogConsumer>
     where TLogConsumer : ILogConsumer
 {
     private readonly LogConsumerConfiguration _logConsumerConfiguration;
@@ -8,18 +8,24 @@ public class LogConsumerAtataContextBuilder<TLogConsumer> : LogConsumersAtataCon
     /// <summary>
     /// Initializes a new instance of the <see cref="LogConsumerAtataContextBuilder{TLogConsumer}" /> class.
     /// </summary>
-    /// <param name="logConsumer">The log consumer.</param>
     /// <param name="logConsumerConfiguration">The log consumer configuration.</param>
-    /// <param name="buildingContext">The building context.</param>
-    public LogConsumerAtataContextBuilder(TLogConsumer logConsumer, LogConsumerConfiguration logConsumerConfiguration, AtataBuildingContext buildingContext)
-        : base(buildingContext)
+    public LogConsumerAtataContextBuilder(LogConsumerConfiguration logConsumerConfiguration)
     {
-        Context = logConsumer;
+        logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
+
+        if (logConsumerConfiguration.Consumer is not TLogConsumer)
+            throw new ArgumentException(
+                $"'{nameof(logConsumerConfiguration)}.{nameof(LogConsumerConfiguration.Consumer)}' should be of {typeof(TLogConsumer)} type, but was {logConsumerConfiguration.Consumer.GetType()}.",
+                nameof(logConsumerConfiguration));
+
         _logConsumerConfiguration = logConsumerConfiguration;
     }
 
-    /// <inheritdoc/>
-    public TLogConsumer Context { get; }
+    /// <summary>
+    /// Gets the log consumer.
+    /// </summary>
+    public TLogConsumer Consumer =>
+        (TLogConsumer)_logConsumerConfiguration.Consumer;
 
     /// <summary>
     /// Sets the output option of log section end.
