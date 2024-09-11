@@ -156,17 +156,18 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
         return (TBuilder)this;
     }
 
-    /// <summary>
-    /// Specifies the properties map for the driver options.
-    /// </summary>
-    /// <param name="optionsPropertiesMap">The properties map.</param>
-    /// <returns>The same builder instance.</returns>
-    public TBuilder WithOptions(Dictionary<string, object> optionsPropertiesMap)
-    {
-        optionsPropertiesMap.CheckNotNull(nameof(optionsPropertiesMap));
+#warning Temporarily comment WithOptions method. Maybe remove it later if it's not needed for configuration.
+    /////// <summary>
+    /////// Specifies the properties map for the driver options.
+    /////// </summary>
+    /////// <param name="optionsPropertiesMap">The properties map.</param>
+    /////// <returns>The same builder instance.</returns>
+    ////public TBuilder WithOptions(Dictionary<string, object> optionsPropertiesMap)
+    ////{
+    ////    optionsPropertiesMap.CheckNotNull(nameof(optionsPropertiesMap));
 
-        return WithOptions(opt => CreateObjectMapper().Map(optionsPropertiesMap, opt));
-    }
+    ////    return WithOptions(opt => CreateObjectMapper().Map(optionsPropertiesMap, opt));
+    ////}
 
     /// <summary>
     /// Adds the additional option to the driver options.
@@ -207,17 +208,18 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
         return (TBuilder)this;
     }
 
-    /// <summary>
-    /// Specifies the properties map for the driver service.
-    /// </summary>
-    /// <param name="servicePropertiesMap">The properties map.</param>
-    /// <returns>The same builder instance.</returns>
-    public TBuilder WithDriverService(Dictionary<string, object> servicePropertiesMap)
-    {
-        servicePropertiesMap.CheckNotNull(nameof(servicePropertiesMap));
+#warning Temporarily comment WithDriverService method. Maybe remove it later if it's not needed for configuration.
+    /////// <summary>
+    /////// Specifies the properties map for the driver service.
+    /////// </summary>
+    /////// <param name="servicePropertiesMap">The properties map.</param>
+    /////// <returns>The same builder instance.</returns>
+    ////public TBuilder WithDriverService(Dictionary<string, object> servicePropertiesMap)
+    ////{
+    ////    servicePropertiesMap.CheckNotNull(nameof(servicePropertiesMap));
 
-        return WithDriverService(srv => CreateObjectMapper().Map(servicePropertiesMap, srv));
-    }
+    ////    return WithDriverService(srv => CreateObjectMapper().Map(servicePropertiesMap, srv));
+    ////}
 
     /// <summary>
     /// Specifies the directory containing the driver executable file.
