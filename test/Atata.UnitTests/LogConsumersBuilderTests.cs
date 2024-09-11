@@ -1,16 +1,16 @@
 ﻿namespace Atata.UnitTests;
 
 [TestFixture]
-public class LogConsumersAtataContextBuilderTests
+public class LogConsumersBuilderTests
 {
-    protected Subject<LogConsumersAtataContextBuilder> Sut { get; private set; }
+    protected Subject<LogConsumersBuilder> Sut { get; private set; }
 
     [SetUp]
     public void SetUp() =>
-        Sut = new LogConsumersAtataContextBuilder(new AtataBuildingContext())
+        Sut = new LogConsumersBuilder(new AtataBuildingContext())
             .ToSutSubject();
 
-    public class Configure : LogConsumersAtataContextBuilderTests
+    public class Configure : LogConsumersBuilderTests
     {
         [Test]
         public void WhenNew() =>

@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-public static class LogConsumerAtataContextBuilderExtensions
+public static class LogConsumerBuilderExtensions
 {
     /// <summary>
     /// Specifies the name of the logger.
@@ -9,8 +9,8 @@ public static class LogConsumerAtataContextBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="loggerName">The name of the logger.</param>
     /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<TLogConsumer> WithLoggerName<TLogConsumer>(
-        this LogConsumerAtataContextBuilder<TLogConsumer> builder,
+    public static LogConsumerBuilder<TLogConsumer> WithLoggerName<TLogConsumer>(
+        this LogConsumerBuilder<TLogConsumer> builder,
         string loggerName)
         where TLogConsumer : INamedLogConsumer
     {
@@ -24,8 +24,8 @@ public static class LogConsumerAtataContextBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="repositoryName">The name of the logger repository.</param>
     /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<Log4NetConsumer> WithRepositoryName(
-        this LogConsumerAtataContextBuilder<Log4NetConsumer> builder,
+    public static LogConsumerBuilder<Log4NetConsumer> WithRepositoryName(
+        this LogConsumerBuilder<Log4NetConsumer> builder,
         string repositoryName)
     {
         builder.Consumer.RepositoryName = repositoryName;
@@ -38,8 +38,8 @@ public static class LogConsumerAtataContextBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="repositoryAssembly">The name of the assembly to use to lookup the repository.</param>
     /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<Log4NetConsumer> WithRepositoryAssembly(
-        this LogConsumerAtataContextBuilder<Log4NetConsumer> builder,
+    public static LogConsumerBuilder<Log4NetConsumer> WithRepositoryAssembly(
+        this LogConsumerBuilder<Log4NetConsumer> builder,
         Assembly repositoryAssembly)
     {
         builder.Consumer.RepositoryAssembly = repositoryAssembly;
@@ -53,8 +53,8 @@ public static class LogConsumerAtataContextBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="fileNameTemplate">The file name template.</param>
     /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithFileNameTemplate(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
+    public static LogConsumerBuilder<NLogFileConsumer> WithFileNameTemplate(
+        this LogConsumerBuilder<NLogFileConsumer> builder,
         string fileNameTemplate)
     {
         fileNameTemplate.CheckNotNullOrWhitespace(nameof(fileNameTemplate));
@@ -69,8 +69,8 @@ public static class LogConsumerAtataContextBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="layout">The layout of log event.</param>
     /// <returns>The same builder instance.</returns>
-    public static LogConsumerAtataContextBuilder<NLogFileConsumer> WithLayout(
-        this LogConsumerAtataContextBuilder<NLogFileConsumer> builder,
+    public static LogConsumerBuilder<NLogFileConsumer> WithLayout(
+        this LogConsumerBuilder<NLogFileConsumer> builder,
         string layout)
     {
         builder.Consumer.Layout = layout;

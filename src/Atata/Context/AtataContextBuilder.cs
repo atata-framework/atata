@@ -33,7 +33,7 @@ public class AtataContextBuilder
     /// Gets the builder of log consumers,
     /// which provides the methods to add log consumers.
     /// </summary>
-    public LogConsumersAtataContextBuilder LogConsumers => new(BuildingContext);
+    public LogConsumersBuilder LogConsumers => new(BuildingContext);
 
     public AtataSessionsBuilder Sessions { get; }
 
@@ -533,7 +533,7 @@ public class AtataContextBuilder
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
-    /// <item><see cref="LogConsumersAtataContextBuilder.AddNUnitTestContext"/> of <see cref="LogConsumers"/> property</item>
+    /// <item><see cref="LogConsumersBuilder.AddNUnitTestContext"/> of <see cref="LogConsumers"/> property</item>
     /// <item><see cref="EventSubscriptionsBuilderExtensions.LogNUnitError(EventSubscriptionsBuilder)"/> of <see cref="EventSubscriptions"/> property</item>
     /// <item><see cref="EventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError(EventSubscriptionsBuilder, string)"/> of <see cref="EventSubscriptions"/> property</item>
     /// <item><see cref="EventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError(EventSubscriptionsBuilder, string)"/> of <see cref="EventSubscriptions"/> property</item>

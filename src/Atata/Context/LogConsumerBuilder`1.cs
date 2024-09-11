@@ -1,15 +1,15 @@
 ﻿namespace Atata;
 
-public class LogConsumerAtataContextBuilder<TLogConsumer>
+public class LogConsumerBuilder<TLogConsumer>
     where TLogConsumer : ILogConsumer
 {
     private readonly LogConsumerConfiguration _logConsumerConfiguration;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="LogConsumerAtataContextBuilder{TLogConsumer}" /> class.
+    /// Initializes a new instance of the <see cref="LogConsumerBuilder{TLogConsumer}" /> class.
     /// </summary>
     /// <param name="logConsumerConfiguration">The log consumer configuration.</param>
-    public LogConsumerAtataContextBuilder(LogConsumerConfiguration logConsumerConfiguration)
+    public LogConsumerBuilder(LogConsumerConfiguration logConsumerConfiguration)
     {
         logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
 
@@ -33,7 +33,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer>
     /// </summary>
     /// <param name="logSectionEnd">The log section end option.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerAtataContextBuilder<TLogConsumer> WithSectionEnd(LogSectionEndOption logSectionEnd)
+    public LogConsumerBuilder<TLogConsumer> WithSectionEnd(LogSectionEndOption logSectionEnd)
     {
         _logConsumerConfiguration.SectionEnd = logSectionEnd;
         return this;
@@ -45,7 +45,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer>
     /// </summary>
     /// <param name="level">The log level.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerAtataContextBuilder<TLogConsumer> WithMinLevel(LogLevel level)
+    public LogConsumerBuilder<TLogConsumer> WithMinLevel(LogLevel level)
     {
         _logConsumerConfiguration.MinLevel = level;
         return this;
@@ -57,7 +57,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer>
     /// </summary>
     /// <param name="messageNestingLevelIndent">The message nesting level indent.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerAtataContextBuilder<TLogConsumer> WithMessageNestingLevelIndent(string messageNestingLevelIndent)
+    public LogConsumerBuilder<TLogConsumer> WithMessageNestingLevelIndent(string messageNestingLevelIndent)
     {
         _logConsumerConfiguration.MessageNestingLevelIndent = messageNestingLevelIndent;
         return this;
@@ -69,7 +69,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer>
     /// </summary>
     /// <param name="messageStartSectionPrefix">The message start section prefix.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerAtataContextBuilder<TLogConsumer> WithMessageStartSectionPrefix(string messageStartSectionPrefix)
+    public LogConsumerBuilder<TLogConsumer> WithMessageStartSectionPrefix(string messageStartSectionPrefix)
     {
         _logConsumerConfiguration.MessageStartSectionPrefix = messageStartSectionPrefix;
         return this;
@@ -81,7 +81,7 @@ public class LogConsumerAtataContextBuilder<TLogConsumer>
     /// </summary>
     /// <param name="messageEndSectionPrefix">The message end section prefix.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerAtataContextBuilder<TLogConsumer> WithMessageEndSectionPrefix(string messageEndSectionPrefix)
+    public LogConsumerBuilder<TLogConsumer> WithMessageEndSectionPrefix(string messageEndSectionPrefix)
     {
         _logConsumerConfiguration.MessageEndSectionPrefix = messageEndSectionPrefix;
         return this;

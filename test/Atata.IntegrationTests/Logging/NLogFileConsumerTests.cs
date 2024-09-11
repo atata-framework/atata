@@ -51,7 +51,7 @@ public class NLogFileConsumerTests : SessionlessTestSuite
     }
 
     private AtataContext CreateAtataContextWithNLogFileConsumer(
-        Action<LogConsumerAtataContextBuilder<NLogFileConsumer>> configure = null)
+        Action<LogConsumerBuilder<NLogFileConsumer>> configure = null)
     {
         var contextBuilder = ConfigureSessionlessAtataContext();
 
