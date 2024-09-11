@@ -100,13 +100,6 @@ public class LogConsumersBuilder
         Add(new ConsoleLogConsumer());
 
     /// <summary>
-    /// Adds the <see cref="NUnitTestContextLogConsumer"/> instance that uses <c>NUnit.Framework.TestContext</c> class for logging.
-    /// </summary>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<NUnitTestContextLogConsumer> AddNUnitTestContext() =>
-        Add(new NUnitTestContextLogConsumer());
-
-    /// <summary>
     /// Adds the <see cref="NLogConsumer"/> instance that uses <c>NLog.Logger</c> class for logging.
     /// </summary>
     /// <param name="loggerName">The name of the logger.</param>
