@@ -700,11 +700,6 @@ public class AtataContextBuilder
     {
         context.EventBus.Publish(new AtataContextInitStartedEvent(context));
 
-        if (context.BaseUrl != null)
-            context.Log.Trace($"Set: BaseUrl={context.BaseUrl}");
-
-        LogRetrySettings(context);
-
         if (BuildingContext.Culture != null)
             ApplyCulture(context, BuildingContext.Culture);
 
@@ -715,29 +710,6 @@ public class AtataContextBuilder
         // TODO: Start sessions that should be start.
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
-    }
-
-    private static void LogRetrySettings(AtataContext context)
-    {
-        string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
-
-        context.Log.Trace(
-            messageFormat.FormatWith(
-                "ElementFind",
-                context.ElementFindTimeout.ToShortIntervalString(),
-                context.ElementFindRetryInterval.ToShortIntervalString()));
-
-        context.Log.Trace(
-            messageFormat.FormatWith(
-                "Waiting",
-                context.WaitingTimeout.ToShortIntervalString(),
-                context.WaitingRetryInterval.ToShortIntervalString()));
-
-        context.Log.Trace(
-            messageFormat.FormatWith(
-                "Verification",
-                context.VerificationTimeout.ToShortIntervalString(),
-                context.VerificationRetryInterval.ToShortIntervalString()));
     }
 
     private static void ApplyCulture(AtataContext context, CultureInfo culture)

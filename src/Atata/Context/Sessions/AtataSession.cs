@@ -83,8 +83,6 @@ public abstract class AtataSession
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
 
-    protected internal abstract Task StartAsync(CancellationToken cancellationToken = default);
-
     internal void AssignToOwnerContext(AtataContext context)
     {
         OwnerContext = context;
@@ -99,6 +97,12 @@ public abstract class AtataSession
 
     internal void ReassignToOwnerContext() =>
         ReassignToContext(OwnerContext);
+
+    protected internal abstract Task StartAsync(CancellationToken cancellationToken = default);
+
+    protected internal virtual void LogConfiguration()
+    {
+    }
 
     protected virtual void AssignToContext(AtataContext context)
     {

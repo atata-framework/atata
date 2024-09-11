@@ -196,6 +196,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         session.AssignToOwnerContext(context);
         ConfigureSession(session);
 
+        session.LogConfiguration();
+
         return session;
     }
 

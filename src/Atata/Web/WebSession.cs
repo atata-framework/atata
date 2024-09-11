@@ -90,4 +90,37 @@ public abstract class WebSession : AtataSession
         UIComponentResolver.CleanUpPageObjects(TemporarilyPreservedPageObjects);
         TemporarilyPreservedPageObjectList.Clear();
     }
+
+    protected internal override void LogConfiguration()
+    {
+        base.LogConfiguration();
+
+        if (!string.IsNullOrEmpty(BaseUrl))
+            Log.Trace($"Set: BaseUrl={BaseUrl}");
+
+        LogRetrySettings();
+    }
+
+    private void LogRetrySettings()
+    {
+        const string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";
+
+        Log.Trace(
+            messageFormat.FormatWith(
+                "ElementFind",
+                ElementFindTimeout.ToShortIntervalString(),
+                ElementFindRetryInterval.ToShortIntervalString()));
+
+        Log.Trace(
+            messageFormat.FormatWith(
+                "Waiting",
+                WaitingTimeout.ToShortIntervalString(),
+                WaitingRetryInterval.ToShortIntervalString()));
+
+        Log.Trace(
+            messageFormat.FormatWith(
+                "Verification",
+                VerificationTimeout.ToShortIntervalString(),
+                VerificationRetryInterval.ToShortIntervalString()));
+    }
 }
