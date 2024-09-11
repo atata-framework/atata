@@ -100,21 +100,6 @@ public class LogConsumersBuilder
         Add(new ConsoleLogConsumer());
 
     /// <summary>
-    /// Adds the <see cref="NLogConsumer"/> instance that uses <c>NLog.Logger</c> class for logging.
-    /// </summary>
-    /// <param name="loggerName">The name of the logger.</param>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<NLogConsumer> AddNLog(string loggerName = null) =>
-        Add(new NLogConsumer(loggerName));
-
-    /// <summary>
-    /// Adds the <see cref="NLogFileConsumer"/> instance that uses <c>NLog.Logger</c> class for logging into file.
-    /// </summary>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<NLogFileConsumer> AddNLogFile() =>
-        Add(new NLogFileConsumer());
-
-    /// <summary>
     /// Adds the <see cref="Log4NetConsumer"/> instance that uses <c>log4net.ILog</c> interface for logging.
     /// </summary>
     /// <param name="loggerName">The name of the logger.</param>
