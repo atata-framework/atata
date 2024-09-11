@@ -3,16 +3,18 @@
 /// <summary>
 /// Represents the builder of log consumers.
 /// </summary>
-public class LogConsumersBuilder : AtataContextBuilder
+public class LogConsumersBuilder
 {
+    public LogConsumersBuilder() =>
+        Items = [];
+
+    public LogConsumersBuilder(IEnumerable<LogConsumerConfiguration> items) =>
+        Items = items.ToList();
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="LogConsumersBuilder"/> class.
+    /// Gets the list of log consumer configurations.
     /// </summary>
-    /// <param name="buildingContext">The building context.</param>
-    public LogConsumersBuilder(AtataBuildingContext buildingContext)
-        : base(buildingContext)
-    {
-    }
+    public List<LogConsumerConfiguration> Items { get; }
 
     /// <summary>
     /// Adds the log consumer.
@@ -51,7 +53,7 @@ public class LogConsumersBuilder : AtataContextBuilder
         consumer.CheckNotNull(nameof(consumer));
 
         var consumerConfiguration = new LogConsumerConfiguration(consumer);
-        BuildingContext.LogConsumerConfigurations.Add(consumerConfiguration);
+        Items.Add(consumerConfiguration);
         return new LogConsumerBuilder<TLogConsumer>(consumerConfiguration);
     }
 
@@ -63,7 +65,7 @@ public class LogConsumersBuilder : AtataContextBuilder
     public LogConsumerBuilder<TLogConsumer> Configure<TLogConsumer>()
        where TLogConsumer : ILogConsumer
     {
-        var consumerConfiguration = BuildingContext.LogConsumerConfigurations.LastOrDefault(x => x.Consumer is TLogConsumer);
+        var consumerConfiguration = Items.LastOrDefault(x => x.Consumer is TLogConsumer);
 
         if (consumerConfiguration is null)
         {

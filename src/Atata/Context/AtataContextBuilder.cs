@@ -33,7 +33,7 @@ public class AtataContextBuilder
     /// Gets the builder of log consumers,
     /// which provides the methods to add log consumers.
     /// </summary>
-    public LogConsumersBuilder LogConsumers => new(BuildingContext);
+    public LogConsumersBuilder LogConsumers { get; private set; } = new();
 
     public AtataSessionsBuilder Sessions { get; }
 
