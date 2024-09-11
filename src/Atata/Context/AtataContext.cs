@@ -88,6 +88,7 @@ public sealed class AtataContext : IDisposable
     public AtataSessionCollection Sessions { get; } = [];
 
     [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     internal IWebDriverFactory DriverFactory { get; set; }
 
     [Obsolete("Use GetWebDriver() or GetWebDriverSession().Driver instead.")] // Obsolete since v4.0.0.
@@ -97,10 +98,12 @@ public sealed class AtataContext : IDisposable
 
     // TODO: Change HasDriver obsolete message.
     [Obsolete("Use GetWebDriverSession().HasDriver instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool HasDriver =>
         this.GetWebDriverSession().HasDriver;
 
     [Obsolete("Use GetWebDriverSession().DriverAlias instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public string DriverAlias =>
         this.GetWebDriverSession().DriverAlias;
 
@@ -125,6 +128,7 @@ public sealed class AtataContext : IDisposable
     public DateTime StartedAtUtc { get; private set; }
 
     [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public string BaseUrl =>
         this.GetWebSession().BaseUrl;
 
@@ -141,10 +145,12 @@ public sealed class AtataContext : IDisposable
     public TimeSpan BaseRetryInterval { get; internal set; }
 
     [Obsolete("Use GetWebSession().ElementFindTimeout instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public TimeSpan ElementFindTimeout =>
         this.GetWebSession().ElementFindTimeout;
 
     [Obsolete("Use GetWebSession().ElementFindRetryInterval instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public TimeSpan ElementFindRetryInterval =>
         this.GetWebSession().ElementFindRetryInterval;
 
@@ -173,6 +179,7 @@ public sealed class AtataContext : IDisposable
     public TimeSpan VerificationRetryInterval { get; internal set; }
 
     [Obsolete("Use GetWebDriverSession().DefaultControlVisibility instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public Visibility DefaultControlVisibility =>
         this.GetWebDriverSession().DefaultControlVisibility;
 
@@ -254,6 +261,7 @@ public sealed class AtataContext : IDisposable
     public string ArtifactsPath => Artifacts?.FullName.Value;
 
     [Obsolete("Use GetWebSession().Go instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public AtataNavigator Go =>
         this.GetWebSession().Go;
 
@@ -263,6 +271,7 @@ public sealed class AtataContext : IDisposable
     public Report<AtataContext> Report { get; }
 
     [Obsolete("Use GetWebSession().PageObject instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponent PageObject =>
         this.GetWebSession().PageObject;
 
@@ -273,10 +282,12 @@ public sealed class AtataContext : IDisposable
     internal Stopwatch SetupExecutionStopwatch { get; } = new Stopwatch();
 
     [Obsolete("Use GetWebDriverSession().TemporarilyPreservedPageObjects instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public IReadOnlyList<UIComponent> TemporarilyPreservedPageObjects =>
         this.GetWebDriverSession().TemporarilyPreservedPageObjects;
 
     [Obsolete("Use GetWebDriverSession().UIComponentAccessChainScopeCache instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache =>
         this.GetWebDriverSession().UIComponentAccessChainScopeCache;
 
@@ -330,10 +341,12 @@ public sealed class AtataContext : IDisposable
     public StateHierarchicalDictionary State { get; }
 
     [Obsolete("Use GetWebSession().DomTestIdAttributeName instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public string DomTestIdAttributeName =>
         this.GetWebSession().DomTestIdAttributeName;
 
     [Obsolete("Use GetWebSession().DomTestIdAttributeDefaultCase instead.")] // Obsolete since v4.0.0.
+    [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public TermCase DomTestIdAttributeDefaultCase =>
         this.GetWebSession().DomTestIdAttributeDefaultCase;
 
