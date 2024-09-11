@@ -7,7 +7,7 @@ public class LogConsumersBuilderTests
 
     [SetUp]
     public void SetUp() =>
-        Sut = new LogConsumersBuilder(new AtataBuildingContext())
+        Sut = new LogConsumersBuilder()
             .ToSutSubject();
 
     public class Configure : LogConsumersBuilderTests
@@ -15,14 +15,14 @@ public class LogConsumersBuilderTests
         [Test]
         public void WhenNew() =>
             Sut.Act(x => x.Configure<TraceLogConsumer>().WithMinLevel(LogLevel.Warn))
-                .ResultOf(x => x.BuildingContext.LogConsumerConfigurations)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(x => x.Consumer is TraceLogConsumer && x.MinLevel == LogLevel.Warn);
 
         [Test]
         public void WhenNewAndThereIsAnotherExisting() =>
             Sut.Act(x => x.Add<ConsoleLogConsumer>().WithMinLevel(LogLevel.Info))
                 .Act(x => x.Configure<TraceLogConsumer>().WithMinLevel(LogLevel.Warn))
-                .ResultOf(x => x.BuildingContext.LogConsumerConfigurations)
+                .ResultOf(x => x.Items)
                     .Should.ConsistSequentiallyOf(
                         x => x.Consumer is ConsoleLogConsumer,
                         x => x.Consumer is TraceLogConsumer && x.MinLevel == LogLevel.Warn);
@@ -31,7 +31,7 @@ public class LogConsumersBuilderTests
         public void WhenExisting() =>
             Sut.Act(x => x.Add<TraceLogConsumer>().WithMinLevel(LogLevel.Info))
                 .Act(x => x.Configure<TraceLogConsumer>().WithMinLevel(LogLevel.Warn))
-                .ResultOf(x => x.BuildingContext.LogConsumerConfigurations)
+                .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(x => x.Consumer is TraceLogConsumer && x.MinLevel == LogLevel.Warn);
     }
 }
