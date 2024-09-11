@@ -760,57 +760,30 @@ public class AtataContextBuilder
         return new ObjectMapper(objectConverter);
     }
 
-    /// <summary>
-    /// <para>
-    /// Sets up driver with auto version detection for the local browser to use.
-    /// Gets the name of the local browser to use from <see cref="AtataBuildingContext.LocalBrowserToUseName"/> property.
-    /// Then invokes <c>Atata.WebDriverSetup.DriverSetup.AutoSetUpSafely(...)</c> static method
-    /// from <c>Atata.WebDriverSetup</c> package.
-    /// </para>
-    /// <para>
-    /// In order to use this method,
-    /// ensure that <c>Atata.WebDriverSetup</c> package is installed.
-    /// </para>
-    /// </summary>
-    public void AutoSetUpDriverToUse()
-    {
-        if (BuildingContext.UsesLocalBrowser)
-            InvokeAutoSetUpSafelyMethodOfDriverSetup([BuildingContext.LocalBrowserToUseName]);
-    }
+#warning Temporarily commented AutoSetUp* methods. Try to make them obsolete.
+    ////public void AutoSetUpDriverToUse()
+    ////{
+    ////    if (BuildingContext.UsesLocalBrowser)
+    ////        InvokeAutoSetUpSafelyMethodOfDriverSetup([BuildingContext.LocalBrowserToUseName]);
+    ////}
 
-    /// <inheritdoc cref="AutoSetUpDriverToUse"/>
-    /// <returns>The task object representing the asynchronous operation.</returns>
-    public async Task AutoSetUpDriverToUseAsync() =>
-        await Task.Run(AutoSetUpDriverToUse);
+    ////public async Task AutoSetUpDriverToUseAsync() =>
+    ////    await Task.Run(AutoSetUpDriverToUse);
 
-    /// <summary>
-    /// <para>
-    /// Sets up drivers with auto version detection for the local configured browsers.
-    /// Gets the names of configured local browsers from <see cref="AtataBuildingContext.ConfiguredLocalBrowserNames"/> property.
-    /// Then invokes <c>Atata.WebDriverSetup.DriverSetup.AutoSetUpSafely(...)</c> static method
-    /// from <c>Atata.WebDriverSetup</c> package.
-    /// </para>
-    /// <para>
-    /// In order to use this method,
-    /// ensure that <c>Atata.WebDriverSetup</c> package is installed.
-    /// </para>
-    /// </summary>
-    public void AutoSetUpConfiguredDrivers() =>
-        InvokeAutoSetUpSafelyMethodOfDriverSetup(BuildingContext.ConfiguredLocalBrowserNames);
+    ////public void AutoSetUpConfiguredDrivers() =>
+    ////    InvokeAutoSetUpSafelyMethodOfDriverSetup(BuildingContext.ConfiguredLocalBrowserNames);
 
-    /// <inheritdoc cref="AutoSetUpConfiguredDrivers"/>
-    /// <returns>The task object representing the asynchronous operation.</returns>
-    public async Task AutoSetUpConfiguredDriversAsync() =>
-        await Task.Run(AutoSetUpConfiguredDrivers);
+    ////public async Task AutoSetUpConfiguredDriversAsync() =>
+    ////    await Task.Run(AutoSetUpConfiguredDrivers);
 
-    private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
-    {
-        Type driverSetupType = Type.GetType("Atata.WebDriverSetup.DriverSetup,Atata.WebDriverSetup", true);
+    ////private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
+    ////{
+    ////    Type driverSetupType = Type.GetType("Atata.WebDriverSetup.DriverSetup,Atata.WebDriverSetup", true);
 
-        var setUpMethod = driverSetupType.GetMethodWithThrowOnError(
-            "AutoSetUpSafely",
-            BindingFlags.Public | BindingFlags.Static);
+    ////    var setUpMethod = driverSetupType.GetMethodWithThrowOnError(
+    ////        "AutoSetUpSafely",
+    ////        BindingFlags.Public | BindingFlags.Static);
 
-        setUpMethod.InvokeStaticAsLambda(browserNames);
-    }
+    ////    setUpMethod.InvokeStaticAsLambda(browserNames);
+    ////}
 }
