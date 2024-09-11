@@ -3,7 +3,7 @@
 /// <summary>
 /// Provides NUnit extension methods for <see cref="EventSubscriptionsBuilder"/>.
 /// </summary>
-public static class EventSubscriptionsBuilderExtensions
+public static class NUnitEventSubscriptionsBuilderExtensions
 {
     /// <summary>
     /// Defines that an error occurred during the NUnit test execution
