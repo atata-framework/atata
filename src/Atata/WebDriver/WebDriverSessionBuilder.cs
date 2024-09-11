@@ -402,36 +402,6 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         }
     }
 
-    private void InitBrowserLogMonitoring(WebDriverSession session)
-    {
-        if (BrowserLogs.HasPropertiesToUse)
-        {
-            if (session.DriverFactory is ChromeDriverBuilder chromeBuilder)
-            {
-                chromeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
-            }
-            else if (session.DriverFactory is EdgeDriverBuilder edgeBuilder)
-            {
-                edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
-            }
-            else if (session.DriverFactory is RemoteDriverBuilder remoteBuilder)
-            {
-                remoteBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
-            }
-
-            List<IBrowserLogHandler> browserLogHandlers = new(2);
-
-            if (BrowserLogs.Log)
-                browserLogHandlers.Add(new LoggingBrowserLogHandler(session.Log));
-
-            if (BrowserLogs.MinLevelOfWarning is not null)
-                browserLogHandlers.Add(new WarningBrowserLogHandler(session, BrowserLogs.MinLevelOfWarning.Value));
-
-            session.EventBus.Subscribe<DriverInitEvent>(
-                (e, _) => EnableBrowserLogMonitoringOnDriverInitEvent(e.Driver, session, browserLogHandlers));
-        }
-    }
-
     private static void EnableBrowserLogMonitoringOnDriverInitEvent(
         IWebDriver driver,
         WebDriverSession session,
@@ -468,6 +438,36 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         else
         {
             session.Log.Warn("Browser logs monitoring cannot be enabled. The feature is currently only available for Chrome and Edge.");
+        }
+    }
+
+    private void InitBrowserLogMonitoring(WebDriverSession session)
+    {
+        if (BrowserLogs.HasPropertiesToUse)
+        {
+            if (session.DriverFactory is ChromeDriverBuilder chromeBuilder)
+            {
+                chromeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+            else if (session.DriverFactory is EdgeDriverBuilder edgeBuilder)
+            {
+                edgeBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+            else if (session.DriverFactory is RemoteDriverBuilder remoteBuilder)
+            {
+                remoteBuilder.WithOptions(x => x.SetLoggingPreference(LogType.Browser, OpenQA.Selenium.LogLevel.All));
+            }
+
+            List<IBrowserLogHandler> browserLogHandlers = new(2);
+
+            if (BrowserLogs.Log)
+                browserLogHandlers.Add(new LoggingBrowserLogHandler(session.Log));
+
+            if (BrowserLogs.MinLevelOfWarning is not null)
+                browserLogHandlers.Add(new WarningBrowserLogHandler(session, BrowserLogs.MinLevelOfWarning.Value));
+
+            session.EventBus.Subscribe<DriverInitEvent>(
+                (e, _) => EnableBrowserLogMonitoringOnDriverInitEvent(e.Driver, session, browserLogHandlers));
         }
     }
 }
