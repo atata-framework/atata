@@ -1,5 +1,6 @@
 ﻿namespace Atata;
 
+#warning Remove AtataContextBuilder as a base class of AttributesAtataContextBuilder.
 /// <summary>
 /// Represents the root builder of <see cref="AtataAttributesContext"/>.
 /// </summary>
