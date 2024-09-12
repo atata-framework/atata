@@ -4,7 +4,7 @@ public interface IAtataSessionBuilder : ICloneable
 {
     string Name { get; }
 
-    AtataSessionStart Start { get; }
+    AtataSessionStartScopes StartScopes { get; set; }
 
     AtataSession Build(AtataContext context);
 }

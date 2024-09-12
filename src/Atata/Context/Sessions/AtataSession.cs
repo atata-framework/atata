@@ -8,8 +8,9 @@ public abstract class AtataSession
 
     public string Name { get; internal set; }
 
+#warning Temporarily returns true as IsActive.
     public bool IsActive =>
-        throw new NotImplementedException();
+        true;
 
     /// <summary>
     /// Gets the instance of the log manager associated with the session.

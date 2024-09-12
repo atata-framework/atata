@@ -5,11 +5,14 @@
 /// </summary>
 public class AtataContextBuilder
 {
-    public AtataContextBuilder(AtataBuildingContext buildingContext)
+    public AtataContextBuilder(AtataBuildingContext buildingContext, AtataContextScope? scope = null)
     {
         BuildingContext = buildingContext.CheckNotNull(nameof(buildingContext));
-        Sessions = new AtataSessionsBuilder(this, []);
+        Scope = scope;
+        Sessions = new AtataSessionsBuilder(this, [], ResolveSessionDefaultStartScopes(scope));
     }
+
+    public AtataContextScope? Scope { get; }
 
     /// <summary>
     /// Gets the building context.
@@ -630,7 +633,8 @@ public class AtataContextBuilder
     /// <returns>The created <see cref="AtataContext"/> instance.</returns>
     public AtataContext Build()
     {
-        AtataContext context = new AtataContext();
+#warning Maybe throw some exception when Scope is null, meaning that base configuration builder should not build.
+        AtataContext context = new(Scope ?? AtataContextScope.Test);
         LogManager logManager = CreateLogManager(context);
 
         IObjectConverter objectConverter = new ObjectConverter
@@ -687,6 +691,15 @@ public class AtataContextBuilder
         return context;
     }
 
+    private static AtataSessionStartScopes ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
+        scope switch
+        {
+            AtataContextScope.Test => AtataSessionStartScopes.Test,
+            AtataContextScope.TestSuite => AtataSessionStartScopes.TestSuite,
+            AtataContextScope.Global => AtataSessionStartScopes.Global,
+            _ => AtataSessionStartScopes.None
+        };
+
     private LogManager CreateLogManager(AtataContext context)
     {
         LogManagerConfiguration configuration = new(
@@ -705,12 +718,27 @@ public class AtataContextBuilder
 
         context.Log.Trace($"Set: Artifacts={context.ArtifactsPath}");
 
-        // TODO: Build sessions.
+        context.Sessions.AddBuilders(Sessions.Builders);
 
-        // TODO: Start sessions that should be start.
+        foreach (var builder in Sessions.Builders.Where(ShouldAutoStartSession))
+        {
+            var session = builder.Build(context);
+#warning Use await.
+            session.StartAsync().GetAwaiter().GetResult();
+            context.Sessions.Add(session);
+        }
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
     }
+
+    private bool ShouldAutoStartSession(IAtataSessionBuilder builder) =>
+        Scope switch
+        {
+            AtataContextScope.Test => builder.StartScopes.HasFlag(AtataSessionStartScopes.Test),
+            AtataContextScope.TestSuite => builder.StartScopes.HasFlag(AtataSessionStartScopes.TestSuite),
+            AtataContextScope.Global => builder.StartScopes.HasFlag(AtataSessionStartScopes.Global),
+            _ => false
+        };
 
     private static void ApplyCulture(AtataContext context, CultureInfo culture)
     {

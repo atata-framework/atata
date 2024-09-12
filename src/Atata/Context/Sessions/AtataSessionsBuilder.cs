@@ -7,12 +7,16 @@ public sealed class AtataSessionsBuilder
 
     private readonly List<IAtataSessionBuilder> _sessionBuilders;
 
+    private readonly AtataSessionStartScopes _defaultStartScopes;
+
     internal AtataSessionsBuilder(
         AtataContextBuilder atataContextBuilder,
-        List<IAtataSessionBuilder> sessionBuilders)
+        List<IAtataSessionBuilder> sessionBuilders,
+        AtataSessionStartScopes defaultStartScopes)
     {
         _atataContextBuilder = atataContextBuilder;
         _sessionBuilders = sessionBuilders;
+        _defaultStartScopes = defaultStartScopes;
     }
 
     public IReadOnlyList<IAtataSessionBuilder> Builders =>
@@ -21,7 +25,10 @@ public sealed class AtataSessionsBuilder
     public AtataContextBuilder Add<TSessionBuilder>(Action<TSessionBuilder> configure = null)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
-        var sessionBuilder = new TSessionBuilder();
+        var sessionBuilder = new TSessionBuilder
+        {
+            StartScopes = _defaultStartScopes
+        };
         configure?.Invoke(sessionBuilder);
 
         _sessionBuilders.Add(sessionBuilder);

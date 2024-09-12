@@ -30,13 +30,9 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
-    internal AtataContext()
-        : this(null)
+    internal AtataContext(AtataContextScope scope, AtataContext parentContext = null)
     {
-    }
-
-    internal AtataContext(AtataContext parentContext)
-    {
+        Scope = scope;
         ParentContext = parentContext;
 
         _assertionVerificationStrategy = new AssertionVerificationStrategy(this);
@@ -84,6 +80,8 @@ public sealed class AtataContext : IDisposable
     public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
 
     public AtataContext ParentContext { get; }
+
+    public AtataContextScope Scope { get; }
 
     public AtataSessionCollection Sessions { get; } = [];
 
@@ -358,7 +356,7 @@ public sealed class AtataContext : IDisposable
     public static AtataContextBuilder Configure()
     {
         AtataBuildingContext buildingContext = GlobalConfiguration.BuildingContext.Clone();
-        return new AtataContextBuilder(buildingContext);
+        return new AtataContextBuilder(buildingContext, AtataContextScope.Test);
     }
 
     internal void InitDateTimeProperties()

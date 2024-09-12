@@ -6,7 +6,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 {
     public string Name { get; set; }
 
-    public AtataSessionStart Start { get; set; }
+    public AtataSessionStartScopes StartScopes { get; set; }
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -79,9 +79,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return (TBuilder)this;
     }
 
-    public TBuilder WithStart(AtataSessionStart sessionStart)
+    public TBuilder WithStart(AtataSessionStartScopes startScopes)
     {
-        Start = sessionStart;
+        StartScopes = startScopes;
         return (TBuilder)this;
     }
 
