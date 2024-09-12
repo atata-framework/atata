@@ -29,20 +29,21 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
     }
 
-    public TSession Start<TSessionBuilder, TSession>(string name = null)
-    {
-        //return 
-    }
+#warning Finish later Start methods.
+    ////public TSession Start<TSessionBuilder, TSession>(string name = null)
+    ////{
+    ////    //return
+    ////}
 
-    public TSession Start<TSessionBuilder, TSession>(Action<TSessionBuilder> sessionConfiguration)
-        where TSessionBuilder : IAtataSessionBuilder
-    {
-        var sessionBuilder = ActivatorEx.CreateInstance<TSessionBuilder>();
+    ////public TSession Start<TSessionBuilder, TSession>(Action<TSessionBuilder> sessionConfiguration)
+    ////    where TSessionBuilder : IAtataSessionBuilder
+    ////{
+    ////    var sessionBuilder = ActivatorEx.CreateInstance<TSessionBuilder>();
 
-        sessionConfiguration?.Invoke(sessionBuilder);
+    ////    sessionConfiguration?.Invoke(sessionBuilder);
 
-        return (TSession)sessionBuilder.Build();
-    }
+    ////    return (TSession)sessionBuilder.Build();
+    ////}
 
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
