@@ -453,6 +453,9 @@ dotnet_diagnostic.IDE0083.severity = warning
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = warning
 
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = none
+
 # IDE0200: Remove unnecessary lambda expression
 dotnet_diagnostic.IDE0200.severity = warning
 
