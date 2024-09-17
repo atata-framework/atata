@@ -47,7 +47,7 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
 
     private void TakeScreenshot(IScreenshotStrategy<TSession> strategy, string title = null)
     {
-        if (strategy is null || _session.IsActive)
+        if (strategy is null || !_session.IsActive)
             return;
 
         _screenshotNumber++;
