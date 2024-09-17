@@ -1,15 +1,15 @@
 ﻿namespace Atata;
 
-public sealed class TakePageSnapshotOnNUnitErrorEventHandler : IConditionalEventHandler<AtataContextDeInitEvent>
+public sealed class TakePageSnapshotOnNUnitErrorEventHandler : IConditionalEventHandler<AtataSessionDeInitEvent>
 {
     private readonly string _snapshotTitle;
 
     public TakePageSnapshotOnNUnitErrorEventHandler(string snapshotTitle = "Failed") =>
         _snapshotTitle = snapshotTitle;
 
-    public bool CanHandle(AtataContextDeInitEvent eventData, AtataContext context) =>
-        NUnitAdapter.IsCurrentTestFailed() && context.HasDriver;
+    public bool CanHandle(AtataSessionDeInitEvent eventData, AtataContext context) =>
+        NUnitAdapter.IsCurrentTestFailed() && eventData.Session.IsActive;
 
-    public void Handle(AtataContextDeInitEvent eventData, AtataContext context) =>
-        context.TakePageSnapshot(_snapshotTitle);
+    public void Handle(AtataSessionDeInitEvent eventData, AtataContext context) =>
+        (eventData.Session as WebSession)?.TakePageSnapshot(_snapshotTitle);
 }

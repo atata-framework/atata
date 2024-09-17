@@ -648,6 +648,9 @@ public sealed class AtataContext : IDisposable
             {
                 EventBus.Publish(new AtataContextDeInitEvent(this));
 
+                foreach (var session in Sessions)
+                    session.Deactivate();
+
                 // TODO: Dispose sessions, which are needed to be disposed.
 
                 EventBus.Publish(new AtataContextDeInitCompletedEvent(this));

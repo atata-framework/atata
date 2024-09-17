@@ -8,9 +8,8 @@ public abstract class AtataSession
 
     public string Name { get; internal set; }
 
-#warning Temporarily returns true as IsActive.
-    public bool IsActive =>
-        true;
+#warning Temporarily IsActive is set to true by default.
+    public bool IsActive { get; private set; } = true;
 
     /// <summary>
     /// Gets the instance of the log manager associated with the session.
@@ -100,6 +99,16 @@ public abstract class AtataSession
         ReassignToContext(OwnerContext);
 
     protected internal abstract Task StartAsync(CancellationToken cancellationToken = default);
+
+    internal void Deactivate()
+    {
+        if (IsActive)
+        {
+            EventBus.Publish(new AtataSessionDeInitEvent(this));
+
+            IsActive = false;
+        }
+    }
 
     protected internal virtual void LogConfiguration()
     {
