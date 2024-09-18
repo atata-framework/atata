@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the builder of <see cref="AtataContext"/>.
 /// </summary>
-public class AtataContextBuilder : ICloneable
+public sealed class AtataContextBuilder : ICloneable
 {
     public AtataContextBuilder(AtataBuildingContext buildingContext, AtataContextScope? scope = null)
     {
