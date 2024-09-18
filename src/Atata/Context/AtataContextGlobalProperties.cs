@@ -113,6 +113,15 @@ public sealed class AtataContextGlobalProperties
     public string ArtifactsRootPath => ArtifactsRoot.FullName.Value;
 
     /// <summary>
+    /// Gets or sets the assembly name pattern that is used to filter assemblies to find types in them
+    /// such as events, event handlers, attributes, components, etc.
+    /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>,
+    /// which filters non-system assemblies.
+    /// </summary>
+    public string AssemblyNamePatternToFindTypes { get; set; } =
+        @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
+
+    /// <summary>
     /// Sets the default Artifacts Root path template with optionally
     /// including <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.
     /// </summary>
@@ -189,6 +198,20 @@ public sealed class AtataContextGlobalProperties
     public AtataContextGlobalProperties UseModeOfCurrent(AtataContextModeOfCurrent mode)
     {
         ModeOfCurrent = mode;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the assembly name regex pattern that is used to filter assemblies to find types in them,
+    /// such as events, event handlers, attributes, components, etc.
+    /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>,
+    /// which filters non-system assemblies.
+    /// </summary>
+    /// <param name="assemblyNamePattern">The assembly name regex pattern.</param>
+    /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
+    public AtataContextGlobalProperties UseAssemblyNamePatternToFindTypes(string assemblyNamePattern)
+    {
+        AssemblyNamePatternToFindTypes = assemblyNamePattern;
         return this;
     }
 
