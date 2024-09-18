@@ -5,11 +5,14 @@ public class ObjectConverter : IObjectConverter
     public string AssemblyNamePatternToFindTypes { get; set; } =
         @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
 
+    public TDestination Convert<TDestination>(object sourceValue) =>
+        (TDestination)Convert(sourceValue, typeof(TDestination));
+
     public object Convert(object sourceValue, Type destinationType)
     {
         destinationType.CheckNotNull(nameof(destinationType));
 
-        if (sourceValue == null)
+        if (sourceValue is null)
         {
             if (destinationType.IsClassOrNullable())
                 return null;
