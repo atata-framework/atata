@@ -20,10 +20,7 @@ public class AtataBuildingContext : ICloneable
     {
     }
 
-    /// <summary>
-    /// Gets the log consumer configurations.
-    /// </summary>
-    public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = [];
+    ////public List<LogConsumerConfiguration> LogConsumerConfigurations { get; private set; } = [];
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -55,10 +52,7 @@ public class AtataBuildingContext : ICloneable
     /// </summary>
     public AtataAttributesContext Attributes { get; private set; } = new AtataAttributesContext();
 
-    /// <summary>
-    /// Gets the list of event subscriptions.
-    /// </summary>
-    public List<EventSubscriptionItem> EventSubscriptions { get; private set; } = [];
+    ////public List<EventSubscriptionItem> EventSubscriptions { get; private set; } = [];
 
     /// <summary>
     /// Gets or sets the default assembly name pattern that is used to filter assemblies to find types in them.
@@ -196,12 +190,7 @@ public class AtataBuildingContext : ICloneable
     {
         AtataBuildingContext copy = (AtataBuildingContext)MemberwiseClone();
 
-        copy.LogConsumerConfigurations = LogConsumerConfigurations
-            .Select(x => x.Consumer is ICloneable ? x.Clone() : x)
-            .ToList();
-
         copy.Attributes = Attributes.Clone();
-        copy.EventSubscriptions = [.. EventSubscriptions];
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
 

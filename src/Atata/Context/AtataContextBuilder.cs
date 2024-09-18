@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the builder of <see cref="AtataContext"/>.
 /// </summary>
-public class AtataContextBuilder
+public class AtataContextBuilder : ICloneable
 {
     public AtataContextBuilder(AtataBuildingContext buildingContext, AtataContextScope? scope = null)
     {
@@ -703,7 +703,7 @@ public class AtataContextBuilder
     private LogManager CreateLogManager(AtataContext context)
     {
         LogManagerConfiguration configuration = new(
-            [.. BuildingContext.LogConsumerConfigurations],
+            [.. LogConsumers.Items],
             [.. BuildingContext.SecretStringsToMaskInLog]);
 
         return new(configuration, new AtataContextLogEventInfoFactory(context));
@@ -786,4 +786,28 @@ public class AtataContextBuilder
 
     ////    setUpMethod.InvokeStaticAsLambda(browserNames);
     ////}
+
+    /// <inheritdoc cref="Clone"/>
+    object ICloneable.Clone() =>
+        Clone();
+
+    /// <summary>
+    /// Creates a copy of the current instance.
+    /// </summary>
+    /// <returns>The copied <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Clone()
+    {
+        var copy = (AtataContextBuilder)MemberwiseClone();
+
+        copy.LogConsumers = new LogConsumersBuilder(
+            LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x));
+
+        //copy.Attributes = Attributes.Clone();
+        copy.EventSubscriptions = new EventSubscriptionsBuilder(
+            EventSubscriptions.Items);
+        //copy.Variables = new Dictionary<string, object>(Variables);
+        //copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
+
+        return copy;
+    }
 }
