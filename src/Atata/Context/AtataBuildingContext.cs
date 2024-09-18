@@ -52,36 +52,6 @@ public class AtataBuildingContext : ICloneable
     ////public List<EventSubscriptionItem> EventSubscriptions { get; private set; } = [];
 
     /// <summary>
-    /// Gets or sets the default assembly name pattern that is used to filter assemblies to find types in them.
-    /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>, which filters non-system assemblies.
-    /// </summary>
-    public string DefaultAssemblyNamePatternToFindTypes { get; set; } = @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
-
-    /// <summary>
-    /// Gets or sets the assembly name pattern that is used to filter assemblies to find component types in them.
-    /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
-    /// </summary>
-    public string AssemblyNamePatternToFindComponentTypes { get; set; }
-
-    /// <summary>
-    /// Gets or sets the assembly name pattern that is used to filter assemblies to find attribute types in them.
-    /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
-    /// </summary>
-    public string AssemblyNamePatternToFindAttributeTypes { get; set; }
-
-    /// <summary>
-    /// Gets or sets the assembly name pattern that is used to filter assemblies to find event types in them.
-    /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
-    /// </summary>
-    public string AssemblyNamePatternToFindEventTypes { get; set; }
-
-    /// <summary>
-    /// Gets or sets the assembly name pattern that is used to filter assemblies to find event handler types in them.
-    /// The default value is <see langword="null"/>, which means to use <see cref="DefaultAssemblyNamePatternToFindTypes"/>.
-    /// </summary>
-    public string AssemblyNamePatternToFindEventHandlerTypes { get; set; }
-
-    /// <summary>
     /// Gets or sets the Artifacts directory path template.
     /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
     /// </summary>

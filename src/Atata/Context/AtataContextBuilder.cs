@@ -329,76 +329,6 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Sets the default assembly name pattern that is used to filter assemblies to find types in them.
-    /// Modifies the <see cref="AtataBuildingContext.DefaultAssemblyNamePatternToFindTypes"/> property value of <see cref="BuildingContext"/>.
-    /// </summary>
-    /// <param name="pattern">The pattern.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseDefaultAssemblyNamePatternToFindTypes(string pattern)
-    {
-        pattern.CheckNotNullOrWhitespace(nameof(pattern));
-
-        BuildingContext.DefaultAssemblyNamePatternToFindTypes = pattern;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the assembly name pattern that is used to filter assemblies to find component types in them.
-    /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindComponentTypes"/> property value of <see cref="BuildingContext"/>.
-    /// </summary>
-    /// <param name="pattern">The pattern.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseAssemblyNamePatternToFindComponentTypes(string pattern)
-    {
-        pattern.CheckNotNullOrWhitespace(nameof(pattern));
-
-        BuildingContext.AssemblyNamePatternToFindComponentTypes = pattern;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the assembly name pattern that is used to filter assemblies to find attribute types in them.
-    /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindAttributeTypes"/> property value of <see cref="BuildingContext"/>.
-    /// </summary>
-    /// <param name="pattern">The pattern.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseAssemblyNamePatternToFindAttributeTypes(string pattern)
-    {
-        pattern.CheckNotNullOrWhitespace(nameof(pattern));
-
-        BuildingContext.AssemblyNamePatternToFindAttributeTypes = pattern;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the assembly name pattern that is used to filter assemblies to find event types in them.
-    /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindEventTypes"/> property value of <see cref="BuildingContext"/>.
-    /// </summary>
-    /// <param name="pattern">The pattern.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseAssemblyNamePatternToFindEventTypes(string pattern)
-    {
-        pattern.CheckNotNullOrWhitespace(nameof(pattern));
-
-        BuildingContext.AssemblyNamePatternToFindEventTypes = pattern;
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the assembly name pattern that is used to filter assemblies to find event handler types in them.
-    /// Modifies the <see cref="AtataBuildingContext.AssemblyNamePatternToFindEventHandlerTypes"/> property value of <see cref="BuildingContext"/>.
-    /// </summary>
-    /// <param name="pattern">The pattern.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseAssemblyNamePatternToFindEventHandlerTypes(string pattern)
-    {
-        pattern.CheckNotNullOrWhitespace(nameof(pattern));
-
-        BuildingContext.AssemblyNamePatternToFindEventHandlerTypes = pattern;
-        return this;
-    }
-
-    /// <summary>
     /// <para>
     /// Sets the Artifacts directory path template.
     /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
@@ -639,7 +569,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         IObjectConverter objectConverter = new ObjectConverter
         {
-            AssemblyNamePatternToFindTypes = BuildingContext.DefaultAssemblyNamePatternToFindTypes
+            AssemblyNamePatternToFindTypes = AtataContext.GlobalProperties.AssemblyNamePatternToFindTypes
         };
 
         IObjectMapper objectMapper = new ObjectMapper(objectConverter);
