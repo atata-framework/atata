@@ -3,7 +3,7 @@
 namespace Atata.UnitTests;
 
 [TestFixture]
-public class AttributesAtataContextBuilderTests
+public class AttributesBuilderTests
 {
     private readonly Attribute[] _stubAttributes =
     [
@@ -11,7 +11,7 @@ public class AttributesAtataContextBuilderTests
         new TermAttribute("some-id")
     ];
 
-    private AttributesAtataContextBuilder _sut;
+    private AttributesBuilder _sut;
 
     [SetUp]
     public void SetUp() =>

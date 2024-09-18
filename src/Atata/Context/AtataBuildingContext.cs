@@ -47,10 +47,7 @@ public class AtataBuildingContext : ICloneable
     /// </summary>
     public Func<Type> TestSuiteTypeFactory { get; set; }
 
-    /// <summary>
-    /// Gets the context of the attributes.
-    /// </summary>
-    public AtataAttributesContext Attributes { get; private set; } = new AtataAttributesContext();
+    ////public AtataAttributesContext Attributes { get; private set; } = new AtataAttributesContext();
 
     ////public List<EventSubscriptionItem> EventSubscriptions { get; private set; } = [];
 
@@ -190,7 +187,6 @@ public class AtataBuildingContext : ICloneable
     {
         AtataBuildingContext copy = (AtataBuildingContext)MemberwiseClone();
 
-        copy.Attributes = Attributes.Clone();
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
 

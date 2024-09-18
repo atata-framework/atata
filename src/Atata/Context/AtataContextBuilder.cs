@@ -24,7 +24,7 @@ public class AtataContextBuilder : ICloneable
     /// which provides the functionality to add extra attributes to different metadata levels:
     /// global, assembly, component and property.
     /// </summary>
-    public AttributesAtataContextBuilder Attributes { get; private set; } = new(new());
+    public AttributesBuilder Attributes { get; private set; } = new(new());
 
     /// <summary>
     /// Gets the builder of event subscriptions,
@@ -802,7 +802,7 @@ public class AtataContextBuilder : ICloneable
         copy.LogConsumers = new LogConsumersBuilder(
             LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x));
 
-        copy.Attributes = new AttributesAtataContextBuilder(Attributes.AttributesContext.Clone());
+        copy.Attributes = new AttributesBuilder(Attributes.AttributesContext.Clone());
         copy.EventSubscriptions = new EventSubscriptionsBuilder(
             EventSubscriptions.Items);
         //copy.Variables = new Dictionary<string, object>(Variables);

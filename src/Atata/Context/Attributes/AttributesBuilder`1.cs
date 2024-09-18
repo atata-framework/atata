@@ -4,7 +4,7 @@
 /// Represents the base class for attributes builders.
 /// </summary>
 /// <typeparam name="TNextBuilder">The type of the next builder to return by <c>Add</c> methods.</typeparam>
-public abstract class AttributesAtataContextBuilder<TNextBuilder>
+public abstract class AttributesBuilder<TNextBuilder>
 {
     /// <summary>
     /// Adds the specified attributes.

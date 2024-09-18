@@ -3,19 +3,19 @@
 /// <summary>
 /// Represents the builder of assembly attributes.
 /// </summary>
-public sealed class AssemblyAttributesAtataContextBuilder
-    : AttributesAtataContextBuilder<AssemblyAttributesAtataContextBuilder>
+public sealed class AssemblyAttributesBuilder
+    : AttributesBuilder<AssemblyAttributesBuilder>
 {
     private readonly Assembly _assembly;
 
     private readonly AtataAttributesContext _attributesContext;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="AssemblyAttributesAtataContextBuilder"/> class.
+    /// Initializes a new instance of the <see cref="AssemblyAttributesBuilder"/> class.
     /// </summary>
     /// <param name="assembly">The assembly.</param>
     /// <param name="attributesContext">The building attributes context.</param>
-    public AssemblyAttributesAtataContextBuilder(Assembly assembly, AtataAttributesContext attributesContext)
+    public AssemblyAttributesBuilder(Assembly assembly, AtataAttributesContext attributesContext)
     {
         _assembly = assembly;
         _attributesContext = attributesContext;
@@ -32,5 +32,5 @@ public sealed class AssemblyAttributesAtataContextBuilder
         attributeSet.AddRange(attributes);
     }
 
-    protected override AssemblyAttributesAtataContextBuilder ResolveNextBuilder() => this;
+    protected override AssemblyAttributesBuilder ResolveNextBuilder() => this;
 }
