@@ -9,6 +9,18 @@ public sealed class AtataContext : IDisposable
 {
     private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new();
 
+    private static readonly Lazy<IObjectConverter> s_lazyObjectConverter = new(
+        () => new ObjectConverter
+        {
+            AssemblyNamePatternToFindTypes = GlobalProperties.AssemblyNamePatternToFindTypes
+        });
+
+    private static readonly Lazy<IObjectMapper> s_lazyObjectMapper = new(
+        () => new ObjectMapper(s_lazyObjectConverter.Value));
+
+    private static readonly Lazy<IObjectCreator> s_lazyObjectCreator = new(
+        () => new ObjectCreator(s_lazyObjectConverter.Value, s_lazyObjectMapper.Value));
+
     [ThreadStatic]
     private static AtataContext s_currentThreadStaticContext;
 
@@ -65,6 +77,24 @@ public sealed class AtataContext : IDisposable
                 s_currentStaticContext = value;
         }
     }
+
+    /// <summary>
+    /// Gets the object creator.
+    /// </summary>
+    public static IObjectCreator ObjectCreator =>
+        s_lazyObjectCreator.Value;
+
+    /// <summary>
+    /// Gets the object converter.
+    /// </summary>
+    public static IObjectConverter ObjectConverter =>
+        s_lazyObjectConverter.Value;
+
+    /// <summary>
+    /// Gets the object mapper.
+    /// </summary>
+    public static IObjectMapper ObjectMapper =>
+        s_lazyObjectMapper.Value;
 
     /// <summary>
     /// Gets the global properties that should be configured as early as possible,
@@ -288,21 +318,6 @@ public sealed class AtataContext : IDisposable
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache =>
         this.GetWebDriverSession().UIComponentAccessChainScopeCache;
-
-    /// <summary>
-    /// Gets the object creator.
-    /// </summary>
-    public IObjectCreator ObjectCreator { get; internal set; }
-
-    /// <summary>
-    /// Gets the object converter.
-    /// </summary>
-    public IObjectConverter ObjectConverter { get; internal set; }
-
-    /// <summary>
-    /// Gets the object mapper.
-    /// </summary>
-    public IObjectMapper ObjectMapper { get; internal set; }
 
     /// <summary>
     /// Gets the event bus of <see cref="AtataContext"/>,

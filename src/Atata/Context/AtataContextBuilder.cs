@@ -567,14 +567,6 @@ public sealed class AtataContextBuilder : ICloneable
         AtataContext context = new(Scope ?? AtataContextScope.Test);
         LogManager logManager = CreateLogManager(context);
 
-        IObjectConverter objectConverter = new ObjectConverter
-        {
-            AssemblyNamePatternToFindTypes = AtataContext.GlobalProperties.AssemblyNamePatternToFindTypes
-        };
-
-        IObjectMapper objectMapper = new ObjectMapper(objectConverter);
-        IObjectCreator objectCreator = new ObjectCreator(objectConverter, objectMapper);
-
         context.Test.Name = BuildingContext.TestNameFactory?.Invoke();
         context.Test.SuiteName = BuildingContext.TestSuiteNameFactory?.Invoke();
         context.Test.SuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke();
@@ -592,9 +584,6 @@ public sealed class AtataContextBuilder : ICloneable
         context.AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
         context.WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy();
         context.AssertionFailureReportStrategy = BuildingContext.AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
-        context.ObjectConverter = objectConverter;
-        context.ObjectMapper = objectMapper;
-        context.ObjectCreator = objectCreator;
         context.EventBus = new EventBus(context, EventSubscriptions.Items);
 
         if (context.Test.SuiteName is null && context.Test.SuiteType is not null)

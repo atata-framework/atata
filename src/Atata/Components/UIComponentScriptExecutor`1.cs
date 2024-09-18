@@ -373,9 +373,6 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
             """,
             rootSelector);
 
-    private TResult ConvertResult<TResult>(object result)
-    {
-        IObjectConverter objectConverter = Component.Context.ObjectConverter;
-        return (TResult)objectConverter.Convert(result, typeof(TResult));
-    }
+    private static TResult ConvertResult<TResult>(object result) =>
+        AtataContext.ObjectConverter.Convert<TResult>(result);
 }
