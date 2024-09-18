@@ -750,16 +750,6 @@ public sealed class AtataContextBuilder : ICloneable
         context.Log.Trace($"Set: Culture={culture.Name}");
     }
 
-    protected internal IObjectMapper CreateObjectMapper()
-    {
-        IObjectConverter objectConverter = new ObjectConverter
-        {
-            AssemblyNamePatternToFindTypes = BuildingContext.DefaultAssemblyNamePatternToFindTypes
-        };
-
-        return new ObjectMapper(objectConverter);
-    }
-
 #warning Temporarily commented AutoSetUp* methods. Try to make them obsolete.
     ////public void AutoSetUpDriverToUse()
     ////{
