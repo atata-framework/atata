@@ -3,19 +3,25 @@
 /// <summary>
 /// Represents the builder of component attributes.
 /// </summary>
-public class ComponentAttributesAtataContextBuilder
+public sealed class ComponentAttributesAtataContextBuilder
     : AttributesAtataContextBuilder<ComponentAttributesAtataContextBuilder>
 {
     private readonly Type _componentType;
+
+    private readonly AtataAttributesContext _attributesContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ComponentAttributesAtataContextBuilder"/> class.
     /// </summary>
     /// <param name="componentType">Type of the component.</param>
-    /// <param name="buildingContext">The building context.</param>
-    public ComponentAttributesAtataContextBuilder(Type componentType, AtataBuildingContext buildingContext)
-        : base(buildingContext) =>
+    /// <param name="attributesContext">The building attributes context.</param>
+    public ComponentAttributesAtataContextBuilder(
+        Type componentType,
+        AtataAttributesContext attributesContext)
+    {
         _componentType = componentType;
+        _attributesContext = attributesContext;
+    }
 
     /// <summary>
     /// Creates and returns the attributes builder for the property with the specified name.
@@ -38,15 +44,15 @@ public class ComponentAttributesAtataContextBuilder
             _componentType,
             propertyName,
             this,
-            BuildingContext);
+            _attributesContext);
     }
 
     protected override void OnAdd(IEnumerable<Attribute> attributes)
     {
-        if (!BuildingContext.Attributes.ComponentMap.TryGetValue(_componentType, out var attributeSet))
+        if (!_attributesContext.ComponentMap.TryGetValue(_componentType, out var attributeSet))
         {
             attributeSet = [];
-            BuildingContext.Attributes.ComponentMap[_componentType] = attributeSet;
+            _attributesContext.ComponentMap[_componentType] = attributeSet;
         }
 
         attributeSet.AddRange(attributes);

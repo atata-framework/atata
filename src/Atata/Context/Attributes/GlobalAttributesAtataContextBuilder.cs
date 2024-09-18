@@ -3,19 +3,19 @@
 /// <summary>
 /// Represents the builder of global level attributes.
 /// </summary>
-public class GlobalAttributesAtataContextBuilder : AttributesAtataContextBuilder<GlobalAttributesAtataContextBuilder>
+public sealed class GlobalAttributesAtataContextBuilder : AttributesAtataContextBuilder<GlobalAttributesAtataContextBuilder>
 {
+    private readonly AtataAttributesContext _attributesContext;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="GlobalAttributesAtataContextBuilder"/> class.
     /// </summary>
-    /// <param name="buildingContext">The building context.</param>
-    public GlobalAttributesAtataContextBuilder(AtataBuildingContext buildingContext)
-        : base(buildingContext)
-    {
-    }
+    /// <param name="attributesContext">The building attributes context.</param>
+    public GlobalAttributesAtataContextBuilder(AtataAttributesContext attributesContext) =>
+        _attributesContext = attributesContext;
 
     protected override void OnAdd(IEnumerable<Attribute> attributes) =>
-        BuildingContext.Attributes.Global.AddRange(attributes);
+        _attributesContext.Global.AddRange(attributes);
 
     protected override GlobalAttributesAtataContextBuilder ResolveNextBuilder() => this;
 }

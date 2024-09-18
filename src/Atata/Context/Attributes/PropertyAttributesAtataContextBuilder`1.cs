@@ -4,13 +4,14 @@
 /// Represents the builder of property attributes.
 /// </summary>
 /// <typeparam name="TNextBuilder">The type of the next builder to return by <c>Add</c> methods.</typeparam>
-public class PropertyAttributesAtataContextBuilder<TNextBuilder>
+public sealed class PropertyAttributesAtataContextBuilder<TNextBuilder>
     : AttributesAtataContextBuilder<TNextBuilder>
-    where TNextBuilder : AttributesAtataContextBuilder
 {
     private readonly TypePropertyNamePair _typeProperty;
 
     private readonly TNextBuilder _parentBuilder;
+
+    private readonly AtataAttributesContext _attributesContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PropertyAttributesAtataContextBuilder{TNextBuilder}"/> class.
@@ -18,20 +19,24 @@ public class PropertyAttributesAtataContextBuilder<TNextBuilder>
     /// <param name="type">The type.</param>
     /// <param name="propertyName">Name of the property.</param>
     /// <param name="parentBuilder">The parent builder.</param>
-    /// <param name="buildingContext">The building context.</param>
-    public PropertyAttributesAtataContextBuilder(Type type, string propertyName, TNextBuilder parentBuilder, AtataBuildingContext buildingContext)
-        : base(buildingContext)
+    /// <param name="attributesContext">The building attributes context.</param>
+    public PropertyAttributesAtataContextBuilder(
+        Type type,
+        string propertyName,
+        TNextBuilder parentBuilder,
+        AtataAttributesContext attributesContext)
     {
         _typeProperty = new TypePropertyNamePair(type, propertyName);
         _parentBuilder = parentBuilder;
+        _attributesContext = attributesContext;
     }
 
     protected override void OnAdd(IEnumerable<Attribute> attributes)
     {
-        if (!BuildingContext.Attributes.PropertyMap.TryGetValue(_typeProperty, out var attributeSet))
+        if (!_attributesContext.PropertyMap.TryGetValue(_typeProperty, out var attributeSet))
         {
             attributeSet = [];
-            BuildingContext.Attributes.PropertyMap[_typeProperty] = attributeSet;
+            _attributesContext.PropertyMap[_typeProperty] = attributeSet;
         }
 
         attributeSet.AddRange(attributes);

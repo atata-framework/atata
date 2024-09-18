@@ -3,26 +3,30 @@
 /// <summary>
 /// Represents the builder of assembly attributes.
 /// </summary>
-public class AssemblyAttributesAtataContextBuilder
+public sealed class AssemblyAttributesAtataContextBuilder
     : AttributesAtataContextBuilder<AssemblyAttributesAtataContextBuilder>
 {
     private readonly Assembly _assembly;
+
+    private readonly AtataAttributesContext _attributesContext;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AssemblyAttributesAtataContextBuilder"/> class.
     /// </summary>
     /// <param name="assembly">The assembly.</param>
-    /// <param name="buildingContext">The building context.</param>
-    public AssemblyAttributesAtataContextBuilder(Assembly assembly, AtataBuildingContext buildingContext)
-        : base(buildingContext) =>
+    /// <param name="attributesContext">The building attributes context.</param>
+    public AssemblyAttributesAtataContextBuilder(Assembly assembly, AtataAttributesContext attributesContext)
+    {
         _assembly = assembly;
+        _attributesContext = attributesContext;
+    }
 
     protected override void OnAdd(IEnumerable<Attribute> attributes)
     {
-        if (!BuildingContext.Attributes.AssemblyMap.TryGetValue(_assembly, out var attributeSet))
+        if (!_attributesContext.AssemblyMap.TryGetValue(_assembly, out var attributeSet))
         {
             attributeSet = [];
-            BuildingContext.Attributes.AssemblyMap[_assembly] = attributeSet;
+            _attributesContext.AssemblyMap[_assembly] = attributeSet;
         }
 
         attributeSet.AddRange(attributes);

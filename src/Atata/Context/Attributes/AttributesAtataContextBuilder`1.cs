@@ -4,14 +4,8 @@
 /// Represents the base class for attributes builders.
 /// </summary>
 /// <typeparam name="TNextBuilder">The type of the next builder to return by <c>Add</c> methods.</typeparam>
-public abstract class AttributesAtataContextBuilder<TNextBuilder> : AttributesAtataContextBuilder
-    where TNextBuilder : AttributesAtataContextBuilder
+public abstract class AttributesAtataContextBuilder<TNextBuilder>
 {
-    protected AttributesAtataContextBuilder(AtataBuildingContext buildingContext)
-        : base(buildingContext)
-    {
-    }
-
     /// <summary>
     /// Adds the specified attributes.
     /// </summary>

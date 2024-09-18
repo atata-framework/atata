@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the attributes context associated with <see cref="AtataContext"/>.
 /// </summary>
-public class AtataAttributesContext : ICloneable
+public sealed class AtataAttributesContext : ICloneable
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AtataAttributesContext"/> class.

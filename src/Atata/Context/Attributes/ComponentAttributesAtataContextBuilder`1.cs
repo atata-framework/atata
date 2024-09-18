@@ -4,18 +4,22 @@
 /// Represents the builder of <typeparamref name="TComponent"/> component attributes.
 /// </summary>
 /// <typeparam name="TComponent">The type of the component.</typeparam>
-public class ComponentAttributesAtataContextBuilder<TComponent>
+public sealed class ComponentAttributesAtataContextBuilder<TComponent>
     : AttributesAtataContextBuilder<ComponentAttributesAtataContextBuilder<TComponent>>
 {
     private readonly Type _componentType;
 
+    private readonly AtataAttributesContext _attributesContext;
+
     /// <summary>
     /// Initializes a new instance of the <see cref="ComponentAttributesAtataContextBuilder{TComponent}"/> class.
     /// </summary>
-    /// <param name="buildingContext">The building context.</param>
-    public ComponentAttributesAtataContextBuilder(AtataBuildingContext buildingContext)
-        : base(buildingContext) =>
+    /// <param name="attributesContext">The building attributes context.</param>
+    public ComponentAttributesAtataContextBuilder(AtataAttributesContext attributesContext)
+    {
         _componentType = typeof(TComponent);
+        _attributesContext = attributesContext;
+    }
 
     /// <summary>
     /// Creates and returns the attributes builder for the property with the specified name.
@@ -46,7 +50,7 @@ public class ComponentAttributesAtataContextBuilder<TComponent>
             _componentType,
             propertyName,
             this,
-            BuildingContext);
+            _attributesContext);
     }
 
     /// <summary>
@@ -64,15 +68,15 @@ public class ComponentAttributesAtataContextBuilder<TComponent>
             _componentType,
             property.Name,
             this,
-            BuildingContext);
+            _attributesContext);
     }
 
     protected override void OnAdd(IEnumerable<Attribute> attributes)
     {
-        if (!BuildingContext.Attributes.ComponentMap.TryGetValue(_componentType, out var attributeSet))
+        if (!_attributesContext.ComponentMap.TryGetValue(_componentType, out var attributeSet))
         {
             attributeSet = [];
-            BuildingContext.Attributes.ComponentMap[_componentType] = attributeSet;
+            _attributesContext.ComponentMap[_componentType] = attributeSet;
         }
 
         attributeSet.AddRange(attributes);

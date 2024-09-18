@@ -15,7 +15,7 @@ public class AttributesAtataContextBuilderTests
 
     [SetUp]
     public void SetUp() =>
-        _sut = new AttributesAtataContextBuilder(new AtataBuildingContext());
+        _sut = new(new());
 
     [Test]
     public void Global()
@@ -23,7 +23,7 @@ public class AttributesAtataContextBuilderTests
         _sut.Global
             .Add(_stubAttributes);
 
-        _sut.BuildingContext.Attributes.Global
+        _sut.AttributesContext.Global
             .Should().Equal(_stubAttributes);
     }
 
@@ -33,10 +33,10 @@ public class AttributesAtataContextBuilderTests
         _sut.Assembly("Atata")
             .Add(_stubAttributes);
 
-        _sut.BuildingContext.Attributes.AssemblyMap.Keys.First()
+        _sut.AttributesContext.AssemblyMap.Keys.First()
             .GetName().Name.Should().Be("Atata");
 
-        _sut.BuildingContext.Attributes.AssemblyMap.Values
+        _sut.AttributesContext.AssemblyMap.Values
             .Should().ContainSingle().Which
             .Should().Equal(_stubAttributes);
     }
@@ -49,10 +49,10 @@ public class AttributesAtataContextBuilderTests
         _sut.Assembly(assembly)
             .Add(_stubAttributes);
 
-        _sut.BuildingContext.Attributes.AssemblyMap.Keys.First()
+        _sut.AttributesContext.AssemblyMap.Keys.First()
             .Should().BeSameAs(assembly);
 
-        _sut.BuildingContext.Attributes.AssemblyMap.Values
+        _sut.AttributesContext.AssemblyMap.Values
             .Should().ContainSingle().Which
             .Should().Equal(_stubAttributes);
     }
@@ -63,10 +63,10 @@ public class AttributesAtataContextBuilderTests
         _sut.Component<TestPage>()
             .Add(_stubAttributes);
 
-        _sut.BuildingContext.Attributes.ComponentMap.Keys.First()
+        _sut.AttributesContext.ComponentMap.Keys.First()
             .Should().Be(typeof(TestPage));
 
-        _sut.BuildingContext.Attributes.ComponentMap.Values
+        _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which
             .Should().Equal(_stubAttributes);
     }
@@ -77,10 +77,10 @@ public class AttributesAtataContextBuilderTests
         _sut.Component(typeof(TestPage))
             .Add(_stubAttributes);
 
-        _sut.BuildingContext.Attributes.ComponentMap.Keys.First()
+        _sut.AttributesContext.ComponentMap.Keys.First()
             .Should().Be(typeof(TestPage));
 
-        _sut.BuildingContext.Attributes.ComponentMap.Values
+        _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which
             .Should().Equal(_stubAttributes);
     }
@@ -93,10 +93,10 @@ public class AttributesAtataContextBuilderTests
         _sut.Component(typeName)
             .Add(_stubAttributes);
 
-        _sut.BuildingContext.Attributes.ComponentMap.Keys.First()
+        _sut.AttributesContext.ComponentMap.Keys.First()
             .Should().Be(typeof(TestPage));
 
-        _sut.BuildingContext.Attributes.ComponentMap.Values
+        _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which
             .Should().Equal(_stubAttributes);
     }

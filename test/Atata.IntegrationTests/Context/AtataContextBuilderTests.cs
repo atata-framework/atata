@@ -118,19 +118,19 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Global()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Global.Add(
-                new FindByContentAttribute("_missing_")
-                {
-                    TargetParentType = typeof(BasicControlsPage),
-                    TargetName = nameof(BasicControlsPage.MissingButtonControl)
-                },
-                new FindByContentAttribute("Raw Button")
-                {
-                    TargetParentType = typeof(BasicControlsPage),
-                    TargetName = nameof(BasicControlsPage.MissingButtonControl)
-                })
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Global.Add(
+            new FindByContentAttribute("_missing_")
+            {
+                TargetParentType = typeof(BasicControlsPage),
+                TargetName = nameof(BasicControlsPage.MissingButtonControl)
+            },
+            new FindByContentAttribute("Raw Button")
+            {
+                TargetParentType = typeof(BasicControlsPage),
+                TargetName = nameof(BasicControlsPage.MissingButtonControl)
+            });
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -138,19 +138,19 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Assembly()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Assembly(Assembly.GetAssembly(GetType())).Add(
-                new FindByContentAttribute("_missing_")
-                {
-                    TargetParentType = typeof(BasicControlsPage),
-                    TargetName = nameof(BasicControlsPage.MissingButtonControl)
-                },
-                new FindByContentAttribute("Raw Button")
-                {
-                    TargetParentType = typeof(BasicControlsPage),
-                    TargetName = nameof(BasicControlsPage.MissingButtonControl)
-                })
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Assembly(Assembly.GetAssembly(GetType())).Add(
+            new FindByContentAttribute("_missing_")
+            {
+                TargetParentType = typeof(BasicControlsPage),
+                TargetName = nameof(BasicControlsPage.MissingButtonControl)
+            },
+            new FindByContentAttribute("Raw Button")
+            {
+                TargetParentType = typeof(BasicControlsPage),
+                TargetName = nameof(BasicControlsPage.MissingButtonControl)
+            });
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -160,10 +160,10 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     {
         bool isDelegateInvoked = false;
 
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<BasicControlsPage>().Add(
-                new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<BasicControlsPage>().Add(
+            new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init));
+        builder.Build();
 
         Go.To<BasicControlsPage>();
 
@@ -175,10 +175,10 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     {
         bool isDelegateInvoked = false;
 
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component(typeof(Page<>)).Add(
-                new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component(typeof(Page<>)).Add(
+            new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init));
+        builder.Build();
 
         Go.To<StubPage>();
 
@@ -190,10 +190,10 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     {
         bool isDelegateInvoked = false;
 
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<TablePage>().Add(
-                new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init))
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<TablePage>().Add(
+            new InvokeDelegateAttribute(() => isDelegateInvoked = true, TriggerEvents.Init));
+        builder.Build();
 
         Go.To<BasicControlsPage>();
 
@@ -203,17 +203,17 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Component_PageObject_TargetingChild()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<BasicControlsPage>().Add(
-                new FindByContentAttribute("_missing_")
-                {
-                    TargetName = nameof(BasicControlsPage.MissingButtonControl)
-                },
-                new FindByContentAttribute("Raw Button")
-                {
-                    TargetName = nameof(BasicControlsPage.MissingButtonControl)
-                })
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<BasicControlsPage>().Add(
+            new FindByContentAttribute("_missing_")
+            {
+                TargetName = nameof(BasicControlsPage.MissingButtonControl)
+            },
+            new FindByContentAttribute("Raw Button")
+            {
+                TargetName = nameof(BasicControlsPage.MissingButtonControl)
+            });
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -221,11 +221,11 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Component_Control_Generic()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<Button<BasicControlsPage>>().Add(
-                new FindByContentAttribute("_missing_"),
-                new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<Button<BasicControlsPage>>().Add(
+            new FindByContentAttribute("_missing_"),
+            new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -233,11 +233,11 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Component_Control_Generic_DoesNotApply()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<Button<OrdinaryPage>>().Add(
-                new FindByContentAttribute("_missing_"),
-                new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<Button<OrdinaryPage>>().Add(
+            new FindByContentAttribute("_missing_"),
+            new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.Not.BeVisible();
     }
@@ -245,11 +245,11 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Component_Control_Type_Generic()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component(typeof(Button<>)).Add(
-                new FindByContentAttribute("_missing_"),
-                new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component(typeof(Button<>)).Add(
+            new FindByContentAttribute("_missing_"),
+            new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -257,11 +257,11 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Component_Control_Type_NonGeneric()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component(typeof(Button<BasicControlsPage>)).Add(
-                new FindByContentAttribute("_missing_"),
-                new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component(typeof(Button<BasicControlsPage>)).Add(
+            new FindByContentAttribute("_missing_"),
+            new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -269,11 +269,11 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Component_Control_TypeName()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component("button").Add(
-                new FindByContentAttribute("_missing_"),
-                new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component("button").Add(
+            new FindByContentAttribute("_missing_"),
+            new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -281,12 +281,12 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Property_Expression()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<BasicControlsPage>()
-                .Property(x => x.MissingButtonControl).Add(
-                    new FindByContentAttribute("_missing_"),
-                    new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<BasicControlsPage>()
+            .Property(x => x.MissingButtonControl).Add(
+                new FindByContentAttribute("_missing_"),
+                new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -294,12 +294,12 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Property_Name()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<BasicControlsPage>()
-                .Property(nameof(BasicControlsPage.MissingButtonControl)).Add(
-                    new FindByContentAttribute("_missing_"),
-                    new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<BasicControlsPage>()
+            .Property(nameof(BasicControlsPage.MissingButtonControl)).Add(
+                new FindByContentAttribute("_missing_"),
+                new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.BeVisible();
     }
@@ -307,10 +307,10 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Attributes_Property_Name_DoesNotApply()
     {
-        ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Component<BasicControlsPage>()
-                .Property("fwefwefwe").Add(new FindFirstAttribute())
-            .Build();
+        var builder = ConfigureAtataContextWithWebDriverSession();
+        builder.Attributes.Component<BasicControlsPage>()
+            .Property("fwefwefwe").Add(new FindFirstAttribute());
+        builder.Build();
 
         Go.To<BasicControlsPage>().MissingButtonControl.Should.AtOnce.Not.BeVisible();
     }
