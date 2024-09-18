@@ -207,11 +207,13 @@ public sealed class AtataContextGlobalProperties
     /// The default value is <c>@"^(?!System($|\..+$)|mscorlib$|netstandard$|Microsoft\..+)"</c>,
     /// which filters non-system assemblies.
     /// </summary>
-    /// <param name="assemblyNamePattern">The assembly name regex pattern.</param>
+    /// <param name="pattern">The assembly name regex pattern.</param>
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
-    public AtataContextGlobalProperties UseAssemblyNamePatternToFindTypes(string assemblyNamePattern)
+    public AtataContextGlobalProperties UseAssemblyNamePatternToFindTypes(string pattern)
     {
-        AssemblyNamePatternToFindTypes = assemblyNamePattern;
+        pattern.CheckNotNullOrWhitespace(nameof(pattern));
+
+        AssemblyNamePatternToFindTypes = pattern;
         return this;
     }
 
