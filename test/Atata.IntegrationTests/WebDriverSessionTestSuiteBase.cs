@@ -44,14 +44,6 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
             configureWebDriverSession?.Invoke(session);
         });
 
-#warning Temporarily uses NUnit features.
-        atataContextBuilder.UseNUnitTestName();
-        atataContextBuilder.UseNUnitTestSuiteName();
-        atataContextBuilder.UseNUnitTestSuiteType();
-        atataContextBuilder.LogConsumers.AddNUnitTestContext();
-        atataContextBuilder.EventSubscriptions.LogNUnitError();
-        atataContextBuilder.EventSubscriptions.AddArtifactsToNUnitTestContext();
-
         return atataContextBuilder;
     }
 
