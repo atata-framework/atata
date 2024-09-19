@@ -13,20 +13,18 @@ public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
         AtataContextBuilder contextBuilder = ConfigureAtataContextWithWebDriverSession(
             session =>
             {
+#warning Update "reuse driver" approach to use single WebDriver session of test suite level.
                 if (ReuseDriver)
                 {
                     session.UseDisposeDriver(false);
 
                     if (PreservedDriver is not null)
                         session.UseDriver(PreservedDriver);
+
+                    session.EventSubscriptions.Add<DriverInitEvent>(
+                        eventData => PreservedDriver ??= eventData.Driver);
                 }
             });
-
-        contextBuilder.EventSubscriptions.Add<DriverInitEvent>(eventData =>
-        {
-            if (ReuseDriver && PreservedDriver is null)
-                PreservedDriver = eventData.Driver;
-        });
 
         contextBuilder.Build();
 
@@ -43,7 +41,7 @@ public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
 
     private void CleanPreservedDriver()
     {
-        if (PreservedDriver != null)
+        if (PreservedDriver is not null)
         {
             PreservedDriver.Dispose();
             PreservedDriver = null;
