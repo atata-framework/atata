@@ -104,10 +104,13 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static AtataContextGlobalProperties GlobalProperties { get; } = new();
 
+    [Obsolete("Use BaseConfiguration instead.")] // Obsolete since v4.0.0.
+    public static AtataContextBuilder GlobalConfiguration => BaseConfiguration;
+
     /// <summary>
-    /// Gets the global configuration.
+    /// Gets the base configuration builder.
     /// </summary>
-    public static AtataContextBuilder GlobalConfiguration { get; } = new AtataContextBuilder(new AtataBuildingContext());
+    public static AtataContextBuilder BaseConfiguration { get; } = new();
 
     public AtataContext ParentContext { get; }
 
@@ -365,14 +368,12 @@ public sealed class AtataContext : IDisposable
 
     /// <summary>
     /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
-    /// Sets the value to <see cref="AtataContextBuilder.BuildingContext"/> copied from <see cref="GlobalConfiguration"/>.
+    /// The builder is a copy of <see cref="BaseConfiguration"/>,
+    /// with <see cref="AtataContextScope.Test"/> as a <see cref="AtataContextBuilder.Scope"/> of the new builder.
     /// </summary>
     /// <returns>The created <see cref="AtataContextBuilder"/> instance.</returns>
-    public static AtataContextBuilder Configure()
-    {
-        AtataBuildingContext buildingContext = GlobalConfiguration.BuildingContext.Clone();
-        return new AtataContextBuilder(buildingContext, AtataContextScope.Test);
-    }
+    public static AtataContextBuilder Configure() =>
+        BaseConfiguration.CloneFor(AtataContextScope.Test);
 
     internal void InitDateTimeProperties()
     {
@@ -645,9 +646,7 @@ public sealed class AtataContext : IDisposable
     /// Also writes the execution time to log;
     /// throws <see cref="AggregateAssertionException"/> if
     /// <see cref="PendingFailureAssertionResults"/> is not empty (contains warnings).
-    /// If <see cref="AtataBuildingContext.DisposeDriver"/> property is set to <see langword="true"/> (by default),
-    /// then the <see cref="Driver"/> will also be disposed.
-    /// Publishes events: <see cref="AtataContextDeInitEvent"/>, <see cref="DriverDeInitEvent"/>, <see cref="AtataContextDeInitCompletedEvent"/>.
+    /// Publishes events: <see cref="AtataContextDeInitEvent"/>, <see cref="AtataSessionDeInitEvent"/> (for sessions), <see cref="AtataContextDeInitCompletedEvent"/>.
     /// </summary>
     public void Dispose()
     {
@@ -666,7 +665,11 @@ public sealed class AtataContext : IDisposable
                 foreach (var session in Sessions)
                     session.Deactivate();
 
-                // TODO: Dispose sessions, which are needed to be disposed.
+#warning Review sessions disposing.
+                foreach (var session in Sessions)
+                    (session as IDisposable)?.Dispose();
+
+                Sessions.Dispose();
 
                 EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
             });

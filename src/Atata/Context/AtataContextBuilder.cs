@@ -5,19 +5,25 @@
 /// </summary>
 public sealed class AtataContextBuilder : ICloneable
 {
-    public AtataContextBuilder(AtataBuildingContext buildingContext, AtataContextScope? scope = null)
+    public const string DefaultArtifactsPathTemplate = "{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
+
+    private TimeSpan? _waitingTimeout;
+
+    private TimeSpan? _waitingRetryInterval;
+
+    private TimeSpan? _verificationTimeout;
+
+    private TimeSpan? _verificationRetryInterval;
+
+    public AtataContextBuilder(AtataContextScope? scope = null)
     {
-        BuildingContext = buildingContext.CheckNotNull(nameof(buildingContext));
         Scope = scope;
-        Sessions = new AtataSessionsBuilder(this, [], ResolveSessionDefaultStartScopes(scope));
+        Sessions = new(this, [], ResolveSessionDefaultStartScopes(scope));
     }
 
-    public AtataContextScope? Scope { get; }
+    public AtataContextScope? Scope { get; private set; }
 
-    /// <summary>
-    /// Gets the building context.
-    /// </summary>
-    public AtataBuildingContext BuildingContext { get; internal set; }
+    public AtataSessionsBuilder Sessions { get; private set; }
 
     /// <summary>
     /// Gets the builder of context attributes,
@@ -38,7 +44,124 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     public LogConsumersBuilder LogConsumers { get; private set; } = new();
 
-    public AtataSessionsBuilder Sessions { get; }
+    /// <summary>
+    /// Gets the variables dictionary.
+    /// </summary>
+    public IDictionary<string, object> Variables { get; private set; } = new Dictionary<string, object>();
+
+    /// <summary>
+    /// Gets the list of secret strings to mask in log.
+    /// </summary>
+    public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = [];
+
+    /// <summary>
+    /// Gets or sets the factory method of the test name.
+    /// </summary>
+    public Func<string> TestNameFactory { get; set; }
+
+    /// <summary>
+    /// Gets or sets the factory method of the test suite name.
+    /// </summary>
+    public Func<string> TestSuiteNameFactory { get; set; }
+
+    /// <summary>
+    /// Gets or sets the factory method of the test suite type.
+    /// </summary>
+    public Func<Type> TestSuiteTypeFactory { get; set; }
+
+    /// <summary>
+    /// Gets or sets the Artifacts directory path template.
+    /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
+    /// </summary>
+    public string ArtifactsPathTemplate { get; set; } = DefaultArtifactsPathTemplate;
+
+    /// <summary>
+    /// Gets the base retry timeout.
+    /// The default value is <c>5</c> seconds.
+    /// </summary>
+    public TimeSpan BaseRetryTimeout { get; internal set; } = AtataContext.DefaultRetryTimeout;
+
+    /// <summary>
+    /// Gets the base retry interval.
+    /// The default value is <c>500</c> milliseconds.
+    /// </summary>
+    public TimeSpan BaseRetryInterval { get; internal set; } = AtataContext.DefaultRetryInterval;
+
+    /// <summary>
+    /// Gets the waiting timeout.
+    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to 5 seconds by default.
+    /// </summary>
+    public TimeSpan WaitingTimeout
+    {
+        get => _waitingTimeout ?? BaseRetryTimeout;
+        internal set => _waitingTimeout = value;
+    }
+
+    /// <summary>
+    /// Gets the waiting retry interval.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// </summary>
+    public TimeSpan WaitingRetryInterval
+    {
+        get => _waitingRetryInterval ?? BaseRetryInterval;
+        internal set => _waitingRetryInterval = value;
+    }
+
+    /// <summary>
+    /// Gets the verification timeout.
+    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
+    /// </summary>
+    public TimeSpan VerificationTimeout
+    {
+        get => _verificationTimeout ?? BaseRetryTimeout;
+        internal set => _verificationTimeout = value;
+    }
+
+    /// <summary>
+    /// Gets the verification retry interval.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// </summary>
+    public TimeSpan VerificationRetryInterval
+    {
+        get => _verificationRetryInterval ?? BaseRetryInterval;
+        internal set => _verificationRetryInterval = value;
+    }
+
+    /// <summary>
+    /// Gets or sets the culture.
+    /// </summary>
+    public CultureInfo Culture { get; set; }
+
+    /// <summary>
+    /// Gets or sets the type of the assertion exception.
+    /// The default value is a type of <see cref="AssertionException"/>.
+    /// </summary>
+    public Type AssertionExceptionType { get; set; } = typeof(AssertionException);
+
+    /// <summary>
+    /// Gets or sets the type of the aggregate assertion exception.
+    /// The default value is a type of <see cref="AggregateAssertionException"/>.
+    /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
+    /// </summary>
+    public Type AggregateAssertionExceptionType { get; set; } = typeof(AggregateAssertionException);
+
+    /// <summary>
+    /// Gets or sets the aggregate assertion strategy.
+    /// The default value is an instance of <see cref="AtataAggregateAssertionStrategy"/>.
+    /// </summary>
+    public IAggregateAssertionStrategy AggregateAssertionStrategy { get; set; } = new AtataAggregateAssertionStrategy();
+
+    /// <summary>
+    /// Gets or sets the strategy for warning assertion reporting.
+    /// The default value is an instance of <see cref="AtataWarningReportStrategy"/>.
+    /// </summary>
+    public IWarningReportStrategy WarningReportStrategy { get; set; } = new AtataWarningReportStrategy();
+
+    /// <summary>
+    /// Gets or sets the strategy for assertion failure reporting.
+    /// The default value is an instance of <see cref="AtataAssertionFailureReportStrategy"/>.
+    /// </summary>
+    public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; set; } = AtataAssertionFailureReportStrategy.Instance;
 
     /// <summary>
     /// Adds the variable.
@@ -50,7 +173,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         key.CheckNotNullOrWhitespace(nameof(key));
 
-        BuildingContext.Variables[key] = value;
+        Variables[key] = value;
 
         return this;
     }
@@ -65,7 +188,7 @@ public sealed class AtataContextBuilder : ICloneable
         variables.CheckNotNull(nameof(variables));
 
         foreach (var variable in variables)
-            BuildingContext.Variables[variable.Key] = variable.Value;
+            Variables[variable.Key] = variable.Value;
 
         return this;
     }
@@ -81,7 +204,7 @@ public sealed class AtataContextBuilder : ICloneable
         value.CheckNotNullOrWhitespace(nameof(value));
         mask.CheckNotNullOrWhitespace(nameof(mask));
 
-        BuildingContext.SecretStringsToMaskInLog.Add(
+        SecretStringsToMaskInLog.Add(
             new SecretStringToMask(value, mask));
 
         return this;
@@ -96,7 +219,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         testNameFactory.CheckNotNull(nameof(testNameFactory));
 
-        BuildingContext.TestNameFactory = testNameFactory;
+        TestNameFactory = testNameFactory;
         return this;
     }
 
@@ -107,7 +230,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestName(string testName)
     {
-        BuildingContext.TestNameFactory = () => testName;
+        TestNameFactory = () => testName;
         return this;
     }
 
@@ -120,7 +243,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         testSuiteNameFactory.CheckNotNull(nameof(testSuiteNameFactory));
 
-        BuildingContext.TestSuiteNameFactory = testSuiteNameFactory;
+        TestSuiteNameFactory = testSuiteNameFactory;
         return this;
     }
 
@@ -131,7 +254,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseTestSuiteName(string testSuiteName)
     {
-        BuildingContext.TestSuiteNameFactory = () => testSuiteName;
+        TestSuiteNameFactory = () => testSuiteName;
         return this;
     }
 
@@ -144,7 +267,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         testSuiteTypeFactory.CheckNotNull(nameof(testSuiteTypeFactory));
 
-        BuildingContext.TestSuiteTypeFactory = testSuiteTypeFactory;
+        TestSuiteTypeFactory = testSuiteTypeFactory;
         return this;
     }
 
@@ -157,7 +280,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         testSuiteType.CheckNotNull(nameof(testSuiteType));
 
-        BuildingContext.TestSuiteTypeFactory = () => testSuiteType;
+        TestSuiteTypeFactory = () => testSuiteType;
         return this;
     }
 
@@ -191,7 +314,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseBaseRetryTimeout(TimeSpan timeout)
     {
-        BuildingContext.BaseRetryTimeout = timeout;
+        BaseRetryTimeout = timeout;
         return this;
     }
 
@@ -203,55 +326,55 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseBaseRetryInterval(TimeSpan interval)
     {
-        BuildingContext.BaseRetryInterval = interval;
+        BaseRetryInterval = interval;
         return this;
     }
 
     /// <summary>
     /// Sets the waiting timeout.
-    /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
+    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseWaitingTimeout(TimeSpan timeout)
     {
-        BuildingContext.WaitingTimeout = timeout;
+        WaitingTimeout = timeout;
         return this;
     }
 
     /// <summary>
     /// Sets the waiting retry interval.
-    /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseWaitingRetryInterval(TimeSpan interval)
     {
-        BuildingContext.WaitingRetryInterval = interval;
+        WaitingRetryInterval = interval;
         return this;
     }
 
     /// <summary>
     /// Sets the verification timeout.
-    /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
+    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseVerificationTimeout(TimeSpan timeout)
     {
-        BuildingContext.VerificationTimeout = timeout;
+        VerificationTimeout = timeout;
         return this;
     }
 
     /// <summary>
     /// Sets the verification retry interval.
-    /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseVerificationRetryInterval(TimeSpan interval)
     {
-        BuildingContext.VerificationRetryInterval = interval;
+        VerificationRetryInterval = interval;
         return this;
     }
 
@@ -263,7 +386,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseCulture(CultureInfo culture)
     {
-        BuildingContext.Culture = culture;
+        Culture = culture;
         return this;
     }
 
@@ -297,7 +420,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         exceptionType.CheckIs<Exception>(nameof(exceptionType));
 
-        BuildingContext.AssertionExceptionType = exceptionType;
+        AssertionExceptionType = exceptionType;
         return this;
     }
 
@@ -324,7 +447,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         exceptionType.CheckIs<Exception>(nameof(exceptionType));
 
-        BuildingContext.AggregateAssertionExceptionType = exceptionType;
+        AggregateAssertionExceptionType = exceptionType;
         return this;
     }
 
@@ -351,7 +474,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         directoryPathTemplate.CheckNotNullOrWhitespace(nameof(directoryPathTemplate));
 
-        BuildingContext.ArtifactsPathTemplate = directoryPathTemplate;
+        ArtifactsPathTemplate = directoryPathTemplate;
         return this;
     }
 
@@ -404,7 +527,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseAggregateAssertionStrategy(IAggregateAssertionStrategy strategy)
     {
-        BuildingContext.AggregateAssertionStrategy = strategy;
+        AggregateAssertionStrategy = strategy;
 
         return this;
     }
@@ -423,7 +546,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseWarningReportStrategy(IWarningReportStrategy strategy)
     {
-        BuildingContext.WarningReportStrategy = strategy;
+        WarningReportStrategy = strategy;
 
         return this;
     }
@@ -442,7 +565,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseAssertionFailureReportStrategy(IAssertionFailureReportStrategy strategy)
     {
-        BuildingContext.AssertionFailureReportStrategy = strategy;
+        AssertionFailureReportStrategy = strategy;
 
         return this;
     }
@@ -527,7 +650,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
     {
-        string pathTemplate = BuildingContext.ArtifactsPathTemplate;
+        string pathTemplate = ArtifactsPathTemplate;
 
         string path = context.Variables.FillPathTemplateString(pathTemplate);
         string fullPath;
@@ -547,13 +670,14 @@ public sealed class AtataContextBuilder : ICloneable
         return new DirectorySubject(fullPath, "Artifacts");
     }
 
+#warning Review Clear method.
     /// <summary>
-    /// Clears the <see cref="BuildingContext"/>.
+    /// Clears the configuration.
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Clear()
     {
-        BuildingContext = new AtataBuildingContext();
+        ////BuildingContext = new AtataBuildingContext();
         return this;
     }
 
@@ -567,23 +691,23 @@ public sealed class AtataContextBuilder : ICloneable
         AtataContext context = new(Scope ?? AtataContextScope.Test);
         LogManager logManager = CreateLogManager(context);
 
-        context.Test.Name = BuildingContext.TestNameFactory?.Invoke();
-        context.Test.SuiteName = BuildingContext.TestSuiteNameFactory?.Invoke();
-        context.Test.SuiteType = BuildingContext.TestSuiteTypeFactory?.Invoke();
+        context.Test.Name = TestNameFactory?.Invoke();
+        context.Test.SuiteName = TestSuiteNameFactory?.Invoke();
+        context.Test.SuiteType = TestSuiteTypeFactory?.Invoke();
         context.Log = logManager;
         context.Attributes = Attributes.AttributesContext.Clone();
-        context.BaseRetryTimeout = BuildingContext.BaseRetryTimeout;
-        context.BaseRetryInterval = BuildingContext.BaseRetryInterval;
-        context.WaitingTimeout = BuildingContext.WaitingTimeout;
-        context.WaitingRetryInterval = BuildingContext.WaitingRetryInterval;
-        context.VerificationTimeout = BuildingContext.VerificationTimeout;
-        context.VerificationRetryInterval = BuildingContext.VerificationRetryInterval;
-        context.Culture = BuildingContext.Culture ?? CultureInfo.CurrentCulture;
-        context.AssertionExceptionType = BuildingContext.AssertionExceptionType;
-        context.AggregateAssertionExceptionType = BuildingContext.AggregateAssertionExceptionType;
-        context.AggregateAssertionStrategy = BuildingContext.AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
-        context.WarningReportStrategy = BuildingContext.WarningReportStrategy ?? new AtataWarningReportStrategy();
-        context.AssertionFailureReportStrategy = BuildingContext.AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
+        context.BaseRetryTimeout = BaseRetryTimeout;
+        context.BaseRetryInterval = BaseRetryInterval;
+        context.WaitingTimeout = WaitingTimeout;
+        context.WaitingRetryInterval = WaitingRetryInterval;
+        context.VerificationTimeout = VerificationTimeout;
+        context.VerificationRetryInterval = VerificationRetryInterval;
+        context.Culture = Culture ?? CultureInfo.CurrentCulture;
+        context.AssertionExceptionType = AssertionExceptionType;
+        context.AggregateAssertionExceptionType = AggregateAssertionExceptionType;
+        context.AggregateAssertionStrategy = AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
+        context.WarningReportStrategy = WarningReportStrategy ?? new AtataWarningReportStrategy();
+        context.AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
         context.EventBus = new EventBus(context, EventSubscriptions.Items);
 
         if (context.Test.SuiteName is null && context.Test.SuiteType is not null)
@@ -591,7 +715,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.InitDateTimeProperties();
         context.InitMainVariables();
-        context.InitCustomVariables(BuildingContext.Variables);
+        context.InitCustomVariables(Variables);
         context.Artifacts = CreateArtifactsDirectorySubject(context);
         context.InitArtifactsVariable();
 
@@ -623,7 +747,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         LogManagerConfiguration configuration = new(
             [.. LogConsumers.Items],
-            [.. BuildingContext.SecretStringsToMaskInLog]);
+            [.. SecretStringsToMaskInLog]);
 
         return new(configuration, new AtataContextLogEventInfoFactory(context));
     }
@@ -632,8 +756,8 @@ public sealed class AtataContextBuilder : ICloneable
     {
         context.EventBus.Publish(new AtataContextInitStartedEvent(context));
 
-        if (BuildingContext.Culture != null)
-            ApplyCulture(context, BuildingContext.Culture);
+        if (Culture != null)
+            ApplyCulture(context, Culture);
 
         context.Log.Trace($"Set: Artifacts={context.ArtifactsPath}");
 
@@ -696,26 +820,45 @@ public sealed class AtataContextBuilder : ICloneable
     ////    setUpMethod.InvokeStaticAsLambda(browserNames);
     ////}
 
-    /// <inheritdoc cref="Clone"/>
     object ICloneable.Clone() =>
         Clone();
 
     /// <summary>
-    /// Creates a copy of the current instance.
+    /// Creates a copy of the current builder.
     /// </summary>
     /// <returns>The copied <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder Clone()
+    public AtataContextBuilder Clone() =>
+        CopyFor(Scope);
+
+    /// <summary>
+    /// Creates a copy of the current builder for the specified <paramref name="scope"/>.
+    /// </summary>
+    /// <param name="scope">The scope of context.</param>
+    /// <returns>The copied <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder CloneFor(AtataContextScope scope) =>
+        CopyFor(scope);
+
+    private AtataContextBuilder CopyFor(AtataContextScope? scope)
     {
         var copy = (AtataContextBuilder)MemberwiseClone();
+
+        copy.Scope = scope;
+        copy.Sessions = new(
+            copy,
+            Sessions.Builders.Select(x => x.Clone()).ToList(),
+            ResolveSessionDefaultStartScopes(scope));
 
         copy.LogConsumers = new LogConsumersBuilder(
             LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x));
 
-        copy.Attributes = new AttributesBuilder(Attributes.AttributesContext.Clone());
+        copy.Attributes = new AttributesBuilder(
+            Attributes.AttributesContext.Clone());
+
         copy.EventSubscriptions = new EventSubscriptionsBuilder(
             EventSubscriptions.Items);
-        //copy.Variables = new Dictionary<string, object>(Variables);
-        //copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
+
+        copy.Variables = new Dictionary<string, object>(Variables);
+        copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
 
         return copy;
     }

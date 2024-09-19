@@ -144,7 +144,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <summary>
     /// Sets the <see cref="WaitingTimeout"/> value.
     /// Sets the waiting timeout.
-    /// The default value is taken from <see cref="AtataBuildingContext.BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
+    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -225,7 +225,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         session.EventBus = new EventBus(session.Context, EventSubscriptions.Items);
     }
 
-    object ICloneable.Clone()
+    /// <inheritdoc/>
+    public IAtataSessionBuilder Clone()
     {
         var copy = (TBuilder)MemberwiseClone();
 

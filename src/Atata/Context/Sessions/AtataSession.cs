@@ -106,6 +106,7 @@ public abstract class AtataSession
         {
             EventBus.Publish(new AtataSessionDeInitEvent(this));
 
+#warning Review Deactivate method. Probably there is no need to set IsActive to false, but just reassign to onwer context, if present; otherwise dispose is needed.
             IsActive = false;
         }
     }
