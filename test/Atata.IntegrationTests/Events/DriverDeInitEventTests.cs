@@ -11,14 +11,13 @@ public class DriverDeInitEventTests : WebDriverSessionTestSuiteBase
     {
         _executionsCount = 0;
 
-        var builder = ConfigureAtataContextWithWebDriverSession();
+        var builder = ConfigureAtataContextWithWebDriverSession(session => session
+            .EventSubscriptions.Add<DriverDeInitEvent>((eventData, _) =>
+            {
+                eventData.Driver.Should().NotBeNull().And.Be(_context.GetWebDriver());
 
-        builder.EventSubscriptions.Add<DriverDeInitEvent>((eventData, _) =>
-        {
-            eventData.Driver.Should().NotBeNull().And.Be(_context.GetWebDriver());
-
-            _executionsCount++;
-        });
+                _executionsCount++;
+            }));
 
         _context = builder.Build();
 
@@ -36,7 +35,7 @@ public class DriverDeInitEventTests : WebDriverSessionTestSuiteBase
     [Test]
     public void AfterRestartDriver()
     {
-        _context.RestartDriver();
+        _context.GetWebDriverSession().RestartDriver();
 
         _executionsCount.Should().Be(1);
     }
