@@ -109,6 +109,8 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
         session.BaseUrl = BaseUrl;
         session.ElementFindTimeoutOptional = ElementFindTimeout;
         session.ElementFindRetryIntervalOptional = ElementFindRetryInterval;
+        session.DomTestIdAttributeName = DomTestIdAttributeName;
+        session.DomTestIdAttributeDefaultCase = DomTestIdAttributeDefaultCase;
 
         session.ScreenshotTaker = CreateScreenshotTaker(session);
         session.PageSnapshotTaker = CreatePageSnapshotTaker(session);
