@@ -1,11 +1,9 @@
-﻿using System.Reflection;
+﻿namespace Atata.IntegrationTests.WebDriver;
 
-namespace Atata.IntegrationTests.Context;
-
-public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
+public class AtataContextAttributesTests : WebDriverSessionTestSuiteBase
 {
     [Test]
-    public void Attributes_Global()
+    public void Global()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Global.Add(
@@ -25,10 +23,10 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Assembly()
+    public void Assembly()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
-        builder.Attributes.Assembly(Assembly.GetAssembly(GetType())).Add(
+        builder.Attributes.Assembly(System.Reflection.Assembly.GetAssembly(GetType())).Add(
             new FindByContentAttribute("_missing_")
             {
                 TargetParentType = typeof(BasicControlsPage),
@@ -45,7 +43,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_PageObject()
+    public void Component_PageObject()
     {
         bool isDelegateInvoked = false;
 
@@ -60,7 +58,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_PageObject_Base()
+    public void Component_PageObject_Base()
     {
         bool isDelegateInvoked = false;
 
@@ -75,7 +73,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_PageObject_DoesNotApply()
+    public void Component_PageObject_DoesNotApply()
     {
         bool isDelegateInvoked = false;
 
@@ -90,7 +88,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_PageObject_TargetingChild()
+    public void Component_PageObject_TargetingChild()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component<BasicControlsPage>().Add(
@@ -108,7 +106,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_Control_Generic()
+    public void Component_Control_Generic()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component<Button<BasicControlsPage>>().Add(
@@ -120,7 +118,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_Control_Generic_DoesNotApply()
+    public void Component_Control_Generic_DoesNotApply()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component<Button<OrdinaryPage>>().Add(
@@ -132,7 +130,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_Control_Type_Generic()
+    public void Component_Control_Type_Generic()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component(typeof(Button<>)).Add(
@@ -144,7 +142,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_Control_Type_NonGeneric()
+    public void Component_Control_Type_NonGeneric()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component(typeof(Button<BasicControlsPage>)).Add(
@@ -156,7 +154,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Component_Control_TypeName()
+    public void Component_Control_TypeName()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component("button").Add(
@@ -168,7 +166,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Property_Expression()
+    public void Property_Expression()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component<BasicControlsPage>()
@@ -181,7 +179,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Property_Name()
+    public void Property_Name()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component<BasicControlsPage>()
@@ -194,7 +192,7 @@ public class AtataContextBuilderTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void Attributes_Property_Name_DoesNotApply()
+    public void Property_Name_DoesNotApply()
     {
         var builder = ConfigureAtataContextWithWebDriverSession();
         builder.Attributes.Component<BasicControlsPage>()
