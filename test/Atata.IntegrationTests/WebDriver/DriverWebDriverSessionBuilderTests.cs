@@ -1,6 +1,6 @@
-﻿namespace Atata.IntegrationTests.Context;
+﻿namespace Atata.IntegrationTests.WebDriver;
 
-public static class DriverAtataContextBuilderTests
+public static class DriverWebDriverSessionBuilderTests
 {
     public sealed class WithCreateRetries : WebDriverSessionTestSuiteBase
     {
