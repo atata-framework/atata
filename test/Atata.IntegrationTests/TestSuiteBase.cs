@@ -28,6 +28,13 @@ public abstract class TestSuiteBase
         return builder;
     }
 
+    protected AtataContextBuilder ConfigureAtataContextWithFakeSession()
+    {
+        var builder = ConfigureSessionlessAtataContext();
+        builder.Sessions.Add<FakeSessionBuilder>();
+        return builder;
+    }
+
     [TearDown]
     public virtual void TearDown() =>
         AtataContext.Current?.Dispose();
