@@ -2,7 +2,7 @@
 
 namespace Atata.IntegrationTests.WebDriver;
 
-public class WebDriverSessionBuilderTests : WebDriverSessionTestSuiteBase
+public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestSuiteBase
 {
     [Test]
     public void Build_WithoutDriver()
