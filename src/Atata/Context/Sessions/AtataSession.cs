@@ -52,7 +52,7 @@ public abstract class AtataSession
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
     public TimeSpan WaitingRetryInterval =>
-        WaitingRetryIntervalOptional ?? BaseRetryTimeoutOptional ?? Context.WaitingRetryInterval;
+        WaitingRetryIntervalOptional ?? BaseRetryIntervalOptional ?? Context.WaitingRetryInterval;
 
     /// <summary>
     /// Gets the verification timeout.
@@ -66,7 +66,7 @@ public abstract class AtataSession
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
     public TimeSpan VerificationRetryInterval =>
-        VerificationRetryIntervalOptional ?? BaseRetryTimeoutOptional ?? Context.VerificationRetryInterval;
+        VerificationRetryIntervalOptional ?? BaseRetryIntervalOptional ?? Context.VerificationRetryInterval;
 
     internal TimeSpan? BaseRetryTimeoutOptional { get; set; }
 

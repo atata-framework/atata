@@ -29,7 +29,7 @@ public abstract class WebSession : AtataSession
     /// The default value is <c>500</c> milliseconds.
     /// </summary>
     public TimeSpan ElementFindRetryInterval =>
-        ElementFindRetryIntervalOptional ?? BaseRetryTimeoutOptional ?? Context.BaseRetryTimeout;
+        ElementFindRetryIntervalOptional ?? BaseRetryIntervalOptional ?? Context.BaseRetryInterval;
 
     /// <summary>
     /// Gets the current page object.
