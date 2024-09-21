@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Logging;
 
-public class NLogFileConsumerTests : SessionlessTestSuite
+public class NLogFileConsumerTests : TestSuiteBase
 {
     [Test]
     public void WithDefaultConfiguration()

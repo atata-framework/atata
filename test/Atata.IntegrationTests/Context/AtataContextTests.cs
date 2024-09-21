@@ -119,7 +119,7 @@ public static class AtataContextTests
         }
     }
 
-    public class Variables : SessionlessTestSuite
+    public class Variables : TestSuiteBase
     {
         [Test]
         public void AddViaBuilder()
@@ -144,7 +144,7 @@ public static class AtataContextTests
                 .ValueOf(x => x["key1"]).Should.Be("val1");
         }
 
-        public class FillTemplateString : WebDriverSessionTestSuiteBase
+        public class FillTemplateString : TestSuiteBase
         {
             private Subject<AtataContext> _sut;
 
