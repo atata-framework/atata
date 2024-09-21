@@ -5,7 +5,8 @@ public abstract class TestSuiteBase
 {
     private EventListLogConsumer _eventListLogConsumer;
 
-    protected IEnumerable<LogEventInfo> LogEntries =>
+    // TODO: Replace with method CurrentLog.GetSnapshot().
+    protected IReadOnlyList<LogEventInfo> LogEntries =>
         _eventListLogConsumer.Items;
 
     protected AtataContextBuilder ConfigureSessionlessAtataContext()
