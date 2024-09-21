@@ -7,7 +7,7 @@ public class OrdinaryPageTests : WebDriverSessionTestSuite
     {
         var page = Go.To<OrdinaryPage>(url: "input");
 
-        Assert.That(LogEntries.Last().Message, Does.Contain("Go to \"<ordinary>\" page"));
+        CurrentLog.LatestRecord.Message.Should().Contain("Go to \"<ordinary>\" page");
 
         page.PageTitle.Should.StartWith("Input");
     }
@@ -17,6 +17,6 @@ public class OrdinaryPageTests : WebDriverSessionTestSuite
     {
         Go.To(new OrdinaryPage("Custom name"), url: "input");
 
-        Assert.That(LogEntries.Last().Message, Does.Contain("Go to \"Custom name\" page"));
+        CurrentLog.LatestRecord.Message.Should().Contain("Go to \"Custom name\" page");
     }
 }

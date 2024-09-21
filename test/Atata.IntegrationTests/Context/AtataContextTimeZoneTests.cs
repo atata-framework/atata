@@ -28,7 +28,7 @@ public class AtataContextTimeZoneTests : SessionlessTestSuite
 
     [Test]
     public void LogEventInfo_Timestamp() =>
-        AssertDateTimeIsCloseToExpected(LogEntries.Last().Timestamp, _nowInSetTimeZone);
+        AssertDateTimeIsCloseToExpected(CurrentLog.LatestRecord.Timestamp, _nowInSetTimeZone);
 
     private static void AssertDateTimeIsCloseToExpected(DateTime actual, DateTime expected, int withinMinutes = 1) =>
         Assert.That(actual, Is.EqualTo(expected).Within(withinMinutes).Minutes);

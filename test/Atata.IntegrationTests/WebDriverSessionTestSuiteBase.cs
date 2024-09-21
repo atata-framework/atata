@@ -89,14 +89,14 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
 
     protected void AssertThatLastLogSectionIsVerificationAndEmpty()
     {
-        var entries = GetLastLogEntries(2);
+        var entries = CurrentLog.GetSnapshot(2);
         entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
         entries[1].SectionEnd.Should().Be(entries[0].SectionStart);
     }
 
     protected void AssertThatLastLogSectionIsVerificationWithExecuteBehavior()
     {
-        var entries = GetLastLogEntries(4);
+        var entries = CurrentLog.GetSnapshot(4);
         entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
         entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
         entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
@@ -105,7 +105,7 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
 
     protected void AssertThatLastLogSectionIsVerificationWith2ElementFindSections()
     {
-        var entries = GetLastLogEntries(6);
+        var entries = CurrentLog.GetSnapshot(6);
         entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
         entries[1].SectionStart.Should().BeOfType<ElementFindLogSection>();
         entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
@@ -116,7 +116,7 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
 
     protected void AssertThatLastLogSectionIsVerificationWithExecuteBehaviorAnd3ElementFindSections()
     {
-        var entries = GetLastLogEntries(10);
+        var entries = CurrentLog.GetSnapshot(10);
         entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
         entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
         entries[2].SectionStart.Should().BeOfType<ElementFindLogSection>();

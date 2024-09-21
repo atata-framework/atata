@@ -17,7 +17,7 @@ public class AtataContextBrowserLogsTests : WebDriverSessionTestSuiteBase
         BuildAtataContextWithWebDriverSession(
             x => x.BrowserLogs.UseLog());
         Go.To<OrdinaryPage>(url: "/input");
-        AtataContext.Current.RestartDriver();
+        AtataContext.Current.GetWebDriverSession().RestartDriver();
 
         GoToTestPageAndVerifyLogs();
     }
@@ -70,25 +70,29 @@ public class AtataContextBrowserLogsTests : WebDriverSessionTestSuiteBase
     {
         Go.To<OrdinaryPage>(url: "/browserlogs");
 
+        // Wait a bit for browser logs to be recorded.
+        Thread.Sleep(500);
+
         AtataContext.Current.Dispose();
 
-        LogEntries.Should().ContainSingle(
+        var logRecords = CurrentLog.GetSnapshot();
+        logRecords.Should().ContainSingle(
             x => x.Level == LogLevel.Trace &&
             x.Message.Contains("DEBUG") &&
             x.Message.Contains("console debug log entry"));
-        LogEntries.Should().ContainSingle(
+        logRecords.Should().ContainSingle(
             x => x.Level == LogLevel.Trace &&
             x.Message.Contains("INFO") &&
             x.Message.Contains("console info log entry"));
-        LogEntries.Should().ContainSingle(
+        logRecords.Should().ContainSingle(
             x => x.Level == LogLevel.Trace &&
             x.Message.Contains("WARN") &&
             x.Message.Contains("console warn log entry"));
-        LogEntries.Should().ContainSingle(
+        logRecords.Should().ContainSingle(
             x => x.Level == LogLevel.Trace &&
             x.Message.Contains("ERROR") &&
             x.Message.Contains("console error log entry"));
-        LogEntries.Should().ContainSingle(
+        logRecords.Should().ContainSingle(
             x => x.Level == LogLevel.Trace &&
             x.Message.Contains("ERROR") &&
             x.Message.Contains("thrown error"));

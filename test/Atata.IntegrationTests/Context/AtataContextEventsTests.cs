@@ -14,7 +14,7 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
             context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
 
             context.Log.Should().NotBeNull();
-            LogEntries.Should().BeEmpty();
+            CurrentLog.GetSnapshot().Should().BeEmpty();
 
             context.Sessions.Should().BeEmpty();
 
@@ -37,7 +37,7 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
                 context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
 
                 context.Log.Should().NotBeNull();
-                LogEntries.Should().NotBeEmpty();
+                CurrentLog.GetSnapshot().Should().NotBeEmpty();
 
                 context.Sessions.Should().BeEmpty();
 
@@ -60,7 +60,7 @@ public class AtataContextEventsTests : WebDriverSessionTestSuiteBase
             context.Should().NotBeNull().And.Be(eventData.Context).And.Be(AtataContext.Current);
 
             context.Log.Should().NotBeNull();
-            LogEntries.Should().NotBeEmpty();
+            CurrentLog.GetSnapshot().Should().NotBeEmpty();
 
             context.Sessions.Should().ContainSingle()
                 .Which.Should().BeOfType<FakeSession>();

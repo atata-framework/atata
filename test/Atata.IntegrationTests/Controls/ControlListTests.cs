@@ -201,7 +201,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
             _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(10);
+            var entries = CurrentLog.GetSnapshot(10);
             entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
             entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
@@ -238,7 +238,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut[x => x.Number == 2 && x.Name == "Item 2"].Should.BePresent();
             _sut[x => x.Number == 2].Should.BePresent();
 
-            var entries = GetLastLogEntries(6);
+            var entries = CurrentLog.GetSnapshot(6);
             entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
             entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
@@ -253,7 +253,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut[x => x.Name == "Item 3"].Should.BePresent();
             _sut[x => x.Name == "Item 2"].Should.BePresent();
 
-            var entries = GetLastLogEntries(6);
+            var entries = CurrentLog.GetSnapshot(6);
             entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
             entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().Be(entries[1].SectionStart);
@@ -287,7 +287,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut.ClearCache();
             _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(3);
+            var entries = CurrentLog.GetSnapshot(3);
             entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
             entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
@@ -300,7 +300,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut.Component.Owner.ClearCache();
             _sut[1].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(3);
+            var entries = CurrentLog.GetSnapshot(3);
             entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
             entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
@@ -399,7 +399,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut.ClearCache();
             _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(3);
+            var entries = CurrentLog.GetSnapshot(3);
             entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
             entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
@@ -412,7 +412,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut.Component.Owner.ClearCache();
             _sut[1].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(3);
+            var entries = CurrentLog.GetSnapshot(3);
             entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
             entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
@@ -448,7 +448,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
             _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(6);
+            var entries = CurrentLog.GetSnapshot(6);
             entries[0].SectionStart.Should().BeOfType<VerificationLogSection>();
             entries[1].SectionStart.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionStart.Should().BeOfType<ElementFindLogSection>();
@@ -518,7 +518,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut.ClearCache();
             _sut[x => x.Name == "Item 2"].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(3);
+            var entries = CurrentLog.GetSnapshot(3);
             entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
             entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();
@@ -531,7 +531,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             _sut.Component.Owner.ClearCache();
             _sut[1].Number.Should.Be(2);
 
-            var entries = GetLastLogEntries(3);
+            var entries = CurrentLog.GetSnapshot(3);
             entries[0].SectionEnd.Should().BeOfType<ElementFindLogSection>();
             entries[1].SectionEnd.Should().BeOfType<ExecuteBehaviorLogSection>();
             entries[2].SectionEnd.Should().BeOfType<VerificationLogSection>();

@@ -24,7 +24,7 @@ public static class DriverAtataContextBuilderTests
                 }));
 
             context.GetWebDriverSession().Driver.Should().NotBeNull();
-            LogEntries.Where(x => x.Level == LogLevel.Warn).Should().ContainSingle();
+            CurrentLog.GetSnapshotOfLevel(LogLevel.Warn).Should().ContainSingle();
         }
 
         [TestCase(0)]
@@ -37,7 +37,7 @@ public static class DriverAtataContextBuilderTests
                     .UseDriver(() => throw new InvalidOperationException("Fail."))
                         .WithCreateRetries(retries)));
 
-            var warnings = LogEntries.Where(x => x.Level == LogLevel.Warn).ToArray();
+            var warnings = CurrentLog.GetSnapshotOfLevel(LogLevel.Warn);
             warnings.Should().HaveCount(retries);
 
             if (retries > 0)
@@ -76,7 +76,7 @@ public static class DriverAtataContextBuilderTests
                     .WithInitialHealthCheckFunction(_ => true));
 
             context.GetWebDriverSession().Driver.Should().NotBeNull();
-            LogEntries.Where(x => x.Level == LogLevel.Warn).Should().BeEmpty();
+            CurrentLog.GetSnapshotOfLevel(LogLevel.Warn).Should().BeEmpty();
         }
 
         [Test]
@@ -98,7 +98,7 @@ public static class DriverAtataContextBuilderTests
                         return true;
                     }));
 
-            var warning = LogEntries.Where(x => x.Level == LogLevel.Warn).Should().ContainSingle().Subject;
+            var warning = CurrentLog.GetSnapshotOfLevel(LogLevel.Warn).Should().ContainSingle().Subject;
             warning.Message.Should().Contain("initial health check failed");
             warning.Exception.Should().BeOfType<InvalidOperationException>();
         }
@@ -122,7 +122,7 @@ public static class DriverAtataContextBuilderTests
                         return true;
                     }));
 
-            var warnings = LogEntries.Where(x => x.Level == LogLevel.Warn).ToArray();
+            var warnings = CurrentLog.GetSnapshotOfLevel(LogLevel.Warn);
             warnings.Should().HaveCount(2);
             warnings.Should().AllSatisfy(x =>
             {
@@ -145,7 +145,7 @@ public static class DriverAtataContextBuilderTests
             AssertThrowsWithInnerException<WebDriverInitializationException, InvalidOperationException>(() =>
                 builder.Build());
 
-            var warnings = LogEntries.Where(x => x.Level == LogLevel.Warn).ToArray();
+            var warnings = CurrentLog.GetSnapshotOfLevel(LogLevel.Warn);
             warnings.Should().HaveCount(retries);
 
             if (retries > 0)

@@ -7,7 +7,7 @@ public class VerifyH1H6AttributeTests : WebDriverSessionTestSuite
     {
         Go.To<HeadingPage>();
 
-        string[] logMessages = LogEntries.Select(x => x.Message).ToArray();
+        string[] logMessages = CurrentLog.GetMessagesSnapshot();
 
         string[] expectedLogMessageTexts =
         [
