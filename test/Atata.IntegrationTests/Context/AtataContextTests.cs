@@ -173,45 +173,6 @@ public static class AtataContextTests
     }
 
 #warning Move to some WebDriverSessionTests.
-    public class TakeScreenshot : WebDriverSessionTestSuiteBase
-    {
-        [Test]
-        public void WhenNavigated()
-        {
-            ConfigureAtataContextWithWebDriverSession()
-                .Build();
-            Go.To<InputPage>();
-
-            WebSession.Current.TakeScreenshot();
-
-            AtataContext.Current.Artifacts.Should.ContainFile("01 Input page.png");
-        }
-
-        [Test]
-        public void WhenNoNavigation()
-        {
-            ConfigureAtataContextWithWebDriverSession()
-                .Build();
-
-            WebSession.Current.TakeScreenshot();
-
-            AtataContext.Current.Artifacts.Should.ContainFile("01.png");
-        }
-
-        [Test]
-        public void WhenThrows()
-        {
-            ConfigureAtataContextWithWebDriverSession(
-                session => session.Screenshots.UseStrategy(Mock.Of<IScreenshotStrategy<WebDriverSession>>(MockBehavior.Strict)))
-                .Build();
-            Go.To<InputPage>();
-
-            WebSession.Current.TakeScreenshot();
-
-            VerifyLastLogMessagesContain(LogLevel.Error, "Screenshot failed");
-            AtataContext.Current.Artifacts.Should.Not.Exist();
-        }
-    }
 
     public class TakePageSnapshot : WebDriverSessionTestSuiteBase
     {
