@@ -7,13 +7,25 @@ public class WebDriverSessionBuilderTests : WebDriverSessionTestSuiteBase
     [Test]
     public void Build_WithoutDriver()
     {
-        var builder = AtataContext.Configure()
-            .Sessions.AddWebDriver();
+        var builder = AtataContext.Configure();
+        builder.Sessions.AddWebDriver();
 
         var exception = Assert.Throws<AtataSessionBuilderValidationException>(() =>
            builder.Build());
 
-        Assert.That(exception.Message, Does.Contain("no driver is specified"));
+        exception.Message.Should().Contain("no driver is specified");
+    }
+
+    [Test]
+    public void Build_WithNullDriver()
+    {
+        var builder = AtataContext.Configure();
+        builder.Sessions.AddWebDriver(x => x.UseDriver(() => null));
+
+        var exception = Assert.Throws<WebDriverInitializationException>(
+            () => builder.Build());
+
+        exception.Message.Should().Be("Driver factory returned null as a driver.");
     }
 
     [Test]
