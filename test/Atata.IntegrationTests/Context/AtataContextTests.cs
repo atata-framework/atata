@@ -171,46 +171,4 @@ public static class AtataContextTests
                     .Should.Throw<FormatException>();
         }
     }
-
-#warning Move to some WebDriverSessionTests.
-
-    public class TakePageSnapshot : WebDriverSessionTestSuiteBase
-    {
-        [Test]
-        public void WhenNavigated()
-        {
-            ConfigureAtataContextWithWebDriverSession()
-                .Build();
-            Go.To<InputPage>();
-
-            WebSession.Current.TakePageSnapshot();
-
-            AtataContext.Current.Artifacts.Should.ContainFile("01 Input page.mhtml");
-        }
-
-        [Test]
-        public void WhenNoNavigation()
-        {
-            ConfigureAtataContextWithWebDriverSession()
-                .Build();
-
-            WebSession.Current.TakePageSnapshot();
-
-            AtataContext.Current.Artifacts.Should.ContainFile("01.mhtml");
-        }
-
-        [Test]
-        public void WhenThrows()
-        {
-            ConfigureAtataContextWithWebDriverSession(
-                session => session.PageSnapshots.UseStrategy(Mock.Of<IPageSnapshotStrategy<WebDriverSession>>(MockBehavior.Strict)))
-                .Build();
-            Go.To<InputPage>();
-
-            WebSession.Current.TakePageSnapshot();
-
-            VerifyLastLogMessagesContain(LogLevel.Error, "Page snapshot failed");
-            AtataContext.Current.Artifacts.Should.Not.Exist();
-        }
-    }
 }
