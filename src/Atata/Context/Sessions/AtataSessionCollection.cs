@@ -1,4 +1,4 @@
-﻿namespace Atata.Context;
+﻿namespace Atata;
 
 public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, IDisposable
 {
