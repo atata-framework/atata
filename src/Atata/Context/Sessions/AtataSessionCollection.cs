@@ -29,6 +29,23 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
     }
 
+    /// <summary>
+    /// Gets a session of <typeparamref name="TSession"/> type with the specified index.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="index">The index.</param>
+    /// <returns>A session.</returns>
+    public TSession Get<TSession>(int index)
+       where TSession : AtataSession
+    {
+        index.CheckIndexNonNegative();
+
+        return _sessionListOrderedByAdding.OfType<TSession>().ElementAtOrDefault(index)
+            ?? throw AtataSessionNotFoundException.ByIndex<TSession>(
+                index,
+                _sessionListOrderedByAdding.OfType<TSession>().Count());
+    }
+
 #warning Finish later Start methods.
     ////public TSession Start<TSessionBuilder, TSession>(string name = null)
     ////{
