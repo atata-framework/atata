@@ -8,6 +8,8 @@ public abstract class TestSuiteBase
     protected FakeLogConsumer CurrentLog =>
         _fakeLogConsumer;
 
+    protected virtual bool EnableLogMessageNesting => false;
+
     protected AtataContextBuilder ConfigureSessionlessAtataContext()
     {
         _fakeLogConsumer = new FakeLogConsumer();
@@ -19,8 +21,9 @@ public abstract class TestSuiteBase
             .UseNUnitTestSuiteType();
 
         builder.LogConsumers.AddNUnitTestContext();
-        builder.LogConsumers.Add(_fakeLogConsumer)
-            .WithMessageNestingLevelIndent(string.Empty);
+        var fakeLogBuilder = builder.LogConsumers.Add(_fakeLogConsumer);
+        if (!EnableLogMessageNesting)
+            fakeLogBuilder.WithMessageNestingLevelIndent(string.Empty);
 
         builder.EventSubscriptions.LogNUnitError();
         builder.EventSubscriptions.AddArtifactsToNUnitTestContext();
