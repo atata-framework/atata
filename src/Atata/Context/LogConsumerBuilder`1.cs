@@ -86,4 +86,30 @@ public class LogConsumerBuilder<TLogConsumer>
         _logConsumerConfiguration.MessageEndSectionPrefix = messageEndSectionPrefix;
         return this;
     }
+
+    /// <summary>
+    /// Sets a value indicating whether session log should be embedded
+    /// in <see cref="AtataContext"/> log hierarchy or it should follow its own hierarchy.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    /// <param name="enable">Whether to enable embedding.</param>
+    /// <returns>The same builder instance.</returns>
+    public LogConsumerBuilder<TLogConsumer> WithEmbedSessionLog(bool enable)
+    {
+        _logConsumerConfiguration.EmbedSessionLog = enable;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a value indicating whether external source log should be embedded
+    /// in <see cref="AtataContext"/> log hierarchy or it should follow its own hierarchy.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    /// <param name="enable">Whether to enable embedding.</param>
+    /// <returns>The same builder instance.</returns>
+    public LogConsumerBuilder<TLogConsumer> WithEmbedExternalSourceLog(bool enable)
+    {
+        _logConsumerConfiguration.EmbedExternalSourceLog = enable;
+        return this;
+    }
 }
