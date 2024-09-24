@@ -187,16 +187,24 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return (TBuilder)this;
     }
 
-    public AtataSession Build(AtataContext context)
+    public async Task<AtataSession> BuildAsync(AtataContext context)
     {
         ValidateConfiguration();
 
         TSession session = new();
 
         session.AssignToOwnerContext(context);
-        ConfigureSession(session);
 
-        session.LogConfiguration();
+        await session.Log.ExecuteSectionAsync(
+            new AtataSessionInitLogSection(session),
+            async () =>
+            {
+                ConfigureSession(session);
+
+                session.LogConfiguration();
+
+                await session.StartAsync().ConfigureAwait(false);
+            }).ConfigureAwait(false);
 
         return session;
     }

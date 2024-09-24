@@ -6,7 +6,7 @@ public interface IAtataSessionBuilder
 
     AtataSessionStartScopes StartScopes { get; set; }
 
-    AtataSession Build(AtataContext context);
+    Task<AtataSession> BuildAsync(AtataContext context);
 
     /// <summary>
     /// Creates a copy of the current builder.

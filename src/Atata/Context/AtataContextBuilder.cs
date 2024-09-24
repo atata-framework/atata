@@ -765,9 +765,8 @@ public sealed class AtataContextBuilder : ICloneable
 
         foreach (var builder in Sessions.Builders.Where(ShouldAutoStartSession))
         {
-            var session = builder.Build(context);
 #warning Use await.
-            session.StartAsync().GetAwaiter().GetResult();
+            var session = builder.BuildAsync(context).GetAwaiter().GetResult();
             context.Sessions.Add(session);
         }
 
