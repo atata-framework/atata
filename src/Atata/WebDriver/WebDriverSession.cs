@@ -15,8 +15,6 @@ public class WebDriverSession : WebSession, IDisposable
 
     private IWebDriver _driver;
 
-    private bool _disposed;
-
     public WebDriverSession() =>
         Go = new AtataNavigator(this);
 
@@ -120,18 +118,7 @@ public class WebDriverSession : WebSession, IDisposable
                 InitDriver();
             });
 
-    public void Dispose()
-    {
-        if (_disposed)
-            return;
-
-        Dispose(true);
-
-        _disposed = true;
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
+    protected override void Dispose(bool disposing)
     {
         if (disposing)
         {
@@ -150,6 +137,8 @@ public class WebDriverSession : WebSession, IDisposable
                     DisposeDriverSafely();
             }
         }
+
+        base.Dispose(disposing);
     }
 
     private void DisposeDriverSafely()

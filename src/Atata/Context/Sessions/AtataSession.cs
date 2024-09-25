@@ -1,7 +1,9 @@
 ﻿namespace Atata;
 
-public abstract class AtataSession
+public abstract class AtataSession : IDisposable
 {
+    private bool _disposed;
+
     public AtataContext OwnerContext { get; private set; }
 
     public AtataContext Context { get; private set; }
@@ -82,6 +84,34 @@ public abstract class AtataSession
 
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
+
+    public void Dispose()
+    {
+        if (_disposed)
+            return;
+
+        Log.ExecuteSection(
+            new AtataSessionDeInitLogSection(this),
+            () => Dispose(true));
+
+        Log = null;
+
+        _disposed = true;
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (disposing)
+        {
+            OwnerContext = null;
+            Context = null;
+            Variables.Clear();
+            State.Clear();
+            EventBus.UnsubscribeAll();
+            IsActive = false;
+        }
+    }
 
     internal void AssignToOwnerContext(AtataContext context)
     {

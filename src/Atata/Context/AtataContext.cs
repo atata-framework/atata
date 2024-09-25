@@ -665,11 +665,15 @@ public sealed class AtataContext : IDisposable
 
 #warning Review sessions disposing.
                 foreach (var session in Sessions)
-                    (session as IDisposable)?.Dispose();
+                    session.Dispose();
 
                 Sessions.Dispose();
 
                 EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
+
+                EventBus.UnsubscribeAll();
+                Variables.Clear();
+                State.Clear();
             });
 
         deinitializationStopwatch.Stop();
