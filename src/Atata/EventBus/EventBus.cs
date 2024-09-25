@@ -152,6 +152,10 @@ public class EventBus : IEventBus
         }
     }
 
+    /// <inheritdoc/>
+    public void UnsubscribeAll() =>
+        _subscriptionMap.Clear();
+
     private sealed class EventHandlerSubscription
     {
         public EventHandlerSubscription(object subscriptionObject, object eventHandler)

@@ -61,4 +61,9 @@ public interface IEventBus
     /// </summary>
     /// <param name="eventType">Type of the event.</param>
     void UnsubscribeAll(Type eventType);
+
+    /// <summary>
+    /// Removes all subscriptions.
+    /// </summary>
+    void UnsubscribeAll();
 }
