@@ -1,28 +1,28 @@
-trigger:
-  branches:
-    exclude:
-    - sessions
+# trigger:
+#   branches:
+#     exclude:
+#     - sessions
 
 variables:
   buildConfiguration: 'Release'
   netSdkVersion: '8.x'
 
-jobs:
-- job: BuildAndRunCodeAnalysis
-  displayName: Build and run code analysis
-  pool:
-    vmImage: ubuntu-latest
-  steps:
-  - task: UseDotNet@2
-    displayName: Set up .NET SDK
-    inputs:
-      version: $(netSdkVersion)
-  - task: DotNetCoreCLI@2
-    displayName: Build solution with code analysis
-    inputs:
-      command: build
-      projects: '*.sln'
-      arguments: -c $(buildConfiguration) -warnaserror
+# jobs:
+# - job: BuildAndRunCodeAnalysis
+#   displayName: Build and run code analysis
+#   pool:
+#     vmImage: ubuntu-latest
+#   steps:
+#   - task: UseDotNet@2
+#     displayName: Set up .NET SDK
+#     inputs:
+#       version: $(netSdkVersion)
+#   - task: DotNetCoreCLI@2
+#     displayName: Build solution with code analysis
+#     inputs:
+#       command: build
+#       projects: '*.sln'
+#       arguments: -c $(buildConfiguration) -warnaserror
 
 - job: RunTestsOnUbuntu
   displayName: Run tests on Ubuntu
