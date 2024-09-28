@@ -122,6 +122,12 @@ public sealed class AtataContextGlobalProperties
         @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
 
     /// <summary>
+    /// Gets or sets the identifier generator.
+    /// The default value is an instance of <see cref="Alphanumeric4AtataIdGenerator"/>.
+    /// </summary>
+    public IAtataIdGenerator IdGenerator { get; set; } = new Alphanumeric4AtataIdGenerator();
+
+    /// <summary>
     /// Sets the default Artifacts Root path template with optionally
     /// including <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.
     /// </summary>
@@ -214,6 +220,20 @@ public sealed class AtataContextGlobalProperties
         pattern.CheckNotNullOrWhitespace(nameof(pattern));
 
         AssemblyNamePatternToFindTypes = pattern;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the identifier generator.
+    /// The default value is an instance of <see cref="Alphanumeric4AtataIdGenerator"/>.
+    /// </summary>
+    /// <param name="idGenerator">The identifier generator.</param>
+    /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
+    public AtataContextGlobalProperties UseIdGenerator(IAtataIdGenerator idGenerator)
+    {
+        idGenerator.CheckNotNull(nameof(idGenerator));
+
+        IdGenerator = idGenerator;
         return this;
     }
 
