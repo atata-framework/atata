@@ -174,6 +174,32 @@ public static class TemplateStringTransformerTests
                 .Should.Equal("10_30-1_2_3=_");
         }
 
+        [Test]
+        public void WithExtendedStringFormat()
+        {
+            string template = "{a:-*/\\}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "a/\\b"
+            };
+
+            Act(template, variables)
+                .Should.Equal("-a__b/\\");
+        }
+
+        [Test]
+        public void WithExtendedStringFormatThatHasDoubleStars()
+        {
+            string template = "{a:** * **}";
+            var variables = new Dictionary<string, object>
+            {
+                ["a"] = "1"
+            };
+
+            Act(template, variables)
+                .Should.Equal("* 1 *");
+        }
+
         private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
             Subject.ResultOf(() => TemplateStringTransformer.TransformPath(template, variables));
     }

@@ -4,9 +4,10 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
 {
     private const string InnerFormatValueIndicator = "*";
 
-    private AtataTemplateStringFormatter()
-    {
-    }
+    private readonly Func<string, string> _argumentHandler;
+
+    internal AtataTemplateStringFormatter(Func<string, string> argumentHandler = null) =>
+        _argumentHandler = argumentHandler;
 
     public static AtataTemplateStringFormatter Default { get; } = new AtataTemplateStringFormatter();
 
@@ -21,14 +22,30 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
         if (!string.IsNullOrEmpty(format))
         {
             if (arg is IFormattable argFormattable)
-                return argFormattable.ToString(format, CultureInfo.CurrentCulture);
+            {
+                string argumentAsString = argFormattable.ToString(format, CultureInfo.CurrentCulture);
 
-            string argumentAsString = arg as string ?? arg.ToString();
-            return FormatInnerString(format, argumentAsString);
+                return _argumentHandler is null
+                    ? argumentAsString
+                    : _argumentHandler.Invoke(argumentAsString);
+            }
+            else
+            {
+                string argumentAsString = arg as string ?? arg.ToString();
+
+                if (_argumentHandler is not null)
+                    argumentAsString = _argumentHandler.Invoke(argumentAsString);
+
+                return FormatInnerString(format, argumentAsString);
+            }
         }
         else
         {
-            return arg.ToString();
+            string argumentAsString = arg as string ?? arg.ToString();
+
+            return _argumentHandler is null
+                ? argumentAsString
+                : _argumentHandler.Invoke(argumentAsString);
         }
     }
 
