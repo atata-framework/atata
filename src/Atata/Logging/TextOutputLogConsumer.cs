@@ -43,6 +43,8 @@ public class TextOutputLogConsumer : ILogConsumer
         StringBuilder builder = new StringBuilder()
             .Append(eventInfo.Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture))
             .Append(Separator)
+            .Append(eventInfo.ExecutionUnitId)
+            .Append(Separator)
             .Append($"{eventInfo.Level.ToString(TermCase.Upper),5}")
             .Append(Separator)
             .Append(eventInfo.Message);
