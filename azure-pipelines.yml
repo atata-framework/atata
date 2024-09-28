@@ -7,7 +7,7 @@ variables:
   buildConfiguration: 'Release'
   netSdkVersion: '8.x'
 
-# jobs:
+jobs:
 # - job: BuildAndRunCodeAnalysis
 #   displayName: Build and run code analysis
 #   pool:
