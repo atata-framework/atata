@@ -21,6 +21,15 @@ public sealed class LogEventInfo
     public AtataSession Session { get; internal set; }
 
     /// <summary>
+    /// Gets the execution unit identifier: <see cref="AtataSession.Id"/> or <see cref="AtataContext.Id"/>.
+    /// </summary>
+    /// <value>
+    /// The execution unit identifier.
+    /// </value>
+    public string ExecutionUnitId =>
+        Session?.Id ?? Context?.Id ?? null;
+
+    /// <summary>
     /// Gets the category name.
     /// Can be <see langword="null"/> by default.
     /// </summary>
