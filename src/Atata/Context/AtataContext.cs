@@ -45,6 +45,8 @@ public sealed class AtataContext : IDisposable
         Scope = scope;
         ParentContext = parentContext;
 
+        Id = GlobalProperties.IdGenerator.GenerateId();
+
         _assertionVerificationStrategy = new AssertionVerificationStrategy(this);
         _expectationVerificationStrategy = new ExpectationVerificationStrategy(this);
 
@@ -113,6 +115,11 @@ public sealed class AtataContext : IDisposable
     public AtataContext ParentContext { get; }
 
     public AtataContextScope Scope { get; }
+
+    /// <summary>
+    /// Gets the unique context identifier.
+    /// </summary>
+    public string Id { get; }
 
     public AtataSessionCollection Sessions { get; } = [];
 
@@ -341,6 +348,8 @@ public sealed class AtataContext : IDisposable
     /// <item><c>test-suite-name</c></item>
     /// <item><c>test-start</c></item>
     /// <item><c>test-start-utc</c></item>
+    /// <item><c>context-id</c></item>
+    /// <item><c>execution-unit-id</c></item>
     /// </list>
     /// <para>
     /// Custom variables can be added as well.
@@ -383,6 +392,8 @@ public sealed class AtataContext : IDisposable
     {
         var variables = Variables;
 
+        variables.SetInitialValue("execution-unit-id", Id);
+        variables.SetInitialValue("context-id", Id);
         variables.SetInitialValue("test-name-sanitized", Test.NameSanitized);
         variables.SetInitialValue("test-name", Test.Name);
         variables.SetInitialValue("test-suite-name-sanitized", Test.SuiteNameSanitized);

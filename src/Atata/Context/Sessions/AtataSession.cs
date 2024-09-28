@@ -4,10 +4,22 @@ public abstract class AtataSession : IDisposable
 {
     private bool _disposed;
 
+    protected AtataSession() =>
+        Id = AtataContext.GlobalProperties.IdGenerator.GenerateId();
+
     public AtataContext OwnerContext { get; private set; }
 
     public AtataContext Context { get; private set; }
 
+    /// <summary>
+    /// Gets the unique session identifier.
+    /// </summary>
+    public string Id { get; }
+
+    /// <summary>
+    /// Gets the name of the session.
+    /// Returns <see langword="null"/> if the name is not set explicitly in builder.
+    /// </summary>
     public string Name { get; internal set; }
 
 #warning Temporarily IsActive is set to true by default.
@@ -152,6 +164,8 @@ public abstract class AtataSession : IDisposable
         if (Variables is null)
         {
             Variables = new(context.Variables);
+            Variables.SetInitialValue("execution-unit-id", Id);
+            Variables.SetInitialValue("session-id", Id);
             Variables.SetInitialValue("session-name", Name);
         }
         else
