@@ -683,7 +683,6 @@ public sealed class AtataContext : IDisposable
                 EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
 
                 EventBus.UnsubscribeAll();
-                Variables.Clear();
                 State.Clear();
             });
 
@@ -692,6 +691,7 @@ public sealed class AtataContext : IDisposable
 
         LogTestFinish(deinitializationStopwatch.Elapsed);
 
+        Variables.Clear();
         Log = null;
 
         if (Current == this)

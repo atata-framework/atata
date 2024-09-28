@@ -106,6 +106,7 @@ public abstract class AtataSession : IDisposable
             new AtataSessionDeInitLogSection(this),
             () => Dispose(true));
 
+        Variables.Clear();
         Log = null;
 
         _disposed = true;
@@ -118,7 +119,6 @@ public abstract class AtataSession : IDisposable
         {
             OwnerContext = null;
             Context = null;
-            Variables.Clear();
             State.Clear();
             EventBus.UnsubscribeAll();
             IsActive = false;
