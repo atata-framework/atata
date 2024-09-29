@@ -21,7 +21,7 @@ public static class IJavaScriptExecutorLoggingExtensions
             script,
             args);
 
-    public static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager log, string script, params object[] args)
+    internal static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager log, string script, params object[] args)
     {
         scriptExecutor.CheckNotNull(nameof(scriptExecutor));
 
