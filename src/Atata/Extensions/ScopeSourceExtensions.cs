@@ -39,7 +39,7 @@ public static class ScopeSourceExtensions
             ScopeSource.PageObject =>
                 parentComponent.Owner.ScopeContext,
             ScopeSource.Page =>
-                (parentComponent?.Context ?? AtataContext.Current).Driver,
+                (parentComponent?.Session ?? WebDriverSession.Current).Driver,
             _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(scopeSource, nameof(scopeSource))
         };
 }

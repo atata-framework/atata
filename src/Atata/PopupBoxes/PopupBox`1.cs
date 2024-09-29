@@ -34,8 +34,8 @@ public abstract class PopupBox<TPopupBox, TOwner>
             {
                 Alert = Owner.Driver
                     .Try(
-                        waitTimeout ?? Owner.Context.WaitingTimeout,
-                        waitRetryInterval ?? Owner.Context.WaitingRetryInterval)
+                        waitTimeout ?? Owner.Session.WaitingTimeout,
+                        waitRetryInterval ?? Owner.Session.WaitingRetryInterval)
                     .Until(driver =>
                     {
                         try

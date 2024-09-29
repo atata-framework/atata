@@ -20,7 +20,7 @@ public abstract class UIComponent
     /// <inheritdoc cref="IUIComponent{TOwner}.Parent"/>
     public UIComponent Parent { get; internal set; }
 
-    protected internal ILogManager Log => Context.Log;
+    protected internal ILogManager Log => Session.Log;
 
     protected internal IWebDriver Driver => Session.Driver;
 

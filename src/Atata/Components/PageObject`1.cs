@@ -143,7 +143,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
         UIComponentResolver.Resolve(this);
 
         OnInit();
-        Context.EventBus.Publish(new PageObjectInitEvent(this));
+        Session.EventBus.Publish(new PageObjectInitEvent(this));
     }
 
     internal void CompleteInit()
@@ -151,7 +151,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
         ExecuteTriggers(TriggerEvents.Init);
 
         OnInitCompleted();
-        Context.EventBus.Publish(new PageObjectInitCompletedEvent(this));
+        Session.EventBus.Publish(new PageObjectInitCompletedEvent(this));
 
         OnVerify();
     }
@@ -368,11 +368,11 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
         TimeSpan timeoutTime = timeout.HasValue
             ? TimeSpan.FromSeconds(timeout.Value)
-            : Context.WaitingTimeout;
+            : Session.WaitingTimeout;
 
         TimeSpan retryIntervalTime = retryInterval.HasValue
             ? TimeSpan.FromSeconds(retryInterval.Value)
-            : Context.WaitingRetryInterval;
+            : Session.WaitingRetryInterval;
 
         TOwner activePageObject = (TOwner)this;
 
@@ -685,7 +685,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     void IPageObject.DeInit()
     {
         ExecuteTriggers(TriggerEvents.DeInit);
-        Context.EventBus.Publish(new PageObjectDeInitEvent(this));
+        Session.EventBus.Publish(new PageObjectDeInitEvent(this));
     }
 
     protected override string BuildComponentProviderName() => null;

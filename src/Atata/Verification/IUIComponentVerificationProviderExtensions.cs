@@ -19,7 +19,7 @@ public static class IUIComponentVerificationProviderExtensions
     {
         verifier.CheckNotNull(nameof(verifier));
 
-        verifier.Component.Context.Log.ExecuteSection(
+        verifier.Component.Log.ExecuteSection(
             new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
             () =>
             {
@@ -242,7 +242,7 @@ public static class IUIComponentVerificationProviderExtensions
             .AppendIf(expectedIndividualValues.Length > 1, ":")
             .Append($" {expectedIndividualValuesAsString}").ToString();
 
-        verifier.Component.Context.Log.ExecuteSection(
+        verifier.Component.Log.ExecuteSection(
             new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
             () =>
             {
