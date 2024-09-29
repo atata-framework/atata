@@ -20,7 +20,7 @@ throw 'Element\'s shadowRoot doesn\'t contain any elements.';";
 
     public string DefaultOuterXPath => "..//";
 
-    public ISearchContext Resolve(IWebElement element) =>
-        (IWebElement)AtataContext.Current.Driver.AsScriptExecutor()
-            .ExecuteScriptWithLogging(GetShadowRootChildElementsScript, element);
+    public ISearchContext Resolve(IWebElement element, WebDriverSession session) =>
+        (IWebElement)session.Driver.AsScriptExecutor()
+            .ExecuteScriptWithLogging(session.Log, GetShadowRootChildElementsScript, element);
 }

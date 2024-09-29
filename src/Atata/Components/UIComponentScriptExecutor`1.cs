@@ -129,13 +129,19 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     private object ExecuteScript(string script, object[] arguments)
     {
         object[] unwrappedArguments = UnwrapScriptArguments(arguments);
-        return Component.Owner.Driver.AsScriptExecutor().ExecuteScriptWithLogging(script, unwrappedArguments);
+        return Component.Owner.Driver.AsScriptExecutor().ExecuteScriptWithLogging(
+            Component.Session.Log,
+            script,
+            unwrappedArguments);
     }
 
     private object ExecuteAsyncScript(string script, object[] arguments)
     {
         object[] unwrappedArguments = UnwrapScriptArguments(arguments);
-        return Component.Owner.Driver.AsScriptExecutor().ExecuteAsyncScriptWithLogging(script, unwrappedArguments);
+        return Component.Owner.Driver.AsScriptExecutor().ExecuteAsyncScriptWithLogging(
+            Component.Session.Log,
+            script,
+            unwrappedArguments);
     }
 
     /// <summary>

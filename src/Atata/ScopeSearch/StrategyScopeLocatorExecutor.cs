@@ -42,7 +42,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
                 }
             }
 
-            scopeContext = unit.ScopeContextResolver.Resolve(element);
+            scopeContext = unit.ScopeContextResolver.Resolve(element, executionData.Component.Session);
         }
 
         return Execute(executionData.FinalUnit.Strategy, scopeContext, executionData.FinalUnit.ScopeFindOptions, executionData.FinalUnit.SearchOptions);

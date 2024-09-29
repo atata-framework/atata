@@ -6,20 +6,24 @@
 /// </summary>
 public static class IJavaScriptExecutorLoggingExtensions
 {
-    private const int ScriptMaxLength = 100;
+    private const int ScriptMaxLengthForLog = 100;
 
     /// <summary>
     /// Executes the specified script within a log section.
     /// </summary>
-    /// <param name="scriptExecutor">The scrip executor.</param>
+    /// <param name="scriptExecutor">The script executor.</param>
     /// <param name="script">The script.</param>
     /// <param name="args">The script arguments.</param>
     /// <returns>The value returned by the script.</returns>
-    public static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args)
+    public static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args) =>
+        scriptExecutor.ExecuteScriptWithLogging(
+            AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log,
+            script,
+            args);
+
+    public static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager log, string script, params object[] args)
     {
         scriptExecutor.CheckNotNull(nameof(scriptExecutor));
-
-        ILogManager log = AtataContext.Current?.Log;
 
         object Execute() =>
             scriptExecutor.ExecuteScript(script, args);
@@ -45,11 +49,15 @@ public static class IJavaScriptExecutorLoggingExtensions
     /// <param name="script">The script.</param>
     /// <param name="args">The script arguments.</param>
     /// <returns>The value returned by the script.</returns>
-    public static object ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args)
+    public static object ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args) =>
+        scriptExecutor.ExecuteAsyncScriptWithLogging(
+            AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log,
+            script,
+            args);
+
+    internal static object ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager log, string script, params object[] args)
     {
         scriptExecutor.CheckNotNull(nameof(scriptExecutor));
-
-        ILogManager log = AtataContext.Current?.Log;
 
         object Execute() =>
             scriptExecutor.ExecuteAsyncScript(script, args);
@@ -75,7 +83,7 @@ public static class IJavaScriptExecutorLoggingExtensions
             .Select(x => x.Trim());
 
         string scriptTruncated = string.Join(" ", scriptLines)
-            .Truncate(ScriptMaxLength);
+            .Truncate(ScriptMaxLengthForLog);
 
         StringBuilder builder = new StringBuilder($@"""{scriptTruncated}""");
 

@@ -7,6 +7,6 @@ public class PlainLayerScopeContextResolver : ILayerScopeContextResolver
 
     public string DefaultOuterXPath { get; }
 
-    public ISearchContext Resolve(IWebElement element) =>
+    public ISearchContext Resolve(IWebElement element, WebDriverSession session) =>
         element;
 }

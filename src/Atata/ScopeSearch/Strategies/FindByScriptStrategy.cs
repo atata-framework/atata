@@ -14,7 +14,7 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
 
     public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
     {
-        object scriptResult = ExecuteScript(scope);
+        object scriptResult = ExecuteScript(scope, options.Component.Session.Log);
 
         if (scriptResult is ReadOnlyCollection<IWebElement> elements)
         {
@@ -44,22 +44,22 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
         }
     }
 
-    private object ExecuteScript(ISearchContext scope)
+    private object ExecuteScript(ISearchContext scope, ILogManager log)
     {
         IJavaScriptExecutor scriptExecutor = WebDriverSession.Current.Driver.AsScriptExecutor();
 
         if (scope is IWebElement element)
         {
-            return scriptExecutor.ExecuteScriptWithLogging(Script, element);
+            return scriptExecutor.ExecuteScriptWithLogging(log, Script, element);
         }
         else if (Script.Contains("arguments"))
         {
             var scopeElement = scope.GetWithLogging(By.XPath("*").With(SearchOptions.OfAnyVisibility()));
-            return scriptExecutor.ExecuteScriptWithLogging(Script, scopeElement);
+            return scriptExecutor.ExecuteScriptWithLogging(log, Script, scopeElement);
         }
         else
         {
-            return scriptExecutor.ExecuteScriptWithLogging(Script);
+            return scriptExecutor.ExecuteScriptWithLogging(log, Script);
         }
     }
 
