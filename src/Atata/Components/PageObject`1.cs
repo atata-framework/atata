@@ -550,7 +550,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     }
 
     /// <summary>
-    /// Executes aggregate assertion for the current page object using <see cref="AtataContext.AggregateAssert(Action, string)" /> method.
+    /// Executes aggregate assertion for the current page object using <see cref="AtataSession.AggregateAssert(Action, string)" /> method.
     /// </summary>
     /// <param name="action">The action to execute in scope of aggregate assertion.</param>
     /// <param name="assertionScopeName">
@@ -565,13 +565,13 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
         assertionScopeName ??= ComponentFullName;
 
-        Context.AggregateAssert(() => action((TOwner)this), assertionScopeName);
+        Session.AggregateAssert(() => action((TOwner)this), assertionScopeName);
 
         return (TOwner)this;
     }
 
     /// <summary>
-    /// Executes aggregate assertion for the component of the current page object using <see cref="AtataContext.AggregateAssert(Action, string)" /> method.
+    /// Executes aggregate assertion for the component of the current page object using <see cref="AtataSession.AggregateAssert(Action, string)" /> method.
     /// </summary>
     /// <typeparam name="TComponent">The type of the component.</typeparam>
     /// <param name="componentSelector">The component selector.</param>
@@ -591,7 +591,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
         assertionScopeName ??= UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
 
-        Context.AggregateAssert(() => action(component), assertionScopeName);
+        Session.AggregateAssert(() => action(component), assertionScopeName);
 
         return (TOwner)this;
     }

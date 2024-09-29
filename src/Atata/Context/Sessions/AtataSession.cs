@@ -97,6 +97,18 @@ public abstract class AtataSession : IDisposable
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
 
+    /// <summary>
+    /// Executes an aggregate assertion.
+    /// </summary>
+    /// <param name="action">The action to execute in scope of aggregate assertion.</param>
+    /// <param name="assertionScopeName">
+    /// Name of the scope being asserted.
+    /// Is used to identify the assertion section in log.
+    /// Can be <see langword="null"/>.
+    /// </param>
+    public void AggregateAssert(Action action, string assertionScopeName = null) =>
+        Context.AggregateAssert(action, Log, assertionScopeName);
+
     public void Dispose()
     {
         if (_disposed)

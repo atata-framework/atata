@@ -427,15 +427,18 @@ public sealed class AtataContext : IDisposable
     }
 
     /// <summary>
-    /// Executes aggregate assertion using <see cref="AggregateAssertionStrategy" />.
+    /// Executes an aggregate assertion using <see cref="AggregateAssertionStrategy" />.
     /// </summary>
     /// <param name="action">The action to execute in scope of aggregate assertion.</param>
     /// <param name="assertionScopeName">
-    /// Name of the scope being asserted (page object, control, etc.).
+    /// Name of the scope being asserted.
     /// Is used to identify the assertion section in log.
-    /// Can be null.
+    /// Can be <see langword="null"/>.
     /// </param>
-    public void AggregateAssert(Action action, string assertionScopeName = null)
+    public void AggregateAssert(Action action, string assertionScopeName = null) =>
+        AggregateAssert(action, Log, assertionScopeName);
+
+    internal void AggregateAssert(Action action, ILogManager log, string assertionScopeName = null)
     {
         action.CheckNotNull(nameof(action));
 
@@ -447,7 +450,7 @@ public sealed class AtataContext : IDisposable
 
                 try
                 {
-                    Log.ExecuteSection(
+                    log.ExecuteSection(
                         new AggregateAssertionLogSection(assertionScopeName),
                         () =>
                         {
@@ -457,7 +460,7 @@ public sealed class AtataContext : IDisposable
                             }
                             catch (Exception exception)
                             {
-                                EnsureExceptionIsLogged(exception);
+                                EnsureExceptionIsLogged(exception, log);
                                 throw;
                             }
                         });
@@ -475,11 +478,11 @@ public sealed class AtataContext : IDisposable
         }
     }
 
-    internal void EnsureExceptionIsLogged(Exception exception)
+    internal void EnsureExceptionIsLogged(Exception exception, ILogManager log = null)
     {
         if (exception != LastLoggedException)
         {
-            Log.Error(exception.ToString());
+            (log ?? Log).Error(exception.ToString());
             LastLoggedException = exception;
         }
     }
