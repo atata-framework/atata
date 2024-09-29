@@ -12,9 +12,7 @@ public interface IUIComponent<TOwner>
     /// </summary>
     WebDriverSession Session { get; }
 
-    /// <summary>
-    /// Gets the <see cref="AtataContext"/> instance with which this component is associated.
-    /// </summary>
+    [Obsolete("Instead use either Session.Context or corresponding member of Session.")] // Obsolete since v4.0.0.
     AtataContext Context { get; }
 
     /// <summary>

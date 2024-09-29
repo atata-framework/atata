@@ -7,11 +7,12 @@ public abstract class UIComponent
 {
     internal const string SubComponentSeparator = " / ";
 
+    /// <summary>
+    /// Gets the associated session.
+    /// </summary>
     public abstract WebDriverSession Session { get; }
 
-    /// <summary>
-    /// Gets the <see cref="AtataContext"/> instance with which this component is associated.
-    /// </summary>
+    [Obsolete("Instead use either Session.Context or corresponding member of Session.")] // Obsolete since v4.0.0.
     public AtataContext Context => Session.Context;
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Owner"/>
