@@ -10,7 +10,7 @@ internal sealed class AtataPathTemplateStringFormatter : IFormatProvider, ICusto
     {
     }
 
-    public static AtataPathTemplateStringFormatter Default { get; } = new AtataPathTemplateStringFormatter();
+    public static AtataPathTemplateStringFormatter Default { get; } = new();
 
     public object GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;

@@ -9,7 +9,7 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
     internal AtataTemplateStringFormatter(Func<string, string> argumentHandler = null) =>
         _argumentHandler = argumentHandler;
 
-    public static AtataTemplateStringFormatter Default { get; } = new AtataTemplateStringFormatter();
+    public static AtataTemplateStringFormatter Default { get; } = new();
 
     public object GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;

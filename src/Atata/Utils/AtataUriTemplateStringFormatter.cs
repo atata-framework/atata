@@ -19,7 +19,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
     {
     }
 
-    public static AtataUriTemplateStringFormatter Default { get; } = new AtataUriTemplateStringFormatter();
+    public static AtataUriTemplateStringFormatter Default { get; } = new();
 
     public object GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;
