@@ -16,6 +16,6 @@ public class ClearValueAttribute : TriggerAttribute
         if (context.Component is IClearable clearableComponent)
             clearableComponent.Clear();
         else
-            context.Component.Scope.ClearWithLogging();
+            context.Component.Scope.ClearWithLogging(context.Component.Session.Log);
     }
 }

@@ -12,9 +12,9 @@ public class SetsValueUsingClearAndSendKeysAttribute : ValueSetBehaviorAttribute
     {
         var scopeElement = component.Scope;
 
-        scopeElement.ClearWithLogging();
+        scopeElement.ClearWithLogging(component.Session.Log);
 
         if (!string.IsNullOrEmpty(value))
-            scopeElement.SendKeysWithLogging(value);
+            scopeElement.SendKeysWithLogging(component.Session.Log, value);
     }
 }

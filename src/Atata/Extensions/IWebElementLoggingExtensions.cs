@@ -10,10 +10,11 @@ public static class IWebElementLoggingExtensions
     /// Clears the value of an element within a log section.
     /// </summary>
     /// <param name="element">The element.</param>
-    public static void ClearWithLogging(this IWebElement element)
-    {
-        ILogManager log = AtataContext.Current?.Log;
+    public static void ClearWithLogging(this IWebElement element) =>
+        element.ClearWithLogging(AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log);
 
+    internal static void ClearWithLogging(this IWebElement element, ILogManager log)
+    {
         if (log != null)
         {
             log.ExecuteSection(
@@ -30,10 +31,11 @@ public static class IWebElementLoggingExtensions
     /// Clicks an element within a log section.
     /// </summary>
     /// <param name="element">The element.</param>
-    public static void ClickWithLogging(this IWebElement element)
-    {
-        ILogManager log = AtataContext.Current?.Log;
+    public static void ClickWithLogging(this IWebElement element) =>
+        element.ClickWithLogging(AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log);
 
+    internal static void ClickWithLogging(this IWebElement element, ILogManager log)
+    {
         if (log != null)
         {
             log.ExecuteSection(
@@ -51,10 +53,11 @@ public static class IWebElementLoggingExtensions
     /// </summary>
     /// <param name="element">The element.</param>
     /// <param name="text">The text.</param>
-    public static void SendKeysWithLogging(this IWebElement element, string text)
-    {
-        ILogManager log = AtataContext.Current?.Log;
+    public static void SendKeysWithLogging(this IWebElement element, string text) =>
+        element.SendKeysWithLogging(AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log, text);
 
+    internal static void SendKeysWithLogging(this IWebElement element, ILogManager log, string text)
+    {
         if (log != null)
         {
             log.ExecuteSection(

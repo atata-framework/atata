@@ -10,6 +10,6 @@ public class TypesTextUsingSendKeysAttribute : TextTypeBehaviorAttribute
     public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
     {
         if (!string.IsNullOrEmpty(value))
-            component.Scope.SendKeysWithLogging(value);
+            component.Scope.SendKeysWithLogging(component.Session.Log, value);
     }
 }

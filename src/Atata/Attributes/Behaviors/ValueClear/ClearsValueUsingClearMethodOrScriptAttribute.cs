@@ -12,7 +12,7 @@ public class ClearsValueUsingClearMethodOrScriptAttribute : ValueClearBehaviorAt
     {
         try
         {
-            component.Scope.ClearWithLogging();
+            component.Scope.ClearWithLogging(component.Session.Log);
         }
         catch (InvalidElementStateException)
         {

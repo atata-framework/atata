@@ -24,7 +24,7 @@ public class TypesTextUsingSendKeysCharByCharAttribute : TextTypeBehaviorAttribu
                 if (i > 0 && TypingIntervalInSeconds > 0)
                     component.Owner.WaitSeconds(TypingIntervalInSeconds);
 
-                scopeElement.SendKeysWithLogging(value[i].ToString());
+                scopeElement.SendKeysWithLogging(component.Session.Log, value[i].ToString());
             }
         }
     }

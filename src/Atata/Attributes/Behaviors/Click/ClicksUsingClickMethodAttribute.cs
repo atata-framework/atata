@@ -7,5 +7,5 @@ public class ClicksUsingClickMethodAttribute : ClickBehaviorAttribute
 {
     /// <inheritdoc/>
     public override void Execute<TOwner>(IUIComponent<TOwner> component) =>
-        component.Scope.ClickWithLogging();
+        component.Scope.ClickWithLogging(component.Session.Log);
 }

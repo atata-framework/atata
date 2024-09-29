@@ -7,5 +7,5 @@ public class ClearsValueUsingClearMethodAttribute : ValueClearBehaviorAttribute
 {
     /// <inheritdoc/>
     public override void Execute<TOwner>(IUIComponent<TOwner> component) =>
-        component.Scope.ClearWithLogging();
+        component.Scope.ClearWithLogging(component.Session.Log);
 }

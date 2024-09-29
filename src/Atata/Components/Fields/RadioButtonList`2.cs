@@ -34,7 +34,7 @@ public class RadioButtonList<TValue, TOwner> : OptionList<TValue, TOwner>
 
         IWebElement element = GetItemElement(value);
         if (!element.Selected)
-            element.ClickWithLogging();
+            element.ClickWithLogging(Log);
     }
 
     /// <summary>
@@ -50,7 +50,7 @@ public class RadioButtonList<TValue, TOwner> : OptionList<TValue, TOwner>
                 var unselectedOptionElements = GetItemElements().Where(x => !x.Selected).ToArray();
 
                 IWebElement randomElement = Randomizer.GetOneOf(unselectedOptionElements);
-                randomElement.ClickWithLogging();
+                randomElement.ClickWithLogging(Log);
             });
 
         return Owner;

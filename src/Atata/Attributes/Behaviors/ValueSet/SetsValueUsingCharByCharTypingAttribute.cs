@@ -16,14 +16,14 @@ public class SetsValueUsingCharByCharTypingAttribute : ValueSetBehaviorAttribute
     {
         var scopeElement = component.Scope;
 
-        scopeElement.ClickWithLogging();
+        scopeElement.ClickWithLogging(component.Session.Log);
 
         if (!string.IsNullOrEmpty(value))
         {
             foreach (char character in value)
             {
                 component.Owner.WaitSeconds(TypingIntervalInSeconds);
-                scopeElement.SendKeysWithLogging(character.ToString());
+                scopeElement.SendKeysWithLogging(component.Session.Log, character.ToString());
             }
         }
     }

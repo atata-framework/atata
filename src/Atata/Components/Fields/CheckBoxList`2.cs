@@ -81,7 +81,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
                 individualValues.Remove(elementValue);
 
             if (predicate(isInValue, element.Selected))
-                element.ClickWithLogging();
+                element.ClickWithLogging(Log);
         }
 
         if (individualValues.Any())
