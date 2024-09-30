@@ -12,6 +12,7 @@ public class FindItemByLabelStrategy : TermItemElementFindStrategy
         ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
         IWebElement label = scopeContext.GetWithLogging(
+            _component.Log,
             By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]")
                 .SafelyAtOnce()
                 .Label(TermResolver.ToDisplayString(parameter)));
@@ -36,12 +37,16 @@ public class FindItemByLabelStrategy : TermItemElementFindStrategy
             ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
             IWebElement label = scopeContext.GetWithLogging(
+                _component.Log,
                 By.XPath($".//label[@for='{elementId}']").SafelyAtOnce());
 
             if (label != null)
                 return label.Text;
         }
 
-        return element.GetWithLogging(By.XPath("ancestor::label").AtOnce()).Text;
+        return element.GetWithLogging(
+            _component.Log,
+            By.XPath("ancestor::label").AtOnce())
+            .Text;
     }
 }

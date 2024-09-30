@@ -14,5 +14,5 @@ public class TableRow<TOwner> : Control<TOwner>
     where TOwner : PageObject<TOwner>
 {
     protected IWebElement GetCell(int index) =>
-        Scope.GetWithLogging(By.XPath($".//td[{index + 1}]").TableColumn());
+        Scope.GetWithLogging(Log, By.XPath($".//td[{index + 1}]").TableColumn());
 }

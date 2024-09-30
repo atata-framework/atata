@@ -81,7 +81,9 @@ public class FindByColumnHeaderStrategy : IComponentScopeFindStrategy
         }
         else
         {
-            var headers = scope.GetAllWithLogging(By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
+            var headers = scope.GetAllWithLogging(
+                options.Component.Log,
+                By.XPath(HeaderXPath).With(searchOptions).OfAnyVisibility());
 
             return headers
                 .Select((x, i) => new { x.Text, Index = i })

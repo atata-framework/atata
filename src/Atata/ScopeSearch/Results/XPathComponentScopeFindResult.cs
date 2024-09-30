@@ -2,11 +2,26 @@
 
 public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
 {
-    public XPathComponentScopeFindResult(string xPath, ISearchContext scopeSource, SearchOptions searchOptions)
+    private readonly ILogManager _log;
+
+    public XPathComponentScopeFindResult(
+        string xPath,
+        ISearchContext scopeSource,
+        SearchOptions searchOptions)
+        : this(xPath, scopeSource, searchOptions, null)
+    {
+    }
+
+    public XPathComponentScopeFindResult(
+        string xPath,
+        ISearchContext scopeSource,
+        SearchOptions searchOptions,
+        UIComponent component)
     {
         XPath = xPath;
         ScopeSource = scopeSource;
         SearchOptions = searchOptions;
+        _log = component?.Log ?? AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log;
     }
 
     public string XPath { get; }
@@ -16,10 +31,10 @@ public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
     public SearchOptions SearchOptions { get; internal set; }
 
     public IWebElement Get(string xPathCondition = null) =>
-        ScopeSource.GetWithLogging(CreateBy(xPathCondition));
+        ScopeSource.GetWithLogging(_log, CreateBy(xPathCondition));
 
     public ReadOnlyCollection<IWebElement> GetAll(string xPathCondition = null) =>
-        ScopeSource.GetAllWithLogging(CreateBy(xPathCondition));
+        ScopeSource.GetAllWithLogging(_log, CreateBy(xPathCondition));
 
     public By CreateBy(string xPathCondition)
     {

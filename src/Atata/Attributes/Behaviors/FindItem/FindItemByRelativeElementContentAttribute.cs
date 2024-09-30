@@ -26,5 +26,5 @@ public class FindItemByRelativeElementContentAttribute : TermFindItemAttribute
     public string RelativeElementXPath { get; }
 
     public override IItemElementFindStrategy CreateStrategy(UIComponent component, UIComponentMetadata metadata) =>
-        new FindItemByRelativeElementContentStrategy(RelativeElementXPath);
+        new FindItemByRelativeElementContentStrategy(component, RelativeElementXPath);
 }

@@ -8,7 +8,7 @@ public abstract class XPathComponentScopeFindStrategy : IComponentScopeFindStrat
 
         string xPath = Build(builder, options);
 
-        return new XPathComponentScopeFindResult(xPath, scope, searchOptions);
+        return new XPathComponentScopeFindResult(xPath, scope, searchOptions, options.Component);
     }
 
     protected abstract string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options);

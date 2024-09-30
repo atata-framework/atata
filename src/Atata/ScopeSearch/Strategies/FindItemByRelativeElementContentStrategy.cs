@@ -5,8 +5,13 @@
 /// </summary>
 public class FindItemByRelativeElementContentStrategy : TermItemElementFindStrategy
 {
-    public FindItemByRelativeElementContentStrategy(string relativeElementXPath) =>
+    private readonly UIComponent _component;
+
+    public FindItemByRelativeElementContentStrategy(UIComponent component, string relativeElementXPath)
+    {
+        _component = component;
         RelativeElementXPath = relativeElementXPath;
+    }
 
     public string RelativeElementXPath { get; }
 
@@ -14,5 +19,5 @@ public class FindItemByRelativeElementContentStrategy : TermItemElementFindStrat
         $"[{RelativeElementXPath}[{TermResolver.CreateXPathCondition(parameter, termOptions)}]]";
 
     protected override string GetParameterAsString(IWebElement element) =>
-        element.GetWithLogging(By.XPath(RelativeElementXPath).AtOnce()).Text;
+        element.GetWithLogging(_component.Log, By.XPath(RelativeElementXPath).AtOnce()).Text;
 }

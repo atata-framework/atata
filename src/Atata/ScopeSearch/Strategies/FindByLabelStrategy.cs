@@ -10,11 +10,11 @@ public class FindByLabelStrategy : IComponentScopeFindStrategy
     private static ComponentScopeFindResult FindUsingOneQuery(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
     {
         string xPath = new ComponentScopeXPathBuilder(options)
-                .Wrap(j => j
-                    .OuterXPath.Any[x => x._("@id = ").WrapWithIndex(l => l._("//label")[lc => lc.TermsConditionOfContent])._("/@for")].DescendantOrSelf.ComponentXPath
-                    ._(" | ").WrapWithIndex(l => l.OuterXPath._("label")[lc => lc.TermsConditionOfContent]).DescendantOrSelf.ComponentXPath);
+            .Wrap(j => j
+                .OuterXPath.Any[x => x._("@id = ").WrapWithIndex(l => l._("//label")[lc => lc.TermsConditionOfContent])._("/@for")].DescendantOrSelf.ComponentXPath
+                ._(" | ").WrapWithIndex(l => l.OuterXPath._("label")[lc => lc.TermsConditionOfContent]).DescendantOrSelf.ComponentXPath);
 
-        return new XPathComponentScopeFindResult(xPath, scope, searchOptions);
+        return new XPathComponentScopeFindResult(xPath, scope, searchOptions, options.Component);
     }
 
     private static ComponentScopeFindResult FindLabelThenComponent(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
@@ -22,7 +22,9 @@ public class FindByLabelStrategy : IComponentScopeFindStrategy
         string labelXPath = new ComponentScopeXPathBuilder(options)
             .WrapWithIndex(x => x.OuterXPath._("label")[y => y.TermsConditionOfContent]);
 
-        IWebElement label = scope.GetWithLogging(By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
+        IWebElement label = scope.GetWithLogging(
+            options.Component.Log,
+            By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
 
         if (label == null)
             return ComponentScopeFindResult.Missing;

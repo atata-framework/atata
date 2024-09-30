@@ -16,7 +16,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     {
         _session = WebDriverSession.Current;
 
-        ScopeLocator = new PlainScopeLocator(CreateScopeBy);
+        ScopeLocator = new PlainScopeLocator(_session, CreateScopeBy);
 
         Owner = (TOwner)this;
 
@@ -241,7 +241,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     public TFramePageObject SwitchToFrame<TFramePageObject>(By frameBy, TFramePageObject framePageObject = null, bool temporarily = false)
         where TFramePageObject : PageObject<TFramePageObject>
     {
-        IWebElement frameElement = Scope.GetWithLogging(frameBy);
+        IWebElement frameElement = Scope.GetWithLogging(Log, frameBy);
         return SwitchToFrame(frameElement, framePageObject, temporarily);
     }
 

@@ -54,7 +54,9 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
         }
         else if (Script.Contains("arguments"))
         {
-            var scopeElement = scope.GetWithLogging(By.XPath("*").With(SearchOptions.OfAnyVisibility()));
+            var scopeElement = scope.GetWithLogging(
+                log,
+                By.XPath("*").With(SearchOptions.OfAnyVisibility()));
             return scriptExecutor.ExecuteScriptWithLogging(log, Script, scopeElement);
         }
         else

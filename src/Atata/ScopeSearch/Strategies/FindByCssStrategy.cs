@@ -13,7 +13,9 @@ public class FindByCssStrategy : IComponentScopeFindStrategy
 
         if (options.Index.HasValue)
         {
-            var elements = scope.GetAllWithLogging(by.With(searchOptions));
+            var elements = scope.GetAllWithLogging(
+                options.Component.Log,
+                by.With(searchOptions));
 
             if (elements.Count <= options.Index.Value)
             {
