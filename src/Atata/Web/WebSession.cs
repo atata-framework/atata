@@ -3,8 +3,7 @@
 public abstract class WebSession : AtataSession
 {
     public static WebSession Current =>
-        AtataContext.Current?.Sessions.Get<WebSession>()
-            ?? throw AtataContextNotFoundException.Create();
+        AtataContext.ResolveCurrent().Sessions.Get<WebSession>();
 
     /// <summary>
     /// Gets the <see cref="AtataNavigator"/> instance,

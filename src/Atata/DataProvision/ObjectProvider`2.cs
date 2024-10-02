@@ -111,8 +111,7 @@ public abstract class ObjectProvider<TObject, TOwner> :
     /// </summary>
     /// <returns>An <see cref="AtataContext"/> instance.</returns>
     protected AtataContext ResolveAtataContext() =>
-        AtataContext.Current ?? throw new InvalidOperationException(
-            $"Failed to resolve {nameof(AtataContext)} as {nameof(AtataContext)}.{nameof(AtataContext.Current)} is null.");
+        AtataContext.ResolveCurrent();
 
     public override string ToString() =>
         ProviderName;

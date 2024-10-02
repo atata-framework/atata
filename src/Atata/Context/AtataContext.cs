@@ -374,6 +374,14 @@ public sealed class AtataContext : IDisposable
         this.GetWebSession().DomTestIdAttributeDefaultCase;
 
     /// <summary>
+    /// Gets the current <see cref="AtataContext"/> instance.
+    /// If it's missing (<see cref="Current"/> is <see langword="null"/>), throws <see cref="AtataContextNotFoundException"/>.
+    /// </summary>
+    /// <returns>An <see cref="AtataContext"/> instance.</returns>
+    public static AtataContext ResolveCurrent() =>
+        Current ?? throw AtataContextNotFoundException.Create();
+
+    /// <summary>
     /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
     /// The builder is a copy of <see cref="BaseConfiguration"/>,
     /// with <see cref="AtataContextScope.Test"/> as a <see cref="AtataContextBuilder.Scope"/> of the new builder.

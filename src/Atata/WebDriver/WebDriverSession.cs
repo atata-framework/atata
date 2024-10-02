@@ -9,7 +9,7 @@
 /// The class adds additional variable to its <see cref="AtataSession.Variables"/>: <c>{driver-alias}</c>.
 /// </para>
 /// </summary>
-public class WebDriverSession : WebSession, IDisposable
+public class WebDriverSession : WebSession
 {
     private IWebDriverFactory _driverFactory;
 
@@ -22,8 +22,7 @@ public class WebDriverSession : WebSession, IDisposable
         Dispose(false);
 
     public static new WebDriverSession Current =>
-        AtataContext.Current?.Sessions.Get<WebDriverSession>()
-            ?? throw AtataContextNotFoundException.Create();
+        AtataContext.ResolveCurrent().Sessions.Get<WebDriverSession>();
 
     internal IWebDriverFactory DriverFactory
     {
