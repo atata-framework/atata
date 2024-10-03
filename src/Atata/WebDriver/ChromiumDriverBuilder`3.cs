@@ -44,7 +44,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
     /// </summary>
     /// <returns>The same builder instance.</returns>
     public TBuilder WithArtifactsAsDownloadDirectory() =>
-        WithDownloadDirectory(() => AtataContext.Current.ArtifactsPath);
+        WithDownloadDirectory(() => AtataContext.ResolveCurrent().ArtifactsPath);
 
     /// <summary>
     /// Adds the <c>download.default_directory</c> user profile preference to options
