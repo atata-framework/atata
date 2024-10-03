@@ -2,10 +2,15 @@
 
 public class ControlListScopeLocator : IScopeLocator
 {
+    private readonly WebDriverSession _session;
+
     private readonly Func<SearchOptions, IEnumerable<IWebElement>> _predicate;
 
-    public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> predicate) =>
+    public ControlListScopeLocator(WebDriverSession session, Func<SearchOptions, IEnumerable<IWebElement>> predicate)
+    {
+        _session = session;
         _predicate = predicate;
+    }
 
     public string ElementName { get; set; }
 
@@ -13,7 +18,7 @@ public class ControlListScopeLocator : IScopeLocator
     {
         searchOptions ??= new SearchOptions();
 
-        IWebElement element = AtataContext.Current.Driver
+        IWebElement element = _session.Driver
             .Try(searchOptions.Timeout, searchOptions.RetryInterval)
             .Until(_ => _predicate(searchOptions).FirstOrDefault());
 
@@ -36,7 +41,7 @@ public class ControlListScopeLocator : IScopeLocator
     {
         searchOptions ??= new SearchOptions();
 
-        return AtataContext.Current.Driver
+        return _session.Driver
             .Try(searchOptions.Timeout, searchOptions.RetryInterval)
             .Until(_ => _predicate(searchOptions).ToArray());
     }
@@ -45,7 +50,7 @@ public class ControlListScopeLocator : IScopeLocator
     {
         searchOptions ??= new SearchOptions();
 
-        bool isMissing = AtataContext.Current.Driver
+        bool isMissing = _session.Driver
             .Try(searchOptions.Timeout, searchOptions.RetryInterval)
             .Until(_ => !_predicate(searchOptions).Any());
 
