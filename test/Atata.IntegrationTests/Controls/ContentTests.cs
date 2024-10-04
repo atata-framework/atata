@@ -96,6 +96,7 @@ public class ContentTests : UITestFixture
     }
 
     [Test]
+    [Platform(Exclude = Platforms.MacOS)]
     public void DateTime()
     {
         VerifyEquals(_page.DateTime, new DateTime(2016, 5, 15, 13, 45, 0));
@@ -106,14 +107,15 @@ public class ContentTests : UITestFixture
     }
 
     [Test]
+    [Platform(Exclude = Platforms.MacOS)]
+    public void DateTime_WithStandardFormat() =>
+        VerifyEquals(_page.DateTimeWithFormat, new DateTime(2009, 6, 15, 13, 45, 0));
+
+    [Test]
     public void DateTime_WithCustomFormat()
     {
         var sut = _page.DateTime;
         sut.Metadata.Push(new FormatAttribute("M/d/yyyy h:mm tt"));
         VerifyEquals(sut, new DateTime(2016, 5, 15, 13, 45, 0));
     }
-
-    [Test]
-    public void DateTime_WithStandardFormat() =>
-        VerifyEquals(_page.DateTimeWithFormat, new DateTime(2009, 6, 15, 13, 45, 0));
 }

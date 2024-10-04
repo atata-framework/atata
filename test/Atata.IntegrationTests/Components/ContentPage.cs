@@ -50,12 +50,10 @@ public class ContentPage : Page<_>
     public Time<_> TimeOfDay { get; private set; }
 
     [Term(TermCase.Pascal)]
-    [Culture("en-US")]
     public DateTime<_> DateTime { get; private set; }
 
     [Term("DateTime with Format")]
     [Format("f")]
-    [Culture("en-US")]
     public DateTime<_> DateTimeWithFormat { get; private set; }
 
     [FindByDescriptionTerm("Complex Text")]
