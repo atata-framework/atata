@@ -78,9 +78,9 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     protected internal UIComponent PreviousPageObject { get; internal set; }
 
     /// <summary>
-    /// Gets the <see cref="WebSessionReport{TOwner}"/> instance that provides a reporting functionality.
+    /// Gets the <see cref="IWebSessionReport{TOwner}"/> instance that provides a reporting functionality.
     /// </summary>
-    public WebSessionReport<TOwner> Report { get; }
+    public IWebSessionReport<TOwner> Report { get; }
 
     /// <summary>
     /// Gets the title provider of the current HTML page.

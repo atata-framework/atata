@@ -4,7 +4,7 @@
 /// Provides reporting functionality for <see cref="WebSession"/>.
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner.</typeparam>
-public class WebSessionReport<TOwner> : Report<TOwner>
+public class WebSessionReport<TOwner> : Report<TOwner>, IWebSessionReport<TOwner>
 {
     private readonly WebSession _session;
 
@@ -17,24 +17,21 @@ public class WebSessionReport<TOwner> : Report<TOwner>
         : base(owner, session.ExecutionUnit) =>
         _session = session;
 
-    /// <inheritdoc cref="WebSession.TakeScreenshot(string)"/>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Screenshot(string title = null)
     {
         _session.TakeScreenshot(title);
         return Owner;
     }
 
-    /// <inheritdoc cref="WebSession.TakeScreenshot(ScreenshotKind, string)"/>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Screenshot(ScreenshotKind kind, string title = null)
     {
         _session.TakeScreenshot(kind, title);
         return Owner;
     }
 
-    /// <inheritdoc cref="WebSession.TakePageSnapshot(string)"/>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner PageSnapshot(string title = null)
     {
         _session.TakePageSnapshot(title);
