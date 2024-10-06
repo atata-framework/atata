@@ -313,9 +313,9 @@ public sealed class AtataContext : IDisposable
         this.GetWebSession().Go;
 
     /// <summary>
-    /// Gets the <see cref="Report{TOwner}"/> instance that provides a reporting functionality.
+    /// Gets the <see cref="IReport{TOwner}"/> instance that provides a reporting functionality.
     /// </summary>
-    public Report<AtataContext> Report { get; }
+    public IReport<AtataContext> Report { get; }
 
     [Obsolete("Use GetWebSession().PageObject instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

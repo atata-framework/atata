@@ -4,7 +4,7 @@
 /// Provides reporting functionality.
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner.</typeparam>
-public class Report<TOwner>
+public class Report<TOwner> : IReport<TOwner>
 {
     private readonly TOwner _owner;
 
@@ -26,130 +26,91 @@ public class Report<TOwner>
     /// </summary>
     protected TOwner Owner => _owner;
 
-    /// <summary>
-    /// Writes a trace log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Trace(string message)
     {
         _executionUnit.Log.Trace(message);
         return _owner;
     }
 
-    /// <summary>
-    /// Writes a debug log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Debug(string message)
     {
         _executionUnit.Log.Debug(message);
         return _owner;
     }
 
-    /// <summary>
-    /// Writes an informational log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Info(string message)
     {
         _executionUnit.Log.Info(message);
         return _owner;
     }
 
-    /// <summary>
-    /// Writes a warning log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Warn(string message)
     {
         _executionUnit.Log.Warn(message);
         return _owner;
     }
 
-    /// <inheritdoc cref="Warn(string)"/>
-    /// <param name="exception">The exception.</param>
+    /// <inheritdoc/>
     public TOwner Warn(Exception exception)
     {
         _executionUnit.Log.Warn(exception);
         return _owner;
     }
 
-    /// <inheritdoc cref="Warn(string)"/>
-    /// <param name="exception">The exception.</param>
-    /// <param name="message">The message.</param>
+    /// <inheritdoc/>
     public TOwner Warn(Exception exception, string message)
     {
         _executionUnit.Log.Warn(exception, message);
         return _owner;
     }
 
-    /// <inheritdoc cref="Error(string)"/>
-    /// <param name="exception">The exception.</param>
-    public TOwner Error(Exception exception)
-    {
-        _executionUnit.Log.Error(exception);
-        return _owner;
-    }
-
-    /// <summary>
-    /// Writes an error log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Error(string message)
     {
         _executionUnit.Log.Error(message);
         return _owner;
     }
 
-    /// <inheritdoc cref="Error(string)"/>
-    /// <param name="exception">The exception.</param>
-    /// <param name="message">The message.</param>
+    /// <inheritdoc/>
+    public TOwner Error(Exception exception)
+    {
+        _executionUnit.Log.Error(exception);
+        return _owner;
+    }
+
+    /// <inheritdoc/>
     public TOwner Error(Exception exception, string message)
     {
         _executionUnit.Log.Error(exception, message);
         return _owner;
     }
 
-    /// <inheritdoc cref="Fatal(string)"/>
-    /// <param name="exception">The exception.</param>
-    public TOwner Fatal(Exception exception)
-    {
-        _executionUnit.Log.Fatal(exception);
-        return _owner;
-    }
-
-    /// <summary>
-    /// Writes a critical log message.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Fatal(string message)
     {
         _executionUnit.Log.Fatal(message);
         return _owner;
     }
 
-    /// <inheritdoc cref="Fatal(string)"/>
-    /// <param name="exception">The exception.</param>
-    /// <param name="message">The message.</param>
+    /// <inheritdoc/>
+    public TOwner Fatal(Exception exception)
+    {
+        _executionUnit.Log.Fatal(exception);
+        return _owner;
+    }
+
+    /// <inheritdoc/>
     public TOwner Fatal(Exception exception, string message)
     {
         _executionUnit.Log.Fatal(exception, message);
         return _owner;
     }
 
-    /// <summary>
-    /// Executes the specified action and represents it in a log as a setup section with the specified message.
-    /// The setup action time is not counted as a "Test body" execution time, but counted as "Setup" time.
-    /// </summary>
-    /// <param name="message">The setup message.</param>
-    /// <param name="action">The setup action.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Setup(string message, Action<TOwner> action)
     {
         message.CheckNotNullOrEmpty(nameof(message));
@@ -183,14 +144,7 @@ public class Report<TOwner>
         return _owner;
     }
 
-    /// <summary>
-    /// Executes the specified function and represents it in a log as a setup section with the specified message.
-    /// The setup function time is not counted as a "Test body" execution time, but counted as "Setup" time.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
-    /// <param name="message">The setup message.</param>
-    /// <param name="function">The setup function.</param>
-    /// <returns>The result of the <paramref name="function"/>.</returns>
+    /// <inheritdoc/>
     public TResult Setup<TResult>(string message, Func<TOwner, TResult> function)
     {
         message.CheckNotNullOrEmpty(nameof(message));
@@ -227,13 +181,7 @@ public class Report<TOwner>
         return result;
     }
 
-    /// <summary>
-    /// Executes asynchronously the specified task-based function and represents it in a log as a setup section with the specified message.
-    /// The setup action time is not counted as a "Test body" execution time, but counted as "Setup" time.
-    /// </summary>
-    /// <param name="message">The setup message.</param>
-    /// <param name="function">The setup function.</param>
-    /// <returns>The <see cref="Task"/> object.</returns>
+    /// <inheritdoc/>
     public async Task SetupAsync(string message, Func<TOwner, Task> function)
     {
         message.CheckNotNullOrEmpty(nameof(message));
@@ -266,14 +214,7 @@ public class Report<TOwner>
         });
     }
 
-    /// <summary>
-    /// Executes asynchronously the specified task-based function and represents it in a log as a setup section with the specified message.
-    /// The setup function time is not counted as a "Test body" execution time, but counted as "Setup" time.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
-    /// <param name="message">The setup message.</param>
-    /// <param name="function">The setup function.</param>
-    /// <returns>The <see cref="Task{TResult}"/> object with the result of the <paramref name="function"/>.</returns>
+    /// <inheritdoc/>
     public async Task<TResult> SetupAsync<TResult>(string message, Func<TOwner, Task<TResult>> function)
     {
         message.CheckNotNullOrEmpty(nameof(message));
@@ -310,12 +251,7 @@ public class Report<TOwner>
         return result;
     }
 
-    /// <summary>
-    /// Executes the specified action and represents it in a log as a section with the specified message.
-    /// </summary>
-    /// <param name="message">The step message.</param>
-    /// <param name="action">The step action.</param>
-    /// <returns>The instance of the owner object.</returns>
+    /// <inheritdoc/>
     public TOwner Step(string message, Action<TOwner> action)
     {
         message.CheckNotNullOrEmpty(nameof(message));
@@ -336,13 +272,7 @@ public class Report<TOwner>
         return _owner;
     }
 
-    /// <summary>
-    /// Executes the specified function and represents it in a log as a section with the specified message.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
-    /// <param name="message">The step message.</param>
-    /// <param name="function">The step function.</param>
-    /// <returns>The result of the <paramref name="function"/>.</returns>
+    /// <inheritdoc/>
     public TResult Step<TResult>(string message, Func<TOwner, TResult> function)
     {
         message.CheckNotNullOrEmpty(nameof(message));
@@ -366,12 +296,7 @@ public class Report<TOwner>
         return result;
     }
 
-    /// <summary>
-    /// Executes asynchronously the specified task-based function and represents it in a log as a section with the specified message.
-    /// </summary>
-    /// <param name="message">The step message.</param>
-    /// <param name="function">The step action.</param>
-    /// <returns>The <see cref="Task"/> object.</returns>
+    /// <inheritdoc/>
     public async Task StepAsync(string message, Func<TOwner, Task> function)
     {
         message.CheckNotNullOrEmpty(nameof(message));
@@ -391,13 +316,7 @@ public class Report<TOwner>
         });
     }
 
-    /// <summary>
-    /// Executes asynchronously the specified task-based function and represents it in a log as a section with the specified message.
-    /// </summary>
-    /// <typeparam name="TResult">The type of the result.</typeparam>
-    /// <param name="message">The step message.</param>
-    /// <param name="function">The step function.</param>
-    /// <returns>The <see cref="Task{TResult}"/> object with the result of the <paramref name="function"/>.</returns>
+    /// <inheritdoc/>
     public async Task<TResult> StepAsync<TResult>(string message, Func<TOwner, Task<TResult>> function)
     {
         message.CheckNotNullOrEmpty(nameof(message));

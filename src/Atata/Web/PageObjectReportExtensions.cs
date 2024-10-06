@@ -1,9 +1,9 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Provides a set of extension methods for <see cref="Report{TOwner}"/>.
+/// Provides a set of extension methods for <see cref="IReport{TOwner}"/>.
 /// </summary>
-public static class ReportExtensions
+public static class PageObjectReportExtensions
 {
     /// <summary>
     /// Executes the specified function and represents it in a log as a setup section with the message like <c>"Set up "&lt;Some&gt;" page"</c>.
@@ -11,10 +11,10 @@ public static class ReportExtensions
     /// </summary>
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     /// <typeparam name="TPageObject">The type of the result page object.</typeparam>
-    /// <param name="report">The <see cref="Report{TOwner}"/> object.</param>
+    /// <param name="report">The <see cref="IReport{TOwner}"/> object.</param>
     /// <param name="function">The setup function.</param>
     /// <returns>The result page object of the <paramref name="function"/>.</returns>
-    public static TPageObject Setup<TOwner, TPageObject>(this Report<TOwner> report, Func<TOwner, TPageObject> function)
+    public static TPageObject Setup<TOwner, TPageObject>(this IReport<TOwner> report, Func<TOwner, TPageObject> function)
         where TPageObject : PageObject<TPageObject>
     {
         string componentFullName = UIComponentResolver.ResolvePageObjectFullName<TPageObject>();

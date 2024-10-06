@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
-public class ReportExtensionsTests : WebDriverSessionTestSuite
+public sealed class PageObjectReportExtensionsTests : WebDriverSessionTestSuite
 {
     [Test]
     public void Setup()
