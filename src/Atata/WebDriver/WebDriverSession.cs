@@ -18,11 +18,12 @@ public class WebDriverSession : WebSession
     public WebDriverSession() =>
         Go = new AtataNavigator(this);
 
-    ~WebDriverSession() =>
-        Dispose(false);
-
     public static new WebDriverSession Current =>
         AtataContext.ResolveCurrent().Sessions.Get<WebDriverSession>();
+
+    /// <inheritdoc cref="WebSession.Report"/>
+    public new IWebSessionReport<WebDriverSession> Report =>
+        (IWebSessionReport<WebDriverSession>)base.Report;
 
     internal IWebDriverFactory DriverFactory
     {

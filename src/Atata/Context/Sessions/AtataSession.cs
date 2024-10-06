@@ -39,6 +39,11 @@ public abstract class AtataSession : IDisposable
     public ILogManager Log { get; private set; }
 
     /// <summary>
+    /// Gets the <see cref="IReport{TOwner}"/> instance that provides a reporting functionality.
+    /// </summary>
+    public IReport<AtataSession> Report { get; internal set; }
+
+    /// <summary>
     /// Gets the event bus of session,
     /// which can used to subscribe to and publish events.
     /// </summary>
@@ -128,6 +133,7 @@ public abstract class AtataSession : IDisposable
 
         Variables.Clear();
         Log = null;
+        Report = null;
 
         _disposed = true;
         GC.SuppressFinalize(this);

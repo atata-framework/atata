@@ -6,6 +6,12 @@ public abstract class WebSession : AtataSession
         AtataContext.ResolveCurrent().Sessions.Get<WebSession>();
 
     /// <summary>
+    /// Gets the <see cref="IWebSessionReport{TOwner}"/> instance that provides a reporting functionality.
+    /// </summary>
+    public new IWebSessionReport<WebSession> Report =>
+        (IWebSessionReport<WebSession>)base.Report;
+
+    /// <summary>
     /// Gets the <see cref="AtataNavigator"/> instance,
     /// which provides the navigation functionality between pages and windows.
     /// </summary>

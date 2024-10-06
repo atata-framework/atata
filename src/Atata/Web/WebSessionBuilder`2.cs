@@ -116,6 +116,9 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
         session.PageSnapshotTaker = CreatePageSnapshotTaker(session);
     }
 
+    protected override IReport<TSession> CreateReport(TSession session) =>
+        new WebSessionReport<TSession>(session, session);
+
     protected abstract IScreenshotTaker CreateScreenshotTaker(TSession session);
 
     protected abstract IPageSnapshotTaker CreatePageSnapshotTaker(TSession session);

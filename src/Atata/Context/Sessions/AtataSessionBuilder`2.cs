@@ -220,6 +220,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
     protected virtual void ConfigureSession(TSession session)
     {
+        session.Report = CreateReport(session);
+
         foreach (var variable in Variables)
             session.Variables.SetInitialValue(variable.Key, variable.Value);
 
@@ -232,6 +234,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
         session.EventBus = new EventBus(session.Context, EventSubscriptions.Items);
     }
+
+    protected virtual IReport<TSession> CreateReport(TSession session) =>
+        new Report<TSession>(session, session.ExecutionUnit);
 
     /// <inheritdoc/>
     public IAtataSessionBuilder Clone()
