@@ -2,7 +2,7 @@
 
 public partial class WebDriverSessionTests
 {
-    public class TakeScreenshot : WebDriverSessionTestSuiteBase
+    public sealed class TakeScreenshot : WebDriverSessionTestSuiteBase
     {
         [Test]
         public void WhenNavigated()
@@ -16,6 +16,17 @@ public partial class WebDriverSessionTests
         }
 
         [Test]
+        public void WithTitle_WhenNavigated()
+        {
+            var context = BuildAtataContextWithWebDriverSession();
+            Go.To<InputPage>();
+
+            context.GetWebDriverSession().TakeScreenshot("Test");
+
+            context.Artifacts.Should.ContainFile("01 Input page - Test.png");
+        }
+
+        [Test]
         public void WhenNoNavigation()
         {
             var context = BuildAtataContextWithWebDriverSession();
@@ -23,6 +34,16 @@ public partial class WebDriverSessionTests
             context.GetWebDriverSession().TakeScreenshot();
 
             context.Artifacts.Should.ContainFile("01.png");
+        }
+
+        [Test]
+        public void WithTitle_WhenNoNavigation()
+        {
+            var context = BuildAtataContextWithWebDriverSession();
+
+            context.GetWebDriverSession().TakeScreenshot("Test");
+
+            context.Artifacts.Should.ContainFile("01 - Test.png");
         }
 
         [Test]
