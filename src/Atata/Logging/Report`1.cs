@@ -8,23 +8,18 @@ public class Report<TOwner>
 {
     private readonly TOwner _owner;
 
-    private readonly AtataContext _context;
+    private readonly IAtataExecutionUnit _executionUnit;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Report{TOwner}"/> class.
     /// </summary>
     /// <param name="owner">The owner.</param>
-    /// <param name="context">The context.</param>
-    public Report(TOwner owner, AtataContext context)
+    /// <param name="executionUnit">The execution unit.</param>
+    public Report(TOwner owner, IAtataExecutionUnit executionUnit)
     {
-        _owner = owner;
-        _context = context;
+        _owner = owner.CheckNotNull(nameof(owner));
+        _executionUnit = executionUnit.CheckNotNull(nameof(executionUnit));
     }
-
-    /// <summary>
-    /// Gets the associated <see cref="AtataContext"/> instance.
-    /// </summary>
-    public AtataContext Context => _context;
 
     /// <summary>
     /// Gets the owner.
@@ -38,7 +33,7 @@ public class Report<TOwner>
     /// <returns>The instance of the owner object.</returns>
     public TOwner Trace(string message)
     {
-        _context.Log.Trace(message);
+        _executionUnit.Log.Trace(message);
         return _owner;
     }
 
@@ -49,7 +44,7 @@ public class Report<TOwner>
     /// <returns>The instance of the owner object.</returns>
     public TOwner Debug(string message)
     {
-        _context.Log.Debug(message);
+        _executionUnit.Log.Debug(message);
         return _owner;
     }
 
@@ -60,7 +55,7 @@ public class Report<TOwner>
     /// <returns>The instance of the owner object.</returns>
     public TOwner Info(string message)
     {
-        _context.Log.Info(message);
+        _executionUnit.Log.Info(message);
         return _owner;
     }
 
@@ -71,7 +66,7 @@ public class Report<TOwner>
     /// <returns>The instance of the owner object.</returns>
     public TOwner Warn(string message)
     {
-        _context.Log.Warn(message);
+        _executionUnit.Log.Warn(message);
         return _owner;
     }
 
@@ -79,7 +74,7 @@ public class Report<TOwner>
     /// <param name="exception">The exception.</param>
     public TOwner Warn(Exception exception)
     {
-        _context.Log.Warn(exception);
+        _executionUnit.Log.Warn(exception);
         return _owner;
     }
 
@@ -88,7 +83,7 @@ public class Report<TOwner>
     /// <param name="message">The message.</param>
     public TOwner Warn(Exception exception, string message)
     {
-        _context.Log.Warn(exception, message);
+        _executionUnit.Log.Warn(exception, message);
         return _owner;
     }
 
@@ -96,7 +91,7 @@ public class Report<TOwner>
     /// <param name="exception">The exception.</param>
     public TOwner Error(Exception exception)
     {
-        _context.Log.Error(exception);
+        _executionUnit.Log.Error(exception);
         return _owner;
     }
 
@@ -107,7 +102,7 @@ public class Report<TOwner>
     /// <returns>The instance of the owner object.</returns>
     public TOwner Error(string message)
     {
-        _context.Log.Error(message);
+        _executionUnit.Log.Error(message);
         return _owner;
     }
 
@@ -116,7 +111,7 @@ public class Report<TOwner>
     /// <param name="message">The message.</param>
     public TOwner Error(Exception exception, string message)
     {
-        _context.Log.Error(exception, message);
+        _executionUnit.Log.Error(exception, message);
         return _owner;
     }
 
@@ -124,7 +119,7 @@ public class Report<TOwner>
     /// <param name="exception">The exception.</param>
     public TOwner Fatal(Exception exception)
     {
-        _context.Log.Fatal(exception);
+        _executionUnit.Log.Fatal(exception);
         return _owner;
     }
 
@@ -135,7 +130,7 @@ public class Report<TOwner>
     /// <returns>The instance of the owner object.</returns>
     public TOwner Fatal(string message)
     {
-        _context.Log.Fatal(message);
+        _executionUnit.Log.Fatal(message);
         return _owner;
     }
 
@@ -144,7 +139,7 @@ public class Report<TOwner>
     /// <param name="message">The message.</param>
     public TOwner Fatal(Exception exception, string message)
     {
-        _context.Log.Fatal(exception, message);
+        _executionUnit.Log.Fatal(exception, message);
         return _owner;
     }
 
@@ -160,13 +155,13 @@ public class Report<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         action.CheckNotNull(nameof(action));
 
-        _context.Log.ExecuteSection(new SetupLogSection(message), () =>
+        _executionUnit.Log.ExecuteSection(new SetupLogSection(message), () =>
         {
-            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            bool shouldStopBodyExecutionStopwatch = _executionUnit.Context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
-                _context.BodyExecutionStopwatch.Stop();
+                _executionUnit.Context.BodyExecutionStopwatch.Stop();
 
-            _context.SetupExecutionStopwatch.Start();
+            _executionUnit.Context.SetupExecutionStopwatch.Start();
 
             try
             {
@@ -174,15 +169,15 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
             finally
             {
-                _context.SetupExecutionStopwatch.Stop();
+                _executionUnit.Context.SetupExecutionStopwatch.Stop();
 
                 if (shouldStopBodyExecutionStopwatch)
-                    _context.BodyExecutionStopwatch.Start();
+                    _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
         });
         return _owner;
@@ -203,13 +198,13 @@ public class Report<TOwner>
 
         TResult result = default;
 
-        _context.Log.ExecuteSection(new SetupLogSection(message), () =>
+        _executionUnit.Log.ExecuteSection(new SetupLogSection(message), () =>
         {
-            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            bool shouldStopBodyExecutionStopwatch = _executionUnit.Context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
-                _context.BodyExecutionStopwatch.Stop();
+                _executionUnit.Context.BodyExecutionStopwatch.Stop();
 
-            _context.SetupExecutionStopwatch.Start();
+            _executionUnit.Context.SetupExecutionStopwatch.Start();
 
             try
             {
@@ -217,15 +212,15 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
             finally
             {
-                _context.SetupExecutionStopwatch.Stop();
+                _executionUnit.Context.SetupExecutionStopwatch.Stop();
 
                 if (shouldStopBodyExecutionStopwatch)
-                    _context.BodyExecutionStopwatch.Start();
+                    _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
         });
 
@@ -244,13 +239,13 @@ public class Report<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         function.CheckNotNull(nameof(function));
 
-        await _context.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
+        await _executionUnit.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
         {
-            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            bool shouldStopBodyExecutionStopwatch = _executionUnit.Context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
-                _context.BodyExecutionStopwatch.Stop();
+                _executionUnit.Context.BodyExecutionStopwatch.Stop();
 
-            _context.SetupExecutionStopwatch.Start();
+            _executionUnit.Context.SetupExecutionStopwatch.Start();
 
             try
             {
@@ -258,15 +253,15 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
             finally
             {
-                _context.SetupExecutionStopwatch.Stop();
+                _executionUnit.Context.SetupExecutionStopwatch.Stop();
 
                 if (shouldStopBodyExecutionStopwatch)
-                    _context.BodyExecutionStopwatch.Start();
+                    _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
         });
     }
@@ -286,13 +281,13 @@ public class Report<TOwner>
 
         TResult result = default;
 
-        await _context.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
+        await _executionUnit.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
         {
-            bool shouldStopBodyExecutionStopwatch = _context.BodyExecutionStopwatch.IsRunning;
+            bool shouldStopBodyExecutionStopwatch = _executionUnit.Context.BodyExecutionStopwatch.IsRunning;
             if (shouldStopBodyExecutionStopwatch)
-                _context.BodyExecutionStopwatch.Stop();
+                _executionUnit.Context.BodyExecutionStopwatch.Stop();
 
-            _context.SetupExecutionStopwatch.Start();
+            _executionUnit.Context.SetupExecutionStopwatch.Start();
 
             try
             {
@@ -300,15 +295,15 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
             finally
             {
-                _context.SetupExecutionStopwatch.Stop();
+                _executionUnit.Context.SetupExecutionStopwatch.Stop();
 
                 if (shouldStopBodyExecutionStopwatch)
-                    _context.BodyExecutionStopwatch.Start();
+                    _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
         });
 
@@ -326,7 +321,7 @@ public class Report<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         action.CheckNotNull(nameof(action));
 
-        _context.Log.ExecuteSection(new StepLogSection(message), () =>
+        _executionUnit.Log.ExecuteSection(new StepLogSection(message), () =>
         {
             try
             {
@@ -334,7 +329,7 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
         });
@@ -355,7 +350,7 @@ public class Report<TOwner>
 
         TResult result = default;
 
-        _context.Log.ExecuteSection(new StepLogSection(message), () =>
+        _executionUnit.Log.ExecuteSection(new StepLogSection(message), () =>
         {
             try
             {
@@ -363,7 +358,7 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
         });
@@ -382,7 +377,7 @@ public class Report<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         function.CheckNotNull(nameof(function));
 
-        await _context.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
+        await _executionUnit.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
         {
             try
             {
@@ -390,7 +385,7 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
         });
@@ -410,7 +405,7 @@ public class Report<TOwner>
 
         TResult result = default;
 
-        await _context.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
+        await _executionUnit.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
         {
             try
             {
@@ -418,7 +413,7 @@ public class Report<TOwner>
             }
             catch (Exception exception)
             {
-                _context.EnsureExceptionIsLogged(exception);
+                _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
         });

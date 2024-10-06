@@ -51,7 +51,7 @@ public sealed class AtataContext : IDisposable
         _assertionVerificationStrategy = AssertionVerificationStrategy.Instance;
         _expectationVerificationStrategy = ExpectationVerificationStrategy.Instance;
 
-        Report = new Report<AtataContext>(this, this);
+        Report = new Report<AtataContext>(this, ExecutionUnit);
 
         Variables = new(parentContext?.Variables);
         State = new(parentContext?.State);

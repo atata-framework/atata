@@ -14,7 +14,7 @@ public class WebSessionReport<TOwner> : Report<TOwner>
     /// <param name="owner">The owner.</param>
     /// <param name="session">The session.</param>
     public WebSessionReport(TOwner owner, WebSession session)
-        : base(owner, session.Context) =>
+        : base(owner, session.ExecutionUnit) =>
         _session = session;
 
     /// <inheritdoc cref="WebSession.TakeScreenshot(string)"/>
