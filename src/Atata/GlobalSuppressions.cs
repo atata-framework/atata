@@ -92,5 +92,8 @@
 [assembly: SuppressMessage("Design", "CA1063:Implement IDisposable Correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSession.Dispose")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataPathTemplateStringFormatter.Sanitize(System.String)~System.String")]
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataPathTemplateStringFormatter.Sanitize(System.String)~System.String")]
+[assembly: SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverBuilder`1.GetDriverServiceStringForLog(OpenQA.Selenium.DriverService)~System.String")]
+[assembly: SuppressMessage("Design", "CA1065:Do not raise exceptions in unexpected locations", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.Dispose")]
+[assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverBuilder`1.Atata#IWebDriverFactory#Create(Atata.ILogManager)~OpenQA.Selenium.IWebDriver")]
 
 #pragma warning restore S103 // Lines should not be too long
