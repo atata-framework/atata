@@ -365,6 +365,10 @@ dotnet_diagnostic.S3358.severity = none
 
 dotnet_diagnostic.S3717.severity = warning
 
+# S3877: Exceptions should not be thrown from unexpected method
+# Duplicates CA1065
+dotnet_diagnostic.S3877.severity = none
+
 dotnet_diagnostic.S3881.severity = none
 
 dotnet_diagnostic.S3962.severity = warning
