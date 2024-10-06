@@ -4,7 +4,7 @@ namespace Atata.UnitTests.Terms;
 
 public static class TermResolverTests
 {
-    private const string CultureName = "en-GB";
+    private const string CultureName = "en-US";
 
     [TestFixture]
     [SetCulture(CultureName)]
@@ -141,7 +141,7 @@ public static class TermResolverTests
                 Add((byte)126);
                 Add(50);
                 Add(1234.56f);
-                Add(1234.56, "C2", "£1,234.56");
+                Add(1234.56, "C2", "$1,234.56");
                 Add(1234.5, "asw {0:N1}_", "asw 1,234.5_");
                 Add(0.25, "P0", "25%");
                 Add(-0.257f, "tax {0:P1}", "tax -25.7%");
@@ -173,8 +173,9 @@ public static class TermResolverTests
                 Add(new TimeSpan(10, 45, 15), "c", "10:45:15");
                 Add(new TimeSpan(10, 45, 15), "time: '{0:g}'");
                 Add(new TimeSpan(10, 45, 0), "time: '{0:hh\\:mm}'");
-                Add(new TimeSpan(10, 45, 0), "hh:mm tt", "10:45 am");
-                Add(new TimeSpan(17, 45, 0), "time: {0:h\\:mm tt}", "time: 5:45 pm");
+
+                Add(new TimeSpan(10, 45, 0), "hh:mm tt", "10:45 AM");
+                Add(new TimeSpan(17, 45, 0), "time: {0:h\\:mm tt}", "time: 5:45 PM");
 
                 Guid guid = new("9d0aa4f2-4987-4395-be95-76abc329b7a0");
                 Add(guid);

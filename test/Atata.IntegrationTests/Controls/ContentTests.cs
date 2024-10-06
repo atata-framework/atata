@@ -96,6 +96,7 @@ public class ContentTests : WebDriverSessionTestSuite
     }
 
     [Test]
+    [Platform(Exclude = Platforms.MacOS)]
     public void DateTime()
     {
         VerifyEquals(_page.DateTime, new DateTime(2016, 5, 15, 13, 45, 0));
@@ -103,7 +104,18 @@ public class ContentTests : WebDriverSessionTestSuite
         _page.DateTime.Should.EqualDate(new DateTime(2016, 5, 15))
             .DateTime.Should.BeGreater(new DateTime(2016, 5, 15))
             .DateTime.Should.BeLess(new DateTime(2016, 5, 16));
+    }
 
+    [Test]
+    [Platform(Exclude = Platforms.MacOS)]
+    public void DateTime_WithStandardFormat() =>
         VerifyEquals(_page.DateTimeWithFormat, new DateTime(2009, 6, 15, 13, 45, 0));
+
+    [Test]
+    public void DateTime_WithCustomFormat()
+    {
+        var sut = _page.DateTime;
+        sut.Metadata.Push(new FormatAttribute("M/d/yyyy h:mm tt"));
+        VerifyEquals(sut, new DateTime(2016, 5, 15, 13, 45, 0));
     }
 }

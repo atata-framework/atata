@@ -2,6 +2,7 @@ variables:
   netSdkVersion: '8.x'
 
 trigger: none
+pr: none
 
 jobs:
 - job: PublishPackage
