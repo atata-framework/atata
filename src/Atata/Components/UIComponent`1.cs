@@ -71,12 +71,12 @@ return (
     /// <inheritdoc/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> ExpectTo =>
-        Should.Using<ExpectationVerificationStrategy>();
+        Should.Using(ExpectationVerificationStrategy.Instance);
 
     /// <inheritdoc/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentVerificationProvider<UIComponent<TOwner>, TOwner> WaitTo =>
-        Should.Using<WaitingVerificationStrategy>();
+        Should.Using(WaitingVerificationStrategy.Instance);
 
     /// <inheritdoc/>
     public UIComponentLocationProvider<TOwner> ComponentLocation =>
@@ -251,7 +251,8 @@ return (
         return new ValueProvider<TValue, TOwner>(
             Owner,
             DynamicObjectSource.Create(valueGetFunction),
-            fullProviderName);
+            fullProviderName,
+            Session.ExecutionUnit);
     }
 
     EnumerableValueProvider<TItem, TOwner> IUIComponent<TOwner>.CreateEnumerableValueProvider<TItem>(string providerName, Func<IEnumerable<TItem>> valueGetFunction) =>
@@ -265,7 +266,8 @@ return (
         return new EnumerableValueProvider<TItem, TOwner>(
             Owner,
             DynamicObjectSource.Create(valueGetFunction),
-            fullProviderName);
+            fullProviderName,
+            Session.ExecutionUnit);
     }
 
     protected string BuildFullValueProviderName(string providerName)

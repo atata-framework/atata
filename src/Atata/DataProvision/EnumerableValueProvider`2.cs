@@ -15,11 +15,13 @@ public class EnumerableValueProvider<TItem, TOwner> :
     /// <param name="owner">The owner.</param>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
     public EnumerableValueProvider(
         TOwner owner,
         IObjectSource<IEnumerable<TItem>> objectSource,
-        string providerName)
-        : base(owner, objectSource, providerName)
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
+        : base(owner, objectSource, providerName, executionUnit)
     {
     }
 

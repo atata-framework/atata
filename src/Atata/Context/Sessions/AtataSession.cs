@@ -4,12 +4,20 @@ public abstract class AtataSession : IDisposable
 {
     private bool _disposed;
 
-    protected AtataSession() =>
+    protected AtataSession()
+    {
         Id = AtataContext.GlobalProperties.IdGenerator.GenerateId();
+        ExecutionUnit = new AtataSessionExecutionUnit(this);
+    }
 
     public AtataContext OwnerContext { get; private set; }
 
     public AtataContext Context { get; private set; }
+
+    /// <summary>
+    /// Gets the execution unit.
+    /// </summary>
+    public IAtataExecutionUnit ExecutionUnit { get; }
 
     /// <summary>
     /// Gets the unique session identifier.

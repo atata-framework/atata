@@ -14,7 +14,11 @@ public class UriQueryProvider<TOwner> : ValueProvider<string, TOwner>
     /// <param name="valueGetFunction">The function that gets the value.</param>
     /// <param name="providerName">Name of the provider.</param>
     public UriQueryProvider(UIComponent<TOwner> component, Func<string> valueGetFunction, string providerName)
-        : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
+        : base(
+            component.Owner,
+            DynamicObjectSource.Create(valueGetFunction),
+            providerName,
+            component.Session.ExecutionUnit) =>
         Parameters = new UriQueryParametersProvider<TOwner>(
             component,
             GetQueryParameters,

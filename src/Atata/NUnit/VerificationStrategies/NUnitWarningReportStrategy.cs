@@ -6,7 +6,9 @@
 /// </summary>
 public class NUnitWarningReportStrategy : IWarningReportStrategy
 {
-    public void Report(string message, string stackTrace) =>
+    public static NUnitWarningReportStrategy Instance { get; } = new();
+
+    public void Report(IAtataExecutionUnit executionUnit, string message, string stackTrace) =>
         NUnitAdapter.RecordAssertionIntoTestResult(
             NUnitAdapter.AssertionStatus.Warning,
             message + Environment.NewLine,

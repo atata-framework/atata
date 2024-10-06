@@ -105,6 +105,8 @@ public class EnumerableProviderTests
                     _ => _sourceValuesGetFunction.Invoke()
                         .Select((v, i) => new TestItem(v, i))),
                 nameof(Items));
+
+        public IAtataExecutionUnit ExecutionUnit => null;
     }
 
     public class TestItem : IHasProviderName, IHasSourceProviderName

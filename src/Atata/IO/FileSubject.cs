@@ -8,35 +8,40 @@ using _ = FileSubject;
 public class FileSubject : SubjectBase<FileInfo, _>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="FileSubject"/> class.
+    /// Initializes a new instance of the <see cref="_"/> class.
     /// </summary>
     /// <param name="filePath">The file path.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public FileSubject(string filePath, string providerName = null)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public FileSubject(string filePath, string providerName = null, IAtataExecutionUnit executionUnit = null)
         : this(
             DynamicObjectSource.Create(() => new FileInfo(filePath)),
-            providerName ?? BuildProviderName(filePath)) =>
+            providerName ?? BuildProviderName(filePath),
+            executionUnit) =>
         filePath.CheckNotNullOrEmpty(nameof(filePath));
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FileSubject"/> class.
+    /// Initializes a new instance of the <see cref="_"/> class.
     /// </summary>
     /// <param name="fileInfo">The <see cref="FileInfo"/> object.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public FileSubject(FileInfo fileInfo, string providerName = null)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public FileSubject(FileInfo fileInfo, string providerName = null, IAtataExecutionUnit executionUnit = null)
         : this(
             new StaticObjectSource<FileInfo>(fileInfo.CheckNotNull(nameof(fileInfo))),
-            providerName ?? BuildProviderName(fileInfo.FullName))
+            providerName ?? BuildProviderName(fileInfo.FullName),
+            executionUnit)
     {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FileSubject"/> class.
+    /// Initializes a new instance of the <see cref="_"/> class.
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public FileSubject(IObjectSource<FileInfo> objectSource, string providerName)
-        : base(objectSource, providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public FileSubject(IObjectSource<FileInfo> objectSource, string providerName, IAtataExecutionUnit executionUnit = null)
+        : base(objectSource, providerName, executionUnit)
     {
     }
 

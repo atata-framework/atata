@@ -7,7 +7,9 @@ public abstract class UIComponentVerificationProvider<TComponent, TVerificationP
     where TVerificationProvider : UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner>
     where TOwner : PageObject<TOwner>
 {
-    protected UIComponentVerificationProvider(TComponent component) =>
+    protected UIComponentVerificationProvider(TComponent component)
+        : base(component.Session.ExecutionUnit)
+        =>
         Component = component;
 
     protected internal TComponent Component { get; }

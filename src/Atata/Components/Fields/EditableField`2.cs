@@ -25,12 +25,12 @@ public abstract class EditableField<TValue, TOwner> : Field<TValue, TOwner>
     /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner> ExpectTo =>
-        Should.Using<ExpectationVerificationStrategy>();
+        Should.Using(ExpectationVerificationStrategy.Instance);
 
     /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public new FieldVerificationProvider<TValue, EditableField<TValue, TOwner>, TOwner> WaitTo =>
-        Should.Using<WaitingVerificationStrategy>();
+        Should.Using(WaitingVerificationStrategy.Instance);
 
     protected virtual bool GetIsReadOnly() =>
         DomProperties.ReadOnly.Value == true;

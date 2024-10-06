@@ -11,8 +11,9 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// with the default <c>"subject"</c> provider name that is taken from <see cref="Subject.DefaultSubjectName"/> property.
     /// </summary>
     /// <param name="source">The source object.</param>
-    public Subject(TObject source)
-        : this(new StaticObjectSource<TObject>(source))
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public Subject(TObject source, IAtataExecutionUnit executionUnit = null)
+        : this(new StaticObjectSource<TObject>(source), executionUnit)
     {
     }
 
@@ -21,8 +22,9 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// </summary>
     /// <param name="source">The source object.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public Subject(TObject source, string providerName)
-        : this(new StaticObjectSource<TObject>(source), providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public Subject(TObject source, string providerName, IAtataExecutionUnit executionUnit = null)
+        : this(new StaticObjectSource<TObject>(source), providerName, executionUnit)
     {
     }
 
@@ -31,8 +33,9 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// with the default <c>"subject"</c> provider name that is taken from <see cref="Subject.DefaultSubjectName"/> property.
     /// </summary>
     /// <param name="objectSource">The object source.</param>
-    public Subject(IObjectSource<TObject> objectSource)
-        : this(objectSource, Subject.DefaultSubjectName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public Subject(IObjectSource<TObject> objectSource, IAtataExecutionUnit executionUnit = null)
+        : this(objectSource, Subject.DefaultSubjectName, executionUnit)
     {
     }
 
@@ -41,8 +44,9 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public Subject(IObjectSource<TObject> objectSource, string providerName)
-        : base(objectSource, providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public Subject(IObjectSource<TObject> objectSource, string providerName, IAtataExecutionUnit executionUnit = null)
+        : base(objectSource, providerName, executionUnit)
     {
     }
 }

@@ -49,17 +49,17 @@ return textValues;";
     /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> Should =>
-        new(this);
+        new(this, Component.Session.ExecutionUnit);
 
     /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> ExpectTo =>
-        Should.Using<ExpectationVerificationStrategy>();
+        Should.Using(ExpectationVerificationStrategy.Instance);
 
     /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public ObjectVerificationProvider<IEnumerable<TItem>, TOwner> WaitTo =>
-        Should.Using<WaitingVerificationStrategy>();
+        Should.Using(WaitingVerificationStrategy.Instance);
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of controls count.
@@ -92,6 +92,9 @@ return textValues;";
     IEnumerable<TItem> IObjectProvider<IEnumerable<TItem>>.Object => GetAll();
 
     bool IObjectProvider<IEnumerable<TItem>, TOwner>.IsDynamic => true;
+
+    IAtataExecutionUnit IObjectProvider<IEnumerable<TItem>>.ExecutionUnit =>
+        Component.Session.ExecutionUnit;
 
     UIComponentMetadata ISupportsMetadata.Metadata
     {

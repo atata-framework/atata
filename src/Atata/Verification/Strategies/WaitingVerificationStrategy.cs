@@ -2,19 +2,21 @@
 
 /// <summary>
 /// Represents the verification strategy for waitings.
-/// Its <see cref="ReportFailure(string, Exception)"/> method throws <see cref="TimeoutException"/>.
+/// Its <see cref="ReportFailure(IAtataExecutionUnit, string, Exception)"/> method throws <see cref="TimeoutException"/>.
 /// </summary>
-public class WaitingVerificationStrategy : IVerificationStrategy
+public sealed class WaitingVerificationStrategy : IVerificationStrategy
 {
+    public static WaitingVerificationStrategy Instance { get; } = new();
+
     public string VerificationKind => "Wait";
 
-    public TimeSpan DefaultTimeout =>
-        AtataContext.Current?.WaitingTimeout ?? AtataContext.DefaultRetryTimeout;
+    public TimeSpan GetDefaultTimeout(IAtataExecutionUnit executionUnit) =>
+        (executionUnit?.Context ?? AtataContext.Current)?.WaitingTimeout ?? AtataContext.DefaultRetryTimeout;
 
-    public TimeSpan DefaultRetryInterval =>
-        AtataContext.Current?.WaitingRetryInterval ?? AtataContext.DefaultRetryInterval;
+    public TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit executionUnit) =>
+        (executionUnit?.Context ?? AtataContext.Current)?.WaitingRetryInterval ?? AtataContext.DefaultRetryInterval;
 
-    public void ReportFailure(string message, Exception exception)
+    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, Exception exception)
     {
         string completeMessage = $"Timed out waiting for {message}";
         throw new TimeoutException(completeMessage, exception);

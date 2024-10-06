@@ -10,18 +10,21 @@ public sealed class AtataAssertionFailureReportStrategy : IAssertionFailureRepor
     public static AtataAssertionFailureReportStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
-    public void Report(string message, Exception exception, string stackTrace)
+    public void Report(IAtataExecutionUnit executionUnit, string message, Exception exception, string stackTrace)
     {
-        AtataContext context = AtataContext.Current;
+        AtataContext context = executionUnit?.Context ?? AtataContext.Current;
 
         var pendingFailureAssertionResults = context?.GetAndClearPendingFailureAssertionResults()
             ?? [];
 
         Exception assertionException = pendingFailureAssertionResults.Count > 0
             ? VerificationUtils.CreateAggregateAssertionException(
-                pendingFailureAssertionResults.Concat(
-                    [AssertionResult.ForFailure(VerificationUtils.AppendExceptionToFailureMessage(message, exception), stackTrace)]))
-            : VerificationUtils.CreateAssertionException(message, exception);
+                context,
+                [.. pendingFailureAssertionResults, AssertionResult.ForFailure(VerificationUtils.AppendExceptionToFailureMessage(message, exception), stackTrace)])
+            : VerificationUtils.CreateAssertionException(
+                context,
+                message,
+                exception);
 
         if (context is not null)
             context.LastLoggedException = assertionException;

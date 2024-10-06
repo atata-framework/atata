@@ -24,12 +24,12 @@ public class RadioButton<TOwner> : Field<bool, TOwner>, ICheckable<TOwner>
     /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> ExpectTo =>
-        Should.Using<ExpectationVerificationStrategy>();
+        Should.Using(ExpectationVerificationStrategy.Instance);
 
     /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public new FieldVerificationProvider<bool, RadioButton<TOwner>, TOwner> WaitTo =>
-        Should.Using<WaitingVerificationStrategy>();
+        Should.Using(WaitingVerificationStrategy.Instance);
 
     protected override bool GetValue() =>
         Scope.Selected;

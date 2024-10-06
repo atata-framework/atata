@@ -8,8 +8,10 @@ public sealed class NUnitAssertionFailureReportStrategy : IAssertionFailureRepor
     public static NUnitAssertionFailureReportStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
-    public void Report(string message, Exception exception, string stackTrace)
+    public void Report(IAtataExecutionUnit executionUnit, string message, Exception exception, string stackTrace)
     {
+        AtataContext context = executionUnit?.Context ?? AtataContext.Current;
+
         NUnitAdapter.RecordAssertionIntoTestResult(
             NUnitAdapter.AssertionStatus.Failed,
             VerificationUtils.AppendExceptionToFailureMessage(message, exception) + Environment.NewLine,
@@ -18,9 +20,9 @@ public sealed class NUnitAssertionFailureReportStrategy : IAssertionFailureRepor
 
         string completeErrorMessage = NUnitAdapter.GetTestResultMessage();
 
-        var assertionException = VerificationUtils.CreateAssertionException(completeErrorMessage);
+        var assertionException = VerificationUtils.CreateAssertionException(context, completeErrorMessage);
 
-        if (AtataContext.Current is AtataContext context)
+        if (context is not null)
             context.LastLoggedException = assertionException;
 
         throw assertionException;

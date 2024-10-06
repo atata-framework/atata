@@ -11,8 +11,12 @@ public class ActionProvider : ActionProvider<NoOwner>
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public ActionProvider(IObjectSource<Action> objectSource, string providerName)
-        : base(NoOwner.Instance, objectSource, providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public ActionProvider(
+        IObjectSource<Action> objectSource,
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
+        : base(NoOwner.Instance, objectSource, providerName, executionUnit)
     {
     }
 }

@@ -40,6 +40,9 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
 
     bool IObjectProvider<TValue, TOwner>.IsDynamic => true;
 
+    IAtataExecutionUnit IObjectProvider<TValue>.ExecutionUnit =>
+        Session.ExecutionUnit;
+
     /// <inheritdoc cref="UIComponent{TOwner}.Should"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> Should =>
@@ -48,12 +51,12 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
     /// <inheritdoc cref="UIComponent{TOwner}.ExpectTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> ExpectTo =>
-        Should.Using<ExpectationVerificationStrategy>();
+        Should.Using(ExpectationVerificationStrategy.Instance);
 
     /// <inheritdoc cref="UIComponent{TOwner}.WaitTo"/>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public new FieldVerificationProvider<TValue, Field<TValue, TOwner>, TOwner> WaitTo =>
-        Should.Using<WaitingVerificationStrategy>();
+        Should.Using(WaitingVerificationStrategy.Instance);
 
     public static explicit operator TValue(Field<TValue, TOwner> field) =>
         field.Get();

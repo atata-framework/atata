@@ -15,4 +15,9 @@ public interface IObjectProvider<out TObject>
     /// Gets the name of the provider.
     /// </summary>
     string ProviderName { get; }
+
+    /// <summary>
+    /// Gets the associated execution unit.
+    /// </summary>
+    IAtataExecutionUnit ExecutionUnit { get; }
 }

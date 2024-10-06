@@ -4,7 +4,8 @@ public class ObjectVerificationProvider<TObject, TOwner> :
     VerificationProvider<ObjectVerificationProvider<TObject, TOwner>, TOwner>,
     IObjectVerificationProvider<TObject, TOwner>
 {
-    public ObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider) =>
+    public ObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider, IAtataExecutionUnit executionUnit)
+        : base(executionUnit) =>
         ObjectProvider = objectProvider;
 
     protected IObjectProvider<TObject, TOwner> ObjectProvider { get; }
@@ -66,7 +67,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
 
                 string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
 
-                Strategy.ReportFailure(failureMessage, null);
+                Strategy.ReportFailure(ExecutionUnit, failureMessage, null);
             }
         }
 
@@ -74,7 +75,8 @@ public class ObjectVerificationProvider<TObject, TOwner> :
 
         return new Subject<TException>(
             exception as TException,
-            Subject.BuildExceptionName(ObjectProvider.ProviderName));
+            Subject.BuildExceptionName(ObjectProvider.ProviderName),
+            ExecutionUnit);
     }
 
     public class NegationObjectVerificationProvider :
@@ -134,7 +136,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
 
-                    Strategy.ReportFailure(failureMessage, null);
+                    Strategy.ReportFailure(ExecutionUnit, failureMessage, null);
                 }
             }
 

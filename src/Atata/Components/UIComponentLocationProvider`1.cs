@@ -9,8 +9,15 @@ public sealed class UIComponentLocationProvider<TOwner> : ValueProvider<Point, T
 {
     private readonly UIComponent<TOwner> _component;
 
-    internal UIComponentLocationProvider(UIComponent<TOwner> component, Func<Point> valueGetFunction, string providerName)
-        : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
+    internal UIComponentLocationProvider(
+        UIComponent<TOwner> component,
+        Func<Point> valueGetFunction,
+        string providerName)
+        : base(
+            component.Owner,
+            DynamicObjectSource.Create(valueGetFunction),
+            providerName,
+            component.Session.ExecutionUnit) =>
         _component = component;
 
     /// <summary>

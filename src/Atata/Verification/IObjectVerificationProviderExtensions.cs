@@ -80,7 +80,7 @@ public static partial class IObjectVerificationProviderExtensions
 
                 string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage, !isExpectedMessageShorten);
 
-                verifier.Strategy.ReportFailure(failureMessage, exception);
+                verifier.Strategy.ReportFailure(verifier.ExecutionUnit, failureMessage, exception);
             }
         }
 

@@ -18,6 +18,11 @@ public interface IVerificationProvider<out TOwner>
     TOwner Owner { get; }
 
     /// <summary>
+    /// Gets the associated execution unit.
+    /// </summary>
+    IAtataExecutionUnit ExecutionUnit { get; }
+
+    /// <summary>
     /// Gets or sets the timeout.
     /// </summary>
     TimeSpan? Timeout { get; set; }

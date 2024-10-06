@@ -2,11 +2,11 @@
 
 public static class VerificationUtils
 {
-    public static Exception CreateAssertionException(string message, Exception innerException = null)
+    public static Exception CreateAssertionException(AtataContext context, string message, Exception innerException = null)
     {
-        var exceptionType = AtataContext.Current?.AssertionExceptionType;
+        Type exceptionType = context?.AssertionExceptionType;
 
-        if (exceptionType is null)
+        if (exceptionType is null || exceptionType == typeof(AssertionException))
             return new AssertionException(message, innerException);
         else if (exceptionType.FullName == NUnitAdapter.AssertionExceptionTypeName)
             return (Exception)Activator.CreateInstance(exceptionType, AppendExceptionToFailureMessage(message, innerException));
@@ -14,13 +14,13 @@ public static class VerificationUtils
             return (Exception)Activator.CreateInstance(exceptionType, message, innerException);
     }
 
-    public static Exception CreateAggregateAssertionException(IEnumerable<AssertionResult> assertionResults)
+    public static Exception CreateAggregateAssertionException(AtataContext context, IEnumerable<AssertionResult> assertionResults)
     {
-        var exceptionType = AtataContext.Current?.AggregateAssertionExceptionType;
+        Type exceptionType = context?.AggregateAssertionExceptionType;
 
-        return exceptionType != null
-            ? (Exception)Activator.CreateInstance(exceptionType, assertionResults)
-            : new AggregateAssertionException(assertionResults);
+        return exceptionType is null || exceptionType == typeof(AggregateAssertionException)
+            ? new AggregateAssertionException(assertionResults)
+            : (Exception)Activator.CreateInstance(exceptionType, assertionResults);
     }
 
     public static string BuildExpectedMessage(string message, object[] args) =>
@@ -134,9 +134,15 @@ public static class VerificationUtils
             PollingInterval = retryOptions.RetryInterval
         };
 
-    internal static TOwner Verify<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, Action verificationAction, string expectedMessage, params TData[] arguments)
+    internal static TOwner Verify<TData, TOwner>(
+        IObjectVerificationProvider<TData, TOwner> verifier,
+        Action verificationAction,
+        string expectedMessage,
+        params TData[] arguments)
     {
-        if (AtataContext.Current is null)
+        var executionUnit = verifier.ExecutionUnit ?? AtataContext.Current?.ExecutionUnit;
+
+        if (executionUnit is null)
         {
             verificationAction.Invoke();
         }
@@ -149,7 +155,7 @@ public static class VerificationUtils
                 verifier.ObjectProvider.ProviderName,
                 verificationConstraintMessage);
 
-            AtataContext.Current.Log.ExecuteSection(logSection, verificationAction);
+            executionUnit.Log.ExecuteSection(logSection, verificationAction);
         }
 
         return verifier.Owner;

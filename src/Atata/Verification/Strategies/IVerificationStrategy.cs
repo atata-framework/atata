@@ -10,17 +10,22 @@ public interface IVerificationStrategy
     /// <summary>
     /// Gets the default timeout.
     /// </summary>
-    TimeSpan DefaultTimeout { get; }
+    /// <param name="executionUnit">The execution unit.</param>
+    /// <returns>A timeout.</returns>
+    TimeSpan GetDefaultTimeout(IAtataExecutionUnit executionUnit);
 
     /// <summary>
     /// Gets the default retry interval.
     /// </summary>
-    TimeSpan DefaultRetryInterval { get; }
+    /// <param name="executionUnit">The execution unit.</param>
+    /// <returns>A retry interval.</returns>
+    TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit executionUnit);
 
     /// <summary>
     /// Reports the failure.
     /// </summary>
+    /// <param name="executionUnit">The execution unit.</param>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
-    void ReportFailure(string message, Exception exception);
+    void ReportFailure(IAtataExecutionUnit executionUnit, string message, Exception exception);
 }

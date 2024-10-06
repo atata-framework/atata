@@ -15,8 +15,12 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
-    protected SubjectBase(IObjectSource<TObject> objectSource, string providerName)
-        : base(objectSource, providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    protected SubjectBase(
+        IObjectSource<TObject> objectSource,
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
+        : base(objectSource, providerName, executionUnit)
     {
     }
 
@@ -80,9 +84,10 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         function.CheckNotNull(nameof(function));
         functionName.CheckNotNull(nameof(functionName));
 
-        return new Subject<TResult>(
+        return new(
             new LazyObjectSource<TResult, TObject>(this, function),
-            functionName);
+            functionName,
+            ExecutionUnit);
     }
 
     /// <summary>
@@ -139,9 +144,10 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         function.CheckNotNull(nameof(function));
         functionName.CheckNotNull(nameof(functionName));
 
-        return new Subject<TResult>(
+        return new(
             new DynamicObjectSource<TResult, TObject>(this, function),
-            functionName);
+            functionName,
+            ExecutionUnit);
     }
 
     /// <summary>
@@ -213,7 +219,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         return new ActionProvider<TSubject>(
             (TSubject)this,
             new LazyObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
-            actionName);
+            actionName,
+            ExecutionUnit);
     }
 
     /// <summary>
@@ -246,7 +253,8 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
         return new ActionProvider<TSubject>(
             (TSubject)this,
             new DynamicObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
-            actionName);
+            actionName,
+            ExecutionUnit);
     }
 
     /// <summary>

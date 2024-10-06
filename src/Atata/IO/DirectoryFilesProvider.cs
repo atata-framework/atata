@@ -10,13 +10,18 @@ public class DirectoryFilesProvider : EnumerableValueProvider<FileSubject, Direc
     /// </summary>
     /// <param name="owner">The owner, which is the parent directory subject.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public DirectoryFilesProvider(DirectorySubject owner, string providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public DirectoryFilesProvider(
+        DirectorySubject owner,
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
         : base(
             owner,
             new DynamicObjectSource<IEnumerable<FileSubject>, DirectoryInfo>(
                 owner,
-                x => x.EnumerateFiles().Select((file, i) => new FileSubject(file, $"[{i}]"))),
-            providerName)
+                x => x.EnumerateFiles().Select((file, i) => new FileSubject(file, $"[{i}]", executionUnit))),
+            providerName,
+            executionUnit)
     {
     }
 
@@ -35,7 +40,8 @@ public class DirectoryFilesProvider : EnumerableValueProvider<FileSubject, Direc
     public FileSubject this[string fileName] =>
         new(
             Path.Combine(Owner.Object.FullName, fileName),
-            $"[\"{fileName}\"]")
+            $"[\"{fileName}\"]",
+            ExecutionUnit)
         {
             SourceProviderName = ProviderName
         };

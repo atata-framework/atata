@@ -13,6 +13,8 @@ public abstract class ObjectProvider<TObject, TOwner> :
 {
     private readonly IObjectSource<TObject> _objectSource;
 
+    private readonly IAtataExecutionUnit _executionUnit;
+
     private string _sourceProviderName;
 
     private string _providerName;
@@ -22,10 +24,15 @@ public abstract class ObjectProvider<TObject, TOwner> :
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
-    protected ObjectProvider(IObjectSource<TObject> objectSource, string providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    protected ObjectProvider(
+        IObjectSource<TObject> objectSource,
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
     {
         _objectSource = objectSource.CheckNotNull(nameof(objectSource));
         _providerName = providerName.CheckNotNull(nameof(providerName));
+        _executionUnit = executionUnit;
     }
 
     /// <inheritdoc/>
@@ -75,19 +82,27 @@ public abstract class ObjectProvider<TObject, TOwner> :
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public ObjectVerificationProvider<TObject, TOwner> ExpectTo =>
-        CreateVerificationProvider().Using<ExpectationVerificationStrategy>();
+        CreateVerificationProvider().Using(ExpectationVerificationStrategy.Instance);
 
     /// <summary>
     /// Gets the waiting verification provider that has a set of verification extension methods.
-    /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
+    /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/>
+    /// of executing <see cref="AtataContext"/> for timeout and retry interval.
     /// </summary>
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public ObjectVerificationProvider<TObject, TOwner> WaitTo =>
-        CreateVerificationProvider().Using<WaitingVerificationStrategy>();
+        CreateVerificationProvider().Using(WaitingVerificationStrategy.Instance);
 
     /// <inheritdoc/>
     public bool IsDynamic =>
         _objectSource.IsDynamic;
+
+    /// <summary>
+    /// Gets the associated execution unit.
+    /// </summary>
+    protected IAtataExecutionUnit ExecutionUnit => _executionUnit;
+
+    IAtataExecutionUnit IObjectProvider<TObject>.ExecutionUnit => _executionUnit;
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="ObjectProvider{TObject, TOwner}"/> to <typeparamref name="TObject"/>.
@@ -103,15 +118,16 @@ public abstract class ObjectProvider<TObject, TOwner> :
             : $"{sourceProviderName}.{providerName}";
 
     private ObjectVerificationProvider<TObject, TOwner> CreateVerificationProvider() =>
-        new(this);
+        new(this, _executionUnit);
 
     /// <summary>
     /// Resolves the current <see cref="AtataContext"/> instance.
-    /// Throws <see cref="InvalidOperationException"/> if <see cref="AtataContext.Current"/> is <see langword="null"/>.
+    /// Throws <see cref="AtataContextNotFoundException"/> if an execution unit was not specified
+    /// and <see cref="AtataContext.Current"/> is <see langword="null"/>.
     /// </summary>
     /// <returns>An <see cref="AtataContext"/> instance.</returns>
     protected AtataContext ResolveAtataContext() =>
-        AtataContext.ResolveCurrent();
+        _executionUnit?.Context ?? AtataContext.ResolveCurrent();
 
     public override string ToString() =>
         ProviderName;

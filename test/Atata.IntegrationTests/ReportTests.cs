@@ -175,7 +175,7 @@ public class ReportTests : WebDriverSessionTestSuite
 
             var page = context.GetWebSession().Go.To<ScrollablePage>();
 
-            ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(ScreenshotKind kind)
+            long TakeScreenshotAndReturnItsSize(ScreenshotKind kind)
             {
                 page.Report.Screenshot(kind);
 
@@ -188,18 +188,18 @@ public class ReportTests : WebDriverSessionTestSuite
                 return file.Length;
             }
 
-            var defaultScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Default);
-            var viewportScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Viewport);
-            var fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.FullPage);
+            long defaultScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Default);
+            long viewportScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.Viewport);
+            long fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(ScreenshotKind.FullPage);
 
-            viewportScreenshotSize.Should.Be(defaultScreenshotSize);
-            fullPageScreenshotSize.Should.BeGreater((long)(viewportScreenshotSize * 1.5));
+            viewportScreenshotSize.Should().Be(defaultScreenshotSize);
+            fullPageScreenshotSize.Should().BeGreaterThan((long)(viewportScreenshotSize * 1.5));
         }
 
         [Test]
         public void ViewportVsFullPage_ThroughConfiguration()
         {
-            ValueProvider<long, FileSubject> TakeScreenshotAndReturnItsSize(Action<ScreenshotsWebDriverSessionOptions> screenshotsConfigurationAction)
+            long TakeScreenshotAndReturnItsSize(Action<ScreenshotsWebDriverSessionOptions> screenshotsConfigurationAction)
             {
                 var builder = ConfigureAtataContextWithWebDriverSession(
                     session => screenshotsConfigurationAction?.Invoke(session.Screenshots));
@@ -212,13 +212,13 @@ public class ReportTests : WebDriverSessionTestSuite
 
                 var file = context.Artifacts.Files
                     .Single(x => x.Name.Value.Contains(screenshotNameIndicator)).Should.Exist();
-                return file.Length;
+                return file.Length.Value;
             }
 
-            var viewportScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseWebDriverViewportStrategy());
-            var fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseFullPageOrViewportStrategy());
+            long viewportScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseWebDriverViewportStrategy());
+            long fullPageScreenshotSize = TakeScreenshotAndReturnItsSize(x => x.UseFullPageOrViewportStrategy());
 
-            fullPageScreenshotSize.Should.BeGreater((long)(viewportScreenshotSize * 1.5));
+            fullPageScreenshotSize.Should().BeGreaterThan((long)(viewportScreenshotSize * 1.5));
         }
 
         [Test]

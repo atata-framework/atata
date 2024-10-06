@@ -8,7 +8,8 @@ public interface IWarningReportStrategy
     /// <summary>
     /// Reports the assertion failure of warning kind.
     /// </summary>
+    /// <param name="executionUnit">The execution unit.</param>
     /// <param name="message">The message.</param>
     /// <param name="stackTrace">The stack trace.</param>
-    void Report(string message, string stackTrace);
+    void Report(IAtataExecutionUnit executionUnit, string message, string stackTrace);
 }

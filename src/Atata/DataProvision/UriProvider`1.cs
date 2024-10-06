@@ -10,7 +10,11 @@ public class UriProvider<TOwner> : ValueProvider<Uri, TOwner>
     private readonly UIComponent<TOwner> _component;
 
     public UriProvider(UIComponent<TOwner> component, Func<Uri> valueGetFunction, string providerName)
-        : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName)
+        : base(
+            component.Owner,
+            DynamicObjectSource.Create(valueGetFunction),
+            providerName,
+            component.Session.ExecutionUnit)
     {
         _component = component;
 

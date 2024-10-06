@@ -88,10 +88,11 @@ public static class IObjectProviderExtensions
         valueGetFunction.CheckNotNull(nameof(valueGetFunction));
         valueName.CheckNotNull(nameof(valueName));
 
-        return new ValueProvider<TResult, TOwner>(
+        return new(
             source.Owner,
             new DynamicObjectSource<TResult, TSource>(source, valueGetFunction),
-            valueName);
+            valueName,
+            source.ExecutionUnit);
     }
 
     /// <summary>
@@ -135,10 +136,11 @@ public static class IObjectProviderExtensions
         valueGetFunction.CheckNotNull(nameof(valueGetFunction));
         valueName.CheckNotNull(nameof(valueName));
 
-        return new ValueProvider<TResult, TOwner>(
+        return new(
             source.Owner,
             new LazyObjectSource<TResult, TSource>(source, valueGetFunction),
-            valueName);
+            valueName,
+            source.ExecutionUnit);
     }
 
     /// <summary>
@@ -182,12 +184,13 @@ public static class IObjectProviderExtensions
         valueGetFunction.CheckNotNull(nameof(valueGetFunction));
         valueName.CheckNotNull(nameof(valueName));
 
-        return new EnumerableValueProvider<TResult, TOwner>(
+        return new(
             source.Owner,
             new DynamicObjectSource<IEnumerable<TResult>, TSource>(
                 source,
                 valueGetFunction),
-            valueName);
+            valueName,
+            source.ExecutionUnit);
     }
 
     /// <summary>
@@ -209,12 +212,13 @@ public static class IObjectProviderExtensions
         valueGetFunction.CheckNotNull(nameof(valueGetFunction));
         valueName.CheckNotNull(nameof(valueName));
 
-        return new EnumerableValueProvider<TResult, TOwner>(
+        return new(
             source.Owner,
             new LazyObjectSource<IEnumerable<TResult>, TSource>(
                 source,
                 valueGetFunction),
-            valueName);
+            valueName,
+            source.ExecutionUnit);
     }
 
     private static string ConvertToValueName(Expression expression) =>

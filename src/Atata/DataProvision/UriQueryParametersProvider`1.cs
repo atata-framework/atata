@@ -19,11 +19,15 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <param name="component">The associated component.</param>
     /// <param name="valueGetFunction">The function that gets the value.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public UriQueryParametersProvider(UIComponent<TOwner> component, Func<IEnumerable<KeyValuePair<string, string>>> valueGetFunction, string providerName)
+    public UriQueryParametersProvider(
+        UIComponent<TOwner> component,
+        Func<IEnumerable<KeyValuePair<string, string>>> valueGetFunction,
+        string providerName)
         : base(
-            component?.Owner ?? throw new ArgumentNullException(nameof(component)),
+            component.Owner,
             DynamicObjectSource.Create(valueGetFunction),
-            providerName) =>
+            providerName,
+            component.Session.ExecutionUnit) =>
         _component = component;
 
     /// <summary>

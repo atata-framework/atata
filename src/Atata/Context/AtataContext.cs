@@ -46,9 +46,10 @@ public sealed class AtataContext : IDisposable
         ParentContext = parentContext;
 
         Id = GlobalProperties.IdGenerator.GenerateId();
+        ExecutionUnit = new AtataContextExecutionUnit(this);
 
-        _assertionVerificationStrategy = new AssertionVerificationStrategy(this);
-        _expectationVerificationStrategy = new ExpectationVerificationStrategy(this);
+        _assertionVerificationStrategy = AssertionVerificationStrategy.Instance;
+        _expectationVerificationStrategy = ExpectationVerificationStrategy.Instance;
 
         Report = new Report<AtataContext>(this, this);
 
@@ -115,6 +116,16 @@ public sealed class AtataContext : IDisposable
     public AtataContext ParentContext { get; }
 
     public AtataContextScope Scope { get; }
+
+    /// <summary>
+    /// Gets the execution unit.
+    /// </summary>
+    public IAtataExecutionUnit ExecutionUnit { get; }
+
+    /// <summary>
+    /// Gets a value indicating whether this instance is active (not disposed).
+    /// </summary>
+    public bool IsActive => !_disposed;
 
     /// <summary>
     /// Gets the unique context identifier.
@@ -452,32 +463,34 @@ public sealed class AtataContext : IDisposable
 
         try
         {
-            AggregateAssertionStrategy.Assert(() =>
-            {
-                AggregateAssertionLevel++;
+            AggregateAssertionStrategy.Assert(
+                ExecutionUnit,
+                () =>
+                {
+                    AggregateAssertionLevel++;
 
-                try
-                {
-                    log.ExecuteSection(
-                        new AggregateAssertionLogSection(assertionScopeName),
-                        () =>
-                        {
-                            try
+                    try
+                    {
+                        log.ExecuteSection(
+                            new AggregateAssertionLogSection(assertionScopeName),
+                            () =>
                             {
-                                action.Invoke();
-                            }
-                            catch (Exception exception)
-                            {
-                                EnsureExceptionIsLogged(exception, log);
-                                throw;
-                            }
-                        });
-                }
-                finally
-                {
-                    AggregateAssertionLevel--;
-                }
-            });
+                                try
+                                {
+                                    action.Invoke();
+                                }
+                                catch (Exception exception)
+                                {
+                                    EnsureExceptionIsLogged(exception, log);
+                                    throw;
+                                }
+                            });
+                    }
+                    finally
+                    {
+                        AggregateAssertionLevel--;
+                    }
+                });
         }
         catch (Exception exception)
         {
@@ -629,7 +642,7 @@ public sealed class AtataContext : IDisposable
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
     public void RaiseError(string message, Exception exception = null) =>
-        _assertionVerificationStrategy.ReportFailure(message, exception);
+        _assertionVerificationStrategy.ReportFailure(ExecutionUnit, message, exception);
 
     /// <summary>
     /// Raises the warning by recording an assertion warning.
@@ -637,7 +650,7 @@ public sealed class AtataContext : IDisposable
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
     public void RaiseWarning(string message, Exception exception = null) =>
-        _expectationVerificationStrategy.ReportFailure(message, exception);
+        _expectationVerificationStrategy.ReportFailure(ExecutionUnit, message, exception);
 
     /// <summary>
     /// Sets this context as current, by setting it to <see cref="Current"/> property.
@@ -715,7 +728,7 @@ public sealed class AtataContext : IDisposable
         if (PendingFailureAssertionResults.Any())
         {
             var pendingFailureAssertionResults = GetAndClearPendingFailureAssertionResults();
-            throw VerificationUtils.CreateAggregateAssertionException(pendingFailureAssertionResults);
+            throw VerificationUtils.CreateAggregateAssertionException(this, pendingFailureAssertionResults);
         }
     }
 

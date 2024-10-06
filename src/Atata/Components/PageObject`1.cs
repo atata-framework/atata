@@ -52,14 +52,15 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// Gets the expectation verification provider that has a set of verification extension methods.
     /// </summary>
     public new PageObjectVerificationProvider<TOwner> ExpectTo
-        => Should.Using<ExpectationVerificationStrategy>();
+        => Should.Using(ExpectationVerificationStrategy.Instance);
 
     /// <summary>
     /// Gets the waiting verification provider that has a set of verification extension methods.
-    /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/> of <see cref="AtataContext.Current"/> for timeout and retry interval.
+    /// Uses <see cref="AtataContext.WaitingTimeout"/> and <see cref="AtataContext.WaitingRetryInterval"/>
+    /// of executing <see cref="AtataContext"/> for timeout and retry interval.
     /// </summary>
     public new PageObjectVerificationProvider<TOwner> WaitTo
-        => Should.Using<WaitingVerificationStrategy>();
+        => Should.Using(WaitingVerificationStrategy.Instance);
 
     /// <summary>
     /// Gets or sets the navigation URL, which can be used during page object initialization.

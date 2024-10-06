@@ -4,12 +4,14 @@
 /// Represents aggregate assertion strategy for NUnit.
 /// Uses NUnit's <c>Assert.Multiple</c> method for aggregate assertion.
 /// </summary>
-public class NUnitAggregateAssertionStrategy : IAggregateAssertionStrategy
+public sealed class NUnitAggregateAssertionStrategy : IAggregateAssertionStrategy
 {
-    public void Assert(Action action) =>
+    public static NUnitAggregateAssertionStrategy Instance { get; } = new();
+
+    public void Assert(IAtataExecutionUnit executionUnit, Action action) =>
         NUnitAdapter.AssertMultiple(action);
 
-    public void ReportFailure(string message, string stackTrace)
+    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, string stackTrace)
     {
         NUnitAdapter.RecordAssertionIntoTestResult(
             NUnitAdapter.AssertionStatus.Failed,

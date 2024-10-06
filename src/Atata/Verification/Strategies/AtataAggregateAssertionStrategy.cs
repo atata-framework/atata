@@ -3,11 +3,13 @@
 /// <summary>
 /// Represents native/default Atata aggregate assertion strategy.
 /// </summary>
-public class AtataAggregateAssertionStrategy : IAggregateAssertionStrategy
+public sealed class AtataAggregateAssertionStrategy : IAggregateAssertionStrategy
 {
-    public void Assert(Action action)
+    public static AtataAggregateAssertionStrategy Instance { get; } = new();
+
+    public void Assert(IAtataExecutionUnit executionUnit, Action action)
     {
-        AtataContext context = AtataContext.Current;
+        AtataContext context = executionUnit?.Context ?? AtataContext.ResolveCurrent();
 
         try
         {
@@ -19,17 +21,21 @@ public class AtataAggregateAssertionStrategy : IAggregateAssertionStrategy
                 .. context.GetAndClearPendingFailureAssertionResults(),
                 AssertionResult.ForException(exception)];
 
-            throw VerificationUtils.CreateAggregateAssertionException(failedResults);
+            throw VerificationUtils.CreateAggregateAssertionException(context, failedResults);
         }
 
         if (context.AggregateAssertionLevel == 0
             && context.PendingFailureAssertionResults.Exists(x => x.Status is AssertionStatus.Failed or AssertionStatus.Exception))
         {
             throw VerificationUtils.CreateAggregateAssertionException(
+                context,
                 context.GetAndClearPendingFailureAssertionResults());
         }
     }
 
-    public void ReportFailure(string message, string stackTrace) =>
-        AtataContext.Current.PendingFailureAssertionResults.Add(AssertionResult.ForFailure(message, stackTrace));
+    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, string stackTrace)
+    {
+        AtataContext context = executionUnit?.Context ?? AtataContext.ResolveCurrent();
+        context.PendingFailureAssertionResults.Add(AssertionResult.ForFailure(message, stackTrace));
+    }
 }

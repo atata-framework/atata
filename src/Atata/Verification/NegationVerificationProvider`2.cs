@@ -4,7 +4,7 @@ public abstract class NegationVerificationProvider<TVerificationProvider, TOwner
     where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>
 {
     protected NegationVerificationProvider(IVerificationProvider<TOwner> verificationProvider)
-        : base(isNegation: true)
+        : base(verificationProvider.ExecutionUnit, isNegation: true)
     {
         Timeout = verificationProvider.Timeout;
         RetryInterval = verificationProvider.RetryInterval;

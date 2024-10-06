@@ -7,12 +7,15 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
 
     private readonly bool _isNegation;
 
-    protected VerificationProvider(bool isNegation = false) =>
+    protected VerificationProvider(IAtataExecutionUnit executionUnit, bool isNegation = false)
+    {
+        ExecutionUnit = executionUnit;
         _isNegation = isNegation;
+    }
 
     bool IVerificationProvider<TOwner>.IsNegation => _isNegation;
 
-    protected IVerificationStrategy Strategy { get; set; } = new AssertionVerificationStrategy();
+    protected IVerificationStrategy Strategy { get; set; } = AssertionVerificationStrategy.Instance;
 
     IVerificationStrategy IVerificationProvider<TOwner>.Strategy
     {
@@ -23,6 +26,10 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
     TOwner IVerificationProvider<TOwner>.Owner => Owner;
 
     protected abstract TOwner Owner { get; }
+
+    IAtataExecutionUnit IVerificationProvider<TOwner>.ExecutionUnit => ExecutionUnit;
+
+    protected IAtataExecutionUnit ExecutionUnit { get; }
 
     protected internal TimeSpan? Timeout { get; internal set; }
 
@@ -45,8 +52,8 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
     {
         get
         {
-            Timeout = Strategy.DefaultTimeout;
-            RetryInterval = Strategy.DefaultRetryInterval;
+            Timeout = Strategy.GetDefaultTimeout(ExecutionUnit);
+            RetryInterval = Strategy.GetDefaultRetryInterval(ExecutionUnit);
 
             return (TVerificationProvider)this;
         }
@@ -86,7 +93,7 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
 
     public TVerificationProvider Using(IVerificationStrategy strategy)
     {
-        Strategy = strategy;
+        Strategy = strategy.CheckNotNull(nameof(strategy));
 
         return (TVerificationProvider)this;
     }
@@ -160,5 +167,6 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
         GetRetryOptions();
 
     protected virtual (TimeSpan Timeout, TimeSpan RetryInterval) GetRetryOptions() =>
-        (Timeout: Timeout ?? Strategy.DefaultTimeout, RetryInterval: RetryInterval ?? Strategy.DefaultRetryInterval);
+        (Timeout: Timeout ?? Strategy.GetDefaultTimeout(ExecutionUnit),
+        RetryInterval: RetryInterval ?? Strategy.GetDefaultRetryInterval(ExecutionUnit));
 }

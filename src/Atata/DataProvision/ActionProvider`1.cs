@@ -14,8 +14,14 @@ public class ActionProvider<TOwner> : ObjectProvider<Action, TOwner>
     /// <param name="owner">The owner.</param>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public ActionProvider(TOwner owner, IObjectSource<Action> objectSource, string providerName)
-        : base(objectSource, providerName) =>
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public ActionProvider(
+        TOwner owner,
+        IObjectSource<Action> objectSource,
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
+        : base(objectSource, providerName, executionUnit)
+        =>
         _owner = owner.CheckNotNull(nameof(owner));
 
     /// <inheritdoc/>

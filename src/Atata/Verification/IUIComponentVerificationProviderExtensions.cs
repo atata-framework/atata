@@ -57,11 +57,11 @@ public static class IUIComponentVerificationProviderExtensions
                     if (exception is ElementNotFoundException or ElementNotMissingException)
                     {
                         failureMessageBuilder.AppendLine().Append($"  Actual: {exception.Message.ToLowerFirstLetter()}");
-                        verifier.Strategy.ReportFailure(failureMessageBuilder.ToString(), exception: null);
+                        verifier.Strategy.ReportFailure(verifier.ExecutionUnit, failureMessageBuilder.ToString(), exception: null);
                     }
                     else
                     {
-                        verifier.Strategy.ReportFailure(failureMessageBuilder.ToString(), exception);
+                        verifier.Strategy.ReportFailure(verifier.ExecutionUnit, failureMessageBuilder.ToString(), exception);
                     }
                 }
             });
@@ -274,7 +274,7 @@ public static class IUIComponentVerificationProviderExtensions
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage);
 
-                    verifier.Strategy.ReportFailure(failureMessage, exception);
+                    verifier.Strategy.ReportFailure(verifier.ExecutionUnit, failureMessage, exception);
                 }
             });
 

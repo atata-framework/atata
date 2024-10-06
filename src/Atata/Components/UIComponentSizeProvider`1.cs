@@ -9,8 +9,16 @@ public sealed class UIComponentSizeProvider<TOwner> : ValueProvider<Size, TOwner
 {
     private readonly UIComponent<TOwner> _component;
 
-    internal UIComponentSizeProvider(UIComponent<TOwner> component, Func<Size> valueGetFunction, string providerName)
-        : base(component.Owner, DynamicObjectSource.Create(valueGetFunction), providerName) =>
+    internal UIComponentSizeProvider(
+        UIComponent<TOwner> component,
+        Func<Size> valueGetFunction,
+        string providerName)
+        : base(
+            component.Owner,
+            DynamicObjectSource.Create(valueGetFunction),
+            providerName,
+            component.Session.ExecutionUnit)
+        =>
         _component = component;
 
     /// <summary>

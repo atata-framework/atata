@@ -14,8 +14,9 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// with the default <c>"subject"</c> provider name that is taken from <see cref="Subject.DefaultSubjectName"/> property.
     /// </summary>
     /// <param name="source">The source object.</param>
-    public DisposableSubject(TObject source)
-        : this(new StaticObjectSource<TObject>(source))
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public DisposableSubject(TObject source, IAtataExecutionUnit executionUnit = null)
+        : this(new StaticObjectSource<TObject>(source), executionUnit)
     {
     }
 
@@ -24,8 +25,9 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// </summary>
     /// <param name="source">The source object.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public DisposableSubject(TObject source, string providerName)
-        : this(new StaticObjectSource<TObject>(source), providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public DisposableSubject(TObject source, string providerName, IAtataExecutionUnit executionUnit = null)
+        : this(new StaticObjectSource<TObject>(source), providerName, executionUnit)
     {
     }
 
@@ -34,8 +36,9 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// with the default <c>"subject"</c> provider name that is taken from <see cref="Subject.DefaultSubjectName"/> property.
     /// </summary>
     /// <param name="objectSource">The object source.</param>
-    public DisposableSubject(IObjectSource<TObject> objectSource)
-        : this(objectSource, Subject.DefaultSubjectName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public DisposableSubject(IObjectSource<TObject> objectSource, IAtataExecutionUnit executionUnit = null)
+        : this(objectSource, Subject.DefaultSubjectName, executionUnit)
     {
     }
 
@@ -44,8 +47,9 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public DisposableSubject(IObjectSource<TObject> objectSource, string providerName)
-        : base(objectSource, providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public DisposableSubject(IObjectSource<TObject> objectSource, string providerName, IAtataExecutionUnit executionUnit = null)
+        : base(objectSource, providerName, executionUnit)
     {
     }
 

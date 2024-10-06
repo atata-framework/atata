@@ -1,54 +1,47 @@
 ﻿namespace Atata;
 
-public class AssertionVerificationStrategy : IVerificationStrategy
+public sealed class AssertionVerificationStrategy : IVerificationStrategy
 {
-    private readonly AtataContext _context;
-
-    public AssertionVerificationStrategy()
-        : this(null)
-    {
-    }
-
-    public AssertionVerificationStrategy(AtataContext context) =>
-        _context = context;
+    public static AssertionVerificationStrategy Instance { get; } = new();
 
     public string VerificationKind => "Assert";
 
-    public TimeSpan DefaultTimeout =>
-        (_context ?? AtataContext.Current)?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
+    public TimeSpan GetDefaultTimeout(IAtataExecutionUnit executionUnit) =>
+        (executionUnit?.Context ?? AtataContext.Current)?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
 
-    public TimeSpan DefaultRetryInterval =>
-        (_context ?? AtataContext.Current)?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
+    public TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit executionUnit) =>
+        (executionUnit?.Context ?? AtataContext.Current)?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
 
-    public void ReportFailure(string message, Exception exception)
+    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, Exception exception)
     {
         string completeMessage = $"Wrong {message}";
-        AtataContext context = _context ?? AtataContext.Current;
+        executionUnit ??= AtataContext.Current?.ExecutionUnit;
 
         string stackTrace = VerificationUtils.CreateStackTraceForAssertionFailiure();
         string completeMessageWithException = VerificationUtils.AppendExceptionToFailureMessage(completeMessage, exception);
 
-        if (context != null)
+        if (executionUnit is not null)
         {
-            context.AssertionResults.Add(AssertionResult.ForFailure(completeMessageWithException, stackTrace));
+            executionUnit.Context.AssertionResults.Add(AssertionResult.ForFailure(completeMessageWithException, stackTrace));
 
             string completeMessageWithExceptionAndStackTrace = VerificationUtils.AppendStackTraceToFailureMessage(
                 completeMessageWithException,
                 stackTrace);
-            context.Log.Error(completeMessageWithExceptionAndStackTrace);
 
-            if (context.AggregateAssertionLevel > 0)
+            executionUnit.Log.Error(completeMessageWithExceptionAndStackTrace);
+
+            if (executionUnit.Context.AggregateAssertionLevel > 0)
             {
-                context.AggregateAssertionStrategy.ReportFailure(completeMessageWithException, stackTrace);
+                executionUnit.Context.AggregateAssertionStrategy.ReportFailure(executionUnit, completeMessageWithException, stackTrace);
             }
             else
             {
-                context.AssertionFailureReportStrategy.Report(completeMessage, exception, stackTrace);
+                executionUnit.Context.AssertionFailureReportStrategy.Report(executionUnit, completeMessage, exception, stackTrace);
             }
         }
         else
         {
-            AtataAssertionFailureReportStrategy.Instance.Report(completeMessage, exception, stackTrace);
+            AtataAssertionFailureReportStrategy.Instance.Report(executionUnit, completeMessage, exception, stackTrace);
         }
     }
 }

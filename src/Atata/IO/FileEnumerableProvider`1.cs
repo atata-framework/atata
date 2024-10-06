@@ -12,11 +12,13 @@ public class FileEnumerableProvider<TOwner> : EnumerableValueProvider<FileSubjec
     /// <param name="owner">The owner.</param>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
     public FileEnumerableProvider(
         TOwner owner,
         IObjectSource<IEnumerable<FileSubject>> objectSource,
-        string providerName)
-        : base(owner, objectSource, providerName)
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
+        : base(owner, objectSource, providerName, executionUnit)
     {
     }
 

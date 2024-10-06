@@ -10,13 +10,18 @@ public class SubdirectoriesProvider : EnumerableValueProvider<DirectorySubject, 
     /// </summary>
     /// <param name="owner">The owner, which is the parent directory subject.</param>
     /// <param name="providerName">Name of the provider.</param>
-    public SubdirectoriesProvider(DirectorySubject owner, string providerName)
+    /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
+    public SubdirectoriesProvider(
+        DirectorySubject owner,
+        string providerName,
+        IAtataExecutionUnit executionUnit = null)
         : base(
             owner,
             new DynamicObjectSource<IEnumerable<DirectorySubject>, DirectoryInfo>(
                 owner,
-                x => x.EnumerateDirectories().Select((dir, i) => new DirectorySubject(dir, $"[{i}]"))),
-            providerName)
+                x => x.EnumerateDirectories().Select((dir, i) => new DirectorySubject(dir, $"[{i}]", executionUnit))),
+            providerName,
+            executionUnit)
     {
     }
 
@@ -37,7 +42,8 @@ public class SubdirectoriesProvider : EnumerableValueProvider<DirectorySubject, 
     public DirectorySubject this[string directoryName] =>
         new(
             Path.Combine(Owner.Object.FullName, directoryName),
-            $"[\"{directoryName}\"]")
+            $"[\"{directoryName}\"]",
+            ExecutionUnit)
         {
             SourceProviderName = ProviderName
         };

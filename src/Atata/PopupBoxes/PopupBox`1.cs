@@ -18,7 +18,8 @@ public abstract class PopupBox<TPopupBox, TOwner>
     public ValueProvider<string, TPopupBox> Text => new(
         (TPopupBox)this,
         new LazyObjectSource<string>(() => Alert.Text),
-        $"{KindName} text");
+        $"{KindName} text",
+        Owner.Session.ExecutionUnit);
 
     private protected TOwner Owner { get; }
 

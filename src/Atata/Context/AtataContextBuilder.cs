@@ -149,13 +149,13 @@ public sealed class AtataContextBuilder : ICloneable
     /// Gets or sets the aggregate assertion strategy.
     /// The default value is an instance of <see cref="AtataAggregateAssertionStrategy"/>.
     /// </summary>
-    public IAggregateAssertionStrategy AggregateAssertionStrategy { get; set; } = new AtataAggregateAssertionStrategy();
+    public IAggregateAssertionStrategy AggregateAssertionStrategy { get; set; } = AtataAggregateAssertionStrategy.Instance;
 
     /// <summary>
     /// Gets or sets the strategy for warning assertion reporting.
     /// The default value is an instance of <see cref="AtataWarningReportStrategy"/>.
     /// </summary>
-    public IWarningReportStrategy WarningReportStrategy { get; set; } = new AtataWarningReportStrategy();
+    public IWarningReportStrategy WarningReportStrategy { get; set; } = AtataWarningReportStrategy.Instance;
 
     /// <summary>
     /// Gets or sets the strategy for assertion failure reporting.
@@ -505,7 +505,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseNUnitAggregateAssertionStrategy() =>
-        UseAggregateAssertionStrategy(new NUnitAggregateAssertionStrategy());
+        UseAggregateAssertionStrategy(NUnitAggregateAssertionStrategy.Instance);
 
     /// <summary>
     /// Sets the aggregate assertion strategy.
@@ -537,7 +537,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder UseNUnitWarningReportStrategy() =>
-        UseWarningReportStrategy(new NUnitWarningReportStrategy());
+        UseWarningReportStrategy(NUnitWarningReportStrategy.Instance);
 
     /// <summary>
     /// Sets the strategy for warning assertion reporting.
@@ -667,7 +667,7 @@ public sealed class AtataContextBuilder : ICloneable
             fullPath = AtataContext.GlobalProperties.ArtifactsRootPath;
         }
 
-        return new DirectorySubject(fullPath, "Artifacts");
+        return new DirectorySubject(fullPath, "Artifacts", context.ExecutionUnit);
     }
 
 #warning Review Clear method.
@@ -705,8 +705,8 @@ public sealed class AtataContextBuilder : ICloneable
         context.Culture = Culture ?? CultureInfo.CurrentCulture;
         context.AssertionExceptionType = AssertionExceptionType;
         context.AggregateAssertionExceptionType = AggregateAssertionExceptionType;
-        context.AggregateAssertionStrategy = AggregateAssertionStrategy ?? new AtataAggregateAssertionStrategy();
-        context.WarningReportStrategy = WarningReportStrategy ?? new AtataWarningReportStrategy();
+        context.AggregateAssertionStrategy = AggregateAssertionStrategy ?? AtataAggregateAssertionStrategy.Instance;
+        context.WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance;
         context.AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
         context.EventBus = new EventBus(context, EventSubscriptions.Items);
 

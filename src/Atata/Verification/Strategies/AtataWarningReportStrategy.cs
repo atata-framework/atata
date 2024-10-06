@@ -1,12 +1,23 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the native/default Atata strategy for warning assertion reporting.
-/// Adds <see cref="AssertionResult"/> object of warning kind to <see cref="AtataContext.PendingFailureAssertionResults"/> collection of <see cref="AtataContext.Current"/>.
+/// Represents a native/default Atata strategy for warning assertion reporting.
+/// Adds <see cref="AssertionResult"/> object of warning kind to
+/// <see cref="AtataContext.PendingFailureAssertionResults"/> collection of executing <see cref="AtataContext"/>.
 /// </summary>
-public class AtataWarningReportStrategy : IWarningReportStrategy
+public sealed class AtataWarningReportStrategy : IWarningReportStrategy
 {
-    public void Report(string message, string stackTrace) =>
-        AtataContext.Current.PendingFailureAssertionResults.Add(
+    /// <summary>
+    /// Gets the singleton instance.
+    /// </summary>
+    public static AtataWarningReportStrategy Instance { get; } = new();
+
+    /// <inheritdoc/>
+    public void Report(IAtataExecutionUnit executionUnit, string message, string stackTrace)
+    {
+        AtataContext context = executionUnit?.Context ?? AtataContext.ResolveCurrent();
+
+        context.PendingFailureAssertionResults.Add(
             AssertionResult.ForWarning(message, stackTrace));
+    }
 }

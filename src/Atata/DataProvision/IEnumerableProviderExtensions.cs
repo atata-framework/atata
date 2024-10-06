@@ -15,11 +15,11 @@ public static class IEnumerableProviderExtensions
             ? new DynamicObjectSource<IEnumerable<TResult>, IEnumerable<TSource>>(
                 source,
                 valueGetFunction)
-            : (IObjectSource<IEnumerable<TResult>>)new LazyObjectSource<IEnumerable<TResult>, IEnumerable<TSource>>(
+            : new LazyObjectSource<IEnumerable<TResult>, IEnumerable<TSource>>(
                 source,
                 valueGetFunction);
 
-        return new EnumerableValueProvider<TResult, TOwner>(source.Owner, valueSource, valueName);
+        return new(source.Owner, valueSource, valueName, source.ExecutionUnit);
     }
 
     public static EnumerableValueProvider<TSource, TOwner> Distinct<TSource, TOwner>(
