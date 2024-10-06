@@ -144,7 +144,7 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
             ? Convert((IEqualityComparer<string>)equalityComparer)
             : DefaultStringComparison;
 
-    private StringComparison Convert(IEqualityComparer<string> equalityComparer)
+    private static StringComparison Convert(IEqualityComparer<string> equalityComparer)
     {
         if (equalityComparer == StringComparer.CurrentCulture)
             return StringComparison.CurrentCulture;

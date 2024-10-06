@@ -30,7 +30,7 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
         }
     }
 
-    protected string BuildItemNameByCellValues(string[] values)
+    protected static string BuildItemNameByCellValues(string[] values)
     {
         if (values == null || !values.Any())
             return null;
@@ -40,6 +40,6 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
             return values.ToQuotedValuesListOfString(true);
     }
 
-    protected string CreateItemInnerXPathByCellValues(params string[] values) =>
+    protected static string CreateItemInnerXPathByCellValues(params string[] values) =>
         string.Join(" and ", values.Select(x => "td[{0}]".FormatWith(TermMatch.Contains.CreateXPathCondition(x))));
 }

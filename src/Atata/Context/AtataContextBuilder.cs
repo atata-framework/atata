@@ -743,6 +743,16 @@ public sealed class AtataContextBuilder : ICloneable
             _ => AtataSessionStartScopes.None
         };
 
+    private static void ApplyCulture(AtataContext context, CultureInfo culture)
+    {
+        Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
+
+        if (AtataContext.GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.Static)
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+        context.Log.Trace($"Set: Culture={culture.Name}");
+    }
+
     private LogManager CreateLogManager(AtataContext context)
     {
         LogManagerConfiguration configuration = new(
@@ -781,16 +791,6 @@ public sealed class AtataContextBuilder : ICloneable
             AtataContextScope.Global => builder.StartScopes.HasFlag(AtataSessionStartScopes.Global),
             _ => false
         };
-
-    private static void ApplyCulture(AtataContext context, CultureInfo culture)
-    {
-        Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
-
-        if (AtataContext.GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.Static)
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
-
-        context.Log.Trace($"Set: Culture={culture.Name}");
-    }
 
 #warning Temporarily commented AutoSetUp* methods. Try to make them obsolete.
     ////public void AutoSetUpDriverToUse()

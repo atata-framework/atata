@@ -73,7 +73,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
             .AddUserProfilePreference("download.default_directory", directoryPathBuilder.Invoke()));
     }
 
-    protected void ReplaceLocalhostInDebuggerAddress(ICapabilities capabilities, string optionsCapabilityName)
+    protected static void ReplaceLocalhostInDebuggerAddress(ICapabilities capabilities, string optionsCapabilityName)
     {
         if (capabilities.GetCapability(optionsCapabilityName) is Dictionary<string, object> chromiumOptions
             && chromiumOptions.TryGetValue("debuggerAddress", out object debuggerAddressObject)
