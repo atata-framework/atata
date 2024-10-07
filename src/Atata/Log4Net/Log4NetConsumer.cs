@@ -82,6 +82,8 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
         var level = s_lazyLogLevelsMap.Value[eventInfo.Level];
 
         Logger.Log(null, level, eventInfo.Message, eventInfo.Exception);
+
+        properties.Clear();
     }
 
     protected override dynamic GetLogger()
