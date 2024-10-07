@@ -24,6 +24,7 @@ public static class NLogConsumerBuilderExtensions
 
     /// <summary>
     /// Specifies the layout of log event.
+    /// The default value is <c>@"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5}${when:when='${event-property:log-external-source}'!='':inner= {${event-property:log-external-source}\}}${when:when='${event-property:log-category}'!='':inner= [${event-property:log-category}]} ${message}${onexception:inner= }${exception:format=toString}"</c>.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <param name="layout">The layout of log event.</param>

@@ -95,5 +95,7 @@
 [assembly: SuppressMessage("Minor Code Smell", "S2325:Methods and properties that don't access instance data should be static", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverBuilder`1.GetDriverServiceStringForLog(OpenQA.Selenium.DriverService)~System.String")]
 [assembly: SuppressMessage("Design", "CA1065:Do not raise exceptions in unexpected locations", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.Dispose")]
 [assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverBuilder`1.Atata#IWebDriverFactory#Create(Atata.ILogManager)~OpenQA.Selenium.IWebDriver")]
+[assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.NLogFileConsumer.Layout")]
+[assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.NLogConsumerBuilderExtensions.WithLayout(Atata.LogConsumerBuilder{Atata.NLogFileConsumer},System.String)~Atata.LogConsumerBuilder{Atata.NLogFileConsumer}")]
 
 #pragma warning restore S103 // Lines should not be too long

@@ -98,9 +98,7 @@ internal static class NLogAdapter
 
         var properties = (IDictionary<object, object>)otherEventInfo.Properties;
 
-        var variables = eventInfo.Session?.Variables ?? eventInfo.Context.Variables;
-
-        foreach (var item in variables)
+        foreach (var item in eventInfo.GetProperties())
             properties[item.Key] = item.Value;
 
         return otherEventInfo;

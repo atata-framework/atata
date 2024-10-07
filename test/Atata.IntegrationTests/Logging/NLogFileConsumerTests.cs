@@ -7,7 +7,7 @@ public class NLogFileConsumerTests : TestSuiteBase
     {
         var context = CreateAtataContextWithNLogFileConsumer();
 
-        WriteLogMessageAndAssertItInFile(
+        WriteRandomLogMessageAndAssertItInFile(
             context,
             Path.Combine(context.ArtifactsPath, NLogFileConsumer.DefaultFileName));
     }
@@ -20,7 +20,7 @@ public class NLogFileConsumerTests : TestSuiteBase
         var context = CreateAtataContextWithNLogFileConsumer(
             x => x.WithFileNameTemplate(fileName));
 
-        WriteLogMessageAndAssertItInFile(
+        WriteRandomLogMessageAndAssertItInFile(
             context,
             Path.Combine(AtataContext.Current.ArtifactsPath, fileName));
     }
@@ -33,7 +33,7 @@ public class NLogFileConsumerTests : TestSuiteBase
         var context = CreateAtataContextWithNLogFileConsumer(
             x => x.WithFileNameTemplate(filePath));
 
-        WriteLogMessageAndAssertItInFile(
+        WriteRandomLogMessageAndAssertItInFile(
             context,
             Path.Combine(
                 context.ArtifactsPath,
@@ -41,7 +41,19 @@ public class NLogFileConsumerTests : TestSuiteBase
                 $"{context.Test.NameSanitized}.log"));
     }
 
-    private static void WriteLogMessageAndAssertItInFile(AtataContext context, string filePath)
+    [Test]
+    public void Log_WithExternalSource() =>
+        TestLog(x => x.ForExternalSource("Ext").Trace("Text"), "TRACE {Ext} Text");
+
+    [Test]
+    public void Log_WithCategory() =>
+        TestLog(x => x.ForCategory("Cat").Trace("Text"), "TRACE [Cat] Text");
+
+    [Test]
+    public void Log_WithExternalSourceAndCategory() =>
+        TestLog(x => x.ForExternalSource("Ext").ForCategory("Cat").Trace("Text"), "TRACE {Ext} [Cat] Text");
+
+    private static void WriteRandomLogMessageAndAssertItInFile(AtataContext context, string filePath)
     {
         string testMessage = Guid.NewGuid().ToString();
 
@@ -59,5 +71,16 @@ public class NLogFileConsumerTests : TestSuiteBase
         configure?.Invoke(logConsumerBuilder);
 
         return contextBuilder.Build();
+    }
+
+    private void TestLog(Action<ILogManager> logAction, string expectedText)
+    {
+        var context = CreateAtataContextWithNLogFileConsumer();
+
+        logAction.Invoke(context.Log);
+
+        AssertThatFileShouldContainText(
+            Path.Combine(context.ArtifactsPath, NLogFileConsumer.DefaultFileName),
+            expectedText);
     }
 }

@@ -18,9 +18,10 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
 
     /// <summary>
     /// Gets or sets the layout of log event.
+    /// The default value is <c>@"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5}${when:when='${event-property:log-external-source}'!='':inner= {${event-property:log-external-source}\}}${when:when='${event-property:log-category}'!='':inner= [${event-property:log-category}]} ${message}${onexception:inner= }${exception:format=toString}"</c>.
     /// </summary>
     public string Layout { get; set; } =
-        @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-properties:execution-unit-id} ${uppercase:${level}:padding=5} ${message}${onexception:inner= }${exception:format=toString}";
+        @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5}${when:when='${event-property:log-external-source}'!='':inner= {${event-property:log-external-source}\}}${when:when='${event-property:log-category}'!='':inner= [${event-property:log-category}]} ${message}${onexception:inner= }${exception:format=toString}";
 
     /// <inheritdoc/>
     protected override dynamic GetLogger()

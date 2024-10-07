@@ -75,4 +75,23 @@ public sealed class LogEventInfo
     /// Gets the nesting level.
     /// </summary>
     public int NestingLevel { get; internal set; }
+
+    /// <summary>
+    /// Gets the properties, which includes "log-external-source", "log-category",
+    /// and the variables of <see cref="Session"/>/<see cref="Context"/>.
+    /// </summary>
+    /// <returns>The properties.</returns>
+    public IEnumerable<KeyValuePair<string, object>> GetProperties()
+    {
+        var variables = Session?.Variables ?? Context.Variables;
+
+        foreach (var item in variables)
+            yield return item;
+
+        if (!string.IsNullOrEmpty(ExternalSource))
+            yield return new("log-external-source", ExternalSource);
+
+        if (!string.IsNullOrEmpty(Category))
+            yield return new("log-category", Category);
+    }
 }

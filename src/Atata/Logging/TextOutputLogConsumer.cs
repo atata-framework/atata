@@ -45,8 +45,17 @@ public class TextOutputLogConsumer : ILogConsumer
             .Append(Separator)
             .Append(eventInfo.ExecutionUnitId)
             .Append(Separator)
-            .Append($"{eventInfo.Level.ToString(TermCase.Upper),5}")
-            .Append(Separator)
+            .Append($"{eventInfo.Level.ToString(TermCase.Upper),5}");
+
+        if (!string.IsNullOrEmpty(eventInfo.ExternalSource))
+            builder.Append(Separator)
+                .AppendFormat("{{{0}}}", eventInfo.ExternalSource);
+
+        if (!string.IsNullOrEmpty(eventInfo.Category))
+            builder.Append(Separator)
+                .AppendFormat("[{0}]", eventInfo.Category);
+
+        builder.Append(Separator)
             .Append(eventInfo.Message);
 
         if (eventInfo.Exception != null)
