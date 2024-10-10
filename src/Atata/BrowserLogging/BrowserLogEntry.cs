@@ -7,17 +7,20 @@ namespace Atata;
 /// </summary>
 public sealed class BrowserLogEntry
 {
-    private BrowserLogEntry(DateTime timestamp, LogLevel level, string message)
+    private BrowserLogEntry(DateTime utcTimestamp, LogLevel level, string message)
     {
-        Timestamp = timestamp;
+        UtcTimestamp = utcTimestamp;
         Level = level;
         Message = message;
     }
 
     /// <summary>
-    /// Gets the timestamp in timezone of current <see cref="AtataContext"/>.
+    /// Gets the timestamp in UTC form.
     /// </summary>
-    public DateTime Timestamp { get; }
+    public DateTime UtcTimestamp { get; }
+
+    [Obsolete("Use UtcTimestamp instead.")] // Obsolete since v4.0.0.
+    public DateTime Timestamp => UtcTimestamp;
 
     /// <summary>
     /// Gets the level of log entry.
@@ -29,9 +32,9 @@ public sealed class BrowserLogEntry
     /// </summary>
     public string Message { get; }
 
-    internal static BrowserLogEntry Create(LogEntry logEntry, TimeZoneInfo destinationTimeZoneInfo) =>
+    internal static BrowserLogEntry Create(LogEntry logEntry) =>
         new(
-            TimeZoneInfo.ConvertTimeFromUtc(logEntry.Timestamp, destinationTimeZoneInfo),
+            logEntry.Timestamp,
             ConvertSeleniumLogLevel(logEntry.Level),
             CorrectLineBreaksInMessage(logEntry.Message));
 

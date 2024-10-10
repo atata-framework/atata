@@ -8,20 +8,16 @@ internal sealed class ChromiumBrowserLogMonitoringStrategy : IBrowserLogMonitori
 
     private readonly IEnumerable<IBrowserLogHandler> _browserLogHandlers;
 
-    private readonly TimeZoneInfo _timeZone;
-
     private DevToolsSession _devToolsSession;
 
     private JavaScriptEngine _javaScriptEngine;
 
     public ChromiumBrowserLogMonitoringStrategy(
         IWebDriver driver,
-        IEnumerable<IBrowserLogHandler> browserLogHandlers,
-        TimeZoneInfo timeZone)
+        IEnumerable<IBrowserLogHandler> browserLogHandlers)
     {
         _driver = driver;
         _browserLogHandlers = browserLogHandlers;
-        _timeZone = timeZone;
     }
 
     public void Start()
@@ -64,7 +60,7 @@ internal sealed class ChromiumBrowserLogMonitoringStrategy : IBrowserLogMonitori
         try
         {
             var logEntries = _driver.Manage().Logs.GetLog(LogType.Browser)
-                .Select(x => BrowserLogEntry.Create(x, _timeZone));
+                .Select(BrowserLogEntry.Create);
 
             foreach (var logEntry in logEntries)
                 foreach (var browserLogHandler in _browserLogHandlers)

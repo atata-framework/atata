@@ -2,11 +2,14 @@
 
 internal sealed class LoggingBrowserLogHandler : IBrowserLogHandler
 {
-    private readonly ILogManager _logManager;
+    private const string LogSourceName = "Browser";
 
-    public LoggingBrowserLogHandler(ILogManager logManager) =>
-        _logManager = logManager;
+    private readonly AtataSession _session;
+
+    public LoggingBrowserLogHandler(AtataSession session) =>
+        _session = session;
 
     public void Handle(BrowserLogEntry entry) =>
-        _logManager.Trace($"Browser log: {entry.Timestamp:HH:mm:ss.fff} {entry.Level.ToString(TermCase.Upper)} {entry.Message}");
+        _session.Log?.ForExternalSource(LogSourceName)
+            .Log(entry.UtcTimestamp, entry.Level, entry.Message);
 }

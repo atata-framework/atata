@@ -414,7 +414,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
 
         if (driver is ChromiumDriver or RemoteWebDriver)
         {
-            ChromiumBrowserLogMonitoringStrategy logMonitoringStrategy = new(driver, browserLogHandlers, AtataContext.GlobalProperties.TimeZone);
+            ChromiumBrowserLogMonitoringStrategy logMonitoringStrategy = new(driver, browserLogHandlers);
 
             try
             {
@@ -461,7 +461,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             List<IBrowserLogHandler> browserLogHandlers = new(2);
 
             if (BrowserLogs.Log)
-                browserLogHandlers.Add(new LoggingBrowserLogHandler(session.Log));
+                browserLogHandlers.Add(new LoggingBrowserLogHandler(session));
 
             if (BrowserLogs.MinLevelOfWarning is not null)
                 browserLogHandlers.Add(new WarningBrowserLogHandler(session, BrowserLogs.MinLevelOfWarning.Value));

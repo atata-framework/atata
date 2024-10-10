@@ -6,7 +6,8 @@
 public sealed class BrowserLogsBuilder : ICloneable
 {
     /// <summary>
-    /// Gets or sets a value indicating whether the browser log should be transferred to Atata logging system.
+    /// Gets or sets a value indicating whether the browser log should be transferred
+    /// to Atata logging system as "Browser" external source.
     /// The default value is <see langword="false"/>.
     /// </summary>
     public bool Log { get; set; }
@@ -24,7 +25,8 @@ public sealed class BrowserLogsBuilder : ICloneable
         Log || MinLevelOfWarning is not null;
 
     /// <summary>
-    /// Sets a value indicating whether the browser log should be transferred to Atata logging system.
+    /// Sets a value indicating whether the browser log should be transferred
+    /// to Atata logging system as "Browser" external source.
     /// The default value is <see langword="false"/>.
     /// </summary>
     /// <param name="enable">Whether to enable logging.</param>

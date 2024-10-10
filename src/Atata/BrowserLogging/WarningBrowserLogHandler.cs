@@ -19,15 +19,18 @@ internal class WarningBrowserLogHandler : IBrowserLogHandler
             StringBuilder messageBuilder = new StringBuilder("browser log ");
             messageBuilder.Append(ConvertLogLevelToText(entry.Level));
 
-            if (_session.PageObject is not null)
-                messageBuilder.Append(" on ").Append(_session.PageObject.ComponentFullName);
+            var pageObject = _session.PageObject;
+            if (pageObject is not null)
+                messageBuilder.Append(" on ").Append(pageObject.ComponentFullName);
 
             messageBuilder
                 .Append(':')
                 .AppendLine()
                 .Append(entry.Message);
 
-            _session.Context.RaiseWarning(messageBuilder.ToString());
+            var context = _session.Context;
+            if (context.IsActive)
+                context.RaiseWarning(messageBuilder.ToString());
         }
     }
 
