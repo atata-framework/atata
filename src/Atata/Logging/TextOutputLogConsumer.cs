@@ -45,22 +45,42 @@ public class TextOutputLogConsumer : ILogConsumer
             .Append(Separator)
             .Append(eventInfo.ExecutionUnitId)
             .Append(Separator)
-            .Append($"{eventInfo.Level.ToString(TermCase.Upper),5}");
+            .Append($"{eventInfo.Level.ToString(TermCase.Upper),5}")
+            .Append(Separator)
+            .Append(eventInfo.NestingText);
 
-        if (!string.IsNullOrEmpty(eventInfo.ExternalSource))
-            builder.Append(Separator)
-                .AppendFormat("{{{0}}}", eventInfo.ExternalSource);
+        bool hasExternalSource = !string.IsNullOrEmpty(eventInfo.ExternalSource);
 
-        if (!string.IsNullOrEmpty(eventInfo.Category))
-            builder.Append(Separator)
-                .AppendFormat("[{0}]", eventInfo.Category);
+        if (hasExternalSource)
+            builder.AppendFormat("{{{0}}}", eventInfo.ExternalSource);
 
-        builder.Append(Separator)
-            .Append(eventInfo.Message);
+        bool hasCategory = !string.IsNullOrEmpty(eventInfo.Category);
+
+        if (hasCategory)
+        {
+            if (hasExternalSource)
+                builder.Append(Separator);
+
+            builder.AppendFormat("[{0}]", eventInfo.Category);
+        }
+
+        bool hasMessage = !string.IsNullOrEmpty(eventInfo.Message);
+
+        if (hasMessage)
+        {
+            if (hasCategory || hasExternalSource)
+                builder.Append(Separator);
+
+            builder.Append(eventInfo.Message);
+        }
 
         if (eventInfo.Exception != null)
-            builder.AppendIf(!string.IsNullOrWhiteSpace(eventInfo.Message), Separator)
-                .Append(eventInfo.Exception.ToString());
+        {
+            if (hasMessage || hasCategory || hasExternalSource)
+                builder.Append(Separator);
+
+            builder.Append(eventInfo.Exception.ToString());
+        }
 
         return builder.ToString();
     }

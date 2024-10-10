@@ -1,6 +1,7 @@
 ﻿using log4net.Appender;
 using log4net.Config;
 using log4net.Core;
+using log4net.Util;
 
 namespace Atata.IntegrationTests.Logging;
 
@@ -16,6 +17,10 @@ public class Log4NetConsumerTests : TestSuiteBase
 
     private static string TraceLogFilePath =>
         Path.Combine(LogsDirectory, "Trace.log");
+
+    [OneTimeSetUp]
+    public void SetUpTestSuite() =>
+        SystemInfo.NullText = string.Empty;
 
     public override void TearDown()
     {

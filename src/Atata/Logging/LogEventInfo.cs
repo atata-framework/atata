@@ -77,6 +77,11 @@ public sealed class LogEventInfo
     public int NestingLevel { get; internal set; }
 
     /// <summary>
+    /// Gets the nesting text.
+    /// </summary>
+    public string NestingText { get; internal set; }
+
+    /// <summary>
     /// Gets the properties, which includes "log-external-source", "log-category",
     /// and the variables of <see cref="Session"/>/<see cref="Context"/>.
     /// </summary>
@@ -87,6 +92,9 @@ public sealed class LogEventInfo
 
         foreach (var item in variables)
             yield return item;
+
+        if (!string.IsNullOrEmpty(NestingText))
+            yield return new("log-nesting-text", NestingText);
 
         if (!string.IsNullOrEmpty(ExternalSource))
             yield return new("log-external-source", ExternalSource);

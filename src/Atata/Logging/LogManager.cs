@@ -257,9 +257,9 @@ internal sealed class LogManager : ILogManager
         return $"{exception.GetType().FullName}: {message}";
     }
 
-    private static string PrependHierarchyPrefixesToMessage(string message, LogEventInfo eventInfo, LogConsumerConfiguration logConsumerConfiguration)
+    private static string BuildNestingText(LogEventInfo eventInfo, LogConsumerConfiguration logConsumerConfiguration)
     {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new();
 
         if (eventInfo.NestingLevel > 0)
         {
@@ -283,11 +283,9 @@ internal sealed class LogManager : ILogManager
             }
         }
 
-        string resultMessage = builder.Append(message).ToString();
-
-        return resultMessage.Length == 0 && message == null
-            ? null
-            : resultMessage;
+        return builder.Length > 0
+            ? builder.ToString()
+            : null;
     }
 
     private static IEnumerable<LogConsumerConfiguration> FilterByLogSectionEnd(
@@ -360,7 +358,7 @@ internal sealed class LogManager : ILogManager
         if (eventInfo.SectionEnd != null)
             appropriateConsumerItems = FilterByLogSectionEnd(appropriateConsumerItems, eventInfo.SectionEnd);
 
-        string originalMessage = ApplySecretMasks(eventInfo.Message);
+        eventInfo.Message = ApplySecretMasks(eventInfo.Message);
 
         lock (_sectionStack)
         {
@@ -370,7 +368,7 @@ internal sealed class LogManager : ILogManager
                 var thisNestingLevel = _sectionStack.Count(x => x.Level >= consumerItem.MinLevel);
 
                 eventInfo.NestingLevel = outerNestingLevel + thisNestingLevel;
-                eventInfo.Message = PrependHierarchyPrefixesToMessage(originalMessage, eventInfo, consumerItem);
+                eventInfo.NestingText = BuildNestingText(eventInfo, consumerItem);
 
                 consumerItem.Consumer.Log(eventInfo);
             }

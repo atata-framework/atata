@@ -97,5 +97,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverBuilder`1.Atata#IWebDriverFactory#Create(Atata.ILogManager)~OpenQA.Selenium.IWebDriver")]
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.NLogFileConsumer.Layout")]
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.NLogConsumerBuilderExtensions.WithLayout(Atata.LogConsumerBuilder{Atata.NLogFileConsumer},System.String)~Atata.LogConsumerBuilder{Atata.NLogFileConsumer}")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TextOutputLogConsumer.BuildCompleteMessage(Atata.LogEventInfo)~System.String")]
 
 #pragma warning restore S103 // Lines should not be too long
