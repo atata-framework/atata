@@ -39,7 +39,7 @@ public class LogManagerTests
                     return Task.CompletedTask;
                 }));
 
-        _consumerSpy.CollectedEventMessages.Should.ConsistSequentiallyOf(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.ConsistSequentiallyOf(
             x => x == "> step section",
             x => x == "- > trace sub-section",
             x => x == "- - inner trace message",
@@ -63,7 +63,7 @@ public class LogManagerTests
                 }))).ToResultSubject();
 
         result.Should.Be("ok");
-        _consumerSpy.CollectedEventMessages.Should.ConsistSequentiallyOf(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.ConsistSequentiallyOf(
             x => x == "> step section",
             x => x == "- > trace sub-section",
             x => x == "- - inner trace message",
@@ -78,7 +78,7 @@ public class LogManagerTests
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
-        _consumerSpy.CollectedEventMessages.Should.EqualSequence(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.EqualSequence(
             "step section",
             "- trace sub-section",
             "- - inner info message",
@@ -92,7 +92,7 @@ public class LogManagerTests
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
-        _consumerSpy.CollectedEventMessages.Should.EqualSequence(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.EqualSequence(
             "step section",
             "- inner info message");
     }
@@ -104,7 +104,7 @@ public class LogManagerTests
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
-        _consumerSpy.CollectedEventMessages.Should.ConsistSequentiallyOf(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.ConsistSequentiallyOf(
             x => x == "> step section",
             x => x == "- trace sub-section",
             x => x == "- - inner info message",
@@ -119,7 +119,7 @@ public class LogManagerTests
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
-        _consumerSpy.CollectedEventMessages.Should.ConsistSequentiallyOf(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.ConsistSequentiallyOf(
             x => x == "> step section",
             x => x == "- inner info message",
             x => x.StartsWith("< step section ("));
@@ -132,7 +132,7 @@ public class LogManagerTests
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
-        _consumerSpy.CollectedEventMessages.Should.ConsistSequentiallyOf(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.ConsistSequentiallyOf(
             x => x == "> step section",
             x => x == "- > trace sub-section",
             x => x == "- - inner info message",
@@ -148,7 +148,7 @@ public class LogManagerTests
 
         LogStepSectionWithTraceSubSectionContainingTraceAndInfo(sut);
 
-        _consumerSpy.CollectedEventMessages.Should.ConsistSequentiallyOf(
+        _consumerSpy.CollectedEventNestedTextsWithMessages.Should.ConsistSequentiallyOf(
             x => x == "> step section",
             x => x == "- inner info message",
             x => x.StartsWith("< step section ("));
@@ -173,15 +173,15 @@ public class LogManagerTests
             });
 
         _consumerSpy.CollectedEvents.Should.ConsistSequentiallyOf(
-            x => x.Message == "> root section" && x.Category == null,
-            x => x.Message == "- > step section" && x.Category == category1Name,
-            x => x.Message == "- - > trace sub-section" && x.Category == category1Name,
-            x => x.Message == "- - - inner info message" && x.Category == category1Name,
-            x => x.Message == "- - - inner trace message" && x.Category == category1Name,
-            x => x.Message.StartsWith("- - < trace sub-section (") && x.Category == category1Name,
-            x => x.Message.StartsWith("- < step section (") && x.Category == category1Name,
-            x => x.Message == "- trace for sub-category" && x.Category == category2Name,
-            x => x.Message.StartsWith("< root section (") && x.Category == null);
+            x => x.NestingText == "> " && x.Message == "root section" && x.Category == null,
+            x => x.NestingText == "- > " && x.Message == "step section" && x.Category == category1Name,
+            x => x.NestingText == "- - > " && x.Message == "trace sub-section" && x.Category == category1Name,
+            x => x.NestingText == "- - - " && x.Message == "inner info message" && x.Category == category1Name,
+            x => x.NestingText == "- - - " && x.Message == "inner trace message" && x.Category == category1Name,
+            x => x.NestingText == "- - < " && x.Message.StartsWith("trace sub-section (") && x.Category == category1Name,
+            x => x.NestingText == "- < " && x.Message.StartsWith("step section (") && x.Category == category1Name,
+            x => x.NestingText == "- " && x.Message == "trace for sub-category" && x.Category == category2Name,
+            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.Category == null);
     }
 
     [Test]
@@ -202,15 +202,15 @@ public class LogManagerTests
             });
 
         _consumerSpy.CollectedEvents.Should.ConsistSequentiallyOf(
-            x => x.Message == "> root section" && x.ExternalSource == null,
-            x => x.Message == "- > step section" && x.ExternalSource == sourceName,
-            x => x.Message == "- - > trace sub-section" && x.ExternalSource == sourceName,
-            x => x.Message == "- - - inner info message" && x.ExternalSource == sourceName,
-            x => x.Message == "- - - inner trace message" && x.ExternalSource == sourceName,
-            x => x.Message.StartsWith("- - < trace sub-section (") && x.ExternalSource == sourceName,
-            x => x.Message.StartsWith("- < step section (") && x.ExternalSource == sourceName,
-            x => x.Message == "- trace for sub-category" && x.ExternalSource == sourceName && x.Category == "cat1",
-            x => x.Message.StartsWith("< root section (") && x.ExternalSource == null);
+            x => x.NestingText == "> " && x.Message == "root section" && x.ExternalSource == null,
+            x => x.NestingText == "- > " && x.Message == "step section" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- - > " && x.Message == "trace sub-section" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- - - " && x.Message == "inner info message" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- - - " && x.Message == "inner trace message" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- - < " && x.Message.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == "- < " && x.Message.StartsWith("step section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == "- " && x.Message == "trace for sub-category" && x.ExternalSource == sourceName && x.Category == "cat1",
+            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.ExternalSource == null);
     }
 
     [Test]
@@ -234,16 +234,16 @@ public class LogManagerTests
             });
 
         _consumerSpy.CollectedEvents.Should.ConsistSequentiallyOf(
-            x => x.Message == "> root section" && x.ExternalSource == null,
-            x => x.Message == "> step section" && x.ExternalSource == sourceName,
-            x => x.Message == "- > trace sub-section" && x.ExternalSource == sourceName,
-            x => x.Message == "- - inner info message" && x.ExternalSource == sourceName,
-            x => x.Message == "- - inner trace message" && x.ExternalSource == sourceName,
-            x => x.Message.StartsWith("- < trace sub-section (") && x.ExternalSource == sourceName,
-            x => x.Message.StartsWith("< step section (") && x.ExternalSource == sourceName,
-            x => x.Message == "trace ext" && x.ExternalSource == sourceName && x.Category == "cat1",
-            x => x.Message == "- trace non-ext" && x.ExternalSource == null && x.Category == "cat2",
-            x => x.Message.StartsWith("< root section (") && x.ExternalSource == null);
+            x => x.NestingText == "> " && x.Message == "root section" && x.ExternalSource == null,
+            x => x.NestingText == "> " && x.Message == "step section" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- > " && x.Message == "trace sub-section" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- - " && x.Message == "inner info message" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- - " && x.Message == "inner trace message" && x.ExternalSource == sourceName,
+            x => x.NestingText == "- < " && x.Message.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == "< " && x.Message.StartsWith("step section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == null && x.Message == "trace ext" && x.ExternalSource == sourceName && x.Category == "cat1",
+            x => x.NestingText == "- " && x.Message == "trace non-ext" && x.ExternalSource == null && x.Category == "cat2",
+            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.ExternalSource == null);
     }
 
     private static LogManager CreateSut(
@@ -284,8 +284,8 @@ public class LogManagerTests
         public Subject<ReadOnlyCollection<LogEventInfo>> CollectedEvents =>
             _collectedEvents.ToReadOnly().ToSubject(nameof(CollectedEvents));
 
-        public Subject<ReadOnlyCollection<string>> CollectedEventMessages =>
-            _collectedEvents.Select(x => x.Message).ToReadOnly().ToSubject(nameof(CollectedEventMessages));
+        public Subject<ReadOnlyCollection<string>> CollectedEventNestedTextsWithMessages =>
+            _collectedEvents.Select(x => x.NestingText + x.Message).ToReadOnly().ToSubject(nameof(CollectedEventNestedTextsWithMessages));
 
         public void Log(LogEventInfo eventInfo) =>
             _collectedEvents.Add(eventInfo);
