@@ -6,6 +6,23 @@
 public interface ILogManager
 {
     /// <summary>
+    /// Logs an entry.
+    /// </summary>
+    /// <param name="level">The level.</param>
+    /// <param name="message">The message.</param>
+    /// <param name="exception">The exception.</param>
+    void Log(LogLevel level, string message, Exception exception = null);
+
+    /// <summary>
+    /// Logs an entry.
+    /// </summary>
+    /// <param name="utcTimestamp">The timestamp in UTC form.</param>
+    /// <param name="level">The level.</param>
+    /// <param name="message">The message.</param>
+    /// <param name="exception">The exception.</param>
+    void Log(DateTime utcTimestamp, LogLevel level, string message, Exception exception = null);
+
+    /// <summary>
     /// Writes a trace log message.
     /// </summary>
     /// <param name="message">The message.</param>

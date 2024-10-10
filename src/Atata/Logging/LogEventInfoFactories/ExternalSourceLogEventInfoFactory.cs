@@ -14,9 +14,9 @@ internal sealed class ExternalSourceLogEventInfoFactory : ILogEventInfoFactory
         _externalSource = externalSource.CheckNotNullOrWhitespace(nameof(externalSource));
     }
 
-    public LogEventInfo Create(LogLevel level, string message)
+    public LogEventInfo Create(DateTime timestamp, LogLevel level, string message)
     {
-        var eventInfo = _parentFactory.Create(level, message);
+        var eventInfo = _parentFactory.Create(timestamp, level, message);
 
         eventInfo.ExternalSource = _externalSource;
 

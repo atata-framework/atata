@@ -43,55 +43,58 @@ internal sealed class LogManager : ILogManager
         int GetNestingLevel(LogConsumerConfiguration consumerConfiguration);
     }
 
-    /// <inheritdoc/>
+    public void Log(LogLevel level, string message, Exception exception = null) =>
+        Log(
+            DateTime.UtcNow,
+            level,
+            message,
+            exception);
+
+    public void Log(DateTime utcTimestamp, LogLevel level, string message, Exception exception = null)
+    {
+        DateTime logTimestamp = ConvertUtcTimestampToAtataTimeZone(utcTimestamp);
+        LogEventInfo logEvent = _logEventInfoFactory.Create(logTimestamp, level, message);
+        logEvent.Exception = exception;
+
+        Log(logEvent);
+    }
+
     public void Trace(string message) =>
         Log(LogLevel.Trace, message);
 
-    /// <inheritdoc/>
     public void Debug(string message) =>
         Log(LogLevel.Debug, message);
 
-    /// <inheritdoc/>
     public void Info(string message) =>
         Log(LogLevel.Info, message);
 
-    /// <inheritdoc/>
     public void Warn(string message) =>
         Log(LogLevel.Warn, message);
 
-    /// <inheritdoc/>
     public void Warn(Exception exception) =>
         Log(LogLevel.Warn, null, exception);
 
-    /// <inheritdoc/>
     public void Warn(Exception exception, string message) =>
         Log(LogLevel.Warn, message, exception);
 
-    /// <inheritdoc/>
     public void Error(Exception exception) =>
         Log(LogLevel.Error, null, exception);
 
-    /// <inheritdoc/>
     public void Error(string message) =>
         Log(LogLevel.Error, message);
 
-    /// <inheritdoc/>
     public void Error(Exception exception, string message) =>
         Log(LogLevel.Error, message, exception);
 
-    /// <inheritdoc/>
     public void Fatal(Exception exception) =>
         Log(LogLevel.Fatal, null, exception);
 
-    /// <inheritdoc/>
     public void Fatal(string message) =>
         Log(LogLevel.Fatal, message);
 
-    /// <inheritdoc/>
     public void Fatal(Exception exception, string message) =>
         Log(LogLevel.Fatal, message, exception);
 
-    /// <inheritdoc/>
     public void ExecuteSection(LogSection section, Action action)
     {
         section.CheckNotNull(nameof(section));
@@ -114,7 +117,6 @@ internal sealed class LogManager : ILogManager
         }
     }
 
-    /// <inheritdoc/>
     public TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function)
     {
         section.CheckNotNull(nameof(section));
@@ -139,7 +141,6 @@ internal sealed class LogManager : ILogManager
         }
     }
 
-    /// <inheritdoc/>
     public async Task ExecuteSectionAsync(LogSection section, Func<Task> function)
     {
         section.CheckNotNull(nameof(section));
@@ -162,7 +163,6 @@ internal sealed class LogManager : ILogManager
         }
     }
 
-    /// <inheritdoc/>
     public async Task<TResult> ExecuteSectionAsync<TResult>(LogSection section, Func<Task<TResult>> function)
     {
         section.CheckNotNull(nameof(section));
@@ -193,7 +193,6 @@ internal sealed class LogManager : ILogManager
             new AtataSessionLogEventInfoFactory(_logEventInfoFactory, session),
             CreateNestingLevelResolver(x => x.EmbedSessionLog));
 
-    /// <inheritdoc/>
     public ILogManager ForExternalSource(string externalSource)
     {
         externalSource.CheckNotNullOrWhitespace(nameof(externalSource));
@@ -206,7 +205,6 @@ internal sealed class LogManager : ILogManager
                 CreateNestingLevelResolver(x => x.EmbedExternalSourceLog)));
     }
 
-    /// <inheritdoc/>
     public ILogManager ForCategory(string category)
     {
         category.CheckNotNullOrWhitespace(nameof(category));
@@ -219,9 +217,14 @@ internal sealed class LogManager : ILogManager
                 CreateNestingLevelResolver(_ => true)));
     }
 
-    /// <inheritdoc/>
     public ILogManager ForCategory<TCategory>() =>
         ForCategory(typeof(TCategory).FullName);
+
+    private static DateTime GetCurrentTimestamp() =>
+        ConvertUtcTimestampToAtataTimeZone(DateTime.UtcNow);
+
+    private static DateTime ConvertUtcTimestampToAtataTimeZone(DateTime utcTimestamp) =>
+        TimeZoneInfo.ConvertTimeFromUtc(utcTimestamp, AtataContext.GlobalProperties.TimeZone);
 
     private static string AppendSectionResultToMessage(string message, object result)
     {
@@ -312,7 +315,7 @@ internal sealed class LogManager : ILogManager
     {
         lock (_sectionStack)
         {
-            LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, section.Message);
+            LogEventInfo eventInfo = _logEventInfoFactory.Create(GetCurrentTimestamp(), section.Level, section.Message);
             eventInfo.SectionStart = section;
 
             section.StartedAt = eventInfo.Timestamp;
@@ -341,20 +344,12 @@ internal sealed class LogManager : ILogManager
                 else if (section.Exception != null)
                     message = AppendSectionResultToMessage(message, section.Exception);
 
-                LogEventInfo eventInfo = _logEventInfoFactory.Create(section.Level, message);
+                LogEventInfo eventInfo = _logEventInfoFactory.Create(GetCurrentTimestamp(), section.Level, message);
                 eventInfo.SectionEnd = section;
 
                 Log(eventInfo);
             }
         }
-    }
-
-    private void Log(LogLevel level, string message, Exception exception = null)
-    {
-        LogEventInfo logEvent = _logEventInfoFactory.Create(level, message);
-        logEvent.Exception = exception;
-
-        Log(logEvent);
     }
 
     private void Log(LogEventInfo eventInfo)

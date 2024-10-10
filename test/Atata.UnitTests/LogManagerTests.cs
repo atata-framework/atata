@@ -268,13 +268,12 @@ public class LogManagerTests
 
     private sealed class BasicLogEventInfoFactory : ILogEventInfoFactory
     {
-        public LogEventInfo Create(LogLevel level, string message) =>
+        public LogEventInfo Create(DateTime timestamp, LogLevel level, string message) =>
             new()
             {
+                Timestamp = timestamp,
                 Level = level,
-                Message = message,
-
-                Timestamp = DateTime.Now
+                Message = message
             };
     }
 

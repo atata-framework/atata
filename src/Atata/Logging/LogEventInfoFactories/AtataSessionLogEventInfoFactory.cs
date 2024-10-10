@@ -14,9 +14,9 @@ internal sealed class AtataSessionLogEventInfoFactory : ILogEventInfoFactory
         _session = session.CheckNotNull(nameof(session));
     }
 
-    public LogEventInfo Create(LogLevel level, string message)
+    public LogEventInfo Create(DateTime timestamp, LogLevel level, string message)
     {
-        var eventInfo = _parentFactory.Create(level, message);
+        var eventInfo = _parentFactory.Create(timestamp, level, message);
 
         eventInfo.Session = _session;
 
