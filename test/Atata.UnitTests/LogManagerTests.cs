@@ -185,9 +185,9 @@ public class LogManagerTests
     }
 
     [Test]
-    public void ForExternalSource()
+    public void ForExternalSource_WhenConsumerEmbedExternalSourceLogIsTrue()
     {
-        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedExternalSourceLog = true }]);
         const string sourceName = "src1";
 
         sut.ExecuteSection(
@@ -214,7 +214,7 @@ public class LogManagerTests
     }
 
     [Test]
-    public void ForExternalSource_WhenConsumerKeepHierarchyForExternalSourceIsFalse()
+    public void ForExternalSource_WhenConsumerEmbedExternalSourceLogIsFalse()
     {
         var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy) { EmbedExternalSourceLog = false }]);
         const string sourceName = "src1";
