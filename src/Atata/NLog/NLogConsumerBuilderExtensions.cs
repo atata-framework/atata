@@ -41,8 +41,8 @@ public static class NLogConsumerBuilderExtensions
     /// Specifies to use separate log files for external sources.
     /// The main log file will be "Atata.log".
     /// External source log file will be "{external_source_name}.log", e.g., "Browser.log".
-    /// Sets <c>@"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c> to <see cref="NLogFileConsumer.Layout"/>.
     /// Sets <c>"${{event-property:log-external-source:whenEmpty=Atata}}.log"</c> to <see cref="NLogFileConsumer.FileNameTemplate"/>.
+    /// Sets <c>@"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c> to <see cref="NLogFileConsumer.Layout"/>.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same builder instance.</returns>
