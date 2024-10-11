@@ -71,9 +71,9 @@ public class ReportTests : WebDriverSessionTestSuite
 
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
-            "^> TEST SETUP",
-            "^> Assert: IsTrue should be true$",
-            "^< Assert: IsTrue should be true",
+            "^> TEST SETUP$",
+            "^- > Assert: IsTrue should be true$",
+            "^- < Assert: IsTrue should be true",
             "^< TEST SETUP");
     }
 
@@ -89,9 +89,9 @@ public class ReportTests : WebDriverSessionTestSuite
 
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
-            "^> TEST SETUP",
-            "^> Assert: IsTrue should be true$",
-            "^< Assert: IsTrue should be true",
+            "^> TEST SETUP$",
+            "^- > Assert: IsTrue should be true$",
+            "^- < Assert: IsTrue should be true",
             "^< TEST SETUP");
     }
 
@@ -108,9 +108,9 @@ public class ReportTests : WebDriverSessionTestSuite
         result.Should().Be("ok");
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
-            "^> TEST SETUP",
-            "^> Assert: IsTrue should be true$",
-            "^< Assert: IsTrue should be true",
+            "^> TEST SETUP$",
+            "^- > Assert: IsTrue should be true$",
+            "^- < Assert: IsTrue should be true",
             "^< TEST SETUP");
     }
 
@@ -124,8 +124,8 @@ public class ReportTests : WebDriverSessionTestSuite
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST STEP$",
-            "^> Assert: IsTrue should be true$",
-            "^< Assert: IsTrue should be true",
+            "^- > Assert: IsTrue should be true$",
+            "^- < Assert: IsTrue should be true",
             "^< TEST STEP");
     }
 
@@ -142,8 +142,8 @@ public class ReportTests : WebDriverSessionTestSuite
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST STEP$",
-            "^> Assert: IsTrue should be true$",
-            "^< Assert: IsTrue should be true",
+            "^- > Assert: IsTrue should be true$",
+            "^- < Assert: IsTrue should be true",
             "^< TEST STEP");
     }
 
@@ -161,8 +161,8 @@ public class ReportTests : WebDriverSessionTestSuite
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST STEP$",
-            "^> Assert: IsTrue should be true$",
-            "^< Assert: IsTrue should be true",
+            "^- > Assert: IsTrue should be true$",
+            "^- < Assert: IsTrue should be true",
             "^< TEST STEP");
     }
 

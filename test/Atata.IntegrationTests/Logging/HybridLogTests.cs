@@ -2,8 +2,6 @@
 
 public sealed class HybridLogTests : TestSuiteBase
 {
-    protected override bool EnableLogMessageNesting => true;
-
     [Test]
     public async Task SessionsInParallel()
     {

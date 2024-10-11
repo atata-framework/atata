@@ -11,8 +11,8 @@ public sealed class PageObjectReportExtensionsTests : WebDriverSessionTestSuite
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> Set up \"<ordinary>\" page$",
-            "^> Go to \"<ordinary>\" page",
-            "^< Go to \"<ordinary>\" page",
+            "^- > Go to \"<ordinary>\" page",
+            "^- < Go to \"<ordinary>\" page",
             "^< Set up \"<ordinary>\" page");
     }
 }
