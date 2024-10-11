@@ -108,23 +108,9 @@ public abstract class TestSuiteBase
         Assert.That(actualMessages, Is.EqualTo(expectedMessages));
     }
 
-    protected void VerifyLastLogMessagesContain(LogLevel minLogLevel, params string[] expectedMessages)
+    protected void VerifyLastLogNestingTextsWithMessagesMatch(LogLevel minLogLevel, params string[] expectedMessagePatterns)
     {
-        var actualMessages = CurrentLog.GetMessagesSnapshot(minLogLevel, expectedMessages.Length);
-        actualMessages.Should().HaveCount(expectedMessages.Length);
-
-        using (new AssertionScope())
-        {
-            for (int i = 0; i < expectedMessages.Length; i++)
-            {
-                actualMessages[i].Should().Contain(expectedMessages[i]);
-            }
-        }
-    }
-
-    protected void VerifyLastLogMessagesMatch(LogLevel minLogLevel, params string[] expectedMessagePatterns)
-    {
-        var actualMessages = CurrentLog.GetMessagesSnapshot(minLogLevel, expectedMessagePatterns.Length);
+        var actualMessages = CurrentLog.GetNestingTextsWithMessagesSnapshot(minLogLevel, expectedMessagePatterns.Length);
         actualMessages.Should().HaveCount(expectedMessagePatterns.Length);
 
         using (new AssertionScope())

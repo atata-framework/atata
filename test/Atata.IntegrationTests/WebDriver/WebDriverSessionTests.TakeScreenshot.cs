@@ -56,7 +56,7 @@ public partial class WebDriverSessionTests
 
             context.GetWebDriverSession().TakeScreenshot();
 
-            VerifyLastLogMessagesContain(LogLevel.Error, "Screenshot failed");
+            VerifyLastLogNestingTextsWithMessagesMatch(LogLevel.Error, "Screenshot failed");
             context.Artifacts.Should.Not.Exist();
         }
     }

@@ -37,7 +37,8 @@ public sealed class HybridLogTests : TestSuiteBase
                     });
                 })));
 
-        var logMessages = CurrentLog.GetMessagesSnapshot(12).ToSubject("logMessages");
+        var logMessages = CurrentLog.GetNestingTextsWithMessagesSnapshot(12)
+            .ToSubject("logNestingTextsWithMessages");
         logMessages.ElementAt(0).Should.Be("> context section");
         logMessages.Skip(1).Take(10).Should.ConsistOf(
             x => x == "- s1 trace",

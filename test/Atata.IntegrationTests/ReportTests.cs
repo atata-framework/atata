@@ -50,7 +50,7 @@ public class ReportTests : WebDriverSessionTestSuite
             .Report.PageSnapshot()
             .Report.PageSnapshot("sometitle");
 
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> Take page snapshot #01$",
             "^< Take page snapshot #01 \\(.*\\) >> \"01 Test page.mhtml\"$",
@@ -69,7 +69,7 @@ public class ReportTests : WebDriverSessionTestSuite
         page.Report.Setup("TEST SETUP", x => x
             .IsTrue.Should.BeTrue());
 
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST SETUP",
             "^> Assert: IsTrue should be true$",
@@ -87,7 +87,7 @@ public class ReportTests : WebDriverSessionTestSuite
             await Task.CompletedTask;
         });
 
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST SETUP",
             "^> Assert: IsTrue should be true$",
@@ -106,7 +106,7 @@ public class ReportTests : WebDriverSessionTestSuite
         });
 
         result.Should().Be("ok");
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST SETUP",
             "^> Assert: IsTrue should be true$",
@@ -121,7 +121,7 @@ public class ReportTests : WebDriverSessionTestSuite
         page.Report.Step("TEST STEP", x => x
             .IsTrue.Should.BeTrue());
 
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST STEP$",
             "^> Assert: IsTrue should be true$",
@@ -139,7 +139,7 @@ public class ReportTests : WebDriverSessionTestSuite
             await Task.CompletedTask;
         });
 
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST STEP$",
             "^> Assert: IsTrue should be true$",
@@ -158,7 +158,7 @@ public class ReportTests : WebDriverSessionTestSuite
         });
 
         result.Should().Be("ok");
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> TEST STEP$",
             "^> Assert: IsTrue should be true$",
@@ -230,7 +230,7 @@ public class ReportTests : WebDriverSessionTestSuite
                 .Report.Screenshot()
                 .Report.Screenshot("sometitle");
 
-            VerifyLastLogMessagesMatch(
+            VerifyLastLogNestingTextsWithMessagesMatch(
                 minLogLevel: LogLevel.Trace,
                 "^> Take screenshot #01$",
                 "^< Take screenshot #01 \\(.*\\) >> \"01 Test page.png\"$",

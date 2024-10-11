@@ -56,7 +56,7 @@ public partial class WebDriverSessionTests
 
             context.GetWebDriverSession().TakePageSnapshot();
 
-            VerifyLastLogMessagesContain(LogLevel.Error, "Page snapshot failed");
+            VerifyLastLogNestingTextsWithMessagesMatch(LogLevel.Error, "^Page snapshot failed");
             context.Artifacts.Should.Not.Exist();
         }
     }

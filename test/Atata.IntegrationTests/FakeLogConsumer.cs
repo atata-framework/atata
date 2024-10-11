@@ -78,4 +78,19 @@ public sealed class FakeLogConsumer : ILogConsumer
         GetSnapshot(minLogLevel, countFromEnd)
             .Select(x => x.Message)
             .ToArray();
+
+    public string[] GetNestingTextsWithMessagesSnapshot() =>
+        GetSnapshot()
+            .Select(x => x.NestingText + x.Message)
+            .ToArray();
+
+    public string[] GetNestingTextsWithMessagesSnapshot(int countFromEnd) =>
+        GetSnapshot(countFromEnd)
+            .Select(x => x.NestingText + x.Message)
+            .ToArray();
+
+    public string[] GetNestingTextsWithMessagesSnapshot(LogLevel minLogLevel, int countFromEnd) =>
+        GetSnapshot(minLogLevel, countFromEnd)
+            .Select(x => x.NestingText + x.Message)
+            .ToArray();
 }

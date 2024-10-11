@@ -8,7 +8,7 @@ public sealed class PageObjectReportExtensionsTests : WebDriverSessionTestSuite
         AtataContext.Current.Report.Setup(x => x
             .GetWebDriverSession().Go.To<OrdinaryPage>());
 
-        VerifyLastLogMessagesMatch(
+        VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> Set up \"<ordinary>\" page$",
             "^> Go to \"<ordinary>\" page",
