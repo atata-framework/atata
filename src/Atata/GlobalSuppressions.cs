@@ -97,5 +97,6 @@
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.NLogFileConsumer.Layout")]
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.NLogConsumerBuilderExtensions.WithLayout(Atata.LogConsumerBuilder{Atata.NLogFileConsumer},System.String)~Atata.LogConsumerBuilder{Atata.NLogFileConsumer}")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TextOutputLogConsumer.BuildCompleteMessage(Atata.LogEventInfo)~System.String")]
+[assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.NLogConsumerBuilderExtensions.WithSeparateExternalSourceLogFiles(Atata.LogConsumerBuilder{Atata.NLogFileConsumer})~Atata.LogConsumerBuilder{Atata.NLogFileConsumer}")]
 
 #pragma warning restore S103 // Lines should not be too long
