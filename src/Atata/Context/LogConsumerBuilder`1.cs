@@ -51,39 +51,51 @@ public class LogConsumerBuilder<TLogConsumer>
         return this;
     }
 
+    [Obsolete("Use WithNestingLevelIndent(...) instead.")] // Obsolete since v4.0.0.
+    public LogConsumerBuilder<TLogConsumer> WithMessageNestingLevelIndent(string messageNestingLevelIndent) =>
+        WithNestingLevelIndent(messageNestingLevelIndent);
+
     /// <summary>
-    /// Sets the nesting level indent of the log message.
+    /// Sets the nesting level indent.
     /// The default value is <c>"- "</c>.
     /// </summary>
-    /// <param name="messageNestingLevelIndent">The message nesting level indent.</param>
+    /// <param name="nestingLevelIndent">The nesting level indent.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerBuilder<TLogConsumer> WithMessageNestingLevelIndent(string messageNestingLevelIndent)
+    public LogConsumerBuilder<TLogConsumer> WithNestingLevelIndent(string nestingLevelIndent)
     {
-        _logConsumerConfiguration.MessageNestingLevelIndent = messageNestingLevelIndent;
+        _logConsumerConfiguration.NestingLevelIndent = nestingLevelIndent;
         return this;
     }
 
+    [Obsolete("Use WithSectionStartPrefix(...) instead.")] // Obsolete since v4.0.0.
+    public LogConsumerBuilder<TLogConsumer> WithMessageStartSectionPrefix(string messageStartSectionPrefix) =>
+        WithSectionStartPrefix(messageStartSectionPrefix);
+
     /// <summary>
-    /// Sets the start section prefix of the log message.
+    /// Sets the prefix of section start.
     /// The default value is <c>"&gt; "</c>.
     /// </summary>
-    /// <param name="messageStartSectionPrefix">The message start section prefix.</param>
+    /// <param name="sectionStartPrefix">The section start prefix.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerBuilder<TLogConsumer> WithMessageStartSectionPrefix(string messageStartSectionPrefix)
+    public LogConsumerBuilder<TLogConsumer> WithSectionStartPrefix(string sectionStartPrefix)
     {
-        _logConsumerConfiguration.MessageStartSectionPrefix = messageStartSectionPrefix;
+        _logConsumerConfiguration.SectionStartPrefix = sectionStartPrefix;
         return this;
     }
 
+    [Obsolete("Use WithSectionEndPrefix(...) instead.")] // Obsolete since v4.0.0.
+    public LogConsumerBuilder<TLogConsumer> WithMessageEndSectionPrefix(string messageEndSectionPrefix) =>
+        WithSectionEndPrefix(messageEndSectionPrefix);
+
     /// <summary>
-    /// Sets the end section prefix of the log message.
+    /// Sets the prefix of section end.
     /// The default value is <c>"&lt; "</c>.
     /// </summary>
-    /// <param name="messageEndSectionPrefix">The message end section prefix.</param>
+    /// <param name="sectionEndPrefix">The section end prefix.</param>
     /// <returns>The same builder instance.</returns>
-    public LogConsumerBuilder<TLogConsumer> WithMessageEndSectionPrefix(string messageEndSectionPrefix)
+    public LogConsumerBuilder<TLogConsumer> WithSectionEndPrefix(string sectionEndPrefix)
     {
-        _logConsumerConfiguration.MessageEndSectionPrefix = messageEndSectionPrefix;
+        _logConsumerConfiguration.SectionEndPrefix = sectionEndPrefix;
         return this;
     }
 

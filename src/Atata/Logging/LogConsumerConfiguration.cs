@@ -52,23 +52,36 @@ public class LogConsumerConfiguration : ICloneable
     /// </summary>
     public LogSectionEndOption SectionEnd { get; internal set; }
 
-    /// <summary>
-    /// Gets or sets the message nesting level indent.
-    /// The default value is <c>"- "</c>.
-    /// </summary>
-    public string MessageNestingLevelIndent { get; set; } = "- ";
+    [Obsolete("Use NestingLevelIndent instead.")] // Obsolete since v4.0.0.
+    public string MessageNestingLevelIndent
+    {
+        get => NestingLevelIndent;
+        set => NestingLevelIndent = value;
+    }
 
     /// <summary>
-    /// Gets or sets the message start section prefix.
-    /// The default value is <c>"&gt; "</c>.
+    /// Gets or sets the nesting level indent.
+    /// The default value is <c>"- "</c>.
     /// </summary>
+    public string NestingLevelIndent { get; set; } = "- ";
+
+    [Obsolete("Use SectionStartPrefix instead.")] // Obsolete since v4.0.0.
     public string MessageStartSectionPrefix { get; set; } = "> ";
 
     /// <summary>
-    /// Gets or sets the message end section prefix.
+    /// Gets or sets the prefix of section start.
+    /// The default value is <c>"&gt; "</c>.
+    /// </summary>
+    public string SectionStartPrefix { get; set; } = "> ";
+
+    [Obsolete("Use SectionEndPrefix instead.")] // Obsolete since v4.0.0.
+    public string MessageEndSectionPrefix { get; set; } = "< ";
+
+    /// <summary>
+    /// Gets or sets the prefix of section end.
     /// The default value is <c>"&lt; "</c>.
     /// </summary>
-    public string MessageEndSectionPrefix { get; set; } = "< ";
+    public string SectionEndPrefix { get; set; } = "< ";
 
     /// <summary>
     /// Gets or sets a value indicating whether session log should be embedded

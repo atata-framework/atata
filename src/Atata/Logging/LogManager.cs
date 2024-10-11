@@ -265,7 +265,7 @@ internal sealed class LogManager : ILogManager
         {
             for (int i = 0; i < eventInfo.NestingLevel; i++)
             {
-                builder.Append(logConsumerConfiguration.MessageNestingLevelIndent);
+                builder.Append(logConsumerConfiguration.NestingLevelIndent);
             }
         }
 
@@ -278,8 +278,8 @@ internal sealed class LogManager : ILogManager
             {
                 builder.Append(
                     eventInfo.SectionStart != null
-                        ? logConsumerConfiguration.MessageStartSectionPrefix
-                        : logConsumerConfiguration.MessageEndSectionPrefix);
+                        ? logConsumerConfiguration.SectionStartPrefix
+                        : logConsumerConfiguration.SectionEndPrefix);
             }
         }
 
