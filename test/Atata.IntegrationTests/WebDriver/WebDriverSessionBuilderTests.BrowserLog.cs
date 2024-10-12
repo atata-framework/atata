@@ -29,7 +29,8 @@ public partial class WebDriverSessionBuilderTests
         {
             BuildAtataContextWithWebDriverSession(
                 x => x.BrowserLogs.UseMinLevelOfWarning(LogLevel.Warn));
-            Go.To<OrdinaryPage>(url: "/browserlogs");
+            Go.To<OrdinaryPage>(url: "/browserlogs")
+                .WaitSeconds(1);
 
             Subject.Invoking(() => AtataContext.Current.Dispose())
                 .Should.Throw<AggregateAssertionException>()
