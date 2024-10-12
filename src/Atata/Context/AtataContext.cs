@@ -24,10 +24,6 @@ public sealed class AtataContext : IDisposable
 
     private static AtataContext s_currentStaticContext;
 
-    private readonly AssertionVerificationStrategy _assertionVerificationStrategy;
-
-    private readonly ExpectationVerificationStrategy _expectationVerificationStrategy;
-
     private bool _disposed;
 
     /// <summary>
@@ -47,9 +43,6 @@ public sealed class AtataContext : IDisposable
 
         Id = GlobalProperties.IdGenerator.GenerateId();
         ExecutionUnit = new AtataContextExecutionUnit(this);
-
-        _assertionVerificationStrategy = AssertionVerificationStrategy.Instance;
-        _expectationVerificationStrategy = ExpectationVerificationStrategy.Instance;
 
         Report = new Report<AtataContext>(this, ExecutionUnit);
 
@@ -642,7 +635,7 @@ public sealed class AtataContext : IDisposable
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
     public void RaiseError(string message, Exception exception = null) =>
-        _assertionVerificationStrategy.ReportFailure(ExecutionUnit, message, exception);
+        AssertionVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     /// <summary>
     /// Raises the warning by recording an assertion warning.
@@ -650,7 +643,7 @@ public sealed class AtataContext : IDisposable
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
     public void RaiseWarning(string message, Exception exception = null) =>
-        _expectationVerificationStrategy.ReportFailure(ExecutionUnit, message, exception);
+        ExpectationVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     /// <summary>
     /// Sets this context as current, by setting it to <see cref="Current"/> property.
