@@ -16,7 +16,7 @@ internal class WarningBrowserLogHandler : IBrowserLogHandler
     {
         if (entry.Level >= _minLevelOfWarning)
         {
-            StringBuilder messageBuilder = new StringBuilder("browser log ");
+            StringBuilder messageBuilder = new("browser log ");
             messageBuilder.Append(ConvertLogLevelToText(entry.Level));
 
             var pageObject = _session.PageObject;
@@ -28,9 +28,8 @@ internal class WarningBrowserLogHandler : IBrowserLogHandler
                 .AppendLine()
                 .Append(entry.Message);
 
-            var context = _session.Context;
-            if (context.IsActive)
-                context.RaiseWarning(messageBuilder.ToString());
+            if (_session.IsActive)
+                _session.RaiseWarning(messageBuilder.ToString());
         }
     }
 
