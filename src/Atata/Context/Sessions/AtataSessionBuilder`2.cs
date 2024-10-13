@@ -201,9 +201,10 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     {
         ValidateConfiguration();
 
-        TSession session = new();
-
-        session.Name = Name;
+        TSession session = new()
+        {
+            Name = Name
+        };
 
         session.AssignToOwnerContext(context);
 
