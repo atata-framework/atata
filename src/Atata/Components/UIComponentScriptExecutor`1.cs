@@ -380,5 +380,5 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
             rootSelector);
 
     private static TResult ConvertResult<TResult>(object result) =>
-        AtataContext.ObjectConverter.Convert<TResult>(result);
+        AtataContext.GlobalProperties.ObjectConverter.Convert<TResult>(result);
 }

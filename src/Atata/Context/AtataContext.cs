@@ -7,18 +7,6 @@ public sealed class AtataContext : IDisposable
 {
     private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new();
 
-    private static readonly Lazy<IObjectConverter> s_lazyObjectConverter = new(
-        () => new ObjectConverter
-        {
-            AssemblyNamePatternToFindTypes = GlobalProperties.AssemblyNamePatternToFindTypes
-        });
-
-    private static readonly Lazy<IObjectMapper> s_lazyObjectMapper = new(
-        () => new ObjectMapper(s_lazyObjectConverter.Value));
-
-    private static readonly Lazy<IObjectCreator> s_lazyObjectCreator = new(
-        () => new ObjectCreator(s_lazyObjectConverter.Value, s_lazyObjectMapper.Value));
-
     [ThreadStatic]
     private static AtataContext s_currentThreadStaticContext;
 
@@ -73,24 +61,6 @@ public sealed class AtataContext : IDisposable
     }
 
     /// <summary>
-    /// Gets the object creator.
-    /// </summary>
-    public static IObjectCreator ObjectCreator =>
-        s_lazyObjectCreator.Value;
-
-    /// <summary>
-    /// Gets the object converter.
-    /// </summary>
-    public static IObjectConverter ObjectConverter =>
-        s_lazyObjectConverter.Value;
-
-    /// <summary>
-    /// Gets the object mapper.
-    /// </summary>
-    public static IObjectMapper ObjectMapper =>
-        s_lazyObjectMapper.Value;
-
-    /// <summary>
     /// Gets the global properties that should be configured as early as possible,
     /// typically in global setup method
     /// before any creation of <see cref="AtataContext"/>, and not changed later,
@@ -105,6 +75,18 @@ public sealed class AtataContext : IDisposable
     /// Gets the base configuration builder.
     /// </summary>
     public static AtataContextBuilder BaseConfiguration { get; } = new();
+
+    [Obsolete("Use AtataContext.GlobalProperties.ObjectConverter instead.")] // Obsolete since v4.0.0.
+    public IObjectConverter ObjectConverter =>
+        GlobalProperties.ObjectConverter;
+
+    [Obsolete("Use AtataContext.GlobalProperties.ObjectMapper instead.")] // Obsolete since v4.0.0.
+    public IObjectMapper ObjectMapper =>
+        GlobalProperties.ObjectMapper;
+
+    [Obsolete("Use AtataContext.GlobalProperties.ObjectCreator instead.")] // Obsolete since v4.0.0.
+    public IObjectCreator ObjectCreator =>
+        GlobalProperties.ObjectCreator;
 
     public AtataContext ParentContext { get; }
 
