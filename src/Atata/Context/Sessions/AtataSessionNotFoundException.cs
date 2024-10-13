@@ -30,5 +30,9 @@ public class AtataSessionNotFoundException : Exception
 
     internal static AtataSessionNotFoundException ByIndex<TSession>(int index, int bounds) =>
         new($"Failed to find session of type {typeof(TSession).FullName} with index {index} in {nameof(AtataContext)}. " +
-            $"There {(bounds == 1 ? "was" : "where")} {bounds} session{(bounds != 1 ? "s" : null)} of such type.");
+            $"There {(bounds == 1 ? "was" : "were")} {bounds} session{(bounds != 1 ? "s" : null)} of such type.");
+
+    internal static AtataSessionNotFoundException ByName<TSession>(string name, int bounds) =>
+        new($"Failed to find session of type {typeof(TSession).FullName} with name \"{name}\" in {nameof(AtataContext)}. " +
+            $"There {(bounds == 1 ? "was" : "were")} {bounds} session{(bounds != 1 ? "s" : null)} of such type{(bounds > 0 ? ", but none with such name" : null)}.");
 }

@@ -4,7 +4,7 @@ public sealed class AtataSessionInitLogSection : LogSection
 {
     public AtataSessionInitLogSection(AtataSession session)
     {
-        Message = $"Initialize {session.GetType().Name}";
+        Message = $"Initialize {session}";
         Level = LogLevel.Trace;
     }
 }

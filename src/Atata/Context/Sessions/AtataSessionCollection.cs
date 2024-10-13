@@ -30,7 +30,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     }
 
     /// <summary>
-    /// Gets a session of <typeparamref name="TSession"/> type with the specified index.
+    /// Gets a session of <typeparamref name="TSession"/> type with the specified index
+    /// among sessions of the <typeparamref name="TSession"/> type.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
     /// <param name="index">The index.</param>
@@ -45,6 +46,21 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
                 index,
                 _sessionListOrderedByAdding.OfType<TSession>().Count());
     }
+
+    /// <summary>
+    /// Gets a first session of <typeparamref name="TSession"/> type with the specified name
+    /// among sessions of the <typeparamref name="TSession"/> type.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name.</param>
+    /// <returns>A session.</returns>
+    public TSession Get<TSession>(string name)
+        where TSession : AtataSession
+        =>
+        _sessionListOrderedByAdding.OfType<TSession>().FirstOrDefault(x => x.Name == name)
+            ?? throw AtataSessionNotFoundException.ByName<TSession>(
+                name,
+                _sessionListOrderedByAdding.OfType<TSession>().Count());
 
 #warning Finish later Start methods.
     ////public TSession Start<TSessionBuilder, TSession>(string name = null)

@@ -212,4 +212,25 @@ public abstract class AtataSession : IDisposable
         else
             State.ChangeParentDictionary(context.State);
     }
+
+    /// <summary>
+    /// Returns a string that represents the current session.
+    /// </summary>
+    /// <returns>
+    /// A <see langword="string"/> that represents this instance.
+    /// </returns>
+    public override string ToString()
+    {
+        StringBuilder messageBuilder = new StringBuilder(GetType().Name)
+            .Append(" { Id=")
+            .Append(Id);
+
+        if (!string.IsNullOrEmpty(Name))
+            messageBuilder.Append(", Name=")
+                .Append(Name);
+
+        messageBuilder.Append(" }");
+
+        return messageBuilder.ToString();
+    }
 }

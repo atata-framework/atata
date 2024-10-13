@@ -73,13 +73,23 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// </summary>
     public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new();
 
-    public TBuilder WithName(string name)
+    /// <summary>
+    /// Sets the <see cref="Name"/> value for a session.
+    /// </summary>
+    /// <param name="name">The name.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseName(string name)
     {
         Name = name;
         return (TBuilder)this;
     }
 
-    public TBuilder WithStart(AtataSessionStartScopes startScopes)
+    /// <summary>
+    /// Sets the <see cref="StartScopes"/> value for a session.
+    /// </summary>
+    /// <param name="startScopes">The start scopes.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseStartScopes(AtataSessionStartScopes startScopes)
     {
         StartScopes = startScopes;
         return (TBuilder)this;
@@ -192,6 +202,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         ValidateConfiguration();
 
         TSession session = new();
+
+        session.Name = Name;
 
         session.AssignToOwnerContext(context);
 
