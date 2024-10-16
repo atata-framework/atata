@@ -12,7 +12,7 @@ public class ClicksOnCellByIndexAttributeTests : WebDriverSessionTestSuite
 
         row.Click();
 
-        AtataContext.Current.AggregateAssert(() =>
+        WebDriverSession.Current.AggregateAssert(() =>
         {
             row.Cells[0].Should.Equal(0);
             row.Cells[1].Should.Equal(0);
@@ -22,7 +22,7 @@ public class ClicksOnCellByIndexAttributeTests : WebDriverSessionTestSuite
         row.Metadata.Push(new ClicksOnCellByIndexAttribute(0));
         row.Click();
 
-        AtataContext.Current.AggregateAssert(() =>
+        WebDriverSession.Current.AggregateAssert(() =>
         {
             row.Cells[0].Should.Equal(1);
             row.Cells[1].Should.Equal(0);
