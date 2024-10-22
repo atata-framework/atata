@@ -753,6 +753,8 @@ public sealed class AtataContextBuilder : ICloneable
         context.Artifacts = CreateArtifactsDirectorySubject(context);
         context.InitArtifactsVariable();
 
+        parentContext?.AddChildContext(context);
+
         AtataContext.Current = context;
 
         context.EventBus.Publish(new AtataContextPreInitEvent(context));

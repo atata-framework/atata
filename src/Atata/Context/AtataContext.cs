@@ -24,6 +24,8 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
+    private readonly List<AtataContext> _childContexts = [];
+
     internal AtataContext(AtataContext parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
         ParentContext = parentContext;
@@ -101,6 +103,11 @@ public sealed class AtataContext : IDisposable
     /// Gets the parent <see cref="AtataContext"/> instance or <see langword="null"/>.
     /// </summary>
     public AtataContext ParentContext { get; }
+
+    /// <summary>
+    /// Gets the child <see cref="AtataContext"/> instances of this context.
+    /// </summary>
+    public IReadOnlyList<AtataContext> ChildContexts => _childContexts;
 
     /// <summary>
     /// Gets the scope of context.
@@ -435,6 +442,14 @@ public sealed class AtataContext : IDisposable
         if (scope == AtataContextScope.Global && Global is not null)
             throw new InvalidOperationException(
                 $"{nameof(AtataContext)}.{nameof(Global)} is already set. There can be only one global context configured.");
+    }
+
+    internal void AddChildContext(AtataContext context)
+    {
+        lock (_childContexts)
+        {
+            _childContexts.Add(context);
+        }
     }
 
     internal void InitDateTimeProperties()
@@ -844,7 +859,7 @@ public sealed class AtataContext : IDisposable
     {
         var builder = new StringBuilder(GetType().Name)
             .Append(" { Id=")
-        .Append(Id);
+            .Append(Id);
 
         if (Test.FullName is not null)
             builder.Append(", Test=")
