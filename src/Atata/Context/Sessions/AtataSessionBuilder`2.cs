@@ -4,9 +4,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     where TSession : AtataSession, new()
     where TBuilder : AtataSessionBuilder<TSession, TBuilder>
 {
+    /// <inheritdoc/>
     public string Name { get; set; }
 
-    public AtataSessionStartScopes StartScopes { get; set; }
+    /// <inheritdoc/>
+    public AtataSessionStartScopes? StartScopes { get; set; }
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -89,7 +91,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// </summary>
     /// <param name="startScopes">The start scopes.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseStartScopes(AtataSessionStartScopes startScopes)
+    public TBuilder UseStartScopes(AtataSessionStartScopes? startScopes)
     {
         StartScopes = startScopes;
         return (TBuilder)this;

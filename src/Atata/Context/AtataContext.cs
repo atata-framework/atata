@@ -24,10 +24,11 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
-    internal AtataContext(AtataContextScope scope, AtataContext parentContext = null)
+    internal AtataContext(AtataContext parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
-        Scope = scope;
         ParentContext = parentContext;
+        Scope = scope;
+        Test = testInfo;
 
         Id = GlobalProperties.IdGenerator.GenerateId();
         ExecutionUnit = new AtataContextExecutionUnit(this);
@@ -68,13 +69,21 @@ public sealed class AtataContext : IDisposable
     /// </summary>
     public static AtataContextGlobalProperties GlobalProperties { get; } = new();
 
+    /// <summary>
+    /// Gets the global <see cref="AtataContext"/>.
+    /// Use <see cref="CreateBuilder(AtataContextScope)"/> method with <see cref="AtataContextScope.Global"/> value
+    /// to register one <see cref="AtataContext"/> as a global one.
+    /// </summary>
+    public static AtataContext Global { get; private set; }
+
     [Obsolete("Use BaseConfiguration instead.")] // Obsolete since v4.0.0.
     public static AtataContextBuilder GlobalConfiguration => BaseConfiguration;
 
     /// <summary>
     /// Gets the base configuration builder.
     /// </summary>
-    public static AtataContextBuilder BaseConfiguration { get; } = new();
+    public static AtataContextBuilder BaseConfiguration { get; } =
+        new(contextScope: null, sessionStartScopes: AtataSessionStartScopes.None);
 
     [Obsolete("Use AtataContext.GlobalProperties.ObjectConverter instead.")] // Obsolete since v4.0.0.
     public IObjectConverter ObjectConverter =>
@@ -88,9 +97,20 @@ public sealed class AtataContext : IDisposable
     public IObjectCreator ObjectCreator =>
         GlobalProperties.ObjectCreator;
 
+    /// <summary>
+    /// Gets the parent <see cref="AtataContext"/> instance or <see langword="null"/>.
+    /// </summary>
     public AtataContext ParentContext { get; }
 
-    public AtataContextScope Scope { get; }
+    /// <summary>
+    /// Gets the scope of context.
+    /// </summary>
+    public AtataContextScope? Scope { get; }
+
+    /// <summary>
+    /// Gets the test information.
+    /// </summary>
+    public TestInfo Test { get; }
 
     /// <summary>
     /// Gets the execution unit.
@@ -133,11 +153,6 @@ public sealed class AtataContext : IDisposable
     /// Gets the instance of the log manager.
     /// </summary>
     public ILogManager Log { get; internal set; }
-
-    /// <summary>
-    /// Gets the test information.
-    /// </summary>
-    public TestInfo Test { get; } = new();
 
     /// <summary>
     /// Gets the local date/time of the start.
@@ -367,14 +382,60 @@ public sealed class AtataContext : IDisposable
     public static AtataContext ResolveCurrent() =>
         Current ?? throw AtataContextNotFoundException.Create();
 
+    [Obsolete("Use CreateBuilder(...) instead.")] // Obsolete since v4.0.0.
+    public static AtataContextBuilder Configure() =>
+        CreateBuilder(AtataContextScope.Test);
+
     /// <summary>
     /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
-    /// The builder is a copy of <see cref="BaseConfiguration"/>,
-    /// with <see cref="AtataContextScope.Test"/> as a <see cref="AtataContextBuilder.Scope"/> of the new builder.
+    /// The builder is a copy of <see cref="BaseConfiguration"/>, with the specified
+    /// <paramref name="scope"/> as a <see cref="AtataContextBuilder.Scope"/> of the new builder.
+    /// </summary>
+    /// <param name="scope">The scope of context.</param>
+    /// <returns>The created <see cref="AtataContextBuilder"/> instance.</returns>
+    public static AtataContextBuilder CreateBuilder(AtataContextScope scope)
+    {
+        ValidateNewBuilderScope(scope);
+        return BaseConfiguration.CloneFor(scope);
+    }
+
+    /// <summary>
+    /// Creates default <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
+    /// The builder is a new instance of <see cref="AtataContextBuilder"/> class, with the specified
+    /// <paramref name="scope"/> as a <see cref="AtataContextBuilder.Scope"/> of the new builder.
+    /// </summary>
+    /// <param name="scope">The scope of context.</param>
+    /// <returns>The created <see cref="AtataContextBuilder"/> instance.</returns>
+    public static AtataContextBuilder CreateDefaultBuilder(AtataContextScope scope)
+    {
+        ValidateNewBuilderScope(scope);
+        return new(scope);
+    }
+
+    /// <summary>
+    /// Creates <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
+    /// The builder is a copy of <see cref="BaseConfiguration"/>, with
+    /// <see langword="null"/> as a <see cref="AtataContextBuilder.Scope"/> of the new builder.
     /// </summary>
     /// <returns>The created <see cref="AtataContextBuilder"/> instance.</returns>
-    public static AtataContextBuilder Configure() =>
-        BaseConfiguration.CloneFor(AtataContextScope.Test);
+    public static AtataContextBuilder CreateNonScopedBuilder() =>
+        BaseConfiguration.CopyFor(scope: null);
+
+    /// <summary>
+    /// Creates default <see cref="AtataContextBuilder"/> instance for <see cref="AtataContext"/> configuration.
+    /// The builder is a new instance of <see cref="AtataContextBuilder"/> class, with
+    /// <see langword="null"/> as a <see cref="AtataContextBuilder.Scope"/> of the new builder.
+    /// </summary>
+    /// <returns>The created <see cref="AtataContextBuilder"/> instance.</returns>
+    public static AtataContextBuilder CreateDefaultNonScopedBuilder() =>
+        new(contextScope: null, sessionStartScopes: null);
+
+    private static void ValidateNewBuilderScope(AtataContextScope scope)
+    {
+        if (scope == AtataContextScope.Global && Global is not null)
+            throw new InvalidOperationException(
+                $"{nameof(AtataContext)}.{nameof(Global)} is already set. There can be only one global context configured.");
+    }
 
     internal void InitDateTimeProperties()
     {

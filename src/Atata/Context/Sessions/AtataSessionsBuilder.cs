@@ -7,12 +7,12 @@ public sealed class AtataSessionsBuilder
 
     private readonly List<IAtataSessionBuilder> _sessionBuilders;
 
-    private readonly AtataSessionStartScopes _defaultStartScopes;
+    private readonly AtataSessionStartScopes? _defaultStartScopes;
 
     internal AtataSessionsBuilder(
         AtataContextBuilder atataContextBuilder,
         List<IAtataSessionBuilder> sessionBuilders,
-        AtataSessionStartScopes defaultStartScopes)
+        AtataSessionStartScopes? defaultStartScopes)
     {
         _atataContextBuilder = atataContextBuilder;
         _sessionBuilders = sessionBuilders;

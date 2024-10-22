@@ -12,7 +12,7 @@ public abstract class TestSuiteBase
     {
         _fakeLogConsumer = new FakeLogConsumer();
 
-        var builder = AtataContext.Configure()
+        var builder = AtataContext.CreateBuilder(AtataContextScope.Test)
             .UseCulture("en-US")
             .UseNUnitTestName()
             .UseNUnitTestSuiteName()

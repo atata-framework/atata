@@ -9,7 +9,7 @@ public class EventBusTests
     [SetUp]
     public void SetUp()
     {
-        Context = AtataContext.Configure()
+        Context = AtataContext.CreateBuilder(AtataContextScope.Test)
             .Build();
 
         Sut = new EventBus(Context)

@@ -138,7 +138,7 @@ public abstract class MixedVerificationTests
     {
         protected override AtataContext BuildAtataContext()
         {
-            var builder = AtataContext.Configure();
+            var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
             builder.LogConsumers.AddNUnitTestContext();
             return builder.Build();
         }
@@ -147,7 +147,7 @@ public abstract class MixedVerificationTests
     public sealed class NUnit : MixedVerificationTests
     {
         protected override AtataContext BuildAtataContext() =>
-            AtataContext.Configure()
+            AtataContext.CreateBuilder(AtataContextScope.Test)
                 .UseAllNUnitFeatures()
                 .Build();
     }

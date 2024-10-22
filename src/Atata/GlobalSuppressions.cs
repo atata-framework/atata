@@ -100,5 +100,6 @@
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.NLogConsumerBuilderExtensions.WithSeparateExternalSourceLogFiles(Atata.LogConsumerBuilder{Atata.NLogFileConsumer})~Atata.LogConsumerBuilder{Atata.NLogFileConsumer}")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSession.RaiseError(System.String,System.Exception)")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSession.RaiseWarning(System.String,System.Exception)")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.ShouldAutoStartSession(Atata.IAtataSessionBuilder)~System.Boolean")]
 
 #pragma warning restore S103 // Lines should not be too long

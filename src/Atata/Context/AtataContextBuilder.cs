@@ -15,12 +15,29 @@ public sealed class AtataContextBuilder : ICloneable
 
     private TimeSpan? _verificationRetryInterval;
 
-    public AtataContextBuilder(AtataContextScope? scope = null)
+    internal AtataContextBuilder(AtataContextScope? contextScope)
+        : this(contextScope, ResolveSessionDefaultStartScopes(contextScope))
     {
-        Scope = scope;
-        Sessions = new(this, [], ResolveSessionDefaultStartScopes(scope));
     }
 
+    internal AtataContextBuilder(AtataContextScope? contextScope, AtataSessionStartScopes? sessionStartScopes)
+    {
+        Scope = contextScope;
+        Sessions = new(this, [], sessionStartScopes);
+    }
+
+    /// <summary>
+    /// Gets the parent <see cref="AtataContext"/>.
+    /// When it is <see langword="null"/>, will try to find a parent context automatically
+    /// searching in <see cref="AtataContext.Global"/> descendant contexts considering this
+    /// builder's <see cref="Scope"/>, <see cref="TestNameFactory"/>,
+    /// <see cref="TestSuiteTypeFactory"/> and <see cref="TestSuiteNameFactory"/>.
+    /// </summary>
+    public AtataContext ParentContext { get; private set; }
+
+    /// <summary>
+    /// Gets the scope of context.
+    /// </summary>
     public AtataContextScope? Scope { get; private set; }
 
     public AtataSessionsBuilder Sessions { get; private set; }
@@ -162,6 +179,20 @@ public sealed class AtataContextBuilder : ICloneable
     /// The default value is an instance of <see cref="AtataAssertionFailureReportStrategy"/>.
     /// </summary>
     public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; set; } = AtataAssertionFailureReportStrategy.Instance;
+
+    /// <summary>
+    /// Sets the parent context.
+    /// </summary>
+    /// <param name="parentContext">The parent context.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseParentContext(AtataContext parentContext)
+    {
+        if (Scope == AtataContextScope.Global)
+            throw new InvalidOperationException($"Cannot set parent context for global {nameof(AtataContext)}.");
+
+        ParentContext = parentContext;
+        return this;
+    }
 
     /// <summary>
     /// Adds the variable.
@@ -687,8 +718,19 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The created <see cref="AtataContext"/> instance.</returns>
     public AtataContext Build()
     {
-#warning Maybe throw some exception when Scope is null, meaning that base configuration builder should not build.
-        AtataContext context = new(Scope ?? AtataContextScope.Test);
+        TestInfo testInfo = new()
+        {
+            Name = TestNameFactory?.Invoke(),
+            SuiteName = TestSuiteNameFactory?.Invoke(),
+            SuiteType = TestSuiteTypeFactory?.Invoke()
+        };
+
+        AtataContext parentContext = ParentContext;
+
+        if (parentContext is null && Scope is not null)
+            parentContext = FindParentContext(Scope.Value, testInfo);
+
+        AtataContext context = new(parentContext, Scope, testInfo);
         LogManager logManager = CreateLogManager(context);
 
         context.Test.Name = TestNameFactory?.Invoke();
@@ -734,12 +776,20 @@ public sealed class AtataContextBuilder : ICloneable
         return context;
     }
 
-    private static AtataSessionStartScopes ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
+    private static AtataContext FindParentContext(AtataContextScope scope, TestInfo testInfo)
+    {
+        // TODO: Implement.
+        return null;
+    }
+
+    private static AtataSessionStartScopes? ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
         scope switch
         {
             AtataContextScope.Test => AtataSessionStartScopes.Test,
             AtataContextScope.TestSuite => AtataSessionStartScopes.TestSuite,
+            AtataContextScope.NamespaceSuite => AtataSessionStartScopes.NamespaceSuite,
             AtataContextScope.Global => AtataSessionStartScopes.Global,
+            null => null,
             _ => AtataSessionStartScopes.None
         };
 
@@ -786,9 +836,11 @@ public sealed class AtataContextBuilder : ICloneable
     private bool ShouldAutoStartSession(IAtataSessionBuilder builder) =>
         Scope switch
         {
-            AtataContextScope.Test => builder.StartScopes.HasFlag(AtataSessionStartScopes.Test),
-            AtataContextScope.TestSuite => builder.StartScopes.HasFlag(AtataSessionStartScopes.TestSuite),
-            AtataContextScope.Global => builder.StartScopes.HasFlag(AtataSessionStartScopes.Global),
+            AtataContextScope.Test => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.Test),
+            AtataContextScope.TestSuite => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuite),
+            AtataContextScope.NamespaceSuite => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.NamespaceSuite),
+            AtataContextScope.Global => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.Global),
+            null => builder.StartScopes is null,
             _ => false
         };
 
@@ -837,7 +889,7 @@ public sealed class AtataContextBuilder : ICloneable
     public AtataContextBuilder CloneFor(AtataContextScope scope) =>
         CopyFor(scope);
 
-    private AtataContextBuilder CopyFor(AtataContextScope? scope)
+    internal AtataContextBuilder CopyFor(AtataContextScope? scope)
     {
         var copy = (AtataContextBuilder)MemberwiseClone();
 

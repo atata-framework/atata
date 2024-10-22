@@ -7,7 +7,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public void Build_WithoutDriver()
     {
-        var builder = AtataContext.Configure();
+        var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
         builder.Sessions.AddWebDriver();
 
         var exception = Assert.Throws<AtataSessionBuilderValidationException>(() =>
@@ -19,7 +19,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public void Build_WithNullDriver()
     {
-        var builder = AtataContext.Configure();
+        var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
         builder.Sessions.AddWebDriver(x => x.UseDriver(() => null));
 
         var exception = Assert.Throws<WebDriverInitializationException>(
@@ -31,7 +31,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public void Build_WithoutUseDriverButWithConfigureChrome()
     {
-        var context = AtataContext.Configure()
+        var context = AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x => x
                 .ConfigureChrome()
                     .WithArguments(ChromeArguments))
@@ -43,7 +43,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public void ConfigureChrome_After_UseChrome_ExtendsSameFactory()
     {
-        var builder = AtataContext.Configure()
+        var builder = AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x =>
             {
                 x.UseChrome();
@@ -58,7 +58,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public void ConfigureChrome_After_UseChrome_CreatesNewFactory_WhenOtherAliasIsSpecified()
     {
-        var builder = AtataContext.Configure()
+        var builder = AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x =>
             {
                 x.UseChrome();
@@ -73,7 +73,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
 
     [Test]
     public void ConfigureChrome_After_UseFirefox_WithSameAlias_Throws() =>
-        AtataContext.Configure()
+        AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x =>
             {
                 x.UseFirefox()
@@ -88,7 +88,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     {
         bool isChromeConfigurationInvoked = false;
 
-        AtataContext.Configure()
+        AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x =>
             {
                 x.UseChrome()
