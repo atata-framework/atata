@@ -1,65 +1,59 @@
 ﻿namespace Atata;
 
+/// <summary>
+/// Represents the basic test information.
+/// </summary>
 public sealed class TestInfo
 {
-    private string _name;
+    public TestInfo(string name, string suiteName, Type suiteType)
+    {
+        Name = name;
+        NameSanitized = name?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
 
-    private string _suiteName;
+        SuiteName = suiteName ?? suiteType?.Name;
+        SuiteNameSanitized = SuiteName?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
+
+        SuiteType = suiteType;
+        FullName = BuildFullName();
+    }
 
     /// <summary>
     /// Gets the name of the test.
     /// </summary>
-    public string Name
-    {
-        get => _name;
-        internal set
-        {
-            _name = value;
-            NameSanitized = value.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
-        }
-    }
+    public string Name { get; }
 
     /// <summary>
     /// Gets the name of the test sanitized for file path/name.
     /// </summary>
-    public string NameSanitized { get; private set; }
+    public string NameSanitized { get; }
 
     /// <summary>
     /// Gets the name of the test suite (fixture/class).
     /// </summary>
-    public string SuiteName
-    {
-        get => _suiteName;
-        internal set
-        {
-            _suiteName = value;
-            SuiteNameSanitized = value.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
-        }
-    }
+    public string SuiteName { get; }
 
     /// <summary>
-    /// Gets the name of the test suite sanitized for file path/name.
+    /// Gets the name of the test suite (fixture/class) sanitized for file path/name.
     /// </summary>
-    public string SuiteNameSanitized { get; private set; }
+    public string SuiteNameSanitized { get; }
 
     /// <summary>
     /// Gets the test suite (fixture/class) type.
     /// </summary>
-    public Type SuiteType { get; internal set; }
+    public Type SuiteType { get; }
 
     /// <summary>
     /// Gets the full name of the test including namespace, test suite name and test name.
     /// </summary>
-    public string FullName
-    {
-        get
-        {
-            string[] testFullNameParts = GetFullNameParts().ToArray();
+    public string FullName { get; }
 
-            return testFullNameParts.Length > 0
-                ? string.Join(".", testFullNameParts)
-                : null;
-        }
+    private string BuildFullName()
+    {
+        string[] testFullNameParts = GetFullNameParts().ToArray();
+
+        return testFullNameParts.Length > 0
+            ? string.Join(".", testFullNameParts)
+            : null;
     }
 
     private IEnumerable<string> GetFullNameParts()
@@ -80,4 +74,8 @@ public sealed class TestInfo
             : SuiteType != null
                 ? "test suite"
                 : "test unit";
+
+    /// <inheritdoc/>
+    public override string ToString() =>
+        FullName ?? string.Empty;
 }

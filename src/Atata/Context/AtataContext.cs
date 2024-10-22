@@ -470,7 +470,7 @@ public sealed class AtataContext : IDisposable
 
     internal void LogTestStart()
     {
-        StringBuilder logMessageBuilder = new StringBuilder(
+        StringBuilder logMessageBuilder = new(
             $"Starting {Test.GetTestUnitKindName()}");
 
         string testFullName = Test.FullName;

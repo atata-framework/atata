@@ -718,12 +718,10 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The created <see cref="AtataContext"/> instance.</returns>
     public AtataContext Build()
     {
-        TestInfo testInfo = new()
-        {
-            Name = TestNameFactory?.Invoke(),
-            SuiteName = TestSuiteNameFactory?.Invoke(),
-            SuiteType = TestSuiteTypeFactory?.Invoke()
-        };
+        TestInfo testInfo = new(
+            TestNameFactory?.Invoke(),
+            TestSuiteNameFactory?.Invoke(),
+            TestSuiteTypeFactory?.Invoke());
 
         AtataContext parentContext = ParentContext;
 
@@ -733,9 +731,6 @@ public sealed class AtataContextBuilder : ICloneable
         AtataContext context = new(parentContext, Scope, testInfo);
         LogManager logManager = CreateLogManager(context);
 
-        context.Test.Name = TestNameFactory?.Invoke();
-        context.Test.SuiteName = TestSuiteNameFactory?.Invoke();
-        context.Test.SuiteType = TestSuiteTypeFactory?.Invoke();
         context.Log = logManager;
         context.Attributes = Attributes.AttributesContext.Clone();
         context.BaseRetryTimeout = BaseRetryTimeout;
@@ -751,9 +746,6 @@ public sealed class AtataContextBuilder : ICloneable
         context.WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance;
         context.AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
         context.EventBus = new EventBus(context, EventSubscriptions.Items);
-
-        if (context.Test.SuiteName is null && context.Test.SuiteType is not null)
-            context.Test.SuiteName = context.Test.SuiteType.Name;
 
         context.InitDateTimeProperties();
         context.InitMainVariables();
