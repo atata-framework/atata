@@ -1008,6 +1008,40 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     /// <summary>
+    /// Verifies that collection consists of a single item and the item equals to the <paramref name="expected"/>.
+    /// </summary>
+    /// <typeparam name="TItem">The type of the collection item.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner.</typeparam>
+    /// <param name="verifier">The verification provider.</param>
+    /// <param name="expected">An expected item value.</param>
+    /// <returns>The owner instance.</returns>
+    public static TOwner ConsistOfSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, TItem expected)
+    {
+        var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
+
+        return verifier.Satisfy(
+            actual => actual != null && actual.Count() == 1 && equalityComparer.Equals(actual.FirstOrDefault(), expected),
+            VerificationMessage.Of($"consist of single {Stringifier.ToString(expected)}", equalityComparer));
+    }
+
+    /// <summary>
+    /// Verifies that collection consists of a single item and the item equals to the <paramref name="expected"/>.
+    /// </summary>
+    /// <typeparam name="TObject">The type of the collection item object.</typeparam>
+    /// <typeparam name="TOwner">The type of the owner.</typeparam>
+    /// <param name="verifier">The verification provider.</param>
+    /// <param name="expected">An expected object value.</param>
+    /// <returns>The owner instance.</returns>
+    public static TOwner ConsistOfSingle<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, TObject expected)
+    {
+        var equalityComparer = verifier.ResolveEqualityComparer<TObject>();
+
+        return verifier.Satisfy(
+            actual => actual != null && actual.Count() == 1 && equalityComparer.Equals(actual.FirstOrDefault(), expected),
+            VerificationMessage.Of($"consist of single {Stringifier.ToString(expected)}", equalityComparer));
+    }
+
+    /// <summary>
     /// Verifies that collection consists of a single item and the item matches the <paramref name="predicateExpression"/>.
     /// </summary>
     /// <typeparam name="TItem">The type of the collection item.</typeparam>

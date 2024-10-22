@@ -30,6 +30,53 @@ public static class IObjectVerificationProviderExtensionsTests
         }
 
         [TestFixture]
+        public class ConsistOfSingle
+        {
+            [Test]
+            public void Ok() =>
+                new[] { 1 }.ToSutSubject()
+                    .Should.ConsistOfSingle(1);
+
+            [Test]
+            public void WhenSingleButDoesNotMatch() =>
+                Assert.Throws<AssertionException>(() =>
+                    new[] { 1 }.ToSutSubject()
+                        .Should.ConsistOfSingle(2));
+
+            [Test]
+            public void WhenEmpty() =>
+                Assert.Throws<AssertionException>(() =>
+                    Array.Empty<int>().ToSutSubject()
+                        .Should.ConsistOfSingle(1));
+
+            [Test]
+            public void WhenNull() =>
+                Assert.Throws<AssertionException>(() =>
+                    (null as int[]).ToSutSubject()
+                        .Should.ConsistOfSingle(1));
+
+            [Test]
+            public void Not_WhenSingleButDoesNotMatch() =>
+                new[] { 1 }.ToSutSubject()
+                    .Should.Not.ConsistOfSingle(2);
+
+            [Test]
+            public void Not_WhenMultipleAndOneMatches() =>
+                new[] { 1, 2 }.ToSutSubject()
+                    .Should.Not.ConsistOfSingle(2);
+
+            [Test]
+            public void Not_WhenEmpty() =>
+                Array.Empty<int>().ToSutSubject()
+                    .Should.Not.ConsistOfSingle(1);
+
+            [Test]
+            public void Not_WhenNull() =>
+                (null as int[]).ToSutSubject()
+                    .Should.Not.ConsistOfSingle(1);
+        }
+
+        [TestFixture]
         public class ConsistSequentiallyOf
         {
             [Test]
