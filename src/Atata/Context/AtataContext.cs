@@ -838,4 +838,20 @@ public sealed class AtataContext : IDisposable
 
         Log.Debug(messageBuilder.ToString());
     }
+
+    /// <inheritdoc/>
+    public override string ToString()
+    {
+        var builder = new StringBuilder(GetType().Name)
+            .Append(" { Id=")
+        .Append(Id);
+
+        if (Test.FullName is not null)
+            builder.Append(", Test=")
+                .Append(Test.FullName);
+
+        builder.Append(" }");
+
+        return builder.ToString();
+    }
 }
