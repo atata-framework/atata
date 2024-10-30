@@ -101,5 +101,6 @@
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSession.RaiseError(System.String,System.Exception)")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSession.RaiseWarning(System.String,System.Exception)")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.ShouldAutoStartSession(Atata.IAtataSessionBuilder)~System.Boolean")]
+[assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TestInfo.Equals(Atata.TestInfo)~System.Boolean")]
 
 #pragma warning restore S103 // Lines should not be too long

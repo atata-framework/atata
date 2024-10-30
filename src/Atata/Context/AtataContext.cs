@@ -485,8 +485,8 @@ public sealed class AtataContext : IDisposable
 
     internal void LogTestStart()
     {
-        StringBuilder logMessageBuilder = new(
-            $"Starting {Test.GetTestUnitKindName()}");
+        var logMessageBuilder = new StringBuilder($"Starting ")
+            .Append(GetScopeNameForLog());
 
         string testFullName = Test.FullName;
 
@@ -834,9 +834,11 @@ public sealed class AtataContext : IDisposable
             testBodyPercentString.Length
         }.Max();
 
-        var messageBuilder = new StringBuilder(
+        string scopeName = GetScopeNameForLog();
+
+        StringBuilder messageBuilder = new(
             $"""
-            Finished {testUnitKindName}
+            Finished {scopeName}
                   Total time: {totalTimeString.PadLeft(maxTimeStringLength)}
               Initialization: {initializationTimeString.PadLeft(maxTimeStringLength)} | {initializationTimePercentString.PadLeft(maxPercentStringLength)}
             """);
@@ -845,14 +847,32 @@ public sealed class AtataContext : IDisposable
             messageBuilder.AppendLine().Append(
                 $"           Setup: {setupTimeString.PadLeft(maxTimeStringLength)} | {setupTimePercentString.PadLeft(maxPercentStringLength)}");
 
+        string simplifiedScopeName = Scope switch
+        {
+            AtataContextScope.Test => "Test",
+            null => "Unit",
+            _ => "Suite",
+        };
+
         messageBuilder.AppendLine().Append(
             $"""
-            {$"{testUnitKindName.ToUpperFirstLetter()} body:",17} {testBodyTimeString.PadLeft(maxTimeStringLength)} | {testBodyPercentString.PadLeft(maxPercentStringLength)}
+            {$"{simplifiedScopeName} body:",17} {testBodyTimeString.PadLeft(maxTimeStringLength)} | {testBodyPercentString.PadLeft(maxPercentStringLength)}
             Deinitialization: {deinitializationTimeString.PadLeft(maxTimeStringLength)} | {deinitializationTimePercentString.PadLeft(maxPercentStringLength)}
             """);
 
         Log.Debug(messageBuilder.ToString());
     }
+
+    private string GetScopeNameForLog() =>
+        Scope switch
+        {
+            AtataContextScope.Global => "global suite",
+            AtataContextScope.NamespaceSuite => "namespace suite",
+            AtataContextScope.TestSuiteGroup => "test suite group",
+            AtataContextScope.TestSuite => "test suite",
+            AtataContextScope.Test => "test",
+            _ => "unit"
+        };
 
     /// <inheritdoc/>
     public override string ToString()
@@ -863,7 +883,7 @@ public sealed class AtataContext : IDisposable
 
         if (Test.FullName is not null)
             builder.Append(", Test=")
-                .Append(Test.FullName);
+                .Append(Test);
 
         builder.Append(" }");
 

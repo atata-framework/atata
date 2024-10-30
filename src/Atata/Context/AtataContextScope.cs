@@ -16,6 +16,11 @@ public enum AtataContextScope
     TestSuite,
 
     /// <summary>
+    /// The test suite group (collection fixture) scope.
+    /// </summary>
+    TestSuiteGroup,
+
+    /// <summary>
     /// The namespace-wide suite scope.
     /// </summary>
     NamespaceSuite,

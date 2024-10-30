@@ -3,9 +3,14 @@
 /// <summary>
 /// Represents the basic test information.
 /// </summary>
-public sealed class TestInfo
+public sealed class TestInfo : IEquatable<TestInfo>
 {
-    public TestInfo(string name, string suiteName, Type suiteType)
+    public TestInfo(Type suiteType, string suiteName = null, string suiteGroupName = null)
+        : this(null, suiteType, suiteName, suiteGroupName)
+    {
+    }
+
+    public TestInfo(string name, Type suiteType, string suiteName = null, string suiteGroupName = null)
     {
         Name = name;
         NameSanitized = name?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
@@ -14,6 +19,10 @@ public sealed class TestInfo
         SuiteNameSanitized = SuiteName?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
 
         SuiteType = suiteType;
+
+        SuiteGroupName = suiteGroupName;
+
+        Namespace = suiteType?.Namespace;
         FullName = BuildFullName();
     }
 
@@ -28,24 +37,40 @@ public sealed class TestInfo
     public string NameSanitized { get; }
 
     /// <summary>
-    /// Gets the name of the test suite (fixture/class).
+    /// Gets the name of the test suite (class).
     /// </summary>
     public string SuiteName { get; }
 
     /// <summary>
-    /// Gets the name of the test suite (fixture/class) sanitized for file path/name.
+    /// Gets the name of the test suite (class) sanitized for file path/name.
     /// </summary>
     public string SuiteNameSanitized { get; }
 
     /// <summary>
-    /// Gets the test suite (fixture/class) type.
+    /// Gets the test suite (class) type.
     /// </summary>
     public Type SuiteType { get; }
+
+    /// <summary>
+    /// Gets the name of the test suite group (collection fixture).
+    /// </summary>
+    public string SuiteGroupName { get; }
+
+    /// <summary>
+    /// Gets the test suite namespace.
+    /// </summary>
+    public string Namespace { get; }
 
     /// <summary>
     /// Gets the full name of the test including namespace, test suite name and test name.
     /// </summary>
     public string FullName { get; }
+
+    public static bool operator ==(TestInfo left, TestInfo right) =>
+        EqualityComparer<TestInfo>.Default.Equals(left, right);
+
+    public static bool operator !=(TestInfo left, TestInfo right) =>
+        !(left == right);
 
     private string BuildFullName()
     {
@@ -58,24 +83,59 @@ public sealed class TestInfo
 
     private IEnumerable<string> GetFullNameParts()
     {
-        if (SuiteType != null)
-            yield return SuiteType.Namespace;
+        if (Namespace is not null)
+            yield return Namespace;
 
-        if (SuiteName != null)
+        if (SuiteName is not null)
             yield return SuiteName;
 
-        if (Name != null)
+        if (Name is not null)
             yield return Name;
     }
 
-    internal string GetTestUnitKindName() =>
-        Name != null
-            ? "test"
-            : SuiteType != null
-                ? "test suite"
-                : "test unit";
+    internal bool BelongsToNamespace(string targetNamespace)
+    {
+        string thisNamespace = Namespace;
+        if (thisNamespace is null || targetNamespace is null)
+            return false;
+
+        if (thisNamespace == targetNamespace)
+            return true;
+
+        return thisNamespace.StartsWith(targetNamespace, StringComparison.Ordinal) && thisNamespace[targetNamespace.Length] == '.';
+    }
 
     /// <inheritdoc/>
-    public override string ToString() =>
-        FullName ?? string.Empty;
+    public override string ToString()
+    {
+        string value = FullName ?? string.Empty;
+
+        if (SuiteGroupName is not null)
+            value += $"[{SuiteGroupName}]";
+
+        return value;
+    }
+
+    /// <inheritdoc/>
+    public override bool Equals(object obj) =>
+        Equals(obj as TestInfo);
+
+    /// <inheritdoc/>
+    public bool Equals(TestInfo other) =>
+        other is not null
+        && Name == other.Name
+        && SuiteName == other.SuiteName
+        && SuiteType == other.SuiteType
+        && SuiteGroupName == other.SuiteGroupName;
+
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+        var hashCode = 841207689;
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(Name);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(SuiteName);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<Type>.Default.GetHashCode(SuiteType);
+        hashCode = (hashCode * -1521134295) + EqualityComparer<string>.Default.GetHashCode(SuiteGroupName);
+        return hashCode;
+    }
 }
