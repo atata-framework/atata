@@ -792,8 +792,6 @@ public sealed class AtataContext : IDisposable
 
     private void LogTestFinish(TimeSpan deinitializationTime)
     {
-        string testUnitKindName = Test.GetTestUnitKindName();
-
         TimeSpan overallTime = ExecutionStopwatch.Elapsed;
         TimeSpan setupTime = SetupExecutionStopwatch.Elapsed;
         TimeSpan testBodyTime = BodyExecutionStopwatch.Elapsed;
