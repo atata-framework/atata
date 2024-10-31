@@ -24,7 +24,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
 
-    private readonly List<AtataContext> _childContexts = [];
+    private readonly AddOnlyList<AtataContext> _childContexts = [];
 
     internal AtataContext(AtataContext parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
@@ -444,13 +444,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
                 $"{nameof(AtataContext)}.{nameof(Global)} is already set. There can be only one global context configured.");
     }
 
-    internal void AddChildContext(AtataContext context)
-    {
-        lock (_childContexts)
-        {
-            _childContexts.Add(context);
-        }
-    }
+    internal void AddChildContext(AtataContext context) =>
+        _childContexts.Add(context);
 
     internal void InitDateTimeProperties()
     {
