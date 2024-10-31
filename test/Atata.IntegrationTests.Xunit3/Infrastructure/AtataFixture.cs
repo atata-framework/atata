@@ -17,7 +17,7 @@ public abstract class AtataFixture : IAsyncLifetime
 
         ConfigureAtataContext(builder);
 
-        Context = await builder.BuildAsync().ConfigureAwait(false);
+        Context = await builder.BuildAsync(TestContext.Current.CancellationToken).ConfigureAwait(false);
     }
 
     protected virtual void ConfigureAtataContext(AtataContextBuilder builder)

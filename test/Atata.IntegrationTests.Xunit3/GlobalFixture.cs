@@ -8,6 +8,6 @@ namespace Atata.IntegrationTests.Xunit3;
 
 public sealed class GlobalFixture : AtataGlobalFixture
 {
-    protected override void ConfigureBaseConfiguration(AtataContextBuilder builder) =>
+    protected override void ConfigureAtataContextBaseConfiguration(AtataContextBuilder builder) =>
         builder.LogConsumers.AddNLogFile();
 }

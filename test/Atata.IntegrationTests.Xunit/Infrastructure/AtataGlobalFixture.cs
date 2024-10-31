@@ -9,12 +9,12 @@ public abstract class AtataGlobalFixture : AtataFixture
 
     public override async Task InitializeAsync()
     {
-        ConfigureBaseConfiguration(AtataContext.BaseConfiguration);
+        ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);
 
         await base.InitializeAsync().ConfigureAwait(false);
     }
 
-    protected virtual void ConfigureBaseConfiguration(AtataContextBuilder builder)
+    protected virtual void ConfigureAtataContextBaseConfiguration(AtataContextBuilder builder)
     {
     }
 
