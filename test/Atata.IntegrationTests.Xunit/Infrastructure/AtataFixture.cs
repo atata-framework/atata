@@ -24,6 +24,9 @@ public abstract class AtataFixture : IAsyncLifetime
     {
     }
 
-    public virtual async Task DisposeAsync() =>
-        await Context.DisposeAsync().ConfigureAwait(false);
+    public virtual async Task DisposeAsync()
+    {
+        if (Context is not null)
+            await Context.DisposeAsync().ConfigureAwait(false);
+    }
 }
