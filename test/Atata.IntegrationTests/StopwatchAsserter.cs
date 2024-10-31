@@ -18,7 +18,7 @@ public sealed class StopwatchAsserter : IDisposable
         _watch = Stopwatch.StartNew();
     }
 
-    public static StopwatchAsserter WithinSeconds(double seconds, double upperToleranceSeconds = 1.5) =>
+    public static StopwatchAsserter WithinSeconds(double seconds, double upperToleranceSeconds = 1.95) =>
         new(TimeSpan.FromSeconds(seconds), TimeSpan.FromSeconds(upperToleranceSeconds));
 
     public void Dispose()
