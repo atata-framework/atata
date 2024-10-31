@@ -756,8 +756,8 @@ public sealed class AtataContextBuilder : ICloneable
 
         AtataContext parentContext = ParentContext;
 
-        if (parentContext is null && Scope is not null)
-            parentContext = FindParentContext(Scope.Value, testInfo);
+        if (parentContext is null && Scope is not null && AtataContext.Global is not null)
+            parentContext = AtataContextParentResolver.FindParentContext(AtataContext.Global, Scope.Value, testInfo);
 
         AtataContext context = new(parentContext, Scope, testInfo);
         LogManager logManager = CreateLogManager(context);
@@ -786,6 +786,9 @@ public sealed class AtataContextBuilder : ICloneable
 
         parentContext?.AddChildContext(context);
 
+        if (Scope == AtataContextScope.Global)
+            AtataContext.Global = context;
+
         AtataContext.Current = context;
 
         context.EventBus.Publish(new AtataContextPreInitEvent(context));
@@ -801,11 +804,9 @@ public sealed class AtataContextBuilder : ICloneable
         return context;
     }
 
-    private static AtataContext FindParentContext(AtataContextScope scope, TestInfo testInfo)
-    {
-        // TODO: Implement.
-        return null;
-    }
+#warning Rework Build and BuildAsync methods. Build should be replaced with BuildAsync.
+    public Task<AtataContext> BuildAsync(CancellationToken cancellationToken = default) =>
+        Task.FromResult(Build());
 
     private static AtataSessionStartScopes? ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
         scope switch

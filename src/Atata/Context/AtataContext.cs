@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents the context of a test scope (test, test suite, global test context).
 /// </summary>
-public sealed class AtataContext : IDisposable
+public sealed class AtataContext : IDisposable, IAsyncDisposable
 {
     private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new();
 
@@ -76,7 +76,7 @@ public sealed class AtataContext : IDisposable
     /// Use <see cref="CreateBuilder(AtataContextScope)"/> method with <see cref="AtataContextScope.Global"/> value
     /// to register one <see cref="AtataContext"/> as a global one.
     /// </summary>
-    public static AtataContext Global { get; private set; }
+    public static AtataContext Global { get; internal set; }
 
     [Obsolete("Use BaseConfiguration instead.")] // Obsolete since v4.0.0.
     public static AtataContextBuilder GlobalConfiguration => BaseConfiguration;
@@ -781,6 +781,13 @@ public sealed class AtataContext : IDisposable
             var pendingFailureAssertionResults = GetAndClearPendingFailureAssertionResults();
             throw VerificationUtils.CreateAggregateAssertionException(this, pendingFailureAssertionResults);
         }
+    }
+
+    public ValueTask DisposeAsync()
+    {
+#warning Change the way disposing works. Probably remove Dispose method in favor of DisposeAsync.
+        Dispose();
+        return default;
     }
 
     internal IReadOnlyList<AssertionResult> GetAndClearPendingFailureAssertionResults()
