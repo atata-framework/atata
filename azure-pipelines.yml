@@ -50,7 +50,7 @@ jobs:
     timeoutInMinutes: 3
     inputs:
       command: test
-      projects: 'test/*/*UnitTests.csproj'
+      projects: 'test/*/*.UnitTests.csproj'
       arguments: -c $(buildConfiguration) -s "azure-pipelines.codecoverage.runsettings" --no-build
   - task: DotNetCoreCLI@2
     displayName: Run integration tests
@@ -58,7 +58,7 @@ jobs:
     timeoutInMinutes: 20
     inputs:
       command: test
-      projects: 'test/*/*IntegrationTests.csproj'
+      projects: 'test/*/*.IntegrationTests*.csproj'
       arguments: -c $(buildConfiguration) -s "azure-pipelines.codecoverage.runsettings" --no-build
   - task: Bash@3
     displayName: Merge coverage results
@@ -113,7 +113,7 @@ jobs:
     timeoutInMinutes: 20
     inputs:
       command: test
-      projects: 'test/*/*IntegrationTests.csproj'
+      projects: 'test/*/*.IntegrationTests*.csproj'
       arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build
   - task: PublishPipelineArtifact@1
     displayName: Publish test artifacts
