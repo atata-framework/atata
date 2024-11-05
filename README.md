@@ -19,7 +19,7 @@ You can describe a page object class without any methods and only have a set of 
 
 *The package targets .NET Standard 2.0, which supports .NET 5+, .NET Framework 4.6.1+ and .NET Core/Standard 2.0+.*
 
-- **[What's new in v3.2.0](https://atata.io/blog/2024/07/19/atata-3.2.0-released/)**
+- **[What's new in v3.3.0](https://atata.io/blog/2024/11/05/atata-3.3.0-released/)**
 - **[Migrating to Atata 3](https://atata.io/upgrade/to-atata-3/)**
 
 ## Features
