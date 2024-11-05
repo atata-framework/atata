@@ -365,9 +365,16 @@ dotnet_diagnostic.S3358.severity = none
 
 dotnet_diagnostic.S3717.severity = warning
 
+# S3877: Exceptions should not be thrown from unexpected method
+# Duplicates CA1065
+dotnet_diagnostic.S3877.severity = none
+
 dotnet_diagnostic.S3881.severity = none
 
 dotnet_diagnostic.S3962.severity = warning
+
+# S3993: Custom attributes should be marked with "System.AttributeUsageAttribute"
+dotnet_diagnostic.S3993.severity = none
 
 dotnet_diagnostic.S4004.severity = none
 
@@ -452,6 +459,9 @@ dotnet_diagnostic.IDE0083.severity = warning
 
 # IDE0090: Use 'new(...)'
 dotnet_diagnostic.IDE0090.severity = warning
+
+# IDE0130: Namespace does not match folder structure
+dotnet_diagnostic.IDE0130.severity = none
 
 # IDE0200: Remove unnecessary lambda expression
 dotnet_diagnostic.IDE0200.severity = warning
