@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Edge;
@@ -23,7 +23,7 @@ public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy
         var devTools = context.Driver.As<IDevTools>();
         var devToolsSession = devTools.GetDevToolsSession();
 
-        var commandParameters = new JObject
+        var commandParameters = new JsonObject
         {
             ["captureBeyondViewport"] = true
         };
