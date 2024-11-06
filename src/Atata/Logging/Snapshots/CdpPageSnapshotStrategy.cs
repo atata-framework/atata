@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System.Text.Json.Nodes;
 using OpenQA.Selenium.DevTools;
 
 namespace Atata;
@@ -22,7 +22,7 @@ public sealed class CdpPageSnapshotStrategy : IPageSnapshotStrategy<WebDriverSes
 
         var commandResult = devToolsSession.SendCommand(
             "Page.captureSnapshot",
-            new JObject())
+            new JsonObject())
             .GetAwaiter()
             .GetResult();
 
