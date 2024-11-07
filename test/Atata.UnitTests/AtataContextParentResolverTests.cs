@@ -76,8 +76,7 @@ public static class AtataContextParentResolverTests
                 Log = Mock.Of<ILogManager>()
             };
 
-            if (parentContext is not null)
-                parentContext.AddChildContext(context);
+            parentContext?.AddChildContext(context);
 
             return context;
         }
