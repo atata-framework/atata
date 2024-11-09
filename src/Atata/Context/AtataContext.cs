@@ -688,6 +688,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="exception">The exception.</param>
     public void HandleTestResultException(Exception exception)
     {
+        Test.ResultStatus = TestResultStatus.Failed;
+
         if (exception != LastLoggedException)
         {
             Log.Error(exception);
@@ -701,6 +703,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="stackTrace">The exception stack trace.</param>
     public void HandleTestResultException(string message, string stackTrace)
     {
+        Test.ResultStatus = TestResultStatus.Failed;
+
         if (LastLoggedException is null || !message.Contains(LastLoggedException.Message))
         {
             string completeErrorMessage = VerificationUtils.AppendStackTraceToFailureMessage(message, stackTrace);
