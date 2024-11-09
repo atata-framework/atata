@@ -21,7 +21,6 @@ public abstract class TestSuiteBase
         builder.LogConsumers.AddNUnitTestContext();
         builder.LogConsumers.Add(_fakeLogConsumer);
 
-        builder.EventSubscriptions.LogNUnitError();
         builder.EventSubscriptions.AddArtifactsToNUnitTestContext();
 
         return builder;
@@ -35,8 +34,20 @@ public abstract class TestSuiteBase
     }
 
     [TearDown]
-    public virtual void TearDown() =>
-        AtataContext.Current?.Dispose();
+    public async Task TearDownTestAtataContextAsync()
+    {
+        var context = AtataContext.Current;
+
+        if (context is not null)
+        {
+            var testContext = TestContext.CurrentContext;
+
+            if (testContext.Result.Outcome.Status == TestStatus.Failed)
+                context.HandleTestResultException(testContext.Result.Message, testContext.Result.StackTrace);
+
+            await context.DisposeAsync().ConfigureAwait(false);
+        }
+    }
 
     protected static void VerifyEquals<T, TPage>(Field<T, TPage> control, T value)
         where TPage : PageObject<TPage>

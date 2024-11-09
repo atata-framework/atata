@@ -22,10 +22,9 @@ public class Log4NetConsumerTests : TestSuiteBase
     public void SetUpTestSuite() =>
         SystemInfo.NullText = string.Empty;
 
-    public override void TearDown()
+    [TearDown]
+    public void TearDownTest()
     {
-        base.TearDown();
-
         foreach (var repository in log4net.LogManager.GetAllRepositories())
             repository.Shutdown();
 
