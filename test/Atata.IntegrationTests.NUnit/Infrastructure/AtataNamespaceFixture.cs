@@ -18,11 +18,8 @@ public abstract class AtataNamespaceFixture
     }
 
     [OneTimeTearDown]
-    public async Task TearDownNamespaceAtataContextAsync()
-    {
-        if (Context is not null)
-            await Context.DisposeAsync().ConfigureAwait(false);
-    }
+    public async Task TearDownNamespaceAtataContextAsync() =>
+        await TestCompletionHandler.CompleteTestAsync(Context).ConfigureAwait(false);
 
     protected virtual void ConfigureAtataContext(AtataContextBuilder builder)
     {

@@ -10,7 +10,23 @@ public abstract class AtataGlobalFixture
     [OneTimeSetUp]
     public async Task SetUpGlobalAtataContextAsync()
     {
-        AtataContext.BaseConfiguration.UseAllNUnitFeatures();
+        AtataContext.BaseConfiguration
+            .UseNUnitTestName()
+            .UseNUnitTestSuiteName()
+            .UseNUnitTestSuiteType()
+            .UseNUnitAssertionExceptionType()
+            .UseNUnitAggregateAssertionStrategy()
+            .UseNUnitWarningReportStrategy()
+            .UseNUnitAssertionFailureReportStrategy();
+
+        AtataContext.BaseConfiguration.LogConsumers
+            .AddNUnitTestContext();
+
+        AtataContext.BaseConfiguration.EventSubscriptions
+            .TakeScreenshotOnNUnitError()
+            .TakePageSnapshotOnNUnitError()
+            .AddArtifactsToNUnitTestContext();
+
         ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Global);
@@ -21,11 +37,8 @@ public abstract class AtataGlobalFixture
     }
 
     [OneTimeTearDown]
-    public async Task TearDownGlobalAtataContextAsync()
-    {
-        if (Context is not null)
-            await Context.DisposeAsync().ConfigureAwait(false);
-    }
+    public async Task TearDownGlobalAtataContextAsync() =>
+        await TestCompletionHandler.CompleteTestAsync(Context).ConfigureAwait(false);
 
     protected virtual void ConfigureAtataContextBaseConfiguration(AtataContextBuilder builder)
     {

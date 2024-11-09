@@ -37,11 +37,8 @@ public abstract class AtataTestSuite
     }
 
     [TearDown]
-    public async Task TearDownTestAtataContextAsync()
-    {
-        if (Context is not null)
-            await Context.DisposeAsync().ConfigureAwait(false);
-    }
+    public async Task TearDownTestAtataContextAsync() =>
+        await TestCompletionHandler.CompleteTestAsync(Context).ConfigureAwait(false);
 
     protected virtual void ConfigureSuiteAtataContext(AtataContextBuilder builder)
     {
