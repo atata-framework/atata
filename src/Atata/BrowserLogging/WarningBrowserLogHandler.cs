@@ -29,7 +29,7 @@ internal class WarningBrowserLogHandler : IBrowserLogHandler
                 .Append(entry.Message);
 
             if (_session.IsActive)
-                _session.RaiseWarning(messageBuilder.ToString());
+                _session.RaiseAssertionWarning(messageBuilder.ToString());
         }
     }
 

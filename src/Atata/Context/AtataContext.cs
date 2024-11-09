@@ -682,20 +682,28 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         return absoluteFilePath;
     }
 
+    [Obsolete("Use RaiseAssertionError(...) instead.")] // Obsolete since v4.0.0.
+    public void RaiseError(string message, Exception exception = null) =>
+        RaiseAssertionError(message, exception);
+
     /// <summary>
     /// Raises the error by throwing an assertion exception.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
-    public void RaiseError(string message, Exception exception = null) =>
+    public void RaiseAssertionError(string message, Exception exception = null) =>
         AssertionVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
+
+    [Obsolete("Use RaiseAssertionWarning(...) instead.")] // Obsolete since v4.0.0.
+    public void RaiseWarning(string message, Exception exception = null) =>
+        RaiseAssertionWarning(message, exception);
 
     /// <summary>
     /// Raises the warning by recording an assertion warning.
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
-    public void RaiseWarning(string message, Exception exception = null) =>
+    public void RaiseAssertionWarning(string message, Exception exception = null) =>
         ExpectationVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     /// <summary>

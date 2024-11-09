@@ -122,12 +122,12 @@ public abstract class AtataSession : IDisposable
     public void AggregateAssert(Action action, string assertionScopeName = null) =>
         Context.AggregateAssert(action, Log, assertionScopeName);
 
-    /// <inheritdoc cref="AtataContext.RaiseError(string, Exception)"/>
-    public void RaiseError(string message, Exception exception = null) =>
+    /// <inheritdoc cref="AtataContext.RaiseAssertionError(string, Exception)"/>
+    public void RaiseAssertionError(string message, Exception exception = null) =>
        AssertionVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
-    /// <inheritdoc cref="AtataContext.RaiseWarning(string, Exception)"/>
-    public void RaiseWarning(string message, Exception exception = null) =>
+    /// <inheritdoc cref="AtataContext.RaiseAssertionWarning(string, Exception)"/>
+    public void RaiseAssertionWarning(string message, Exception exception = null) =>
         ExpectationVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     public void Dispose()

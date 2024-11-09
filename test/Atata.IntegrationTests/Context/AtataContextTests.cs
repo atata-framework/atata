@@ -171,4 +171,45 @@ public static class AtataContextTests
                     .Should.Throw<FormatException>();
         }
     }
+
+    public class RaiseAssertionError : SessionlessTestSuite
+    {
+        private Subject<AtataContext> _sut;
+
+        protected override void OnSetUp() =>
+            _sut = AtataContext.Current.ToSutSubject();
+
+        [Test]
+        public void WithMessageAndException()
+        {
+            InvalidOperationException exception = new("Something went wrong.");
+
+            _sut.Invoking(x => x.RaiseAssertionError("Simulated error.", exception))
+                .Should.Throw<AssertionException>()
+                    .ValueOf(x => x.Message).Should.Be("Wrong Simulated error.")
+                    .ValueOf(x => x.InnerException).Should.Be(exception);
+
+            CurrentLog.GetSnapshotOfLevel(LogLevel.Error).ToSubject("ErrorLogs")
+                .Should.ContainSingle()
+                .SubjectOf(x => x.Single()).AggregateAssert(x => x
+                    .ValueOf(x => x.Message).Should.StartWith("Wrong Simulated error.")
+                    .ValueOf(x => x.Message).Should.Contain(exception.Message)
+                    .ValueOf(x => x.Exception).Should.BeNull());
+        }
+
+        [Test]
+        public void WithMessageOnly()
+        {
+            _sut.Invoking(x => x.RaiseAssertionError("Simulated error.", null))
+                .Should.Throw<AssertionException>()
+                    .ValueOf(x => x.Message).Should.Be("Wrong Simulated error.")
+                    .ValueOf(x => x.InnerException).Should.BeNull();
+
+            CurrentLog.GetSnapshotOfLevel(LogLevel.Error).ToSubject("ErrorLogs")
+                .Should.ContainSingle()
+                .SubjectOf(x => x.Single()).AggregateAssert(x => x
+                    .ValueOf(x => x.Message).Should.StartWith("Wrong Simulated error.")
+                    .ValueOf(x => x.Exception).Should.BeNull());
+        }
+    }
 }
