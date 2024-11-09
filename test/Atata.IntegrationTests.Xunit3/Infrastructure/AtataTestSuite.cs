@@ -42,16 +42,8 @@ public abstract class AtataTestSuite : AtataFixture
         }
         catch (Exception exception)
         {
-            OnException(exception);
+            Context.HandleTestResultException(exception);
             throw;
         }
-    }
-
-    private void OnException(Exception exception)
-    {
-        Context.Log.Error(exception, null);
-
-        //context.TakeScreenshot("Failed");
-        //context.TakePageSnapshot("Failed");
     }
 }

@@ -34,7 +34,7 @@ public abstract class AtataTestSuite : AtataFixture
         }
         catch (Exception exception)
         {
-            OnException(exception);
+            Context.HandleTestResultException(exception);
             throw;
         }
     }
@@ -49,13 +49,5 @@ public abstract class AtataTestSuite : AtataFixture
             ?.GetValue(output);
 
         return test?.DisplayName;
-    }
-
-    private void OnException(Exception exception)
-    {
-        Context.Log.Error(exception, null);
-
-        //Context.TakeScreenshot("Failed");
-        //Context.TakePageSnapshot("Failed");
     }
 }

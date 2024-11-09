@@ -9,15 +9,9 @@ public sealed class LogNUnitErrorEventHandler : IEventHandler<AtataContextDeInit
         if (NUnitAdapter.IsTestResultAdapterFailed(testResult))
         {
             string testResultMessage = testResult.Message;
+            string testResultStackTrace = testResult.StackTrace;
 
-            if (context.LastLoggedException is null || !testResultMessage.Contains(context.LastLoggedException.Message))
-            {
-                string completeErrorMessage = VerificationUtils.AppendStackTraceToFailureMessage(
-                    testResultMessage,
-                    (string)testResult.StackTrace);
-
-                context.Log.Error(completeErrorMessage);
-            }
+            context.HandleTestResultException(testResultMessage, testResultStackTrace);
         }
     }
 }

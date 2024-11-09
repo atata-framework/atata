@@ -7,15 +7,15 @@ public abstract class MixedVerificationTests
 
     private readonly Subject<ThrowingSut> _throwingSut = new ThrowingSut().ToSutSubject();
 
-    private AtataContext _context;
+    protected AtataContext Context { get; private set; }
 
     [SetUp]
     public void SetUpTest() =>
-        _context = BuildAtataContext();
+        Context = BuildAtataContext();
 
     [TearDown]
     public void TearDown() =>
-        _context?.Dispose();
+        Context?.Dispose();
 
     [Test]
     public void Fail() =>
@@ -51,6 +51,16 @@ public abstract class MixedVerificationTests
         _sut.ExpectTo.Contain('y');
         throw new InvalidOperationException("Expect me to fail.");
     }
+
+    [Test]
+    public void WithinAggregateAssert_TwoFailedAssertions() =>
+        _sut.AggregateAssert(
+            x =>
+            {
+                x.Should.Contain('z');
+                x.Should.Contain('w');
+            },
+            "aggr");
 
     [Test]
     public void WithinAggregateAssert_TwoWarningsThenTwoFailedAssertions() =>
@@ -134,13 +144,27 @@ public abstract class MixedVerificationTests
                 new InvalidDataException("<inner exception message>"));
     }
 
-    public sealed class Native : MixedVerificationTests
+    public class Native : MixedVerificationTests
     {
         protected override AtataContext BuildAtataContext()
         {
             var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
             builder.LogConsumers.AddNUnitTestContext();
             return builder.Build();
+        }
+    }
+
+    public sealed class NativeWithErrorHandling : Native
+    {
+        [TearDown]
+        public void TearDownTest()
+        {
+            if (Context is not null && TestContext.CurrentContext.Result.Outcome.Status == TestStatus.Failed)
+            {
+                Context.HandleTestResultException(
+                    TestContext.CurrentContext.Result.Message,
+                    TestContext.CurrentContext.Result.StackTrace);
+            }
         }
     }
 

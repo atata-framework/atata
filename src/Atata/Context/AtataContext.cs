@@ -682,6 +682,33 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         return absoluteFilePath;
     }
 
+    /// <summary>
+    /// Handles the test result exception.
+    /// </summary>
+    /// <param name="exception">The exception.</param>
+    public void HandleTestResultException(Exception exception)
+    {
+        if (exception != LastLoggedException)
+        {
+            Log.Error(exception);
+        }
+    }
+
+    /// <summary>
+    /// Handles the test result exception.
+    /// </summary>
+    /// <param name="message">The exception message.</param>
+    /// <param name="stackTrace">The exception stack trace.</param>
+    public void HandleTestResultException(string message, string stackTrace)
+    {
+        if (LastLoggedException is null || !message.Contains(LastLoggedException.Message))
+        {
+            string completeErrorMessage = VerificationUtils.AppendStackTraceToFailureMessage(message, stackTrace);
+
+            Log.Error(completeErrorMessage);
+        }
+    }
+
     [Obsolete("Use RaiseAssertionError(...) instead.")] // Obsolete since v4.0.0.
     public void RaiseError(string message, Exception exception = null) =>
         RaiseAssertionError(message, exception);
