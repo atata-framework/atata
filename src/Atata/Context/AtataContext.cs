@@ -549,7 +549,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     {
         if (exception != LastLoggedException)
         {
-            (log ?? Log).Error(exception.ToString());
+            (log ?? Log).Error(exception);
             LastLoggedException = exception;
         }
     }
