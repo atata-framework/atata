@@ -68,6 +68,10 @@ public abstract class WebSession : AtataSession
 
     internal IPageSnapshotTaker PageSnapshotTaker { get; set; }
 
+    internal bool TakeScreenshotOnFailure { get; set; } = true;
+
+    internal bool TakePageSnapshotOnFailure { get; set; } = true;
+
     /// <summary>
     /// Takes a screenshot of the current page with an optionally specified title.
     /// </summary>
@@ -111,8 +115,12 @@ public abstract class WebSession : AtataSession
         base.TakeFailureSnapshot();
 
         const string failureTitle = "Failed";
-        ScreenshotTaker.TakeScreenshot(failureTitle);
-        PageSnapshotTaker.TakeSnapshot(failureTitle);
+
+        if (TakeScreenshotOnFailure)
+            ScreenshotTaker.TakeScreenshot(failureTitle);
+
+        if (TakePageSnapshotOnFailure)
+            PageSnapshotTaker.TakeSnapshot(failureTitle);
     }
 
     private void LogRetrySettings()
