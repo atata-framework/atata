@@ -549,8 +549,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     {
         if (exception != LastLoggedException)
         {
-            (log ?? Log).Error(exception);
             LastLoggedException = exception;
+
+            (log ?? Log).Error(exception);
+            TakeFailureSnapshot();
         }
     }
 
@@ -693,6 +695,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         if (exception != LastLoggedException)
         {
             Log.Error(exception);
+
+            TakeFailureSnapshot();
         }
     }
 
@@ -708,8 +712,18 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         if (LastLoggedException is null || !message.Contains(LastLoggedException.Message))
         {
             string completeErrorMessage = VerificationUtils.AppendStackTraceToFailureMessage(message, stackTrace);
-
             Log.Error(completeErrorMessage);
+
+            TakeFailureSnapshot();
+        }
+    }
+
+    internal void TakeFailureSnapshot()
+    {
+        foreach (AtataSession session in Sessions)
+        {
+            if (session.IsActive)
+                session.TakeFailureSnapshot();
         }
     }
 

@@ -23,8 +23,6 @@ public abstract class AtataGlobalFixture
             .AddNUnitTestContext();
 
         AtataContext.BaseConfiguration.EventSubscriptions
-            .TakeScreenshotOnNUnitError()
-            .TakePageSnapshotOnNUnitError()
             .AddArtifactsToNUnitTestContext();
 
         ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);

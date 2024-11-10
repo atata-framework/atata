@@ -29,6 +29,7 @@ public sealed class AssertionVerificationStrategy : IVerificationStrategy
                 stackTrace);
 
             executionUnit.Log.Error(completeMessageWithExceptionAndStackTrace);
+            executionUnit.Context.TakeFailureSnapshot();
 
             if (executionUnit.Context.AggregateAssertionLevel > 0)
             {

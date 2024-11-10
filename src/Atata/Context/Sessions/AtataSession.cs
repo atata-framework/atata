@@ -191,6 +191,10 @@ public abstract class AtataSession : IDisposable
     {
     }
 
+    protected internal virtual void TakeFailureSnapshot()
+    {
+    }
+
     protected virtual void AssignToContext(AtataContext context)
     {
         Log = ((LogManager)context.Log).ForSession(this);

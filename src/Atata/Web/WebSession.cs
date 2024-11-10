@@ -106,6 +106,15 @@ public abstract class WebSession : AtataSession
         LogRetrySettings();
     }
 
+    protected internal override void TakeFailureSnapshot()
+    {
+        base.TakeFailureSnapshot();
+
+        const string failureTitle = "Failed";
+        ScreenshotTaker.TakeScreenshot(failureTitle);
+        PageSnapshotTaker.TakeSnapshot(failureTitle);
+    }
+
     private void LogRetrySettings()
     {
         const string messageFormat = "Set: {0}Timeout={1}; {0}RetryInterval={2}";

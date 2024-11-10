@@ -37,10 +37,6 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
                 .WithPortsToIgnore(_portsToIgnore)
                 .WithInitialHealthCheck();
 
-#warning Temporarily uses NUnit features.
-            session.EventSubscriptions.TakeScreenshotOnNUnitError();
-            session.EventSubscriptions.TakePageSnapshotOnNUnitError();
-
             configureWebDriverSession?.Invoke(session);
         });
 
