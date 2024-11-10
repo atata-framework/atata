@@ -197,7 +197,7 @@ public class Report<TOwner> : IReport<TOwner>
 
             try
             {
-                await function.Invoke(_owner);
+                await function.Invoke(_owner).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -211,7 +211,7 @@ public class Report<TOwner> : IReport<TOwner>
                 if (shouldStopBodyExecutionStopwatch)
                     _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
-        });
+        }).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -232,7 +232,7 @@ public class Report<TOwner> : IReport<TOwner>
 
             try
             {
-                result = await function.Invoke(_owner);
+                result = await function.Invoke(_owner).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
@@ -246,7 +246,7 @@ public class Report<TOwner> : IReport<TOwner>
                 if (shouldStopBodyExecutionStopwatch)
                     _executionUnit.Context.BodyExecutionStopwatch.Start();
             }
-        });
+        }).ConfigureAwait(false);
 
         return result;
     }
@@ -306,14 +306,14 @@ public class Report<TOwner> : IReport<TOwner>
         {
             try
             {
-                await function.Invoke(_owner);
+                await function.Invoke(_owner).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
                 _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
-        });
+        }).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -328,14 +328,14 @@ public class Report<TOwner> : IReport<TOwner>
         {
             try
             {
-                result = await function.Invoke(_owner);
+                result = await function.Invoke(_owner).ConfigureAwait(false);
             }
             catch (Exception exception)
             {
                 _executionUnit.Context.EnsureExceptionIsLogged(exception);
                 throw;
             }
-        });
+        }).ConfigureAwait(false);
 
         return result;
     }

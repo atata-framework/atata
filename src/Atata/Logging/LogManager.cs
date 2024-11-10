@@ -150,7 +150,7 @@ internal sealed class LogManager : ILogManager
 
         try
         {
-            await function.Invoke();
+            await function.Invoke().ConfigureAwait(false);
         }
         catch (Exception exception)
         {
@@ -172,7 +172,7 @@ internal sealed class LogManager : ILogManager
 
         try
         {
-            TResult result = await function.Invoke();
+            TResult result = await function.Invoke().ConfigureAwait(false);
             section.Result = result;
             return result;
         }

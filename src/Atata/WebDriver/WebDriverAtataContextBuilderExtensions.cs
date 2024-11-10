@@ -32,7 +32,8 @@ public static class WebDriverAtataContextBuilderExtensions
     /// <inheritdoc cref="AutoSetUpDriversToUse"/>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public static async Task AutoSetUpDriversToUseAsync(this AtataContextBuilder builder) =>
-        await Task.Run(() => AutoSetUpDriversToUse(builder));
+        await Task.Run(() => AutoSetUpDriversToUse(builder))
+            .ConfigureAwait(false);
 
     /// <summary>
     /// <para>
@@ -61,7 +62,8 @@ public static class WebDriverAtataContextBuilderExtensions
     /// <inheritdoc cref="AutoSetUpConfiguredDrivers"/>
     /// <returns>The task object representing the asynchronous operation.</returns>
     public static async Task AutoSetUpConfiguredDriversAsync(this AtataContextBuilder builder) =>
-        await Task.Run(() => AutoSetUpConfiguredDrivers(builder));
+        await Task.Run(() => AutoSetUpConfiguredDrivers(builder))
+            .ConfigureAwait(false);
 
     private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
     {
