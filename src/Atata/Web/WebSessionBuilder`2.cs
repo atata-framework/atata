@@ -40,18 +40,6 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     public TermCase DomTestIdAttributeDefaultCase { get; set; } = FindByTestIdAttribute.DefaultAttributeCase;
 
     /// <summary>
-    /// Gets or sets a value indicating whether to take a screenshot on failure.
-    /// The default value is <see langword="true"/>.
-    /// </summary>
-    public bool TakeScreenshotOnFailure { get; set; } = true;
-
-    /// <summary>
-    /// Gets or sets a value indicating whether to take a page snapshot on failure.
-    /// The default value is <see langword="true"/>.
-    /// </summary>
-    public bool TakePageSnapshotOnFailure { get; set; } = true;
-
-    /// <summary>
     /// Sets the base URL.
     /// </summary>
     /// <param name="baseUrl">The base URL.</param>
@@ -114,32 +102,6 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
         return (TBuilder)this;
     }
 
-    /// <summary>
-    /// Sets a value indicating whether to take a screenshot on failure.
-    /// The default value is <see langword="true"/>.
-    /// </summary>
-    /// <param name="enable">Whether to enable.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseTakeScreenshotOnFailure(bool enable)
-    {
-        TakeScreenshotOnFailure = enable;
-
-        return (TBuilder)this;
-    }
-
-    /// <summary>
-    /// Sets a value indicating whether to take a page snapshot on failure.
-    /// The default value is <see langword="true"/>.
-    /// </summary>
-    /// <param name="enable">Whether to enable.</param>
-    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseTakePageSnapshotOnFailure(bool enable)
-    {
-        TakePageSnapshotOnFailure = enable;
-
-        return (TBuilder)this;
-    }
-
     protected override void ConfigureSession(TSession session)
     {
         base.ConfigureSession(session);
@@ -152,8 +114,6 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
 
         session.ScreenshotTaker = CreateScreenshotTaker(session);
         session.PageSnapshotTaker = CreatePageSnapshotTaker(session);
-        session.TakeScreenshotOnFailure = TakeScreenshotOnFailure;
-        session.TakePageSnapshotOnFailure = TakePageSnapshotOnFailure;
     }
 
     protected override IReport<TSession> CreateReport(TSession session) =>

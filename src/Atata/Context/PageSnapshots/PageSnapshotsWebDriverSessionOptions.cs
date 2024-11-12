@@ -21,6 +21,12 @@ public sealed class PageSnapshotsWebDriverSessionOptions : ICloneable
         "{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}";
 
     /// <summary>
+    /// Gets or sets a value indicating whether to take a page snapshot on failure.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    public bool TakeOnFailure { get; set; } = true;
+
+    /// <summary>
     /// Sets the "CDP or page source" (<see cref="CdpOrPageSourcePageSnapshotStrategy"/>) strategy for a page snapshot taking.
     /// </summary>
     /// <returns>The same <see cref="PageSnapshotsWebDriverSessionOptions"/> instance.</returns>
@@ -62,6 +68,18 @@ public sealed class PageSnapshotsWebDriverSessionOptions : ICloneable
     public PageSnapshotsWebDriverSessionOptions UseFileNameTemplate(string fileNameTemplate)
     {
         FileNameTemplate = fileNameTemplate;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a value indicating whether to take a page snapshot on failure.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    /// <param name="enable">Whether to enable.</param>
+    /// <returns>The same <see cref="PageSnapshotsWebDriverSessionOptions"/> instance.</returns>
+    public PageSnapshotsWebDriverSessionOptions UseTakeOnFailure(bool enable)
+    {
+        TakeOnFailure = enable;
         return this;
     }
 

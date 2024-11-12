@@ -363,6 +363,9 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
 
         session.DefaultControlVisibility = DefaultControlVisibility;
 
+        session.TakeScreenshotOnFailure = Screenshots.TakeOnFailure;
+        session.TakePageSnapshotOnFailure = PageSnapshots.TakeOnFailure;
+
         InitBrowserLogMonitoring(session);
     }
 

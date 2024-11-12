@@ -25,6 +25,12 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
         "{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}";
 
     /// <summary>
+    /// Gets or sets a value indicating whether to take a screenshot on failure.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    public bool TakeOnFailure { get; set; } = true;
+
+    /// <summary>
     /// Sets the WebDriver viewport (<see cref="WebDriverViewportScreenshotStrategy"/>) strategy for a screenshot taking.
     /// </summary>
     /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
@@ -75,6 +81,18 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
     public ScreenshotsWebDriverSessionOptions UseFileNameTemplate(string fileNameTemplate)
     {
         FileNameTemplate = fileNameTemplate;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets a value indicating whether to take a screenshot on failure.
+    /// The default value is <see langword="true"/>.
+    /// </summary>
+    /// <param name="enable">Whether to enable.</param>
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
+    public ScreenshotsWebDriverSessionOptions UseTakeOnFailure(bool enable)
+    {
+        TakeOnFailure = enable;
         return this;
     }
 
