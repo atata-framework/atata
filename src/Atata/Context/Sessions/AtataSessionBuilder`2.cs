@@ -4,11 +4,19 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     where TSession : AtataSession, new()
     where TBuilder : AtataSessionBuilder<TSession, TBuilder>
 {
+    private AtataContext _targetContext;
+
     /// <inheritdoc/>
     public string Name { get; set; }
 
     /// <inheritdoc/>
     public AtataSessionStartScopes? StartScopes { get; set; }
+
+    AtataContext IAtataSessionBuilder.TargetContext
+    {
+        get => _targetContext;
+        set => _targetContext = value;
+    }
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -199,8 +207,33 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return (TBuilder)this;
     }
 
-    public async Task<AtataSession> BuildAsync(AtataContext context)
+    /// <inheritdoc cref="IAtataSessionBuilder.BuildAsync(CancellationToken)"/>
+    public async Task<TSession> BuildAsync(CancellationToken cancellationToken = default)
     {
+        var assignToContext = _targetContext ?? AtataContext.Current;
+
+        if (assignToContext is not null)
+        {
+            return await BuildAsync(assignToContext, cancellationToken).ConfigureAwait(false);
+        }
+        else
+        {
+            var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder();
+            contextBuilder.Sessions.Add(this);
+
+            var context = await contextBuilder.BuildAsync(cancellationToken).ConfigureAwait(false);
+
+            var session = context.Sessions.Get<TSession>();
+            session.DisposesThroughContext = true;
+            return session;
+        }
+    }
+
+    /// <inheritdoc cref="IAtataSessionBuilder.BuildAsync(AtataContext, CancellationToken)"/>
+    public async Task<TSession> BuildAsync(AtataContext context, CancellationToken cancellationToken = default)
+    {
+        context.CheckNotNull(nameof(context));
+
         ValidateConfiguration();
 
         TSession session = new()
@@ -218,11 +251,17 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
                 session.LogConfiguration();
 
-                await session.StartAsync().ConfigureAwait(false);
+                await session.StartAsync(cancellationToken).ConfigureAwait(false);
             }).ConfigureAwait(false);
 
         return session;
     }
+
+    async Task<AtataSession> IAtataSessionBuilder.BuildAsync(CancellationToken cancellationToken) =>
+        await BuildAsync(cancellationToken).ConfigureAwait(false);
+
+    async Task<AtataSession> IAtataSessionBuilder.BuildAsync(AtataContext context, CancellationToken cancellationToken) =>
+        await BuildAsync(context, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Validates the configuration.

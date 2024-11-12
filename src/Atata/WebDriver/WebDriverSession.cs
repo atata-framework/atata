@@ -69,6 +69,12 @@ public class WebDriverSession : WebSession
     /// </summary>
     public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache { get; } = new();
 
+    /// <summary>
+    /// Creates <see cref="WebDriverSessionBuilder"/> instance for <see cref="WebDriverSession"/> configuration.
+    /// </summary>
+    /// <returns>The created <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public static WebDriverSessionBuilder CreateBuilder() => new();
+
     protected internal override Task StartAsync(CancellationToken cancellationToken = default)
     {
         InitDriver();

@@ -6,7 +6,7 @@ public sealed class AtataSessionCollectionTests
 
     [SetUp]
     public void SetUp() =>
-        _sut = new([]);
+        _sut = new(new AtataSessionCollection(null));
 
     [TearDown]
     public void TearUp() =>

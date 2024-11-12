@@ -31,6 +31,11 @@ public sealed class AtataSessionsBuilder
         };
         configure?.Invoke(sessionBuilder);
 
+        return Add(sessionBuilder);
+    }
+
+    internal AtataContextBuilder Add(IAtataSessionBuilder sessionBuilder)
+    {
         _sessionBuilders.Add(sessionBuilder);
         return _atataContextBuilder;
     }

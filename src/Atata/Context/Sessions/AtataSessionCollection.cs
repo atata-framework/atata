@@ -2,6 +2,8 @@
 
 public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, IDisposable
 {
+    private readonly AtataContext _context;
+
     private readonly List<IAtataSessionBuilder> _sessionBuilders = [];
 
     private readonly List<AtataSession> _sessionListOrderedByAdding = [];
@@ -9,6 +11,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     private readonly LinkedList<AtataSession> _sessionLinkedListOderedByCurrentUsage = [];
 
     private readonly ReaderWriterLockSlim _sessionLinkedListOderedByCurrentUsageLock = new();
+
+    internal AtataSessionCollection(AtataContext context) =>
+        _context = context;
 
     public int Count =>
         _sessionListOrderedByAdding.Count;
@@ -80,6 +85,19 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
+
+    public TSessionBuilder Add<TSessionBuilder>()
+        where TSessionBuilder : IAtataSessionBuilder, new()
+    {
+        TSessionBuilder sessionBuilder = new()
+        {
+            TargetContext = _context
+        };
+
+        _sessionBuilders.Add(sessionBuilder);
+
+        return sessionBuilder;
+    }
 
     internal void Add(AtataSession session)
     {

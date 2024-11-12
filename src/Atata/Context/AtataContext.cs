@@ -35,6 +35,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         Id = GlobalProperties.IdGenerator.GenerateId();
         ExecutionUnit = new AtataContextExecutionUnit(this);
 
+        Sessions = new(this);
+
         Report = new Report<AtataContext>(this, ExecutionUnit);
 
         Variables = new(parentContext?.Variables);
@@ -134,7 +136,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public string Id { get; }
 
-    public AtataSessionCollection Sessions { get; } = [];
+    public AtataSessionCollection Sessions { get; }
 
     [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]

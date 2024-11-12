@@ -14,6 +14,8 @@ public abstract class AtataSession : IDisposable
 
     public AtataContext Context { get; private set; }
 
+    internal bool DisposesThroughContext { get; set; }
+
     /// <summary>
     /// Gets the execution unit.
     /// </summary>
@@ -135,16 +137,24 @@ public abstract class AtataSession : IDisposable
         if (_disposed)
             return;
 
-        Log.ExecuteSection(
-            new AtataSessionDeInitLogSection(this),
-            () => Dispose(true));
+        if (DisposesThroughContext)
+        {
+            DisposesThroughContext = false;
+            Context.Dispose();
+        }
+        else
+        {
+            Log.ExecuteSection(
+                new AtataSessionDeInitLogSection(this),
+                () => Dispose(true));
 
-        Variables.Clear();
-        Log = null;
-        Report = null;
+            Variables.Clear();
+            Log = null;
+            Report = null;
 
-        _disposed = true;
-        GC.SuppressFinalize(this);
+            _disposed = true;
+            GC.SuppressFinalize(this);
+        }
     }
 
     protected virtual void Dispose(bool disposing)
@@ -162,6 +172,7 @@ public abstract class AtataSession : IDisposable
     internal void AssignToOwnerContext(AtataContext context)
     {
         OwnerContext = context;
+        context.Sessions.Add(this);
         ReassignToContext(context);
     }
 

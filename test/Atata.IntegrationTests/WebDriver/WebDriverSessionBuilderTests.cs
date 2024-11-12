@@ -5,6 +5,17 @@ namespace Atata.IntegrationTests.WebDriver;
 public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestSuiteBase
 {
     [Test]
+    public async Task Build_WithoutAtataContext()
+    {
+        var builder = WebDriverSession.CreateBuilder();
+        builder.UseChrome();
+
+        using var session = await builder.BuildAsync();
+
+        session.Driver.Should().BeOfType<ChromeDriver>();
+    }
+
+    [Test]
     public void Build_WithoutDriver()
     {
         var builder = AtataContext.CreateBuilder(AtataContextScope.Test);

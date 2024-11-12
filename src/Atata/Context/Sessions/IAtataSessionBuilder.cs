@@ -12,11 +12,30 @@ public interface IAtataSessionBuilder
     string Name { get; set; }
 
     /// <summary>
+    /// Gets or sets the target context to which the built session should be assigned to.
+    /// Can be <see langword="null"/>.
+    /// </summary>
+    AtataContext TargetContext { get; set; }
+
+    /// <summary>
     /// Gets or sets the start scopes for which an <see cref="AtataSession"/> should automatically start.
     /// </summary>
     AtataSessionStartScopes? StartScopes { get; set; }
 
-    Task<AtataSession> BuildAsync(AtataContext context);
+    /// <summary>
+    /// Builds the session within a target context, current context, or creates a temporary default context.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The built session.</returns>
+    Task<AtataSession> BuildAsync(CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Builds the session within the specified <paramref name="context"/>.
+    /// </summary>
+    /// <param name="context">The context.</param>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>The built session.</returns>
+    Task<AtataSession> BuildAsync(AtataContext context, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a copy of the current builder.

@@ -106,5 +106,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1067:Expressions should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TestInfo.Equals(Atata.TestInfo)~System.Boolean")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseAssertionError(System.String,System.Exception)")]
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseAssertionWarning(System.String,System.Exception)")]
+[assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.AtataSessionBuilder`2.Atata#IAtataSessionBuilder#TargetContext")]
 
 #pragma warning restore S103 // Lines should not be too long
