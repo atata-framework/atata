@@ -8,7 +8,7 @@ public sealed class AtataSessionBuilderTests
         AtataSession session = await new FakeSessionBuilder().BuildAsync();
         AtataContext context = null;
 
-        using (session)
+        await using (session)
         {
             context = session.Context;
             context.IsActive.Should().BeTrue();
@@ -25,7 +25,7 @@ public sealed class AtataSessionBuilderTests
         await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
         AtataSession session = await new FakeSessionBuilder().BuildAsync();
 
-        using (session)
+        await using (session)
         {
             session.Context.Should().Be(context);
             context.Sessions.Should().Contain(session);
@@ -60,7 +60,7 @@ public sealed class AtataSessionBuilderTests
         await using AtataContext noiseContext = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
         AtataSession session = await new FakeSessionBuilder().BuildAsync(context);
 
-        using (session)
+        await using (session)
         {
             session.Context.Should().Be(context);
             context.Sessions.Should().Contain(session);
@@ -97,7 +97,7 @@ public sealed class AtataSessionBuilderTests
 
         await using AtataContext noiseContext = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
 
-        using AtataSession session = await sessionBuidler.BuildAsync();
+        await using AtataSession session = await sessionBuidler.BuildAsync();
 
         session.Context.Should().Be(context);
         context.Sessions.Should().Contain(session);

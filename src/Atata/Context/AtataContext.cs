@@ -801,7 +801,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
 #warning Review sessions disposing.
                 foreach (var session in Sessions)
-                    session.Dispose();
+                    session.DisposeAsync().GetAwaiter().GetResult();
 
                 Sessions.Dispose();
 

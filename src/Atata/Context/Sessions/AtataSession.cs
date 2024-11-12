@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-public abstract class AtataSession : IDisposable
+public abstract class AtataSession : IAsyncDisposable
 {
     private bool _disposed;
 
@@ -132,41 +132,41 @@ public abstract class AtataSession : IDisposable
     public void RaiseAssertionWarning(string message, Exception exception = null) =>
         ExpectationVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        if (_disposed)
-            return;
-
-        if (DisposesThroughContext)
+        if (!_disposed)
         {
-            DisposesThroughContext = false;
-            Context.Dispose();
-        }
-        else
-        {
-            Log.ExecuteSection(
-                new AtataSessionDeInitLogSection(this),
-                () => Dispose(true));
+            if (DisposesThroughContext)
+            {
+                DisposesThroughContext = false;
+                await Context.DisposeAsync().ConfigureAwait(false);
+            }
+            else
+            {
+                await Log.ExecuteSectionAsync(
+                    new AtataSessionDeInitLogSection(this),
+                    async () => await DisposeAsyncCore().ConfigureAwait(false))
+                    .ConfigureAwait(false);
 
-            Variables.Clear();
-            Log = null;
-            Report = null;
+                Variables.Clear();
+                Log = null;
+                Report = null;
 
-            _disposed = true;
-            GC.SuppressFinalize(this);
+                _disposed = true;
+                GC.SuppressFinalize(this);
+            }
         }
     }
 
-    protected virtual void Dispose(bool disposing)
+    protected virtual ValueTask DisposeAsyncCore()
     {
-        if (disposing)
-        {
-            OwnerContext = null;
-            Context = null;
-            State.Clear();
-            EventBus.UnsubscribeAll();
-            IsActive = false;
-        }
+        OwnerContext = null;
+        Context = null;
+        State.Clear();
+        EventBus.UnsubscribeAll();
+        IsActive = false;
+
+        return default;
     }
 
     internal void AssignToOwnerContext(AtataContext context)

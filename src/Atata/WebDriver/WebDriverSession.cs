@@ -124,27 +124,24 @@ public class WebDriverSession : WebSession
                 InitDriver();
             });
 
-    protected override void Dispose(bool disposing)
+    protected override async ValueTask DisposeAsyncCore()
     {
-        if (disposing)
+        CleanUpTemporarilyPreservedPageObjectList();
+
+        if (PageObject != null)
+            UIComponentResolver.CleanUpPageObject(PageObject);
+
+        UIComponentAccessChainScopeCache.Release();
+
+        if (_driver is not null)
         {
-            CleanUpTemporarilyPreservedPageObjectList();
+            EventBus.Publish(new DriverDeInitEvent(_driver));
 
-            if (PageObject != null)
-                UIComponentResolver.CleanUpPageObject(PageObject);
-
-            UIComponentAccessChainScopeCache.Release();
-
-            if (_driver is not null)
-            {
-                EventBus.Publish(new DriverDeInitEvent(_driver));
-
-                if (DisposeDriver)
-                    DisposeDriverSafely();
-            }
+            if (DisposeDriver)
+                DisposeDriverSafely();
         }
 
-        base.Dispose(disposing);
+        await base.DisposeAsyncCore().ConfigureAwait(false);
     }
 
     private void DisposeDriverSafely()

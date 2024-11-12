@@ -10,7 +10,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
         var builder = WebDriverSession.CreateBuilder();
         builder.UseChrome();
 
-        using var session = await builder.BuildAsync();
+        await using var session = await builder.BuildAsync();
 
         session.Driver.Should().BeOfType<ChromeDriver>();
     }
