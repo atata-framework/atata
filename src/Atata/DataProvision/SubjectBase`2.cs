@@ -218,7 +218,143 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     }
 
     /// <summary>
-    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="actionExpression"/>.
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking(Expression<Func<TObject, ValueTask>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return Invoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking(Func<TObject, ValueTask> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the value task result.</typeparam>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return Invoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the value task result.</typeparam>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking(Expression<Func<TObject, Task>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return Invoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking(Func<TObject, Task> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the task result.</typeparam>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return Invoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new lazy <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the task result.</typeparam>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> Invoking<TResult>(Func<TObject, Task<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new LazyObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="actionExpression"/>.
     /// </summary>
     /// <param name="actionExpression">The action expression.</param>
     /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
@@ -247,6 +383,142 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
             (TSubject)this,
             new DynamicObjectSource<Action, TObject>(this, x => () => action.Invoke(x)),
             actionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking(Expression<Func<TObject, ValueTask>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicInvoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking(Func<TObject, ValueTask> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the value task result.</typeparam>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicInvoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the value task result.</typeparam>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking(Expression<Func<TObject, Task>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicInvoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking(Func<TObject, Task> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="functionExpression"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the task result.</typeparam>
+    /// <param name="functionExpression">The function expression.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicInvoking(function, functionName);
+    }
+
+    /// <summary>
+    /// Creates a new dynamic <see cref="ActionProvider{TOwner}"/> from the invocation of the specified <paramref name="function"/>
+    /// with the specified <paramref name="functionName"/>.
+    /// </summary>
+    /// <typeparam name="TResult">The type of the task result.</typeparam>
+    /// <param name="function">The function.</param>
+    /// <param name="functionName">Name of the function.</param>
+    /// <returns>A new <see cref="ActionProvider{TOwner}"/> instance.</returns>
+    public ActionProvider<TSubject> DynamicInvoking<TResult>(Func<TObject, Task<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new ActionProvider<TSubject>(
+            (TSubject)this,
+            new DynamicObjectSource<Action, TObject>(this, x => () => function.Invoke(x).RunSync()),
+            functionName,
             ExecutionUnit);
     }
 
