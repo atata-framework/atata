@@ -38,7 +38,7 @@ public abstract class TestSuiteBase
     {
         var context = AtataContext.Current;
 
-        if (context is not null)
+        if (context is { IsActive: true })
         {
             var testContext = TestContext.CurrentContext;
 
