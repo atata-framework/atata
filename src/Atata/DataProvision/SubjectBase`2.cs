@@ -40,8 +40,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return ResultOf(function, functionName);
     }
@@ -66,8 +65,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return SubjectOf(function, functionName);
     }
@@ -100,8 +98,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return DynamicResultOf(function, functionName);
     }
@@ -126,8 +123,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return DynamicSubjectOf(function, functionName);
     }
@@ -160,8 +156,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         actionExpression.CheckNotNull(nameof(actionExpression));
 
-        var action = actionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+        var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
         return Act(action, actionName);
     }
@@ -198,8 +193,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         actionExpression.CheckNotNull(nameof(actionExpression));
 
-        var action = actionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+        var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
         return Invoking(action, actionName);
     }
@@ -232,8 +226,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         actionExpression.CheckNotNull(nameof(actionExpression));
 
-        var action = actionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+        var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
         return DynamicInvoking(action, actionName);
     }

@@ -20,8 +20,7 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return ResultOf(function, functionName);
     }
@@ -35,8 +34,7 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return SubjectOf(function, functionName);
     }
@@ -57,8 +55,7 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return DynamicResultOf(function, functionName);
     }
@@ -72,8 +69,7 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var function = functionExpression.Compile();
-        string functionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
         return DynamicSubjectOf(function, functionName);
     }
@@ -98,8 +94,7 @@ public static class Subject
     {
         actionExpression.CheckNotNull(nameof(actionExpression));
 
-        var action = actionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+        var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
         return Invoking(action, actionName);
     }
@@ -130,10 +125,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return Invoking(action, actionName);
+        return Invoking(function, functionName);
     }
 
     /// <summary>
@@ -163,10 +157,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return Invoking(action, actionName);
+        return Invoking(function, functionName);
     }
 
     /// <summary>
@@ -196,10 +189,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return Invoking(action, actionName);
+        return Invoking(function, functionName);
     }
 
     /// <summary>
@@ -229,10 +221,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return Invoking(action, actionName);
+        return Invoking(function, functionName);
     }
 
     /// <summary>
@@ -262,8 +253,7 @@ public static class Subject
     {
         actionExpression.CheckNotNull(nameof(actionExpression));
 
-        var action = actionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(actionExpression);
+        var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
 
         return DynamicInvoking(action, actionName);
     }
@@ -294,10 +284,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return DynamicInvoking(action, actionName);
+        return DynamicInvoking(function, functionName);
     }
 
     /// <summary>
@@ -327,10 +316,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return DynamicInvoking(action, actionName);
+        return DynamicInvoking(function, functionName);
     }
 
     /// <summary>
@@ -360,10 +348,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return DynamicInvoking(action, actionName);
+        return DynamicInvoking(function, functionName);
     }
 
     /// <summary>
@@ -393,10 +380,9 @@ public static class Subject
     {
         functionExpression.CheckNotNull(nameof(functionExpression));
 
-        var action = functionExpression.Compile();
-        string actionName = ObjectExpressionStringBuilder.ExpressionToString(functionExpression);
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
 
-        return DynamicInvoking(action, actionName);
+        return DynamicInvoking(function, functionName);
     }
 
     /// <summary>

@@ -40,4 +40,7 @@ public static class ExpressionExtensions
             throw new ArgumentException($"Inappropriate {nameof(expression)} kind.", nameof(expression));
         }
     }
+
+    internal static (TDelegate Delegate, string TextExpression) ExtractDelegateAndTextExpression<TDelegate>(this Expression<TDelegate> expression) =>
+        (expression.Compile(), ObjectExpressionStringBuilder.ExpressionToString(expression));
 }
