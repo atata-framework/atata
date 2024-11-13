@@ -8,7 +8,8 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     public async Task Build_WithoutAtataContext()
     {
         var builder = WebDriverSession.CreateBuilder();
-        builder.UseChrome();
+        builder.UseChrome()
+            .WithArguments(ChromeArguments);
 
         await using var session = await builder.BuildAsync();
 
