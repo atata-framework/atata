@@ -319,11 +319,53 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
 
         action.Invoke(Object);
 
-        ProviderName = _executedActionsCount == 0
-            ? $"{ProviderName}{{ {actionName} }}"
-            : $"{ProviderName.Substring(0, ProviderName.Length - 2)}; {actionName} }}";
+        AppendActActionToProviderName(actionName);
 
-        _executedActionsCount++;
+        return Owner;
+    }
+
+    /// <inheritdoc cref="Act(Expression{Action{TObject}})"/>
+    public TSubject Act(Expression<Func<TObject, ValueTask>> actionExpression)
+    {
+        actionExpression.CheckNotNull(nameof(actionExpression));
+
+        var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
+
+        return Act(action, actionName);
+    }
+
+    /// <inheritdoc cref="Act(Action{TObject}, string)"/>
+    public TSubject Act(Func<TObject, ValueTask> action, string actionName)
+    {
+        action.CheckNotNull(nameof(action));
+        actionName.CheckNotNull(nameof(actionName));
+
+        action.Invoke(Object).RunSync();
+
+        AppendActActionToProviderName(actionName);
+
+        return Owner;
+    }
+
+    /// <inheritdoc cref="Act(Expression{Action{TObject}})"/>
+    public TSubject Act(Expression<Func<TObject, Task>> actionExpression)
+    {
+        actionExpression.CheckNotNull(nameof(actionExpression));
+
+        var (action, actionName) = actionExpression.ExtractDelegateAndTextExpression();
+
+        return Act(action, actionName);
+    }
+
+    /// <inheritdoc cref="Act(Action{TObject}, string)"/>
+    public TSubject Act(Func<TObject, Task> action, string actionName)
+    {
+        action.CheckNotNull(nameof(action));
+        actionName.CheckNotNull(nameof(actionName));
+
+        action.Invoke(Object).RunSync();
+
+        AppendActActionToProviderName(actionName);
 
         return Owner;
     }
@@ -686,5 +728,14 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
             .AggregateAssert(() => action((TSubject)this), assertionScopeName);
 
         return Owner;
+    }
+
+    private void AppendActActionToProviderName(string actionName)
+    {
+        ProviderName = _executedActionsCount == 0
+            ? $"{ProviderName}{{ {actionName} }}"
+            : $"{ProviderName.Substring(0, ProviderName.Length - 2)}; {actionName} }}";
+
+        _executedActionsCount++;
     }
 }
