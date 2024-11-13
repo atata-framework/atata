@@ -709,6 +709,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="stackTrace">The exception stack trace.</param>
     public void HandleTestResultException(string message, string stackTrace)
     {
+        EnsureNotDisposed();
+
         Test.ResultStatus = TestResultStatus.Failed;
 
         if (LastLoggedException is null || !message.Contains(LastLoggedException.Message))
@@ -776,9 +778,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Deinitializes and disposes the current instance and related objects.
-    /// Also writes the execution time to log;
-    /// throws <see cref="AggregateAssertionException"/> if
+    /// Deinitializes and disposes the current context together with sessions and other associated objects.
+    /// Also writes the execution time to log.
+    /// Throws <see cref="AggregateAssertionException"/> if
     /// <see cref="PendingFailureAssertionResults"/> is not empty (contains warnings).
     /// Publishes events: <see cref="AtataContextDeInitEvent"/>, <see cref="AtataSessionDeInitEvent"/> (for sessions), <see cref="AtataContextDeInitCompletedEvent"/>.
     /// </summary>
@@ -928,6 +930,12 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             AtataContextScope.Test => "test",
             _ => "unit"
         };
+
+    private void EnsureNotDisposed()
+    {
+        if (_disposed)
+            throw new ObjectDisposedException(GetType().FullName);
+    }
 
     /// <inheritdoc/>
     public override string ToString()
