@@ -55,6 +55,34 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     public Subject<TResult> ResultOf<TResult>(Func<TObject, TResult> function, string functionName) =>
         SubjectOf(function, Subject.BuildResultName(functionName));
 
+    /// <inheritdoc cref="ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> ResultOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return ResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="ResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> ResultOf<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName) =>
+        SubjectOf(function, Subject.BuildResultName(functionName));
+
+    /// <inheritdoc cref="ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> ResultOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return ResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="ResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> ResultOf<TResult>(Func<TObject, Task<TResult>> function, string functionName) =>
+        SubjectOf(function, Subject.BuildResultName(functionName));
+
     /// <summary>
     /// Creates a new lazy <see cref="Subject{TObject}"/> from the result of the specified <paramref name="functionExpression"/>.
     /// </summary>
@@ -88,6 +116,50 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
             ExecutionUnit);
     }
 
+    /// <inheritdoc cref="SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> SubjectOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return SubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> SubjectOf<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            new LazyObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <inheritdoc cref="SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> SubjectOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return SubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> SubjectOf<TResult>(Func<TObject, Task<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            new LazyObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
     /// <summary>
     /// Creates a new dynamic result <see cref="Subject{TObject}"/> from the result of the specified <paramref name="functionExpression"/>.
     /// </summary>
@@ -111,6 +183,34 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// <param name="functionName">Name of the function.</param>
     /// <returns>A new <see cref="Subject{TObject}"/> instance.</returns>
     public Subject<TResult> DynamicResultOf<TResult>(Func<TObject, TResult> function, string functionName) =>
+        DynamicSubjectOf(function, Subject.BuildResultName(functionName));
+
+    /// <inheritdoc cref="DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> DynamicResultOf<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName) =>
+        DynamicSubjectOf(function, Subject.BuildResultName(functionName));
+
+    /// <inheritdoc cref="DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> DynamicResultOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> DynamicResultOf<TResult>(Func<TObject, Task<TResult>> function, string functionName) =>
         DynamicSubjectOf(function, Subject.BuildResultName(functionName));
 
     /// <summary>
@@ -142,6 +242,50 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
 
         return new(
             new DynamicObjectSource<TResult, TObject>(this, function),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <inheritdoc cref="DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TObject, ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicSubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> DynamicSubjectOf<TResult>(Func<TObject, ValueTask<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            new DynamicObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
+            functionName,
+            ExecutionUnit);
+    }
+
+    /// <inheritdoc cref="DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<TObject, Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicSubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public Subject<TResult> DynamicSubjectOf<TResult>(Func<TObject, Task<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            new DynamicObjectSource<TResult, TObject>(this, x => function(x).RunSync()),
             functionName,
             ExecutionUnit);
     }
