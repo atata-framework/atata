@@ -29,6 +29,34 @@ public static class Subject
     public static Subject<TResult> ResultOf<TResult>(Func<TResult> function, string functionName) =>
         SubjectOf(function, BuildResultName(functionName));
 
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> ResultOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return ResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> ResultOf<TResult>(Func<ValueTask<TResult>> function, string functionName) =>
+        SubjectOf(function, BuildResultName(functionName));
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> ResultOf<TResult>(Expression<Func<Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return ResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.ResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> ResultOf<TResult>(Func<Task<TResult>> function, string functionName) =>
+        SubjectOf(function, BuildResultName(functionName));
+
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
     public static Subject<TResult> SubjectOf<TResult>(Expression<Func<TResult>> functionExpression)
     {
@@ -45,8 +73,50 @@ public static class Subject
         function.CheckNotNull(nameof(function));
         functionName.CheckNotNull(nameof(functionName));
 
-        return new Subject<TResult>(
+        return new(
             new LazyObjectSource<TResult>(function),
+            functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> SubjectOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return SubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> SubjectOf<TResult>(Func<ValueTask<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            new LazyObjectSource<TResult>(() => function.Invoke().RunSync()),
+            functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> SubjectOf<TResult>(Expression<Func<Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return SubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.SubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> SubjectOf<TResult>(Func<Task<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            new LazyObjectSource<TResult>(() => function.Invoke().RunSync()),
             functionName);
     }
 
@@ -62,6 +132,20 @@ public static class Subject
 
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
     public static Subject<TResult> DynamicResultOf<TResult>(Func<TResult> function, string functionName) =>
+        DynamicSubjectOf(function, BuildResultName(functionName));
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> DynamicResultOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicResultOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicResultOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> DynamicResultOf<TResult>(Func<ValueTask<TResult>> function, string functionName) =>
         DynamicSubjectOf(function, BuildResultName(functionName));
 
     /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
@@ -80,8 +164,50 @@ public static class Subject
         function.CheckNotNull(nameof(function));
         functionName.CheckNotNull(nameof(functionName));
 
-        return new Subject<TResult>(
+        return new(
             DynamicObjectSource.Create(function),
+            functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<ValueTask<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicSubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> DynamicSubjectOf<TResult>(Func<ValueTask<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            DynamicObjectSource.Create(() => function.Invoke().RunSync()),
+            functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Expression{Func{TObject, TResult}})"/>
+    public static Subject<TResult> DynamicSubjectOf<TResult>(Expression<Func<Task<TResult>>> functionExpression)
+    {
+        functionExpression.CheckNotNull(nameof(functionExpression));
+
+        var (function, functionName) = functionExpression.ExtractDelegateAndTextExpression();
+
+        return DynamicSubjectOf(function, functionName);
+    }
+
+    /// <inheritdoc cref="SubjectBase{TObject, TSubject}.DynamicSubjectOf{TResult}(Func{TObject, TResult}, string)"/>
+    public static Subject<TResult> DynamicSubjectOf<TResult>(Func<Task<TResult>> function, string functionName)
+    {
+        function.CheckNotNull(nameof(function));
+        functionName.CheckNotNull(nameof(functionName));
+
+        return new(
+            DynamicObjectSource.Create(() => function.Invoke().RunSync()),
             functionName);
     }
 

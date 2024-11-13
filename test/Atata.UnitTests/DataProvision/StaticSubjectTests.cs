@@ -12,15 +12,43 @@ public static class StaticSubjectTests
                 .ProviderName.Should().Be("StaticSubjectTests.TestClass.GetEntity(10) => result");
 
         [Test]
-        public static void Returns() =>
+        public static void Function_Returns() =>
             Subject.ResultOf(() => TestClass.GetEntity(10))
                 .ValueOf(x => x.Id).Should.Equal(10)
                 .ValueOf(x => x.Name).Should.BeNull();
 
         [Test]
-        public static void Throws()
+        public static void Function_Throws()
         {
             var result = Subject.ResultOf(() => TestClass.GetEntity(null));
+
+            Assert.Throws<ArgumentNullException>(() =>
+                _ = result.Object);
+        }
+
+        [Test]
+        public static void ValueTaskFunction_Returns() =>
+            Subject.ResultOf(() => TestClass.GetEntityAsValueTaskAsync("x"))
+                .ValueOf(x => x.Name).Should.Be("x");
+
+        [Test]
+        public static void ValueTaskFunction_Throws()
+        {
+            var result = Subject.ResultOf(() => TestClass.GetEntityAsValueTaskAsync(null));
+
+            Assert.Throws<ArgumentNullException>(() =>
+                _ = result.Object);
+        }
+
+        [Test]
+        public static void TaskFunction_Returns() =>
+            Subject.ResultOf(() => TestClass.GetEntityAsTaskAsync("x"))
+                .ValueOf(x => x.Name).Should.Be("x");
+
+        [Test]
+        public static void TaskFunction_Throws()
+        {
+            var result = Subject.ResultOf(() => TestClass.GetEntityAsTaskAsync(null));
 
             Assert.Throws<ArgumentNullException>(() =>
                 _ = result.Object);
