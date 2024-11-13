@@ -108,5 +108,6 @@
 [assembly: SuppressMessage("Design", "CA1030:Use events where appropriate", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContext.RaiseAssertionWarning(System.String,System.Exception)")]
 [assembly: SuppressMessage("Minor Code Smell", "S2292:Trivial properties should be auto-implemented", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.AtataSessionBuilder`2.Atata#IAtataSessionBuilder#TargetContext")]
 [assembly: SuppressMessage("Minor Code Smell", "S4261:Methods should be named according to their synchronicities", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSession.DisposeAsyncCore~System.Threading.Tasks.ValueTask")]
+[assembly: SuppressMessage("Critical Code Smell", "S5034:\"ValueTask\" should be consumed correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TaskExtensions.RunSync``1(System.Threading.Tasks.ValueTask{``0})~``0")]
 
 #pragma warning restore S103 // Lines should not be too long
