@@ -22,5 +22,7 @@
 [assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.StaticSubClass.GenericSubClass`1")]
 [assembly: SuppressMessage("Minor Code Smell", "S2094:Classes should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.UnitTests.Utils.TypeFinderTests.SubClass")]
 [assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.AtataSessionCollectionTests.SetUp")]
+[assembly: SuppressMessage("Major Code Smell", "S4144:Methods should not have identical implementations", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.DataProvision.StaticSubjectTests.TestClass.ThrowAsTaskAsync~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Major Code Smell", "S4144:Methods should not have identical implementations", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.DataProvision.StaticSubjectTests.TestClass.GetEntityAsTaskAsync(System.String)~System.Threading.Tasks.Task{Atata.UnitTests.DataProvision.StaticSubjectTests.TestEntity}")]
 
 #pragma warning restore S103 // Lines should not be too long
