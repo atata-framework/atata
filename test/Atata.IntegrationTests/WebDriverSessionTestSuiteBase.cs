@@ -37,6 +37,9 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
                 .WithPortsToIgnore(_portsToIgnore)
                 .WithInitialHealthCheck();
 
+            session.Screenshots.TakeOnFailure = false;
+            session.PageSnapshots.TakeOnFailure = false;
+
             configureWebDriverSession?.Invoke(session);
         });
 
