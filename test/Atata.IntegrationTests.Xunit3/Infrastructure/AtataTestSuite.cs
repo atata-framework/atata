@@ -7,15 +7,6 @@ public abstract class AtataTestSuite : AtataFixture
     protected AtataTestSuite()
         : base(AtataContextScope.Test)
     {
-        var testFullName = TestContext.Current.Test.TestDisplayName;
-        var testSuiteType = GetType();
-        var testName = testFullName.Replace(testSuiteType.FullName, null).TrimStart('.');
-        var output = TestContext.Current.TestOutputHelper;
-
-        var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
-        builder.UseTestName(testName);
-        builder.UseTestSuiteType(testSuiteType);
-        builder.LogConsumers.Add(new TextOutputLogConsumer(output.WriteLine));
     }
 
     protected override void ConfigureAtataContext(AtataContextBuilder builder)
