@@ -22,7 +22,7 @@ public sealed class AtataSessionBuilderTests
     [Test]
     public async Task Build_WithinCurrentContext_ThenDisposeSession()
     {
-        await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
+        using AtataContext context = AtataContext.CreateDefaultNonScopedBuilder().Build();
         AtataSession session = await new FakeSessionBuilder().BuildAsync();
 
         await using (session)
@@ -38,7 +38,7 @@ public sealed class AtataSessionBuilderTests
     [Test]
     public async Task Build_WithinCurrentContext_ThenDisposeContext()
     {
-        AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
+        AtataContext context = AtataContext.CreateDefaultNonScopedBuilder().Build();
         AtataSession session = null;
 
         await using (context)
