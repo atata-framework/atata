@@ -742,11 +742,31 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
+    /// <inheritdoc cref="BuildAsync(CancellationToken)"/>
+    public AtataContext Build(CancellationToken cancellationToken = default)
+    {
+        AtataContext context = CreateAtataContext();
+
+        InitializeContextAsync(context, cancellationToken).RunSync();
+
+        return context;
+    }
+
     /// <summary>
     /// Builds the <see cref="AtataContext" /> instance and sets it to <see cref="AtataContext.Current" /> property.
     /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The created <see cref="AtataContext"/> instance.</returns>
-    public AtataContext Build()
+    public async Task<AtataContext> BuildAsync(CancellationToken cancellationToken = default)
+    {
+        AtataContext context = CreateAtataContext();
+
+        await InitializeContextAsync(context, cancellationToken).ConfigureAwait(false);
+
+        return context;
+    }
+
+    private AtataContext CreateAtataContext()
     {
         TestInfo testInfo = new(
             TestNameFactory?.Invoke(),
@@ -793,41 +813,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.EventBus.Publish(new AtataContextPreInitEvent(context));
 
-        context.LogTestStart();
-
-        context.Log.ExecuteSection(
-            new LogSection("Initialize AtataContext", LogLevel.Trace),
-            () => InitializeContext(context));
-
-        context.BodyExecutionStopwatch.Start();
-
         return context;
-    }
-
-#warning Rework Build and BuildAsync methods. Build should be replaced with BuildAsync.
-    public Task<AtataContext> BuildAsync(CancellationToken cancellationToken = default) =>
-        Task.FromResult(Build());
-
-    private static AtataSessionStartScopes? ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
-        scope switch
-        {
-            AtataContextScope.Test => AtataSessionStartScopes.Test,
-            AtataContextScope.TestSuite => AtataSessionStartScopes.TestSuite,
-            AtataContextScope.TestSuiteGroup => AtataSessionStartScopes.TestSuiteGroup,
-            AtataContextScope.NamespaceSuite => AtataSessionStartScopes.NamespaceSuite,
-            AtataContextScope.Global => AtataSessionStartScopes.Global,
-            null => null,
-            _ => AtataSessionStartScopes.None
-        };
-
-    private static void ApplyCulture(AtataContext context, CultureInfo culture)
-    {
-        Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
-
-        if (AtataContext.GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.Static)
-            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
-
-        context.Log.Trace($"Set: Culture={culture.Name}");
     }
 
     private LogManager CreateLogManager(AtataContext context)
@@ -839,7 +825,19 @@ public sealed class AtataContextBuilder : ICloneable
         return new(configuration, new AtataContextLogEventInfoFactory(context));
     }
 
-    private void InitializeContext(AtataContext context)
+    private async Task InitializeContextAsync(AtataContext context, CancellationToken cancellationToken = default)
+    {
+        context.LogTestStart();
+
+        await context.Log.ExecuteSectionAsync(
+            new LogSection("Initialize AtataContext", LogLevel.Trace),
+            async () => await DoInitializeContextAsync(context, cancellationToken).ConfigureAwait(false))
+            .ConfigureAwait(false);
+
+        context.BodyExecutionStopwatch.Start();
+    }
+
+    private async Task DoInitializeContextAsync(AtataContext context, CancellationToken cancellationToken = default)
     {
         context.EventBus.Publish(new AtataContextInitStartedEvent(context));
 
@@ -852,11 +850,20 @@ public sealed class AtataContextBuilder : ICloneable
 
         foreach (var builder in Sessions.Builders.Where(ShouldAutoStartSession))
         {
-#warning Use await.
-            builder.BuildAsync(context).GetAwaiter().GetResult();
+            await builder.BuildAsync(context, cancellationToken).ConfigureAwait(false);
         }
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
+    }
+
+    private static void ApplyCulture(AtataContext context, CultureInfo culture)
+    {
+        Thread.CurrentThread.CurrentCulture = Thread.CurrentThread.CurrentUICulture = culture;
+
+        if (AtataContext.GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.Static)
+            CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = culture;
+
+        context.Log.Trace($"Set: Culture={culture.Name}");
     }
 
     private bool ShouldAutoStartSession(IAtataSessionBuilder builder) =>
@@ -940,4 +947,16 @@ public sealed class AtataContextBuilder : ICloneable
 
         return copy;
     }
+
+    private static AtataSessionStartScopes? ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
+        scope switch
+        {
+            AtataContextScope.Test => AtataSessionStartScopes.Test,
+            AtataContextScope.TestSuite => AtataSessionStartScopes.TestSuite,
+            AtataContextScope.TestSuiteGroup => AtataSessionStartScopes.TestSuiteGroup,
+            AtataContextScope.NamespaceSuite => AtataSessionStartScopes.NamespaceSuite,
+            AtataContextScope.Global => AtataSessionStartScopes.Global,
+            null => null,
+            _ => AtataSessionStartScopes.None
+        };
 }
