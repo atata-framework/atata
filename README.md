@@ -46,7 +46,7 @@ You can describe a page object class without any methods and only have a set of 
 
 ## Usage
 
-### Page Object
+### Page object
 
 Simple sign-in page object for https://demo.atata.io/signin page:
 
@@ -148,32 +148,26 @@ You can also check the following tutorials:
 * [Multi-Browser Configuration via .runsettings files](https://atata.io/tutorials/multi-browser-configuration-via-runsettings-files/) - how to configure multi-browser tests application using `.runsettings` files.
 * [Reporting to Extent Reports](https://atata.io/tutorials/reporting-to-extentreports/) - how to configure Atata reporting to Extent Reports.
 
-## Contact
+## Community
 
-Feel free to ask any questions regarding Atata Framework.
+* Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
+* Twitter: https://twitter.com/AtataFramework
+* Stack Overflow: https://stackoverflow.com/questions/tagged/atata
+
+## Feedback
+
 Any feedback, issues and feature requests are welcome.
 
-You can [ask a question on Stack Overflow](https://stackoverflow.com/questions/ask?tags=atata+csharp) using [atata](https://stackoverflow.com/questions/tagged/atata) tag.
-
 If you faced an issue please report it to [Atata Issues](https://github.com/atata-framework/atata/issues),
-write to [Slack](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
-or just mail to yevgeniy.shunevych@gmail.com.
+[ask a question on Stack Overflow](https://stackoverflow.com/questions/ask?tags=atata+csharp) using [atata](https://stackoverflow.com/questions/tagged/atata) tag
+or use another [Atata Contact](https://atata.io/contact/) way.
 
-### Links
-
-* Stack Overflow: https://stackoverflow.com/questions/tagged/atata
-* Slack: [https://atata-framework.slack.com](https://join.slack.com/t/atata-framework/shared_invite/zt-5j3lyln7-WD1ZtMDzXBhPm0yXLDBzbA)
-* Atata Issues: https://github.com/atata-framework/atata/issues
-* Twitter: https://twitter.com/AtataFramework
-* YouTube: https://www.youtube.com/@atataframework
-
-### Author
+## Contact author
 
 Contact me if you need a help in test automation using Atata Framework, or if you are looking for a quality test automation implementation for your project.
 
-* Email: yevgeniy.shunevych@gmail.com
-* Skype: e.shunevich
 * LinkedIn: https://www.linkedin.com/in/yevgeniy-shunevych
+* Email: yevgeniy.shunevych@gmail.com
 
 ## Contributing
 
