@@ -65,14 +65,17 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             }
             else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocalBoxed)
             {
+                var currentAsyncLocalBoxedContextValue = s_currentAsyncLocalBoxedContext.Value;
+
                 if (value is null)
                 {
-                    s_currentAsyncLocalBoxedContext.Value = null;
+                    if (currentAsyncLocalBoxedContextValue is not null)
+                    {
+                        currentAsyncLocalBoxedContextValue.Value = null;
+                    }
                 }
                 else
                 {
-                    var currentAsyncLocalBoxedContextValue = s_currentAsyncLocalBoxedContext.Value;
-
                     if (currentAsyncLocalBoxedContextValue is null)
                     {
                         s_currentAsyncLocalBoxedContext.Value = new(value);
