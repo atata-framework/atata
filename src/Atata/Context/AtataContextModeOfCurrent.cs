@@ -17,6 +17,13 @@ public enum AtataContextModeOfCurrent
 
     /// <summary>
     /// The <see cref="AtataContext.Current"/> value is unique for each given asynchronous control flow.
+    /// Basically, <c>AsyncLocal&lt;AtataContext&gt;</c> construction is used under the hood.
     /// </summary>
-    AsyncLocal
+    AsyncLocal,
+
+    /// <summary>
+    /// The <see cref="AtataContext.Current"/> value is boxed for asynchronous control flow.
+    /// Basically, <c>AsyncLocal&lt;StrongBox&lt;AtataContext&gt;&gt;</c> construction is used under the hood.
+    /// </summary>
+    AsyncLocalBoxed
 }

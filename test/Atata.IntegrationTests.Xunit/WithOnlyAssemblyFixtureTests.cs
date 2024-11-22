@@ -17,6 +17,10 @@ public sealed class WithOnlyAssemblyFixtureTests :
     }
 
     [Fact]
+    public void Context_IsCurrent() =>
+        Context.Should().NotBeNull().And.Be(AtataContext.Current);
+
+    [Fact]
     public void Context_Test_ForFact()
     {
         using (new AssertionScope())

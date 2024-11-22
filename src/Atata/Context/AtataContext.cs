@@ -7,6 +7,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 {
     private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new();
 
+    private static readonly AsyncLocal<StrongBox<AtataContext>> s_currentAsyncLocalBoxedContext = new();
+
     [ThreadStatic]
     private static AtataContext s_currentThreadStaticContext;
 
@@ -51,17 +53,44 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         get => GlobalProperties.ModeOfCurrent switch
         {
             AtataContextModeOfCurrent.AsyncLocal => s_currentAsyncLocalContext.Value,
+            AtataContextModeOfCurrent.AsyncLocalBoxed => s_currentAsyncLocalBoxedContext.Value?.Value,
             AtataContextModeOfCurrent.ThreadStatic => s_currentThreadStaticContext,
             _ => s_currentStaticContext
         };
         set
         {
             if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocal)
+            {
                 s_currentAsyncLocalContext.Value = value;
+            }
+            else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocalBoxed)
+            {
+                if (value is null)
+                {
+                    s_currentAsyncLocalBoxedContext.Value = null;
+                }
+                else
+                {
+                    var currentAsyncLocalBoxedContextValue = s_currentAsyncLocalBoxedContext.Value;
+
+                    if (currentAsyncLocalBoxedContextValue is null)
+                    {
+                        s_currentAsyncLocalBoxedContext.Value = new(value);
+                    }
+                    else
+                    {
+                        currentAsyncLocalBoxedContextValue.Value = value;
+                    }
+                }
+            }
             else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
+            {
                 s_currentThreadStaticContext = value;
+            }
             else
+            {
                 s_currentStaticContext = value;
+            }
         }
     }
 
@@ -390,6 +419,17 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <returns>An <see cref="AtataContext"/> instance.</returns>
     public static AtataContext ResolveCurrent() =>
         Current ?? throw AtataContextNotFoundException.Create();
+
+    /// <summary>
+    /// Presets the current asynchronous local box when current mode is <see cref="AtataContextModeOfCurrent.AsyncLocalBoxed"/>.
+    /// </summary>
+    public static void PresetCurrentAsyncLocalBox()
+    {
+        if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocalBoxed)
+        {
+            s_currentAsyncLocalBoxedContext.Value = new();
+        }
+    }
 
     [Obsolete("Use CreateBuilder(...) instead.")] // Obsolete since v4.0.0.
     public static AtataContextBuilder Configure() =>
@@ -764,6 +804,22 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         {
             if (s_currentAsyncLocalContext.Value != this)
                 s_currentAsyncLocalContext.Value = this;
+        }
+        else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.AsyncLocalBoxed)
+        {
+            var currentAsyncLocalBoxedContextValue = s_currentAsyncLocalBoxedContext.Value;
+
+            if (currentAsyncLocalBoxedContextValue?.Value != this)
+            {
+                if (currentAsyncLocalBoxedContextValue is null)
+                {
+                    s_currentAsyncLocalBoxedContext.Value = new(this);
+                }
+                else
+                {
+                    currentAsyncLocalBoxedContextValue.Value = this;
+                }
+            }
         }
         else if (GlobalProperties.ModeOfCurrent == AtataContextModeOfCurrent.ThreadStatic)
         {

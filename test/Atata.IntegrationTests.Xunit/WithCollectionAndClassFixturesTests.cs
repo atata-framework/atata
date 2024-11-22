@@ -18,6 +18,10 @@ public sealed class WithCollectionAndClassFixturesTests :
     }
 
     [Fact]
+    public void Context_IsCurrent() =>
+        Context.Should().NotBeNull().And.Be(AtataContext.Current);
+
+    [Fact]
     public void Context_ParentContext() =>
         Context.ParentContext.Test.Should().Be(
             new TestInfo(typeof(WithCollectionAndClassFixturesTests), suiteGroupName: SomeCollection.Name));

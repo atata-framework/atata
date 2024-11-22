@@ -6,8 +6,11 @@ public abstract class AtataFixture : IAsyncLifetime
 {
     private readonly AtataContextScope _contextScope;
 
-    protected AtataFixture(AtataContextScope contextScope) =>
+    protected AtataFixture(AtataContextScope contextScope)
+    {
         _contextScope = contextScope;
+        AtataContext.PresetCurrentAsyncLocalBox();
+    }
 
     public AtataContext Context { get; private set; }
 
