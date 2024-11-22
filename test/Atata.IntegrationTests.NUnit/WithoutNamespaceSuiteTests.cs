@@ -8,6 +8,10 @@ namespace Atata.IntegrationTests.NUnit;
 public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
 {
     [Test]
+    public void Context_IsCurrent() =>
+        Context.Should().NotBeNull().And.Be(AtataContext.Current);
+
+    [Test]
     public void Context_Test_ForTest()
     {
         using (new AssertionScope())

@@ -8,7 +8,7 @@ public abstract class AtataGlobalFixture
     protected AtataContext Context { get; private set; }
 
     [OneTimeSetUp]
-    public async Task SetUpGlobalAtataContextAsync()
+    public void SetUpGlobalAtataContext()
     {
         AtataContext.BaseConfiguration
             .UseNUnitTestName()
@@ -31,12 +31,12 @@ public abstract class AtataGlobalFixture
 
         ConfigureAtataContext(builder);
 
-        Context = await builder.BuildAsync(TestContext.CurrentContext.CancellationToken).ConfigureAwait(false);
+        Context = builder.Build(TestContext.CurrentContext.CancellationToken);
     }
 
     [OneTimeTearDown]
-    public async Task TearDownGlobalAtataContextAsync() =>
-        await TestCompletionHandler.CompleteTestAsync(Context).ConfigureAwait(false);
+    public void TearDownGlobalAtataContext() =>
+        TestCompletionHandler.CompleteTest(Context);
 
     protected virtual void ConfigureAtataContextBaseConfiguration(AtataContextBuilder builder)
     {

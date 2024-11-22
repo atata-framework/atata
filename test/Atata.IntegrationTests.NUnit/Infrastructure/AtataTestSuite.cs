@@ -10,35 +10,32 @@ public abstract class AtataTestSuite
     protected AtataContext Context { get; private set; }
 
     [OneTimeSetUp]
-    public async Task SetUpSuiteAtataContextAsync()
+    public void SetUpSuiteAtataContext()
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite);
 
         ConfigureSuiteAtataContext(builder);
 
-        SuiteContext = await builder.BuildAsync(TestContext.CurrentContext.CancellationToken).ConfigureAwait(false);
+        SuiteContext = builder.Build(TestContext.CurrentContext.CancellationToken);
     }
 
     [OneTimeTearDown]
-    public async Task TearDownSuiteAtataContextAsync()
-    {
-        if (SuiteContext is not null)
-            await SuiteContext.DisposeAsync().ConfigureAwait(false);
-    }
+    public void TearDownSuiteAtataContext() =>
+        SuiteContext?.Dispose();
 
     [SetUp]
-    public async Task SetUpTestAtataContextAsync()
+    public void SetUpTestAtataContext()
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test);
 
         ConfigureAtataContext(builder);
 
-        Context = await builder.BuildAsync(TestContext.CurrentContext.CancellationToken).ConfigureAwait(false);
+        Context = builder.Build(TestContext.CurrentContext.CancellationToken);
     }
 
     [TearDown]
-    public async Task TearDownTestAtataContextAsync() =>
-        await TestCompletionHandler.CompleteTestAsync(Context).ConfigureAwait(false);
+    public void TearDownTestAtataContext() =>
+        TestCompletionHandler.CompleteTest(Context);
 
     protected virtual void ConfigureSuiteAtataContext(AtataContextBuilder builder)
     {

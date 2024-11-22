@@ -8,18 +8,18 @@ public abstract class AtataNamespaceFixture
     protected AtataContext Context { get; private set; }
 
     [OneTimeSetUp]
-    public async Task SetUpNamespaceAtataContextAsync()
+    public void SetUpNamespaceAtataContext()
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.NamespaceSuite);
 
         ConfigureAtataContext(builder);
 
-        Context = await builder.BuildAsync(TestContext.CurrentContext.CancellationToken).ConfigureAwait(false);
+        Context = builder.Build(TestContext.CurrentContext.CancellationToken);
     }
 
     [OneTimeTearDown]
-    public async Task TearDownNamespaceAtataContextAsync() =>
-        await TestCompletionHandler.CompleteTestAsync(Context).ConfigureAwait(false);
+    public void TearDownNamespaceAtataContext() =>
+        TestCompletionHandler.CompleteTest(Context);
 
     protected virtual void ConfigureAtataContext(AtataContextBuilder builder)
     {

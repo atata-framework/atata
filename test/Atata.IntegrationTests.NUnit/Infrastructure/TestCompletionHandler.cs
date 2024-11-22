@@ -5,7 +5,7 @@ namespace Atata.NUnit;
 
 internal static class TestCompletionHandler
 {
-    internal static async Task CompleteTestAsync(AtataContext context)
+    internal static void CompleteTest(AtataContext context)
     {
         if (context is not null)
         {
@@ -14,7 +14,7 @@ internal static class TestCompletionHandler
             if (testContext.Result.Outcome.Status == TestStatus.Failed)
                 context.HandleTestResultException(testContext.Result.Message, testContext.Result.StackTrace);
 
-            await context.DisposeAsync().ConfigureAwait(false);
+            context.Dispose();
         }
     }
 }
