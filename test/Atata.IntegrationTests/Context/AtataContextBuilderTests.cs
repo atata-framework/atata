@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Context;
 
-public sealed class AtataContextBuilderTests
+public sealed class AtataContextBuilderTests : TestSuiteBase
 {
     [Test]
     public void UseParentContext()
@@ -25,5 +25,22 @@ public sealed class AtataContextBuilderTests
             childContext1.ToSubject().ValueOf(x => x.ParentContext).Should.Be(parentContext);
             childContext2.ToSubject().ValueOf(x => x.ParentContext).Should.Be(parentContext);
         });
+    }
+
+    [Test]
+    public void WhenThrowsOnBuild()
+    {
+        var builder = ConfigureSessionlessAtataContext();
+        builder.EventSubscriptions.Add<AtataContextInitCompletedEvent>(
+            () => throw new InvalidOperationException());
+
+        Assert.That(
+            () => builder.Build(),
+            Throws.TypeOf<InvalidOperationException>());
+
+        CurrentLog.GetSnapshotOfLevel(LogLevel.Error).
+            Should().ContainSingle();
+        CurrentLog.LatestRecord.Level.Should().Be(LogLevel.Debug);
+        CurrentLog.LatestRecord.Message.Should().StartWith("Finished");
     }
 }

@@ -14,7 +14,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private static AtataContext s_currentStaticContext;
 
-    private bool _disposed;
+    private Status _status;
 
     /// <summary>
     /// Gets the base retry timeout, which is <c>5</c> seconds.
@@ -43,6 +43,13 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         Variables = new(parentContext?.Variables);
         State = new(parentContext?.State);
+    }
+
+    private enum Status
+    {
+        Created,
+        Active,
+        Disposed
     }
 
     /// <summary>
@@ -161,7 +168,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <summary>
     /// Gets a value indicating whether this instance is active (not disposed).
     /// </summary>
-    public bool IsActive => !_disposed;
+    public bool IsActive =>
+        _status == Status.Active;
 
     /// <summary>
     /// Gets the unique context identifier.
@@ -488,6 +496,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             throw new InvalidOperationException(
                 $"{nameof(AtataContext)}.{nameof(Global)} is already set. There can be only one global context configured.");
     }
+
+    internal void Activate() =>
+        _status = Status.Active;
 
     internal void AddChildContext(AtataContext context) =>
         _childContexts.Add(context);
@@ -845,7 +856,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public void Dispose()
     {
-        if (_disposed)
+        if (_status == Status.Disposed)
             return;
 
         BodyExecutionStopwatch.Stop();
@@ -883,7 +894,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         if (Current == this)
             Current = null;
 
-        _disposed = true;
+        _status = Status.Disposed;
 
         AssertionResults.Clear();
 
@@ -992,7 +1003,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private void EnsureNotDisposed()
     {
-        if (_disposed)
+        if (_status == Status.Disposed)
             throw new ObjectDisposedException(GetType().FullName);
     }
 

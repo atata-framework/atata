@@ -829,10 +829,19 @@ public sealed class AtataContextBuilder : ICloneable
     {
         context.LogTestStart();
 
-        await context.Log.ExecuteSectionAsync(
-            new LogSection("Initialize AtataContext", LogLevel.Trace),
-            async () => await DoInitializeContextAsync(context, cancellationToken).ConfigureAwait(false))
-            .ConfigureAwait(false);
+        try
+        {
+            await context.Log.ExecuteSectionAsync(
+                new LogSection("Initialize AtataContext", LogLevel.Trace),
+                async () => await DoInitializeContextAsync(context, cancellationToken).ConfigureAwait(false))
+                .ConfigureAwait(false);
+        }
+        catch (Exception exception)
+        {
+            context.Log.Error(exception, "AtataContext initialization failed.");
+            await context.DisposeAsync();
+            throw;
+        }
 
         context.BodyExecutionStopwatch.Start();
     }
@@ -854,6 +863,7 @@ public sealed class AtataContextBuilder : ICloneable
         }
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
+        context.Activate();
     }
 
     private static void ApplyCulture(AtataContext context, CultureInfo culture)
