@@ -22,7 +22,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
 
     /// <summary>
     /// Gets or sets a value indicating whether to dispose the <see cref="WebDriverSession.Driver"/>
-    /// when <see cref="AtataSession.Dispose()"/> method is invoked.
+    /// when <see cref="AtataSession.DisposeAsync()"/> method is invoked.
     /// The default value is <see langword="true"/>.
     /// </summary>
     public bool DisposeDriver { get; set; } = true;
