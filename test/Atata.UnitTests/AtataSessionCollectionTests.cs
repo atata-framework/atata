@@ -76,11 +76,9 @@ public sealed class AtataSessionCollectionTests
     }
 
     [Test]
-    public void Get_ByName_WithNull_WhenItIsMissing()
-    {
+    public void Get_ByName_WithNull_WhenItIsMissing() =>
         _sut.Invoking(x => x.Get<FakeSession>(null))
             .Should.Throw<AtataSessionNotFoundException>()
             .ValueOf(x => x.Message).Should.Be(
                 "Failed to find session of type Atata.UnitTests.FakeSession with name \"\" in AtataContext. There were 0 sessions of such type.");
-    }
 }
