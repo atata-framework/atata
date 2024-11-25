@@ -859,21 +859,45 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         if (_status == Status.Disposed)
             return;
 
+        DisposeAsyncCore().RunSync();
+
+        if (Current == this)
+            Current = null;
+
+        ThrowPendingFailureAssertionResultsIfRecorded();
+    }
+
+    /// <inheritdoc cref="Dispose"/>
+    /// <returns>A <see cref="ValueTask"/> object.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        if (_status == Status.Disposed)
+            return;
+
+        await DisposeAsyncCore().ConfigureAwait(false);
+
+        if (Current == this)
+            Current = null;
+
+        ThrowPendingFailureAssertionResultsIfRecorded();
+    }
+
+    private async Task DisposeAsyncCore()
+    {
         BodyExecutionStopwatch.Stop();
         Stopwatch deinitializationStopwatch = Stopwatch.StartNew();
 
-        Log.ExecuteSection(
+        await Log.ExecuteSectionAsync(
             new LogSection("Deinitialize AtataContext", LogLevel.Trace),
-            () =>
+            async () =>
             {
                 EventBus.Publish(new AtataContextDeInitEvent(this));
 
                 foreach (var session in Sessions)
                     session.Deactivate();
 
-#warning Review sessions disposing.
                 foreach (var session in Sessions)
-                    session.DisposeAsync().GetAwaiter().GetResult();
+                    await session.DisposeAsync().ConfigureAwait(false);
 
                 Sessions.Dispose();
 
@@ -881,7 +905,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
                 EventBus.UnsubscribeAll();
                 State.Clear();
-            });
+            })
+            .ConfigureAwait(false);
 
         deinitializationStopwatch.Stop();
         ExecutionStopwatch.Stop();
@@ -890,26 +915,18 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         Variables.Clear();
         Log = null;
-
-        if (Current == this)
-            Current = null;
-
-        _status = Status.Disposed;
-
         AssertionResults.Clear();
 
+        _status = Status.Disposed;
+    }
+
+    private void ThrowPendingFailureAssertionResultsIfRecorded()
+    {
         if (PendingFailureAssertionResults.Any())
         {
             var pendingFailureAssertionResults = GetAndClearPendingFailureAssertionResults();
             throw VerificationUtils.CreateAggregateAssertionException(this, pendingFailureAssertionResults);
         }
-    }
-
-    public ValueTask DisposeAsync()
-    {
-#warning Change the way disposing works. Probably remove Dispose method in favor of DisposeAsync.
-        Dispose();
-        return default;
     }
 
     internal IReadOnlyList<AssertionResult> GetAndClearPendingFailureAssertionResults()
