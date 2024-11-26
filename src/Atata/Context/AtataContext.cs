@@ -859,12 +859,12 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         if (_status == Status.Disposed)
             return;
 
-        DisposeAsyncCore().RunSync();
+        var exceptions = SafelyDisposeAsync().RunSync();
 
         if (Current == this)
             Current = null;
 
-        ThrowPendingFailureAssertionResultsIfRecorded();
+        ThrowPendingExceptions(exceptions);
     }
 
     /// <inheritdoc cref="Dispose"/>
@@ -874,34 +874,57 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         if (_status == Status.Disposed)
             return;
 
-        await DisposeAsyncCore().ConfigureAwait(false);
+        var exceptions = await SafelyDisposeAsync().ConfigureAwait(false);
 
         if (Current == this)
             Current = null;
 
-        ThrowPendingFailureAssertionResultsIfRecorded();
+        ThrowPendingExceptions(exceptions);
     }
 
-    private async Task DisposeAsyncCore()
+    private async Task<List<Exception>> SafelyDisposeAsync()
     {
         BodyExecutionStopwatch.Stop();
         Stopwatch deinitializationStopwatch = Stopwatch.StartNew();
+
+        List<Exception> exceptions = [];
 
         await Log.ExecuteSectionAsync(
             new LogSection("Deinitialize AtataContext", LogLevel.Trace),
             async () =>
             {
-                EventBus.Publish(new AtataContextDeInitEvent(this));
+                try
+                {
+                    EventBus.Publish(new AtataContextDeInitEvent(this));
+                }
+                catch (Exception exception)
+                {
+                    exceptions.Add(exception);
+                }
 
                 foreach (var session in Sessions)
-                    session.Deactivate();
-
-                foreach (var session in Sessions)
-                    await session.DisposeAsync().ConfigureAwait(false);
+                {
+                    try
+                    {
+                        session.Deactivate();
+                        await session.DisposeAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception exception)
+                    {
+                        exceptions.Add(exception);
+                    }
+                }
 
                 Sessions.Dispose();
 
-                EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
+                try
+                {
+                    EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
+                }
+                catch (Exception exception)
+                {
+                    exceptions.Add(exception);
+                }
 
                 EventBus.UnsubscribeAll();
                 State.Clear();
@@ -918,14 +941,25 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         AssertionResults.Clear();
 
         _status = Status.Disposed;
+        return exceptions;
     }
 
-    private void ThrowPendingFailureAssertionResultsIfRecorded()
+    private void ThrowPendingExceptions(List<Exception> disposeExceptions)
     {
         if (PendingFailureAssertionResults.Any())
         {
             var pendingFailureAssertionResults = GetAndClearPendingFailureAssertionResults();
-            throw VerificationUtils.CreateAggregateAssertionException(this, pendingFailureAssertionResults);
+            var aggregateAssertionException = VerificationUtils.CreateAggregateAssertionException(this, pendingFailureAssertionResults);
+            disposeExceptions.Insert(0, aggregateAssertionException);
+        }
+
+        if (disposeExceptions.Count > 1)
+        {
+            throw new AggregateException("Multiple errors.", disposeExceptions);
+        }
+        else if (disposeExceptions.Count == 1)
+        {
+            throw disposeExceptions[0];
         }
     }
 

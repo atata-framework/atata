@@ -145,7 +145,18 @@ public abstract class AtataSession : IAsyncDisposable
             {
                 await Log.ExecuteSectionAsync(
                     new AtataSessionDeInitLogSection(this),
-                    async () => await DisposeAsyncCore().ConfigureAwait(false))
+                    async () =>
+                    {
+                        try
+                        {
+                            await DisposeAsyncCore().ConfigureAwait(false);
+                        }
+                        catch (Exception exception)
+                        {
+                            Log.Error(exception, "Session deinitialization failed.");
+                            throw;
+                        }
+                    })
                     .ConfigureAwait(false);
 
                 Variables.Clear();
