@@ -144,4 +144,30 @@ public static class TypeExtensions
         else
             return baseType.IsAssignableFrom(type);
     }
+
+    /// <summary>
+    /// Gets the base type of the specified raw generic type (e.g. <c>typeof(List&lt;&gt;)</c>).
+    /// </summary>
+    /// <param name="type">The type.</param>
+    /// <param name="genericType">Type of the generic.</param>
+    /// <returns>A <see cref="Type"/> or <see langword="null"/>.</returns>
+    public static Type GetBaseTypeOfRawGeneric(this Type type, Type genericType)
+    {
+        if (genericType == null)
+            return null;
+
+        Type typeToCheck = type;
+        int depth = 0;
+
+        while (typeToCheck != null && typeToCheck != typeof(object))
+        {
+            if (typeToCheck.IsGenericType && typeToCheck.GetGenericTypeDefinition() == genericType)
+                return typeToCheck;
+
+            typeToCheck = typeToCheck.BaseType;
+            depth++;
+        }
+
+        return null;
+    }
 }
