@@ -109,5 +109,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S5034:\"ValueTask\" should be consumed correctly", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TaskExtensions.RunSync``1(System.Threading.Tasks.ValueTask{``0})~``0")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.CreateAtataContext~Atata.AtataContext")]
 [assembly: SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.ApplyCulture(Atata.AtataContext,System.Globalization.CultureInfo)")]
+[assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSession.DisposeAsync~System.Threading.Tasks.ValueTask")]
 
 #pragma warning restore S103 // Lines should not be too long

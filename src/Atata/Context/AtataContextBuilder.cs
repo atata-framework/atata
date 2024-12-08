@@ -857,10 +857,8 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.Sessions.AddBuilders(Sessions.Builders);
 
-        foreach (var builder in Sessions.Builders.Where(ShouldAutoStartSession))
-        {
-            await builder.BuildAsync(context, cancellationToken).ConfigureAwait(false);
-        }
+        foreach (var sessionBuilder in Sessions.Builders.Where(ShouldAutoStartSession))
+            await sessionBuilder.StartAsync(context, cancellationToken).ConfigureAwait(false);
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
         context.Activate();

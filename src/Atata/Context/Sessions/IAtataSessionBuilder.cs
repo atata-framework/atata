@@ -23,6 +23,12 @@ public interface IAtataSessionBuilder
     AtataSessionStartScopes? StartScopes { get; set; }
 
     /// <summary>
+    /// Gets or sets the start mode of the session.
+    /// The default value is <see cref="AtataSessionStartMode.Build"/>.
+    /// </summary>
+    AtataSessionStartMode StartMode { get; set; }
+
+    /// <summary>
     /// Builds the session within a target context, current context, or creates a temporary default context.
     /// </summary>
     /// <param name="cancellationToken">The cancellation token.</param>
@@ -36,6 +42,10 @@ public interface IAtataSessionBuilder
     /// <param name="cancellationToken">The cancellation token.</param>
     /// <returns>The built session.</returns>
     Task<AtataSession> BuildAsync(AtataContext context, CancellationToken cancellationToken = default);
+
+    Task<AtataSession> StartAsync(CancellationToken cancellationToken = default);
+
+    Task<AtataSession> StartAsync(AtataContext context, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a copy of the current builder.

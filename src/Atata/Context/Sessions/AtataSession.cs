@@ -2,7 +2,7 @@
 
 public abstract class AtataSession : IAsyncDisposable
 {
-    private bool _disposed;
+    private bool _isDisposed;
 
     protected AtataSession()
     {
@@ -13,6 +13,10 @@ public abstract class AtataSession : IAsyncDisposable
     public AtataContext OwnerContext { get; private set; }
 
     public AtataContext Context { get; private set; }
+
+    public bool IsBorrowed => Context != OwnerContext;
+
+    internal object BorrowLock { get; } = new object();
 
     internal bool DisposesThroughContext { get; set; }
 
@@ -32,8 +36,11 @@ public abstract class AtataSession : IAsyncDisposable
     /// </summary>
     public string Name { get; internal set; }
 
-#warning Temporarily IsActive is set to true by default.
-    public bool IsActive { get; private set; } = true;
+    /// <summary>
+    /// Gets a value indicating whether the session is active (not disposed).
+    /// </summary>
+    public bool IsActive =>
+        !_isDisposed;
 
     /// <summary>
     /// Gets the instance of the log manager associated with the session.
@@ -134,7 +141,7 @@ public abstract class AtataSession : IAsyncDisposable
 
     public async ValueTask DisposeAsync()
     {
-        if (!_disposed)
+        if (!_isDisposed)
         {
             if (DisposesThroughContext)
             {
@@ -149,7 +156,16 @@ public abstract class AtataSession : IAsyncDisposable
                     {
                         try
                         {
-                            await DisposeAsyncCore().ConfigureAwait(false);
+                            try
+                            {
+                                EventBus.Publish(new AtataSessionDeInitEvent(this));
+                            }
+                            finally
+                            {
+                                await DisposeAsyncCore().ConfigureAwait(false);
+
+                                EventBus.Publish(new AtataSessionDeInitCompletedEvent(this));
+                            }
                         }
                         catch (Exception exception)
                         {
@@ -163,7 +179,7 @@ public abstract class AtataSession : IAsyncDisposable
                 Log = null;
                 Report = null;
 
-                _disposed = true;
+                _isDisposed = true;
                 GC.SuppressFinalize(this);
             }
         }
@@ -171,43 +187,65 @@ public abstract class AtataSession : IAsyncDisposable
 
     protected virtual ValueTask DisposeAsyncCore()
     {
+        Context.Sessions.Remove(this);
+
+        if (OwnerContext != Context)
+            OwnerContext.Sessions.Remove(this);
+
         OwnerContext = null;
         Context = null;
+
         State.Clear();
         EventBus.UnsubscribeAll();
-        IsActive = false;
-
         return default;
+    }
+
+    internal bool TryBorrowTo(AtataContext context)
+    {
+        if (!IsBorrowed)
+        {
+            lock (BorrowLock)
+            {
+                if (!IsBorrowed)
+                {
+                    Log.Trace($"{this} borrowed by {context}");
+                    context.Sessions.Add(this);
+                    AssignToContext(context);
+                    Log.Trace($"{this} borrowed from {OwnerContext}");
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /// <summary>
+    /// Returns the session to the owner context from which the session was borrowed.
+    /// </summary>
+    public void ReturnToOwnerContext()
+    {
+        if (IsBorrowed)
+        {
+            var currentContext = Context;
+
+            Log.Trace($"{this} returned to {OwnerContext}");
+
+            AssignToContext(OwnerContext);
+            currentContext.Sessions.Remove(this);
+
+            Log.Trace($"{this} returned by {currentContext}");
+        }
     }
 
     internal void AssignToOwnerContext(AtataContext context)
     {
         OwnerContext = context;
         context.Sessions.Add(this);
-        ReassignToContext(context);
-    }
-
-    internal void ReassignToContext(AtataContext context)
-    {
-        Context = context;
         AssignToContext(context);
     }
 
-    internal void ReassignToOwnerContext() =>
-        ReassignToContext(OwnerContext);
-
     protected internal abstract Task StartAsync(CancellationToken cancellationToken = default);
-
-    internal void Deactivate()
-    {
-        if (IsActive)
-        {
-            EventBus.Publish(new AtataSessionDeInitEvent(this));
-
-#warning Review Deactivate method. Probably there is no need to set IsActive to false, but just reassign to onwer context, if present; otherwise dispose is needed.
-            IsActive = false;
-        }
-    }
 
     protected internal virtual void LogConfiguration()
     {
@@ -217,8 +255,13 @@ public abstract class AtataSession : IAsyncDisposable
     {
     }
 
-    protected virtual void AssignToContext(AtataContext context)
+    protected internal virtual void OnAssignedToContext()
     {
+    }
+
+    private void AssignToContext(AtataContext context)
+    {
+        Context = context;
         Log = ((LogManager)context.Log).ForSession(this);
 
         if (Variables is null)
@@ -237,6 +280,8 @@ public abstract class AtataSession : IAsyncDisposable
             State = new(context.State);
         else
             State.ChangeParentDictionary(context.State);
+
+        OnAssignedToContext();
     }
 
     /// <summary>

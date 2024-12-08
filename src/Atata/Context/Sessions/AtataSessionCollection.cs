@@ -114,6 +114,21 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
     }
 
+    internal void Remove(AtataSession session)
+    {
+        _sessionLinkedListOderedByCurrentUsageLock.EnterWriteLock();
+
+        try
+        {
+            _sessionListOrderedByAdding.Remove(session);
+            _sessionLinkedListOderedByCurrentUsage.Remove(session);
+        }
+        finally
+        {
+            _sessionLinkedListOderedByCurrentUsageLock.ExitWriteLock();
+        }
+    }
+
     internal void SetCurrent(AtataSession session)
     {
         _sessionLinkedListOderedByCurrentUsageLock.EnterWriteLock();
