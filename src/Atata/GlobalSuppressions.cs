@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-#pragma warning disable S103 // Lines should not be too long
+﻿#pragma warning disable S103 // Lines should not be too long
 
 [assembly: SuppressMessage("Sonar Code Smell", "S4041:Type names should not match namespaces", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.Text`1")]
 [assembly: SuppressMessage("Sonar Code Smell", "S4023:Interfaces should not be empty", Justification = "<Pending>", Scope = "type", Target = "~T:Atata.INavigable`2")]
