@@ -88,6 +88,14 @@ internal static class CheckExtensions
         return index;
     }
 
+    internal static int CheckIndexLessThanSize(this int index, int size)
+    {
+        if (index >= size)
+            throw new ArgumentOutOfRangeException(nameof(index), index, $"Index was out of range. Must be less than the size of the collection, which is {size}.");
+
+        return index;
+    }
+
     internal static Type CheckIs<T>(this Type value, string argumentName, string errorMessage = null)
     {
         value.CheckNotNull(argumentName);
