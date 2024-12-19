@@ -292,16 +292,25 @@ public abstract class AtataSession : IAsyncDisposable
     /// </returns>
     public override string ToString()
     {
-        StringBuilder messageBuilder = new StringBuilder(GetType().Name)
+        var stringBuilder = new StringBuilder(GetType().Name)
             .Append(" { Id=")
             .Append(Id);
 
         if (!string.IsNullOrEmpty(Name))
-            messageBuilder.Append(", Name=")
+            stringBuilder.Append(", Name=")
                 .Append(Name);
 
-        messageBuilder.Append(" }");
+        stringBuilder.Append(" }");
 
-        return messageBuilder.ToString();
+        return stringBuilder.ToString();
+    }
+
+    internal static string BuildTypedName(Type sessionType, string sessionName)
+    {
+        string sessionTypeName = sessionType.Name;
+
+        return string.IsNullOrEmpty(sessionName)
+            ? sessionTypeName
+            : $"{sessionTypeName} {{ Name={sessionName} }}";
     }
 }
