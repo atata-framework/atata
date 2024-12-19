@@ -75,11 +75,9 @@ public class WebDriverSession : WebSession
     /// <returns>The created <see cref="WebDriverSessionBuilder"/> instance.</returns>
     public static WebDriverSessionBuilder CreateBuilder() => new();
 
-    protected internal override Task StartAsync(CancellationToken cancellationToken = default)
-    {
-        InitDriver();
-        return Task.CompletedTask;
-    }
+    protected internal override async Task StartAsync(CancellationToken cancellationToken = default) =>
+        await Task.Run(InitDriver, cancellationToken)
+            .ConfigureAwait(false);
 
     private void InitDriver() =>
         Log.ExecuteSection(
