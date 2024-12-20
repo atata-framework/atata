@@ -2,6 +2,8 @@
 
 public class PageObjectTests : WebDriverSessionTestSuite
 {
+    protected override bool ReuseDriver => false;
+
     [Test]
     public void RefreshPage() =>
         Go.To<BasicControlsPage>()
