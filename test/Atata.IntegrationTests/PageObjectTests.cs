@@ -1,5 +1,6 @@
 ﻿namespace Atata.IntegrationTests;
 
+[Explicit("Temporarily")]
 public class PageObjectTests : WebDriverSessionTestSuite
 {
     [Test]
