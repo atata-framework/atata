@@ -2,6 +2,10 @@
 
 public abstract class AtataSession : IAsyncDisposable
 {
+    internal const int DefaultPoolInitialCapacity = 0;
+
+    internal const int DefaultPoolMaxCapacity = int.MaxValue;
+
     private bool _isDisposed;
 
     protected AtataSession()
@@ -14,7 +18,14 @@ public abstract class AtataSession : IAsyncDisposable
 
     public AtataContext Context { get; private set; }
 
-    public bool IsBorrowed => Context != OwnerContext;
+    public AtataSessionMode Mode { get; internal set; }
+
+    public bool IsBorrowed =>
+        Mode == AtataSessionMode.Shared && Context != OwnerContext;
+
+    public bool IsTakenFromPool { get; internal set; }
+
+    public bool IsBorrowedOrTakenFromPool => IsTakenFromPool || IsBorrowed;
 
     internal object BorrowLock { get; } = new object();
 
@@ -103,6 +114,10 @@ public abstract class AtataSession : IAsyncDisposable
     /// </summary>
     public TimeSpan VerificationRetryInterval =>
         VerificationRetryIntervalOptional ?? BaseRetryIntervalOptional ?? Context.VerificationRetryInterval;
+
+    internal TimeSpan SessionWaitingTimeout { get; set; }
+
+    internal TimeSpan SessionWaitingRetryInterval { get; set; }
 
     internal TimeSpan? BaseRetryTimeoutOptional { get; set; }
 
@@ -194,6 +209,7 @@ public abstract class AtataSession : IAsyncDisposable
 
         OwnerContext = null;
         Context = null;
+        IsTakenFromPool = false;
 
         State.Clear();
         EventBus.UnsubscribeAll();
@@ -202,16 +218,16 @@ public abstract class AtataSession : IAsyncDisposable
 
     internal bool TryBorrowTo(AtataContext context)
     {
-        if (!IsBorrowed)
+        if (Mode == AtataSessionMode.Shared && !IsBorrowed)
         {
             lock (BorrowLock)
             {
                 if (!IsBorrowed)
                 {
-                    Log.Trace($"{this} borrowed by {context}");
+                    Log.Trace($"{this} is borrowed by {context}");
                     context.Sessions.Add(this);
                     AssignToContext(context);
-                    Log.Trace($"{this} borrowed from {OwnerContext}");
+                    Log.Trace($"{this} is borrowed from {OwnerContext}");
                     return true;
                 }
             }
@@ -220,21 +236,36 @@ public abstract class AtataSession : IAsyncDisposable
         return false;
     }
 
+    internal void GiveFromPoolToContext(AtataContext context)
+    {
+        if (context != OwnerContext)
+        {
+            Log.Trace($"{this} is taken from pool by {context}");
+            context.Sessions.Add(this);
+            AssignToContext(context);
+            Log.Trace($"{this} is taken from pool of {OwnerContext}");
+        }
+    }
+
     /// <summary>
     /// Returns the session to the owner context from which the session was borrowed.
     /// </summary>
-    public void ReturnToOwnerContext()
+    public void ReturnToSessionSource()
     {
-        if (IsBorrowed)
+        if (IsBorrowedOrTakenFromPool)
         {
+            bool isTakenFromPool = IsTakenFromPool;
             var currentContext = Context;
 
-            Log.Trace($"{this} returned to {OwnerContext}");
+            Log.Trace($"{this} is returned to{(isTakenFromPool ? " pool of" : null)} {OwnerContext}");
 
             AssignToContext(OwnerContext);
             currentContext.Sessions.Remove(this);
 
-            Log.Trace($"{this} returned by {currentContext}");
+            if (isTakenFromPool)
+                OwnerContext.Sessions.GetPool(GetType(), Name).Return(this);
+
+            Log.Trace($"{this} is returned{(isTakenFromPool ? " to pool" : null)} by {currentContext}");
         }
     }
 

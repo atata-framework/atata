@@ -6,29 +6,28 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 {
     private AtataContext _targetContext;
 
-    private enum SessionBorrowResultStatus
-    {
-        NoSuchSession,
-
-        NeedToWait,
-
-        Success
-    }
-
     /// <inheritdoc/>
     public string Name { get; set; }
-
-    /// <inheritdoc/>
-    public AtataSessionStartScopes? StartScopes { get; set; }
-
-    /// <inheritdoc/>
-    public AtataSessionStartMode StartMode { get; set; }
 
     AtataContext IAtataSessionBuilder.TargetContext
     {
         get => _targetContext;
         set => _targetContext = value;
     }
+
+    /// <inheritdoc/>
+    public AtataSessionStartScopes? StartScopes { get; set; }
+
+    /// <inheritdoc/>
+    public AtataSessionMode Mode { get; set; }
+
+    /// <inheritdoc/>
+    public int PoolInitialCapacity { get; set; } =
+        AtataSession.DefaultPoolInitialCapacity;
+
+    /// <inheritdoc/>
+    public int PoolMaxCapacity { get; set; } =
+        AtataSession.DefaultPoolMaxCapacity;
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -89,6 +88,14 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// </summary>
     public TimeSpan? VerificationRetryInterval { get; set; }
 
+    /// <inheritdoc/>
+    public TimeSpan SessionWaitingTimeout { get; set; } =
+        TimeSpan.FromMinutes(5);
+
+    /// <inheritdoc/>
+    public TimeSpan SessionWaitingRetryInterval { get; set; } =
+        TimeSpan.FromMilliseconds(200);
+
     /// <summary>
     /// Gets the builder of event subscriptions,
     /// which provides the methods to subscribe to Atata and custom events.
@@ -118,13 +125,13 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     }
 
     /// <summary>
-    /// Sets the <see cref="StartMode"/> value for a session.
+    /// Sets the <see cref="Mode"/> value for a session.
     /// </summary>
-    /// <param name="startMode">The start mode.</param>
+    /// <param name="mode">The mode.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseStartMode(AtataSessionStartMode startMode)
+    public TBuilder UseMode(AtataSessionMode mode)
     {
-        StartMode = startMode;
+        Mode = mode;
         return (TBuilder)this;
     }
 
@@ -186,8 +193,6 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
     /// <summary>
     /// Sets the <see cref="WaitingTimeout"/> value.
-    /// Sets the waiting timeout.
-    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
@@ -230,6 +235,28 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return (TBuilder)this;
     }
 
+    /// <summary>
+    /// Sets the <see cref="SessionWaitingTimeout"/> value.
+    /// </summary>
+    /// <param name="timeout">The retry timeout.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseSessionWaitingTimeout(TimeSpan timeout)
+    {
+        SessionWaitingTimeout = timeout;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the <see cref="SessionWaitingRetryInterval"/> value.
+    /// </summary>
+    /// <param name="interval">The retry interval.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseSessionWaitingRetryInterval(TimeSpan interval)
+    {
+        SessionWaitingRetryInterval = interval;
+        return (TBuilder)this;
+    }
+
     /// <inheritdoc cref="IAtataSessionBuilder.BuildAsync(CancellationToken)"/>
     public async Task<TSession> BuildAsync(CancellationToken cancellationToken = default)
     {
@@ -239,15 +266,16 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         {
             return await BuildAsync(assignToContext, cancellationToken).ConfigureAwait(false);
         }
+        else if (Mode is not (AtataSessionMode.Own or AtataSessionMode.Shared))
+        {
+            throw new InvalidOperationException(
+                $"Cannot start session with {nameof(Mode)} value {Mode} without {nameof(AtataContext)}.");
+        }
         else
         {
             var contextBuilder = AtataContext.CreateDefaultNonScopedBuilder();
 
-            var sessionToAddToContext = StartMode == AtataSessionStartMode.Build
-                ? this
-                : Clone().UseStartMode(AtataSessionStartMode.Build);
-
-            contextBuilder.Sessions.Add(sessionToAddToContext);
+            contextBuilder.Sessions.Add(this);
 
             var context = await contextBuilder.BuildAsync(cancellationToken).ConfigureAwait(false);
 
@@ -257,16 +285,14 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         }
     }
 
-    /// <inheritdoc cref="IAtataSessionBuilder.BuildAsync(AtataContext, CancellationToken)"/>
-    public async Task<TSession> BuildAsync(AtataContext context, CancellationToken cancellationToken = default)
+    private async Task<TSession> BuildAsync(AtataContext context, CancellationToken cancellationToken = default)
     {
-        context.CheckNotNull(nameof(context));
-
         ValidateConfiguration();
 
         TSession session = new()
         {
-            Name = Name
+            Name = Name,
+            Mode = Mode
         };
 
         session.AssignToOwnerContext(context);
@@ -285,54 +311,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return session;
     }
 
-    public async Task<TSession> StartAsync(CancellationToken cancellationToken = default)
-    {
-        var assignToContext = _targetContext ?? AtataContext.Current;
-
-        if (assignToContext is not null)
-        {
-            return await StartAsync(assignToContext, cancellationToken).ConfigureAwait(false);
-        }
-        else if (StartMode == AtataSessionStartMode.Build)
-        {
-            return await BuildAsync(assignToContext, cancellationToken).ConfigureAwait(false);
-        }
-        else
-        {
-            throw new InvalidOperationException(
-                $"Cannot start session with {nameof(StartMode)} value {StartMode} without {nameof(AtataContext)}.");
-        }
-    }
-
-    public async Task<TSession> StartAsync(AtataContext context, CancellationToken cancellationToken = default)
-    {
-        context.CheckNotNull(nameof(context));
-
-        if (StartMode == AtataSessionStartMode.Build)
-        {
-            return await BuildAsync(context, cancellationToken).ConfigureAwait(false);
-        }
-        else if (StartMode == AtataSessionStartMode.Borrow)
-        {
-            return BorrowSessionForContext(context);
-        }
-        else
-        {
-            throw new InvalidOperationException($"Unsupported {nameof(StartMode)} value: {StartMode}");
-        }
-    }
-
     async Task<AtataSession> IAtataSessionBuilder.BuildAsync(CancellationToken cancellationToken) =>
         await BuildAsync(cancellationToken).ConfigureAwait(false);
-
-    async Task<AtataSession> IAtataSessionBuilder.BuildAsync(AtataContext context, CancellationToken cancellationToken) =>
-        await BuildAsync(context, cancellationToken).ConfigureAwait(false);
-
-    async Task<AtataSession> IAtataSessionBuilder.StartAsync(CancellationToken cancellationToken) =>
-        await StartAsync(cancellationToken).ConfigureAwait(false);
-
-    async Task<AtataSession> IAtataSessionBuilder.StartAsync(AtataContext context, CancellationToken cancellationToken) =>
-        await StartAsync(context, cancellationToken).ConfigureAwait(false);
 
     /// <summary>
     /// Validates the configuration.
@@ -356,6 +336,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         session.WaitingRetryIntervalOptional = WaitingRetryInterval;
         session.VerificationTimeoutOptional = VerificationTimeout;
         session.VerificationRetryIntervalOptional = VerificationRetryInterval;
+        session.SessionWaitingTimeout = SessionWaitingTimeout;
+        session.SessionWaitingRetryInterval = SessionWaitingRetryInterval;
 
         session.EventBus = new EventBus(session.Context, EventSubscriptions.Items);
     }
@@ -367,6 +349,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     public AtataSessionBuilder<TSession, TBuilder> Clone()
     {
         var copy = (TBuilder)MemberwiseClone();
+        copy._targetContext = null;
 
         OnClone(copy);
 
@@ -380,84 +363,5 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     {
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.EventSubscriptions = new EventSubscriptionsBuilder(EventSubscriptions.Items);
-    }
-
-    private static SessionBorrowResult TryBorrowSessionForContext(
-        AtataContext context,
-        Type sessionType,
-        string sessionName)
-    {
-        var sessions = context.FindSessionsInContextAncestors(sessionType, sessionName);
-        bool hasAnySession = false;
-
-        foreach (TSession session in sessions.OfType<TSession>())
-        {
-            hasAnySession = true;
-
-            if (session.TryBorrowTo(context))
-                return SessionBorrowResult.CreateSuccess(session);
-        }
-
-        return hasAnySession ? SessionBorrowResult.NeedToWait : SessionBorrowResult.NoSuchSession;
-    }
-
-    private TSession BorrowSessionForContext(AtataContext context)
-    {
-        Type sessionType = AtataSessionTypeMap.ResolveSessionTypeByBuilderType(GetType());
-        string sessionName = Name;
-
-        string BuildSessionToFindName() =>
-            sessionName is null
-                ? sessionType.Name
-                : $"\"{sessionName}\" {sessionType}";
-
-        SessionBorrowResult borrowResult = TryBorrowSessionForContext(context, sessionType, sessionName);
-
-        if (borrowResult.Status == SessionBorrowResultStatus.NoSuchSession)
-        {
-            throw new AtataSessionNotFoundException($"Failed to find {BuildSessionToFindName()} to borrow for {context}.");
-        }
-        else if (borrowResult.Status == SessionBorrowResultStatus.NeedToWait)
-        {
-            context.Log.Trace($"Waiting for {BuildSessionToFindName()} to borrow");
-
-            SafeWait<AtataContext> wait = new(context)
-            {
-                Timeout = TimeSpan.FromSeconds(5),
-                PollingInterval = TimeSpan.FromMilliseconds(100)
-            };
-            bool borrowed = wait.Until(x =>
-            {
-                borrowResult = TryBorrowSessionForContext(x, sessionType, sessionName);
-                return borrowResult.Status == SessionBorrowResultStatus.Success;
-            });
-
-            if (!borrowed)
-                throw new TimeoutException($"Timed out waiting for {BuildSessionToFindName()} to borrow for {context}.");
-        }
-
-        return borrowResult.Session;
-    }
-
-    private readonly struct SessionBorrowResult
-    {
-        internal static readonly SessionBorrowResult NeedToWait =
-            new(SessionBorrowResultStatus.NeedToWait);
-
-        internal static readonly SessionBorrowResult NoSuchSession =
-            new(SessionBorrowResultStatus.NoSuchSession);
-
-        private SessionBorrowResult(SessionBorrowResultStatus status, TSession session = null)
-        {
-            Status = status;
-            Session = session;
-        }
-
-        public SessionBorrowResultStatus Status { get; }
-
-        public TSession Session { get; }
-
-        public static SessionBorrowResult CreateSuccess(TSession session) =>
-            new(SessionBorrowResultStatus.Success, session);
     }
 }

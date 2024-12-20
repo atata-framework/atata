@@ -23,7 +23,7 @@ public sealed class AtataContextBuilder : ICloneable
     internal AtataContextBuilder(AtataContextScope? contextScope, AtataSessionStartScopes? sessionStartScopes)
     {
         Scope = contextScope;
-        Sessions = new(this, [], sessionStartScopes);
+        Sessions = new(this, [], [], [], sessionStartScopes);
     }
 
     /// <summary>
@@ -855,13 +855,42 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.Log.Trace($"Set: Artifacts={context.ArtifactsPath}");
 
+        foreach (var sessionBuilder in Sessions.Builders)
+            sessionBuilder.TargetContext = context;
+
         context.Sessions.AddBuilders(Sessions.Builders);
 
-        foreach (var sessionBuilder in Sessions.Builders.Where(ShouldAutoStartSession))
-            await sessionBuilder.StartAsync(context, cancellationToken).ConfigureAwait(false);
+        foreach (var sessionRequest in Sessions.BorrowRequests)
+            if (ShouldAutoStartSession(sessionRequest.StartScopes))
+                await context.Sessions.BorrowAsync(sessionRequest.Type, sessionRequest.Name, cancellationToken)
+                    .ConfigureAwait(false);
+
+        foreach (var sessionBuilder in Sessions.Builders)
+            if (ShouldAutoStartSession(sessionBuilder.StartScopes))
+                await StartSessionOrPoolAsync(context, sessionBuilder, cancellationToken)
+                    .ConfigureAwait(false);
+
+        foreach (var sessionRequest in Sessions.PoolRequests)
+            if (ShouldAutoStartSession(sessionRequest.StartScopes))
+                await context.Sessions.TakeFromPoolAsync(sessionRequest.Type, sessionRequest.Name, cancellationToken)
+                    .ConfigureAwait(false);
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
         context.Activate();
+    }
+
+    private static async Task StartSessionOrPoolAsync(AtataContext context, IAtataSessionBuilder sessionBuilder, CancellationToken cancellationToken = default)
+    {
+        if (sessionBuilder.Mode == AtataSessionMode.Pool)
+        {
+            await context.Sessions.StartPoolAsync(sessionBuilder, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await sessionBuilder.BuildAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
     }
 
     private static void ApplyCulture(AtataContext context, CultureInfo culture)
@@ -874,15 +903,15 @@ public sealed class AtataContextBuilder : ICloneable
         context.Log.Trace($"Set: Culture={culture.Name}");
     }
 
-    private bool ShouldAutoStartSession(IAtataSessionBuilder builder) =>
+    private bool ShouldAutoStartSession(AtataSessionStartScopes? sessionStartScopes) =>
         Scope switch
         {
-            AtataContextScope.Test => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.Test),
-            AtataContextScope.TestSuite => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuite),
-            AtataContextScope.TestSuiteGroup => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuiteGroup),
-            AtataContextScope.NamespaceSuite => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.NamespaceSuite),
-            AtataContextScope.Global => builder.StartScopes is null || builder.StartScopes.Value.HasFlag(AtataSessionStartScopes.Global),
-            null => builder.StartScopes is null,
+            AtataContextScope.Test => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Test),
+            AtataContextScope.TestSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuite),
+            AtataContextScope.TestSuiteGroup => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuiteGroup),
+            AtataContextScope.NamespaceSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.NamespaceSuite),
+            AtataContextScope.Global => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Global),
+            null => sessionStartScopes is null,
             _ => false
         };
 
@@ -939,6 +968,8 @@ public sealed class AtataContextBuilder : ICloneable
         copy.Sessions = new(
             copy,
             Sessions.Builders.Select(x => x.Clone()).ToList(),
+            Sessions.BorrowRequests.Select(x => x.Clone()).ToList(),
+            Sessions.PoolRequests.Select(x => x.Clone()).ToList(),
             ResolveSessionDefaultStartScopes(scope));
 
         copy.LogConsumers = new LogConsumersBuilder(

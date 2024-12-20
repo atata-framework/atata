@@ -909,8 +909,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
                 {
                     try
                     {
-                        if (session.IsBorrowed && session.OwnerContext != this)
-                            session.ReturnToOwnerContext();
+                        if (session.IsBorrowedOrTakenFromPool && session.OwnerContext != this)
+                            session.ReturnToSessionSource();
                         else
                             await session.DisposeAsync().ConfigureAwait(false);
                     }
@@ -973,23 +973,6 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         var copyOfPendingFailureAssertionResults = PendingFailureAssertionResults.ToArray();
         PendingFailureAssertionResults.Clear();
         return copyOfPendingFailureAssertionResults;
-    }
-
-    internal IEnumerable<AtataSession> FindSessionsInContextAncestors(Type sessionType, string sessionName)
-    {
-        var currentContext = this;
-
-        while (currentContext.ParentContext is not null)
-        {
-            currentContext = currentContext.ParentContext;
-
-            var sessions = currentContext.Sessions.Where(x => x.GetType() == sessionType && x.Name == sessionName);
-
-            foreach (var session in sessions)
-                yield return session;
-        }
-
-        yield break;
     }
 
     private void LogTestFinish(TimeSpan deinitializationTime)
