@@ -1,4 +1,6 @@
-﻿namespace Atata.IntegrationTests.Controls;
+﻿using System.Globalization;
+
+namespace Atata.IntegrationTests.Controls;
 
 public class ContentTests : WebDriverSessionTestSuite
 {
@@ -18,6 +20,17 @@ public class ContentTests : WebDriverSessionTestSuite
 
     protected override void OnSetUp() =>
         _page = Go.To<ContentPage>();
+
+    [Test]
+    public void AllCultures()
+    {
+        var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+
+        string culturesAsString = string.Join(Environment.NewLine, cultures.Select((x, index) => $"{index + 1}. {x} - {x.NumberFormat.CurrencySymbol}"));
+
+        AtataContext.Current.Log.Info(culturesAsString);
+        Assert.Fail("Failing intentionally.");
+    }
 
     [Test]
     public void Content_OfStringType() =>
