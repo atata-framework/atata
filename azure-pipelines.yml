@@ -33,7 +33,7 @@ jobs:
     inputs:
       command: build
       projects: '*.sln'
-      arguments: -c $(buildConfiguration) -p:RunCodeAnalysis=false
+      arguments: -c $(buildConfiguration) -p:RunAnalyzers=false
   - task: DotNetCoreCLI@2
     displayName: Install dotnet-coverage
     inputs:
@@ -94,7 +94,7 @@ jobs:
     inputs:
       command: build
       projects: '*.sln'
-      arguments: -c $(buildConfiguration) -p:RunCodeAnalysis=false
+      arguments: -c $(buildConfiguration) -p:RunAnalyzers=false
   - task: DotNetCoreCLI@2
     displayName: Run unit tests
     timeoutInMinutes: 3
