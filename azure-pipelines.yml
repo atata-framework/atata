@@ -109,7 +109,7 @@ jobs:
     inputs:
       command: test
       projects: 'test/*/*.IntegrationTests*.csproj'
-      arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build
+      arguments: -c $(buildConfiguration) -s "azure-pipelines.runsettings" --no-build -v diag --nologo
   - task: PublishPipelineArtifact@1
     displayName: Publish test artifacts
     condition: succeededOrFailed()
