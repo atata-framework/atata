@@ -39,14 +39,21 @@ public static class TermResolver
                 }
                 catch (Exception exception)
                 {
+                    var enUSCulture = CultureInfo.GetCultureInfo("en-US");
+
                     throw new FormatException(
                         $"""
                         String conversion to DateTime failed.
                           String: {Stringifier.ToString(stringValue)},
                           Format: {Stringifier.ToString(specificFormat)},
+
                           Culture: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture)},
                           Culture.DateTimeFormat: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture.DateTimeFormat)}
                           Culture.NumberFormat: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture.NumberFormat)}
+
+                          en-US Culture: {Stringifier.ToStringInSimpleStructuredForm(enUSCulture)},
+                          en-US Culture.DateTimeFormat: {Stringifier.ToStringInSimpleStructuredForm(enUSCulture.DateTimeFormat)}
+                          en-US Culture.NumberFormat: {Stringifier.ToStringInSimpleStructuredForm(enUSCulture.NumberFormat)}
                         """,
                         exception);
                 }
