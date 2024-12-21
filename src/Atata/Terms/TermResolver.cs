@@ -42,8 +42,10 @@ public static class TermResolver
                     throw new FormatException(
                         $"""
                         String conversion to DateTime failed.
-                        String: {Stringifier.ToString(stringValue)}, Format: {Stringifier.ToString(specificFormat)}, Culture: {opt.Culture},
-                        Culture.DateTimeFormat: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture.DateTimeFormat)}
+                          String: {Stringifier.ToString(stringValue)},
+                          Format: {Stringifier.ToString(specificFormat)},
+                          Culture: {Stringifier.ToString(opt.Culture)},
+                          Culture.DateTimeFormat: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture.DateTimeFormat)}
                         """,
                         exception);
                 }
