@@ -44,8 +44,9 @@ public static class TermResolver
                         String conversion to DateTime failed.
                           String: {Stringifier.ToString(stringValue)},
                           Format: {Stringifier.ToString(specificFormat)},
-                          Culture: {Stringifier.ToString(opt.Culture)},
+                          Culture: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture)},
                           Culture.DateTimeFormat: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture.DateTimeFormat)}
+                          Culture.NumberFormat: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture.NumberFormat)}
                         """,
                         exception);
                 }
