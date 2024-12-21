@@ -31,9 +31,22 @@ public static class TermResolver
                 string stringValue = RetrieveValueFromString(s, opt.Format);
                 string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                return specificFormat == null
-                    ? DateTime.Parse(stringValue, opt.Culture)
-                    : DateTime.ParseExact(stringValue, specificFormat, opt.Culture);
+                try
+                {
+                    return specificFormat == null
+                        ? DateTime.Parse(stringValue, opt.Culture)
+                        : DateTime.ParseExact(stringValue, specificFormat, opt.Culture);
+                }
+                catch (Exception exception)
+                {
+                    throw new FormatException(
+                        $"""
+                        String conversion to DateTime failed.
+                        String: {Stringifier.ToString(stringValue)}, Format: {Stringifier.ToString(specificFormat)}, Culture: {opt.Culture},
+                        Culture.DateTimeFormat: {Stringifier.ToStringInSimpleStructuredForm(opt.Culture.DateTimeFormat)}
+                        """,
+                        exception);
+                }
             });
 
         RegisterConverter<TimeSpan>(
