@@ -170,7 +170,8 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
     protected virtual TermOptions GetValueTermOptions() =>
         new()
         {
-            Culture = Metadata.GetCulture(),
+            Culture = Metadata.GetCulture()
+                ?? Session.Context.Culture,
             Format = Metadata.GetFormat()
         };
 

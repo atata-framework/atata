@@ -361,14 +361,17 @@ public class UIComponentMetadata
     }
 
     /// <summary>
-    /// Gets the culture by searching the <see cref="CultureAttribute"/> at all attribute levels or current culture if not found.
+    /// Gets the culture by searching the <see cref="CultureAttribute"/> at all attribute levels.
+    /// Returns <see langword="null"/> if the attribute is not found.
     /// </summary>
-    /// <returns>The <see cref="CultureInfo"/> instance.</returns>
+    /// <returns>The <see cref="CultureInfo"/> instance or <see langword="null"/>.</returns>
     public CultureInfo GetCulture()
     {
         string cultureName = Get<CultureAttribute>()?.Value;
 
-        return cultureName != null ? CultureInfo.GetCultureInfo(cultureName) : CultureInfo.CurrentCulture;
+        return cultureName != null
+            ? CultureInfo.GetCultureInfo(cultureName)
+            : null;
     }
 
     /// <summary>

@@ -46,10 +46,11 @@ public class Option<TValue, TOwner> : Field<TValue, TOwner>
     protected override TermOptions GetValueTermOptions() =>
         new TermOptions
         {
-            Culture = Metadata.Contains<CultureAttribute>()
-                ? Metadata.GetCulture()
-                : Parent.Metadata.GetCulture(),
-            Format = Metadata.GetFormat() ?? Parent.Metadata.GetFormat()
+            Culture = Metadata.GetCulture()
+                ?? Parent.Metadata.GetCulture()
+                ?? Session.Context.Culture,
+            Format = Metadata.GetFormat()
+                ?? Parent.Metadata.GetFormat()
         }
         .MergeWith(SelectOptionBehavior);
 }
