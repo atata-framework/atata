@@ -76,7 +76,7 @@ public class ObjectConverter : IObjectConverter
     private static TimeSpan ConvertToTimeSpan(object value) =>
         value is double or int or float
             ? TimeSpan.FromSeconds(System.Convert.ToDouble(value))
-            : TimeSpan.Parse(value.ToString(), CultureInfo.CurrentCulture);
+            : TimeSpan.Parse(value.ToString(), CultureInfo.InvariantCulture);
 
     private static bool TryGetIEnumerableElementType(Type type, out Type elementType)
     {
