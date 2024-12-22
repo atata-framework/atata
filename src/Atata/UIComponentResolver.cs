@@ -509,7 +509,7 @@ public static class UIComponentResolver
     {
         string typeName = type.Name;
         return typeName.Contains("`")
-            ? typeName.Substring(0, typeName.IndexOf('`'))
+            ? typeName[..typeName.IndexOf('`')]
             : typeName;
     }
 

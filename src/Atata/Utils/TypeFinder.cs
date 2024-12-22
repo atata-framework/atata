@@ -67,7 +67,7 @@ public static class TypeFinder
         {
             int separatorIndex = typeName.LastIndexOf(NamespaceSeparator);
             namespacePart = typeName.Substring(0, separatorIndex);
-            pureTypeName = typeName.Substring(separatorIndex + 1);
+            pureTypeName = typeName[(separatorIndex + 1)..];
         }
         else
         {
@@ -77,7 +77,7 @@ public static class TypeFinder
         if (pureTypeName.Contains(SubTypeSeparator))
         {
             string[] typeNames = pureTypeName.Split(SubTypeSeparator);
-            pureTypeName = typeNames[typeNames.Length - 1];
+            pureTypeName = typeNames[^1];
             declaringTypeNames = typeNames.Take(typeNames.Length - 1).ToArray();
         }
 

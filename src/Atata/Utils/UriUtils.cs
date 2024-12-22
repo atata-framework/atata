@@ -42,7 +42,7 @@ public static class UriUtils
         if (!string.IsNullOrWhiteSpace(relativeUri))
         {
             if (baseUri.EndsWith("/", StringComparison.Ordinal) && relativeUri.StartsWith("/", StringComparison.Ordinal))
-                fullUrl += relativeUri.Substring(1);
+                fullUrl += relativeUri[1..];
             else if (!baseUri.EndsWith("/", StringComparison.Ordinal) && !relativeUri.StartsWith("/", StringComparison.Ordinal))
                 fullUrl += "/" + relativeUri;
             else

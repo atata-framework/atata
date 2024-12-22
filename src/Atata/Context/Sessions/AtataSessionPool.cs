@@ -24,9 +24,7 @@ internal sealed class AtataSessionPool
 
     internal async ValueTask<AtataSession> GetAsync(CancellationToken cancellationToken = default)
     {
-        AtataSession session;
-
-        if (!_items.TryDequeue(out session))
+        if (!_items.TryDequeue(out AtataSession session))
         {
             session = await Task.Run(
                 () => TryBuildOrWaitAsync(cancellationToken),

@@ -535,7 +535,7 @@ public static class Subject
     internal static string BuildExceptionName(string methodName)
     {
         string exceptionName = methodName.EndsWith(ResultNameEnding, StringComparison.Ordinal)
-            ? methodName.Substring(0, methodName.Length - ResultNameEnding.Length)
+            ? methodName[..^ResultNameEnding.Length]
             : methodName;
 
         return exceptionName + ExceptionNameEnding;

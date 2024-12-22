@@ -54,12 +54,12 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
                 }
                 else if (format.StartsWith(item.Key + ':', StringComparison.OrdinalIgnoreCase))
                 {
-                    string leftFormat = format.Substring(item.Key.Length + 1);
+                    string leftFormat = format[(item.Key.Length + 1)..];
                     return new UriVariableProcessingResult(leftFormat, item.Value, true);
                 }
                 else if (format.EndsWith(':' + item.Key, StringComparison.OrdinalIgnoreCase))
                 {
-                    string leftFormat = format.Substring(0, format.Length - item.Key.Length - 1);
+                    string leftFormat = format[..(format.Length - item.Key.Length - 1)];
                     return new UriVariableProcessingResult(leftFormat, item.Value, false);
                 }
             }

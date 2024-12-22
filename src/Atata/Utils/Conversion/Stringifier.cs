@@ -134,7 +134,7 @@ public static class Stringifier
             Type[] genericArgumentTypes = type.GetGenericArguments();
             string genericArgumentsString = string.Join(", ", genericArgumentTypes.Select(ResolveSimplifiedTypeName));
 
-            return $"{name.Substring(0, name.IndexOf('`'))}<{genericArgumentsString}>";
+            return $"{name[..name.IndexOf('`')]}<{genericArgumentsString}>";
         }
 
         return name;

@@ -734,7 +734,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     {
         ProviderName = _executedActionsCount == 0
             ? $"{ProviderName}{{ {actionName} }}"
-            : $"{ProviderName.Substring(0, ProviderName.Length - 2)}; {actionName} }}";
+            : $"{ProviderName[..^2]}; {actionName} }}";
 
         _executedActionsCount++;
     }

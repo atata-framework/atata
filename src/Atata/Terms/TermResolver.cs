@@ -220,7 +220,7 @@ public static class TermResolver
                 nameof(format));
         }
 
-        formatParts[1] = formatParts[1].Substring(formatParts[1].IndexOf('}') + 1);
+        formatParts[1] = formatParts[1][(formatParts[1].IndexOf('}') + 1)..];
 
         string formatStart = ReplaceDoubleCurlyBracesWithSingleOnes(formatParts[0]);
         string formatEnd = ReplaceDoubleCurlyBracesWithSingleOnes(formatParts[1]);

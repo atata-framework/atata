@@ -33,7 +33,7 @@ public class TitleTermFormatter : ITermFormatter
             updatedWords.AddRange(words.Skip(1).Take(words.Length - 2).Select(CapitalizeFirstLetterExceptSpecial));
 
         if (words.Length > 1)
-            updatedWords.Add(CapitalizeFirstLetter(words[words.Length - 1]));
+            updatedWords.Add(CapitalizeFirstLetter(words[^1]));
 
         return string.Join(" ", updatedWords);
     }

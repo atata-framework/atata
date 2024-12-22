@@ -132,7 +132,7 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
         string typeName = GetType().Name;
 
         return typeName.EndsWith(nameof(Attribute), StringComparison.Ordinal)
-            ? typeName.Substring(0, typeName.Length - nameof(Attribute).Length)
+            ? typeName[..^nameof(Attribute).Length]
             : typeName;
     }
 

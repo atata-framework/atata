@@ -50,7 +50,7 @@ internal class BodyExpressionPart
 
         if (parts.Length > 2 && parts[0].StartsWith(expectedExpressionStart, StringComparison.Ordinal))
         {
-            parts[0] = parts[0].Substring(expectedStartOpenBraketsCount, parts[0].Length - expectedStartOpenBraketsCount);
+            parts[0] = parts[0][expectedStartOpenBraketsCount..];
 
             for (int i = 1; i < parts.Length - 1; i++)
             {

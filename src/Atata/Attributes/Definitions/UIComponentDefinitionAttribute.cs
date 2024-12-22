@@ -42,7 +42,7 @@ public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute
             .FirstOrDefault(x => name.EndsWith(x, StringComparison.Ordinal) && name.Length > x.Length);
 
         return endingToIgnore != null
-            ? name.Substring(0, name.Length - endingToIgnore.Length).TrimEnd()
+            ? name[..^endingToIgnore.Length].TrimEnd()
             : name;
     }
 }

@@ -23,7 +23,7 @@ internal sealed class DecomposedUri : ICloneable
         int indexOfHash = uri.IndexOf('#');
 
         return indexOfHash >= 0
-            ? (uri.Substring(indexOfHash + 1), indexOfHash)
+            ? (uri[(indexOfHash + 1)..], indexOfHash)
             : (string.Empty, -1);
     }
 
@@ -34,14 +34,14 @@ internal sealed class DecomposedUri : ICloneable
             string workingUri = uri;
 
             if (workingUri[0] is '&' or ';')
-                workingUri = $"?{workingUri.Substring(1)}";
+                workingUri = $"?{workingUri[1..]}";
 
             var (fragment, indexOfHash) = ExtractFragment(workingUri);
 
             if (indexOfHash >= 0)
             {
                 Fragment = fragment;
-                workingUri = workingUri.Substring(0, indexOfHash);
+                workingUri = workingUri[..indexOfHash];
             }
 
             int indexOfQuestionMark = workingUri.IndexOf('?');
@@ -52,8 +52,8 @@ internal sealed class DecomposedUri : ICloneable
             }
             else
             {
-                FullPath = uri.Substring(0, indexOfQuestionMark);
-                Query = workingUri.Substring(indexOfQuestionMark + 1);
+                FullPath = uri[..indexOfQuestionMark];
+                Query = workingUri[(indexOfQuestionMark + 1)..];
             }
         }
     }
@@ -66,7 +66,7 @@ internal sealed class DecomposedUri : ICloneable
         if (!string.IsNullOrEmpty(query))
         {
             string queryWithoutPrefix = query[0] is '?' or '&' or ';'
-                ? query.Substring(1)
+                ? query[1..]
                 : query;
 
             Query = string.IsNullOrEmpty(Query)
@@ -81,21 +81,21 @@ internal sealed class DecomposedUri : ICloneable
     {
         if (uri[0] == '#')
         {
-            Fragment = uri.Substring(1);
+            Fragment = uri[1..];
         }
         else if (uri[0] is '&' or ';')
         {
             var (fragment, indexOfHash) = ExtractFragment(uri);
             Fragment = fragment;
 
-            AppendQuery(indexOfHash < 0 ? uri : uri.Substring(0, indexOfHash));
+            AppendQuery(indexOfHash < 0 ? uri : uri[..indexOfHash]);
         }
         else if (uri[0] == '?')
         {
             var (fragment, indexOfHash) = ExtractFragment(uri);
             Fragment = fragment;
 
-            Query = indexOfHash < 0 ? uri.Substring(1) : uri.Substring(1, indexOfHash - 1);
+            Query = indexOfHash < 0 ? uri[1..] : uri[1..indexOfHash];
         }
         else
         {

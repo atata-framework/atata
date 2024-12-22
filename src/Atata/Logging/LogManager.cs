@@ -249,7 +249,7 @@ internal sealed class LogManager : ILogManager
         {
             message = message.Substring(0, newLineIndex);
 
-            message += message[message.Length - 1] == '.'
+            message += message[^1] == '.'
                 ? ".."
                 : "...";
         }

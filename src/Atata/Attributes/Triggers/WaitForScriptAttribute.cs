@@ -48,13 +48,13 @@ public abstract class WaitForScriptAttribute : WaitingTriggerAttribute
 
             if (!isCompleted)
             {
-                StringBuilder errorMessageBuilder = new StringBuilder("Timed out waiting for script.");
+                StringBuilder errorMessageBuilder = new("Timed out waiting for script.");
 
                 if (message != DefaultReportMessage)
                 {
                     errorMessageBuilder.Append(' ').Append(message);
 
-                    if (message[message.Length - 1] != '.')
+                    if (message[^1] != '.')
                         errorMessageBuilder.Append('.');
                 }
 

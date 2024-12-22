@@ -80,7 +80,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
             && debuggerAddressObject is string debuggerAddress
             && debuggerAddress.Contains("localhost:"))
         {
-            string portString = debuggerAddress.Substring(debuggerAddress.IndexOf(':') + 1);
+            string portString = debuggerAddress[(debuggerAddress.IndexOf(':') + 1)..];
 
             if (int.TryParse(portString, out int port))
             {

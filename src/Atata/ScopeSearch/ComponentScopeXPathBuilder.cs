@@ -31,7 +31,7 @@ public class ComponentScopeXPathBuilder : XPathBuilder<ComponentScopeXPathBuilde
 
         if (Options.Index.HasValue)
         {
-            subPath = subPath[0] == '(' && subPath[subPath.Length - 1] == ')'
+            subPath = subPath[0] == '(' && subPath[^1] == ')'
                 ? subPath
                 : $"({subPath})";
 

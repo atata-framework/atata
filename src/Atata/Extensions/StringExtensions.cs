@@ -24,7 +24,7 @@ public static class StringExtensions
         if (value == null)
             return null;
         else if (value.Length > 1)
-            return char.ToUpper(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
+            return char.ToUpper(value[0], CultureInfo.CurrentCulture) + value[1..];
         else
             return value.ToUpper(CultureInfo.CurrentCulture);
     }
@@ -34,7 +34,7 @@ public static class StringExtensions
         if (value == null)
             return null;
         else if (value.Length > 1)
-            return char.ToLower(value[0], CultureInfo.CurrentCulture) + value.Substring(1);
+            return char.ToLower(value[0], CultureInfo.CurrentCulture) + value[1..];
         else
             return value.ToLower(CultureInfo.CurrentCulture);
     }
@@ -141,8 +141,8 @@ public static class StringExtensions
         return value.Length <= length
             ? value
             : withEllipsis
-            ? value.Substring(0, length - ellipses.Length) + ellipses
-            : value.Substring(0, length);
+                ? value[..(length - ellipses.Length)] + ellipses
+                : value[..length];
     }
 
     public static string TrimStart(this string value, string trimString)
@@ -150,7 +150,7 @@ public static class StringExtensions
         value.CheckNotNull(nameof(value));
 
         return trimString is not null && value.StartsWith(trimString, StringComparison.Ordinal)
-            ? value.Substring(trimString.Length)
+            ? value[trimString.Length..]
             : value;
     }
 }

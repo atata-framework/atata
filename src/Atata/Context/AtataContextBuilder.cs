@@ -719,7 +719,7 @@ public sealed class AtataContextBuilder : ICloneable
         if (path.Length > 0)
         {
             if (path[0] == Path.DirectorySeparatorChar || path[0] == Path.AltDirectorySeparatorChar)
-                path = path.Substring(1);
+                path = path[1..];
 
             fullPath = Path.Combine(AtataContext.GlobalProperties.ArtifactsRootPath, path);
         }

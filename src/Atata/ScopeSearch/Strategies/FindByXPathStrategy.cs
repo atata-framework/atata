@@ -23,11 +23,11 @@ public class FindByXPathStrategy : XPathComponentScopeFindStrategy
     protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
     {
         string[] conditionalXPathTerms = builder.Options.Terms
-            .Where(x => (x[0] == '[' && x[x.Length - 1] == ']') || x[0] == '@')
+            .Where(x => (x[0] == '[' && x[^1] == ']') || x[0] == '@')
             .ToArray();
 
         string[] conditionalXPathSelectors = conditionalXPathTerms
-            .Select(x => x[0] == '@' ? x : x.Substring(1, x.Length - 2))
+            .Select(x => x[0] == '@' ? x : x[1..^1])
             .ToArray();
 
         if (conditionalXPathSelectors.Length > 1)
