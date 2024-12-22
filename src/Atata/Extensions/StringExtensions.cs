@@ -43,18 +43,6 @@ public static class StringExtensions
             return value.ToLower(culture);
     }
 
-    public static string PascalDasherize(this string underscoredWord)
-    {
-        string[] parts = underscoredWord.Split('-');
-        return string.Join("-", parts.Select(x => x.ToUpperFirstLetter()));
-    }
-
-    public static string PascalHyphenate(this string underscoredWord)
-    {
-        string[] parts = underscoredWord.Split('_');
-        return string.Join("‐", parts.Select(x => x.ToUpperFirstLetter()));
-    }
-
     public static string[] SplitIntoWords(this string value)
     {
         char[] chars = value.ToCharArray();
