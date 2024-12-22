@@ -42,6 +42,9 @@ public static class Stringifier
     public static string ToString(Expression expression) =>
         $"({ObjectExpressionStringBuilder.ExpressionToString(expression)})";
 
+    public static string ToString(string value) =>
+        ToString(value as object);
+
     public static string ToString(object value) =>
         value switch
         {
