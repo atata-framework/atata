@@ -54,7 +54,7 @@ internal class BodyExpressionPart
 
             for (int i = 1; i < parts.Length - 1; i++)
             {
-                parts[i] = parts[i].Substring(0, parts[i].Length - 1);
+                parts[i] = parts[i][..^1];
             }
 
             return string.Join(conditionalOperatorWithSpaces, TrimParentheses(parts));
@@ -80,7 +80,7 @@ internal class BodyExpressionPart
     }
 
     private static string TrimParentheses(string expression) =>
-        expression[0] == '(' && expression[expression.Length - 1] == ')'
-            ? expression.Substring(1, expression.Length - 2)
+        expression[0] == '(' && expression[^1] == ')'
+            ? expression[1..^1]
             : expression;
 }

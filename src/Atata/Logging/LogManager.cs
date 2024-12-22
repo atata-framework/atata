@@ -247,7 +247,7 @@ internal sealed class LogManager : ILogManager
 
         if (newLineIndex >= 0)
         {
-            message = message.Substring(0, newLineIndex);
+            message = message[..newLineIndex];
 
             message += message[^1] == '.'
                 ? ".."
