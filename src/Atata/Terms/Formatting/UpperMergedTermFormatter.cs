@@ -2,7 +2,7 @@
 
 public class UpperMergedTermFormatter : ITermFormatter
 {
-    public string Format(string[] words) =>
+    public string Format(string[] words, CultureInfo culture) =>
         string.Concat(words)
-            .ToUpper(CultureInfo.CurrentCulture);
+            .ToUpper(culture);
 }

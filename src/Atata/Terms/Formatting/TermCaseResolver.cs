@@ -21,7 +21,7 @@ public static class TermCaseResolver
         [TermCase.PascalHyphenKebab] = FormatterItem.For<PascalHyphenKebabTermFormatter>()
     };
 
-    public static string ApplyCase(string value, TermCase termCase)
+    public static string ApplyCase(string value, TermCase termCase, CultureInfo culture = null)
     {
         value.CheckNotNull(nameof(value));
 
@@ -30,12 +30,13 @@ public static class TermCaseResolver
 
         string[] words = value.SplitIntoWords();
 
-        return ApplyCase(words, termCase);
+        return ApplyCase(words, termCase, culture);
     }
 
-    public static string ApplyCase(string[] words, TermCase termCase)
+    public static string ApplyCase(string[] words, TermCase termCase, CultureInfo culture = null)
     {
         words.CheckNotNull(nameof(words));
+        culture ??= CultureInfo.CurrentCulture;
 
         if (!words.Any())
             return string.Empty;
@@ -45,7 +46,7 @@ public static class TermCaseResolver
 
         if (s_formatters.TryGetValue(termCase, out FormatterItem formatterItem))
         {
-            string formattedValue = formatterItem.Formatter.Format(words);
+            string formattedValue = formatterItem.Formatter.Format(words, culture);
 
             if (!string.IsNullOrWhiteSpace(formatterItem.StringFormat))
                 formattedValue = string.Format(formatterItem.StringFormat, formattedValue);

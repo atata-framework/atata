@@ -2,6 +2,7 @@
 
 public class LowerMergedTermFormatter : ITermFormatter
 {
-    public string Format(string[] words) =>
-        string.Concat(words).ToLower(CultureInfo.CurrentCulture);
+    public string Format(string[] words, CultureInfo culture) =>
+        string.Concat(words)
+            .ToLower(culture);
 }

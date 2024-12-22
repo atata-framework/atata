@@ -19,24 +19,28 @@ public static class StringExtensions
         return value.ToCharArray().All(char.IsUpper);
     }
 
-    public static string ToUpperFirstLetter(this string value)
+    public static string ToUpperFirstLetter(this string value, CultureInfo culture = null)
     {
+        culture ??= CultureInfo.CurrentCulture;
+
         if (value == null)
             return null;
         else if (value.Length > 1)
-            return char.ToUpper(value[0], CultureInfo.CurrentCulture) + value[1..];
+            return char.ToUpper(value[0], culture) + value[1..];
         else
-            return value.ToUpper(CultureInfo.CurrentCulture);
+            return value.ToUpper(culture);
     }
 
-    public static string ToLowerFirstLetter(this string value)
+    public static string ToLowerFirstLetter(this string value, CultureInfo culture = null)
     {
+        culture ??= CultureInfo.CurrentCulture;
+
         if (value == null)
             return null;
         else if (value.Length > 1)
-            return char.ToLower(value[0], CultureInfo.CurrentCulture) + value[1..];
+            return char.ToLower(value[0], culture) + value[1..];
         else
-            return value.ToLower(CultureInfo.CurrentCulture);
+            return value.ToLower(culture);
     }
 
     public static string PascalDasherize(this string underscoredWord)

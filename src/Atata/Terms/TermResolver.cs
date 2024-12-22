@@ -164,7 +164,7 @@ public static class TermResolver
 
     private static string FormatStringValue(string value, TermOptions termOptions)
     {
-        string valueToFormat = termOptions.GetCaseOrNull()?.ApplyTo(value) ?? value;
+        string valueToFormat = termOptions.GetCaseOrNull()?.ApplyTo(value, termOptions.Culture) ?? value;
 
         return FormatValue(valueToFormat, termOptions.Format, termOptions.Culture);
     }

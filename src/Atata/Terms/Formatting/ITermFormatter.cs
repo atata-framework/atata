@@ -2,5 +2,5 @@
 
 public interface ITermFormatter
 {
-    string Format(string[] words);
+    string Format(string[] words, CultureInfo culture);
 }
