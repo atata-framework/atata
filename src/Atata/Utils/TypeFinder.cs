@@ -66,7 +66,7 @@ public static class TypeFinder
         if (typeName.Contains(NamespaceSeparator))
         {
             int separatorIndex = typeName.LastIndexOf(NamespaceSeparator);
-            namespacePart = typeName.Substring(0, separatorIndex);
+            namespacePart = typeName[..separatorIndex];
             pureTypeName = typeName[(separatorIndex + 1)..];
         }
         else

@@ -549,10 +549,6 @@ return textValues;";
             : DoGetItemElements();
     }
 
-    // TODO: Resolve visibility.
-    private SearchOptions ResolveSearchOptions() =>
-        new();
-
     void IClearsCache.ClearCache() =>
         ClearCache();
 
@@ -586,4 +582,8 @@ return textValues;";
 
         return Component.Owner;
     }
+
+    // TODO: Resolve visibility.
+    private static SearchOptions ResolveSearchOptions() =>
+        new();
 }
