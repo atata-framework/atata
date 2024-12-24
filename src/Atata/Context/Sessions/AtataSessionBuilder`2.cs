@@ -257,6 +257,20 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return (TBuilder)this;
     }
 
+    async Task IAtataSessionProvider.StartAsync(AtataContext context, CancellationToken cancellationToken)
+    {
+        if (Mode == AtataSessionMode.Pool)
+        {
+            await context.Sessions.StartPoolAsync(this, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await BuildAsync(cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
     /// <inheritdoc cref="IAtataSessionBuilder.BuildAsync(CancellationToken)"/>
     public async Task<TSession> BuildAsync(CancellationToken cancellationToken = default)
     {
@@ -345,8 +359,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     protected virtual IReport<TSession> CreateReport(TSession session) =>
         new Report<TSession>(session, session.ExecutionUnit);
 
-    /// <inheritdoc cref="IAtataSessionBuilder.Clone"/>
-    public AtataSessionBuilder<TSession, TBuilder> Clone()
+    /// <summary>
+    /// Creates a copy of the current builder.
+    /// </summary>
+    /// <returns>The copied builder instance.</returns>
+    public TBuilder Clone()
     {
         var copy = (TBuilder)MemberwiseClone();
         copy._targetContext = null;
@@ -356,7 +373,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         return copy;
     }
 
-    IAtataSessionBuilder IAtataSessionBuilder.Clone() =>
+    object ICloneable.Clone() =>
         Clone();
 
     protected virtual void OnClone(TBuilder copy)

@@ -1,11 +1,17 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a builder of a session request.
 /// </summary>
-public sealed class AtataSessionRequestBuilder
+public abstract class AtataSessionRequestBuilder : IAtataSessionProvider
 {
-    internal AtataSessionRequestBuilder(Type sessionType) =>
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AtataSessionRequestBuilder"/> class.
+    /// </summary>
+    /// <param name="sessionType">Type of the session.</param>
+    protected AtataSessionRequestBuilder(Type sessionType) =>
         Type = sessionType;
 
     /// <summary>
@@ -13,14 +19,10 @@ public sealed class AtataSessionRequestBuilder
     /// </summary>
     public Type Type { get; }
 
-    /// <summary>
-    /// Gets or sets the name of the session to request.
-    /// </summary>
-    public string Name { get; set; }
+    /// <inheritdoc/>
+    public string? Name { get; set; }
 
-    /// <summary>
-    /// Gets or sets the start scopes for which an <see cref="AtataSession"/> should automatically be requested.
-    /// </summary>
+    /// <inheritdoc/>
     public AtataSessionStartScopes? StartScopes { get; set; }
 
     /// <summary>
@@ -45,10 +47,18 @@ public sealed class AtataSessionRequestBuilder
         return this;
     }
 
+    Task IAtataSessionProvider.StartAsync(AtataContext context, CancellationToken cancellationToken) =>
+        StartAsync(context, cancellationToken);
+
+    protected abstract Task StartAsync(AtataContext context, CancellationToken cancellationToken);
+
     /// <summary>
     /// Creates a copy of the current builder.
     /// </summary>
     /// <returns>The copied builder instance.</returns>
     public AtataSessionRequestBuilder Clone() =>
        (AtataSessionRequestBuilder)MemberwiseClone();
+
+    object ICloneable.Clone() =>
+        Clone();
 }

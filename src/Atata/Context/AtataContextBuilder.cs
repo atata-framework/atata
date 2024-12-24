@@ -23,7 +23,7 @@ public sealed class AtataContextBuilder : ICloneable
     internal AtataContextBuilder(AtataContextScope? contextScope, AtataSessionStartScopes? sessionStartScopes)
     {
         Scope = contextScope;
-        Sessions = new(this, [], [], [], sessionStartScopes);
+        Sessions = new(this, [], sessionStartScopes);
     }
 
     /// <summary>
@@ -860,37 +860,13 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.Sessions.AddBuilders(Sessions.Builders);
 
-        foreach (var sessionRequest in Sessions.BorrowRequests)
-            if (ShouldAutoStartSession(sessionRequest.StartScopes))
-                await context.Sessions.BorrowAsync(sessionRequest.Type, sessionRequest.Name, cancellationToken)
-                    .ConfigureAwait(false);
-
-        foreach (var sessionBuilder in Sessions.Builders)
-            if (ShouldAutoStartSession(sessionBuilder.StartScopes))
-                await StartSessionOrPoolAsync(context, sessionBuilder, cancellationToken)
-                    .ConfigureAwait(false);
-
-        foreach (var sessionRequest in Sessions.PoolRequests)
-            if (ShouldAutoStartSession(sessionRequest.StartScopes))
-                await context.Sessions.TakeFromPoolAsync(sessionRequest.Type, sessionRequest.Name, cancellationToken)
+        foreach (var provider in Sessions.Providers)
+            if (ShouldAutoStartSession(provider.StartScopes))
+                await provider.StartAsync(context, cancellationToken)
                     .ConfigureAwait(false);
 
         context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
         context.Activate();
-    }
-
-    private static async Task StartSessionOrPoolAsync(AtataContext context, IAtataSessionBuilder sessionBuilder, CancellationToken cancellationToken = default)
-    {
-        if (sessionBuilder.Mode == AtataSessionMode.Pool)
-        {
-            await context.Sessions.StartPoolAsync(sessionBuilder, cancellationToken)
-                .ConfigureAwait(false);
-        }
-        else
-        {
-            await sessionBuilder.BuildAsync(cancellationToken)
-                .ConfigureAwait(false);
-        }
     }
 
     private static void ApplyCulture(AtataContext context, CultureInfo culture)
@@ -967,9 +943,7 @@ public sealed class AtataContextBuilder : ICloneable
         copy.Scope = scope;
         copy.Sessions = new(
             copy,
-            Sessions.Builders.Select(x => x.Clone()).ToList(),
-            Sessions.BorrowRequests.Select(x => x.Clone()).ToList(),
-            Sessions.PoolRequests.Select(x => x.Clone()).ToList(),
+            Sessions.Providers.Select(x => (IAtataSessionProvider)x.Clone()).ToList(),
             ResolveSessionDefaultStartScopes(scope));
 
         copy.LogConsumers = new LogConsumersBuilder(
