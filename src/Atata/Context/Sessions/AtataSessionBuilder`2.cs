@@ -1,15 +1,17 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBuilder
     where TSession : AtataSession, new()
     where TBuilder : AtataSessionBuilder<TSession, TBuilder>
 {
-    private AtataContext _targetContext;
+    private AtataContext? _targetContext;
 
     /// <inheritdoc/>
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
-    AtataContext IAtataSessionBuilder.TargetContext
+    AtataContext? IAtataSessionBuilder.TargetContext
     {
         get => _targetContext;
         set => _targetContext = value;
@@ -107,7 +109,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// </summary>
     /// <param name="name">The name.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseName(string name)
+    public TBuilder UseName(string? name)
     {
         Name = name;
         return (TBuilder)this;

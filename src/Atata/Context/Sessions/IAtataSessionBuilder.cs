@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// An interface of an <see cref="AtataSession"/> builder.
@@ -9,7 +11,7 @@ public interface IAtataSessionBuilder : IAtataSessionProvider
     /// Gets or sets the target context to which the built session should be assigned to.
     /// Can be <see langword="null"/>.
     /// </summary>
-    AtataContext TargetContext { get; set; }
+    AtataContext? TargetContext { get; set; }
 
     /// <summary>
     /// Gets or sets the session operating mode.

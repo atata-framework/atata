@@ -9,7 +9,7 @@ internal static class AtataSessionTypeMap
     internal static string ResolveSessionTypedName(IAtataSessionBuilder builder)
     {
         Type sessionType = ResolveSessionTypeByBuilderType(builder.GetType());
-        string sessionName = builder.Name;
+        string? sessionName = builder.Name;
 
         return AtataSession.BuildTypedName(sessionType, sessionName);
     }
