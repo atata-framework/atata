@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class AtataSessionPool
 {
@@ -43,14 +45,14 @@ internal sealed class AtataSessionPool
 
         for (int i = 0; i < count; i++)
         {
-            var session = await TryBuildAsync(cancellationToken)
+            AtataSession? session = await TryBuildAsync(cancellationToken)
                 .ConfigureAwait(false);
-
-            _items.Enqueue(session);
 
             if (session is null)
                 throw new InvalidOperationException(
                     $"Cannot build {AtataSessionTypeMap.ResolveSessionTypedName(_sessionBuilder)} within a session pool. Max capacity {MaxCapacity} is reached.");
+
+            _items.Enqueue(session);
         }
     }
 
@@ -71,7 +73,7 @@ internal sealed class AtataSessionPool
 
     private async Task<AtataSession> TryBuildOrWaitAsync(CancellationToken cancellationToken)
     {
-        AtataSession session = await TryBuildAsync(cancellationToken)
+        AtataSession? session = await TryBuildAsync(cancellationToken)
             .ConfigureAwait(false);
 
         if (session is null)
@@ -89,10 +91,10 @@ internal sealed class AtataSessionPool
                     $"{AtataSessionTypeMap.ResolveSessionTypedName(_sessionBuilder)} from a session pool");
         }
 
-        return session;
+        return session!;
     }
 
-    private async Task<AtataSession> TryBuildAsync(CancellationToken cancellationToken = default)
+    private async Task<AtataSession?> TryBuildAsync(CancellationToken cancellationToken = default)
     {
         if (_count < _maxCapacity)
         {
