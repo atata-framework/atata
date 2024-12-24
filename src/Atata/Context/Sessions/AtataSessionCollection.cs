@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, IDisposable
 {
@@ -12,7 +14,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     private readonly ReaderWriterLockSlim _sessionLinkedListOderedByCurrentUsageLock = new();
 
-    private AtataSessionPoolContainer _poolContainer;
+    private AtataSessionPoolContainer? _poolContainer;
 
     internal AtataSessionCollection(AtataContext context) =>
         _context = context;
@@ -83,7 +85,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
 
-    public TSessionBuilder Add<TSessionBuilder>(Action<TSessionBuilder> configure = null)
+    public TSessionBuilder Add<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
         TSessionBuilder sessionBuilder = new()
@@ -98,7 +100,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return sessionBuilder;
     }
 
-    public async ValueTask StartPoolAsync<TSessionBuilder>(Action<TSessionBuilder> configure = null, CancellationToken cancellationToken = default)
+    public async ValueTask StartPoolAsync<TSessionBuilder>(Action<TSessionBuilder>? configure = null, CancellationToken cancellationToken = default)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
         TSessionBuilder sessionBuilder = Add(configure);
@@ -174,12 +176,12 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return stringBuilder.ToString();
     }
 
-    public async Task<TSession> BuildAsync<TSession>(string sessionName = null, CancellationToken cancellationToken = default)
+    public async Task<TSession> BuildAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
         (TSession)await BuildAsync(typeof(TSession), sessionName, cancellationToken);
 
-    public async Task<AtataSession> BuildAsync(Type sessionType, string sessionName = null, CancellationToken cancellationToken = default)
+    public async Task<AtataSession> BuildAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
         var builder = _sessionBuilders.Find(x => x.Name == sessionName && AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType()) == sessionType)
             ?? throw AtataSessionBuilderNotFoundException.For(sessionType, sessionName, _context);
@@ -188,14 +190,14 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
             .ConfigureAwait(false);
     }
 
-    public async ValueTask<TSession> BorrowAsync<TSession>(string sessionName = null, CancellationToken cancellationToken = default)
+    public async ValueTask<TSession> BorrowAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
         (TSession)await BorrowAsync(typeof(TSession), sessionName, cancellationToken);
 
-    public async ValueTask<AtataSession> BorrowAsync(Type sessionType, string sessionName = null, CancellationToken cancellationToken = default)
+    public async ValueTask<AtataSession> BorrowAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
-        AtataSession session = FindSessionToBorrowInContextAncestors(sessionType, sessionName);
+        AtataSession? session = FindSessionToBorrowInContextAncestors(sessionType, sessionName);
 
         if (session is null)
         {
@@ -223,7 +225,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return session;
     }
 
-    private AtataSession FindSessionToBorrowInContextAncestors(Type sessionType, string sessionName)
+    private AtataSession? FindSessionToBorrowInContextAncestors(Type sessionType, string? sessionName)
     {
         var currentContext = _context;
 
@@ -239,14 +241,14 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return null;
     }
 
-    public async ValueTask<TSession> TakeFromPoolAsync<TSession>(string sessionName = null, CancellationToken cancellationToken = default)
+    public async ValueTask<TSession> TakeFromPoolAsync<TSession>(string? sessionName = null, CancellationToken cancellationToken = default)
         where TSession : AtataSession
         =>
         (TSession)await TakeFromPoolAsync(typeof(TSession), sessionName, cancellationToken);
 
-    public async ValueTask<AtataSession> TakeFromPoolAsync(Type sessionType, string sessionName = null, CancellationToken cancellationToken = default)
+    public async ValueTask<AtataSession> TakeFromPoolAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
-        if (!TryFindPool(sessionType, sessionName, out AtataSessionPool pool))
+        if (!TryFindPool(sessionType, sessionName, out AtataSessionPool? pool))
             throw new AtataSessionPoolNotFoundException(
                 $"Failed to find {AtataSession.BuildTypedName(sessionType, sessionName)} pool to take session for {_context}.");
 
@@ -264,7 +266,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     internal AtataSessionPool GetPool(Type sessionType, string sessionName)
     {
-        if (_poolContainer is null || !_poolContainer.TryGetPool(sessionType, sessionName, out AtataSessionPool pool))
+        if (_poolContainer is null || !_poolContainer.TryGetPool(sessionType, sessionName, out AtataSessionPool? pool))
             throw new AtataSessionPoolNotFoundException(
                 $"Failed to find {AtataSession.BuildTypedName(sessionType, sessionName)} pool in {_context}.");
 
@@ -273,8 +275,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     private bool TryFindPool(
         Type sessionType,
-        string sessionName,
-        [MaybeNullWhen(false)] out AtataSessionPool pool)
+        string? sessionName,
+        [NotNullWhen(true)] out AtataSessionPool? pool)
     {
         AtataContext currentContext = _context;
 

@@ -19,8 +19,8 @@ internal sealed class AtataSessionPoolContainer
 
     internal bool TryGetPool(
         Type sessionType,
-        string sessionName,
-        [MaybeNullWhen(false)] out AtataSessionPool pool)
+        string? sessionName,
+        [NotNullWhen(true)] out AtataSessionPool? pool)
     {
         PoolKey key = new(sessionType, sessionName);
 
