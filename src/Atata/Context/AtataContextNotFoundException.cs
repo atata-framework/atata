@@ -22,6 +22,6 @@ public class AtataContextNotFoundException : Exception
     {
     }
 
-    public static AtataContextNotFoundException Create() =>
+    internal static AtataContextNotFoundException ForCurrentIsNull() =>
         new($"Failed to find {nameof(AtataContext)} instance. {nameof(AtataContext)}.{nameof(AtataContext.Current)} property is null.");
 }

@@ -429,7 +429,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <returns>An <see cref="AtataContext"/> instance.</returns>
     public static AtataContext ResolveCurrent() =>
-        Current ?? throw AtataContextNotFoundException.Create();
+        Current ?? throw AtataContextNotFoundException.ForCurrentIsNull();
 
     /// <summary>
     /// Presets the current asynchronous local box when current mode is <see cref="AtataContextModeOfCurrent.AsyncLocalBoxed"/>.
