@@ -2,6 +2,172 @@
 
 public static class AtataSessionsBuilderTests
 {
+    public sealed class Add
+    {
+        [Test]
+        public void WithoutConfigure()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+
+            // Act
+            sut.Add<FakeSessionBuilder>();
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.StartScopes.Should().Be(AtataSessionStartScopes.TestSuite);
+        }
+
+        [Test]
+        public void WithConfigure()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultNonScopedBuilder().Sessions;
+
+            // Act
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some");
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Name.Should().Be("some");
+        }
+    }
+
+    public sealed class Configure
+    {
+        [Test]
+        public void WhenNoSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+
+            // Act
+            sut.Configure<FakeSessionBuilder>("some");
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) => x.Name == "some" && x.StartScopes == AtataSessionStartScopes.TestSuite);
+        }
+
+        [Test]
+        public void WhenThereIsSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some");
+
+            // Act
+            sut.Configure<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared);
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) =>
+                    x.Name == "some"
+                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.Mode == AtataSessionMode.Shared);
+        }
+
+        [Test]
+        public void WhenThereIsBuilderWithDifferentName()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some1");
+
+            // Act
+            sut.Configure<FakeSessionBuilder>("some2", x => x.Mode = AtataSessionMode.Shared);
+
+            // Assert
+            sut.Builders.Should().HaveCount(2);
+
+            sut.Builders.Last().Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) =>
+                    x.Name == "some2"
+                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.Mode == AtataSessionMode.Shared);
+        }
+    }
+
+    public sealed class ConfigureBySessionType
+    {
+        [Test]
+        public void WhenThereIsSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some");
+
+            // Act
+            sut.ConfigureBySessionType(typeof(FakeSession), "some", x => x.Mode = AtataSessionMode.Shared);
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) =>
+                    x.Name == "some"
+                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.Mode == AtataSessionMode.Shared);
+        }
+
+        [Test]
+        public void WithBaseType_WhenThereIsSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some");
+
+            // Act
+            sut.ConfigureBySessionType(typeof(AtataSession), "some", x => x.Mode = AtataSessionMode.Shared);
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) =>
+                    x.Name == "some"
+                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.Mode == AtataSessionMode.Shared);
+        }
+
+        [Test]
+        public void WhenThereIsBuilderWithDifferentName()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some1");
+
+            // Act
+            var call = sut.Invoking(x => x.ConfigureBySessionType(typeof(FakeSession), "some2", x => x.Mode = AtataSessionMode.Shared));
+
+            // Assert
+            call.Should().ThrowExactly<AtataSessionBuilderNotFoundException>()
+                .WithMessage("Failed to find session builder for FakeSession { Name=some2 }.");
+        }
+    }
+
+    public sealed class RemoveAll
+    {
+        [Test]
+        public void WhenThereAreBuilders()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultNonScopedBuilder().Sessions;
+            sut.Add<FakeSessionBuilder>();
+            sut.Add<FakeSessionBuilder2>();
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some");
+
+            // Act
+            sut.RemoveAll<FakeSessionBuilder>();
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder2>();
+        }
+    }
+
     public sealed class Borrow
     {
         [Test]

@@ -32,6 +32,14 @@ public sealed class AtataSessionsBuilder
     public IReadOnlyList<IAtataSessionProvider> Providers =>
         _sessionProviders;
 
+    /// <summary>
+    /// Creates a new instance of the builder of the specified <typeparamref name="TSessionBuilder"/> type,
+    /// calls <paramref name="configure"/> delegate,
+    /// adds it to the session providers list.
+    /// </summary>
+    /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
+    /// <param name="configure">The configure.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Add<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
@@ -44,26 +52,56 @@ public sealed class AtataSessionsBuilder
         return Add(sessionBuilder);
     }
 
-    internal AtataContextBuilder Add(IAtataSessionBuilder sessionBuilder)
+    /// <summary>
+    /// Adds the specified session provider.
+    /// </summary>
+    /// <param name="sessionProvider">The session provider.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Add(IAtataSessionProvider sessionProvider)
     {
-        _sessionProviders.Add(sessionBuilder);
+        sessionProvider.CheckNotNull(nameof(sessionProvider));
+
+        _sessionProviders.Add(sessionProvider);
         return _atataContextBuilder;
     }
 
     public AtataContextBuilder Configure<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
+        where TSessionBuilder : IAtataSessionBuilder =>
+        Configure(null, configure);
+
+    public AtataContextBuilder Configure<TSessionBuilder>(string? name, Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder
     {
-        var sessionBuilder = _sessionProviders.OfType<TSessionBuilder>().LastOrDefault();
+        var sessionBuilder = _sessionProviders.OfType<TSessionBuilder>()
+            .LastOrDefault(x => x.Name == name);
 
-        bool isExisiting = sessionBuilder is not null;
-
-        if (!isExisiting)
+        if (sessionBuilder is null)
+        {
             sessionBuilder = ActivatorEx.CreateInstance<TSessionBuilder>();
+            sessionBuilder.StartScopes = _defaultStartScopes;
+            sessionBuilder.Name = name;
 
-        configure?.Invoke(sessionBuilder!);
+            configure?.Invoke(sessionBuilder);
+            _sessionProviders.Add(sessionBuilder);
+        }
+        else
+        {
+            configure?.Invoke(sessionBuilder);
+        }
 
-        if (!isExisiting)
-            _sessionProviders.Add(sessionBuilder!);
+        return _atataContextBuilder;
+    }
+
+    public AtataContextBuilder ConfigureBySessionType(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
+    {
+        sessionType.CheckNotNull(nameof(sessionType));
+        configure.CheckNotNull(nameof(configure));
+
+        var sessionBuilder = _sessionProviders.OfType<IAtataSessionBuilder>()
+            .LastOrDefault(x => x.Name == name && sessionType.IsAssignableFrom(AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType())))
+            ?? throw AtataSessionBuilderNotFoundException.For(sessionType, name);
+
+        configure.Invoke(sessionBuilder);
 
         return _atataContextBuilder;
     }
@@ -116,20 +154,49 @@ public sealed class AtataSessionsBuilder
         return _atataContextBuilder;
     }
 
-    public AtataContextBuilder Remove<TSessionBuilder>(string? name)
-        where TSessionBuilder : IAtataSessionBuilder
+    /// <summary>
+    /// Removes a session provider by the specified <typeparamref name="TSessionProvider"/> type
+    /// and <paramref name="name"/>.
+    /// </summary>
+    /// <typeparam name="TSessionProvider">The type of the session provider.</typeparam>
+    /// <param name="name">The name of the session provider.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Remove<TSessionProvider>(string? name)
+        where TSessionProvider : IAtataSessionProvider
     {
-        _sessionProviders.RemoveAll(x => x is TSessionBuilder && x.Name == name);
+        _sessionProviders.RemoveAll(x => x is TSessionProvider && x.Name == name);
         return _atataContextBuilder;
     }
 
-    public AtataContextBuilder RemoveAll<TSessionBuilder>()
-        where TSessionBuilder : IAtataSessionBuilder
+    /// <summary>
+    /// Removes the specified session provider.
+    /// </summary>
+    /// <param name="sessionProvider">The session provider.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Remove(IAtataSessionProvider sessionProvider)
     {
-        _sessionProviders.RemoveAll(x => x is TSessionBuilder);
+        sessionProvider.CheckNotNull(nameof(sessionProvider));
+
+        _sessionProviders.Remove(sessionProvider);
         return _atataContextBuilder;
     }
 
+    /// <summary>
+    /// Removes all session providers of the specified <typeparamref name="TSessionProvider"/> type.
+    /// </summary>
+    /// <typeparam name="TSessionProvider">The type of the session provider.</typeparam>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder RemoveAll<TSessionProvider>()
+        where TSessionProvider : IAtataSessionProvider
+    {
+        _sessionProviders.RemoveAll(x => x is TSessionProvider);
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Clears all session providers.
+    /// </summary>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Clear()
     {
         _sessionProviders.Clear();
