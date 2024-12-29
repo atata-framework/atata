@@ -184,7 +184,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     public async Task<AtataSession> BuildAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
         var builder = _sessionBuilders.Find(x => x.Name == sessionName && AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType()) == sessionType)
-            ?? throw AtataSessionBuilderNotFoundException.For(sessionType, sessionName, _context);
+            ?? throw AtataSessionBuilderNotFoundException.BySessionType(sessionType, sessionName, _context);
 
         return await builder.BuildAsync(cancellationToken)
             .ConfigureAwait(false);

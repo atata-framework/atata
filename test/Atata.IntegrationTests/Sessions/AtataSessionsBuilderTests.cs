@@ -44,12 +44,11 @@ public static class AtataSessionsBuilderTests
             var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
 
             // Act
-            sut.Configure<FakeSessionBuilder>("some");
+            var call = sut.Invoking(x => x.Configure<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared));
 
             // Assert
-            sut.Builders.Should().ContainSingle()
-                .Which.Should().BeOfType<FakeSessionBuilder>()
-                .Which.Should().Match((FakeSessionBuilder x) => x.Name == "some" && x.StartScopes == AtataSessionStartScopes.TestSuite);
+            call.Should().ThrowExactly<AtataSessionBuilderNotFoundException>()
+                .WithMessage("Failed to find FakeSessionBuilder { Name=some }.");
         }
 
         [Test]
@@ -70,6 +69,43 @@ public static class AtataSessionsBuilderTests
                     && x.StartScopes == AtataSessionStartScopes.TestSuite
                     && x.Mode == AtataSessionMode.Shared);
         }
+    }
+
+    public sealed class ConfigureOrAdd
+    {
+        [Test]
+        public void WhenNoSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+
+            // Act
+            sut.ConfigureOrAdd<FakeSessionBuilder>("some");
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) => x.Name == "some" && x.StartScopes == AtataSessionStartScopes.TestSuite);
+        }
+
+        [Test]
+        public void WhenThereIsSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some");
+
+            // Act
+            sut.ConfigureOrAdd<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared);
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) =>
+                    x.Name == "some"
+                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.Mode == AtataSessionMode.Shared);
+        }
 
         [Test]
         public void WhenThereIsBuilderWithDifferentName()
@@ -79,7 +115,7 @@ public static class AtataSessionsBuilderTests
             sut.Add<FakeSessionBuilder>(x => x.Name = "some1");
 
             // Act
-            sut.Configure<FakeSessionBuilder>("some2", x => x.Mode = AtataSessionMode.Shared);
+            sut.ConfigureOrAdd<FakeSessionBuilder>("some2", x => x.Mode = AtataSessionMode.Shared);
 
             // Assert
             sut.Builders.Should().HaveCount(2);

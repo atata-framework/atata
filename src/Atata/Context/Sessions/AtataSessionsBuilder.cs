@@ -65,11 +65,29 @@ public sealed class AtataSessionsBuilder
         return _atataContextBuilder;
     }
 
-    public AtataContextBuilder Configure<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
+    public AtataContextBuilder Configure<TSessionBuilder>(Action<TSessionBuilder> configure)
         where TSessionBuilder : IAtataSessionBuilder =>
         Configure(null, configure);
 
-    public AtataContextBuilder Configure<TSessionBuilder>(string? name, Action<TSessionBuilder>? configure = null)
+    public AtataContextBuilder Configure<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
+        where TSessionBuilder : IAtataSessionBuilder
+    {
+        configure.CheckNotNull(nameof(configure));
+
+        var sessionBuilder = _sessionProviders.OfType<TSessionBuilder>()
+            .LastOrDefault(x => x.Name == name)
+            ?? throw AtataSessionBuilderNotFoundException.ByBuilderType(typeof(TSessionBuilder), name);
+
+        configure.Invoke(sessionBuilder);
+
+        return _atataContextBuilder;
+    }
+
+    public AtataContextBuilder ConfigureOrAdd<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
+        where TSessionBuilder : IAtataSessionBuilder =>
+        ConfigureOrAdd(null, configure);
+
+    public AtataContextBuilder ConfigureOrAdd<TSessionBuilder>(string? name, Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder
     {
         var sessionBuilder = _sessionProviders.OfType<TSessionBuilder>()
@@ -99,7 +117,7 @@ public sealed class AtataSessionsBuilder
 
         var sessionBuilder = _sessionProviders.OfType<IAtataSessionBuilder>()
             .LastOrDefault(x => x.Name == name && sessionType.IsAssignableFrom(AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType())))
-            ?? throw AtataSessionBuilderNotFoundException.For(sessionType, name);
+            ?? throw AtataSessionBuilderNotFoundException.BySessionType(sessionType, name);
 
         configure.Invoke(sessionBuilder);
 
