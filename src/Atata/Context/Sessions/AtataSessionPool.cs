@@ -67,6 +67,7 @@ internal sealed class AtataSessionPool
             throw new InvalidOperationException($"{session} cannot be returned to pool as it is already there.");
 
         session.IsTakenFromPool = false;
+        session.IsShareable = false;
 
         _items.Enqueue(session);
     }

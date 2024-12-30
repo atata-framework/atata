@@ -129,12 +129,12 @@ public sealed class AtataSessionsBuilder
         =>
         Borrow<TSession>(x => x.Name = sessionName);
 
-    public AtataContextBuilder Borrow<TSession>(Action<AtataSessionRequestBuilder>? configure = null)
+    public AtataContextBuilder Borrow<TSession>(Action<AtataSessionBorrowRequestBuilder>? configure = null)
         where TSession : AtataSession
         =>
         Borrow(typeof(TSession), configure);
 
-    public AtataContextBuilder Borrow(Type sessionType, Action<AtataSessionRequestBuilder>? configure = null)
+    public AtataContextBuilder Borrow(Type sessionType, Action<AtataSessionBorrowRequestBuilder>? configure = null)
     {
         EnsureAtataSessionType(sessionType);
 
@@ -153,12 +153,12 @@ public sealed class AtataSessionsBuilder
         =>
         TakeFromPool<TSession>(x => x.Name = sessionName);
 
-    public AtataContextBuilder TakeFromPool<TSession>(Action<AtataSessionRequestBuilder>? configure = null)
+    public AtataContextBuilder TakeFromPool<TSession>(Action<AtataSessionPoolRequestBuilder>? configure = null)
         where TSession : AtataSession
         =>
         TakeFromPool(typeof(TSession), configure);
 
-    public AtataContextBuilder TakeFromPool(Type sessionType, Action<AtataSessionRequestBuilder>? configure = null)
+    public AtataContextBuilder TakeFromPool(Type sessionType, Action<AtataSessionPoolRequestBuilder>? configure = null)
     {
         EnsureAtataSessionType(sessionType);
 

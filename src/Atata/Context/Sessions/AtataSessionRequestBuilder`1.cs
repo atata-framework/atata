@@ -5,10 +5,12 @@ namespace Atata;
 /// <summary>
 /// Represents a builder of a session request.
 /// </summary>
-public abstract class AtataSessionRequestBuilder : IAtataSessionProvider
+/// <typeparam name="TBuilder">The type of the inherited builder class.</typeparam>
+public abstract class AtataSessionRequestBuilder<TBuilder> : IAtataSessionProvider
+    where TBuilder : AtataSessionRequestBuilder<TBuilder>
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="AtataSessionRequestBuilder"/> class.
+    /// Initializes a new instance of the <see cref="AtataSessionRequestBuilder{TBuilder}"/> class.
     /// </summary>
     /// <param name="sessionType">Type of the session.</param>
     protected AtataSessionRequestBuilder(Type sessionType) =>
@@ -29,22 +31,22 @@ public abstract class AtataSessionRequestBuilder : IAtataSessionProvider
     /// Sets the <see cref="Name"/> value for a session request.
     /// </summary>
     /// <param name="name">The name.</param>
-    /// <returns>The same <see cref="AtataSessionRequestBuilder"/> instance.</returns>
-    public AtataSessionRequestBuilder UseName(string name)
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseName(string name)
     {
         Name = name;
-        return this;
+        return (TBuilder)this;
     }
 
     /// <summary>
     /// Sets the <see cref="StartScopes"/> value for a session request.
     /// </summary>
     /// <param name="startScopes">The start scopes.</param>
-    /// <returns>The same <see cref="AtataSessionRequestBuilder"/> instance.</returns>
-    public AtataSessionRequestBuilder UseStartScopes(AtataSessionStartScopes? startScopes)
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseStartScopes(AtataSessionStartScopes? startScopes)
     {
         StartScopes = startScopes;
-        return this;
+        return (TBuilder)this;
     }
 
     Task IAtataSessionProvider.StartAsync(AtataContext context, CancellationToken cancellationToken) =>
@@ -56,8 +58,8 @@ public abstract class AtataSessionRequestBuilder : IAtataSessionProvider
     /// Creates a copy of the current builder.
     /// </summary>
     /// <returns>The copied builder instance.</returns>
-    public AtataSessionRequestBuilder Clone() =>
-       (AtataSessionRequestBuilder)MemberwiseClone();
+    public TBuilder Clone() =>
+       (TBuilder)MemberwiseClone();
 
     object ICloneable.Clone() =>
         Clone();

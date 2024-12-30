@@ -308,7 +308,8 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         TSession session = new()
         {
             Name = Name,
-            Mode = Mode
+            Mode = Mode,
+            IsShareable = Mode == AtataSessionMode.Shared
         };
 
         session.AssignToOwnerContext(context);

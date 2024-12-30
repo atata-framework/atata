@@ -35,6 +35,7 @@ public static class AtataSessionCollectionTests
 
             // Assert
             session.IsBorrowed.Should().BeTrue();
+            session.IsShareable.Should().BeTrue();
             session.IsTakenFromPool.Should().BeFalse();
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(parentContext);
@@ -62,6 +63,8 @@ public static class AtataSessionCollectionTests
             // Assert
             session.IsActive.Should().BeFalse();
             session.IsBorrowed.Should().BeFalse();
+            session.IsShareable.Should().BeTrue();
+            session.Mode.Should().Be(AtataSessionMode.Shared);
             session.Context.Should().BeNull();
             session.OwnerContext.Should().BeNull();
             context.Sessions.Should().BeEmpty();
@@ -118,6 +121,128 @@ public static class AtataSessionCollectionTests
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEmpty();
             parentContext.Sessions.Should().BeEquivalentTo([session]);
+        }
+
+        [Test]
+        public async Task WhenPoolInGrandparentContextAndSharedByParent_ThenDisposeContexts()
+        {
+            // Arrange
+            await using var grandparentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseMode(AtataSessionMode.Pool)
+                    .UseName("some"))
+                .BuildAsync();
+
+            await using var parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(grandparentContext)
+                .Sessions.TakeFromPool<FakeSession>(x => x
+                    .UseSharedMode(true)
+                    .UseName("some"))
+                .BuildAsync();
+
+            await using var context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .BuildAsync();
+
+            // Act
+            var session = await context.Sessions.BorrowAsync<FakeSession>("some");
+
+            // Assert
+            session.IsTakenFromPool.Should().BeTrue();
+            session.IsShareable.Should().BeTrue();
+            session.IsBorrowed.Should().BeTrue();
+            session.Context.Should().Be(context);
+            session.OwnerContext.Should().Be(grandparentContext);
+            context.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+
+            // Act
+            await context.DisposeAsync();
+
+            // Assert
+            session.IsTakenFromPool.Should().BeTrue();
+            session.IsShareable.Should().BeTrue();
+            session.IsBorrowed.Should().BeFalse();
+            session.Context.Should().Be(parentContext);
+            session.OwnerContext.Should().Be(grandparentContext);
+            context.Sessions.Should().BeEmpty();
+            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+
+            // Act
+            await parentContext.DisposeAsync();
+
+            // Assert
+            session.IsTakenFromPool.Should().BeFalse();
+            session.IsShareable.Should().BeFalse();
+            session.IsBorrowed.Should().BeFalse();
+            session.Context.Should().Be(grandparentContext);
+            session.OwnerContext.Should().Be(grandparentContext);
+            context.Sessions.Should().BeEmpty();
+            parentContext.Sessions.Should().BeEmpty();
+            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+        }
+
+        [Test]
+        public async Task WhenPoolInGrandparentContextAndSharedByParent_ThenReturnToSessionSources()
+        {
+            // Arrange
+            await using var grandparentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseMode(AtataSessionMode.Pool)
+                    .UseName("some"))
+                .BuildAsync();
+
+            await using var parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(grandparentContext)
+                .Sessions.TakeFromPool<FakeSession>(x => x
+                    .UseSharedMode(true)
+                    .UseName("some"))
+                .BuildAsync();
+
+            await using var context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .BuildAsync();
+
+            // Act
+            var session = await context.Sessions.BorrowAsync<FakeSession>("some");
+
+            // Assert
+            session.IsTakenFromPool.Should().BeTrue();
+            session.IsShareable.Should().BeTrue();
+            session.IsBorrowed.Should().BeTrue();
+            session.Context.Should().Be(context);
+            session.OwnerContext.Should().Be(grandparentContext);
+            context.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+
+            // Act
+            session.ReturnToSessionSource();
+
+            // Assert
+            session.IsTakenFromPool.Should().BeTrue();
+            session.IsShareable.Should().BeTrue();
+            session.IsBorrowed.Should().BeFalse();
+            session.Context.Should().Be(parentContext);
+            session.OwnerContext.Should().Be(grandparentContext);
+            context.Sessions.Should().BeEmpty();
+            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+
+            // Act
+            session.ReturnToSessionSource();
+
+            // Assert
+            session.IsTakenFromPool.Should().BeFalse();
+            session.IsShareable.Should().BeFalse();
+            session.IsBorrowed.Should().BeFalse();
+            session.Context.Should().Be(grandparentContext);
+            session.OwnerContext.Should().Be(grandparentContext);
+            context.Sessions.Should().BeEmpty();
+            parentContext.Sessions.Should().BeEmpty();
+            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
         }
     }
 
@@ -183,6 +308,7 @@ public static class AtataSessionCollectionTests
             // Assert
             session.IsActive.Should().BeFalse();
             session.IsTakenFromPool.Should().BeFalse();
+            session.Mode.Should().Be(AtataSessionMode.Pool);
             session.Context.Should().BeNull();
             session.OwnerContext.Should().BeNull();
             context.Sessions.Should().BeEmpty();

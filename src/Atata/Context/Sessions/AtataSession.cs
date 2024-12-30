@@ -16,12 +16,16 @@ public abstract class AtataSession : IAsyncDisposable
 
     public AtataContext OwnerContext { get; private set; }
 
+    private AtataContext BorrowSourceContext { get; set; }
+
     public AtataContext Context { get; private set; }
 
     public AtataSessionMode Mode { get; internal set; }
 
+    public bool IsShareable { get; internal set; }
+
     public bool IsBorrowed =>
-        Mode == AtataSessionMode.Shared && Context != OwnerContext;
+        IsShareable && BorrowSourceContext != null;
 
     public bool IsTakenFromPool { get; internal set; }
 
@@ -209,6 +213,7 @@ public abstract class AtataSession : IAsyncDisposable
 
         OwnerContext = null;
         Context = null;
+        BorrowSourceContext = null;
         IsTakenFromPool = false;
 
         State.Clear();
@@ -218,16 +223,21 @@ public abstract class AtataSession : IAsyncDisposable
 
     internal bool TryBorrowTo(AtataContext context)
     {
-        if (Mode == AtataSessionMode.Shared && !IsBorrowed)
+        if (IsShareable && !IsBorrowed)
         {
             lock (BorrowLock)
             {
                 if (!IsBorrowed)
                 {
+                    var previousContext = Context;
+
                     Log.Trace($"{this} is borrowed by {context}");
+
                     context.Sessions.Add(this);
+                    BorrowSourceContext = previousContext;
                     AssignToContext(context);
-                    Log.Trace($"{this} is borrowed from {OwnerContext}");
+
+                    Log.Trace($"{this} is borrowed from {previousContext}");
                     return true;
                 }
             }
@@ -254,18 +264,20 @@ public abstract class AtataSession : IAsyncDisposable
     {
         if (IsBorrowedOrTakenFromPool)
         {
-            bool isTakenFromPool = IsTakenFromPool;
-            var currentContext = Context;
+            bool shouldReturnToPool = IsTakenFromPool && BorrowSourceContext is null;
+            AtataContext currentContext = Context;
+            AtataContext contextToReturnTo = BorrowSourceContext ?? OwnerContext;
 
-            Log.Trace($"{this} is returned to{(isTakenFromPool ? " pool of" : null)} {OwnerContext}");
+            Log.Trace($"{this} is returned to{(shouldReturnToPool ? " pool of" : null)} {contextToReturnTo}");
 
-            AssignToContext(OwnerContext);
+            BorrowSourceContext = null;
+            AssignToContext(contextToReturnTo);
             currentContext.Sessions.Remove(this);
 
-            if (isTakenFromPool)
+            if (shouldReturnToPool)
                 OwnerContext.Sessions.GetPool(GetType(), Name).Return(this);
 
-            Log.Trace($"{this} is returned{(isTakenFromPool ? " to pool" : null)} by {currentContext}");
+            Log.Trace($"{this} is returned{(shouldReturnToPool ? " to pool" : null)} by {currentContext}");
         }
     }
 

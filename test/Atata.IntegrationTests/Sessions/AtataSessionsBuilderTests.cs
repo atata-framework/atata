@@ -319,6 +319,7 @@ public static class AtataSessionsBuilderTests
             var session = context.Sessions.Get<FakeSession>();
 
             session.Mode.Should().Be(AtataSessionMode.Shared);
+            session.IsShareable.Should().BeTrue();
             session.IsBorrowed.Should().BeTrue();
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(parentContext);
@@ -423,6 +424,7 @@ public static class AtataSessionsBuilderTests
 
             session.Mode.Should().Be(AtataSessionMode.Pool);
             session.IsTakenFromPool.Should().BeTrue();
+            session.IsShareable.Should().BeFalse();
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(context);
             context.Sessions.Should().BeEquivalentTo([session]);
@@ -448,6 +450,7 @@ public static class AtataSessionsBuilderTests
 
             session.Mode.Should().Be(AtataSessionMode.Pool);
             session.IsTakenFromPool.Should().BeTrue();
+            session.IsShareable.Should().BeFalse();
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEquivalentTo([session]);

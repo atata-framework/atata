@@ -5,7 +5,7 @@ namespace Atata;
 /// <summary>
 /// Represents a builder of a session borrow request.
 /// </summary>
-public sealed class AtataSessionBorrowRequestBuilder : AtataSessionRequestBuilder
+public sealed class AtataSessionBorrowRequestBuilder : AtataSessionRequestBuilder<AtataSessionBorrowRequestBuilder>
 {
     internal AtataSessionBorrowRequestBuilder(Type sessionType)
         : base(sessionType)

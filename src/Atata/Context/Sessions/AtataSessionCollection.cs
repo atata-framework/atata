@@ -234,7 +234,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
             currentContext = currentContext.ParentContext;
 
             foreach (var session in currentContext.Sessions)
-                if (session.Mode == AtataSessionMode.Shared && session.Name == sessionName && session.GetType() == sessionType)
+                if (session.IsShareable && session.Name == sessionName && session.GetType() == sessionType)
                     return session;
         }
 
