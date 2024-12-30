@@ -11,7 +11,7 @@
               <Exclude>
                 <ModulePath>.*\.TestApp\.dll$</ModulePath>
                 <ModulePath>.*\.UnitTests\.dll$</ModulePath>
-                <ModulePath>.*\.IntegrationTests\.dll$</ModulePath>
+                <ModulePath>.*\.IntegrationTests.*\.dll$</ModulePath>
               </Exclude>
             </ModulePaths>
           </CodeCoverage>
