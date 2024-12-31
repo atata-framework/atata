@@ -74,11 +74,27 @@ public sealed class AtataSessionsBuilder
     {
         configure.CheckNotNull(nameof(configure));
 
-        var sessionBuilder = _sessionProviders.OfType<TSessionBuilder>()
-            .LastOrDefault(x => x.Name == name)
+        var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name)
             ?? throw AtataSessionBuilderNotFoundException.ByBuilderType(typeof(TSessionBuilder), name);
 
         configure.Invoke(sessionBuilder);
+
+        return _atataContextBuilder;
+    }
+
+    public AtataContextBuilder ConfigureIfExists<TSessionBuilder>(Action<TSessionBuilder> configure)
+        where TSessionBuilder : IAtataSessionBuilder =>
+        ConfigureIfExists(null, configure);
+
+    public AtataContextBuilder ConfigureIfExists<TSessionBuilder>(string? name, Action<TSessionBuilder> configure)
+        where TSessionBuilder : IAtataSessionBuilder
+    {
+        configure.CheckNotNull(nameof(configure));
+
+        var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name);
+
+        if (sessionBuilder is not null)
+            configure.Invoke(sessionBuilder);
 
         return _atataContextBuilder;
     }
@@ -90,8 +106,7 @@ public sealed class AtataSessionsBuilder
     public AtataContextBuilder ConfigureOrAdd<TSessionBuilder>(string? name, Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder
     {
-        var sessionBuilder = _sessionProviders.OfType<TSessionBuilder>()
-            .LastOrDefault(x => x.Name == name);
+        var sessionBuilder = GetSessionProviderOrNull<TSessionBuilder>(name);
 
         if (sessionBuilder is null)
         {
@@ -226,4 +241,10 @@ public sealed class AtataSessionsBuilder
         if (!typeof(AtataSession).IsAssignableFrom(type))
             throw new ArgumentException($"{type.FullName} is not inherited from {nameof(AtataSession)}.", nameof(type));
     }
+
+    private TSessionProvider? GetSessionProviderOrNull<TSessionProvider>(string? name)
+        where TSessionProvider : IAtataSessionProvider
+        =>
+        _sessionProviders.OfType<TSessionProvider>()
+            .LastOrDefault(x => x.Name == name);
 }

@@ -71,6 +71,41 @@ public static class AtataSessionsBuilderTests
         }
     }
 
+    public sealed class ConfigureIfExists
+    {
+        [Test]
+        public void WhenNoSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+
+            // Act
+            sut.ConfigureIfExists<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared);
+
+            // Assert
+            sut.Builders.Should().BeEmpty();
+        }
+
+        [Test]
+        public void WhenThereIsSuchBuilder()
+        {
+            // Arrange
+            var sut = AtataContext.CreateDefaultBuilder(AtataContextScope.TestSuite).Sessions;
+            sut.Add<FakeSessionBuilder>(x => x.Name = "some");
+
+            // Act
+            sut.ConfigureIfExists<FakeSessionBuilder>("some", x => x.Mode = AtataSessionMode.Shared);
+
+            // Assert
+            sut.Builders.Should().ContainSingle()
+                .Which.Should().BeOfType<FakeSessionBuilder>()
+                .Which.Should().Match((FakeSessionBuilder x) =>
+                    x.Name == "some"
+                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.Mode == AtataSessionMode.Shared);
+        }
+    }
+
     public sealed class ConfigureOrAdd
     {
         [Test]
