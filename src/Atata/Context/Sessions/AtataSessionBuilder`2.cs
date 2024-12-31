@@ -31,6 +31,10 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     public int PoolMaxCapacity { get; set; } =
         AtataSession.DefaultPoolMaxCapacity;
 
+    /// <inheritdoc/>
+    public bool PoolFillInParallel { get; set; } =
+        true;
+
     /// <summary>
     /// Gets the variables dictionary.
     /// </summary>

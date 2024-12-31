@@ -38,23 +38,61 @@ internal sealed class AtataSessionPool
         return session;
     }
 
-    internal async Task FillAsync(int count, CancellationToken cancellationToken = default)
+    internal async Task FillAsync(int count, bool inParallel = true, CancellationToken cancellationToken = default)
     {
         count.CheckGreaterOrEqual(nameof(count), 1);
         count.CheckLessOrEqual(nameof(count), MaxCapacity - _count);
 
+        if (inParallel && count > 1)
+        {
+            await FillInParallelAsync(count, cancellationToken)
+                .ConfigureAwait(false);
+        }
+        else
+        {
+            await FillSequentiallyAsync(count, cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private async Task FillInParallelAsync(int count, CancellationToken cancellationToken)
+    {
+        var buildTasks = new Task<AtataSession?>[count];
+
+        for (int i = 0; i < count; i++)
+        {
+            buildTasks[i] = Task.Run(
+                () => TryBuildAsync(cancellationToken),
+                cancellationToken);
+        }
+
+        AtataSession?[] sessions = await Task.WhenAll(buildTasks).ConfigureAwait(false);
+
+        foreach (var session in sessions)
+        {
+            if (session is null)
+                throw CreateExceptionForMaxCapacityReached();
+
+            _items.Enqueue(session);
+        }
+    }
+
+    private async Task FillSequentiallyAsync(int count, CancellationToken cancellationToken)
+    {
         for (int i = 0; i < count; i++)
         {
             AtataSession? session = await TryBuildAsync(cancellationToken)
                 .ConfigureAwait(false);
 
             if (session is null)
-                throw new InvalidOperationException(
-                    $"Cannot build {AtataSessionTypeMap.ResolveSessionTypedName(_sessionBuilder)} within a session pool. Max capacity {MaxCapacity} is reached.");
+                throw CreateExceptionForMaxCapacityReached();
 
             _items.Enqueue(session);
         }
     }
+
+    private InvalidOperationException CreateExceptionForMaxCapacityReached() =>
+        new($"Cannot build {AtataSessionTypeMap.ResolveSessionTypedName(_sessionBuilder)} within a session pool. Max capacity {MaxCapacity} is reached.");
 
     internal void Return(AtataSession session)
     {
