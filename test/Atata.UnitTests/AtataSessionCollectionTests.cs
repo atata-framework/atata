@@ -2,15 +2,25 @@
 
 public sealed class AtataSessionCollectionTests
 {
+    private AtataContext _context;
+
     private DisposableSubject<AtataSessionCollection> _sut;
 
     [SetUp]
-    public void SetUp() =>
-        _sut = new(new AtataSessionCollection(null));
+    public async Task SetUpAsync()
+    {
+        _context = await AtataContext.CreateDefaultNonScopedBuilder().BuildAsync();
+        _sut = new(new AtataSessionCollection(_context));
+    }
 
     [TearDown]
-    public void TearUp() =>
+    public async Task TearDownAsync()
+    {
         _sut?.Dispose();
+
+        if (_context is not null)
+            await _context.DisposeAsync();
+    }
 
     [Test]
     public void Get_ByIndex_WithExistingIndex()
@@ -29,8 +39,8 @@ public sealed class AtataSessionCollectionTests
 
         _sut.Invoking(x => x.Get<FakeSession>(2))
             .Should.Throw<AtataSessionNotFoundException>()
-            .ValueOf(x => x.Message).Should.Be(
-                "Failed to find session of type Atata.UnitTests.FakeSession with index 2 in AtataContext. There was 1 session of such type.");
+            .ValueOf(x => x.Message).Should.MatchWildcardPattern(
+                "Failed to find FakeSession with index 2 in AtataContext { * }. There was 1 session of such type.");
     }
 
     [Test]
@@ -71,14 +81,14 @@ public sealed class AtataSessionCollectionTests
 
         _sut.Invoking(x => x.Get<FakeSession>("B"))
             .Should.Throw<AtataSessionNotFoundException>()
-            .ValueOf(x => x.Message).Should.Be(
-                "Failed to find session of type Atata.UnitTests.FakeSession with name \"B\" in AtataContext. There was 1 session of such type, but none with such name.");
+            .ValueOf(x => x.Message).Should.MatchWildcardPattern(
+                "Failed to find FakeSession { Name=B } in AtataContext { * }. There was 1 session of such type, but none with such name.");
     }
 
     [Test]
     public void Get_ByName_WithNull_WhenItIsMissing() =>
         _sut.Invoking(x => x.Get<FakeSession>(null))
             .Should.Throw<AtataSessionNotFoundException>()
-            .ValueOf(x => x.Message).Should.Be(
-                "Failed to find session of type Atata.UnitTests.FakeSession with name \"\" in AtataContext. There were 0 sessions of such type.");
+            .ValueOf(x => x.Message).Should.MatchWildcardPattern(
+                "Failed to find FakeSession in AtataContext { * }. There were 0 sessions of such type.");
 }

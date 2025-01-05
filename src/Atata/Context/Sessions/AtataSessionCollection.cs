@@ -35,19 +35,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     public TSession Get<TSession>()
         where TSession : AtataSession
-    {
-        _sessionLinkedListOderedByCurrentUsageLock.EnterReadLock();
-
-        try
-        {
-            return _sessionLinkedListOderedByCurrentUsage.OfType<TSession>().FirstOrDefault()
-                ?? throw AtataSessionNotFoundException.For<TSession>();
-        }
-        finally
-        {
-            _sessionLinkedListOderedByCurrentUsageLock.ExitReadLock();
-        }
-    }
+        =>
+        GetOrNull<TSession>()
+            ?? throw AtataSessionNotFoundException.For<TSession>(_context);
 
     /// <summary>
     /// Gets a session of <typeparamref name="TSession"/> type with the specified index
@@ -64,7 +54,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return _sessionListOrderedByAdding.OfType<TSession>().ElementAtOrDefault(index)
             ?? throw AtataSessionNotFoundException.ByIndex<TSession>(
                 index,
-                _sessionListOrderedByAdding.OfType<TSession>().Count());
+                _sessionListOrderedByAdding.OfType<TSession>().Count(),
+                _context);
     }
 
     /// <summary>
@@ -74,13 +65,50 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     /// <typeparam name="TSession">The type of the session.</typeparam>
     /// <param name="name">The name.</param>
     /// <returns>A session.</returns>
-    public TSession Get<TSession>(string name)
+    public TSession Get<TSession>(string? name)
         where TSession : AtataSession
         =>
-        _sessionListOrderedByAdding.OfType<TSession>().FirstOrDefault(x => x.Name == name)
+        GetOrNull<TSession>(name)
             ?? throw AtataSessionNotFoundException.ByName<TSession>(
                 name,
-                _sessionListOrderedByAdding.OfType<TSession>().Count());
+                _sessionListOrderedByAdding.OfType<TSession>().Count(),
+                _context);
+
+    public TSession GetRecursively<TSession>()
+        where TSession : AtataSession
+    {
+        for (AtataContext? currentContext = _context;
+            currentContext is not null;
+            currentContext = currentContext.ParentContext)
+        {
+            TSession? session = currentContext.Sessions.GetOrNull<TSession>();
+
+            if (session is not null)
+                return session;
+        }
+
+        throw AtataSessionNotFoundException.For<TSession>(_context, recursively: true);
+    }
+
+    public TSession GetRecursively<TSession>(string? name)
+        where TSession : AtataSession
+    {
+        for (AtataContext? currentContext = _context;
+            currentContext is not null;
+            currentContext = currentContext.ParentContext)
+        {
+            TSession? session = currentContext.Sessions.GetOrNull<TSession>(name);
+
+            if (session is not null)
+                return session;
+        }
+
+        throw AtataSessionNotFoundException.ByName<TSession>(
+            name,
+            CountRecursively<TSession>(),
+            _context,
+            recursively: true);
+    }
 
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
@@ -356,5 +384,55 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         _sessionListOrderedByAdding.Clear();
         _sessionLinkedListOderedByCurrentUsage.Clear();
         _poolContainer?.Clear();
+    }
+
+    private TSession? GetOrNull<TSession>()
+        where TSession : AtataSession
+    {
+        _sessionLinkedListOderedByCurrentUsageLock.EnterReadLock();
+
+        try
+        {
+            return _sessionLinkedListOderedByCurrentUsage.OfType<TSession>().FirstOrDefault();
+        }
+        finally
+        {
+            _sessionLinkedListOderedByCurrentUsageLock.ExitReadLock();
+        }
+    }
+
+    private TSession? GetOrNull<TSession>(string? name)
+        where TSession : AtataSession
+    {
+        _sessionLinkedListOderedByCurrentUsageLock.EnterReadLock();
+
+        try
+        {
+            return _sessionLinkedListOderedByCurrentUsage.OfType<TSession>().FirstOrDefault(x => x.Name == name);
+        }
+        finally
+        {
+            _sessionLinkedListOderedByCurrentUsageLock.ExitReadLock();
+        }
+    }
+
+    private int CountRecursively<TSession>(Func<TSession, bool>? predicate = null)
+    {
+        int totalCount = 0;
+
+        for (AtataContext? currentContext = _context;
+            currentContext is not null;
+            currentContext = currentContext.ParentContext)
+        {
+            var enumerableTypedSessions = currentContext.Sessions._sessionListOrderedByAdding.OfType<TSession>();
+
+            int count = predicate is null
+                ? enumerableTypedSessions.Count()
+                : enumerableTypedSessions.Count(predicate);
+
+            totalCount += count;
+        }
+
+        return totalCount;
     }
 }

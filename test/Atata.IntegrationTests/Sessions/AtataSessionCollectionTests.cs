@@ -462,4 +462,124 @@ public static class AtataSessionCollectionTests
             context.Sessions[1].Should().BeEquivalentTo(session);
         }
     }
+
+    public sealed class GetRecursively
+    {
+        [Test]
+        public async Task WhenThereIsSessionInContext()
+        {
+            // Arrange
+            await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>()
+                .BuildAsync();
+
+            // Act
+            var session = context.Sessions.GetRecursively<FakeSession>();
+
+            // Assert
+            session.Context.Should().Be(context);
+        }
+
+        [Test]
+        public async Task WhenThereIsSessionInParentContext()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseName("some"))
+                .BuildAsync();
+
+            await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .BuildAsync();
+
+            // Act
+            var session = context.Sessions.GetRecursively<FakeSession>();
+
+            // Assert
+            session.Context.Should().Be(parentContext);
+        }
+
+        [Test]
+        public async Task WhenThereIsNoSession()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .BuildAsync();
+
+            await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .BuildAsync();
+
+            // Act
+            var call = context.Invoking(x => x.Sessions.GetRecursively<FakeSession>());
+
+            // Assert
+            call.Should().ThrowExactly<AtataSessionNotFoundException>()
+                .WithMessage("Failed to find FakeSession in AtataContext { * } and ancestors.");
+        }
+    }
+
+    public sealed class GetRecursively_WithName
+    {
+        [Test]
+        public async Task WhenThereIsSessionInParentContext()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseName("some"))
+                .BuildAsync();
+
+            await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .BuildAsync();
+
+            // Act
+            var session = context.Sessions.GetRecursively<FakeSession>("some");
+
+            // Assert
+            session.Context.Should().Be(parentContext);
+        }
+
+        [Test]
+        public async Task WhenThereIsSessionInParentContext_ButWithDifferentName()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseName("some"))
+                .BuildAsync();
+
+            await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .BuildAsync();
+
+            // Act
+            var call = context.Invoking(x => x.Sessions.GetRecursively<FakeSession>("some2"));
+
+            // Assert
+            call.Should().ThrowExactly<AtataSessionNotFoundException>()
+                .WithMessage("Failed to find FakeSession { Name=some2 } in AtataContext { * } and ancestors. There was 1 session of such type, but none with such name.");
+        }
+
+        [Test]
+        public async Task WhenThereIsNoSession()
+        {
+            // Arrange
+            await using AtataContext parentContext = await AtataContext.CreateDefaultNonScopedBuilder()
+                .BuildAsync();
+
+            await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
+                .UseParentContext(parentContext)
+                .BuildAsync();
+
+            // Act
+            var call = context.Invoking(x => x.Sessions.GetRecursively<FakeSession>("some"));
+
+            // Assert
+            call.Should().ThrowExactly<AtataSessionNotFoundException>()
+                .WithMessage("Failed to find FakeSession { Name=some } in AtataContext { * } and ancestors. There were 0 sessions of such type.");
+        }
+    }
 }
