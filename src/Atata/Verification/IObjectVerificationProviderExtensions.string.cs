@@ -97,6 +97,24 @@ public static partial class IObjectVerificationProviderExtensions
         return verifier.Satisfy(actual => actual != null && Regex.IsMatch(actual, pattern, regexOptions), $"match pattern \"{pattern}\"");
     }
 
+    /// <summary>
+    /// Verifies that a string matches the specified wildcard pattern.
+    /// </summary>
+    /// <typeparam name="TOwner">The type of the owner.</typeparam>
+    /// <param name="verifier">The verification provider.</param>
+    /// <param name="pattern">The wildcard pattern to match.</param>
+    /// <returns>The owner instance.</returns>
+    public static TOwner MatchWildcardPattern<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern)
+    {
+        pattern.CheckNotNull(nameof(pattern));
+
+        StringComparison stringComparison = verifier.ResolveStringComparison();
+
+        return verifier.Satisfy(
+            actual => actual != null && WildcardPattern.IsMatch(actual, pattern, stringComparison),
+            $"match wildcard pattern \"{pattern}\"");
+    }
+
     public static TOwner MatchAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, TermMatch match, params string[] expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));

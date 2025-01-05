@@ -65,6 +65,27 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.Match("^abcdeF$"));
     }
 
+    public class MatchWildcardPattern : ExtensionMethodTestSuite<string, MatchWildcardPattern>
+    {
+        static MatchWildcardPattern() =>
+            For("abcdef")
+                .ThrowsArgumentNullException(should => should.MatchWildcardPattern(null))
+                .Pass(should => should.MatchWildcardPattern("?bcd*"))
+                .Pass(should => should.MatchWildcardPattern("abc*"))
+                .Pass(should => should.MatchWildcardPattern("abcdef"))
+                .Fail(should => should.MatchWildcardPattern("abcdeF"));
+    }
+
+    public class MatchWildcardPattern_IgnoringCase : ExtensionMethodTestSuite<string, MatchWildcardPattern_IgnoringCase>
+    {
+        static MatchWildcardPattern_IgnoringCase() =>
+            For("abcdef")
+                .When(x => x.IgnoringCase)
+                .Pass(should => should.MatchWildcardPattern("AbcdeF"))
+                .Pass(should => should.MatchWildcardPattern("Abc*"))
+                .Pass(should => should.MatchWildcardPattern("A*?F"));
+    }
+
     public class BeEquivalent : ExtensionMethodTestSuite<int[], BeEquivalent>
     {
         static BeEquivalent() =>
