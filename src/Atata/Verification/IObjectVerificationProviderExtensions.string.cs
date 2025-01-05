@@ -91,14 +91,14 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="verifier">The verification provider.</param>
     /// <param name="pattern">The regular expression pattern to match.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern) =>
+    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern) =>
         verifier.MatchRegex(pattern, RegexOptions.None);
 
     /// <inheritdoc cref="MatchRegex{TOwner}(IObjectVerificationProvider{string, TOwner}, string)"/>
     /// <param name="verifier">The verification provider.</param>
     /// <param name="pattern">The regular expression pattern to match.</param>
     /// <param name="regexOptions">The regular expression options.</param>
-    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern, RegexOptions regexOptions)
+    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern, RegexOptions regexOptions)
     {
         pattern.CheckNotNull(nameof(pattern));
 
