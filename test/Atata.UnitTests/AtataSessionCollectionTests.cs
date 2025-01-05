@@ -38,15 +38,14 @@ public sealed class AtataSessionCollectionTests
         _sut.Object.Add(new FakeSession { Name = "A" });
 
         _sut.Invoking(x => x.Get<FakeSession>(2))
-            .Should.Throw<AtataSessionNotFoundException>()
-            .ValueOf(x => x.Message).Should.MatchWildcardPattern(
+            .Should.ThrowExactly<AtataSessionNotFoundException>(
                 "Failed to find FakeSession with index 2 in AtataContext { * }. There was 1 session of such type.");
     }
 
     [Test]
     public void Get_ByIndex_WithNegativeIndex() =>
         _sut.Invoking(x => x.Get<FakeSession>(-2))
-            .Should.Throw<ArgumentOutOfRangeException>();
+            .Should.ThrowExactly<ArgumentOutOfRangeException>();
 
     [Test]
     public void Get_ByName_WithExistingName()
@@ -80,15 +79,13 @@ public sealed class AtataSessionCollectionTests
         _sut.Object.Add(new FakeSession { Name = "A" });
 
         _sut.Invoking(x => x.Get<FakeSession>("B"))
-            .Should.Throw<AtataSessionNotFoundException>()
-            .ValueOf(x => x.Message).Should.MatchWildcardPattern(
+            .Should.ThrowExactly<AtataSessionNotFoundException>(
                 "Failed to find FakeSession { Name=B } in AtataContext { * }. There was 1 session of such type, but none with such name.");
     }
 
     [Test]
     public void Get_ByName_WithNull_WhenItIsMissing() =>
         _sut.Invoking(x => x.Get<FakeSession>(null))
-            .Should.Throw<AtataSessionNotFoundException>()
-            .ValueOf(x => x.Message).Should.MatchWildcardPattern(
+            .Should.ThrowExactly<AtataSessionNotFoundException>(
                 "Failed to find FakeSession in AtataContext { * }. There were 0 sessions of such type.");
 }

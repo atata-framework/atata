@@ -140,6 +140,9 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
             : EqualityComparer<T>.Default;
 
     StringComparison IVerificationProvider<TOwner>.ResolveStringComparison() =>
+        ResolveStringComparison();
+
+    protected StringComparison ResolveStringComparison() =>
         TypeEqualityComparerMap != null && TypeEqualityComparerMap.TryGetValue(typeof(string), out var equalityComparer)
             ? Convert((IEqualityComparer<string>)equalityComparer)
             : DefaultStringComparison;

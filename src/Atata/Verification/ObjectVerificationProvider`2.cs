@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class ObjectVerificationProvider<TObject, TOwner> :
     VerificationProvider<ObjectVerificationProvider<TObject, TOwner>, TOwner>,
@@ -27,14 +29,46 @@ public class ObjectVerificationProvider<TObject, TOwner> :
 
     public Subject<TException> Throw<TException>()
         where TException : Exception
-    {
-        string expectedMessage = $"throw exception of {typeof(TException).FullName} type";
+        =>
+        Throw<TException>(false, null);
 
-        Exception exception = null;
+    public Subject<TException> Throw<TException>(string messageWildcardPattern)
+        where TException : Exception
+        =>
+        Throw<TException>(false, messageWildcardPattern);
+
+    public Subject<TException> ThrowExactly<TException>()
+        where TException : Exception
+        =>
+        Throw<TException>(true, null);
+
+    public Subject<TException> ThrowExactly<TException>(string messageWildcardPattern)
+        where TException : Exception
+        =>
+        Throw<TException>(true, messageWildcardPattern);
+
+    private Subject<TException> Throw<TException>(bool exactly, string? messageWildcardPattern)
+        where TException : Exception
+    {
+        StringBuilder expectedMessageBuilder = new("throw ");
+
+        if (exactly)
+            expectedMessageBuilder.Append("exactly ");
+
+        expectedMessageBuilder.Append("exception of ")
+            .Append(typeof(TException).FullName)
+            .Append(" type");
+
+        if (messageWildcardPattern is not null)
+            expectedMessageBuilder.Append($" with message matching wildcard pattern \"{messageWildcardPattern}\"");
+
+        string expectedMessage = expectedMessageBuilder.ToString();
+
+        Exception? exception = null;
 
         void ExecuteVerification()
         {
-            object actual = default;
+            object? actual = null;
 
             bool doesSatisfy = VerificationUtils.ExecuteUntil(
                 () =>
@@ -56,7 +90,8 @@ public class ObjectVerificationProvider<TObject, TOwner> :
                     catch (Exception e)
                     {
                         exception = e;
-                        return e is TException;
+                        return (exactly ? e.GetType() == typeof(TException) : e is TException)
+                            && (messageWildcardPattern is null || WildcardPattern.IsMatch(e.Message, messageWildcardPattern, ResolveStringComparison()));
                     }
                 },
                 GetRetryOptions());
@@ -74,7 +109,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
         VerificationUtils.Verify(this, ExecuteVerification, expectedMessage);
 
         return new Subject<TException>(
-            exception as TException,
+            (exception as TException)!,
             Subject.BuildExceptionName(ObjectProvider.ProviderName),
             ExecutionUnit);
     }
@@ -106,7 +141,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
 
             void ExecuteVerification()
             {
-                Exception exception = null;
+                Exception? exception = null;
 
                 bool doesSatisfy = VerificationUtils.ExecuteUntil(
                     () =>
@@ -132,7 +167,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
 
                 if (!doesSatisfy)
                 {
-                    string actualMessage = exception.ToString();
+                    string actualMessage = exception!.ToString();
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(this, expectedMessage, actualMessage);
 
