@@ -303,18 +303,18 @@ public class ShouldTests : WebDriverSessionTestSuite
             .ValueContainer.ValueBlock.Should.Equal("New value");
 
     [Test]
-    public void Match()
+    public void MatchRegex()
     {
         var should = Go.To<ContentPage>()
             .NumberAsText.Should.AtOnce;
 
-        should.Match(@"^\d{3}.\d{2}$");
+        should.MatchRegex(@"^\d{3}.\d{2}$");
 
         Assert.Throws<AssertionException>(() =>
-            should.Not.Match(@"^\d{3}.\d{2}$"));
+            should.Not.MatchRegex(@"^\d{3}.\d{2}$"));
 
         Assert.Throws<AssertionException>(() =>
-            should.Match(@"^\d{4}.\d{2}$"));
+            should.MatchRegex(@"^\d{4}.\d{2}$"));
     }
 
     [Test]

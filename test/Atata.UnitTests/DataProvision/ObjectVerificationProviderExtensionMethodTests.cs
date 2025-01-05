@@ -54,15 +54,15 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Pass(should => should.StartWith("ABcdEF"));
     }
 
-    public class Match : ExtensionMethodTestSuite<string, Match>
+    public class MatchRegex : ExtensionMethodTestSuite<string, MatchRegex>
     {
-        static Match() =>
+        static MatchRegex() =>
             For("abcdef")
-                .ThrowsArgumentNullException(should => should.Match(null))
-                .Pass(should => should.Match("bcd"))
-                .Pass(should => should.Match("^abc"))
-                .Pass(should => should.Match("^abcdeF$", RegexOptions.IgnoreCase))
-                .Fail(should => should.Match("^abcdeF$"));
+                .ThrowsArgumentNullException(should => should.MatchRegex(null))
+                .Pass(should => should.MatchRegex("bcd"))
+                .Pass(should => should.MatchRegex("^abc"))
+                .Pass(should => should.MatchRegex("^abcdeF$", RegexOptions.IgnoreCase))
+                .Fail(should => should.MatchRegex("^abcdeF$"));
     }
 
     public class MatchWildcardPattern : ExtensionMethodTestSuite<string, MatchWildcardPattern>
