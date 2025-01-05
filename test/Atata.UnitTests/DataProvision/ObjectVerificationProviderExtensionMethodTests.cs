@@ -65,6 +65,18 @@ public static class ObjectVerificationProviderExtensionMethodTests
                 .Fail(should => should.MatchRegex("^abcdeF$"));
     }
 
+    public class MatchRegex_IgnoringCase : ExtensionMethodTestSuite<string, MatchRegex_IgnoringCase>
+    {
+        static MatchRegex_IgnoringCase() =>
+            For("AbCdEf")
+                .When(x => x.IgnoringCase)
+                .Pass(should => should.MatchRegex("bcd"))
+                .Pass(should => should.MatchRegex("bcd", RegexOptions.Multiline))
+                .Pass(should => should.MatchRegex("^Abc"))
+                .Pass(should => should.MatchRegex("^AbcdeF$"))
+                .Fail(should => should.MatchRegex("^abc$"));
+    }
+
     public class MatchWildcardPattern : ExtensionMethodTestSuite<string, MatchWildcardPattern>
     {
         static MatchWildcardPattern() =>

@@ -97,12 +97,17 @@ public static partial class IObjectVerificationProviderExtensions
     /// <inheritdoc cref="MatchRegex{TOwner}(IObjectVerificationProvider{string, TOwner}, string)"/>
     /// <param name="verifier">The verification provider.</param>
     /// <param name="pattern">The regular expression pattern to match.</param>
-    /// <param name="regexOptions">The regular expression options.</param>
-    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern, RegexOptions regexOptions)
+    /// <param name="options">The regular expression options.</param>
+    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern, RegexOptions options)
     {
         pattern.CheckNotNull(nameof(pattern));
 
-        return verifier.Satisfy(actual => actual != null && Regex.IsMatch(actual, pattern, regexOptions), $"match pattern \"{pattern}\"");
+        if (verifier.IsIgnoringCase())
+            options |= RegexOptions.IgnoreCase;
+
+        return verifier.Satisfy(
+            actual => actual != null && Regex.IsMatch(actual, pattern, options),
+            $"match regex pattern \"{pattern}\"");
     }
 
     /// <summary>
@@ -202,4 +207,10 @@ public static partial class IObjectVerificationProviderExtensions
             actual => actual != null && expected.Any(x => actual.EndsWith(x, stringComparison)),
             VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", verifier.ResolveEqualityComparer<string>()));
     }
+
+    private static bool IsIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
+        verifier.ResolveStringComparison()
+            is StringComparison.CurrentCultureIgnoreCase
+            or StringComparison.InvariantCultureIgnoreCase
+            or StringComparison.OrdinalIgnoreCase;
 }
