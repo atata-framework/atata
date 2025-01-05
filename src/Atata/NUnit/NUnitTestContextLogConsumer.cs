@@ -1,16 +1,24 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-public class NUnitTestContextLogConsumer : TextOutputLogConsumer
+namespace Atata;
+
+public class NUnitTestContextLogConsumer : TextOutputLogConsumer, IInitializableLogConsumer
 {
-    private readonly MethodInfo _writeMethod;
+    private static readonly MethodInfo s_writeMethod =
+        Type.GetType("NUnit.Framework.TestContext,nunit.framework", true)
+            .GetMethodWithThrowOnError("WriteLine", typeof(string));
 
-    public NUnitTestContextLogConsumer()
+    private object? _testExecutionContext;
+
+    public void Initialize() =>
+        _testExecutionContext = NUnitAdapter.GetCurrentTestExecutionContext();
+
+    protected override void Write(string completeMessage)
     {
-        Type testContextType = Type.GetType("NUnit.Framework.TestContext,nunit.framework", true);
-
-        _writeMethod = testContextType.GetMethodWithThrowOnError("WriteLine", typeof(string));
+        if (NUnitAdapter.GetCurrentTestExecutionContext() == _testExecutionContext)
+            s_writeMethod.InvokeStaticAsLambda(completeMessage);
     }
 
-    protected override void Write(string completeMessage) =>
-        _writeMethod.InvokeStaticAsLambda(completeMessage);
+    object ICloneable.Clone() =>
+        new NUnitTestContextLogConsumer();
 }
