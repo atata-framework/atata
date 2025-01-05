@@ -110,5 +110,6 @@
 [assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSessionPool.GetAsync(System.Threading.CancellationToken)~System.Threading.Tasks.ValueTask{Atata.AtataSession}")]
 [assembly: SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.DoInitializeContextAsync(Atata.AtataContext,System.Threading.CancellationToken)~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Style", "IDE0270:Use coalesce expression", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSessionPool.FillSequentiallyAsync(System.Int32,System.Threading.CancellationToken)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WildcardPattern.IsMatch(System.ReadOnlySpan{System.Char})~System.Boolean")]
 
 #pragma warning restore S103 // Lines should not be too long
