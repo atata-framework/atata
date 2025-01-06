@@ -1,13 +1,15 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class GoToPageObjectLogSection : UIComponentLogSection
 {
-    public GoToPageObjectLogSection(UIComponent pageObject, string url = null, string navigationTarget = null)
+    public GoToPageObjectLogSection(UIComponent pageObject, string? url = null, string? navigationTarget = null)
         : base(pageObject)
     {
         Url = url;
 
-        StringBuilder messageBuilder = new StringBuilder("Go to ")
+        var messageBuilder = new StringBuilder("Go to ")
             .Append(pageObject.ComponentFullName);
 
         if (!string.IsNullOrEmpty(navigationTarget))
@@ -19,5 +21,5 @@ public class GoToPageObjectLogSection : UIComponentLogSection
         Message = messageBuilder.ToString();
     }
 
-    public string Url { get; }
+    public string? Url { get; }
 }

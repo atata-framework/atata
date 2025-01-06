@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the navigation functionality between pages and windows.
@@ -71,12 +73,12 @@ public sealed class AtataNavigator
     /// <param name="navigate">If set to <see langword="true"/> executes page object navigation functionality.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
-    public T To<T>(T pageObject = null, string url = null, bool navigate = true, bool temporarily = false)
+    public T To<T>(T? pageObject = null, string? url = null, bool navigate = true, bool temporarily = false)
         where T : PageObject<T> =>
         To(pageObject, new GoOptions { Url = url, Navigate = navigate && !IsUrlHasPath(url), Temporarily = temporarily });
 
-    private static bool IsUrlHasPath(string url) =>
-        !string.IsNullOrWhiteSpace(url) && url[0] != '?' && url[0] != '&' && url[0] != ';' && url[0] != '#';
+    private static bool IsUrlHasPath(string? url) =>
+        !string.IsNullOrWhiteSpace(url) && url![0] is not ('?' or '&' or ';' or '#');
 
     /// <summary>
     /// Navigates to the window by name.
@@ -99,7 +101,7 @@ public sealed class AtataNavigator
     /// <param name="windowName">Name of the browser window.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
-    public T ToWindow<T>(T pageObject, string windowName, bool temporarily = false)
+    public T ToWindow<T>(T? pageObject, string windowName, bool temporarily = false)
         where T : PageObject<T> =>
         To(
             pageObject,
@@ -120,7 +122,7 @@ public sealed class AtataNavigator
     /// If set to <see langword="null"/> creates an instance using the default constructor.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
-    public T ToNextWindow<T>(T pageObject = null, bool temporarily = false)
+    public T ToNextWindow<T>(T? pageObject = null, bool temporarily = false)
         where T : PageObject<T> =>
         To(
             pageObject,
@@ -150,7 +152,7 @@ public sealed class AtataNavigator
     /// If set to <see langword="null"/> creates an instance using the default constructor.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
-    public T ToPreviousWindow<T>(T pageObject = null, bool temporarily = false)
+    public T ToPreviousWindow<T>(T? pageObject = null, bool temporarily = false)
         where T : PageObject<T> =>
         To(
             pageObject,
@@ -182,7 +184,7 @@ public sealed class AtataNavigator
     /// <param name="url">The URL.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
-    public T ToNewWindowAsTab<T>(T pageObject = null, string url = null, bool temporarily = false)
+    public T ToNewWindowAsTab<T>(T? pageObject = null, string? url = null, bool temporarily = false)
         where T : PageObject<T> =>
         ToNewWindow(pageObject, url, temporarily, WindowType.Tab);
 
@@ -196,11 +198,11 @@ public sealed class AtataNavigator
     /// <param name="url">The URL.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The page object.</returns>
-    public T ToNewWindow<T>(T pageObject = null, string url = null, bool temporarily = false)
+    public T ToNewWindow<T>(T? pageObject = null, string? url = null, bool temporarily = false)
         where T : PageObject<T> =>
         ToNewWindow(pageObject, url, temporarily, WindowType.Window);
 
-    private T ToNewWindow<T>(T pageObject, string url, bool temporarily, WindowType windowType)
+    private T ToNewWindow<T>(T? pageObject, string? url, bool temporarily, WindowType windowType)
         where T : PageObject<T> =>
         To(
             pageObject,
@@ -213,7 +215,7 @@ public sealed class AtataNavigator
                 Temporarily = temporarily
             });
 
-    private T To<T>(T pageObject, GoOptions options)
+    private T To<T>(T? pageObject, GoOptions options)
         where T : PageObject<T>
     {
         SetContextAsCurrent();
@@ -225,13 +227,13 @@ public sealed class AtataNavigator
             : GoToFollowingPageObject(currentPageObject, pageObject, options);
     }
 
-    private T GoToInitialPageObject<T>(T pageObject, GoOptions options)
+    private T GoToInitialPageObject<T>(T? pageObject, GoOptions options)
         where T : PageObject<T>
     {
         pageObject ??= ActivatorEx.CreateInstance<T>();
         _session.PageObject = pageObject;
 
-        string navigationUrl = options.Navigate
+        string? navigationUrl = options.Navigate
             ? string.IsNullOrEmpty(pageObject.NavigationUrl)
                 ? _session.BaseUrl
                 : pageObject.NavigationUrl
@@ -259,7 +261,7 @@ public sealed class AtataNavigator
 
     private T GoToFollowingPageObject<T>(
         UIComponent currentPageObject,
-        T nextPageObject,
+        T? nextPageObject,
         GoOptions options)
         where T : PageObject<T>
     {
@@ -287,7 +289,7 @@ public sealed class AtataNavigator
         if (!options.Temporarily)
             UIComponentResolver.CleanUpPageObject(currentPageObject);
 
-        string navigationUrl = options.Navigate
+        string? navigationUrl = options.Navigate
             ? nextPageObject.NavigationUrl
             : options.Url;
 
@@ -322,7 +324,7 @@ public sealed class AtataNavigator
         return nextPageObject;
     }
 
-    private string PrepareNavigationUrl(string navigationUrl, GoOptions options)
+    private string? PrepareNavigationUrl(string? navigationUrl, GoOptions options)
     {
         if (!string.IsNullOrEmpty(navigationUrl))
             navigationUrl = _session.Variables.FillUriTemplateString(navigationUrl);
@@ -343,7 +345,7 @@ public sealed class AtataNavigator
             new LogSection($"Switch to new {(windowType == WindowType.Tab ? "tab " : null)}window", LogLevel.Trace),
             (Action)(() => _session.Driver.SwitchTo().NewWindow(windowType)));
 
-    private bool TryResolvePreviousPageObjectNavigatedTemporarily<TPageObject>(ref TPageObject pageObject)
+    private bool TryResolvePreviousPageObjectNavigatedTemporarily<TPageObject>(ref TPageObject? pageObject)
         where TPageObject : PageObject<TPageObject>
     {
         var tempPageObjectsEnumerable = _session.TemporarilyPreservedPageObjects
@@ -351,13 +353,13 @@ public sealed class AtataNavigator
             .Reverse()
             .OfType<TPageObject>();
 
-        TPageObject pageObjectReferenceCopy = pageObject;
+        TPageObject? pageObjectReferenceCopy = pageObject;
 
-        TPageObject foundPageObject = pageObject == null
+        TPageObject foundPageObject = pageObject is null
             ? tempPageObjectsEnumerable.FirstOrDefault(x => x.GetType() == typeof(TPageObject))
             : tempPageObjectsEnumerable.FirstOrDefault(x => x == pageObjectReferenceCopy);
 
-        if (foundPageObject == null)
+        if (foundPageObject is null)
             return false;
 
         pageObject = foundPageObject;
@@ -389,9 +391,9 @@ public sealed class AtataNavigator
             () => Navigate(absoluteUrl));
     }
 
-    private Uri CreateAbsoluteUriForNavigation(string url)
+    private Uri CreateAbsoluteUriForNavigation(string? url)
     {
-        if (UriUtils.TryCreateAbsoluteUrl(url, out Uri absoluteUrl))
+        if (UriUtils.TryCreateAbsoluteUrl(url, out Uri? absoluteUrl))
             return absoluteUrl;
 
         if (!_session.IsNavigated && _session.BaseUrl is null)
@@ -417,7 +419,7 @@ public sealed class AtataNavigator
         }
     }
 
-    private string NormalizeAsAbsoluteUrlSafely(string url) =>
+    private string? NormalizeAsAbsoluteUrlSafely(string? url) =>
         !string.IsNullOrEmpty(url) && !UriUtils.TryCreateAbsoluteUrl(url, out _) && _session.BaseUrl != null
             ? UriUtils.Concat(_session.BaseUrl, url).ToString()
             : url;
@@ -433,9 +435,9 @@ public sealed class AtataNavigator
 
     private sealed class GoOptions
     {
-        public string Url { get; set; }
+        public string? Url { get; set; }
 
-        public Func<string> WindowNameResolver { get; set; }
+        public Func<string>? WindowNameResolver { get; set; }
 
         public WindowType? NewWindowType { get; set; }
 
@@ -443,6 +445,6 @@ public sealed class AtataNavigator
 
         public bool Temporarily { get; set; }
 
-        public string NavigationTarget { get; set; }
+        public string? NavigationTarget { get; set; }
     }
 }

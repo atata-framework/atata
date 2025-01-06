@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of methods for URI manipulations.
@@ -16,7 +18,7 @@ public static class UriUtils
     /// A <see cref="bool"/> value that is <see langword="true"/> if the <see cref="Uri"/> was successfully created;
     /// otherwise, <see langword="false"/>.
     /// </returns>
-    public static bool TryCreateAbsoluteUrl(string urlString, out Uri result)
+    public static bool TryCreateAbsoluteUrl(string? urlString, [NotNullWhen(true)] out Uri? result)
     {
         if (urlString != null && s_urlSchemaRegex.IsMatch(urlString))
         {
@@ -35,16 +37,19 @@ public static class UriUtils
     /// <param name="baseUri">The base URI.</param>
     /// <param name="relativeUri">The relative URI.</param>
     /// <returns>The created <see cref="Uri"/>.</returns>
-    public static Uri Concat(string baseUri, string relativeUri)
+    public static Uri Concat(string baseUri, string? relativeUri)
     {
         string fullUrl = baseUri ?? throw new ArgumentNullException(nameof(baseUri));
 
         if (!string.IsNullOrWhiteSpace(relativeUri))
         {
-            if (baseUri.EndsWith("/", StringComparison.Ordinal) && relativeUri.StartsWith("/", StringComparison.Ordinal))
+            bool baseUriEndsWithSlash = baseUri.Length > 0 && baseUri[^1] == '/';
+            bool relativeUriStartsWithSlash = relativeUri![0] == '/';
+
+            if (baseUriEndsWithSlash && relativeUriStartsWithSlash)
                 fullUrl += relativeUri[1..];
-            else if (!baseUri.EndsWith("/", StringComparison.Ordinal) && !relativeUri.StartsWith("/", StringComparison.Ordinal))
-                fullUrl += "/" + relativeUri;
+            else if (!baseUriEndsWithSlash && !relativeUriStartsWithSlash)
+                fullUrl += '/' + relativeUri;
             else
                 fullUrl += relativeUri;
         }
@@ -52,7 +57,7 @@ public static class UriUtils
         return new Uri(fullUrl);
     }
 
-    internal static string MergeAsString(string uri1, string uri2)
+    internal static string? MergeAsString(string? uri1, string? uri2)
     {
         if (uri1 is null)
             return uri2;
