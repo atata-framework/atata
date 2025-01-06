@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilder<TSession, TBuilder>
     where TSession : WebSession, new()
@@ -25,7 +27,7 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     /// <summary>
     /// Gets or sets the base URL.
     /// </summary>
-    public string BaseUrl { get; set; }
+    public string? BaseUrl { get; set; }
 
     /// <summary>
     /// Gets or sets the name of the DOM test identifier attribute.
@@ -44,7 +46,7 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     /// </summary>
     /// <param name="baseUrl">The base URL.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseBaseUrl(string baseUrl)
+    public TBuilder UseBaseUrl(string? baseUrl)
     {
         if (baseUrl != null && !Uri.IsWellFormedUriString(baseUrl, UriKind.Absolute))
             throw new ArgumentException($"Invalid URL format \"{baseUrl}\".", nameof(baseUrl));
