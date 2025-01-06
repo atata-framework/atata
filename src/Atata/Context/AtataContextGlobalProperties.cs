@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Contains global properties that should be configured as early as possible,
@@ -134,17 +136,17 @@ public sealed class AtataContextGlobalProperties
     /// <summary>
     /// Gets the object converter.
     /// </summary>
-    public IObjectConverter ObjectConverter { get; private set; }
+    public IObjectConverter ObjectConverter { get; private set; } = null!;
 
     /// <summary>
     /// Gets the object mapper.
     /// </summary>
-    public IObjectMapper ObjectMapper { get; private set; }
+    public IObjectMapper ObjectMapper { get; private set; } = null!;
 
     /// <summary>
     /// Gets the object creator.
     /// </summary>
-    public IObjectCreator ObjectCreator { get; private set; }
+    public IObjectCreator ObjectCreator { get; private set; } = null!;
 
     /// <summary>
     /// Gets or sets the identifier generator.
