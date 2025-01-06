@@ -148,14 +148,14 @@ public abstract class MulticastAttribute : Attribute
     /// Gets a value indicating whether this instance has any target specified.
     /// </summary>
     public virtual bool IsTargetSpecified =>
-        (TargetNames?.Any() ?? false) ||
-        (TargetTypes?.Any() ?? false) ||
-        (TargetTags?.Any() ?? false) ||
-        (TargetParentTypes?.Any() ?? false) ||
-        (ExcludeTargetNames?.Any() ?? false) ||
-        (ExcludeTargetTypes?.Any() ?? false) ||
-        (ExcludeTargetTags?.Any() ?? false) ||
-        (ExcludeTargetParentTypes?.Any() ?? false);
+        TargetNames?.Length > 0 ||
+        TargetTypes?.Length > 0 ||
+        TargetTags?.Length > 0 ||
+        TargetParentTypes?.Length > 0 ||
+        ExcludeTargetNames?.Length > 0 ||
+        ExcludeTargetTypes?.Length > 0 ||
+        ExcludeTargetTags?.Length > 0 ||
+        ExcludeTargetParentTypes?.Length > 0;
 
     /// <summary>
     /// Gets or sets a value indicating whether any type is targeted.
