@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class WebSession : AtataSession
 {
@@ -15,12 +17,12 @@ public abstract class WebSession : AtataSession
     /// Gets the <see cref="AtataNavigator"/> instance,
     /// which provides the navigation functionality between pages and windows.
     /// </summary>
-    public AtataNavigator Go { get; private protected set; }
+    public AtataNavigator Go { get; private protected set; } = null!;
 
     /// <summary>
     /// Gets or sets the base URL.
     /// </summary>
-    public string BaseUrl { get; set; }
+    public string? BaseUrl { get; set; }
 
     /// <summary>
     /// Gets the element find timeout.
@@ -39,7 +41,7 @@ public abstract class WebSession : AtataSession
     /// <summary>
     /// Gets the current page object.
     /// </summary>
-    public UIComponent PageObject { get; internal set; }
+    public UIComponent? PageObject { get; internal set; }
 
     internal bool IsNavigated { get; set; }
 
@@ -56,7 +58,7 @@ public abstract class WebSession : AtataSession
     /// Gets the name of the DOM test identifier attribute.
     /// The default value is <c>"data-testid"</c>.
     /// </summary>
-    public string DomTestIdAttributeName { get; internal set; }
+    public string DomTestIdAttributeName { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the default case of the DOM test identifier attribute.
@@ -64,9 +66,9 @@ public abstract class WebSession : AtataSession
     /// </summary>
     public TermCase DomTestIdAttributeDefaultCase { get; internal set; }
 
-    internal IScreenshotTaker ScreenshotTaker { get; set; }
+    internal IScreenshotTaker ScreenshotTaker { get; set; } = null!;
 
-    internal IPageSnapshotTaker PageSnapshotTaker { get; set; }
+    internal IPageSnapshotTaker PageSnapshotTaker { get; set; } = null!;
 
     internal bool TakeScreenshotOnFailure { get; set; } = true;
 
@@ -76,7 +78,7 @@ public abstract class WebSession : AtataSession
     /// Takes a screenshot of the current page with an optionally specified title.
     /// </summary>
     /// <param name="title">The title of a screenshot.</param>
-    public void TakeScreenshot(string title = null) =>
+    public void TakeScreenshot(string? title = null) =>
         ScreenshotTaker.TakeScreenshot(title);
 
     /// <summary>
@@ -84,14 +86,14 @@ public abstract class WebSession : AtataSession
     /// </summary>
     /// <param name="kind">The kind of a screenshot.</param>
     /// <param name="title">The title of a screenshot.</param>
-    public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
+    public void TakeScreenshot(ScreenshotKind kind, string? title = null) =>
         ScreenshotTaker.TakeScreenshot(kind, title);
 
     /// <summary>
     /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
     /// </summary>
     /// <param name="title">The title of a snapshot.</param>
-    public void TakePageSnapshot(string title = null) =>
+    public void TakePageSnapshot(string? title = null) =>
         PageSnapshotTaker.TakeSnapshot(title);
 
     internal void CleanUpTemporarilyPreservedPageObjectList()

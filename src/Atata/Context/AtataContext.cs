@@ -217,7 +217,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string BaseUrl =>
+    public string? BaseUrl =>
         this.GetWebSession().BaseUrl;
 
     /// <summary>
@@ -361,7 +361,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     [Obsolete("Use GetWebSession().PageObject instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public UIComponent PageObject =>
+    public UIComponent? PageObject =>
         this.GetWebSession().PageObject;
 
     internal Stopwatch ExecutionStopwatch { get; } = Stopwatch.StartNew();
