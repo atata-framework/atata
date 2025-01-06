@@ -306,7 +306,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         string? sessionName,
         [NotNullWhen(true)] out AtataSessionPool? pool)
     {
-        AtataContext currentContext = _context;
+        AtataContext? currentContext = _context;
 
         do
         {
