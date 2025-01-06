@@ -1,18 +1,20 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the context of a test scope (test, test suite, global test context).
 /// </summary>
 public sealed class AtataContext : IDisposable, IAsyncDisposable
 {
-    private static readonly AsyncLocal<AtataContext> s_currentAsyncLocalContext = new();
+    private static readonly AsyncLocal<AtataContext?> s_currentAsyncLocalContext = new();
 
-    private static readonly AsyncLocal<StrongBox<AtataContext>> s_currentAsyncLocalBoxedContext = new();
+    private static readonly AsyncLocal<StrongBox<AtataContext?>> s_currentAsyncLocalBoxedContext = new();
 
     [ThreadStatic]
-    private static AtataContext s_currentThreadStaticContext;
+    private static AtataContext? s_currentThreadStaticContext;
 
-    private static AtataContext s_currentStaticContext;
+    private static AtataContext? s_currentStaticContext;
 
     private Status _status;
 
@@ -28,7 +30,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private readonly AddOnlyList<AtataContext> _childContexts = [];
 
-    internal AtataContext(AtataContext parentContext, AtataContextScope? scope, TestInfo testInfo)
+    internal AtataContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
     {
         ParentContext = parentContext;
         Scope = scope;
@@ -55,7 +57,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <summary>
     /// Gets or sets the current context.
     /// </summary>
-    public static AtataContext Current
+    public static AtataContext? Current
     {
         get => GlobalProperties.ModeOfCurrent switch
         {
@@ -117,7 +119,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// Use <see cref="CreateBuilder(AtataContextScope)"/> method with <see cref="AtataContextScope.Global"/> value
     /// to register one <see cref="AtataContext"/> as a global one.
     /// </summary>
-    public static AtataContext Global { get; internal set; }
+    public static AtataContext? Global { get; internal set; }
 
     [Obsolete("Use BaseConfiguration instead.")] // Obsolete since v4.0.0.
     public static AtataContextBuilder GlobalConfiguration => BaseConfiguration;
@@ -143,7 +145,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <summary>
     /// Gets the parent <see cref="AtataContext"/> instance or <see langword="null"/>.
     /// </summary>
-    public AtataContext ParentContext { get; }
+    public AtataContext? ParentContext { get; }
 
     /// <summary>
     /// Gets the child <see cref="AtataContext"/> instances of this context.
@@ -180,7 +182,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    internal IWebDriverFactory DriverFactory { get; set; }
+    internal IWebDriverFactory? DriverFactory { get; set; }
 
     [Obsolete("Use GetWebDriver() or GetWebDriverSession().Driver instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -201,7 +203,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <summary>
     /// Gets the instance of the log manager.
     /// </summary>
-    public ILogManager Log { get; internal set; }
+    public ILogManager Log { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the local date/time of the start.
@@ -273,26 +275,26 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// Gets the culture.
     /// The default value is <see cref="CultureInfo.CurrentCulture"/>.
     /// </summary>
-    public CultureInfo Culture { get; internal set; }
+    public CultureInfo Culture { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the type of the assertion exception.
     /// The default value is a type of <see cref="AssertionException"/>.
     /// </summary>
-    public Type AssertionExceptionType { get; internal set; }
+    public Type AssertionExceptionType { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the type of the aggregate assertion exception.
     /// The default value is a type of <see cref="AggregateAssertionException"/>.
     /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
     /// </summary>
-    public Type AggregateAssertionExceptionType { get; internal set; }
+    public Type AggregateAssertionExceptionType { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the aggregate assertion strategy.
     /// The default value is an instance of <see cref="AtataAggregateAssertionStrategy"/>.
     /// </summary>
-    public IAggregateAssertionStrategy AggregateAssertionStrategy { get; internal set; }
+    public IAggregateAssertionStrategy AggregateAssertionStrategy { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the aggregate assertion depth level.
@@ -303,13 +305,13 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// Gets the strategy for warning assertion reporting.
     /// The default value is an instance of <see cref="AtataWarningReportStrategy"/>.
     /// </summary>
-    public IWarningReportStrategy WarningReportStrategy { get; internal set; }
+    public IWarningReportStrategy WarningReportStrategy { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the strategy for assertion failure reporting.
     /// The default value is an instance of <see cref="AtataAssertionFailureReportStrategy"/>.
     /// </summary>
-    public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; internal set; }
+    public IAssertionFailureReportStrategy AssertionFailureReportStrategy { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the list of all assertion results.
@@ -321,12 +323,12 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public List<AssertionResult> PendingFailureAssertionResults { get; } = [];
 
-    internal Exception LastLoggedException { get; set; }
+    internal Exception? LastLoggedException { get; set; }
 
     /// <summary>
     /// Gets the context of the attributes.
     /// </summary>
-    public AtataAttributesContext Attributes { get; internal set; }
+    public AtataAttributesContext Attributes { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the <see cref="DirectorySubject"/> of Artifacts directory.
@@ -335,7 +337,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// relative to <see cref="AtataContextGlobalProperties.ArtifactsRootPath"/> value
     /// of <see cref="GlobalProperties"/>.
     /// </summary>
-    public DirectorySubject Artifacts { get; internal set; }
+    public DirectorySubject Artifacts { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the path of Artifacts directory.
@@ -344,7 +346,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// relative to <see cref="AtataContextGlobalProperties.ArtifactsRootPath"/> value
     /// of <see cref="GlobalProperties"/>.
     /// </summary>
-    public string ArtifactsPath => Artifacts?.FullName.Value;
+    public string ArtifactsPath =>
+        Artifacts.FullName.Value;
 
     [Obsolete("Use GetWebSession().Go instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -363,9 +366,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     internal Stopwatch ExecutionStopwatch { get; } = Stopwatch.StartNew();
 
-    internal Stopwatch BodyExecutionStopwatch { get; } = new Stopwatch();
+    internal Stopwatch BodyExecutionStopwatch { get; } = new();
 
-    internal Stopwatch SetupExecutionStopwatch { get; } = new Stopwatch();
+    internal Stopwatch SetupExecutionStopwatch { get; } = new();
 
     [Obsolete("Use GetWebDriverSession().TemporarilyPreservedPageObjects instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -381,7 +384,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// Gets the event bus of <see cref="AtataContext"/>,
     /// which can used to subscribe to and publish events.
     /// </summary>
-    public IEventBus EventBus { get; internal set; }
+    public IEventBus EventBus { get; internal set; } = null!;
 
     /// <summary>
     /// <para>
@@ -556,10 +559,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// Is used to identify the assertion section in log.
     /// Can be <see langword="null"/>.
     /// </param>
-    public void AggregateAssert(Action action, string assertionScopeName = null) =>
+    public void AggregateAssert(Action action, string? assertionScopeName = null) =>
         AggregateAssert(action, Log, assertionScopeName);
 
-    internal void AggregateAssert(Action action, ILogManager log, string assertionScopeName = null)
+    internal void AggregateAssert(Action action, ILogManager log, string? assertionScopeName = null)
     {
         action.CheckNotNull(nameof(action));
 
@@ -601,7 +604,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         }
     }
 
-    internal void EnsureExceptionIsLogged(Exception exception, ILogManager log = null)
+    internal void EnsureExceptionIsLogged(Exception exception, ILogManager? log = null)
     {
         if (exception != LastLoggedException)
         {
@@ -617,15 +620,15 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         this.GetWebDriverSession().RestartDriver();
 
     [Obsolete("Use GetWebSession().TakeScreenshot(string) instead.")] // Obsolete since v4.0.0.
-    public void TakeScreenshot(string title = null) =>
+    public void TakeScreenshot(string? title = null) =>
         this.GetWebSession().TakeScreenshot(title);
 
     [Obsolete("Use GetWebSession().TakeScreenshot(ScreenshotKind, string) instead.")] // Obsolete since v4.0.0.
-    public void TakeScreenshot(ScreenshotKind kind, string title = null) =>
+    public void TakeScreenshot(ScreenshotKind kind, string? title = null) =>
         this.GetWebSession().TakeScreenshot(kind, title);
 
     [Obsolete("Use GetWebSession().TakePageSnapshot(string) instead.")] // Obsolete since v4.0.0.
-    public void TakePageSnapshot(string title = null) =>
+    public void TakePageSnapshot(string? title = null) =>
         this.GetWebSession().TakePageSnapshot(title);
 
     /// <summary>
@@ -635,7 +638,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="fileContentWithExtension">The file content with extension.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, string artifactType = null, string artifactTitle = null)
+    public void AddArtifact(string relativeFilePathWithoutExtension, FileContentWithExtension fileContentWithExtension, string? artifactType = null, string? artifactTitle = null)
     {
         relativeFilePathWithoutExtension.CheckNotNullOrWhitespace(nameof(relativeFilePathWithoutExtension));
         fileContentWithExtension.CheckNotNull(nameof(fileContentWithExtension));
@@ -655,7 +658,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="fileBytes">The file bytes.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, byte[] fileBytes, string artifactType = null, string artifactTitle = null)
+    public void AddArtifact(string relativeFilePath, byte[] fileBytes, string? artifactType = null, string? artifactTitle = null)
     {
         relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
         fileBytes.CheckNotNull(nameof(fileBytes));
@@ -674,7 +677,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="fileContent">Content of the file.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, string fileContent, string artifactType = null, string artifactTitle = null)
+    public void AddArtifact(string relativeFilePath, string fileContent, string? artifactType = null, string? artifactTitle = null)
     {
         relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
         fileContent.CheckNotNull(nameof(fileContent));
@@ -694,7 +697,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="encoding">The encoding. Can be <see langword="null"/>.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes"/>.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string artifactType = null, string artifactTitle = null)
+    public void AddArtifact(string relativeFilePath, string fileContent, Encoding encoding, string? artifactType = null, string? artifactTitle = null)
     {
         relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
         fileContent.CheckNotNull(nameof(fileContent));
@@ -716,7 +719,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="stream">The stream to write to the file.</param>
     /// <param name="artifactType">Type of the artifact. Can be a value of <see cref="ArtifactTypes" />.</param>
     /// <param name="artifactTitle">The artifact title.</param>
-    public void AddArtifact(string relativeFilePath, Stream stream, string artifactType = null, string artifactTitle = null)
+    public void AddArtifact(string relativeFilePath, Stream stream, string? artifactType = null, string? artifactTitle = null)
     {
         relativeFilePath.CheckNotNullOrWhitespace(nameof(relativeFilePath));
         stream.CheckNotNull(nameof(stream));
@@ -746,6 +749,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="exception">The exception.</param>
     public void HandleTestResultException(Exception exception)
     {
+        exception.CheckNotNull(nameof(exception));
+        EnsureNotDisposed();
+
         Test.ResultStatus = TestResultStatus.Failed;
 
         if (exception != LastLoggedException)
@@ -763,6 +769,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <param name="stackTrace">The exception stack trace.</param>
     public void HandleTestResultException(string message, string stackTrace)
     {
+        message.CheckNotNull(nameof(message));
+        stackTrace.CheckNotNull(nameof(stackTrace));
         EnsureNotDisposed();
 
         Test.ResultStatus = TestResultStatus.Failed;
@@ -786,7 +794,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     }
 
     [Obsolete("Use RaiseAssertionError(...) instead.")] // Obsolete since v4.0.0.
-    public void RaiseError(string message, Exception exception = null) =>
+    public void RaiseError(string message, Exception? exception = null) =>
         RaiseAssertionError(message, exception);
 
     /// <summary>
@@ -794,11 +802,11 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
-    public void RaiseAssertionError(string message, Exception exception = null) =>
+    public void RaiseAssertionError(string message, Exception? exception = null) =>
         AssertionVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     [Obsolete("Use RaiseAssertionWarning(...) instead.")] // Obsolete since v4.0.0.
-    public void RaiseWarning(string message, Exception exception = null) =>
+    public void RaiseWarning(string message, Exception? exception = null) =>
         RaiseAssertionWarning(message, exception);
 
     /// <summary>
@@ -806,7 +814,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="message">The message.</param>
     /// <param name="exception">The optional exception.</param>
-    public void RaiseAssertionWarning(string message, Exception exception = null) =>
+    public void RaiseAssertionWarning(string message, Exception? exception = null) =>
         ExpectationVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     /// <summary>
@@ -942,7 +950,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         LogTestFinish(deinitializationStopwatch.Elapsed);
 
         Variables.Clear();
-        Log = null;
+        Log = null!;
         AssertionResults.Clear();
 
         _status = Status.Disposed;
