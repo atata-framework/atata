@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides reporting functionality for <see cref="WebSession"/>.
@@ -18,21 +20,21 @@ public class WebSessionReport<TOwner> : Report<TOwner>, IWebSessionReport<TOwner
         _session = session;
 
     /// <inheritdoc/>
-    public TOwner Screenshot(string title = null)
+    public TOwner Screenshot(string? title = null)
     {
         _session.TakeScreenshot(title);
         return Owner;
     }
 
     /// <inheritdoc/>
-    public TOwner Screenshot(ScreenshotKind kind, string title = null)
+    public TOwner Screenshot(ScreenshotKind kind, string? title = null)
     {
         _session.TakeScreenshot(kind, title);
         return Owner;
     }
 
     /// <inheritdoc/>
-    public TOwner PageSnapshot(string title = null)
+    public TOwner PageSnapshot(string? title = null)
     {
         _session.TakePageSnapshot(title);
         return Owner;
