@@ -186,6 +186,9 @@ public abstract class AtataSession : IAsyncDisposable
                                 await DisposeAsyncCore().ConfigureAwait(false);
 
                                 EventBus.Publish(new AtataSessionDeInitCompletedEvent(this));
+
+                                EventBus.UnsubscribeAll();
+                                State.Clear();
                             }
                         }
                         catch (Exception exception)
@@ -218,8 +221,6 @@ public abstract class AtataSession : IAsyncDisposable
         BorrowSourceContext = null;
         IsTakenFromPool = false;
 
-        State.Clear();
-        EventBus.UnsubscribeAll();
         return default;
     }
 
@@ -237,7 +238,7 @@ public abstract class AtataSession : IAsyncDisposable
 
                     context.Sessions.Add(this);
                     BorrowSourceContext = previousContext;
-                    AssignToContext(context);
+                    ReassignToContext(context);
 
                     Log.Trace($"{this} is borrowed from {previousContext}");
                     return true;
@@ -254,7 +255,7 @@ public abstract class AtataSession : IAsyncDisposable
         {
             Log.Trace($"{this} is taken from pool by {context}");
             context.Sessions.Add(this);
-            AssignToContext(context);
+            ReassignToContext(context);
             Log.Trace($"{this} is taken from pool of {OwnerContext}");
         }
     }
@@ -273,7 +274,7 @@ public abstract class AtataSession : IAsyncDisposable
             Log.Trace($"{this} is returned to{(shouldReturnToPool ? " pool of" : null)} {contextToReturnTo}");
 
             BorrowSourceContext = null;
-            AssignToContext(contextToReturnTo);
+            ReassignToContext(contextToReturnTo);
             currentContext.Sessions.Remove(this);
 
             if (shouldReturnToPool)
@@ -302,6 +303,19 @@ public abstract class AtataSession : IAsyncDisposable
 
     protected internal virtual void OnAssignedToContext()
     {
+    }
+
+    private void ReassignToContext(AtataContext context)
+    {
+        AtataSessionUnassignedFromContextEvent unassignedEvent = new(this);
+        EventBus.Publish(unassignedEvent);
+        Context.EventBus.Publish(unassignedEvent);
+
+        AssignToContext(context);
+
+        AtataSessionAssignedToContextEvent assignedEvent = new(this);
+        EventBus.Publish(assignedEvent);
+        Context.EventBus.Publish(assignedEvent);
     }
 
     private void AssignToContext(AtataContext context)
