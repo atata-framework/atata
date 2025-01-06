@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class AtataSession : IAsyncDisposable
 {
@@ -14,11 +16,11 @@ public abstract class AtataSession : IAsyncDisposable
         ExecutionUnit = new AtataSessionExecutionUnit(this);
     }
 
-    public AtataContext OwnerContext { get; private set; }
+    public AtataContext OwnerContext { get; private set; } = null!;
 
-    private AtataContext BorrowSourceContext { get; set; }
+    private AtataContext? BorrowSourceContext { get; set; }
 
-    public AtataContext Context { get; private set; }
+    public AtataContext Context { get; private set; } = null!;
 
     public AtataSessionMode Mode { get; internal set; }
 
@@ -49,7 +51,7 @@ public abstract class AtataSession : IAsyncDisposable
     /// Gets the name of the session.
     /// Returns <see langword="null"/> if the name is not set explicitly in builder.
     /// </summary>
-    public string Name { get; internal set; }
+    public string? Name { get; internal set; }
 
     /// <summary>
     /// Gets a value indicating whether the session is active (not disposed).
@@ -60,22 +62,22 @@ public abstract class AtataSession : IAsyncDisposable
     /// <summary>
     /// Gets the instance of the log manager associated with the session.
     /// </summary>
-    public ILogManager Log { get; private set; }
+    public ILogManager Log { get; private set; } = null!;
 
     /// <summary>
     /// Gets the <see cref="IReport{TOwner}"/> instance that provides a reporting functionality.
     /// </summary>
-    public IReport<AtataSession> Report { get; internal set; }
+    public IReport<AtataSession> Report { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the event bus of session,
     /// which can used to subscribe to and publish events.
     /// </summary>
-    public IEventBus EventBus { get; internal set; }
+    public IEventBus EventBus { get; internal set; } = null!;
 
-    public VariableHierarchicalDictionary Variables { get; private set; }
+    public VariableHierarchicalDictionary Variables { get; private set; } = null!;
 
-    public StateHierarchicalDictionary State { get; private set; }
+    public StateHierarchicalDictionary State { get; private set; } = null!;
 
     /// <summary>
     /// Gets the base retry timeout.
@@ -147,15 +149,15 @@ public abstract class AtataSession : IAsyncDisposable
     /// Is used to identify the assertion section in log.
     /// Can be <see langword="null"/>.
     /// </param>
-    public void AggregateAssert(Action action, string assertionScopeName = null) =>
+    public void AggregateAssert(Action action, string? assertionScopeName = null) =>
         Context.AggregateAssert(action, Log, assertionScopeName);
 
     /// <inheritdoc cref="AtataContext.RaiseAssertionError(string, Exception)"/>
-    public void RaiseAssertionError(string message, Exception exception = null) =>
+    public void RaiseAssertionError(string message, Exception? exception = null) =>
        AssertionVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     /// <inheritdoc cref="AtataContext.RaiseAssertionWarning(string, Exception)"/>
-    public void RaiseAssertionWarning(string message, Exception exception = null) =>
+    public void RaiseAssertionWarning(string message, Exception? exception = null) =>
         ExpectationVerificationStrategy.Instance.ReportFailure(ExecutionUnit, message, exception);
 
     public async ValueTask DisposeAsync()
@@ -195,8 +197,8 @@ public abstract class AtataSession : IAsyncDisposable
                     .ConfigureAwait(false);
 
                 Variables.Clear();
-                Log = null;
-                Report = null;
+                Log = null!;
+                Report = null!;
 
                 _isDisposed = true;
                 GC.SuppressFinalize(this);
@@ -211,8 +213,8 @@ public abstract class AtataSession : IAsyncDisposable
         if (OwnerContext != Context)
             OwnerContext.Sessions.Remove(this);
 
-        OwnerContext = null;
-        Context = null;
+        OwnerContext = null!;
+        Context = null!;
         BorrowSourceContext = null;
         IsTakenFromPool = false;
 
@@ -348,7 +350,7 @@ public abstract class AtataSession : IAsyncDisposable
         return stringBuilder.ToString();
     }
 
-    internal static string BuildTypedName(Type sessionType, string sessionName)
+    internal static string BuildTypedName(Type sessionType, string? sessionName)
     {
         string sessionTypeName = sessionType.Name;
 

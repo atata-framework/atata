@@ -292,7 +292,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return session;
     }
 
-    internal AtataSessionPool GetPool(Type sessionType, string sessionName)
+    internal AtataSessionPool GetPool(Type sessionType, string? sessionName)
     {
         if (_poolContainer is null || !_poolContainer.TryGetPool(sessionType, sessionName, out AtataSessionPool? pool))
             throw new AtataSessionPoolNotFoundException(
