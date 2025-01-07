@@ -4,10 +4,10 @@
     <Authors>Yevgeniy Shunevych</Authors>
     <Company>Yevgeniy Shunevych</Company>
     <Product>Atata Framework</Product>
-    <Copyright>© Yevgeniy Shunevych 2024</Copyright>
+    <Copyright>© Yevgeniy Shunevych 2025</Copyright>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
-    <AnalysisLevel>6.0-all</AnalysisLevel>
+    <AnalysisLevel>8.0-Recommended</AnalysisLevel>
   </PropertyGroup>
 
   <ItemGroup Label="Code analysis packages">
