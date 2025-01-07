@@ -16,7 +16,7 @@ public static class ImprovedExpressionStringBuilderTests
         BC = 6
     }
 
-    private static IEnumerable<TestCaseData> GetExpressionTestCases()
+    private static List<TestCaseData> GetExpressionTestCases()
     {
         List<TestCaseData> items = [];
 

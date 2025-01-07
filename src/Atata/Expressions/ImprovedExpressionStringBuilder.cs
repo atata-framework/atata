@@ -278,7 +278,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             ? VisitNewAnonymousType(node)
             : VisitNewKnownType(node);
 
-    private Expression VisitNewKnownType(NewExpression node, bool alwaysAddParentheses = true)
+    private NewExpression VisitNewKnownType(NewExpression node, bool alwaysAddParentheses = true)
     {
         Out("new " + node.Type.Name);
 
@@ -295,7 +295,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return node;
     }
 
-    private Expression VisitNewAnonymousType(NewExpression node)
+    private NewExpression VisitNewAnonymousType(NewExpression node)
     {
         Out("new { ");
 
@@ -364,7 +364,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         && ((left as UnaryExpression)?.Operand.Type.IsEnum ?? false)
         && right.NodeType == ExpressionType.Constant;
 
-    private Expression VisitEnumComparison(BinaryExpression node)
+    private BinaryExpression VisitEnumComparison(BinaryExpression node)
     {
         Type enumType = ((node.Left as UnaryExpression) ?? (node.Right as UnaryExpression))?.Operand.Type;
 
@@ -373,7 +373,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             x => ((Enum)Enum.ToObject(enumType, x)).ToExpressionValueString(wrapCombinationalValueWithParentheses: true));
     }
 
-    private Expression VisitComparisonWithConvert(BinaryExpression node, Func<object, string> valueConverter)
+    private BinaryExpression VisitComparisonWithConvert(BinaryExpression node, Func<object, string> valueConverter)
     {
         void OutPart(Expression part)
         {

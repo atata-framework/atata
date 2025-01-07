@@ -206,8 +206,9 @@ return textValues;";
             () => GetAll(extraXPath, itemsName));
     }
 
-    private static FindAttribute ResolveItemFindAttribute() =>
-        new FindControlListItemAttribute();
+    // TODO: Review ResolveItemFindAttribute.
+    private static FindControlListItemAttribute ResolveItemFindAttribute() =>
+        new();
 
     private static string WrapSubProviderNameWithDoubleQuotes(string name) =>
         name.Length > 0 && name[0] == '"'
@@ -493,7 +494,7 @@ return textValues;";
             .Select(x => TermResolver.FromString<TData>(x, valueTermOptions));
     }
 
-    private IEnumerable<string> GetElementTextValues(
+    private string[] GetElementTextValues(
         IEnumerable<IWebElement> elements,
         string elementValueJSPath)
     {

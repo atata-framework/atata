@@ -64,7 +64,7 @@ public class ObjectExpressionStringBuilder : ImprovedExpressionStringBuilder
         return base.VisitMethodCall(node);
     }
 
-    private Expression VisitMethodCallOfParameter(MethodCallExpression node, bool isExtensionMethod)
+    private MethodCallExpression VisitMethodCallOfParameter(MethodCallExpression node, bool isExtensionMethod)
     {
         Out(node.Method.Name);
         Out("(");

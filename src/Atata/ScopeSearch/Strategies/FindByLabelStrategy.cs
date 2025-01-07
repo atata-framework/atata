@@ -7,14 +7,14 @@ public class FindByLabelStrategy : IComponentScopeFindStrategy
             ? FindUsingOneQuery(scope, options, searchOptions)
             : FindLabelThenComponent(scope, options, searchOptions);
 
-    private static ComponentScopeFindResult FindUsingOneQuery(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
+    private static XPathComponentScopeFindResult FindUsingOneQuery(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
     {
         string xPath = new ComponentScopeXPathBuilder(options)
             .Wrap(j => j
                 .OuterXPath.Any[x => x._("@id = ").WrapWithIndex(l => l._("//label")[lc => lc.TermsConditionOfContent])._("/@for")].DescendantOrSelf.ComponentXPath
                 ._(" | ").WrapWithIndex(l => l.OuterXPath._("label")[lc => lc.TermsConditionOfContent]).DescendantOrSelf.ComponentXPath);
 
-        return new XPathComponentScopeFindResult(xPath, scope, searchOptions, options.Component);
+        return new(xPath, scope, searchOptions, options.Component);
     }
 
     private static ComponentScopeFindResult FindLabelThenComponent(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)

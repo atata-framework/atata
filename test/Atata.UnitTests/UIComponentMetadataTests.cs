@@ -19,7 +19,7 @@ public class UIComponentMetadataTests
     public void SetUp() =>
         _metadata = new("Some Item", typeof(TextInput<OrdinaryPage>), typeof(OrdinaryPage));
 
-    public class Get : UIComponentMetadataTests
+    public sealed class Get : UIComponentMetadataTests
     {
         [Test]
         public void ForAttribute_AtAssemblyLevel()
@@ -139,9 +139,9 @@ public class UIComponentMetadataTests
         }
     }
 
-    public class GetAll : UIComponentMetadataTests
+    public sealed class GetAll : UIComponentMetadataTests
     {
-        private static IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
+        private static Attribute[] All(params IEnumerable<Attribute>[] attributeCollections)
         {
             if (attributeCollections == null || attributeCollections.Length == 0)
                 return [];
@@ -215,7 +215,7 @@ public class UIComponentMetadataTests
         }
     }
 
-    public class Push : UIComponentMetadataTests
+    public sealed class Push : UIComponentMetadataTests
     {
         [Test]
         public void One()
@@ -256,7 +256,7 @@ public class UIComponentMetadataTests
         }
     }
 
-    public class ComponentDefinitionAttribute : UIComponentMetadataTests
+    public sealed class ComponentDefinitionAttribute : UIComponentMetadataTests
     {
         [Test]
         public void ForControl()

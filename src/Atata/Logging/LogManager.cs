@@ -308,11 +308,10 @@ internal sealed class LogManager : ILogManager
     private static bool IsBlockLogSection(LogSection logSection) =>
         logSection is AggregateAssertionLogSection or SetupLogSection or StepLogSection;
 
-    private IOuterLogNestingLevelResolver CreateNestingLevelResolver(
+    private OuterLogNestingLevelResolver CreateNestingLevelResolver(
         Func<LogConsumerConfiguration, bool> isEnabledPredicate)
         =>
-        new OuterLogNestingLevelResolver(
-            _sectionStack, _outerLogNestingLevelResolver, isEnabledPredicate);
+        new(_sectionStack, _outerLogNestingLevelResolver, isEnabledPredicate);
 
     private void StartSection(LogSection section)
     {
