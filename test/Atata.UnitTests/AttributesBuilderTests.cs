@@ -64,7 +64,7 @@ public class AttributesBuilderTests
             .Add(_stubAttributes);
 
         _sut.AttributesContext.ComponentMap.Keys.First()
-            .Should().Be(typeof(TestPage));
+            .Should().Be<TestPage>();
 
         _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which
@@ -78,7 +78,7 @@ public class AttributesBuilderTests
             .Add(_stubAttributes);
 
         _sut.AttributesContext.ComponentMap.Keys.First()
-            .Should().Be(typeof(TestPage));
+            .Should().Be<TestPage>();
 
         _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which
@@ -94,7 +94,7 @@ public class AttributesBuilderTests
             .Add(_stubAttributes);
 
         _sut.AttributesContext.ComponentMap.Keys.First()
-            .Should().Be(typeof(TestPage));
+            .Should().Be<TestPage>();
 
         _sut.AttributesContext.ComponentMap.Values
             .Should().ContainSingle().Which

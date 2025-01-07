@@ -16,6 +16,8 @@ public class EventSubscriptionsBuilder
     /// </summary>
     public List<EventSubscriptionItem> Items { get; }
 
+#pragma warning disable CA2263 // Prefer generic overload when type is known
+
     /// <summary>
     /// Adds the specified event handler as a subscription to the <typeparamref name="TEvent"/>.
     /// </summary>
@@ -43,6 +45,8 @@ public class EventSubscriptionsBuilder
         where TEventHandler : class, IEventHandler<TEvent>, new()
         =>
         Add(typeof(TEvent), new TEventHandler());
+
+#pragma warning restore CA2263 // Prefer generic overload when type is known
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
     public EventSubscriptionsBuilder Add<TEvent>(IEventHandler<TEvent> eventHandler) =>
