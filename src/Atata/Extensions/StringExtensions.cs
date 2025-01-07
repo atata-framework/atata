@@ -45,24 +45,28 @@ public static class StringExtensions
 
     public static string[] SplitIntoWords(this string value)
     {
-        char[] chars = value.ToCharArray();
+        ReadOnlySpan<char> chars = value.AsSpan();
 
-        List<char> wordChars = [];
         List<string> words = [];
 
-        if (char.IsLetterOrDigit(chars[0]))
-            wordChars.Add(chars[0]);
+        int wordStartIndex = char.IsLetterOrDigit(chars[0]) ? 0 : -1;
 
-        void EndWord()
+        static void EndWord(
+            ref readonly ReadOnlySpan<char> source,
+            ref int startIndex,
+            ref readonly int endIndex,
+            List<string> words)
         {
-            if (wordChars.Count > 0)
+            if (startIndex != -1 && endIndex > startIndex)
             {
-                words.Add(new string([.. wordChars]));
-                wordChars.Clear();
+                words.Add(source.Slice(startIndex, endIndex - startIndex).ToString());
+                startIndex = -1;
             }
         }
 
-        for (int i = 1; i < chars.Length; i++)
+        int i = 1;
+
+        for (; i < chars.Length; i++)
         {
             char current = chars[i];
             char prev = chars[i - 1];
@@ -70,23 +74,23 @@ public static class StringExtensions
 
             if (!char.IsLetterOrDigit(current))
             {
-                EndWord();
+                EndWord(ref chars, ref wordStartIndex, ref i, words);
             }
             else if ((char.IsDigit(current) && char.IsLetter(prev)) ||
                 (char.IsLetter(current) && char.IsDigit(prev)) ||
                 (char.IsUpper(current) && char.IsLower(prev)) ||
                 (char.IsUpper(current) && next != null && char.IsLower(next.Value)))
             {
-                EndWord();
-                wordChars.Add(current);
+                EndWord(ref chars, ref wordStartIndex, ref i, words);
+                wordStartIndex = i;
             }
-            else
+            else if (wordStartIndex == -1)
             {
-                wordChars.Add(current);
+                wordStartIndex = i;
             }
         }
 
-        EndWord();
+        EndWord(ref chars, ref wordStartIndex, ref i, words);
 
         return [.. words];
     }
