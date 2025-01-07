@@ -126,7 +126,7 @@ public static class ObjectConverterTests
 
         private TDestination TestConvert<TDestination>(object sourceValue)
         {
-            object result = _sut.Convert(sourceValue, typeof(TDestination));
+            object result = _sut.Convert<TDestination>(sourceValue);
 
             return result.Should().BeAssignableTo<TDestination>().Subject;
         }

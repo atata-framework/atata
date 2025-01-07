@@ -18,7 +18,7 @@ public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
         {
             Context.Test.Name.Should().Be(nameof(Context_Test_ForTest));
             Context.Test.SuiteName.Should().Be(nameof(WithoutNamespaceSuiteTests));
-            Context.Test.SuiteType.Should().Be(typeof(WithoutNamespaceSuiteTests));
+            Context.Test.SuiteType.Should().Be<WithoutNamespaceSuiteTests>();
             Context.Test.FullName.Should().Be($"{GetType().FullName}.{nameof(Context_Test_ForTest)}");
         }
     }
@@ -32,7 +32,7 @@ public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
             string testNameSuffix = $"({justFlag})";
             Context.Test.Name.Should().Be(nameof(Context_Test_ForTestCase) + testNameSuffix);
             Context.Test.SuiteName.Should().Be(nameof(WithoutNamespaceSuiteTests));
-            Context.Test.SuiteType.Should().Be(typeof(WithoutNamespaceSuiteTests));
+            Context.Test.SuiteType.Should().Be<WithoutNamespaceSuiteTests>();
             Context.Test.FullName.Should().Be($"{GetType().FullName}.{nameof(Context_Test_ForTestCase)}{testNameSuffix}");
         }
     }

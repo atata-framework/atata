@@ -27,7 +27,7 @@ public sealed class WithOnlyAssemblyFixtureTests :
         {
             Context.Test.Name.Should().Be(nameof(Context_Test_ForFact));
             Context.Test.SuiteName.Should().Be(nameof(WithOnlyAssemblyFixtureTests));
-            Context.Test.SuiteType.Should().Be(typeof(WithOnlyAssemblyFixtureTests));
+            Context.Test.SuiteType.Should().Be<WithOnlyAssemblyFixtureTests>();
             Context.Test.FullName.Should().Be($"{GetType().FullName}.{nameof(Context_Test_ForFact)}");
         }
     }
@@ -41,7 +41,7 @@ public sealed class WithOnlyAssemblyFixtureTests :
             string testNameSuffix = $"({nameof(justFlag)}: {justFlag})";
             Context.Test.Name.Should().Be(nameof(Context_Test_ForTheory) + testNameSuffix);
             Context.Test.SuiteName.Should().Be(nameof(WithOnlyAssemblyFixtureTests));
-            Context.Test.SuiteType.Should().Be(typeof(WithOnlyAssemblyFixtureTests));
+            Context.Test.SuiteType.Should().Be<WithOnlyAssemblyFixtureTests>();
             Context.Test.FullName.Should().Be($"{GetType().FullName}.{nameof(Context_Test_ForTheory)}{testNameSuffix}");
         }
     }

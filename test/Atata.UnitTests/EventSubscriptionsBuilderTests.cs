@@ -84,14 +84,14 @@ public static class EventSubscriptionsBuilderTests
 
         [Test]
         public void EventTypeAndEventHandlerType_WithExactEventHandlerType() =>
-            _sut.Act(x => x.Add(typeof(TestEvent), typeof(TestEventHandler)))
+            _sut.Act(x => x.Add<TestEvent, TestEventHandler>())
                 .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler is TestEventHandler);
 
         [Test]
         public void EventTypeAndEventHandlerType_WithBaseEventHandlerType() =>
-            _sut.Act(x => x.Add(typeof(TestEvent), typeof(UniversalEventHandler)))
+            _sut.Act(x => x.Add<TestEvent, UniversalEventHandler>())
                 .ResultOf(x => x.Items)
                     .Should.ConsistOfSingle(
                         x => x.EventType == typeof(TestEvent) && x.EventHandler is UniversalEventHandler);

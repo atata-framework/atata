@@ -111,5 +111,6 @@
 [assembly: SuppressMessage("Minor Code Smell", "S3267:Loops should be simplified with \"LINQ\" expressions", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.DoInitializeContextAsync(Atata.AtataContext,System.Threading.CancellationToken)~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Style", "IDE0270:Use coalesce expression", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSessionPool.FillSequentiallyAsync(System.Int32,System.Threading.CancellationToken)~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WildcardPattern.IsMatch(System.ReadOnlySpan{System.Char})~System.Boolean")]
+[assembly: SuppressMessage("Reliability", "CA2021:Do not call Enumerable.Cast<T> or Enumerable.OfType<T> with incompatible types", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentChildrenList`1.Resolve``1(System.String,System.Func{System.Collections.Generic.IEnumerable{System.Attribute}})~``0")]
 
 #pragma warning restore S103 // Lines should not be too long
