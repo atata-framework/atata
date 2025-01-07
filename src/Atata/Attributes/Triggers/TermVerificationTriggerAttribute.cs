@@ -84,7 +84,7 @@ public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute
 
     private string[] ResolveActualValues(UIComponentMetadata metadata, string fallbackValue)
     {
-        string[] rawValues = Values?.Any() ?? false
+        string[] rawValues = Values?.Length > 0
             ? Values
             : [ResolveCase(metadata).ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue)))];
 

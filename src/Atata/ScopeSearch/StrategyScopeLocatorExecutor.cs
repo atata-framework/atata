@@ -17,7 +17,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
         {
             XPathComponentScopeFindResult[] xPathResults = Execute(unit.Strategy, scopeContext, unit.ScopeFindOptions, unit.SearchOptions);
 
-            if (!xPathResults.Any())
+            if (xPathResults.Length == 0)
                 return xPathResults;
 
             IWebElement element = xPathResults.Select(x => x.Get()).FirstOrDefault(x => x != null);
@@ -94,7 +94,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
                     .SelectMany(xPathResults => xPathResults)
                     .ToArray();
 
-                if (results.Any())
+                if (results.Length > 0)
                 {
                     return results;
                 }

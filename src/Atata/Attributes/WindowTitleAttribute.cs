@@ -49,7 +49,7 @@ public class WindowTitleAttribute : MulticastAttribute, ITermSettings
 
     internal string[] ResolveActualValues(string fallbackValue)
     {
-        string[] rawValues = Values?.Any() ?? false
+        string[] rawValues = Values?.Length > 0
             ? Values
             : [Case.ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue)))];
 

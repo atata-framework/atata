@@ -24,7 +24,7 @@ public static class VerificationUtils
     }
 
     public static string BuildExpectedMessage(string message, object[] args) =>
-        args != null && args.Any()
+        args?.Length > 0
             ? message.FormatWith(args.Select(Stringifier.ToString).ToArray())
             : message;
 
@@ -34,7 +34,7 @@ public static class VerificationUtils
         {
             string formattedMessage;
 
-            if (args != null && args.Any())
+            if (args?.Length > 0)
             {
                 string[] convertedArgs = args
                     .Select(x => ConvertValueToString(verifier.ObjectProvider, x))

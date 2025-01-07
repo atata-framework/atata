@@ -91,7 +91,7 @@ public static class TypeFinder
             matchingTypes = FilterByNamespacePart(matchingTypes, namespacePart);
         }
 
-        if (declaringTypeNames.Any())
+        if (declaringTypeNames.Length > 0)
         {
             matchingTypes = FilterByDeclaringTypeNames(matchingTypes, declaringTypeNames.Reverse());
         }

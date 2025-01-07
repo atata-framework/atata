@@ -55,7 +55,7 @@ public static class StringExtensions
 
         void EndWord()
         {
-            if (wordChars.Any())
+            if (wordChars.Count > 0)
             {
                 words.Add(new string([.. wordChars]));
                 wordChars.Clear();
@@ -66,7 +66,7 @@ public static class StringExtensions
         {
             char current = chars[i];
             char prev = chars[i - 1];
-            char? next = i + 1 < chars.Length ? (char?)chars[i + 1] : null;
+            char? next = i + 1 < chars.Length ? chars[i + 1] : null;
 
             if (!char.IsLetterOrDigit(current))
             {

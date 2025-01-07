@@ -61,7 +61,7 @@ public abstract class PopupWindow<TOwner> : PageObject<TOwner>
     /// Returns <see langword="true"/> when <see cref="WindowTitleValues"/> contains at least one value.
     /// </summary>
     protected bool CanFindByWindowTitle =>
-        WindowTitleValues?.Any() ?? false;
+        WindowTitleValues?.Length > 0;
 
     protected override By CreateScopeBy()
     {

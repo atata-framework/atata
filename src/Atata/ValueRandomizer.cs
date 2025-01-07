@@ -99,7 +99,7 @@ public static class ValueRandomizer
 
         var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>();
 
-        if (excludeAttribute?.Values?.Any() ?? false)
+        if (excludeAttribute?.Values?.Length > 0)
         {
             var valuesToExclude = excludeAttribute.Values.Cast<T>();
             values = values.Except(valuesToExclude).ToArray();

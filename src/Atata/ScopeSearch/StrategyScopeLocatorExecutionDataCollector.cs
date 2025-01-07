@@ -19,7 +19,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
 
         var finalExecutionUnit = CreateExecutionUnitForFinalFindAttribute(findAttribute, searchOptions);
 
-        ScopeSource scopeSource = (layerFindAttributes.Any() && layerFindAttributes[0].OptionalProperties.Contains(nameof(FindAttribute.ScopeSource))
+        ScopeSource scopeSource = (layerFindAttributes.Length > 0 && layerFindAttributes[0].OptionalProperties.Contains(nameof(FindAttribute.ScopeSource))
             ? layerFindAttributes[0]
             : findAttribute)
             .ResolveScopeSource(_component.Metadata);

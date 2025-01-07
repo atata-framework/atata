@@ -293,7 +293,7 @@ return (
 
         var orderedTriggers = Metadata.GetAll<TriggerAttribute>().OrderBy(x => x.Priority).ToArray();
 
-        if (orderedTriggers.Any())
+        if (orderedTriggers.Length > 0)
         {
             if (DenyTriggersMap.Values.TryGetValue(on, out TriggerEvents[] denyTriggers))
                 _currentDeniedTriggers.AddRange(denyTriggers);

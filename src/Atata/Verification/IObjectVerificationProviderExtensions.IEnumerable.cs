@@ -1148,10 +1148,10 @@ public static partial class IObjectVerificationProviderExtensions
 
         static bool SortOut(IEnumerable<List<int>> numbers, List<int> excludedNumbers)
         {
-            var nonExcludedCurrentNumbers = numbers.First().Except(excludedNumbers).ToArray();
+            int[] nonExcludedCurrentNumbers = numbers.First().Except(excludedNumbers).ToArray();
 
             if (numbers.Count() == 1)
-                return nonExcludedCurrentNumbers.Any();
+                return nonExcludedCurrentNumbers.Length > 0;
 
             foreach (int number in nonExcludedCurrentNumbers)
             {

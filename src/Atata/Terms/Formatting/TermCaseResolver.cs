@@ -38,7 +38,7 @@ public static class TermCaseResolver
         words.CheckNotNull(nameof(words));
         culture ??= CultureInfo.CurrentCulture;
 
-        if (!words.Any())
+        if (words.Length == 0)
             return string.Empty;
 
         if (termCase == TermCase.None)

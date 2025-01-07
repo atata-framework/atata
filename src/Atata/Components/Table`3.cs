@@ -40,7 +40,7 @@ public class Table<THeader, TRow, TOwner> : Control<TOwner>, ITable
     {
         bool usesColumnHeaderTextsCache = UsesColumnHeaderTextsCache;
 
-        if (usesColumnHeaderTextsCache && (_cachedColumnHeaderTexts?.Any() ?? false))
+        if (usesColumnHeaderTextsCache && _cachedColumnHeaderTexts?.Count > 0)
             return _cachedColumnHeaderTexts;
 
         var columnHeaderTexts = Log.ExecuteSection(
@@ -66,7 +66,7 @@ public class Table<THeader, TRow, TOwner> : Control<TOwner>, ITable
     /// <returns>The instance of the owner page object.</returns>
     public TOwner ClearColumnHeaderTextsCache()
     {
-        if (_cachedColumnHeaderTexts?.Any() ?? false)
+        if (_cachedColumnHeaderTexts?.Count > 0)
         {
             _cachedColumnHeaderTexts = null;
             Log.Trace($"Cleared column header texts cache of {ComponentFullName}");

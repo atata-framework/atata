@@ -959,7 +959,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     private void ThrowPendingExceptions(List<Exception> disposeExceptions)
     {
-        if (PendingFailureAssertionResults.Any())
+        if (PendingFailureAssertionResults.Count > 0)
         {
             var pendingFailureAssertionResults = GetAndClearPendingFailureAssertionResults();
             var aggregateAssertionException = VerificationUtils.CreateAggregateAssertionException(this, pendingFailureAssertionResults);

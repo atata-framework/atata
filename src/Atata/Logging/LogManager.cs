@@ -334,7 +334,7 @@ internal sealed class LogManager : ILogManager
     {
         lock (_sectionStack)
         {
-            if (_sectionStack.Any())
+            if (_sectionStack.Count > 0)
             {
                 LogSection section = _sectionStack.Pop();
 

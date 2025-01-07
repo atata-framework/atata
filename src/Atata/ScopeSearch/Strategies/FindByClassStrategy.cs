@@ -17,7 +17,7 @@ public class FindByClassStrategy : XPathComponentScopeFindStrategy
 
         var conditionOrParts = options.Terms
             .Select(t => t.Split(' ').Where(qp => !string.IsNullOrWhiteSpace(qp)).ToArray())
-            .Where(qps => qps.Any())
+            .Where(qps => qps.Length > 0)
             .Select(qps => string.Join(" and ", qps.Select(qp => conditionFormat.FormatWith(qp))))
             .ToArray();
 

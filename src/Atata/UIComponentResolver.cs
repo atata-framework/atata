@@ -311,7 +311,7 @@ public static class UIComponentResolver
         {
             string[] terms = findByLabelAttribute.ResolveValues(metadata);
 
-            if (terms?.Any() ?? false)
+            if (terms?.Length > 0)
             {
                 return string.Join("/", terms);
             }

@@ -21,7 +21,7 @@ public class StrategyScopeLocator : IScopeLocator
         var executionData = _executionDataCollector.Get(searchOptions);
         XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
 
-        if (xPathResults.Any())
+        if (xPathResults.Length > 0)
         {
             IWebElement element = xPathResults.Select(x => x.Get(xPathCondition)).FirstOrDefault(x => x != null);
 
@@ -62,8 +62,8 @@ public class StrategyScopeLocator : IScopeLocator
             xPathResult.SearchOptions = quickSearchOptions;
         }
 
-        return xPathResults.Any()
-            ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Any()).SelectMany(x => x).ToArray()
+        return xPathResults.Length > 0
+            ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Count > 0).SelectMany(x => x).ToArray()
             : [];
     }
 
@@ -82,7 +82,7 @@ public class StrategyScopeLocator : IScopeLocator
         {
             XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
 
-            if (xPathResults.Any())
+            if (xPathResults.Length > 0)
             {
                 Dictionary<By, ISearchContext> byScopePairs = xPathResults.ToDictionary(x => x.CreateBy(xPathCondition), x => x.ScopeSource);
                 return driver.Try(TimeSpan.Zero).MissingAll(byScopePairs);

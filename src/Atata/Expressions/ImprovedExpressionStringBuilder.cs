@@ -199,7 +199,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
     }
 
     protected static bool IsIndexer(MethodCallExpression node) =>
-        node.Method.IsSpecialName && (node.Method.Name == "get_Item" || node.Method.Name == "get_Chars") && node.Arguments.Any();
+        node.Method.IsSpecialName && (node.Method.Name == "get_Item" || node.Method.Name == "get_Chars") && node.Arguments.Count > 0;
 
     protected Expression VisitIndexerAsMethodCall(MethodCallExpression node)
     {

@@ -53,7 +53,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
             .Select(x => ItemElementFindStrategy.GetParameter<TValue>(x, GetValueTermOptions()))
             .ToArray();
 
-        return selectedValues.Any()
+        return selectedValues.Length > 0
             ? JoinValues(selectedValues)
             : default;
     }
@@ -84,7 +84,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
                 element.ClickWithLogging(Log);
         }
 
-        if (individualValues.Any())
+        if (individualValues.Count > 0)
         {
             throw ElementExceptionFactory.CreateForNotFound(
                 new SearchFailureData

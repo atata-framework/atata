@@ -32,7 +32,7 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
 
     protected static string BuildItemNameByCellValues(string[] values)
     {
-        if (values == null || !values.Any())
+        if (values is null || values.Length == 0)
             return null;
         else if (values.Length == 1)
             return $"\"{values[0]}\"";

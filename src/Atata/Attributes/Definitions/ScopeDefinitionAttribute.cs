@@ -44,7 +44,7 @@ public abstract class ScopeDefinitionAttribute : MulticastAttribute
     {
         string scopeXPath = _baseScopeXPath ?? DefaultScopeXPath;
 
-        if (ContainingClasses?.Any() ?? false)
+        if (ContainingClasses?.Length > 0)
         {
             var classConditions = ContainingClasses.Select(x => $"contains(concat(' ', normalize-space(@class), ' '), ' {x.Trim()} ')");
             return $"{scopeXPath}[{string.Join(" and ", classConditions)}]";
