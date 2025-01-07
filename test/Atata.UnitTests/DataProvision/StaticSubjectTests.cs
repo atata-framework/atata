@@ -189,8 +189,8 @@ public static class StaticSubjectTests
 
         public static TestEntity GetEntity(string name)
         {
-            if (name is null)
-                throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
+
             return new() { Name = name };
         }
 
@@ -205,8 +205,7 @@ public static class StaticSubjectTests
 
         public static async ValueTask<TestEntity> GetEntityAsValueTaskAsync(string name)
         {
-            if (name is null)
-                throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
 
             await Task.Delay(1);
             return new() { Name = name };
@@ -223,8 +222,7 @@ public static class StaticSubjectTests
 
         public static async Task<TestEntity> GetEntityAsTaskAsync(string name)
         {
-            if (name is null)
-                throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
 
             await Task.Delay(1);
             return new() { Name = name };
