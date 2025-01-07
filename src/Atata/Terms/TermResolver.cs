@@ -344,7 +344,7 @@ public static class TermResolver
 
     private static string[] GetIndividualEnumTerms(Enum value, TermAttribute termAttribute, ITermSettings termSettings, CultureInfo culture)
     {
-        string[] values = termAttribute?.Values?.Any() ?? false
+        string[] values = termAttribute?.Values?.Length > 0
             ? termAttribute.Values
             : [
                 TermCaseResolver.ApplyCase(

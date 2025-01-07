@@ -213,8 +213,8 @@ public abstract class MulticastAttribute : Attribute
     /// <see langword="true"/> if the name applies the criteria; otherwise, <see langword="false"/>.
     /// </returns>
     public bool IsNameApplicable(string name) =>
-        (TargetNames == null || !TargetNames.Any() || TargetNames.Contains(name))
-            && (ExcludeTargetNames == null || !ExcludeTargetNames.Any() || !ExcludeTargetNames.Contains(name));
+        (TargetNames is null || TargetNames.Length == 0 || TargetNames.Contains(name))
+            && (ExcludeTargetNames is null || ExcludeTargetNames.Length == 0 || !ExcludeTargetNames.Contains(name));
 
     /// <summary>
     /// Determines whether the component tags apply the tag criteria.
@@ -227,8 +227,8 @@ public abstract class MulticastAttribute : Attribute
     {
         tags.CheckNotNull(nameof(tags));
 
-        return (TargetTags == null || !TargetTags.Any() || TargetTags.Intersect(tags).Any())
-            && (ExcludeTargetTags == null || !ExcludeTargetTags.Any() || !ExcludeTargetTags.Intersect(tags).Any());
+        return (TargetTags is null || TargetTags.Length == 0 || TargetTags.Intersect(tags).Any())
+            && (ExcludeTargetTags is null || ExcludeTargetTags.Length == 0 || !ExcludeTargetTags.Intersect(tags).Any());
     }
 
     /// <summary>
@@ -256,7 +256,7 @@ public abstract class MulticastAttribute : Attribute
         int rank = 0;
         int rankFactor = 100000;
 
-        if (TargetNames != null && TargetNames.Any())
+        if (TargetNames?.Length > 0)
             rank += rankFactor;
         rankFactor /= 2;
 
@@ -264,7 +264,7 @@ public abstract class MulticastAttribute : Attribute
             rank += Math.Max(rankFactor - (depthOfTypeInheritance.Value * 100), 0);
         rankFactor /= 2;
 
-        if (TargetTags != null && TargetTags.Any())
+        if (TargetTags?.Length > 0)
             rank += rankFactor;
         rankFactor /= 2;
 
@@ -279,8 +279,8 @@ public abstract class MulticastAttribute : Attribute
         if (excludeTargetTypes?.Any(typeToCheck.IsInheritedFromOrIs) ?? false)
             return null;
 
-        return targetTypes == null || !targetTypes.Any()
-            ? -1
-            : targetTypes.Select(typeToCheck.GetDepthOfInheritance).Where(x => x != null).Min();
+        return targetTypes?.Length > 0
+            ? targetTypes.Select(typeToCheck.GetDepthOfInheritance).Where(x => x != null).Min()
+            : -1;
     }
 }

@@ -18,13 +18,13 @@ public class TermAttribute : TermSettingsAttribute
     public TermAttribute(TermMatch match, params string[] values)
         : base(match)
     {
-        if (values != null && values.Any())
+        if (values?.Length > 0)
             Values = values;
     }
 
     public TermAttribute(params string[] values)
     {
-        if (values != null && values.Any())
+        if (values?.Length > 0)
             Values = values;
     }
 

@@ -23,7 +23,7 @@ public class ObjectCreator : IObjectCreator
         valuesMap.CheckNotNull(nameof(valuesMap));
         alternativeParameterNamesMap.CheckNotNull(nameof(alternativeParameterNamesMap));
 
-        if (!valuesMap.Any())
+        if (valuesMap.Count == 0)
             return ActivatorEx.CreateInstance(type);
 
         string[] parameterNamesWithAlternatives = [

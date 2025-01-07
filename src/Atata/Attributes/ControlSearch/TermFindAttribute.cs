@@ -22,7 +22,7 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
 
     protected TermFindAttribute(params string[] values)
     {
-        if (values != null && values.Any())
+        if (values?.Length > 0)
             Values = values;
     }
 
@@ -143,7 +143,7 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
     {
         var values = ResolveValues(metadata);
 
-        return values?.Any() ?? false
+        return values?.Length > 0
             ? BuildComponentNameWithArgument(string.Join("/", values))
             : throw new InvalidOperationException($"Component name cannot be resolved automatically for {GetType().Name}. Term value(s) should be specified explicitly.");
     }
