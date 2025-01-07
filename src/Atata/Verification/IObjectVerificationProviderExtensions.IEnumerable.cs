@@ -885,7 +885,7 @@ public static partial class IObjectVerificationProviderExtensions
             .ToArray();
 
         return verifier.Satisfy(
-            actual => actual != null && ArrayItemsMatchPredicates(actual.ToArray(), predicates),
+            actual => actual != null && DoItemsMatchPredicates((actual as IReadOnlyList<TItem>) ?? actual.ToArray(), predicates),
             $"consist of {Stringifier.ToString(predicateExpressions)} items");
     }
 
@@ -901,7 +901,7 @@ public static partial class IObjectVerificationProviderExtensions
             .ToArray();
 
         return verifier.Satisfy(
-            actual => actual != null && ArrayItemsMatchPredicates(actual.ToArray(), predicates),
+            actual => actual != null && DoItemsMatchPredicates((actual as IReadOnlyList<TObject>) ?? actual.ToArray(), predicates),
             $"consist of {Stringifier.ToString(predicateExpressions)} items");
     }
 
@@ -1125,19 +1125,19 @@ public static partial class IObjectVerificationProviderExtensions
         return false;
     }
 
-    private static bool ArrayItemsMatchPredicates<T>(T[] array, Func<T, bool>[] predicates)
+    private static bool DoItemsMatchPredicates<T>(IReadOnlyList<T> items, Func<T, bool>[] predicates)
     {
-        if (array.Length != predicates.Length)
+        if (items.Count != predicates.Length)
             return false;
 
-        List<List<int>> predicatePassers = Enumerable.Repeat(0, array.Length)
+        List<List<int>> predicatePassers = Enumerable.Repeat(0, items.Count)
             .Select(_ => new List<int>()).ToList();
 
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < items.Count; i++)
         {
             for (int j = 0; j < predicates.Length; j++)
             {
-                if (predicates[j].Invoke(array[i]))
+                if (predicates[j].Invoke(items[i]))
                     predicatePassers[j].Add(i);
             }
         }
