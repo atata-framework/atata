@@ -59,7 +59,7 @@ public static class StringExtensions
         {
             if (startIndex != -1 && endIndex > startIndex)
             {
-                words.Add(source.Slice(startIndex, endIndex - startIndex).ToString());
+                words.Add(source[startIndex..endIndex].ToString());
                 startIndex = -1;
             }
         }
