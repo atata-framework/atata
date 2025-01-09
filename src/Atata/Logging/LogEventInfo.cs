@@ -47,6 +47,11 @@ public sealed class LogEventInfo
     public DateTime Timestamp { get; internal set; }
 
     /// <summary>
+    /// Gets the time elapsed from start of the <see cref="Context"/>.
+    /// </summary>
+    public TimeSpan TimeElapsed { get; internal set; }
+
+    /// <summary>
     /// Gets the level of the logging event.
     /// </summary>
     public LogLevel Level { get; internal set; }
@@ -89,6 +94,8 @@ public sealed class LogEventInfo
     public IEnumerable<KeyValuePair<string, object>> GetProperties()
     {
         var variables = Session?.Variables ?? Context.Variables;
+
+        yield return new("time-elapsed", TimeElapsed);
 
         foreach (var item in variables)
             yield return item;

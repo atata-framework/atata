@@ -11,6 +11,7 @@ internal sealed class AtataContextLogEventInfoFactory : ILogEventInfoFactory
         new()
         {
             Timestamp = timestamp,
+            TimeElapsed = _context.ExecutionStopwatch.Elapsed,
             Level = level,
             Message = message,
             Context = _context
