@@ -45,6 +45,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         Variables = new(parentContext?.Variables);
         State = new(parentContext?.State);
+
+        StartedAtUtc = DateTime.UtcNow;
+        StartedAt = GlobalProperties.ConvertToTimeZone(StartedAtUtc);
     }
 
     private enum Status
@@ -208,12 +211,12 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// <summary>
     /// Gets the local date/time of the start.
     /// </summary>
-    public DateTime StartedAt { get; private set; }
+    public DateTime StartedAt { get; }
 
     /// <summary>
     /// Gets the UTC date/time of the start.
     /// </summary>
-    public DateTime StartedAtUtc { get; private set; }
+    public DateTime StartedAtUtc { get; }
 
     [Obsolete("Use GetWebSession().BaseUrl instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -506,12 +509,6 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     internal void AddChildContext(AtataContext context) =>
         _childContexts.Add(context);
 
-    internal void InitDateTimeProperties()
-    {
-        StartedAtUtc = DateTime.UtcNow;
-        StartedAt = TimeZoneInfo.ConvertTimeFromUtc(StartedAtUtc, GlobalProperties.TimeZone);
-    }
-
     internal void InitMainVariables()
     {
         var variables = Variables;
@@ -545,7 +542,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         string testFullName = Test.FullName;
 
         if (testFullName is not null)
-            logMessageBuilder.Append(": ").Append(testFullName);
+            logMessageBuilder.Append(' ').Append(testFullName);
+
+        logMessageBuilder.Append(" at ")
+            .Append(ConvertDateTimeToString(StartedAt));
 
         Log.Debug(logMessageBuilder.ToString());
     }
@@ -945,7 +945,6 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             .ConfigureAwait(false);
 
         deinitializationStopwatch.Stop();
-        ExecutionStopwatch.Stop();
 
         LogTestFinish(deinitializationStopwatch.Elapsed);
 
@@ -1027,9 +1026,11 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         string scopeName = GetScopeNameForLog();
 
+        DateTime finishedAt = GlobalProperties.ConvertToTimeZone(DateTime.UtcNow);
+
         StringBuilder messageBuilder = new(
             $"""
-            Finished {scopeName}
+            Finished {scopeName} at {ConvertDateTimeToString(finishedAt)}
                   Total time: {totalTimeString.PadLeft(maxTimeStringLength)}
               Initialization: {initializationTimeString.PadLeft(maxTimeStringLength)} | {initializationTimePercentString.PadLeft(maxPercentStringLength)}
             """);
@@ -1086,4 +1087,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         return builder.ToString();
     }
+
+    private static string ConvertDateTimeToString(DateTime dateTime) =>
+        dateTime.ToString("yyyy-MM-dd HH:mm:ss.fff", CultureInfo.InvariantCulture);
 }

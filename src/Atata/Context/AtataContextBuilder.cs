@@ -798,7 +798,6 @@ public sealed class AtataContextBuilder : ICloneable
         context.AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
         context.EventBus = new EventBus(context, EventSubscriptions.Items);
 
-        context.InitDateTimeProperties();
         context.InitMainVariables();
         context.InitCustomVariables(Variables);
         context.Artifacts = CreateArtifactsDirectorySubject(context);
