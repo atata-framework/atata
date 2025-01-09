@@ -124,4 +124,17 @@ public class LogConsumerBuilder<TLogConsumer>
         _logConsumerConfiguration.EmbedExternalSourceLog = enable;
         return this;
     }
+
+    /// <summary>
+    /// Configures a log consumer of the builder.
+    /// </summary>
+    /// <param name="configureConsumer">The action used to configure the consumer.</param>
+    /// <returns>The same builder instance.</returns>
+    public LogConsumerBuilder<TLogConsumer> With(Action<TLogConsumer> configureConsumer)
+    {
+        configureConsumer.CheckNotNull(nameof(configureConsumer));
+
+        configureConsumer.Invoke(Consumer);
+        return this;
+    }
 }
