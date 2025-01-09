@@ -57,7 +57,7 @@ internal sealed class LogManager : ILogManager
 
     public void Log(DateTime utcTimestamp, LogLevel level, string message, Exception exception = null)
     {
-        DateTime logTimestamp = ConvertUtcTimestampToAtataTimeZone(utcTimestamp);
+        DateTime logTimestamp = AtataContext.GlobalProperties.ConvertToTimeZone(utcTimestamp);
         LogEventInfo logEvent = _logEventInfoFactory.Create(logTimestamp, level, message);
         logEvent.Exception = exception;
 
@@ -226,10 +226,7 @@ internal sealed class LogManager : ILogManager
         ForCategory(typeof(TCategory).FullName);
 
     private static DateTime GetCurrentTimestamp() =>
-        ConvertUtcTimestampToAtataTimeZone(DateTime.UtcNow);
-
-    private static DateTime ConvertUtcTimestampToAtataTimeZone(DateTime utcTimestamp) =>
-        TimeZoneInfo.ConvertTimeFromUtc(utcTimestamp, AtataContext.GlobalProperties.TimeZone);
+        AtataContext.GlobalProperties.ConvertToTimeZone(DateTime.UtcNow);
 
     private static string AppendSectionResultToMessage(string message, object result)
     {

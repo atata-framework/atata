@@ -264,8 +264,11 @@ public sealed class AtataContextGlobalProperties
         return this;
     }
 
+    internal DateTime ConvertToTimeZone(DateTime utcDateTime) =>
+        TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, _timeZone);
+
     private void InitBuildStart() =>
-        BuildStart = TimeZoneInfo.ConvertTimeFromUtc(BuildStartUtc, TimeZone);
+        BuildStart = ConvertToTimeZone(BuildStartUtc);
 
     private DirectorySubject CreateArtifactsRootDirectorySubject()
     {
