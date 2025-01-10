@@ -13,7 +13,6 @@ public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
         AtataContextBuilder contextBuilder = ConfigureAtataContextWithWebDriverSession(
             session =>
             {
-#warning Update "reuse driver" approach to use single WebDriver session of test suite level.
                 if (ReuseDriver)
                 {
                     session.UseDisposeDriver(false);
