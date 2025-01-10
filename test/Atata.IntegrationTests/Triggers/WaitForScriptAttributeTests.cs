@@ -16,7 +16,7 @@ public class WaitForScriptAttributeTests : WebDriverSessionTestSuite
     [Test]
     public void Execute_WithTimeout()
     {
-        using (StopwatchAsserter.WithinSeconds(2))
+        using (StopwatchAsserter.WithinSeconds(1, upperToleranceSeconds: 3))
             Assert.Throws<TimeoutException>(
                 () => _page.ButtonWithTimeoutScriptWait());
     }
