@@ -28,6 +28,27 @@ public sealed class AtataContextBuilderTests : TestSuiteBase
     }
 
     [Test]
+    public void Clear()
+    {
+        // Arrange
+        var builder = AtataContext.CreateDefaultBuilder(AtataContextScope.Test);
+        builder.Variables.Add("test", "some");
+        builder.EventSubscriptions.Add<AtataContextInitCompletedEvent>(() => { });
+        builder.Sessions.Add<FakeSessionBuilder>();
+
+        // Act
+        var newBuilder = builder.Clear();
+
+        // Assert
+        newBuilder.Should().NotBe(builder);
+        newBuilder.Scope.Should().Be(builder.Scope);
+        newBuilder.Sessions.DefaultStartScopes.Should().Be(builder.Sessions.DefaultStartScopes);
+        newBuilder.Variables.Should().BeEmpty();
+        newBuilder.EventSubscriptions.Items.Should().BeEmpty();
+        newBuilder.Sessions.Providers.Should().BeEmpty();
+    }
+
+    [Test]
     public void WhenThrowsOnBuild()
     {
         // Arrange

@@ -731,15 +731,20 @@ public sealed class AtataContextBuilder : ICloneable
         return new DirectorySubject(fullPath, "Artifacts", context.ExecutionUnit);
     }
 
-#warning Review Clear method.
     /// <summary>
-    /// Clears the configuration.
+    /// Creates a new clear <see cref="AtataContextBuilder"/> with the same scope arguments.
+    /// If this instance is <see cref="AtataContext.BaseConfiguration"/>,
+    /// sets the new cleared instance into <see cref="AtataContext.BaseConfiguration"/>.
     /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    /// <returns>The new cleared <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Clear()
     {
-        ////BuildingContext = new AtataBuildingContext();
-        return this;
+        AtataContextBuilder newBuilder = new(Scope, Sessions.DefaultStartScopes);
+
+        if (AtataContext.BaseConfiguration == this)
+            AtataContext.BaseConfiguration = newBuilder;
+
+        return newBuilder;
     }
 
     /// <inheritdoc cref="BuildAsync(CancellationToken)"/>

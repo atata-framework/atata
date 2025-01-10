@@ -32,6 +32,9 @@ public sealed class AtataSessionsBuilder
     public IReadOnlyList<IAtataSessionProvider> Providers =>
         _sessionProviders;
 
+    internal AtataSessionStartScopes? DefaultStartScopes =>
+        _defaultStartScopes;
+
     /// <summary>
     /// Creates a new instance of the builder of the specified <typeparamref name="TSessionBuilder"/> type,
     /// calls <paramref name="configure"/> delegate,
