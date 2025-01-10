@@ -4,6 +4,42 @@
 
 public static class AtataSessionBuilderTests
 {
+    public sealed class StartScopes
+    {
+        [TestCase(AtataContextScope.Global, ExpectedResult = AtataSessionStartScopes.Global)]
+        [TestCase(AtataContextScope.NamespaceSuite, ExpectedResult = AtataSessionStartScopes.NamespaceSuite)]
+        [TestCase(AtataContextScope.TestSuiteGroup, ExpectedResult = AtataSessionStartScopes.TestSuiteGroup)]
+        [TestCase(AtataContextScope.TestSuite, ExpectedResult = AtataSessionStartScopes.TestSuite)]
+        [TestCase(AtataContextScope.Test, ExpectedResult = AtataSessionStartScopes.Test)]
+        public async Task<AtataSessionStartScopes> AssociatesWithAtataContextScope(AtataContextScope contextScope)
+        {
+            // Arrange
+            var builder = AtataContext.CreateDefaultBuilder(contextScope)
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseStartScopes(AtataSessionStartScopes.Global)
+                    .AddVariable("scopes", AtataSessionStartScopes.Global))
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseStartScopes(AtataSessionStartScopes.NamespaceSuite)
+                    .AddVariable("scopes", AtataSessionStartScopes.NamespaceSuite))
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseStartScopes(AtataSessionStartScopes.TestSuiteGroup)
+                    .AddVariable("scopes", AtataSessionStartScopes.TestSuiteGroup))
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseStartScopes(AtataSessionStartScopes.TestSuite)
+                    .AddVariable("scopes", AtataSessionStartScopes.TestSuite))
+                .Sessions.Add<FakeSessionBuilder>(x => x
+                    .UseStartScopes(AtataSessionStartScopes.Test)
+                    .AddVariable("scopes", AtataSessionStartScopes.Test));
+
+            // Act
+            await using AtataContext context = await builder.BuildAsync();
+
+            // Assert
+            context.Sessions.Should().ContainSingle();
+            return (AtataSessionStartScopes)context.Sessions[0].Variables["scopes"];
+        }
+    }
+
     public sealed class Build
     {
         [Test]
