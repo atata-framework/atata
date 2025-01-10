@@ -1,100 +1,60 @@
-﻿#warning Review AtataContextBuilderTests.
+﻿namespace Atata.UnitTests;
 
-////namespace Atata.UnitTests;
+public sealed class AtataContextBuilderTests
+{
+    [Test]
+    [Parallelizable(ParallelScope.None)]
+    public void WhenThereIsBaseConfiguration()
+    {
+        try
+        {
+            // Arrange
+            var baseBuilder = AtataContext.BaseConfiguration;
+            baseBuilder.AddVariable("a", 1);
+            baseBuilder.EventSubscriptions.Add<AtataContextInitStartedEvent>(() => { });
+            baseBuilder.LogConsumers.AddConsole();
+            baseBuilder.Sessions.Add<FakeSessionBuilder>(x => x.Name = "session1");
+            baseBuilder.BaseRetryTimeout = TimeSpan.FromSeconds(11);
 
-////[TestFixture]
-////public class AtataContextBuilderTests
-////{
-////    private const string BaseUrl = "http://testapp.com/";
+            // Act
+            var builder = AtataContext.CreateNonScopedBuilder();
+            builder.AddVariable("b", 2);
+            builder.EventSubscriptions.Add<AtataContextInitStartedEvent>(() => { });
+            builder.LogConsumers.AddDebug();
+            builder.Sessions.Add<FakeSessionBuilder>(x => x.Name = "session2");
+            builder.Sessions.Add<FakeSessionBuilder>(x => x.Name = "session3");
 
-////    [Test]
-////    [Parallelizable(ParallelScope.None)]
-////    public void MixedConfiguration()
-////    {
-////        var globalContext = AtataContext.GlobalConfiguration.BuildingContext;
+            // Assert
+            builder.Variables.Should().ContainKeys("a", "b");
+            builder.EventSubscriptions.Items.Should().HaveCount(2);
+            builder.LogConsumers.Items.Should().HaveCount(2);
+            builder.Sessions.Providers.Should().HaveCount(3);
+            builder.BaseRetryTimeout.Should().Be(TimeSpan.FromSeconds(11));
+        }
+        finally
+        {
+            AtataContext.BaseConfiguration.Clear();
+        }
+    }
 
-////        Assert.That(globalContext.TestNameFactory, Is.Null);
-////        Assert.That(globalContext.DriverFactories, Is.Empty);
-////        Assert.That(globalContext.LogConsumerConfigurations, Is.Empty);
-////        Assert.That(globalContext.BaseUrl, Is.Null);
+    [Test]
+    public void Clear()
+    {
+        // Arrange
+        var builder = AtataContext.CreateDefaultBuilder(AtataContextScope.Test);
+        builder.Variables.Add("test", "some");
+        builder.EventSubscriptions.Add<AtataContextInitCompletedEvent>(() => { });
+        builder.Sessions.Add<FakeSessionBuilder>();
 
-////        AtataContext.GlobalConfiguration
-////            .UseNUnitTestName()
-////            .LogConsumers.AddNUnitTestContext()
-////            .EventSubscriptions.LogNUnitError();
+        // Act
+        var newBuilder = builder.Clear();
 
-////        var currentContext = AtataContext.Configure()
-////            .UseEdge()
-////            .UseBaseUrl(BaseUrl)
-////            .EventSubscriptions.TakeScreenshotOnNUnitError()
-////            .UseBaseRetryTimeout(TimeSpan.FromSeconds(100))
-////            .UseBaseRetryInterval(TimeSpan.FromSeconds(1))
-////            .BuildingContext;
-
-////        AtataContext.GlobalConfiguration.Clear();
-
-////        Assert.That(globalContext.TestNameFactory(), Is.EqualTo(nameof(MixedConfiguration)));
-////        Assert.That(globalContext.DriverFactories, Is.Empty);
-////        Assert.That(globalContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
-////        Assert.That(globalContext.LogConsumerConfigurations[0].Consumer, Is.TypeOf<NUnitTestContextLogConsumer>());
-////        Assert.That(globalContext.BaseUrl, Is.Null);
-
-////        Assert.That(currentContext.DriverFactories, Has.Count.EqualTo(1));
-////        Assert.That(currentContext.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Edge));
-////        Assert.That(currentContext.LogConsumerConfigurations, Has.Count.EqualTo(1));
-////        Assert.That(currentContext.BaseUrl, Is.EqualTo(BaseUrl));
-////        Assert.That(currentContext.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(100)));
-////        Assert.That(currentContext.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(1)));
-////    }
-
-////    [Test]
-////    public void MultiDriverConfiguration()
-////    {
-////        var contextBuilder = AtataContext.Configure()
-////            .UseEdge()
-////            .UseChrome();
-
-////        var context = contextBuilder.BuildingContext;
-
-////        Assert.That(context.DriverFactories, Has.Count.EqualTo(2));
-////        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Chrome));
-
-////        contextBuilder.UseFirefox();
-
-////        Assert.That(context.DriverFactories, Has.Count.EqualTo(3));
-////        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Firefox));
-
-////        contextBuilder.UseDriver(WebDriverAliases.Edge);
-
-////        Assert.That(context.DriverFactories, Has.Count.EqualTo(3));
-////        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.Edge));
-
-////        contextBuilder.UseDriver(WebDriverAliases.InternetExplorer);
-
-////        Assert.That(context.DriverFactories, Has.Count.EqualTo(4));
-////        Assert.That(context.DriverFactoryToUse.Alias, Is.EqualTo(WebDriverAliases.InternetExplorer));
-////    }
-
-////    [Test]
-////    public void Clear()
-////    {
-////        var context = AtataContext.Configure()
-////            .UseInternetExplorer()
-////            .UseBaseUrl(BaseUrl)
-////            .EventSubscriptions.TakeScreenshotOnNUnitError()
-////            .PageSnapshots.UseCdpStrategy()
-////            .UseBaseRetryTimeout(TimeSpan.FromSeconds(100))
-////            .UseBaseRetryInterval(TimeSpan.FromSeconds(1))
-////            .Clear()
-////            .BuildingContext;
-
-////        Assert.That(context.TestNameFactory, Is.Null);
-////        Assert.That(context.DriverFactories, Is.Empty);
-////        Assert.That(context.DriverFactoryToUse, Is.Null);
-////        Assert.That(context.LogConsumerConfigurations, Is.Empty);
-////        Assert.That(context.PageSnapshots.Strategy, Is.EqualTo(CdpOrPageSourcePageSnapshotStrategy.Instance));
-////        Assert.That(context.BaseUrl, Is.Null);
-////        Assert.That(context.BaseRetryTimeout, Is.EqualTo(TimeSpan.FromSeconds(5)));
-////        Assert.That(context.BaseRetryInterval, Is.EqualTo(TimeSpan.FromSeconds(0.5)));
-////    }
-////}
+        // Assert
+        newBuilder.Should().NotBe(builder);
+        newBuilder.Scope.Should().Be(builder.Scope);
+        newBuilder.Sessions.DefaultStartScopes.Should().Be(builder.Sessions.DefaultStartScopes);
+        newBuilder.Variables.Should().BeEmpty();
+        newBuilder.EventSubscriptions.Items.Should().BeEmpty();
+        newBuilder.Sessions.Providers.Should().BeEmpty();
+    }
+}
