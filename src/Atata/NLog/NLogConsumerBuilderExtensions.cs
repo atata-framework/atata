@@ -24,8 +24,13 @@ public static class NLogConsumerBuilderExtensions
 
     /// <summary>
     /// Specifies the layout of log event.
-    /// The default value is <c>@"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5}${when:when='${event-property:log-external-source}'!='':inner= {${event-property:log-external-source}\}}${when:when='${event-property:log-category}'!='':inner= [${event-property:log-category}]} ${message}${onexception:inner= }${exception:format=toString}"</c>.
+    /// The default value is <c>@"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-external-source}'!='':inner={${event-property:log-external-source}\} }${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c>.
     /// </summary>
+    /// <remarks>
+    /// If you want to replace "time elapsed" column in layout with "timestamp", you can replace the value
+    /// <c>"{event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff}"</c> with
+    /// <c>"{date:format=yyyy-MM-dd HH\:mm\:ss.fff}"</c>.
+    /// </remarks>
     /// <param name="builder">The builder.</param>
     /// <param name="layout">The layout of log event.</param>
     /// <returns>The same builder instance.</returns>
@@ -42,14 +47,14 @@ public static class NLogConsumerBuilderExtensions
     /// The main log file will be "Atata.log".
     /// External source log file will be "{external_source_name}.log", e.g., "Browser.log".
     /// Sets <c>"${{event-property:log-external-source:whenEmpty=Atata}}.log"</c> to <see cref="NLogFileConsumer.FileNameTemplate"/>.
-    /// Sets <c>@"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c> to <see cref="NLogFileConsumer.Layout"/>.
+    /// Sets <c>@"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}"</c> to <see cref="NLogFileConsumer.Layout"/>.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same builder instance.</returns>
     public static LogConsumerBuilder<NLogFileConsumer> WithSeparateExternalSourceLogFiles(
         this LogConsumerBuilder<NLogFileConsumer> builder)
     {
-        builder.Consumer.Layout = @"${date:format=yyyy-MM-dd HH\:mm\:ss.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}";
+        builder.Consumer.Layout = @"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}";
         builder.Consumer.FileNameTemplate = "${{event-property:log-external-source:whenEmpty=Atata}}.log";
         return builder;
     }
