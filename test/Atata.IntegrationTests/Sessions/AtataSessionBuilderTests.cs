@@ -1,4 +1,4 @@
-﻿namespace Atata.IntegrationTests;
+﻿namespace Atata.IntegrationTests.Sessions;
 
 #pragma warning disable S6966 // Awaitable method should be used
 
