@@ -99,7 +99,6 @@ public class WebDriverSession : WebSession
                 EventBus.Publish(new DriverInitEvent(_driver));
             });
 
-#warning Probably replace RestartDriver method with restart session functionality.
     /// <summary>
     /// Restarts the driver.
     /// </summary>
