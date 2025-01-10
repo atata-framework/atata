@@ -29,6 +29,19 @@ public class TextOutputLogConsumer : ILogConsumer
     /// </summary>
     public string TimestampFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff";
 
+    /// <summary>
+    /// Gets or sets the time elapsed format.
+    /// The default value is <c>@"hh\:mm\:ss\.fff"</c>.
+    /// </summary>
+    public string TimeElapsedFormat { get; set; } = @"hh\:mm\:ss\.fff";
+
+    /// <summary>
+    /// Gets or sets a value indicating whether to output <see cref="LogEventInfo.Timestamp"/>
+    /// instead of <see cref="LogEventInfo.TimeElapsed"/>.
+    /// The default value is <see langword="false"/>.
+    /// </summary>
+    public bool OutputTimestamp { get; set; }
+
     public void Log(LogEventInfo eventInfo)
     {
         string completeMessage = BuildCompleteMessage(eventInfo);
@@ -40,8 +53,11 @@ public class TextOutputLogConsumer : ILogConsumer
 
     private string BuildCompleteMessage(LogEventInfo eventInfo)
     {
-        StringBuilder builder = new StringBuilder()
-            .Append(eventInfo.Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture))
+        var builder = new StringBuilder()
+            .Append(
+                OutputTimestamp
+                    ? eventInfo.Timestamp.ToString(TimestampFormat, CultureInfo.InvariantCulture)
+                    : eventInfo.TimeElapsed.ToString(TimeElapsedFormat, CultureInfo.InvariantCulture))
             .Append(Separator)
             .Append(eventInfo.ExecutionUnitId)
             .Append(Separator)
