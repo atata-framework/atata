@@ -30,13 +30,17 @@ public sealed class AtataContextBuilderTests : TestSuiteBase
     [Test]
     public void WhenThrowsOnBuild()
     {
+        // Arrange
         var builder = ConfigureSessionlessAtataContext();
         builder.EventSubscriptions.Add<AtataContextInitCompletedEvent>(
-            () => throw new InvalidOperationException());
+            () => throw new InvalidOperationException("some"));
 
-        Assert.That(
-            () => builder.Build(),
-            Throws.TypeOf<InvalidOperationException>());
+        // Act
+        var act = builder.Invoking(x => x.Build());
+
+        // Assert
+        act.Should().ThrowExactly<InvalidOperationException>()
+            .WithMessage("some");
 
         CurrentLog.GetSnapshotOfLevel(LogLevel.Error).
             Should().ContainSingle();
