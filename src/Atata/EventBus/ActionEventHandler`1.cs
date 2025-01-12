@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the event handler that executes an action.
+/// Represents an event handler that executes an action.
 /// </summary>
 /// <typeparam name="TEvent">The type of the event.</typeparam>
 public class ActionEventHandler<TEvent> : IEventHandler<TEvent>
