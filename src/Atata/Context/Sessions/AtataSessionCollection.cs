@@ -177,8 +177,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     private static string BuildSessionPoolName(IAtataSessionBuilder sessionBuilder)
     {
-        var stringBuilder = new StringBuilder(AtataSessionTypeMap.ResolveSessionTypedName(sessionBuilder))
-            .Append(" pool");
+        StringBuilder stringBuilder = new("pool");
 
         bool renderInitialCapacity = sessionBuilder.PoolInitialCapacity != AtataSession.DefaultPoolInitialCapacity;
         bool renderMaxCapacity = sessionBuilder.PoolMaxCapacity != AtataSession.DefaultPoolMaxCapacity;
@@ -200,6 +199,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
             stringBuilder.Append(" }");
         }
+
+        stringBuilder.Append(" of ")
+            .Append(AtataSessionTypeMap.ResolveSessionTypedName(sessionBuilder));
 
         return stringBuilder.ToString();
     }
