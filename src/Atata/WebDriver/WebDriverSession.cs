@@ -132,7 +132,8 @@ public class WebDriverSession : WebSession
 
         if (_driver is not null)
         {
-            EventBus.Publish(new DriverDeInitEvent(_driver));
+            await EventBus.PublishAsync(new DriverDeInitEvent(_driver))
+                .ConfigureAwait(false);
 
             if (DisposeDriver)
                 DisposeDriverSafely();

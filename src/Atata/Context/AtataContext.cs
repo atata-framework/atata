@@ -903,7 +903,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             {
                 try
                 {
-                    EventBus.Publish(new AtataContextDeInitEvent(this));
+                    await EventBus.PublishAsync(new AtataContextDeInitEvent(this))
+                        .ConfigureAwait(false);
                 }
                 catch (Exception exception)
                 {
@@ -932,7 +933,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
                 try
                 {
-                    EventBus.Publish(new AtataContextDeInitCompletedEvent(this));
+                    await EventBus.PublishAsync(new AtataContextDeInitCompletedEvent(this))
+                        .ConfigureAwait(false);
                 }
                 catch (Exception exception)
                 {

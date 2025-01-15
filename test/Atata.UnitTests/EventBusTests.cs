@@ -20,7 +20,7 @@ public class EventBusTests
     public class Publish : EventBusTests
     {
         [Test]
-        public void Null() =>
+        public void WithNull() =>
             Sut.Invoking(x => x.Publish<TestEvent>(null))
                 .Should.Throw<ArgumentNullException>();
 
@@ -30,7 +30,7 @@ public class EventBusTests
                 .Should.Not.Throw();
 
         [Test]
-        public void WhenThereIsSubscription()
+        public void WhenThereIsEventHandler()
         {
             var actionMock = new Mock<Action<TestEvent>>();
             var eventData = new TestEvent();
@@ -43,7 +43,20 @@ public class EventBusTests
         }
 
         [Test]
-        public void WhenThereIsSubscription_CanHandle_False()
+        public void WhenThereIsAsyncEventHandler()
+        {
+            var actionMock = new Mock<Func<TestEvent, CancellationToken, Task>>();
+            var eventData = new TestEvent();
+
+            Sut.Object.Subscribe(actionMock.Object);
+
+            Sut.Act(x => x.Publish(eventData));
+
+            actionMock.Verify(x => x(eventData, It.IsAny<CancellationToken>()), Times.Once);
+        }
+
+        [Test]
+        public void WhenThereIsEventHandler_CanHandle_False()
         {
             var conditionalEventHandlerMock = new Mock<IConditionalEventHandler<TestEvent>>(MockBehavior.Strict);
             var eventData = new TestEvent();
@@ -53,10 +66,29 @@ public class EventBusTests
             conditionalEventHandlerMock.Setup(x => x.CanHandle(eventData, Context)).Returns(false);
 
             Sut.Act(x => x.Publish(eventData));
+
+            conditionalEventHandlerMock.Verify(x => x.CanHandle(eventData, Context), Times.Once);
+            conditionalEventHandlerMock.VerifyNoOtherCalls();
         }
 
         [Test]
-        public void WhenThereIsSubscription_CanHandle_True()
+        public void WhenThereIsAsyncEventHandler_CanHandle_False()
+        {
+            var conditionalEventHandlerMock = new Mock<IConditionalAsyncEventHandler<TestEvent>>(MockBehavior.Strict);
+            var eventData = new TestEvent();
+
+            Sut.Object.Subscribe(conditionalEventHandlerMock.Object);
+
+            conditionalEventHandlerMock.Setup(x => x.CanHandle(eventData, Context)).Returns(false);
+
+            Sut.Act(x => x.Publish(eventData));
+
+            conditionalEventHandlerMock.Verify(x => x.CanHandle(eventData, Context), Times.Once);
+            conditionalEventHandlerMock.VerifyNoOtherCalls();
+        }
+
+        [Test]
+        public void WhenThereIsEventHandler_CanHandle_True()
         {
             var conditionalEventHandlerMock = new Mock<IConditionalEventHandler<TestEvent>>(MockBehavior.Strict);
             var eventData = new TestEvent();
@@ -67,6 +99,29 @@ public class EventBusTests
             conditionalEventHandlerMock.Setup(x => x.Handle(eventData, Context));
 
             Sut.Act(x => x.Publish(eventData));
+
+            conditionalEventHandlerMock.Verify(x => x.CanHandle(eventData, Context), Times.Once);
+            conditionalEventHandlerMock.Verify(x => x.Handle(eventData, Context), Times.Once);
+            conditionalEventHandlerMock.VerifyNoOtherCalls();
+        }
+
+        [Test]
+        public void WhenThereIsAsyncEventHandler_CanHandle_True()
+        {
+            var conditionalEventHandlerMock = new Mock<IConditionalAsyncEventHandler<TestEvent>>(MockBehavior.Strict);
+            var eventData = new TestEvent();
+
+            Sut.Object.Subscribe(conditionalEventHandlerMock.Object);
+
+            conditionalEventHandlerMock.Setup(x => x.CanHandle(eventData, Context)).Returns(true);
+            conditionalEventHandlerMock.Setup(x => x.HandleAsync(eventData, Context, It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+
+            Sut.Act(x => x.Publish(eventData));
+
+            conditionalEventHandlerMock.Verify(x => x.CanHandle(eventData, Context), Times.Once);
+            conditionalEventHandlerMock.Verify(x => x.HandleAsync(eventData, Context, It.IsAny<CancellationToken>()), Times.Once);
+            conditionalEventHandlerMock.VerifyNoOtherCalls();
         }
 
         [Test]
@@ -74,21 +129,25 @@ public class EventBusTests
         {
             var actionMock1 = new Mock<Action<TestEvent>>(MockBehavior.Strict);
             var actionMock2 = new Mock<Action<TestEvent, AtataContext>>(MockBehavior.Strict);
-            var eventHandlerMock1 = new Mock<IConditionalEventHandler<TestEvent>>(MockBehavior.Strict);
-            var eventHandlerMock2 = new Mock<IEventHandler<TestEvent>>(MockBehavior.Strict);
+            var asyncEventHandlerMock1 = new Mock<IAsyncEventHandler<TestEvent>>(MockBehavior.Strict);
+            var syncEventHandlerMock1 = new Mock<IConditionalEventHandler<TestEvent>>(MockBehavior.Strict);
+            var syncEventHandlerMock2 = new Mock<IEventHandler<TestEvent>>(MockBehavior.Strict);
             var eventData = new TestEvent();
 
             Sut.Object.Subscribe(actionMock1.Object);
             Sut.Object.Subscribe(actionMock2.Object);
-            Sut.Object.Subscribe(eventHandlerMock1.Object);
-            Sut.Object.Subscribe(eventHandlerMock2.Object);
+            Sut.Object.Subscribe(asyncEventHandlerMock1.Object);
+            Sut.Object.Subscribe(syncEventHandlerMock1.Object);
+            Sut.Object.Subscribe(syncEventHandlerMock2.Object);
 
             MockSequence sequence = new();
             actionMock1.InSequence(sequence).Setup(x => x(eventData));
             actionMock2.InSequence(sequence).Setup(x => x(eventData, Context));
-            eventHandlerMock1.InSequence(sequence).Setup(x => x.CanHandle(eventData, Context)).Returns(true);
-            eventHandlerMock1.InSequence(sequence).Setup(x => x.Handle(eventData, Context));
-            eventHandlerMock2.InSequence(sequence).Setup(x => x.Handle(eventData, Context));
+            asyncEventHandlerMock1.InSequence(sequence).Setup(x => x.HandleAsync(eventData, Context, It.IsAny<CancellationToken>()))
+                .Returns(Task.CompletedTask);
+            syncEventHandlerMock1.InSequence(sequence).Setup(x => x.CanHandle(eventData, Context)).Returns(true);
+            syncEventHandlerMock1.InSequence(sequence).Setup(x => x.Handle(eventData, Context));
+            syncEventHandlerMock2.InSequence(sequence).Setup(x => x.Handle(eventData, Context));
 
             Sut.Act(x => x.Publish(eventData));
         }
@@ -149,14 +208,28 @@ public class EventBusTests
     public class Subscribe : EventBusTests
     {
         [Test]
-        public void Action_Null() =>
+        public void WithNullDelegate() =>
             Sut.Invoking(x => x.Subscribe<TestEvent>(null as Action))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
-        public void Action()
+        public void WithNullAsyncDelegate() =>
+            Sut.Invoking(x => x.Subscribe<TestEvent>(null as Func<CancellationToken, Task>))
+                .Should.Throw<ArgumentNullException>();
+
+        [Test]
+        public void WithDelegate()
         {
             var actionMock = new Mock<Action<TestEvent>>();
+
+            Sut.ResultOf(x => x.Subscribe(actionMock.Object))
+                .Should.Not.BeNull();
+        }
+
+        [Test]
+        public void WithAsyncDelegate()
+        {
+            var actionMock = new Mock<Func<TestEvent, CancellationToken, Task>>();
 
             Sut.ResultOf(x => x.Subscribe(actionMock.Object))
                 .Should.Not.BeNull();
@@ -167,12 +240,12 @@ public class EventBusTests
     public class Unsubscribe : EventBusTests
     {
         [Test]
-        public void Null() =>
+        public void WithNull() =>
             Sut.Invoking(x => x.Unsubscribe(null))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
-        public void Valid()
+        public void WithSubscriptionObject()
         {
             var actionMock = new Mock<Action<TestEvent>>();
 
@@ -183,7 +256,7 @@ public class EventBusTests
         }
 
         [Test]
-        public void Twice()
+        public void WithSubscriptionObject_Twice()
         {
             var actionMock = new Mock<Action<TestEvent>>();
 
@@ -199,12 +272,12 @@ public class EventBusTests
     public class UnsubscribeHandler : EventBusTests
     {
         [Test]
-        public void Null() =>
+        public void WithNull() =>
             Sut.Invoking(x => x.UnsubscribeHandler(null))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
-        public void Valid()
+        public void WithSubscriptionHandler()
         {
             var actionMock = new Mock<IEventHandler<TestEvent>>();
 
@@ -215,7 +288,7 @@ public class EventBusTests
         }
 
         [Test]
-        public void Twice()
+        public void WithSubscriptionHandler_Twice()
         {
             var actionMock = new Mock<IEventHandler<TestEvent>>();
 

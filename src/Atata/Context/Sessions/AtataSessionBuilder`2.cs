@@ -324,14 +324,17 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
             {
                 ConfigureSession(session);
 
-                session.EventBus.Publish(new AtataSessionInitStartedEvent(session));
+                await session.EventBus.PublishAsync(new AtataSessionInitStartedEvent(session), cancellationToken)
+                    .ConfigureAwait(false);
 
                 session.LogConfiguration();
 
                 await session.StartAsync(cancellationToken).ConfigureAwait(false);
 
-                session.EventBus.Publish(new AtataSessionInitCompletedEvent(session));
-                session.EventBus.Publish(new AtataSessionAssignedToContextEvent(session));
+                await session.EventBus.PublishAsync(new AtataSessionInitCompletedEvent(session), cancellationToken)
+                    .ConfigureAwait(false);
+                await session.EventBus.PublishAsync(new AtataSessionAssignedToContextEvent(session), cancellationToken)
+                    .ConfigureAwait(false);
             }).ConfigureAwait(false);
 
         return session;

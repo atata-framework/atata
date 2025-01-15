@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the event bus, which provides a functionality of subscribing to and publishing events.
@@ -18,11 +20,11 @@ public class EventBus : IEventBus
     {
     }
 
-    internal EventBus(AtataContext context, IEnumerable<EventSubscriptionItem> eventSubscriptions)
+    internal EventBus(AtataContext context, IEnumerable<EventSubscriptionItem>? eventSubscriptions)
     {
         _context = context.CheckNotNull(nameof(context));
 
-        if (eventSubscriptions != null)
+        if (eventSubscriptions is not null)
             foreach (var subscription in eventSubscriptions)
                 Subscribe(subscription.EventType, subscription.EventHandler);
     }
@@ -32,7 +34,8 @@ public class EventBus : IEventBus
     {
         eventData.CheckNotNull(nameof(eventData));
 
-        if (_subscriptionMap.TryGetValue(typeof(TEvent), out var eventHandlerSubscriptions))
+        if (_subscriptionMap.TryGetValue(typeof(TEvent), out var eventHandlerSubscriptions)
+            && eventHandlerSubscriptions.Count != 0)
         {
             object[] eventHandlersArray;
 
@@ -41,15 +44,57 @@ public class EventBus : IEventBus
                 eventHandlersArray = eventHandlerSubscriptions.Select(x => x.EventHandler).ToArray();
             }
 
-            foreach (IEventHandler<TEvent> handler in eventHandlersArray.Cast<IEventHandler<TEvent>>())
+            PublishToEventHandlersAsync(eventData, eventHandlersArray).RunSync();
+        }
+    }
+
+    public async Task PublishAsync<TEvent>(TEvent eventData, CancellationToken cancellationToken = default)
+    {
+        eventData.CheckNotNull(nameof(eventData));
+
+        if (_subscriptionMap.TryGetValue(typeof(TEvent), out var eventHandlerSubscriptions)
+            && eventHandlerSubscriptions.Count != 0)
+        {
+            object[] eventHandlersArray;
+
+            lock (eventHandlerSubscriptions)
             {
-                if (handler is not IConditionalEventHandler<TEvent> conditionalEventHandler
-                    || conditionalEventHandler.CanHandle(eventData, _context))
+                eventHandlersArray = eventHandlerSubscriptions.Select(x => x.EventHandler).ToArray();
+            }
+
+            await PublishToEventHandlersAsync(eventData, eventHandlersArray, cancellationToken)
+                .ConfigureAwait(false);
+        }
+    }
+
+    private async Task PublishToEventHandlersAsync<TEvent>(TEvent eventData, object[] eventHandlers, CancellationToken cancellationToken = default)
+    {
+        List<Task> executingTasks = [];
+
+        foreach (object handler in eventHandlers)
+        {
+            if (handler is IEventHandler<TEvent> syncHandler)
+            {
+                if (syncHandler is not IConditionalEventHandler<TEvent> conditionalSyncHandler
+                    || conditionalSyncHandler.CanHandle(eventData, _context))
                 {
-                    handler.Handle(eventData, _context);
+                    syncHandler.Handle(eventData, _context);
+                }
+            }
+            else if (handler is IAsyncEventHandler<TEvent> asyncHandler)
+            {
+                if (asyncHandler is not IConditionalAsyncEventHandler<TEvent> conditionalAsyncHandler
+                    || conditionalAsyncHandler.CanHandle(eventData, _context))
+                {
+                    Task task = asyncHandler.HandleAsync(eventData, _context, cancellationToken);
+
+                    executingTasks.Add(task);
                 }
             }
         }
+
+        if (executingTasks.Count > 0)
+            await Task.WhenAll(executingTasks).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -77,13 +122,48 @@ public class EventBus : IEventBus
     }
 
     /// <inheritdoc/>
+    public object Subscribe<TEvent>(Func<CancellationToken, Task> eventHandler)
+    {
+        eventHandler.CheckNotNull(nameof(eventHandler));
+
+        return Subscribe(new ActionAsyncEventHandler<TEvent>(eventHandler));
+    }
+
+    /// <inheritdoc/>
+    public object Subscribe<TEvent>(Func<TEvent, CancellationToken, Task> eventHandler)
+    {
+        eventHandler.CheckNotNull(nameof(eventHandler));
+
+        return Subscribe(new ActionAsyncEventHandler<TEvent>(eventHandler));
+    }
+
+    /// <inheritdoc/>
+    public object Subscribe<TEvent>(Func<TEvent, AtataContext, CancellationToken, Task> eventHandler)
+    {
+        eventHandler.CheckNotNull(nameof(eventHandler));
+
+        return Subscribe(new ActionAsyncEventHandler<TEvent>(eventHandler));
+    }
+
+    /// <inheritdoc/>
     public object Subscribe<TEvent, TEventHandler>()
-        where TEventHandler : class, IEventHandler<TEvent>, new()
+        where TEventHandler : class, new()
         =>
-        Subscribe(new TEventHandler());
+        new TEventHandler() switch
+        {
+            IEventHandler<TEvent> syncHandler => Subscribe(syncHandler),
+            IAsyncEventHandler<TEvent> asyncHandler => Subscribe(asyncHandler),
+            _ => throw new InvalidOperationException(
+                $"Event handler type {typeof(TEventHandler).FullName} cannot be subscribed, " +
+                $"because it doesn't implement neither {typeof(IEventHandler<TEvent>).FullName} nor {typeof(IAsyncEventHandler<TEvent>).FullName}.")
+        };
 
     /// <inheritdoc/>
     public object Subscribe<TEvent>(IEventHandler<TEvent> eventHandler) =>
+        Subscribe(typeof(TEvent), eventHandler);
+
+    /// <inheritdoc/>
+    public object Subscribe<TEvent>(IAsyncEventHandler<TEvent> eventHandler) =>
         Subscribe(typeof(TEvent), eventHandler);
 
     private static List<EventHandlerSubscription> CreateEventHandlerSubscriptionList(Type eventType) =>

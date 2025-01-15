@@ -179,13 +179,15 @@ public abstract class AtataSession : IAsyncDisposable
                         {
                             try
                             {
-                                EventBus.Publish(new AtataSessionDeInitEvent(this));
+                                await EventBus.PublishAsync(new AtataSessionDeInitEvent(this))
+                                    .ConfigureAwait(false);
                             }
                             finally
                             {
                                 await DisposeAsyncCore().ConfigureAwait(false);
 
-                                EventBus.Publish(new AtataSessionDeInitCompletedEvent(this));
+                                await EventBus.PublishAsync(new AtataSessionDeInitCompletedEvent(this))
+                                    .ConfigureAwait(false);
 
                                 EventBus.UnsubscribeAll();
                                 State.Clear();

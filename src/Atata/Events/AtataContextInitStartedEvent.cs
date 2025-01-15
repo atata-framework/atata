@@ -3,13 +3,21 @@
 /// <summary>
 /// Represents an event that occurs when <see cref="AtataContext"/> is started to initialize.
 /// </summary>
-public class AtataContextInitStartedEvent
+public sealed class AtataContextInitStartedEvent
 {
-    public AtataContextInitStartedEvent(AtataContext context) =>
+    internal AtataContextInitStartedEvent(AtataContext context, AtataContextBuilder contextBuilder)
+    {
         Context = context;
+        ContextBuilder = contextBuilder;
+    }
 
     /// <summary>
     /// Gets the context.
     /// </summary>
     public AtataContext Context { get; }
+
+    /// <summary>
+    /// Gets the context builder.
+    /// </summary>
+    public AtataContextBuilder ContextBuilder { get; }
 }

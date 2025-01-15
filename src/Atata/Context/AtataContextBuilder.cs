@@ -852,12 +852,13 @@ public sealed class AtataContextBuilder : ICloneable
 
     private async Task DoInitializeContextAsync(AtataContext context, CancellationToken cancellationToken = default)
     {
-        context.EventBus.Publish(new AtataContextInitStartedEvent(context));
-
         if (Culture != null)
             ApplyCulture(context, Culture);
 
         context.Log.Trace($"Set: Artifacts={context.ArtifactsPath}");
+
+        await context.EventBus.PublishAsync(new AtataContextInitStartedEvent(context, this), cancellationToken)
+            .ConfigureAwait(false);
 
         foreach (var sessionBuilder in Sessions.Builders)
             sessionBuilder.TargetContext = context;
@@ -869,7 +870,9 @@ public sealed class AtataContextBuilder : ICloneable
                 await provider.StartAsync(context, cancellationToken)
                     .ConfigureAwait(false);
 
-        context.EventBus.Publish(new AtataContextInitCompletedEvent(context));
+        await context.EventBus.PublishAsync(new AtataContextInitCompletedEvent(context), cancellationToken)
+            .ConfigureAwait(false);
+
         context.Activate();
     }
 
