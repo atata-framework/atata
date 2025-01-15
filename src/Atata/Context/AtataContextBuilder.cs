@@ -865,10 +865,9 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.Sessions.AddBuilders(Sessions.Builders);
 
-        foreach (var provider in Sessions.Providers)
-            if (ShouldAutoStartSession(provider.StartScopes))
-                await provider.StartAsync(context, cancellationToken)
-                    .ConfigureAwait(false);
+        foreach (var provider in Sessions.GetProvidersForScope(Scope))
+            await provider.StartAsync(context, cancellationToken)
+                .ConfigureAwait(false);
 
         await context.EventBus.PublishAsync(new AtataContextInitCompletedEvent(context), cancellationToken)
             .ConfigureAwait(false);
@@ -886,44 +885,25 @@ public sealed class AtataContextBuilder : ICloneable
         context.Log.Trace($"Set: Culture={culture.Name}");
     }
 
-    private bool ShouldAutoStartSession(AtataSessionStartScopes? sessionStartScopes) =>
-        Scope switch
-        {
-            AtataContextScope.Test => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Test),
-            AtataContextScope.TestSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuite),
-            AtataContextScope.TestSuiteGroup => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuiteGroup),
-            AtataContextScope.NamespaceSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.NamespaceSuite),
-            AtataContextScope.Global => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Global),
-            null => sessionStartScopes is null,
-            _ => false
-        };
+    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversForUseEventHandler.Instance) for global AtataContextBuilder before build. " +
+        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    public void AutoSetUpDriverToUse() =>
+        throw new NotSupportedException();
 
-#warning Temporarily commented AutoSetUp* methods. Try to make them obsolete.
-    ////public void AutoSetUpDriverToUse()
-    ////{
-    ////    if (BuildingContext.UsesLocalBrowser)
-    ////        InvokeAutoSetUpSafelyMethodOfDriverSetup([BuildingContext.LocalBrowserToUseName]);
-    ////}
+    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversForUseEventHandler.Instance) for global AtataContextBuilder before build. " +
+        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    public Task AutoSetUpDriverToUseAsync() =>
+        throw new NotSupportedException();
 
-    ////public async Task AutoSetUpDriverToUseAsync() =>
-    ////    await Task.Run(AutoSetUpDriverToUse);
+    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversConfiguredEventHandler.Instance) for global AtataContextBuilder before build. " +
+        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    public void AutoSetUpConfiguredDrivers() =>
+        throw new NotSupportedException();
 
-    ////public void AutoSetUpConfiguredDrivers() =>
-    ////    InvokeAutoSetUpSafelyMethodOfDriverSetup(BuildingContext.ConfiguredLocalBrowserNames);
-
-    ////public async Task AutoSetUpConfiguredDriversAsync() =>
-    ////    await Task.Run(AutoSetUpConfiguredDrivers);
-
-    ////private static void InvokeAutoSetUpSafelyMethodOfDriverSetup(IEnumerable<string> browserNames)
-    ////{
-    ////    Type driverSetupType = Type.GetType("Atata.WebDriverSetup.DriverSetup,Atata.WebDriverSetup", true);
-
-    ////    var setUpMethod = driverSetupType.GetMethodWithThrowOnError(
-    ////        "AutoSetUpSafely",
-    ////        BindingFlags.Public | BindingFlags.Static);
-
-    ////    setUpMethod.InvokeStaticAsLambda(browserNames);
-    ////}
+    [Obsolete("Instead use EventSubscriptions.Add(SetUpWebDriversConfiguredEventHandler.Instance) for global AtataContextBuilder before build. " +
+        "Alternatively use EventSubscriptions.Add(new SetUpWebDriversEventHandler(BrowserNames...)) to specify driver names explicitly.")] // Obsolete since v4.0.0.
+    public Task AutoSetUpConfiguredDriversAsync() =>
+        throw new NotSupportedException();
 
     object ICloneable.Clone() =>
         Clone();

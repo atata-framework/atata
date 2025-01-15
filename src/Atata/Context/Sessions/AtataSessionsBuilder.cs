@@ -35,6 +35,13 @@ public sealed class AtataSessionsBuilder
     internal AtataSessionStartScopes? DefaultStartScopes =>
         _defaultStartScopes;
 
+    public IEnumerable<IAtataSessionProvider> GetProvidersForScope(AtataContextScope? scope)
+    {
+        foreach (var provider in _sessionProviders)
+            if (DoesSessionStartScopeSatisfyContextScope(provider.StartScopes, scope))
+                yield return provider;
+    }
+
     /// <summary>
     /// Creates a new instance of the builder of the specified <typeparamref name="TSessionBuilder"/> type,
     /// calls <paramref name="configure"/> delegate,
@@ -244,6 +251,18 @@ public sealed class AtataSessionsBuilder
         if (!typeof(AtataSession).IsAssignableFrom(type))
             throw new ArgumentException($"{type.FullName} is not inherited from {nameof(AtataSession)}.", nameof(type));
     }
+
+    private static bool DoesSessionStartScopeSatisfyContextScope(AtataSessionStartScopes? sessionStartScopes, AtataContextScope? scope) =>
+        scope switch
+        {
+            AtataContextScope.Test => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Test),
+            AtataContextScope.TestSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuite),
+            AtataContextScope.TestSuiteGroup => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuiteGroup),
+            AtataContextScope.NamespaceSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.NamespaceSuite),
+            AtataContextScope.Global => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Global),
+            null => sessionStartScopes is null,
+            _ => false
+        };
 
     private TSessionProvider? GetSessionProviderOrNull<TSessionProvider>(string? name)
         where TSessionProvider : IAtataSessionProvider
