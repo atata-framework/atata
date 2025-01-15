@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Handles <typeparamref name="TEvent"/> events that match a condition.
@@ -12,7 +14,7 @@ public interface IConditionalEventHandler<in TEvent> : IEventHandler<TEvent>
     /// <param name="eventData">The event data.</param>
     /// <param name="context">The context.</param>
     /// <returns>
-    ///   <c>true</c> if this instance can handle the specified event; otherwise, <c>false</c>.
+    /// <see langword="true"/> if this instance can handle the specified event; otherwise, <see langword="false"/>.
     /// </returns>
     bool CanHandle(TEvent eventData, AtataContext context);
 }
