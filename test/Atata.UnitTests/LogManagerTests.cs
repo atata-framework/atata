@@ -246,6 +246,45 @@ public class LogManagerTests
             x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.ExternalSource == null);
     }
 
+    [Test]
+    public void CreateSubLogForCategory()
+    {
+        var sut = CreateSut([new LogConsumerConfiguration(_consumerSpy)]);
+        const string category1Name = "cat1";
+        const string category2Name = "cat2";
+
+        sut.ExecuteSection(
+            "root section",
+            () =>
+            {
+                var subSut1 = sut.CreateSubLogForCategory(category1Name);
+                var subSut2 = sut.ForCategory(category2Name);
+
+                subSut1.ExecuteSection(
+                    new StepLogSection("CreateSubLogForCategory"),
+                    () =>
+                    subSut2.ExecuteSection(
+                        new LogSection("ForCategory", LogLevel.Trace),
+                        () =>
+                        {
+                            subSut1.Trace("CreateSubLogForCategory trace message");
+                            subSut2.Trace("ForCategory trace message");
+                            sut.Trace("Root trace message");
+                        }));
+            });
+
+        _consumerSpy.CollectedEvents.Should.ConsistSequentiallyOf(
+            x => x.NestingText == "> " && x.Message == "root section" && x.Category == null,
+            x => x.NestingText == "- > " && x.Message == "CreateSubLogForCategory" && x.Category == category1Name,
+            x => x.NestingText == "- > " && x.Message == "ForCategory" && x.Category == category2Name,
+            x => x.NestingText == "- - " && x.Message == "CreateSubLogForCategory trace message" && x.Category == category1Name,
+            x => x.NestingText == "- - " && x.Message == "ForCategory trace message" && x.Category == category2Name,
+            x => x.NestingText == "- " && x.Message == "Root trace message" && x.Category == null,
+            x => x.NestingText == "- < " && x.Message.StartsWith("ForCategory (") && x.Category == category2Name,
+            x => x.NestingText == "- < " && x.Message.StartsWith("CreateSubLogForCategory (") && x.Category == category1Name,
+            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.Category == null);
+    }
+
     private static LogManager CreateSut(
         LogConsumerConfiguration[] consumerConfigurations,
         SecretStringToMask[] secretStringsToMask = null) =>

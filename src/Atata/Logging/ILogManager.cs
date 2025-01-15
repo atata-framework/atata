@@ -124,29 +124,52 @@ public interface ILogManager
     Task<TResult> ExecuteSectionAsync<TResult>(LogSection section, Func<Task<TResult>> function);
 
     /// <summary>
-    /// Creates another log manager with the same configuration that additionally sets
+    /// Gets or creates another log manager with the same configuration that additionally sets
     /// <see cref="LogEventInfo.ExternalSource"/> of a log event with
     /// the specified <paramref name="externalSource"/>.
     /// </summary>
     /// <param name="externalSource">The external source name.</param>
-    /// <returns>A new <see cref="ILogManager"/> instance for the external source.</returns>
+    /// <returns>An <see cref="ILogManager"/> instance for the external source.</returns>
     ILogManager ForExternalSource(string externalSource);
 
     /// <summary>
-    /// Creates another log manager with the same configuration that additionally sets
+    /// Gets or creates another log manager with the same configuration that additionally sets
     /// <see cref="LogEventInfo.Category"/> of a log event with
     /// the specified <paramref name="category"/>.
     /// </summary>
     /// <param name="category">The category name.</param>
-    /// <returns>A new <see cref="ILogManager"/> instance for the category.</returns>
+    /// <returns>An <see cref="ILogManager"/> instance for the category.</returns>
     ILogManager ForCategory(string category);
 
     /// <summary>
-    /// Creates another log manager with the same configuration that additionally sets
+    /// Gets or creates another log manager with the same configuration that additionally sets
     /// <see cref="LogEventInfo.Category"/> of a log event with
     /// the specified <typeparamref name="TCategory"/> type name.
     /// </summary>
     /// <typeparam name="TCategory">The type of the category.</typeparam>
-    /// <returns>A new <see cref="ILogManager"/> instance for the category.</returns>
+    /// <returns>An <see cref="ILogManager"/> instance for the category.</returns>
     ILogManager ForCategory<TCategory>();
+
+    /// <summary>
+    /// Creates a sub-logger with the same configuration.
+    /// The sub-logger starts within parent logger's log sections hierarchy,
+    /// but follows the hierarchy only on start position
+    /// and doesn't reflect further section hierarchy changes of parent logger.
+    /// Sub-loggers are intended for logging of actions executed in additional threads.
+    /// </summary>
+    /// <returns>A new sub-logger <see cref="ILogManager"/> instance.</returns>
+    ILogManager CreateSubLog();
+
+    /// <summary>
+    /// Creates a sub-logger with the same configuration that additionally sets
+    /// <see cref="LogEventInfo.Category"/> of a log event with
+    /// the specified <paramref name="category"/>.
+    /// The sub-logger starts within parent logger's log sections hierarchy,
+    /// but follows the hierarchy only on start position
+    /// and doesn't reflect further section hierarchy changes of parent logger.
+    /// Sub-loggers are intended for logging of actions executed in additional threads.
+    /// </summary>
+    /// <param name="category">The category name.</param>
+    /// <returns>A new sub-logger <see cref="ILogManager"/> instance for the category.</returns>
+    ILogManager CreateSubLogForCategory(string category);
 }

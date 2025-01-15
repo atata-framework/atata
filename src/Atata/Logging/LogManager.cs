@@ -196,7 +196,7 @@ internal sealed class LogManager : ILogManager
         new LogManager(
             _configuration,
             new AtataSessionLogEventInfoFactory(_logEventInfoFactory, session),
-            CreateNestingLevelResolver(x => x.EmbedSessionLog));
+            CreateDynamicNestingLevelResolver(x => x.EmbedSessionLog));
 
     public ILogManager ForExternalSource(string externalSource)
     {
@@ -207,7 +207,7 @@ internal sealed class LogManager : ILogManager
             x => new LogManager(
                 _configuration,
                 new ExternalSourceLogEventInfoFactory(_logEventInfoFactory, x),
-                CreateNestingLevelResolver(x => x.EmbedExternalSourceLog)));
+                CreateDynamicNestingLevelResolver(x => x.EmbedExternalSourceLog)));
     }
 
     public ILogManager ForCategory(string category)
@@ -219,11 +219,33 @@ internal sealed class LogManager : ILogManager
             x => new LogManager(
                 _configuration,
                 new CategoryLogEventInfoFactory(_logEventInfoFactory, x),
-                CreateNestingLevelResolver(_ => true)));
+                CreateDynamicNestingLevelResolver(_ => true)));
     }
 
     public ILogManager ForCategory<TCategory>() =>
         ForCategory(typeof(TCategory).FullName);
+
+    public ILogManager CreateSubLog()
+    {
+        LogSection[] sectionsSpanshot = GetSectionsSnapshot();
+
+        return new LogManager(
+            _configuration,
+            _logEventInfoFactory,
+            new FixedOuterLogNestingLevelResolver(sectionsSpanshot, _outerLogNestingLevelResolver));
+    }
+
+    public ILogManager CreateSubLogForCategory(string category)
+    {
+        category.CheckNotNullOrWhitespace(nameof(category));
+
+        LogSection[] sectionsSpanshot = GetSectionsSnapshot();
+
+        return new LogManager(
+            _configuration,
+            new CategoryLogEventInfoFactory(_logEventInfoFactory, category),
+            new FixedOuterLogNestingLevelResolver(sectionsSpanshot, _outerLogNestingLevelResolver));
+    }
 
     private static DateTime GetCurrentTimestamp() =>
         AtataContext.GlobalProperties.ConvertToTimeZone(DateTime.UtcNow);
@@ -305,7 +327,7 @@ internal sealed class LogManager : ILogManager
     private static bool IsBlockLogSection(LogSection logSection) =>
         logSection is AggregateAssertionLogSection or SetupLogSection or StepLogSection;
 
-    private OuterLogNestingLevelResolver CreateNestingLevelResolver(
+    private DynamicOuterLogNestingLevelResolver CreateDynamicNestingLevelResolver(
         Func<LogConsumerConfiguration, bool> isEnabledPredicate)
         =>
         new(_sectionStack, _outerLogNestingLevelResolver, isEnabledPredicate);
@@ -365,14 +387,22 @@ internal sealed class LogManager : ILogManager
         {
             foreach (var consumerItem in appropriateConsumerItems)
             {
-                var outerNestingLevel = _outerLogNestingLevelResolver.GetNestingLevel(consumerItem);
-                var thisNestingLevel = _sectionStack.Count(x => x.Level >= consumerItem.MinLevel);
+                int outerNestingLevel = _outerLogNestingLevelResolver.GetNestingLevel(consumerItem);
+                int thisNestingLevel = _sectionStack.Count(x => x.Level >= consumerItem.MinLevel);
 
                 eventInfo.NestingLevel = outerNestingLevel + thisNestingLevel;
                 eventInfo.NestingText = BuildNestingText(eventInfo, consumerItem);
 
                 consumerItem.Consumer.Log(eventInfo);
             }
+        }
+    }
+
+    private LogSection[] GetSectionsSnapshot()
+    {
+        lock (_sectionStack)
+        {
+            return [.. _sectionStack];
         }
     }
 
@@ -391,7 +421,7 @@ internal sealed class LogManager : ILogManager
         public int GetNestingLevel(LogConsumerConfiguration consumerConfiguration) => 0;
     }
 
-    private sealed class OuterLogNestingLevelResolver : IOuterLogNestingLevelResolver
+    private sealed class DynamicOuterLogNestingLevelResolver : IOuterLogNestingLevelResolver
     {
         private readonly IEnumerable<LogSection> _sections;
 
@@ -399,7 +429,7 @@ internal sealed class LogManager : ILogManager
 
         private readonly Func<LogConsumerConfiguration, bool> _isEnabledPredicate;
 
-        public OuterLogNestingLevelResolver(
+        public DynamicOuterLogNestingLevelResolver(
             IEnumerable<LogSection> sections,
             IOuterLogNestingLevelResolver parentResolver,
             Func<LogConsumerConfiguration, bool> isEnabledPredicate)
@@ -420,6 +450,28 @@ internal sealed class LogManager : ILogManager
             {
                 return parentNestingLevel + _sections.Count(x => x.Level >= consumerConfiguration.MinLevel);
             }
+        }
+    }
+
+    private sealed class FixedOuterLogNestingLevelResolver : IOuterLogNestingLevelResolver
+    {
+        private readonly IReadOnlyCollection<LogSection> _sections;
+
+        private readonly IOuterLogNestingLevelResolver _parentResolver;
+
+        public FixedOuterLogNestingLevelResolver(
+            IReadOnlyCollection<LogSection> sections,
+            IOuterLogNestingLevelResolver parentResolver)
+        {
+            _sections = sections;
+            _parentResolver = parentResolver;
+        }
+
+        public int GetNestingLevel(LogConsumerConfiguration consumerConfiguration)
+        {
+            int parentNestingLevel = _parentResolver.GetNestingLevel(consumerConfiguration);
+
+            return parentNestingLevel + _sections.Count(x => x.Level >= consumerConfiguration.MinLevel);
         }
     }
 }
