@@ -11,7 +11,7 @@
     <PackageReference Include="NLog" Version="5.3.4" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="Xunit.Extensions.AssemblyFixture" Version="2.6.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2">
+    <PackageReference Include="xunit.runner.visualstudio" Version="3.0.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
