@@ -1,12 +1,9 @@
 ﻿namespace Atata;
 
-public sealed class AtataSessionAssignedToContextEvent
+public sealed class AtataSessionAssignedToContextEvent : AtataSessionEvent
 {
-    internal AtataSessionAssignedToContextEvent(AtataSession session) =>
-        Session = session;
-
-    /// <summary>
-    /// Gets the session.
-    /// </summary>
-    public AtataSession Session { get; }
+    internal AtataSessionAssignedToContextEvent(AtataSession session)
+        : base(session)
+    {
+    }
 }

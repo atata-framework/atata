@@ -1,12 +1,9 @@
 ﻿namespace Atata;
 
-public sealed class AtataSessionInitStartedEvent
+public sealed class AtataSessionInitStartedEvent : AtataSessionEvent
 {
-    internal AtataSessionInitStartedEvent(AtataSession session) =>
-        Session = session;
-
-    /// <summary>
-    /// Gets the session.
-    /// </summary>
-    public AtataSession Session { get; }
+    internal AtataSessionInitStartedEvent(AtataSession session)
+        : base(session)
+    {
+    }
 }
