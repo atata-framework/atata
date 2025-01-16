@@ -132,7 +132,8 @@ public class PageObjectTests : WebDriverSessionTestSuite
     [Platform(Exclude = Platforms.MacOS)]
     public void ScrollUp() =>
         Go.To<ScrollablePage>()
-            .Press(Keys.End)
+            .BottomText.WaitTo.Not.BeVisibleInViewport()
+            .ScrollDown()
             .BottomText.WaitTo.BeVisibleInViewport()
             .ScrollUp()
             .TopText.Should.BeVisibleInViewport();
