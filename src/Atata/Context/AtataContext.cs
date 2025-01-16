@@ -860,7 +860,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// Also writes the execution time to log.
     /// Throws <see cref="AggregateAssertionException"/> if
     /// <see cref="PendingFailureAssertionResults"/> is not empty (contains warnings).
-    /// Publishes events: <see cref="AtataContextDeInitEvent"/>, <see cref="AtataSessionDeInitEvent"/> (for sessions), <see cref="AtataContextDeInitCompletedEvent"/>.
+    /// Publishes events: <see cref="AtataContextDeInitEvent"/>,
+    /// <see cref="AtataSessionDeInitStartedEvent"/> (for sessions),
+    /// <see cref="AtataSessionDeInitCompletedEvent"/> (for sessions)
+    /// <see cref="AtataContextDeInitCompletedEvent"/>.
     /// </summary>
     public void Dispose()
     {

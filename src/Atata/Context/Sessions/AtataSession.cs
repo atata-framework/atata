@@ -179,7 +179,7 @@ public abstract class AtataSession : IAsyncDisposable
                         {
                             try
                             {
-                                await EventBus.PublishAsync(new AtataSessionDeInitEvent(this))
+                                await EventBus.PublishAsync(new AtataSessionDeInitStartedEvent(this))
                                     .ConfigureAwait(false);
                             }
                             finally

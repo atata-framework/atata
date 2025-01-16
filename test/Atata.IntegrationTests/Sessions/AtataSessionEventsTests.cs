@@ -22,8 +22,8 @@ public sealed class AtataSessionEventsTests
                 session.EventSubscriptions.Add<AtataSessionUnassignedFromContextEvent>(
                     x => x.Session.Log.Info(nameof(AtataSessionUnassignedFromContextEvent)));
 
-                session.EventSubscriptions.Add<AtataSessionDeInitEvent>(
-                    x => x.Session.Log.Info(nameof(AtataSessionDeInitEvent)));
+                session.EventSubscriptions.Add<AtataSessionDeInitStartedEvent>(
+                    x => x.Session.Log.Info(nameof(AtataSessionDeInitStartedEvent)));
 
                 session.EventSubscriptions.Add<AtataSessionDeInitCompletedEvent>(
                     x => x.Session.Log.Info(nameof(AtataSessionDeInitCompletedEvent)));
@@ -68,7 +68,7 @@ public sealed class AtataSessionEventsTests
             AtataSessionAssignedToContextEvent
             FakeSession { * } is returned by AtataContext { * }
             > Deinitialize FakeSession { * }
-            - AtataSessionDeInitEvent
+            - AtataSessionDeInitStartedEvent
             - AtataSessionDeInitCompletedEvent
             < Deinitialize FakeSession { * } (*)
             """);
