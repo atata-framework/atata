@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents an event that occurs when <see cref="PageObject{TOwner}"/> is deinitialized.
