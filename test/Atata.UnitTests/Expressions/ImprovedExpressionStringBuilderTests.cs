@@ -122,8 +122,10 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => x.IsIt(TestFlagValues.A | TestFlagValues.B)");
         TestPredicate(x => x.IsIt(TestFlagValues.B | TestFlagValues.C))
             .Returns("x => x.IsIt(TestFlagValues.BC)");
+#pragma warning disable CA1860
         TestPredicate(x => x.Item.Value.ToString(TermCase.Upper).Any())
             .Returns("x => x.Item.Value.ToString(TermCase.Upper).Any()");
+#pragma warning restore CA1860
 
         // Char:
         char charValue = '!';
