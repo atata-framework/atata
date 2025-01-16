@@ -3,13 +3,13 @@
 public sealed class WebDriverSessionEventsTests : WebDriverSessionTestSuiteBase
 {
     [Test]
-    public void DriverInitEvent()
+    public void WebDriverInitCompletedEvent()
     {
         int executionsCount = 0;
         IWebDriver driverOfEvent = null;
 
         var builder = ConfigureAtataContextWithWebDriverSession(session =>
-            session.EventSubscriptions.Add<DriverInitEvent>((eventData, _) =>
+            session.EventSubscriptions.Add<WebDriverInitCompletedEvent>((eventData, _) =>
             {
                 driverOfEvent = eventData.Driver;
                 executionsCount++;
@@ -21,13 +21,13 @@ public sealed class WebDriverSessionEventsTests : WebDriverSessionTestSuiteBase
     }
 
     [Test]
-    public void DriverInitEvent_WhenRestartDriver()
+    public void WebDriverInitCompletedEvent_WhenRestartDriver()
     {
         int executionsCount = 0;
         IWebDriver initialDriver = null;
 
         var builder = ConfigureAtataContextWithWebDriverSession(session =>
-            session.EventSubscriptions.Add<DriverInitEvent>(eventData =>
+            session.EventSubscriptions.Add<WebDriverInitCompletedEvent>(eventData =>
             {
                 if (executionsCount == 0)
                     initialDriver = eventData.Driver;

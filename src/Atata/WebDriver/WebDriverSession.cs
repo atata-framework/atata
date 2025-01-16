@@ -96,7 +96,11 @@ public class WebDriverSession : WebSession
                 RetrySettings.Timeout = ElementFindTimeout;
                 RetrySettings.Interval = ElementFindRetryInterval;
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 EventBus.Publish(new DriverInitEvent(_driver));
+#pragma warning restore CS0618 // Type or member is obsolete
+
+                EventBus.Publish(new WebDriverInitCompletedEvent(_driver));
             });
 
     /// <summary>

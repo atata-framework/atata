@@ -20,7 +20,7 @@ public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
                     if (PreservedDriver is not null)
                         session.UseDriver(PreservedDriver);
 
-                    session.EventSubscriptions.Add<DriverInitEvent>(
+                    session.EventSubscriptions.Add<WebDriverInitCompletedEvent>(
                         eventData => PreservedDriver ??= eventData.Driver);
                 }
             });

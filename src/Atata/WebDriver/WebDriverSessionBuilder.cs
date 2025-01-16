@@ -405,7 +405,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         }
     }
 
-    private static void EnableBrowserLogMonitoringOnDriverInitEvent(
+    private static void EnableBrowserLogMonitoringOnWebDriverInitCompletedEvent(
         IWebDriver driver,
         WebDriverSession session,
         IEnumerable<IBrowserLogHandler> browserLogHandlers)
@@ -469,8 +469,8 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             if (BrowserLogs.MinLevelOfWarning is not null)
                 browserLogHandlers.Add(new WarningBrowserLogHandler(session, BrowserLogs.MinLevelOfWarning.Value));
 
-            session.EventBus.Subscribe<DriverInitEvent>(
-                (e, _) => EnableBrowserLogMonitoringOnDriverInitEvent(e.Driver, session, browserLogHandlers));
+            session.EventBus.Subscribe<WebDriverInitCompletedEvent>(
+                (e, _) => EnableBrowserLogMonitoringOnWebDriverInitCompletedEvent(e.Driver, session, browserLogHandlers));
         }
     }
 }
