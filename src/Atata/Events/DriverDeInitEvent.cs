@@ -3,9 +3,9 @@
 /// <summary>
 /// Represents an event that occurs when <see cref="AtataContext"/> driver is deinitializing.
 /// </summary>
-public class DriverDeInitEvent
+public sealed class DriverDeInitEvent
 {
-    public DriverDeInitEvent(IWebDriver driver) =>
+    internal DriverDeInitEvent(IWebDriver driver) =>
         Driver = driver;
 
     /// <summary>

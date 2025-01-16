@@ -2,7 +2,7 @@
 
 public sealed class AtataSessionAssignedToContextEvent
 {
-    public AtataSessionAssignedToContextEvent(AtataSession session) =>
+    internal AtataSessionAssignedToContextEvent(AtataSession session) =>
         Session = session;
 
     /// <summary>

@@ -2,7 +2,7 @@
 
 public sealed class AtataSessionInitStartedEvent
 {
-    public AtataSessionInitStartedEvent(AtataSession session) =>
+    internal AtataSessionInitStartedEvent(AtataSession session) =>
         Session = session;
 
     /// <summary>

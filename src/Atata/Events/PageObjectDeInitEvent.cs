@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an event that occurs when <see cref="PageObject{TOwner}"/> is deinitialized.
 /// </summary>
-public class PageObjectDeInitEvent
+public sealed class PageObjectDeInitEvent
 {
     public PageObjectDeInitEvent(UIComponent pageObject) =>
         PageObject = pageObject;

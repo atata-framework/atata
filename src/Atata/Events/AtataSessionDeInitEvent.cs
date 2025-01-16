@@ -5,7 +5,7 @@
 /// </summary>
 public sealed class AtataSessionDeInitEvent
 {
-    public AtataSessionDeInitEvent(AtataSession session) =>
+    internal AtataSessionDeInitEvent(AtataSession session) =>
         Session = session;
 
     /// <summary>

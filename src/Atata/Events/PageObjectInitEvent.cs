@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents an event that occurs when <see cref="PageObject{TOwner}"/> is started to initialize.
 /// </summary>
-public class PageObjectInitEvent
+public sealed class PageObjectInitEvent
 {
     public PageObjectInitEvent(UIComponent pageObject) =>
         PageObject = pageObject;

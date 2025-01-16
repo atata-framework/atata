@@ -3,9 +3,9 @@
 /// <summary>
 /// Represents an event that occurs before <see cref="AtataContext"/> initialization.
 /// </summary>
-public class AtataContextPreInitEvent
+public sealed class AtataContextPreInitEvent
 {
-    public AtataContextPreInitEvent(AtataContext context) =>
+    internal AtataContextPreInitEvent(AtataContext context) =>
         Context = context;
 
     /// <summary>

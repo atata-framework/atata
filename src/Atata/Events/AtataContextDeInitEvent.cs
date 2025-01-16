@@ -5,7 +5,7 @@
 /// </summary>
 public sealed class AtataContextDeInitEvent
 {
-    public AtataContextDeInitEvent(AtataContext context) =>
+    internal AtataContextDeInitEvent(AtataContext context) =>
         Context = context;
 
     /// <summary>
