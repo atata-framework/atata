@@ -2,9 +2,7 @@
 
 namespace Atata;
 
-/// <summary>
-/// Represents an event that occurs when <see cref="PageObject{TOwner}"/> is started to initialize.
-/// </summary>
+[Obsolete("Use PageObjectInitStartedEvent instead.")] // Obsolete since v4.0.0.
 public sealed class PageObjectInitEvent
 {
     public PageObjectInitEvent(UIComponent pageObject) =>

@@ -144,7 +144,12 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
         UIComponentResolver.Resolve(this);
 
         OnInit();
+
+#pragma warning disable CS0618 // Type or member is obsolete
         Session.EventBus.Publish(new PageObjectInitEvent(this));
+#pragma warning restore CS0618 // Type or member is obsolete
+
+        Session.EventBus.Publish(new PageObjectInitStartedEvent(this));
     }
 
     internal void CompleteInit()
