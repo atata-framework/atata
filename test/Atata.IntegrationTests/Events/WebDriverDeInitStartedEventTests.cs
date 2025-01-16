@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Events;
 
-public class DriverDeInitEventTests : WebDriverSessionTestSuiteBase
+public sealed class WebDriverDeInitStartedEventTests : WebDriverSessionTestSuiteBase
 {
     private int _executionsCount;
 
@@ -12,7 +12,7 @@ public class DriverDeInitEventTests : WebDriverSessionTestSuiteBase
         _executionsCount = 0;
 
         var builder = ConfigureAtataContextWithWebDriverSession(session => session
-            .EventSubscriptions.Add<DriverDeInitEvent>((eventData, _) =>
+            .EventSubscriptions.Add<WebDriverDeInitStartedEvent>((eventData, _) =>
             {
                 eventData.Driver.Should().NotBeNull().And.Be(_context.GetWebDriver());
 

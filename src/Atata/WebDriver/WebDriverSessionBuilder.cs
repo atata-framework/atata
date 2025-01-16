@@ -432,7 +432,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
             object driverDeInitEventSubscription = null;
 
             var eventBus = session.EventBus;
-            driverDeInitEventSubscription = eventBus.Subscribe<DriverDeInitEvent>(() =>
+            driverDeInitEventSubscription = eventBus.Subscribe<WebDriverDeInitStartedEvent>(() =>
             {
                 logMonitoringStrategy.Stop();
                 eventBus.Unsubscribe(driverDeInitEventSubscription);

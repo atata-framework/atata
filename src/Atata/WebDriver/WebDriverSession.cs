@@ -115,7 +115,12 @@ public class WebDriverSession : WebSession
                     PageObject = null;
                 }
 
+#pragma warning disable CS0618 // Type or member is obsolete
                 EventBus.Publish(new DriverDeInitEvent(_driver));
+#pragma warning restore CS0618 // Type or member is obsolete
+
+                EventBus.Publish(new WebDriverDeInitStartedEvent(_driver));
+
                 DisposeDriverSafely();
 
                 InitDriver();
@@ -132,7 +137,12 @@ public class WebDriverSession : WebSession
 
         if (_driver is not null)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             await EventBus.PublishAsync(new DriverDeInitEvent(_driver))
+                .ConfigureAwait(false);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+            await EventBus.PublishAsync(new WebDriverDeInitStartedEvent(_driver))
                 .ConfigureAwait(false);
 
             if (DisposeDriver)

@@ -2,9 +2,7 @@
 
 namespace Atata;
 
-/// <summary>
-/// Represents an event that occurs when <see cref="AtataContext"/> driver is deinitializing.
-/// </summary>
+[Obsolete("Use WebDriverDeInitStartedEvent instead.")] // Obsolete since v4.0.0.
 public sealed class DriverDeInitEvent
 {
     internal DriverDeInitEvent(IWebDriver driver) =>
