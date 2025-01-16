@@ -7,7 +7,7 @@ namespace Atata;
 /// </summary>
 public sealed class ArtifactAddedEvent
 {
-    public ArtifactAddedEvent(string absoluteFilePath, string relativeFilePath, string? artifactType, string? artifactTitle)
+    internal ArtifactAddedEvent(string absoluteFilePath, string relativeFilePath, string? artifactType, string? artifactTitle)
     {
         AbsoluteFilePath = absoluteFilePath;
         RelativeFilePath = relativeFilePath;
