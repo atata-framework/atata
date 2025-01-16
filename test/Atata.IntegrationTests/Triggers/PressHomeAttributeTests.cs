@@ -7,7 +7,8 @@ public class PressHomeAttributeTests : WebDriverSessionTestSuite
     public void Execute()
     {
         var sut = Go.To<ScrollablePage>()
-            .Press(Keys.End)
+            .BottomText.WaitTo.Not.BeVisibleInViewport()
+            .ScrollDown()
             .TopText;
 
         sut.Should.Not.BeVisibleInViewport();
