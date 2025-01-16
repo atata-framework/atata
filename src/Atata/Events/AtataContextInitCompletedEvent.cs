@@ -5,13 +5,10 @@ namespace Atata;
 /// <summary>
 /// Represents an event that occurs when <see cref="AtataContext"/> is initialized.
 /// </summary>
-public sealed class AtataContextInitCompletedEvent
+public sealed class AtataContextInitCompletedEvent : AtataContextEvent
 {
-    internal AtataContextInitCompletedEvent(AtataContext context) =>
-        Context = context;
-
-    /// <summary>
-    /// Gets the context.
-    /// </summary>
-    public AtataContext Context { get; }
+    internal AtataContextInitCompletedEvent(AtataContext context)
+        : base(context)
+    {
+    }
 }

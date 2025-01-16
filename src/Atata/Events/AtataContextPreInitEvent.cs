@@ -5,13 +5,10 @@ namespace Atata;
 /// <summary>
 /// Represents an event that occurs before <see cref="AtataContext"/> initialization.
 /// </summary>
-public sealed class AtataContextPreInitEvent
+public sealed class AtataContextPreInitEvent : AtataContextEvent
 {
-    internal AtataContextPreInitEvent(AtataContext context) =>
-        Context = context;
-
-    /// <summary>
-    /// Gets the context.
-    /// </summary>
-    public AtataContext Context { get; }
+    internal AtataContextPreInitEvent(AtataContext context)
+        : base(context)
+    {
+    }
 }
