@@ -14,7 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="xunit.v3" Version="0.5.0-pre.27" />
+    <PackageReference Include="xunit.v3.core" Version="1.0.1" />
   </ItemGroup>
 
   <ItemGroup>
