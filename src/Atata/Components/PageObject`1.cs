@@ -691,7 +691,12 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     void IPageObject.DeInit()
     {
         ExecuteTriggers(TriggerEvents.DeInit);
+
+#pragma warning disable CS0618 // Type or member is obsolete
         Session.EventBus.Publish(new PageObjectDeInitEvent(this));
+#pragma warning restore CS0618 // Type or member is obsolete
+
+        Session.EventBus.Publish(new PageObjectDeInitCompletedEvent(this));
     }
 
     protected override string BuildComponentProviderName() => null;

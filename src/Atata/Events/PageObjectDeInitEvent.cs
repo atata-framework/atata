@@ -2,9 +2,7 @@
 
 namespace Atata;
 
-/// <summary>
-/// Represents an event that occurs when <see cref="PageObject{TOwner}"/> is deinitialized.
-/// </summary>
+[Obsolete("Use PageObjectDeInitCompletedEvent instead.")] // Obsolete since v4.0.0.
 public sealed class PageObjectDeInitEvent
 {
     public PageObjectDeInitEvent(UIComponent pageObject) =>
