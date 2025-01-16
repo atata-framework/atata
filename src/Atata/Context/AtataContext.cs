@@ -856,14 +856,21 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
+    /// <para>
     /// Deinitializes and disposes the current context together with sessions and other associated objects.
     /// Also writes the execution time to log.
     /// Throws <see cref="AggregateAssertionException"/> if
     /// <see cref="PendingFailureAssertionResults"/> is not empty (contains warnings).
-    /// Publishes events: <see cref="AtataContextDeInitEvent"/>,
-    /// <see cref="AtataSessionDeInitStartedEvent"/> (for sessions),
-    /// <see cref="AtataSessionDeInitCompletedEvent"/> (for sessions)
-    /// <see cref="AtataContextDeInitCompletedEvent"/>.
+    /// </para>
+    /// <para>
+    /// Publishes events:
+    /// <list type="number">
+    /// <item><see cref="AtataContextDeInitStartedEvent"/></item>
+    /// <item><see cref="AtataSessionDeInitStartedEvent"/> for sessions</item>
+    /// <item><see cref="AtataSessionDeInitCompletedEvent"/> for sessions</item>
+    /// <item><see cref="AtataContextDeInitCompletedEvent"/></item>
+    /// </list>
+    /// </para>
     /// </summary>
     public void Dispose()
     {
@@ -906,7 +913,12 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             {
                 try
                 {
+#pragma warning disable CS0618 // Type or member is obsolete
                     await EventBus.PublishAsync(new AtataContextDeInitEvent(this))
+                        .ConfigureAwait(false);
+#pragma warning restore CS0618 // Type or member is obsolete
+
+                    await EventBus.PublishAsync(new AtataContextDeInitStartedEvent(this))
                         .ConfigureAwait(false);
                 }
                 catch (Exception exception)

@@ -1,8 +1,8 @@
 ﻿namespace Atata;
 
-public sealed class LogNUnitErrorEventHandler : IEventHandler<AtataContextDeInitEvent>
+public sealed class LogNUnitErrorEventHandler : IEventHandler<AtataContextDeInitStartedEvent>
 {
-    public void Handle(AtataContextDeInitEvent eventData, AtataContext context)
+    public void Handle(AtataContextDeInitStartedEvent eventData, AtataContext context)
     {
         dynamic testResult = NUnitAdapter.GetCurrentTestResultAdapter();
 

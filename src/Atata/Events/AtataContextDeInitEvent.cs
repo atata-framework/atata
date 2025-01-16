@@ -1,15 +1,10 @@
 ﻿namespace Atata;
 
-/// <summary>
-/// Represents an event that occurs when <see cref="AtataContext"/> is deinitializing.
-/// </summary>
+[Obsolete("Use AtataContextDeInitStartedEvent instead.")] // Obsolete since v4.0.0.
 public sealed class AtataContextDeInitEvent
 {
     internal AtataContextDeInitEvent(AtataContext context) =>
         Context = context;
 
-    /// <summary>
-    /// Gets the context.
-    /// </summary>
     public AtataContext Context { get; }
 }
