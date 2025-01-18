@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for UI components.
@@ -16,10 +18,10 @@ public abstract class UIComponent
     public AtataContext Context => Session.Context;
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Owner"/>
-    public UIComponent Owner { get; internal set; }
+    public UIComponent Owner { get; internal set; } = null!;
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Parent"/>
-    public UIComponent Parent { get; internal set; }
+    public UIComponent? Parent { get; internal set; }
 
     protected internal ILogManager Log => Session.Log;
 
@@ -28,7 +30,7 @@ public abstract class UIComponent
     /// <inheritdoc cref="IUIComponent{TOwner}.ScopeSource"/>
     public abstract ScopeSource ScopeSource { get; }
 
-    protected internal IScopeLocator ScopeLocator { get; internal set; }
+    protected internal IScopeLocator ScopeLocator { get; internal set; } = null!;
 
     /// <summary>
     /// Gets a value indicating whether to use scope cache.
@@ -41,19 +43,19 @@ public abstract class UIComponent
             ?.UsesCache ?? false;
 
     /// <inheritdoc cref="IUIComponent{TOwner}.ComponentName"/>
-    public string ComponentName { get; set; }
+    public string ComponentName { get; set; } = null!;
 
     internal bool IncludeComponentTypeNameInFullName { get; set; } = true;
 
     /// <inheritdoc cref="IUIComponent{TOwner}.ComponentTypeName"/>
-    public string ComponentTypeName { get; internal set; }
+    public string ComponentTypeName { get; internal set; } = null!;
 
     /// <inheritdoc cref="IUIComponent{TOwner}.ComponentFullName"/>
     public string ComponentFullName =>
         BuildComponentFullName();
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Metadata"/>
-    public UIComponentMetadata Metadata { get; internal set; }
+    public UIComponentMetadata Metadata { get; internal set; } = null!;
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Scope"/>
     public IWebElement Scope =>
@@ -62,7 +64,7 @@ public abstract class UIComponent
     /// <summary>
     /// Gets or sets the cached scope element.
     /// </summary>
-    protected IWebElement CachedScope { get; set; }
+    protected IWebElement? CachedScope { get; set; }
 
     /// <inheritdoc cref="IUIComponent{TOwner}.ScopeContext"/>
     public ISearchContext ScopeContext =>
@@ -76,7 +78,7 @@ public abstract class UIComponent
     /// The search options.
     /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
     /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
-    public IWebElement GetScope(SearchOptions options = null) =>
+    public IWebElement GetScope(SearchOptions? options = null) =>
         GetScopeElement(options ?? SearchOptions.Safely());
 
     /// <summary>
@@ -88,23 +90,23 @@ public abstract class UIComponent
     /// The search options.
     /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
     /// <returns>The <see cref="ISearchContext"/> instance of the scope context.</returns>
-    public ISearchContext GetScopeContext(SearchOptions searchOptions = null) =>
+    public ISearchContext GetScopeContext(SearchOptions? searchOptions = null) =>
         OnGetScopeContext(searchOptions ?? SearchOptions.Safely());
 
     protected virtual ISearchContext OnGetScopeContext(SearchOptions searchOptions) =>
         ShouldUseParentScope()
-            ? Parent.GetScopeContext(searchOptions)
+            ? Parent!.GetScopeContext(searchOptions)
             : GetScopeElement(searchOptions);
 
-    protected IWebElement GetScopeElement(SearchOptions searchOptions = null)
+    protected IWebElement GetScopeElement(SearchOptions? searchOptions = null)
     {
-        if (CachedScope != null && UsesScopeCache)
+        if (CachedScope is not null && UsesScopeCache)
             return CachedScope;
 
         if (ShouldUseParentScope())
-            return Parent.GetScopeElement(searchOptions);
+            return Parent!.GetScopeElement(searchOptions);
 
-        if (ScopeLocator == null)
+        if (ScopeLocator is null)
             throw new InvalidOperationException($"{nameof(ScopeLocator)} is missing.");
 
         SearchOptions actualSearchOptions = searchOptions ?? new SearchOptions();
@@ -186,7 +188,7 @@ public abstract class UIComponent
     /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
     /// equal to <see langword="false"/> value and the component doesn't exist.
     /// </exception>
-    public bool Exists(SearchOptions options = null) =>
+    public bool Exists(SearchOptions? options = null) =>
         GetScopeElement(options ?? SearchOptions.Safely()) != null;
 
     /// <summary>
@@ -200,7 +202,7 @@ public abstract class UIComponent
     /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
     /// equal to <see langword="false"/> value and the component exists.
     /// </exception>
-    public bool Missing(SearchOptions options = null) =>
+    public bool Missing(SearchOptions? options = null) =>
         OnMissing(options ?? SearchOptions.Safely());
 
     internal virtual bool OnMissing(SearchOptions options) =>
