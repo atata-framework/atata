@@ -1,14 +1,35 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-public class TriggerContext<TOwner>
+namespace Atata;
+
+/// <summary>
+/// Represents a context of triggering event.
+/// </summary>
+/// <typeparam name="TOwner">The type of the owner.</typeparam>
+public sealed class TriggerContext<TOwner>
     where TOwner : PageObject<TOwner>, IPageObject<TOwner>
 {
-    public TriggerEvents Event { get; internal set; }
+    internal TriggerContext(TriggerEvents @event, IUIComponent<TOwner> component)
+    {
+        Event = @event;
+        Component = component;
+    }
 
-    // TODO: Review properties.
-    public IWebDriver Driver { get; internal set; }
+    /// <summary>
+    /// Gets the triggering event.
+    /// </summary>
+    public TriggerEvents Event { get; }
 
-    public ILogManager Log { get; internal set; }
+    /// <summary>
+    /// Gets the target component.
+    /// </summary>
+    public IUIComponent<TOwner> Component { get; }
 
-    public IUIComponent<TOwner> Component { get; internal set; }
+    [Obsolete("Use Component.Session.Driver instead.")] // Obsolete since v4.0.0.
+    public IWebDriver Driver =>
+        Component.Session.Driver;
+
+    [Obsolete("Use Component.Session.Log instead.")] // Obsolete since v4.0.0.
+    public ILogManager Log =>
+        Component.Session.Log;
 }

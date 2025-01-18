@@ -102,7 +102,7 @@ public class TriggersPage : Page<_>
         public string Message { get; private set; }
 
         protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-            context.Log.Info(Message);
+            context.Component.Session.Log.Info(Message);
     }
 
     public class HierarchyControl : Control<_>

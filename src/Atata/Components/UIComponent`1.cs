@@ -302,19 +302,15 @@ return (
             {
                 var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
 
-                TriggerContext<TOwner> context = new TriggerContext<TOwner>
-                {
-                    Event = on,
-                    Driver = Driver,
-                    Log = Log,
-                    Component = this
-                };
+                TriggerContext<TOwner> triggerContext = null;
 
-                foreach (var trigger in triggers)
+                foreach (TriggerAttribute trigger in triggers)
                 {
+                    triggerContext ??= new(on, this);
+
                     Log.ExecuteSection(
                         new ExecuteTriggerLogSection(this, trigger, on),
-                        () => trigger.Execute(context));
+                        () => trigger.Execute(triggerContext));
                 }
             }
             finally

@@ -42,7 +42,7 @@ public abstract class WaitForScriptAttribute : WaitingTriggerAttribute
 
         void OnExecute()
         {
-            bool isCompleted = context.Driver
+            bool isCompleted = context.Component.Session.Driver
                 .Try(TimeSpan.FromSeconds(Timeout), TimeSpan.FromSeconds(RetryInterval))
                 .Until(_ => context.Component.Script.Execute<bool>(script).Value);
 
@@ -64,7 +64,7 @@ public abstract class WaitForScriptAttribute : WaitingTriggerAttribute
 
         if (message != DefaultReportMessage)
         {
-            context.Log.ExecuteSection(
+            context.Component.Session.Log.ExecuteSection(
                 new LogSection(message),
                 OnExecute);
         }

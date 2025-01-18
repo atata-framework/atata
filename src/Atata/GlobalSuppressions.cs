@@ -111,5 +111,6 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSessionsBuilder.DoesSessionStartScopeSatisfyContextScope(System.Nullable{Atata.AtataSessionStartScopes},System.Nullable{Atata.AtataContextScope})~System.Boolean")]
 [assembly: SuppressMessage("Style", "IDE0060:Remove unused parameter", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.WebDriverSetupExecutor.AutoSetUpSafelyAsync(System.Collections.Generic.IReadOnlyList{System.String},Atata.AtataContext,System.Threading.CancellationToken)~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Major Code Smell", "S1066:Mergeable \"if\" statements should be combined", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.EventBus.PublishToEventHandlersAsync``1(``0,System.Object[],System.Threading.CancellationToken)~System.Threading.Tasks.Task")]
+[assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponent`1.ExecuteTriggers(Atata.TriggerEvents)")]
 
 #pragma warning restore S103 // Lines should not be too long

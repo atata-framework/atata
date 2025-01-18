@@ -52,7 +52,7 @@ public class WaitForElementAttribute : WaitUntilAttribute
     {
         foreach (WaitUnit unit in Until.GetWaitUnits(WaitOptions))
         {
-            context.Log.ExecuteSection(
+            context.Component.Session.Log.ExecuteSection(
                 new WaitForElementLogSection((UIComponent)context.Component, WaitBy, Selector, unit),
                 () => Wait(context.Component, unit));
         }

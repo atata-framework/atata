@@ -12,5 +12,5 @@ public class LogInfoAttribute : TriggerAttribute
     public string Message { get; }
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-        context.Log.Info(Message);
+        context.Component.Session.Log.Info(Message);
 }
