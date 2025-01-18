@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides extension methods for <see cref="LogConsumerBuilder{TLogConsumer}"/>.
@@ -14,7 +16,7 @@ public static class LogConsumerBuilderExtensions
     /// <returns>The same builder instance.</returns>
     public static LogConsumerBuilder<TLogConsumer> WithLoggerName<TLogConsumer>(
         this LogConsumerBuilder<TLogConsumer> builder,
-        string loggerName)
+        string? loggerName)
         where TLogConsumer : INamedLogConsumer
     {
         builder.Consumer.LoggerName = loggerName;
