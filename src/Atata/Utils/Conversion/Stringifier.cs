@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of static methods for object conversion to readable string.
@@ -24,12 +26,12 @@ public static class Stringifier
             .Compile();
     });
 
-    public static string ToString(IEnumerable collection) =>
+    public static string ToString(IEnumerable? collection) =>
         ToString(collection?.Cast<object>());
 
-    public static string ToString<T>(IEnumerable<T> collection)
+    public static string ToString<T>(IEnumerable<T>? collection)
     {
-        if (collection == null)
+        if (collection is null)
             return NullString;
 
         string[] itemStringValues = collection.Select(x => ToString(x)).ToArray();
@@ -45,7 +47,7 @@ public static class Stringifier
     public static string ToString(string value) =>
         ToString(value as object);
 
-    public static string ToString(object value) =>
+    public static string ToString(object? value) =>
         value switch
         {
             null =>
@@ -97,9 +99,9 @@ public static class Stringifier
             : ToString(collection);
     }
 
-    public static string ToStringInSimpleStructuredForm(object value, Type excludeBaseType = null)
+    public static string ToStringInSimpleStructuredForm(object value, Type? excludeBaseType = null)
     {
-        if (Equals(value, null))
+        if (value is null)
             return NullString;
 
         Type valueType = value.GetType();
@@ -107,7 +109,7 @@ public static class Stringifier
         IEnumerable<PropertyInfo> properties = valueType.GetProperties(
             BindingFlags.Instance | BindingFlags.GetProperty | BindingFlags.Public);
 
-        if (excludeBaseType != null)
+        if (excludeBaseType is not null)
             properties = properties.Where(
                 x => excludeBaseType.IsAssignableFrom(x.DeclaringType) && x.DeclaringType != excludeBaseType);
 
@@ -117,12 +119,21 @@ public static class Stringifier
                                     select $"{prop.Name}={ToString(val)}").ToArray();
 
         string simplifiedTypeName = ResolveSimplifiedTypeName(valueType);
-        StringBuilder builder = new StringBuilder(simplifiedTypeName);
 
         if (propertyStrings.Length > 0)
-            builder.Append($" {{ {string.Join(", ", propertyStrings)} }}");
+        {
+            var builder = new StringBuilder(simplifiedTypeName)
+                .Append(" { ");
 
-        return builder.ToString();
+            builder.Append(string.Join(", ", propertyStrings));
+            builder.Append(" }");
+
+            return builder.ToString();
+        }
+        else
+        {
+            return simplifiedTypeName;
+        }
     }
 
     private static string ResolveSimplifiedTypeName(Type type)
