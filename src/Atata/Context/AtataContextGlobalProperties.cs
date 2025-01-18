@@ -10,11 +10,15 @@ namespace Atata;
 /// </summary>
 public sealed class AtataContextGlobalProperties
 {
+    [Obsolete("Use DefaultArtifactsRootPathTemplateWithoutRunStartFolder instead.")] // Obsolete since v4.0.0.
     public const string DefaultArtifactsRootPathTemplateWithoutBuildStartFolder =
         "{basedir}/artifacts";
 
+    public const string DefaultArtifactsRootPathTemplateWithoutRunStartFolder =
+        "{basedir}/artifacts";
+
     public const string DefaultArtifactsRootPathTemplate =
-        DefaultArtifactsRootPathTemplateWithoutBuildStartFolder + "/{build-start:yyyyMMddTHHmmss}";
+        DefaultArtifactsRootPathTemplateWithoutRunStartFolder + "/{run-start:yyyyMMddTHHmmss}";
 
     private AtataContextModeOfCurrent _modeOfCurrent = AtataContextModeOfCurrent.AsyncLocal;
 
@@ -28,7 +32,7 @@ public sealed class AtataContextGlobalProperties
 
     internal AtataContextGlobalProperties()
     {
-        InitBuildStart();
+        InitializeRunStart();
         _lazyArtifactsRoot = new(CreateArtifactsRootDirectorySubject);
         SetObjectCreationalProperties();
     }
@@ -53,17 +57,25 @@ public sealed class AtataContextGlobalProperties
         }
     }
 
-    /// <summary>
-    /// Gets the build start UTC date/time.
-    /// Has the same value for all the tests being executed within one build.
-    /// </summary>
-    public DateTime BuildStartUtc { get; private set; } = DateTime.UtcNow;
+    [Obsolete("Use RunStartUtc instead.")] // Obsolete since v4.0.0.
+    public DateTime BuildStartUtc =>
+        RunStartUtc;
 
     /// <summary>
-    /// Gets the build start date/time in <see cref="TimeZone"/> (local by default).
-    /// Has the same value for all the tests being executed within one build.
+    /// Gets the run start UTC date/time.
+    /// Has the same value for all the tests being executed within one run.
     /// </summary>
-    public DateTime BuildStart { get; private set; }
+    public DateTime RunStartUtc { get; private set; } = DateTime.UtcNow;
+
+    [Obsolete("Use RunStart instead.")] // Obsolete since v4.0.0.
+    public DateTime BuildStart =>
+        RunStart;
+
+    /// <summary>
+    /// Gets the run start date/time in <see cref="TimeZone"/> (local by default).
+    /// Has the same value for all the tests being executed within one run.
+    /// </summary>
+    public DateTime RunStart { get; private set; }
 
     /// <summary>
     /// Gets or sets the time zone.
@@ -75,22 +87,22 @@ public sealed class AtataContextGlobalProperties
         set
         {
             _timeZone = value.CheckNotNull(nameof(value));
-            InitBuildStart();
+            InitializeRunStart();
         }
     }
 
     /// <summary>
     /// <para>
     /// Gets or sets the path template of the Artifacts Root directory.
-    /// The default value is <c>"{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}"</c>.
+    /// The default value is <c>"{basedir}/artifacts/{run-start:yyyyMMddTHHmmss}"</c>.
     /// </para>
     /// <para>
     /// The list of supported variables:
     /// </para>
     /// <list type="bullet">
     /// <item><c>{basedir}</c></item>
-    /// <item><c>{build-start}</c></item>
-    /// <item><c>{build-start-utc}</c></item>
+    /// <item><c>{run-start}</c></item>
+    /// <item><c>{run-start-utc}</c></item>
     /// </list>
     /// </summary>
     public string ArtifactsRootPathTemplate
@@ -154,30 +166,34 @@ public sealed class AtataContextGlobalProperties
     /// </summary>
     public IAtataIdGenerator IdGenerator { get; set; } = new Alphanumeric4AtataIdGenerator();
 
+    [Obsolete("Use UseDefaultArtifactsRootPathTemplateIncludingRunStart instead.")] // Obsolete since v4.0.0.
+    public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateIncludingBuildStart(bool include) =>
+        UseDefaultArtifactsRootPathTemplateIncludingRunStart(include);
+
     /// <summary>
     /// Sets the default Artifacts Root path template with optionally
-    /// including <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.
+    /// including <c>"{run-start:yyyyMMddTHHmmss}"</c> folder in the path.
     /// </summary>
-    /// <param name="include">Whether to include the <c>"{build-start:yyyyMMddTHHmmss}"</c> folder in the path.</param>
+    /// <param name="include">Whether to include the <c>"{run-start:yyyyMMddTHHmmss}"</c> folder in the path.</param>
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
-    public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateIncludingBuildStart(bool include) =>
+    public AtataContextGlobalProperties UseDefaultArtifactsRootPathTemplateIncludingRunStart(bool include) =>
         UseArtifactsRootPathTemplate(include
             ? DefaultArtifactsRootPathTemplate
-            : DefaultArtifactsRootPathTemplateWithoutBuildStartFolder);
+            : DefaultArtifactsRootPathTemplateWithoutRunStartFolder);
 
     /// <summary>
     /// <para>
     /// Sets the path template of the Artifacts Root directory.
-    /// The default value is <c>"{basedir}/artifacts/{build-start:yyyyMMddTHHmmss}"</c>.
+    /// The default value is <c>"{basedir}/artifacts/{run-start:yyyyMMddTHHmmss}"</c>.
     /// </para>
     /// <para>
     /// The list of supported variables:
-    /// </para>
     /// <list type="bullet">
     /// <item><c>{basedir}</c></item>
-    /// <item><c>{build-start}</c></item>
-    /// <item><c>{build-start-utc}</c></item>
+    /// <item><c>{run-start}</c></item>
+    /// <item><c>{run-start-utc}</c></item>
     /// </list>
+    /// </para>
     /// </summary>
     /// <param name="directoryPathTemplate">The directory path template.</param>
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
@@ -267,16 +283,16 @@ public sealed class AtataContextGlobalProperties
     internal DateTime ConvertToTimeZone(DateTime utcDateTime) =>
         TimeZoneInfo.ConvertTimeFromUtc(utcDateTime, _timeZone);
 
-    private void InitBuildStart() =>
-        BuildStart = ConvertToTimeZone(BuildStartUtc);
+    private void InitializeRunStart() =>
+        RunStart = ConvertToTimeZone(RunStartUtc);
 
     private DirectorySubject CreateArtifactsRootDirectorySubject()
     {
         Dictionary<string, object> variables = new()
         {
             ["basedir"] = AppDomain.CurrentDomain.BaseDirectory,
-            ["build-start"] = BuildStart,
-            ["build-start-utc"] = BuildStartUtc
+            ["run-start"] = RunStart,
+            ["run-start-utc"] = RunStartUtc
         };
 
         string path = TemplateStringTransformer.Transform(_artifactsRootPathTemplate, variables);

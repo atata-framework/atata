@@ -43,8 +43,8 @@ public static class AtataContextGlobalPropertiesTests
             AssertDateTimeIsCloseToExpected(AtataContext.Current.StartedAt, _nowInSetTimeZone);
 
         [Test]
-        public void AtataContext_GlobalProperties_BuildStart() =>
-            AssertDateTimeIsCloseToExpected(AtataContext.GlobalProperties.BuildStart, _nowInSetTimeZone, withinMinutes: 30);
+        public void AtataContext_GlobalProperties_RunStart() =>
+            AssertDateTimeIsCloseToExpected(AtataContext.GlobalProperties.RunStart, _nowInSetTimeZone, withinMinutes: 30);
 
         [Test]
         public void LogEventInfo_Timestamp() =>
