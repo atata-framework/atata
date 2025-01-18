@@ -15,9 +15,8 @@ public class LogSection
         Level = level;
     }
 
-    protected LogSection()
-    {
-    }
+    protected LogSection() =>
+        Level = LogLevel.Info;
 
     /// <summary>
     /// Gets or sets the message.
