@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides reporting functionality.
@@ -150,7 +152,7 @@ public class Report<TOwner> : IReport<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         function.CheckNotNull(nameof(function));
 
-        TResult result = default;
+        TResult result = default!;
 
         _executionUnit.Log.ExecuteSection(new SetupLogSection(message), () =>
         {
@@ -220,7 +222,7 @@ public class Report<TOwner> : IReport<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         function.CheckNotNull(nameof(function));
 
-        TResult result = default;
+        TResult result = default!;
 
         await _executionUnit.Log.ExecuteSectionAsync(new SetupLogSection(message), async () =>
         {
@@ -278,7 +280,7 @@ public class Report<TOwner> : IReport<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         function.CheckNotNull(nameof(function));
 
-        TResult result = default;
+        TResult result = default!;
 
         _executionUnit.Log.ExecuteSection(new StepLogSection(message), () =>
         {
@@ -322,7 +324,7 @@ public class Report<TOwner> : IReport<TOwner>
         message.CheckNotNullOrEmpty(nameof(message));
         function.CheckNotNull(nameof(function));
 
-        TResult result = default;
+        TResult result = default!;
 
         await _executionUnit.Log.ExecuteSectionAsync(new StepLogSection(message), async () =>
         {

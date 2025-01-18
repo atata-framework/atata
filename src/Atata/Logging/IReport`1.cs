@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// An interface of reporting functionality belonging to particular <typeparamref name="TOwner"/>.
