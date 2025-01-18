@@ -1,9 +1,10 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the log manager, an entry point for the Atata logging functionality.
 /// </summary>
-/// <seealso cref="ILogManager" />
 internal sealed class LogManager : ILogManager
 {
     private readonly LogManagerConfiguration _configuration;
@@ -48,14 +49,14 @@ internal sealed class LogManager : ILogManager
         int GetNestingLevel(LogConsumerConfiguration consumerConfiguration);
     }
 
-    public void Log(LogLevel level, string message, Exception exception = null) =>
+    public void Log(LogLevel level, string? message, Exception? exception = null) =>
         Log(
             DateTime.UtcNow,
             level,
             message,
             exception);
 
-    public void Log(DateTime utcTimestamp, LogLevel level, string message, Exception exception = null)
+    public void Log(DateTime utcTimestamp, LogLevel level, string? message, Exception? exception = null)
     {
         DateTime logTimestamp = AtataContext.GlobalProperties.ConvertToTimeZone(utcTimestamp);
         LogEventInfo logEvent = _logEventInfoFactory.Create(logTimestamp, level, message);
@@ -250,12 +251,8 @@ internal sealed class LogManager : ILogManager
     private static DateTime GetCurrentTimestamp() =>
         AtataContext.GlobalProperties.ConvertToTimeZone(DateTime.UtcNow);
 
-    private static string AppendSectionResultToMessage(string message, object result)
+    private static string AppendSectionResultToMessage(string message, string resultAsString)
     {
-        string resultAsString = result is Exception resultAsException
-            ? BuildExceptionShortSingleLineMessage(resultAsException)
-            : Stringifier.ToString(result);
-
         string separator = resultAsString.Contains(Environment.NewLine)
             ? Environment.NewLine
             : " ";
@@ -281,7 +278,7 @@ internal sealed class LogManager : ILogManager
         return $"{exception.GetType().FullName}: {message}";
     }
 
-    private static string BuildNestingText(LogEventInfo eventInfo, LogConsumerConfiguration logConsumerConfiguration)
+    private static string? BuildNestingText(LogEventInfo eventInfo, LogConsumerConfiguration logConsumerConfiguration)
     {
         StringBuilder builder = new();
 
@@ -361,9 +358,9 @@ internal sealed class LogManager : ILogManager
                 string message = $"{section.Message} ({section.ElapsedTime.ToLongIntervalString()})";
 
                 if (section.IsResultSet)
-                    message = AppendSectionResultToMessage(message, section.Result);
-                else if (section.Exception != null)
-                    message = AppendSectionResultToMessage(message, section.Exception);
+                    message = AppendSectionResultToMessage(message, Stringifier.ToString(section.Result));
+                else if (section.Exception is not null)
+                    message = AppendSectionResultToMessage(message, BuildExceptionShortSingleLineMessage(section.Exception));
 
                 LogEventInfo eventInfo = _logEventInfoFactory.Create(GetCurrentTimestamp(), section.Level, message);
                 eventInfo.SectionEnd = section;
@@ -381,7 +378,9 @@ internal sealed class LogManager : ILogManager
         if (eventInfo.SectionEnd != null)
             appropriateConsumerItems = FilterByLogSectionEnd(appropriateConsumerItems, eventInfo.SectionEnd);
 
-        eventInfo.Message = ApplySecretMasks(eventInfo.Message);
+        eventInfo.Message = eventInfo.Message is null
+            ? null
+            : ApplySecretMasks(eventInfo.Message);
 
         lock (_sectionStack)
         {

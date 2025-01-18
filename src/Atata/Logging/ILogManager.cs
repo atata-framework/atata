@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// An interface of log writer, an entry point for the Atata logging functionality.
@@ -11,7 +13,7 @@ public interface ILogManager
     /// <param name="level">The level.</param>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
-    void Log(LogLevel level, string message, Exception exception = null);
+    void Log(LogLevel level, string? message, Exception? exception = null);
 
     /// <summary>
     /// Logs an entry.
@@ -20,7 +22,7 @@ public interface ILogManager
     /// <param name="level">The level.</param>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
-    void Log(DateTime utcTimestamp, LogLevel level, string message, Exception exception = null);
+    void Log(DateTime utcTimestamp, LogLevel level, string? message, Exception? exception = null);
 
     /// <summary>
     /// Writes a trace log message.
