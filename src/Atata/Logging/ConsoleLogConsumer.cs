@@ -1,9 +1,11 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Represents the log consumer that uses <see cref="Console.WriteLine(string)"/> method for logging.
+/// Represents a log consumer that uses <see cref="Console.WriteLine(string)"/> method for logging.
 /// </summary>
-/// <seealso cref="Atata.TextOutputLogConsumer" />
+/// <seealso cref="TextOutputLogConsumer" />
 public class ConsoleLogConsumer : TextOutputLogConsumer
 {
     protected override void Write(string completeMessage) =>
