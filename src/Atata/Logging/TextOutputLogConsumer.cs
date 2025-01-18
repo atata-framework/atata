@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents text output log consumer.
@@ -8,7 +10,7 @@
 /// </summary>
 public class TextOutputLogConsumer : ILogConsumer
 {
-    private readonly Action<string> _writeAction;
+    private readonly Action<string>? _writeAction;
 
     public TextOutputLogConsumer()
     {
