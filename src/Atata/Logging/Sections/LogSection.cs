@@ -3,7 +3,7 @@
 namespace Atata;
 
 /// <summary>
-/// Represents the log section.
+/// Represents a log section.
 /// </summary>
 public class LogSection
 {
@@ -11,7 +11,7 @@ public class LogSection
 
     public LogSection(string message, LogLevel level = LogLevel.Info)
     {
-        Message = message;
+        Message = message.CheckNotNull(nameof(message));
         Level = level;
     }
 
@@ -65,4 +65,14 @@ public class LogSection
     /// Gets the elapsed time of section execution.
     /// </summary>
     public TimeSpan ElapsedTime => Stopwatch.Elapsed;
+
+    /// <summary>
+    /// Performs an implicit conversion from <see langword="string"/> to <see cref="LogSection"/>.
+    /// </summary>
+    /// <param name="sectionMessage">The section message.</param>
+    /// <returns>
+    /// The <see cref="LogSection"/> with the specified <paramref name="sectionMessage"/> and <see cref="LogLevel.Info"/> level.
+    /// </returns>
+    public static implicit operator LogSection(string sectionMessage) =>
+        new(sectionMessage);
 }

@@ -86,19 +86,33 @@ public interface ILogManager
     void Fatal(Exception exception, string message);
 
     /// <summary>
+    /// <para>
     /// Executes the action within the log section.
     /// Writes start and end log messages.
     /// Writes exception to the end log message, if it occurs.
+    /// </para>
+    /// <para>
+    /// As <see cref="LogSection"/> supports implicit conversion from <see langword="string"/>
+    /// the method can be called in such way: <c>ExecuteSection("Some section", ...)</c>.
+    /// Such log section will have <see cref="LogLevel.Info"/> level.
+    /// </para>
     /// </summary>
     /// <param name="section">The section.</param>
     /// <param name="action">The action to execute.</param>
     void ExecuteSection(LogSection section, Action action);
 
     /// <summary>
+    /// <para>
     /// Executes the function within the log section.
     /// Writes start and end log messages.
     /// Writes exception to the end log message, if it occurs.
     /// Also writes result of the <paramref name="function"/> to the end log message.
+    /// </para>
+    /// <para>
+    /// As <see cref="LogSection"/> supports implicit conversion from <see langword="string"/>
+    /// the method can be called in such way: <c>ExecuteSection("Some section", ...)</c>.
+    /// Such log section will have <see cref="LogLevel.Info"/> level.
+    /// </para>
     /// </summary>
     /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="section">The section.</param>
@@ -107,7 +121,16 @@ public interface ILogManager
     TResult ExecuteSection<TResult>(LogSection section, Func<TResult> function);
 
     /// <summary>
+    /// <para>
     /// Executes asynchronously the task-based function within the log section.
+    /// Writes start and end log messages.
+    /// Writes exception to the end log message, if it occurs.
+    /// </para>
+    /// <para>
+    /// As <see cref="LogSection"/> supports implicit conversion from <see langword="string"/>
+    /// the method can be called in such way: <c>ExecuteSectionAsync("Some section", ...)</c>.
+    /// Such log section will have <see cref="LogLevel.Info"/> level.
+    /// </para>
     /// </summary>
     /// <param name="section">The section.</param>
     /// <param name="function">The function to execute.</param>
@@ -115,7 +138,17 @@ public interface ILogManager
     Task ExecuteSectionAsync(LogSection section, Func<Task> function);
 
     /// <summary>
+    /// <para>
     /// Executes asynchronously the task-based function within the log section.
+    /// Writes start and end log messages.
+    /// Writes exception to the end log message, if it occurs.
+    /// Also writes result of the <paramref name="function"/> to the end log message.
+    /// </para>
+    /// <para>
+    /// As <see cref="LogSection"/> supports implicit conversion from <see langword="string"/>
+    /// the method can be called in such way: <c>ExecuteSectionAsync("Some section", ...)</c>.
+    /// Such log section will have <see cref="LogLevel.Info"/> level.
+    /// </para>
     /// </summary>
     /// <typeparam name="TResult">The type of the result.</typeparam>
     /// <param name="section">The section.</param>
