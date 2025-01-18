@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for log consumer that needs to be initialized in a lazy way.
@@ -12,13 +14,13 @@ public abstract class LazyInitializableLogConsumer : ILogConsumer
     /// <summary>
     /// Gets the logger.
     /// </summary>
-    protected dynamic Logger { get; private set; }
+    protected dynamic? Logger { get; private set; }
 
     public void Log(LogEventInfo eventInfo)
     {
         EnsureLoggerIsInitialized();
 
-        if (Logger != null)
+        if (Logger is not null)
             OnLog(eventInfo);
     }
 

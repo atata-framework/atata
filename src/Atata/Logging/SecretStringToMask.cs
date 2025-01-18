@@ -1,9 +1,11 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the pair of a secret string and a mask that should replace the string.
 /// </summary>
-public class SecretStringToMask
+public sealed class SecretStringToMask
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="SecretStringToMask"/> class.
@@ -12,6 +14,9 @@ public class SecretStringToMask
     /// <param name="mask">The mask.</param>
     public SecretStringToMask(string value, string mask)
     {
+        value.CheckNotNullOrWhitespace(nameof(value));
+        mask.CheckNotNullOrWhitespace(nameof(mask));
+
         Value = value;
         Mask = mask;
     }

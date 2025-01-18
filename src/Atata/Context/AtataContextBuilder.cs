@@ -238,11 +238,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder AddSecretStringToMaskInLog(string value, string mask = "{*****}")
     {
-        value.CheckNotNullOrWhitespace(nameof(value));
-        mask.CheckNotNullOrWhitespace(nameof(mask));
-
-        SecretStringsToMaskInLog.Add(
-            new SecretStringToMask(value, mask));
+        SecretStringsToMaskInLog.Add(new(value, mask));
 
         return this;
     }
