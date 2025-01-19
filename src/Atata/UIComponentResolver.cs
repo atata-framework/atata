@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class UIComponentResolver
 {
@@ -114,9 +116,9 @@ public static class UIComponentResolver
     private static void InitDelegateProperty<TOwner>(UIComponent<TOwner> parentComponent, PropertyInfo property)
         where TOwner : PageObject<TOwner>
     {
-        Type controlType = ResolveDelegateControlType(property.PropertyType);
+        Type? controlType = ResolveDelegateControlType(property.PropertyType);
 
-        if (controlType != null)
+        if (controlType is not null)
         {
             UIComponentMetadata metadata = CreateStaticControlMetadata(parentComponent, property, controlType);
 
@@ -163,9 +165,9 @@ public static class UIComponentResolver
         {
             supportsMetadata.Metadata = CreateStaticControlMetadata(parentComponent, property, supportsMetadata.ComponentType);
 
-            string nameFromMetadata = GetControlNameFromNameAttribute(supportsMetadata.Metadata);
+            string? nameFromMetadata = GetControlNameFromNameAttribute(supportsMetadata.Metadata);
 
-            if (nameFromMetadata != null)
+            if (nameFromMetadata is not null)
                 componentPart.ComponentPartName = nameFromMetadata;
         }
 
@@ -175,7 +177,7 @@ public static class UIComponentResolver
         property.SetValue(parentComponent, componentPart, null);
     }
 
-    private static Type ResolveDelegateControlType(Type delegateType)
+    private static Type? ResolveDelegateControlType(Type delegateType)
     {
         Type delegateGenericTypeDefinition = delegateType.GetGenericTypeDefinition();
 
@@ -209,16 +211,16 @@ public static class UIComponentResolver
                 supportsMetadata.ComponentType,
                 attributes);
 
-            string nameFromMetadata = GetControlNameFromNameAttribute(supportsMetadata.Metadata);
+            string? nameFromMetadata = GetControlNameFromNameAttribute(supportsMetadata.Metadata);
 
-            if (nameFromMetadata != null)
+            if (nameFromMetadata is not null)
                 componentPart.ComponentPartName = nameFromMetadata;
         }
 
         return componentPart;
     }
 
-    public static TComponent CreateControl<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string name, params Attribute[] attributes)
+    public static TComponent CreateControl<TComponent, TOwner>(UIComponent<TOwner> parentComponent, string? name, params Attribute[] attributes)
         where TComponent : UIComponent<TOwner>
         where TOwner : PageObject<TOwner>
     {
@@ -226,7 +228,7 @@ public static class UIComponentResolver
 
         attributes = attributes?.Where(x => x != null).ToArray() ?? [];
 
-        if (!attributes.OfType<NameAttribute>().Any())
+        if (!attributes.OfType<NameAttribute>().Any() && name is not null)
         {
             attributes =
             [
@@ -294,16 +296,16 @@ public static class UIComponentResolver
             ?? GetControlNameFromFindAttribute(metadata)
             ?? GetComponentNameFromMetadata(metadata);
 
-    private static string GetControlNameFromNameAttribute(UIComponentMetadata metadata)
+    private static string? GetControlNameFromNameAttribute(UIComponentMetadata metadata)
     {
         NameAttribute nameAttribute = metadata.Get<NameAttribute>();
 
-        return !string.IsNullOrWhiteSpace(nameAttribute?.Value)
+        return nameAttribute is not null && !string.IsNullOrWhiteSpace(nameAttribute.Value)
             ? nameAttribute.Value
             : null;
     }
 
-    private static string GetControlNameFromFindAttribute(UIComponentMetadata metadata)
+    private static string? GetControlNameFromFindAttribute(UIComponentMetadata metadata)
     {
         FindAttribute findAttribute = metadata.ResolveFindAttribute();
 
@@ -351,7 +353,7 @@ public static class UIComponentResolver
     private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(
         UIComponent<TOwner> parentComponent,
         PropertyInfo property,
-        Type propertyType = null)
+        Type? propertyType = null)
         where TOwner : PageObject<TOwner>
         =>
         CreateComponentMetadata(
@@ -361,21 +363,21 @@ public static class UIComponentResolver
             GetPropertyAttributes(property));
 
     private static UIComponentMetadata CreateComponentMetadata<TOwner>(
-        UIComponent<TOwner> parentComponent,
-        string name,
+        UIComponent<TOwner>? parentComponent,
+        string? name,
         Type componentType,
         Attribute[] declaredAttributes)
         where TOwner : PageObject<TOwner>
     {
-        Type parentComponentType = parentComponent?.GetType();
+        Type? parentComponentType = parentComponent?.GetType();
 
-        AtataAttributesContext contextAttributes = (parentComponent?.Session.Context ?? AtataContext.Current).Attributes;
+        AtataAttributesContext contextAttributes = (parentComponent?.Session.Context ?? AtataContext.ResolveCurrent()).Attributes;
         UIComponentMetadata metadata = new(name, componentType, parentComponentType);
 
         // Declared:
         metadata.DeclaredAttributesList.AddRange(declaredAttributes);
 
-        if (parentComponent != null)
+        if (parentComponent is not null && name is not null)
         {
             var propertyContextAttributes = contextAttributes.PropertyMap
                .Where(x => x.Key.PropertyName == name)
@@ -513,7 +515,7 @@ public static class UIComponentResolver
             : typeName;
     }
 
-    public static string ResolveComponentFullName<TOwner>(object component)
+    public static string? ResolveComponentFullName<TOwner>(object component)
         where TOwner : PageObject<TOwner>
         =>
         component is IUIComponent<TOwner> uiComponent
