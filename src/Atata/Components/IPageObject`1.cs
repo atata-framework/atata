@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IPageObject<TOwner> : IUIComponent<TOwner>
     where TOwner : PageObject<TOwner>

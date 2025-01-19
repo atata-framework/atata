@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IControl<TOwner> : IUIComponent<TOwner>
     where TOwner : PageObject<TOwner>
@@ -9,7 +11,7 @@ public interface IControl<TOwner> : IUIComponent<TOwner>
 
     TOwner Click();
 
-    TNavigateTo ClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+    TNavigateTo ClickAndGo<TNavigateTo>(TNavigateTo? navigateToPageObject = null, bool? temporarily = null)
         where TNavigateTo : PageObject<TNavigateTo>;
 
     TOwner Hover();

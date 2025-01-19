@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface INavigable<TNavigateTo, TOwner> : IControl<TOwner>
     where TNavigateTo : PageObject<TNavigateTo>
