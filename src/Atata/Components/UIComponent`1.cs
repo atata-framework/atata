@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for UI components (page objects and controls).
@@ -22,11 +24,11 @@ return (
 
     protected UIComponent()
     {
-        Controls = new UIComponentChildrenList<TOwner>(this);
-        DomAttributes = new UIComponentDomAttributesProvider<TOwner>(this);
-        DomProperties = new UIComponentDomPropertiesProvider<TOwner>(this);
-        Css = new UIComponentCssProvider<TOwner>(this);
-        Script = new UIComponentScriptExecutor<TOwner>(this);
+        Controls = new(this);
+        DomAttributes = new(this);
+        DomProperties = new(this);
+        Css = new(this);
+        Script = new(this);
     }
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Owner"/>
@@ -37,9 +39,9 @@ return (
     }
 
     /// <inheritdoc cref="IUIComponent{TOwner}.Parent"/>
-    public new UIComponent<TOwner> Parent
+    public new UIComponent<TOwner>? Parent
     {
-        get => (UIComponent<TOwner>)base.Parent;
+        get => base.Parent as UIComponent<TOwner>;
         internal set => base.Parent = value;
     }
 
@@ -107,7 +109,7 @@ return (
     /// <inheritdoc/>
     public UIComponentChildrenList<TOwner> Controls { get; }
 
-    IUIComponent<TOwner> IUIComponent<TOwner>.Parent => Parent;
+    IUIComponent<TOwner>? IUIComponent<TOwner>.Parent => Parent;
 
     IScopeLocator IUIComponent<TOwner>.ScopeLocator => ScopeLocator;
 
@@ -162,7 +164,7 @@ return (
     /// <param name="until">The waiting condition.</param>
     /// <param name="options">The options.</param>
     /// <returns>The instance of the owner page object.</returns>
-    public TOwner Wait(Until until, WaitOptions options = null)
+    public TOwner Wait(Until until, WaitOptions? options = null)
     {
         foreach (WaitUnit unit in until.GetWaitUnits(options))
         {
@@ -302,7 +304,7 @@ return (
             {
                 var triggers = orderedTriggers.Where(x => x.On.HasFlag(on));
 
-                TriggerContext<TOwner> triggerContext = null;
+                TriggerContext<TOwner>? triggerContext = null;
 
                 foreach (TriggerAttribute trigger in triggers)
                 {
@@ -332,7 +334,7 @@ return (
         Find<TControl>(null, attributes);
 
     /// <inheritdoc/>
-    public TControl Find<TControl>(string name, params Attribute[] attributes)
+    public TControl Find<TControl>(string? name, params Attribute[] attributes)
         where TControl : Control<TOwner>
         =>
         UIComponentResolver.CreateControl<TControl, TOwner>(this, name, attributes);
@@ -354,7 +356,7 @@ return (
     /// </summary>
     /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
     /// <returns>The component or <see langword="null"/> if not found.</returns>
-    public TComponentToFind GetAncestor<TComponentToFind>()
+    public TComponentToFind? GetAncestor<TComponentToFind>()
         where TComponentToFind : UIComponent<TOwner>
         =>
         (Parent as TComponentToFind) ?? Parent?.GetAncestor<TComponentToFind>();
@@ -364,7 +366,7 @@ return (
     /// </summary>
     /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
     /// <returns>The component or <see langword="null"/> if not found.</returns>
-    public TComponentToFind GetAncestorOrSelf<TComponentToFind>()
+    public TComponentToFind? GetAncestorOrSelf<TComponentToFind>()
         where TComponentToFind : UIComponent<TOwner>
         =>
         (this as TComponentToFind) ?? Parent?.GetAncestorOrSelf<TComponentToFind>();

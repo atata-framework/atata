@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents an interface for UI component.
@@ -23,7 +25,7 @@ public interface IUIComponent<TOwner>
     /// <summary>
     /// Gets the parent component.
     /// </summary>
-    IUIComponent<TOwner> Parent { get; }
+    IUIComponent<TOwner>? Parent { get; }
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating
@@ -173,7 +175,7 @@ public interface IUIComponent<TOwner>
     /// <param name="options">The search options.
     /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
     /// <returns>The <see cref="IWebElement"/> instance of the scope.</returns>
-    IWebElement GetScope(SearchOptions options = null);
+    IWebElement GetScope(SearchOptions? options = null);
 
     /// <summary>
     /// Gets the <see cref="ISearchContext"/> instance that represents the scope search context
@@ -184,7 +186,7 @@ public interface IUIComponent<TOwner>
     /// The search options.
     /// If set to <see langword="null"/>, then it uses <c>SearchOptions.Safely()</c>.</param>
     /// <returns>The <see cref="ISearchContext"/> instance of the scope context.</returns>
-    ISearchContext GetScopeContext(SearchOptions options = null);
+    ISearchContext GetScopeContext(SearchOptions? options = null);
 
     /// <summary>
     /// Waits until the specified component condition is met.
@@ -192,7 +194,7 @@ public interface IUIComponent<TOwner>
     /// <param name="until">The waiting condition.</param>
     /// <param name="options">The options.</param>
     /// <returns>The instance of the owner page object.</returns>
-    TOwner Wait(Until until, WaitOptions options = null);
+    TOwner Wait(Until until, WaitOptions? options = null);
 
     /// <summary>
     /// Determines whether the component exists.
@@ -204,7 +206,7 @@ public interface IUIComponent<TOwner>
     /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
     /// equal to <see langword="false"/> value and the component doesn't exist.
     /// </exception>
-    bool Exists(SearchOptions options = null);
+    bool Exists(SearchOptions? options = null);
 
     /// <summary>
     /// Determines whether the component is missing.
@@ -216,7 +218,7 @@ public interface IUIComponent<TOwner>
     /// The <paramref name="options"/> has <see cref="SearchOptions.IsSafely"/> property
     /// equal to <see langword="false"/> value and the component exists.
     /// </exception>
-    bool Missing(SearchOptions options = null);
+    bool Missing(SearchOptions? options = null);
 
     /// <summary>
     /// Creates a value provider with the specified <paramref name="providerName"/> and using <paramref name="valueGetFunction"/>.
@@ -260,7 +262,7 @@ public interface IUIComponent<TOwner>
     /// <param name="name">The control name, which is used in log.</param>
     /// <param name="attributes">The attributes.</param>
     /// <returns>The created control instance.</returns>
-    TControl Find<TControl>(string name, params Attribute[] attributes)
+    TControl Find<TControl>(string? name, params Attribute[] attributes)
         where TControl : Control<TOwner>;
 
     /// <summary>
@@ -293,7 +295,7 @@ public interface IUIComponent<TOwner>
     /// </summary>
     /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
     /// <returns>The component or <see langword="null"/> if not found.</returns>
-    TComponentToFind GetAncestor<TComponentToFind>()
+    TComponentToFind? GetAncestor<TComponentToFind>()
         where TComponentToFind : UIComponent<TOwner>;
 
     /// <summary>
@@ -301,7 +303,7 @@ public interface IUIComponent<TOwner>
     /// </summary>
     /// <typeparam name="TComponentToFind">The type of the component to find.</typeparam>
     /// <returns>The component or <see langword="null"/> if not found.</returns>
-    TComponentToFind GetAncestorOrSelf<TComponentToFind>()
+    TComponentToFind? GetAncestorOrSelf<TComponentToFind>()
         where TComponentToFind : UIComponent<TOwner>;
 
     /// <summary>
