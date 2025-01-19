@@ -515,7 +515,7 @@ public static class UIComponentResolver
             : typeName;
     }
 
-    public static string? ResolveComponentFullName<TOwner>(object component)
+    public static string? ResolveComponentFullName<TOwner>(object? component)
         where TOwner : PageObject<TOwner>
         =>
         component is IUIComponent<TOwner> uiComponent

@@ -274,14 +274,14 @@ return (
 
     protected string BuildFullValueProviderName(string providerName)
     {
-        string componentProviderName = BuildComponentProviderName();
+        string? componentProviderName = BuildComponentProviderName();
 
         return string.IsNullOrEmpty(componentProviderName)
             ? providerName
             : $"{componentProviderName} {providerName}";
     }
 
-    protected virtual string BuildComponentProviderName() =>
+    protected virtual string? BuildComponentProviderName() =>
         ComponentFullName;
 
     /// <summary>

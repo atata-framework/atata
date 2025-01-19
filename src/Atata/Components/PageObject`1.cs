@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for the page objects.
@@ -10,7 +12,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 {
     private readonly WebDriverSession _session;
 
-    private Control<TOwner> _activeControl;
+    private Control<TOwner>? _activeControl;
 
     protected PageObject()
     {
@@ -65,7 +67,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <summary>
     /// Gets or sets the navigation URL, which can be used during page object initialization.
     /// </summary>
-    protected internal string NavigationUrl { get; set; }
+    protected internal string? NavigationUrl { get; set; }
 
     /// <summary>
     /// Gets a value indicating whether this instance is temporarily navigated using <see cref="GoTemporarilyAttribute"/> or other approach.
@@ -75,7 +77,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <summary>
     /// Gets the previous page object.
     /// </summary>
-    protected internal UIComponent PreviousPageObject { get; internal set; }
+    protected internal UIComponent? PreviousPageObject { get; internal set; }
 
     /// <summary>
     /// Gets the <see cref="IWebSessionReport{TOwner}"/> instance that provides a reporting functionality.
@@ -244,7 +246,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The instance of the frame page object.</returns>
-    public TFramePageObject SwitchToFrame<TFramePageObject>(By frameBy, TFramePageObject framePageObject = null, bool temporarily = false)
+    public TFramePageObject SwitchToFrame<TFramePageObject>(By frameBy, TFramePageObject? framePageObject = null, bool temporarily = false)
         where TFramePageObject : PageObject<TFramePageObject>
     {
         IWebElement frameElement = Scope.GetWithLogging(Log, frameBy);
@@ -261,7 +263,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TFramePageObject"/> using the default constructor.</param>
     /// <param name="temporarily">If set to <see langword="true"/> navigates temporarily preserving current page object state.</param>
     /// <returns>The instance of the frame page object.</returns>
-    public virtual TFramePageObject SwitchToFrame<TFramePageObject>(IWebElement frameElement, TFramePageObject framePageObject = null, bool temporarily = false)
+    public virtual TFramePageObject SwitchToFrame<TFramePageObject>(IWebElement frameElement, TFramePageObject? framePageObject = null, bool temporarily = false)
         where TFramePageObject : PageObject<TFramePageObject>
     {
         SwitchToFrame(frameElement);
@@ -290,7 +292,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// The root page object.
     /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TPageObject"/> using the default constructor.</param>
     /// <returns>The instance of the root page object.</returns>
-    public virtual TPageObject SwitchToRoot<TPageObject>(TPageObject rootPageObject = null)
+    public virtual TPageObject SwitchToRoot<TPageObject>(TPageObject? rootPageObject = null)
         where TPageObject : PageObject<TPageObject>
     {
         SwitchToRoot();
@@ -413,7 +415,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// The instance of the previous page object.
     /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
     /// <returns>The instance of the previous page object.</returns>
-    public virtual TOther GoBack<TOther>(TOther previousPageObject = null)
+    public virtual TOther GoBack<TOther>(TOther? previousPageObject = null)
         where TOther : PageObject<TOther>
     {
         Log.ExecuteSection(
@@ -431,7 +433,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// The instance of the next page object.
     /// If equals <see langword="null"/>, creates an instance of <typeparamref name="TOther"/> using the default constructor.</param>
     /// <returns>The instance of the next page object.</returns>
-    public virtual TOther GoForward<TOther>(TOther nextPageObject = null)
+    public virtual TOther GoForward<TOther>(TOther? nextPageObject = null)
         where TOther : PageObject<TOther>
     {
         Log.ExecuteSection(
@@ -446,7 +448,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// </summary>
     public virtual void CloseWindow()
     {
-        string nextWindowHandle = null;
+        string? nextWindowHandle = null;
 
         _session.Log.ExecuteSection(
             "Close window",
@@ -456,11 +458,11 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
                 Driver.Close();
             });
 
-        if (nextWindowHandle != null)
+        if (nextWindowHandle is not null)
             SwitchToWindow(nextWindowHandle);
     }
 
-    private string ResolveWindowHandleToSwitchAfterClose()
+    private string? ResolveWindowHandleToSwitchAfterClose()
     {
         string currentWindowHandle = Driver.CurrentWindowHandle;
         var allWindowHandles = Driver.WindowHandles;
@@ -565,7 +567,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// If it is <see langword="null"/>, <see cref="UIComponent.ComponentFullName"/> is used instead.
     /// </param>
     /// <returns>The instance of this page object.</returns>
-    public TOwner AggregateAssert(Action<TOwner> action, string assertionScopeName = null)
+    public TOwner AggregateAssert(Action<TOwner> action, string? assertionScopeName = null)
     {
         action.CheckNotNull(nameof(action));
 
@@ -588,14 +590,15 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// If it is <see langword="null"/>, component full name is used instead.
     /// </param>
     /// <returns>The instance of this page object.</returns>
-    public TOwner AggregateAssert<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action, string assertionScopeName = null)
+    public TOwner AggregateAssert<TComponent>(Func<TOwner, TComponent> componentSelector, Action<TComponent> action, string? assertionScopeName = null)
     {
         componentSelector.CheckNotNull(nameof(componentSelector));
         action.CheckNotNull(nameof(action));
 
         TComponent component = componentSelector((TOwner)this);
 
-        assertionScopeName ??= UIComponentResolver.ResolveComponentFullName<TOwner>(component) ?? ComponentFullName;
+        assertionScopeName ??= UIComponentResolver.ResolveComponentFullName<TOwner>(component)
+            ?? ComponentFullName;
 
         Session.AggregateAssert(() => action(component), assertionScopeName);
 
@@ -699,5 +702,5 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
         Session.EventBus.Publish(new PageObjectDeInitCompletedEvent(this));
     }
 
-    protected override string BuildComponentProviderName() => null;
+    protected override string? BuildComponentProviderName() => null;
 }

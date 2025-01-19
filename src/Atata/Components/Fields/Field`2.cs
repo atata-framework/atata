@@ -34,7 +34,7 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
     protected virtual string ValueProviderName => "value";
 
     string IObjectProvider<TValue>.ProviderName =>
-        $"{BuildComponentProviderName()} {ValueProviderName}";
+        BuildFullValueProviderName(ValueProviderName);
 
     TOwner IObjectProvider<TValue, TOwner>.Owner => Owner;
 
