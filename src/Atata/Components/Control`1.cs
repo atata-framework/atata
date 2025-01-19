@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for the controls.
@@ -100,7 +102,7 @@ public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
     /// If set to <see langword="true"/> navigates temporarily preserving current page object state.
     /// If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
     /// <returns>The instance of <typeparamref name="TNavigateTo"/>.</returns>
-    public TNavigateTo ClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+    public TNavigateTo ClickAndGo<TNavigateTo>(TNavigateTo? navigateToPageObject = null, bool? temporarily = null)
         where TNavigateTo : PageObject<TNavigateTo>
     {
         Click();
@@ -108,15 +110,15 @@ public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
         return OnGo(navigateToPageObject, temporarily);
     }
 
-    protected virtual TNavigateTo OnGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+    protected virtual TNavigateTo OnGo<TNavigateTo>(TNavigateTo? navigateToPageObject = null, bool? temporarily = null)
         where TNavigateTo : PageObject<TNavigateTo>
     {
         bool isTemporarily = temporarily
             ?? Metadata.Get<GoTemporarilyAttribute>()?.IsTemporarily
             ?? false;
 
-        TNavigateTo pageObject = navigateToPageObject
-            ?? (TNavigateTo)Metadata.Get<NavigationPageObjectCreatorAttribute>()?.Creator?.Invoke();
+        TNavigateTo? pageObject = navigateToPageObject
+            ?? Metadata.Get<NavigationPageObjectCreatorAttribute>()?.Creator?.Invoke() as TNavigateTo;
 
         return Go.To(pageObject: pageObject, navigate: false, temporarily: isTemporarily);
     }
@@ -237,7 +239,7 @@ public class Control<TOwner> : UIComponent<TOwner>, IControl<TOwner>
     /// If set to <see langword="true"/> navigates temporarily preserving current page object state.
     /// If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
     /// <returns>The instance of <typeparamref name="TNavigateTo"/>.</returns>
-    public TNavigateTo DoubleClickAndGo<TNavigateTo>(TNavigateTo navigateToPageObject = null, bool? temporarily = null)
+    public TNavigateTo DoubleClickAndGo<TNavigateTo>(TNavigateTo? navigateToPageObject = null, bool? temporarily = null)
         where TNavigateTo : PageObject<TNavigateTo>
     {
         DoubleClick();
