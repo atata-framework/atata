@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the UI component metadata which consists of component name, type, attributes, etc.
@@ -27,9 +29,9 @@ public class UIComponentMetadata
         new(AttributeTargetFilterOptions.NonTargeted);
 
     internal UIComponentMetadata(
-        string name,
+        string? name,
         Type componentType,
-        Type parentComponentType)
+        Type? parentComponentType)
     {
         Name = name;
         ComponentType = componentType;
@@ -48,7 +50,7 @@ public class UIComponentMetadata
     /// <summary>
     /// Gets the name of the component.
     /// </summary>
-    public string Name { get; }
+    public string? Name { get; }
 
     /// <summary>
     /// Gets the type of the component.
@@ -58,13 +60,13 @@ public class UIComponentMetadata
     /// <summary>
     /// Gets the type of the parent component.
     /// </summary>
-    public Type ParentComponentType { get; }
+    public Type? ParentComponentType { get; }
 
     /// <summary>
     /// Gets the component definition attribute.
     /// </summary>
     public UIComponentDefinitionAttribute ComponentDefinitionAttribute =>
-        ParentComponentType == null
+        ParentComponentType is null
             ? Get<PageObjectDefinitionAttribute>()
             : (Get<ControlDefinitionAttribute>() as UIComponentDefinitionAttribute ?? s_defaultControlDefinitionAttribute);
 
@@ -164,7 +166,7 @@ public class UIComponentMetadata
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <param name="filterConfiguration">The filter configuration function.</param>
     /// <returns>The first attribute found or <see langword="null"/>.</returns>
-    public TAttribute Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration) =>
+    public TAttribute Get<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>>? filterConfiguration) =>
         GetAll(filterConfiguration).FirstOrDefault();
 
     /// <summary>
@@ -181,7 +183,7 @@ public class UIComponentMetadata
     /// <typeparam name="TAttribute">The type of the attribute.</typeparam>
     /// <param name="filterConfiguration">The filter configuration function.</param>
     /// <returns>The sequence of attributes found.</returns>
-    public IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>> filterConfiguration)
+    public IEnumerable<TAttribute> GetAll<TAttribute>(Func<AttributeFilter<TAttribute>, AttributeFilter<TAttribute>>? filterConfiguration)
     {
         AttributeFilter<TAttribute> defaultFilter = new AttributeFilter<TAttribute>();
 
@@ -273,15 +275,15 @@ public class UIComponentMetadata
                     TargetAttributeRank = ((AttributeSettingsAttribute)x.Attribute).CalculateTargetAttributeRank(filter.TargetAttributeType)
                 })
                 .Where(x => x.TargetAttributeRank.HasValue)
-                .OrderByDescending(x => x.TargetRank.Value)
-                .ThenByDescending(x => x.TargetAttributeRank.Value)
+                .OrderByDescending(x => x.TargetRank!.Value)
+                .ThenByDescending(x => x.TargetAttributeRank!.Value)
                 .Select(x => x.Attribute)
                 .Cast<TAttribute>();
         }
         else
         {
             return rankedQuery
-                .OrderByDescending(x => x.TargetRank.Value)
+                .OrderByDescending(x => x.TargetRank!.Value)
                 .Select(x => x.Attribute)
                 .Cast<TAttribute>();
         }
@@ -365,11 +367,11 @@ public class UIComponentMetadata
     /// Returns <see langword="null"/> if the attribute is not found.
     /// </summary>
     /// <returns>The <see cref="CultureInfo"/> instance or <see langword="null"/>.</returns>
-    public CultureInfo GetCulture()
+    public CultureInfo? GetCulture()
     {
-        string cultureName = Get<CultureAttribute>()?.Value;
+        string? cultureName = Get<CultureAttribute>()?.Value;
 
-        return cultureName != null
+        return cultureName is not null
             ? CultureInfo.GetCultureInfo(cultureName)
             : null;
     }
@@ -378,7 +380,7 @@ public class UIComponentMetadata
     /// Gets the format by searching the <see cref="FormatAttribute"/> at all attribute levels or <see langword="null"/> if not found.
     /// </summary>
     /// <returns>The format or <see langword="null"/> if not found.</returns>
-    public string GetFormat() =>
+    public string? GetFormat() =>
         Get<FormatAttribute>()?.Value;
 
     public FindAttribute ResolveFindAttribute() =>
