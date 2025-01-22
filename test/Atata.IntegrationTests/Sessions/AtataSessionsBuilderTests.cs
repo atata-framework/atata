@@ -163,7 +163,7 @@ public static class AtataSessionsBuilderTests
         }
     }
 
-    public sealed class ConfigureBySessionType
+    public sealed class Configure_WithSessionType
     {
         [Test]
         public void WhenThereIsSuchBuilder()
@@ -173,7 +173,7 @@ public static class AtataSessionsBuilderTests
             sut.Add<FakeSessionBuilder>(x => x.Name = "some");
 
             // Act
-            sut.ConfigureBySessionType(typeof(FakeSession), "some", x => x.Mode = AtataSessionMode.Shared);
+            sut.Configure(typeof(FakeSession), "some", x => x.Mode = AtataSessionMode.Shared);
 
             // Assert
             sut.Builders.Should().ContainSingle()
@@ -192,7 +192,7 @@ public static class AtataSessionsBuilderTests
             sut.Add<FakeSessionBuilder>(x => x.Name = "some");
 
             // Act
-            sut.ConfigureBySessionType(typeof(AtataSession), "some", x => x.Mode = AtataSessionMode.Shared);
+            sut.Configure(typeof(AtataSession), "some", x => x.Mode = AtataSessionMode.Shared);
 
             // Assert
             sut.Builders.Should().ContainSingle()
@@ -211,7 +211,7 @@ public static class AtataSessionsBuilderTests
             sut.Add<FakeSessionBuilder>(x => x.Name = "some1");
 
             // Act
-            var call = sut.Invoking(x => x.ConfigureBySessionType(typeof(FakeSession), "some2", x => x.Mode = AtataSessionMode.Shared));
+            var call = sut.Invoking(x => x.Configure(typeof(FakeSession), "some2", x => x.Mode = AtataSessionMode.Shared));
 
             // Assert
             call.Should().ThrowExactly<AtataSessionBuilderNotFoundException>()
