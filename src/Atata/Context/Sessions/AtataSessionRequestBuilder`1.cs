@@ -32,7 +32,7 @@ public abstract class AtataSessionRequestBuilder<TBuilder> : IAtataSessionProvid
     /// </summary>
     /// <param name="name">The name.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseName(string name)
+    public TBuilder UseName(string? name)
     {
         Name = name;
         return (TBuilder)this;
