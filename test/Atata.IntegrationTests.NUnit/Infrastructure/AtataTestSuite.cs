@@ -21,7 +21,7 @@ public abstract class AtataTestSuite
 
     [OneTimeTearDown]
     public void TearDownSuiteAtataContext() =>
-        SuiteContext?.Dispose();
+        TestCompletionHandler.CompleteTest(SuiteContext);
 
     [SetUp]
     public void SetUpTestAtataContext()
