@@ -767,10 +767,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     /// <param name="message">The exception message.</param>
     /// <param name="stackTrace">The exception stack trace.</param>
-    public void HandleTestResultException(string message, string stackTrace)
+    public void HandleTestResultException(string message, string? stackTrace)
     {
         message.CheckNotNull(nameof(message));
-        stackTrace.CheckNotNull(nameof(stackTrace));
         EnsureNotDisposed();
 
         Test.ResultStatus = TestResultStatus.Failed;
