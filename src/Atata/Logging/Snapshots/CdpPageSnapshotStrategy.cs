@@ -26,7 +26,7 @@ public sealed class CdpPageSnapshotStrategy : IPageSnapshotStrategy<WebDriverSes
             .GetAwaiter()
             .GetResult();
 
-        var data = commandResult["data"].ToString();
+        string data = commandResult.Value.GetProperty("data").GetString();
         return FileContentWithExtension.CreateFromText(data, ".mhtml");
     }
 }

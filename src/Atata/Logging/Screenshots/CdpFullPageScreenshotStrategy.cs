@@ -34,7 +34,7 @@ public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy<WebDrive
             .GetAwaiter()
             .GetResult();
 
-        var data = commandResult["data"].ToString();
+        string data = commandResult.Value.GetProperty("data").GetString();
         return FileContentWithExtension.CreateFromBase64String(data, ".png");
     }
 }
