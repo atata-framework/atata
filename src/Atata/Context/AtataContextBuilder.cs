@@ -200,13 +200,21 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
+    [Obsolete("Use SetVariable instead.")] // Obsolete since v4.0.0.
+    public AtataContextBuilder AddVariable(string key, object value) =>
+        SetVariable(key, value);
+
+    [Obsolete("Use SetVariables instead.")] // Obsolete since v4.0.0.
+    public AtataContextBuilder AddVariables(IDictionary<string, object> variables) =>
+        SetVariables(variables);
+
     /// <summary>
-    /// Adds the variable.
+    /// Sets the variable.
     /// </summary>
     /// <param name="key">The variable key.</param>
     /// <param name="value">The variable value.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder AddVariable(string key, object value)
+    public AtataContextBuilder SetVariable(string key, object value)
     {
         key.CheckNotNullOrWhitespace(nameof(key));
 
@@ -216,11 +224,11 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Adds the variables.
+    /// Sets the variables.
     /// </summary>
     /// <param name="variables">The variables to add.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder AddVariables(IDictionary<string, object> variables)
+    public AtataContextBuilder SetVariables(IDictionary<string, object> variables)
     {
         variables.CheckNotNull(nameof(variables));
 

@@ -8,6 +8,6 @@ public sealed class SomeClassFixture<TClass> : AtataClassFixture<TClass>
     {
         base.ConfigureAtataContext(builder);
 
-        builder.AddVariable(nameof(SomeClassFixture<TClass>), true);
+        builder.SetVariable(nameof(SomeClassFixture<TClass>), true);
     }
 }

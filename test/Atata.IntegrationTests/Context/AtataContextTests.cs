@@ -122,10 +122,10 @@ public static class AtataContextTests
     public class Variables : TestSuiteBase
     {
         [Test]
-        public void AddViaBuilder()
+        public void SetViaBuilder()
         {
             var context = ConfigureSessionlessAtataContext()
-                .AddVariable("key1", "val1")
+                .SetVariable("key1", "val1")
                 .Build();
 
             context.Variables.ToSutSubject()
@@ -133,7 +133,7 @@ public static class AtataContextTests
         }
 
         [Test]
-        public void AddViaContext()
+        public void SetViaContext()
         {
             var context = ConfigureSessionlessAtataContext()
                 .Build();
@@ -151,7 +151,7 @@ public static class AtataContextTests
             [SetUp]
             public void SetUp() =>
                 _sut = ConfigureSessionlessAtataContext()
-                    .AddVariable("key1", "val1")
+                    .SetVariable("key1", "val1")
                     .Build()
                     .ToSutSubject();
 

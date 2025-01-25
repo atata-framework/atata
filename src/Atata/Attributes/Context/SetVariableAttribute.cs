@@ -28,10 +28,6 @@ public class SetVariableAttribute : AtataContextConfigurationAttribute
     /// </summary>
     public object Value { get; }
 
-    /// <summary>
-    /// Configures the Atata context by adding the variable.
-    /// </summary>
-    /// <param name="builder">The Atata context builder.</param>
     public override void ConfigureAtataContext(AtataContextBuilder builder) =>
-        builder.AddVariable(Key, Value);
+        builder.SetVariable(Key, Value);
 }

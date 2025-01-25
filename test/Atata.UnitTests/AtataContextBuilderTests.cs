@@ -10,7 +10,7 @@ public sealed class AtataContextBuilderTests
         {
             // Arrange
             var baseBuilder = AtataContext.BaseConfiguration;
-            baseBuilder.AddVariable("a", 1);
+            baseBuilder.SetVariable("a", 1);
             baseBuilder.EventSubscriptions.Add<AtataContextInitStartedEvent>(() => { });
             baseBuilder.LogConsumers.AddConsole();
             baseBuilder.Sessions.Add<FakeSessionBuilder>(x => x.Name = "session1");
@@ -18,7 +18,7 @@ public sealed class AtataContextBuilderTests
 
             // Act
             var builder = AtataContext.CreateNonScopedBuilder();
-            builder.AddVariable("b", 2);
+            builder.SetVariable("b", 2);
             builder.EventSubscriptions.Add<AtataContextInitStartedEvent>(() => { });
             builder.LogConsumers.AddDebug();
             builder.Sessions.Add<FakeSessionBuilder>(x => x.Name = "session2");
