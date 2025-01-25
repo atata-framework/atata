@@ -266,6 +266,9 @@ dotnet_diagnostic.CA1813.severity = none
 # CA1825: Avoid zero-length array allocations
 dotnet_diagnostic.CA1825.severity = none
 
+# CA1861: Avoid constant arrays as arguments
+dotnet_diagnostic.CA1861.severity = none
+
 # CA2007: Consider calling ConfigureAwait on the awaited task
 dotnet_diagnostic.CA2007.severity = none
 
@@ -290,15 +293,28 @@ dotnet_diagnostic.S104.severity = warning
 
 dotnet_diagnostic.S105.severity = warning
 
-dotnet_diagnostic.S1067.severity = warning
-
 dotnet_diagnostic.S107.severity = warning
-
-dotnet_diagnostic.S1109.severity = warning
 
 dotnet_diagnostic.S113.severity = warning
 
+dotnet_diagnostic.S122.severity = warning
+
+dotnet_diagnostic.S127.severity = warning
+
+dotnet_diagnostic.S131.severity = warning
+
+dotnet_diagnostic.S134.severity = warning
+
+dotnet_diagnostic.S138.severity = warning
+
 dotnet_diagnostic.S881.severity = warning
+
+dotnet_diagnostic.S1067.severity = warning
+
+# S1075: URIs should not be hardcoded
+dotnet_diagnostic.S1075.severity = none
+
+dotnet_diagnostic.S1109.severity = warning
 
 dotnet_diagnostic.S1133.severity = none
 
@@ -315,19 +331,9 @@ dotnet_diagnostic.S1151.severity = warning
 
 dotnet_diagnostic.S1192.severity = warning
 
-dotnet_diagnostic.S122.severity = warning
-
 dotnet_diagnostic.S1227.severity = warning
 
 dotnet_diagnostic.S1244.severity = warning
-
-dotnet_diagnostic.S127.severity = warning
-
-dotnet_diagnostic.S131.severity = warning
-
-dotnet_diagnostic.S134.severity = warning
-
-dotnet_diagnostic.S138.severity = warning
 
 dotnet_diagnostic.S1541.severity = warning
 
@@ -360,6 +366,8 @@ dotnet_diagnostic.S3253.severity = warning
 dotnet_diagnostic.S3254.severity = warning
 
 dotnet_diagnostic.S3257.severity = warning
+
+dotnet_diagnostic.S3267.severity = none
 
 dotnet_diagnostic.S3358.severity = none
 
