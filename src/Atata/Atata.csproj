@@ -33,9 +33,7 @@ Features:
   <ItemGroup>
     <PackageReference Include="Atata.WebDriverExtras" Version="3.0.0" />
     <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.26.1" />
-    <!-- Temporarily referencing System.Text.Json v8.0.5, because Selenium.WebDriver referencing vulnerable v8.0.4. -->
-    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.28.0" />
   </ItemGroup>
   
   <ItemGroup>
