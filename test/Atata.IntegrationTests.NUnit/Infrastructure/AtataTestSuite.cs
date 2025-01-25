@@ -1,18 +1,26 @@
-﻿using NUnit.Framework;
+﻿#nullable enable
+
+using System.Reflection;
+using NUnit.Framework;
 
 namespace Atata.NUnit;
 
 [Parallelizable(ParallelScope.Self)]
 public abstract class AtataTestSuite
 {
-    protected AtataContext SuiteContext { get; private set; }
+    private TestSuiteAtataContextMetadata? _testSuiteContextMetadata;
 
-    protected AtataContext Context { get; private set; }
+    protected AtataContext SuiteContext { get; private set; } = null!;
+
+    protected AtataContext Context { get; private set; } = null!;
 
     [OneTimeSetUp]
     public void SetUpSuiteAtataContext()
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite);
+
+        _testSuiteContextMetadata = TestSuiteAtataContextMetadata.GetForType(GetType());
+        _testSuiteContextMetadata.ApplyToTestSuiteBuilder(builder);
 
         ConfigureSuiteAtataContext(builder);
 
@@ -27,6 +35,13 @@ public abstract class AtataTestSuite
     public void SetUpTestAtataContext()
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test);
+
+        _testSuiteContextMetadata?.ApplyToTestBuilder(builder);
+
+        MethodInfo? method = TestContext.CurrentContext.Test.Method?.MethodInfo;
+
+        if (method is not null)
+            TestAtataContextMetadata.GetForMethod(method).ApplyToTestBuilder(builder);
 
         ConfigureAtataContext(builder);
 
