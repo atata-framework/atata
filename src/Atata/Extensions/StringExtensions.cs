@@ -2,6 +2,10 @@
 
 public static class StringExtensions
 {
+    private static char[] s_invalidFileNameChars;
+
+    private static char[] s_invalidPathChars;
+
     internal static string FormatWith(this string format, params object[] args) =>
         string.Format(format, args);
 
@@ -115,17 +119,29 @@ public static class StringExtensions
         return invalidChars.Aggregate(value, (current, c) => current.Replace(c, replaceWith));
     }
 
-    public static string SanitizeForFileName(this string value, string replaceWith = null) =>
-        value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
+    public static string SanitizeForFileName(this string value)
+    {
+        s_invalidFileNameChars ??= Path.GetInvalidFileNameChars();
+        return value.Sanitize(s_invalidFileNameChars);
+    }
 
-    public static string SanitizeForFileName(this string value, char replaceWith) =>
-        value.Sanitize(Path.GetInvalidFileNameChars(), replaceWith);
+    public static string SanitizeForFileName(this string value, char replaceWith)
+    {
+        s_invalidFileNameChars ??= Path.GetInvalidFileNameChars();
+        return value.Sanitize(s_invalidFileNameChars, replaceWith);
+    }
 
-    public static string SanitizeForPath(this string value, string replaceWith = null) =>
-        value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
+    public static string SanitizeForPath(this string value)
+    {
+        s_invalidPathChars ??= Path.GetInvalidPathChars();
+        return value.Sanitize(s_invalidPathChars);
+    }
 
-    public static string SanitizeForPath(this string value, char replaceWith) =>
-        value.Sanitize(Path.GetInvalidPathChars(), replaceWith);
+    public static string SanitizeForPath(this string value, char replaceWith)
+    {
+        s_invalidPathChars ??= Path.GetInvalidPathChars();
+        return value.Sanitize(s_invalidPathChars, replaceWith);
+    }
 
     public static string Truncate(this string value, int length, bool withEllipsis = true)
     {
