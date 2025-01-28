@@ -31,6 +31,7 @@ public static class StringExtensionsTests
         [TestCase("abcdef", new char[] { }, 'X', ExpectedResult = "abcdef")]
         [TestCase("Abcdef", new[] { 'a', 'F' }, 'X', ExpectedResult = "Abcdef")]
         [TestCase("aaa", new[] { 'a', 'a' }, 'X', ExpectedResult = "XXX")]
+        [TestCase("", new[] { 'a', }, 'X', ExpectedResult = "")]
         public static string With(string value, char[] invalidChars, char replaceWith) =>
             value.Sanitize(invalidChars, replaceWith);
     }
