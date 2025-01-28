@@ -106,16 +106,18 @@ public static class StringExtensions
         if (string.IsNullOrEmpty(value))
             return value;
 
-        Span<char> buffer = value.Length <= 1024 ? stackalloc char[value.Length] : new char[value.Length];
-        int bufferIndex = 0;
+        ReadOnlySpan<char> valueSpan = value.AsSpan();
+        ReadOnlySpan<char> invalidCharsSpan = invalidChars;
+        Span<char> resultSpan = valueSpan.Length <= 1024 ? stackalloc char[valueSpan.Length] : new char[valueSpan.Length];
+        int resultSpanLength = 0;
 
-        for (int i = 0; i < value.Length; i++)
+        for (int i = 0; i < valueSpan.Length; i++)
         {
-            if (Array.IndexOf(invalidChars, value[i]) == -1)
-                buffer[bufferIndex++] = value[i];
+            if (invalidCharsSpan.IndexOf(valueSpan[i]) == -1)
+                resultSpan[resultSpanLength++] = valueSpan[i];
         }
 
-        return buffer[..bufferIndex].ToString();
+        return resultSpan[..resultSpanLength].ToString();
     }
 
     public static string Sanitize(this string value, char[] invalidChars, char replaceWith)
@@ -125,16 +127,18 @@ public static class StringExtensions
         if (string.IsNullOrEmpty(value))
             return value;
 
-        Span<char> buffer = value.Length <= 1024 ? stackalloc char[value.Length] : new char[value.Length];
+        ReadOnlySpan<char> valueSpan = value.AsSpan();
+        ReadOnlySpan<char> invalidCharsSpan = invalidChars;
+        Span<char> resultSpan = valueSpan.Length <= 1024 ? stackalloc char[valueSpan.Length] : new char[valueSpan.Length];
 
-        for (int i = 0; i < value.Length; i++)
+        for (int i = 0; i < valueSpan.Length; i++)
         {
-            buffer[i] = Array.IndexOf(invalidChars, value[i]) == -1
-                ? value[i]
+            resultSpan[i] = invalidCharsSpan.IndexOf(valueSpan[i]) == -1
+                ? valueSpan[i]
                 : replaceWith;
         }
 
-        return buffer.ToString();
+        return resultSpan.ToString();
     }
 
     public static string SanitizeForFileName(this string value)
