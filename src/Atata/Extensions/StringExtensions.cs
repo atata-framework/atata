@@ -99,24 +99,42 @@ public static class StringExtensions
         return [.. words];
     }
 
-    public static string Sanitize(this string value, IEnumerable<char> invalidChars, string replaceWith = null)
+    public static string Sanitize(this string value, char[] invalidChars)
     {
         invalidChars.CheckNotNull(nameof(invalidChars));
 
         if (string.IsNullOrEmpty(value))
             return value;
 
-        return invalidChars.Aggregate(value, (current, c) => current.Replace(c.ToString(), replaceWith));
+        Span<char> buffer = value.Length <= 1024 ? stackalloc char[value.Length] : new char[value.Length];
+        int bufferIndex = 0;
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            if (Array.IndexOf(invalidChars, value[i]) == -1)
+                buffer[bufferIndex++] = value[i];
+        }
+
+        return buffer[..bufferIndex].ToString();
     }
 
-    public static string Sanitize(this string value, IEnumerable<char> invalidChars, char replaceWith)
+    public static string Sanitize(this string value, char[] invalidChars, char replaceWith)
     {
         invalidChars.CheckNotNull(nameof(invalidChars));
 
         if (string.IsNullOrEmpty(value))
             return value;
 
-        return invalidChars.Aggregate(value, (current, c) => current.Replace(c, replaceWith));
+        Span<char> buffer = value.Length <= 1024 ? stackalloc char[value.Length] : new char[value.Length];
+
+        for (int i = 0; i < value.Length; i++)
+        {
+            buffer[i] = Array.IndexOf(invalidChars, value[i]) == -1
+                ? value[i]
+                : replaceWith;
+        }
+
+        return buffer.ToString();
     }
 
     public static string SanitizeForFileName(this string value)
