@@ -10,8 +10,9 @@ internal static class TestCompletionHandler
         if (context is not null)
         {
             var testContext = TestContext.CurrentContext;
+            var testOutcome = testContext.Result.Outcome;
 
-            if (testContext.Result.Outcome.Status == TestStatus.Failed)
+            if (testOutcome.Status == TestStatus.Failed && testOutcome.Site != FailureSite.Child && testOutcome.Site != FailureSite.Parent)
                 context.HandleTestResultException(testContext.Result.Message, testContext.Result.StackTrace);
 
             context.Dispose();
