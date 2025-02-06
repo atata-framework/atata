@@ -34,7 +34,6 @@ public sealed class WithClassFixtureTests :
 
     [Fact]
     public void Context_Artifacts() =>
-        Context.Artifacts.FullName.Value
-            .Replace(AtataContext.GlobalProperties.ArtifactsRootPath, null)
-            .Should().Be(@$"{Path.DirectorySeparatorChar}{nameof(WithClassFixtureTests)}{Path.DirectorySeparatorChar}{nameof(Context_Artifacts)}");
+        Context.ArtifactsRelativePath.Should().Be(
+            $"{nameof(WithClassFixtureTests)}/{nameof(Context_Artifacts)}");
 }

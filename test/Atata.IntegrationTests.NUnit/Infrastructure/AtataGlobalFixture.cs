@@ -10,6 +10,8 @@ public abstract class AtataGlobalFixture
     [OneTimeSetUp]
     public void SetUpGlobalAtataContext()
     {
+        ConfigureAtataContextGlobalProperties(AtataContext.GlobalProperties);
+
         AtataContext.BaseConfiguration
             .UseNUnitTestName()
             .UseNUnitTestSuiteName()
@@ -37,6 +39,10 @@ public abstract class AtataGlobalFixture
     [OneTimeTearDown]
     public void TearDownGlobalAtataContext() =>
         TestCompletionHandler.CompleteTest(Context);
+
+    protected virtual void ConfigureAtataContextGlobalProperties(AtataContextGlobalProperties globalProperties)
+    {
+    }
 
     protected virtual void ConfigureAtataContextBaseConfiguration(AtataContextBuilder builder)
     {

@@ -5,8 +5,6 @@
 /// </summary>
 public sealed class AtataContextBuilder : ICloneable
 {
-    public const string DefaultArtifactsPathTemplate = "{test-suite-name-sanitized:/*}{test-name-sanitized:/*}";
-
     private TimeSpan? _waitingTimeout;
 
     private TimeSpan? _waitingRetryInterval;
@@ -91,12 +89,6 @@ public sealed class AtataContextBuilder : ICloneable
     /// Gets or sets the factory method of the test suite group name.
     /// </summary>
     public Func<string> TestSuiteGroupNameFactory { get; set; }
-
-    /// <summary>
-    /// Gets or sets the Artifacts directory path template.
-    /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
-    /// </summary>
-    public string ArtifactsPathTemplate { get; set; } = DefaultArtifactsPathTemplate;
 
     /// <summary>
     /// Gets the base retry timeout.
@@ -517,33 +509,6 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// <para>
-    /// Sets the Artifacts directory path template.
-    /// The default value is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>.
-    /// </para>
-    /// <para>
-    /// List of predefined variables:
-    /// </para>
-    /// <list type="bullet">
-    /// <item><c>{test-name-sanitized}</c></item>
-    /// <item><c>{test-name}</c></item>
-    /// <item><c>{test-suite-name-sanitized}</c></item>
-    /// <item><c>{test-suite-name}</c></item>
-    /// <item><c>{test-start}</c></item>
-    /// <item><c>{test-start-utc}</c></item>
-    /// </list>
-    /// </summary>
-    /// <param name="directoryPathTemplate">The directory path template.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseArtifactsPathTemplate(string directoryPathTemplate)
-    {
-        directoryPathTemplate.CheckNotNullOrWhitespace(nameof(directoryPathTemplate));
-
-        ArtifactsPathTemplate = directoryPathTemplate;
-        return this;
-    }
-
-    /// <summary>
     /// Defines that the name of the test should be taken from the NUnit test.
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -713,28 +678,6 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
-    private DirectorySubject CreateArtifactsDirectorySubject(AtataContext context)
-    {
-        string pathTemplate = ArtifactsPathTemplate;
-
-        string path = context.Variables.FillPathTemplateString(pathTemplate);
-        string fullPath;
-
-        if (path.Length > 0)
-        {
-            if (path[0] == Path.DirectorySeparatorChar || path[0] == Path.AltDirectorySeparatorChar)
-                path = path[1..];
-
-            fullPath = Path.Combine(AtataContext.GlobalProperties.ArtifactsRootPath, path);
-        }
-        else
-        {
-            fullPath = AtataContext.GlobalProperties.ArtifactsRootPath;
-        }
-
-        return new DirectorySubject(fullPath, "Artifacts", context.ExecutionUnit);
-    }
-
     /// <summary>
     /// Creates a new clear <see cref="AtataContextBuilder"/> with the same scope arguments.
     /// If this instance is <see cref="AtataContext.BaseConfiguration"/>,
@@ -809,7 +752,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.InitMainVariables();
         context.InitCustomVariables(Variables);
-        context.Artifacts = CreateArtifactsDirectorySubject(context);
+        context.InitArtifactsDirectory();
         context.InitArtifactsVariable();
 
         parentContext?.AddChildContext(context);

@@ -52,7 +52,6 @@ public sealed class WithOnlyAssemblyFixtureTests :
 
     [Fact]
     public void Context_Artifacts() =>
-        Context.Artifacts.FullName.Value
-            .Replace(AtataContext.GlobalProperties.ArtifactsRootPath, null)
-            .Should().Be(@$"{Path.DirectorySeparatorChar}{nameof(WithOnlyAssemblyFixtureTests)}{Path.DirectorySeparatorChar}{nameof(Context_Artifacts)}");
+        Context.ArtifactsRelativePath.Should().Be(
+            $"{nameof(WithOnlyAssemblyFixtureTests)}/{nameof(Context_Artifacts)}");
 }

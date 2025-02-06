@@ -24,7 +24,6 @@ public sealed class WithNamespaceSuiteTests : AtataTestSuite
 
     [Test]
     public void Context_Artifacts() =>
-        Context.Artifacts.FullName.Value
-            .Replace(AtataContext.GlobalProperties.ArtifactsRootPath, null)
-            .Should().Be(@$"{Path.DirectorySeparatorChar}{nameof(WithNamespaceSuiteTests)}{Path.DirectorySeparatorChar}{nameof(Context_Artifacts)}");
+        Context.ArtifactsRelativePath.Should().Be(
+            $"SomeNamespace/{nameof(WithNamespaceSuiteTests)}/{nameof(Context_Artifacts)}");
 }

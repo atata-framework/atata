@@ -27,7 +27,6 @@ public sealed class WithCollectionFixtureTests : AtataTestSuite
 
     [Fact]
     public void Context_Artifacts() =>
-        Context.Artifacts.FullName.Value
-            .Replace(AtataContext.GlobalProperties.ArtifactsRootPath, null)
-            .Should().Be(@$"{Path.DirectorySeparatorChar}{nameof(WithCollectionFixtureTests)}{Path.DirectorySeparatorChar}{nameof(Context_Artifacts)}");
+        Context.ArtifactsRelativePath.Should().Be(
+            $"{nameof(WithCollectionFixtureTests)}/{nameof(Context_Artifacts)}");
 }

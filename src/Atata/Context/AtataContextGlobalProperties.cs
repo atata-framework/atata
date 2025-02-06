@@ -78,6 +78,14 @@ public sealed class AtataContextGlobalProperties
     public DateTime RunStart { get; private set; }
 
     /// <summary>
+    /// Gets or sets the root namespace.
+    /// That namespace can be used during the process of Artifacts directory path creation,
+    /// basically the root namespace is cut off for Artifacts path.
+    /// The default value is <see langword="null"/>.
+    /// </summary>
+    public string? RootNamespace { get; set; }
+
+    /// <summary>
     /// Gets or sets the time zone.
     /// The default value is <see cref="TimeZoneInfo.Local"/>.
     /// </summary>
@@ -128,6 +136,19 @@ public sealed class AtataContextGlobalProperties
     /// <see cref="ArtifactsRootPathTemplate"/> property is used to configure the Artifacts Root path.
     /// </summary>
     public string ArtifactsRootPath => ArtifactsRoot.FullName.Value;
+
+    /// <summary>
+    /// Gets or sets the artifacts path factory.
+    /// The default value is a default instance of <see cref="TestInfoBasedHierarchicalArtifactsPathFactory"/>.
+    /// Alternatively, <see cref="TestInfoBasedHierarchicalArtifactsPathFactory"/> can be set with a sub-folder name for "suite" contexts,
+    /// by passing a string argument into constructor.
+    /// Another built-in factories are:
+    /// <see cref="ContextIdBasedHierarchicalArtifactsPathFactory"/> and
+    /// <see cref="ContextIdBasedArtifactsPathFactory"/>.
+    /// A custom factory can also be set to follow a custom structure of artifacts directories.
+    /// </summary>
+    public IArtifactsPathFactory ArtifactsPathFactory { get; set; } =
+        new TestInfoBasedHierarchicalArtifactsPathFactory();
 
     /// <summary>
     /// Gets or sets the assembly name pattern that is used to filter assemblies to find types in them
@@ -202,6 +223,41 @@ public sealed class AtataContextGlobalProperties
         directoryPathTemplate.CheckNotNullOrWhitespace(nameof(directoryPathTemplate));
 
         ArtifactsRootPathTemplate = directoryPathTemplate;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the artifacts path factory.
+    /// </summary>
+    /// <param name="artifactsPathFactory">The artifacts path factory.</param>
+    /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
+    public AtataContextGlobalProperties UseArtifactsPathFactory(IArtifactsPathFactory artifactsPathFactory)
+    {
+        artifactsPathFactory.CheckNotNull(nameof(artifactsPathFactory));
+
+        ArtifactsPathFactory = artifactsPathFactory;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the root namespace with the namespace of the specified <typeparamref name="T"/> type.
+    /// </summary>
+    /// <typeparam name="T">The type from which namespace should be taken.</typeparam>
+    /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
+    public AtataContextGlobalProperties UseRootNamespaceOf<T>()
+    {
+        RootNamespace = typeof(T).Namespace;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the root namespace.
+    /// </summary>
+    /// <param name="rootNamespace">The root namespace.</param>
+    /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
+    public AtataContextGlobalProperties UseRootNamespace(string? rootNamespace)
+    {
+        RootNamespace = rootNamespace;
         return this;
     }
 

@@ -10,9 +10,15 @@ public abstract class AtataGlobalFixture : AtataFixture
     public override async Task InitializeAsync()
     {
         AtataContext.GlobalProperties.ModeOfCurrent = AtataContextModeOfCurrent.AsyncLocalBoxed;
+        ConfigureAtataContextGlobalProperties(AtataContext.GlobalProperties);
+
         ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);
 
         await base.InitializeAsync().ConfigureAwait(false);
+    }
+
+    protected virtual void ConfigureAtataContextGlobalProperties(AtataContextGlobalProperties globalProperties)
+    {
     }
 
     protected virtual void ConfigureAtataContextBaseConfiguration(AtataContextBuilder builder)

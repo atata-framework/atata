@@ -340,17 +340,24 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// relative to <see cref="AtataContextGlobalProperties.ArtifactsRootPath"/> value
     /// of <see cref="GlobalProperties"/>.
     /// </summary>
-    public DirectorySubject Artifacts { get; internal set; } = null!;
+    public DirectorySubject Artifacts { get; private set; } = null!;
 
     /// <summary>
-    /// Gets the path of Artifacts directory.
+    /// Gets the full path of Artifacts directory.
     /// Artifacts directory can contain any files produced during test execution, logs, screenshots, downloads, etc.
-    /// The default Artifacts directory path is <c>"{test-suite-name-sanitized:/*}{test-name-sanitized:/*}"</c>
-    /// relative to <see cref="AtataContextGlobalProperties.ArtifactsRootPath"/> value
+    /// The default typical Artifacts full path is <c>"SomeRelativeNamespace/SomeTestClass/SomeTest"</c>
+    /// appended to <see cref="AtataContextGlobalProperties.ArtifactsRootPath"/> value
     /// of <see cref="GlobalProperties"/>.
     /// </summary>
     public string ArtifactsPath =>
         Artifacts.FullName.Value;
+
+    /// <summary>
+    /// Gets the relative path of Artifacts directory.
+    /// Artifacts directory can contain any files produced during test execution, logs, screenshots, downloads, etc.
+    /// The default typical Artifacts relative path is <c>"SomeRelativeNamespace/SomeTestClass/SomeTest"</c>.
+    /// </summary>
+    public string ArtifactsRelativePath { get; private set; } = null!;
 
     [Obsolete("Use GetWebSession().Go instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
@@ -529,6 +536,27 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         foreach (var variable in customVariables)
             variables.SetInitialValue(variable.Key, variable.Value);
+    }
+
+    internal void InitArtifactsDirectory()
+    {
+        string relativePath = CreateArtifactsRelativePath();
+        string fullPath = Path.Combine(GlobalProperties.ArtifactsRootPath, relativePath);
+
+        ArtifactsRelativePath = relativePath;
+        Artifacts = new DirectorySubject(fullPath, "Artifacts", ExecutionUnit);
+    }
+
+    private string CreateArtifactsRelativePath()
+    {
+        string relativePath = GlobalProperties.ArtifactsPathFactory.Create(this);
+
+        if (string.IsNullOrEmpty(relativePath))
+            return string.Empty;
+
+        return relativePath[0] == Path.DirectorySeparatorChar || relativePath[0] == Path.AltDirectorySeparatorChar
+            ? relativePath[1..]
+            : relativePath;
     }
 
     internal void InitArtifactsVariable() =>
