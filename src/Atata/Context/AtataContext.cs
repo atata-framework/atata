@@ -953,6 +953,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
                     exceptions.Add(exception);
                 }
 
+                UpdateTestResultStatusBasedOnChildContexts();
+
                 // A session during Dispose is removed from Sessions, so ToArray() is used.
                 var sessions = Sessions.ToArray();
 
@@ -998,6 +1000,26 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         _status = Status.Disposed;
         return exceptions;
+    }
+
+    private void UpdateTestResultStatusBasedOnChildContexts()
+    {
+        const TestResultStatus maxStatus = TestResultStatus.Failed;
+
+        if (Test.ResultStatus == maxStatus)
+            return;
+
+        for (int i = 0; i < _childContexts.Count; i++)
+        {
+            var status = _childContexts[i].Test.ResultStatus;
+            if (status > Test.ResultStatus)
+            {
+                Test.ResultStatus = status;
+
+                if (status == maxStatus)
+                    return;
+            }
+        }
     }
 
     private void ThrowPendingExceptions(List<Exception> disposeExceptions)
