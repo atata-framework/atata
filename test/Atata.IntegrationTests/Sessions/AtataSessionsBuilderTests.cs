@@ -359,7 +359,7 @@ public static class AtataSessionsBuilderTests
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEquivalentTo([session]);
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
         }
 
         private static async Task AssertContextBuildFailureBecauseOfNotFoundSessionToBorrowAsync(AtataContextBuilder contextBuilder)
@@ -489,7 +489,7 @@ public static class AtataSessionsBuilderTests
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEquivalentTo([session]);
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
         }
 
         private static async Task AssertContextBuildFailureBecauseOfNotFoundSessionPoolAsync(AtataContextBuilder contextBuilder)

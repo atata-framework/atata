@@ -956,7 +956,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
                 UpdateTestResultStatusBasedOnChildContexts();
 
                 // A session during Dispose is removed from Sessions, so ToArray() is used.
-                var sessions = Sessions.ToArray();
+                var sessions = Sessions.GetAllIncludingPooled().ToArray();
 
                 foreach (var session in sessions)
                 {

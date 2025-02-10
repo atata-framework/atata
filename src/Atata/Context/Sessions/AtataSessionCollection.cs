@@ -16,6 +16,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     private AtataSessionPoolContainer? _poolContainer;
 
+    private bool _isDisposed;
+
     internal AtataSessionCollection(AtataContext context) =>
         _context = context;
 
@@ -77,6 +79,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     public TSession GetRecursively<TSession>()
         where TSession : AtataSession
     {
+        EnsureNotDisposed();
+
         for (AtataContext? currentContext = _context;
             currentContext is not null;
             currentContext = currentContext.ParentContext)
@@ -116,6 +120,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     public TSessionBuilder Add<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder, new()
     {
+        EnsureNotDisposed();
+
         TSessionBuilder sessionBuilder = new()
         {
             TargetContext = _context
@@ -139,6 +145,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     internal async ValueTask StartPoolAsync(IAtataSessionBuilder sessionBuilder, CancellationToken cancellationToken = default)
     {
+        EnsureNotDisposed();
+
         ValidatePoolCapacitySettings(sessionBuilder.PoolInitialCapacity, sessionBuilder.PoolMaxCapacity);
 
         _poolContainer ??= new();
@@ -213,6 +221,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     public async Task<AtataSession> BuildAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
+        EnsureNotDisposed();
+
         var builder = _sessionBuilders.Find(x => x.Name == sessionName && AtataSessionTypeMap.ResolveSessionTypeByBuilderType(x.GetType()) == sessionType)
             ?? throw AtataSessionBuilderNotFoundException.BySessionType(sessionType, sessionName, _context);
 
@@ -227,6 +237,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     public async ValueTask<AtataSession> BorrowAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
+        EnsureNotDisposed();
+
         AtataSession? session = FindSessionToBorrowInContextAncestors(sessionType, sessionName);
 
         if (session is null)
@@ -278,6 +290,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     public async ValueTask<AtataSession> TakeFromPoolAsync(Type sessionType, string? sessionName = null, CancellationToken cancellationToken = default)
     {
+        EnsureNotDisposed();
+
         if (!TryFindPool(sessionType, sessionName, out AtataSessionPool? pool))
             throw new AtataSessionPoolNotFoundException(
                 $"Failed to find {AtataSession.BuildTypedName(sessionType, sessionName)} pool to take session for {_context}.");
@@ -325,6 +339,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     internal void Add(AtataSession session)
     {
+        EnsureNotDisposed();
         _sessionLinkedListOderedByCurrentUsageLock.EnterWriteLock();
 
         try
@@ -340,6 +355,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     internal void Remove(AtataSession session)
     {
+        EnsureNotDisposed();
         _sessionLinkedListOderedByCurrentUsageLock.EnterWriteLock();
 
         try
@@ -355,6 +371,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     internal void SetCurrent(AtataSession session)
     {
+        EnsureNotDisposed();
         _sessionLinkedListOderedByCurrentUsageLock.EnterWriteLock();
 
         try
@@ -386,6 +403,22 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         _sessionListOrderedByAdding.Clear();
         _sessionLinkedListOderedByCurrentUsage.Clear();
         _poolContainer?.Clear();
+
+        _isDisposed = true;
+    }
+
+    internal IEnumerable<AtataSession> GetAllIncludingPooled()
+    {
+        foreach (AtataSession session in _sessionListOrderedByAdding)
+            yield return session;
+
+        if (_poolContainer is not null)
+        {
+            foreach (AtataSessionPool pool in _poolContainer)
+                foreach (AtataSession session in pool)
+                    if (!_sessionListOrderedByAdding.Contains(session))
+                        yield return session;
+        }
     }
 
     private TSession? GetOrNull<TSession>()
@@ -436,5 +469,11 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
 
         return totalCount;
+    }
+
+    private void EnsureNotDisposed()
+    {
+        if (_isDisposed)
+            throw new ObjectDisposedException(GetType().FullName);
     }
 }

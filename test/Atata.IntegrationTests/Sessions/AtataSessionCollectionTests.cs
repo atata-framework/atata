@@ -40,7 +40,7 @@ public static class AtataSessionCollectionTests
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEquivalentTo([session]);
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
         }
 
         [Test]
@@ -154,8 +154,8 @@ public static class AtataSessionCollectionTests
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(grandparentContext);
             context.Sessions.Should().BeEquivalentTo([session]);
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
-            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
+            grandparentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
 
             // Act
             await context.DisposeAsync();
@@ -168,7 +168,7 @@ public static class AtataSessionCollectionTests
             session.OwnerContext.Should().Be(grandparentContext);
             context.Sessions.Should().BeEmpty();
             parentContext.Sessions.Should().BeEquivalentTo([session]);
-            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
 
             // Act
             await parentContext.DisposeAsync();
@@ -181,7 +181,8 @@ public static class AtataSessionCollectionTests
             session.OwnerContext.Should().Be(grandparentContext);
             context.Sessions.Should().BeEmpty();
             parentContext.Sessions.Should().BeEmpty();
-            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.Should().BeEmpty();
+            grandparentContext.Sessions.GetAllIncludingPooled().Should().BeEquivalentTo([session]);
         }
 
         [Test]
@@ -215,8 +216,8 @@ public static class AtataSessionCollectionTests
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(grandparentContext);
             context.Sessions.Should().BeEquivalentTo([session]);
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
-            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
+            grandparentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
 
             // Act
             session.ReturnToSessionSource();
@@ -229,7 +230,7 @@ public static class AtataSessionCollectionTests
             session.OwnerContext.Should().Be(grandparentContext);
             context.Sessions.Should().BeEmpty();
             parentContext.Sessions.Should().BeEquivalentTo([session]);
-            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
 
             // Act
             session.ReturnToSessionSource();
@@ -242,7 +243,8 @@ public static class AtataSessionCollectionTests
             session.OwnerContext.Should().Be(grandparentContext);
             context.Sessions.Should().BeEmpty();
             parentContext.Sessions.Should().BeEmpty();
-            grandparentContext.Sessions.Should().BeEquivalentTo([session]);
+            grandparentContext.Sessions.Should().BeEmpty();
+            grandparentContext.Sessions.GetAllIncludingPooled().Should().BeEquivalentTo([session]);
         }
     }
 
@@ -285,7 +287,7 @@ public static class AtataSessionCollectionTests
             session.Context.Should().Be(context);
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEquivalentTo([session]);
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEmpty();
         }
 
         [Test]
@@ -338,7 +340,8 @@ public static class AtataSessionCollectionTests
             session.Context.Should().Be(parentContext);
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEmpty();
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.Should().BeEmpty();
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEquivalentTo([session]);
         }
 
         [Test]
@@ -364,7 +367,8 @@ public static class AtataSessionCollectionTests
             session.Context.Should().Be(parentContext);
             session.OwnerContext.Should().Be(parentContext);
             context.Sessions.Should().BeEmpty();
-            parentContext.Sessions.Should().BeEquivalentTo([session]);
+            parentContext.Sessions.Should().BeEmpty();
+            parentContext.Sessions.GetAllIncludingPooled().Should().BeEquivalentTo([session]);
         }
     }
 

@@ -2,9 +2,18 @@
 
 namespace Atata;
 
-internal sealed class AtataSessionPoolContainer
+internal sealed class AtataSessionPoolContainer : IEnumerable<AtataSessionPool>
 {
     private readonly Dictionary<PoolKey, AtataSessionPool> _poolsMap = [];
+
+    IEnumerator IEnumerable.GetEnumerator() =>
+        GetEnumerator();
+
+    public IEnumerator<AtataSessionPool> GetEnumerator()
+    {
+        foreach (AtataSessionPool pool in _poolsMap.Values)
+            yield return pool;
+    }
 
     internal AtataSessionPool AddPool(IAtataSessionBuilder sessionBuilder)
     {

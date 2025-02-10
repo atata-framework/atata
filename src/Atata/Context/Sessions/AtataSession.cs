@@ -236,13 +236,18 @@ public abstract class AtataSession : IAsyncDisposable
                 {
                     var previousContext = Context;
 
-                    Log.Trace($"{this} is borrowed by {context}");
+                    if (context != previousContext)
+                    {
+                        Log.Trace($"{this} is borrowed by {context}");
 
-                    context.Sessions.Add(this);
-                    BorrowSourceContext = previousContext;
-                    ReassignToContext(context);
+                        context.Sessions.Add(this);
+                        previousContext.Sessions.Remove(this);
+                        BorrowSourceContext = previousContext;
+                        ReassignToContext(context);
 
-                    Log.Trace($"{this} is borrowed from {previousContext}");
+                        Log.Trace($"{this} is borrowed from {previousContext}");
+                    }
+
                     return true;
                 }
             }
@@ -259,6 +264,11 @@ public abstract class AtataSession : IAsyncDisposable
             context.Sessions.Add(this);
             ReassignToContext(context);
             Log.Trace($"{this} is taken from pool of {OwnerContext}");
+        }
+        else
+        {
+            context.Sessions.Add(this);
+            Log.Trace($"{this} is taken from pool");
         }
     }
 
@@ -281,6 +291,8 @@ public abstract class AtataSession : IAsyncDisposable
 
             if (shouldReturnToPool)
                 OwnerContext.Sessions.GetPool(GetType(), Name).Return(this);
+            else
+                contextToReturnTo.Sessions.Add(this);
 
             Log.Trace($"{this} is returned{(shouldReturnToPool ? " to pool" : null)} by {currentContext}");
         }
@@ -289,7 +301,10 @@ public abstract class AtataSession : IAsyncDisposable
     internal void AssignToOwnerContext(AtataContext context)
     {
         OwnerContext = context;
-        context.Sessions.Add(this);
+
+        if (Mode != AtataSessionMode.Pool)
+            context.Sessions.Add(this);
+
         AssignToContext(context);
     }
 

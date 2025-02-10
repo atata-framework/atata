@@ -2,7 +2,7 @@
 
 namespace Atata;
 
-internal sealed class AtataSessionPool
+internal sealed class AtataSessionPool : IEnumerable<AtataSession>
 {
     private readonly IAtataSessionBuilder _sessionBuilder;
 
@@ -155,5 +155,14 @@ internal sealed class AtataSessionPool
         }
 
         return null;
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() =>
+        GetEnumerator();
+
+    public IEnumerator<AtataSession> GetEnumerator()
+    {
+        foreach (var item in _items)
+            yield return item;
     }
 }
