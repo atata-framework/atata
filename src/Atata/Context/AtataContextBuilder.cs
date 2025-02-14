@@ -901,7 +901,7 @@ public sealed class AtataContextBuilder : ICloneable
             AtataContextScope.Test => AtataSessionStartScopes.Test,
             AtataContextScope.TestSuite => AtataSessionStartScopes.TestSuite,
             AtataContextScope.TestSuiteGroup => AtataSessionStartScopes.TestSuiteGroup,
-            AtataContextScope.NamespaceSuite => AtataSessionStartScopes.NamespaceSuite,
+            AtataContextScope.Namespace => AtataSessionStartScopes.Namespace,
             AtataContextScope.Global => AtataSessionStartScopes.Global,
             null => null,
             _ => AtataSessionStartScopes.None

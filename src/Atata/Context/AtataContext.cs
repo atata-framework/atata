@@ -1125,7 +1125,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         Scope switch
         {
             AtataContextScope.Global => "global suite",
-            AtataContextScope.NamespaceSuite => "namespace suite",
+            AtataContextScope.Namespace => "namespace suite",
             AtataContextScope.TestSuiteGroup => "test suite group",
             AtataContextScope.TestSuite => "test suite",
             AtataContextScope.Test => "test",

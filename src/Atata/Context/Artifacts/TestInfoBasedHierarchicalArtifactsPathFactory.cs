@@ -57,7 +57,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
         return context.Scope switch
         {
             AtataContextScope.Global => _suiteSubFolderName ?? string.Empty,
-            AtataContextScope.NamespaceSuite => CreateNamespacePath(context),
+            AtataContextScope.Namespace => CreateNamespacePath(context),
             AtataContextScope.TestSuiteGroup => CreateTestSuiteGroupPath(context),
             AtataContextScope.TestSuite => CreateTestSuitePath(context),
             AtataContextScope.Test => CreateTestPath(context),

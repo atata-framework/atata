@@ -10,7 +10,7 @@ public abstract class AtataNamespaceFixture
     [OneTimeSetUp]
     public void SetUpNamespaceAtataContext()
     {
-        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.NamespaceSuite);
+        AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Namespace);
 
         ConfigureAtataContext(builder);
 

@@ -21,9 +21,9 @@ public enum AtataContextScope
     TestSuiteGroup,
 
     /// <summary>
-    /// The namespace-wide suite scope.
+    /// The namespace-wide scope.
     /// </summary>
-    NamespaceSuite,
+    Namespace,
 
     /// <summary>
     /// The global (assembly-wide) scope.

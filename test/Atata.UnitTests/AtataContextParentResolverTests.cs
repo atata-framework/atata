@@ -36,11 +36,11 @@ public static class AtataContextParentResolverTests
         }
 
         [Test]
-        public void WithNamespaceSuiteScope_WhenParentNamespaceSuiteExists()
+        public void WithNamespaceScope_WhenParentNamespaceSuiteExists()
         {
             using var namespaceContext = CreateRootNamespaceContext();
 
-            var result = Act(AtataContextScope.NamespaceSuite, new(typeof(FindParentContext)));
+            var result = Act(AtataContextScope.Namespace, new(typeof(FindParentContext)));
 
             result.Should().Be(namespaceContext);
         }
@@ -61,7 +61,7 @@ public static class AtataContextParentResolverTests
             using var rootNamespaceContext = CreateRootNamespaceContext();
             using var subNamespaceContext = CreateContext(
                 rootNamespaceContext,
-                AtataContextScope.NamespaceSuite,
+                AtataContextScope.Namespace,
                 new(typeof(AtataContextParentResolverTests)));
 
             var result = Act(AtataContextScope.TestSuite, new(typeof(FindParentContext)));
@@ -84,7 +84,7 @@ public static class AtataContextParentResolverTests
         private AtataContext CreateRootNamespaceContext() =>
             CreateContext(
                 _globalContext,
-                AtataContextScope.NamespaceSuite,
+                AtataContextScope.Namespace,
                 new(typeof(AtataContext))); // Need any type from Atata namespace.
 
         private AtataContext Act(AtataContextScope scope, TestInfo testInfo) =>

@@ -293,7 +293,7 @@ public sealed class AtataSessionsBuilder
             AtataContextScope.Test => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Test),
             AtataContextScope.TestSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuite),
             AtataContextScope.TestSuiteGroup => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuiteGroup),
-            AtataContextScope.NamespaceSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.NamespaceSuite),
+            AtataContextScope.Namespace => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Namespace),
             AtataContextScope.Global => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Global),
             null => sessionStartScopes is null,
             _ => false

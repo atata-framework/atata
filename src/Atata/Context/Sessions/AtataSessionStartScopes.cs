@@ -27,9 +27,9 @@ public enum AtataSessionStartScopes
     TestSuiteGroup = 0x0000_0100,
 
     /// <summary>
-    /// Starts upon build of <see cref="AtataContext"/> with <see cref="AtataContextScope.NamespaceSuite"/> scope.
+    /// Starts upon build of <see cref="AtataContext"/> with <see cref="AtataContextScope.Namespace"/> scope.
     /// </summary>
-    NamespaceSuite = 0x0000_1000,
+    Namespace = 0x0000_1000,
 
     /// <summary>
     /// Starts upon build of <see cref="AtataContext"/> with <see cref="AtataContextScope.Global"/> scope.

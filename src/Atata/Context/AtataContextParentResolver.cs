@@ -14,7 +14,7 @@ internal static class AtataContextParentResolver
         {
             return rootContext;
         }
-        else if (scope == AtataContextScope.NamespaceSuite)
+        else if (scope == AtataContextScope.Namespace)
         {
             if (testInfo.Namespace is null)
                 return rootContext;
@@ -67,7 +67,7 @@ internal static class AtataContextParentResolver
 
     private static AtataContext FindNamespaceContext(AtataContext parentContext, TestInfo testInfo)
     {
-        if (parentContext.Scope is null or < AtataContextScope.NamespaceSuite)
+        if (parentContext.Scope is null or < AtataContextScope.Namespace)
             return null;
 
         if (testInfo.Namespace == parentContext.Test.Namespace)
