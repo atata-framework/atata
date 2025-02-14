@@ -15,10 +15,10 @@ public sealed class PageSnapshotsWebDriverSessionOptions : ICloneable
     /// <summary>
     /// Gets or sets the page snapshot file name template.
     /// The file name is relative to Artifacts path.
-    /// The default value is <c>"{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
+    /// The default value is <c>"{session-id}-{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
     /// </summary>
     public string FileNameTemplate { get; set; } =
-        "{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}";
+        "{session-id}-{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}";
 
     /// <summary>
     /// Gets or sets a value indicating whether to take a page snapshot on failure.
@@ -61,7 +61,7 @@ public sealed class PageSnapshotsWebDriverSessionOptions : ICloneable
 
     /// <summary>
     /// Sets the file name template of page snapshots.
-    /// The default value is <c>"{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
+    /// The default value is <c>"{session-id}-{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
     /// </summary>
     /// <param name="fileNameTemplate">The file name template.</param>
     /// <returns>The same <see cref="PageSnapshotsWebDriverSessionOptions"/> instance.</returns>
