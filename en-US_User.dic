@@ -1,6 +1,7 @@
 app
 Atata
 autocomplete
+awaitable
 CDP
 checkboxes
 clearable
@@ -36,6 +37,7 @@ multicast
 multiline
 mutex
 MVC
+namespace
 nav
 navbar
 NG
