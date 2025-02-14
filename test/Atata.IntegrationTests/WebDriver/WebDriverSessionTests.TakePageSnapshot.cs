@@ -8,42 +8,46 @@ public partial class WebDriverSessionTests
         public void WhenNavigated()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            Go.To<InputPage>();
+            var session = context.GetWebDriverSession();
+            session.Go.To<InputPage>();
 
-            context.GetWebDriverSession().TakePageSnapshot();
+            session.TakePageSnapshot();
 
-            context.Artifacts.Should.ContainFile("01 Input page.mhtml");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page.mhtml");
         }
 
         [Test]
         public void WithTitle_WhenNavigated()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            Go.To<InputPage>();
+            var session = context.GetWebDriverSession();
+            session.Go.To<InputPage>();
 
-            context.GetWebDriverSession().TakePageSnapshot("Test");
+            session.TakePageSnapshot("Test");
 
-            context.Artifacts.Should.ContainFile("01 Input page - Test.mhtml");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page - Test.mhtml");
         }
 
         [Test]
         public void WhenNoNavigation()
         {
             var context = BuildAtataContextWithWebDriverSession();
+            var session = context.GetWebDriverSession();
 
-            context.GetWebDriverSession().TakePageSnapshot();
+            session.TakePageSnapshot();
 
-            context.Artifacts.Should.ContainFile("01.mhtml");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01.mhtml");
         }
 
         [Test]
         public void WithTitle_WhenNoNavigation()
         {
             var context = BuildAtataContextWithWebDriverSession();
+            var session = context.GetWebDriverSession();
 
-            context.GetWebDriverSession().TakePageSnapshot("Test");
+            session.TakePageSnapshot("Test");
 
-            context.Artifacts.Should.ContainFile("01 - Test.mhtml");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01 - Test.mhtml");
         }
 
         [Test]
@@ -52,9 +56,10 @@ public partial class WebDriverSessionTests
             var context = ConfigureAtataContextWithWebDriverSession(
                 session => session.PageSnapshots.UseStrategy(Mock.Of<IPageSnapshotStrategy<WebDriverSession>>(MockBehavior.Strict)))
                 .Build();
-            Go.To<InputPage>();
+            var session = context.GetWebDriverSession();
+            session.Go.To<InputPage>();
 
-            context.GetWebDriverSession().TakePageSnapshot();
+            session.TakePageSnapshot();
 
             VerifyLastLogNestingTextsWithMessagesMatch(LogLevel.Error, "^Page snapshot failed");
             context.Artifacts.Should.Not.Exist();

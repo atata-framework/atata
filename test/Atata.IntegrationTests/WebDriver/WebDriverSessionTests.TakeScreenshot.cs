@@ -8,42 +8,46 @@ public partial class WebDriverSessionTests
         public void WhenNavigated()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            Go.To<InputPage>();
+            var session = context.GetWebDriverSession();
+            session.Go.To<InputPage>();
 
-            context.GetWebDriverSession().TakeScreenshot();
+            session.TakeScreenshot();
 
-            context.Artifacts.Should.ContainFile("01 Input page.png");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page.png");
         }
 
         [Test]
         public void WithTitle_WhenNavigated()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            Go.To<InputPage>();
+            var session = context.GetWebDriverSession();
+            session.Go.To<InputPage>();
 
-            context.GetWebDriverSession().TakeScreenshot("Test");
+            session.TakeScreenshot("Test");
 
-            context.Artifacts.Should.ContainFile("01 Input page - Test.png");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01 Input page - Test.png");
         }
 
         [Test]
         public void WhenNoNavigation()
         {
             var context = BuildAtataContextWithWebDriverSession();
+            var session = context.GetWebDriverSession();
 
-            context.GetWebDriverSession().TakeScreenshot();
+            session.TakeScreenshot();
 
-            context.Artifacts.Should.ContainFile("01.png");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01.png");
         }
 
         [Test]
         public void WithTitle_WhenNoNavigation()
         {
             var context = BuildAtataContextWithWebDriverSession();
+            var session = context.GetWebDriverSession();
 
-            context.GetWebDriverSession().TakeScreenshot("Test");
+            session.TakeScreenshot("Test");
 
-            context.Artifacts.Should.ContainFile("01 - Test.png");
+            context.Artifacts.Should.ContainFile($"{session.Id}-01 - Test.png");
         }
 
         [Test]
@@ -52,9 +56,10 @@ public partial class WebDriverSessionTests
             var context = ConfigureAtataContextWithWebDriverSession(
                 session => session.Screenshots.UseStrategy(Mock.Of<IScreenshotStrategy<WebDriverSession>>(MockBehavior.Strict)))
                 .Build();
-            Go.To<InputPage>();
+            var session = context.GetWebDriverSession();
+            session.Go.To<InputPage>();
 
-            context.GetWebDriverSession().TakeScreenshot();
+            session.TakeScreenshot();
 
             VerifyLastLogNestingTextsWithMessagesMatch(LogLevel.Error, "Screenshot failed");
             context.Artifacts.Should.Not.Exist();

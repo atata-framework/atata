@@ -46,6 +46,7 @@ public class ReportTests : WebDriverSessionTestSuite
     [Test]
     public void PageSnapshot()
     {
+        string sessionId = WebSession.Current.Id;
         Go.To(new OrdinaryPage("Test"))
             .Report.PageSnapshot()
             .Report.PageSnapshot("sometitle");
@@ -53,13 +54,13 @@ public class ReportTests : WebDriverSessionTestSuite
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
             "^> Take page snapshot #01$",
-            "^< Take page snapshot #01 \\(.*\\) >> \"01 Test page.mhtml\"$",
+            "^< Take page snapshot #01 \\(.*\\) >> \".*-01 Test page.mhtml\"$",
             "^> Take page snapshot #02 sometitle$",
-            "^< Take page snapshot #02 sometitle \\(.*\\) >> \"02 Test page - sometitle.mhtml\"$");
+            "^< Take page snapshot #02 sometitle \\(.*\\) >> \".*-02 Test page - sometitle.mhtml\"$");
 
         AtataContext.Current.Artifacts.Should.ContainFiles(
-            "01 Test page.mhtml",
-            "02 Test page - sometitle.mhtml");
+            $"{sessionId}-01 Test page.mhtml",
+            $"{sessionId}-02 Test page - sometitle.mhtml");
     }
 
     [Test]
@@ -225,6 +226,7 @@ public class ReportTests : WebDriverSessionTestSuite
         public void FilesAndLogEntries()
         {
             ConfigureAtataContextWithWebDriverSession().Build();
+            string sessionId = WebSession.Current.Id;
 
             Go.To(new OrdinaryPage("Test"))
                 .Report.Screenshot()
@@ -233,13 +235,13 @@ public class ReportTests : WebDriverSessionTestSuite
             VerifyLastLogNestingTextsWithMessagesMatch(
                 minLogLevel: LogLevel.Trace,
                 "^> Take screenshot #01$",
-                "^< Take screenshot #01 \\(.*\\) >> \"01 Test page.png\"$",
+                "^< Take screenshot #01 \\(.*\\) >> \".*-01 Test page.png\"$",
                 "^> Take screenshot #02 sometitle$",
-                "^< Take screenshot #02 sometitle \\(.*\\) >> \"02 Test page - sometitle.png\"$");
+                "^< Take screenshot #02 sometitle \\(.*\\) >> \".*-02 Test page - sometitle.png\"$");
 
             AtataContext.Current.Artifacts.Should.ContainFiles(
-                "01 Test page.png",
-                "02 Test page - sometitle.png");
+                $"{sessionId}-01 Test page.png",
+                $"{sessionId}-02 Test page - sometitle.png");
         }
     }
 }
