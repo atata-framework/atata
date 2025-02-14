@@ -19,10 +19,10 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
     /// <summary>
     /// Gets or sets the page screenshot file name template.
     /// The file name is relative to Artifacts path.
-    /// The default value is <c>"{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
+    /// The default value is <c>"{session-id}-{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
     /// </summary>
     public string FileNameTemplate { get; set; } =
-        "{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}";
+        "{session-id}-{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}";
 
     /// <summary>
     /// Gets or sets a value indicating whether to take a screenshot on failure.
@@ -74,7 +74,7 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
 
     /// <summary>
     /// Sets the file name template of page screenshots.
-    /// The default value is <c>"{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
+    /// The default value is <c>"{session-id}-{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
     /// </summary>
     /// <param name="fileNameTemplate">The file name template.</param>
     /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
