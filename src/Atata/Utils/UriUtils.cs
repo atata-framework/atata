@@ -57,6 +57,8 @@ public static class UriUtils
         return new Uri(fullUrl);
     }
 
+    [return: NotNullIfNotNull(nameof(uri1))]
+    [return: NotNullIfNotNull(nameof(uri2))]
     internal static string? MergeAsString(string? uri1, string? uri2)
     {
         if (uri1 is null)
