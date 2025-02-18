@@ -10,28 +10,19 @@ namespace Atata;
 public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwner>, IPageObject
     where TOwner : PageObject<TOwner>
 {
-    private readonly WebDriverSession _session;
+    private WebDriverSession _session = null!;
 
     private Control<TOwner>? _activeControl;
 
     protected PageObject()
     {
-        _session = WebDriverSession.Current;
-
-        ScopeLocator = new PlainScopeLocator(_session, CreateScopeBy);
-
         Owner = (TOwner)this;
-
-        Report = new WebSessionReport<TOwner>((TOwner)this, _session);
-
-        PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
-
-        UIComponentResolver.InitPageObject<TOwner>(this);
 
         ComponentName = UIComponentResolver.ResolvePageObjectName<TOwner>();
         ComponentTypeName = UIComponentResolver.ResolvePageObjectTypeName<TOwner>();
 
-        NavigationUrl = Metadata.Get<UrlAttribute>()?.Value;
+        Type thisType = typeof(TOwner);
+        Metadata = new(thisType.Name, thisType, null);
     }
 
     /// <inheritdoc/>
@@ -82,7 +73,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <summary>
     /// Gets the <see cref="IWebSessionReport{TOwner}"/> instance that provides a reporting functionality.
     /// </summary>
-    public IWebSessionReport<TOwner> Report { get; }
+    public IWebSessionReport<TOwner> Report { get; private set; } = null!;
 
     /// <summary>
     /// Gets the title provider of the current HTML page.
@@ -99,7 +90,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     /// <summary>
     /// Gets the URI provider of the current HTML page.
     /// </summary>
-    public UriProvider<TOwner> PageUri { get; }
+    public UriProvider<TOwner> PageUri { get; private set; } = null!;
 
     /// <summary>
     /// Gets the page source provider of the current HTML page.
@@ -114,6 +105,48 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
         _activeControl ??= Controls.Create<Control<TOwner>>(
             "<Active>",
             new DynamicScopeLocator(_ => Driver.SwitchTo().ActiveElement()));
+
+    internal void AssignToSession(WebDriverSession session)
+    {
+        if (_session is null)
+        {
+            _session = session;
+
+            ScopeLocator = new PlainScopeLocator(_session, CreateScopeBy);
+
+            Report = new WebSessionReport<TOwner>((TOwner)this, _session);
+
+            PageUri = new UriProvider<TOwner>(this, GetUri, "URI");
+
+            UIComponentResolver.FillComponentMetadata(Metadata, session.Context.Attributes, typeof(TOwner).Assembly);
+
+            NavigationUrl = GetNavigationUrlOrUrlFromMetadata();
+        }
+        else if (session != _session)
+        {
+            throw new InvalidOperationException($"{ComponentFullName} is already assigned to {_session} and cannot be reassigned to {session}.");
+        }
+    }
+
+    private string? GetNavigationUrlOrUrlFromMetadata()
+    {
+        if (NavigationUrl?.Length > 0)
+        {
+            if (UriUtils.IsUrlHasPath(NavigationUrl))
+            {
+                return NavigationUrl;
+            }
+            else
+            {
+                string? metadataUrl = Metadata.Get<UrlAttribute>()?.Value;
+                return UriUtils.MergeAsString(metadataUrl, NavigationUrl);
+            }
+        }
+        else
+        {
+            return Metadata.Get<UrlAttribute>()?.Value;
+        }
+    }
 
     /// <summary>
     /// Creates the <see cref="By"/> instance for Scope search.

@@ -44,13 +44,6 @@ public static class UIComponentResolver
             InitComponentTypeMembers(component, type);
     }
 
-    internal static void InitPageObject<TPageObject>(PageObject<TPageObject> pageObject)
-        where TPageObject : PageObject<TPageObject>
-    {
-        pageObject.Owner = (TPageObject)pageObject;
-        pageObject.Metadata = CreatePageObjectMetadata<TPageObject>();
-    }
-
     private static IEnumerable<Type> GetAllInheritedTypes(Type type)
     {
         Type typeToCheck = type;
@@ -338,18 +331,6 @@ public static class UIComponentResolver
         }
     }
 
-    private static UIComponentMetadata CreatePageObjectMetadata<TPageObject>()
-        where TPageObject : PageObject<TPageObject>
-    {
-        Type type = typeof(TPageObject);
-
-        return CreateComponentMetadata<TPageObject>(
-            null,
-            type.Name,
-            type,
-            []);
-    }
-
     private static UIComponentMetadata CreateStaticControlMetadata<TOwner>(
         UIComponent<TOwner> parentComponent,
         PropertyInfo property,
@@ -371,8 +352,8 @@ public static class UIComponentResolver
     {
         Type? parentComponentType = parentComponent?.GetType();
 
-        AtataAttributesContext contextAttributes = (parentComponent?.Session.Context ?? AtataContext.ResolveCurrent()).Attributes;
         UIComponentMetadata metadata = new(name, componentType, parentComponentType);
+        AtataAttributesContext contextAttributes = (parentComponent?.Session?.Context ?? AtataContext.ResolveCurrent()).Attributes;
 
         // Declared:
         metadata.DeclaredAttributesList.AddRange(declaredAttributes);
@@ -393,9 +374,18 @@ public static class UIComponentResolver
             metadata.ParentComponentAttributesList = parentComponent.Metadata.ComponentAttributesList;
         }
 
-        // Assembly:
         Assembly ownerAssembly = typeof(TOwner).Assembly;
+        FillComponentMetadata(metadata, contextAttributes, ownerAssembly);
 
+        return metadata;
+    }
+
+    internal static void FillComponentMetadata(
+        UIComponentMetadata metadata,
+        AtataAttributesContext contextAttributes,
+        Assembly ownerAssembly)
+    {
+        // Assembly:
         if (contextAttributes.AssemblyMap.TryGetValue(ownerAssembly, out var contextAssemblyAttributes))
             metadata.AssemblyAttributesList.AddRange(contextAssemblyAttributes.AsEnumerable().Reverse());
 
@@ -405,6 +395,8 @@ public static class UIComponentResolver
         metadata.GlobalAttributesList.AddRange(contextAttributes.Global.AsEnumerable().Reverse());
 
         // Component:
+        Type componentType = metadata.ComponentType;
+
         var componentContextAttributes = contextAttributes.ComponentMap
            .Select(pair => new { Depth = componentType.GetDepthOfInheritance(pair.Key), Attributes = pair.Value })
            .Where(x => x.Depth != null)
@@ -413,8 +405,6 @@ public static class UIComponentResolver
 
         metadata.ComponentAttributesList.AddRange(componentContextAttributes);
         metadata.ComponentAttributesList.AddRange(GetClassAttributes(componentType));
-
-        return metadata;
     }
 
     private static Attribute[] ResolveAndCacheAttributes(LockingConcurrentDictionary<ICustomAttributeProvider, Attribute[]> cache, ICustomAttributeProvider attributeProvider)

@@ -228,6 +228,7 @@ public sealed class AtataNavigator
         where T : PageObject<T>
     {
         pageObject ??= ActivatorEx.CreateInstance<T>();
+        pageObject.AssignToSession(_session);
         _session.PageObject = pageObject;
 
         string? navigationUrl = options.Navigate
@@ -279,6 +280,9 @@ public sealed class AtataNavigator
         }
 
         ((IPageObject)currentPageObject).DeInit();
+
+        if (!isReturnedFromTemporary)
+            nextPageObject.AssignToSession(_session);
 
         _session.PageObject = nextPageObject;
 
