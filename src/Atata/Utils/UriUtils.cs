@@ -70,4 +70,7 @@ public static class UriUtils
 
         return DecomposedUri.Merge(uri1, uri2);
     }
+
+    internal static bool IsUrlHasPath(string? url) =>
+        !string.IsNullOrWhiteSpace(url) && url![0] is not ('?' or '&' or ';' or '#');
 }

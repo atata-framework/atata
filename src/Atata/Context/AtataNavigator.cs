@@ -75,10 +75,7 @@ public sealed class AtataNavigator
     /// <returns>The page object.</returns>
     public T To<T>(T? pageObject = null, string? url = null, bool navigate = true, bool temporarily = false)
         where T : PageObject<T> =>
-        To(pageObject, new GoOptions { Url = url, Navigate = navigate && !IsUrlHasPath(url), Temporarily = temporarily });
-
-    private static bool IsUrlHasPath(string? url) =>
-        !string.IsNullOrWhiteSpace(url) && url![0] is not ('?' or '&' or ';' or '#');
+        To(pageObject, new GoOptions { Url = url, Navigate = navigate && !UriUtils.IsUrlHasPath(url), Temporarily = temporarily });
 
     /// <summary>
     /// Navigates to the window by name.
@@ -209,7 +206,7 @@ public sealed class AtataNavigator
             new GoOptions
             {
                 Url = url,
-                Navigate = !IsUrlHasPath(url),
+                Navigate = !UriUtils.IsUrlHasPath(url),
                 NewWindowType = windowType,
                 NavigationTarget = $"in new {(windowType == WindowType.Tab ? "tab " : null)}window",
                 Temporarily = temporarily
