@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Spicifies whether to temporarily navigate to page object.
+/// Specifies whether to temporarily navigate to page object.
 /// </summary>
 public class GoTemporarilyAttribute : MulticastAttribute
 {

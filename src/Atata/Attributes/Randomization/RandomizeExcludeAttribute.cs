@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Specifies the values to exlude during randomization.
+/// Specifies the values to exclude during randomization.
 /// </summary>
 public class RandomizeExcludeAttribute : MulticastAttribute
 {
