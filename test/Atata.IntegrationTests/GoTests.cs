@@ -242,27 +242,31 @@ public class GoTests : WebDriverSessionTestSuite
         Go.To<PageWithComplexUrl>(url: url)
             .PageUri.Relative;
 
-    [TestCase("?arg=1", ExpectedResult = "/goto1?arg=1")]
-    [TestCase("&arg=1", ExpectedResult = "/goto1?arg=1")]
-    [TestCase(";arg=1", ExpectedResult = "/goto1?arg=1")]
-    [TestCase("#frag1", ExpectedResult = "/goto1#frag1")]
+    [TestCase("?arg=1", ExpectedResult = "/?arg=1")]
     [TestCase("/goto2", ExpectedResult = "/goto2")]
     [TestCase("goto2?arg=1", ExpectedResult = "/goto2?arg=1")]
-    public string To_UsingNavigationUrl_WhenStaticUrlHasOnlyPath(string url) =>
+    public string To_AfterSetNavigationUrl(string url) =>
         Go.To(new GoTo1Page().SetNavigationUrl(url))
             .PageUri.Relative;
 
-    [TestCase("?argB=2&argC=3", ExpectedResult = "/goto1?argB=2&argC=3")]
-    [TestCase("&argB=2", ExpectedResult = "/goto1?argA=1&argB=2")]
-    [TestCase(";argB", ExpectedResult = "/goto1?argA=1;argB")]
-    [TestCase("#frag2", ExpectedResult = "/goto1?argA=1#frag2")]
-    [TestCase("?argB=2#frag2", ExpectedResult = "/goto1?argB=2#frag2")]
-    [TestCase("&argB=2#frag2", ExpectedResult = "/goto1?argA=1&argB=2#frag2")]
-    [TestCase("/goto2", ExpectedResult = "/goto2")]
-    [TestCase("goto2?arg=1", ExpectedResult = "/goto2?arg=1")]
-    public string To_UsingNavigationUrl_WhenStaticUrlIsComplex(string url) =>
-        Go.To(new PageWithComplexUrl().SetNavigationUrl(url))
+    [TestCase("?arg=1", ExpectedResult = "/goto1?arg=1")]
+    [TestCase("/goto2", ExpectedResult = "/goto1/goto2")]
+    [TestCase("goto2?arg=1", ExpectedResult = "/goto1goto2?arg=1")]
+    public string To_AfterAppendNavigationUrl_WhenStaticUrlHasOnlyPath(string url) =>
+        Go.To(new GoTo1Page().AppendNavigationUrl(url))
             .PageUri.Relative;
+
+    [Test]
+    public void To_AfterAppendNavigationUrl_AndSetNavigationUrlVariable()
+    {
+        int arg1 = 1;
+
+        var page = new GoTo1Page()
+            .AppendNavigationUrl("?arg={arg1}")
+            .SetNavigationUrlVariable(arg1);
+
+        Go.To(page).PageUri.Relative.Should.Be("/goto1?arg=1");
+    }
 
     [Test]
     public void To_WithNavigateTrue()

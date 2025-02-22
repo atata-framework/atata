@@ -232,12 +232,15 @@ public sealed class AtataNavigator
         _session.PageObject = pageObject;
 
         string? navigationUrl = options.Navigate
-            ? string.IsNullOrEmpty(pageObject.NavigationUrl)
+            ? string.IsNullOrEmpty(pageObject.NavigationUrlData.Value)
                 ? _session.BaseUrl
-                : pageObject.NavigationUrl
+                : pageObject.NavigationUrlData.Value
             : options.Url;
 
-        navigationUrl = PrepareNavigationUrl(navigationUrl, options);
+        navigationUrl = PrepareNavigationUrl(
+            navigationUrl,
+            options,
+            pageObject.NavigationUrlData.Variables);
 
         _session.Log.ExecuteSection(
             new GoToPageObjectLogSection(pageObject, navigationUrl, options.NavigationTarget),
@@ -291,10 +294,13 @@ public sealed class AtataNavigator
             UIComponentResolver.CleanUpPageObject(currentPageObject);
 
         string? navigationUrl = options.Navigate
-            ? nextPageObject.NavigationUrl
+            ? nextPageObject.NavigationUrlData.Value
             : options.Url;
 
-        navigationUrl = PrepareNavigationUrl(navigationUrl, options);
+        navigationUrl = PrepareNavigationUrl(
+            navigationUrl,
+            options,
+            nextPageObject.NavigationUrlData.Variables);
 
         _session.Log.ExecuteSection(
             new GoToPageObjectLogSection(nextPageObject, navigationUrl, options.NavigationTarget),
@@ -325,16 +331,16 @@ public sealed class AtataNavigator
         return nextPageObject;
     }
 
-    private string? PrepareNavigationUrl(string? navigationUrl, GoOptions options)
+    private string? PrepareNavigationUrl(string? navigationUrl, GoOptions options, IEnumerable<KeyValuePair<string, object>>? navigationUrlVariables)
     {
         if (!string.IsNullOrEmpty(navigationUrl))
-            navigationUrl = _session.Variables.FillUriTemplateString(navigationUrl);
+            navigationUrl = _session.Variables.FillUriTemplateString(navigationUrl, navigationUrlVariables);
 
         navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
 
         if (options.Navigate && !string.IsNullOrEmpty(options.Url))
         {
-            string additionalUrl = _session.Variables.FillUriTemplateString(options.Url);
+            string additionalUrl = _session.Variables.FillUriTemplateString(options.Url, navigationUrlVariables);
             navigationUrl = UriUtils.MergeAsString(navigationUrl, additionalUrl);
         }
 

@@ -12,6 +12,8 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 {
     private WebDriverSession _session = null!;
 
+    private PageObjectNavigationUrlData<TOwner>? _navigationUrlData;
+
     private Control<TOwner>? _activeControl;
 
     protected PageObject()
@@ -55,10 +57,15 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     public new PageObjectVerificationProvider<TOwner> WaitTo
         => Should.Using(WaitingVerificationStrategy.Instance);
 
-    /// <summary>
-    /// Gets or sets the navigation URL, which can be used during page object initialization.
-    /// </summary>
-    protected internal string? NavigationUrl { get; set; }
+    [Obsolete("Use SetNavigationUrl(...) or AppendNavigationUrl(...) instead.")] // Obsolete since v4.0.0.
+    protected string? NavigationUrl
+    {
+        get => _navigationUrlData?.Value;
+        set => NavigationUrlData.Set(value);
+    }
+
+    internal PageObjectNavigationUrlData<TOwner> NavigationUrlData =>
+        _navigationUrlData ??= new();
 
     /// <summary>
     /// Gets a value indicating whether this instance is temporarily navigated using <see cref="GoTemporarilyAttribute"/> or other approach.
@@ -120,7 +127,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
             UIComponentResolver.FillComponentMetadata(Metadata, session.Context.Attributes, typeof(TOwner).Assembly);
 
-            NavigationUrl = GetNavigationUrlOrUrlFromMetadata();
+            NavigationUrlData.Value = GetNavigationUrlOrUrlFromMetadata();
         }
         else if (session != _session)
         {
@@ -130,16 +137,20 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
 
     private string? GetNavigationUrlOrUrlFromMetadata()
     {
-        if (NavigationUrl?.Length > 0)
+        string? navigationUrl = NavigationUrlData.Value;
+
+        if (navigationUrl?.Length > 0)
         {
-            if (UriUtils.IsUrlHasPath(NavigationUrl))
+            if (NavigationUrlData.Appends)
             {
-                return NavigationUrl;
+                string? metadataUrl = Metadata.Get<UrlAttribute>()?.Value;
+                return metadataUrl?.Length > 0
+                    ? metadataUrl + navigationUrl
+                    : navigationUrl;
             }
             else
             {
-                string? metadataUrl = Metadata.Get<UrlAttribute>()?.Value;
-                return UriUtils.MergeAsString(metadataUrl, NavigationUrl);
+                return navigationUrl;
             }
         }
         else
@@ -202,21 +213,36 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     }
 
     /// <summary>
-    /// Appends the value to <see cref="NavigationUrl"/>.
+    /// Appends the value to the navigation URL.
     /// </summary>
     /// <param name="urlPart">The URL part.</param>
     /// <returns>The instance of this page object.</returns>
-    public TOwner AppendNavigationUrl(string urlPart) =>
-        SetNavigationUrl(NavigationUrl is null ? urlPart : NavigationUrl + urlPart);
+    public TOwner AppendNavigationUrl(string urlPart)
+    {
+        NavigationUrlData.Append(urlPart);
+        return (TOwner)this;
+    }
 
     /// <summary>
-    /// Sets the <see cref="NavigationUrl"/>.
+    /// Sets the navigation URL.
     /// </summary>
     /// <param name="url">The URL.</param>
     /// <returns>The instance of this page object.</returns>
     public TOwner SetNavigationUrl(string url)
     {
-        NavigationUrl = url;
+        NavigationUrlData.Set(url);
+        return (TOwner)this;
+    }
+
+    /// <summary>
+    /// Sets the URL variable for the navigation URL.
+    /// </summary>
+    /// <param name="value">The variable value.</param>
+    /// <param name="key">The variable key.</param>
+    /// <returns>The instance of this page object.</returns>
+    public TOwner SetNavigationUrlVariable(object value, [CallerArgumentExpression(nameof(value))] string? key = null)
+    {
+        NavigationUrlData.SetVariable(key!, value);
         return (TOwner)this;
     }
 
