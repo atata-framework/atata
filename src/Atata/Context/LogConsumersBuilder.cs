@@ -5,16 +5,23 @@
 /// </summary>
 public class LogConsumersBuilder
 {
-    public LogConsumersBuilder() =>
-        Items = [];
+    private readonly AtataContextBuilder _atataContextBuilder;
 
-    public LogConsumersBuilder(IEnumerable<LogConsumerConfiguration> items) =>
-        Items = items.ToList();
+    private readonly List<LogConsumerConfiguration> _items;
+
+    internal LogConsumersBuilder(
+        AtataContextBuilder atataContextBuilder,
+        List<LogConsumerConfiguration> items)
+    {
+        _atataContextBuilder = atataContextBuilder;
+        _items = items;
+    }
 
     /// <summary>
     /// Gets the list of log consumer configurations.
     /// </summary>
-    public List<LogConsumerConfiguration> Items { get; }
+    public IReadOnlyList<LogConsumerConfiguration> Items =>
+        _items;
 
     /// <summary>
     /// Adds the log consumer.
@@ -53,7 +60,7 @@ public class LogConsumersBuilder
         consumer.CheckNotNull(nameof(consumer));
 
         var consumerConfiguration = new LogConsumerConfiguration(consumer);
-        Items.Add(consumerConfiguration);
+        _items.Add(consumerConfiguration);
         return new LogConsumerBuilder<TLogConsumer>(consumerConfiguration);
     }
 

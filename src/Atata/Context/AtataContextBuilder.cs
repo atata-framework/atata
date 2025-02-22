@@ -22,6 +22,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         Scope = contextScope;
         Sessions = new(this, [], sessionStartScopes);
+        LogConsumers = new(this, []);
     }
 
     /// <summary>
@@ -58,7 +59,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Gets the builder of log consumers,
     /// which provides the methods to add log consumers.
     /// </summary>
-    public LogConsumersBuilder LogConsumers { get; private set; } = new();
+    public LogConsumersBuilder LogConsumers { get; private set; }
 
     /// <summary>
     /// Gets the variables dictionary.
@@ -880,8 +881,9 @@ public sealed class AtataContextBuilder : ICloneable
             Sessions.Providers.Select(x => (IAtataSessionProvider)x.Clone()).ToList(),
             ResolveSessionDefaultStartScopes(scope));
 
-        copy.LogConsumers = new LogConsumersBuilder(
-            LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x));
+        copy.LogConsumers = new(
+            copy,
+            LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x).ToList());
 
         copy.Attributes = new AttributesBuilder(
             Attributes.AttributesContext.Clone());
