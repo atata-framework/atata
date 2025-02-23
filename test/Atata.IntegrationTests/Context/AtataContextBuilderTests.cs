@@ -31,9 +31,9 @@ public sealed class AtataContextBuilderTests : TestSuiteBase
     public void Build_WhenThrowsOnBuild()
     {
         // Arrange
-        var builder = ConfigureSessionlessAtataContext();
-        builder.EventSubscriptions.Add<AtataContextInitCompletedEvent>(
-            () => throw new InvalidOperationException("some"));
+        var builder = ConfigureSessionlessAtataContext()
+            .EventSubscriptions.Add<AtataContextInitCompletedEvent>(
+                () => throw new InvalidOperationException("some"));
 
         // Act
         var act = builder.Invoking(x => x.Build());
