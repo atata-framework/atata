@@ -1,6 +1,8 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-public class LogConsumerBuilder<TLogConsumer>
+namespace Atata;
+
+public sealed class LogConsumerBuilder<TLogConsumer>
     where TLogConsumer : ILogConsumer
 {
     private readonly LogConsumerConfiguration _logConsumerConfiguration;
