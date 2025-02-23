@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Logging;
 
-public class NLogFileConsumerTests : TestSuiteBase
+public sealed class NLogFileConsumerTests : TestSuiteBase
 {
     [Test]
     public void WithDefaultConfiguration()
@@ -67,8 +67,8 @@ public class NLogFileConsumerTests : TestSuiteBase
     {
         var contextBuilder = ConfigureSessionlessAtataContext();
 
-        var logConsumerBuilder = contextBuilder.LogConsumers.AddNLogFile();
-        configure?.Invoke(logConsumerBuilder);
+        contextBuilder.LogConsumers.AddNLogFile(
+            x => configure?.Invoke(x));
 
         return contextBuilder.Build();
     }

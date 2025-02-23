@@ -620,7 +620,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
-    /// <item><see cref="NUnitLogConsumersBuilderExtensions.AddNUnitTestContext(LogConsumersBuilder)"/> for <see cref="LogConsumers"/> property</item>
+    /// <item><see cref="NUnitLogConsumersBuilderExtensions.AddNUnitTestContext(LogConsumersBuilder, Action{LogConsumerBuilder{NUnitTestContextLogConsumer}}?)"/> for <see cref="LogConsumers"/> property</item>
     /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.LogNUnitError(EventSubscriptionsBuilder)"/> for <see cref="EventSubscriptions"/> property</item>
     /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError(EventSubscriptionsBuilder, string)"/> for <see cref="EventSubscriptions"/> property</item>
     /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError(EventSubscriptionsBuilder, string)"/> for <see cref="EventSubscriptions"/> property</item>

@@ -1,9 +1,11 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Represents the builder of log consumers.
+/// A builder of log consumers.
 /// </summary>
-public class LogConsumersBuilder
+public sealed class LogConsumersBuilder
 {
     private readonly AtataContextBuilder _atataContextBuilder;
 
@@ -24,28 +26,30 @@ public class LogConsumersBuilder
         _items;
 
     /// <summary>
-    /// Adds the log consumer.
+    /// Adds a log consumer of the specified type.
     /// </summary>
-    /// <typeparam name="TLogConsumer">
-    /// The type of the log consumer.
-    /// Should have default constructor.
-    /// </typeparam>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<TLogConsumer> Add<TLogConsumer>()
+    /// <typeparam name="TLogConsumer">The type of the log consumer. Should have public default constructor.</typeparam>
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Add<TLogConsumer>(
+        Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
         where TLogConsumer : ILogConsumer, new()
         =>
-        Add(new TLogConsumer());
+        Add(new TLogConsumer(), configure);
 
     /// <summary>
-    /// Adds the log consumer by its type name or alias.
+    /// Adds a log consumer by its type name or alias.
     /// Predefined aliases are defined in <see cref="LogConsumerAliases"/> static class.
     /// </summary>
     /// <param name="typeNameOrAlias">The type name or alias of the log consumer.</param>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<ILogConsumer> Add(string typeNameOrAlias)
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <see cref="ILogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Add(
+        string typeNameOrAlias,
+        Action<LogConsumerBuilder<ILogConsumer>>? configure = null)
     {
         ILogConsumer consumer = LogConsumerAliases.Resolve(typeNameOrAlias);
-        return Add(consumer);
+        return Add(consumer, configure);
     }
 
     /// <summary>
@@ -53,23 +57,31 @@ public class LogConsumersBuilder
     /// </summary>
     /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
     /// <param name="consumer">The log consumer.</param>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<TLogConsumer> Add<TLogConsumer>(TLogConsumer consumer)
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Add<TLogConsumer>(
+        TLogConsumer consumer,
+        Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
         where TLogConsumer : ILogConsumer
     {
         consumer.CheckNotNull(nameof(consumer));
 
-        var consumerConfiguration = new LogConsumerConfiguration(consumer);
+        LogConsumerConfiguration consumerConfiguration = new(consumer);
         _items.Add(consumerConfiguration);
-        return new LogConsumerBuilder<TLogConsumer>(consumerConfiguration);
+
+        configure?.Invoke(new(consumerConfiguration));
+
+        return _atataContextBuilder;
     }
 
     /// <summary>
-    /// Returns a log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer or adds a new one.
+    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer or adds a new one.
     /// </summary>
     /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<TLogConsumer> Configure<TLogConsumer>()
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Configure<TLogConsumer>(
+        Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
        where TLogConsumer : ILogConsumer
     {
         var consumerConfiguration = Items.LastOrDefault(x => x.Consumer is TLogConsumer);
@@ -81,28 +93,38 @@ public class LogConsumersBuilder
         }
         else
         {
-            return new LogConsumerBuilder<TLogConsumer>(consumerConfiguration);
+            configure?.Invoke(new(consumerConfiguration));
+            return _atataContextBuilder;
         }
     }
 
     /// <summary>
     /// Adds the <see cref="TraceLogConsumer"/> instance that uses <see cref="Trace"/> class for logging.
     /// </summary>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<TraceLogConsumer> AddTrace() =>
-        Add(new TraceLogConsumer());
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <see cref="TraceLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder AddTrace(
+        Action<LogConsumerBuilder<TraceLogConsumer>>? configure = null)
+        =>
+        Add(configure);
 
     /// <summary>
     /// Adds the <see cref="DebugLogConsumer"/> instance that uses <see cref="Debug"/> class for logging.
     /// </summary>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<DebugLogConsumer> AddDebug() =>
-        Add(new DebugLogConsumer());
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <see cref="DebugLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder AddDebug(
+        Action<LogConsumerBuilder<DebugLogConsumer>>? configure = null)
+        =>
+        Add(configure);
 
     /// <summary>
     /// Adds the <see cref="ConsoleLogConsumer"/> instance that uses <see cref="Console"/> class for logging.
     /// </summary>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public LogConsumerBuilder<ConsoleLogConsumer> AddConsole() =>
-        Add(new ConsoleLogConsumer());
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <see cref="ConsoleLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder AddConsole(
+        Action<LogConsumerBuilder<ConsoleLogConsumer>>? configure = null)
+        =>
+        Add(configure);
 }

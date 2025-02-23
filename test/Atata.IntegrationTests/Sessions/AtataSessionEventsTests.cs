@@ -30,16 +30,14 @@ public sealed class AtataSessionEventsTests
 
                 session.Mode = AtataSessionMode.Shared;
             });
-        parentContextBuilder.LogConsumers.Add(fakeLogConsumer)
-            .WithEmbedSessionLog(false);
+        parentContextBuilder.LogConsumers.Add(fakeLogConsumer, x => x.WithEmbedSessionLog(false));
 
         await using (var parentContext = await parentContextBuilder.BuildAsync())
         {
             var childContextBuilder = AtataContext.CreateDefaultNonScopedBuilder()
                 .UseParentContext(parentContext)
                 .Sessions.Borrow<FakeSession>();
-            childContextBuilder.LogConsumers.Add(fakeLogConsumer)
-                .WithEmbedSessionLog(false);
+            childContextBuilder.LogConsumers.Add(fakeLogConsumer, x => x.WithEmbedSessionLog(false));
 
             var childContext = await childContextBuilder.BuildAsync();
             await childContext.DisposeAsync();

@@ -5,7 +5,7 @@ using log4net.Util;
 
 namespace Atata.IntegrationTests.Logging;
 
-public class Log4NetConsumerTests : TestSuiteBase
+public sealed class Log4NetConsumerTests : TestSuiteBase
 {
     private const string InfoLoggerName = "InfoLogger";
 
@@ -63,7 +63,9 @@ public class Log4NetConsumerTests : TestSuiteBase
         XmlConfigurator.Configure(logRepository, ConfigFileInfo);
 
         var builder = ConfigureSessionlessAtataContext();
-        builder.LogConsumers.AddLog4Net(logRepository.Name, InfoLoggerName);
+        builder.LogConsumers.AddLog4Net(x => x
+            .WithRepositoryName(logRepository.Name)
+            .WithLoggerName(InfoLoggerName));
         var context = builder.Build();
 
         // Act
@@ -91,7 +93,9 @@ public class Log4NetConsumerTests : TestSuiteBase
     {
         // Arrange
         var builder = ConfigureSessionlessAtataContext();
-        builder.LogConsumers.AddLog4Net("MissingRepository", InfoLoggerName);
+        builder.LogConsumers.AddLog4Net(x => x
+            .WithRepositoryName("MissingRepository")
+            .WithLoggerName(InfoLoggerName));
 
         // Act // Assert
         var exception = Assert.Throws<LogException>(() =>
@@ -107,7 +111,9 @@ public class Log4NetConsumerTests : TestSuiteBase
         var repository = log4net.LogManager.CreateRepository(Guid.NewGuid().ToString());
 
         var builder = ConfigureSessionlessAtataContext();
-        builder.LogConsumers.AddLog4Net(repository.Name, InfoLoggerName);
+        builder.LogConsumers.AddLog4Net(x => x
+            .WithRepositoryName(repository.Name)
+            .WithLoggerName(InfoLoggerName));
 
         // Act // Assert
         Assert.DoesNotThrow(() =>

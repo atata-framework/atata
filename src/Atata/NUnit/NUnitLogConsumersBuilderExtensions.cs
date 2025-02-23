@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides NUnit extension methods for <see cref="LogConsumersBuilder"/>.
@@ -10,9 +12,11 @@ public static class NUnitLogConsumersBuilderExtensions
     /// that uses <c>NUnit.Framework.TestContext</c> class for logging.
     /// </summary>
     /// <param name="builder">The builder.</param>
-    /// <returns>The <see cref="LogConsumerBuilder{TLogConsumer}"/> instance.</returns>
-    public static LogConsumerBuilder<NUnitTestContextLogConsumer> AddNUnitTestContext(
-        this LogConsumersBuilder builder)
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <see cref="NUnitTestContextLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public static AtataContextBuilder AddNUnitTestContext(
+        this LogConsumersBuilder builder,
+        Action<LogConsumerBuilder<NUnitTestContextLogConsumer>>? configure = null)
         =>
-        builder.Add(new NUnitTestContextLogConsumer());
+        builder.Add(configure);
 }
