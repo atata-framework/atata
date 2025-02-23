@@ -3,18 +3,19 @@
 /// <summary>
 /// Represents the builder of event subscriptions.
 /// </summary>
-public class EventSubscriptionsBuilder
+public sealed class EventSubscriptionsBuilder
 {
-    public EventSubscriptionsBuilder() =>
-        Items = [];
+    private readonly List<EventSubscriptionItem> _items;
 
-    public EventSubscriptionsBuilder(IEnumerable<EventSubscriptionItem> items) =>
-        Items = items.ToList();
+    internal EventSubscriptionsBuilder(
+        List<EventSubscriptionItem> items) =>
+        _items = items;
 
     /// <summary>
     /// Gets the list of event subscriptions.
     /// </summary>
-    public List<EventSubscriptionItem> Items { get; }
+    public IReadOnlyList<EventSubscriptionItem> Items =>
+        _items;
 
 #pragma warning disable CA2263 // Prefer generic overload when type is known
 
@@ -125,7 +126,7 @@ public class EventSubscriptionsBuilder
 
     private EventSubscriptionsBuilder Add(Type eventType, object eventHandler)
     {
-        Items.Add(new EventSubscriptionItem(eventType, eventHandler));
+        _items.Add(new(eventType, eventHandler));
         return this;
     }
 }

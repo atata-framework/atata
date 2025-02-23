@@ -9,7 +9,7 @@ public static class EventSubscriptionsBuilderTests
 
         [SetUp]
         public void SetUp() =>
-            _sut = new EventSubscriptionsBuilder()
+            _sut = new EventSubscriptionsBuilder([])
                 .ToSutSubject();
 
         [Test]

@@ -106,7 +106,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// Gets the builder of event subscriptions,
     /// which provides the methods to subscribe to Atata and custom events.
     /// </summary>
-    public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new();
+    public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new([]);
 
     /// <summary>
     /// Sets the <see cref="Name"/> value for a session.
@@ -394,6 +394,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     protected virtual void OnClone(TBuilder copy)
     {
         copy.Variables = new Dictionary<string, object>(Variables);
-        copy.EventSubscriptions = new EventSubscriptionsBuilder(EventSubscriptions.Items);
+        copy.EventSubscriptions = new EventSubscriptionsBuilder(
+            [.. EventSubscriptions.Items]);
     }
 }

@@ -53,7 +53,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Gets the builder of event subscriptions,
     /// which provides the methods to subscribe to Atata and custom events.
     /// </summary>
-    public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new();
+    public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new([]);
 
     /// <summary>
     /// Gets the builder of log consumers,
@@ -889,7 +889,7 @@ public sealed class AtataContextBuilder : ICloneable
             Attributes.AttributesContext.Clone());
 
         copy.EventSubscriptions = new EventSubscriptionsBuilder(
-            EventSubscriptions.Items);
+            [.. EventSubscriptions.Items]);
 
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
