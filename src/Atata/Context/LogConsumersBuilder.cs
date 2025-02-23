@@ -75,21 +75,43 @@ public sealed class LogConsumersBuilder
     }
 
     /// <summary>
-    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer or adds a new one.
+    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer;
+    /// or throws <see cref="LogConsumerNotFoundException"/> if consumer of such type is not found.
     /// </summary>
     /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
     /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Configure<TLogConsumer>(
-        Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
+        Action<LogConsumerBuilder<TLogConsumer>> configure)
        where TLogConsumer : ILogConsumer
     {
-        var consumerConfiguration = Items.LastOrDefault(x => x.Consumer is TLogConsumer);
+        configure.CheckNotNull(nameof(configure));
+
+        var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>()
+            ?? throw LogConsumerNotFoundException.ByBuilderType(typeof(TLogConsumer));
+
+        configure.Invoke(new(consumerConfiguration));
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer
+    /// or adds a new one.
+    /// </summary>
+    /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder ConfigureOrAdd<TLogConsumer>(
+        Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
+       where TLogConsumer : ILogConsumer, new()
+    {
+        var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>();
 
         if (consumerConfiguration is null)
         {
-            var consumer = ActivatorEx.CreateInstance<TLogConsumer>();
-            return Add(consumer);
+            TLogConsumer consumer = new();
+            return Add(consumer, configure);
         }
         else
         {
@@ -127,4 +149,8 @@ public sealed class LogConsumersBuilder
         Action<LogConsumerBuilder<ConsoleLogConsumer>>? configure = null)
         =>
         Add(configure);
+
+    private LogConsumerConfiguration GetConfigurationOrNull<TLogConsumer>()
+        where TLogConsumer : ILogConsumer =>
+        Items.LastOrDefault(x => x.Consumer is TLogConsumer);
 }
