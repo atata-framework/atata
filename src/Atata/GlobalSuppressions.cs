@@ -113,5 +113,4 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponent`1.ExecuteTriggers(Atata.TriggerEvents)")]
 [assembly: SuppressMessage("Critical Code Smell", "S134:Control flow statements \"if\", \"switch\", \"for\", \"foreach\", \"while\", \"do\"  and \"try\" should not be nested too deeply", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataSessionCollection.GetAllIncludingPooled~System.Collections.Generic.IEnumerable{Atata.AtataSession}")]
 [assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.UseAllNUnitFeatures~Atata.AtataContextBuilder")]
-
-#pragma warning restore S103 // Lines should not be too long
+[assembly: SuppressMessage("Major Code Smell", "S103:Lines should not be too long", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.AtataContextBuilder.UseSpecFlowNUnitFeatures~Atata.AtataContextBuilder")]

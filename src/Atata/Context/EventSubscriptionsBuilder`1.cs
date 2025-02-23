@@ -1,15 +1,24 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the builder of event subscriptions.
 /// </summary>
-public sealed class EventSubscriptionsBuilder
+/// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
+public sealed class EventSubscriptionsBuilder<TRootBuilder>
 {
+    private readonly TRootBuilder _rootBuilder;
+
     private readonly List<EventSubscriptionItem> _items;
 
     internal EventSubscriptionsBuilder(
-        List<EventSubscriptionItem> items) =>
+        TRootBuilder rootBuilder,
+        List<EventSubscriptionItem> items)
+    {
+        _rootBuilder = rootBuilder;
         _items = items;
+    }
 
     /// <summary>
     /// Gets the list of event subscriptions.
@@ -24,28 +33,28 @@ public sealed class EventSubscriptionsBuilder
     /// </summary>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     /// <param name="eventHandler">The event handler.</param>
-    /// <returns>The same <see cref="EventSubscriptionsBuilder"/> instance.</returns>
-    public EventSubscriptionsBuilder Add<TEvent>(Action eventHandler) =>
+    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    public TRootBuilder Add<TEvent>(Action eventHandler) =>
         Add(typeof(TEvent), new ActionEventHandler<TEvent>(eventHandler));
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
-    public EventSubscriptionsBuilder Add<TEvent>(Action<TEvent> eventHandler) =>
+    public TRootBuilder Add<TEvent>(Action<TEvent> eventHandler) =>
         Add(typeof(TEvent), new ActionEventHandler<TEvent>(eventHandler));
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
-    public EventSubscriptionsBuilder Add<TEvent>(Action<TEvent, AtataContext> eventHandler) =>
+    public TRootBuilder Add<TEvent>(Action<TEvent, AtataContext> eventHandler) =>
         Add(typeof(TEvent), new ActionEventHandler<TEvent>(eventHandler));
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
-    public EventSubscriptionsBuilder Add<TEvent>(Func<CancellationToken, Task> eventHandler) =>
+    public TRootBuilder Add<TEvent>(Func<CancellationToken, Task> eventHandler) =>
         Add(typeof(TEvent), new ActionAsyncEventHandler<TEvent>(eventHandler));
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
-    public EventSubscriptionsBuilder Add<TEvent>(Func<TEvent, CancellationToken, Task> eventHandler) =>
+    public TRootBuilder Add<TEvent>(Func<TEvent, CancellationToken, Task> eventHandler) =>
         Add(typeof(TEvent), new ActionAsyncEventHandler<TEvent>(eventHandler));
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
-    public EventSubscriptionsBuilder Add<TEvent>(Func<TEvent, AtataContext, CancellationToken, Task> eventHandler) =>
+    public TRootBuilder Add<TEvent>(Func<TEvent, AtataContext, CancellationToken, Task> eventHandler) =>
         Add(typeof(TEvent), new ActionAsyncEventHandler<TEvent>(eventHandler));
 
     /// <summary>
@@ -53,8 +62,8 @@ public sealed class EventSubscriptionsBuilder
     /// </summary>
     /// <typeparam name="TEvent">The type of the event.</typeparam>
     /// <typeparam name="TEventHandler">The type of the event handler that should be either <see cref="IEventHandler{TEvent}"/> or <see cref="IAsyncEventHandler{TEvent}"/>.</typeparam>
-    /// <returns>The same <see cref="EventSubscriptionsBuilder"/> instance.</returns>
-    public EventSubscriptionsBuilder Add<TEvent, TEventHandler>()
+    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    public TRootBuilder Add<TEvent, TEventHandler>()
         where TEventHandler : class, new()
     {
         ValidateEventHandlerType(typeof(TEventHandler), typeof(TEvent));
@@ -64,11 +73,11 @@ public sealed class EventSubscriptionsBuilder
 #pragma warning restore CA2263 // Prefer generic overload when type is known
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
-    public EventSubscriptionsBuilder Add<TEvent>(IEventHandler<TEvent> eventHandler) =>
+    public TRootBuilder Add<TEvent>(IEventHandler<TEvent> eventHandler) =>
         Add(typeof(TEvent), eventHandler);
 
     /// <inheritdoc cref="Add{TEvent}(Action)"/>
-    public EventSubscriptionsBuilder Add<TEvent>(IAsyncEventHandler<TEvent> eventHandler) =>
+    public TRootBuilder Add<TEvent>(IAsyncEventHandler<TEvent> eventHandler) =>
         Add(typeof(TEvent), eventHandler);
 
     /// <summary>
@@ -76,8 +85,8 @@ public sealed class EventSubscriptionsBuilder
     /// that is read from <see cref="IEventHandler{TEvent}"/> generic argument that <paramref name="eventHandlerType"/> should implement.
     /// </summary>
     /// <param name="eventHandlerType">Type of the event handler.</param>
-    /// <returns>The same <see cref="EventSubscriptionsBuilder"/> instance.</returns>
-    public EventSubscriptionsBuilder Add(Type eventHandlerType)
+    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    public TRootBuilder Add(Type eventHandlerType)
     {
         eventHandlerType.CheckNotNull(nameof(eventHandlerType));
 
@@ -101,8 +110,8 @@ public sealed class EventSubscriptionsBuilder
     /// </summary>
     /// <param name="eventType">Type of the event.</param>
     /// <param name="eventHandlerType">Type of the event handler.</param>
-    /// <returns>The same <see cref="EventSubscriptionsBuilder"/> instance.</returns>
-    public EventSubscriptionsBuilder Add(Type eventType, Type eventHandlerType)
+    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    public TRootBuilder Add(Type eventType, Type eventHandlerType)
     {
         eventType.CheckNotNull(nameof(eventType));
         eventHandlerType.CheckNotNull(nameof(eventHandlerType));
@@ -124,9 +133,9 @@ public sealed class EventSubscriptionsBuilder
                 nameof(eventHandlerType));
     }
 
-    private EventSubscriptionsBuilder Add(Type eventType, object eventHandler)
+    private TRootBuilder Add(Type eventType, object eventHandler)
     {
         _items.Add(new(eventType, eventHandler));
-        return this;
+        return _rootBuilder;
     }
 }

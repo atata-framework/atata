@@ -3,13 +3,13 @@
 public static class EventSubscriptionsBuilderTests
 {
     [TestFixture]
-    public class Add
+    public sealed class Add
     {
-        private Subject<EventSubscriptionsBuilder> _sut;
+        private Subject<EventSubscriptionsBuilder<AtataContextBuilder>> _sut;
 
         [SetUp]
         public void SetUp() =>
-            _sut = new EventSubscriptionsBuilder([])
+            _sut = new EventSubscriptionsBuilder<AtataContextBuilder>(AtataContext.CreateDefaultNonScopedBuilder(), [])
                 .ToSutSubject();
 
         [Test]

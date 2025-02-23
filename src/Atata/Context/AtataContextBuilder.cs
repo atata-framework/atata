@@ -22,6 +22,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         Scope = contextScope;
         Sessions = new(this, [], sessionStartScopes);
+        EventSubscriptions = new(this, []);
         LogConsumers = new(this, []);
     }
 
@@ -53,7 +54,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Gets the builder of event subscriptions,
     /// which provides the methods to subscribe to Atata and custom events.
     /// </summary>
-    public EventSubscriptionsBuilder EventSubscriptions { get; private set; } = new([]);
+    public EventSubscriptionsBuilder<AtataContextBuilder> EventSubscriptions { get; private set; }
 
     /// <summary>
     /// Gets the builder of log consumers,
@@ -621,10 +622,10 @@ public sealed class AtataContextBuilder : ICloneable
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
     /// <item><see cref="NUnitLogConsumersBuilderExtensions.AddNUnitTestContext(LogConsumersBuilder, Action{LogConsumerBuilder{NUnitTestContextLogConsumer}}?)"/> for <see cref="LogConsumers"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.LogNUnitError(EventSubscriptionsBuilder)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError(EventSubscriptionsBuilder, string)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError(EventSubscriptionsBuilder, string)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.AddArtifactsToNUnitTestContext(EventSubscriptionsBuilder)"/> for <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.LogNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder})"/> for <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.AddArtifactsToNUnitTestContext{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder})"/> for <see cref="EventSubscriptions"/> property</item>
     /// </list>
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -657,9 +658,9 @@ public sealed class AtataContextBuilder : ICloneable
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.LogNUnitError(EventSubscriptionsBuilder)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError(EventSubscriptionsBuilder, string)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError(EventSubscriptionsBuilder, string)"/> for <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.LogNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder})"/> for <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
+    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
     /// </list>
     /// </summary>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
@@ -881,15 +882,16 @@ public sealed class AtataContextBuilder : ICloneable
             Sessions.Providers.Select(x => (IAtataSessionProvider)x.Clone()).ToList(),
             ResolveSessionDefaultStartScopes(scope));
 
+        copy.EventSubscriptions = new(
+            copy,
+            [.. EventSubscriptions.Items]);
+
         copy.LogConsumers = new(
             copy,
             LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x).ToList());
 
         copy.Attributes = new AttributesBuilder(
             Attributes.AttributesContext.Clone());
-
-        copy.EventSubscriptions = new EventSubscriptionsBuilder(
-            [.. EventSubscriptions.Items]);
 
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
