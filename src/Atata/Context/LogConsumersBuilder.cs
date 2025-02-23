@@ -83,7 +83,7 @@ public sealed class LogConsumersBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Configure<TLogConsumer>(
         Action<LogConsumerBuilder<TLogConsumer>> configure)
-       where TLogConsumer : ILogConsumer
+        where TLogConsumer : ILogConsumer
     {
         configure.CheckNotNull(nameof(configure));
 
@@ -91,6 +91,26 @@ public sealed class LogConsumersBuilder
             ?? throw LogConsumerNotFoundException.ByBuilderType(typeof(TLogConsumer));
 
         configure.Invoke(new(consumerConfiguration));
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Configures log consumer builder for <typeparamref name="TLogConsumer"/> log consumer if it exists.
+    /// </summary>
+    /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
+    /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder ConfigureIfExists<TLogConsumer>(
+        Action<LogConsumerBuilder<TLogConsumer>> configure)
+        where TLogConsumer : ILogConsumer
+    {
+        configure.CheckNotNull(nameof(configure));
+
+        var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>();
+
+        if (consumerConfiguration is not null)
+            configure.Invoke(new(consumerConfiguration));
 
         return _atataContextBuilder;
     }
@@ -104,7 +124,7 @@ public sealed class LogConsumersBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder ConfigureOrAdd<TLogConsumer>(
         Action<LogConsumerBuilder<TLogConsumer>>? configure = null)
-       where TLogConsumer : ILogConsumer, new()
+        where TLogConsumer : ILogConsumer, new()
     {
         var consumerConfiguration = GetConfigurationOrNull<TLogConsumer>();
 
@@ -151,6 +171,7 @@ public sealed class LogConsumersBuilder
         Add(configure);
 
     private LogConsumerConfiguration GetConfigurationOrNull<TLogConsumer>()
-        where TLogConsumer : ILogConsumer =>
+        where TLogConsumer : ILogConsumer
+        =>
         Items.LastOrDefault(x => x.Consumer is TLogConsumer);
 }
