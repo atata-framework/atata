@@ -5,29 +5,29 @@ namespace Atata;
 /// <summary>
 /// Represents the configuration of <see cref="ILogConsumer"/>.
 /// </summary>
-public class LogConsumerConfiguration : ICloneable
+public sealed class LogConsumerConfiguration : ICloneable
 {
-    public LogConsumerConfiguration(
+    internal LogConsumerConfiguration(
         ILogConsumer consumer)
         : this(consumer, LogLevel.Trace, LogSectionEndOption.Include)
     {
     }
 
-    public LogConsumerConfiguration(
+    internal LogConsumerConfiguration(
         ILogConsumer consumer,
         LogLevel minLevel)
         : this(consumer, minLevel, LogSectionEndOption.Include)
     {
     }
 
-    public LogConsumerConfiguration(
+    internal LogConsumerConfiguration(
         ILogConsumer consumer,
         LogSectionEndOption sectionEnd)
         : this(consumer, LogLevel.Trace, sectionEnd)
     {
     }
 
-    public LogConsumerConfiguration(
+    internal LogConsumerConfiguration(
         ILogConsumer consumer,
         LogLevel minLevel,
         LogSectionEndOption sectionEnd)
