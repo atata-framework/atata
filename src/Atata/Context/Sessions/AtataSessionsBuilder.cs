@@ -2,6 +2,9 @@
 
 namespace Atata;
 
+/// <summary>
+/// A builder of Atata sessions.
+/// </summary>
 public sealed class AtataSessionsBuilder
 {
     private readonly AtataContextBuilder _atataContextBuilder;
@@ -48,7 +51,7 @@ public sealed class AtataSessionsBuilder
     /// adds it to the session providers list.
     /// </summary>
     /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
-    /// <param name="configure">The configure.</param>
+    /// <param name="configure">An action delegate to configure the provided <typeparamref name="TSessionBuilder"/>.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Add<TSessionBuilder>(Action<TSessionBuilder>? configure = null)
         where TSessionBuilder : IAtataSessionBuilder, new()
