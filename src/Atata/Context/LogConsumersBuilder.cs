@@ -116,8 +116,8 @@ public sealed class LogConsumersBuilder
     }
 
     /// <summary>
-    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer
-    /// or adds a new one.
+    /// Configures log consumer builder for existing <typeparamref name="TLogConsumer"/> log consumer;
+    /// or adds a new one if such consumer doesn't exist.
     /// </summary>
     /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
     /// <param name="configure">An action delegate to configure the provided <see cref="LogConsumerBuilder{TLogConsumer}"/> of <typeparamref name="TLogConsumer"/>.</param>
