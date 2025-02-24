@@ -392,28 +392,6 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
-    [Obsolete("Use AtataContext.GlobalProperties.UseUtcTimeZone() method instead.")] // Obsolete since v3.0.0.
-    public AtataContextBuilder UseUtcTimeZone() =>
-        UseTimeZone(TimeZoneInfo.Utc);
-
-    [Obsolete("Use AtataContext.GlobalProperties.UseTimeZone(...) method instead.")] // Obsolete since v3.0.0.
-    public AtataContextBuilder UseTimeZone(string timeZoneId)
-    {
-        timeZoneId.CheckNotNullOrWhitespace(nameof(timeZoneId));
-        TimeZoneInfo timeZone = TimeZoneInfo.FindSystemTimeZoneById(timeZoneId);
-
-        return UseTimeZone(timeZone);
-    }
-
-    [Obsolete("Use AtataContext.GlobalProperties.UseTimeZone(...) method instead.")] // Obsolete since v3.0.0.
-    public AtataContextBuilder UseTimeZone(TimeZoneInfo timeZone)
-    {
-        timeZone.CheckNotNull(nameof(timeZone));
-
-        AtataContext.GlobalProperties.UseTimeZone(timeZone);
-        return this;
-    }
-
     /// <summary>
     /// Sets the base retry timeout.
     /// The default value is <c>5</c> seconds.
