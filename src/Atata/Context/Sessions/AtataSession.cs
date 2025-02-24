@@ -16,10 +16,24 @@ public abstract class AtataSession : IAsyncDisposable
         ExecutionUnit = new AtataSessionExecutionUnit(this);
     }
 
+    /// <summary>
+    /// Gets the owner <see cref="AtataContext"/>, the context in which this session was created.
+    /// </summary>
     public AtataContext OwnerContext { get; private set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the borrow source <see cref="AtataContext"/>, the context from which this session was borrowed.
+    /// Initially equals to <see langword="null"/>.
+    /// </summary>
+    /// <value>
+    /// The borrow source context.
+    /// </value>
     private AtataContext? BorrowSourceContext { get; set; }
 
+    /// <summary>
+    /// Gets the <see cref="AtataContext"/> that this session is currently associated with.
+    /// Initially equals to <see cref="OwnerContext"/>, but changes when borrowed or taken from a pool.
+    /// </summary>
     public AtataContext Context { get; private set; } = null!;
 
     public AtataSessionMode Mode { get; internal set; }
@@ -75,8 +89,36 @@ public abstract class AtataSession : IAsyncDisposable
     /// </summary>
     public IEventBus EventBus { get; internal set; } = null!;
 
+    /// <summary>
+    /// <para>
+    /// Gets the state hierarchical dictionary of this session.
+    /// </para>
+    /// <para>
+    /// List of predefined variables:
+    /// </para>
+    /// <list type="bullet">
+    /// <item><c>artifacts</c></item>
+    /// <item><c>test-name-sanitized</c></item>
+    /// <item><c>test-name</c></item>
+    /// <item><c>test-suite-name-sanitized</c></item>
+    /// <item><c>test-suite-name</c></item>
+    /// <item><c>test-start</c></item>
+    /// <item><c>test-start-utc</c></item>
+    /// <item><c>context-id</c></item>
+    /// <item><c>execution-unit-id</c></item>
+    /// <item><c>session-id</c></item>
+    /// <item><c>session-name</c></item>
+    /// </list>
+    /// <para>
+    /// Custom variables can be added as well.
+    /// </para>
+    /// </summary>
     public VariableHierarchicalDictionary Variables { get; private set; } = null!;
 
+    /// <summary>
+    /// Gets the state hierarchical dictionary of this session.
+    /// By default the dictionary is empty.
+    /// </summary>
     public StateHierarchicalDictionary State { get; private set; } = null!;
 
     /// <summary>
@@ -137,6 +179,9 @@ public abstract class AtataSession : IAsyncDisposable
 
     internal TimeSpan? VerificationRetryIntervalOptional { get; set; }
 
+    /// <summary>
+    /// Sets this session as current within the associated context.
+    /// </summary>
     public void SetAsCurrent() =>
         Context.Sessions.SetCurrent(this);
 
