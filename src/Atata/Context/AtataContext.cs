@@ -192,11 +192,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     public IWebDriver Driver =>
         this.GetWebDriverSession().Driver;
 
-    // TODO: Change HasDriver obsolete message.
-    [Obsolete("Use GetWebDriverSession().HasDriver instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Contains<WebDriverSession>() instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool HasDriver =>
-        this.GetWebDriverSession().HasDriver;
+        Sessions.Contains<WebDriverSession>();
 
     [Obsolete("Use GetWebDriverSession().DriverAlias instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
