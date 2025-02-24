@@ -11,8 +11,6 @@
 /// </summary>
 public class WebDriverSession : WebSession
 {
-    private IWebDriverFactory _driverFactory;
-
     private IWebDriver _driver;
 
     public WebDriverSession() =>
@@ -25,17 +23,7 @@ public class WebDriverSession : WebSession
     public new IWebSessionReport<WebDriverSession> Report =>
         (IWebSessionReport<WebDriverSession>)base.Report;
 
-    internal IWebDriverFactory DriverFactory
-    {
-        get => _driverFactory;
-        set
-        {
-            _driverFactory = value;
-
-            // TODO: Review the "driver-alias" variable set along with DriverFactory set.
-            Variables.SetInitialValue("driver-alias", DriverAlias);
-        }
-    }
+    internal IWebDriverFactory DriverFactory { get; set; }
 
     /// <summary>
     /// Gets the driver.
@@ -77,10 +65,6 @@ public class WebDriverSession : WebSession
             new LogSection("Initialize Driver", LogLevel.Trace),
             () =>
             {
-                if (DriverFactory is null)
-                    throw new WebDriverInitializationException(
-                        $"Failed to create a driver as driver factory is not specified.");
-
                 _driver = DriverFactory.Create(Log)
                     ?? throw new WebDriverInitializationException(
                         $"Driver factory returned null as a driver.");
