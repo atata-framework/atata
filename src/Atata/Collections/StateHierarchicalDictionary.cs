@@ -24,6 +24,14 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
     }
 
     /// <summary>
+    /// Resolves the type key.
+    /// </summary>
+    /// <typeparam name="T">The type.</typeparam>
+    /// <returns>A key.</returns>
+    public static string ResolveTypeKey<T>() =>
+        typeof(T).FullName;
+
+    /// <summary>
     /// Gets the value associated with the <typeparamref name="TValue"/> type full name as a key.
     /// </summary>
     /// <typeparam name="TValue">The type of the value.</typeparam>
@@ -96,8 +104,4 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
     /// <param name="value">The value.</param>
     public void Set<TValue>(string key, TValue value) =>
         this[key] = value;
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static string ResolveTypeKey<T>() =>
-        typeof(T).FullName;
 }
