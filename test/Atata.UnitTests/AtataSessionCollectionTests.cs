@@ -48,6 +48,31 @@ public sealed class AtataSessionCollectionTests
             .Should.ThrowExactly<ArgumentOutOfRangeException>();
 
     [Test]
+    public void Get_WhenExists()
+    {
+        var sessionA = new FakeSession { Name = "A" };
+        var sessionB = new FakeSession { Name = "B" };
+
+        _sut.Object.Add(sessionA);
+        _sut.Object.Add(sessionB);
+
+        _sut.ResultOf(x => x.Get<FakeSession>())
+            .ValueOf(x => x.Id).Should.Be(sessionB.Id);
+    }
+
+    [Test]
+    public void Get_WhenDoesNotExist()
+    {
+        var sessionA = new FakeSession { Name = "A" };
+
+        _sut.Object.Add(sessionA);
+
+        _sut.Invoking(x => x.Get<FakeSession2>())
+            .Should.ThrowExactly<AtataSessionNotFoundException>(
+                "Failed to find FakeSession2 in AtataContext { * }.");
+    }
+
+    [Test]
     public void Get_ByName_WithExistingName()
     {
         var sessionA = new FakeSession { Name = "A" };
@@ -70,7 +95,7 @@ public sealed class AtataSessionCollectionTests
         _sut.Object.Add(sessionA2);
 
         _sut.ResultOf(x => x.Get<FakeSession>("A"))
-            .ValueOf(x => x.Id).Should.Be(sessionA1.Id);
+            .ValueOf(x => x.Id).Should.Be(sessionA2.Id);
     }
 
     [Test]

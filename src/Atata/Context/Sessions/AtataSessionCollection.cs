@@ -410,7 +410,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         try
         {
             _sessionListOrderedByAdding.Add(session);
-            _sessionLinkedListOderedByCurrentUsage.AddLast(session);
+            _sessionLinkedListOderedByCurrentUsage.AddFirst(session);
         }
         finally
         {
