@@ -14,7 +14,7 @@ public class WebDriverSession : WebSession
     private IWebDriver _driver;
 
     public WebDriverSession() =>
-        Go = new AtataNavigator(this);
+        Go = new(this);
 
     public static new WebDriverSession Current =>
         AtataContext.ResolveCurrent().Sessions.Get<WebDriverSession>();
@@ -22,6 +22,12 @@ public class WebDriverSession : WebSession
     /// <inheritdoc cref="WebSession.Report"/>
     public new IWebSessionReport<WebDriverSession> Report =>
         (IWebSessionReport<WebDriverSession>)base.Report;
+
+    /// <summary>
+    /// Gets the <see cref="WebDriverSessionNavigator"/> instance,
+    /// which provides the navigation functionality between pages and windows.
+    /// </summary>
+    public WebDriverSessionNavigator Go { get; }
 
     internal IWebDriverFactory DriverFactory { get; set; }
 

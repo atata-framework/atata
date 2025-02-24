@@ -5,16 +5,12 @@ namespace Atata;
 /// <summary>
 /// Represents the navigation functionality between pages and windows.
 /// </summary>
-public sealed class AtataNavigator
+public sealed class WebDriverSessionNavigator
 {
     private readonly WebDriverSession _session;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AtataNavigator"/> class.
-    /// </summary>
-    /// <param name="session">The session.</param>
-    internal AtataNavigator(WebDriverSession session) =>
-        _session = session.CheckNotNull(nameof(session));
+    internal WebDriverSessionNavigator(WebDriverSession session) =>
+        _session = session;
 
     /// <summary>
     /// Continues with the specified page object type.

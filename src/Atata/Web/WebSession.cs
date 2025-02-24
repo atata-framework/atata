@@ -14,12 +14,6 @@ public abstract class WebSession : AtataSession
         (IWebSessionReport<WebSession>)base.Report;
 
     /// <summary>
-    /// Gets the <see cref="AtataNavigator"/> instance,
-    /// which provides the navigation functionality between pages and windows.
-    /// </summary>
-    public AtataNavigator Go { get; private protected set; } = null!;
-
-    /// <summary>
     /// Gets or sets the base URL.
     /// </summary>
     public string? BaseUrl { get; set; }

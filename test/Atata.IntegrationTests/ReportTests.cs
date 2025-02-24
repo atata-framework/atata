@@ -174,7 +174,7 @@ public class ReportTests : WebDriverSessionTestSuite
         {
             var context = ConfigureAtataContextWithWebDriverSession().Build();
 
-            var page = context.GetWebSession().Go.To<ScrollablePage>();
+            var page = context.GetWebDriverSession().Go.To<ScrollablePage>();
 
             long TakeScreenshotAndReturnItsSize(ScreenshotKind kind)
             {

@@ -358,10 +358,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public string ArtifactsRelativePath { get; private set; } = null!;
 
-    [Obsolete("Use GetWebSession().Go instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use GetWebDriverSession().Go instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public AtataNavigator Go =>
-        this.GetWebSession().Go;
+    public WebDriverSessionNavigator Go =>
+        this.GetWebDriverSession().Go;
 
     /// <summary>
     /// Gets the <see cref="IReport{TOwner}"/> instance that provides a reporting functionality.
