@@ -17,19 +17,19 @@ public static class AtataSessionBuilderTests
             var builder = AtataContext.CreateDefaultBuilder(contextScope)
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseStartScopes(AtataSessionStartScopes.Global)
-                    .AddVariable("scopes", AtataSessionStartScopes.Global))
+                    .UseVariable("scopes", AtataSessionStartScopes.Global))
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseStartScopes(AtataSessionStartScopes.Namespace)
-                    .AddVariable("scopes", AtataSessionStartScopes.Namespace))
+                    .UseVariable("scopes", AtataSessionStartScopes.Namespace))
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseStartScopes(AtataSessionStartScopes.TestSuiteGroup)
-                    .AddVariable("scopes", AtataSessionStartScopes.TestSuiteGroup))
+                    .UseVariable("scopes", AtataSessionStartScopes.TestSuiteGroup))
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseStartScopes(AtataSessionStartScopes.TestSuite)
-                    .AddVariable("scopes", AtataSessionStartScopes.TestSuite))
+                    .UseVariable("scopes", AtataSessionStartScopes.TestSuite))
                 .Sessions.Add<FakeSessionBuilder>(x => x
                     .UseStartScopes(AtataSessionStartScopes.Test)
-                    .AddVariable("scopes", AtataSessionStartScopes.Test));
+                    .UseVariable("scopes", AtataSessionStartScopes.Test));
 
             // Act
             await using AtataContext context = await builder.BuildAsync();

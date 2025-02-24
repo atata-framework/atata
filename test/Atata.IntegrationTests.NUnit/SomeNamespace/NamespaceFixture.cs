@@ -8,6 +8,6 @@ public sealed class NamespaceFixture : AtataNamespaceFixture
     {
         base.ConfigureAtataContext(builder);
 
-        builder.SetVariable(nameof(NamespaceFixture), true);
+        builder.UseVariable(nameof(NamespaceFixture), true);
     }
 }

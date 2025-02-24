@@ -13,6 +13,6 @@ public sealed class SomeCollectionFixture : AtataCollectionFixture
     {
         base.ConfigureAtataContext(builder);
 
-        builder.SetVariable(nameof(SomeCollectionFixture), true);
+        builder.UseVariable(nameof(SomeCollectionFixture), true);
     }
 }

@@ -29,5 +29,5 @@ public class SetVariableAttribute : AtataContextConfigurationAttribute
     public object Value { get; }
 
     public override void ConfigureAtataContext(AtataContextBuilder builder) =>
-        builder.SetVariable(Key, Value);
+        builder.UseVariable(Key, Value);
 }

@@ -145,12 +145,12 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     }
 
     /// <summary>
-    /// Adds the variable.
+    /// Sets the variable.
     /// </summary>
     /// <param name="key">The variable key.</param>
     /// <param name="value">The variable value.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder AddVariable(string key, object value)
+    public TBuilder UseVariable(string key, object value)
     {
         key.CheckNotNullOrWhitespace(nameof(key));
 
@@ -160,11 +160,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     }
 
     /// <summary>
-    /// Adds the variables.
+    /// Sets the variables.
     /// </summary>
     /// <param name="variables">The variables to add.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder AddVariables(IDictionary<string, object> variables)
+    public TBuilder UseVariables(IDictionary<string, object> variables)
     {
         variables.CheckNotNull(nameof(variables));
 

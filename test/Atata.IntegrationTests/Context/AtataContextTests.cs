@@ -125,7 +125,7 @@ public static class AtataContextTests
         public void SetViaBuilder()
         {
             var context = ConfigureSessionlessAtataContext()
-                .SetVariable("key1", "val1")
+                .UseVariable("key1", "val1")
                 .Build();
 
             context.Variables.ToSutSubject()
@@ -151,7 +151,7 @@ public static class AtataContextTests
             [SetUp]
             public void SetUp() =>
                 _sut = ConfigureSessionlessAtataContext()
-                    .SetVariable("key1", "val1")
+                    .UseVariable("key1", "val1")
                     .Build()
                     .ToSutSubject();
 
