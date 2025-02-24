@@ -148,6 +148,37 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
             recursively: true);
     }
 
+    /// <summary>
+    /// Tries to get a session of <typeparamref name="TSession"/> type in this collection.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
+    /// returns the one that was used/added last.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="session">The session.</param>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool TryGet<TSession>([NotNullWhen(true)] out TSession? session)
+        where TSession : AtataSession
+    {
+        session = GetOrNull<TSession>();
+        return session is not null;
+    }
+
+    /// <summary>
+    /// Tries to get a session of <typeparamref name="TSession"/> type with the specified name in this collection.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type and the name,
+    /// returns the one that was used/added last.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name.</param>
+    /// <param name="session">The session.</param>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool TryGet<TSession>(string? name, [NotNullWhen(true)] out TSession? session)
+        where TSession : AtataSession
+    {
+        session = GetOrNull<TSession>(name);
+        return session is not null;
+    }
+
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
 
