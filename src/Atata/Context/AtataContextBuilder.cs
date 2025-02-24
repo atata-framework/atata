@@ -69,6 +69,11 @@ public sealed class AtataContextBuilder : ICloneable
     public IDictionary<string, object> Variables { get; private set; } = new Dictionary<string, object>();
 
     /// <summary>
+    /// Gets the state dictionary.
+    /// </summary>
+    public IDictionary<string, object> State { get; private set; } = new Dictionary<string, object>();
+
+    /// <summary>
     /// Gets the list of secret strings to mask in log.
     /// </summary>
     public List<SecretStringToMask> SecretStringsToMaskInLog { get; private set; } = [];
@@ -229,6 +234,49 @@ public sealed class AtataContextBuilder : ICloneable
 
         foreach (var variable in variables)
             Variables[variable.Key] = variable.Value;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the state object.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
+    /// <param name="value">The state value.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseState<TValue>(TValue value)
+    {
+        State[StateHierarchicalDictionary.ResolveTypeKey<TValue>()] = value;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the state object.
+    /// </summary>
+    /// <param name="key">The state key.</param>
+    /// <param name="value">The state value.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseState(string key, object value)
+    {
+        key.CheckNotNullOrWhitespace(nameof(key));
+
+        State[key] = value;
+
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the state objects.
+    /// </summary>
+    /// <param name="objects">The objects to set.</param>
+    /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseState(IEnumerable<KeyValuePair<string, object>> objects)
+    {
+        objects.CheckNotNull(nameof(objects));
+
+        foreach (var variable in objects)
+            State[variable.Key] = variable.Value;
 
         return this;
     }
@@ -755,6 +803,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         context.InitMainVariables();
         context.InitCustomVariables(Variables);
+        context.InitState(State);
         context.InitArtifactsDirectory();
         context.InitArtifactsVariable();
 
@@ -897,6 +946,7 @@ public sealed class AtataContextBuilder : ICloneable
             LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x).ToList());
 
         copy.Variables = new Dictionary<string, object>(Variables);
+        copy.State = new Dictionary<string, object>(State);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
 
         return copy;

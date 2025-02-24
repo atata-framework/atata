@@ -537,6 +537,14 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             variables.SetInitialValue(variable.Key, variable.Value);
     }
 
+    internal void InitState(IEnumerable<KeyValuePair<string, object>> stateObjects)
+    {
+        var state = State;
+
+        foreach (var stateObject in stateObjects)
+            state.SetInitialValue(stateObject.Key, stateObject.Value);
+    }
+
     internal void InitArtifactsDirectory()
     {
         string relativePath = CreateArtifactsRelativePath();

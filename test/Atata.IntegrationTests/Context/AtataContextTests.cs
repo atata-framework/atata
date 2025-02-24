@@ -5,7 +5,7 @@ namespace Atata.IntegrationTests.Context;
 
 public static class AtataContextTests
 {
-    public class Artifacts : WebDriverSessionTestSuite
+    public sealed class Artifacts : WebDriverSessionTestSuite
     {
         [Test]
         public void SubDirectory_Should_Not_Exist() =>
@@ -49,7 +49,7 @@ public static class AtataContextTests
         }
     }
 
-    public class AddArtifact : SessionlessTestSuite
+    public sealed class AddArtifact : SessionlessTestSuite
     {
         private Subject<AtataContext> _sut;
 
@@ -119,7 +119,7 @@ public static class AtataContextTests
         }
     }
 
-    public class Variables : TestSuiteBase
+    public sealed class Variables : TestSuiteBase
     {
         [Test]
         public void SetViaBuilder()
@@ -144,7 +144,7 @@ public static class AtataContextTests
                 .ValueOf(x => x["key1"]).Should.Be("val1");
         }
 
-        public class FillTemplateString : TestSuiteBase
+        public sealed class FillTemplateString : TestSuiteBase
         {
             private Subject<AtataContext> _sut;
 
@@ -172,7 +172,56 @@ public static class AtataContextTests
         }
     }
 
-    public class RaiseAssertionError : SessionlessTestSuite
+    public sealed class State : TestSuiteBase
+    {
+        [Test]
+        public void SetViaBuilder()
+        {
+            var context = ConfigureSessionlessAtataContext()
+                .UseState("key1", "val1")
+                .Build();
+
+            context.State.ToSutSubject()
+                .ValueOf(x => x["key1"]).Should.Be("val1");
+        }
+
+        [Test]
+        public void SetViaContext()
+        {
+            var context = ConfigureSessionlessAtataContext()
+                .Build();
+
+            context.State["key1"] = "val1";
+
+            context.State.ToSutSubject()
+                .ValueOf(x => x["key1"]).Should.Be("val1");
+        }
+
+        [Test]
+        public void SetWithAutoKeyViaBuilder()
+        {
+            var context = ConfigureSessionlessAtataContext()
+                .UseState("val1")
+                .Build();
+
+            context.State.ToSutSubject()
+                .ValueOf(x => x.Get<string>()).Should.Be("val1");
+        }
+
+        [Test]
+        public void SetWithAutoKeyViaContext()
+        {
+            var context = ConfigureSessionlessAtataContext()
+                .Build();
+
+            context.State.Set("val1");
+
+            context.State.ToSutSubject()
+                .ValueOf(x => x.Get<string>()).Should.Be("val1");
+        }
+    }
+
+    public sealed class RaiseAssertionError : SessionlessTestSuite
     {
         private Subject<AtataContext> _sut;
 
