@@ -13,6 +13,12 @@ public static class WebDriverSessionAtataSessionsBuilderExtensions
     public static AtataContextBuilder ConfigureWebDriver(this AtataSessionsBuilder builder, string? name, Action<WebDriverSessionBuilder> configure) =>
         builder.Configure(name, configure);
 
+    public static AtataContextBuilder ConfigureIfExistsWebDriver(this AtataSessionsBuilder builder, Action<WebDriverSessionBuilder> configure) =>
+        builder.ConfigureIfExists(configure);
+
+    public static AtataContextBuilder ConfigureIfExistsWebDriver(this AtataSessionsBuilder builder, string? name, Action<WebDriverSessionBuilder> configure) =>
+        builder.ConfigureIfExists(name, configure);
+
     public static AtataContextBuilder ConfigureOrAddWebDriver(this AtataSessionsBuilder builder, Action<WebDriverSessionBuilder>? configure = null) =>
         builder.ConfigureOrAdd(configure);
 
