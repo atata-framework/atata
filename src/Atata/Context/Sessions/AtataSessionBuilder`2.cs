@@ -162,9 +162,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <summary>
     /// Sets the variables.
     /// </summary>
-    /// <param name="variables">The variables to add.</param>
+    /// <param name="variables">The variables to set.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseVariables(IDictionary<string, object> variables)
+    public TBuilder UseVariables(IEnumerable<KeyValuePair<string, object>> variables)
     {
         variables.CheckNotNull(nameof(variables));
 

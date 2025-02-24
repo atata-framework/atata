@@ -221,9 +221,9 @@ public sealed class AtataContextBuilder : ICloneable
     /// <summary>
     /// Sets the variables.
     /// </summary>
-    /// <param name="variables">The variables to add.</param>
+    /// <param name="variables">The variables to set.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseVariables(IDictionary<string, object> variables)
+    public AtataContextBuilder UseVariables(IEnumerable<KeyValuePair<string, object>> variables)
     {
         variables.CheckNotNull(nameof(variables));
 
