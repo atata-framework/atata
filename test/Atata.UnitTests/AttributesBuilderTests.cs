@@ -15,7 +15,7 @@ public class AttributesBuilderTests
 
     [SetUp]
     public void SetUp() =>
-        _sut = new(new());
+        _sut = new(AtataContext.CreateDefaultNonScopedBuilder(), new());
 
     [Test]
     public void Global()

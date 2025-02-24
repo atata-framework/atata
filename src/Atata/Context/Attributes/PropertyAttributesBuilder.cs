@@ -1,30 +1,31 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// A builder of assembly attributes.
+/// A builder of property attributes.
 /// </summary>
-public sealed class AssemblyAttributesBuilder : AttributesBuilderBase
+public sealed class PropertyAttributesBuilder : AttributesBuilderBase
 {
     private readonly AtataAttributesContext _attributesContext;
 
-    private readonly Assembly _assembly;
+    private readonly TypePropertyNamePair _typeProperty;
 
-    internal AssemblyAttributesBuilder(
+    internal PropertyAttributesBuilder(
         AtataContextBuilder atataContextBuilder,
         AtataAttributesContext attributesContext,
-        Assembly assembly)
+        Type type,
+        string propertyName)
         : base(atataContextBuilder)
     {
         _attributesContext = attributesContext;
-        _assembly = assembly;
+        _typeProperty = new(type, propertyName);
     }
 
     protected override void OnAdd(IEnumerable<Attribute> attributes)
     {
-        if (!_attributesContext.AssemblyMap.TryGetValue(_assembly, out var attributeSet))
+        if (!_attributesContext.PropertyMap.TryGetValue(_typeProperty, out var attributeSet))
         {
             attributeSet = [];
-            _attributesContext.AssemblyMap[_assembly] = attributeSet;
+            _attributesContext.PropertyMap[_typeProperty] = attributeSet;
         }
 
         attributeSet.AddRange(attributes);

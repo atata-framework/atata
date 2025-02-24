@@ -1,8 +1,8 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the pair of type and property name.
-/// Can be used to identify a property within a class.
+/// A pair of type and property name.
+/// Can be used to identify a property within a type.
 /// </summary>
 public readonly struct TypePropertyNamePair : IEquatable<TypePropertyNamePair>
 {

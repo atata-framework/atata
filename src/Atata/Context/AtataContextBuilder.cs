@@ -22,6 +22,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
         Scope = contextScope;
         Sessions = new(this, [], sessionStartScopes);
+        Attributes = new(this, new());
         EventSubscriptions = new(this, []);
         LogConsumers = new(this, []);
     }
@@ -48,7 +49,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// which provides the functionality to add extra attributes to different metadata levels:
     /// global, assembly, component and property.
     /// </summary>
-    public AttributesBuilder Attributes { get; private set; } = new(new());
+    public AttributesBuilder Attributes { get; private set; }
 
     /// <summary>
     /// Gets the builder of event subscriptions,
@@ -877,10 +878,15 @@ public sealed class AtataContextBuilder : ICloneable
         var copy = (AtataContextBuilder)MemberwiseClone();
 
         copy.Scope = scope;
+
         copy.Sessions = new(
             copy,
             Sessions.Providers.Select(x => (IAtataSessionProvider)x.Clone()).ToList(),
             ResolveSessionDefaultStartScopes(scope));
+
+        copy.Attributes = new(
+            copy,
+            Attributes.AttributesContext.Clone());
 
         copy.EventSubscriptions = new(
             copy,
@@ -889,9 +895,6 @@ public sealed class AtataContextBuilder : ICloneable
         copy.LogConsumers = new(
             copy,
             LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x).ToList());
-
-        copy.Attributes = new AttributesBuilder(
-            Attributes.AttributesContext.Clone());
 
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];

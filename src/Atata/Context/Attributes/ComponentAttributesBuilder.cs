@@ -1,50 +1,46 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the builder of component attributes.
+/// A builder of component attributes.
 /// </summary>
-public sealed class ComponentAttributesBuilder
-    : AttributesBuilder<ComponentAttributesBuilder>
+public sealed class ComponentAttributesBuilder : AttributesBuilderBase
 {
-    private readonly Type _componentType;
-
     private readonly AtataAttributesContext _attributesContext;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="ComponentAttributesBuilder"/> class.
-    /// </summary>
-    /// <param name="componentType">Type of the component.</param>
-    /// <param name="attributesContext">The building attributes context.</param>
-    public ComponentAttributesBuilder(
-        Type componentType,
-        AtataAttributesContext attributesContext)
+    private readonly Type _componentType;
+
+    internal ComponentAttributesBuilder(
+        AtataContextBuilder atataContextBuilder,
+        AtataAttributesContext attributesContext,
+        Type componentType)
+        : base(atataContextBuilder)
     {
-        _componentType = componentType;
         _attributesContext = attributesContext;
+        _componentType = componentType;
     }
 
     /// <summary>
     /// Creates and returns the attributes builder for the property with the specified name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <returns>An instance of <see cref="PropertyAttributesBuilder{TNextBuilder}"/>.</returns>
-    public PropertyAttributesBuilder<ComponentAttributesBuilder> this[string propertyName] =>
+    /// <returns>An instance of <see cref="PropertyAttributesBuilder"/>.</returns>
+    public PropertyAttributesBuilder this[string propertyName] =>
         Property(propertyName);
 
     /// <summary>
     /// Creates and returns the attributes builder for the property with the specified name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
-    /// <returns>An instance of <see cref="PropertyAttributesBuilder{TNextBuilder}"/>.</returns>
-    public PropertyAttributesBuilder<ComponentAttributesBuilder> Property(string propertyName)
+    /// <returns>An instance of <see cref="PropertyAttributesBuilder"/>.</returns>
+    public PropertyAttributesBuilder Property(string propertyName)
     {
         propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
 
-        return new PropertyAttributesBuilder<ComponentAttributesBuilder>(
+        return new(
+            AtataContextBuilder,
+            _attributesContext,
             _componentType,
-            propertyName,
-            this,
-            _attributesContext);
+            propertyName);
     }
 
     protected override void OnAdd(IEnumerable<Attribute> attributes)
@@ -57,6 +53,4 @@ public sealed class ComponentAttributesBuilder
 
         attributeSet.AddRange(attributes);
     }
-
-    protected override ComponentAttributesBuilder ResolveNextBuilder() => this;
 }

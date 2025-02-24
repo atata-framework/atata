@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the attributes context associated with <see cref="AtataContext"/>.
+/// An attributes context associated with <see cref="AtataContext"/>.
 /// </summary>
 public sealed class AtataAttributesContext : ICloneable
 {

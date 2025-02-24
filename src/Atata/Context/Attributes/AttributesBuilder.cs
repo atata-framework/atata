@@ -1,7 +1,7 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the root builder of <see cref="AtataAttributesContext"/>.
+/// A root builder of <see cref="AtataAttributesContext"/>.
 /// </summary>
 public sealed class AttributesBuilder
 {
@@ -10,12 +10,15 @@ public sealed class AttributesBuilder
     /// </summary>
     public const string AtataAssembliesNamePattern = @"^Atata($|\..+)";
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="AttributesBuilder"/> class.
-    /// </summary>
-    /// <param name="attributesContext">The building attributes context.</param>
-    public AttributesBuilder(AtataAttributesContext attributesContext) =>
+    private readonly AtataContextBuilder _atataContextBuilder;
+
+    internal AttributesBuilder(
+        AtataContextBuilder atataContextBuilder,
+        AtataAttributesContext attributesContext)
+    {
         AttributesContext = attributesContext;
+        _atataContextBuilder = atataContextBuilder;
+    }
 
     internal AtataAttributesContext AttributesContext { get; }
 
@@ -23,7 +26,7 @@ public sealed class AttributesBuilder
     /// Gets the attributes builder of global level.
     /// </summary>
     public GlobalAttributesBuilder Global =>
-        new(AttributesContext);
+        new(_atataContextBuilder, AttributesContext);
 
     /// <summary>
     /// Creates and returns the attributes builder for the assembly with the specified name.
@@ -42,7 +45,7 @@ public sealed class AttributesBuilder
     /// <param name="assembly">The assembly.</param>
     /// <returns>An instance of <see cref="AssemblyAttributesBuilder"/>.</returns>
     public AssemblyAttributesBuilder Assembly(Assembly assembly) =>
-        new(assembly, AttributesContext);
+        new(_atataContextBuilder, AttributesContext, assembly);
 
     /// <summary>
     /// Creates and returns the attributes builder for the component specified by generic <typeparamref name="TComponent"/> parameter type.
@@ -50,7 +53,7 @@ public sealed class AttributesBuilder
     /// <typeparam name="TComponent">The type of the component.</typeparam>
     /// <returns>An instance of <see cref="ComponentAttributesBuilder{TComponent}"/>.</returns>
     public ComponentAttributesBuilder<TComponent> Component<TComponent>() =>
-        new(AttributesContext);
+        new(_atataContextBuilder, AttributesContext);
 
     /// <summary>
     /// Creates and returns the attributes builder for the component with the specified type name.
@@ -73,5 +76,5 @@ public sealed class AttributesBuilder
     /// <param name="type">The type.</param>
     /// <returns>An instance of <see cref="ComponentAttributesBuilder"/>.</returns>
     public ComponentAttributesBuilder Component(Type type) =>
-        new(type, AttributesContext);
+        new(_atataContextBuilder, AttributesContext, type);
 }
