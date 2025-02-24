@@ -28,6 +28,20 @@ public sealed class ComponentAttributesBuilder : AttributesBuilderBase
         Property(propertyName);
 
     /// <summary>
+    /// Configures this builder by action delegate.
+    /// </summary>
+    /// <param name="configure">An action delegate to configure the <see cref="ComponentAttributesBuilder"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Configure(Action<ComponentAttributesBuilder> configure)
+    {
+        configure.CheckNotNull(nameof(configure));
+
+        configure(this);
+
+        return AtataContextBuilder;
+    }
+
+    /// <summary>
     /// Creates and returns the attributes builder for the property with the specified name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>

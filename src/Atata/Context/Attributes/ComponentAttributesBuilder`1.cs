@@ -36,6 +36,20 @@ public sealed class ComponentAttributesBuilder<TComponent> : AttributesBuilderBa
         Property(propertyExpression);
 
     /// <summary>
+    /// Configures this builder by action delegate.
+    /// </summary>
+    /// <param name="configure">An action delegate to configure the <see cref="ComponentAttributesBuilder{TComponent}"/>.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Configure(Action<ComponentAttributesBuilder<TComponent>> configure)
+    {
+        configure.CheckNotNull(nameof(configure));
+
+        configure(this);
+
+        return AtataContextBuilder;
+    }
+
+    /// <summary>
     /// Creates and returns the attributes builder for the property with the specified name.
     /// </summary>
     /// <param name="propertyName">Name of the property.</param>
