@@ -164,6 +164,37 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     }
 
     /// <summary>
+    /// Tries to get a session of <typeparamref name="TSession"/> type in this and ancestral context collections.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
+    /// returns the one that was used/added last.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="session">The session.</param>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool TryGetRecursively<TSession>([NotNullWhen(true)] out TSession? session)
+        where TSession : AtataSession
+    {
+        session = GetOrNullRecursively<TSession>();
+        return session is not null;
+    }
+
+    /// <summary>
+    /// Tries to get a session of <typeparamref name="TSession"/> type with the specified name in this and ancestral context collections.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type and the name,
+    /// returns the one that was used/added last.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name.</param>
+    /// <param name="session">The session.</param>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool TryGetRecursively<TSession>(string? name, [NotNullWhen(true)] out TSession? session)
+        where TSession : AtataSession
+    {
+        session = GetOrNullRecursively<TSession>(name);
+        return session is not null;
+    }
+
+    /// <summary>
     /// Determines whether a session of <typeparamref name="TSession"/> type is in this collection.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
@@ -183,6 +214,27 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         where TSession : AtataSession
         =>
         GetOrNull<TSession>(name) is not null;
+
+    /// <summary>
+    /// Determines whether a session of <typeparamref name="TSession"/> type is in this and ancestral context collections.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool ContainsRecursively<TSession>()
+        where TSession : AtataSession
+        =>
+        GetOrNullRecursively<TSession>() is not null;
+
+    /// <summary>
+    /// Determines whether a session of <typeparamref name="TSession"/> type with the specified name is in this and ancestral context collections.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name.</param>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool ContainsRecursively<TSession>(string? name)
+        where TSession : AtataSession
+        =>
+        GetOrNullRecursively<TSession>(name) is not null;
 
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
