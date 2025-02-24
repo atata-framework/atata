@@ -107,17 +107,8 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     {
         EnsureNotDisposed();
 
-        for (AtataContext? currentContext = _context;
-            currentContext is not null;
-            currentContext = currentContext.ParentContext)
-        {
-            TSession? session = currentContext.Sessions.GetOrNull<TSession>();
-
-            if (session is not null)
-                return session;
-        }
-
-        throw AtataSessionNotFoundException.For<TSession>(_context, recursively: true);
+        return GetOrNullRecursively<TSession>()
+            ?? throw AtataSessionNotFoundException.For<TSession>(_context, recursively: true);
     }
 
     /// <summary>
@@ -131,17 +122,10 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     public TSession GetRecursively<TSession>(string? name)
         where TSession : AtataSession
     {
-        for (AtataContext? currentContext = _context;
-            currentContext is not null;
-            currentContext = currentContext.ParentContext)
-        {
-            TSession? session = currentContext.Sessions.GetOrNull<TSession>(name);
+        EnsureNotDisposed();
 
-            if (session is not null)
-                return session;
-        }
-
-        throw AtataSessionNotFoundException.ByName<TSession>(
+        return GetOrNullRecursively<TSession>(name)
+            ?? throw AtataSessionNotFoundException.ByName<TSession>(
             name,
             CountRecursively<TSession>(),
             _context,
@@ -535,6 +519,38 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         {
             _sessionLinkedListOderedByCurrentUsageLock.ExitReadLock();
         }
+    }
+
+    private TSession? GetOrNullRecursively<TSession>()
+        where TSession : AtataSession
+    {
+        for (AtataContext? currentContext = _context;
+            currentContext is not null;
+            currentContext = currentContext.ParentContext)
+        {
+            TSession? session = currentContext.Sessions.GetOrNull<TSession>();
+
+            if (session is not null)
+                return session;
+        }
+
+        return null;
+    }
+
+    private TSession? GetOrNullRecursively<TSession>(string? name)
+        where TSession : AtataSession
+    {
+        for (AtataContext? currentContext = _context;
+            currentContext is not null;
+            currentContext = currentContext.ParentContext)
+        {
+            TSession? session = currentContext.Sessions.GetOrNull<TSession>(name);
+
+            if (session is not null)
+                return session;
+        }
+
+        return null;
     }
 
     private int CountRecursively<TSession>(Func<TSession, bool>? predicate = null)
