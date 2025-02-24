@@ -44,6 +44,11 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     public IDictionary<string, object> Variables { get; private set; } = new Dictionary<string, object>();
 
     /// <summary>
+    /// Gets the state dictionary.
+    /// </summary>
+    public IDictionary<string, object> State { get; private set; } = new Dictionary<string, object>();
+
+    /// <summary>
     /// Gets or sets the base retry timeout for session.
     /// The default value is <see langword="null"/>.
     /// When <see langword="null"/>, the value for session will be taken from
@@ -170,6 +175,49 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
 
         foreach (var variable in variables)
             Variables[variable.Key] = variable.Value;
+
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the state object.
+    /// </summary>
+    /// <typeparam name="TValue">The type of the value.</typeparam>
+    /// <param name="value">The state value.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseState<TValue>(TValue value)
+    {
+        State[StateHierarchicalDictionary.ResolveTypeKey<TValue>()] = value!;
+
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the state object.
+    /// </summary>
+    /// <param name="key">The state key.</param>
+    /// <param name="value">The state value.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseState(string key, object value)
+    {
+        key.CheckNotNullOrWhitespace(nameof(key));
+
+        State[key] = value;
+
+        return (TBuilder)this;
+    }
+
+    /// <summary>
+    /// Sets the state objects.
+    /// </summary>
+    /// <param name="objects">The objects to set.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseState(IEnumerable<KeyValuePair<string, object>> objects)
+    {
+        objects.CheckNotNull(nameof(objects));
+
+        foreach (var variable in objects)
+            State[variable.Key] = variable.Value;
 
         return (TBuilder)this;
     }
@@ -362,6 +410,9 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         foreach (var variable in Variables)
             session.Variables.SetInitialValue(variable.Key, variable.Value);
 
+        foreach (var stateObject in State)
+            session.State.SetInitialValue(stateObject.Key, stateObject.Value);
+
         session.BaseRetryTimeoutOptional = BaseRetryTimeout;
         session.BaseRetryIntervalOptional = BaseRetryInterval;
         session.WaitingTimeoutOptional = WaitingTimeout;
@@ -397,6 +448,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     protected virtual void OnClone(TBuilder copy)
     {
         copy.Variables = new Dictionary<string, object>(Variables);
+        copy.State = new Dictionary<string, object>(State);
 
         copy.EventSubscriptions = new(
             copy,
