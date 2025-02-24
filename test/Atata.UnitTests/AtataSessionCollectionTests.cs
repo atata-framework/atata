@@ -113,4 +113,48 @@ public sealed class AtataSessionCollectionTests
         _sut.Invoking(x => x.Get<FakeSession>(null))
             .Should.ThrowExactly<AtataSessionNotFoundException>(
                 "Failed to find FakeSession in AtataContext { * }. There were 0 sessions of such type.");
+
+    [Test]
+    public void Contains_WhenExists()
+    {
+        var sessionA = new FakeSession { Name = "A" };
+
+        _sut.Object.Add(sessionA);
+
+        _sut.ResultOf(x => x.Contains<FakeSession>())
+            .Should.BeTrue();
+    }
+
+    [Test]
+    public void Contains_WhenDoesNotExist()
+    {
+        var sessionA = new FakeSession { Name = "A" };
+
+        _sut.Object.Add(sessionA);
+
+        _sut.ResultOf(x => x.Contains<FakeSession2>())
+            .Should.BeFalse();
+    }
+
+    [Test]
+    public void Contains_ByName_WhenExists()
+    {
+        var sessionA = new FakeSession { Name = "A" };
+
+        _sut.Object.Add(sessionA);
+
+        _sut.ResultOf(x => x.Contains<FakeSession>("A"))
+            .Should.BeTrue();
+    }
+
+    [Test]
+    public void Contains_ByName_WhenDoesNotExist()
+    {
+        var sessionA = new FakeSession { Name = "A" };
+
+        _sut.Object.Add(sessionA);
+
+        _sut.ResultOf(x => x.Contains<FakeSession2>("A"))
+            .Should.BeFalse();
+    }
 }

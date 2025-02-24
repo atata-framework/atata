@@ -179,6 +179,27 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return session is not null;
     }
 
+    /// <summary>
+    /// Determines whether a session of <typeparamref name="TSession"/> type is in this collection.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool Contains<TSession>()
+        where TSession : AtataSession
+        =>
+        GetOrNull<TSession>() is not null;
+
+    /// <summary>
+    /// Determines whether a session of <typeparamref name="TSession"/> type with the specified name is in this collection.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name.</param>
+    /// <returns><see langword="true"/> if session is found; otherwise, <see langword="false"/>.</returns>
+    public bool Contains<TSession>(string? name)
+        where TSession : AtataSession
+        =>
+        GetOrNull<TSession>(name) is not null;
+
     internal void AddBuilders(IEnumerable<IAtataSessionBuilder> sessionBuilders) =>
         _sessionBuilders.AddRange(sessionBuilders);
 
