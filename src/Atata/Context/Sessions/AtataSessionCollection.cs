@@ -2,6 +2,9 @@
 
 namespace Atata;
 
+/// <summary>
+/// A collection of <see cref="AtataSession"/> items associated with a certain <see cref="AtataContext"/>.
+/// </summary>
 public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, IDisposable
 {
     private readonly AtataContext _context;
@@ -21,9 +24,17 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     internal AtataSessionCollection(AtataContext context) =>
         _context = context;
 
+    /// <summary>
+    /// Gets the number of sessions in this collection.
+    /// </summary>
     public int Count =>
         _sessionListOrderedByAdding.Count;
 
+    /// <summary>
+    /// Gets the <see cref="AtataSession"/> at the specified index.
+    /// </summary>
+    /// <param name="index">The index.</param>
+    /// <returns>A session.</returns>
     public AtataSession this[int index]
     {
         get
@@ -35,6 +46,13 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
     }
 
+    /// <summary>
+    /// Gets a session of <typeparamref name="TSession"/> type in this collection.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
+    /// returns the one that was used/added last.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <returns>A session.</returns>
     public TSession Get<TSession>()
         where TSession : AtataSession
         =>
@@ -43,7 +61,7 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
 
     /// <summary>
     /// Gets a session of <typeparamref name="TSession"/> type with the specified index
-    /// among sessions of the <typeparamref name="TSession"/> type.
+    /// among sessions in this collection of the <typeparamref name="TSession"/> type.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
     /// <param name="index">The index.</param>
@@ -61,8 +79,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
     }
 
     /// <summary>
-    /// Gets a first session of <typeparamref name="TSession"/> type with the specified name
-    /// among sessions of the <typeparamref name="TSession"/> type.
+    /// Gets a session of <typeparamref name="TSession"/> type with the specified name in this collection.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type and the name,
+    /// returns the one that was used/added last.
     /// </summary>
     /// <typeparam name="TSession">The type of the session.</typeparam>
     /// <param name="name">The name.</param>
@@ -76,6 +95,13 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
                 _sessionListOrderedByAdding.OfType<TSession>().Count(),
                 _context);
 
+    /// <summary>
+    /// Gets a session of <typeparamref name="TSession"/> type in this and ancestral context collections.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type,
+    /// returns the one that was used/added last.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <returns>A session.</returns>
     public TSession GetRecursively<TSession>()
         where TSession : AtataSession
     {
@@ -94,6 +120,14 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         throw AtataSessionNotFoundException.For<TSession>(_context, recursively: true);
     }
 
+    /// <summary>
+    /// Gets a session of <typeparamref name="TSession"/> type with the specified name in this and ancestral context collections.
+    /// In case of multiple sessions of the <typeparamref name="TSession"/> type and the name,
+    /// returns the one that was used/added last.
+    /// </summary>
+    /// <typeparam name="TSession">The type of the session.</typeparam>
+    /// <param name="name">The name.</param>
+    /// <returns>A session.</returns>
     public TSession GetRecursively<TSession>(string? name)
         where TSession : AtataSession
     {
