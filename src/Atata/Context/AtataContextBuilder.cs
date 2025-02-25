@@ -106,7 +106,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Gets the base retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan BaseRetryInterval { get; internal set; } = AtataContext.DefaultRetryInterval;
 
@@ -122,7 +122,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Gets the waiting retry interval.
-    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>200</c> milliseconds by default.
     /// </summary>
     public TimeSpan WaitingRetryInterval
     {
@@ -142,7 +142,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Gets the verification retry interval.
-    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>200</c> milliseconds by default.
     /// </summary>
     public TimeSpan VerificationRetryInterval
     {
@@ -406,7 +406,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the base retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -418,7 +418,8 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the waiting timeout.
-    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
+    /// The default value is taken from <see cref="BaseRetryTimeout"/>,
+    /// which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -430,7 +431,8 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the waiting retry interval.
-    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>,
+    /// which is equal to <c>200</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -442,7 +444,8 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the verification timeout.
-    /// The default value is taken from <see cref="BaseRetryTimeout"/>, which is equal to <c>5</c> seconds by default.
+    /// The default value is taken from <see cref="BaseRetryTimeout"/>,
+    /// which is equal to <c>5</c> seconds by default.
     /// </summary>
     /// <param name="timeout">The retry timeout.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
@@ -454,7 +457,8 @@ public sealed class AtataContextBuilder : ICloneable
 
     /// <summary>
     /// Sets the verification retry interval.
-    /// The default value is taken from <see cref="BaseRetryInterval"/>, which is equal to <c>500</c> milliseconds by default.
+    /// The default value is taken from <see cref="BaseRetryInterval"/>,
+    /// which is equal to <c>200</c> milliseconds by default.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>

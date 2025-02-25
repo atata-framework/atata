@@ -130,7 +130,7 @@ public abstract class AtataSession : IAsyncDisposable
 
     /// <summary>
     /// Gets the base retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan BaseRetryInterval =>
         BaseRetryIntervalOptional ?? Context.BaseRetryInterval;
@@ -144,7 +144,7 @@ public abstract class AtataSession : IAsyncDisposable
 
     /// <summary>
     /// Gets the waiting retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan WaitingRetryInterval =>
         WaitingRetryIntervalOptional ?? BaseRetryIntervalOptional ?? Context.WaitingRetryInterval;
@@ -158,7 +158,7 @@ public abstract class AtataSession : IAsyncDisposable
 
     /// <summary>
     /// Gets the verification retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan VerificationRetryInterval =>
         VerificationRetryIntervalOptional ?? BaseRetryIntervalOptional ?? Context.VerificationRetryInterval;

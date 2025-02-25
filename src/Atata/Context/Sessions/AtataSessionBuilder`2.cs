@@ -62,7 +62,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// The default value is <see langword="null"/>.
     /// When <see langword="null"/>, the value for session will be taken from
     /// <see cref="AtataContext.BaseRetryInterval"/>,
-    /// which is equal to <c>500</c> milliseconds by default.
+    /// which is equal to <c>200</c> milliseconds by default.
     /// </summary>
     public TimeSpan? BaseRetryInterval { get; set; }
 
@@ -80,7 +80,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// The default value is <see langword="null"/>.
     /// When <see langword="null"/>, the value for session will be taken from
     /// <see cref="BaseRetryTimeout"/> or <see cref="AtataContext.WaitingRetryInterval"/>,
-    /// which are equal to <c>500</c> milliseconds by default.
+    /// which are equal to <c>200</c> milliseconds by default.
     /// </summary>
     public TimeSpan? WaitingRetryInterval { get; set; }
 
@@ -98,7 +98,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// The default value is <see langword="null"/>.
     /// When <see langword="null"/>, the value for session will be taken from
     /// <see cref="BaseRetryTimeout"/> or <see cref="AtataContext.VerificationRetryInterval"/>,
-    /// which are equal to <c>500</c> milliseconds by default.
+    /// which are equal to <c>200</c> milliseconds by default.
     /// </summary>
     public TimeSpan? VerificationRetryInterval { get; set; }
 
@@ -238,7 +238,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// <summary>
     /// Sets the <see cref="BaseRetryInterval"/> value.
     /// Sets the base retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     /// <param name="interval">The retry interval.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>

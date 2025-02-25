@@ -24,9 +24,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     public static readonly TimeSpan DefaultRetryTimeout = TimeSpan.FromSeconds(5);
 
     /// <summary>
-    /// Gets the default retry interval, which is <c>500</c> milliseconds.
+    /// Gets the default retry interval, which is <c>200</c> milliseconds.
     /// </summary>
-    public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.5);
+    public static readonly TimeSpan DefaultRetryInterval = TimeSpan.FromSeconds(0.2);
 
     private readonly AddOnlyList<AtataContext> _childContexts = [];
 
@@ -230,7 +230,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Gets the base retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan BaseRetryInterval { get; internal set; }
 
@@ -252,7 +252,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Gets the waiting retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan WaitingRetryInterval { get; internal set; }
 
@@ -264,7 +264,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Gets the verification retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan VerificationRetryInterval { get; internal set; }
 

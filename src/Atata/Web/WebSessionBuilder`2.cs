@@ -20,7 +20,7 @@ public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilde
     /// The default value is <see langword="null"/>.
     /// When <see langword="null"/>, the value for session will be taken from
     /// <see cref="AtataSessionBuilder{TSession, TBuilder}.BaseRetryInterval"/> or <see cref="AtataContext.BaseRetryInterval"/>,
-    /// which are equal to <c>500</c> milliseconds by default.
+    /// which are equal to <c>200</c> milliseconds by default.
     /// </summary>
     public TimeSpan? ElementFindRetryInterval { get; set; }
 

@@ -27,7 +27,7 @@ public abstract class WebSession : AtataSession
 
     /// <summary>
     /// Gets the element find retry interval.
-    /// The default value is <c>500</c> milliseconds.
+    /// The default value is <c>200</c> milliseconds.
     /// </summary>
     public TimeSpan ElementFindRetryInterval =>
         ElementFindRetryIntervalOptional ?? BaseRetryIntervalOptional ?? Context.BaseRetryInterval;
