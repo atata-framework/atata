@@ -170,6 +170,59 @@ public sealed class LogConsumersBuilder
         =>
         Add(configure);
 
+    /// <summary>
+    /// Removes a log consumer configuration by the specified log consumer.
+    /// </summary>
+    /// <param name="logConsumer">The log consumer.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Remove(ILogConsumer logConsumer)
+    {
+        logConsumer.CheckNotNull(nameof(logConsumer));
+
+        var logConsumerConfiguration = Items.FirstOrDefault(x => x.Consumer == logConsumer);
+
+        if (logConsumerConfiguration is not null)
+            _items.Remove(logConsumerConfiguration);
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Removes the specified log consumer configuration.
+    /// </summary>
+    /// <param name="logConsumerConfiguration">The log consumer configuration.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Remove(LogConsumerConfiguration logConsumerConfiguration)
+    {
+        logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
+
+        _items.Remove(logConsumerConfiguration);
+
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Removes all log consumer configurations with log consumers of the specified <typeparamref name="TLogConsumer"/> type.
+    /// </summary>
+    /// <typeparam name="TLogConsumer">The type of the log consumer.</typeparam>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder RemoveAll<TLogConsumer>()
+        where TLogConsumer : ILogConsumer
+    {
+        _items.RemoveAll(x => x is TLogConsumer);
+        return _atataContextBuilder;
+    }
+
+    /// <summary>
+    /// Clears all log consumer configurations.
+    /// </summary>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder Clear()
+    {
+        _items.Clear();
+        return _atataContextBuilder;
+    }
+
     private LogConsumerConfiguration GetConfigurationOrNull<TLogConsumer>()
         where TLogConsumer : ILogConsumer
         =>
