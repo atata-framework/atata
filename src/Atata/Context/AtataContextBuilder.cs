@@ -753,8 +753,12 @@ public sealed class AtataContextBuilder : ICloneable
 
     private AtataContext CreateAtataContext()
     {
+        string testName = Scope is null or AtataContextScope.Test
+            ? TestNameFactory?.Invoke()
+            : null;
+
         TestInfo testInfo = new(
-            TestNameFactory?.Invoke(),
+            testName,
             TestSuiteTypeFactory?.Invoke(),
             TestSuiteNameFactory?.Invoke(),
             TestSuiteGroupNameFactory?.Invoke());
