@@ -209,7 +209,7 @@ public sealed class LogConsumersBuilder
     public AtataContextBuilder RemoveAll<TLogConsumer>()
         where TLogConsumer : ILogConsumer
     {
-        _items.RemoveAll(x => x is TLogConsumer);
+        _items.RemoveAll(x => x.Consumer is TLogConsumer);
         return _atataContextBuilder;
     }
 
