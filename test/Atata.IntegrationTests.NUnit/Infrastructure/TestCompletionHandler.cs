@@ -3,9 +3,9 @@ using NUnit.Framework.Interfaces;
 
 namespace Atata.NUnit;
 
-internal static class TestCompletionHandler
+public static class TestCompletionHandler
 {
-    internal static void CompleteTest(AtataContext context)
+    public static void CompleteTest(AtataContext context)
     {
         if (context is not null)
         {
