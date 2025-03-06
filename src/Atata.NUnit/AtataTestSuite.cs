@@ -24,7 +24,7 @@ public abstract class AtataTestSuite
 
     [OneTimeTearDown]
     public void TearDownSuiteAtataContext() =>
-        TestCompletionHandler.CompleteTest(SuiteContext);
+        NUnitAtataContextCompletionHandler.Complete(SuiteContext);
 
     [SetUp]
     public void SetUpTestAtataContext()
@@ -45,7 +45,7 @@ public abstract class AtataTestSuite
 
     [TearDown]
     public void TearDownTestAtataContext() =>
-        TestCompletionHandler.CompleteTest(Context);
+        NUnitAtataContextCompletionHandler.Complete(Context);
 
     protected virtual void ConfigureSuiteAtataContext(AtataContextBuilder builder)
     {

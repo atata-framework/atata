@@ -22,7 +22,7 @@ public static class ReqnrollAtataContextSetup
     public static void TearDownFeature(FeatureContext featureContext)
     {
         if (featureContext.TryGetValue(out AtataContext featureAtataContext))
-            TestCompletionHandler.CompleteTest(featureAtataContext);
+            NUnitAtataContextCompletionHandler.Complete(featureAtataContext);
     }
 
     public static void SetUpScenario(
@@ -41,6 +41,6 @@ public static class ReqnrollAtataContextSetup
     public static void TearDownScenario(ScenarioContext scenarioContext)
     {
         if (scenarioContext.TryGetValue(out AtataContext atataContext))
-            TestCompletionHandler.CompleteTest(atataContext);
+            NUnitAtataContextCompletionHandler.Complete(atataContext);
     }
 }

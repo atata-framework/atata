@@ -17,7 +17,7 @@ public abstract class AtataNamespaceFixture
 
     [OneTimeTearDown]
     public void TearDownNamespaceAtataContext() =>
-        TestCompletionHandler.CompleteTest(Context);
+        NUnitAtataContextCompletionHandler.Complete(Context);
 
     protected virtual void ConfigureAtataContext(AtataContextBuilder builder)
     {

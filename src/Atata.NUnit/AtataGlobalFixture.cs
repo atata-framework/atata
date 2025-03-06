@@ -36,7 +36,7 @@ public abstract class AtataGlobalFixture
 
     [OneTimeTearDown]
     public void TearDownGlobalAtataContext() =>
-        TestCompletionHandler.CompleteTest(Context);
+        NUnitAtataContextCompletionHandler.Complete(Context);
 
     protected virtual void ConfigureAtataContextGlobalProperties(AtataContextGlobalProperties globalProperties)
     {
