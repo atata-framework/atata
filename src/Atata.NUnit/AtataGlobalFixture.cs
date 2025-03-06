@@ -1,11 +1,9 @@
-﻿using NUnit.Framework;
-
-namespace Atata.NUnit;
+﻿namespace Atata.NUnit;
 
 [SetUpFixture]
 public abstract class AtataGlobalFixture
 {
-    protected AtataContext Context { get; private set; }
+    protected AtataContext Context { get; private set; } = null!;
 
     [OneTimeSetUp]
     public void SetUpGlobalAtataContext()

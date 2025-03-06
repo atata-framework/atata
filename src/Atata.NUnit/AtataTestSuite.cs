@@ -1,9 +1,4 @@
-﻿#nullable enable
-
-using System.Reflection;
-using NUnit.Framework;
-
-namespace Atata.NUnit;
+﻿namespace Atata.NUnit;
 
 [Parallelizable(ParallelScope.Self)]
 public abstract class AtataTestSuite

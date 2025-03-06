@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Atata.NUnit\Atata.NUnit.csproj" />
     <ProjectReference Include="..\..\src\Atata\Atata.csproj" />
-    <ProjectReference Include="..\Atata.IntegrationTests.NUnit\Atata.IntegrationTests.NUnit.csproj" />
   </ItemGroup>
 
 </Project>

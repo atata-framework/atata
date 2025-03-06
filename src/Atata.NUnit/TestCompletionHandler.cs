@@ -1,7 +1,4 @@
-﻿using NUnit.Framework;
-using NUnit.Framework.Interfaces;
-
-namespace Atata.NUnit;
+﻿namespace Atata.NUnit;
 
 public static class TestCompletionHandler
 {
