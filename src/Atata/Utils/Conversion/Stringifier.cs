@@ -34,7 +34,7 @@ public static class Stringifier
         if (collection is null)
             return NullString;
 
-        string[] itemStringValues = collection.Select(x => ToString(x)).ToArray();
+        string[] itemStringValues = [.. collection.Select(x => ToString(x))];
 
         return itemStringValues.Any(x => x.Contains('\n'))
             ? $"[{Environment.NewLine}{string.Join($",{Environment.NewLine}", itemStringValues.Select(AddIndent))}{Environment.NewLine}]"
@@ -113,10 +113,10 @@ public static class Stringifier
             properties = properties.Where(
                 x => excludeBaseType.IsAssignableFrom(x.DeclaringType) && x.DeclaringType != excludeBaseType);
 
-        string[] propertyStrings = (from prop in properties
-                                    let val = prop.GetValue(value)
-                                    where TakeValueForSimpleStructuredForm(val)
-                                    select $"{prop.Name}={ToString(val)}").ToArray();
+        string[] propertyStrings = [.. from prop in properties
+                                       let val = prop.GetValue(value)
+                                       where TakeValueForSimpleStructuredForm(val)
+                                       select $"{prop.Name}={ToString(val)}"];
 
         string simplifiedTypeName = ResolveSimplifiedTypeName(valueType);
 

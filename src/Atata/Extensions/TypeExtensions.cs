@@ -20,7 +20,7 @@ public static class TypeExtensions
                 .Where(x => Convert.ToDecimal(x, CultureInfo.InvariantCulture) != 0m)
                 .ToArray();
 
-            List<Enum> individualFlags = new List<Enum>(allFlags.Take(1));
+            List<Enum> individualFlags = [allFlags[0]];
 
             for (int i = 1; i < allFlags.Length; i++)
             {

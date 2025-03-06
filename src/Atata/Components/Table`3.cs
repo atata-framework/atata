@@ -48,7 +48,7 @@ public class Table<THeader, TRow, TOwner> : Control<TOwner>, ITable
             SelectColumnHeaderTexts);
 
         if (usesColumnHeaderTextsCache)
-            _cachedColumnHeaderTexts = new List<string>(columnHeaderTexts);
+            _cachedColumnHeaderTexts = [.. columnHeaderTexts];
 
         return columnHeaderTexts;
     }

@@ -91,7 +91,7 @@ public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute
         string format = ResolveFormat(metadata);
 
         return !string.IsNullOrEmpty(format)
-            ? rawValues.Select(x => string.Format(format, x)).ToArray()
+            ? [.. rawValues.Select(x => string.Format(format, x))]
             : rawValues;
     }
 }

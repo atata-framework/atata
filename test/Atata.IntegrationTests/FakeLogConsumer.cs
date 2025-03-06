@@ -43,12 +43,11 @@ public sealed class FakeLogConsumer : ILogConsumer
     {
         lock (_records)
         {
-            return _records.AsEnumerable()
+            return [.. _records.AsEnumerable()
                 .Reverse()
                 .Where(x => x.Level >= minLogLevel)
                 .Take(countFromEnd)
-                .Reverse()
-                .ToArray();
+                .Reverse()];
         }
     }
 
@@ -56,41 +55,28 @@ public sealed class FakeLogConsumer : ILogConsumer
     {
         lock (_records)
         {
-            return _records.AsEnumerable()
+            return [.. _records.AsEnumerable()
                 .Reverse()
                 .Where(x => x.Level == logLevel)
-                .Reverse()
-                .ToArray();
+                .Reverse()];
         }
     }
 
     public string[] GetMessagesSnapshot() =>
-        GetSnapshot()
-            .Select(x => x.Message)
-            .ToArray();
+        [.. GetSnapshot().Select(x => x.Message)];
 
     public string[] GetMessagesSnapshot(int countFromEnd) =>
-        GetSnapshot(countFromEnd)
-            .Select(x => x.Message)
-            .ToArray();
+        [.. GetSnapshot(countFromEnd).Select(x => x.Message)];
 
     public string[] GetMessagesSnapshot(LogLevel minLogLevel, int countFromEnd) =>
-        GetSnapshot(minLogLevel, countFromEnd)
-            .Select(x => x.Message)
-            .ToArray();
+        [.. GetSnapshot(minLogLevel, countFromEnd).Select(x => x.Message)];
 
     public string[] GetNestingTextsWithMessagesSnapshot() =>
-        GetSnapshot()
-            .Select(x => x.NestingText + x.Message)
-            .ToArray();
+        [.. GetSnapshot().Select(x => x.NestingText + x.Message)];
 
     public string[] GetNestingTextsWithMessagesSnapshot(int countFromEnd) =>
-        GetSnapshot(countFromEnd)
-            .Select(x => x.NestingText + x.Message)
-            .ToArray();
+        [.. GetSnapshot(countFromEnd).Select(x => x.NestingText + x.Message)];
 
     public string[] GetNestingTextsWithMessagesSnapshot(LogLevel minLogLevel, int countFromEnd) =>
-        GetSnapshot(minLogLevel, countFromEnd)
-            .Select(x => x.NestingText + x.Message)
-            .ToArray();
+        [.. GetSnapshot(minLogLevel, countFromEnd).Select(x => x.NestingText + x.Message)];
 }

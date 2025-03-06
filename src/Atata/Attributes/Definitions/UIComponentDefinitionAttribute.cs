@@ -28,7 +28,7 @@ public abstract class UIComponentDefinitionAttribute : ScopeDefinitionAttribute
     /// <returns>An array of name endings to ignore.</returns>
     public string[] GetIgnoreNameEndingValues() =>
         IgnoreNameEndings != null
-            ? IgnoreNameEndings.Split(',').Where(x => !string.IsNullOrWhiteSpace(x)).ToArray()
+            ? [.. IgnoreNameEndings.Split(',').Where(x => !string.IsNullOrWhiteSpace(x))]
             : [];
 
     /// <summary>

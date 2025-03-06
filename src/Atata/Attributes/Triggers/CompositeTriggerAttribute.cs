@@ -24,7 +24,7 @@ public abstract class CompositeTriggerAttribute : TriggerAttribute
 
     private void InitTriggers()
     {
-        _triggers = CreateTriggers().ToArray();
+        _triggers = [.. CreateTriggers()];
 
         foreach (TriggerAttribute trigger in _triggers)
         {

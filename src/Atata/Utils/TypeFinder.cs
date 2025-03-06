@@ -78,7 +78,7 @@ public static class TypeFinder
         {
             string[] typeNames = pureTypeName.Split(SubTypeSeparator);
             pureTypeName = typeNames[^1];
-            declaringTypeNames = typeNames.Take(typeNames.Length - 1).ToArray();
+            declaringTypeNames = [.. typeNames.Take(typeNames.Length - 1)];
         }
 
         IEnumerable<Type> matchingTypes = (pureTypeName.Contains(GenericTypeSeparator)

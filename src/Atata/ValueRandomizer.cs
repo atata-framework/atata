@@ -94,15 +94,15 @@ public static class ValueRandomizer
     {
         T[] values = GetRandomizeIncludeValues<T>(metadata);
 
-        if (values == null || values.Length == 0)
-            values = enumType.GetIndividualEnumFlags().Cast<T>().ToArray();
+        if (values is null or [])
+            values = [.. enumType.GetIndividualEnumFlags().Cast<T>()];
 
         var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>();
 
         if (excludeAttribute?.Values?.Length > 0)
         {
             var valuesToExclude = excludeAttribute.Values.Cast<T>();
-            values = values.Except(valuesToExclude).ToArray();
+            values = [.. values.Except(valuesToExclude)];
         }
 
         return values;

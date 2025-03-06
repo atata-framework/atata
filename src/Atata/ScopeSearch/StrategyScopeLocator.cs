@@ -63,7 +63,7 @@ public class StrategyScopeLocator : IScopeLocator
         }
 
         return xPathResults.Length > 0
-            ? xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Count > 0).SelectMany(x => x).ToArray()
+            ? [.. xPathResults.Select(x => x.GetAll(xPathCondition)).Where(x => x.Count > 0).SelectMany(x => x)]
             : [];
     }
 

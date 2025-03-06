@@ -124,7 +124,7 @@ public static class Randomizer
         min.CheckGreaterOrEqual(nameof(min), 0);
         max.CheckGreaterOrEqual(nameof(min), min);
 
-        List<T> valuesAsList = values.ToList();
+        List<T> valuesAsList = [.. values];
         max.CheckLessOrEqual(nameof(max), valuesAsList.Count, $"Count of {nameof(values)} is {valuesAsList.Count}");
 
         int count = max == min ? max : (min + CreateRandom().Next(max + 1 - min));

@@ -55,7 +55,7 @@ public sealed class AtataAttributesContext : ICloneable
     /// <returns>The copied <see cref="AtataAttributesContext"/> instance.</returns>
     public AtataAttributesContext Clone() =>
         new(
-            new List<Attribute>(Global),
+            [.. Global],
             AssemblyMap.ToDictionary(x => x.Key, x => x.Value.ToList()),
             ComponentMap.ToDictionary(x => x.Key, x => x.Value.ToList()),
             PropertyMap.ToDictionary(x => x.Key, x => x.Value.ToList()));

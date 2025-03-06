@@ -1130,8 +1130,7 @@ public static partial class IObjectVerificationProviderExtensions
         if (items.Count != predicates.Length)
             return false;
 
-        List<List<int>> predicatePassers = Enumerable.Repeat(0, items.Count)
-            .Select(_ => new List<int>()).ToList();
+        List<List<int>> predicatePassers = [.. Enumerable.Repeat(0, items.Count).Select(_ => new List<int>())];
 
         for (int i = 0; i < items.Count; i++)
         {
@@ -1148,7 +1147,7 @@ public static partial class IObjectVerificationProviderExtensions
 
         static bool SortOut(IEnumerable<List<int>> numbers, List<int> excludedNumbers)
         {
-            int[] nonExcludedCurrentNumbers = numbers.First().Except(excludedNumbers).ToArray();
+            int[] nonExcludedCurrentNumbers = [.. numbers.First().Except(excludedNumbers)];
 
             if (numbers.Count() == 1)
                 return nonExcludedCurrentNumbers.Length > 0;

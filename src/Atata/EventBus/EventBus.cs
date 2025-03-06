@@ -41,7 +41,7 @@ public class EventBus : IEventBus
 
             lock (eventHandlerSubscriptions)
             {
-                eventHandlersArray = eventHandlerSubscriptions.Select(x => x.EventHandler).ToArray();
+                eventHandlersArray = [.. eventHandlerSubscriptions.Select(x => x.EventHandler)];
             }
 
             PublishToEventHandlersAsync(eventData, eventHandlersArray).RunSync();
@@ -59,7 +59,7 @@ public class EventBus : IEventBus
 
             lock (eventHandlerSubscriptions)
             {
-                eventHandlersArray = eventHandlerSubscriptions.Select(x => x.EventHandler).ToArray();
+                eventHandlersArray = [.. eventHandlerSubscriptions.Select(x => x.EventHandler)];
             }
 
             await PublishToEventHandlersAsync(eventData, eventHandlersArray, cancellationToken)

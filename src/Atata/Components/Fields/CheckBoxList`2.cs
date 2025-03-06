@@ -69,7 +69,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
 
     protected void ClickItems(TValue value, ClickItemPredicate predicate)
     {
-        List<TValue> individualValues = GetIndividualValues(value).ToList();
+        List<TValue> individualValues = [.. GetIndividualValues(value)];
 
         IWebElement[] elements = GetItemElements();
         foreach (IWebElement element in elements)

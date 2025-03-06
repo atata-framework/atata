@@ -46,7 +46,7 @@ internal class BodyExpressionPart
         string[] parts = expression.Split([conditionalOperatorWithSpaces], StringSplitOptions.RemoveEmptyEntries);
 
         int expectedStartOpenBraketsCount = parts.Length - 2;
-        string expectedExpressionStart = new string(Enumerable.Repeat('(', expectedStartOpenBraketsCount).ToArray());
+        string expectedExpressionStart = new('(', expectedStartOpenBraketsCount);
 
         if (parts.Length > 2 && parts[0].StartsWith(expectedExpressionStart, StringComparison.Ordinal))
         {

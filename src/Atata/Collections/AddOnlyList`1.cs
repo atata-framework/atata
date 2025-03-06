@@ -26,7 +26,7 @@ public class AddOnlyList<T> : IReadOnlyList<T>
     /// <param name="collection">The collection.</param>
     /// <exception cref="ArgumentNullException"><paramref name="collection"/> is <see langword="null"/>.</exception>
     public AddOnlyList(IEnumerable<T> collection) =>
-        _innerList = new(collection);
+        _innerList = [.. collection];
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AddOnlyList{T}"/> class

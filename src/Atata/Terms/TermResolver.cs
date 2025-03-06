@@ -310,9 +310,7 @@ public static class TermResolver
     }
 
     private static string[] GetFlagsEnumTerms(Enum value, TermOptions termOptions) =>
-        value.GetIndividualFlags()
-            .SelectMany(x => GetIndividualEnumTerms(x, termOptions))
-            .ToArray();
+        [.. value.GetIndividualFlags().SelectMany(x => GetIndividualEnumTerms(x, termOptions))];
 
     private static string[] GetIndividualEnumTerms(Enum value, TermOptions termOptions)
     {
@@ -327,9 +325,9 @@ public static class TermResolver
             string[] terms = GetIndividualEnumTerms(value, termAttribute, termSettings, termOptions.Culture);
 
             if (termCase.HasValue)
-                terms = terms.Select(x => ApplyCaseWithoutWordBreak(x, termCase.Value)).ToArray();
+                terms = [.. terms.Select(x => ApplyCaseWithoutWordBreak(x, termCase.Value))];
 
-            return terms.Select(x => FormatValue(x, termFormat, termOptions.Culture)).ToArray();
+            return [.. terms.Select(x => FormatValue(x, termFormat, termOptions.Culture))];
         }
         else if (termCase == null && (termFormat != null && !termFormat.Contains("{0}")))
         {
@@ -355,7 +353,7 @@ public static class TermResolver
         string termFormat = termAttribute.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
 
         return termFormat != null
-            ? values.Select(x => FormatValue(x, termFormat, culture)).ToArray()
+            ? [.. values.Select(x => FormatValue(x, termFormat, culture))]
             : values;
     }
 

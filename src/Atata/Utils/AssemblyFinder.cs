@@ -41,8 +41,7 @@ public static class AssemblyFinder
 
         return assemblyNamePatterns.Any(string.IsNullOrEmpty)
             ? FindAllByPattern(string.Empty)
-            : assemblyNamePatterns.SelectMany(
-                FindAllByPattern)
+            : assemblyNamePatterns.SelectMany(FindAllByPattern)
                 .Distinct()
                 .ToArray();
     }
@@ -67,9 +66,7 @@ public static class AssemblyFinder
         {
             Regex regex = new Regex(assemblyNamePattern);
 
-            return allAssemblies
-                .Where(x => regex.IsMatch(x.GetName().Name))
-                .ToArray();
+            return [.. allAssemblies.Where(x => regex.IsMatch(x.GetName().Name))];
         }
     }
 }

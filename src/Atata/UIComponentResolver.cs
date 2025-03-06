@@ -38,7 +38,7 @@ public static class UIComponentResolver
     public static void Resolve<TOwner>(UIComponent<TOwner> component)
         where TOwner : PageObject<TOwner>
     {
-        Type[] allTypes = GetAllInheritedTypes(component.GetType()).Reverse().ToArray();
+        Type[] allTypes = [.. GetAllInheritedTypes(component.GetType()).Reverse()];
 
         foreach (Type type in allTypes)
             InitComponentTypeMembers(component, type);
@@ -422,7 +422,9 @@ public static class UIComponentResolver
         s_classAttributes.GetOrAdd(type);
 
     private static Attribute[] ResolveAttributes(ICustomAttributeProvider attributeProvider) =>
-        attributeProvider.GetCustomAttributes(true).Cast<Attribute>().ToArray();
+        attributeProvider.GetCustomAttributes(true)
+            .Cast<Attribute>()
+            .ToArray();
 
     private static Attribute[] ResolveClassAttributes(Type type)
     {

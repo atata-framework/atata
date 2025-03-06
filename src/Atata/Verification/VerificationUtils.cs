@@ -25,7 +25,7 @@ public static class VerificationUtils
 
     public static string BuildExpectedMessage(string message, object[] args) =>
         args?.Length > 0
-            ? message.FormatWith(args.Select(Stringifier.ToString).ToArray())
+            ? message.FormatWith([.. args.Select(Stringifier.ToString)])
             : message;
 
     public static string BuildConstraintMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string message, params TData[] args)
@@ -36,9 +36,7 @@ public static class VerificationUtils
 
             if (args?.Length > 0)
             {
-                string[] convertedArgs = args
-                    .Select(x => ConvertValueToString(verifier.ObjectProvider, x))
-                    .ToArray();
+                string[] convertedArgs = [.. args.Select(x => ConvertValueToString(verifier.ObjectProvider, x))];
 
                 formattedMessage = message.FormatWith(convertedArgs);
             }

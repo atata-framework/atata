@@ -11,7 +11,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
     {
         searchOptions ??= new SearchOptions();
 
-        FindAttribute[] layerFindAttributes = _component.Metadata.ResolveLayerFindAttributes().ToArray();
+        FindAttribute[] layerFindAttributes = [.. _component.Metadata.ResolveLayerFindAttributes()];
 
         FindAttribute findAttribute = _component.Metadata.ResolveFindAttribute();
 
@@ -71,9 +71,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
         {
             UIComponentMetadata metadata = _component.Metadata.CreateMetadataForLayerFindAttribute();
 
-            return findAttributes
-                .Select(attribute => CreateExecutionUnitForLayerFindAttribute(metadata, attribute, desiredSearchOptions))
-                .ToArray();
+            return [.. findAttributes.Select(attribute => CreateExecutionUnitForLayerFindAttribute(metadata, attribute, desiredSearchOptions))];
         }
         else
         {

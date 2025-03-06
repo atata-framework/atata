@@ -329,7 +329,7 @@ return textValues;";
 
     private TItem CreateItem(IEnumerable<Attribute> itemAttributes)
     {
-        var item = Component.Find<TItem>(Metadata.Name, itemAttributes.ToArray());
+        var item = Component.Find<TItem>(Metadata.Name, [.. itemAttributes]);
         item.IncludeComponentTypeNameInFullName = false;
         return item;
     }
@@ -500,8 +500,8 @@ return textValues;";
     {
         string formattedScript = GetElementValuesScript.Replace("{0}", elementValueJSPath);
 
-        return Component.Script.Execute<IEnumerable<object>>(formattedScript, elements)
-            .Value.Cast<string>()
+        return Component.Script.Execute<IEnumerable<object>>(formattedScript, elements).Value
+            .Cast<string>()
             .Select(x => x?.Trim())
             .ToArray();
     }

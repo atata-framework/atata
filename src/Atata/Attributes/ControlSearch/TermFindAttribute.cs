@@ -118,7 +118,9 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
         string[] rawTerms = GetRawTerms(metadata);
         string format = ResolveFormat(metadata);
 
-        return !string.IsNullOrEmpty(format) ? rawTerms.Select(x => string.Format(format, x)).ToArray() : rawTerms;
+        return !string.IsNullOrEmpty(format)
+            ? [.. rawTerms.Select(x => string.Format(format, x))]
+            : rawTerms;
     }
 
     protected virtual string[] GetRawTerms(UIComponentMetadata metadata) =>

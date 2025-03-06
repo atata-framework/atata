@@ -355,13 +355,17 @@ public static class IObjectProviderEnumerableExtensions
 
     public static TSource[] ToArray<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
-        =>
-        source.CheckNotNull(nameof(source)).Object.ToArray();
+    {
+        source.CheckNotNull(nameof(source));
+        return [.. source.Object];
+    }
 
     public static List<TSource> ToList<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source)
-        =>
-        source.CheckNotNull(nameof(source)).Object.ToList();
+    {
+        source.CheckNotNull(nameof(source));
+        return [.. source.Object];
+    }
 
     public static ValueProvider<IEnumerable<TSource>, TOwner> Where<TSource, TOwner>(
         this IObjectProvider<IEnumerable<TSource>, TOwner> source,

@@ -27,7 +27,7 @@ public static class ActivatorEx
             .FirstOrDefault(x => x.Parameters.Length == 0 || x.Parameters.All(param => param.IsOptional || param.GetCustomAttributes(true).Any(attr => attr is ParamArrayAttribute)))
             ?? throw new MissingMethodException($"No parameterless constructor or constructor without non-optional parameters defined for the {type.FullName} type.");
 
-        object[] parameters = constructorData.Parameters.Select(x => x.IsOptional ? x.DefaultValue : null).ToArray();
+        object[] parameters = [.. constructorData.Parameters.Select(x => x.IsOptional ? x.DefaultValue : null)];
 
         return constructorData.Constructor.Invoke(parameters);
     }

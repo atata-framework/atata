@@ -141,13 +141,10 @@ public class UIComponentMetadataTests
 
     public sealed class GetAll : UIComponentMetadataTests
     {
-        private static Attribute[] All(params IEnumerable<Attribute>[] attributeCollections)
-        {
-            if (attributeCollections == null || attributeCollections.Length == 0)
-                return [];
-
-            return attributeCollections.SelectMany(x => x).ToArray();
-        }
+        private static Attribute[] All(params IEnumerable<Attribute>[] attributeCollections) =>
+            attributeCollections?.Length > 0
+                ? [.. attributeCollections.SelectMany(x => x)]
+                : [];
 
         [Test]
         public void ForAttribute_AllLevelsHaveTargetAttributeType()

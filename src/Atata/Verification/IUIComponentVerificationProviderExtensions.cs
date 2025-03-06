@@ -234,7 +234,7 @@ public static class IUIComponentVerificationProviderExtensions
     {
         verifier.CheckNotNull(nameof(verifier));
 
-        TValue[] expectedIndividualValues = verifier.Component.GetIndividualValues(value).ToArray();
+        TValue[] expectedIndividualValues = [.. verifier.Component.GetIndividualValues(value)];
         string expectedIndividualValuesAsString = verifier.Component.ConvertIndividualValuesToString(expectedIndividualValues, true);
 
         string expectedMessage = new StringBuilder()
@@ -254,7 +254,7 @@ public static class IUIComponentVerificationProviderExtensions
                     {
                         try
                         {
-                            actualIndividualValues = verifier.Component.GetIndividualValues(verifier.Component.Get()).ToArray();
+                            actualIndividualValues = [.. verifier.Component.GetIndividualValues(verifier.Component.Get())];
                             int intersectionsCount = expectedIndividualValues.Intersect(actualIndividualValues).Count();
                             bool result = verifier.IsNegation ? intersectionsCount == 0 : intersectionsCount == expectedIndividualValues.Length;
                             exception = null;

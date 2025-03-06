@@ -79,7 +79,7 @@ public sealed class TestInfo : IEquatable<TestInfo>
 
     private string BuildFullName()
     {
-        string[] testFullNameParts = GetFullNameParts().ToArray();
+        string[] testFullNameParts = [.. GetFullNameParts()];
 
         return testFullNameParts.Length > 0
             ? string.Join(".", testFullNameParts)

@@ -916,7 +916,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         copy.Sessions = new(
             copy,
-            Sessions.Providers.Select(x => (IAtataSessionProvider)x.Clone()).ToList(),
+            [.. Sessions.Providers.Select(x => (IAtataSessionProvider)x.Clone())],
             ResolveSessionDefaultStartScopes(scope));
 
         copy.Attributes = new(
@@ -929,7 +929,7 @@ public sealed class AtataContextBuilder : ICloneable
 
         copy.LogConsumers = new(
             copy,
-            LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x).ToList());
+            [.. LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x)]);
 
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.State = new Dictionary<string, object>(State);
