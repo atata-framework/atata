@@ -14,9 +14,9 @@ public abstract class TestSuiteBase
 
         var builder = AtataContext.CreateBuilder(AtataContextScope.Test)
             .UseCulture("en-US")
-            .UseNUnitTestName()
-            .UseNUnitTestSuiteName()
-            .UseNUnitTestSuiteType();
+            .UseTestName(() => TestContext.CurrentContext.Test.Name)
+            .UseTestSuiteName(GetCurrentTestFixtureName)
+            .UseTestSuiteType(GetCurrentTestFixtureType);
 
         builder.LogConsumers.AddNUnitTestContext();
         builder.LogConsumers.Add(_fakeLogConsumer);
@@ -143,5 +143,43 @@ public abstract class TestSuiteBase
                 actualLogEntries[i].Exception.Should().Be(expectedLogEntries[i].Exception);
             }
         }
+    }
+
+    private static string GetCurrentTestFixtureName()
+    {
+        ITest testItem = TestExecutionContext.CurrentContext.CurrentTest;
+
+        if (testItem is NUnit.Framework.Internal.SetUpFixture)
+            return testItem.TypeInfo.Type.Name;
+
+        do
+        {
+            if (testItem is TestFixture)
+                return testItem.Name;
+
+            testItem = testItem.Parent;
+        }
+        while (testItem is not null);
+
+        return null;
+    }
+
+    private static Type GetCurrentTestFixtureType()
+    {
+        ITest testItem = TestExecutionContext.CurrentContext.CurrentTest;
+
+        if (testItem is NUnit.Framework.Internal.SetUpFixture)
+            return testItem.TypeInfo.Type;
+
+        do
+        {
+            if (testItem is TestFixture)
+                return testItem.TypeInfo.Type;
+
+            testItem = testItem.Parent;
+        }
+        while (testItem is not null);
+
+        return null;
     }
 }
