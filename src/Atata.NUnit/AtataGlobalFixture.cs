@@ -17,13 +17,9 @@ public abstract class AtataGlobalFixture
             .UseNUnitAssertionExceptionType()
             .UseNUnitAggregateAssertionStrategy()
             .UseNUnitWarningReportStrategy()
-            .UseNUnitAssertionFailureReportStrategy();
-
-        AtataContext.BaseConfiguration.LogConsumers
-            .AddNUnitTestContext();
-
-        AtataContext.BaseConfiguration.EventSubscriptions
-            .AddArtifactsToNUnitTestContext();
+            .UseNUnitAssertionFailureReportStrategy()
+            .LogConsumers.AddNUnitTestContext()
+            .EventSubscriptions.AddArtifactsToNUnitTestContext();
 
         ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);
 
