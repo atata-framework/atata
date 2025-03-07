@@ -57,17 +57,17 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     public Visibility DefaultControlVisibility { get; set; }
 
     /// <summary>
-    /// Gets the screenshots configuration options.
+    /// Gets the screenshots configuration builder.
     /// </summary>
-    public ScreenshotsWebDriverSessionOptions Screenshots { get; private set; } = new();
+    public ScreenshotsWebDriverSessionBuilder Screenshots { get; private set; } = new();
 
     /// <summary>
-    /// Gets the page snapshots configuration options.
+    /// Gets the page snapshots configuration builder.
     /// </summary>
-    public PageSnapshotsWebDriverSessionOptions PageSnapshots { get; private set; } = new();
+    public PageSnapshotsWebDriverSessionBuilder PageSnapshots { get; private set; } = new();
 
     /// <summary>
-    /// Gets the configuration of browser logs monitoring and handling.
+    /// Gets the configuration builder of browser logs monitoring and handling.
     /// </summary>
     public BrowserLogsBuilder BrowserLogs { get; private set; } = new();
 

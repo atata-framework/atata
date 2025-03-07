@@ -200,7 +200,7 @@ public class ReportTests : WebDriverSessionTestSuite
         [Test]
         public void ViewportVsFullPage_ThroughConfiguration()
         {
-            long TakeScreenshotAndReturnItsSize(Action<ScreenshotsWebDriverSessionOptions> screenshotsConfigurationAction)
+            long TakeScreenshotAndReturnItsSize(Action<ScreenshotsWebDriverSessionBuilder> screenshotsConfigurationAction)
             {
                 var builder = ConfigureAtataContextWithWebDriverSession(
                     session => screenshotsConfigurationAction?.Invoke(session.Screenshots));

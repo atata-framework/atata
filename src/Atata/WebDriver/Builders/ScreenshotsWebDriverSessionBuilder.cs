@@ -5,9 +5,9 @@ using OpenQA.Selenium.Firefox;
 namespace Atata;
 
 /// <summary>
-/// Represents a configuration of page screenshots functionality for <see cref="WebDriverSession"/>.
+/// Represents a configuration builder of page screenshots functionality for <see cref="WebDriverSession"/>.
 /// </summary>
-public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
+public sealed class ScreenshotsWebDriverSessionBuilder : ICloneable
 {
     /// <summary>
     /// Gets or sets the strategy for a page screenshot taking.
@@ -33,31 +33,31 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
     /// <summary>
     /// Sets the WebDriver viewport (<see cref="WebDriverViewportScreenshotStrategy"/>) strategy for a screenshot taking.
     /// </summary>
-    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
-    public ScreenshotsWebDriverSessionOptions UseWebDriverViewportStrategy() =>
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionBuilder"/> instance.</returns>
+    public ScreenshotsWebDriverSessionBuilder UseWebDriverViewportStrategy() =>
         UseStrategy(WebDriverViewportScreenshotStrategy.Instance);
 
     /// <summary>
     /// Sets the WebDriver full-page (<see cref="WebDriverFullPageScreenshotStrategy"/>) strategy for a screenshot taking.
     /// Works only for <see cref="FirefoxDriver"/>.
     /// </summary>
-    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
-    public ScreenshotsWebDriverSessionOptions UseWebDriverFullPageStrategy() =>
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionBuilder"/> instance.</returns>
+    public ScreenshotsWebDriverSessionBuilder UseWebDriverFullPageStrategy() =>
         UseStrategy(WebDriverFullPageScreenshotStrategy.Instance);
 
     /// <summary>
     /// Sets the CDP full-page (<see cref="CdpFullPageScreenshotStrategy"/>) strategy for a screenshot taking.
     /// Works only for <see cref="ChromeDriver"/> and <see cref="EdgeDriver"/>.
     /// </summary>
-    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
-    public ScreenshotsWebDriverSessionOptions UseCdpFullPageStrategy() =>
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionBuilder"/> instance.</returns>
+    public ScreenshotsWebDriverSessionBuilder UseCdpFullPageStrategy() =>
         UseStrategy(CdpFullPageScreenshotStrategy.Instance);
 
     /// <summary>
     /// Sets the "full-page or viewport" (<see cref="FullPageOrViewportScreenshotStrategy"/>) strategy for a screenshot taking.
     /// </summary>
-    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
-    public ScreenshotsWebDriverSessionOptions UseFullPageOrViewportStrategy() =>
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionBuilder"/> instance.</returns>
+    public ScreenshotsWebDriverSessionBuilder UseFullPageOrViewportStrategy() =>
         UseStrategy(FullPageOrViewportScreenshotStrategy.Instance);
 
     /// <summary>
@@ -65,8 +65,8 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
     /// The default value is an instance of <see cref="WebDriverViewportScreenshotStrategy"/>.
     /// </summary>
     /// <param name="strategy">The screenshot strategy.</param>
-    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
-    public ScreenshotsWebDriverSessionOptions UseStrategy(IScreenshotStrategy<WebDriverSession> strategy)
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionBuilder"/> instance.</returns>
+    public ScreenshotsWebDriverSessionBuilder UseStrategy(IScreenshotStrategy<WebDriverSession> strategy)
     {
         Strategy = strategy;
         return this;
@@ -77,8 +77,8 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
     /// The default value is <c>"{session-id}-{screenshot-number:D2}{screenshot-pageobjectname: *}{screenshot-pageobjecttypename: *}{screenshot-title: - *}"</c>.
     /// </summary>
     /// <param name="fileNameTemplate">The file name template.</param>
-    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
-    public ScreenshotsWebDriverSessionOptions UseFileNameTemplate(string fileNameTemplate)
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionBuilder"/> instance.</returns>
+    public ScreenshotsWebDriverSessionBuilder UseFileNameTemplate(string fileNameTemplate)
     {
         FileNameTemplate = fileNameTemplate;
         return this;
@@ -89,8 +89,8 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
     /// The default value is <see langword="true"/>.
     /// </summary>
     /// <param name="enable">Whether to enable.</param>
-    /// <returns>The same <see cref="ScreenshotsWebDriverSessionOptions"/> instance.</returns>
-    public ScreenshotsWebDriverSessionOptions UseTakeOnFailure(bool enable)
+    /// <returns>The same <see cref="ScreenshotsWebDriverSessionBuilder"/> instance.</returns>
+    public ScreenshotsWebDriverSessionBuilder UseTakeOnFailure(bool enable)
     {
         TakeOnFailure = enable;
         return this;
@@ -105,9 +105,9 @@ public sealed class ScreenshotsWebDriverSessionOptions : ICloneable
     /// <returns>
     /// A new object that is a copy of this instance.
     /// </returns>
-    internal ScreenshotsWebDriverSessionOptions Clone()
+    internal ScreenshotsWebDriverSessionBuilder Clone()
     {
-        var clone = (ScreenshotsWebDriverSessionOptions)MemberwiseClone();
+        var clone = (ScreenshotsWebDriverSessionBuilder)MemberwiseClone();
 
         if (Strategy is ICloneable cloneableScreenshotStrategy)
             clone.Strategy = (IScreenshotStrategy<WebDriverSession>)cloneableScreenshotStrategy.Clone();
