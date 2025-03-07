@@ -1,4 +1,4 @@
-﻿namespace Atata;
+﻿namespace Atata.NUnit;
 
 public class AddDirectoryFilesToNUnitTestContextEventHandler : IEventHandler<AtataContextDeInitCompletedEvent>
 {
@@ -27,7 +27,7 @@ public class AddDirectoryFilesToNUnitTestContextEventHandler : IEventHandler<Ata
                 .OrderBy(x => x.CreationTimeUtc);
 
             foreach (var file in files)
-                NUnitAdapter.AddTestAttachment(file.FullName);
+                TestContext.AddTestAttachment(file.FullName);
         }
     }
 }

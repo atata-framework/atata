@@ -1,4 +1,4 @@
-﻿namespace Atata;
+﻿namespace Atata.NUnit;
 
 public sealed class TakeScreenshotOnNUnitErrorEventHandler : IConditionalEventHandler<AtataSessionDeInitStartedEvent>
 {
@@ -18,7 +18,7 @@ public sealed class TakeScreenshotOnNUnitErrorEventHandler : IConditionalEventHa
     }
 
     public bool CanHandle(AtataSessionDeInitStartedEvent eventData, AtataContext context) =>
-        NUnitAdapter.IsCurrentTestFailed() && eventData.Session.IsActive;
+        TestContext.CurrentContext.Result.Outcome.IsCurrentTestFailed() && eventData.Session.IsActive;
 
     public void Handle(AtataSessionDeInitStartedEvent eventData, AtataContext context) =>
         (eventData.Session as WebSession)?.TakeScreenshot(_screenshotKind, _screenshotTitle);

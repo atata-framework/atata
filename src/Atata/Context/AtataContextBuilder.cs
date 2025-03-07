@@ -542,35 +542,6 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Defines that the name of the test should be taken from the NUnit test.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseNUnitTestName() =>
-        UseTestName(NUnitAdapter.GetCurrentTestName);
-
-    /// <summary>
-    /// Defines that the name of the test suite should be taken from the NUnit test fixture.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseNUnitTestSuiteName() =>
-        UseTestSuiteName(NUnitAdapter.GetCurrentTestFixtureName);
-
-    /// <summary>
-    /// Defines that the type of the test suite should be taken from the NUnit test fixture.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseNUnitTestSuiteType() =>
-        UseTestSuiteType(NUnitAdapter.GetCurrentTestFixtureType);
-
-    /// <summary>
-    /// Sets <see cref="NUnitAggregateAssertionStrategy"/> as the aggregate assertion strategy.
-    /// The <see cref="NUnitAggregateAssertionStrategy"/> uses NUnit's <c>Assert.Multiple</c> method for aggregate assertion.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseNUnitAggregateAssertionStrategy() =>
-        UseAggregateAssertionStrategy(NUnitAggregateAssertionStrategy.Instance);
-
-    /// <summary>
     /// Sets the aggregate assertion strategy.
     /// </summary>
     /// <typeparam name="TAggregateAssertionStrategy">The type of the aggregate assertion strategy.</typeparam>
@@ -596,13 +567,6 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Sets <see cref="NUnitWarningReportStrategy"/> as the strategy for warning assertion reporting.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseNUnitWarningReportStrategy() =>
-        UseWarningReportStrategy(NUnitWarningReportStrategy.Instance);
-
-    /// <summary>
     /// Sets the strategy for warning assertion reporting.
     /// </summary>
     /// <param name="strategy">The warning report strategy.</param>
@@ -615,13 +579,6 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     /// <summary>
-    /// Uses the <see cref="NUnitAssertionFailureReportStrategy"/> as the strategy for assertion failure reporting.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseNUnitAssertionFailureReportStrategy() =>
-        UseAssertionFailureReportStrategy(NUnitAssertionFailureReportStrategy.Instance);
-
-    /// <summary>
     /// Sets the strategy for assertion failure reporting.
     /// </summary>
     /// <param name="strategy">The assertion failure reporting strategy.</param>
@@ -629,84 +586,6 @@ public sealed class AtataContextBuilder : ICloneable
     public AtataContextBuilder UseAssertionFailureReportStrategy(IAssertionFailureReportStrategy strategy)
     {
         AssertionFailureReportStrategy = strategy;
-
-        return this;
-    }
-
-    /// <summary>
-    /// Sets the type of <c>NUnit.Framework.AssertionException</c> as the assertion exception type.
-    /// The default value is a type of <see cref="AssertionException"/>.
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseNUnitAssertionExceptionType() =>
-        UseAssertionExceptionType(NUnitAdapter.AssertionExceptionType);
-
-    /// <summary>
-    /// Enables all Atata features for NUnit.
-    /// Executes the following methods:
-    /// <list type="bullet">
-    /// <item><see cref="UseNUnitTestName"/></item>
-    /// <item><see cref="UseNUnitTestSuiteName"/></item>
-    /// <item><see cref="UseNUnitTestSuiteType"/></item>
-    /// <item><see cref="UseNUnitAssertionExceptionType"/></item>
-    /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
-    /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
-    /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
-    /// <item><see cref="NUnitLogConsumersBuilderExtensions.AddNUnitTestContext(LogConsumersBuilder, Action{LogConsumerBuilder{NUnitTestContextLogConsumer}}?)"/> for <see cref="LogConsumers"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.LogNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder})"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.AddArtifactsToNUnitTestContext{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder})"/> for <see cref="EventSubscriptions"/> property</item>
-    /// </list>
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseAllNUnitFeatures()
-    {
-        UseNUnitTestName();
-        UseNUnitTestSuiteName();
-        UseNUnitTestSuiteType();
-        UseNUnitAssertionExceptionType();
-        UseNUnitAggregateAssertionStrategy();
-        UseNUnitWarningReportStrategy();
-        UseNUnitAssertionFailureReportStrategy();
-        LogConsumers.AddNUnitTestContext();
-        EventSubscriptions.LogNUnitError();
-        EventSubscriptions.TakeScreenshotOnNUnitError();
-        EventSubscriptions.TakePageSnapshotOnNUnitError();
-        EventSubscriptions.AddArtifactsToNUnitTestContext();
-
-        return this;
-    }
-
-    /// <summary>
-    /// Enables all Atata features for SpecFlow+NUnit.
-    /// Executes the following methods:
-    /// <list type="bullet">
-    /// <item><see cref="UseNUnitTestName"/></item>
-    /// <item><see cref="UseNUnitTestSuiteName"/></item>
-    /// <item><see cref="UseNUnitTestSuiteType"/></item>
-    /// <item><see cref="UseNUnitAssertionExceptionType"/></item>
-    /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
-    /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
-    /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.LogNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder})"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakeScreenshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// <item><see cref="NUnitEventSubscriptionsBuilderExtensions.TakePageSnapshotOnNUnitError{TRootBuilder}(EventSubscriptionsBuilder{TRootBuilder}, string)"/> for <see cref="EventSubscriptions"/> property</item>
-    /// </list>
-    /// </summary>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseSpecFlowNUnitFeatures()
-    {
-        UseNUnitTestName();
-        UseNUnitTestSuiteName();
-        UseNUnitTestSuiteType();
-        UseNUnitAssertionExceptionType();
-        UseNUnitAggregateAssertionStrategy();
-        UseNUnitWarningReportStrategy();
-        UseNUnitAssertionFailureReportStrategy();
-        EventSubscriptions.LogNUnitError();
-        EventSubscriptions.TakeScreenshotOnNUnitError();
-        EventSubscriptions.TakePageSnapshotOnNUnitError();
 
         return this;
     }

@@ -17,7 +17,7 @@ public sealed class AtataAssertionFailureReportStrategy : IAssertionFailureRepor
         var pendingFailureAssertionResults = context?.GetAndClearPendingFailureAssertionResults()
             ?? [];
 
-        Exception assertionException = pendingFailureAssertionResults.Count > 0
+        throw pendingFailureAssertionResults.Count > 0
             ? VerificationUtils.CreateAggregateAssertionException(
                 context,
                 [.. pendingFailureAssertionResults, AssertionResult.ForFailure(VerificationUtils.AppendExceptionToFailureMessage(message, exception), stackTrace)])
@@ -25,10 +25,5 @@ public sealed class AtataAssertionFailureReportStrategy : IAssertionFailureRepor
                 context,
                 message,
                 exception);
-
-        if (context is not null)
-            context.LastLoggedException = assertionException;
-
-        throw assertionException;
     }
 }

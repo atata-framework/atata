@@ -18,15 +18,18 @@ public static class LogConsumerAliases
 
     private static readonly Dictionary<string, Func<ILogConsumer>> s_aliasFactoryMap = new(StringComparer.OrdinalIgnoreCase);
 
+    private static readonly Lazy<ConstructorInfo> s_lazyNUnitTestContextLogConsumerConstructor = new(ResolveNUnitTestContextLogConsumerConstructor);
+
     static LogConsumerAliases()
     {
         Register<TraceLogConsumer>(Trace);
         Register<DebugLogConsumer>(Debug);
         Register<ConsoleLogConsumer>(Console);
-        Register<NUnitTestContextLogConsumer>(NUnit);
         Register<NLogConsumer>(NLog);
         Register<NLogFileConsumer>(NLogFile);
         Register<Log4NetConsumer>(Log4Net);
+
+        Register(NUnit, CreateNUnitTestContextLogConsumer);
     }
 
     public static void Register<T>(string typeAlias)
@@ -49,5 +52,15 @@ public static class LogConsumerAliases
         return s_aliasFactoryMap.TryGetValue(typeNameOrAlias, out Func<ILogConsumer> factory)
             ? factory()
             : ActivatorEx.CreateInstance<ILogConsumer>(typeNameOrAlias);
+    }
+
+    private static ILogConsumer CreateNUnitTestContextLogConsumer() =>
+        (ILogConsumer)s_lazyNUnitTestContextLogConsumerConstructor.Value.Invoke(null);
+
+    private static ConstructorInfo ResolveNUnitTestContextLogConsumerConstructor()
+    {
+        Type type = Type.GetType("Atata.NUnit.NUnitTestContextLogConsumer,Atata.NUnit", true);
+
+        return type.GetConstructor([]);
     }
 }

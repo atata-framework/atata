@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿using Atata.NUnit;
 
 namespace Atata;
 
@@ -13,7 +13,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// </summary>
     /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
     /// <param name="builder">The builder.</param>
-    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
     public static TRootBuilder LogNUnitError<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder)
         =>
@@ -26,7 +26,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
     /// <param name="builder">The builder.</param>
     /// <param name="title">The screenshot title.</param>
-    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
     public static TRootBuilder TakeScreenshotOnNUnitError<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         string title = "Failed")
@@ -51,7 +51,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
     /// <param name="builder">The builder.</param>
     /// <param name="title">The snapshot title.</param>
-    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
     public static TRootBuilder TakePageSnapshotOnNUnitError<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         string title = "Failed")
@@ -64,7 +64,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// </summary>
     /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
     /// <param name="builder">The builder.</param>
-    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
     public static TRootBuilder AddArtifactsToNUnitTestContext<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder)
         =>
@@ -78,7 +78,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
     /// <param name="builder">The builder.</param>
     /// <param name="directoryPath">The directory path.</param>
-    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
     public static TRootBuilder AddDirectoryFilesToNUnitTestContext<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         string directoryPath)
@@ -104,7 +104,7 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
     /// <param name="builder">The builder.</param>
     /// <param name="directoryPathBuilder">The directory path builder.</param>
-    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
     public static TRootBuilder AddDirectoryFilesToNUnitTestContext<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         Func<AtataContext, string> directoryPathBuilder)

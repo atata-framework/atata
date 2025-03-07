@@ -1,8 +1,8 @@
-﻿namespace Atata;
+﻿namespace Atata.NUnit;
 
 /// <summary>
 /// Represents aggregate assertion strategy for NUnit.
-/// Uses NUnit's <c>Assert.Multiple</c> method for aggregate assertion.
+/// Uses NUnit's <see cref="Assert.EnterMultipleScope"/> method for aggregate assertion.
 /// </summary>
 public sealed class NUnitAggregateAssertionStrategy : IAggregateAssertionStrategy
 {
@@ -14,7 +14,7 @@ public sealed class NUnitAggregateAssertionStrategy : IAggregateAssertionStrateg
     public void ReportFailure(IAtataExecutionUnit executionUnit, string message, string stackTrace)
     {
         NUnitAdapter.RecordAssertionIntoTestResult(
-            NUnitAdapter.AssertionStatus.Failed,
+            NUnitAssertionStatus.Failed,
             message + Environment.NewLine,
             stackTrace);
         NUnitAdapter.RecordTestCompletionIntoTestResult();

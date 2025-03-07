@@ -18,10 +18,11 @@ public abstract class TestSuiteBase
             .UseTestSuiteName(GetCurrentTestFixtureName)
             .UseTestSuiteType(GetCurrentTestFixtureType);
 
-        builder.LogConsumers.AddNUnitTestContext();
+        builder.LogConsumers.Add(new TextOutputLogConsumer(TestContext.WriteLine));
         builder.LogConsumers.Add(_fakeLogConsumer);
 
-        builder.EventSubscriptions.AddArtifactsToNUnitTestContext();
+        // Commented temporarily due to AddArtifactsToNUnitTestContext method migration to Atata.NUnit.
+        ////builder.EventSubscriptions.AddArtifactsToNUnitTestContext();
 
         return builder;
     }

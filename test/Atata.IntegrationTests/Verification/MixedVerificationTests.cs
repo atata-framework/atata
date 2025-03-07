@@ -149,7 +149,9 @@ public abstract class MixedVerificationTests
         protected override AtataContext BuildAtataContext()
         {
             var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
-            builder.LogConsumers.AddNUnitTestContext();
+
+            builder.LogConsumers.Add(new TextOutputLogConsumer(TestContext.WriteLine));
+
             return builder.Build();
         }
     }
@@ -168,11 +170,12 @@ public abstract class MixedVerificationTests
         }
     }
 
-    public sealed class NUnit : MixedVerificationTests
-    {
-        protected override AtataContext BuildAtataContext() =>
-            AtataContext.CreateBuilder(AtataContextScope.Test)
-                .UseAllNUnitFeatures()
-                .Build();
-    }
+    // Commented temporarily due to UseAllNUnitFeatures method migration to Atata.NUnit.
+    ////public sealed class NUnit : MixedVerificationTests
+    ////{
+    ////    protected override AtataContext BuildAtataContext() =>
+    ////        AtataContext.CreateBuilder(AtataContextScope.Test)
+    ////            .UseAllNUnitFeatures()
+    ////            .Build();
+    ////}
 }

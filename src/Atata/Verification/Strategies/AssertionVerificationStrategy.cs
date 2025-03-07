@@ -37,7 +37,15 @@ public sealed class AssertionVerificationStrategy : IVerificationStrategy
             }
             else
             {
-                executionUnit.Context.AssertionFailureReportStrategy.Report(executionUnit, completeMessage, exception, stackTrace);
+                try
+                {
+                    executionUnit.Context.AssertionFailureReportStrategy.Report(executionUnit, completeMessage, exception, stackTrace);
+                }
+                catch (Exception assertionException)
+                {
+                    executionUnit.Context.LastLoggedException = assertionException;
+                    throw;
+                }
             }
         }
         else

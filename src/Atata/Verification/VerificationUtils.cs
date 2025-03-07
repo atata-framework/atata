@@ -2,13 +2,18 @@
 
 public static class VerificationUtils
 {
+    // TODO: Think how to get rid of this constant.
+    // The related "if" block should be extracted to Atata.NUnit,
+    // or a change should be made in NUnit, which will render inner exception of AssertionException.
+    private const string NUnitAssertionExceptionTypeName = "NUnit.Framework.AssertionException";
+
     public static Exception CreateAssertionException(AtataContext context, string message, Exception innerException = null)
     {
         Type exceptionType = context?.AssertionExceptionType;
 
         if (exceptionType is null || exceptionType == typeof(AssertionException))
             return new AssertionException(message, innerException);
-        else if (exceptionType.FullName == NUnitAdapter.AssertionExceptionTypeName)
+        else if (exceptionType.FullName == NUnitAssertionExceptionTypeName)
             return (Exception)Activator.CreateInstance(exceptionType, AppendExceptionToFailureMessage(message, innerException));
         else
             return (Exception)Activator.CreateInstance(exceptionType, message, innerException);
@@ -79,7 +84,7 @@ public static class VerificationUtils
         return builder.ToString();
     }
 
-    internal static string AppendExceptionToFailureMessage(string message, Exception exception)
+    public static string AppendExceptionToFailureMessage(string message, Exception exception)
     {
         if (exception != null)
         {

@@ -1,4 +1,4 @@
-﻿namespace Atata;
+﻿namespace Atata.NUnit;
 
 /// <summary>
 /// Represents the NUnit strategy for warning assertion reporting.
@@ -10,7 +10,7 @@ public class NUnitWarningReportStrategy : IWarningReportStrategy
 
     public void Report(IAtataExecutionUnit executionUnit, string message, string stackTrace) =>
         NUnitAdapter.RecordAssertionIntoTestResult(
-            NUnitAdapter.AssertionStatus.Warning,
+            NUnitAssertionStatus.Warning,
             message + Environment.NewLine,
             stackTrace);
 }

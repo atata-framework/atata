@@ -1,4 +1,4 @@
-﻿namespace Atata;
+﻿namespace Atata.NUnit;
 
 public sealed class AddArtifactsToNUnitTestContextEventHandler : AddDirectoryFilesToNUnitTestContextEventHandler
 {
