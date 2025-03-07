@@ -14,6 +14,9 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
     /// <param name="builder">The builder.</param>
     /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
+    [Obsolete("Don't use this method, as it will be removed. " +
+        "It is recommended to inherit AtataGlobalFixture and AtataTestSuite classes for global and test suites. " +
+        "Otherwise use AtataContext.HandleTestResultException(...) method on test tear down.")] // Obsolete since v4.0.0.
     public static TRootBuilder LogNUnitError<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder)
         =>
@@ -27,6 +30,9 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="title">The screenshot title.</param>
     /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
+    [Obsolete("Don't use this method, as it will be removed. " +
+        "It is recommended to inherit AtataGlobalFixture and AtataTestSuite classes for global and test suites. " +
+        "Otherwise use AtataContext.HandleTestResultException(...) method on test tear down.")] // Obsolete since v4.0.0.
     public static TRootBuilder TakeScreenshotOnNUnitError<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         string title = "Failed")
@@ -37,6 +43,9 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="kind">The kind of a screenshot.</param>
     /// <param name="title">The screenshot title.</param>
+    [Obsolete("Don't use this method, as it will be removed. " +
+        "It is recommended to inherit AtataGlobalFixture and AtataTestSuite classes for global and test suites. " +
+        "Otherwise use AtataContext.HandleTestResultException(...) method on test tear down.")] // Obsolete since v4.0.0.
     public static TRootBuilder TakeScreenshotOnNUnitError<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         ScreenshotKind kind,
@@ -52,6 +61,9 @@ public static class NUnitEventSubscriptionsBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="title">The snapshot title.</param>
     /// <returns>The same <typeparamref name="TRootBuilder"/> instance.</returns>
+    [Obsolete("Don't use this method, as it will be removed. " +
+        "It is recommended to inherit AtataGlobalFixture and AtataTestSuite classes for global and test suites. " +
+        "Otherwise use AtataContext.HandleTestResultException(...) method on test tear down.")] // Obsolete since v4.0.0.
     public static TRootBuilder TakePageSnapshotOnNUnitError<TRootBuilder>(
         this EventSubscriptionsBuilder<TRootBuilder> builder,
         string title = "Failed")

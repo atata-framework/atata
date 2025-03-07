@@ -82,6 +82,7 @@ public static class NUnitAtataContextBuilderExtensions
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("It is recommended to inherit AtataGlobalFixture and AtataTestSuite classes for global and test suites. Otherwise call all methods directly instead.")] // Obsolete since v4.0.0.
     public static AtataContextBuilder UseAllNUnitFeatures(this AtataContextBuilder builder)
     {
         builder.UseNUnitTestName();
@@ -118,6 +119,7 @@ public static class NUnitAtataContextBuilderExtensions
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("It is recommended to use Atata.Reqnroll.NUnit package instead.")] // Obsolete since v4.0.0.
     public static AtataContextBuilder UseSpecFlowNUnitFeatures(this AtataContextBuilder builder)
     {
         builder.UseNUnitTestName();
