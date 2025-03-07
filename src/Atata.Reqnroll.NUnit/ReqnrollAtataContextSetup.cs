@@ -1,7 +1,4 @@
-﻿using Atata.NUnit;
-using NUnit.Framework;
-
-namespace Atata.Reqnroll.NUnit;
+﻿namespace Atata.Reqnroll.NUnit;
 
 public static class ReqnrollAtataContextSetup
 {

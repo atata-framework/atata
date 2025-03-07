@@ -11,13 +11,12 @@
     <PackageReference Include="FluentAssertions" Version="7.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="NLog" Version="5.4.0" />
-    <PackageReference Include="NUnit" Version="4.3.2" />
     <PackageReference Include="NUnit3TestAdapter" Version="5.0.0" />
-    <PackageReference Include="Reqnroll.NUnit" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Atata.NUnit\Atata.NUnit.csproj" />
+    <ProjectReference Include="..\..\src\Atata.Reqnroll.NUnit\Atata.Reqnroll.NUnit.csproj" />
     <ProjectReference Include="..\..\src\Atata\Atata.csproj" />
   </ItemGroup>
 

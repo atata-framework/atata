@@ -44,6 +44,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.IntegrationTests.Reqn
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.NUnit", "src\Atata.NUnit\Atata.NUnit.csproj", "{0FD78601-4BF7-4DAE-91E3-B379F6F98B1A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Reqnroll.NUnit", "src\Atata.Reqnroll.NUnit\Atata.Reqnroll.NUnit.csproj", "{23BABE7A-C033-48A1-B2B3-FF038ECF6FEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -90,6 +92,10 @@ Global
 		{0FD78601-4BF7-4DAE-91E3-B379F6F98B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FD78601-4BF7-4DAE-91E3-B379F6F98B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0FD78601-4BF7-4DAE-91E3-B379F6F98B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23BABE7A-C033-48A1-B2B3-FF038ECF6FEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23BABE7A-C033-48A1-B2B3-FF038ECF6FEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23BABE7A-C033-48A1-B2B3-FF038ECF6FEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23BABE7A-C033-48A1-B2B3-FF038ECF6FEE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
