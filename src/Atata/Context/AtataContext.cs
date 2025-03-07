@@ -780,6 +780,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Handles the test result exception.
+    /// Sets the test result status as <see cref="TestResultStatus.Failed"/>.
+    /// Logs the error and executes snapshots taking functionality for active sessions.
     /// </summary>
     /// <param name="exception">The exception.</param>
     public void HandleTestResultException(Exception exception)
@@ -799,6 +801,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     /// <summary>
     /// Handles the test result exception.
+    /// Sets the test result status as <see cref="TestResultStatus.Failed"/>.
+    /// Logs the error and executes snapshots taking functionality for active sessions.
     /// </summary>
     /// <param name="message">The exception message.</param>
     /// <param name="stackTrace">The exception stack trace.</param>
