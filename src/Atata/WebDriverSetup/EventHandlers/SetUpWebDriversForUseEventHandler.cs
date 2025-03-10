@@ -25,7 +25,7 @@ public sealed class SetUpWebDriversForUseEventHandler : IAsyncEventHandler<Atata
 
         string[] browserNames = contextBuilder.Sessions.Builders.OfType<WebDriverSessionBuilder>()
             .Where(x => x.UsesLocalBrowser)
-            .Select(x => x.LocalBrowserToUseName)
+            .Select(x => x.LocalBrowserToUseName!)
             .Distinct()
             .ToArray();
 

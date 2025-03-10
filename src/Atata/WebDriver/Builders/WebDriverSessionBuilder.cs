@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿#nullable enable
+
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Chromium;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
@@ -25,7 +27,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <summary>
     /// Gets the driver factory to use.
     /// </summary>
-    public IWebDriverFactory DriverFactoryToUse { get; private set; }
+    public IWebDriverFactory? DriverFactoryToUse { get; private set; }
 
     /// <summary>
     /// Gets or sets a value indicating whether to dispose the <see cref="WebDriverSession.Driver"/>
@@ -46,7 +48,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// Returns <see cref="IUsesLocalBrowser.BrowserName"/> value
     /// if <see cref="DriverFactoryToUse"/> is <see cref="IUsesLocalBrowser"/>.
     /// </summary>
-    public string LocalBrowserToUseName =>
+    public string? LocalBrowserToUseName =>
         (DriverFactoryToUse as IUsesLocalBrowser)?.BrowserName;
 
     /// <summary>
@@ -83,7 +85,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// </summary>
     /// <param name="alias">The alias of the driver factory.</param>
     /// <returns>The driver factory or <see langword="null"/>.</returns>
-    public IWebDriverFactory GetDriverFactory(string alias)
+    public IWebDriverFactory? GetDriverFactory(string alias)
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
 
@@ -159,11 +161,11 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
 
-        IWebDriverFactory driverFactory = GetDriverFactory(alias);
+        IWebDriverFactory? driverFactory = GetDriverFactory(alias);
 
-        if (driverFactory != null)
+        if (driverFactory is not null)
             DriverFactoryToUse = driverFactory;
-        else if (FindAndUsePredefinedDriver(alias) == null)
+        else if (FindAndUsePredefinedDriver(alias) is null)
             throw new ArgumentException($"No driver with \"{alias}\" alias defined.", nameof(alias));
 
         return this;
@@ -193,7 +195,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         return UseDriver(new CustomWebDriverBuilder(driverFactory));
     }
 
-    private IWebDriverFactory FindAndUsePredefinedDriver(string alias) =>
+    private IWebDriverFactory? FindAndUsePredefinedDriver(string alias) =>
         alias.ToLowerInvariant() switch
         {
             WebDriverAliases.Chrome => UseChrome(),
@@ -452,13 +454,13 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
                 return;
             }
 
-            object driverDeInitEventSubscription = null;
+            object? driverDeInitEventSubscription = null;
 
             var eventBus = session.EventBus;
             driverDeInitEventSubscription = eventBus.Subscribe<WebDriverDeInitStartedEvent>(() =>
             {
                 logMonitoringStrategy.Stop();
-                eventBus.Unsubscribe(driverDeInitEventSubscription);
+                eventBus.Unsubscribe(driverDeInitEventSubscription!);
             });
         }
         else
