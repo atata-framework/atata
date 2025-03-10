@@ -163,7 +163,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
 
         if (driverFactory != null)
             DriverFactoryToUse = driverFactory;
-        else if (UsePredefinedDriver(alias) == null)
+        else if (FindAndUsePredefinedDriver(alias) == null)
             throw new ArgumentException($"No driver with \"{alias}\" alias defined.", nameof(alias));
 
         return this;
@@ -193,7 +193,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         return UseDriver(new CustomWebDriverBuilder(driverFactory));
     }
 
-    private IWebDriverFactory UsePredefinedDriver(string alias) =>
+    private IWebDriverFactory FindAndUsePredefinedDriver(string alias) =>
         alias.ToLowerInvariant() switch
         {
             WebDriverAliases.Chrome => UseChrome(),
