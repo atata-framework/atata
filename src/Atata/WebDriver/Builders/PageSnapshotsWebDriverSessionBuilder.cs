@@ -3,8 +3,13 @@
 /// <summary>
 /// Represents a configuration builder of page snapshots functionality for <see cref="WebDriverSession"/>.
 /// </summary>
-public sealed class PageSnapshotsWebDriverSessionBuilder : ICloneable
+public sealed class PageSnapshotsWebDriverSessionBuilder
 {
+    private readonly WebDriverSessionBuilder _sessionBuilder;
+
+    internal PageSnapshotsWebDriverSessionBuilder(WebDriverSessionBuilder sessionBuilder) =>
+        _sessionBuilder = sessionBuilder;
+
     /// <summary>
     /// Gets or sets the strategy for a page snapshot taking.
     /// The default value is an instance of <see cref="CdpOrPageSourcePageSnapshotStrategy"/>.
@@ -29,22 +34,22 @@ public sealed class PageSnapshotsWebDriverSessionBuilder : ICloneable
     /// <summary>
     /// Sets the "CDP or page source" (<see cref="CdpOrPageSourcePageSnapshotStrategy"/>) strategy for a page snapshot taking.
     /// </summary>
-    /// <returns>The same <see cref="PageSnapshotsWebDriverSessionBuilder"/> instance.</returns>
-    public PageSnapshotsWebDriverSessionBuilder UseCdpOrPageSourceStrategy() =>
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseCdpOrPageSourceStrategy() =>
         UseStrategy(CdpOrPageSourcePageSnapshotStrategy.Instance);
 
     /// <summary>
     /// Sets the page source (<see cref="PageSourcePageSnapshotStrategy"/>) strategy for a page snapshot taking.
     /// </summary>
-    /// <returns>The same <see cref="PageSnapshotsWebDriverSessionBuilder"/> instance.</returns>
-    public PageSnapshotsWebDriverSessionBuilder UsePageSourceStrategy() =>
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UsePageSourceStrategy() =>
         UseStrategy(PageSourcePageSnapshotStrategy.Instance);
 
     /// <summary>
     /// Sets the CDP (<see cref="CdpPageSnapshotStrategy"/>) strategy for a page snapshot taking.
     /// </summary>
-    /// <returns>The same <see cref="PageSnapshotsWebDriverSessionBuilder"/> instance.</returns>
-    public PageSnapshotsWebDriverSessionBuilder UseCdpStrategy() =>
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseCdpStrategy() =>
         UseStrategy(CdpPageSnapshotStrategy.Instance);
 
     /// <summary>
@@ -52,11 +57,11 @@ public sealed class PageSnapshotsWebDriverSessionBuilder : ICloneable
     /// The default value is an instance of <see cref="CdpOrPageSourcePageSnapshotStrategy"/>.
     /// </summary>
     /// <param name="strategy">The snapshot take strategy.</param>
-    /// <returns>The same <see cref="PageSnapshotsWebDriverSessionBuilder"/> instance.</returns>
-    public PageSnapshotsWebDriverSessionBuilder UseStrategy(IPageSnapshotStrategy<WebDriverSession> strategy)
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseStrategy(IPageSnapshotStrategy<WebDriverSession> strategy)
     {
         Strategy = strategy;
-        return this;
+        return _sessionBuilder;
     }
 
     /// <summary>
@@ -64,11 +69,11 @@ public sealed class PageSnapshotsWebDriverSessionBuilder : ICloneable
     /// The default value is <c>"{session-id}-{snapshot-number:D2}{snapshot-pageobjectname: *}{snapshot-pageobjecttypename: *}{snapshot-title: - *}"</c>.
     /// </summary>
     /// <param name="fileNameTemplate">The file name template.</param>
-    /// <returns>The same <see cref="PageSnapshotsWebDriverSessionBuilder"/> instance.</returns>
-    public PageSnapshotsWebDriverSessionBuilder UseFileNameTemplate(string fileNameTemplate)
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseFileNameTemplate(string fileNameTemplate)
     {
         FileNameTemplate = fileNameTemplate;
-        return this;
+        return _sessionBuilder;
     }
 
     /// <summary>
@@ -76,29 +81,20 @@ public sealed class PageSnapshotsWebDriverSessionBuilder : ICloneable
     /// The default value is <see langword="true"/>.
     /// </summary>
     /// <param name="enable">Whether to enable.</param>
-    /// <returns>The same <see cref="PageSnapshotsWebDriverSessionBuilder"/> instance.</returns>
-    public PageSnapshotsWebDriverSessionBuilder UseTakeOnFailure(bool enable)
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseTakeOnFailure(bool enable)
     {
         TakeOnFailure = enable;
-        return this;
+        return _sessionBuilder;
     }
 
-    /// <inheritdoc cref="Clone"/>
-    object ICloneable.Clone() => Clone();
-
-    /// <summary>
-    /// Creates a new object that is a copy of the current instance.
-    /// </summary>
-    /// <returns>
-    /// A new object that is a copy of this instance.
-    /// </returns>
-    internal PageSnapshotsWebDriverSessionBuilder Clone()
-    {
-        var clone = (PageSnapshotsWebDriverSessionBuilder)MemberwiseClone();
-
-        if (Strategy is ICloneable cloneablePageSnapshotStrategy)
-            clone.Strategy = (IPageSnapshotStrategy<WebDriverSession>)cloneablePageSnapshotStrategy.Clone();
-
-        return clone;
-    }
+    internal PageSnapshotsWebDriverSessionBuilder CloneFor(WebDriverSessionBuilder sessionBuilder) =>
+        new(sessionBuilder)
+        {
+            Strategy = Strategy is ICloneable cloneablePageSnapshotStrategy
+                ? (IPageSnapshotStrategy<WebDriverSession>)cloneablePageSnapshotStrategy.Clone()
+                : Strategy,
+            FileNameTemplate = FileNameTemplate,
+            TakeOnFailure = TakeOnFailure
+        };
 }

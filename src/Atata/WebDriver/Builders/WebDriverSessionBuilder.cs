@@ -10,6 +10,9 @@ namespace Atata;
 
 public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDriverSessionBuilder>
 {
+    public WebDriverSessionBuilder() =>
+        PageSnapshots = new(this);
+
     /// <summary>
     /// Gets the driver factories.
     /// </summary>
@@ -64,7 +67,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <summary>
     /// Gets the page snapshots configuration builder.
     /// </summary>
-    public PageSnapshotsWebDriverSessionBuilder PageSnapshots { get; private set; } = new();
+    public PageSnapshotsWebDriverSessionBuilder PageSnapshots { get; private set; }
 
     /// <summary>
     /// Gets the configuration builder of browser logs monitoring and handling.
@@ -392,7 +395,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
 
         copy.DriverFactories = [.. DriverFactories];
         copy.Screenshots = Screenshots.Clone();
-        copy.PageSnapshots = PageSnapshots.Clone();
+        copy.PageSnapshots = PageSnapshots.CloneFor(copy);
         copy.BrowserLogs = BrowserLogs.Clone();
     }
 
