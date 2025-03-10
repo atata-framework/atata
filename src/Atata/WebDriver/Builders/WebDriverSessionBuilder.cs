@@ -75,7 +75,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <summary>
     /// Gets the configuration builder of browser logs monitoring and handling.
     /// </summary>
-    public BrowserLogsBuilder BrowserLogs { get; private set; } = new();
+    public BrowserLogsWebDriverSessionBuilder BrowserLogs { get; private set; } = new();
 
     /// <summary>
     /// Gets the driver factory by the specified alias.

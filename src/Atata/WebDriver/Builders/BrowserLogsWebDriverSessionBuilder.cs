@@ -1,9 +1,9 @@
 ﻿namespace Atata;
 
 /// <summary>
-/// Represents the builder of browser logs monitoring and handling.
+/// Represents a configuration builder of browser logs monitoring and handling.
 /// </summary>
-public sealed class BrowserLogsBuilder : ICloneable
+public sealed class BrowserLogsWebDriverSessionBuilder : ICloneable
 {
     /// <summary>
     /// Gets or sets a value indicating whether the browser log should be transferred
@@ -30,8 +30,8 @@ public sealed class BrowserLogsBuilder : ICloneable
     /// The default value is <see langword="false"/>.
     /// </summary>
     /// <param name="enable">Whether to enable logging.</param>
-    /// <returns>The same <see cref="BrowserLogsBuilder"/> instance.</returns>
-    public BrowserLogsBuilder UseLog(bool enable = true)
+    /// <returns>The same <see cref="BrowserLogsWebDriverSessionBuilder"/> instance.</returns>
+    public BrowserLogsWebDriverSessionBuilder UseLog(bool enable = true)
     {
         Log = enable;
         return this;
@@ -45,8 +45,8 @@ public sealed class BrowserLogsBuilder : ICloneable
     /// which are <see cref="LogLevel.Error"/> and <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="minLevel">The minimum log level.</param>
-    /// <returns>The same <see cref="BrowserLogsBuilder"/> instance.</returns>
-    public BrowserLogsBuilder UseMinLevelOfWarning(LogLevel? minLevel)
+    /// <returns>The same <see cref="BrowserLogsWebDriverSessionBuilder"/> instance.</returns>
+    public BrowserLogsWebDriverSessionBuilder UseMinLevelOfWarning(LogLevel? minLevel)
     {
         MinLevelOfWarning = minLevel;
         return this;
@@ -61,6 +61,6 @@ public sealed class BrowserLogsBuilder : ICloneable
     /// <returns>
     /// A new object that is a copy of this instance.
     /// </returns>
-    internal BrowserLogsBuilder Clone() =>
-        (BrowserLogsBuilder)MemberwiseClone();
+    internal BrowserLogsWebDriverSessionBuilder Clone() =>
+        (BrowserLogsWebDriverSessionBuilder)MemberwiseClone();
 }
