@@ -1,7 +1,27 @@
 ﻿namespace Atata.UnitTests.WebDriver;
 
-public static class WebDriverSessionBuilderTests
+public sealed class WebDriverSessionBuilderTests
 {
+    [Test]
+    public void Clone()
+    {
+        // Arrange
+        var original = WebDriverSession.CreateBuilder();
+        original.UseDriver(WebDriverAliases.Edge);
+        original.UseDriver(WebDriverAliases.Chrome);
+
+        // Act
+        var copy = original.Clone();
+
+        // Assert
+        copy.DriverFactories.Should().HaveCount(2);
+        copy.DriverFactories.Should().NotContain(original.DriverFactories);
+
+        copy.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
+        copy.DriverFactoryToUse.Should().NotBe(original.DriverFactoryToUse);
+        copy.DriverFactories.Should().Contain(copy.DriverFactoryToUse);
+    }
+
     public sealed class UseDriver_WithAlias
     {
         [Test]

@@ -1,6 +1,6 @@
 ﻿namespace Atata;
 
-public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory
+public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     where TBuilder : WebDriverBuilder<TBuilder>
 {
     private Func<IWebDriver, bool> _initialHealthCheckFunction = CheckHealthByRequestingDriverUrl;
@@ -202,5 +202,18 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory
     {
         _ = driver.Url;
         return true;
+    }
+
+    object ICloneable.Clone()
+    {
+        var copy = (TBuilder)MemberwiseClone();
+
+        OnClone(copy);
+
+        return copy;
+    }
+
+    protected virtual void OnClone(TBuilder copy)
+    {
     }
 }

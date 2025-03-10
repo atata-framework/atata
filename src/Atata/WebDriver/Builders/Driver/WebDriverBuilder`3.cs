@@ -8,10 +8,10 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
 {
     private readonly string _browserName;
 
-    private readonly List<Action<TService>> _serviceInitializers = [];
-    private readonly List<Action<TOptions>> _optionsInitializers = [];
+    private List<Action<TService>> _serviceInitializers = [];
+    private List<Action<TOptions>> _optionsInitializers = [];
 
-    private readonly List<int> _portsToIgnore = [];
+    private List<int> _portsToIgnore = [];
 
     private Func<TService> _serviceFactory;
     private Func<TOptions> _optionsFactory;
@@ -289,5 +289,14 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     {
         _portsToIgnore.AddRange(portsToIgnore);
         return (TBuilder)this;
+    }
+
+    protected override void OnClone(TBuilder copy)
+    {
+        base.OnClone(copy);
+
+        copy._serviceInitializers = [.. _serviceInitializers];
+        copy._optionsInitializers = [.. _optionsInitializers];
+        copy._portsToIgnore = [.. _portsToIgnore];
     }
 }

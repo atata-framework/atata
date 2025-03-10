@@ -397,7 +397,20 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     {
         base.OnClone(copy);
 
-        copy.DriverFactories = [.. DriverFactories];
+        copy.DriverFactories = [.. DriverFactories
+            .Select(x => x is ICloneable cloneable ? (IWebDriverFactory)cloneable.Clone() : x)];
+
+        if (DriverFactoryToUse is not null)
+        {
+            int indexOfDriverFactoryToUse = DriverFactories.IndexOf(DriverFactoryToUse);
+
+            copy.DriverFactoryToUse = indexOfDriverFactoryToUse != -1
+                ? copy.DriverFactories[indexOfDriverFactoryToUse]
+                : DriverFactoryToUse is ICloneable cloneable
+                    ? (IWebDriverFactory)cloneable.Clone() :
+                    DriverFactoryToUse;
+        }
+
         copy.Screenshots = Screenshots.CloneFor(copy);
         copy.PageSnapshots = PageSnapshots.CloneFor(copy);
         copy.BrowserLogs = BrowserLogs.CloneFor(copy);

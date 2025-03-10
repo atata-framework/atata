@@ -13,7 +13,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     /// </summary>
     public static readonly TimeSpan DefaultCommandTimeout = TimeSpan.FromSeconds(60);
 
-    private readonly List<Action<DriverOptions>> _optionsInitializers = [];
+    private List<Action<DriverOptions>> _optionsInitializers = [];
 
     private Uri _remoteAddress = new("http://127.0.0.1:4444/");
 
@@ -222,5 +222,12 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
     {
         _commandTimeout = commandTimeout;
         return this;
+    }
+
+    protected override void OnClone(RemoteDriverBuilder copy)
+    {
+        base.OnClone(copy);
+
+        copy._optionsInitializers = [.. _optionsInitializers];
     }
 }
