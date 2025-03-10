@@ -14,6 +14,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     {
         Screenshots = new(this);
         PageSnapshots = new(this);
+        BrowserLogs = new(this);
     }
 
     /// <summary>
@@ -75,7 +76,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// <summary>
     /// Gets the configuration builder of browser logs monitoring and handling.
     /// </summary>
-    public BrowserLogsWebDriverSessionBuilder BrowserLogs { get; private set; } = new();
+    public BrowserLogsWebDriverSessionBuilder BrowserLogs { get; private set; }
 
     /// <summary>
     /// Gets the driver factory by the specified alias.
@@ -399,7 +400,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
         copy.DriverFactories = [.. DriverFactories];
         copy.Screenshots = Screenshots.CloneFor(copy);
         copy.PageSnapshots = PageSnapshots.CloneFor(copy);
-        copy.BrowserLogs = BrowserLogs.Clone();
+        copy.BrowserLogs = BrowserLogs.CloneFor(copy);
     }
 
     protected override void ValidateConfiguration()

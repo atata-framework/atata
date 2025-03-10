@@ -3,8 +3,13 @@
 /// <summary>
 /// Represents a configuration builder of browser logs monitoring and handling.
 /// </summary>
-public sealed class BrowserLogsWebDriverSessionBuilder : ICloneable
+public sealed class BrowserLogsWebDriverSessionBuilder
 {
+    private readonly WebDriverSessionBuilder _sessionBuilder;
+
+    internal BrowserLogsWebDriverSessionBuilder(WebDriverSessionBuilder sessionBuilder) =>
+        _sessionBuilder = sessionBuilder;
+
     /// <summary>
     /// Gets or sets a value indicating whether the browser log should be transferred
     /// to Atata logging system as "Browser" external source.
@@ -30,11 +35,11 @@ public sealed class BrowserLogsWebDriverSessionBuilder : ICloneable
     /// The default value is <see langword="false"/>.
     /// </summary>
     /// <param name="enable">Whether to enable logging.</param>
-    /// <returns>The same <see cref="BrowserLogsWebDriverSessionBuilder"/> instance.</returns>
-    public BrowserLogsWebDriverSessionBuilder UseLog(bool enable = true)
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseLog(bool enable = true)
     {
         Log = enable;
-        return this;
+        return _sessionBuilder;
     }
 
     /// <summary>
@@ -45,22 +50,17 @@ public sealed class BrowserLogsWebDriverSessionBuilder : ICloneable
     /// which are <see cref="LogLevel.Error"/> and <see cref="LogLevel.Fatal"/>.
     /// </summary>
     /// <param name="minLevel">The minimum log level.</param>
-    /// <returns>The same <see cref="BrowserLogsWebDriverSessionBuilder"/> instance.</returns>
-    public BrowserLogsWebDriverSessionBuilder UseMinLevelOfWarning(LogLevel? minLevel)
+    /// <returns>The <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseMinLevelOfWarning(LogLevel? minLevel)
     {
         MinLevelOfWarning = minLevel;
-        return this;
+        return _sessionBuilder;
     }
 
-    /// <inheritdoc cref="Clone"/>
-    object ICloneable.Clone() => Clone();
-
-    /// <summary>
-    /// Creates a new object that is a copy of the current instance.
-    /// </summary>
-    /// <returns>
-    /// A new object that is a copy of this instance.
-    /// </returns>
-    internal BrowserLogsWebDriverSessionBuilder Clone() =>
-        (BrowserLogsWebDriverSessionBuilder)MemberwiseClone();
+    internal BrowserLogsWebDriverSessionBuilder CloneFor(WebDriverSessionBuilder sessionBuilder) =>
+        new(sessionBuilder)
+        {
+            Log = Log,
+            MinLevelOfWarning = MinLevelOfWarning
+        };
 }
