@@ -35,13 +35,8 @@ public class SetUpFixture
 
         _dotnetRunCommand = dotnetCli.Start("run");
 
-        var testAppWait = new SafeWait<SetUpFixture>(this)
-        {
-            Timeout = TimeSpan.FromSeconds(40),
-            PollingInterval = TimeSpan.FromSeconds(0.2)
-        };
-
-        testAppWait.Until(_ => IsTestAppRunning());
+        RetryWait testAppWait = new(TimeSpan.FromSeconds(40), TimeSpan.FromSeconds(0.2));
+        testAppWait.Until(IsTestAppRunning);
     }
 
     [OneTimeTearDown]
