@@ -126,16 +126,10 @@ public static class VerificationUtils
 
     internal static bool ExecuteUntil(Func<bool> condition, (TimeSpan Timeout, TimeSpan RetryInterval) retryOptions)
     {
-        var wait = CreateSafeWait(retryOptions);
-        return wait.Until(_ => condition());
-    }
+        RetryWait retryWait = new(retryOptions.Timeout, retryOptions.RetryInterval);
 
-    private static SafeWait<object> CreateSafeWait((TimeSpan Timeout, TimeSpan RetryInterval) retryOptions) =>
-        new(string.Empty)
-        {
-            Timeout = retryOptions.Timeout,
-            PollingInterval = retryOptions.RetryInterval
-        };
+        return retryWait.Until(condition);
+    }
 
     internal static TOwner Verify<TData, TOwner>(
         IObjectVerificationProvider<TData, TOwner> verifier,
