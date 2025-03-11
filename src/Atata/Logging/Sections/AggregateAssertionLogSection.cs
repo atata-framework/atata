@@ -1,12 +1,14 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class AggregateAssertionLogSection : LogSection
 {
-    public AggregateAssertionLogSection(string assertionScopeName)
+    public AggregateAssertionLogSection(string? assertionScopeName = null)
     {
-        StringBuilder builder = new StringBuilder("Aggregate assert");
+        StringBuilder builder = new("Aggregate assert");
 
-        if (!string.IsNullOrEmpty(assertionScopeName))
+        if (assertionScopeName?.Length > 0)
             builder.Append(' ').Append(assertionScopeName);
 
         Message = builder.ToString();

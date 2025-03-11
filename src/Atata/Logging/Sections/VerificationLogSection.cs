@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the log section of verification.
@@ -8,13 +10,12 @@ public class VerificationLogSection : LogSection
     public VerificationLogSection(
         string verificationKind,
         string providerName,
-        string verificationConstraint)
+        string? verificationConstraint = null)
     {
-        var builder = new StringBuilder(verificationKind ?? "Verify")
-            .Append($": {providerName ?? "value"}");
+        StringBuilder builder = new($"{verificationKind}: {providerName}");
 
-        if (!string.IsNullOrWhiteSpace(verificationConstraint))
-            builder.Append($" {verificationConstraint}");
+        if (verificationConstraint?.Length > 0)
+            builder.Append(' ').Append(verificationConstraint);
 
         Message = builder.ToString();
     }
