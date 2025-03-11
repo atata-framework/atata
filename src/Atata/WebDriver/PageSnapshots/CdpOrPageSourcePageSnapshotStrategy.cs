@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿#nullable enable
+
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Remote;
 
@@ -15,13 +17,12 @@ public sealed class CdpOrPageSourcePageSnapshotStrategy : IPageSnapshotStrategy<
     /// <summary>
     /// Gets the singleton instance.
     /// </summary>
-    public static CdpOrPageSourcePageSnapshotStrategy Instance { get; } =
-        new CdpOrPageSourcePageSnapshotStrategy();
+    public static CdpOrPageSourcePageSnapshotStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
     public FileContentWithExtension TakeSnapshot(WebDriverSession session)
     {
-        string driverAlias = session.DriverAlias;
+        string? driverAlias = session.DriverAlias;
 
         if (string.IsNullOrEmpty(driverAlias))
             driverAlias = session.Driver.GetType().Name;

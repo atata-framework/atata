@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Nodes;
+﻿#nullable enable
+
+using System.Text.Json.Nodes;
 using OpenQA.Selenium.DevTools;
 
 namespace Atata;
@@ -11,8 +13,7 @@ public sealed class CdpPageSnapshotStrategy : IPageSnapshotStrategy<WebDriverSes
     /// <summary>
     /// Gets the singleton instance.
     /// </summary>
-    public static CdpPageSnapshotStrategy Instance { get; } =
-        new CdpPageSnapshotStrategy();
+    public static CdpPageSnapshotStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
     public FileContentWithExtension TakeSnapshot(WebDriverSession session)
@@ -23,10 +24,9 @@ public sealed class CdpPageSnapshotStrategy : IPageSnapshotStrategy<WebDriverSes
         var commandResult = devToolsSession.SendCommand(
             "Page.captureSnapshot",
             new JsonObject())
-            .GetAwaiter()
-            .GetResult();
+            .RunSync();
 
-        string data = commandResult.Value.GetProperty("data").GetString();
+        string data = commandResult!.Value.GetProperty("data").GetString()!;
         return FileContentWithExtension.CreateFromText(data, ".mhtml");
     }
 }

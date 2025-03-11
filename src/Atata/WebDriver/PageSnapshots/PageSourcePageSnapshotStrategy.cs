@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a <see cref="WebDriverSession"/> page snapshot strategy that takes a page snapshot using <see cref="IWebDriver.PageSource"/>.
@@ -8,8 +10,7 @@ public sealed class PageSourcePageSnapshotStrategy : IPageSnapshotStrategy<WebDr
     /// <summary>
     /// Gets the singleton instance.
     /// </summary>
-    public static PageSourcePageSnapshotStrategy Instance { get; } =
-        new PageSourcePageSnapshotStrategy();
+    public static PageSourcePageSnapshotStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
     public FileContentWithExtension TakeSnapshot(WebDriverSession session)

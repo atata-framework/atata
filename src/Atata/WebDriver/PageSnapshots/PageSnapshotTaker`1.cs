@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
     where TSession : WebSession
@@ -21,7 +23,7 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
         _session = session;
     }
 
-    public void TakeSnapshot(string title = null)
+    public void TakeSnapshot(string? title = null)
     {
         if (_snapshotStrategy is null || !_session.IsActive)
             return;
@@ -47,11 +49,11 @@ internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
         }
     }
 
-    private string FormatFilePath(string title)
+    private string FormatFilePath(string? title)
     {
         var pageObject = _session.PageObject;
 
-        KeyValuePair<string, object>[] snapshotVariables =
+        KeyValuePair<string, object?>[] snapshotVariables =
         [
             new("snapshot-number", _snapshotNumber),
             new("snapshot-title", title),

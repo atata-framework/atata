@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a page snapshot taking method.
@@ -9,5 +11,5 @@ public interface IPageSnapshotTaker
     /// Takes a snapshot (HTML or MHTML file) of the current page with an optionally specified title.
     /// </summary>
     /// <param name="title">The title of a snapshot.</param>
-    void TakeSnapshot(string title = null);
+    void TakeSnapshot(string? title = null);
 }
