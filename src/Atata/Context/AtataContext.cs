@@ -199,7 +199,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     [Obsolete("Use GetWebDriverSession().DriverAlias instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
-    public string DriverAlias =>
+    public string? DriverAlias =>
         this.GetWebDriverSession().DriverAlias;
 
     /// <summary>

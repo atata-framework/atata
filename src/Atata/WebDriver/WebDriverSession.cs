@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// <para>
@@ -11,7 +13,7 @@
 /// </summary>
 public class WebDriverSession : WebSession
 {
-    private IWebDriver _driver;
+    private IWebDriver _driver = null!;
 
     public WebDriverSession() =>
         Go = new(this);
@@ -29,7 +31,7 @@ public class WebDriverSession : WebSession
     /// </summary>
     public WebDriverSessionNavigator Go { get; }
 
-    internal IWebDriverFactory DriverFactory { get; set; }
+    internal IWebDriverFactory DriverFactory { get; set; } = null!;
 
     /// <summary>
     /// Gets the driver.
@@ -40,7 +42,7 @@ public class WebDriverSession : WebSession
     /// <summary>
     /// Gets the driver alias.
     /// </summary>
-    public string DriverAlias =>
+    public string? DriverAlias =>
         DriverFactory?.Alias;
 
     internal bool DisposeDriver { get; set; }

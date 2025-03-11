@@ -24,7 +24,7 @@ public sealed class CdpOrPageSourcePageSnapshotStrategy : IPageSnapshotStrategy<
     {
         string? driverAlias = session.DriverAlias;
 
-        if (string.IsNullOrEmpty(driverAlias))
+        if (driverAlias is null or [])
             driverAlias = session.Driver.GetType().Name;
 
         if (!s_driverAliasSupportsCdpMap.TryGetValue(driverAlias, out bool isCdpSupported))

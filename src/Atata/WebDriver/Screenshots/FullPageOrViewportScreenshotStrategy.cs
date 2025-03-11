@@ -30,7 +30,7 @@ public sealed class FullPageOrViewportScreenshotStrategy : IScreenshotStrategy<W
 
         string? driverAlias = session.DriverAlias;
 
-        if (string.IsNullOrEmpty(driverAlias))
+        if (driverAlias is null or [])
             driverAlias = driver.GetType().Name;
 
         if (!s_driverAliasSupportsCdpMap.TryGetValue(driverAlias, out bool isCdpSupported))
