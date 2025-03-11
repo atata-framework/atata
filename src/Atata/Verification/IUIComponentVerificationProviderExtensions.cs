@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of verification extension methods for <see cref="UIComponent{TOwner}"/> and its inheritors.
@@ -25,7 +27,7 @@ public static class IUIComponentVerificationProviderExtensions
             {
                 var (timeout, retryInterval) = verifier.GetRetryOptions();
 
-                SearchOptions searchOptions = new SearchOptions
+                SearchOptions searchOptions = new()
                 {
                     IsSafely = false,
                     Timeout = timeout,
@@ -246,8 +248,8 @@ public static class IUIComponentVerificationProviderExtensions
             new VerificationLogSection(verifier.Strategy.VerificationKind, verifier.Component.ComponentFullName, $"{VerificationUtils.ResolveShouldText(verifier)} {expectedMessage}"),
             () =>
             {
-                TValue[] actualIndividualValues = null;
-                Exception exception = null;
+                TValue[]? actualIndividualValues = null;
+                Exception? exception = null;
 
                 bool doesSatisfy = VerificationUtils.ExecuteUntil(
                     () =>
@@ -270,7 +272,9 @@ public static class IUIComponentVerificationProviderExtensions
 
                 if (!doesSatisfy)
                 {
-                    string actualMessage = exception == null ? verifier.Component.ConvertIndividualValuesToString(actualIndividualValues, true) : null;
+                    string? actualMessage = exception is null
+                        ? verifier.Component.ConvertIndividualValuesToString(actualIndividualValues, true)
+                        : null;
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage);
 
@@ -293,7 +297,7 @@ public static class IUIComponentVerificationProviderExtensions
         where TComponent : UIComponent<TOwner>
         where TOwner : PageObject<TOwner>
         =>
-        verifier.HaveClass(classNames?.AsEnumerable());
+        verifier.HaveClass(classNames?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that the component has the specified class(es).
