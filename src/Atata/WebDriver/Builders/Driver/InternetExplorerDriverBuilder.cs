@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.IE;
+﻿#nullable enable
+
+using OpenQA.Selenium.IE;
 
 namespace Atata;
 

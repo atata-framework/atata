@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the factory of <see cref="IWebDriver"/>.
@@ -8,7 +10,7 @@ public interface IWebDriverFactory
     /// <summary>
     /// Gets the driver alias.
     /// </summary>
-    string Alias { get; }
+    string? Alias { get; }
 
     /// <summary>
     /// Creates the driver instance.

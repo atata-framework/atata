@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class CustomWebDriverBuilder : WebDriverBuilder<CustomWebDriverBuilder>
 {
@@ -14,6 +16,6 @@ public class CustomWebDriverBuilder : WebDriverBuilder<CustomWebDriverBuilder>
         if (driver is not null)
             logManager?.Trace($"Use {GetDriverStringForLog(driver)}");
 
-        return driver;
+        return driver!;
     }
 }

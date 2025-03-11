@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿#nullable enable
+
+using OpenQA.Selenium.Chrome;
 
 namespace Atata;
 
@@ -20,7 +22,7 @@ public class ChromeDriverBuilder : ChromiumDriverBuilder<ChromeDriverBuilder, Ch
 
     protected override IWebDriver CreateDriver(ChromeDriverService service, ChromeOptions options, TimeSpan commandTimeout)
     {
-        var driver = new ChromeDriver(service, options, commandTimeout);
+        ChromeDriver driver = new(service, options, commandTimeout);
         ReplaceLocalhostInDebuggerAddress(driver.Capabilities, "goog:chromeOptions");
         return driver;
     }

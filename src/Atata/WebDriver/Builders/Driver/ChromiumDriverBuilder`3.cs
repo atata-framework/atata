@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿#nullable enable
+
+using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using OpenQA.Selenium.Chromium;
@@ -84,7 +86,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
 
             if (int.TryParse(portString, out int port))
             {
-                IPEndPoint ipEndPoint = GetIPEndPoint(port);
+                IPEndPoint? ipEndPoint = GetIPEndPoint(port);
 
                 if (ipEndPoint?.AddressFamily == AddressFamily.InterNetwork)
                     chromiumOptions["debuggerAddress"] = $"127.0.0.1:{port}";
@@ -92,7 +94,7 @@ public abstract class ChromiumDriverBuilder<TBuilder, TService, TOptions>
         }
     }
 
-    private static IPEndPoint GetIPEndPoint(int port)
+    private static IPEndPoint? GetIPEndPoint(int port)
     {
         try
         {

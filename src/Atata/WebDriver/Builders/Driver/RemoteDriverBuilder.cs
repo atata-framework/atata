@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿#nullable enable
+
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
@@ -17,9 +19,9 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
 
     private Uri _remoteAddress = new("http://127.0.0.1:4444/");
 
-    private Func<DriverOptions> _optionsFactory;
+    private Func<DriverOptions>? _optionsFactory;
 
-    private Func<ICapabilities> _capabilitiesFactory;
+    private Func<ICapabilities>? _capabilitiesFactory;
 
     private TimeSpan? _commandTimeout;
 
@@ -40,7 +42,7 @@ public class RemoteDriverBuilder : WebDriverBuilder<RemoteDriverBuilder>
         if (driver is not null)
             logManager?.Trace($"Created {GetDriverStringForLog(driver)}");
 
-        return driver;
+        return driver!;
     }
 
     protected virtual IWebDriver CreateDriver(

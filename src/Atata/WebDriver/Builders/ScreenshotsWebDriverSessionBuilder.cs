@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿#nullable enable
+
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 

@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Safari;
+﻿#nullable enable
+
+using OpenQA.Selenium.Safari;
 
 namespace Atata;
 

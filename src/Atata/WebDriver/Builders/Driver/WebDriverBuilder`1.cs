@@ -1,17 +1,19 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     where TBuilder : WebDriverBuilder<TBuilder>
 {
     private Func<IWebDriver, bool> _initialHealthCheckFunction = CheckHealthByRequestingDriverUrl;
 
-    protected WebDriverBuilder(string alias = null) =>
+    protected WebDriverBuilder(string? alias = null) =>
         Alias = alias;
 
     /// <summary>
     /// Gets the alias.
     /// </summary>
-    public string Alias { get; private set; }
+    public string? Alias { get; private set; }
 
     /// <summary>
     /// Gets the count of possible driver creation retries in case exceptions occur during creation.
@@ -36,11 +38,11 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
 
             try
             {
-                driver = CreateDriver(logManager);
+                driver = CreateDriver(logManager!);
             }
             catch (Exception exception) when (retriesLeft > 0)
             {
-                logManager?.Warn(exception, $"{creationErrorMessage} Will retry.");
+                logManager!.Warn(exception, $"{creationErrorMessage} Will retry.");
                 retriesLeft--;
                 continue;
             }
@@ -62,7 +64,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
                 }
                 catch (Exception exception) when (retriesLeft > 0)
                 {
-                    logManager?.Warn(exception, healthCheckWarningMessage);
+                    logManager!.Warn(exception, healthCheckWarningMessage);
                     DisposeSafely(driver);
                     retriesLeft--;
                     continue;
@@ -77,7 +79,7 @@ public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
                     if (retriesLeft == 0)
                         throw new WebDriverInitializationException(healthCheckErrorMessage);
 
-                    logManager?.Warn(healthCheckWarningMessage);
+                    logManager!.Warn(healthCheckWarningMessage);
                     DisposeSafely(driver);
                     retriesLeft--;
                     continue;

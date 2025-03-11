@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Firefox;
+﻿#nullable enable
+
+using OpenQA.Selenium.Firefox;
 
 namespace Atata;
 

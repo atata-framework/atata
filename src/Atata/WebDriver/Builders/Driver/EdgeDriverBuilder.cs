@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Edge;
+﻿#nullable enable
+
+using OpenQA.Selenium.Edge;
 
 namespace Atata;
 
@@ -20,7 +22,7 @@ public class EdgeDriverBuilder : ChromiumDriverBuilder<EdgeDriverBuilder, EdgeDr
 
     protected override IWebDriver CreateDriver(EdgeDriverService service, EdgeOptions options, TimeSpan commandTimeout)
     {
-        var driver = new EdgeDriver(service, options, commandTimeout);
+        EdgeDriver driver = new(service, options, commandTimeout);
         ReplaceLocalhostInDebuggerAddress(driver.Capabilities, "ms:edgeOptions");
         return driver;
     }

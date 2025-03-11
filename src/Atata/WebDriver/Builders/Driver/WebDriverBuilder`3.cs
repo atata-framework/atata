@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     : WebDriverBuilder<TBuilder>, IUsesLocalBrowser
@@ -13,11 +15,11 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
 
     private List<int> _portsToIgnore = [];
 
-    private Func<TService> _serviceFactory;
-    private Func<TOptions> _optionsFactory;
+    private Func<TService>? _serviceFactory;
+    private Func<TOptions>? _optionsFactory;
 
-    private string _driverPath;
-    private string _driverExecutableFileName;
+    private string? _driverPath;
+    private string? _driverExecutableFileName;
 
     private TimeSpan? _commandTimeout;
 
@@ -51,7 +53,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
             if (driver is not null)
                 logManager?.Trace($"Created {GetDriverStringForLog(driver)}");
 
-            return driver;
+            return driver!;
         }
         catch
         {
@@ -98,17 +100,17 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
                 : CreateDefaultService();
 
     private TService CreateDefaultService() =>
-        TryGetDriverPathEnvironmentVariable(out string environmentDriverPath)
+        TryGetDriverPathEnvironmentVariable(out string? environmentDriverPath)
             ? CreateService(environmentDriverPath)
             : CreateService();
 
-    private bool TryGetDriverPathEnvironmentVariable(out string driverPath)
+    private bool TryGetDriverPathEnvironmentVariable([NotNullWhen(true)] out string? driverPath)
     {
         driverPath = string.IsNullOrWhiteSpace(_browserName)
             ? null
             : Environment.GetEnvironmentVariable($"{_browserName.Replace(" ", null)}Driver");
 
-        return driverPath != null;
+        return driverPath is not null;
     }
 
     protected abstract TService CreateService();
