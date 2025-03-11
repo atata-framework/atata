@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
     where TSession : WebSession
@@ -29,13 +31,13 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
         _session = session;
     }
 
-    public void TakeScreenshot(string title = null)
+    public void TakeScreenshot(string? title = null)
     {
         if (_defaultScreenshotStrategy is not null)
             TakeScreenshot(_defaultScreenshotStrategy, title);
     }
 
-    public void TakeScreenshot(ScreenshotKind kind, string title = null)
+    public void TakeScreenshot(ScreenshotKind kind, string? title = null)
     {
         if (kind == ScreenshotKind.Viewport)
             TakeScreenshot(_viewportScreenshotStrategy, title);
@@ -45,7 +47,7 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
             TakeScreenshot(title);
     }
 
-    private void TakeScreenshot(IScreenshotStrategy<TSession> strategy, string title = null)
+    private void TakeScreenshot(IScreenshotStrategy<TSession> strategy, string? title = null)
     {
         if (strategy is null || !_session.IsActive)
             return;
@@ -71,11 +73,11 @@ internal sealed class ScreenshotTaker<TSession> : IScreenshotTaker
         }
     }
 
-    private string FormatFilePath(string title)
+    private string FormatFilePath(string? title)
     {
         var pageObject = _session.PageObject;
 
-        KeyValuePair<string, object>[] snapshotVariables =
+        KeyValuePair<string, object?>[] snapshotVariables =
         [
             new("screenshot-number", _screenshotNumber),
             new("screenshot-title", title),

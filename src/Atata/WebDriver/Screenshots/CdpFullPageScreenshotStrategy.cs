@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Nodes;
+﻿#nullable enable
+
+using System.Text.Json.Nodes;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Edge;
@@ -14,8 +16,7 @@ public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy<WebDrive
     /// <summary>
     /// Gets the singleton instance.
     /// </summary>
-    public static CdpFullPageScreenshotStrategy Instance { get; } =
-        new CdpFullPageScreenshotStrategy();
+    public static CdpFullPageScreenshotStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
     public FileContentWithExtension TakeScreenshot(WebDriverSession session)
@@ -31,10 +32,9 @@ public sealed class CdpFullPageScreenshotStrategy : IScreenshotStrategy<WebDrive
         var commandResult = devToolsSession.SendCommand(
             "Page.captureScreenshot",
             commandParameters)
-            .GetAwaiter()
-            .GetResult();
+            .RunSync();
 
-        string data = commandResult.Value.GetProperty("data").GetString();
+        string data = commandResult!.Value.GetProperty("data").GetString()!;
         return FileContentWithExtension.CreateFromBase64String(data, ".png");
     }
 }

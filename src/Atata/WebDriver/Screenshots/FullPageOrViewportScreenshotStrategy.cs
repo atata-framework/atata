@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Chrome;
+﻿#nullable enable
+
+using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
@@ -16,8 +18,7 @@ public sealed class FullPageOrViewportScreenshotStrategy : IScreenshotStrategy<W
     /// <summary>
     /// Gets the singleton instance.
     /// </summary>
-    public static FullPageOrViewportScreenshotStrategy Instance { get; } =
-        new FullPageOrViewportScreenshotStrategy();
+    public static FullPageOrViewportScreenshotStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
     public FileContentWithExtension TakeScreenshot(WebDriverSession session)
@@ -27,7 +28,7 @@ public sealed class FullPageOrViewportScreenshotStrategy : IScreenshotStrategy<W
         if (driver.Is<FirefoxDriver>())
             return WebDriverFullPageScreenshotStrategy.Instance.TakeScreenshot(session);
 
-        string driverAlias = session.DriverAlias;
+        string? driverAlias = session.DriverAlias;
 
         if (string.IsNullOrEmpty(driverAlias))
             driverAlias = driver.GetType().Name;

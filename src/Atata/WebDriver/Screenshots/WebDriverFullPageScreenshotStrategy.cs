@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.Firefox;
+﻿#nullable enable
+
+using OpenQA.Selenium.Firefox;
 
 namespace Atata;
 
@@ -11,8 +13,7 @@ public sealed class WebDriverFullPageScreenshotStrategy : IScreenshotStrategy<We
     /// <summary>
     /// Gets the singleton instance.
     /// </summary>
-    public static WebDriverFullPageScreenshotStrategy Instance { get; } =
-        new WebDriverFullPageScreenshotStrategy();
+    public static WebDriverFullPageScreenshotStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
     public FileContentWithExtension TakeScreenshot(WebDriverSession session)

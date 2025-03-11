@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a <see cref="WebDriverSession"/> screenshot strategy that takes a page viewport screenshot
@@ -9,8 +11,7 @@ public sealed class WebDriverViewportScreenshotStrategy : IScreenshotStrategy<We
     /// <summary>
     /// Gets the singleton instance.
     /// </summary>
-    public static WebDriverViewportScreenshotStrategy Instance { get; } =
-        new WebDriverViewportScreenshotStrategy();
+    public static WebDriverViewportScreenshotStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
     public FileContentWithExtension TakeScreenshot(WebDriverSession session)
