@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 [Obsolete("Use WebDriverAliases instead.")] // Obsolete since v4.0.0.
 public static class DriverAliases

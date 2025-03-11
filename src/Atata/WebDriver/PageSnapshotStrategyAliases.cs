@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class PageSnapshotStrategyAliases
 {
@@ -33,7 +35,7 @@ public static class PageSnapshotStrategyAliases
         s_aliasFactoryMap[typeAlias.ToLowerInvariant()] = strategyFactory;
     }
 
-    public static bool TryResolve(string alias, out IPageSnapshotStrategy<WebDriverSession> strategy)
+    public static bool TryResolve(string alias, [NotNullWhen(true)] out IPageSnapshotStrategy<WebDriverSession>? strategy)
     {
         alias.CheckNotNullOrWhitespace(nameof(alias));
 
