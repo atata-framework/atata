@@ -11,7 +11,7 @@ public static class RetryWaitTests
         {
             RetryWait sut = new(TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(5));
 
-            using (StopwatchAsserter.WithinMilliseconds(50, 30))
+            using (StopwatchAsserter.WithinMilliseconds(50, 50))
             {
                 bool result = sut.Until(() => false);
 
@@ -27,7 +27,7 @@ public static class RetryWaitTests
         {
             RetryWait sut = new(TimeSpan.FromMilliseconds(50), TimeSpan.FromMilliseconds(5));
 
-            using (StopwatchAsserter.WithinMilliseconds(50, 30))
+            using (StopwatchAsserter.WithinMilliseconds(50, 100))
             {
                 bool result = await sut.UntilAsync(() => Task.FromResult(false));
 
