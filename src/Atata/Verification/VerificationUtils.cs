@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class VerificationUtils
 {
@@ -7,9 +9,9 @@ public static class VerificationUtils
     // or a change should be made in NUnit, which will render inner exception of AssertionException.
     private const string NUnitAssertionExceptionTypeName = "NUnit.Framework.AssertionException";
 
-    public static Exception CreateAssertionException(AtataContext context, string message, Exception innerException = null)
+    public static Exception CreateAssertionException(AtataContext? context, string message, Exception? innerException = null)
     {
-        Type exceptionType = context?.AssertionExceptionType;
+        Type? exceptionType = context?.AssertionExceptionType;
 
         if (exceptionType is null || exceptionType == typeof(AssertionException))
             return new AssertionException(message, innerException);
@@ -19,9 +21,9 @@ public static class VerificationUtils
             return (Exception)Activator.CreateInstance(exceptionType, message, innerException);
     }
 
-    public static Exception CreateAggregateAssertionException(AtataContext context, IEnumerable<AssertionResult> assertionResults)
+    public static Exception CreateAggregateAssertionException(AtataContext? context, IEnumerable<AssertionResult> assertionResults)
     {
-        Type exceptionType = context?.AggregateAssertionExceptionType;
+        Type? exceptionType = context?.AggregateAssertionExceptionType;
 
         return exceptionType is null || exceptionType == typeof(AggregateAssertionException)
             ? new AggregateAssertionException(assertionResults)
@@ -33,7 +35,7 @@ public static class VerificationUtils
             ? message.FormatWith([.. args.Select(Stringifier.ToString)])
             : message;
 
-    public static string BuildConstraintMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string message, params TData[] args)
+    public static string? BuildConstraintMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string message, params TData[] args)
     {
         if (!string.IsNullOrWhiteSpace(message))
         {
@@ -63,12 +65,12 @@ public static class VerificationUtils
             ? $"\"{providerAsConverter.ConvertValueToString(value)}\""
             : Stringifier.ToString(value);
 
-    public static string BuildFailureMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string expected, string actual) =>
+    public static string BuildFailureMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string expected, string? actual) =>
         BuildFailureMessage(verifier, expected, actual, true);
 
-    public static string BuildFailureMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string expected, string actual, bool prependShouldTextToExpected)
+    public static string BuildFailureMessage<TData, TOwner>(IObjectVerificationProvider<TData, TOwner> verifier, string expected, string? actual, bool prependShouldTextToExpected)
     {
-        StringBuilder builder = new StringBuilder()
+        var builder = new StringBuilder()
             .Append($"{verifier.ObjectProvider.ProviderName}")
             .AppendLine()
             .Append("Expected: ");
@@ -78,44 +80,28 @@ public static class VerificationUtils
 
         builder.Append(expected);
 
-        if (actual != null)
+        if (actual is not null)
             builder.AppendLine().Append($"  Actual: {actual}");
 
         return builder.ToString();
     }
 
-    public static string AppendExceptionToFailureMessage(string message, Exception exception)
-    {
-        if (exception != null)
-        {
-            StringBuilder builder = new StringBuilder(message)
+    public static string AppendExceptionToFailureMessage(string message, Exception? exception) =>
+        exception is not null
+            ? new StringBuilder(message)
                 .AppendLine()
                 .Append(" ---> ")
-                .Append(exception.ToString());
+                .Append(exception.ToString())
+                .ToString()
+            : message;
 
-            return builder.ToString();
-        }
-        else
-        {
-            return message;
-        }
-    }
-
-    internal static string AppendStackTraceToFailureMessage(string message, string stackTrace)
-    {
-        if (!string.IsNullOrEmpty(stackTrace))
-        {
-            StringBuilder builder = new StringBuilder(message)
+    internal static string AppendStackTraceToFailureMessage(string message, string? stackTrace) =>
+        stackTrace?.Length > 0
+            ? new StringBuilder(message)
                 .AppendLine()
-                .Append(stackTrace);
-
-            return builder.ToString();
-        }
-        else
-        {
-            return message;
-        }
-    }
+                .Append(stackTrace)
+                .ToString()
+            : message;
 
     internal static string CreateStackTraceForAssertionFailiure()
     {
@@ -145,7 +131,7 @@ public static class VerificationUtils
         }
         else
         {
-            string verificationConstraintMessage = BuildConstraintMessage(verifier, expectedMessage, arguments);
+            string? verificationConstraintMessage = BuildConstraintMessage(verifier, expectedMessage, arguments);
 
             LogSection logSection = new VerificationLogSection(
                 verifier.Strategy.VerificationKind,
