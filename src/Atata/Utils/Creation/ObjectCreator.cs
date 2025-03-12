@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class ObjectCreator : IObjectCreator
 {
@@ -13,11 +15,11 @@ public class ObjectCreator : IObjectCreator
     }
 
     /// <inheritdoc/>
-    public object Create(Type type, Dictionary<string, object> valuesMap) =>
+    public object Create(Type type, Dictionary<string, object?> valuesMap) =>
         Create(type, valuesMap, []);
 
     /// <inheritdoc/>
-    public object Create(Type type, Dictionary<string, object> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
+    public object Create(Type type, Dictionary<string, object?> valuesMap, Dictionary<string, string> alternativeParameterNamesMap)
     {
         type.CheckNotNull(nameof(type));
         valuesMap.CheckNotNull(nameof(valuesMap));
@@ -33,7 +35,7 @@ public class ObjectCreator : IObjectCreator
 
         ConstructorInfo constructor = FindMostAppropriateConstructor(type, parameterNamesWithAlternatives);
 
-        var workingValuesMap = new Dictionary<string, object>(valuesMap);
+        Dictionary<string, object?> workingValuesMap = new(valuesMap);
 
         object instance = CreateInstanceViaConstructorAndRemoveUsedValues(
             constructor,
@@ -68,7 +70,7 @@ public class ObjectCreator : IObjectCreator
     {
         foreach (string parameterName in parameterNames)
         {
-            if (TryGetAlternativeParameterName(alternativeParameterNamesMap, parameterName, out string alternativeParameterName))
+            if (TryGetAlternativeParameterName(alternativeParameterNamesMap, parameterName, out string? alternativeParameterName))
                 yield return alternativeParameterName;
         }
     }
@@ -76,7 +78,7 @@ public class ObjectCreator : IObjectCreator
     private static bool TryGetAlternativeParameterName(
         Dictionary<string, string> alternativeParameterNamesMap,
         string parameterName,
-        out string alternativeParameterName)
+        [NotNullWhen(true)] out string? alternativeParameterName)
     {
         KeyValuePair<string, string> alternativePair = alternativeParameterNamesMap.FirstOrDefault(x => x.Key.Equals(parameterName, StringComparison.OrdinalIgnoreCase));
 
@@ -94,13 +96,13 @@ public class ObjectCreator : IObjectCreator
 
     private object CreateInstanceViaConstructorAndRemoveUsedValues(
         ConstructorInfo constructor,
-        Dictionary<string, object> valuesMap,
+        Dictionary<string, object?> valuesMap,
         Dictionary<string, string> alternativeParameterNamesMap)
     {
         object[] arguments = constructor.GetParameters()
             .Select(parameter =>
             {
-                KeyValuePair<string, object> valuePair = RetrievePairByName(valuesMap, alternativeParameterNamesMap, parameter);
+                KeyValuePair<string, object?> valuePair = RetrievePairByName(valuesMap, alternativeParameterNamesMap, parameter);
 
                 valuesMap.Remove(valuePair.Key);
 
@@ -111,16 +113,16 @@ public class ObjectCreator : IObjectCreator
         return constructor.Invoke(arguments);
     }
 
-    private static KeyValuePair<string, object> RetrievePairByName(
-        Dictionary<string, object> valuesMap,
+    private static KeyValuePair<string, object?> RetrievePairByName(
+        Dictionary<string, object?> valuesMap,
         Dictionary<string, string> alternativeParameterNamesMap,
         ParameterInfo parameter)
     {
-        KeyValuePair<string, object> valuePair = valuesMap.FirstOrDefault(pair =>
+        KeyValuePair<string, object?> valuePair = valuesMap.FirstOrDefault(pair =>
         {
             if (pair.Key.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase))
                 return true;
-            else if (TryGetAlternativeParameterName(alternativeParameterNamesMap, pair.Key, out string alternativeParameterName))
+            else if (TryGetAlternativeParameterName(alternativeParameterNamesMap, pair.Key, out string? alternativeParameterName))
                 return alternativeParameterName.Equals(parameter.Name, StringComparison.OrdinalIgnoreCase);
             else
                 return false;
@@ -129,9 +131,9 @@ public class ObjectCreator : IObjectCreator
         if (valuePair.Key != null)
             return valuePair;
         else if (parameter.IsOptional)
-            return new KeyValuePair<string, object>(parameter.Name, parameter.DefaultValue);
+            return new(parameter.Name, parameter.DefaultValue);
         else if (parameter.GetCustomAttributes(true).Any(attr => attr is ParamArrayAttribute))
-            return new KeyValuePair<string, object>(parameter.Name, null);
+            return new(parameter.Name, null);
         else
             throw new InvalidOperationException($"Failed to find \"{parameter.Name}\" required constructor parameter value.");
     }
