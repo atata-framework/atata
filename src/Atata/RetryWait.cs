@@ -8,6 +8,8 @@ namespace Atata;
 /// </summary>
 public sealed class RetryWait
 {
+    private static readonly double s_tickFrequency = (double)TimeSpan.TicksPerSecond / Stopwatch.Frequency;
+
     private readonly TimeSpan _timeout;
 
     private readonly TimeSpan _retryInterval;
@@ -79,12 +81,12 @@ public sealed class RetryWait
     {
         condition.CheckNotNull(nameof(condition));
 
-        long operationStart = Stopwatch.GetTimestamp();
+        long operationStart = GetCurrentTicks();
         long operationTimeoutEnd = operationStart + _timeout.Ticks;
 
         while (true)
         {
-            long iterationStart = Stopwatch.GetTimestamp();
+            long iterationStart = GetCurrentTicks();
 
             try
             {
@@ -99,7 +101,7 @@ public sealed class RetryWait
                     throw;
             }
 
-            long iterationEnd = Stopwatch.GetTimestamp();
+            long iterationEnd = GetCurrentTicks();
             long ticksUntilTimeout = operationTimeoutEnd - iterationEnd;
 
             if (ticksUntilTimeout <= 0)
@@ -172,12 +174,12 @@ public sealed class RetryWait
     {
         condition.CheckNotNull(nameof(condition));
 
-        long operationStart = Stopwatch.GetTimestamp();
+        long operationStart = GetCurrentTicks();
         long operationTimeoutEnd = operationStart + _timeout.Ticks;
 
         while (true)
         {
-            long iterationStart = Stopwatch.GetTimestamp();
+            long iterationStart = GetCurrentTicks();
 
             try
             {
@@ -192,7 +194,7 @@ public sealed class RetryWait
                     throw;
             }
 
-            long iterationEnd = Stopwatch.GetTimestamp();
+            long iterationEnd = GetCurrentTicks();
             long ticksUntilTimeout = operationTimeoutEnd - iterationEnd;
 
             if (ticksUntilTimeout <= 0)
@@ -220,6 +222,13 @@ public sealed class RetryWait
     /// <returns>The <see cref="TimeoutException"/> created.</returns>
     public TimeoutException CreateTimeoutExceptionFor(string expectation) =>
         new($"Timed out after {_timeout.ToShortIntervalString()} waiting for {expectation}.");
+
+    private static long GetCurrentTicks()
+    {
+        long stopwatchTicks = Stopwatch.GetTimestamp();
+
+        return (long)(stopwatchTicks * s_tickFrequency);
+    }
 
     private bool IsIgnoredException(Exception exception) =>
         _ignoredExceptionTypes.Exists(type => type.IsAssignableFrom(exception.GetType()));
