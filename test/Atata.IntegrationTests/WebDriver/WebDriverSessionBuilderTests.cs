@@ -46,8 +46,8 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     {
         var context = AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x => x
-                .ConfigureChrome()
-                    .WithArguments(ChromeArguments))
+                .ConfigureChrome(x => x
+                    .WithArguments(ChromeArguments)))
             .Build();
 
         context.GetWebDriverSession().Driver.Should().BeOfType<ChromeDriver>();
@@ -106,8 +106,8 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
             {
                 x.UseChrome(x => x
                     .WithArguments(ChromeArguments));
-                x.ConfigureChrome()
-                    .WithOptions(_ => isChromeConfigurationInvoked = true);
+                x.ConfigureChrome(x => x
+                    .WithOptions(_ => isChromeConfigurationInvoked = true));
             })
             .Build();
 
