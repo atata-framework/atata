@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 [Serializable]
 public class ConversionException : Exception
@@ -22,9 +24,9 @@ public class ConversionException : Exception
     {
     }
 
-    public static ConversionException For(object sourceValue, Type destinationType) =>
+    public static ConversionException For(object? sourceValue, Type destinationType) =>
         new(
-            sourceValue == null
+            sourceValue is null
                 ? $"Cannot convert null value to {destinationType.FullName} type."
                 : $"Cannot convert \"{sourceValue}\" value of {sourceValue.GetType().FullName} type to {destinationType.FullName} type.");
 }

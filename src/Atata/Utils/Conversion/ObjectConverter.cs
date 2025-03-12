@@ -1,14 +1,16 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class ObjectConverter : IObjectConverter
 {
     public string AssemblyNamePatternToFindTypes { get; set; } =
         @"^(?!System($|\..+)|mscorlib$|netstandard$|Microsoft\..+)";
 
-    public TDestination Convert<TDestination>(object sourceValue) =>
-        (TDestination)Convert(sourceValue, typeof(TDestination));
+    public TDestination? Convert<TDestination>(object? sourceValue) =>
+        (TDestination?)Convert(sourceValue, typeof(TDestination));
 
-    public object Convert(object sourceValue, Type destinationType)
+    public object? Convert(object? sourceValue, Type destinationType)
     {
         destinationType.CheckNotNull(nameof(destinationType));
 
@@ -27,7 +29,7 @@ public class ObjectConverter : IObjectConverter
             return sourceValue;
         if (destinationType.IsArray)
             return ConvertToArray(sourceValue, destinationType.GetElementType());
-        if (TryConvertToEnumerable(sourceValue, destinationType, out object result))
+        if (TryConvertToEnumerable(sourceValue, destinationType, out object? result))
             return result;
         if (underlyingDestinationType.IsEnum)
             return ConvertToEnum(destinationType, sourceValue);
@@ -39,14 +41,14 @@ public class ObjectConverter : IObjectConverter
             return ConvertViaSystemConversion(sourceValue, underlyingDestinationType);
     }
 
-    private static Array CreateArrayOfOneElement(Type elementType, object value)
+    private static Array CreateArrayOfOneElement(Type elementType, object? value)
     {
         Array array = Array.CreateInstance(elementType, 1);
         array.SetValue(value, 0);
         return array;
     }
 
-    private static Array CreateArray(Type elementType, IEnumerable<object> enumerable)
+    private static Array CreateArray(Type elementType, IEnumerable<object?> enumerable)
     {
         Array array = Array.CreateInstance(elementType, enumerable.Count());
 
@@ -78,7 +80,7 @@ public class ObjectConverter : IObjectConverter
             ? TimeSpan.FromSeconds(System.Convert.ToDouble(value))
             : TimeSpan.Parse(value.ToString(), CultureInfo.InvariantCulture);
 
-    private static bool TryGetIEnumerableElementType(Type type, out Type elementType)
+    private static bool TryGetIEnumerableElementType(Type type, [NotNullWhen(true)] out Type? elementType)
     {
         var enumerableType = new[] { type }
             .Concat(type.GetInterfaces())
@@ -103,9 +105,9 @@ public class ObjectConverter : IObjectConverter
         {
             return CreateArrayOfOneElement(elementType, value);
         }
-        else if (TryGetIEnumerableElementType(originalValueType, out Type originalValueElementType))
+        else if (TryGetIEnumerableElementType(originalValueType, out Type? originalValueElementType))
         {
-            var valueAsEnumerable = ((IEnumerable)value).Cast<object>();
+            var valueAsEnumerable = ((IEnumerable)value).Cast<object?>();
 
             if (originalValueElementType != elementType)
                 valueAsEnumerable = valueAsEnumerable.Select(x => Convert(x, elementType)).ToArray();
@@ -120,11 +122,11 @@ public class ObjectConverter : IObjectConverter
         }
     }
 
-    private bool TryConvertToEnumerable(object value, Type destinationType, out object result)
+    private bool TryConvertToEnumerable(object value, Type destinationType, [NotNullWhen(true)] out object? result)
     {
         if (typeof(IEnumerable).IsAssignableFrom(destinationType)
-            && TryGetIEnumerableElementType(destinationType, out Type destinationElementType)
-            && TryGetIEnumerableElementType(value.GetType(), out Type originalValueElementType))
+            && TryGetIEnumerableElementType(destinationType, out Type? destinationElementType)
+            && TryGetIEnumerableElementType(value.GetType(), out Type? originalValueElementType))
         {
             if (originalValueElementType != destinationElementType)
             {

@@ -49,7 +49,7 @@ public class ObjectMapper : IObjectMapper
 
         try
         {
-            object valueToSet = _objectConverter.Convert(propertyValue, underlyingPropertyType);
+            object? valueToSet = _objectConverter.Convert(propertyValue, underlyingPropertyType);
 
             property.SetValue(destination, valueToSet, null);
         }

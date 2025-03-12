@@ -1,8 +1,10 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IObjectConverter
 {
-    TDestination Convert<TDestination>(object sourceValue);
+    TDestination? Convert<TDestination>(object? sourceValue);
 
-    object Convert(object sourceValue, Type destinationType);
+    object? Convert(object? sourceValue, Type destinationType);
 }
