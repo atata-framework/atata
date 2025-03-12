@@ -1,7 +1,12 @@
-﻿namespace Atata.IntegrationTests;
+﻿#nullable enable
+
+namespace Atata.IntegrationTests;
 
 internal static class WebDriverSessionBuilderExtensions
 {
-    internal static CustomWebDriverBuilder UseFakeDriver(this WebDriverSessionBuilder builder) =>
-        builder.UseDriver(FakeWebDriver.Create());
+    internal static WebDriverSessionBuilder UseFakeDriver(
+        this WebDriverSessionBuilder builder,
+        Action<CustomWebDriverBuilder>? configure = null)
+        =>
+        builder.UseDriver(FakeWebDriver.Create(), configure);
 }

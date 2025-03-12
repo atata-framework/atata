@@ -32,10 +32,10 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
         atataContextBuilder.Sessions.AddWebDriver(session =>
         {
             session.UseBaseUrl(BaseUrl)
-                .UseChrome()
-                .WithArguments(ChromeArguments)
-                .WithPortsToIgnore(_portsToIgnore)
-                .WithInitialHealthCheck();
+                .UseChrome(x => x
+                    .WithArguments(ChromeArguments)
+                    .WithPortsToIgnore(_portsToIgnore)
+                    .WithInitialHealthCheck());
 
             session.Screenshots.TakeOnFailure = false;
             session.PageSnapshots.TakeOnFailure = false;

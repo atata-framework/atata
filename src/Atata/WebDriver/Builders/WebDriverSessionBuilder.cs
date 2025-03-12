@@ -130,26 +130,31 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// Use the driver builder.
     /// </summary>
     /// <typeparam name="TDriverBuilder">The type of the driver builder.</typeparam>
-    /// <returns>The <typeparamref name="TDriverBuilder"/> instance.</returns>
-    public TDriverBuilder UseDriver<TDriverBuilder>()
-        where TDriverBuilder : WebDriverBuilder<TDriverBuilder>, new() =>
-        UseDriver(new TDriverBuilder());
+    /// <param name="configure">An action delegate to configure the provided <typeparamref name="TDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseDriver<TDriverBuilder>(Action<TDriverBuilder>? configure = null)
+        where TDriverBuilder : WebDriverBuilder<TDriverBuilder>, new()
+        =>
+        UseDriver(new TDriverBuilder(), configure);
 
     /// <summary>
     /// Use the driver builder.
     /// </summary>
     /// <typeparam name="TDriverBuilder">The type of the driver builder.</typeparam>
     /// <param name="driverBuilder">The driver builder.</param>
-    /// <returns>The <typeparamref name="TDriverBuilder"/> instance.</returns>
-    public TDriverBuilder UseDriver<TDriverBuilder>(TDriverBuilder driverBuilder)
+    /// <param name="configure">An action delegate to configure the provided <typeparamref name="TDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseDriver<TDriverBuilder>(TDriverBuilder driverBuilder, Action<TDriverBuilder>? configure = null)
         where TDriverBuilder : WebDriverBuilder<TDriverBuilder>
     {
         driverBuilder.CheckNotNull(nameof(driverBuilder));
 
+        configure?.Invoke(driverBuilder);
+
         DriverFactories.Add(driverBuilder);
         DriverFactoryToUse = driverBuilder;
 
-        return driverBuilder;
+        return this;
     }
 
     /// <summary>
@@ -165,7 +170,7 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
 
         if (driverFactory is not null)
             DriverFactoryToUse = driverFactory;
-        else if (FindAndUsePredefinedDriver(alias) is null)
+        else if (!TryUsePredefinedDriver(alias))
             throw new ArgumentException($"No driver with \"{alias}\" alias defined.", nameof(alias));
 
         return this;
@@ -175,36 +180,51 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     /// Use the specified driver instance.
     /// </summary>
     /// <param name="driver">The driver to use.</param>
-    /// <returns>The <see cref="CustomWebDriverBuilder"/> instance.</returns>
-    public CustomWebDriverBuilder UseDriver(IWebDriver driver)
+    /// <param name="configure">An action delegate to configure the provided <see cref="CustomWebDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseDriver(IWebDriver driver, Action<CustomWebDriverBuilder>? configure = null)
     {
         driver.CheckNotNull(nameof(driver));
 
-        return UseDriver(() => driver);
+        return UseDriver(() => driver, configure);
     }
 
     /// <summary>
     /// Use the custom driver factory method.
     /// </summary>
     /// <param name="driverFactory">The driver factory method.</param>
-    /// <returns>The <see cref="CustomWebDriverBuilder"/> instance.</returns>
-    public CustomWebDriverBuilder UseDriver(Func<IWebDriver> driverFactory)
+    /// <param name="configure">An action delegate to configure the provided <see cref="CustomWebDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseDriver(Func<IWebDriver> driverFactory, Action<CustomWebDriverBuilder>? configure = null)
     {
         driverFactory.CheckNotNull(nameof(driverFactory));
 
-        return UseDriver(new CustomWebDriverBuilder(driverFactory));
+        return UseDriver(new CustomWebDriverBuilder(driverFactory), configure);
     }
 
-    private IWebDriverFactory? FindAndUsePredefinedDriver(string alias) =>
-        alias.ToLowerInvariant() switch
+    private bool TryUsePredefinedDriver(string alias)
+    {
+        switch (alias.ToLowerInvariant())
         {
-            WebDriverAliases.Chrome => UseChrome(),
-            WebDriverAliases.Firefox => UseFirefox(),
-            WebDriverAliases.InternetExplorer => UseInternetExplorer(),
-            WebDriverAliases.Safari => UseSafari(),
-            WebDriverAliases.Edge => UseEdge(),
-            _ => null
-        };
+            case WebDriverAliases.Chrome:
+                UseChrome();
+                return true;
+            case WebDriverAliases.Firefox:
+                UseFirefox();
+                return true;
+            case WebDriverAliases.InternetExplorer:
+                UseInternetExplorer();
+                return true;
+            case WebDriverAliases.Safari:
+                UseSafari();
+                return true;
+            case WebDriverAliases.Edge:
+                UseEdge();
+                return true;
+            default:
+                return false;
+        }
+    }
 
     /// <summary>
     /// Sets a value indicating whether to dispose the <see cref="WebDriverSession.Driver"/>
@@ -220,58 +240,64 @@ public class WebDriverSessionBuilder : WebSessionBuilder<WebDriverSession, WebDr
     }
 
     /// <summary>
-    /// Creates and returns a new builder for <see cref="ChromeDriver"/>
+    /// Creates and configures a new builder for <see cref="ChromeDriver"/>
     /// with default <see cref="WebDriverAliases.Chrome"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="ChromeDriverBuilder"/> instance.</returns>
-    public ChromeDriverBuilder UseChrome() =>
-        UseDriver(new ChromeDriverBuilder());
+    /// <param name="configure">An action delegate to configure the provided <see cref="ChromeDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseChrome(Action<ChromeDriverBuilder>? configure = null) =>
+        UseDriver(new ChromeDriverBuilder(), configure);
 
     /// <summary>
-    /// Creates and returns a new builder for <see cref="FirefoxDriver"/>
+    /// Creates and configures a new builder for <see cref="FirefoxDriver"/>
     /// with default <see cref="WebDriverAliases.Firefox"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="FirefoxDriverBuilder"/> instance.</returns>
-    public FirefoxDriverBuilder UseFirefox() =>
-        UseDriver(new FirefoxDriverBuilder());
+    /// <param name="configure">An action delegate to configure the provided <see cref="FirefoxDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseFirefox(Action<FirefoxDriverBuilder>? configure = null) =>
+        UseDriver(new FirefoxDriverBuilder(), configure);
 
     /// <summary>
-    /// Creates and returns a new builder for <see cref="InternetExplorerDriver"/>
+    /// Creates and configures a new builder for <see cref="InternetExplorerDriver"/>
     /// with default <see cref="WebDriverAliases.InternetExplorer"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="InternetExplorerDriverBuilder"/> instance.</returns>
-    public InternetExplorerDriverBuilder UseInternetExplorer() =>
-        UseDriver(new InternetExplorerDriverBuilder());
+    /// <param name="configure">An action delegate to configure the provided <see cref="InternetExplorerDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseInternetExplorer(Action<InternetExplorerDriverBuilder>? configure = null) =>
+        UseDriver(new InternetExplorerDriverBuilder(), configure);
 
     /// <summary>
-    /// Creates and returns a new builder for <see cref="EdgeDriver"/>
+    /// Creates and configures a new builder for <see cref="EdgeDriver"/>
     /// with default <see cref="WebDriverAliases.Edge"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="EdgeDriverBuilder"/> instance.</returns>
-    public EdgeDriverBuilder UseEdge() =>
-        UseDriver(new EdgeDriverBuilder());
+    /// <param name="configure">An action delegate to configure the provided <see cref="EdgeDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseEdge(Action<EdgeDriverBuilder>? configure = null) =>
+        UseDriver(new EdgeDriverBuilder(), configure);
 
     /// <summary>
-    /// Creates and returns a new builder for <see cref="SafariDriver"/>
+    /// Creates and configures a new builder for <see cref="SafariDriver"/>
     /// with default <see cref="WebDriverAliases.Safari"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="SafariDriverBuilder"/> instance.</returns>
-    public SafariDriverBuilder UseSafari() =>
-        UseDriver(new SafariDriverBuilder());
+    /// <param name="configure">An action delegate to configure the provided <see cref="SafariDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseSafari(Action<SafariDriverBuilder>? configure = null) =>
+        UseDriver(new SafariDriverBuilder(), configure);
 
     /// <summary>
-    /// Creates and returns a new builder for <see cref="RemoteWebDriver"/>
+    /// Creates and configures a new builder for <see cref="RemoteWebDriver"/>
     /// with default <see cref="WebDriverAliases.Remote"/> alias.
     /// Sets this builder as a one to use for a driver creation.
     /// </summary>
-    /// <returns>The <see cref="RemoteDriverBuilder"/> instance.</returns>
-    public RemoteDriverBuilder UseRemoteDriver() =>
-        UseDriver(new RemoteDriverBuilder());
+    /// <param name="configure">An action delegate to configure the provided <see cref="RemoteDriverBuilder"/>.</param>
+    /// <returns>The same <see cref="WebDriverSessionBuilder"/> instance.</returns>
+    public WebDriverSessionBuilder UseRemoteDriver(Action<RemoteDriverBuilder>? configure = null) =>
+        UseDriver(new RemoteDriverBuilder(), configure);
 
     /// <summary>
     /// Returns an existing or creates a new builder for <see cref="ChromeDriver"/> by the specified alias.

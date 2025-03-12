@@ -7,9 +7,9 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public async Task Build_WithoutAtataContext()
     {
-        var builder = WebDriverSession.CreateBuilder();
-        builder.UseChrome()
-            .WithArguments(ChromeArguments);
+        var builder = WebDriverSession.CreateBuilder()
+            .UseChrome(x => x
+                .WithArguments(ChromeArguments));
 
         await using var session = await builder.BuildAsync();
 
@@ -19,8 +19,8 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public void Build_WithoutDriver()
     {
-        var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
-        builder.Sessions.AddWebDriver();
+        var builder = AtataContext.CreateBuilder(AtataContextScope.Test)
+            .Sessions.AddWebDriver();
 
         var exception = Assert.Throws<AtataSessionBuilderValidationException>(() =>
            builder.Build());
@@ -31,8 +31,9 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     [Test]
     public void Build_WithNullDriver()
     {
-        var builder = AtataContext.CreateBuilder(AtataContextScope.Test);
-        builder.Sessions.AddWebDriver(x => x.UseDriver(() => null));
+        var builder = AtataContext.CreateBuilder(AtataContextScope.Test)
+            .Sessions.AddWebDriver(x => x
+                .UseDriver(() => null));
 
         var exception = Assert.Throws<WebDriverInitializationException>(
             () => builder.Build());
@@ -88,8 +89,8 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
         AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x =>
             {
-                x.UseFirefox()
-                    .WithAlias("drv");
+                x.UseFirefox(x => x
+                    .WithAlias("drv"));
 
                 Assert.Throws<ArgumentException>(() =>
                     x.ConfigureChrome("drv"));
@@ -103,8 +104,8 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
         AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x =>
             {
-                x.UseChrome()
-                    .WithArguments(ChromeArguments);
+                x.UseChrome(x => x
+                    .WithArguments(ChromeArguments));
                 x.ConfigureChrome()
                     .WithOptions(_ => isChromeConfigurationInvoked = true);
             })

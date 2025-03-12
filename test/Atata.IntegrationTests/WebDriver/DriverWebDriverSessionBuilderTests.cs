@@ -34,8 +34,8 @@ public static class DriverWebDriverSessionBuilderTests
         {
             AssertThrowsWithInnerException<WebDriverInitializationException, InvalidOperationException>(() =>
                 BuildAtataContextWithWebDriverSession(x => x
-                    .UseDriver(() => throw new InvalidOperationException("Fail."))
-                        .WithCreateRetries(retries)));
+                    .UseDriver(() => throw new InvalidOperationException("Fail."), x => x
+                        .WithCreateRetries(retries))));
 
             var warnings = CurrentLog.GetSnapshotOfLevel(LogLevel.Warn);
             warnings.Should().HaveCount(retries);
@@ -59,9 +59,9 @@ public static class DriverWebDriverSessionBuilderTests
             var checkFunctionMock = new Mock<Func<IWebDriver, bool>>();
 
             var context = BuildAtataContextWithWebDriverSession(x => x
-                .UseFakeDriver()
+                .UseFakeDriver(x => x
                     .WithInitialHealthCheck(false)
-                    .WithInitialHealthCheckFunction(checkFunctionMock.Object));
+                    .WithInitialHealthCheckFunction(checkFunctionMock.Object)));
 
             context.GetWebDriverSession().Driver.Should().NotBeNull();
             checkFunctionMock.Verify(x => x(It.IsAny<IWebDriver>()), Times.Never);
@@ -71,9 +71,9 @@ public static class DriverWebDriverSessionBuilderTests
         public void WhenCheckReturnsTrue()
         {
             var context = BuildAtataContextWithWebDriverSession(x => x
-                .UseFakeDriver()
+                .UseFakeDriver(x => x
                     .WithInitialHealthCheck()
-                    .WithInitialHealthCheckFunction(_ => true));
+                    .WithInitialHealthCheckFunction(_ => true)));
 
             context.GetWebDriverSession().Driver.Should().NotBeNull();
             CurrentLog.GetSnapshotOfLevel(LogLevel.Warn).Should().BeEmpty();
@@ -85,7 +85,7 @@ public static class DriverWebDriverSessionBuilderTests
             bool shouldThrow = true;
 
             BuildAtataContextWithWebDriverSession(x => x
-                .UseFakeDriver()
+                .UseFakeDriver(x => x
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ =>
                     {
@@ -96,7 +96,7 @@ public static class DriverWebDriverSessionBuilderTests
                         }
 
                         return true;
-                    }));
+                    })));
 
             var warning = CurrentLog.GetSnapshotOfLevel(LogLevel.Warn).Should().ContainSingle().Subject;
             warning.Message.Should().Contain("initial health check failed");
@@ -109,7 +109,7 @@ public static class DriverWebDriverSessionBuilderTests
             int countOfReturnedFalse = 0;
 
             BuildAtataContextWithWebDriverSession(x => x
-                .UseFakeDriver()
+                .UseFakeDriver(x => x
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ =>
                     {
@@ -120,7 +120,7 @@ public static class DriverWebDriverSessionBuilderTests
                         }
 
                         return true;
-                    }));
+                    })));
 
             var warnings = CurrentLog.GetSnapshotOfLevel(LogLevel.Warn);
             warnings.Should().HaveCount(2);
@@ -137,10 +137,10 @@ public static class DriverWebDriverSessionBuilderTests
         public void WhenAllChecksThrowException_WithCreateRetries(int retries)
         {
             var builder = ConfigureAtataContextWithWebDriverSession(x => x
-                .UseFakeDriver()
+                .UseFakeDriver(x => x
                     .WithCreateRetries(retries)
                     .WithInitialHealthCheck()
-                    .WithInitialHealthCheckFunction(_ => throw new InvalidOperationException("Fail.")));
+                    .WithInitialHealthCheckFunction(_ => throw new InvalidOperationException("Fail."))));
 
             AssertThrowsWithInnerException<WebDriverInitializationException, InvalidOperationException>(() =>
                 builder.Build());
