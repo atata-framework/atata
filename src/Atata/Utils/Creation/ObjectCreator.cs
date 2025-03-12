@@ -99,7 +99,7 @@ public class ObjectCreator : IObjectCreator
         Dictionary<string, object?> valuesMap,
         Dictionary<string, string> alternativeParameterNamesMap)
     {
-        object[] arguments = constructor.GetParameters()
+        object?[] arguments = constructor.GetParameters()
             .Select(parameter =>
             {
                 KeyValuePair<string, object?> valuePair = RetrievePairByName(valuesMap, alternativeParameterNamesMap, parameter);

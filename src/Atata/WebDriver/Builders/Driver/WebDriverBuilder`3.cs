@@ -163,7 +163,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// </summary>
     /// <param name="optionsPropertiesMap">The properties map.</param>
     /// <returns>The same builder instance.</returns>
-    public TBuilder WithOptions(IEnumerable<KeyValuePair<string, object>> optionsPropertiesMap)
+    public TBuilder WithOptions(IEnumerable<KeyValuePair<string, object?>> optionsPropertiesMap)
     {
         optionsPropertiesMap.CheckNotNull(nameof(optionsPropertiesMap));
 
@@ -176,7 +176,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public TBuilder AddAdditionalOption(string optionName, object optionValue)
+    public TBuilder AddAdditionalOption(string optionName, object? optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
@@ -214,7 +214,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// </summary>
     /// <param name="servicePropertiesMap">The properties map.</param>
     /// <returns>The same builder instance.</returns>
-    public TBuilder WithDriverService(Dictionary<string, object> servicePropertiesMap)
+    public TBuilder WithDriverService(Dictionary<string, object?> servicePropertiesMap)
     {
         servicePropertiesMap.CheckNotNull(nameof(servicePropertiesMap));
 

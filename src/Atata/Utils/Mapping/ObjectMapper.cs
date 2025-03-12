@@ -9,7 +9,7 @@ public class ObjectMapper : IObjectMapper
     public ObjectMapper(IObjectConverter objectConverter) =>
         _objectConverter = objectConverter;
 
-    public void Map(IEnumerable<KeyValuePair<string, object>> propertiesMap, object destination)
+    public void Map(IEnumerable<KeyValuePair<string, object?>> propertiesMap, object destination)
     {
         propertiesMap.CheckNotNull(nameof(propertiesMap));
         destination.CheckNotNull(nameof(destination));
@@ -22,14 +22,14 @@ public class ObjectMapper : IObjectMapper
         }
     }
 
-    public void Map(string propertyName, object propertyValue, object destination)
+    public void Map(string propertyName, object? propertyValue, object destination)
     {
         destination.CheckNotNull(nameof(destination));
 
         Map(propertyName, propertyValue, destination, destination.GetType());
     }
 
-    private void Map(string propertyName, object propertyValue, object destination, Type destinationType)
+    private void Map(string propertyName, object? propertyValue, object destination, Type destinationType)
     {
         propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
 
