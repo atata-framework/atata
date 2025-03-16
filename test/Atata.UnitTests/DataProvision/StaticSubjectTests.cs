@@ -62,8 +62,7 @@ public static class StaticSubjectTests
 
         public static TestEntity GetEntity(string name)
         {
-            if (name is null)
-                throw new ArgumentNullException(nameof(name));
+            ArgumentNullException.ThrowIfNull(name);
             return new TestEntity { Name = name };
         }
     }

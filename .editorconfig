@@ -266,6 +266,12 @@ dotnet_diagnostic.CA1813.severity = none
 # CA1825: Avoid zero-length array allocations
 dotnet_diagnostic.CA1825.severity = none
 
+# CA1859: Use concrete types when possible for improved performance
+dotnet_diagnostic.CA1859.severity = none # Temporarily for v3 branch
+
+# CA1860: Avoid using 'Enumerable.Any()' extension method
+dotnet_diagnostic.CA1860.severity = none # Temporarily for v3 branch
+
 # CA1861: Avoid constant arrays as arguments
 dotnet_diagnostic.CA1861.severity = none
 
@@ -345,6 +351,8 @@ dotnet_diagnostic.S2187.severity = none
 
 dotnet_diagnostic.S2302.severity = warning
 
+dotnet_diagnostic.S2325.severity = none # Temporarily for v3 branch
+
 dotnet_diagnostic.S2357.severity = warning
 
 dotnet_diagnostic.S2387.severity = warning
@@ -403,6 +411,8 @@ dotnet_diagnostic.S4261.severity = warning
 # S6562: Always set the "DateTimeKind" when creating new "DateTime" instances
 dotnet_diagnostic.S6562.severity = none
 
+dotnet_diagnostic.S6966.severity = none # Temporarily for v3 branch
+
 ###############################
 # StyleCop.Analyzers          #
 ###############################
@@ -448,7 +458,7 @@ dotnet_diagnostic.SX1101.severity = warning
 ###############################
 
 # IDE0028: Use collection initializers
-dotnet_diagnostic.IDE0028.severity = warning
+dotnet_diagnostic.IDE0028.severity = none # Temporarily for v3 branch
 
 # IDE0054: Use compound assignment
 dotnet_diagnostic.IDE0054.severity = none
@@ -499,7 +509,10 @@ dotnet_diagnostic.IDE0303.severity = warning
 dotnet_diagnostic.IDE0304.severity = warning
 
 # IDE0305: Use collection initializers
-dotnet_diagnostic.IDE0305.severity = warning
+dotnet_diagnostic.IDE0305.severity = none # Temporarily for v3 branch
+
+# IDE0305: Use collection initializers
+dotnet_diagnostic.IDE0306.severity = none # Temporarily for v3 branch
 
 # IDE1005: Use conditional delegate call
 dotnet_diagnostic.IDE1005.severity = warning

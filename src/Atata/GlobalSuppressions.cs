@@ -91,5 +91,4 @@
 [assembly: SuppressMessage("Critical Code Smell", "S1541:Methods and properties should not be too complex", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.LogManager.PrependHierarchyPrefixesToMessage(System.String,Atata.LogEventInfo,Atata.LogConsumerConfiguration)~System.String")]
 [assembly: SuppressMessage("Critical Code Smell", "S1994:\"for\" loop increment clauses should modify the loops' counters", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TypeExtensions.GetDepthOfInheritanceOfRegularType(System.Type,System.Type)~System.Nullable{System.Int32}")]
 [assembly: SuppressMessage("Minor Code Smell", "S6670:\"Trace.Write\" and \"Trace.WriteLine\" should not be used", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.TraceLogConsumer.Write(System.String)")]
-
-#pragma warning restore S103 // Lines should not be too long
+[assembly: SuppressMessage("Reliability", "CA2021:Do not call Enumerable.Cast<T> or Enumerable.OfType<T> with incompatible types", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UIComponentChildrenList`1.Resolve``1(System.String,System.Func{System.Collections.Generic.IEnumerable{System.Attribute}})~``0")]

@@ -569,7 +569,7 @@ public static class UIComponentResolver
         var delegatesToRemove = s_delegateControls.Where(x => x.Value.Owner == pageObject).Select(x => x.Key).ToArray();
 
         foreach (var item in delegatesToRemove)
-            s_delegateControls.TryRemove(item, out var removed);
+            s_delegateControls.TryRemove(item, out _);
 
         pageObject.CleanUp();
     }

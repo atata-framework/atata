@@ -141,7 +141,7 @@ public class UIComponentMetadataTests
 
     public class GetAll : UIComponentMetadataTests
     {
-        private static IEnumerable<Attribute> All(params IEnumerable<Attribute>[] attributeCollections)
+        private static Attribute[] All(params IEnumerable<Attribute>[] attributeCollections)
         {
             if (attributeCollections == null || attributeCollections.Length == 0)
                 return [];
