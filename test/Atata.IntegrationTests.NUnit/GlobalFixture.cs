@@ -6,7 +6,6 @@ using NUnit.Framework;
 
 namespace Atata.IntegrationTests.NUnit;
 
-[SetUpFixture]
 public sealed class GlobalFixture : AtataGlobalFixture
 {
     protected override void ConfigureAtataContextGlobalProperties(AtataContextGlobalProperties globalProperties) =>
