@@ -244,9 +244,17 @@ public sealed class AtataContextGlobalProperties
     /// </summary>
     /// <typeparam name="T">The type from which namespace should be taken.</typeparam>
     /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
-    public AtataContextGlobalProperties UseRootNamespaceOf<T>()
+    public AtataContextGlobalProperties UseRootNamespaceOf<T>() =>
+        UseRootNamespaceOf(typeof(T));
+
+    /// <summary>
+    /// Sets the root namespace with the namespace of the specified <paramref name="type"/>.
+    /// </summary>
+    /// <param name="type">The type from which namespace should be taken.</param>
+    /// <returns>The same <see cref="AtataContextGlobalProperties"/> instance.</returns>
+    public AtataContextGlobalProperties UseRootNamespaceOf(Type type)
     {
-        RootNamespace = typeof(T).Namespace;
+        RootNamespace = type.Namespace;
         return this;
     }
 
