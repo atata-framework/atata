@@ -1,8 +1,6 @@
-﻿using Atata;
-using Atata_IntegrationTests.Reqnroll_NUnit.Features;
-using FluentAssertions;
+﻿using Atata_Reqnroll_NUnit_IntegrationTests.Features;
 
-namespace Atata_IntegrationTests.Reqnroll_NUnit.StepDefinitions;
+namespace Atata_Reqnroll_NUnit_IntegrationTests;
 
 [Binding]
 public sealed class AtataContextSteps
