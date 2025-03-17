@@ -1,8 +1,4 @@
-﻿using FluentAssertions;
-using FluentAssertions.Execution;
-using NUnit.Framework;
-
-namespace Atata.NUnit.IntegrationTests;
+﻿namespace Atata.NUnit.IntegrationTests;
 
 public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
 {
@@ -38,11 +34,11 @@ public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
 
     [Test]
     public void Context_ParentContext() =>
-        Context.ParentContext.Test.Should().Be(new TestInfo(typeof(WithoutNamespaceSuiteTests)));
+        Context.ParentContext!.Test.Should().Be(new TestInfo(typeof(WithoutNamespaceSuiteTests)));
 
     [Test]
     public void Context_ParentContext_ParentContext() =>
-        Context.ParentContext.ParentContext.Should().NotBeNull().And.Be(AtataContext.Global);
+        Context.ParentContext!.ParentContext.Should().NotBeNull().And.Be(AtataContext.Global);
 
     [Test]
     public void Context_Artifacts() =>

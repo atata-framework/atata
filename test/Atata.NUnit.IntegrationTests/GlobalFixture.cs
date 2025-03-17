@@ -1,6 +1,4 @@
-﻿using NUnit.Framework;
-
-[assembly: SetCulture("en-US")]
+﻿[assembly: SetCulture("en-US")]
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 
 namespace Atata.NUnit.IntegrationTests;

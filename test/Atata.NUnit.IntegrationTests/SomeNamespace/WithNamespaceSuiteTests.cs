@@ -1,22 +1,18 @@
-﻿using Atata.NUnit;
-using FluentAssertions;
-using NUnit.Framework;
-
-namespace Atata.NUnit.IntegrationTests.SomeNamespace;
+﻿namespace Atata.NUnit.IntegrationTests.SomeNamespace;
 
 public sealed class WithNamespaceSuiteTests : AtataTestSuite
 {
     [Test]
     public void Context_ParentContext() =>
-        Context.ParentContext.Test.Should().Be(new TestInfo(typeof(WithNamespaceSuiteTests)));
+        Context.ParentContext!.Test.Should().Be(new TestInfo(typeof(WithNamespaceSuiteTests)));
 
     [Test]
     public void Context_ParentContext_ParentContext() =>
-        Context.ParentContext.ParentContext.Test.Should().Be(new TestInfo(typeof(NamespaceFixture)));
+        Context.ParentContext!.ParentContext!.Test.Should().Be(new TestInfo(typeof(NamespaceFixture)));
 
     [Test]
     public void Context_ParentContext_ParentContext_ParentContext() =>
-        Context.ParentContext.ParentContext.ParentContext.Should().NotBeNull().And.Be(AtataContext.Global);
+        Context.ParentContext!.ParentContext!.ParentContext.Should().NotBeNull().And.Be(AtataContext.Global);
 
     [Test]
     public void Context_Variables() =>
