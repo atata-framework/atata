@@ -121,7 +121,10 @@ internal static class AtataContextParentResolver
                 if (childContextMatch is not null)
                     return childContextMatch;
             }
-            else if (childContext.Scope == AtataContextScope.TestSuite && childContext.Test.SuiteType == testInfo.SuiteType && childContext.Test.SuiteName == testInfo.SuiteName)
+            else if (childContext.Scope == AtataContextScope.TestSuite
+                && childContext.Test.SuiteType == testInfo.SuiteType
+                && childContext.Test.Namespace == testInfo.Namespace
+                && childContext.Test.SuiteName == testInfo.SuiteName)
             {
                 return childContext;
             }

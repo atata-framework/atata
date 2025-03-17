@@ -16,13 +16,26 @@ public sealed class TestInfo : IEquatable<TestInfo>
         NameSanitized = name?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
 
         SuiteName = suiteName ?? suiteType?.Name;
-        SuiteNameSanitized = SuiteName?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
-
         SuiteType = suiteType;
-
         SuiteGroupName = suiteGroupName;
 
-        Namespace = suiteType?.Namespace;
+        if (suiteType is not null)
+        {
+            Namespace = suiteType.Namespace;
+        }
+        else if (suiteName is not null)
+        {
+            int lastIndexOfPeriod = suiteName.LastIndexOf('.');
+
+            if (lastIndexOfPeriod > 0 && lastIndexOfPeriod < suiteName.Length - 1)
+            {
+                Namespace = suiteName[..lastIndexOfPeriod];
+                SuiteName = suiteName[(lastIndexOfPeriod + 1)..];
+            }
+        }
+
+        SuiteNameSanitized = SuiteName?.SanitizeForFileName(AtataPathTemplateStringFormatter.CharToReplaceWith);
+
         FullName = BuildFullName();
     }
 

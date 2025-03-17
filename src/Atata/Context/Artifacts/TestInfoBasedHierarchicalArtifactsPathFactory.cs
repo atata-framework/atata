@@ -49,7 +49,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
     /// <inheritdoc/>
     public string Create(AtataContext context)
     {
-        if (context.Scope is null || context.Test.SuiteType is null)
+        if (context.Scope is null || context.Test.Namespace is null)
         {
             return Sanitize(context.Id);
         }
@@ -65,8 +65,8 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
         };
     }
 
-    private static string ResolveRelativePath(Type type) =>
-        ResolveRelativePath(type.FullName);
+    private static string ResolveRelativePathForSuite(TestInfo testInfo) =>
+        ResolveRelativePath($"{testInfo.Namespace}.{testInfo.SuiteNameSanitized}");
 
     private static string ResolveRelativePath(string typeNameOrNamespace)
     {
@@ -117,7 +117,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
     {
         string testSuitePath = context.ParentContext is { Scope: AtataContextScope.TestSuite }
             ? GetTestSuiteArtifactsPath(context.ParentContext)
-            : ResolveRelativePath(context.Test.SuiteType);
+            : ResolveRelativePathForSuite(context.Test);
 
         string testName = context.Test.NameSanitized;
 
