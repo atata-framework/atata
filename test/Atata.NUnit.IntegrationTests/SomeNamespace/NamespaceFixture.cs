@@ -1,6 +1,6 @@
 ﻿using Atata.NUnit;
 
-namespace Atata.IntegrationTests.NUnit.SomeNamespace;
+namespace Atata.NUnit.IntegrationTests.SomeNamespace;
 
 public sealed class NamespaceFixture : AtataNamespaceFixture
 {

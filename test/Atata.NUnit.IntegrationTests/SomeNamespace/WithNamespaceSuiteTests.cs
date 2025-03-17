@@ -2,7 +2,7 @@
 using FluentAssertions;
 using NUnit.Framework;
 
-namespace Atata.IntegrationTests.NUnit.SomeNamespace;
+namespace Atata.NUnit.IntegrationTests.SomeNamespace;
 
 public sealed class WithNamespaceSuiteTests : AtataTestSuite
 {

@@ -1,10 +1,9 @@
-﻿using Atata.NUnit;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 [assembly: SetCulture("en-US")]
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 
-namespace Atata.IntegrationTests.NUnit;
+namespace Atata.NUnit.IntegrationTests;
 
 public sealed class GlobalFixture : AtataGlobalFixture
 {

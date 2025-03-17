@@ -1,9 +1,8 @@
-﻿using Atata.NUnit;
-using FluentAssertions;
+﻿using FluentAssertions;
 using FluentAssertions.Execution;
 using NUnit.Framework;
 
-namespace Atata.IntegrationTests.NUnit;
+namespace Atata.NUnit.IntegrationTests;
 
 public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
 {
