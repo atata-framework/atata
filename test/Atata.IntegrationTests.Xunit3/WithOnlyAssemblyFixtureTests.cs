@@ -1,9 +1,4 @@
-﻿using Atata.Xunit;
-using FluentAssertions;
-using FluentAssertions.Execution;
-using Xunit;
-
-namespace Atata.IntegrationTests.Xunit3;
+﻿namespace Atata.IntegrationTests.Xunit3;
 
 public sealed class WithOnlyAssemblyFixtureTests : AtataTestSuite
 {

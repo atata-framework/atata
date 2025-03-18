@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace Atata.IntegrationTests.Xunit3;
+﻿namespace Atata.IntegrationTests.Xunit3;
 
 [CollectionDefinition(Name)]
 public sealed class SomeCollection : ICollectionFixture<SomeCollectionFixture>

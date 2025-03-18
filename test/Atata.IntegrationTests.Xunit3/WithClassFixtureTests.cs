@@ -1,8 +1,4 @@
-﻿using Atata.Xunit;
-using FluentAssertions;
-using Xunit;
-
-namespace Atata.IntegrationTests.Xunit3;
+﻿namespace Atata.IntegrationTests.Xunit3;
 
 public sealed class WithClassFixtureTests :
     AtataTestSuite,

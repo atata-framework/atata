@@ -1,6 +1,4 @@
-﻿using Atata.Xunit;
-
-namespace Atata.IntegrationTests.Xunit3;
+﻿namespace Atata.IntegrationTests.Xunit3;
 
 public sealed class SomeCollectionFixture : AtataCollectionFixture
 {

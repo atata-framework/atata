@@ -1,6 +1,4 @@
 ﻿using Atata.IntegrationTests.Xunit3;
-using Atata.Xunit;
-using Xunit;
 
 [assembly: AssemblyFixture(typeof(GlobalFixture))]
 
