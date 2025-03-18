@@ -15,7 +15,8 @@ public abstract class AtataTestSuite
         Type testClassType = TestSuiteTypeResolver.Resolve(testClassFullName);
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite)
-            .UseTestSuiteType(testClassType);
+            .UseTestSuiteType(testClassType)
+            .UseAssertionExceptionType(typeof(AssertFailedException));
 
         TestSuiteAtataContextMetadata suiteContextMetadata = GetAndApplySuiteMetadata(testClassType, builder);
         FindAndInvokeSuiteConfigurationMethods(testClassType, builder);
@@ -41,6 +42,7 @@ public abstract class AtataTestSuite
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test)
             .UseTestSuiteType(testClassType)
             .UseTestName(TestContext.TestDisplayName)
+            .UseAssertionExceptionType(typeof(AssertFailedException))
             .LogConsumers.Add(new TextOutputLogConsumer(TestContext.WriteLine));
 
         var suiteContextMetadata = s_testSuiteDataByTypeName[testClassFullName].Metadata;

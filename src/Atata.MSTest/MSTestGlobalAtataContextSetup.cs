@@ -22,7 +22,8 @@ public static class MSTestGlobalAtataContextSetup
         TestSuiteTypeResolver.Assembly = globalFixtureType.Assembly;
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Global)
-            .UseTestSuiteType(globalFixtureType);
+            .UseTestSuiteType(globalFixtureType)
+            .UseAssertionExceptionType(typeof(AssertFailedException));
 
         configure?.Invoke(builder);
 
