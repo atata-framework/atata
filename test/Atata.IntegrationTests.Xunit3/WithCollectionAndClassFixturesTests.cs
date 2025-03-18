@@ -15,17 +15,17 @@ public sealed class WithCollectionAndClassFixturesTests :
 
     [Fact]
     public void Context_ParentContext() =>
-        Context.ParentContext.Test.Should().Be(
+        Context.ParentContext!.Test.Should().Be(
             new TestInfo(typeof(WithCollectionAndClassFixturesTests), suiteGroupName: SomeCollection.Name));
 
     [Fact]
     public void Context_ParentContext_ParentContext() =>
-        Context.ParentContext.ParentContext.Test.Should().NotBeNull().And.Be(
+        Context.ParentContext!.ParentContext!.Test.Should().NotBeNull().And.Be(
             new TestInfo(typeof(SomeCollectionFixture), suiteGroupName: SomeCollection.Name));
 
     [Fact]
     public void Context_ParentContext_ParentContext_ParentContext() =>
-        Context.ParentContext.ParentContext.ParentContext.Should().NotBeNull().And.Be(
+        Context.ParentContext!.ParentContext!.ParentContext.Should().NotBeNull().And.Be(
             AtataContext.Global);
 
     [Fact]

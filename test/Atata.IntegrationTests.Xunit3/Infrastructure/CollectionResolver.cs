@@ -1,10 +1,11 @@
-﻿using Xunit.v3;
+﻿using System.Diagnostics.CodeAnalysis;
+using Xunit.v3;
 
 namespace Atata.Xunit;
 
 internal static class CollectionResolver
 {
-    internal static bool TryResolveCollectionName(Type type, out string collectionName)
+    internal static bool TryResolveCollectionName(Type type, [NotNullWhen(true)] out string? collectionName)
     {
         var collectionAttribute = type.GetCustomAttributes(true)
             .OfType<ICollectionAttribute>()
@@ -14,7 +15,7 @@ internal static class CollectionResolver
         {
             collectionName = collectionAttribute.Name;
 
-            return collectionAttribute is not null;
+            return collectionName is not null;
         }
         else
         {

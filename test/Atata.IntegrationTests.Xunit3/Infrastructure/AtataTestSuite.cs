@@ -11,10 +11,10 @@ public abstract class AtataTestSuite : AtataFixture
 
     protected override void ConfigureAtataContext(AtataContextBuilder builder)
     {
-        var testFullName = TestContext.Current.Test.TestDisplayName;
+        var testFullName = TestContext.Current.Test!.TestDisplayName;
         var testClassType = GetType();
-        var testName = testFullName.Replace(testClassType.FullName, null).TrimStart('.');
-        var output = TestContext.Current.TestOutputHelper;
+        var testName = testFullName.Replace(testClassType.FullName!, null).TrimStart('.');
+        var output = TestContext.Current.TestOutputHelper!;
 
         builder.UseTestName(testName);
         builder.UseTestSuiteType(testClassType);

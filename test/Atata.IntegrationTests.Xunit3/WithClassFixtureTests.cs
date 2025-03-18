@@ -14,11 +14,11 @@ public sealed class WithClassFixtureTests :
 
     [Fact]
     public void Context_ParentContext() =>
-        Context.ParentContext.Test.Should().Be(new TestInfo(typeof(WithClassFixtureTests)));
+        Context.ParentContext!.Test.Should().Be(new TestInfo(typeof(WithClassFixtureTests)));
 
     [Fact]
     public void Context_ParentContext_ParentContext() =>
-        Context.ParentContext.ParentContext.Should().NotBeNull().And.Be(AtataContext.Global);
+        Context.ParentContext!.ParentContext.Should().NotBeNull().And.Be(AtataContext.Global);
 
     [Fact]
     public void Context_Variables() =>
