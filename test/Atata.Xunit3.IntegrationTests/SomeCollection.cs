@@ -1,4 +1,4 @@
-﻿namespace Atata.IntegrationTests.Xunit3;
+﻿namespace Atata.Xunit3.IntegrationTests;
 
 [CollectionDefinition(Name)]
 public sealed class SomeCollection : ICollectionFixture<SomeCollectionFixture>
