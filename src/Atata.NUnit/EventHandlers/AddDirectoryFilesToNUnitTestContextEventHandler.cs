@@ -1,6 +1,6 @@
 ﻿namespace Atata.NUnit;
 
-public class AddDirectoryFilesToNUnitTestContextEventHandler : IEventHandler<AtataContextDeInitCompletedEvent>
+public class AddDirectoryFilesToNUnitTestContextEventHandler : ProcessFilesOnAtataContextDeInitCompletedEventHandlerBase
 {
     private readonly Func<AtataContext, string> _directoryPathBuilder;
 
@@ -13,21 +13,12 @@ public class AddDirectoryFilesToNUnitTestContextEventHandler : IEventHandler<Ata
     public AddDirectoryFilesToNUnitTestContextEventHandler(Func<AtataContext, string> directoryPathBuilder) =>
         _directoryPathBuilder = directoryPathBuilder.CheckNotNull(nameof(directoryPathBuilder));
 
-    public void Handle(AtataContextDeInitCompletedEvent eventData, AtataContext context)
+    protected override string GetDirectoryPath(AtataContext context)
     {
         string directoryPath = _directoryPathBuilder.Invoke(context);
-
-        directoryPath = context.Variables.FillPathTemplateString(directoryPath);
-
-        DirectoryInfo directory = new DirectoryInfo(directoryPath);
-
-        if (directory.Exists)
-        {
-            var files = directory.EnumerateFiles("*", SearchOption.AllDirectories)
-                .OrderBy(x => x.CreationTimeUtc);
-
-            foreach (var file in files)
-                TestContext.AddTestAttachment(file.FullName);
-        }
+        return context.Variables.FillPathTemplateString(directoryPath);
     }
+
+    protected override void Process(FileInfo file) =>
+        TestContext.AddTestAttachment(file.FullName);
 }

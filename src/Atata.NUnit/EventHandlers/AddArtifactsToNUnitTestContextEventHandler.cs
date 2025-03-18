@@ -1,9 +1,10 @@
 ﻿namespace Atata.NUnit;
 
-public sealed class AddArtifactsToNUnitTestContextEventHandler : AddDirectoryFilesToNUnitTestContextEventHandler
+public sealed class AddArtifactsToNUnitTestContextEventHandler : ProcessFilesOnAtataContextDeInitCompletedEventHandlerBase
 {
-    public AddArtifactsToNUnitTestContextEventHandler()
-        : base(context => context.ArtifactsPath)
-    {
-    }
+    protected override string GetDirectoryPath(AtataContext context) =>
+        context.ArtifactsPath;
+
+    protected override void Process(FileInfo file) =>
+        TestContext.AddTestAttachment(file.FullName);
 }
