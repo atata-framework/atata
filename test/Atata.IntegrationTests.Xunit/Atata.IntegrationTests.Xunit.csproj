@@ -10,7 +10,6 @@
     <PackageReference Include="FluentAssertions" Version="7.2.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
     <PackageReference Include="NLog" Version="5.4.0" />
-    <PackageReference Include="xunit.core" Version="2.9.3" />
     <PackageReference Include="Xunit.Extensions.AssemblyFixture" Version="2.6.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.0.2">
       <PrivateAssets>all</PrivateAssets>
@@ -19,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Atata.Xunit\Atata.Xunit.csproj" />
     <ProjectReference Include="..\..\src\Atata\Atata.csproj" />
   </ItemGroup>
 

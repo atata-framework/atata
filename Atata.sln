@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.MSTest", "src\Atata.M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.MSTest.IntegrationTests", "test\Atata.MSTest.IntegrationTests\Atata.MSTest.IntegrationTests.csproj", "{C6D76228-8DCB-4D1F-8D2C-676725361C7C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Xunit", "src\Atata.Xunit\Atata.Xunit.csproj", "{DFB313E6-7C0B-4E87-943D-B96813CF3861}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -108,6 +110,10 @@ Global
 		{C6D76228-8DCB-4D1F-8D2C-676725361C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6D76228-8DCB-4D1F-8D2C-676725361C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6D76228-8DCB-4D1F-8D2C-676725361C7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFB313E6-7C0B-4E87-943D-B96813CF3861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFB313E6-7C0B-4E87-943D-B96813CF3861}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFB313E6-7C0B-4E87-943D-B96813CF3861}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFB313E6-7C0B-4E87-943D-B96813CF3861}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,4 @@
-﻿using System.Reflection;
-using Xunit.Abstractions;
-
-namespace Atata.Xunit;
+﻿namespace Atata.Xunit;
 
 public abstract class AtataTestSuite : AtataFixture
 {

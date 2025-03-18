@@ -1,8 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
-using Xunit;
-
-namespace Atata.Xunit;
+﻿namespace Atata.Xunit;
 
 internal static class CollectionResolver
 {
