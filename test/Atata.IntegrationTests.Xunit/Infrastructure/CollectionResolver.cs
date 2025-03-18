@@ -1,20 +1,21 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using Xunit;
 
 namespace Atata.Xunit;
 
 internal static class CollectionResolver
 {
-    internal static bool TryResolveCollectionName(Type type, out string collectionName)
+    internal static bool TryResolveCollectionName(Type type, [NotNullWhen(true)] out string? collectionName)
     {
         var collectionAttribute = CustomAttributeData.GetCustomAttributes(type)
             .FirstOrDefault(x => x.AttributeType == typeof(CollectionAttribute));
 
         if (collectionAttribute is not null)
         {
-            collectionName = (string)collectionAttribute.ConstructorArguments[0].Value;
+            collectionName = collectionAttribute.ConstructorArguments[0].Value as string;
 
-            return collectionAttribute is not null;
+            return collectionName is not null;
         }
         else
         {

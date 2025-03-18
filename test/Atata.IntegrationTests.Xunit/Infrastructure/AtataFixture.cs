@@ -12,7 +12,7 @@ public abstract class AtataFixture : IAsyncLifetime
         AtataContext.PresetCurrentAsyncLocalBox();
     }
 
-    public AtataContext Context { get; private set; }
+    public AtataContext Context { get; private set; } = null!;
 
     public virtual async Task InitializeAsync()
     {

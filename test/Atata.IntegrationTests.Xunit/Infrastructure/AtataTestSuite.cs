@@ -13,9 +13,9 @@ public abstract class AtataTestSuite : AtataFixture
 
     protected override void ConfigureAtataContext(AtataContextBuilder builder)
     {
-        var testFullName = ResolveTestName(_output);
-        var testClassType = GetType();
-        var testName = testFullName.Replace(testClassType.FullName, null).TrimStart('.');
+        string testFullName = ResolveTestName(_output);
+        Type testClassType = GetType();
+        string testName = testFullName.Replace(testClassType.FullName!, null).TrimStart('.');
 
         builder.UseTestName(testName);
         builder.UseTestSuiteType(testClassType);
@@ -45,9 +45,9 @@ public abstract class AtataTestSuite : AtataFixture
             .GetFields(BindingFlags.NonPublic | BindingFlags.Instance);
 
         Array.Find(outputTypeFields, x => x.FieldType == typeof(ITest));
-        var test = (ITest)Array.Find(outputTypeFields, x => x.FieldType == typeof(ITest))
-            ?.GetValue(output);
+        ITest test = (ITest)Array.Find(outputTypeFields, x => x.FieldType == typeof(ITest))
+            !.GetValue(output)!;
 
-        return test?.DisplayName;
+        return test.DisplayName;
     }
 }
