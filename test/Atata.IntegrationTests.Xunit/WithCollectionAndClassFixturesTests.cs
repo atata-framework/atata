@@ -1,10 +1,4 @@
-﻿using Atata.Xunit;
-using FluentAssertions;
-using Xunit;
-using Xunit.Abstractions;
-using Xunit.Extensions.AssemblyFixture;
-
-namespace Atata.IntegrationTests.Xunit;
+﻿namespace Atata.IntegrationTests.Xunit;
 
 [Collection(SomeCollection.Name)]
 public sealed class WithCollectionAndClassFixturesTests :

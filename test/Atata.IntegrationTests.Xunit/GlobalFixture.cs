@@ -1,8 +1,4 @@
-﻿using Atata.Xunit;
-using Xunit;
-using Xunit.Extensions.AssemblyFixture;
-
-[assembly: TestFramework(AssemblyFixtureFramework.TypeName, AssemblyFixtureFramework.AssemblyName)]
+﻿[assembly: TestFramework(AssemblyFixtureFramework.TypeName, AssemblyFixtureFramework.AssemblyName)]
 
 namespace Atata.IntegrationTests.Xunit;
 
