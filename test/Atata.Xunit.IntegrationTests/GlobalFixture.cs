@@ -1,6 +1,6 @@
 ﻿[assembly: TestFramework(AssemblyFixtureFramework.TypeName, AssemblyFixtureFramework.AssemblyName)]
 
-namespace Atata.IntegrationTests.Xunit;
+namespace Atata.Xunit.IntegrationTests;
 
 public sealed class GlobalFixture : AtataGlobalFixture
 {

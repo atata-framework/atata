@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.UnitTests", "test\Ata
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.Benchmarks", "test\Atata.Benchmarks\Atata.Benchmarks.csproj", "{42203426-9492-4992-89A6-F75E78E7CD35}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.IntegrationTests.Xunit", "test\Atata.IntegrationTests.Xunit\Atata.IntegrationTests.Xunit.csproj", "{BC378398-CA82-4B4C-AA71-D1CCFB99B94C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.Xunit.IntegrationTests", "test\Atata.Xunit.IntegrationTests\Atata.Xunit.IntegrationTests.csproj", "{BC378398-CA82-4B4C-AA71-D1CCFB99B94C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Atata.IntegrationTests.Xunit3", "test\Atata.IntegrationTests.Xunit3\Atata.IntegrationTests.Xunit3.csproj", "{CB430424-A729-4B17-9A44-6D55F2509C04}"
 EndProject
