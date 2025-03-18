@@ -6,9 +6,7 @@ public abstract class ProcessFilesOnAtataContextDeInitCompletedEventHandlerBase 
     {
         string directoryPath = GetDirectoryPath(context);
 
-        directoryPath = context.Variables.FillPathTemplateString(directoryPath);
-
-        DirectoryInfo directory = new DirectoryInfo(directoryPath);
+        DirectoryInfo directory = new(directoryPath);
 
         if (directory.Exists)
         {
