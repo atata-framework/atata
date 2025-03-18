@@ -43,7 +43,8 @@ public abstract class AtataTestSuite
             .UseTestSuiteType(testClassType)
             .UseTestName(TestContext.TestDisplayName)
             .UseAssertionExceptionType(typeof(AssertFailedException))
-            .LogConsumers.Add(new TextOutputLogConsumer(TestContext.WriteLine));
+            .LogConsumers.Add(new TextOutputLogConsumer(TestContext.WriteLine))
+            .EventSubscriptions.Add(new AddArtifactsToMSTestContextEventHandler(TestContext));
 
         var suiteContextMetadata = s_testSuiteDataByTypeName[testClassFullName].Metadata;
         suiteContextMetadata?.ApplyToTestBuilder(builder);
