@@ -308,7 +308,7 @@ public class LogManagerTests
     private sealed class BasicLogEventInfoFactory : ILogEventInfoFactory
     {
         public LogEventInfo Create(DateTime timestamp, LogLevel level, string message) =>
-            new()
+            new(null)
             {
                 Timestamp = timestamp,
                 Level = level,

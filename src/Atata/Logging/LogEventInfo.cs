@@ -7,14 +7,13 @@ namespace Atata;
 /// </summary>
 public sealed class LogEventInfo
 {
-    internal LogEventInfo()
-    {
-    }
+    internal LogEventInfo(AtataContext context) =>
+        Context = context;
 
     /// <summary>
     /// Gets the context of the logging event.
     /// </summary>
-    public AtataContext? Context { get; internal set; }
+    public AtataContext Context { get; }
 
     /// <summary>
     /// Gets the session of the logging event.

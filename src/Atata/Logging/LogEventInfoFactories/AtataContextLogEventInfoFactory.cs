@@ -8,12 +8,11 @@ internal sealed class AtataContextLogEventInfoFactory : ILogEventInfoFactory
         _context = context.CheckNotNull(nameof(context));
 
     public LogEventInfo Create(DateTime timestamp, LogLevel level, string message) =>
-        new()
+        new(_context)
         {
             Timestamp = timestamp,
             TimeElapsed = _context.ExecutionStopwatch.Elapsed,
             Level = level,
-            Message = message,
-            Context = _context
+            Message = message
         };
 }
