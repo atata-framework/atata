@@ -232,7 +232,7 @@ public sealed class AtataSessionsBuilder
     /// <param name="name">The session name.</param>
     /// <param name="configure">An action delegate to configure the provided <see cref="IAtataSessionBuilder"/>.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder ConfigureOrAdd(Type sessionType, string? name, Action<IAtataSessionBuilder> configure)
+    public AtataContextBuilder ConfigureOrAdd(Type sessionType, string? name, Action<IAtataSessionBuilder>? configure = null)
     {
         sessionType.CheckNotNull(nameof(sessionType));
 
