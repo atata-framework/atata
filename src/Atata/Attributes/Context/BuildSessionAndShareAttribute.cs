@@ -35,7 +35,7 @@ public class BuildSessionAndShareAttribute : TestSuiteAtataContextConfigurationA
             SessionName,
             x =>
             {
-                x.StartScopes = AtataSessionStartScopes.TestSuite;
+                x.StartScopes = AtataContextScopes.TestSuite;
                 x.Mode = AtataSessionMode.Shared;
             });
 
@@ -44,7 +44,7 @@ public class BuildSessionAndShareAttribute : TestSuiteAtataContextConfigurationA
         builder.Sessions.ConfigureIfExists(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataSessionStartScopes.None);
+            x => x.StartScopes = AtataContextScopes.None);
         builder.Sessions.Borrow(SessionType, x => x.Name = SessionName);
     }
 }

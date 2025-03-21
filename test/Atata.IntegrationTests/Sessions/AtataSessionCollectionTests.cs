@@ -394,7 +394,7 @@ public static class AtataSessionCollectionTests
             // Arrange
             await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
-                    .UseStartScopes(AtataSessionStartScopes.None)
+                    .UseStartScopes(AtataContextScopes.None)
                     .UseName("some1"))
                 .BuildAsync();
 
@@ -411,7 +411,7 @@ public static class AtataSessionCollectionTests
         {
             // Arrange
             await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
-                .Sessions.Add<FakeSessionBuilder>(x => x.UseStartScopes(AtataSessionStartScopes.None))
+                .Sessions.Add<FakeSessionBuilder>(x => x.UseStartScopes(AtataContextScopes.None))
                 .BuildAsync();
 
             // Act
@@ -431,7 +431,7 @@ public static class AtataSessionCollectionTests
             // Arrange
             await using AtataContext context = await AtataContext.CreateDefaultNonScopedBuilder()
                 .Sessions.Add<FakeSessionBuilder>(x => x
-                    .UseStartScopes(AtataSessionStartScopes.None)
+                    .UseStartScopes(AtataContextScopes.None)
                     .UseName("some"))
                 .BuildAsync();
 

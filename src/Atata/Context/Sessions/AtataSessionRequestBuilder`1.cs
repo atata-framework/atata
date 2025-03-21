@@ -25,7 +25,7 @@ public abstract class AtataSessionRequestBuilder<TBuilder> : IAtataSessionProvid
     public string? Name { get; set; }
 
     /// <inheritdoc/>
-    public AtataSessionStartScopes? StartScopes { get; set; }
+    public AtataContextScopes? StartScopes { get; set; }
 
     /// <summary>
     /// Sets the <see cref="Name"/> value for a session request.
@@ -43,7 +43,7 @@ public abstract class AtataSessionRequestBuilder<TBuilder> : IAtataSessionProvid
     /// </summary>
     /// <param name="startScopes">The start scopes.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseStartScopes(AtataSessionStartScopes? startScopes)
+    public TBuilder UseStartScopes(AtataContextScopes? startScopes)
     {
         StartScopes = startScopes;
         return (TBuilder)this;

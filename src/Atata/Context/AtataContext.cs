@@ -131,7 +131,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// Gets the base configuration builder.
     /// </summary>
     public static AtataContextBuilder BaseConfiguration { get; internal set; } =
-        new(contextScope: null, sessionStartScopes: AtataSessionStartScopes.None);
+        new(contextScope: null, sessionStartScopes: AtataContextScopes.None);
 
     [Obsolete("Use AtataContext.GlobalProperties.ObjectConverter instead.")] // Obsolete since v4.0.0.
     public IObjectConverter ObjectConverter =>

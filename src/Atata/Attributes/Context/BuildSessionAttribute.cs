@@ -33,9 +33,5 @@ public class BuildSessionAttribute : AtataContextConfigurationAttribute
         builder.Sessions.ConfigureOrAdd(
             SessionType,
             SessionName,
-            x =>
-            {
-                x.StartScopes = AtataSessionStartScopes.TestSuite;
-                x.Mode = AtataSessionMode.Shared;
-            });
+            x => x.StartScopes = AtataContextScopes.All);
 }

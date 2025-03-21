@@ -16,7 +16,7 @@ public interface IAtataSessionProvider : ICloneable
     /// <summary>
     /// Gets or sets the start scopes for which an <see cref="AtataSession"/> should automatically start.
     /// </summary>
-    AtataSessionStartScopes? StartScopes { get; set; }
+    AtataContextScopes? StartScopes { get; set; }
 
     /// <summary>
     /// Starts a session within the specified <paramref name="context"/>.

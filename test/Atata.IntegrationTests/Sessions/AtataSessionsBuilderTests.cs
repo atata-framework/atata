@@ -16,7 +16,7 @@ public static class AtataSessionsBuilderTests
             // Assert
             sut.Builders.Should().ContainSingle()
                 .Which.Should().BeOfType<FakeSessionBuilder>()
-                .Which.StartScopes.Should().Be(AtataSessionStartScopes.TestSuite);
+                .Which.StartScopes.Should().Be(AtataContextScopes.TestSuite);
         }
 
         [Test]
@@ -66,7 +66,7 @@ public static class AtataSessionsBuilderTests
                 .Which.Should().BeOfType<FakeSessionBuilder>()
                 .Which.Should().Match((FakeSessionBuilder x) =>
                     x.Name == "some"
-                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.StartScopes == AtataContextScopes.TestSuite
                     && x.Mode == AtataSessionMode.Shared);
         }
     }
@@ -101,7 +101,7 @@ public static class AtataSessionsBuilderTests
                 .Which.Should().BeOfType<FakeSessionBuilder>()
                 .Which.Should().Match((FakeSessionBuilder x) =>
                     x.Name == "some"
-                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.StartScopes == AtataContextScopes.TestSuite
                     && x.Mode == AtataSessionMode.Shared);
         }
     }
@@ -120,7 +120,7 @@ public static class AtataSessionsBuilderTests
             // Assert
             sut.Builders.Should().ContainSingle()
                 .Which.Should().BeOfType<FakeSessionBuilder>()
-                .Which.Should().Match((FakeSessionBuilder x) => x.Name == "some" && x.StartScopes == AtataSessionStartScopes.TestSuite);
+                .Which.Should().Match((FakeSessionBuilder x) => x.Name == "some" && x.StartScopes == AtataContextScopes.TestSuite);
         }
 
         [Test]
@@ -138,7 +138,7 @@ public static class AtataSessionsBuilderTests
                 .Which.Should().BeOfType<FakeSessionBuilder>()
                 .Which.Should().Match((FakeSessionBuilder x) =>
                     x.Name == "some"
-                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.StartScopes == AtataContextScopes.TestSuite
                     && x.Mode == AtataSessionMode.Shared);
         }
 
@@ -158,7 +158,7 @@ public static class AtataSessionsBuilderTests
             sut.Builders.Last().Should().BeOfType<FakeSessionBuilder>()
                 .Which.Should().Match((FakeSessionBuilder x) =>
                     x.Name == "some2"
-                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.StartScopes == AtataContextScopes.TestSuite
                     && x.Mode == AtataSessionMode.Shared);
         }
     }
@@ -180,7 +180,7 @@ public static class AtataSessionsBuilderTests
                 .Which.Should().BeOfType<FakeSessionBuilder>()
                 .Which.Should().Match((FakeSessionBuilder x) =>
                     x.Name == "some"
-                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.StartScopes == AtataContextScopes.TestSuite
                     && x.Mode == AtataSessionMode.Shared);
         }
 
@@ -199,7 +199,7 @@ public static class AtataSessionsBuilderTests
                 .Which.Should().BeOfType<FakeSessionBuilder>()
                 .Which.Should().Match((FakeSessionBuilder x) =>
                     x.Name == "some"
-                    && x.StartScopes == AtataSessionStartScopes.TestSuite
+                    && x.StartScopes == AtataContextScopes.TestSuite
                     && x.Mode == AtataSessionMode.Shared);
         }
 

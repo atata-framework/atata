@@ -18,7 +18,7 @@ public sealed class AtataContextBuilder : ICloneable
     {
     }
 
-    internal AtataContextBuilder(AtataContextScope? contextScope, AtataSessionStartScopes? sessionStartScopes)
+    internal AtataContextBuilder(AtataContextScope? contextScope, AtataContextScopes? sessionStartScopes)
     {
         Scope = contextScope;
         Sessions = new(this, [], sessionStartScopes);
@@ -817,15 +817,15 @@ public sealed class AtataContextBuilder : ICloneable
         return copy;
     }
 
-    private static AtataSessionStartScopes? ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
+    private static AtataContextScopes? ResolveSessionDefaultStartScopes(AtataContextScope? scope) =>
         scope switch
         {
-            AtataContextScope.Test => AtataSessionStartScopes.Test,
-            AtataContextScope.TestSuite => AtataSessionStartScopes.TestSuite,
-            AtataContextScope.TestSuiteGroup => AtataSessionStartScopes.TestSuiteGroup,
-            AtataContextScope.Namespace => AtataSessionStartScopes.Namespace,
-            AtataContextScope.Global => AtataSessionStartScopes.Global,
+            AtataContextScope.Test => AtataContextScopes.Test,
+            AtataContextScope.TestSuite => AtataContextScopes.TestSuite,
+            AtataContextScope.TestSuiteGroup => AtataContextScopes.TestSuiteGroup,
+            AtataContextScope.Namespace => AtataContextScopes.Namespace,
+            AtataContextScope.Global => AtataContextScopes.Global,
             null => null,
-            _ => AtataSessionStartScopes.None
+            _ => AtataContextScopes.None
         };
 }

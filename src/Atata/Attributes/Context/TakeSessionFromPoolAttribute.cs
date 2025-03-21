@@ -34,7 +34,7 @@ public class TakeSessionFromPoolAttribute : AtataContextConfigurationAttribute
         builder.Sessions.ConfigureIfExists(
             SessionType,
             SessionName,
-            x => x.StartScopes = AtataSessionStartScopes.None);
+            x => x.StartScopes = AtataContextScopes.None);
         builder.Sessions.TakeFromPool(SessionType, x => x.Name = SessionName);
     }
 }

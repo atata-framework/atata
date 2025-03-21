@@ -21,7 +21,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     }
 
     /// <inheritdoc/>
-    public AtataSessionStartScopes? StartScopes { get; set; }
+    public AtataContextScopes? StartScopes { get; set; }
 
     /// <inheritdoc/>
     public AtataSessionMode Mode { get; set; }
@@ -132,7 +132,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// </summary>
     /// <param name="startScopes">The start scopes.</param>
     /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
-    public TBuilder UseStartScopes(AtataSessionStartScopes? startScopes)
+    public TBuilder UseStartScopes(AtataContextScopes? startScopes)
     {
         StartScopes = startScopes;
         return (TBuilder)this;

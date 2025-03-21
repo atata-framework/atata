@@ -11,12 +11,12 @@ public sealed class AtataSessionsBuilder
 
     private readonly List<IAtataSessionProvider> _sessionProviders;
 
-    private readonly AtataSessionStartScopes? _defaultStartScopes;
+    private readonly AtataContextScopes? _defaultStartScopes;
 
     internal AtataSessionsBuilder(
         AtataContextBuilder atataContextBuilder,
         List<IAtataSessionProvider> sessionProviders,
-        AtataSessionStartScopes? defaultStartScopes)
+        AtataContextScopes? defaultStartScopes)
     {
         _atataContextBuilder = atataContextBuilder;
         _sessionProviders = sessionProviders;
@@ -35,7 +35,7 @@ public sealed class AtataSessionsBuilder
     public IReadOnlyList<IAtataSessionProvider> Providers =>
         _sessionProviders;
 
-    internal AtataSessionStartScopes? DefaultStartScopes =>
+    internal AtataContextScopes? DefaultStartScopes =>
         _defaultStartScopes;
 
     public IEnumerable<IAtataSessionProvider> GetProvidersForScope(AtataContextScope? scope)
@@ -358,14 +358,14 @@ public sealed class AtataSessionsBuilder
             throw new ArgumentException($"{type.FullName} is not inherited from {nameof(AtataSession)}.", nameof(type));
     }
 
-    private static bool DoesSessionStartScopeSatisfyContextScope(AtataSessionStartScopes? sessionStartScopes, AtataContextScope? scope) =>
+    private static bool DoesSessionStartScopeSatisfyContextScope(AtataContextScopes? sessionStartScopes, AtataContextScope? scope) =>
         scope switch
         {
-            AtataContextScope.Test => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Test),
-            AtataContextScope.TestSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuite),
-            AtataContextScope.TestSuiteGroup => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.TestSuiteGroup),
-            AtataContextScope.Namespace => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Namespace),
-            AtataContextScope.Global => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataSessionStartScopes.Global),
+            AtataContextScope.Test => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataContextScopes.Test),
+            AtataContextScope.TestSuite => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataContextScopes.TestSuite),
+            AtataContextScope.TestSuiteGroup => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataContextScopes.TestSuiteGroup),
+            AtataContextScope.Namespace => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataContextScopes.Namespace),
+            AtataContextScope.Global => sessionStartScopes is null || sessionStartScopes.Value.HasFlag(AtataContextScopes.Global),
             null => sessionStartScopes is null,
             _ => false
         };
