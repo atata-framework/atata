@@ -34,5 +34,10 @@ public enum AtataSessionStartScopes
     /// <summary>
     /// Starts upon build of <see cref="AtataContext"/> with <see cref="AtataContextScope.Global"/> scope.
     /// </summary>
-    Global = 0x0001_0000
+    Global = 0x0001_0000,
+
+    /// <summary>
+    /// Starts upon build of any <see cref="AtataContext"/>.
+    /// </summary>
+    All = 0x0001_1111,
 }
