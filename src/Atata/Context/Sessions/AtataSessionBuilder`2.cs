@@ -139,6 +139,21 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     }
 
     /// <summary>
+    /// Sets the <see cref="StartScopes"/> value for a session
+    /// with either <see cref="AtataContextScopes.All"/> or <see cref="AtataContextScopes.None"/>,
+    /// depending on the <paramref name="start"/> parameter.
+    /// </summary>
+    /// <param name="start">Whether to start the session.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseStart(bool start = true)
+    {
+        StartScopes = start
+            ? AtataContextScopes.All
+            : AtataContextScopes.None;
+        return (TBuilder)this;
+    }
+
+    /// <summary>
     /// Sets the <see cref="Mode"/> value for a session.
     /// </summary>
     /// <param name="mode">The mode.</param>

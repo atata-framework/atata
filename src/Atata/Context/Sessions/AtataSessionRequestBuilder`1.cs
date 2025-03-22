@@ -49,6 +49,21 @@ public abstract class AtataSessionRequestBuilder<TBuilder> : IAtataSessionProvid
         return (TBuilder)this;
     }
 
+    /// <summary>
+    /// Sets the <see cref="StartScopes"/> value for a session request
+    /// with either <see cref="AtataContextScopes.All"/> or <see cref="AtataContextScopes.None"/>,
+    /// depending on the <paramref name="start"/> parameter.
+    /// </summary>
+    /// <param name="start">Whether to start the session request.</param>
+    /// <returns>The same <typeparamref name="TBuilder"/> instance.</returns>
+    public TBuilder UseStart(bool start = true)
+    {
+        StartScopes = start
+            ? AtataContextScopes.All
+            : AtataContextScopes.None;
+        return (TBuilder)this;
+    }
+
     Task IAtataSessionProvider.StartAsync(AtataContext context, CancellationToken cancellationToken) =>
         StartAsync(context, cancellationToken);
 
