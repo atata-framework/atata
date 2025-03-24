@@ -4,16 +4,16 @@ namespace Atata;
 
 /// <summary>
 /// Represents an attribute that configures <see cref="AtataContextBuilder"/>
-/// to build the specified session.
+/// to start the specified session.
 /// </summary>
-public class BuildSessionAttribute : AtataContextConfigurationAttribute
+public class StartSessionAttribute : AtataContextConfigurationAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BuildSessionAttribute"/> class.
+    /// Initializes a new instance of the <see cref="StartSessionAttribute"/> class.
     /// </summary>
     /// <param name="sessionType">Type of the session.</param>
     /// <param name="sessionName">Name of the session. Can be <see langword="null"/>.</param>
-    public BuildSessionAttribute(Type sessionType, string? sessionName = null)
+    public StartSessionAttribute(Type sessionType, string? sessionName = null)
     {
         SessionType = sessionType.CheckNotNull(nameof(sessionType));
         SessionName = sessionName;
