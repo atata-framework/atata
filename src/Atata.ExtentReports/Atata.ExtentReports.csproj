@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ExtentReports" Version="5.0.4" />
+    <!-- Directly referencing System.Security.Permissions" 8.0.0,
+    because ExtentReports through RazorEngine.NetCore.nixFix 1.0.1
+    transiently references deprecated vulnerable System.Security.Permissions 5.0.0. -->
+    <PackageReference Include="System.Security.Permissions" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Atata\Atata.csproj" />
+  </ItemGroup>
+
+</Project>

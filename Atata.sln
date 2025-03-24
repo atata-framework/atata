@@ -54,6 +54,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Xunit", "src\Atata.Xu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.Xunit3", "src\Atata.Xunit3\Atata.Xunit3.csproj", "{F79A9CA7-84CD-4D4D-B53D-32B7FF0C75A3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.ExtentReports", "src\Atata.ExtentReports\Atata.ExtentReports.csproj", "{8BBDB4F1-253A-44FE-9A01-DCAB1A3A4C0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Atata.ExtentReports.IntegrationTests", "test\Atata.ExtentReports.IntegrationTests\Atata.ExtentReports.IntegrationTests.csproj", "{ED3B65F7-84F4-4BAD-882F-07B331DF6D46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -120,6 +124,14 @@ Global
 		{F79A9CA7-84CD-4D4D-B53D-32B7FF0C75A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F79A9CA7-84CD-4D4D-B53D-32B7FF0C75A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F79A9CA7-84CD-4D4D-B53D-32B7FF0C75A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BBDB4F1-253A-44FE-9A01-DCAB1A3A4C0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BBDB4F1-253A-44FE-9A01-DCAB1A3A4C0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BBDB4F1-253A-44FE-9A01-DCAB1A3A4C0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BBDB4F1-253A-44FE-9A01-DCAB1A3A4C0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED3B65F7-84F4-4BAD-882F-07B331DF6D46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED3B65F7-84F4-4BAD-882F-07B331DF6D46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED3B65F7-84F4-4BAD-882F-07B331DF6D46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED3B65F7-84F4-4BAD-882F-07B331DF6D46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

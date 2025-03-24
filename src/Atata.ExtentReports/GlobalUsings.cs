@@ -1,0 +1,11 @@
+﻿global using System.Collections.Concurrent;
+global using System.Diagnostics.CodeAnalysis;
+global using System.Text;
+global using System.Text.RegularExpressions;
+global using System.Web;
+global using Atata;
+global using AventStack.ExtentReports;
+global using AventStack.ExtentReports.Listener.Entity;
+global using AventStack.ExtentReports.MarkupUtils;
+global using AventStack.ExtentReports.Model;
+global using AventStack.ExtentReports.Reporter;
