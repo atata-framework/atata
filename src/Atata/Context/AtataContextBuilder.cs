@@ -24,7 +24,7 @@ public sealed class AtataContextBuilder : ICloneable
         Sessions = new(this, [], sessionStartScopes);
         Attributes = new(this, new());
         EventSubscriptions = new(this);
-        LogConsumers = new(this, []);
+        LogConsumers = new(this);
     }
 
     /// <summary>
@@ -687,7 +687,7 @@ public sealed class AtataContextBuilder : ICloneable
     private LogManager CreateLogManager(AtataContext context)
     {
         LogManagerConfiguration configuration = new(
-            [.. LogConsumers.Items],
+            [.. LogConsumers.GetItemsForScope(Scope)],
             [.. SecretStringsToMaskInLog]);
 
         return new(configuration, new AtataContextLogEventInfoFactory(context));
@@ -803,10 +803,7 @@ public sealed class AtataContextBuilder : ICloneable
             Attributes.AttributesContext.Clone());
 
         copy.EventSubscriptions = EventSubscriptions.CloneFor(copy);
-
-        copy.LogConsumers = new(
-            copy,
-            [.. LogConsumers.Items.Select(x => x.Consumer is ICloneable ? x.Clone() : x)]);
+        copy.LogConsumers = LogConsumers.CloneFor(copy);
 
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.State = new Dictionary<string, object>(State);

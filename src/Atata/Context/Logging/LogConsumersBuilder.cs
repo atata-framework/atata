@@ -9,21 +9,26 @@ public sealed class LogConsumersBuilder
 {
     private readonly AtataContextBuilder _atataContextBuilder;
 
-    private readonly List<LogConsumerConfiguration> _items;
+    private readonly List<ScopeLimitedLogConsumerConfiguration> _configurations;
 
-    internal LogConsumersBuilder(
+    internal LogConsumersBuilder(AtataContextBuilder atataContextBuilder)
+        : this(atataContextBuilder, [])
+    {
+    }
+
+    private LogConsumersBuilder(
         AtataContextBuilder atataContextBuilder,
-        List<LogConsumerConfiguration> items)
+        List<ScopeLimitedLogConsumerConfiguration> items)
     {
         _atataContextBuilder = atataContextBuilder;
-        _items = items;
+        _configurations = items;
     }
 
     /// <summary>
     /// Gets the list of log consumer configurations.
     /// </summary>
-    public IReadOnlyList<LogConsumerConfiguration> Items =>
-        _items;
+    public IEnumerable<LogConsumerConfiguration> Items =>
+        _configurations.Select(x => x.ConsumerConfiguration);
 
     /// <summary>
     /// Adds a log consumer of the specified type.
@@ -66,8 +71,8 @@ public sealed class LogConsumersBuilder
     {
         consumer.CheckNotNull(nameof(consumer));
 
-        LogConsumerConfiguration consumerConfiguration = new(consumer);
-        _items.Add(consumerConfiguration);
+        ScopeLimitedLogConsumerConfiguration consumerConfiguration = new(new(consumer));
+        _configurations.Add(consumerConfiguration);
 
         configure?.Invoke(new(consumerConfiguration));
 
@@ -179,10 +184,10 @@ public sealed class LogConsumersBuilder
     {
         logConsumer.CheckNotNull(nameof(logConsumer));
 
-        var logConsumerConfiguration = Items.FirstOrDefault(x => x.Consumer == logConsumer);
+        var configuration = _configurations.FirstOrDefault(x => x.ConsumerConfiguration.Consumer == logConsumer);
 
-        if (logConsumerConfiguration is not null)
-            _items.Remove(logConsumerConfiguration);
+        if (configuration is not null)
+            _configurations.Remove(configuration);
 
         return _atataContextBuilder;
     }
@@ -196,7 +201,10 @@ public sealed class LogConsumersBuilder
     {
         logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
 
-        _items.Remove(logConsumerConfiguration);
+        var configuration = _configurations.FirstOrDefault(x => x.ConsumerConfiguration == logConsumerConfiguration);
+
+        if (configuration is not null)
+            _configurations.Remove(configuration);
 
         return _atataContextBuilder;
     }
@@ -209,7 +217,7 @@ public sealed class LogConsumersBuilder
     public AtataContextBuilder RemoveAll<TLogConsumer>()
         where TLogConsumer : ILogConsumer
     {
-        _items.RemoveAll(x => x.Consumer is TLogConsumer);
+        _configurations.RemoveAll(x => x.ConsumerConfiguration.Consumer is TLogConsumer);
         return _atataContextBuilder;
     }
 
@@ -219,12 +227,26 @@ public sealed class LogConsumersBuilder
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Clear()
     {
-        _items.Clear();
+        _configurations.Clear();
         return _atataContextBuilder;
     }
 
-    private LogConsumerConfiguration GetConfigurationOrNull<TLogConsumer>()
+    internal LogConsumersBuilder CloneFor(AtataContextBuilder atataContextBuilder) =>
+        new(
+            atataContextBuilder,
+            [.. _configurations.Select(x => x.Clone())]);
+
+    internal IEnumerable<LogConsumerConfiguration> GetItemsForScope(AtataContextScope? scope)
+    {
+        foreach (var item in _configurations)
+        {
+            if (item.Scopes.Satisfies(scope))
+                yield return item.ConsumerConfiguration;
+        }
+    }
+
+    private ScopeLimitedLogConsumerConfiguration GetConfigurationOrNull<TLogConsumer>()
         where TLogConsumer : ILogConsumer
         =>
-        Items.LastOrDefault(x => x.Consumer is TLogConsumer);
+        _configurations.LastOrDefault(x => x.ConsumerConfiguration.Consumer is TLogConsumer);
 }

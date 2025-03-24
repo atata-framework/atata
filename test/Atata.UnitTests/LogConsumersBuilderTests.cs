@@ -7,7 +7,7 @@ public class LogConsumersBuilderTests
 
     [SetUp]
     public void SetUp() =>
-        Sut = new LogConsumersBuilder(AtataContext.CreateDefaultNonScopedBuilder(), [])
+        Sut = new LogConsumersBuilder(AtataContext.CreateDefaultNonScopedBuilder())
             .ToSutSubject();
 
     public sealed class Configure : LogConsumersBuilderTests

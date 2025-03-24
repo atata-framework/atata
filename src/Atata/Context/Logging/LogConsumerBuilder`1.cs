@@ -5,29 +5,16 @@ namespace Atata;
 public sealed class LogConsumerBuilder<TLogConsumer>
     where TLogConsumer : ILogConsumer
 {
-    private readonly LogConsumerConfiguration _logConsumerConfiguration;
+    private readonly ScopeLimitedLogConsumerConfiguration _configuration;
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="LogConsumerBuilder{TLogConsumer}" /> class.
-    /// </summary>
-    /// <param name="logConsumerConfiguration">The log consumer configuration.</param>
-    public LogConsumerBuilder(LogConsumerConfiguration logConsumerConfiguration)
-    {
-        logConsumerConfiguration.CheckNotNull(nameof(logConsumerConfiguration));
-
-        if (logConsumerConfiguration.Consumer is not TLogConsumer)
-            throw new ArgumentException(
-                $"'{nameof(logConsumerConfiguration)}.{nameof(LogConsumerConfiguration.Consumer)}' should be of {typeof(TLogConsumer)} type, but was {logConsumerConfiguration.Consumer.GetType()}.",
-                nameof(logConsumerConfiguration));
-
-        _logConsumerConfiguration = logConsumerConfiguration;
-    }
+    internal LogConsumerBuilder(ScopeLimitedLogConsumerConfiguration configuration) =>
+        _configuration = configuration;
 
     /// <summary>
     /// Gets the log consumer.
     /// </summary>
     public TLogConsumer Consumer =>
-        (TLogConsumer)_logConsumerConfiguration.Consumer;
+        (TLogConsumer)_configuration.ConsumerConfiguration.Consumer;
 
     /// <summary>
     /// Sets the output option of log section end.
@@ -37,7 +24,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> WithSectionEnd(LogSectionEndOption logSectionEnd)
     {
-        _logConsumerConfiguration.SectionEnd = logSectionEnd;
+        _configuration.ConsumerConfiguration.SectionEnd = logSectionEnd;
         return this;
     }
 
@@ -49,7 +36,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> WithMinLevel(LogLevel level)
     {
-        _logConsumerConfiguration.MinLevel = level;
+        _configuration.ConsumerConfiguration.MinLevel = level;
         return this;
     }
 
@@ -65,7 +52,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> WithNestingLevelIndent(string nestingLevelIndent)
     {
-        _logConsumerConfiguration.NestingLevelIndent = nestingLevelIndent;
+        _configuration.ConsumerConfiguration.NestingLevelIndent = nestingLevelIndent;
         return this;
     }
 
@@ -81,7 +68,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> WithSectionStartPrefix(string sectionStartPrefix)
     {
-        _logConsumerConfiguration.SectionStartPrefix = sectionStartPrefix;
+        _configuration.ConsumerConfiguration.SectionStartPrefix = sectionStartPrefix;
         return this;
     }
 
@@ -97,7 +84,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> WithSectionEndPrefix(string sectionEndPrefix)
     {
-        _logConsumerConfiguration.SectionEndPrefix = sectionEndPrefix;
+        _configuration.ConsumerConfiguration.SectionEndPrefix = sectionEndPrefix;
         return this;
     }
 
@@ -110,7 +97,7 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> WithEmbedSessionLog(bool enable)
     {
-        _logConsumerConfiguration.EmbedSessionLog = enable;
+        _configuration.ConsumerConfiguration.EmbedSessionLog = enable;
         return this;
     }
 
@@ -123,7 +110,19 @@ public sealed class LogConsumerBuilder<TLogConsumer>
     /// <returns>The same builder instance.</returns>
     public LogConsumerBuilder<TLogConsumer> WithEmbedExternalSourceLog(bool enable)
     {
-        _logConsumerConfiguration.EmbedExternalSourceLog = enable;
+        _configuration.ConsumerConfiguration.EmbedExternalSourceLog = enable;
+        return this;
+    }
+
+    /// <summary>
+    /// Sets the target scopes for which to apply the log consumer.
+    /// The default value is <see cref="AtataContextScopes.All"/>.
+    /// </summary>
+    /// <param name="scopes">The target scopes.</param>
+    /// <returns>The same builder instance.</returns>
+    public LogConsumerBuilder<TLogConsumer> WithTargetScopes(AtataContextScopes scopes)
+    {
+        _configuration.Scopes = scopes;
         return this;
     }
 
