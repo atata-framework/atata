@@ -1,6 +1,6 @@
 ﻿namespace Atata.ExtentReports.IntegrationTests;
 
-[BuildSessionAndShare(typeof(WebDriverSession))]
+[StartSessionAndShare(typeof(WebDriverSession))]
 public sealed class UsingSameDriverTests : AtataTestSuite
 {
     [OneTimeSetUp]

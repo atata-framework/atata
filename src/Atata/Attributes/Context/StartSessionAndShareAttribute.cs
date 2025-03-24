@@ -4,16 +4,16 @@ namespace Atata;
 
 /// <summary>
 /// Represents an attribute that configures test suite <see cref="AtataContextBuilder"/>
-/// to build the specified session and share it with tests.
+/// to start the specified session and share it with tests.
 /// </summary>
-public class BuildSessionAndShareAttribute : TestSuiteAtataContextConfigurationAttribute
+public class StartSessionAndShareAttribute : TestSuiteAtataContextConfigurationAttribute
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="BuildSessionAndShareAttribute"/> class.
+    /// Initializes a new instance of the <see cref="StartSessionAndShareAttribute"/> class.
     /// </summary>
     /// <param name="sessionType">Type of the session.</param>
     /// <param name="sessionName">Name of the session. Can be <see langword="null"/>.</param>
-    public BuildSessionAndShareAttribute(Type sessionType, string? sessionName = null)
+    public StartSessionAndShareAttribute(Type sessionType, string? sessionName = null)
     {
         SessionType = sessionType.CheckNotNull(nameof(sessionType));
         SessionName = sessionName;
