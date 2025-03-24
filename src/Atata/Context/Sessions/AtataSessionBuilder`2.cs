@@ -9,7 +9,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     private AtataContext? _targetContext;
 
     protected AtataSessionBuilder() =>
-        EventSubscriptions = new((TBuilder)this, []);
+        EventSubscriptions = new((TBuilder)this);
 
     /// <inheritdoc/>
     public string? Name { get; set; }
@@ -114,7 +114,7 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
     /// Gets the builder of event subscriptions,
     /// which provides the methods to subscribe to Atata and custom events.
     /// </summary>
-    public EventSubscriptionsBuilder<TBuilder> EventSubscriptions { get; private set; }
+    public AtataSessionEventSubscriptionsBuilder<TBuilder> EventSubscriptions { get; private set; }
 
     /// <summary>
     /// Sets the <see cref="Name"/> value for a session.
@@ -465,8 +465,6 @@ public abstract class AtataSessionBuilder<TSession, TBuilder> : IAtataSessionBui
         copy.Variables = new Dictionary<string, object>(Variables);
         copy.State = new Dictionary<string, object>(State);
 
-        copy.EventSubscriptions = new(
-            copy,
-            [.. EventSubscriptions.Items]);
+        copy.EventSubscriptions = EventSubscriptions.CloneFor(copy);
     }
 }

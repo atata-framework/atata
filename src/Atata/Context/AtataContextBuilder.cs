@@ -23,7 +23,7 @@ public sealed class AtataContextBuilder : ICloneable
         Scope = contextScope;
         Sessions = new(this, [], sessionStartScopes);
         Attributes = new(this, new());
-        EventSubscriptions = new(this, []);
+        EventSubscriptions = new(this);
         LogConsumers = new(this, []);
     }
 
@@ -55,7 +55,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// Gets the builder of event subscriptions,
     /// which provides the methods to subscribe to Atata and custom events.
     /// </summary>
-    public EventSubscriptionsBuilder<AtataContextBuilder> EventSubscriptions { get; private set; }
+    public AtataContextEventSubscriptionsBuilder EventSubscriptions { get; private set; }
 
     /// <summary>
     /// Gets the builder of log consumers,
@@ -664,7 +664,7 @@ public sealed class AtataContextBuilder : ICloneable
         context.AggregateAssertionStrategy = AggregateAssertionStrategy ?? AtataAggregateAssertionStrategy.Instance;
         context.WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance;
         context.AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
-        context.EventBus = new EventBus(context, EventSubscriptions.Items);
+        context.EventBus = new EventBus(context, EventSubscriptions.GetItemsForScope(Scope));
 
         context.InitMainVariables();
         context.InitCustomVariables(Variables);
@@ -802,9 +802,7 @@ public sealed class AtataContextBuilder : ICloneable
             copy,
             Attributes.AttributesContext.Clone());
 
-        copy.EventSubscriptions = new(
-            copy,
-            [.. EventSubscriptions.Items]);
+        copy.EventSubscriptions = EventSubscriptions.CloneFor(copy);
 
         copy.LogConsumers = new(
             copy,

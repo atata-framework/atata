@@ -3,28 +3,18 @@
 namespace Atata;
 
 /// <summary>
-/// Represents the builder of event subscriptions.
+/// Represents a base class for event subscriptions builder.
 /// </summary>
 /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
-public sealed class EventSubscriptionsBuilder<TRootBuilder>
+public abstract class EventSubscriptionsBuilder<TRootBuilder>
 {
     private readonly TRootBuilder _rootBuilder;
 
-    private readonly List<EventSubscriptionItem> _items;
-
-    internal EventSubscriptionsBuilder(
-        TRootBuilder rootBuilder,
-        List<EventSubscriptionItem> items)
-    {
+    private protected EventSubscriptionsBuilder(TRootBuilder rootBuilder) =>
         _rootBuilder = rootBuilder;
-        _items = items;
-    }
 
-    /// <summary>
-    /// Gets the list of event subscriptions.
-    /// </summary>
-    public IReadOnlyList<EventSubscriptionItem> Items =>
-        _items;
+    protected TRootBuilder RootBuilder =>
+        _rootBuilder;
 
 #pragma warning disable CA2263 // Prefer generic overload when type is known
 
@@ -135,7 +125,9 @@ public sealed class EventSubscriptionsBuilder<TRootBuilder>
 
     private TRootBuilder Add(Type eventType, object eventHandler)
     {
-        _items.Add(new(eventType, eventHandler));
+        DoAdd(eventType, eventHandler);
         return _rootBuilder;
     }
+
+    protected abstract void DoAdd(Type eventType, object eventHandler);
 }

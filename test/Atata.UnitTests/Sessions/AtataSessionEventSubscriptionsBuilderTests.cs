@@ -1,15 +1,15 @@
-﻿namespace Atata.UnitTests;
+﻿namespace Atata.UnitTests.Sessions;
 
-public static class EventSubscriptionsBuilderTests
+public static class AtataSessionEventSubscriptionsBuilderTests
 {
     [TestFixture]
     public sealed class Add
     {
-        private Subject<EventSubscriptionsBuilder<AtataContextBuilder>> _sut;
+        private Subject<AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>> _sut;
 
         [SetUp]
         public void SetUp() =>
-            _sut = new EventSubscriptionsBuilder<AtataContextBuilder>(AtataContext.CreateDefaultNonScopedBuilder(), [])
+            _sut = new AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>(AtataContext.CreateDefaultNonScopedBuilder())
                 .ToSutSubject();
 
         [Test]
@@ -134,7 +134,7 @@ public static class EventSubscriptionsBuilderTests
 
         [Test]
         public void EventHandlerType_WithInvalidEventHandlerType() =>
-            _sut.Invoking(x => x.Add(typeof(EventSubscriptionsBuilderTests)))
+            _sut.Invoking(x => x.Add(typeof(AtataSessionEventSubscriptionsBuilderTests)))
                 .Should.ThrowExactly<ArgumentException>();
 
         [Test]
@@ -167,7 +167,7 @@ public static class EventSubscriptionsBuilderTests
 
         [Test]
         public void EventTypeAndEventHandlerType_WithInvalidEventHandlerType() =>
-            _sut.Invoking(x => x.Add(typeof(TestEvent), typeof(EventSubscriptionsBuilderTests)))
+            _sut.Invoking(x => x.Add(typeof(TestEvent), typeof(AtataSessionEventSubscriptionsBuilderTests)))
                 .Should.ThrowExactly<ArgumentException>();
 
         private static void StubMethod()
