@@ -14,4 +14,9 @@ public static class AtataContextScopesExtensions
             AtataContextScope.Global => scopes.HasFlag(AtataContextScopes.Global),
             _ => false
         };
+
+    internal static bool Satisfies(this AtataContextScopes scopes, AtataContextScope? scope) =>
+        scope is null
+            ? scopes == AtataContextScopes.All
+            : scopes.Contains(scope.Value);
 }

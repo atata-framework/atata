@@ -34,15 +34,10 @@ public sealed class AtataContextEventSubscriptionsBuilder : EventSubscriptionsBu
     {
         foreach (var item in _items)
         {
-            if (DoScopesMatch(item.Scopes, scope))
+            if (item.Scopes.Satisfies(scope))
                 yield return item.Item;
         }
     }
-
-    private static bool DoScopesMatch(AtataContextScopes scopes, AtataContextScope? scope) =>
-        scope is null
-            ? scopes == AtataContextScopes.All
-            : scopes.Contains(scope.Value);
 
     internal AtataContextEventSubscriptionsBuilder CloneFor(AtataContextBuilder rootBuilder) =>
         new(rootBuilder, [.. _items]);
