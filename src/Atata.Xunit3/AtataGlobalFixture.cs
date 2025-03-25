@@ -25,6 +25,14 @@ public abstract class AtataGlobalFixture : AtataFixture
     {
     }
 
-    protected override void ConfigureAtataContext(AtataContextBuilder builder) =>
+    private protected sealed override void ConfigureAtataContext(AtataContextBuilder builder)
+    {
         builder.UseTestSuiteType(GetType());
+
+        ConfigureGlobalAtataContext(builder);
+    }
+
+    protected virtual void ConfigureGlobalAtataContext(AtataContextBuilder builder)
+    {
+    }
 }

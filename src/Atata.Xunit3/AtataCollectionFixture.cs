@@ -8,9 +8,15 @@ public abstract class AtataCollectionFixture : AtataFixture
         : base(AtataContextScope.TestSuiteGroup) =>
         _collectionName = collectionName;
 
-    protected override void ConfigureAtataContext(AtataContextBuilder builder)
+    private protected sealed override void ConfigureAtataContext(AtataContextBuilder builder)
     {
         builder.UseTestSuiteType(GetType());
         builder.UseTestSuiteGroupName(_collectionName);
+
+        ConfigureCollectionAtataContext(builder);
+    }
+
+    protected virtual void ConfigureCollectionAtataContext(AtataContextBuilder builder)
+    {
     }
 }
