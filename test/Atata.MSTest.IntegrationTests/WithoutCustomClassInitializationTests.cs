@@ -3,7 +3,7 @@
 [TestClass]
 public sealed class WithoutCustomClassInitializationTests : AtataTestSuite
 {
-    protected override void ConfigureAtataContext(AtataContextBuilder builder) =>
+    protected override void ConfigureTestAtataContext(AtataContextBuilder builder) =>
         builder.UseVariable("custom-test-variable", true);
 
     [TestMethod]

@@ -54,7 +54,7 @@ public abstract class AtataTestSuite
         if (method is not null)
             TestAtataContextMetadata.GetForMethod(method).ApplyToTestBuilder(builder);
 
-        ConfigureAtataContext(builder);
+        ConfigureTestAtataContext(builder);
 
         Context = builder.Build(TestContext.CancellationTokenSource.Token);
         TestContext.SetAtataContext(Context);
@@ -64,7 +64,7 @@ public abstract class AtataTestSuite
     public void TearDownTestAtataContext() =>
         MSTestAtataContextCompletionHandler.Complete(TestContext);
 
-    protected virtual void ConfigureAtataContext(AtataContextBuilder builder)
+    protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
     }
 
