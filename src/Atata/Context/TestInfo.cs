@@ -81,11 +81,6 @@ public sealed class TestInfo : IEquatable<TestInfo>
     /// </summary>
     public string? FullName { get; }
 
-    /// <summary>
-    /// Gets the test result status.
-    /// </summary>
-    public TestResultStatus ResultStatus { get; internal set; }
-
     public static bool operator ==(TestInfo left, TestInfo right) =>
         EqualityComparer<TestInfo>.Default.Equals(left, right);
 
@@ -146,8 +141,7 @@ public sealed class TestInfo : IEquatable<TestInfo>
         && Name == other.Name
         && SuiteName == other.SuiteName
         && SuiteType == other.SuiteType
-        && SuiteGroupName == other.SuiteGroupName
-        && ResultStatus == other.ResultStatus;
+        && SuiteGroupName == other.SuiteGroupName;
 
     /// <inheritdoc/>
     public override int GetHashCode()
@@ -157,7 +151,6 @@ public sealed class TestInfo : IEquatable<TestInfo>
         hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(SuiteName);
         hashCode = (hashCode * -1521134295) + EqualityComparer<Type?>.Default.GetHashCode(SuiteType);
         hashCode = (hashCode * -1521134295) + EqualityComparer<string?>.Default.GetHashCode(SuiteGroupName);
-        hashCode = (hashCode * -1521134295) + ResultStatus.GetHashCode();
         return hashCode;
     }
 }

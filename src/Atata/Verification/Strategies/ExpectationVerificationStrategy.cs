@@ -32,8 +32,8 @@ public sealed class ExpectationVerificationStrategy : IVerificationStrategy
             executionUnit.Context.AssertionResults.Add(AssertionResult.ForWarning(completeMessageWithException, stackTrace));
             executionUnit.Log.Warn(completeMessageWithException);
 
-            if (executionUnit.Context.Test.ResultStatus == TestResultStatus.Passed)
-                executionUnit.Context.Test.ResultStatus = TestResultStatus.Warning;
+            if (executionUnit.Context.TestResultStatus == TestResultStatus.Passed)
+                executionUnit.Context.TestResultStatus = TestResultStatus.Warning;
 
             executionUnit.Context.WarningReportStrategy.Report(executionUnit, completeMessageWithException, stackTrace);
         }

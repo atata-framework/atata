@@ -12,8 +12,6 @@ public static class NUnitAtataContextCompletionHandler
             {
                 if (testResult.Outcome.Site is not FailureSite.Child and not FailureSite.Parent)
                     context.HandleTestResultException(testResult.Message, testResult.StackTrace);
-                else
-                    context.SetTestResultStatus(TestResultStatus.Failed);
             }
             else if (testResult.Outcome.Status == TestStatus.Inconclusive)
             {

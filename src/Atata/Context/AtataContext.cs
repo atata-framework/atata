@@ -166,6 +166,11 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     public TestInfo Test { get; }
 
     /// <summary>
+    /// Gets the test result status.
+    /// </summary>
+    public TestResultStatus TestResultStatus { get; internal set; }
+
+    /// <summary>
     /// Gets the execution unit.
     /// </summary>
     public IAtataExecutionUnit ExecutionUnit { get; }
@@ -779,23 +784,15 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     }
 
     /// <summary>
-    /// Sets the test result status.
-    /// </summary>
-    /// <param name="status">The status.</param>
-    public void SetTestResultStatus(TestResultStatus status)
-    {
-        EnsureNotDisposed();
-        Test.ResultStatus = status;
-    }
-
-    /// <summary>
     /// Sets the test result status as <see cref="TestResultStatus.Inconclusive"/>
     /// and optionally logs the inconclusive message.
     /// </summary>
     /// <param name="message">The message.</param>
     public void SetInconclusiveTestResult(string? message = null)
     {
-        SetTestResultStatus(TestResultStatus.Inconclusive);
+        EnsureNotDisposed();
+
+        TestResultStatus = TestResultStatus.Inconclusive;
 
         if (message?.Length > 0)
             Log.Info(message);
@@ -811,7 +808,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     {
         exception.CheckNotNull(nameof(exception));
 
-        SetTestResultStatus(TestResultStatus.Failed);
+        EnsureNotDisposed();
+
+        TestResultStatus = TestResultStatus.Failed;
 
         if (exception != LastLoggedException)
         {
@@ -832,7 +831,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     {
         message.CheckNotNull(nameof(message));
 
-        SetTestResultStatus(TestResultStatus.Failed);
+        EnsureNotDisposed();
+
+        TestResultStatus = TestResultStatus.Failed;
 
         if (LastLoggedException is null || !message.Contains(LastLoggedException.Message))
         {
@@ -1038,18 +1039,18 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     {
         const TestResultStatus maxStatus = TestResultStatus.Failed;
 
-        if (Test.ResultStatus == maxStatus)
+        if (TestResultStatus == maxStatus)
             return;
 
-        if (Test.ResultStatus == TestResultStatus.None)
-            Test.ResultStatus = TestResultStatus.Passed;
+        if (TestResultStatus == TestResultStatus.None)
+            TestResultStatus = TestResultStatus.Passed;
 
         for (int i = 0; i < _childContexts.Count; i++)
         {
-            var status = _childContexts[i].Test.ResultStatus;
-            if (status > Test.ResultStatus)
+            var status = _childContexts[i].TestResultStatus;
+            if (status > TestResultStatus)
             {
-                Test.ResultStatus = status;
+                TestResultStatus = status;
 
                 if (status == maxStatus)
                     return;
@@ -1131,7 +1132,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
         StringBuilder messageBuilder = new(
             $"""
-            Finished {scopeName} with {GetResultStatusForLog()} status at {ConvertDateTimeToString(finishedAt)}
+            Finished {scopeName} with {GetTestResultStatusForLog()} status at {ConvertDateTimeToString(finishedAt)}
                   Total time: {totalTimeString.PadLeft(maxTimeStringLength)}
               Initialization: {initializationTimeString.PadLeft(maxTimeStringLength)} | {initializationTimePercentString.PadLeft(maxPercentStringLength)}
             """);
@@ -1167,8 +1168,8 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             _ => "unit"
         };
 
-    private string GetResultStatusForLog() =>
-        Test.ResultStatus switch
+    private string GetTestResultStatusForLog() =>
+        TestResultStatus switch
         {
             TestResultStatus.None => "none",
             TestResultStatus.Inconclusive => "inconclusive",

@@ -9,11 +9,11 @@ public sealed class EndExtentTestItemEventHandler : IEventHandler<AtataContextDe
         if (extentContext is not null)
         {
             extentContext.Test.Test.EndTime = DateTime.Now;
-            extentContext.Test.Test.Status = ResolveCurrentTestStatus(context.Test.ResultStatus);
+            extentContext.Test.Test.Status = ConvertTestResultStatusToExtentStatus(context.TestResultStatus);
         }
     }
 
-    private static Status ResolveCurrentTestStatus(TestResultStatus testResultStatus) =>
+    private static Status ConvertTestResultStatusToExtentStatus(TestResultStatus testResultStatus) =>
         testResultStatus switch
         {
             TestResultStatus.Inconclusive => Status.Skip,
