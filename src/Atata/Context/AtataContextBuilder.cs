@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the builder of <see cref="AtataContext"/>.
@@ -35,7 +37,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <see cref="TestSuiteTypeFactory"/>, <see cref="TestSuiteNameFactory"/>
     /// and <see cref="TestSuiteGroupNameFactory"/>.
     /// </summary>
-    public AtataContext ParentContext { get; private set; }
+    public AtataContext? ParentContext { get; private set; }
 
     /// <summary>
     /// Gets the scope of context.
@@ -66,12 +68,12 @@ public sealed class AtataContextBuilder : ICloneable
     /// <summary>
     /// Gets the variables dictionary.
     /// </summary>
-    public IDictionary<string, object> Variables { get; private set; } = new Dictionary<string, object>();
+    public IDictionary<string, object?> Variables { get; private set; } = new Dictionary<string, object?>();
 
     /// <summary>
     /// Gets the state dictionary.
     /// </summary>
-    public IDictionary<string, object> State { get; private set; } = new Dictionary<string, object>();
+    public IDictionary<string, object?> State { get; private set; } = new Dictionary<string, object?>();
 
     /// <summary>
     /// Gets the list of secret strings to mask in log.
@@ -81,22 +83,22 @@ public sealed class AtataContextBuilder : ICloneable
     /// <summary>
     /// Gets or sets the factory method of the test name.
     /// </summary>
-    public Func<string> TestNameFactory { get; set; }
+    public Func<string?>? TestNameFactory { get; set; }
 
     /// <summary>
     /// Gets or sets the factory method of the test suite name.
     /// </summary>
-    public Func<string> TestSuiteNameFactory { get; set; }
+    public Func<string?>? TestSuiteNameFactory { get; set; }
 
     /// <summary>
     /// Gets or sets the factory method of the test suite type.
     /// </summary>
-    public Func<Type> TestSuiteTypeFactory { get; set; }
+    public Func<Type?>? TestSuiteTypeFactory { get; set; }
 
     /// <summary>
     /// Gets or sets the factory method of the test suite group name.
     /// </summary>
-    public Func<string> TestSuiteGroupNameFactory { get; set; }
+    public Func<string?>? TestSuiteGroupNameFactory { get; set; }
 
     /// <summary>
     /// Gets the base retry timeout.
@@ -153,7 +155,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <summary>
     /// Gets or sets the culture.
     /// </summary>
-    public CultureInfo Culture { get; set; }
+    public CultureInfo? Culture { get; set; }
 
     /// <summary>
     /// Gets or sets the type of the assertion exception.
@@ -191,7 +193,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="parentContext">The parent context.</param>
     /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseParentContext(AtataContext parentContext)
+    public AtataContextBuilder UseParentContext(AtataContext? parentContext)
     {
         if (Scope == AtataContextScope.Global)
             throw new InvalidOperationException($"Cannot set parent context for global {nameof(AtataContext)}.");
@@ -201,11 +203,11 @@ public sealed class AtataContextBuilder : ICloneable
     }
 
     [Obsolete("Use UseVariable instead.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder AddVariable(string key, object value) =>
+    public AtataContextBuilder AddVariable(string key, object? value) =>
         UseVariable(key, value);
 
     [Obsolete("Use UseVariables instead.")] // Obsolete since v4.0.0.
-    public AtataContextBuilder AddVariables(IDictionary<string, object> variables) =>
+    public AtataContextBuilder AddVariables(IDictionary<string, object?> variables) =>
         UseVariables(variables);
 
     /// <summary>
@@ -214,7 +216,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// <param name="key">The variable key.</param>
     /// <param name="value">The variable value.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseVariable(string key, object value)
+    public AtataContextBuilder UseVariable(string key, object? value)
     {
         key.CheckNotNullOrWhitespace(nameof(key));
 
@@ -228,7 +230,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="variables">The variables to set.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseVariables(IEnumerable<KeyValuePair<string, object>> variables)
+    public AtataContextBuilder UseVariables(IEnumerable<KeyValuePair<string, object?>> variables)
     {
         variables.CheckNotNull(nameof(variables));
 
@@ -299,7 +301,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testNameFactory">The factory method of the test name.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestName(Func<string> testNameFactory)
+    public AtataContextBuilder UseTestName(Func<string?> testNameFactory)
     {
         testNameFactory.CheckNotNull(nameof(testNameFactory));
 
@@ -312,7 +314,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testName">The name of the test.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestName(string testName)
+    public AtataContextBuilder UseTestName(string? testName)
     {
         TestNameFactory = () => testName;
         return this;
@@ -323,7 +325,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testSuiteNameFactory">The factory method of the test suite name.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestSuiteName(Func<string> testSuiteNameFactory)
+    public AtataContextBuilder UseTestSuiteName(Func<string?> testSuiteNameFactory)
     {
         testSuiteNameFactory.CheckNotNull(nameof(testSuiteNameFactory));
 
@@ -336,7 +338,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testSuiteName">The name of the test suite.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestSuiteName(string testSuiteName)
+    public AtataContextBuilder UseTestSuiteName(string? testSuiteName)
     {
         TestSuiteNameFactory = () => testSuiteName;
         return this;
@@ -347,7 +349,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testSuiteTypeFactory">The factory method of the test suite type.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestSuiteType(Func<Type> testSuiteTypeFactory)
+    public AtataContextBuilder UseTestSuiteType(Func<Type?> testSuiteTypeFactory)
     {
         testSuiteTypeFactory.CheckNotNull(nameof(testSuiteTypeFactory));
 
@@ -360,7 +362,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testSuiteType">The type of the test suite.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestSuiteType(Type testSuiteType)
+    public AtataContextBuilder UseTestSuiteType(Type? testSuiteType)
     {
         testSuiteType.CheckNotNull(nameof(testSuiteType));
 
@@ -373,7 +375,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testSuiteGroupNameFactory">The factory method of the test suite group name.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestSuiteGroupName(Func<string> testSuiteGroupNameFactory)
+    public AtataContextBuilder UseTestSuiteGroupName(Func<string?> testSuiteGroupNameFactory)
     {
         testSuiteGroupNameFactory.CheckNotNull(nameof(testSuiteGroupNameFactory));
 
@@ -386,7 +388,7 @@ public sealed class AtataContextBuilder : ICloneable
     /// </summary>
     /// <param name="testSuiteGroupName">The name of the test suite group.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public AtataContextBuilder UseTestSuiteGroupName(string testSuiteGroupName)
+    public AtataContextBuilder UseTestSuiteGroupName(string? testSuiteGroupName)
     {
         TestSuiteGroupNameFactory = () => testSuiteGroupName;
         return this;
@@ -632,7 +634,7 @@ public sealed class AtataContextBuilder : ICloneable
 
     private AtataContext CreateAtataContext()
     {
-        string testName = Scope is null or AtataContextScope.Test
+        string? testName = Scope is null or AtataContextScope.Test
             ? TestNameFactory?.Invoke()
             : null;
 
@@ -642,7 +644,7 @@ public sealed class AtataContextBuilder : ICloneable
             TestSuiteNameFactory?.Invoke(),
             TestSuiteGroupNameFactory?.Invoke());
 
-        AtataContext parentContext = ParentContext;
+        AtataContext? parentContext = ParentContext;
 
         if (parentContext is null && Scope is not null && AtataContext.Global is not null)
             parentContext = AtataContextParentResolver.FindParentContext(AtataContext.Global, Scope.Value, testInfo);
@@ -805,8 +807,8 @@ public sealed class AtataContextBuilder : ICloneable
         copy.EventSubscriptions = EventSubscriptions.CloneFor(copy);
         copy.LogConsumers = LogConsumers.CloneFor(copy);
 
-        copy.Variables = new Dictionary<string, object>(Variables);
-        copy.State = new Dictionary<string, object>(State);
+        copy.Variables = new Dictionary<string, object?>(Variables);
+        copy.State = new Dictionary<string, object?>(State);
         copy.SecretStringsToMaskInLog = [.. SecretStringsToMaskInLog];
 
         return copy;

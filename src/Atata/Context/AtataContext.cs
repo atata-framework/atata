@@ -529,7 +529,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         variables.SetInitialValue("test-start-utc", StartedAtUtc);
     }
 
-    internal void InitCustomVariables(IEnumerable<KeyValuePair<string, object>> customVariables)
+    internal void InitCustomVariables(IEnumerable<KeyValuePair<string, object?>> customVariables)
     {
         var variables = Variables;
 
@@ -537,7 +537,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
             variables.SetInitialValue(variable.Key, variable.Value);
     }
 
-    internal void InitState(IEnumerable<KeyValuePair<string, object>> stateObjects)
+    internal void InitState(IEnumerable<KeyValuePair<string, object?>> stateObjects)
     {
         var state = State;
 
