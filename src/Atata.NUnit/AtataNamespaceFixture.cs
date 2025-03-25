@@ -10,7 +10,7 @@ public abstract class AtataNamespaceFixture
     {
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Namespace);
 
-        ConfigureAtataContext(builder);
+        ConfigureNamespaceAtataContext(builder);
 
         Context = builder.Build(TestContext.CurrentContext.CancellationToken);
     }
@@ -19,7 +19,7 @@ public abstract class AtataNamespaceFixture
     public void TearDownNamespaceAtataContext() =>
         NUnitAtataContextCompletionHandler.Complete(Context);
 
-    protected virtual void ConfigureAtataContext(AtataContextBuilder builder)
+    protected virtual void ConfigureNamespaceAtataContext(AtataContextBuilder builder)
     {
     }
 }

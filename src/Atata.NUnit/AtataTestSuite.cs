@@ -38,7 +38,7 @@ public abstract class AtataTestSuite
         if (method is not null)
             TestAtataContextMetadata.GetForMethod(method).ApplyToTestBuilder(builder);
 
-        ConfigureAtataContext(builder);
+        ConfigureTestAtataContext(builder);
 
         Context = builder.Build(TestContext.CurrentContext.CancellationToken);
     }
@@ -51,7 +51,7 @@ public abstract class AtataTestSuite
     {
     }
 
-    protected virtual void ConfigureAtataContext(AtataContextBuilder builder)
+    protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
     }
 }

@@ -25,7 +25,7 @@ public abstract class AtataGlobalFixture
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Global);
 
-        ConfigureAtataContext(builder);
+        ConfigureGlobalAtataContext(builder);
 
         Context = builder.Build(TestContext.CurrentContext.CancellationToken);
     }
@@ -42,7 +42,7 @@ public abstract class AtataGlobalFixture
     {
     }
 
-    protected virtual void ConfigureAtataContext(AtataContextBuilder builder)
+    protected virtual void ConfigureGlobalAtataContext(AtataContextBuilder builder)
     {
     }
 }

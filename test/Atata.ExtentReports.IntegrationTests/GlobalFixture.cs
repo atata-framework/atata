@@ -17,6 +17,6 @@ public class GlobalFixture : AtataGlobalFixture
             .LogConsumers.AddNLogFile()
             .UseExtentReports();
 
-    protected override void ConfigureAtataContext(AtataContextBuilder builder) =>
+    protected override void ConfigureGlobalAtataContext(AtataContextBuilder builder) =>
         builder.EventSubscriptions.Add(SetUpWebDriversForUseEventHandler.Instance);
 }

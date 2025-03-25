@@ -2,10 +2,6 @@
 
 public sealed class NamespaceFixture : AtataNamespaceFixture
 {
-    protected override void ConfigureAtataContext(AtataContextBuilder builder)
-    {
-        base.ConfigureAtataContext(builder);
-
+    protected override void ConfigureNamespaceAtataContext(AtataContextBuilder builder) =>
         builder.UseVariable(nameof(NamespaceFixture), true);
-    }
 }

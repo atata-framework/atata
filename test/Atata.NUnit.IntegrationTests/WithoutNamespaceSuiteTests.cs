@@ -2,6 +2,9 @@
 
 public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
 {
+    protected override void ConfigureTestAtataContext(AtataContextBuilder builder) =>
+        builder.UseVariable("custom-test-variable", true);
+
     [Test]
     public void Context_IsCurrent() =>
         Context.Should().NotBeNull().And.Be(AtataContext.Current);
@@ -44,4 +47,8 @@ public sealed class WithoutNamespaceSuiteTests : AtataTestSuite
     public void Context_Artifacts() =>
         Context.ArtifactsRelativePath.Should().Be(
             $"{nameof(WithoutNamespaceSuiteTests)}/{nameof(Context_Artifacts)}");
+
+    [Test]
+    public void Context_Variables() =>
+        Context.Variables["custom-test-variable"].Should().Be(true);
 }
