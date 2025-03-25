@@ -9,6 +9,9 @@ public sealed class WithOnlyAssemblyFixtureTests :
     {
     }
 
+    protected override void ConfigureTestAtataContext(AtataContextBuilder builder) =>
+        builder.UseVariable("custom-test-variable", true);
+
     [Fact]
     public void Context_IsCurrent() =>
         Context.Should().NotBeNull().And.Be(AtataContext.Current);
@@ -47,4 +50,8 @@ public sealed class WithOnlyAssemblyFixtureTests :
     public void Context_Artifacts() =>
         Context.ArtifactsRelativePath.Should().Be(
             $"{nameof(WithOnlyAssemblyFixtureTests)}/{nameof(Context_Artifacts)}");
+
+    [Fact]
+    public void Context_Variables() =>
+        Context.Variables["custom-test-variable"].Should().Be(true);
 }

@@ -7,10 +7,6 @@ public sealed class SomeCollectionFixture : AtataCollectionFixture
     {
     }
 
-    protected override void ConfigureAtataContext(AtataContextBuilder builder)
-    {
-        base.ConfigureAtataContext(builder);
-
+    protected override void ConfigureCollectionAtataContext(AtataContextBuilder builder) =>
         builder.UseVariable(nameof(SomeCollectionFixture), true);
-    }
 }

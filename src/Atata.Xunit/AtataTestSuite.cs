@@ -8,7 +8,7 @@ public abstract class AtataTestSuite : AtataFixture
         : base(AtataContextScope.Test) =>
         _output = output;
 
-    protected override void ConfigureAtataContext(AtataContextBuilder builder)
+    private protected sealed override void ConfigureAtataContext(AtataContextBuilder builder)
     {
         string testFullName = ResolveTestName(_output);
         Type testClassType = GetType();
@@ -21,6 +21,12 @@ public abstract class AtataTestSuite : AtataFixture
             builder.UseTestSuiteGroupName(collectionName);
 
         builder.LogConsumers.Add(new TextOutputLogConsumer(_output.WriteLine));
+
+        ConfigureTestAtataContext(builder);
+    }
+
+    protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
+    {
     }
 
     protected void Execute(Action action)
