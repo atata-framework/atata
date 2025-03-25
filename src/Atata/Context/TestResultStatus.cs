@@ -6,6 +6,16 @@
 public enum TestResultStatus
 {
     /// <summary>
+    /// The undefined status.
+    /// </summary>
+    None,
+
+    /// <summary>
+    /// The test is inconclusive.
+    /// </summary>
+    Inconclusive,
+
+    /// <summary>
     /// The test passed.
     /// </summary>
     Passed,

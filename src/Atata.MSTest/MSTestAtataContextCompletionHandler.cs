@@ -18,7 +18,12 @@ public static class MSTestAtataContextCompletionHandler
         if (atataContext is not null)
         {
             if (testContext.TestException is not null)
-                atataContext.HandleTestResultException(testContext.TestException);
+            {
+                if (testContext.CurrentTestOutcome == UnitTestOutcome.Inconclusive)
+                    atataContext.SetInconclusiveTestResult(testContext.TestException.Message);
+                else
+                    atataContext.HandleTestResultException(testContext.TestException);
+            }
 
             atataContext.Dispose();
         }

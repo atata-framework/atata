@@ -16,8 +16,7 @@ public sealed class EndExtentTestItemEventHandler : IEventHandler<AtataContextDe
     private static Status ResolveCurrentTestStatus(TestResultStatus testResultStatus) =>
         testResultStatus switch
         {
-            // TODO: Handle Inconclusive state when it is added to TestResultStatus.
-            ////TestResultStatus.Inconclusive or TestResultStatus.Skipped => Status.Skip,
+            TestResultStatus.Inconclusive => Status.Skip,
             TestResultStatus.Warning => Status.Warning,
             TestResultStatus.Failed => Status.Fail,
             _ => Status.Pass,
