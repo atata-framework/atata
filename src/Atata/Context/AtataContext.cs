@@ -574,7 +574,7 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         var logMessageBuilder = new StringBuilder($"Starting ")
             .Append(GetScopeNameForLog());
 
-        string testFullName = Test.FullName;
+        string? testFullName = Test.FullName;
 
         if (testFullName is not null)
             logMessageBuilder.Append(' ').Append(testFullName);

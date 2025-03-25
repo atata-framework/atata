@@ -88,7 +88,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
 
     private string CreateNamespacePath(AtataContext context)
     {
-        string namespacePath = ResolveRelativePath(context.Test.Namespace);
+        string namespacePath = ResolveRelativePath(context.Test.Namespace!);
         return _hasSuiteSubFolderName
             ? $"{namespacePath}{_suiteSubFolderPathEnding}"
             : namespacePath;
@@ -96,14 +96,14 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
 
     private string CreateTestSuiteGroupPath(AtataContext context)
     {
-        string namespacePath = ResolveRelativePath(context.Test.Namespace);
+        string namespacePath = ResolveRelativePath(context.Test.Namespace!);
         return ArtifactsPathUniquenessGuarantor.EnsurePathIsUnique(
             $"{namespacePath}/{_suiteSubFolderName}{context.Test.SuiteNameSanitized}");
     }
 
     private string CreateTestSuitePath(AtataContext context)
     {
-        string namespacePath = ResolveRelativePath(context.Test.Namespace);
+        string namespacePath = ResolveRelativePath(context.Test.Namespace!);
 
         string namespaceAndSuiteNamePath = ArtifactsPathUniquenessGuarantor.EnsurePathIsUnique(
             $"{namespacePath}/{context.Test.SuiteNameSanitized}");
@@ -119,7 +119,7 @@ public class TestInfoBasedHierarchicalArtifactsPathFactory : IArtifactsPathFacto
             ? GetTestSuiteArtifactsPath(context.ParentContext)
             : ResolveRelativePathForSuite(context.Test);
 
-        string testName = context.Test.NameSanitized;
+        string? testName = context.Test.NameSanitized;
 
         string path = string.IsNullOrWhiteSpace(testName)
             ? $"{testSuitePath}/{Sanitize(context.Id)}"

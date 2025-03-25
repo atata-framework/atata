@@ -44,7 +44,7 @@ internal sealed class ExtentContext
     {
         string testSuiteName = context.Test.SuiteName
             ?? throw new InvalidOperationException($"{nameof(AtataContext)}.{nameof(AtataContext.Test)}.{nameof(TestInfo.SuiteName)} is not set and cannot be used to create Extent test.");
-        string testName = context.Test.Name;
+        string? testName = context.Test.Name;
 
         return testName is null
             ? ResolveForTestSuite(testSuiteName)
