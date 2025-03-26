@@ -543,15 +543,11 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
-    /// <summary>
-    /// Sets the aggregate assertion strategy.
-    /// </summary>
-    /// <typeparam name="TAggregateAssertionStrategy">The type of the aggregate assertion strategy.</typeparam>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use UseAggregateAssertionStrategy(IAggregateAssertionStrategy) instead.")] // Obsolete since v4.0.0.
     public AtataContextBuilder UseAggregateAssertionStrategy<TAggregateAssertionStrategy>()
         where TAggregateAssertionStrategy : IAggregateAssertionStrategy, new()
     {
-        IAggregateAssertionStrategy strategy = Activator.CreateInstance<TAggregateAssertionStrategy>();
+        TAggregateAssertionStrategy strategy = new();
 
         return UseAggregateAssertionStrategy(strategy);
     }
