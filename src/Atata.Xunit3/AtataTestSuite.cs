@@ -28,17 +28,4 @@ public abstract class AtataTestSuite : AtataFixture
     protected virtual void ConfigureTestAtataContext(AtataContextBuilder builder)
     {
     }
-
-    protected void Execute(Action action)
-    {
-        try
-        {
-            action?.Invoke();
-        }
-        catch (Exception exception)
-        {
-            Context.HandleTestResultException(exception);
-            throw;
-        }
-    }
 }

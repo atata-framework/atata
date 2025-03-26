@@ -26,6 +26,24 @@ public abstract class AtataFixture : IAsyncLifetime
     public virtual async ValueTask DisposeAsync()
     {
         if (Context is not null)
+        {
+            TestResultState? testResultState = TestContext.Current.TestState;
+
+            if (testResultState is not null)
+            {
+                if (testResultState.Result == TestResult.Skipped)
+                {
+                    Context.SetInconclusiveTestResult();
+                }
+                else if (testResultState.ExceptionTypes?.Length > 0)
+                {
+                    var (message, stackTrace) = testResultState.ExtractExceptionDetails();
+
+                    Context.HandleTestResultException(message, stackTrace);
+                }
+            }
+
             await Context.DisposeAsync().ConfigureAwait(false);
+        }
     }
 }
