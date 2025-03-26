@@ -53,14 +53,18 @@ public static class NUnitAtataContextBuilderExtensions
     public static AtataContextBuilder UseNUnitAggregateAssertionStrategy(this AtataContextBuilder builder) =>
         builder.UseAggregateAssertionStrategy(NUnitAggregateAssertionStrategy.Instance);
 
+    [Obsolete("Use UseNUnitAssertionExceptionFactory() instead.")] // Obsolete since v4.0.0.
+    public static AtataContextBuilder UseNUnitAssertionExceptionType(this AtataContextBuilder builder) =>
+        builder.UseNUnitAssertionExceptionFactory();
+
     /// <summary>
     /// Sets the type of <c>NUnit.Framework.AssertionException</c> as the assertion exception type.
     /// The default value is a type of <see cref="AssertionException"/>.
     /// </summary>
     /// <param name="builder">The builder.</param>
     /// <returns>The same <see cref="AtataContextBuilder"/> instance.</returns>
-    public static AtataContextBuilder UseNUnitAssertionExceptionType(this AtataContextBuilder builder) =>
-        builder.UseAssertionExceptionType(typeof(global::NUnit.Framework.AssertionException));
+    public static AtataContextBuilder UseNUnitAssertionExceptionFactory(this AtataContextBuilder builder) =>
+        builder.UseAssertionExceptionFactory(NUnitAssertionExceptionFactory.Instance);
 
     /// <summary>
     /// Enables all Atata features for NUnit.
@@ -69,7 +73,7 @@ public static class NUnitAtataContextBuilderExtensions
     /// <item><see cref="UseNUnitTestName"/></item>
     /// <item><see cref="UseNUnitTestSuiteName"/></item>
     /// <item><see cref="UseNUnitTestSuiteType"/></item>
-    /// <item><see cref="UseNUnitAssertionExceptionType"/></item>
+    /// <item><see cref="UseNUnitAssertionExceptionFactory"/></item>
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
@@ -88,7 +92,7 @@ public static class NUnitAtataContextBuilderExtensions
         builder.UseNUnitTestName();
         builder.UseNUnitTestSuiteName();
         builder.UseNUnitTestSuiteType();
-        builder.UseNUnitAssertionExceptionType();
+        builder.UseNUnitAssertionExceptionFactory();
         builder.UseNUnitAggregateAssertionStrategy();
         builder.UseNUnitWarningReportStrategy();
         builder.UseNUnitAssertionFailureReportStrategy();
@@ -108,7 +112,7 @@ public static class NUnitAtataContextBuilderExtensions
     /// <item><see cref="UseNUnitTestName"/></item>
     /// <item><see cref="UseNUnitTestSuiteName"/></item>
     /// <item><see cref="UseNUnitTestSuiteType"/></item>
-    /// <item><see cref="UseNUnitAssertionExceptionType"/></item>
+    /// <item><see cref="UseNUnitAssertionExceptionFactory"/></item>
     /// <item><see cref="UseNUnitAggregateAssertionStrategy"/></item>
     /// <item><see cref="UseNUnitWarningReportStrategy"/></item>
     /// <item><see cref="UseNUnitAssertionFailureReportStrategy"/></item>
@@ -125,7 +129,7 @@ public static class NUnitAtataContextBuilderExtensions
         builder.UseNUnitTestName();
         builder.UseNUnitTestSuiteName();
         builder.UseNUnitTestSuiteType();
-        builder.UseNUnitAssertionExceptionType();
+        builder.UseNUnitAssertionExceptionFactory();
         builder.UseNUnitAggregateAssertionStrategy();
         builder.UseNUnitWarningReportStrategy();
         builder.UseNUnitAssertionFailureReportStrategy();

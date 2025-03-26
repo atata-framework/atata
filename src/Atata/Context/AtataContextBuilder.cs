@@ -158,10 +158,10 @@ public sealed class AtataContextBuilder : ICloneable
     public CultureInfo? Culture { get; set; }
 
     /// <summary>
-    /// Gets or sets the type of the assertion exception.
-    /// The default value is a type of <see cref="AssertionException"/>.
+    /// Gets or sets the assertion exception factory.
+    /// The default value is an instance of <see cref="AtataAssertionExceptionFactory"/>.
     /// </summary>
-    public Type AssertionExceptionType { get; set; } = typeof(AssertionException);
+    public IAssertionExceptionFactory AssertionExceptionFactory { get; set; } = AtataAssertionExceptionFactory.Instance;
 
     /// <summary>
     /// Gets or sets the type of the aggregate assertion exception.
@@ -491,28 +491,31 @@ public sealed class AtataContextBuilder : ICloneable
     public AtataContextBuilder UseCulture(string cultureName) =>
         UseCulture(CultureInfo.GetCultureInfo(cultureName));
 
-    /// <summary>
-    /// Sets the type of the assertion exception.
-    /// The default value is a type of <see cref="AssertionException"/>.
-    /// </summary>
-    /// <typeparam name="TException">The type of the exception.</typeparam>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use UseAssertionExceptionFactory(...) instead for custom exception, " +
+        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
     public AtataContextBuilder UseAssertionExceptionType<TException>()
         where TException : Exception
         =>
         UseAssertionExceptionType(typeof(TException));
 
-    /// <summary>
-    /// Sets the type of the assertion exception.
-    /// The default value is a type of <see cref="AssertionException"/>.
-    /// </summary>
-    /// <param name="exceptionType">The type of the exception.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use UseAssertionExceptionFactory(...) instead for custom exception, " +
+        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
     public AtataContextBuilder UseAssertionExceptionType(Type exceptionType)
     {
         exceptionType.CheckIs<Exception>(nameof(exceptionType));
 
-        AssertionExceptionType = exceptionType;
+        return UseAssertionExceptionFactory(new TypeBasedAssertionExceptionFactory(exceptionType));
+    }
+
+    /// <summary>
+    /// Sets the assertion exception factory.
+    /// The default value is an instance of <see cref="AtataAssertionExceptionFactory"/>.
+    /// </summary>
+    /// <param name="factory">The assertion exception factory.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseAssertionExceptionFactory(IAssertionExceptionFactory factory)
+    {
+        AssertionExceptionFactory = factory;
         return this;
     }
 
@@ -657,7 +660,7 @@ public sealed class AtataContextBuilder : ICloneable
         context.VerificationTimeout = VerificationTimeout;
         context.VerificationRetryInterval = VerificationRetryInterval;
         context.Culture = Culture ?? CultureInfo.CurrentCulture;
-        context.AssertionExceptionType = AssertionExceptionType;
+        context.AssertionExceptionFactory = AssertionExceptionFactory;
         context.AggregateAssertionExceptionType = AggregateAssertionExceptionType;
         context.AggregateAssertionStrategy = AggregateAssertionStrategy ?? AtataAggregateAssertionStrategy.Instance;
         context.WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance;

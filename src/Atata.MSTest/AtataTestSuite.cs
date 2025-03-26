@@ -16,7 +16,7 @@ public abstract class AtataTestSuite
 
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.TestSuite)
             .UseTestSuiteType(testClassType)
-            .UseAssertionExceptionType(typeof(AssertFailedException));
+            .UseAssertionExceptionFactory(MSTestAssertionExceptionFactory.Instance);
 
         TestSuiteAtataContextMetadata suiteContextMetadata = GetAndApplySuiteMetadata(testClassType, builder);
         FindAndInvokeSuiteConfigurationMethods(testClassType, builder);
@@ -42,7 +42,7 @@ public abstract class AtataTestSuite
         AtataContextBuilder builder = AtataContext.CreateBuilder(AtataContextScope.Test)
             .UseTestSuiteType(testClassType)
             .UseTestName(TestContext.TestDisplayName)
-            .UseAssertionExceptionType(typeof(AssertFailedException))
+            .UseAssertionExceptionFactory(MSTestAssertionExceptionFactory.Instance)
             .LogConsumers.Add(new TextOutputLogConsumer(TestContext.WriteLine))
             .EventSubscriptions.Add(new AddArtifactsToMSTestContextEventHandler(TestContext));
 

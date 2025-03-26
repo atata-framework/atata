@@ -14,7 +14,7 @@ public abstract class AtataGlobalFixture
             .UseNUnitTestName()
             .UseNUnitTestSuiteName()
             .UseNUnitTestSuiteType()
-            .UseNUnitAssertionExceptionType()
+            .UseNUnitAssertionExceptionFactory()
             .UseNUnitAggregateAssertionStrategy()
             .UseNUnitWarningReportStrategy()
             .UseNUnitAssertionFailureReportStrategy()

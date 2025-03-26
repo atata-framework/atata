@@ -14,7 +14,7 @@ public abstract class AtataGlobalFixture : AtataFixture
         AtataContext.GlobalProperties.ModeOfCurrent = AtataContextModeOfCurrent.AsyncLocalBoxed;
         ConfigureAtataContextGlobalProperties(AtataContext.GlobalProperties);
 
-        AtataContext.BaseConfiguration.UseAssertionExceptionType(typeof(XunitAssertionException));
+        AtataContext.BaseConfiguration.UseAssertionExceptionFactory(XunitAssertionExceptionFactory.Instance);
         AtataContext.BaseConfiguration.UseAggregateAssertionExceptionType(typeof(XunitAggregateAssertionException));
 
         ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);

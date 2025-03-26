@@ -285,10 +285,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     public CultureInfo Culture { get; internal set; } = null!;
 
     /// <summary>
-    /// Gets the type of the assertion exception.
-    /// The default value is a type of <see cref="AssertionException"/>.
+    /// Gets the assertion exception factory.
+    /// The default value is an instance of <see cref="AtataAssertionExceptionFactory"/>.
     /// </summary>
-    public Type AssertionExceptionType { get; internal set; } = null!;
+    public IAssertionExceptionFactory AssertionExceptionFactory { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the type of the aggregate assertion exception.
