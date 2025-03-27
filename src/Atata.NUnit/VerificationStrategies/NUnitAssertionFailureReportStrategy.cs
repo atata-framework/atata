@@ -1,4 +1,6 @@
-﻿namespace Atata.NUnit;
+﻿#nullable enable
+
+namespace Atata.NUnit;
 
 /// <summary>
 /// Represents the NUnit strategy for assertion failure reporting.
@@ -8,7 +10,7 @@ public sealed class NUnitAssertionFailureReportStrategy : IAssertionFailureRepor
     public static NUnitAssertionFailureReportStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
-    public void Report(IAtataExecutionUnit executionUnit, string message, Exception exception, string stackTrace)
+    public void Report(IAtataExecutionUnit? executionUnit, string message, Exception? exception, string stackTrace)
     {
         AtataContext? context = executionUnit?.Context ?? AtataContext.Current;
 

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents an interface of strategy for assertion failure reporting.
@@ -12,5 +14,5 @@ public interface IAssertionFailureReportStrategy
     /// <param name="message">The assertion failure message.</param>
     /// <param name="exception">The exception occurred during assertion.</param>
     /// <param name="stackTrace">The stack trace of assertion failure.</param>
-    void Report(IAtataExecutionUnit executionUnit, string message, Exception exception, string stackTrace);
+    void Report(IAtataExecutionUnit? executionUnit, string message, Exception? exception, string stackTrace);
 }

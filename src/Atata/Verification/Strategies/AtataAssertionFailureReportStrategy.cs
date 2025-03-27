@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the native/default Atata strategy for assertion failure reporting.
@@ -10,9 +12,9 @@ public sealed class AtataAssertionFailureReportStrategy : IAssertionFailureRepor
     public static AtataAssertionFailureReportStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
-    public void Report(IAtataExecutionUnit executionUnit, string message, Exception exception, string stackTrace)
+    public void Report(IAtataExecutionUnit? executionUnit, string message, Exception? exception, string stackTrace)
     {
-        AtataContext context = executionUnit?.Context ?? AtataContext.Current;
+        AtataContext? context = executionUnit?.Context ?? AtataContext.Current;
 
         var pendingFailureAssertionResults = context?.GetAndClearPendingFailureAssertionResults()
             ?? [];
