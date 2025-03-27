@@ -1,10 +1,12 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the provider of URL query parameters.
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner.</typeparam>
-public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyValuePair<string, string>>, TOwner>
+public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyValuePair<string, string?>>, TOwner>
     where TOwner : PageObject<TOwner>
 {
     private const string QueryParameterProviderNameFormat = "URI query \"{0}\" parameter value";
@@ -21,7 +23,7 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <param name="providerName">Name of the provider.</param>
     public UriQueryParametersProvider(
         UIComponent<TOwner> component,
-        Func<IEnumerable<KeyValuePair<string, string>>> valueGetFunction,
+        Func<IEnumerable<KeyValuePair<string, string?>>> valueGetFunction,
         string providerName)
         : base(
             component.Owner,
@@ -72,8 +74,8 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <param name="parameterName">The name of the query parameter.</param>
     /// <returns>The query parameter's value.
     /// Returns <see langword="null"/> if the value is not set.</returns>
-    public string GetValue(string parameterName) =>
-        GetValue<string>(parameterName);
+    public string? GetValue(string parameterName) =>
+        GetValue<string?>(parameterName);
 
     /// <summary>
     /// Gets the value of the specified query parameter.
@@ -81,14 +83,14 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <typeparam name="TValue">The type of the query parameter value.</typeparam>
     /// <param name="parameterName">The name of the query parameter.</param>
     /// <returns>The parameter value.
-    /// Returns <see langword="null"/> if the value is not set.</returns>
+    /// Returns <see langword="null"/> or default value if the value is not set.</returns>
     public TValue GetValue<TValue>(string parameterName)
     {
-        var parameter = Value.FirstOrDefault(x => x.Key == parameterName);
+        foreach (var parameter in Value)
+            if (parameter.Key == parameterName)
+                return Convert<TValue>(parameter.Value);
 
-        return parameter.Key == null
-            ? default
-            : Convert<TValue>(parameter.Value);
+        return default!;
     }
 
     /// <summary>
@@ -105,7 +107,7 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
             .Where(x => x.Key == parameterName)
             .Select(x => Convert<TValue>(x.Value));
 
-    private static TValue Convert<TValue>(string parameterValue) =>
+    private static TValue Convert<TValue>(string? parameterValue) =>
         typeof(TValue) == typeof(string)
             ? (TValue)(object)(parameterValue ?? string.Empty)
             : TermResolver.FromString<TValue>(parameterValue);

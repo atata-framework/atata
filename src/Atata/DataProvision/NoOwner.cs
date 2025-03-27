@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a stub owner for static classes.
@@ -12,5 +14,5 @@ public sealed class NoOwner
     /// <summary>
     /// Gets the default instance.
     /// </summary>
-    public static NoOwner Instance { get; } = new NoOwner();
+    public static NoOwner Instance { get; } = new();
 }

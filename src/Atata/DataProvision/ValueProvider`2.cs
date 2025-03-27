@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the value provider class that wraps <typeparamref name="TValue"/> and is hosted in <typeparamref name="TOwner"/> object.
@@ -20,7 +22,7 @@ public class ValueProvider<TValue, TOwner> : ObjectProvider<TValue, TOwner>
         TOwner owner,
         IObjectSource<TValue> objectSource,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
         =>
         _owner = owner.CheckNotNull(nameof(owner));

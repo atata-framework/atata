@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of object extension methods that wrap the object with the <see cref="Subject{TObject}"/> class.

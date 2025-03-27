@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base object provider class.
@@ -13,9 +15,9 @@ public abstract class ObjectProvider<TObject, TOwner> :
 {
     private readonly IObjectSource<TObject> _objectSource;
 
-    private readonly IAtataExecutionUnit _executionUnit;
+    private readonly IAtataExecutionUnit? _executionUnit;
 
-    private string _sourceProviderName;
+    private string? _sourceProviderName;
 
     private string _providerName;
 
@@ -28,7 +30,7 @@ public abstract class ObjectProvider<TObject, TOwner> :
     protected ObjectProvider(
         IObjectSource<TObject> objectSource,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
     {
         _objectSource = objectSource.CheckNotNull(nameof(objectSource));
         _providerName = providerName.CheckNotNull(nameof(providerName));
@@ -40,9 +42,9 @@ public abstract class ObjectProvider<TObject, TOwner> :
     {
         get
         {
-            string actualSourceProviderName = SourceProviderName;
+            string? actualSourceProviderName = SourceProviderName;
 
-            return string.IsNullOrEmpty(actualSourceProviderName)
+            return actualSourceProviderName is null or []
                 ? _providerName
                 : BuildProviderName(actualSourceProviderName, _providerName);
         }
@@ -50,7 +52,7 @@ public abstract class ObjectProvider<TObject, TOwner> :
     }
 
     /// <inheritdoc/>
-    public string SourceProviderName
+    public string? SourceProviderName
     {
         get => _sourceProviderName ?? _objectSource.SourceProviderName;
         set => _sourceProviderName = value;
@@ -100,9 +102,9 @@ public abstract class ObjectProvider<TObject, TOwner> :
     /// <summary>
     /// Gets the associated execution unit.
     /// </summary>
-    protected IAtataExecutionUnit ExecutionUnit => _executionUnit;
+    protected IAtataExecutionUnit? ExecutionUnit => _executionUnit;
 
-    IAtataExecutionUnit IObjectProvider<TObject>.ExecutionUnit => _executionUnit;
+    IAtataExecutionUnit? IObjectProvider<TObject>.ExecutionUnit => _executionUnit;
 
     /// <summary>
     /// Performs an implicit conversion from <see cref="ObjectProvider{TObject, TOwner}"/> to <typeparamref name="TObject"/>.

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base test subject class.
@@ -19,7 +21,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     protected SubjectBase(
         IObjectSource<TObject> objectSource,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
     {
     }
@@ -718,7 +720,7 @@ public abstract class SubjectBase<TObject, TSubject> : ObjectProvider<TObject, T
     /// If it is <see langword="null"/>, <see cref="ObjectProvider{TObject, TOwner}.ProviderName"/> is used instead.
     /// </param>
     /// <returns>The instance of this page object.</returns>
-    public TSubject AggregateAssert(Action<TSubject> action, string assertionScopeName = null)
+    public TSubject AggregateAssert(Action<TSubject> action, string? assertionScopeName = null)
     {
         action.CheckNotNull(nameof(action));
 

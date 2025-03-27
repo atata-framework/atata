@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of object extension methods that wrap the <see cref="IDisposable"/> object with the <see cref="DisposableSubject{TObject}"/> class.

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the test subject that wraps <typeparamref name="TObject"/> object.
@@ -12,7 +14,7 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// </summary>
     /// <param name="source">The source object.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public Subject(TObject source, IAtataExecutionUnit executionUnit = null)
+    public Subject(TObject source, IAtataExecutionUnit? executionUnit = null)
         : this(new StaticObjectSource<TObject>(source), executionUnit)
     {
     }
@@ -23,7 +25,7 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// <param name="source">The source object.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public Subject(TObject source, string providerName, IAtataExecutionUnit executionUnit = null)
+    public Subject(TObject source, string providerName, IAtataExecutionUnit? executionUnit = null)
         : this(new StaticObjectSource<TObject>(source), providerName, executionUnit)
     {
     }
@@ -34,7 +36,7 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public Subject(IObjectSource<TObject> objectSource, IAtataExecutionUnit executionUnit = null)
+    public Subject(IObjectSource<TObject> objectSource, IAtataExecutionUnit? executionUnit = null)
         : this(objectSource, Subject.DefaultSubjectName, executionUnit)
     {
     }
@@ -45,7 +47,7 @@ public class Subject<TObject> : SubjectBase<TObject, Subject<TObject>>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public Subject(IObjectSource<TObject> objectSource, string providerName, IAtataExecutionUnit executionUnit = null)
+    public Subject(IObjectSource<TObject> objectSource, string providerName, IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
     {
     }

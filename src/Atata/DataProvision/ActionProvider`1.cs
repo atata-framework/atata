@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the action provider class that wraps <see cref="Action"/> and is hosted in <typeparamref name="TOwner"/> object.
@@ -19,7 +21,7 @@ public class ActionProvider<TOwner> : ObjectProvider<Action, TOwner>
         TOwner owner,
         IObjectSource<Action> objectSource,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
         =>
         _owner = owner.CheckNotNull(nameof(owner));

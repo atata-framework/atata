@@ -6,7 +6,7 @@ public class ObjectVerificationProvider<TObject, TOwner> :
     VerificationProvider<ObjectVerificationProvider<TObject, TOwner>, TOwner>,
     IObjectVerificationProvider<TObject, TOwner>
 {
-    public ObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider, IAtataExecutionUnit executionUnit)
+    public ObjectVerificationProvider(IObjectProvider<TObject, TOwner> objectProvider, IAtataExecutionUnit? executionUnit)
         : base(executionUnit) =>
         ObjectProvider = objectProvider;
 

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of extension methods for <see cref="IObjectProvider{TObject, TOwner}"/> where <c>TObject</c> is <see cref="IEnumerable{T}"/>.
@@ -9,7 +11,7 @@ public static class IObjectProviderEnumerableExtensions
     public static bool Contains<TSource>(
         this IObjectProvider<IEnumerable<TSource>> source,
         params TSource[] items) =>
-        source.Contains(items?.AsEnumerable());
+        source.Contains(items.AsEnumerable());
 
     /// <summary>
     /// Determines whether the source sequence contains all of the specified items by using the default equality comparer.
@@ -34,7 +36,7 @@ public static class IObjectProviderEnumerableExtensions
     public static bool ContainsAny<TSource>(
         this IObjectProvider<IEnumerable<TSource>> source,
         params TSource[] items) =>
-        source.ContainsAny(items?.AsEnumerable());
+        source.ContainsAny(items.AsEnumerable());
 
     /// <summary>
     /// Determines whether the source sequence contains any of the specified items by using the default equality comparer.

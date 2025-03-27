@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the value provider class that wraps enumerable of <typeparamref name="TItem"/> objects and is hosted in <typeparamref name="TOwner"/> object.
@@ -20,7 +22,7 @@ public class EnumerableValueProvider<TItem, TOwner> :
         TOwner owner,
         IObjectSource<IEnumerable<TItem>> objectSource,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
         : base(owner, objectSource, providerName, executionUnit)
     {
     }

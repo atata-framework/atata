@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the test subject that wraps <typeparamref name="TObject"/> object, which should be <see cref="IDisposable"/>.
@@ -15,7 +17,7 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// </summary>
     /// <param name="source">The source object.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public DisposableSubject(TObject source, IAtataExecutionUnit executionUnit = null)
+    public DisposableSubject(TObject source, IAtataExecutionUnit? executionUnit = null)
         : this(new StaticObjectSource<TObject>(source), executionUnit)
     {
     }
@@ -26,7 +28,7 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// <param name="source">The source object.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public DisposableSubject(TObject source, string providerName, IAtataExecutionUnit executionUnit = null)
+    public DisposableSubject(TObject source, string providerName, IAtataExecutionUnit? executionUnit = null)
         : this(new StaticObjectSource<TObject>(source), providerName, executionUnit)
     {
     }
@@ -37,7 +39,7 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// </summary>
     /// <param name="objectSource">The object source.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public DisposableSubject(IObjectSource<TObject> objectSource, IAtataExecutionUnit executionUnit = null)
+    public DisposableSubject(IObjectSource<TObject> objectSource, IAtataExecutionUnit? executionUnit = null)
         : this(objectSource, Subject.DefaultSubjectName, executionUnit)
     {
     }
@@ -48,7 +50,7 @@ public sealed class DisposableSubject<TObject> : SubjectBase<TObject, Disposable
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public DisposableSubject(IObjectSource<TObject> objectSource, string providerName, IAtataExecutionUnit executionUnit = null)
+    public DisposableSubject(IObjectSource<TObject> objectSource, string providerName, IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
     {
     }
