@@ -1,24 +1,20 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-[Serializable]
+namespace Atata;
+
 public class TypeNotFoundException : Exception
 {
     public TypeNotFoundException()
     {
     }
 
-    public TypeNotFoundException(string message)
+    public TypeNotFoundException(string? message)
         : base(message)
     {
     }
 
-    public TypeNotFoundException(string message, Exception innerException)
+    public TypeNotFoundException(string? message, Exception? innerException)
         : base(message, innerException)
-    {
-    }
-
-    protected TypeNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

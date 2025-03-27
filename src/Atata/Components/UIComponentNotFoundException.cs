@@ -1,24 +1,20 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-[Serializable]
+namespace Atata;
+
 public class UIComponentNotFoundException : Exception
 {
     public UIComponentNotFoundException()
     {
     }
 
-    public UIComponentNotFoundException(string message)
+    public UIComponentNotFoundException(string? message)
         : base(message)
     {
     }
 
-    public UIComponentNotFoundException(string message, Exception innerException)
+    public UIComponentNotFoundException(string? message, Exception? innerException)
         : base(message, innerException)
-    {
-    }
-
-    protected UIComponentNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

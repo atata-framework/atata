@@ -2,25 +2,19 @@
 
 namespace Atata;
 
-[Serializable]
 public class AtataSessionBuilderNotFoundException : Exception
 {
     public AtataSessionBuilderNotFoundException()
     {
     }
 
-    public AtataSessionBuilderNotFoundException(string message)
+    public AtataSessionBuilderNotFoundException(string? message)
         : base(message)
     {
     }
 
-    public AtataSessionBuilderNotFoundException(string message, Exception innerException)
+    public AtataSessionBuilderNotFoundException(string? message, Exception? innerException)
         : base(message, innerException)
-    {
-    }
-
-    protected AtataSessionBuilderNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

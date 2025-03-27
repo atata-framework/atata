@@ -1,21 +1,22 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents one or more errors that occur during an aggregate assertion.
 /// </summary>
-[Serializable]
 public class AggregateAssertionException : Exception
 {
     public AggregateAssertionException()
     {
     }
 
-    public AggregateAssertionException(string message)
+    public AggregateAssertionException(string? message)
         : base(message)
     {
     }
 
-    public AggregateAssertionException(string message, Exception innerException)
+    public AggregateAssertionException(string? message, Exception? innerException)
         : base(message, innerException)
     {
     }
@@ -23,11 +24,6 @@ public class AggregateAssertionException : Exception
     public AggregateAssertionException(IEnumerable<AssertionResult> results)
         : base(ConvertToMessage(results)) =>
         Results = results.ToReadOnly();
-
-    protected AggregateAssertionException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
-    {
-    }
 
     /// <summary>
     /// Gets or sets the prefix displayed at the beginning of warning result message.
@@ -60,15 +56,15 @@ public class AggregateAssertionException : Exception
 
     private static string ConvertToMessage(IEnumerable<AssertionResult> results)
     {
-        StringBuilder builder = new StringBuilder(BuildIntroMessage(results));
+        StringBuilder builder = new(BuildIntroMessage(results));
 
         foreach (AssertionResult result in results.Where(x => x.Status != AssertionStatus.Passed))
         {
             builder.AppendLine().AppendLine();
 
-            string prefix = ResolveResultPrefix(result.Status);
+            string? prefix = ResolveResultPrefix(result.Status);
 
-            if (prefix != null)
+            if (prefix is not null)
                 builder.Append(prefix);
 
             builder.Append(result.Message);
@@ -80,7 +76,7 @@ public class AggregateAssertionException : Exception
         return builder.ToString();
     }
 
-    private static string ResolveResultPrefix(AssertionStatus status) =>
+    private static string? ResolveResultPrefix(AssertionStatus status) =>
         status switch
         {
             AssertionStatus.Passed => null,

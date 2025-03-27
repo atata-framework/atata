@@ -2,25 +2,19 @@
 
 namespace Atata;
 
-[Serializable]
 public class LogConsumerNotFoundException : Exception
 {
     public LogConsumerNotFoundException()
     {
     }
 
-    public LogConsumerNotFoundException(string message)
+    public LogConsumerNotFoundException(string? message)
         : base(message)
     {
     }
 
-    public LogConsumerNotFoundException(string message, Exception innerException)
+    public LogConsumerNotFoundException(string? message, Exception? innerException)
         : base(message, innerException)
-    {
-    }
-
-    protected LogConsumerNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

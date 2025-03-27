@@ -2,25 +2,19 @@
 
 namespace Atata;
 
-[Serializable]
 public class AtataSessionNotFoundException : Exception
 {
     public AtataSessionNotFoundException()
     {
     }
 
-    public AtataSessionNotFoundException(string message)
+    public AtataSessionNotFoundException(string? message)
         : base(message)
     {
     }
 
-    public AtataSessionNotFoundException(string message, Exception innerException)
+    public AtataSessionNotFoundException(string? message, Exception? innerException)
         : base(message, innerException)
-    {
-    }
-
-    protected AtataSessionNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 

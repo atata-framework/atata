@@ -1,24 +1,20 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-[Serializable]
+namespace Atata;
+
 public class AtataContextNotFoundException : Exception
 {
     public AtataContextNotFoundException()
     {
     }
 
-    public AtataContextNotFoundException(string message)
+    public AtataContextNotFoundException(string? message)
         : base(message)
     {
     }
 
-    public AtataContextNotFoundException(string message, Exception innerException)
+    public AtataContextNotFoundException(string? message, Exception? innerException)
         : base(message, innerException)
-    {
-    }
-
-    protected AtataContextNotFoundException(SerializationInfo info, StreamingContext context)
-        : base(info, context)
     {
     }
 
