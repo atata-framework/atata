@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the dynamic object source that gets an object using function.
@@ -28,7 +30,7 @@ public class DynamicObjectSource<TObject, TSource> : IObjectSource<TObject>
         _objectGetFunction.Invoke(_sourceProvider.Object);
 
     /// <inheritdoc/>
-    public string SourceProviderName =>
+    public string? SourceProviderName =>
         _sourceProvider.ProviderName;
 
     /// <inheritdoc/>

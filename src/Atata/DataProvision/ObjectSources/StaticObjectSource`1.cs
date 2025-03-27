@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the static object source that takes an object in constructor and returns it.
@@ -17,7 +19,7 @@ public class StaticObjectSource<TObject> : IObjectSource<TObject>
     public TObject Object { get; }
 
     /// <inheritdoc/>
-    public string SourceProviderName => null;
+    public string? SourceProviderName => null;
 
     /// <inheritdoc/>
     public bool IsDynamic => false;

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the lazy object source that gets an object using function once.
@@ -23,7 +25,7 @@ public class LazyObjectSource<TObject> : IObjectSource<TObject>
         _lazyObject.Value;
 
     /// <inheritdoc/>
-    public string SourceProviderName => null;
+    public string? SourceProviderName => null;
 
     /// <inheritdoc/>
     public bool IsDynamic => false;
