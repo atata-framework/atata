@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the interface of a value provider of <typeparamref name="TItem"/> enumerable value owned by <typeparamref name="TOwner"/> object.

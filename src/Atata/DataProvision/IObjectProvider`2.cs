@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the interface of an object provider of <typeparamref name="TObject"/> type owned by <typeparamref name="TOwner"/> object.

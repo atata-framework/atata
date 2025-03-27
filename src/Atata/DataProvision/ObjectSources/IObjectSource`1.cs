@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the interface of the object source.
@@ -14,7 +16,7 @@ public interface IObjectSource<out TObject>
     /// <summary>
     /// Gets the name of the source provider.
     /// </summary>
-    string SourceProviderName { get; }
+    string? SourceProviderName { get; }
 
     /// <summary>
     /// Gets a value indicating whether the source is dynamic (value can vary for every value request).

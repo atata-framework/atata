@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the interface of an object provider of <typeparamref name="TObject"/> type.
@@ -19,5 +21,5 @@ public interface IObjectProvider<out TObject>
     /// <summary>
     /// Gets the associated execution unit.
     /// </summary>
-    IAtataExecutionUnit ExecutionUnit { get; }
+    IAtataExecutionUnit? ExecutionUnit { get; }
 }

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Defines the <see cref="SourceProviderName"/> property.
@@ -8,5 +10,5 @@ public interface IHasSourceProviderName
     /// <summary>
     /// Gets or sets the name of the source provider.
     /// </summary>
-    string SourceProviderName { get; set; }
+    string? SourceProviderName { get; set; }
 }
