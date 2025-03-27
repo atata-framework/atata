@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the verification strategy for waitings.
@@ -10,13 +12,13 @@ public sealed class WaitingVerificationStrategy : IVerificationStrategy
 
     public string VerificationKind => "Wait";
 
-    public TimeSpan GetDefaultTimeout(IAtataExecutionUnit executionUnit) =>
+    public TimeSpan GetDefaultTimeout(IAtataExecutionUnit? executionUnit) =>
         (executionUnit?.Context ?? AtataContext.Current)?.WaitingTimeout ?? AtataContext.DefaultRetryTimeout;
 
-    public TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit executionUnit) =>
+    public TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit? executionUnit) =>
         (executionUnit?.Context ?? AtataContext.Current)?.WaitingRetryInterval ?? AtataContext.DefaultRetryInterval;
 
-    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, Exception exception)
+    public void ReportFailure(IAtataExecutionUnit? executionUnit, string message, Exception? exception)
     {
         string completeMessage = $"Timed out waiting for {message}";
         throw new TimeoutException(completeMessage, exception);

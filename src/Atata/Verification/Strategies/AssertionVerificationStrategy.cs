@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public sealed class AssertionVerificationStrategy : IVerificationStrategy
 {
@@ -6,13 +8,13 @@ public sealed class AssertionVerificationStrategy : IVerificationStrategy
 
     public string VerificationKind => "Assert";
 
-    public TimeSpan GetDefaultTimeout(IAtataExecutionUnit executionUnit) =>
+    public TimeSpan GetDefaultTimeout(IAtataExecutionUnit? executionUnit) =>
         (executionUnit?.Context ?? AtataContext.Current)?.VerificationTimeout ?? AtataContext.DefaultRetryTimeout;
 
-    public TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit executionUnit) =>
+    public TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit? executionUnit) =>
         (executionUnit?.Context ?? AtataContext.Current)?.VerificationRetryInterval ?? AtataContext.DefaultRetryInterval;
 
-    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, Exception exception)
+    public void ReportFailure(IAtataExecutionUnit? executionUnit, string message, Exception? exception)
     {
         string completeMessage = $"Wrong {message}";
         executionUnit ??= AtataContext.Current?.ExecutionUnit;

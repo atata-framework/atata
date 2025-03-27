@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IVerificationStrategy
 {
@@ -12,14 +14,14 @@ public interface IVerificationStrategy
     /// </summary>
     /// <param name="executionUnit">The execution unit.</param>
     /// <returns>A timeout.</returns>
-    TimeSpan GetDefaultTimeout(IAtataExecutionUnit executionUnit);
+    TimeSpan GetDefaultTimeout(IAtataExecutionUnit? executionUnit);
 
     /// <summary>
     /// Gets the default retry interval.
     /// </summary>
     /// <param name="executionUnit">The execution unit.</param>
     /// <returns>A retry interval.</returns>
-    TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit executionUnit);
+    TimeSpan GetDefaultRetryInterval(IAtataExecutionUnit? executionUnit);
 
     /// <summary>
     /// Reports the failure.
@@ -27,5 +29,5 @@ public interface IVerificationStrategy
     /// <param name="executionUnit">The execution unit.</param>
     /// <param name="message">The message.</param>
     /// <param name="exception">The exception.</param>
-    void ReportFailure(IAtataExecutionUnit executionUnit, string message, Exception exception);
+    void ReportFailure(IAtataExecutionUnit? executionUnit, string message, Exception? exception);
 }
