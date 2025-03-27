@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a native/default Atata strategy for warning assertion reporting.
@@ -13,7 +15,7 @@ public sealed class AtataWarningReportStrategy : IWarningReportStrategy
     public static AtataWarningReportStrategy Instance { get; } = new();
 
     /// <inheritdoc/>
-    public void Report(IAtataExecutionUnit executionUnit, string message, string stackTrace)
+    public void Report(IAtataExecutionUnit? executionUnit, string message, string stackTrace)
     {
         AtataContext context = executionUnit?.Context ?? AtataContext.ResolveCurrent();
 

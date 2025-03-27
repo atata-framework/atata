@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents an interface of strategy for warning assertion reporting.
@@ -11,5 +13,5 @@ public interface IWarningReportStrategy
     /// <param name="executionUnit">The execution unit.</param>
     /// <param name="message">The message.</param>
     /// <param name="stackTrace">The stack trace.</param>
-    void Report(IAtataExecutionUnit executionUnit, string message, string stackTrace);
+    void Report(IAtataExecutionUnit? executionUnit, string message, string stackTrace);
 }

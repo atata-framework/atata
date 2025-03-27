@@ -8,7 +8,7 @@ public class NUnitWarningReportStrategy : IWarningReportStrategy
 {
     public static NUnitWarningReportStrategy Instance { get; } = new();
 
-    public void Report(IAtataExecutionUnit executionUnit, string message, string stackTrace) =>
+    public void Report(IAtataExecutionUnit? executionUnit, string message, string stackTrace) =>
         NUnitAdapter.RecordAssertionIntoTestResult(
             NUnitAssertionStatus.Warning,
             message + Environment.NewLine,
