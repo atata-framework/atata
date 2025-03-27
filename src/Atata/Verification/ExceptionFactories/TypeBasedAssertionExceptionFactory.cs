@@ -3,7 +3,7 @@
 namespace Atata;
 
 [Obsolete("Instead create custom factory implementing Atata.IAssertionExceptionFactory interface.")] // Obsolete since v4.0.0.
-public sealed class TypeBasedAssertionExceptionFactory : IAssertionExceptionFactory
+internal sealed class TypeBasedAssertionExceptionFactory : IAssertionExceptionFactory
 {
     private readonly Type _exceptionType;
 
