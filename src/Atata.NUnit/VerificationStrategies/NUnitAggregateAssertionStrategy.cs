@@ -8,10 +8,10 @@ public sealed class NUnitAggregateAssertionStrategy : IAggregateAssertionStrateg
 {
     public static NUnitAggregateAssertionStrategy Instance { get; } = new();
 
-    public void Assert(IAtataExecutionUnit executionUnit, Action action) =>
+    public void Assert(IAtataExecutionUnit? executionUnit, Action action) =>
         NUnitAdapter.AssertMultiple(action);
 
-    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, string stackTrace)
+    public void ReportFailure(IAtataExecutionUnit? executionUnit, string message, string stackTrace)
     {
         NUnitAdapter.RecordAssertionIntoTestResult(
             NUnitAssertionStatus.Failed,

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents native/default Atata aggregate assertion strategy.
@@ -7,7 +9,7 @@ public sealed class AtataAggregateAssertionStrategy : IAggregateAssertionStrateg
 {
     public static AtataAggregateAssertionStrategy Instance { get; } = new();
 
-    public void Assert(IAtataExecutionUnit executionUnit, Action action)
+    public void Assert(IAtataExecutionUnit? executionUnit, Action action)
     {
         AtataContext context = executionUnit?.Context ?? AtataContext.ResolveCurrent();
 
@@ -33,7 +35,7 @@ public sealed class AtataAggregateAssertionStrategy : IAggregateAssertionStrateg
         }
     }
 
-    public void ReportFailure(IAtataExecutionUnit executionUnit, string message, string stackTrace)
+    public void ReportFailure(IAtataExecutionUnit? executionUnit, string message, string stackTrace)
     {
         AtataContext context = executionUnit?.Context ?? AtataContext.ResolveCurrent();
         context.PendingFailureAssertionResults.Add(AssertionResult.ForFailure(message, stackTrace));

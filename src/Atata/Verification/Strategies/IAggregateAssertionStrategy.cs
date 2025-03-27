@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents an interface for aggregate assertion strategy.
@@ -10,7 +12,7 @@ public interface IAggregateAssertionStrategy
     /// </summary>
     /// <param name="executionUnit">The execution unit.</param>
     /// <param name="action">The action.</param>
-    void Assert(IAtataExecutionUnit executionUnit, Action action);
+    void Assert(IAtataExecutionUnit? executionUnit, Action action);
 
     /// <summary>
     /// Reports the assertion failure.
@@ -18,5 +20,5 @@ public interface IAggregateAssertionStrategy
     /// <param name="executionUnit">The execution unit.</param>
     /// <param name="message">The message.</param>
     /// <param name="stackTrace">The stack trace.</param>
-    void ReportFailure(IAtataExecutionUnit executionUnit, string message, string stackTrace);
+    void ReportFailure(IAtataExecutionUnit? executionUnit, string message, string stackTrace);
 }
