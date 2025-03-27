@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Specifies the tag(s) of the component.
@@ -9,11 +11,14 @@
     AllowMultiple = true)]
 public class TagAttribute : Attribute
 {
+    public TagAttribute(string value) =>
+        Values = [value];
+
     public TagAttribute(params string[] values) =>
-        Values = new ReadOnlyCollection<string>(values ?? []);
+        Values = values ?? [];
 
     /// <summary>
     /// Gets the tag values.
     /// </summary>
-    public ReadOnlyCollection<string> Values { get; }
+    public IReadOnlyList<string> Values { get; }
 }
