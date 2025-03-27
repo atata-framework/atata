@@ -291,11 +291,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     public IAssertionExceptionFactory AssertionExceptionFactory { get; internal set; } = null!;
 
     /// <summary>
-    /// Gets the type of the aggregate assertion exception.
-    /// The default value is a type of <see cref="AggregateAssertionException"/>.
-    /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
+    /// Gets the aggregate assertion exception factory.
+    /// The default value is an instance of <see cref="AtataAggregateAssertionExceptionFactory"/>.
     /// </summary>
-    public Type AggregateAssertionExceptionType { get; internal set; } = null!;
+    public IAggregateAssertionExceptionFactory AggregateAssertionExceptionFactory { get; internal set; } = null!;
 
     /// <summary>
     /// Gets the aggregate assertion strategy.

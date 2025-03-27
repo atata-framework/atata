@@ -14,11 +14,10 @@ public static class VerificationUtils
 
     public static Exception CreateAggregateAssertionException(AtataContext? context, IEnumerable<AssertionResult> assertionResults)
     {
-        Type? exceptionType = context?.AggregateAssertionExceptionType;
+        IAggregateAssertionExceptionFactory exceptionFactory = context?.AggregateAssertionExceptionFactory
+            ?? AtataAggregateAssertionExceptionFactory.Instance;
 
-        return exceptionType is null || exceptionType == typeof(AggregateAssertionException)
-            ? new AggregateAssertionException(assertionResults)
-            : (Exception)Activator.CreateInstance(exceptionType, assertionResults);
+        return exceptionFactory.Create(assertionResults);
     }
 
     public static string BuildExpectedMessage(string message, object[] args) =>

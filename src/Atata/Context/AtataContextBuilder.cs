@@ -164,11 +164,10 @@ public sealed class AtataContextBuilder : ICloneable
     public IAssertionExceptionFactory AssertionExceptionFactory { get; set; } = AtataAssertionExceptionFactory.Instance;
 
     /// <summary>
-    /// Gets or sets the type of the aggregate assertion exception.
-    /// The default value is a type of <see cref="AggregateAssertionException"/>.
-    /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
+    /// Gets or sets the aggregate assertion exception factory.
+    /// The default value is an instance of <see cref="AtataAggregateAssertionExceptionFactory"/>.
     /// </summary>
-    public Type AggregateAssertionExceptionType { get; set; } = typeof(AggregateAssertionException);
+    public IAggregateAssertionExceptionFactory AggregateAssertionExceptionFactory { get; set; } = AtataAggregateAssertionExceptionFactory.Instance;
 
     /// <summary>
     /// Gets or sets the aggregate assertion strategy.
@@ -519,30 +518,31 @@ public sealed class AtataContextBuilder : ICloneable
         return this;
     }
 
-    /// <summary>
-    /// Sets the type of aggregate assertion exception.
-    /// The default value is a type of <see cref="AggregateAssertionException"/>.
-    /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
-    /// </summary>
-    /// <typeparam name="TException">The type of the exception.</typeparam>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use UseAggregateAssertionExceptionFactory(...) instead for custom exception, " +
+        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
     public AtataContextBuilder UseAggregateAssertionExceptionType<TException>()
         where TException : Exception
         =>
         UseAggregateAssertionExceptionType(typeof(TException));
 
-    /// <summary>
-    /// Sets the type of aggregate assertion exception.
-    /// The default value is a type of <see cref="AggregateAssertionException"/>.
-    /// The exception type should have public constructor with <c>IEnumerable&lt;AssertionResult&gt;</c> argument.
-    /// </summary>
-    /// <param name="exceptionType">The type of the exception.</param>
-    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    [Obsolete("Use UseAggregateAssertionExceptionFactory(...) instead for custom exception, " +
+        "or use features of one of the libraries: Atata.NUnit, Atata.Xunit, Atata.MSTest, etc.")] // Obsolete since v4.0.0.
     public AtataContextBuilder UseAggregateAssertionExceptionType(Type exceptionType)
     {
         exceptionType.CheckIs<Exception>(nameof(exceptionType));
 
-        AggregateAssertionExceptionType = exceptionType;
+        return UseAggregateAssertionExceptionFactory(new TypeBasedAggregateAssertionExceptionFactory(exceptionType));
+    }
+
+    /// <summary>
+    /// Sets the aggregate assertion exception factory.
+    /// The default value is an instance of <see cref="AtataAggregateAssertionExceptionFactory"/>.
+    /// </summary>
+    /// <param name="factory">The aggregate assertion exception factory.</param>
+    /// <returns>The <see cref="AtataContextBuilder"/> instance.</returns>
+    public AtataContextBuilder UseAggregateAssertionExceptionFactory(IAggregateAssertionExceptionFactory factory)
+    {
+        AggregateAssertionExceptionFactory = factory;
         return this;
     }
 
@@ -661,7 +661,7 @@ public sealed class AtataContextBuilder : ICloneable
         context.VerificationRetryInterval = VerificationRetryInterval;
         context.Culture = Culture ?? CultureInfo.CurrentCulture;
         context.AssertionExceptionFactory = AssertionExceptionFactory;
-        context.AggregateAssertionExceptionType = AggregateAssertionExceptionType;
+        context.AggregateAssertionExceptionFactory = AggregateAssertionExceptionFactory;
         context.AggregateAssertionStrategy = AggregateAssertionStrategy ?? AtataAggregateAssertionStrategy.Instance;
         context.WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance;
         context.AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;

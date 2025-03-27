@@ -1,6 +1,4 @@
-﻿using Xunit.Sdk;
-
-namespace Atata.Xunit;
+﻿namespace Atata.Xunit;
 
 public abstract class AtataGlobalFixture : AtataFixture
 {
@@ -15,7 +13,7 @@ public abstract class AtataGlobalFixture : AtataFixture
         ConfigureAtataContextGlobalProperties(AtataContext.GlobalProperties);
 
         AtataContext.BaseConfiguration.UseAssertionExceptionFactory(XunitAssertionExceptionFactory.Instance);
-        AtataContext.BaseConfiguration.UseAggregateAssertionExceptionType(typeof(XunitAggregateAssertionException));
+        AtataContext.BaseConfiguration.UseAggregateAssertionExceptionFactory(XunitAggregateAssertionExceptionFactory.Instance);
 
         ConfigureAtataContextBaseConfiguration(AtataContext.BaseConfiguration);
 
