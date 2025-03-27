@@ -1,5 +1,3 @@
 ﻿namespace Atata.Xunit;
 
-internal interface IAssertionException
-{
-}
+internal interface IAssertionException;
