@@ -23,7 +23,7 @@ public class AggregateAssertionException : Exception
 
     public AggregateAssertionException(IEnumerable<AssertionResult> results)
         : base(ConvertToMessage(results)) =>
-        Results = results.ToReadOnly();
+        Results = [.. results];
 
     /// <summary>
     /// Gets or sets the prefix displayed at the beginning of warning result message.
@@ -50,9 +50,9 @@ public class AggregateAssertionException : Exception
     public static bool AppendResultStackTrace { get; set; }
 
     /// <summary>
-    /// Gets the collection of assertion results.
+    /// Gets the list of assertion results.
     /// </summary>
-    public ReadOnlyCollection<AssertionResult> Results { get; } = new AssertionResult[0].ToReadOnly();
+    public IReadOnlyList<AssertionResult> Results { get; } = [];
 
     private static string ConvertToMessage(IEnumerable<AssertionResult> results)
     {
