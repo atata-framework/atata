@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVerificationProvider<TOwner>
     where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>
@@ -7,7 +9,7 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
 
     private readonly bool _isNegation;
 
-    protected VerificationProvider(IAtataExecutionUnit executionUnit, bool isNegation = false)
+    protected VerificationProvider(IAtataExecutionUnit? executionUnit, bool isNegation = false)
     {
         ExecutionUnit = executionUnit;
         _isNegation = isNegation;
@@ -27,9 +29,9 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
 
     protected abstract TOwner Owner { get; }
 
-    IAtataExecutionUnit IVerificationProvider<TOwner>.ExecutionUnit => ExecutionUnit;
+    IAtataExecutionUnit? IVerificationProvider<TOwner>.ExecutionUnit => ExecutionUnit;
 
-    protected IAtataExecutionUnit ExecutionUnit { get; }
+    protected IAtataExecutionUnit? ExecutionUnit { get; }
 
     protected internal TimeSpan? Timeout { get; internal set; }
 
@@ -79,9 +81,9 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
         Using(StringComparer.OrdinalIgnoreCase);
 
     /// <inheritdoc cref="IVerificationProvider{TOwner}.TypeEqualityComparerMap"/>
-    protected Dictionary<Type, object> TypeEqualityComparerMap { get; set; }
+    protected Dictionary<Type, object>? TypeEqualityComparerMap { get; set; }
 
-    Dictionary<Type, object> IVerificationProvider<TOwner>.TypeEqualityComparerMap
+    Dictionary<Type, object>? IVerificationProvider<TOwner>.TypeEqualityComparerMap
     {
         get => TypeEqualityComparerMap;
         set => TypeEqualityComparerMap = value;
@@ -135,8 +137,8 @@ public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVer
         WithRetryInterval(TimeSpan.FromSeconds(retryIntervalSeconds));
 
     IEqualityComparer<T> IVerificationProvider<TOwner>.ResolveEqualityComparer<T>() =>
-        TypeEqualityComparerMap != null && TypeEqualityComparerMap.TryGetValue(typeof(T), out var equalityComparer)
-            ? equalityComparer as IEqualityComparer<T>
+        TypeEqualityComparerMap is not null && TypeEqualityComparerMap.TryGetValue(typeof(T), out var equalityComparer)
+            ? (IEqualityComparer<T>)equalityComparer
             : EqualityComparer<T>.Default;
 
     StringComparison IVerificationProvider<TOwner>.ResolveStringComparison() =>

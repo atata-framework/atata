@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IVerificationProvider<out TOwner>
 {
@@ -20,7 +22,7 @@ public interface IVerificationProvider<out TOwner>
     /// <summary>
     /// Gets the associated execution unit.
     /// </summary>
-    IAtataExecutionUnit ExecutionUnit { get; }
+    IAtataExecutionUnit? ExecutionUnit { get; }
 
     /// <summary>
     /// Gets or sets the timeout.
@@ -36,7 +38,7 @@ public interface IVerificationProvider<out TOwner>
     /// Gets or sets the <see cref="Dictionary{TKey, TValue}"/> of <see cref="Type"/> and <see cref="IEqualityComparer{T}"/>.
     /// Can be <see langword="null"/>.
     /// </summary>
-    Dictionary<Type, object> TypeEqualityComparerMap { get; set; }
+    Dictionary<Type, object>? TypeEqualityComparerMap { get; set; }
 
     /// <summary>
     /// Gets the retry options.
