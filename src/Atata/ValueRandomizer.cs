@@ -1,4 +1,6 @@
-﻿using RandomizeFunc = System.Func<Atata.UIComponentMetadata, object>;
+﻿#nullable enable
+
+using RandomizeFunc = System.Func<Atata.UIComponentMetadata, object>;
 
 namespace Atata;
 
@@ -27,10 +29,12 @@ public static class ValueRandomizer
     {
         randomizeFunction.CheckNotNull(nameof(randomizeFunction));
 
-        s_randomizers[typeof(T)] = md => randomizeFunction(md);
+        s_randomizers[typeof(T)] = md => randomizeFunction(md)!;
     }
 
-    private static void RegisterNumberRandomizer<T>() =>
+    private static void RegisterNumberRandomizer<T>()
+        where T : struct
+        =>
         s_randomizers[typeof(T)] = md => RandomizeNumber<T>(md);
 
     private static string RandomizeString(UIComponentMetadata metadata)
@@ -81,7 +85,7 @@ public static class ValueRandomizer
 
         if (valuesAsArray.Length > 1)
         {
-            Enum first = (Enum)(object)valuesAsArray[0];
+            Enum first = (Enum)(object)valuesAsArray[0]!;
             return (T)(object)valuesAsArray.Skip(1).Cast<Enum>().Aggregate(first, (a, b) => a.AddFlag(b));
         }
         else
@@ -94,7 +98,7 @@ public static class ValueRandomizer
     {
         T[] values = GetRandomizeIncludeValues<T>(metadata);
 
-        if (values is null or [])
+        if (values is [])
             values = [.. enumType.GetIndividualEnumFlags().Cast<T>()];
 
         var excludeAttribute = metadata.Get<RandomizeExcludeAttribute>();
@@ -112,9 +116,9 @@ public static class ValueRandomizer
     {
         T[] includeValues = GetRandomizeIncludeValues<T>(metadata);
 
-        if (includeValues == null || includeValues.Length == 0)
+        if (includeValues is [])
         {
-            value = default;
+            value = default!;
             return false;
         }
         else
@@ -128,7 +132,7 @@ public static class ValueRandomizer
     {
         var includeAttribute = metadata.Get<RandomizeIncludeAttribute>();
 
-        return includeAttribute?.Values?.Cast<T>().ToArray();
+        return includeAttribute?.Values?.Cast<T>().ToArray() ?? [];
     }
 
     public static T GetRandom<T>(UIComponentMetadata metadata)
