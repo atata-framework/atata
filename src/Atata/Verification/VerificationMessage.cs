@@ -1,13 +1,16 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-public class VerificationMessage
+namespace Atata;
+
+public sealed class VerificationMessage
 {
     private readonly StringBuilder _stringBuilder;
 
     public VerificationMessage(string text) =>
-        _stringBuilder = new StringBuilder(text);
+        _stringBuilder = new(text);
 
-    public static implicit operator string(VerificationMessage message) =>
+    [return: NotNullIfNotNull(nameof(message))]
+    public static implicit operator string?(VerificationMessage? message) =>
         message?.ToString();
 
     public static VerificationMessage Of<T>(string text, IEqualityComparer<T> equalityComparer) =>
@@ -22,15 +25,15 @@ public class VerificationMessage
 
     public VerificationMessage With<T>(IEqualityComparer<T> equalityComparer)
     {
-        string equalityComparerDescription = ResolveEqualityComparerDescription(equalityComparer);
+        string? equalityComparerDescription = ResolveEqualityComparerDescription(equalityComparer);
 
-        if (!string.IsNullOrEmpty(equalityComparerDescription))
+        if (equalityComparerDescription?.Length > 0)
             _stringBuilder.Append(' ').Append(equalityComparerDescription);
 
         return this;
     }
 
-    private static string ResolveEqualityComparerDescription<T>(IEqualityComparer<T> equalityComparer)
+    private static string? ResolveEqualityComparerDescription<T>(IEqualityComparer<T> equalityComparer)
     {
         if (equalityComparer is StringComparer)
         {
