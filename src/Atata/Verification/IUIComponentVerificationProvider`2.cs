@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IUIComponentVerificationProvider<out TComponent, out TOwner> : IVerificationProvider<TOwner>
     where TComponent : IUIComponent<TOwner>

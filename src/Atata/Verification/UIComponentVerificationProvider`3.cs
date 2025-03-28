@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class UIComponentVerificationProvider<TComponent, TVerificationProvider, TOwner> :
     VerificationProvider<TVerificationProvider, TOwner>,
