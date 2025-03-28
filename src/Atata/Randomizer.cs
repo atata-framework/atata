@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class Randomizer
 {
@@ -47,7 +49,7 @@ public static class Randomizer
 
     private static string NormalizeStringFormat(string format)
     {
-        if (string.IsNullOrEmpty(format))
+        if (format is null or [])
             return "{0}";
         else if (!format.Contains("{0}"))
             return format + "{0}";
