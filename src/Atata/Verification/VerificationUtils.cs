@@ -20,7 +20,7 @@ public static class VerificationUtils
         return exceptionFactory.Create(assertionResults);
     }
 
-    public static string BuildExpectedMessage(string message, object[] args) =>
+    public static string BuildExpectedMessage(string message, object[]? args) =>
         args?.Length > 0
             ? message.FormatWith([.. args.Select(Stringifier.ToString)])
             : message;

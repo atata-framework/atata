@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static partial class IObjectVerificationProviderExtensions
 {
@@ -9,7 +11,7 @@ public static partial class IObjectVerificationProviderExtensions
         where TControl : Control<TOwner>
         where TOwner : PageObject<TOwner>
         =>
-        verifier.ContainHavingContent(match, expected?.AsEnumerable());
+        verifier.ContainHavingContent(match, expected?.AsEnumerable()!);
 
     public static TOwner ContainHavingContent<TControl, TOwner>(
         this IObjectVerificationProvider<IEnumerable<TControl>, TOwner> verifier,

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static partial class IObjectVerificationProviderExtensions
 {
@@ -11,7 +13,7 @@ public static partial class IObjectVerificationProviderExtensions
         verifier.Satisfy(string.IsNullOrWhiteSpace, "be null or white-space");
 
     public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
-        verifier.Satisfy(actual => actual != null && actual.Length == expected, $"have length of {expected}");
+        verifier.Satisfy(actual => actual is not null && actual.Length == expected, $"have length of {expected}");
 
     public static TOwner EqualIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected) =>
         verifier.Satisfy(actual => string.Equals(expected, actual, DefaultIgnoreCaseComparison), "equal {0} ignoring case", expected);
@@ -21,7 +23,7 @@ public static partial class IObjectVerificationProviderExtensions
         expected.CheckNotNull(nameof(expected));
 
         return verifier.Satisfy(
-            actual => actual != null && actual.IndexOf(expected, verifier.ResolveStringComparison()) != -1,
+            actual => actual is not null && actual.IndexOf(expected, verifier.ResolveStringComparison()) != -1,
             VerificationMessage.Of("contain {0}", verifier.ResolveEqualityComparer<string>()),
             expected);
     }
@@ -31,7 +33,7 @@ public static partial class IObjectVerificationProviderExtensions
         expected.CheckNotNull(nameof(expected));
 
         return verifier.Satisfy(
-            actual => actual != null && actual.IndexOf(expected, DefaultIgnoreCaseComparison) != -1,
+            actual => actual is not null && actual.IndexOf(expected, DefaultIgnoreCaseComparison) != -1,
             "contain {0} ignoring case",
             expected);
     }
@@ -41,7 +43,7 @@ public static partial class IObjectVerificationProviderExtensions
         expected.CheckNotNull(nameof(expected));
 
         return verifier.Satisfy(
-            actual => actual != null && actual.StartsWith(expected, verifier.ResolveStringComparison()),
+            actual => actual is not null && actual.StartsWith(expected, verifier.ResolveStringComparison()),
             VerificationMessage.Of("start with {0}", verifier.ResolveEqualityComparer<string>()),
             expected);
     }
@@ -51,7 +53,7 @@ public static partial class IObjectVerificationProviderExtensions
         expected.CheckNotNull(nameof(expected));
 
         return verifier.Satisfy(
-            actual => actual != null && actual.StartsWith(expected, DefaultIgnoreCaseComparison),
+            actual => actual is not null && actual.StartsWith(expected, DefaultIgnoreCaseComparison),
             "start with {0} ignoring case",
             expected);
     }
@@ -61,7 +63,7 @@ public static partial class IObjectVerificationProviderExtensions
         expected.CheckNotNull(nameof(expected));
 
         return verifier.Satisfy(
-            actual => actual != null && actual.EndsWith(expected, verifier.ResolveStringComparison()),
+            actual => actual is not null && actual.EndsWith(expected, verifier.ResolveStringComparison()),
             VerificationMessage.Of("end with {0}", verifier.ResolveEqualityComparer<string>()),
             expected);
     }
@@ -71,7 +73,7 @@ public static partial class IObjectVerificationProviderExtensions
         expected.CheckNotNull(nameof(expected));
 
         return verifier.Satisfy(
-            actual => actual != null && actual.EndsWith(expected, DefaultIgnoreCaseComparison),
+            actual => actual is not null && actual.EndsWith(expected, DefaultIgnoreCaseComparison),
             "end with {0} ignoring case",
             expected);
     }
@@ -106,7 +108,7 @@ public static partial class IObjectVerificationProviderExtensions
             options |= RegexOptions.IgnoreCase;
 
         return verifier.Satisfy(
-            actual => actual != null && Regex.IsMatch(actual, pattern, options),
+            actual => actual is not null && Regex.IsMatch(actual, pattern, options),
             $"match regex pattern \"{pattern}\"");
     }
 
@@ -124,7 +126,7 @@ public static partial class IObjectVerificationProviderExtensions
         StringComparison stringComparison = verifier.ResolveStringComparison();
 
         return verifier.Satisfy(
-            actual => actual != null && WildcardPattern.IsMatch(actual, pattern, stringComparison),
+            actual => actual is not null && WildcardPattern.IsMatch(actual, pattern, stringComparison),
             $"match wildcard pattern \"{pattern}\"");
     }
 
@@ -141,7 +143,7 @@ public static partial class IObjectVerificationProviderExtensions
             .ToString();
 
         return verifier.Satisfy(
-            actual => actual != null && expected.Any(x => predicate(actual, x)),
+            actual => actual is not null && expected.Any(x => predicate(actual, x)),
             VerificationMessage.Of(message, verifier.ResolveEqualityComparer<string>()),
             expected);
     }
@@ -166,7 +168,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     /// <inheritdoc cref="StartWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
     public static TOwner StartWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected) =>
-        verifier.StartWithAny(expected?.AsEnumerable());
+        verifier.StartWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that a string starts with any of the expected strings.
@@ -182,13 +184,13 @@ public static partial class IObjectVerificationProviderExtensions
         StringComparison stringComparison = verifier.ResolveStringComparison();
 
         return verifier.Satisfy(
-            actual => actual != null && expected.Any(x => actual.StartsWith(x, stringComparison)),
+            actual => actual is not null && expected.Any(x => actual.StartsWith(x, stringComparison)),
             VerificationMessage.Of($"start with any of {Stringifier.ToString(expected)}", verifier.ResolveEqualityComparer<string>()));
     }
 
     /// <inheritdoc cref="EndWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
     public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected) =>
-        verifier.EndWithAny(expected?.AsEnumerable());
+        verifier.EndWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that a string ends with any of the expected strings.
@@ -204,7 +206,7 @@ public static partial class IObjectVerificationProviderExtensions
         StringComparison stringComparison = verifier.ResolveStringComparison();
 
         return verifier.Satisfy(
-            actual => actual != null && expected.Any(x => actual.EndsWith(x, stringComparison)),
+            actual => actual is not null && expected.Any(x => actual.EndsWith(x, stringComparison)),
             VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", verifier.ResolveEqualityComparer<string>()));
     }
 

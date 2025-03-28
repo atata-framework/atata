@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static partial class IObjectVerificationProviderExtensions
 {
@@ -43,8 +45,8 @@ public static partial class IObjectVerificationProviderExtensions
 
         void ExecuteVerification()
         {
-            IEnumerable<TObject> actual = null;
-            Exception exception = null;
+            IEnumerable<TObject>? actual = null;
+            Exception? exception = null;
 
             bool doesSatisfy = VerificationUtils.ExecuteUntil(
                 () =>
@@ -52,7 +54,7 @@ public static partial class IObjectVerificationProviderExtensions
                     try
                     {
                         actual = verifier.ObjectProvider.Object?.Select(x => x.Object).ToArray();
-                        bool result = predicate(actual) != verifier.IsNegation;
+                        bool result = predicate(actual!) != verifier.IsNegation;
                         exception = null;
                         return result;
                     }
@@ -66,7 +68,9 @@ public static partial class IObjectVerificationProviderExtensions
 
             if (!doesSatisfy)
             {
-                string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
+                string? actualMessage = exception is null
+                    ? Stringifier.ToString(actual)
+                    : null;
 
                 string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage);
 
@@ -84,7 +88,7 @@ public static partial class IObjectVerificationProviderExtensions
         verifier.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
 
     public static TOwner BeEquivalent<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, params TItem[] expected) =>
-        verifier.BeEquivalent(expected?.AsEnumerable());
+        verifier.BeEquivalent(expected?.AsEnumerable()!);
 
     public static TOwner BeEquivalent<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, IEnumerable<TItem> expected)
     {
@@ -106,7 +110,7 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
-        verifier.BeEquivalent(expected?.AsEnumerable());
+        verifier.BeEquivalent(expected?.AsEnumerable()!);
 
     public static TOwner BeEquivalent<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
     {
@@ -128,7 +132,7 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, params TItem[] expected) =>
-        verifier.EqualSequence(expected?.AsEnumerable());
+        verifier.EqualSequence(expected?.AsEnumerable()!);
 
     public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, IEnumerable<TItem> expected)
     {
@@ -142,7 +146,7 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, params TObject[] expected) =>
-        verifier.EqualSequence(expected?.AsEnumerable());
+        verifier.EqualSequence(expected?.AsEnumerable()!);
 
     public static TOwner EqualSequence<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier, IEnumerable<TObject> expected)
     {
@@ -328,7 +332,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
         params TItem[] expected)
         =>
-        verifier.Contain(expected?.AsEnumerable());
+        verifier.Contain(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection contains expected items.
@@ -365,7 +369,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params TObject[] expected)
         =>
-        verifier.Contain(expected?.AsEnumerable());
+        verifier.Contain(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection contains items equal to expected values.
@@ -433,7 +437,7 @@ public static partial class IObjectVerificationProviderExtensions
         TermMatch match,
         params string[] expected)
         =>
-        verifier.Contain(match, expected?.AsEnumerable());
+        verifier.Contain(match, expected?.AsEnumerable()!);
 
     public static TOwner Contain<TOwner>(
         this IObjectVerificationProvider<IEnumerable<string>, TOwner> verifier,
@@ -458,7 +462,7 @@ public static partial class IObjectVerificationProviderExtensions
         TermMatch match,
         params string[] expected)
         =>
-        verifier.Contain(match, expected?.AsEnumerable());
+        verifier.Contain(match, expected?.AsEnumerable()!);
 
     public static TOwner Contain<TOwner>(
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<string>>, TOwner> verifier,
@@ -483,7 +487,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
         params TItem[] expected)
         =>
-        verifier.ContainAny(expected?.AsEnumerable());
+        verifier.ContainAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection contains any of the expected items.
@@ -511,7 +515,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params TObject[] expected)
         =>
-        verifier.ContainAny(expected?.AsEnumerable());
+        verifier.ContainAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection contains any of the expected items.
@@ -539,7 +543,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
         params TItem[] expected)
         =>
-        verifier.StartWith(expected?.AsEnumerable());
+        verifier.StartWith(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection starts sequentially with the expected items.
@@ -567,7 +571,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params TObject[] expected)
         =>
-        verifier.StartWith(expected?.AsEnumerable());
+        verifier.StartWith(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection starts sequentially with the expected items.
@@ -595,7 +599,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
         params TItem[] expected)
         =>
-        verifier.StartWithAny(expected?.AsEnumerable());
+        verifier.StartWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection starts with any of the expected items.
@@ -631,7 +635,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params TObject[] expected)
         =>
-        verifier.StartWithAny(expected?.AsEnumerable());
+        verifier.StartWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection starts with any of the expected items.
@@ -667,7 +671,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
         params TItem[] expected)
         =>
-        verifier.EndWith(expected?.AsEnumerable());
+        verifier.EndWith(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection ends sequentially with the expected items.
@@ -695,7 +699,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params TObject[] expected)
         =>
-        verifier.EndWith(expected?.AsEnumerable());
+        verifier.EndWith(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection ends sequentially with the expected items.
@@ -723,7 +727,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
         params TItem[] expected)
         =>
-        verifier.EndWithAny(expected?.AsEnumerable());
+        verifier.EndWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection ends with any of the expected items.
@@ -759,7 +763,7 @@ public static partial class IObjectVerificationProviderExtensions
         this IObjectVerificationProvider<IEnumerable<IObjectProvider<TObject>>, TOwner> verifier,
         params TObject[] expected)
         =>
-        verifier.EndWithAny(expected?.AsEnumerable());
+        verifier.EndWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that collection ends with any of the expected items.

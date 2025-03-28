@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of verification extension methods.
@@ -46,8 +48,8 @@ public static partial class IObjectVerificationProviderExtensions
 
         void ExecuteVerification()
         {
-            TObject actual = default;
-            Exception exception = null;
+            TObject actual = default!;
+            Exception? exception = null;
 
             bool doesSatisfy = VerificationUtils.ExecuteUntil(
                 () =>
@@ -69,14 +71,16 @@ public static partial class IObjectVerificationProviderExtensions
 
             if (!doesSatisfy)
             {
-                string shortenExpectedMessage = null;
+                string? shortenExpectedMessage = null;
                 bool isExpectedMessageShorten = !verifier.IsNegation && TryShortenExpectedMessage(message, out shortenExpectedMessage);
 
                 string expectedMessage = VerificationUtils.BuildExpectedMessage(
-                    isExpectedMessageShorten ? shortenExpectedMessage : message,
+                    isExpectedMessageShorten ? shortenExpectedMessage! : message,
                     args?.Cast<object>().ToArray());
 
-                string actualMessage = exception == null ? Stringifier.ToString(actual) : null;
+                string? actualMessage = exception is null
+                    ? Stringifier.ToString(actual)
+                    : null;
 
                 string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage, !isExpectedMessageShorten);
 

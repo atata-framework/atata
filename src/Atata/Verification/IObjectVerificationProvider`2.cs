@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IObjectVerificationProvider<out TObject, out TOwner> : IVerificationProvider<TOwner>
 {
