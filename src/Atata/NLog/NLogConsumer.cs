@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the log consumer that writes log to NLog using default NLog configuration.
@@ -10,16 +12,16 @@ public class NLogConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     {
     }
 
-    public NLogConsumer(string loggerName) =>
+    public NLogConsumer(string? loggerName) =>
         LoggerName = loggerName;
 
     /// <inheritdoc/>
-    public string LoggerName { get; set; }
+    public string? LoggerName { get; set; }
 
     /// <inheritdoc/>
     protected override dynamic GetLogger()
     {
-        var logger = LoggerName != null
+        var logger = LoggerName is not null
             ? NLogAdapter.GetLogger(LoggerName)
             : NLogAdapter.GetCurrentClassLogger();
 
@@ -30,6 +32,6 @@ public class NLogConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     protected override void OnLog(LogEventInfo eventInfo)
     {
         dynamic otherEventInfo = NLogAdapter.CreateLogEventInfo(eventInfo);
-        Logger.Log(otherEventInfo);
+        Logger!.Log(otherEventInfo);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the log consumer that writes log to file using NLog.
@@ -45,12 +47,12 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     protected override void OnLog(LogEventInfo eventInfo)
     {
         dynamic otherEventInfo = NLogAdapter.CreateLogEventInfo(eventInfo);
-        Logger.Log(otherEventInfo);
+        Logger!.Log(otherEventInfo);
     }
 
     private string BuildFilePath()
     {
-        AtataContext context = AtataContext.Current;
+        AtataContext context = AtataContext.ResolveCurrent();
 
         string fileName = context.Variables.FillPathTemplateString(FileNameTemplate);
         return Path.Combine(context.ArtifactsPath, fileName);
