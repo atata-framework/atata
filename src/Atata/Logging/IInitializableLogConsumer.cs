@@ -10,5 +10,6 @@ public interface IInitializableLogConsumer : ILogConsumer, ICloneable
     /// <summary>
     /// Initializes this instance.
     /// </summary>
-    void Initialize();
+    /// <param name="context">The context.</param>
+    void Initialize(AtataContext context);
 }

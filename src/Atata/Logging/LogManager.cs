@@ -27,11 +27,6 @@ internal sealed class LogManager : ILogManager
             logEventInfoFactory,
             ZeroOuterLogNestingLevelResolver.Instance)
     {
-        foreach (var item in configuration.ConsumerConfigurations)
-        {
-            if (item.Consumer is IInitializableLogConsumer initializableLogConsumer)
-                initializableLogConsumer.Initialize();
-        }
     }
 
     private LogManager(

@@ -648,23 +648,23 @@ public sealed class AtataContextBuilder : ICloneable
         if (parentContext is null && Scope is not null && AtataContext.Global is not null)
             parentContext = AtataContextParentResolver.FindParentContext(AtataContext.Global, Scope.Value, testInfo);
 
-        AtataContext context = new(parentContext, Scope, testInfo);
-        LogManager logManager = CreateLogManager(context);
+        AtataContext context = new(parentContext, Scope, testInfo)
+        {
+            Attributes = Attributes.AttributesContext.Clone(),
+            BaseRetryTimeout = BaseRetryTimeout,
+            BaseRetryInterval = BaseRetryInterval,
+            WaitingTimeout = WaitingTimeout,
+            WaitingRetryInterval = WaitingRetryInterval,
+            VerificationTimeout = VerificationTimeout,
+            VerificationRetryInterval = VerificationRetryInterval,
+            Culture = Culture ?? CultureInfo.CurrentCulture,
+            AssertionExceptionFactory = AssertionExceptionFactory,
+            AggregateAssertionExceptionFactory = AggregateAssertionExceptionFactory,
+            AggregateAssertionStrategy = AggregateAssertionStrategy ?? AtataAggregateAssertionStrategy.Instance,
+            WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance,
+            AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance
+        };
 
-        context.Log = logManager;
-        context.Attributes = Attributes.AttributesContext.Clone();
-        context.BaseRetryTimeout = BaseRetryTimeout;
-        context.BaseRetryInterval = BaseRetryInterval;
-        context.WaitingTimeout = WaitingTimeout;
-        context.WaitingRetryInterval = WaitingRetryInterval;
-        context.VerificationTimeout = VerificationTimeout;
-        context.VerificationRetryInterval = VerificationRetryInterval;
-        context.Culture = Culture ?? CultureInfo.CurrentCulture;
-        context.AssertionExceptionFactory = AssertionExceptionFactory;
-        context.AggregateAssertionExceptionFactory = AggregateAssertionExceptionFactory;
-        context.AggregateAssertionStrategy = AggregateAssertionStrategy ?? AtataAggregateAssertionStrategy.Instance;
-        context.WarningReportStrategy = WarningReportStrategy ?? AtataWarningReportStrategy.Instance;
-        context.AssertionFailureReportStrategy = AssertionFailureReportStrategy ?? AtataAssertionFailureReportStrategy.Instance;
         context.EventBus = new EventBus(context, EventSubscriptions.GetItemsForScope(Scope));
 
         context.InitMainVariables();
@@ -672,6 +672,8 @@ public sealed class AtataContextBuilder : ICloneable
         context.InitState(State);
         context.InitArtifactsDirectory();
         context.InitArtifactsVariable();
+
+        context.Log = CreateLogManager(context);
 
         parentContext?.AddChildContext(context);
 
@@ -690,6 +692,12 @@ public sealed class AtataContextBuilder : ICloneable
         LogManagerConfiguration configuration = new(
             [.. LogConsumers.GetItemsForScope(Scope)],
             [.. SecretStringsToMaskInLog]);
+
+        foreach (var item in configuration.ConsumerConfigurations)
+        {
+            if (item.Consumer is IInitializableLogConsumer initializableLogConsumer)
+                initializableLogConsumer.Initialize(context);
+        }
 
         return new(configuration, new AtataContextLogEventInfoFactory(context));
     }
