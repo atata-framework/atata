@@ -11,6 +11,7 @@ public static class Log4NetLogConsumerBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="repositoryName">The name of the logger repository.</param>
     /// <returns>The same builder instance.</returns>
+    [Obsolete("Use functionality from Atata.NLog package instead.")] // Obsolete since v4.0.0.
     public static LogConsumerBuilder<Log4NetConsumer> WithRepositoryName(
         this LogConsumerBuilder<Log4NetConsumer> builder,
         string repositoryName)
@@ -25,6 +26,7 @@ public static class Log4NetLogConsumerBuilderExtensions
     /// <param name="builder">The builder.</param>
     /// <param name="repositoryAssembly">The name of the assembly to use to lookup the repository.</param>
     /// <returns>The same builder instance.</returns>
+    [Obsolete("Use functionality from Atata.NLog package instead.")] // Obsolete since v4.0.0.
     public static LogConsumerBuilder<Log4NetConsumer> WithRepositoryAssembly(
         this LogConsumerBuilder<Log4NetConsumer> builder,
         Assembly repositoryAssembly)

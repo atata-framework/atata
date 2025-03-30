@@ -14,6 +14,7 @@ public static class LogConsumerAliases
 
     public const string NLogFile = "nlog-file";
 
+    [Obsolete("Use NLogFile instead.")] // Obsolete since v4.0.0.
     public const string Log4Net = "log4net";
 
     private static readonly Dictionary<string, Func<ILogConsumer>> s_aliasFactoryMap =
@@ -33,7 +34,10 @@ public static class LogConsumerAliases
         Register<TraceLogConsumer>(Trace);
         Register<DebugLogConsumer>(Debug);
         Register<ConsoleLogConsumer>(Console);
+
+#pragma warning disable CS0618 // Type or member is obsolete
         Register<Log4NetConsumer>(Log4Net);
+#pragma warning restore CS0618 // Type or member is obsolete
 
         Register(NUnit, CreateNUnitTestContextLogConsumer);
         Register(NLog, CreateNLogConsumer);

@@ -3,6 +3,7 @@
 /// <summary>
 /// Represents the log consumer for log4net.
 /// </summary>
+[Obsolete("Use NLogConsumer from Atata.NLog package instead.")] // Obsolete since v4.0.0.
 public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
 {
     private static readonly Lazy<Dictionary<LogLevel, dynamic>> s_lazyLogLevelsMap = new(CreateLogLevelsMap);

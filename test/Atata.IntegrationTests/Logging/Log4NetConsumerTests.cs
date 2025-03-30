@@ -1,4 +1,6 @@
-﻿using log4net.Appender;
+﻿#pragma warning disable CS0618 // Type or member is obsolete
+
+using log4net.Appender;
 using log4net.Config;
 using log4net.Core;
 using log4net.Util;
