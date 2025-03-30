@@ -4,7 +4,7 @@ public class NUnitTestContextLogConsumer : TextOutputLogConsumer, IInitializable
 {
     private TestExecutionContext _testExecutionContext = null!;
 
-    public void Initialize(AtataContext context) =>
+    void IInitializableLogConsumer.Initialize(AtataContext context) =>
         _testExecutionContext = TestExecutionContext.CurrentContext;
 
     protected override void Write(string completeMessage)

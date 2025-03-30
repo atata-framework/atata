@@ -1,4 +1,4 @@
-﻿#nullable enable
+﻿using Atata.NLog;
 
 namespace Atata;
 

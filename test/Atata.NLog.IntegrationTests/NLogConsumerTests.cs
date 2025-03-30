@@ -1,6 +1,6 @@
-﻿namespace Atata.IntegrationTests.Logging;
+﻿namespace Atata.NLog.IntegrationTests;
 
-public class NLogConsumerTests : TestSuiteBase
+public sealed class NLogConsumerTests : TestSuiteBase
 {
     [Test]
     public void WithDefaultConfiguration()

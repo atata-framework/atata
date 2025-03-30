@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Atata.NUnit\Atata.NUnit.csproj" />
     <ProjectReference Include="..\..\src\Atata\Atata.csproj" />
+    <ProjectReference Include="..\..\src\Atata.NLog\Atata.NLog.csproj" />
   </ItemGroup>
 
 </Project>

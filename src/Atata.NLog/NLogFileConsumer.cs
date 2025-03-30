@@ -1,16 +1,18 @@
-﻿#nullable enable
+﻿#pragma warning disable S103 // Lines should not be too long
 
-namespace Atata;
+namespace Atata.NLog;
 
 /// <summary>
-/// Represents the log consumer that writes log to file using NLog.
+/// A log consumer that writes log to file using NLog.
 /// </summary>
-public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
+public class NLogFileConsumer : IInitializableLogConsumer
 {
     /// <summary>
     /// The default file name, which is <c>"Trace.log"</c>.
     /// </summary>
     public const string DefaultFileName = "Trace.log";
+
+    private Logger _logger = null!;
 
     /// <summary>
     /// Gets or sets the file name template.
@@ -30,44 +32,34 @@ public class NLogFileConsumer : LazyInitializableLogConsumer, ICloneable
     public string Layout { get; set; } =
         @"${event-property:time-elapsed:format=hh\\\:mm\\\:ss\\.fff} ${event-property:execution-unit-id} ${uppercase:${level}:padding=5} ${event-property:log-nesting-text}${when:when='${event-property:log-external-source}'!='':inner={${event-property:log-external-source}\} }${when:when='${event-property:log-category}'!='':inner=[${event-property:log-category}] }${when:when='${message}'!='':inner=${message}${onexception:inner= }${exception:format=ToString:flattenException=false}:else=${exception:format=ToString:flattenException=false}";
 
-    /// <inheritdoc/>
-    protected override dynamic GetLogger()
+    void IInitializableLogConsumer.Initialize(AtataContext context)
     {
-        string uniqueLoggerName = Guid.NewGuid().ToString();
-        string filePath = BuildFilePath();
+        string uniqueLoggerName = context.Id;
+        string filePath = BuildFilePath(context);
 
-        var target = NLogAdapter.CreateFileTarget(uniqueLoggerName, filePath, Layout);
+        FileTarget target = NLogAdapter.CreateFileTarget(uniqueLoggerName, filePath, Layout);
 
         NLogAdapter.AddConfigurationRuleForAllLevels(target, uniqueLoggerName);
 
-        return NLogAdapter.GetLogger(uniqueLoggerName);
+        _logger = NLogManager.GetLogger(uniqueLoggerName);
     }
 
-    /// <inheritdoc/>
-    protected override void OnLog(LogEventInfo eventInfo)
+    void ILogConsumer.Log(LogEventInfo eventInfo)
     {
-        dynamic otherEventInfo = NLogAdapter.CreateLogEventInfo(eventInfo);
-        Logger!.Log(otherEventInfo);
+        NLogEventInfo otherEventInfo = NLogAdapter.CreateLogEventInfo(eventInfo);
+        _logger.Log(otherEventInfo);
     }
 
-    private string BuildFilePath()
-    {
-        AtataContext context = AtataContext.ResolveCurrent();
-
-        string fileName = context.Variables.FillPathTemplateString(FileNameTemplate);
-        return Path.Combine(context.ArtifactsPath, fileName);
-    }
-
-    /// <summary>
-    /// Creates a new object that is a copy of the current instance.
-    /// </summary>
-    /// <returns>
-    /// A new object that is a copy of this instance.
-    /// </returns>
     object ICloneable.Clone() =>
         new NLogFileConsumer
         {
             FileNameTemplate = FileNameTemplate,
             Layout = Layout
         };
+
+    private string BuildFilePath(AtataContext context)
+    {
+        string fileName = context.Variables.FillPathTemplateString(FileNameTemplate);
+        return Path.Combine(context.ArtifactsPath, fileName);
+    }
 }

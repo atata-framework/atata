@@ -1,4 +1,4 @@
-﻿namespace Atata.IntegrationTests.Logging;
+﻿namespace Atata.NLog.IntegrationTests;
 
 public sealed class NLogFileConsumerTests : TestSuiteBase
 {
@@ -22,7 +22,7 @@ public sealed class NLogFileConsumerTests : TestSuiteBase
 
         WriteRandomLogMessageAndAssertItInFile(
             context,
-            Path.Combine(AtataContext.Current.ArtifactsPath, fileName));
+            Path.Combine(AtataContext.ResolveCurrent().ArtifactsPath, fileName));
     }
 
     [Test]
@@ -62,8 +62,8 @@ public sealed class NLogFileConsumerTests : TestSuiteBase
         AssertThatFileShouldContainText(filePath, testMessage);
     }
 
-    private AtataContext CreateAtataContextWithNLogFileConsumer(
-        Action<LogConsumerBuilder<NLogFileConsumer>> configure = null)
+    private static AtataContext CreateAtataContextWithNLogFileConsumer(
+        Action<LogConsumerBuilder<NLogFileConsumer>>? configure = null)
     {
         var contextBuilder = ConfigureSessionlessAtataContext();
 
@@ -73,7 +73,7 @@ public sealed class NLogFileConsumerTests : TestSuiteBase
         return contextBuilder.Build();
     }
 
-    private void TestLog(Action<ILogManager> logAction, string expectedText)
+    private static void TestLog(Action<ILogManager> logAction, string expectedText)
     {
         var context = CreateAtataContextWithNLogFileConsumer();
 

@@ -1,4 +1,6 @@
-﻿#nullable enable
+﻿#pragma warning disable S103 // Lines should not be too long
+
+using Atata.NLog;
 
 namespace Atata;
 

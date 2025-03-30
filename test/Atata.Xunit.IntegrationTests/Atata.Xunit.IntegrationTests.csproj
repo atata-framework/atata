@@ -20,6 +20,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Atata.Xunit\Atata.Xunit.csproj" />
     <ProjectReference Include="..\..\src\Atata\Atata.csproj" />
+    <ProjectReference Include="..\..\src\Atata.NLog\Atata.NLog.csproj" />
   </ItemGroup>
 
 </Project>

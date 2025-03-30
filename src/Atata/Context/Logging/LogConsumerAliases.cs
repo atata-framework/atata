@@ -16,20 +16,28 @@ public static class LogConsumerAliases
 
     public const string Log4Net = "log4net";
 
-    private static readonly Dictionary<string, Func<ILogConsumer>> s_aliasFactoryMap = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, Func<ILogConsumer>> s_aliasFactoryMap =
+        new(StringComparer.OrdinalIgnoreCase);
 
-    private static readonly Lazy<ConstructorInfo> s_lazyNUnitTestContextLogConsumerConstructor = new(ResolveNUnitTestContextLogConsumerConstructor);
+    private static readonly Lazy<ConstructorInfo> s_lazyNUnitTestContextLogConsumerConstructor =
+        new(ResolveNUnitTestContextLogConsumerConstructor);
+
+    private static readonly Lazy<ConstructorInfo> s_lazyNLogConsumerConstructor =
+        new(ResolveNLogConsumerConstructor);
+
+    private static readonly Lazy<ConstructorInfo> s_lazyNLogFileConsumerConstructor =
+        new(ResolveNLogFileConsumerConstructor);
 
     static LogConsumerAliases()
     {
         Register<TraceLogConsumer>(Trace);
         Register<DebugLogConsumer>(Debug);
         Register<ConsoleLogConsumer>(Console);
-        Register<NLogConsumer>(NLog);
-        Register<NLogFileConsumer>(NLogFile);
         Register<Log4NetConsumer>(Log4Net);
 
         Register(NUnit, CreateNUnitTestContextLogConsumer);
+        Register(NLog, CreateNLogConsumer);
+        Register(NLogFile, CreateNLogFileConsumer);
     }
 
     public static void Register<T>(string typeAlias)
@@ -57,9 +65,24 @@ public static class LogConsumerAliases
     private static ILogConsumer CreateNUnitTestContextLogConsumer() =>
         (ILogConsumer)s_lazyNUnitTestContextLogConsumerConstructor.Value.Invoke(null);
 
-    private static ConstructorInfo ResolveNUnitTestContextLogConsumerConstructor()
+    private static ILogConsumer CreateNLogConsumer() =>
+        (ILogConsumer)s_lazyNLogConsumerConstructor.Value.Invoke(null);
+
+    private static ILogConsumer CreateNLogFileConsumer() =>
+        (ILogConsumer)s_lazyNLogFileConsumerConstructor.Value.Invoke(null);
+
+    private static ConstructorInfo ResolveNUnitTestContextLogConsumerConstructor() =>
+        GetDefaultTypeConstructor("Atata.NUnit.NUnitTestContextLogConsumer,Atata.NUnit");
+
+    private static ConstructorInfo ResolveNLogConsumerConstructor() =>
+        GetDefaultTypeConstructor("Atata.NLog.NLogConsumer,Atata.NLog");
+
+    private static ConstructorInfo ResolveNLogFileConsumerConstructor() =>
+        GetDefaultTypeConstructor("Atata.NLog.NLogFileConsumer,Atata.NLog");
+
+    private static ConstructorInfo GetDefaultTypeConstructor(string typeName)
     {
-        Type type = Type.GetType("Atata.NUnit.NUnitTestContextLogConsumer,Atata.NUnit", true);
+        Type type = Type.GetType(typeName, true);
 
         return type.GetConstructor([]);
     }

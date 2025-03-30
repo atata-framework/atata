@@ -5,6 +5,7 @@ namespace Atata;
 /// <summary>
 /// Represents the base class for log consumer that needs to be initialized in a lazy way.
 /// </summary>
+// TODO: Remove LazyInitializableLogConsumer after Log4Net functionality is removed.
 public abstract class LazyInitializableLogConsumer : ILogConsumer
 {
     private readonly object _loggerInitializationLock = new();

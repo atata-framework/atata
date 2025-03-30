@@ -87,9 +87,11 @@ public abstract class TestSuiteBase
         return exception;
     }
 
+    // TODO: Remove after Log4Net functionality is removed.
     protected static void AssertThatFileExists(string filePath) =>
         Assert.That(new FileInfo(filePath), Does.Exist);
 
+    // TODO: Remove after Log4Net functionality is removed.
     protected static void AssertThatFileShouldContainText(string filePath, params string[] texts)
     {
         AssertThatFileExists(filePath);
@@ -101,6 +103,7 @@ public abstract class TestSuiteBase
         fileContent.Should().ContainAll(texts);
     }
 
+    // TODO: Remove after Log4Net functionality is removed.
     protected static void AssertThatFileShouldNotContainText(string filePath, params string[] texts)
     {
         AssertThatFileExists(filePath);
