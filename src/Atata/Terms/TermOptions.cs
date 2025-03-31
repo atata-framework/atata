@@ -2,7 +2,7 @@
 
 public class TermOptions : ITermSettings, IHasOptionalProperties
 {
-    public PropertyBag OptionalProperties { get; } = new PropertyBag();
+    public PropertyBag OptionalProperties { get; } = new();
 
     /// <summary>
     /// Gets or sets the match.

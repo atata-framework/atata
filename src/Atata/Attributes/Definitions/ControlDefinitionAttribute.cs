@@ -12,7 +12,7 @@ public class ControlDefinitionAttribute : UIComponentDefinitionAttribute, IHasOp
 
     PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
 
-    protected PropertyBag OptionalProperties { get; } = new PropertyBag();
+    protected PropertyBag OptionalProperties { get; } = new();
 
     /// <summary>
     /// Gets or sets the visibility.

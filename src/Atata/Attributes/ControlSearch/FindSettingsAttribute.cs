@@ -8,7 +8,7 @@ public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalPro
 {
     PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
 
-    protected PropertyBag OptionalProperties { get; } = new PropertyBag();
+    protected PropertyBag OptionalProperties { get; } = new();
 
     /// <summary>
     /// Gets or sets the index of the control.

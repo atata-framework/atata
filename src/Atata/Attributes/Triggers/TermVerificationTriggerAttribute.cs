@@ -26,7 +26,7 @@ public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute
 
     PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
 
-    protected PropertyBag OptionalProperties { get; } = new PropertyBag();
+    protected PropertyBag OptionalProperties { get; } = new();
 
     public string[] Values { get; }
 

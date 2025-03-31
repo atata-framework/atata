@@ -20,7 +20,7 @@ public abstract class TermFindItemAttribute : FindItemAttribute, IHasOptionalPro
 
     PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
 
-    protected PropertyBag OptionalProperties { get; } = new PropertyBag();
+    protected PropertyBag OptionalProperties { get; } = new();
 
     /// <summary>
     /// Gets the match.

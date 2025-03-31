@@ -23,7 +23,7 @@ public class TermSettingsAttribute : MulticastAttribute, ITermSettings, IHasOpti
 
     PropertyBag IHasOptionalProperties.OptionalProperties => OptionalProperties;
 
-    protected PropertyBag OptionalProperties { get; } = new PropertyBag();
+    protected PropertyBag OptionalProperties { get; } = new();
 
     /// <summary>
     /// Gets the match.
