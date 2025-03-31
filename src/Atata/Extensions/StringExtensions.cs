@@ -1,10 +1,12 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class StringExtensions
 {
-    private static char[] s_invalidFileNameChars;
+    private static char[]? s_invalidFileNameChars;
 
-    private static char[] s_invalidPathChars;
+    private static char[]? s_invalidPathChars;
 
     internal static string FormatWith(this string format, params object[] args) =>
         string.Format(format, args);
@@ -17,30 +19,32 @@ public static class StringExtensions
 
     public static bool IsUpper(this string value)
     {
-        if (string.IsNullOrWhiteSpace(value))
+        if (value is null)
+            throw new ArgumentNullException(nameof(value));
+        else if (value is [])
             return false;
-
-        return value.ToCharArray().All(char.IsUpper);
+        else
+            return value.ToCharArray().All(char.IsUpper);
     }
 
-    public static string ToUpperFirstLetter(this string value, CultureInfo culture = null)
+    public static string ToUpperFirstLetter(this string value, CultureInfo? culture = null)
     {
         culture ??= CultureInfo.CurrentCulture;
 
-        if (value == null)
-            return null;
+        if (value is null)
+            throw new ArgumentNullException(nameof(value));
         else if (value.Length > 1)
             return char.ToUpper(value[0], culture) + value[1..];
         else
             return value.ToUpper(culture);
     }
 
-    public static string ToLowerFirstLetter(this string value, CultureInfo culture = null)
+    public static string ToLowerFirstLetter(this string value, CultureInfo? culture = null)
     {
         culture ??= CultureInfo.CurrentCulture;
 
-        if (value == null)
-            return null;
+        if (value is null)
+            throw new ArgumentNullException(nameof(value));
         else if (value.Length > 1)
             return char.ToLower(value[0], culture) + value[1..];
         else
