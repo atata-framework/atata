@@ -28,17 +28,28 @@ public static class SpecialKeys
 
     public static string Replace(string keys)
     {
-        StringBuilder builder = new();
+        if (keys is null)
+            throw new ArgumentNullException(nameof(keys));
 
-        foreach (char key in keys)
+        StringBuilder? builder = null;
+
+        for (int i = 0; i < keys.Length; i++)
         {
-            if (ValueNameMap.TryGetValue(key, out string specialKeyName))
-                builder.Append($"<{specialKeyName}>");
+            if (ValueNameMap.TryGetValue(keys[i], out string specialKeyName))
+            {
+                builder ??= new(keys, 0, i, keys.Length + 12);
+
+                builder.Append('<').Append(specialKeyName).Append('>');
+            }
             else
-                builder.Append(key);
+            {
+                builder?.Append(keys[i]);
+            }
         }
 
-        return builder.ToString();
+        return builder is null
+            ? keys
+            : builder.ToString();
     }
 
     private sealed class NameValuePair
