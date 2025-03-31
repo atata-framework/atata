@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class TermFindItemAttribute : FindItemAttribute, IHasOptionalProperties
 {
@@ -43,7 +45,7 @@ public abstract class TermFindItemAttribute : FindItemAttribute, IHasOptionalPro
     /// <summary>
     /// Gets or sets the format.
     /// </summary>
-    public string Format
+    public string? Format
     {
         get => OptionalProperties.GetOrDefault<string>(nameof(Format));
         set => OptionalProperties[nameof(Format)] = value;
