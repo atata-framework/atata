@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class SpecialKeys
 {
@@ -11,7 +13,7 @@ public static class SpecialKeys
     {
         try
         {
-            FieldInfo[] fields = typeof(OpenQA.Selenium.Keys).GetFields(BindingFlags.Static | BindingFlags.Public);
+            FieldInfo[] fields = typeof(Keys).GetFields(BindingFlags.Static | BindingFlags.Public);
             return fields
                 .Select(x => new NameValuePair(x.Name, ((string)x.GetValue(null))[0]))
                 .Distinct(new NameValuePairComparer())
@@ -26,7 +28,7 @@ public static class SpecialKeys
 
     public static string Replace(string keys)
     {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new();
 
         foreach (char key in keys)
         {
