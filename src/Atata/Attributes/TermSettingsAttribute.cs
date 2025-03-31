@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Specifies the term settings.
@@ -46,7 +48,7 @@ public class TermSettingsAttribute : MulticastAttribute, ITermSettings, IHasOpti
     /// <summary>
     /// Gets or sets the format.
     /// </summary>
-    public string Format
+    public string? Format
     {
         get => OptionalProperties.GetOrDefault<string>(nameof(Format));
         set => OptionalProperties[nameof(Format)] = value;
