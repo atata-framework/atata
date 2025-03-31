@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// An identifier generator that generates a string of 4 alphanumeric characters (A-Z, a-z, 0-9).
