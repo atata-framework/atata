@@ -3,7 +3,7 @@
 namespace Atata;
 
 /// <summary>
-/// Represents a base class for event subscriptions builder.
+/// Represents a base event subscriptions builder.
 /// </summary>
 /// <typeparam name="TRootBuilder">The type of the root builder.</typeparam>
 public abstract class EventSubscriptionsBuilder<TRootBuilder>
@@ -112,6 +112,23 @@ public abstract class EventSubscriptionsBuilder<TRootBuilder>
         return Add(eventType, eventHandler);
     }
 
+    /// <summary>
+    /// Removes all the subscriptions that match the conditions defined by the specified predicate.
+    /// </summary>
+    /// <param name="match">The <see cref="Predicate{T}"/> delegate that defines the conditions of the subscriptions to remove.</param>
+    /// <returns>The <typeparamref name="TRootBuilder"/> instance.</returns>
+    public TRootBuilder RemoveAll(Predicate<EventSubscriptionItem> match)
+    {
+        match.CheckNotNull(nameof(match));
+
+        DoRemoveAll(match);
+        return _rootBuilder;
+    }
+
+    protected abstract void DoAdd(Type eventType, object eventHandler);
+
+    protected abstract void DoRemoveAll(Predicate<EventSubscriptionItem> match);
+
     private static void ValidateEventHandlerType(Type eventHandlerType, Type eventType)
     {
         Type expectedSyncHandlerType = typeof(IEventHandler<>).MakeGenericType(eventType);
@@ -128,6 +145,4 @@ public abstract class EventSubscriptionsBuilder<TRootBuilder>
         DoAdd(eventType, eventHandler);
         return _rootBuilder;
     }
-
-    protected abstract void DoAdd(Type eventType, object eventHandler);
 }

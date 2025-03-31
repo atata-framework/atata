@@ -3,7 +3,7 @@
 namespace Atata;
 
 /// <summary>
-/// Represents the builder of event subscriptions.
+/// Represents a session event subscriptions builder.
 /// </summary>
 /// <typeparam name="TSessionBuilder">The type of the session builder.</typeparam>
 public sealed class AtataSessionEventSubscriptionsBuilder<TSessionBuilder> : EventSubscriptionsBuilder<TSessionBuilder>
@@ -27,6 +27,9 @@ public sealed class AtataSessionEventSubscriptionsBuilder<TSessionBuilder> : Eve
 
     protected override void DoAdd(Type eventType, object eventHandler) =>
         _items.Add(new(eventType, eventHandler));
+
+    protected override void DoRemoveAll(Predicate<EventSubscriptionItem> match) =>
+        _items.RemoveAll(match);
 
     internal AtataSessionEventSubscriptionsBuilder<TSessionBuilder> CloneFor(TSessionBuilder rootBuilder) =>
         new(rootBuilder, [.. _items]);

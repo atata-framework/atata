@@ -28,7 +28,8 @@ public sealed class AtataContextEventSubscriptionsBuilder : EventSubscriptionsBu
     public EventSubscriptionsBuilder<AtataContextBuilder> For(AtataContextScopes scopes) =>
         new AtataContextScopesEventSubscriptionsBuilder(
             RootBuilder,
-            (e, h) => _items.Add(new(e, h, scopes)));
+            (e, h) => _items.Add(new(e, h, scopes)),
+            (match) => RemoveAllItems(scopes, match));
 
     internal IEnumerable<EventSubscriptionItem> GetItemsForScope(AtataContextScope? scope)
     {
@@ -44,6 +45,12 @@ public sealed class AtataContextEventSubscriptionsBuilder : EventSubscriptionsBu
 
     protected override void DoAdd(Type eventType, object eventHandler) =>
         _items.Add(new(eventType, eventHandler, AtataContextScopes.All));
+
+    protected override void DoRemoveAll(Predicate<EventSubscriptionItem> match) =>
+        RemoveAllItems(AtataContextScopes.All, match);
+
+    private void RemoveAllItems(AtataContextScopes scopes, Predicate<EventSubscriptionItem> match) =>
+        _items.RemoveAll(x => x.Scopes == scopes && match(x.Item));
 
     private sealed class ScopeLimitedEventSubscription
     {

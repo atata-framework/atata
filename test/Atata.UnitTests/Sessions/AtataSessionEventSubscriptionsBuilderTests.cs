@@ -2,7 +2,6 @@
 
 public static class AtataSessionEventSubscriptionsBuilderTests
 {
-    [TestFixture]
     public sealed class Add
     {
         private Subject<AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>> _sut;
@@ -208,6 +207,42 @@ public static class AtataSessionEventSubscriptionsBuilderTests
         {
             public Task HandleAsync(object eventData, AtataContext context, CancellationToken cancellationToken) =>
                 Task.CompletedTask;
+        }
+    }
+
+    public sealed class RemoveAll
+    {
+        private Subject<AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>> _sut;
+
+        [SetUp]
+        public void SetUp() =>
+            _sut = new AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>(AtataContext.CreateDefaultNonScopedBuilder())
+                .ToSutSubject();
+
+        [Test]
+        public void WithNull() =>
+            _sut.Invoking(x => x.RemoveAll(null))
+                .Should.Throw<ArgumentNullException>();
+
+        [Test]
+        public void WhenThereIsSuchItem() =>
+            _sut.Act(x => x.Add<TestEvent>(StubMethod))
+                .Act(x => x.RemoveAll(x => x.EventType == typeof(TestEvent)))
+                .ValueOf(x => x.Items).Should.BeEmpty();
+
+        [Test]
+        public void WhenThereIsNoSuchItem() =>
+            _sut.Act(x => x.Add<TestEvent>(StubMethod))
+                .Act(x => x.RemoveAll(x => x.EventType == typeof(AtataContextInitCompletedEvent)))
+                .ValueOf(x => x.Items).Should.ContainSingle();
+
+        private static void StubMethod()
+        {
+            // Method intentionally left empty.
+        }
+
+        public sealed class TestEvent
+        {
         }
     }
 }
