@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface ITermSettings
 {
@@ -15,5 +17,5 @@ public interface ITermSettings
     /// <summary>
     /// Gets the format.
     /// </summary>
-    string Format { get; }
+    string? Format { get; }
 }
