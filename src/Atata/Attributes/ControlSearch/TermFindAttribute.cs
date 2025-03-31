@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base attribute class for the finding attributes that use terms.
@@ -29,7 +31,7 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
     /// <summary>
     /// Gets the term values.
     /// </summary>
-    public string[] Values
+    public string[]? Values
     {
         get => ResolveValues();
         private set => OptionalProperties[nameof(Values)] = value;
@@ -56,7 +58,7 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
     /// <summary>
     /// Gets or sets the format.
     /// </summary>
-    public string Format
+    public string? Format
     {
         get => ResolveFormat();
         set => OptionalProperties[nameof(Format)] = value;
@@ -85,29 +87,29 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
     /// </summary>
     protected virtual TermMatch DefaultMatch => TermMatch.Equals;
 
-    internal string[] ResolveValues(UIComponentMetadata metadata = null) =>
+    internal string[]? ResolveValues(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve<string[]>(
             nameof(Values),
             metadata != null ? GetTermAttributes(metadata) : null);
 
-    internal TermCase ResolveCase(UIComponentMetadata metadata = null) =>
+    internal TermCase ResolveCase(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve(
             nameof(Case),
             DefaultCase,
             metadata != null ? GetTermAndTermFindSettingsAttributes(metadata) : null);
 
-    internal TermMatch ResolveMatch(UIComponentMetadata metadata = null) =>
+    internal TermMatch ResolveMatch(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve(
             nameof(Match),
             DefaultMatch,
             metadata != null ? GetTermAndTermFindSettingsAttributes(metadata) : null);
 
-    internal string ResolveFormat(UIComponentMetadata metadata = null) =>
+    internal string? ResolveFormat(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve<string>(
             nameof(Format),
             metadata != null ? GetTermAndTermFindSettingsAttributes(metadata) : null);
 
-    internal bool ResolveCutEnding(UIComponentMetadata metadata = null) =>
+    internal bool ResolveCutEnding(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve(
             nameof(CutEnding),
             true,
@@ -116,9 +118,9 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
     public string[] GetTerms(UIComponentMetadata metadata)
     {
         string[] rawTerms = GetRawTerms(metadata);
-        string format = ResolveFormat(metadata);
+        string? format = ResolveFormat(metadata);
 
-        return !string.IsNullOrEmpty(format)
+        return format?.Length > 0
             ? [.. rawTerms.Select(x => string.Format(format, x))]
             : rawTerms;
     }
@@ -138,8 +140,8 @@ public abstract class TermFindAttribute : FindAttribute, ITermFindAttribute, ITe
 
     private string GetPropertyName(UIComponentMetadata metadata) =>
         ResolveCutEnding(metadata)
-            ? metadata.ComponentDefinitionAttribute.NormalizeNameIgnoringEnding(metadata.Name)
-            : metadata.Name;
+            ? metadata.ComponentDefinitionAttribute.NormalizeNameIgnoringEnding(metadata.Name!)
+            : metadata.Name!;
 
     public override string BuildComponentName(UIComponentMetadata metadata)
     {

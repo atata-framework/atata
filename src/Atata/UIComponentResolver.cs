@@ -304,7 +304,7 @@ public static class UIComponentResolver
 
         if (findAttribute is FindByLabelAttribute findByLabelAttribute && findByLabelAttribute.Match == TermMatch.Equals)
         {
-            string[] terms = findByLabelAttribute.ResolveValues(metadata);
+            string[]? terms = findByLabelAttribute.ResolveValues(metadata);
 
             if (terms?.Length > 0)
             {
