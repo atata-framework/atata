@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class ListItemDefinitionAttribute : ControlDefinitionAttribute
 {
