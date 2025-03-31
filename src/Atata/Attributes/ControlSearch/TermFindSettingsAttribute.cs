@@ -1,7 +1,9 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Defines the term settings to apply for the specified finding strategy of a control.
+/// Defines term settings to apply for the specified finding strategy of a control.
 /// Adds to or overrides properties of <see cref="TermFindAttribute"/>.
 /// </summary>
 public class TermFindSettingsAttribute : FindSettingsAttribute, ITermSettings
@@ -27,7 +29,7 @@ public class TermFindSettingsAttribute : FindSettingsAttribute, ITermSettings
     /// <summary>
     /// Gets or sets the format.
     /// </summary>
-    public string Format
+    public string? Format
     {
         get => OptionalProperties.GetOrDefault<string>(nameof(Format));
         set => OptionalProperties[nameof(Format)] = value;
