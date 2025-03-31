@@ -1,7 +1,9 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Represents the base attribute class for component scope definition.
+/// A base attribute class for component scope definition.
 /// The basic definition is represented with XPath.
 /// </summary>
 public abstract class ScopeDefinitionAttribute : MulticastAttribute
@@ -23,18 +25,20 @@ public abstract class ScopeDefinitionAttribute : MulticastAttribute
 
     /// <summary>
     /// Gets or sets the containing CSS class name.
+    /// The default value is <see langword="null"/>.
     /// </summary>
-    public string ContainingClass
+    public string? ContainingClass
     {
         get => ContainingClasses?.FirstOrDefault();
-        set => ContainingClasses = value == null ? null : [value];
+        set => ContainingClasses = value is null ? null : [value];
     }
 
     /// <summary>
     /// Gets or sets the containing CSS class names.
     /// Multiple class names are used in XPath as conditions joined with <c>and</c> operator.
+    /// The default value is <see langword="null"/>.
     /// </summary>
-    public string[] ContainingClasses { get; set; }
+    public string[]? ContainingClasses { get; set; }
 
     /// <summary>
     /// Builds the complete XPath of the scope element which is a combination of XPath passed through the constructor and <see cref="ContainingClasses"/> property values.
