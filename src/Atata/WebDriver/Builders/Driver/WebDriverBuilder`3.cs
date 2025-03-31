@@ -176,7 +176,7 @@ public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     /// <param name="optionName">The name of the option to add.</param>
     /// <param name="optionValue">The value of the option to add.</param>
     /// <returns>The same builder instance.</returns>
-    public TBuilder AddAdditionalOption(string optionName, object? optionValue)
+    public TBuilder AddAdditionalOption(string optionName, object optionValue)
     {
         optionName.CheckNotNullOrWhitespace(nameof(optionName));
 
