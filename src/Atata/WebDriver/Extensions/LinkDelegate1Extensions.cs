@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class LinkDelegate1Extensions
 {
@@ -42,12 +44,12 @@ public static class LinkDelegate1Extensions
         =>
         clickable.GetControl().IsEnabled;
 
-    public static bool Exists<TOwner>(this LinkDelegate<TOwner> clickable, SearchOptions options = null)
+    public static bool Exists<TOwner>(this LinkDelegate<TOwner> clickable, SearchOptions? options = null)
         where TOwner : PageObject<TOwner>
         =>
         clickable.GetControl().Exists(options);
 
-    public static bool Missing<TOwner>(this LinkDelegate<TOwner> clickable, SearchOptions options = null)
+    public static bool Missing<TOwner>(this LinkDelegate<TOwner> clickable, SearchOptions? options = null)
         where TOwner : PageObject<TOwner>
         =>
         clickable.GetControl().Missing(options);
