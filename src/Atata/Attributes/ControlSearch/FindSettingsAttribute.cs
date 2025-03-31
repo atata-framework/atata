@@ -1,7 +1,9 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Defines the finding settings to apply to the targeted control(s).
+/// Defines a finding settings to apply to target control(s).
 /// Adds to or overrides properties of <see cref="FindAttribute"/>.
 /// </summary>
 public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalProperties
@@ -42,9 +44,10 @@ public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalPro
 
     /// <summary>
     /// Gets or sets the outer XPath.
-    /// The default value is null, meaning that the control is searchable as descendant (using ".//" XPath) in scope source.
+    /// The default value is <see langword="null"/>,
+    /// meaning that the control is searchable as descendant (using ".//" XPath) in scope source.
     /// </summary>
-    public string OuterXPath
+    public string? OuterXPath
     {
         get => OptionalProperties.GetOrDefault<string>(nameof(OuterXPath));
         set => OptionalProperties[nameof(OuterXPath)] = value;
@@ -53,9 +56,10 @@ public class FindSettingsAttribute : AttributeSettingsAttribute, IHasOptionalPro
     /// <summary>
     /// Gets or sets the strategy type for the control search.
     /// Strategy type should implement <see cref="IComponentScopeFindStrategy"/>.
-    /// The default value is <see langword="null"/>, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
+    /// The default value is <see langword="null"/>,
+    /// meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
     /// </summary>
-    public Type Strategy
+    public Type? Strategy
     {
         get => OptionalProperties.GetOrDefault<Type>(nameof(Strategy));
         set => OptionalProperties[nameof(Strategy)] = value;
