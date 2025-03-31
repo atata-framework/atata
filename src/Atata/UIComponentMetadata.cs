@@ -265,7 +265,7 @@ public class UIComponentMetadata
             .Where(x => x.TargetRank.HasValue)
             .ToArray();
 
-        if (filter.TargetAttributeType != null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute)))
+        if (filter.TargetAttributeType is not null && typeof(AttributeSettingsAttribute).IsAssignableFrom(typeof(TAttribute)))
         {
             return rankedQuery
                 .Select(x => new
