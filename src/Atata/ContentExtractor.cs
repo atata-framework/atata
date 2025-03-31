@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides the functionality to get the content of the component.
@@ -71,13 +73,21 @@ return '';";
     /// <typeparam name="TOwner">The type of the owner page object.</typeparam>
     /// <param name="component">The component.</param>
     /// <param name="contentSource">The content source.</param>
-    /// <returns>The content.</returns>
+    /// <returns>The content or an empty string.</returns>
     public static string Get<TOwner>(IUIComponent<TOwner> component, ContentSource contentSource)
         where TOwner : PageObject<TOwner>, IPageObject<TOwner>
     {
         component.CheckNotNull(nameof(component));
 
-        return contentSource switch
+        string? content = DoGet(component, contentSource);
+
+        return content ?? string.Empty;
+    }
+
+    private static string? DoGet<TOwner>(IUIComponent<TOwner> component, ContentSource contentSource)
+        where TOwner : PageObject<TOwner>, IPageObject<TOwner>
+        =>
+        contentSource switch
         {
             ContentSource.Text =>
                 component.Scope.Text,
@@ -99,5 +109,4 @@ return '';";
                 component.Script.ExecuteAgainst<string>(GetTextContentOfLastChildTextNodeScript),
             _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource))
         };
-    }
 }
