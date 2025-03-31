@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Specifies the term(s) to use for the control search.
@@ -31,7 +33,7 @@ public class TermAttribute : TermSettingsAttribute
     /// <summary>
     /// Gets the term values.
     /// </summary>
-    public string[] Values
+    public string[]? Values
     {
         get => OptionalProperties.GetOrDefault<string[]>(nameof(Values));
         private set => OptionalProperties[nameof(Values)] = value;

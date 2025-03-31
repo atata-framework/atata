@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class TermOptions : ITermSettings, IHasOptionalProperties
 {
@@ -25,7 +27,7 @@ public class TermOptions : ITermSettings, IHasOptionalProperties
     /// <summary>
     /// Gets or sets the format.
     /// </summary>
-    public string Format
+    public string? Format
     {
         get => OptionalProperties.GetOrDefault<string>(nameof(Format));
         set => OptionalProperties[nameof(Format)] = value;
@@ -34,7 +36,7 @@ public class TermOptions : ITermSettings, IHasOptionalProperties
     /// <summary>
     /// Gets or sets the culture.
     /// </summary>
-    public CultureInfo Culture
+    public CultureInfo? Culture
     {
         get => OptionalProperties.GetOrDefault(nameof(Culture), CultureInfo.CurrentCulture);
         set => OptionalProperties[nameof(Culture)] = value;
@@ -44,17 +46,17 @@ public class TermOptions : ITermSettings, IHasOptionalProperties
     {
         settingsAttribute.CheckNotNull(nameof(settingsAttribute));
 
-        if (settingsAttribute.OptionalProperties.Contains(nameof(Case)))
-            Case = (TermCase)settingsAttribute.OptionalProperties[nameof(Case)];
+        if (settingsAttribute.OptionalProperties.TryGet(nameof(Case), out TermCase termCase))
+            Case = termCase;
 
-        if (settingsAttribute.OptionalProperties.Contains(nameof(Match)))
-            Match = (TermMatch)settingsAttribute.OptionalProperties[nameof(Match)];
+        if (settingsAttribute.OptionalProperties.TryGet(nameof(Match), out TermMatch termMatch))
+            Match = termMatch;
 
-        if (settingsAttribute.OptionalProperties.Contains(nameof(Format)))
-            Format = (string)settingsAttribute.OptionalProperties[nameof(Format)];
+        if (settingsAttribute.OptionalProperties.TryGet(nameof(Format), out string? format))
+            Format = format;
 
-        if (settingsAttribute.OptionalProperties.Contains(nameof(Culture)))
-            Culture = (CultureInfo)settingsAttribute.OptionalProperties[nameof(Culture)];
+        if (settingsAttribute.OptionalProperties.TryGet(nameof(Culture), out CultureInfo? culture))
+            Culture = culture;
 
         return this;
     }
