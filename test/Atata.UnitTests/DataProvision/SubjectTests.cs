@@ -1,4 +1,6 @@
-﻿namespace Atata.UnitTests.DataProvision;
+﻿#nullable enable
+
+namespace Atata.UnitTests.DataProvision;
 
 public static class SubjectTests
 {
@@ -13,18 +15,18 @@ public static class SubjectTests
 
     [Test]
     public static void Ctor_WithNullSource() =>
-        new Subject<Uri>(null as Uri)
+        new Subject<Uri>((null as Uri)!)
             .Object.Should().BeNull();
 
     [Test]
     public static void Ctor_WithObjectSourceContainingNull() =>
-        new Subject<Uri>(new StaticObjectSource<Uri>(null))
+        new Subject<Uri>(new StaticObjectSource<Uri>(null!))
             .Object.Should().BeNull();
 
     [Test]
     public static void Ctor_WithNullObjectSource_Throws() =>
         Assert.Throws<ArgumentNullException>(() =>
-           new Subject<Uri>(null as StaticObjectSource<Uri>));
+           new Subject<Uri>((null as StaticObjectSource<Uri>)!));
 
     [Test]
     public static void Owner()
@@ -49,7 +51,7 @@ public static class SubjectTests
 
     public sealed class ValueOf
     {
-        private Subject<Dictionary<string, int>> _subject;
+        private Subject<Dictionary<string, int>> _subject = null!;
 
         [SetUp]
         public void SetUpTest() =>
@@ -75,7 +77,7 @@ public static class SubjectTests
 
     public sealed class ResultOf
     {
-        private Subject<Dictionary<string, int>> _subject;
+        private Subject<Dictionary<string, int>> _subject = null!;
 
         [SetUp]
         public void SetUpTest() =>
@@ -93,7 +95,7 @@ public static class SubjectTests
 
         [Test]
         public void Function_Should_Throw() =>
-            _subject.ResultOf(x => x.ContainsKey(null))
+            _subject.ResultOf(x => x.ContainsKey(null!))
                 .Should.Throw<ArgumentNullException>()
                     .ValueOf(x => x.ParamName).Should.Equal("key")
                     .ValueOf(x => x.Message).Should.Contain("key");
@@ -173,7 +175,7 @@ public static class SubjectTests
 
     public sealed class SubjectOf
     {
-        private Subject<Dictionary<string, int>> _subject;
+        private Subject<Dictionary<string, int>> _subject = null!;
 
         [SetUp]
         public void SetUpTest() =>
@@ -223,7 +225,7 @@ public static class SubjectTests
 
     public sealed class Invoking
     {
-        private Subject<Dictionary<string, int>> _subject;
+        private Subject<Dictionary<string, int>> _subject = null!;
 
         [SetUp]
         public void SetUpTest() =>
@@ -231,14 +233,14 @@ public static class SubjectTests
 
         [Test]
         public void Function_Should_Throw() =>
-            _subject.Invoking(x => x.ContainsKey(null))
+            _subject.Invoking(x => x.ContainsKey(null!))
                 .Should.Throw<ArgumentNullException>()
                     .ValueOf(x => x.ParamName).Should.Equal("key")
                     .ValueOf(x => x.Message).Should.Contain("key");
 
         [Test]
         public void Action_Should_Throw() =>
-            _subject.Invoking(x => x.Add(null, 0))
+            _subject.Invoking(x => x.Add(null!, 0))
                 .Should.Throw<ArgumentNullException>()
                     .ValueOf(x => x.ParamName).Should.Equal("key")
                     .ValueOf(x => x.Message).Should.Contain("key");
@@ -246,11 +248,11 @@ public static class SubjectTests
         [Test]
         public void Action_Should_Throw_WrongException()
         {
-            var exception = Assert.Throws<Atata.AssertionException>(() =>
-                _subject.Invoking(x => x.Add(null, 0))
+            var exception = Assert.Throws<AssertionException>(() =>
+                _subject.Invoking(x => x.Add(null!, 0))
                     .Should.Throw<InvalidOperationException>());
 
-            exception.Message.Should().StartWith(
+            exception!.Message.Should().StartWith(
                 string.Join(
                     Environment.NewLine,
                     "Wrong subject.Add(null, 0)",
@@ -261,11 +263,11 @@ public static class SubjectTests
         [Test]
         public void Action_Should_Throw_NoException()
         {
-            var exception = Assert.Throws<Atata.AssertionException>(() =>
+            var exception = Assert.Throws<AssertionException>(() =>
                 _subject.Invoking(x => x.Add("d", 4))
                     .Should.Throw<InvalidOperationException>());
 
-            exception.Message.Should().StartWith(
+            exception!.Message.Should().StartWith(
                 string.Join(
                     Environment.NewLine,
                     "Wrong subject.Add(\"d\", 4)",
@@ -276,11 +278,11 @@ public static class SubjectTests
         [Test]
         public void Action_Should_Not_Throw_ButThrows()
         {
-            var exception = Assert.Throws<Atata.AssertionException>(() =>
-                _subject.Invoking(x => x.Add(null, 0))
+            var exception = Assert.Throws<AssertionException>(() =>
+                _subject.Invoking(x => x.Add(null!, 0))
                     .Should.Not.Throw());
 
-            exception.Message.Should().StartWith(
+            exception!.Message.Should().StartWith(
                 string.Join(
                     Environment.NewLine,
                     "Wrong subject.Add(null, 0)",
@@ -303,7 +305,7 @@ public static class SubjectTests
 
     public sealed class Act
     {
-        private Subject<Dictionary<string, int>> _subject;
+        private Subject<Dictionary<string, int>> _subject = null!;
 
         [SetUp]
         public void SetUpTest() =>
