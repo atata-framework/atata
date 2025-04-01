@@ -1,15 +1,16 @@
-﻿namespace Atata.UnitTests.DataProvision;
+﻿#nullable enable
+
+namespace Atata.UnitTests.DataProvision;
 
 public static class ObjectProviderEnumerableExtensionMethodTests
 {
-    [TestFixture]
-    public class Contains
+    public sealed class Contains
     {
         private readonly Subject<Subject<int[]>> _sut = new[] { 1, 2, 3, 5, 8, 13 }.ToSubject().ToSutSubject();
 
         [Test]
         public void WithNull() =>
-            _sut.ResultOf(x => x.Contains(null))
+            _sut.ResultOf(x => x.Contains(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -43,14 +44,13 @@ public static class ObjectProviderEnumerableExtensionMethodTests
                 .Should.BeTrue();
     }
 
-    [TestFixture]
-    public class ContainsAny
+    public sealed class ContainsAny
     {
         private readonly Subject<Subject<int[]>> _sut = new[] { 1, 2, 3, 5, 8, 13 }.ToSubject().ToSutSubject();
 
         [Test]
         public void WithNull() =>
-            _sut.ResultOf(x => x.ContainsAny(null))
+            _sut.ResultOf(x => x.ContainsAny(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
