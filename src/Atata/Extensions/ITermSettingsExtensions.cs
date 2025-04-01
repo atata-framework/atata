@@ -7,7 +7,7 @@ public static class ITermSettingsExtensions
     public static TermCase? GetCaseOrNull(this ITermSettings termSettings)
     {
         if (termSettings is null)
-            return null;
+            throw new ArgumentNullException(nameof(termSettings));
 
         if (termSettings is IHasOptionalProperties castedTermSettings)
             return castedTermSettings.OptionalProperties.Contains(nameof(ITermSettings.Case))
@@ -20,7 +20,7 @@ public static class ITermSettingsExtensions
     public static TermMatch? GetMatchOrNull(this ITermSettings termSettings)
     {
         if (termSettings is null)
-            return null;
+            throw new ArgumentNullException(nameof(termSettings));
 
         if (termSettings is IHasOptionalProperties castedTermSettings)
             return castedTermSettings.OptionalProperties.Contains(nameof(ITermSettings.Match))
@@ -30,6 +30,11 @@ public static class ITermSettingsExtensions
             return termSettings.Match;
     }
 
-    public static string? GetFormatOrNull(this ITermSettings termSettings) =>
-        termSettings?.Format;
+    public static string? GetFormatOrNull(this ITermSettings termSettings)
+    {
+        if (termSettings is null)
+            throw new ArgumentNullException(nameof(termSettings));
+
+        return termSettings.Format;
+    }
 }

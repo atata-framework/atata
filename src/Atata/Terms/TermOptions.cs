@@ -36,9 +36,9 @@ public class TermOptions : ITermSettings, IHasOptionalProperties
     /// <summary>
     /// Gets or sets the culture.
     /// </summary>
-    public CultureInfo? Culture
+    public CultureInfo Culture
     {
-        get => OptionalProperties.GetOrDefault(nameof(Culture), CultureInfo.CurrentCulture);
+        get => OptionalProperties.GetOrDefault(nameof(Culture), CultureInfo.CurrentCulture) ?? CultureInfo.CurrentCulture;
         set => OptionalProperties[nameof(Culture)] = value;
     }
 
@@ -56,7 +56,7 @@ public class TermOptions : ITermSettings, IHasOptionalProperties
             Format = format;
 
         if (settingsAttribute.OptionalProperties.TryGet(nameof(Culture), out CultureInfo? culture))
-            Culture = culture;
+            Culture = culture!;
 
         return this;
     }

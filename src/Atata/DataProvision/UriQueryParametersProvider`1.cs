@@ -6,7 +6,7 @@ namespace Atata;
 /// Represents the provider of URL query parameters.
 /// </summary>
 /// <typeparam name="TOwner">The type of the owner.</typeparam>
-public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyValuePair<string, string?>>, TOwner>
+public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyValuePair<string, string>>, TOwner>
     where TOwner : PageObject<TOwner>
 {
     private const string QueryParameterProviderNameFormat = "URI query \"{0}\" parameter value";
@@ -23,7 +23,7 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <param name="providerName">Name of the provider.</param>
     public UriQueryParametersProvider(
         UIComponent<TOwner> component,
-        Func<IEnumerable<KeyValuePair<string, string?>>> valueGetFunction,
+        Func<IEnumerable<KeyValuePair<string, string>>> valueGetFunction,
         string providerName)
         : base(
             component.Owner,
@@ -43,12 +43,12 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// </summary>
     /// <param name="parameterName">The name of the query parameter.</param>
     /// <returns>The provider of the parameter value.</returns>
-    public ValueProvider<string, TOwner> this[string parameterName] =>
+    public ValueProvider<string?, TOwner> this[string parameterName] =>
         Get<string>(parameterName);
 
     /// <inheritdoc cref="this[string]"/>
     /// <typeparam name="TValue">The type of the query parameter value.</typeparam>
-    public ValueProvider<TValue, TOwner> Get<TValue>(string parameterName) =>
+    public ValueProvider<TValue?, TOwner> Get<TValue>(string parameterName) =>
         _component.CreateValueProvider(
             QueryParameterProviderNameFormat.FormatWith(parameterName),
             () => GetValue<TValue>(parameterName));
@@ -59,11 +59,13 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <param name="parameterName">Name of the query parameter.</param>
     /// <returns>The provider of the parameter values.</returns>
     public ValueProvider<IEnumerable<string>, TOwner> GetAll(string parameterName) =>
-        GetAll<string>(parameterName);
+        _component.CreateValueProvider(
+            QueryParametersProviderNameFormat.FormatWith(parameterName),
+            () => GetAllValues(parameterName));
 
     /// <inheritdoc cref="GetAll(string)"/>
     /// <typeparam name="TValue">The type of the query parameter value.</typeparam>
-    public ValueProvider<IEnumerable<TValue>, TOwner> GetAll<TValue>(string parameterName) =>
+    public ValueProvider<IEnumerable<TValue?>, TOwner> GetAll<TValue>(string parameterName) =>
         _component.CreateValueProvider(
             QueryParametersProviderNameFormat.FormatWith(parameterName),
             () => GetAllValues<TValue>(parameterName));
@@ -75,7 +77,7 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <returns>The query parameter's value.
     /// Returns <see langword="null"/> if the value is not set.</returns>
     public string? GetValue(string parameterName) =>
-        GetValue<string?>(parameterName);
+        GetValue<string>(parameterName);
 
     /// <summary>
     /// Gets the value of the specified query parameter.
@@ -84,13 +86,21 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// <param name="parameterName">The name of the query parameter.</param>
     /// <returns>The parameter value.
     /// Returns <see langword="null"/> or default value if the value is not set.</returns>
-    public TValue GetValue<TValue>(string parameterName)
+    public TValue? GetValue<TValue>(string parameterName) =>
+        GetAllValues<TValue>(parameterName).FirstOrDefault();
+
+    /// <summary>
+    /// Gets all values of the specified query parameter.
+    /// </summary>
+    /// <param name="parameterName">The name of the query parameter.</param>
+    /// <returns>An enumerable of query parameter values.</returns>
+    public IEnumerable<string> GetAllValues(string parameterName)
     {
         foreach (var parameter in Value)
+        {
             if (parameter.Key == parameterName)
-                return Convert<TValue>(parameter.Value);
-
-        return default!;
+                yield return TermResolver.FromString<string>(parameter.Value);
+        }
     }
 
     /// <summary>
@@ -98,19 +108,15 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
     /// </summary>
     /// <typeparam name="TValue">The type of the query parameter value.</typeparam>
     /// <param name="parameterName">The name of the query parameter.</param>
-    /// <returns>
-    /// The enumerable of query parameter values.
-    /// Returns <see langword="null"/> if the values are not set.
-    /// </returns>
-    public IEnumerable<TValue> GetAllValues<TValue>(string parameterName) =>
-        Value
-            .Where(x => x.Key == parameterName)
-            .Select(x => Convert<TValue>(x.Value));
-
-    private static TValue Convert<TValue>(string? parameterValue) =>
-        typeof(TValue) == typeof(string)
-            ? (TValue)(object)(parameterValue ?? string.Empty)
-            : TermResolver.FromString<TValue>(parameterValue);
+    /// <returns>An enumerable of query parameter values.</returns>
+    public IEnumerable<TValue?> GetAllValues<TValue>(string parameterName)
+    {
+        foreach (var parameter in Value)
+        {
+            if (parameter.Key == parameterName)
+                yield return TermResolver.FromString<TValue>(parameter.Value);
+        }
+    }
 
     private int GetCount() =>
         Value.Count();

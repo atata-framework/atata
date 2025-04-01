@@ -1,6 +1,6 @@
 ﻿namespace Atata.IntegrationTests.DataProvision;
 
-public class UriProviderTests : WebDriverSessionTestSuite
+public sealed class UriProviderTests : WebDriverSessionTestSuite
 {
     [Test]
     public void InComplex() =>
@@ -22,15 +22,20 @@ public class UriProviderTests : WebDriverSessionTestSuite
 
     [Test]
     public void Query_Parameters() =>
-        Go.To<OrdinaryPage>(url: "/index?empty1=&empty2&id=1&type=a&type=b&date=1&date=2&")
+        Go.To<OrdinaryPage>(url: "/index?empty1=&empty2&empty2=&id=1&type=a&type=b&date=1&date=2&")
             .AggregateAssert(x => x
-                .PageUri.Query.Parameters.Count.Should.Equal(7)
+                .PageUri.Query.Parameters.Count.Should.Equal(8)
                 .PageUri.Query.Parameters["id"].Should.Equal("1")
                 .PageUri.Query.Parameters["empty1"].Should.BeEmpty()
                 .PageUri.Query.Parameters["empty2"].Should.BeEmpty()
+                .PageUri.Query.Parameters.GetAll("empty1").Should.BeEquivalent(string.Empty)
+                .PageUri.Query.Parameters.GetAll("empty2").Should.BeEquivalent(string.Empty, string.Empty)
+                .PageUri.Query.Parameters.GetAll<Guid?>("empty1").Should.BeEquivalent(null as Guid?)
+                .PageUri.Query.Parameters.Get<int?>("empty1").Should.BeNull()
                 .PageUri.Query.Parameters.Get<int>("id").Should.Equal(1)
                 .PageUri.Query.Parameters.GetAll("type").Should.EqualSequence("a", "b")
-                .PageUri.Query.Parameters.GetAll<int>("date").Should.EqualSequence(1, 2));
+                .PageUri.Query.Parameters.GetAll<int>("date").Should.EqualSequence(1, 2)
+                .PageUri.Query.Parameters.Get<int>("empty1").Should.Throw<ArgumentException>());
 
     [Test]
     public void Query_Parameters_WhenEmpty() =>
@@ -39,7 +44,8 @@ public class UriProviderTests : WebDriverSessionTestSuite
                 .PageUri.Query.Parameters.Count.Should.Equal(0)
                 .PageUri.Query.Parameters["id"].Should.BeNull()
                 .PageUri.Query.Parameters.Get<string>("id").Should.BeNull()
-                .PageUri.Query.Parameters.GetAll<string>("id").Should.HaveCount(0)
+                .PageUri.Query.Parameters.Get<int?>("id").Should.BeNull()
+                .PageUri.Query.Parameters.GetAll<string>("id").Should.BeEmpty()
                 .PageUri.Fragment.Should.BeEmpty()
                 .PageUri.Path.Should.Equal("/"));
 

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class TermResolver
 {
@@ -29,9 +31,9 @@ public static class TermResolver
             (s, opt) =>
             {
                 string stringValue = RetrieveValueFromString(s, opt.Format);
-                string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
+                string? specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
-                return specificFormat == null
+                return specificFormat is null
                     ? DateTime.Parse(stringValue, opt.Culture)
                     : DateTime.ParseExact(stringValue, specificFormat, opt.Culture);
             });
@@ -40,7 +42,7 @@ public static class TermResolver
             (s, opt) =>
             {
                 string stringValue = RetrieveValueFromString(s, opt.Format);
-                string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
+                string? specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
                 if (specificFormat == null)
                     return TimeSpan.Parse(stringValue, opt.Culture);
@@ -51,7 +53,7 @@ public static class TermResolver
             },
             (v, opt) =>
             {
-                string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
+                string? specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
                 return specificFormat != null && specificFormat.Contains("t")
                     ? FormatValue(
@@ -65,7 +67,7 @@ public static class TermResolver
             (s, opt) =>
             {
                 string stringValue = RetrieveValueFromString(s, opt.Format);
-                string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
+                string? specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
                 return specificFormat == null
                     ? Guid.Parse(stringValue)
@@ -82,7 +84,7 @@ public static class TermResolver
             (s, opt) =>
             {
                 string stringValue = RetrieveValueFromString(s, opt.Format);
-                string specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
+                string? specificFormat = RetrieveSpecificFormatFromStringFormat(opt.Format);
 
                 bool isPercentageFormat = specificFormat != null && specificFormat.StartsWith("P", StringComparison.InvariantCultureIgnoreCase);
 
@@ -103,16 +105,17 @@ public static class TermResolver
 
     public static void RegisterConverter<T>(
         Func<string, TermOptions, T> fromStringConverter,
-        Func<T, TermOptions, string> toStringConverter = null)
+        Func<T, TermOptions, string>? toStringConverter = null)
+        where T : notnull
     {
         fromStringConverter.CheckNotNull(nameof(fromStringConverter));
 
         object CastedFromStringConverter(string s, TermOptions to) =>
             fromStringConverter(s, to);
 
-        Func<object, TermOptions, string> castedToStringConverter = null;
+        Func<object, TermOptions, string>? castedToStringConverter = null;
 
-        if (toStringConverter != null)
+        if (toStringConverter is not null)
             castedToStringConverter = (v, to) => toStringConverter((T)v, to);
 
         RegisterConverter(typeof(T), CastedFromStringConverter, castedToStringConverter);
@@ -121,32 +124,31 @@ public static class TermResolver
     public static void RegisterConverter(
         Type type,
         Func<string, TermOptions, object> fromStringConverter,
-        Func<object, TermOptions, string> toStringConverter = null)
+        Func<object, TermOptions, string>? toStringConverter = null)
     {
+        type.CheckNotNull(nameof(type));
         fromStringConverter.CheckNotNull(nameof(fromStringConverter));
 
-        s_typeTermConverters[type] = new TermConverter
-        {
-            FromStringConverter = fromStringConverter,
-            ToStringConverter = toStringConverter
-        };
+        s_typeTermConverters[type] = new(fromStringConverter, toStringConverter);
     }
 
-    public static string ToDisplayString(object value, TermOptions termOptions = null) =>
+    [return: NotNullIfNotNull(nameof(value))]
+    public static string? ToDisplayString(object? value, TermOptions? termOptions = null) =>
         value is IEnumerable<object> enumerable
             ? string.Join("/", enumerable.Select(x => ToDisplayString(x, termOptions)))
             : ToString(value, termOptions);
 
-    public static string ToString(object value, TermOptions termOptions = null)
+    [return: NotNullIfNotNull(nameof(value))]
+    public static string? ToString(object? value, TermOptions? termOptions = null)
     {
-        if (value == null || Equals(value, string.Empty))
+        if (value is null || Equals(value, string.Empty))
             return value as string;
 
         string[] terms = GetTerms(value, termOptions);
         return string.Join("/", terms);
     }
 
-    public static string[] GetTerms(object value, TermOptions termOptions = null)
+    public static string[] GetTerms(object value, TermOptions? termOptions = null)
     {
         value.CheckNotNull(nameof(value));
 
@@ -156,7 +158,7 @@ public static class TermResolver
             return [FormatStringValue(stringValue, termOptions)];
         else if (value is Enum enumValue)
             return GetEnumTerms(enumValue, termOptions);
-        else if (s_typeTermConverters.TryGetValue(value.GetType(), out TermConverter termConverter) && termConverter.ToStringConverter != null)
+        else if (s_typeTermConverters.TryGetValue(value.GetType(), out TermConverter termConverter) && termConverter.ToStringConverter is not null)
             return [termConverter.ToStringConverter(value, termOptions)];
         else
             return [FormatValue(value, termOptions.Format, termOptions.Culture)];
@@ -169,25 +171,27 @@ public static class TermResolver
         return FormatValue(valueToFormat, termOptions.Format, termOptions.Culture);
     }
 
-    private static string FormatValue(object value, string format, CultureInfo culture)
+    private static string FormatValue(object value, string? format, CultureInfo culture)
     {
         if (IsComplexStringFormat(format))
             return string.Format(culture, format, value);
         else if (value is IFormattable formattableValue)
             return formattableValue.ToString(format, culture);
         else
-            return value?.ToString();
+            return value.ToString();
     }
 
-    private static bool IsComplexStringFormat(string format) =>
-        format != null && format.Contains("{0");
+    private static bool IsComplexStringFormat(string? format) =>
+        format is not null && format.Contains("{0");
 
-    private static string RetrieveValueFromString(string value, string format) =>
-        IsComplexStringFormat(format) ? RetrieveValuePart(value, format) : value;
+    private static string RetrieveValueFromString(string value, string? format) =>
+        IsComplexStringFormat(format)
+            ? RetrieveValuePart(value, format)
+            : value;
 
-    private static string RetrieveSpecificFormatFromStringFormat(string format)
+    private static string? RetrieveSpecificFormatFromStringFormat(string? format)
     {
-        if (string.IsNullOrEmpty(format))
+        if (format is null or [])
         {
             return null;
         }
@@ -206,9 +210,9 @@ public static class TermResolver
         }
     }
 
-    private static string RetrieveValuePart(string value, string format)
+    private static string RetrieveValuePart(string value, string? format)
     {
-        if (string.IsNullOrEmpty(format))
+        if (format is null or [])
             return value;
 
         string[] formatParts = format.Split(["{0"], 2, StringSplitOptions.None);
@@ -245,29 +249,33 @@ public static class TermResolver
     private static string ReplaceDoubleCurlyBracesWithSingleOnes(string value) =>
         value.Replace("{{", "{").Replace("}}", "}");
 
-    public static string CreateXPathCondition(object value, TermOptions termOptions = null, string operand = ".")
+    public static string CreateXPathCondition(object value, TermOptions? termOptions = null, string operand = ".")
     {
         string[] terms = GetTerms(value, termOptions);
         TermMatch match = GetMatch(value, termOptions);
         return match.CreateXPathCondition(terms, operand);
     }
 
-    public static T FromString<T>(string value, TermOptions termOptions = null)
+    [return: NotNullIfNotNull(nameof(value))]
+    public static T? FromString<T>(string? value, TermOptions? termOptions = null)
     {
-        object result = FromString(value, typeof(T), termOptions);
-        return (T)result;
+        object? result = FromString(value, typeof(T), termOptions);
+        return result is null
+            ? default
+            : (T)result;
     }
 
-    public static object FromString(string value, Type destinationType, TermOptions termOptions = null)
+    [return: NotNullIfNotNull(nameof(value))]
+    public static object? FromString(string? value, Type destinationType, TermOptions? termOptions = null)
     {
-        object result = value is null
+        object? result = value is null
             ? null
             : RetrieveValueFromString(value, destinationType, termOptions ?? new TermOptions());
 
-        if (result == null && !destinationType.IsClassOrNullable())
+        if (result is null && !destinationType.IsClassOrNullable())
         {
             throw new ArgumentException(
-                "Failed to find value of type '{0}' corresponding to '{1}'.".FormatWith(destinationType.FullName, value),
+                $"Failed to find value of type {destinationType.FullName} corresponding to {Stringifier.ToString(value)}.",
                 nameof(value));
         }
         else
@@ -276,7 +284,7 @@ public static class TermResolver
         }
     }
 
-    private static object RetrieveValueFromString(string value, Type destinationType, TermOptions termOptions)
+    private static object? RetrieveValueFromString(string value, Type destinationType, TermOptions termOptions)
     {
         Type underlyingType = Nullable.GetUnderlyingType(destinationType) ?? destinationType;
 
@@ -284,7 +292,7 @@ public static class TermResolver
         {
             return StringToEnum(value, underlyingType, termOptions);
         }
-        else if (!string.IsNullOrEmpty(value))
+        else if (value?.Length > 0)
         {
             return s_typeTermConverters.TryGetValue(underlyingType, out TermConverter termConverter)
                 ? termConverter.FromStringConverter(value, termOptions)
@@ -296,11 +304,11 @@ public static class TermResolver
         }
     }
 
-    public static object StringToEnum(string value, Type enumType, TermOptions termOptions = null) =>
+    public static object? StringToEnum(string value, Type enumType, TermOptions? termOptions = null) =>
         enumType.GetIndividualEnumFlags()
             .FirstOrDefault(x => GetEnumMatch(x, termOptions).IsMatch(value, GetEnumTerms(x, termOptions)));
 
-    public static string[] GetEnumTerms(Enum value, TermOptions termOptions = null)
+    public static string[] GetEnumTerms(Enum value, TermOptions? termOptions = null)
     {
         termOptions ??= new TermOptions();
 
@@ -314,11 +322,11 @@ public static class TermResolver
 
     private static string[] GetIndividualEnumTerms(Enum value, TermOptions termOptions)
     {
-        TermAttribute termAttribute = GetEnumTermAttribute(value);
-        ITermSettings termSettings = GetTermSettingsAttribute(value.GetType());
+        TermAttribute? termAttribute = GetEnumTermAttribute(value);
+        ITermSettings? termSettings = GetTermSettingsAttribute(value.GetType());
 
         TermCase? termCase = termOptions.GetCaseOrNull();
-        string termFormat = termOptions.GetFormatOrNull();
+        string? termFormat = termOptions.GetFormatOrNull();
 
         if (termAttribute != null || termSettings != null)
         {
@@ -340,19 +348,19 @@ public static class TermResolver
         }
     }
 
-    private static string[] GetIndividualEnumTerms(Enum value, TermAttribute termAttribute, ITermSettings termSettings, CultureInfo culture)
+    private static string[] GetIndividualEnumTerms(Enum value, TermAttribute? termAttribute, ITermSettings? termSettings, CultureInfo culture)
     {
         string[] values = termAttribute?.Values?.Length > 0
             ? termAttribute.Values
             : [
                 TermCaseResolver.ApplyCase(
                     value.ToString(),
-                    termAttribute.GetCaseOrNull() ?? termSettings.GetCaseOrNull() ?? DefaultCase)
+                    termAttribute?.GetCaseOrNull() ?? termSettings?.GetCaseOrNull() ?? DefaultCase)
             ];
 
-        string termFormat = termAttribute.GetFormatOrNull() ?? termSettings.GetFormatOrNull();
+        string? termFormat = termAttribute?.GetFormatOrNull() ?? termSettings?.GetFormatOrNull();
 
-        return termFormat != null
+        return termFormat is not null
             ? [.. values.Select(x => FormatValue(x, termFormat, culture))]
             : values;
     }
@@ -363,18 +371,18 @@ public static class TermResolver
         return TermCaseResolver.ApplyCase(words, termCase);
     }
 
-    public static TermMatch GetMatch(object value, ITermSettings termSettings = null) =>
+    public static TermMatch GetMatch(object value, ITermSettings? termSettings = null) =>
         value is Enum enumValue
             ? GetEnumMatch(enumValue, termSettings)
-            : termSettings.GetMatchOrNull() ?? DefaultMatch;
+            : termSettings?.GetMatchOrNull() ?? DefaultMatch;
 
-    public static TermMatch GetEnumMatch(Enum value, ITermSettings termSettings = null) =>
-        termSettings.GetMatchOrNull()
-            ?? GetEnumTermAttribute(value).GetMatchOrNull()
-            ?? GetTermSettingsAttribute(value.GetType()).GetMatchOrNull()
+    public static TermMatch GetEnumMatch(Enum value, ITermSettings? termSettings = null) =>
+        termSettings?.GetMatchOrNull()
+            ?? GetEnumTermAttribute(value)?.GetMatchOrNull()
+            ?? GetTermSettingsAttribute(value.GetType())?.GetMatchOrNull()
             ?? DefaultMatch;
 
-    private static TermAttribute GetEnumTermAttribute(Enum value)
+    private static TermAttribute? GetEnumTermAttribute(Enum value)
     {
         Type type = value.GetType();
         MemberInfo memberInfo = type.GetMember(value.ToString())[0];
@@ -382,13 +390,10 @@ public static class TermResolver
         return memberInfo.GetCustomAttribute<TermAttribute>(false);
     }
 
-    private static TermSettingsAttribute GetTermSettingsAttribute(Type type) =>
+    private static TermSettingsAttribute? GetTermSettingsAttribute(Type type) =>
         type.GetCustomAttribute<TermSettingsAttribute>(false);
 
-    private sealed class TermConverter
-    {
-        public Func<string, TermOptions, object> FromStringConverter { get; set; }
-
-        public Func<object, TermOptions, string> ToStringConverter { get; set; }
-    }
+    private sealed record TermConverter(
+        Func<string, TermOptions, object> FromStringConverter,
+        Func<object, TermOptions, string>? ToStringConverter);
 }

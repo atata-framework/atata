@@ -21,7 +21,7 @@ public class UriQueryProvider<TOwner> : ValueProvider<string, TOwner>
             DynamicObjectSource.Create(valueGetFunction),
             providerName,
             component.Session.ExecutionUnit) =>
-        Parameters = new UriQueryParametersProvider<TOwner>(
+        Parameters = new(
             component,
             GetQueryParameters,
             "URI query parameters");
@@ -31,14 +31,14 @@ public class UriQueryProvider<TOwner> : ValueProvider<string, TOwner>
     /// </summary>
     public UriQueryParametersProvider<TOwner> Parameters { get; }
 
-    private static KeyValuePair<string, string?> ExtractParameterKeyValue(string quertyParameterString)
+    private static KeyValuePair<string, string> ExtractParameterKeyValue(string quertyParameterString)
     {
         string[] parts = quertyParameterString.Split(['='], StringSplitOptions.RemoveEmptyEntries);
 
-        return new KeyValuePair<string, string?>(parts[0], parts.Length > 1 ? parts[1] : null);
+        return new KeyValuePair<string, string>(parts[0], parts.Length > 1 ? parts[1] : string.Empty);
     }
 
-    private IEnumerable<KeyValuePair<string, string?>> GetQueryParameters()
+    private IEnumerable<KeyValuePair<string, string>> GetQueryParameters()
     {
         var query = Value;
 
