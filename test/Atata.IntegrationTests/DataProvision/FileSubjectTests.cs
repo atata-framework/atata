@@ -1,7 +1,6 @@
 ﻿namespace Atata.IntegrationTests.DataProvision;
 
-[TestFixture]
-public class FileSubjectTests
+public sealed class FileSubjectTests
 {
     [Test]
     public void Ctor_WithNullAsString() =>
@@ -47,8 +46,7 @@ public class FileSubjectTests
             .Should.Equal($"\"{filePath}\" file");
     }
 
-    [TestFixture]
-    public class Exists
+    public sealed class Exists
     {
         [Test]
         public void True() =>
@@ -84,8 +82,7 @@ public class FileSubjectTests
         }
     }
 
-    [TestFixture]
-    public class ReadAllText
+    public sealed class ReadAllText
     {
         [Test]
         public void ProviderName() =>

@@ -1,6 +1,5 @@
 ﻿namespace Atata.IntegrationTests;
 
-[TestFixture]
 public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
 {
     public const int TestAppPort = 50549;

@@ -1,6 +1,5 @@
 ﻿namespace Atata.IntegrationTests;
 
-[TestFixture]
 public abstract class TestSuiteBase
 {
     private FakeLogConsumer _fakeLogConsumer;

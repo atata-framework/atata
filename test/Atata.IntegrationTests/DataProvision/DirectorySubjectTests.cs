@@ -1,7 +1,6 @@
 ﻿namespace Atata.IntegrationTests.DataProvision;
 
-[TestFixture]
-public class DirectorySubjectTests
+public sealed class DirectorySubjectTests
 {
     [Test]
     public void Ctor_WithNullAsString() =>
@@ -28,7 +27,6 @@ public class DirectorySubjectTests
         new DirectorySubject(Path.Combine("Parent", "Dir"))
             .FullName.Should.Equal(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Parent", "Dir"));
 
-    [TestFixture]
     public static class Exists
     {
         [Test]
@@ -60,7 +58,6 @@ public class DirectorySubjectTests
         }
     }
 
-    [TestFixture]
     public static class Directories
     {
         private static DirectoryFixture s_directoryFixture;
@@ -155,7 +152,6 @@ public class DirectorySubjectTests
                 .Should.Equal("sut.Directories[\"dir1\"].Directories.Names");
     }
 
-    [TestFixture]
     public static class Files
     {
         private static DirectoryFixture s_directoryFixture;

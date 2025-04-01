@@ -1,7 +1,6 @@
 ﻿namespace Atata.IntegrationTests.Controls;
 
-[TestFixture]
-public class ControlDelegateTests : WebDriverSessionTestSuite
+public sealed class ControlDelegateTests : WebDriverSessionTestSuite
 {
     [Test]
     public void WithoutNavigation() =>
