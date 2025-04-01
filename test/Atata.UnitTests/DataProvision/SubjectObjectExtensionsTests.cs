@@ -1,4 +1,6 @@
-﻿namespace Atata.UnitTests.DataProvision;
+﻿#nullable enable
+
+namespace Atata.UnitTests.DataProvision;
 
 public static class SubjectObjectExtensionsTests
 {
