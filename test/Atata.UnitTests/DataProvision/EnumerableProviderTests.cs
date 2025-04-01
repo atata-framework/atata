@@ -1,13 +1,15 @@
-﻿namespace Atata.UnitTests.DataProvision;
+﻿#nullable enable
+
+namespace Atata.UnitTests.DataProvision;
 
 [TestFixture]
-public class EnumerableProviderTests
+public sealed class EnumerableProviderTests
 {
     private const string ExpectedSourceProviderName = nameof(TestOwner) + "." + nameof(TestOwner.Items);
 
     [Test]
     public void ProviderName() =>
-        CreateSut(() => null)
+        CreateSut(() => [])
             .ProviderName.ToSubject().Should.Equal(ExpectedSourceProviderName);
 
     [Test]
@@ -86,7 +88,7 @@ public class EnumerableProviderTests
     private static EnumerableValueProvider<TestItem, TestOwner> CreateSut(Func<IEnumerable<int>> sourceValuesGetFunction) =>
         new TestOwner(sourceValuesGetFunction).Items;
 
-    public class TestOwner : IObjectProvider<TestOwner>
+    public sealed class TestOwner : IObjectProvider<TestOwner>
     {
         private readonly Func<IEnumerable<int>> _sourceValuesGetFunction;
 
@@ -106,10 +108,10 @@ public class EnumerableProviderTests
                         .Select((v, i) => new TestItem(v, i))),
                 nameof(Items));
 
-        public IAtataExecutionUnit ExecutionUnit => null;
+        public IAtataExecutionUnit? ExecutionUnit => null;
     }
 
-    public class TestItem : IHasProviderName, IHasSourceProviderName
+    public sealed class TestItem : IHasProviderName, IHasSourceProviderName
     {
         public TestItem(int number, int index)
         {
@@ -121,8 +123,8 @@ public class EnumerableProviderTests
 
         public int Index { get; }
 
-        public string ProviderName { get; set; }
+        public string ProviderName { get; set; } = string.Empty;
 
-        public string SourceProviderName { get; set; }
+        public string? SourceProviderName { get; set; }
     }
 }
