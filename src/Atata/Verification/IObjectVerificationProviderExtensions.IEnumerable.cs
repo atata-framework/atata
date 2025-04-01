@@ -81,16 +81,16 @@ public static partial class IObjectVerificationProviderExtensions
         return VerificationUtils.Verify(verifier, ExecuteVerification, expectedMessage);
     }
 
-    public static TOwner BeEmpty<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier) =>
+    public static TOwner BeEmpty<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>?, TOwner> verifier) =>
         verifier.Satisfy(actual => actual != null && !actual.Any(), "be empty");
 
-    public static TOwner HaveCount<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>, TOwner> verifier, int expected) =>
+    public static TOwner HaveCount<TObject, TOwner>(this IObjectVerificationProvider<IEnumerable<TObject>?, TOwner> verifier, int expected) =>
         verifier.Satisfy(actual => actual != null && actual.Count() == expected, $"have count {expected}");
 
-    public static TOwner BeEquivalent<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, params TItem[] expected) =>
+    public static TOwner BeEquivalent<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, params TItem[] expected) =>
         verifier.BeEquivalent(expected?.AsEnumerable()!);
 
-    public static TOwner BeEquivalent<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, IEnumerable<TItem> expected)
+    public static TOwner BeEquivalent<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, IEnumerable<TItem> expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -131,10 +131,10 @@ public static partial class IObjectVerificationProviderExtensions
             VerificationMessage.Of($"be equivalent to {Stringifier.ToString(expected)}", equalityComparer));
     }
 
-    public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, params TItem[] expected) =>
+    public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, params TItem[] expected) =>
         verifier.EqualSequence(expected?.AsEnumerable()!);
 
-    public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, IEnumerable<TItem> expected)
+    public static TOwner EqualSequence<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, IEnumerable<TItem> expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -166,7 +166,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     /// <param name="verifier">The verification provider.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier) =>
+    public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier) =>
         verifier.Satisfy(actual => actual != null && actual.Count() == 1, $"contain single item");
 
     /// <summary>
@@ -177,7 +177,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="verifier">The verification provider.</param>
     /// <param name="expected">An expected item value.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, TItem expected)
+    public static TOwner ContainSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, TItem expected)
     {
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -212,7 +212,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="predicateExpression">The predicate expression.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ContainSingle<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
         var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
@@ -246,7 +246,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expectedValue">An expected item value.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ContainExactly<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         int expectedCount,
         TItem expectedValue)
     {
@@ -292,7 +292,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="predicateExpression">The predicate expression.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ContainExactly<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         int expectedCount,
         Expression<Func<TItem, bool>> predicateExpression)
     {
@@ -329,7 +329,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">An expected item values.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner Contain<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params TItem[] expected)
         =>
         verifier.Contain(expected?.AsEnumerable()!);
@@ -343,7 +343,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">An expected item values.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner Contain<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
@@ -403,7 +403,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="predicateExpression">The predicate expression.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner Contain<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
         var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
@@ -433,14 +433,14 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     public static TOwner Contain<TOwner>(
-        this IObjectVerificationProvider<IEnumerable<string>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<string>?, TOwner> verifier,
         TermMatch match,
         params string[] expected)
         =>
         verifier.Contain(match, expected?.AsEnumerable()!);
 
     public static TOwner Contain<TOwner>(
-        this IObjectVerificationProvider<IEnumerable<string>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<string>?, TOwner> verifier,
         TermMatch match,
         IEnumerable<string> expected)
     {
@@ -484,7 +484,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     /// <inheritdoc cref="ContainAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
     public static TOwner ContainAny<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params TItem[] expected)
         =>
         verifier.ContainAny(expected?.AsEnumerable()!);
@@ -498,7 +498,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">An expected item values.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ContainAny<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
@@ -540,7 +540,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     /// <inheritdoc cref="StartWith{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
     public static TOwner StartWith<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params TItem[] expected)
         =>
         verifier.StartWith(expected?.AsEnumerable()!);
@@ -554,7 +554,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">An expected item values.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner StartWith<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
@@ -596,7 +596,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     /// <inheritdoc cref="StartWithAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
     public static TOwner StartWithAny<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params TItem[] expected)
         =>
         verifier.StartWithAny(expected?.AsEnumerable()!);
@@ -610,7 +610,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">An expected item values.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner StartWithAny<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
@@ -668,7 +668,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     /// <inheritdoc cref="EndWith{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
     public static TOwner EndWith<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params TItem[] expected)
         =>
         verifier.EndWith(expected?.AsEnumerable()!);
@@ -682,7 +682,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">An expected item values.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner EndWith<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
@@ -724,7 +724,7 @@ public static partial class IObjectVerificationProviderExtensions
 
     /// <inheritdoc cref="EndWithAny{TItem, TOwner}(IObjectVerificationProvider{IEnumerable{TItem}, TOwner}, IEnumerable{TItem})"/>
     public static TOwner EndWithAny<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params TItem[] expected)
         =>
         verifier.EndWithAny(expected?.AsEnumerable()!);
@@ -738,7 +738,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">An expected item values.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner EndWithAny<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         IEnumerable<TItem> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
@@ -801,7 +801,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     /// <param name="verifier">The verification provider.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner BeInAscendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
+    public static TOwner BeInAscendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier)
         where TItem : IComparable<TItem> =>
         verifier.Satisfy(
             actual => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
@@ -814,7 +814,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     /// <param name="verifier">The verification provider.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner BeInAscendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
+    public static TOwner BeInAscendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem?>?, TOwner> verifier)
         where TItem : struct, IComparable<TItem> =>
         verifier.Satisfy(
             actual => actual != null && actual.OrderBy(x => x).SequenceEqual(actual),
@@ -839,7 +839,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     /// <param name="verifier">The verification provider.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner BeInDescendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier)
+    public static TOwner BeInDescendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier)
         where TItem : IComparable<TItem>
         =>
         verifier.Satisfy(
@@ -853,7 +853,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <typeparam name="TOwner">The type of the owner.</typeparam>
     /// <param name="verifier">The verification provider.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner BeInDescendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem?>, TOwner> verifier)
+    public static TOwner BeInDescendingOrder<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem?>?, TOwner> verifier)
         where TItem : struct, IComparable<TItem>
         =>
         verifier.Satisfy(
@@ -881,7 +881,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="predicateExpressions">The predicate expressions.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ConsistOf<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params Expression<Func<TItem, bool>>[] predicateExpressions)
     {
         var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
@@ -918,7 +918,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="predicateExpression">The predicate expression.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ConsistOnlyOf<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
         var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
@@ -952,7 +952,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="message">The message that should sound in a way of "{Collection} should consist of items that {message}".</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ConsistOnlyOf<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Func<TItem, bool> predicate,
         string message)
     {
@@ -987,7 +987,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="expected">The expected value.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ConsistOnlyOf<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         TItem expected)
     {
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
@@ -1019,7 +1019,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="verifier">The verification provider.</param>
     /// <param name="expected">An expected item value.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner ConsistOfSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier, TItem expected)
+    public static TOwner ConsistOfSingle<TItem, TOwner>(this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier, TItem expected)
     {
         var equalityComparer = verifier.ResolveEqualityComparer<TItem>();
 
@@ -1054,7 +1054,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="predicateExpression">The predicate expression.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ConsistOfSingle<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         Expression<Func<TItem, bool>> predicateExpression)
     {
         var predicate = predicateExpression.CheckNotNull(nameof(predicateExpression)).Compile();
@@ -1087,7 +1087,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="predicateExpressions">The predicate expressions.</param>
     /// <returns>The owner instance.</returns>
     public static TOwner ConsistSequentiallyOf<TItem, TOwner>(
-        this IObjectVerificationProvider<IEnumerable<TItem>, TOwner> verifier,
+        this IObjectVerificationProvider<IEnumerable<TItem>?, TOwner> verifier,
         params Expression<Func<TItem, bool>>[] predicateExpressions)
     {
         var predicates = predicateExpressions.CheckNotNullOrEmpty(nameof(predicateExpressions))
