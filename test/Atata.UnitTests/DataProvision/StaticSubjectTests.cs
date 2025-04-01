@@ -1,9 +1,9 @@
-﻿namespace Atata.UnitTests.DataProvision;
+﻿#nullable enable
 
-[TestFixture]
+namespace Atata.UnitTests.DataProvision;
+
 public static class StaticSubjectTests
 {
-    [TestFixture]
     public static class ResultOf
     {
         [Test]
@@ -20,7 +20,7 @@ public static class StaticSubjectTests
         [Test]
         public static void Function_Throws()
         {
-            var result = Subject.ResultOf(() => TestClass.GetEntity(null));
+            var result = Subject.ResultOf(() => TestClass.GetEntity(null!));
 
             Assert.Throws<ArgumentNullException>(() =>
                 _ = result.Object);
@@ -34,7 +34,7 @@ public static class StaticSubjectTests
         [Test]
         public static void ValueTaskFunction_Throws()
         {
-            var result = Subject.ResultOf(() => TestClass.GetEntityAsValueTaskAsync(null));
+            var result = Subject.ResultOf(() => TestClass.GetEntityAsValueTaskAsync(null!));
 
             Assert.Throws<ArgumentNullException>(() =>
                 _ = result.Object);
@@ -48,14 +48,13 @@ public static class StaticSubjectTests
         [Test]
         public static void TaskFunction_Throws()
         {
-            var result = Subject.ResultOf(() => TestClass.GetEntityAsTaskAsync(null));
+            var result = Subject.ResultOf(() => TestClass.GetEntityAsTaskAsync(null!));
 
             Assert.Throws<ArgumentNullException>(() =>
                 _ = result.Object);
         }
     }
 
-    [TestFixture]
     public static class SubjectOf
     {
         [Test]
@@ -64,7 +63,6 @@ public static class StaticSubjectTests
                 .ProviderName.Should().Be("StaticSubjectTests.TestClass.GetEntity(10)");
     }
 
-    [TestFixture]
     public static class Invoking
     {
         [Test]
@@ -74,7 +72,7 @@ public static class StaticSubjectTests
 
         [Test]
         public static void Function_Should_Throw() =>
-            Subject.Invoking(() => TestClass.GetEntity(null))
+            Subject.Invoking(() => TestClass.GetEntity(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -94,7 +92,7 @@ public static class StaticSubjectTests
 
         [Test]
         public static void ResultValueTaskFunction_Should_Throw() =>
-            Subject.Invoking(() => TestClass.GetEntityAsValueTaskAsync(null))
+            Subject.Invoking(() => TestClass.GetEntityAsValueTaskAsync(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -114,7 +112,7 @@ public static class StaticSubjectTests
 
         [Test]
         public static void ResultTaskFunction_Should_Throw() =>
-            Subject.Invoking(() => TestClass.GetEntityAsTaskAsync(null))
+            Subject.Invoking(() => TestClass.GetEntityAsTaskAsync(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -133,7 +131,7 @@ public static class StaticSubjectTests
 
         [Test]
         public static void Function_Should_Throw() =>
-            Subject.DynamicInvoking(() => TestClass.GetEntity(null))
+            Subject.DynamicInvoking(() => TestClass.GetEntity(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -153,7 +151,7 @@ public static class StaticSubjectTests
 
         [Test]
         public static void ResultValueTaskFunction_Should_Throw() =>
-            Subject.DynamicInvoking(() => TestClass.GetEntityAsValueTaskAsync(null))
+            Subject.DynamicInvoking(() => TestClass.GetEntityAsValueTaskAsync(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -173,7 +171,7 @@ public static class StaticSubjectTests
 
         [Test]
         public static void ResultTaskFunction_Should_Throw() =>
-            Subject.DynamicInvoking(() => TestClass.GetEntityAsTaskAsync(null))
+            Subject.DynamicInvoking(() => TestClass.GetEntityAsTaskAsync(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -233,6 +231,6 @@ public static class StaticSubjectTests
     {
         public int Id { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }
