@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base attribute class for the finding attributes.
@@ -41,9 +43,10 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
 
     /// <summary>
     /// Gets or sets the outer XPath.
-    /// The default value is <see langword="null"/>, meaning that the control is searchable as descendant (using <c>".//"</c> XPath) in scope source.
+    /// The default value is <see langword="null"/>,
+    /// meaning that the control is searchable as descendant (using <c>".//"</c> XPath) in scope source.
     /// </summary>
-    public string OuterXPath
+    public string? OuterXPath
     {
         get => ResolveOuterXPath();
         set => OptionalProperties[nameof(OuterXPath)] = value;
@@ -52,9 +55,10 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
     /// <summary>
     /// Gets or sets the strategy type for the control search.
     /// Strategy type should implement <see cref="IComponentScopeFindStrategy"/>.
-    /// The default value is <see langword="null"/>, meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
+    /// The default value is <see langword="null"/>,
+    /// meaning that the default strategy of the specific <see cref="FindAttribute"/> should be used.
     /// </summary>
-    public Type Strategy
+    public Type? Strategy
     {
         get => ResolveStrategy();
         set => OptionalProperties[nameof(Strategy)] = value;
@@ -139,42 +143,42 @@ public abstract class FindAttribute : MulticastAttribute, IHasOptionalProperties
     protected string BuildComponentNameWithArgument(object argument) =>
         $"{GetTypeNameForComponentName()}:{argument}";
 
-    internal int ResolveIndex(UIComponentMetadata metadata = null) =>
+    internal int ResolveIndex(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve(
             nameof(Index),
             -1,
             metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
 
-    internal Visibility ResolveVisibility(UIComponentMetadata metadata = null) =>
+    internal Visibility ResolveVisibility(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve<Visibility?>(
             nameof(Visibility),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata).Concat([(IHasOptionalProperties)metadata.ComponentDefinitionAttribute]) : null)
         ?? WebDriverSession.Current?.DefaultControlVisibility
         ?? SearchOptions.DefaultVisibility;
 
-    internal ScopeSource ResolveScopeSource(UIComponentMetadata metadata = null) =>
+    internal ScopeSource ResolveScopeSource(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve<ScopeSource>(
             nameof(ScopeSource),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
 
-    internal string ResolveOuterXPath(UIComponentMetadata metadata = null) =>
+    internal string? ResolveOuterXPath(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve<string>(
             nameof(OuterXPath),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
 
-    internal Type ResolveStrategy(UIComponentMetadata metadata = null) =>
+    internal Type ResolveStrategy(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve(
             nameof(Strategy),
             DefaultStrategy,
-            metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null);
+            metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null)!;
 
-    internal double ResolveTimeout(UIComponentMetadata metadata = null) =>
+    internal double ResolveTimeout(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve<double?>(
             nameof(Timeout),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null)
             ?? (WebSession.Current?.ElementFindTimeout ?? AtataContext.DefaultRetryTimeout).TotalSeconds;
 
-    internal double ResolveRetryInterval(UIComponentMetadata metadata = null) =>
+    internal double ResolveRetryInterval(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve<double?>(
             nameof(RetryInterval),
             metadata != null ? GetFindSettingsPropertyAttributes(metadata) : null)
