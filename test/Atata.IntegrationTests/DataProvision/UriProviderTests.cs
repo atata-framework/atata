@@ -1,4 +1,6 @@
-﻿namespace Atata.IntegrationTests.DataProvision;
+﻿#nullable enable
+
+namespace Atata.IntegrationTests.DataProvision;
 
 public sealed class UriProviderTests : WebDriverSessionTestSuite
 {
