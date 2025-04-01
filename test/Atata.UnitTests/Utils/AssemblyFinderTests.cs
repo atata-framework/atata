@@ -1,7 +1,6 @@
 ﻿namespace Atata.UnitTests.Utils;
 
-[TestFixture]
-public class AssemblyFinderTests
+public sealed class AssemblyFinderTests
 {
     [Test]
     public void Find()

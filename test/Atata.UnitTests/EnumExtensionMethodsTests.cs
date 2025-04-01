@@ -1,7 +1,6 @@
 ﻿namespace Atata.UnitTests;
 
-[TestFixture]
-public class EnumExtensionMethodsTests
+public sealed class EnumExtensionMethodsTests
 {
     [Flags]
     public enum Int64EnumValues : long

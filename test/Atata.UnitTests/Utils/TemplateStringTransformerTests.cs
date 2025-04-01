@@ -2,7 +2,6 @@
 
 public static class TemplateStringTransformerTests
 {
-    [TestFixture]
     public class Transform
     {
         [Test]
@@ -143,8 +142,7 @@ public static class TemplateStringTransformerTests
             Subject.ResultOf(() => TemplateStringTransformer.Transform(template, variables));
     }
 
-    [TestFixture]
-    public class TransformPath
+    public sealed class TransformPath
     {
         [Test]
         public void WithStringAndIntVariables()
@@ -204,8 +202,7 @@ public static class TemplateStringTransformerTests
             Subject.ResultOf(() => TemplateStringTransformer.TransformPath(template, variables));
     }
 
-    [TestFixture]
-    public class TransformUri
+    public sealed class TransformUri
     {
         [Test]
         public void WithNormalVariables()

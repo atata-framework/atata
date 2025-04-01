@@ -1,6 +1,5 @@
 ﻿namespace Atata.UnitTests.Utils;
 
-[TestFixture]
 public class UriUtilsTests
 {
     [TestCase("http://something.com", true)]

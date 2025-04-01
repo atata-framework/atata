@@ -4,8 +4,7 @@ public static class IObjectVerificationProviderExtensionsTests
 {
     public static class Enumerable
     {
-        [TestFixture]
-        public class ConsistOf
+        public sealed class ConsistOf
         {
             [Test]
             public void Ok() =>
@@ -29,8 +28,7 @@ public static class IObjectVerificationProviderExtensionsTests
                     .Should.Not.ConsistOfSingle(x => x == 2);
         }
 
-        [TestFixture]
-        public class ConsistOfSingle
+        public sealed class ConsistOfSingle
         {
             [Test]
             public void Ok() =>
@@ -76,8 +74,7 @@ public static class IObjectVerificationProviderExtensionsTests
                     .Should.Not.ConsistOfSingle(1);
         }
 
-        [TestFixture]
-        public class ConsistSequentiallyOf
+        public sealed class ConsistSequentiallyOf
         {
             [Test]
             public void Ok() =>

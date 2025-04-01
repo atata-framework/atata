@@ -2,7 +2,6 @@
 
 public static class SubjectObjectExtensionsTests
 {
-    [TestFixture]
     public static class ToSubject
     {
         [Test]

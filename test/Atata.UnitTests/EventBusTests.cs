@@ -16,8 +16,7 @@ public class EventBusTests
             .ToSutSubject();
     }
 
-    [TestFixture]
-    public class Publish : EventBusTests
+    public sealed class Publish : EventBusTests
     {
         [Test]
         public void WithNull() =>
@@ -204,8 +203,7 @@ public class EventBusTests
         }
     }
 
-    [TestFixture]
-    public class Subscribe : EventBusTests
+    public sealed class Subscribe : EventBusTests
     {
         [Test]
         public void WithNullDelegate() =>
@@ -236,8 +234,7 @@ public class EventBusTests
         }
     }
 
-    [TestFixture]
-    public class Unsubscribe : EventBusTests
+    public sealed class Unsubscribe : EventBusTests
     {
         [Test]
         public void WithNull() =>
@@ -268,8 +265,7 @@ public class EventBusTests
         }
     }
 
-    [TestFixture]
-    public class UnsubscribeHandler : EventBusTests
+    public sealed class UnsubscribeHandler : EventBusTests
     {
         [Test]
         public void WithNull() =>

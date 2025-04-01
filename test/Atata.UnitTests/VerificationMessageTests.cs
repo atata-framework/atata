@@ -1,7 +1,6 @@
 ﻿namespace Atata.UnitTests;
 
-[TestFixture]
-public class VerificationMessageTests
+public sealed class VerificationMessageTests
 {
     [Test]
     public void Ctor() =>

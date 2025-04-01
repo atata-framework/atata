@@ -2,7 +2,6 @@
 
 public static class ObjectCreatorTests
 {
-    [TestFixture]
     public class Create
     {
         private ObjectCreator _sut;

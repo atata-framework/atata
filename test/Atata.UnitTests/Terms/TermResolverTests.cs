@@ -4,9 +4,8 @@ public static class TermResolverTests
 {
     private const string CultureName = "en-US";
 
-    [TestFixture]
     [SetCulture(CultureName)]
-    public class FromString
+    public sealed class FromString
     {
         public enum Option
         {
@@ -187,9 +186,8 @@ public static class TermResolverTests
 #pragma warning restore S1144, CA1812 // Unused private types or members should be removed
     }
 
-    [TestFixture]
     [SetCulture(CultureName)]
-    public new class ToString
+    public new sealed class ToString
     {
         [TestCase(true, ExpectedResult = "True")]
         [TestCase(false, ExpectedResult = "False")]

@@ -1,7 +1,6 @@
 ﻿namespace Atata.UnitTests.Terms;
 
-[TestFixture]
-public class TermCaseResolverTests
+public sealed class TermCaseResolverTests
 {
     [TestCase(TermCase.None, "SimpleText", ExpectedResult = "SimpleText")]
     [TestCase(TermCase.None, "IsHTML5Text?", ExpectedResult = "IsHTML5Text?")]

@@ -2,7 +2,6 @@
 
 public static class ObjectConverterTests
 {
-    [TestFixture]
     public class Convert
     {
         private ObjectConverter _sut;

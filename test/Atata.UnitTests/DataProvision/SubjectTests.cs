@@ -1,6 +1,5 @@
 ﻿namespace Atata.UnitTests.DataProvision;
 
-[TestFixture]
 public static class SubjectTests
 {
     private static Subject<Dictionary<string, int>> CreateDictionarySubject() =>
@@ -35,7 +34,6 @@ public static class SubjectTests
         ((IObjectProvider<int, Subject<int>>)subject).Owner.Should().Be(subject);
     }
 
-    [TestFixture]
     public static class ProviderName
     {
         [Test]
@@ -49,8 +47,7 @@ public static class SubjectTests
                 .ProviderName.Should().Be("some name");
     }
 
-    [TestFixture]
-    public class ValueOf
+    public sealed class ValueOf
     {
         private Subject<Dictionary<string, int>> _subject;
 
@@ -76,8 +73,7 @@ public static class SubjectTests
                 .ValueOf(x => x.Count).ProviderName.Should().Be("subject{ Add(\"d\", 4); Add(\"e\", 5) }.Count");
     }
 
-    [TestFixture]
-    public class ResultOf
+    public sealed class ResultOf
     {
         private Subject<Dictionary<string, int>> _subject;
 
@@ -175,8 +171,7 @@ public static class SubjectTests
                 .ProviderName.Should().Be("subject[\"a\"] => result");
     }
 
-    [TestFixture]
-    public class SubjectOf
+    public sealed class SubjectOf
     {
         private Subject<Dictionary<string, int>> _subject;
 
@@ -226,8 +221,7 @@ public static class SubjectTests
                 .ProviderName.Should().Be("subject[\"a\"]");
     }
 
-    [TestFixture]
-    public class Invoking
+    public sealed class Invoking
     {
         private Subject<Dictionary<string, int>> _subject;
 
@@ -307,8 +301,7 @@ public static class SubjectTests
                 .ProviderName.Should().Be("subject{ Add(\"d\", 4) }.ContainsKey(\"a\")");
     }
 
-    [TestFixture]
-    public class Act
+    public sealed class Act
     {
         private Subject<Dictionary<string, int>> _subject;
 

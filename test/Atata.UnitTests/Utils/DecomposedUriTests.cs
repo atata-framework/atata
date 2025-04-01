@@ -2,8 +2,7 @@
 
 public static class DecomposedUriTests
 {
-    [TestFixture]
-    public class Ctor
+    public sealed class Ctor
     {
         [Test]
         public void WithNullUrl() =>
@@ -60,8 +59,7 @@ public static class DecomposedUriTests
                 });
     }
 
-    [TestFixture]
-    public new class ToString
+    public new sealed class ToString
     {
         [TestCase("https://example.org/some/path?a=1&b=2#frg", ExpectedResult = "https://example.org/some/path?a=1&b=2#frg")]
         [TestCase("/some/path", ExpectedResult = "/some/path")]
@@ -74,8 +72,7 @@ public static class DecomposedUriTests
             new DecomposedUri(uri).ToString();
     }
 
-    [TestFixture]
-    public class Merge
+    public sealed class Merge
     {
         [TestCase("/some/path?a=1", "/other/path", ExpectedResult = "/other/path")]
         [TestCase("/some/path?a=1", "?c", ExpectedResult = "/some/path?c")]

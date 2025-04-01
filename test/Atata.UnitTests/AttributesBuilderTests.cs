@@ -1,7 +1,6 @@
 ﻿namespace Atata.UnitTests;
 
-[TestFixture]
-public class AttributesBuilderTests
+public sealed class AttributesBuilderTests
 {
     private readonly Attribute[] _stubAttributes =
     [

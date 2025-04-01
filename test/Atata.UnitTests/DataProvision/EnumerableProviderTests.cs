@@ -2,7 +2,6 @@
 
 namespace Atata.UnitTests.DataProvision;
 
-[TestFixture]
 public sealed class EnumerableProviderTests
 {
     private const string ExpectedSourceProviderName = nameof(TestOwner) + "." + nameof(TestOwner.Items);

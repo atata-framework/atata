@@ -121,7 +121,6 @@ public static class StaticSubjectTests
                 .Should.Not.Throw();
     }
 
-    [TestFixture]
     public static class DynamicInvoking
     {
         [Test]
