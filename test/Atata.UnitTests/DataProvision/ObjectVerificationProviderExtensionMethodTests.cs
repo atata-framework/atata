@@ -1,4 +1,6 @@
-﻿namespace Atata.UnitTests.DataProvision;
+﻿#nullable enable
+
+namespace Atata.UnitTests.DataProvision;
 
 public static class ObjectVerificationProviderExtensionMethodTests
 {
@@ -6,7 +8,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static Satisfy_Expression() =>
             For("abc123")
-                .ThrowsArgumentNullException(should => should.Satisfy(null))
+                .ThrowsArgumentNullException(should => should.Satisfy(null!))
                 .Pass(should => should.Satisfy(x => x.Contains("abc") && x.Contains("123")))
                 .Fail(should => should.Satisfy(x => x == "xyz"));
     }
@@ -15,7 +17,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static Satisfy_Function() =>
             For(5)
-                .ThrowsArgumentNullException(should => should.Satisfy(null, "..."))
+                .ThrowsArgumentNullException(should => should.Satisfy(null!, "..."))
                 .Pass(should => should.Satisfy(x => x is > 1 and < 10, "..."))
                 .Fail(should => should.Satisfy(x => x == 7, "..."));
     }
@@ -24,7 +26,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static Satisfy_IEnumerable_Expression() =>
             For(["a".ToSubject(), "b".ToSubject(), "c".ToSubject()])
-                .ThrowsArgumentNullException(should => should.Satisfy(null as Expression<Func<IEnumerable<string>, bool>>))
+                .ThrowsArgumentNullException(should => should.Satisfy((null as Expression<Func<IEnumerable<string>, bool>>)!))
                 .Pass(should => should.Satisfy(x => x.Contains("a") && x.Contains("c")))
                 .Fail(should => should.Satisfy((IEnumerable<string> x) => x.Any(y => y.Contains('z'))));
     }
@@ -33,7 +35,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static StartWith_string() =>
             For("abcdef")
-                .ThrowsArgumentNullException(should => should.StartWith(null))
+                .ThrowsArgumentNullException(should => should.StartWith(null!))
                 .ThrowsArgumentException(should => should.StartWith())
                 .Pass(should => should.StartWith("a"))
                 .Pass(should => should.StartWith("abc"))
@@ -54,7 +56,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static MatchRegex() =>
             For("abcdef")
-                .ThrowsArgumentNullException(should => should.MatchRegex(null))
+                .ThrowsArgumentNullException(should => should.MatchRegex(null!))
                 .Pass(should => should.MatchRegex("bcd"))
                 .Pass(should => should.MatchRegex("^abc"))
                 .Pass(should => should.MatchRegex("^abcdeF$", RegexOptions.IgnoreCase))
@@ -77,7 +79,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static MatchWildcardPattern() =>
             For("abcdef")
-                .ThrowsArgumentNullException(should => should.MatchWildcardPattern(null))
+                .ThrowsArgumentNullException(should => should.MatchWildcardPattern(null!))
                 .Pass(should => should.MatchWildcardPattern("?bcd*"))
                 .Pass(should => should.MatchWildcardPattern("abc*"))
                 .Pass(should => should.MatchWildcardPattern("abcdef"))
@@ -98,7 +100,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static BeEquivalent() =>
             For([1, 1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.BeEquivalent(null))
+                .ThrowsArgumentNullException(should => should.BeEquivalent(null!))
                 .Pass(should => should.BeEquivalent(1, 1, 2, 3, 5))
                 .Pass(should => should.BeEquivalent(5, 1, 2, 3, 1))
                 .Fail(should => should.BeEquivalent())
@@ -118,7 +120,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static EqualSequence() =>
             For([1, 1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.EqualSequence(null))
+                .ThrowsArgumentNullException(should => should.EqualSequence(null!))
                 .Pass(should => should.EqualSequence(1, 1, 2, 3, 5))
                 .Fail(should => should.EqualSequence(5, 1, 2, 3, 1))
                 .Fail(should => should.EqualSequence())
@@ -146,7 +148,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static Contain_IEnumerable() =>
             For([1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.Contain(null as IEnumerable<int>))
+                .ThrowsArgumentNullException(should => should.Contain((null as IEnumerable<int>)!))
                 .ThrowsArgumentException(should => should.Contain())
                 .Pass(should => should.Contain(2, 3))
                 .Pass(should => should.Contain(5))
@@ -158,7 +160,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static ContainAny_IEnumerable() =>
             For([1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.ContainAny(null as IEnumerable<int>))
+                .ThrowsArgumentNullException(should => should.ContainAny((null as IEnumerable<int>)!))
                 .ThrowsArgumentException(should => should.ContainAny())
                 .Pass(should => should.ContainAny(4, 5))
                 .Pass(should => should.ContainAny(5))
@@ -170,7 +172,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static StartWith_IEnumerable() =>
             For([1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.StartWith(null as IEnumerable<int>))
+                .ThrowsArgumentNullException(should => should.StartWith((null as IEnumerable<int>)!))
                 .ThrowsArgumentException(should => should.StartWith())
                 .Pass(should => should.StartWith(1))
                 .Pass(should => should.StartWith(1, 2, 3))
@@ -183,7 +185,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static StartWithAny_IEnumerable() =>
             For([1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.StartWithAny(null as IEnumerable<int>))
+                .ThrowsArgumentNullException(should => should.StartWithAny((null as IEnumerable<int>)!))
                 .ThrowsArgumentException(should => should.StartWithAny())
                 .Pass(should => should.StartWithAny(1))
                 .Pass(should => should.StartWithAny(8, 1, 9))
@@ -195,7 +197,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static StartWithAny_string() =>
             For("abcdef")
-                .ThrowsArgumentNullException(should => should.StartWithAny(null))
+                .ThrowsArgumentNullException(should => should.StartWithAny(null!))
                 .ThrowsArgumentException(should => should.StartWithAny())
                 .Pass(should => should.StartWithAny("a"))
                 .Pass(should => should.StartWithAny("abc"))
@@ -207,7 +209,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static EndWith_IEnumerable() =>
             For([1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.EndWith(null as IEnumerable<int>))
+                .ThrowsArgumentNullException(should => should.EndWith((null as IEnumerable<int>)!))
                 .ThrowsArgumentException(should => should.EndWith())
                 .Pass(should => should.EndWith(5))
                 .Pass(should => should.EndWith(2, 3, 5))
@@ -220,7 +222,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static EndWithAny_IEnumerable() =>
             For([1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.EndWithAny(null as IEnumerable<int>))
+                .ThrowsArgumentNullException(should => should.EndWithAny((null as IEnumerable<int>)!))
                 .ThrowsArgumentException(should => should.EndWithAny())
                 .Pass(should => should.EndWithAny(5))
                 .Pass(should => should.EndWithAny(8, 5, 9))
@@ -232,7 +234,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static EndWithAny_string() =>
             For("abcdef")
-                .ThrowsArgumentNullException(should => should.EndWithAny(null))
+                .ThrowsArgumentNullException(should => should.EndWithAny(null!))
                 .ThrowsArgumentException(should => should.EndWithAny())
                 .Pass(should => should.EndWithAny("f"))
                 .Pass(should => should.EndWithAny("def"))
@@ -244,7 +246,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static ConsistOf() =>
             For([1, 2, 3])
-                .ThrowsArgumentNullException(should => should.ConsistOf(null))
+                .ThrowsArgumentNullException(should => should.ConsistOf(null!))
                 .ThrowsArgumentException(should => should.ConsistOf())
                 .Pass(should => should.ConsistOf(x => x == 3, x => x > 0, x => x == 2))
                 .Pass(should => should.ConsistOf(x => x < 3, x => x > 1, x => x != 2))
@@ -275,7 +277,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         static ConsistOnlyOf_Expression() =>
             For([1, 2, 3, 5])
-                .ThrowsArgumentNullException(should => should.ConsistOnlyOf(null))
+                .ThrowsArgumentNullException(should => should.ConsistOnlyOf(null!))
                 .Pass(should => should.ConsistOnlyOf(x => x > 0))
                 .Fail(should => should.ConsistOnlyOf(x => x > 1));
     }
@@ -285,7 +287,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
     {
         private static readonly TestSuiteData s_testSuiteData = new();
 
-        private Subject<TObject> _sut;
+        private Subject<TObject> _sut = null!;
 
         protected static TestSuiteBuilder For(TObject testObject)
         {
@@ -353,7 +355,7 @@ public static class ObjectVerificationProviderExtensionMethodTests
 
         [OneTimeSetUp]
         public void SetUpFixture() =>
-            _sut = s_testSuiteData.TestObject.ToSutSubject();
+            _sut = s_testSuiteData.TestObject!.ToSutSubject();
 
         [TestCaseSource(nameof(GetTestActions))]
         public void When(Action<Subject<TObject>> testAction) =>
@@ -361,9 +363,9 @@ public static class ObjectVerificationProviderExtensionMethodTests
 
         public class TestSuiteData
         {
-            public TObject TestObject { get; set; }
+            public TObject? TestObject { get; set; }
 
-            public Func<ObjectVerificationProvider<TObject, Subject<TObject>>, ObjectVerificationProvider<TObject, Subject<TObject>>> VerifierSetup { get; set; }
+            public Func<ObjectVerificationProvider<TObject, Subject<TObject>>, ObjectVerificationProvider<TObject, Subject<TObject>>>? VerifierSetup { get; set; }
 
             public List<Func<IObjectVerificationProvider<TObject, Subject<TObject>>, Subject<TObject>>> PassFunctions { get; } = [];
 
