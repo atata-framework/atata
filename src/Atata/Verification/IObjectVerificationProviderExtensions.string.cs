@@ -6,19 +6,19 @@ public static partial class IObjectVerificationProviderExtensions
 {
     private const StringComparison DefaultIgnoreCaseComparison = StringComparison.OrdinalIgnoreCase;
 
-    public static TOwner BeNullOrEmpty<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
+    public static TOwner BeNullOrEmpty<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier) =>
         verifier.Satisfy(string.IsNullOrEmpty, "be null or empty");
 
-    public static TOwner BeNullOrWhiteSpace<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
+    public static TOwner BeNullOrWhiteSpace<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier) =>
         verifier.Satisfy(string.IsNullOrWhiteSpace, "be null or white-space");
 
-    public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, int expected) =>
+    public static TOwner HaveLength<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, int expected) =>
         verifier.Satisfy(actual => actual is not null && actual.Length == expected, $"have length of {expected}");
 
-    public static TOwner EqualIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected) =>
+    public static TOwner EqualIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected) =>
         verifier.Satisfy(actual => string.Equals(expected, actual, DefaultIgnoreCaseComparison), "equal {0} ignoring case", expected);
 
-    public static TOwner Contain<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
+    public static TOwner Contain<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -28,7 +28,7 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    public static TOwner ContainIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
+    public static TOwner ContainIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -38,7 +38,7 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    public static TOwner StartWith<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
+    public static TOwner StartWith<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -48,7 +48,7 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    public static TOwner StartWithIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
+    public static TOwner StartWithIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -58,7 +58,7 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    public static TOwner EndWith<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
+    public static TOwner EndWith<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -68,7 +68,7 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    public static TOwner EndWithIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string expected)
+    public static TOwner EndWithIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string expected)
     {
         expected.CheckNotNull(nameof(expected));
 
@@ -79,11 +79,11 @@ public static partial class IObjectVerificationProviderExtensions
     }
 
     [Obsolete("Use MatchRegex(...) instead.")] // Obsolete since v4.0.0.
-    public static TOwner Match<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern) =>
+    public static TOwner Match<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string pattern) =>
         verifier.MatchRegex(pattern, RegexOptions.None);
 
     [Obsolete("Use MatchRegex(...) instead.")] // Obsolete since v4.0.0.
-    public static TOwner Match<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern, RegexOptions regexOptions) =>
+    public static TOwner Match<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string pattern, RegexOptions regexOptions) =>
         verifier.MatchRegex(pattern, regexOptions);
 
     /// <summary>
@@ -93,14 +93,14 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="verifier">The verification provider.</param>
     /// <param name="pattern">The regular expression pattern to match.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern) =>
+    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern) =>
         verifier.MatchRegex(pattern, RegexOptions.None);
 
-    /// <inheritdoc cref="MatchRegex{TOwner}(IObjectVerificationProvider{string, TOwner}, string)"/>
+    /// <inheritdoc cref="MatchRegex{TOwner}(IObjectVerificationProvider{string?, TOwner}, string)"/>
     /// <param name="verifier">The verification provider.</param>
     /// <param name="pattern">The regular expression pattern to match.</param>
     /// <param name="options">The regular expression options.</param>
-    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern, RegexOptions options)
+    public static TOwner MatchRegex<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, [StringSyntax(StringSyntaxAttribute.Regex)] string pattern, RegexOptions options)
     {
         pattern.CheckNotNull(nameof(pattern));
 
@@ -119,7 +119,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="verifier">The verification provider.</param>
     /// <param name="pattern">The wildcard pattern to match.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner MatchWildcardPattern<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, string pattern)
+    public static TOwner MatchWildcardPattern<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, string pattern)
     {
         pattern.CheckNotNull(nameof(pattern));
 
@@ -130,7 +130,7 @@ public static partial class IObjectVerificationProviderExtensions
             $"match wildcard pattern \"{pattern}\"");
     }
 
-    public static TOwner MatchAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, TermMatch match, params string[] expected)
+    public static TOwner MatchAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, TermMatch match, params string[] expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -148,7 +148,7 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    public static TOwner ContainAll<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected)
+    public static TOwner ContainAll<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, params string[] expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -166,8 +166,8 @@ public static partial class IObjectVerificationProviderExtensions
             expected);
     }
 
-    /// <inheritdoc cref="StartWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
-    public static TOwner StartWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected) =>
+    /// <inheritdoc cref="StartWithAny{TOwner}(IObjectVerificationProvider{string?, TOwner}, IEnumerable{string})"/>
+    public static TOwner StartWithAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, params string[] expected) =>
         verifier.StartWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
@@ -177,7 +177,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="verifier">The verification provider.</param>
     /// <param name="expected">The expected values.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner StartWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, IEnumerable<string> expected)
+    public static TOwner StartWithAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, IEnumerable<string> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -188,8 +188,8 @@ public static partial class IObjectVerificationProviderExtensions
             VerificationMessage.Of($"start with any of {Stringifier.ToString(expected)}", verifier.ResolveEqualityComparer<string>()));
     }
 
-    /// <inheritdoc cref="EndWithAny{TOwner}(IObjectVerificationProvider{string, TOwner}, IEnumerable{string})"/>
-    public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, params string[] expected) =>
+    /// <inheritdoc cref="EndWithAny{TOwner}(IObjectVerificationProvider{string?, TOwner}, IEnumerable{string})"/>
+    public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, params string[] expected) =>
         verifier.EndWithAny(expected?.AsEnumerable()!);
 
     /// <summary>
@@ -199,7 +199,7 @@ public static partial class IObjectVerificationProviderExtensions
     /// <param name="verifier">The verification provider.</param>
     /// <param name="expected">The expected values.</param>
     /// <returns>The owner instance.</returns>
-    public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier, IEnumerable<string> expected)
+    public static TOwner EndWithAny<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier, IEnumerable<string> expected)
     {
         expected.CheckNotNullOrEmpty(nameof(expected));
 
@@ -210,7 +210,7 @@ public static partial class IObjectVerificationProviderExtensions
             VerificationMessage.Of($"end with any of {Stringifier.ToString(expected)}", verifier.ResolveEqualityComparer<string>()));
     }
 
-    private static bool IsIgnoringCase<TOwner>(this IObjectVerificationProvider<string, TOwner> verifier) =>
+    private static bool IsIgnoringCase<TOwner>(this IObjectVerificationProvider<string?, TOwner> verifier) =>
         verifier.ResolveStringComparison()
             is StringComparison.CurrentCultureIgnoreCase
             or StringComparison.InvariantCultureIgnoreCase
