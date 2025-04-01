@@ -1,6 +1,5 @@
 ﻿namespace Atata.UnitTests;
 
-[TestFixture]
 public class LogConsumersBuilderTests
 {
     protected Subject<LogConsumersBuilder> Sut { get; private set; }

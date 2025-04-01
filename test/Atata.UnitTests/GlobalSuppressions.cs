@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-#pragma warning disable S103 // Lines should not be too long
+﻿#pragma warning disable S103 // Lines should not be too long
 
 [assembly: SuppressMessage("Major Code Smell", "S2743:Static fields should not be used in generic types", Justification = "<Pending>", Scope = "member", Target = "~F:Atata.UnitTests.DataProvision.ObjectVerificationProviderExtensionMethodTests.ExtensionMethodTestSuite`2.s_testSuiteData")]
 [assembly: SuppressMessage("Naming", "CA1720:Identifier contains type name", Justification = "<Pending>", Scope = "member", Target = "~P:Atata.UnitTests.DataProvision.EnumerableProviderTests.TestOwner.Object")]
@@ -24,5 +22,3 @@
 [assembly: SuppressMessage("Reliability", "CA2000:Dispose objects before losing scope", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.AtataSessionCollectionTests.SetUpAsync~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Major Code Smell", "S4144:Methods should not have identical implementations", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.DataProvision.StaticSubjectTests.TestClass.ThrowAsTaskAsync~System.Threading.Tasks.Task")]
 [assembly: SuppressMessage("Major Code Smell", "S4144:Methods should not have identical implementations", Justification = "<Pending>", Scope = "member", Target = "~M:Atata.UnitTests.DataProvision.StaticSubjectTests.TestClass.GetEntityAsTaskAsync(System.String)~System.Threading.Tasks.Task{Atata.UnitTests.DataProvision.StaticSubjectTests.TestEntity}")]
-
-#pragma warning restore S103 // Lines should not be too long

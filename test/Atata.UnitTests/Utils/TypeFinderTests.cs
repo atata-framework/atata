@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Atata.UnitTests.Utils;
+﻿namespace Atata.UnitTests.Utils;
 
 [TestFixture]
 public class TypeFinderTests

@@ -1,6 +1,5 @@
 ﻿namespace Atata.UnitTests;
 
-[TestFixture]
 public class UIComponentMetadataTests
 {
     private UIComponentMetadata _metadata;

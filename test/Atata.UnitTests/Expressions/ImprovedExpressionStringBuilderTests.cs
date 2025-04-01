@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace Atata.UnitTests.Expressions;
+﻿namespace Atata.UnitTests.Expressions;
 
 public static class ImprovedExpressionStringBuilderTests
 {

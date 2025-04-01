@@ -1,8 +1,4 @@
-﻿using System.Linq.Expressions;
-using System.Runtime.CompilerServices;
-using System.Text.RegularExpressions;
-
-namespace Atata.UnitTests.DataProvision;
+﻿namespace Atata.UnitTests.DataProvision;
 
 public static class ObjectVerificationProviderExtensionMethodTests
 {

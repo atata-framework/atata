@@ -1,7 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using FluentAssertions.Collections;
-
-namespace Atata.UnitTests;
+﻿namespace Atata.UnitTests;
 
 public static class GenericCollectionAssertionsExtensions
 {

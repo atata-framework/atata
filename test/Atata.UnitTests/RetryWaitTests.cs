@@ -1,6 +1,4 @@
-﻿using Atata.IntegrationTests;
-
-namespace Atata.UnitTests;
+﻿namespace Atata.UnitTests;
 
 public static class RetryWaitTests
 {

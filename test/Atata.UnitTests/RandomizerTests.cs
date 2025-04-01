@@ -1,6 +1,5 @@
 ﻿namespace Atata.UnitTests;
 
-[TestFixture]
 public class RandomizerTests
 {
     [TestCase(null, 1)]

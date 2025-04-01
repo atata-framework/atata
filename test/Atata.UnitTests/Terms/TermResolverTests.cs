@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace Atata.UnitTests.Terms;
+﻿namespace Atata.UnitTests.Terms;
 
 public static class TermResolverTests
 {

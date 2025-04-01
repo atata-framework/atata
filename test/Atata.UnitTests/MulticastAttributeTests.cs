@@ -1,13 +1,11 @@
 ﻿namespace Atata.UnitTests;
 
-[TestFixture]
 public static class MulticastAttributeTests
 {
     public class TestMulticastAttribute : MulticastAttribute
     {
     }
 
-    [TestFixture]
     public class CalculateTargetRank
     {
         private UIComponentMetadata _metadata;
@@ -113,7 +111,6 @@ public static class MulticastAttributeTests
         }
     }
 
-    [TestFixture]
     public class IsTargetSpecified
     {
         [Test]

@@ -1,8 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿namespace Atata.UnitTests;
 
-namespace Atata.UnitTests;
-
-[TestFixture]
 public class LogManagerTests
 {
     private LogConsumerSpy _consumerSpy;

@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace Atata.UnitTests;
+﻿namespace Atata.UnitTests;
 
 [TestFixture]
 public class AttributesBuilderTests
