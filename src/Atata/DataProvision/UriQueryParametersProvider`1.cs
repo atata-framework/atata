@@ -99,7 +99,7 @@ public class UriQueryParametersProvider<TOwner> : ValueProvider<IEnumerable<KeyV
         foreach (var parameter in Value)
         {
             if (parameter.Key == parameterName)
-                yield return TermResolver.FromString<string>(parameter.Value);
+                yield return parameter.Value;
         }
     }
 
