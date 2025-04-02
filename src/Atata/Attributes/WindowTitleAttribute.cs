@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Specifies the window title of <see cref="PopupWindow{TOwner}"/> page object.
@@ -10,6 +12,7 @@
 public class WindowTitleAttribute : MulticastAttribute, ITermSettings
 {
     private const TermCase DefaultCase = TermCase.Title;
+
     private const TermMatch DefaultMatch = TermMatch.Equals;
 
     public WindowTitleAttribute(TermCase termCase)
@@ -32,20 +35,20 @@ public class WindowTitleAttribute : MulticastAttribute, ITermSettings
     {
     }
 
-    private WindowTitleAttribute(string[] values, TermMatch match = DefaultMatch, TermCase termCase = DefaultCase)
+    private WindowTitleAttribute(string[]? values, TermMatch match = DefaultMatch, TermCase termCase = DefaultCase)
     {
         Values = values;
         Match = match;
         Case = termCase;
     }
 
-    public string[] Values { get; }
+    public string[]? Values { get; }
 
     public TermCase Case { get; }
 
     public new TermMatch Match { get; }
 
-    public string Format { get; set; }
+    public string? Format { get; set; }
 
     internal string[] ResolveActualValues(string fallbackValue)
     {
@@ -53,7 +56,7 @@ public class WindowTitleAttribute : MulticastAttribute, ITermSettings
             ? Values
             : [Case.ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue)))];
 
-        return !string.IsNullOrEmpty(Format)
+        return Format?.Length > 0
             ? [.. rawValues.Select(x => string.Format(Format, x))]
             : rawValues;
     }
