@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the frame-wrapped content editor control.
@@ -16,7 +18,7 @@ public class FrameWrappedContentEditor<TOwner> : EditableTextField<string, TOwne
     [Name("Inner")]
     [FindSettings(ScopeSource = ScopeSource.Page)]
     [TraceLog]
-    protected ContentEditor<TOwner> ContentEditor { get; private set; }
+    protected ContentEditor<TOwner> ContentEditor { get; private set; } = null!;
 
     /// <summary>
     /// Gets the frame control.
@@ -27,12 +29,12 @@ public class FrameWrappedContentEditor<TOwner> : EditableTextField<string, TOwne
 
     protected override string GetValue()
     {
-        string value = null;
+        string? value = null;
 
         DoWithinFrame(() =>
             value = ContentEditor.Value);
 
-        return value;
+        return value ?? string.Empty;
     }
 
     protected override void SetValue(string value) =>

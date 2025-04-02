@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the option control (<c>&lt;option&gt;</c>).
@@ -32,7 +34,7 @@ public class Option<TValue, TOwner> : Field<TValue, TOwner>
     protected override TValue GetValue()
     {
         string valueAsString = SelectOptionBehavior.GetOptionRawValue(Scope);
-        return ConvertStringToValue(valueAsString);
+        return ConvertStringToValue(valueAsString)!;
     }
 
     /// <summary>
@@ -47,10 +49,10 @@ public class Option<TValue, TOwner> : Field<TValue, TOwner>
         new TermOptions
         {
             Culture = Metadata.GetCulture()
-                ?? Parent.Metadata.GetCulture()
+                ?? Parent?.Metadata.GetCulture()
                 ?? Session.Context.Culture,
             Format = Metadata.GetFormat()
-                ?? Parent.Metadata.GetFormat()
+                ?? Parent?.Metadata.GetFormat()
         }
         .MergeWith(SelectOptionBehavior);
 }
