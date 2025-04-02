@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
     where TOwner : PageObject<TOwner>
@@ -27,11 +29,11 @@ public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
         return control;
     }
 
-    public TControl Resolve<TControl>(Func<IEnumerable<Attribute>> additionalAttributesFactory = null, [CallerMemberName] string propertyName = null)
+    public TControl Resolve<TControl>(Func<IEnumerable<Attribute>>? additionalAttributesFactory = null, [CallerMemberName] string? propertyName = null)
         where TControl : Control<TOwner> =>
-        Resolve<TControl>(propertyName, additionalAttributesFactory);
+        Resolve<TControl>(propertyName!, additionalAttributesFactory);
 
-    public TControl Resolve<TControl>(string propertyName, Func<IEnumerable<Attribute>> additionalAttributesFactory = null)
+    public TControl Resolve<TControl>(string propertyName, Func<IEnumerable<Attribute>>? additionalAttributesFactory = null)
         where TControl : Control<TOwner>
     {
         propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
@@ -41,7 +43,7 @@ public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
         if (control != null)
             return control;
 
-        var additionalAttributes = additionalAttributesFactory?.Invoke()?.ToArray();
+        var additionalAttributes = additionalAttributesFactory?.Invoke()?.ToArray() ?? [];
         return UIComponentResolver.CreateControlForProperty<TControl, TOwner>(_component, propertyName, additionalAttributes);
     }
 
