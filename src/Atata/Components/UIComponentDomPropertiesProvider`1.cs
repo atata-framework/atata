@@ -75,8 +75,10 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     /// Gets the value of the specified control's scope element property.
     /// </summary>
     /// <param name="propertyName">The name of the property.</param>
-    /// <returns>The property's current value.
-    /// Returns <see langword="null"/> if the value is not set or the property is not found.</returns>
+    /// <returns>
+    /// The property's current value.
+    /// Returns <see langword="null"/> if the value is not set or the property is not found.
+    /// </returns>
     public string? GetValue(string propertyName)
     {
         propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
@@ -89,8 +91,10 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     /// </summary>
     /// <typeparam name="TValue">The type of the property value.</typeparam>
     /// <param name="propertyName">The name of the property.</param>
-    /// <returns>The property's current value.
-    /// Returns <see langword="null"/> or default value (for value types) if the value is not set or the property is not found.</returns>
+    /// <returns>
+    /// The property's current value.
+    /// Returns <see langword="null"/> or default value (for value types) if the value is not set or the property is not found.
+    /// </returns>
     public TValue? GetValue<TValue>(string propertyName)
     {
         string? valueAsString = GetValue(propertyName);
