@@ -15,12 +15,12 @@ public class Link<TOwner> : Text<TOwner>
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>href</c> DOM property.
     /// </summary>
-    public ValueProvider<string, TOwner> Href =>
+    public ValueProvider<string?, TOwner> Href =>
         DomProperties["href"];
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>href</c> DOM attribute.
     /// </summary>
-    public ValueProvider<string, TOwner> HrefAttribute =>
+    public ValueProvider<string?, TOwner> HrefAttribute =>
         DomAttributes["href"];
 }

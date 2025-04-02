@@ -16,6 +16,6 @@ public class FileInput<TOwner> : Input<string, TOwner>
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>accept</c> DOM property.
     /// </summary>
-    public ValueProvider<string, TOwner> Accept =>
+    public ValueProvider<string?, TOwner> Accept =>
         DomProperties["accept"];
 }

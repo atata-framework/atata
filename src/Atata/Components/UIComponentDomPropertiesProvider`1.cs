@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Allows to access the component scope element's DOM property values.
@@ -15,19 +17,19 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
         ComponentPartName = "DOM properties";
     }
 
-    public ValueProvider<string, TOwner> Id =>
+    public ValueProvider<string?, TOwner> Id =>
         Get<string>("id");
 
-    public ValueProvider<string, TOwner> Name =>
+    public ValueProvider<string?, TOwner> Name =>
         Get<string>("name");
 
-    public ValueProvider<string, TOwner> Value =>
+    public ValueProvider<string?, TOwner> Value =>
         Get<string>("value");
 
-    public ValueProvider<string, TOwner> Title =>
+    public ValueProvider<string?, TOwner> Title =>
         Get<string>("title");
 
-    public ValueProvider<string, TOwner> Style =>
+    public ValueProvider<string?, TOwner> Style =>
         Get<string>("style");
 
     public ValueProvider<bool?, TOwner> ReadOnly =>
@@ -36,20 +38,22 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     public ValueProvider<bool?, TOwner> Required =>
         Get<bool?>("required");
 
-    public ValueProvider<string, TOwner> TextContent => Component.CreateValueProvider(
-        ItemProviderNameFormat.FormatWith("textContent"),
-        () => GetValue("textContent")?.Trim());
+    public ValueProvider<string, TOwner> TextContent =>
+        Component.CreateValueProvider(
+            ItemProviderNameFormat.FormatWith("textContent"),
+            () => GetValue("textContent")?.Trim() ?? string.Empty);
 
-    public ValueProvider<string, TOwner> InnerHtml => Component.CreateValueProvider(
-        ItemProviderNameFormat.FormatWith("innerHTML"),
-        () => GetValue("innerHTML")?.Trim());
+    public ValueProvider<string, TOwner> InnerHtml =>
+        Component.CreateValueProvider(
+            ItemProviderNameFormat.FormatWith("innerHTML"),
+            () => GetValue("innerHTML")?.Trim() ?? string.Empty);
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> instance for the value of the specified control's scope element property.
     /// </summary>
     /// <param name="propertyName">The name of the property.</param>
     /// <returns>The <see cref="ValueProvider{TValue, TOwner}"/> instance for the property's current value.</returns>
-    public ValueProvider<string, TOwner> this[string propertyName] =>
+    public ValueProvider<string?, TOwner> this[string propertyName] =>
         Get<string>(propertyName);
 
     /// <summary>
@@ -58,7 +62,7 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     /// <typeparam name="TValue">The type of the property value.</typeparam>
     /// <param name="propertyName">The name of the property.</param>
     /// <returns>The <see cref="ValueProvider{TValue, TOwner}"/> instance for the property's current value.</returns>
-    public ValueProvider<TValue, TOwner> Get<TValue>(string propertyName)
+    public ValueProvider<TValue?, TOwner> Get<TValue>(string propertyName)
     {
         propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
 
@@ -72,8 +76,8 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     /// </summary>
     /// <param name="propertyName">The name of the property.</param>
     /// <returns>The property's current value.
-    /// Returns <see langword="null"/> if the value is not set.</returns>
-    public string GetValue(string propertyName)
+    /// Returns <see langword="null"/> if the value is not set or the property is not found.</returns>
+    public string? GetValue(string propertyName)
     {
         propertyName.CheckNotNullOrWhitespace(nameof(propertyName));
 
@@ -86,12 +90,12 @@ public sealed class UIComponentDomPropertiesProvider<TOwner> : UIComponentPart<T
     /// <typeparam name="TValue">The type of the property value.</typeparam>
     /// <param name="propertyName">The name of the property.</param>
     /// <returns>The property's current value.
-    /// Returns <see langword="null"/> if the value is not set.</returns>
-    public TValue GetValue<TValue>(string propertyName)
+    /// Returns <see langword="null"/> or default value (for value types) if the value is not set or the property is not found.</returns>
+    public TValue? GetValue<TValue>(string propertyName)
     {
-        string valueAsString = GetValue(propertyName);
+        string? valueAsString = GetValue(propertyName);
 
-        return string.IsNullOrEmpty(valueAsString) && typeof(TValue) == typeof(bool)
+        return valueAsString is null or [] && typeof(TValue) == typeof(bool)
             ? default
             : TermResolver.FromString<TValue>(valueAsString);
     }
