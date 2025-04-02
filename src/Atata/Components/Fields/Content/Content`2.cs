@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents any HTML element containing content.
@@ -15,6 +17,6 @@ public class Content<TValue, TOwner> : Field<TValue, TOwner>
     protected override TValue GetValue()
     {
         string value = GetContent();
-        return ConvertStringToValueUsingGetFormat(value);
+        return ConvertStringToValueUsingGetFormat(value)!;
     }
 }

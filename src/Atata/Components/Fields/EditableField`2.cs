@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for editable field controls.
@@ -43,11 +45,11 @@ public abstract class EditableField<TValue, TOwner> : Field<TValue, TOwner>
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>The value converted to string.</returns>
-    protected virtual string ConvertValueToStringUsingSetFormat(TValue value)
+    protected virtual string? ConvertValueToStringUsingSetFormat(TValue value)
     {
-        string setFormat = Metadata.Get<ValueSetFormatAttribute>()?.Value;
+        string? setFormat = Metadata.Get<ValueSetFormatAttribute>()?.Value;
 
-        return setFormat != null
+        return setFormat is not null
             ? TermResolver.ToString(value, new TermOptions().MergeWith(GetValueTermOptions()).WithFormat(setFormat))
             : ConvertValueToString(value);
     }

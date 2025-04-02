@@ -102,7 +102,7 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
         return value;
     }
 
-    string? IConvertsValueToString<TValue>.ConvertValueToString(TValue? value) =>
+    string? IConvertsValueToString<TValue>.ConvertValueToString(TValue value) =>
         ConvertValueToString(value);
 
     /// <summary>
@@ -112,7 +112,7 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>The value converted to string.</returns>
-    protected internal virtual string? ConvertValueToString(TValue? value) =>
+    protected internal virtual string? ConvertValueToString(TValue value) =>
         TermResolver.ToString(value, GetValueTermOptions());
 
     /// <summary>
