@@ -1,7 +1,10 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Represents the base class for Atata attributes that can be applied to a component at any level (declared, parent component, assembly, global and component).
+/// A base class for Atata attributes that can be applied to a component at any level
+/// (declared, parent component, assembly, global and component).
 /// </summary>
 [AttributeUsage(
     AttributeTargets.Property | AttributeTargets.Field | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Assembly,
@@ -13,12 +16,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component names.
     /// </summary>
-    public string[] TargetNames { get; set; }
+    public string[]? TargetNames { get; set; }
 
     /// <summary>
     /// Gets or sets the target component name.
     /// </summary>
-    public string TargetName
+    public string? TargetName
     {
         get => TargetNames?.FirstOrDefault();
         set => TargetNames = value == null ? null : [value];
@@ -27,12 +30,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component types.
     /// </summary>
-    public Type[] TargetTypes { get; set; }
+    public Type[]? TargetTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the target component type.
     /// </summary>
-    public Type TargetType
+    public Type? TargetType
     {
         get => TargetTypes?.FirstOrDefault();
         set => TargetTypes = value == null ? null : [value];
@@ -41,12 +44,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component tags.
     /// </summary>
-    public string[] TargetTags { get; set; }
+    public string[]? TargetTags { get; set; }
 
     /// <summary>
     /// Gets or sets the target component tag.
     /// </summary>
-    public string TargetTag
+    public string? TargetTag
     {
         get => TargetTags?.FirstOrDefault();
         set => TargetTags = value == null ? null : [value];
@@ -55,12 +58,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component's parent types.
     /// </summary>
-    public Type[] TargetParentTypes { get; set; }
+    public Type[]? TargetParentTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the target component's parent type.
     /// </summary>
-    public Type TargetParentType
+    public Type? TargetParentType
     {
         get => TargetParentTypes?.FirstOrDefault();
         set => TargetParentTypes = value == null ? null : [value];
@@ -69,12 +72,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component names to exclude.
     /// </summary>
-    public string[] ExcludeTargetNames { get; set; }
+    public string[]? ExcludeTargetNames { get; set; }
 
     /// <summary>
     /// Gets or sets the target component name to exclude.
     /// </summary>
-    public string ExcludeTargetName
+    public string? ExcludeTargetName
     {
         get => ExcludeTargetNames?.FirstOrDefault();
         set => ExcludeTargetNames = value == null ? null : [value];
@@ -83,12 +86,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component types to exclude.
     /// </summary>
-    public Type[] ExcludeTargetTypes { get; set; }
+    public Type[]? ExcludeTargetTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the target component type to exclude.
     /// </summary>
-    public Type ExcludeTargetType
+    public Type? ExcludeTargetType
     {
         get => ExcludeTargetTypes?.FirstOrDefault();
         set => ExcludeTargetTypes = value == null ? null : [value];
@@ -97,12 +100,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component tags to exclude.
     /// </summary>
-    public string[] ExcludeTargetTags { get; set; }
+    public string[]? ExcludeTargetTags { get; set; }
 
     /// <summary>
     /// Gets or sets the target component tag to exclude.
     /// </summary>
-    public string ExcludeTargetTag
+    public string? ExcludeTargetTag
     {
         get => ExcludeTargetTags?.FirstOrDefault();
         set => ExcludeTargetTags = value == null ? null : [value];
@@ -111,12 +114,12 @@ public abstract class MulticastAttribute : Attribute
     /// <summary>
     /// Gets or sets the target component's parent types to exclude.
     /// </summary>
-    public Type[] ExcludeTargetParentTypes { get; set; }
+    public Type[]? ExcludeTargetParentTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the target component's parent type to exclude.
     /// </summary>
-    public Type ExcludeTargetParentType
+    public Type? ExcludeTargetParentType
     {
         get => ExcludeTargetParentTypes?.FirstOrDefault();
         set => ExcludeTargetParentTypes = value == null ? null : [value];
@@ -212,8 +215,8 @@ public abstract class MulticastAttribute : Attribute
     /// <returns>
     /// <see langword="true"/> if the name applies the criteria; otherwise, <see langword="false"/>.
     /// </returns>
-    public bool IsNameApplicable(string name) =>
-        (TargetNames is null || TargetNames.Length == 0 || TargetNames.Contains(name))
+    public bool IsNameApplicable(string? name) =>
+        (TargetNames is null or [] || (name is not null && TargetNames.Contains(name)))
             && (ExcludeTargetNames is null || ExcludeTargetNames.Length == 0 || !ExcludeTargetNames.Contains(name));
 
     /// <summary>
@@ -227,7 +230,7 @@ public abstract class MulticastAttribute : Attribute
     {
         tags.CheckNotNull(nameof(tags));
 
-        return (TargetTags is null || TargetTags.Length == 0 || TargetTags.Intersect(tags).Any())
+        return (TargetTags is null or [] || TargetTags.Intersect(tags).Any())
             && (ExcludeTargetTags is null || ExcludeTargetTags.Length == 0 || !ExcludeTargetTags.Intersect(tags).Any());
     }
 
@@ -242,15 +245,20 @@ public abstract class MulticastAttribute : Attribute
             return null;
 
         int? depthOfTypeInheritance = GetDepthOfInheritance(metadata.ComponentType, TargetTypes, ExcludeTargetTypes);
-        if (depthOfTypeInheritance == null)
+        if (depthOfTypeInheritance is null)
             return null;
 
         var tags = metadata.GetAll<TagAttribute>().SelectMany(x => x.Values).Distinct().ToArray();
         if (!AreTagsApplicable(tags))
             return null;
 
-        int? depthOfParentTypeInheritance = GetDepthOfInheritance(metadata.ParentComponentType, TargetParentTypes, ExcludeTargetParentTypes);
-        if (depthOfParentTypeInheritance == null)
+        int? depthOfParentTypeInheritance = metadata.ParentComponentType is not null
+            ? GetDepthOfInheritance(metadata.ParentComponentType, TargetParentTypes, ExcludeTargetParentTypes)
+            : TargetParentTypes?.Length > 0
+                ? null
+                : -1;
+
+        if (depthOfParentTypeInheritance is null)
             return null;
 
         int rank = 0;
@@ -274,13 +282,13 @@ public abstract class MulticastAttribute : Attribute
         return rank;
     }
 
-    protected static int? GetDepthOfInheritance(Type typeToCheck, Type[] targetTypes, Type[] excludeTargetTypes = null)
+    protected static int? GetDepthOfInheritance(Type typeToCheck, Type[]? targetTypes, Type[]? excludeTargetTypes = null)
     {
         if (excludeTargetTypes?.Any(typeToCheck.IsInheritedFromOrIs) ?? false)
             return null;
 
         return targetTypes?.Length > 0
-            ? targetTypes.Select(typeToCheck.GetDepthOfInheritance).Where(x => x != null).Min()
+            ? targetTypes.Select(typeToCheck.GetDepthOfInheritance).Where(x => x is not null).Min()
             : -1;
     }
 }
