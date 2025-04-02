@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the local date/time input control (<c>&lt;input type="datetime-local"&gt;</c>).
@@ -14,7 +16,7 @@
 public class LocalDateTimeInput<TOwner> : Input<DateTime?, TOwner>
     where TOwner : PageObject<TOwner>
 {
-    protected override DateTime? ConvertStringToValueUsingGetFormat(string value)
+    protected override DateTime? ConvertStringToValueUsingGetFormat(string? value)
     {
         try
         {

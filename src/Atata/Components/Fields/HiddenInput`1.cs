@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the hidden input control (<c>&lt;input type="hidden"&gt;</c>) with text data.
