@@ -14,7 +14,7 @@ public static class ISearchContextLoggingExtensions
     /// <returns>Found element.</returns>
     public static IWebElement GetWithLogging(this ISearchContext searchContext, By by) =>
         searchContext.GetWithLogging(
-            AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log,
+            AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log,
             by);
 
     internal static IWebElement GetWithLogging(this ISearchContext searchContext, ILogManager log, By by) =>
@@ -32,7 +32,7 @@ public static class ISearchContextLoggingExtensions
     /// <returns>Found elements.</returns>
     public static ReadOnlyCollection<IWebElement> GetAllWithLogging(this ISearchContext searchContext, By by) =>
         searchContext.GetAllWithLogging(
-            AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log,
+            AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log,
             by);
 
     internal static ReadOnlyCollection<IWebElement> GetAllWithLogging(this ISearchContext searchContext, ILogManager log, By by) =>

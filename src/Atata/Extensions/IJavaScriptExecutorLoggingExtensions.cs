@@ -19,7 +19,7 @@ public static class IJavaScriptExecutorLoggingExtensions
     /// <returns>The value returned by the script.</returns>
     public static object? ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object?[] args) =>
         scriptExecutor.ExecuteScriptWithLogging(
-            AtataContext.Current?.Sessions.Get<WebDriverSession>().Log,
+            AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log,
             script,
             args);
 
@@ -53,7 +53,7 @@ public static class IJavaScriptExecutorLoggingExtensions
     /// <returns>The value returned by the script.</returns>
     public static object? ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object?[] args) =>
         scriptExecutor.ExecuteAsyncScriptWithLogging(
-            AtataContext.Current?.Sessions.Get<WebDriverSession>().Log,
+            AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log,
             script,
             args);
 

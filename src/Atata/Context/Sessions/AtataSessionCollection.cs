@@ -543,7 +543,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
     }
 
-    private TSession? GetOrNull<TSession>()
+    /// <inheritdoc cref="Get{TSession}()"/>
+    /// <returns>A session or <see langword="null"/>, if such session is not found.</returns>
+    public TSession? GetOrNull<TSession>()
         where TSession : AtataSession
     {
         _sessionLinkedListOderedByCurrentUsageLock.EnterReadLock();
@@ -558,7 +560,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
     }
 
-    private TSession? GetOrNull<TSession>(string? name)
+    /// <inheritdoc cref="Get{TSession}(string?)"/>
+    /// <returns>A session or <see langword="null"/>, if such session is not found.</returns>
+    public TSession? GetOrNull<TSession>(string? name)
         where TSession : AtataSession
     {
         _sessionLinkedListOderedByCurrentUsageLock.EnterReadLock();
@@ -573,7 +577,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         }
     }
 
-    private TSession? GetOrNullRecursively<TSession>()
+    /// <inheritdoc cref="GetRecursively{TSession}()"/>
+    /// <returns>A session or <see langword="null"/>, if such session is not found.</returns>
+    public TSession? GetOrNullRecursively<TSession>()
         where TSession : AtataSession
     {
         for (AtataContext? currentContext = _context;
@@ -589,7 +595,9 @@ public sealed class AtataSessionCollection : IReadOnlyCollection<AtataSession>, 
         return null;
     }
 
-    private TSession? GetOrNullRecursively<TSession>(string? name)
+    /// <inheritdoc cref="GetRecursively{TSession}(string?)"/>
+    /// <returns>A session or <see langword="null"/>, if such session is not found.</returns>
+    public TSession? GetOrNullRecursively<TSession>(string? name)
         where TSession : AtataSession
     {
         for (AtataContext? currentContext = _context;

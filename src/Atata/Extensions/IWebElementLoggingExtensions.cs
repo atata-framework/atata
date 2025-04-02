@@ -11,7 +11,7 @@ public static class IWebElementLoggingExtensions
     /// </summary>
     /// <param name="element">The element.</param>
     public static void ClearWithLogging(this IWebElement element) =>
-        element.ClearWithLogging(AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log);
+        element.ClearWithLogging(AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log);
 
     internal static void ClearWithLogging(this IWebElement element, ILogManager log)
     {
@@ -32,7 +32,7 @@ public static class IWebElementLoggingExtensions
     /// </summary>
     /// <param name="element">The element.</param>
     public static void ClickWithLogging(this IWebElement element) =>
-        element.ClickWithLogging(AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log);
+        element.ClickWithLogging(AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log);
 
     internal static void ClickWithLogging(this IWebElement element, ILogManager log)
     {
@@ -54,7 +54,7 @@ public static class IWebElementLoggingExtensions
     /// <param name="element">The element.</param>
     /// <param name="text">The text.</param>
     public static void SendKeysWithLogging(this IWebElement element, string text) =>
-        element.SendKeysWithLogging(AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log, text);
+        element.SendKeysWithLogging(AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log, text);
 
     internal static void SendKeysWithLogging(this IWebElement element, ILogManager log, string text)
     {

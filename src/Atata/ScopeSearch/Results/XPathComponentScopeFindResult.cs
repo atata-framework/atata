@@ -21,7 +21,7 @@ public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
         XPath = xPath;
         ScopeSource = scopeSource;
         SearchOptions = searchOptions;
-        _log = component?.Log ?? AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log;
+        _log = component?.Log ?? AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log;
     }
 
     public string XPath { get; }
