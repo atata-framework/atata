@@ -1,42 +1,44 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Represents the base attribute settings class for other attributes.
+/// A base Atata attribute settings class for other attributes.
 /// </summary>
 public abstract class AttributeSettingsAttribute : MulticastAttribute
 {
     /// <summary>
     /// Gets or sets the target attribute types.
     /// </summary>
-    public Type[] TargetAttributeTypes { get; set; }
+    public Type[]? TargetAttributeTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the target attribute type.
     /// </summary>
-    public Type TargetAttributeType
+    public Type? TargetAttributeType
     {
         get => TargetAttributeTypes?.FirstOrDefault();
-        set => TargetAttributeTypes = value == null ? null : [value];
+        set => TargetAttributeTypes = value is null ? null : [value];
     }
 
     /// <summary>
     /// Gets or sets the target attribute types to exclude.
     /// </summary>
-    public Type[] ExcludeTargetAttributeTypes { get; set; }
+    public Type[]? ExcludeTargetAttributeTypes { get; set; }
 
     /// <summary>
     /// Gets or sets the target attribute type to exclude.
     /// </summary>
-    public Type ExcludeTargetAttributeType
+    public Type? ExcludeTargetAttributeType
     {
         get => ExcludeTargetAttributeTypes?.FirstOrDefault();
-        set => ExcludeTargetAttributeTypes = value == null ? null : [value];
+        set => ExcludeTargetAttributeTypes = value is null ? null : [value];
     }
 
     public virtual int? CalculateTargetAttributeRank(Type targetAttributeType)
     {
         int? depthOfTypeInheritance = GetDepthOfInheritance(targetAttributeType, TargetAttributeTypes, ExcludeTargetAttributeTypes);
-        if (depthOfTypeInheritance == null)
+        if (depthOfTypeInheritance is null)
             return null;
 
         int rankFactor = 100000;
