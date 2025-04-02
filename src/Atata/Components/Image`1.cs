@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the image control (<c>&lt;img&gt;</c>).
@@ -13,19 +15,19 @@ public class Image<TOwner> : Control<TOwner>
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> DOM property.
     /// </summary>
-    public ValueProvider<string, TOwner> Source =>
+    public ValueProvider<string?, TOwner> Source =>
         DomProperties["src"];
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>src</c> DOM attribute.
     /// </summary>
-    public ValueProvider<string, TOwner> SourceAttribute =>
+    public ValueProvider<string?, TOwner> SourceAttribute =>
         DomAttributes["src"];
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>alt</c> DOM property.
     /// </summary>
-    public ValueProvider<string, TOwner> Alt =>
+    public ValueProvider<string?, TOwner> Alt =>
         DomProperties["alt"];
 
     /// <summary>
