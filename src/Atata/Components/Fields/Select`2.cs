@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the select control (<c>&lt;select&gt;</c>).
@@ -21,7 +23,7 @@ public class Select<TValue, TOwner> : EditableField<TValue, TOwner>
     /// Gets the options' <see cref="ControlList{TItem, TOwner}"/> instance.
     /// </summary>
     [TraceLog]
-    public ControlList<Option<TValue, TOwner>, TOwner> Options { get; private set; }
+    public ControlList<Option<TValue, TOwner>, TOwner> Options { get; private set; } = null!;
 
     /// <summary>
     /// Gets the selected option.
