@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a method that converts a value to string.
@@ -11,5 +13,5 @@ public interface IConvertsValueToString<in TValue>
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>The value converted to string.</returns>
-    string ConvertValueToString(TValue value);
+    string? ConvertValueToString(TValue value);
 }

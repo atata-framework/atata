@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for the field controls.
@@ -11,8 +13,9 @@
 public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue>, IObjectProvider<TValue, TOwner>, IConvertsValueToString<TValue>
     where TOwner : PageObject<TOwner>
 {
-    protected TValue CachedValue { get; private set; }
+    protected TValue? CachedValue { get; private set; }
 
+    [MemberNotNullWhen(true, nameof(CachedValue))]
     protected bool HasCachedValue { get; private set; }
 
     protected bool UsesValueCache =>
@@ -62,7 +65,7 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
         field.Get();
 
     public static bool operator ==(Field<TValue, TOwner> field, TValue value) =>
-        field == null
+        field is null
             ? Equals(value, null)
             : field.Equals(value);
 
@@ -99,7 +102,7 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
         return value;
     }
 
-    string IConvertsValueToString<TValue>.ConvertValueToString(TValue value) =>
+    string? IConvertsValueToString<TValue>.ConvertValueToString(TValue? value) =>
         ConvertValueToString(value);
 
     /// <summary>
@@ -109,7 +112,7 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
     /// </summary>
     /// <param name="value">The value.</param>
     /// <returns>The value converted to string.</returns>
-    protected internal virtual string ConvertValueToString(TValue value) =>
+    protected internal virtual string? ConvertValueToString(TValue? value) =>
         TermResolver.ToString(value, GetValueTermOptions());
 
     /// <summary>
@@ -119,7 +122,7 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
     /// </summary>
     /// <param name="value">The value as string.</param>
     /// <returns>The value converted to <typeparamref name="TValue"/> type.</returns>
-    protected internal virtual TValue ConvertStringToValue(string value) =>
+    protected internal virtual TValue? ConvertStringToValue(string? value) =>
         TermResolver.FromString<TValue>(value, GetValueTermOptions());
 
     /// <summary>
@@ -130,11 +133,11 @@ public abstract class Field<TValue, TOwner> : Control<TOwner>, IEquatable<TValue
     /// </summary>
     /// <param name="value">The value as string.</param>
     /// <returns>The value converted to <typeparamref name="TValue"/> type.</returns>
-    protected virtual TValue ConvertStringToValueUsingGetFormat(string value)
+    protected virtual TValue? ConvertStringToValueUsingGetFormat(string? value)
     {
-        string getFormat = Metadata.Get<ValueGetFormatAttribute>()?.Value;
+        string? getFormat = Metadata.Get<ValueGetFormatAttribute>()?.Value;
 
-        return getFormat != null
+        return getFormat is not null
             ? TermResolver.FromString<TValue>(value, new TermOptions().MergeWith(GetValueTermOptions()).WithFormat(getFormat))
             : ConvertStringToValue(value);
     }
