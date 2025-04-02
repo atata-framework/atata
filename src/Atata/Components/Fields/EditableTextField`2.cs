@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// <para>
@@ -28,7 +30,7 @@ public class EditableTextField<TValue, TOwner> : EditableField<TValue, TOwner>, 
     {
         string valueAsString = ExecuteBehavior<ValueGetBehaviorAttribute, string>(x => x.Execute(this));
 
-        return ConvertStringToValueUsingGetFormat(valueAsString);
+        return ConvertStringToValueUsingGetFormat(valueAsString)!;
     }
 
     /// <summary>
@@ -37,7 +39,8 @@ public class EditableTextField<TValue, TOwner> : EditableField<TValue, TOwner>, 
     /// <param name="value">The value.</param>
     protected override void SetValue(TValue value)
     {
-        string valueAsString = ConvertValueToStringUsingSetFormat(value);
+        string valueAsString = ConvertValueToStringUsingSetFormat(value)
+            ?? string.Empty;
 
         ExecuteBehavior<ValueSetBehaviorAttribute>(x => x.Execute(this, valueAsString));
     }
