@@ -453,7 +453,7 @@ public static class UIComponentResolver
     {
         NameAttribute nameAttribute = GetClassAttributes(type).OfType<NameAttribute>().FirstOrDefault();
 
-        return nameAttribute != null && !string.IsNullOrWhiteSpace(nameAttribute.Value)
+        return nameAttribute?.Value?.Length > 0
             ? nameAttribute.Value
             : ResolvePageObjectNameFromType(type);
     }

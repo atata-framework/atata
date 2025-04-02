@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// <para>
@@ -15,11 +17,11 @@
 /// </summary>
 public class UrlAttribute : MulticastAttribute
 {
-    public UrlAttribute(string value) =>
+    public UrlAttribute(string? value) =>
         Value = value;
 
     /// <summary>
     /// Gets the URL value.
     /// </summary>
-    public string Value { get; }
+    public string? Value { get; }
 }

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Specifies whether to temporarily navigate to page object.
@@ -8,5 +10,5 @@ public class GoTemporarilyAttribute : MulticastAttribute
     public GoTemporarilyAttribute(bool isTemporarily = true) =>
         IsTemporarily = isTemporarily;
 
-    public bool IsTemporarily { get; private set; }
+    public bool IsTemporarily { get; }
 }

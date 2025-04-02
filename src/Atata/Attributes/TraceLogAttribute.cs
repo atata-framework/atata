@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Indicates that component log messages should be written with <see cref="LogLevel.Trace"/>
@@ -6,6 +8,6 @@
 /// Attribute is useful for sub-controls of complex controls to keep informational log
 /// cleaner by tracing sub-control informational log messages.
 /// </summary>
-public class TraceLogAttribute : MulticastAttribute
+public sealed class TraceLogAttribute : MulticastAttribute
 {
 }

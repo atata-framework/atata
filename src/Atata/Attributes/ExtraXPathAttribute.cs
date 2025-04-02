@@ -1,10 +1,12 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class ExtraXPathAttribute : MulticastAttribute
 {
-    protected ExtraXPathAttribute(string xPath)
+    protected ExtraXPathAttribute(string? xPath)
     {
-        if (xPath != null)
+        if (xPath is not null)
         {
             RawXPath = xPath;
             XPath = (xPath[0] is '/' or '[') ? xPath : "/" + xPath;
@@ -14,10 +16,10 @@ public abstract class ExtraXPathAttribute : MulticastAttribute
     /// <summary>
     /// Gets the raw XPath.
     /// </summary>
-    public string RawXPath { get; }
+    public string? RawXPath { get; }
 
     /// <summary>
     /// Gets the XPath prepended with <c>"/"</c>, if it can be applied.
     /// </summary>
-    public string XPath { get; }
+    public string? XPath { get; }
 }

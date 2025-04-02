@@ -1,6 +1,8 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-public class ItemValueXPathAttribute : ExtraXPathAttribute
+namespace Atata;
+
+public sealed class ItemValueXPathAttribute : ExtraXPathAttribute
 {
     public ItemValueXPathAttribute(string xPath)
         : base(xPath)

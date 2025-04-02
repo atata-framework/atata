@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Specifies the data format to use for setting the value to the control.
@@ -9,11 +11,11 @@
 /// </summary>
 public class ValueSetFormatAttribute : MulticastAttribute
 {
-    public ValueSetFormatAttribute(string value) =>
+    public ValueSetFormatAttribute(string? value) =>
         Value = value;
 
     /// <summary>
     /// Gets the format value.
     /// </summary>
-    public string Value { get; }
+    public string? Value { get; }
 }
