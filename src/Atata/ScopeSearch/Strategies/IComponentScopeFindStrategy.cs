@@ -1,7 +1,9 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Represents the strategy of UI component scope element finding.
+/// Defines a strategy of UI component scope element finding.
 /// </summary>
 public interface IComponentScopeFindStrategy
 {
