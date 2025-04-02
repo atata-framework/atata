@@ -63,6 +63,15 @@ public static class TermResolverTests
             MidSentenceUsingTerm
         }
 
+        [TestCase(null)]
+        [TestCase("")]
+        public void ReferenceType_With(string value)
+        {
+            var result = TermResolver.FromString<StrongBox<object>>(value);
+
+            Assert.That(result, Is.Null);
+        }
+
         [TestCase("true", ExpectedResult = true)]
         [TestCase("True", ExpectedResult = true)]
         [TestCase("false", ExpectedResult = false)]

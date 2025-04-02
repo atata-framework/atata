@@ -256,7 +256,6 @@ public static class TermResolver
         return match.CreateXPathCondition(terms, operand);
     }
 
-    [return: NotNullIfNotNull(nameof(value))]
     public static T? FromString<T>(string? value, TermOptions? termOptions = null)
     {
         object? result = FromString(value, typeof(T), termOptions);
@@ -265,7 +264,6 @@ public static class TermResolver
             : (T)result;
     }
 
-    [return: NotNullIfNotNull(nameof(value))]
     public static object? FromString(string? value, Type destinationType, TermOptions? termOptions = null)
     {
         object? result = value is null
