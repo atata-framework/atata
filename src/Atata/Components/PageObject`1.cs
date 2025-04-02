@@ -308,7 +308,7 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
     public TFramePageObject SwitchToFrame<TFramePageObject>(By frameBy, TFramePageObject? framePageObject = null, bool temporarily = false)
         where TFramePageObject : PageObject<TFramePageObject>
     {
-        IWebElement frameElement = Scope.GetWithLogging(Log, frameBy);
+        IWebElement frameElement = Scope.GetWithLogging(Log, frameBy)!;
         return SwitchToFrame(frameElement, framePageObject, temporarily);
     }
 

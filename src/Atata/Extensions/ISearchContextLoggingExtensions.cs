@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of extension methods for <see cref="ISearchContext"/>
@@ -12,12 +14,12 @@ public static class ISearchContextLoggingExtensions
     /// <param name="searchContext">The search context.</param>
     /// <param name="by">The by.</param>
     /// <returns>Found element.</returns>
-    public static IWebElement GetWithLogging(this ISearchContext searchContext, By by) =>
+    public static IWebElement? GetWithLogging(this ISearchContext searchContext, By by) =>
         searchContext.GetWithLogging(
             AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log,
             by);
 
-    internal static IWebElement GetWithLogging(this ISearchContext searchContext, ILogManager log, By by) =>
+    internal static IWebElement? GetWithLogging(this ISearchContext searchContext, ILogManager? log, By by) =>
         log != null
             ? log.ExecuteSection(
                 new ElementFindLogSection(searchContext, by),
@@ -35,7 +37,7 @@ public static class ISearchContextLoggingExtensions
             AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log,
             by);
 
-    internal static ReadOnlyCollection<IWebElement> GetAllWithLogging(this ISearchContext searchContext, ILogManager log, By by) =>
+    internal static ReadOnlyCollection<IWebElement> GetAllWithLogging(this ISearchContext searchContext, ILogManager? log, By by) =>
         log != null
             ? log.ExecuteSection(
                 new ElementFindLogSection(searchContext, by, multiple: true),
