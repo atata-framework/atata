@@ -16,6 +16,6 @@ public class Label<TValue, TOwner> : Content<TValue, TOwner>
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of the <c>for</c> DOM attribute.
     /// </summary>
-    public ValueProvider<string, TOwner> For =>
+    public ValueProvider<string?, TOwner> For =>
         DomAttributes["for"];
 }
