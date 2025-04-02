@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of extension methods for <see cref="IJavaScriptExecutor"/>
@@ -15,20 +17,20 @@ public static class IJavaScriptExecutorLoggingExtensions
     /// <param name="script">The script.</param>
     /// <param name="args">The script arguments.</param>
     /// <returns>The value returned by the script.</returns>
-    public static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args) =>
+    public static object? ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object?[] args) =>
         scriptExecutor.ExecuteScriptWithLogging(
-            AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log,
+            AtataContext.Current?.Sessions.Get<WebDriverSession>().Log,
             script,
             args);
 
-    internal static object ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager log, string script, params object[] args)
+    internal static object? ExecuteScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager? log, string script, params object?[] args)
     {
         scriptExecutor.CheckNotNull(nameof(scriptExecutor));
 
-        object Execute() =>
+        object? Execute() =>
             scriptExecutor.ExecuteScript(script, args);
 
-        if (log != null)
+        if (log is not null)
         {
             string logMessage = $"Execute script {BuildLogMessageForScript(script, args)}";
 
@@ -49,20 +51,20 @@ public static class IJavaScriptExecutorLoggingExtensions
     /// <param name="script">The script.</param>
     /// <param name="args">The script arguments.</param>
     /// <returns>The value returned by the script.</returns>
-    public static object ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object[] args) =>
+    public static object? ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, string script, params object?[] args) =>
         scriptExecutor.ExecuteAsyncScriptWithLogging(
-            AtataContext.Current?.Sessions.Get<WebDriverSession>()?.Log,
+            AtataContext.Current?.Sessions.Get<WebDriverSession>().Log,
             script,
             args);
 
-    internal static object ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager log, string script, params object[] args)
+    internal static object? ExecuteAsyncScriptWithLogging(this IJavaScriptExecutor scriptExecutor, ILogManager? log, string script, params object?[] args)
     {
         scriptExecutor.CheckNotNull(nameof(scriptExecutor));
 
-        object Execute() =>
+        object? Execute() =>
             scriptExecutor.ExecuteAsyncScript(script, args);
 
-        if (log != null)
+        if (log is not null)
         {
             string logMessage = $"Execute async script {BuildLogMessageForScript(script, args)}";
 
@@ -76,7 +78,7 @@ public static class IJavaScriptExecutorLoggingExtensions
         }
     }
 
-    private static string BuildLogMessageForScript(string script, object[] args)
+    private static string BuildLogMessageForScript(string script, object?[] args)
     {
         IEnumerable<string> scriptLines = script
             .Split([Environment.NewLine], StringSplitOptions.RemoveEmptyEntries)
@@ -85,9 +87,12 @@ public static class IJavaScriptExecutorLoggingExtensions
         string scriptTruncated = string.Join(" ", scriptLines)
             .Truncate(ScriptMaxLengthForLog);
 
-        StringBuilder builder = new StringBuilder($@"""{scriptTruncated}""");
+        var builder = new StringBuilder()
+            .Append('"')
+            .Append(scriptTruncated)
+            .Append('"');
 
-        if (args != null && args.Length > 0)
+        if (args?.Length > 0)
             builder.Append($" with argument{(args.Length > 1 ? "s" : null)}: {Stringifier.ToStringInFormOfOneOrMany(args)}");
 
         return builder.ToString();

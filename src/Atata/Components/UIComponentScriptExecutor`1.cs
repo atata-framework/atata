@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the script executor of UI component.
@@ -13,8 +15,11 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
         ComponentPartName = "scripts";
     }
 
-    private static object[] UnwrapScriptArguments(object[] arguments) =>
-        arguments?.Select(arg => arg is UIComponent component ? component.Scope : arg).ToArray();
+    private static object?[] UnwrapScriptArguments(object?[] arguments) =>
+        arguments?
+            .Select(arg => arg is UIComponent component ? component.Scope : arg)
+            .ToArray()
+            ?? [];
 
     /// <summary>
     /// Executes the specified script.
@@ -22,7 +27,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>An instance of the owner page object.</returns>
-    public TOwner Execute(string script, params object[] arguments)
+    public TOwner Execute(string script, params object?[] arguments)
     {
         ExecuteScript(script, arguments);
 
@@ -36,7 +41,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
-    public ValueProvider<TResult, TOwner> Execute<TResult>(string script, params object[] arguments) =>
+    public ValueProvider<TResult, TOwner> Execute<TResult>(string script, params object?[] arguments) =>
         Component.CreateValueProvider(
             "script result",
             () => ConvertResult<TResult>(ExecuteScript(script, arguments)));
@@ -48,9 +53,9 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>An instance of the owner page object.</returns>
-    public TOwner ExecuteAgainst(string script, params object[] arguments)
+    public TOwner ExecuteAgainst(string script, params object?[] arguments)
     {
-        object[] combinedArguments = [Component, .. arguments];
+        object?[] combinedArguments = [Component, .. arguments];
 
         return Execute(script, combinedArguments);
     }
@@ -64,9 +69,9 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
-    public ValueProvider<TResult, TOwner> ExecuteAgainst<TResult>(string script, params object[] arguments)
+    public ValueProvider<TResult, TOwner> ExecuteAgainst<TResult>(string script, params object?[] arguments)
     {
-        object[] combinedArguments = [Component, .. arguments];
+        object?[] combinedArguments = [Component, .. arguments];
 
         return Execute<TResult>(script, combinedArguments);
     }
@@ -77,7 +82,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>An instance of the owner page object.</returns>
-    public TOwner ExecuteAsync(string script, params object[] arguments)
+    public TOwner ExecuteAsync(string script, params object?[] arguments)
     {
         ExecuteAsyncScript(script, arguments);
 
@@ -91,7 +96,7 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
-    public ValueProvider<TResult, TOwner> ExecuteAsync<TResult>(string script, params object[] arguments) =>
+    public ValueProvider<TResult, TOwner> ExecuteAsync<TResult>(string script, params object?[] arguments) =>
         Component.CreateValueProvider(
             "script result",
             () => ConvertResult<TResult>(ExecuteAsyncScript(script, arguments)));
@@ -103,9 +108,9 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>An instance of the owner page object.</returns>
-    public TOwner ExecuteAsyncAgainst(string script, params object[] arguments)
+    public TOwner ExecuteAsyncAgainst(string script, params object?[] arguments)
     {
-        object[] combinedArguments = [Component, .. arguments];
+        object?[] combinedArguments = [Component, .. arguments];
 
         return ExecuteAsync(script, combinedArguments);
     }
@@ -119,25 +124,27 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
     /// <param name="script">The script.</param>
     /// <param name="arguments">The arguments.</param>
     /// <returns>A <see cref="ValueProvider{TValue, TOwner}"/> of the result.</returns>
-    public ValueProvider<TResult, TOwner> ExecuteAsyncAgainst<TResult>(string script, params object[] arguments)
+    public ValueProvider<TResult, TOwner> ExecuteAsyncAgainst<TResult>(string script, params object?[] arguments)
     {
-        object[] combinedArguments = [Component, .. arguments];
+        object?[] combinedArguments = [Component, .. arguments];
 
         return ExecuteAsync<TResult>(script, combinedArguments);
     }
 
-    private object ExecuteScript(string script, object[] arguments)
+    private object? ExecuteScript(string script, object?[] arguments)
     {
-        object[] unwrappedArguments = UnwrapScriptArguments(arguments);
+        object?[] unwrappedArguments = UnwrapScriptArguments(arguments);
+
         return Component.Owner.Driver.AsScriptExecutor().ExecuteScriptWithLogging(
             Component.Session.Log,
             script,
             unwrappedArguments);
     }
 
-    private object ExecuteAsyncScript(string script, object[] arguments)
+    private object? ExecuteAsyncScript(string script, object?[] arguments)
     {
-        object[] unwrappedArguments = UnwrapScriptArguments(arguments);
+        object?[] unwrappedArguments = UnwrapScriptArguments(arguments);
+
         return Component.Owner.Driver.AsScriptExecutor().ExecuteAsyncScriptWithLogging(
             Component.Session.Log,
             script,
@@ -379,6 +386,6 @@ public class UIComponentScriptExecutor<TOwner> : UIComponentPart<TOwner>
             """,
             rootSelector);
 
-    private static TResult ConvertResult<TResult>(object result) =>
-        AtataContext.GlobalProperties.ObjectConverter.Convert<TResult>(result);
+    private static TResult ConvertResult<TResult>(object? result) =>
+        AtataContext.GlobalProperties.ObjectConverter.Convert<TResult>(result)!;
 }
