@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of extension methods for <see cref="IWebElement"/>
@@ -13,9 +15,9 @@ public static class IWebElementLoggingExtensions
     public static void ClearWithLogging(this IWebElement element) =>
         element.ClearWithLogging(AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log);
 
-    internal static void ClearWithLogging(this IWebElement element, ILogManager log)
+    internal static void ClearWithLogging(this IWebElement element, ILogManager? log)
     {
-        if (log != null)
+        if (log is not null)
         {
             log.ExecuteSection(
                 new ElementClearLogSection(element),
@@ -34,9 +36,9 @@ public static class IWebElementLoggingExtensions
     public static void ClickWithLogging(this IWebElement element) =>
         element.ClickWithLogging(AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log);
 
-    internal static void ClickWithLogging(this IWebElement element, ILogManager log)
+    internal static void ClickWithLogging(this IWebElement element, ILogManager? log)
     {
-        if (log != null)
+        if (log is not null)
         {
             log.ExecuteSection(
                 new ElementClickLogSection(element),
@@ -56,9 +58,9 @@ public static class IWebElementLoggingExtensions
     public static void SendKeysWithLogging(this IWebElement element, string text) =>
         element.SendKeysWithLogging(AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log, text);
 
-    internal static void SendKeysWithLogging(this IWebElement element, ILogManager log, string text)
+    internal static void SendKeysWithLogging(this IWebElement element, ILogManager? log, string text)
     {
-        if (log != null)
+        if (log is not null)
         {
             log.ExecuteSection(
                 new ElementSendKeysLogSection(element, text),
