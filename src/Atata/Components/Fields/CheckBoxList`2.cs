@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the checkbox list control (a set of <c>&lt;input type="checkbox"&gt;</c>).
@@ -55,7 +57,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
 
         return selectedValues.Length > 0
             ? JoinValues(selectedValues)
-            : default;
+            : default!;
     }
 
     private static TValue JoinValues(TValue[] values) =>
@@ -139,7 +141,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
     }
 
     protected internal IEnumerable<TValue> GetIndividualValues(TValue value) =>
-        ((Enum)(object)value).GetIndividualFlags().Cast<TValue>();
+        ((Enum)(object)value!).GetIndividualFlags().Cast<TValue>();
 
     protected internal override string ConvertValueToString(TValue value)
     {
@@ -149,9 +151,9 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
 
     protected internal string ConvertIndividualValuesToString(IEnumerable<TValue> values, bool wrapWithDoubleQuotes)
     {
-        string[] stringValues = values?.Select(x => TermResolver.ToString(x, GetValueTermOptions())).ToArray();
+        string[]? stringValues = values?.Select(x => TermResolver.ToString(x, GetValueTermOptions())!)?.ToArray();
 
-        if (stringValues == null || stringValues.Length == 0)
+        if (stringValues is null or [])
             return "<none>";
         else if (wrapWithDoubleQuotes)
             return stringValues.ToQuotedValuesListOfString(doubleQuotes: true);

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the radio button list control (a set of <c>&lt;input type="radio"&gt;</c>).
@@ -21,18 +23,18 @@ public class RadioButtonList<TValue, TOwner> : OptionList<TValue, TOwner>
 {
     protected override TValue GetValue()
     {
-        IWebElement selectedItem = GetItemElements().FirstOrDefault(x => x.Selected);
+        IWebElement? selectedItem = GetItemElements().FirstOrDefault(x => x.Selected);
 
-        return selectedItem != null
+        return selectedItem is not null
             ? GetElementValue(selectedItem)
-            : default;
+            : default!;
     }
 
     protected override void SetValue(TValue value)
     {
         value.CheckNotNull(nameof(value), $"Cannot set \"null\" value to {nameof(RadioButtonList<TValue, TOwner>)} control.");
 
-        IWebElement element = GetItemElement(value);
+        IWebElement element = GetItemElement(value!);
         if (!element.Selected)
             element.ClickWithLogging(Log);
     }

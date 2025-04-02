@@ -273,7 +273,7 @@ public static class IUIComponentVerificationProviderExtensions
                 if (!doesSatisfy)
                 {
                     string? actualMessage = exception is null
-                        ? verifier.Component.ConvertIndividualValuesToString(actualIndividualValues, true)
+                        ? verifier.Component.ConvertIndividualValuesToString(actualIndividualValues ?? [], true)
                         : null;
 
                     string failureMessage = VerificationUtils.BuildFailureMessage(verifier, expectedMessage, actualMessage);

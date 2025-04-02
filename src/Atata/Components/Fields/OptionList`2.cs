@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
     where TOwner : PageObject<TOwner>
@@ -9,7 +11,7 @@ public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
     protected IItemElementFindStrategy ItemElementFindStrategy =>
         FindItemAttribute.CreateStrategy(this, Metadata);
 
-    protected IWebElement GetItemElement(object parameter, bool isSafely = false, string xPathCondition = null)
+    protected IWebElement GetItemElement(object parameter, bool isSafely = false, string? xPathCondition = null)
     {
         ExecuteTriggers(TriggerEvents.BeforeAccess);
 
@@ -28,7 +30,7 @@ public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
         IWebElement[] elements = ScopeLocator.GetElements();
 
         // TODO: Review to throw more detailed exception.
-        if (elements.Length == 0)
+        if (elements is [])
             throw ElementExceptionFactory.CreateForNotFound(ComponentFullName);
 
         return elements;
