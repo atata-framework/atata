@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// <para>
@@ -17,7 +19,7 @@
 public abstract class PopupWindow<TOwner> : PageObject<TOwner>
     where TOwner : PopupWindow<TOwner>
 {
-    private string[] _windowTitleValues;
+    private string[] _windowTitleValues = [];
 
     private TermMatch _windowTitleMatch = TermMatch.Equals;
 
@@ -69,7 +71,7 @@ public abstract class PopupWindow<TOwner> : PageObject<TOwner>
 
         StringBuilder xPathBuilder = new StringBuilder($".//{scopeXPath}");
 
-        string titleElementXPath = Metadata.Get<WindowTitleElementDefinitionAttribute>()?.ScopeXPath;
+        string? titleElementXPath = Metadata.Get<WindowTitleElementDefinitionAttribute>()?.ScopeXPath;
 
         if (CanFindByWindowTitle && !string.IsNullOrWhiteSpace(titleElementXPath))
         {
