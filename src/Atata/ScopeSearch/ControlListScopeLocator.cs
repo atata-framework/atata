@@ -4,27 +4,27 @@ namespace Atata;
 
 public class ControlListScopeLocator : IScopeLocator
 {
-    private readonly WebDriverSession _session;
-
     private readonly Func<SearchOptions, IEnumerable<IWebElement>> _predicate;
 
-    public ControlListScopeLocator(WebDriverSession session, Func<SearchOptions, IEnumerable<IWebElement>> predicate)
-    {
-        _session = session;
+    public ControlListScopeLocator(Func<SearchOptions, IEnumerable<IWebElement>> predicate) =>
         _predicate = predicate;
-    }
 
     public string? ElementName { get; set; }
 
     public IWebElement? GetElement(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
-        searchOptions ??= new SearchOptions();
+        searchOptions ??= new();
 
-        IWebElement element = _session.Driver
-            .Try(searchOptions.Timeout, searchOptions.RetryInterval)
-            .Until(_ => _predicate(searchOptions).FirstOrDefault());
+        RetryWait wait = new(searchOptions.Timeout, searchOptions.RetryInterval);
+        IWebElement? element = null;
 
-        if (element == null && !searchOptions.IsSafely)
+        wait.Until(() =>
+        {
+            element = _predicate(searchOptions).FirstOrDefault();
+            return element is not null;
+        });
+
+        if (element is null && !searchOptions.IsSafely)
         {
             throw ElementExceptionFactory.CreateForNotFound(
                 new SearchFailureData
@@ -43,18 +43,25 @@ public class ControlListScopeLocator : IScopeLocator
     {
         searchOptions ??= new();
 
-        return _session.Driver
-            .Try(searchOptions.Timeout, searchOptions.RetryInterval)
-            .Until(_ => _predicate(searchOptions).ToArray());
+        RetryWait wait = new(searchOptions.Timeout, searchOptions.RetryInterval);
+        IWebElement[]? elements = null;
+
+        wait.Until(() =>
+        {
+            elements = _predicate(searchOptions)?.ToArray();
+            return elements?.Length > 0;
+        });
+
+        return elements ?? [];
     }
 
     public bool IsMissing(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
         searchOptions ??= new();
 
-        bool isMissing = _session.Driver
-            .Try(searchOptions.Timeout, searchOptions.RetryInterval)
-            .Until(_ => !_predicate(searchOptions).Any());
+        RetryWait wait = new(searchOptions.Timeout, searchOptions.RetryInterval);
+
+        bool isMissing = wait.Until(() => !_predicate(searchOptions).Any());
 
         if (!isMissing && !searchOptions.IsSafely)
         {

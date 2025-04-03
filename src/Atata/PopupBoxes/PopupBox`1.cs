@@ -33,21 +33,25 @@ public abstract class PopupBox<TPopupBox, TOwner>
             new LogSection($"Wait for {KindName}", LogLevel.Trace),
             () =>
             {
-                Alert = Owner.Driver
-                    .Try(
-                        waitTimeout ?? Owner.Session.WaitingTimeout,
-                        waitRetryInterval ?? Owner.Session.WaitingRetryInterval)
-                    .Until(driver =>
+                RetryWait wait = new(waitTimeout ?? Owner.Session.WaitingTimeout, waitRetryInterval ?? Owner.Session.WaitingRetryInterval);
+                IAlert alert = null;
+
+                wait.Until(
+                    driver =>
                     {
                         try
                         {
-                            return driver.SwitchTo().Alert();
+                            alert = driver.SwitchTo().Alert();
+                            return true;
                         }
                         catch (NoAlertPresentException)
                         {
-                            return null;
+                            return false;
                         }
-                    })
+                    },
+                    Owner.Driver);
+
+                Alert = alert
                     ?? throw new TimeoutException($"Timed out waiting for {KindName}.");
             });
 

@@ -256,7 +256,6 @@ return textValues;";
         var predicate = predicateExpression.Compile();
 
         ControlListScopeLocator scopeLocator = new(
-            Component.Session,
             searchOptions => GetItemElements(searchOptions)
                 .Where((element, index) => predicate(GetOrCreateItemByElement(element, (index + 1).Ordinalize()))));
 
@@ -542,7 +541,7 @@ return textValues;";
         {
             TItem control = CreateItem(GetItemDeclaredAttributes());
 
-            return control.ScopeLocator.GetElements(searchOptions, extraXPath).ToReadOnly();
+            return new(control.ScopeLocator.GetElements(searchOptions, extraXPath));
         }
 
         return UsesScopeCache

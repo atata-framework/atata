@@ -451,9 +451,10 @@ public abstract class PageObject<TOwner> : UIComponent<TOwner>, IPageObject<TOwn
             new LogSection(actionMessage),
             () =>
             {
-                bool isOk = Driver
-                    .Try(timeoutTime, retryIntervalTime)
-                    .Until(_ =>
+                RetryWait wait = new(timeoutTime, retryIntervalTime);
+
+                bool isOk = wait
+                    .Until(() =>
                     {
                         activePageObject = activePageObject.RefreshPage();
                         return predicate(activePageObject);

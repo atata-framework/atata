@@ -80,7 +80,9 @@ public class StrategyScopeLocator : IScopeLocator
         StrategyScopeLocatorExecutionData executionData = _executionDataCollector.Get(quickSearchOptions);
         var driver = executionData.Component.Session.Driver;
 
-        bool isMissing = driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
+        RetryWait wait = new(searchOptions.Timeout, searchOptions.RetryInterval);
+
+        bool isMissing = wait.Until(() =>
         {
             XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
 
