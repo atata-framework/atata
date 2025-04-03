@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public abstract class TermItemElementFindStrategy : IItemElementFindStrategy
 {
@@ -11,7 +13,7 @@ public abstract class TermItemElementFindStrategy : IItemElementFindStrategy
     public T GetParameter<T>(IWebElement element, TermOptions termOptions)
     {
         string value = GetParameterAsString(element);
-        return TermResolver.FromString<T>(value, termOptions);
+        return TermResolver.FromString<T>(value, termOptions)!;
     }
 
     protected abstract string GetParameterAsString(IWebElement element);

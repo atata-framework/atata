@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class FindItemByLabelStrategy : TermItemElementFindStrategy
 {
@@ -11,17 +13,17 @@ public class FindItemByLabelStrategy : TermItemElementFindStrategy
     {
         ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
-        IWebElement label = scopeContext.GetWithLogging(
+        IWebElement? label = scopeContext.GetWithLogging(
             _component.Log,
             By.XPath($".//label[{TermResolver.CreateXPathCondition(parameter, termOptions)}]")
                 .SafelyAtOnce()
                 .Label(TermResolver.ToDisplayString(parameter)));
 
-        if (label != null)
+        if (label is not null)
         {
-            string elementId = label.GetAttribute("for");
+            string? elementId = label.GetAttribute("for");
 
-            if (!string.IsNullOrEmpty(elementId))
+            if (elementId?.Length > 0)
                 return $"[@id='{elementId}']";
         }
 
@@ -30,23 +32,23 @@ public class FindItemByLabelStrategy : TermItemElementFindStrategy
 
     protected override string GetParameterAsString(IWebElement element)
     {
-        string elementId = element.GetAttribute("id");
+        string? elementId = element.GetAttribute("id");
 
-        if (!string.IsNullOrEmpty(elementId))
+        if (elementId?.Length > 0)
         {
             ISearchContext scopeContext = _component.ScopeSource.GetScopeContext(_component, SearchOptions.SafelyAtOnce());
 
-            IWebElement label = scopeContext.GetWithLogging(
+            IWebElement? label = scopeContext.GetWithLogging(
                 _component.Log,
                 By.XPath($".//label[@for='{elementId}']").SafelyAtOnce());
 
-            if (label != null)
+            if (label is not null)
                 return label.Text;
         }
 
         return element.GetWithLogging(
             _component.Log,
-            By.XPath("ancestor::label").AtOnce())
+            By.XPath("ancestor::label").AtOnce())!
             .Text;
     }
 }

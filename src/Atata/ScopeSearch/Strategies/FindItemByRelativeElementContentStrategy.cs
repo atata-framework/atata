@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents an item find strategy that finds the item by relative element content using its XPath.
@@ -19,5 +21,5 @@ public class FindItemByRelativeElementContentStrategy : TermItemElementFindStrat
         $"[{RelativeElementXPath}[{TermResolver.CreateXPathCondition(parameter, termOptions)}]]";
 
     protected override string GetParameterAsString(IWebElement element) =>
-        element.GetWithLogging(_component.Log, By.XPath(RelativeElementXPath).AtOnce()).Text;
+        element.GetWithLogging(_component.Log, By.XPath(RelativeElementXPath).AtOnce())!.Text;
 }
