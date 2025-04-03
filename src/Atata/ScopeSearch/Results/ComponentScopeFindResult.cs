@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the result of UI component scope element finding.
@@ -8,5 +10,5 @@ public abstract class ComponentScopeFindResult
     /// <summary>
     /// Gets the missing result.
     /// </summary>
-    public static MissingComponentScopeFindResult Missing { get; } = new MissingComponentScopeFindResult();
+    public static MissingComponentScopeFindResult Missing { get; } = new();
 }

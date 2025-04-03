@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
 {
@@ -10,6 +12,11 @@ public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
         SearchOptions searchOptions,
         UIComponent component)
     {
+        xPath.CheckNotNullOrEmpty(nameof(xPath));
+        scopeSource.CheckNotNull(nameof(scopeSource));
+        searchOptions.CheckNotNull(nameof(searchOptions));
+        component.CheckNotNull(nameof(component));
+
         XPath = xPath;
         ScopeSource = scopeSource;
         SearchOptions = searchOptions;
@@ -22,24 +29,33 @@ public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
 
     public SearchOptions SearchOptions { get; internal set; }
 
-    public IWebElement Get(string xPathCondition = null) =>
-        ScopeSource.GetWithLogging(_log, CreateBy(xPathCondition));
+    public IWebElement Get(string? xPathCondition = null) =>
+        ScopeSource.GetWithLogging(_log, CreateBy(xPathCondition))!;
 
-    public ReadOnlyCollection<IWebElement> GetAll(string xPathCondition = null) =>
+    public ReadOnlyCollection<IWebElement> GetAll(string? xPathCondition = null) =>
         ScopeSource.GetAllWithLogging(_log, CreateBy(xPathCondition));
 
-    public By CreateBy(string xPathCondition)
+    public By CreateBy(string? xPathCondition)
     {
-        StringBuilder xPathBuilder = new StringBuilder(XPath);
+        string combinedXPath = CombineXPathWithCodition(xPathCondition);
+        return By.XPath(combinedXPath).With(SearchOptions);
+    }
 
-        if (!string.IsNullOrWhiteSpace(xPathCondition))
+    private string CombineXPathWithCodition(string? xPathCondition)
+    {
+        if (xPathCondition?.Length > 0)
         {
+            StringBuilder xPathBuilder = new(XPath, XPath.Length + xPathCondition.Length + 1);
+
             if (xPathCondition[0] is not '[' and not '/')
                 xPathBuilder.Append('/');
 
             xPathBuilder.Append(xPathCondition);
+            return xPathBuilder.ToString();
         }
-
-        return By.XPath(xPathBuilder.ToString()).With(SearchOptions);
+        else
+        {
+            return XPath;
+        }
     }
 }

@@ -79,7 +79,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
             }
             else
             {
-                IEnumerable<ISearchContext> nextScopeSources = subsequentResult.ScopeSourceBy != null
+                IEnumerable<ISearchContext> nextScopeSources = subsequentResult.ScopeSourceBy is not null
                     ? scopeSource.GetAllWithLogging(
                         scopeLocateOptions.Component.Log,
                         subsequentResult.ScopeSourceBy.With(searchOptions))
