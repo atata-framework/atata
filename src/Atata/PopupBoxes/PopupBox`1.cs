@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the base class for popup boxes.
@@ -17,13 +19,13 @@ public abstract class PopupBox<TPopupBox, TOwner>
     /// </summary>
     public ValueProvider<string, TPopupBox> Text => new(
         (TPopupBox)this,
-        new LazyObjectSource<string>(() => Alert.Text),
+        new LazyObjectSource<string>(() => Alert.Text ?? string.Empty),
         $"{KindName} text",
         Owner.Session.ExecutionUnit);
 
     private protected TOwner Owner { get; }
 
-    private protected IAlert Alert { get; private set; }
+    private protected IAlert Alert { get; private set; } = null!;
 
     private protected abstract string KindName { get; }
 
@@ -34,7 +36,7 @@ public abstract class PopupBox<TPopupBox, TOwner>
             () =>
             {
                 RetryWait wait = new(waitTimeout ?? Owner.Session.WaitingTimeout, waitRetryInterval ?? Owner.Session.WaitingRetryInterval);
-                IAlert alert = null;
+                IAlert? alert = null;
 
                 wait.Until(
                     driver =>
