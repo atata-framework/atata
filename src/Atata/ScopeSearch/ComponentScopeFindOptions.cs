@@ -1,50 +1,54 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
-/// Represents the options of UI component scope element finding.
+/// Represents options of UI component scope element finding.
 /// </summary>
-public class ComponentScopeFindOptions : ICloneable
+public sealed class ComponentScopeFindOptions : ICloneable
 {
-    public UIComponent Component { get; private set; }
+    public ComponentScopeFindOptions(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
+    {
+        component.CheckNotNull(nameof(component));
+        metadata.CheckNotNull(nameof(metadata));
+        findAttribute.CheckNotNull(nameof(findAttribute));
 
-    public UIComponentMetadata Metadata { get; private set; }
+        ControlDefinitionAttribute? definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
 
-    public string ElementXPath { get; private set; }
+        int index = findAttribute.ResolveIndex(metadata);
+
+        Component = component;
+        Metadata = metadata;
+        ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath;
+        Index = index >= 0 ? index : null;
+        OuterXPath = findAttribute.ResolveOuterXPath(metadata);
+
+        Terms = findAttribute is ITermFindAttribute termFindAttribute
+            ? termFindAttribute.GetTerms(metadata)
+            : [];
+
+        if (findAttribute is ITermMatchFindAttribute termMatchFindAttribute)
+            Match = termMatchFindAttribute.GetTermMatch(metadata);
+    }
+
+    public UIComponent Component { get; }
+
+    public UIComponentMetadata Metadata { get; }
+
+    public string ElementXPath { get; }
 
     public string[] Terms { get; set; }
 
-    public string OuterXPath { get; set; }
+    public string? OuterXPath { get; set; }
 
     public int? Index { get; set; }
 
     public TermMatch Match { get; set; }
 
-    public static ComponentScopeFindOptions Create(UIComponent component, UIComponentMetadata metadata, FindAttribute findAttribute)
-    {
-        ControlDefinitionAttribute definition = metadata.ComponentDefinitionAttribute as ControlDefinitionAttribute;
-
-        int index = findAttribute.ResolveIndex(metadata);
-
-        ComponentScopeFindOptions options = new ComponentScopeFindOptions
-        {
-            Component = component,
-            Metadata = metadata,
-            ElementXPath = definition?.ScopeXPath ?? ScopeDefinitionAttribute.DefaultScopeXPath,
-            Index = index >= 0 ? (int?)index : null,
-            OuterXPath = findAttribute.ResolveOuterXPath(metadata)
-        };
-
-        if (findAttribute is ITermFindAttribute termFindAttribute)
-            options.Terms = termFindAttribute.GetTerms(metadata);
-
-        if (findAttribute is ITermMatchFindAttribute termMatchFindAttribute)
-            options.Match = termMatchFindAttribute.GetTermMatch(metadata);
-
-        return options;
-    }
-
-    public string GetTermsAsString() =>
-        Terms != null ? string.Join("/", Terms) : null;
+    public string? GetTermsAsString() =>
+        Terms.Length > 0
+            ? string.Join("/", Terms)
+            : null;
 
     /// <inheritdoc cref="Clone"/>
     object ICloneable.Clone() =>

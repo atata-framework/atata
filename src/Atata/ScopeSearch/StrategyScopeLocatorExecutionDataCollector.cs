@@ -9,7 +9,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
 
     public StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions)
     {
-        searchOptions ??= new SearchOptions();
+        searchOptions ??= new();
 
         FindAttribute[] layerFindAttributes = [.. _component.Metadata.ResolveLayerFindAttributes()];
 
@@ -58,7 +58,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
         if (!desiredSearchOptions.IsRetryIntervalSet)
             searchOptions.RetryInterval = TimeSpan.FromSeconds(findAttribute.ResolveRetryInterval(_component.Metadata));
 
-        ComponentScopeFindOptions scopeFindOptions = ComponentScopeFindOptions.Create(_component, _component.Metadata, findAttribute);
+        ComponentScopeFindOptions scopeFindOptions = new(_component, _component.Metadata, findAttribute);
 
         return new StrategyScopeLocatorExecutionUnit(strategy, scopeFindOptions, searchOptions);
     }
@@ -86,7 +86,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
     {
         IComponentScopeFindStrategy strategy = findAttribute.CreateStrategy(metadata);
 
-        SearchOptions searchOptions = new SearchOptions
+        SearchOptions searchOptions = new()
         {
             IsSafely = desiredSearchOptions.IsSafely,
             Visibility = findAttribute.Visibility,
@@ -94,7 +94,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
             RetryInterval = TimeSpan.FromSeconds(findAttribute.RetryInterval)
         };
 
-        ComponentScopeFindOptions scopeFindOptions = ComponentScopeFindOptions.Create(_component, metadata, findAttribute);
+        ComponentScopeFindOptions scopeFindOptions = new(_component, metadata, findAttribute);
         ILayerScopeContextResolver scopeContextResolver = LayerScopeContextResolverFactory.Create(findAttribute.As);
 
         return new StrategyScopeLocatorLayerExecutionUnit(strategy, scopeFindOptions, searchOptions, scopeContextResolver);
