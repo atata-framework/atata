@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the frame control (<c>&lt;iframe&gt;</c> or <c>&lt;frame&gt;</c>).
@@ -18,7 +20,7 @@ public class Frame<TOwner> : Control<TOwner>
     /// If set to <see langword="true"/> navigates temporarily preserving current page object state.
     /// If is not set, checks <see cref="GoTemporarilyAttribute"/>.</param>
     /// <returns>The instance of the frame page object.</returns>
-    public virtual TFramePageObject SwitchTo<TFramePageObject>(TFramePageObject framePageObject = null, bool? temporarily = null)
+    public virtual TFramePageObject SwitchTo<TFramePageObject>(TFramePageObject? framePageObject = null, bool? temporarily = null)
         where TFramePageObject : PageObject<TFramePageObject>
     {
         bool isTemporarily = temporarily
@@ -48,6 +50,6 @@ public class Frame<TOwner> : Control<TOwner>
 
         action(framePageObject);
 
-        return ((IPageObject)Session.PageObject).SwitchToRoot(Owner);
+        return ((IPageObject)Session.PageObject!).SwitchToRoot(Owner);
     }
 }
