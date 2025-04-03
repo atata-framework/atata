@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class FindByLabelStrategy : IComponentScopeFindStrategy
 {
@@ -22,16 +24,16 @@ public class FindByLabelStrategy : IComponentScopeFindStrategy
         string labelXPath = new ComponentScopeXPathBuilder(options)
             .WrapWithIndex(x => x.OuterXPath._("label")[y => y.TermsConditionOfContent]);
 
-        IWebElement label = scope.GetWithLogging(
+        IWebElement? label = scope.GetWithLogging(
             options.Component.Log,
             By.XPath(labelXPath).With(searchOptions).Label(options.GetTermsAsString()));
 
-        if (label == null)
+        if (label is null)
             return ComponentScopeFindResult.Missing;
 
-        string elementId = label.GetAttribute("for");
+        string? elementId = label.GetAttribute("for");
 
-        if (string.IsNullOrEmpty(elementId))
+        if (elementId is null or [])
         {
             return new SubsequentComponentScopeFindResult(label, new FindFirstDescendantStrategy());
         }

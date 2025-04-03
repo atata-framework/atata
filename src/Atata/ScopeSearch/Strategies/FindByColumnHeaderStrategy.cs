@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a strategy that finds a control in a cell that corresponds the column searched by the column header text.
@@ -38,7 +40,7 @@ public class FindByColumnHeaderStrategy : IComponentScopeFindStrategy
     {
         int? columnIndex = GetColumnIndex(scope, options, searchOptions);
 
-        if (columnIndex == null)
+        if (columnIndex is null)
         {
             if (searchOptions.IsSafely)
             {

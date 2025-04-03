@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class FindByCssStrategy : IComponentScopeFindStrategy
 {
@@ -8,7 +10,7 @@ public class FindByCssStrategy : IComponentScopeFindStrategy
     {
         By by = By.CssSelector(string.Join(",", options.Terms));
 
-        if (options.OuterXPath != null)
+        if (options.OuterXPath is not null)
             by = By.XPath(options.OuterXPath + "*").Then(by);
 
         if (options.Index.HasValue)

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class FindByScriptStrategy : IComponentScopeFindStrategy
 {
@@ -14,7 +16,7 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
 
     public ComponentScopeFindResult Find(ISearchContext scope, ComponentScopeFindOptions options, SearchOptions searchOptions)
     {
-        object scriptResult = ExecuteScript(scope, options.Component.Session);
+        object? scriptResult = ExecuteScript(scope, options.Component.Session);
 
         if (scriptResult is ReadOnlyCollection<IWebElement> elements)
         {
@@ -24,7 +26,7 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
         {
             return new SubsequentComponentScopeFindResult(element, s_sequalStrategy);
         }
-        else if (scriptResult != null)
+        else if (scriptResult is not null)
         {
             throw new InvalidOperationException($"Invalid script result. The script should return an element or collection of elements. But was returned: {scriptResult}");
         }
@@ -44,7 +46,7 @@ public class FindByScriptStrategy : IComponentScopeFindStrategy
         }
     }
 
-    private object ExecuteScript(ISearchContext scope, WebDriverSession session)
+    private object? ExecuteScript(ISearchContext scope, WebDriverSession session)
     {
         IJavaScriptExecutor scriptExecutor = session.Driver.AsScriptExecutor();
 

@@ -1,7 +1,11 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class FindByClassStrategy : XPathComponentScopeFindStrategy
 {
+    private const string ClassConditionFormat = "contains(concat(' ', normalize-space(@class), ' '), ' {0} ')";
+
     protected override string Build(ComponentScopeXPathBuilder builder, ComponentScopeFindOptions options)
     {
         string classCondition = GetClassCondition(options);
@@ -13,12 +17,10 @@ public class FindByClassStrategy : XPathComponentScopeFindStrategy
 
     private static string GetClassCondition(ComponentScopeFindOptions options)
     {
-        string conditionFormat = "contains(concat(' ', normalize-space(@class), ' '), ' {0} ')";
-
         var conditionOrParts = options.Terms
             .Select(t => t.Split(' ').Where(qp => !string.IsNullOrWhiteSpace(qp)).ToArray())
             .Where(qps => qps.Length > 0)
-            .Select(qps => string.Join(" and ", qps.Select(qp => conditionFormat.FormatWith(qp))))
+            .Select(qps => string.Join(" and ", qps.Select(qp => ClassConditionFormat.FormatWith(qp))))
             .ToArray();
 
         return conditionOrParts.Length == 1

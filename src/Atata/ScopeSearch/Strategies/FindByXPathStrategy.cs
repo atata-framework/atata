@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class FindByXPathStrategy : XPathComponentScopeFindStrategy
 {
@@ -53,8 +55,8 @@ public class FindByXPathStrategy : XPathComponentScopeFindStrategy
             ? builder.WrapWithIndex(x => x._($"({string.Join(" | ", completeXPathSelectors)})")).DescendantOrSelf.ComponentXPath
             : null;
 
-        return conditionalXPath != null && completeXPath != null
+        return conditionalXPath is not null && completeXPath is not null
             ? $"(({completeXPath}) | ({conditionalXPath}))"
-            : completeXPath ?? conditionalXPath;
+            : completeXPath ?? conditionalXPath!;
     }
 }
