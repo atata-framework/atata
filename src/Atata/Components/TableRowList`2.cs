@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the list of <c>&lt;tr&gt;</c> table row components.
@@ -32,12 +34,11 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
 
     protected static string BuildItemNameByCellValues(string[] values)
     {
-        if (values is null || values.Length == 0)
-            return null;
-        else if (values.Length == 1)
-            return $"\"{values[0]}\"";
-        else
-            return values.ToQuotedValuesListOfString(true);
+        values.CheckNotNullOrEmpty(nameof(values));
+
+        return values.Length == 1
+            ? $"\"{values[0]}\""
+            : values.ToQuotedValuesListOfString(doubleQuotes: true);
     }
 
     protected static string CreateItemInnerXPathByCellValues(params string[] values) =>
