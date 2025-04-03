@@ -7,21 +7,13 @@ public sealed class XPathComponentScopeFindResult : ComponentScopeFindResult
     public XPathComponentScopeFindResult(
         string xPath,
         ISearchContext scopeSource,
-        SearchOptions searchOptions)
-        : this(xPath, scopeSource, searchOptions, null)
-    {
-    }
-
-    public XPathComponentScopeFindResult(
-        string xPath,
-        ISearchContext scopeSource,
         SearchOptions searchOptions,
         UIComponent component)
     {
         XPath = xPath;
         ScopeSource = scopeSource;
         SearchOptions = searchOptions;
-        _log = component?.Log ?? AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>()?.Log;
+        _log = component.Log;
     }
 
     public string XPath { get; }
