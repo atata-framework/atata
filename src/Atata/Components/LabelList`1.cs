@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the list of <see cref="Label{TOwner}"/> controls.
@@ -16,7 +18,11 @@ public class LabelList<TOwner> : AssociatedControlList<Label<TOwner>, TOwner>
     /// <returns>The <see cref="Label{TOwner}"/> control.</returns>
     protected override Label<TOwner> CreateAssociatedControl(Control<TOwner> control)
     {
-        string id = control.DomProperties.Id;
+        string? id = control.DomProperties.Id;
+
+        if (id is null or [])
+            throw new InvalidOperationException($"The control element does not have an \"id\" attribute. Control: {control}");
+
         return Component.Find<Label<TOwner>>(control.ComponentName, new FindByAttributeAttribute("for", id));
     }
 }
