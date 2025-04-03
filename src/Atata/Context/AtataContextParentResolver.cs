@@ -1,8 +1,10 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal static class AtataContextParentResolver
 {
-    internal static AtataContext FindParentContext(AtataContext rootContext, AtataContextScope scope, TestInfo testInfo)
+    internal static AtataContext? FindParentContext(AtataContext rootContext, AtataContextScope scope, TestInfo testInfo)
     {
         if (scope == AtataContextScope.Global)
             return null;
@@ -65,7 +67,7 @@ internal static class AtataContextParentResolver
         return null;
     }
 
-    private static AtataContext FindNamespaceContext(AtataContext parentContext, TestInfo testInfo)
+    private static AtataContext? FindNamespaceContext(AtataContext parentContext, TestInfo testInfo)
     {
         if (parentContext.Scope is null or < AtataContextScope.Namespace)
             return null;
@@ -73,7 +75,7 @@ internal static class AtataContextParentResolver
         if (testInfo.Namespace == parentContext.Test.Namespace)
             return parentContext;
 
-        if (!(parentContext.Test.Namespace is null && parentContext.ParentContext is null) && !testInfo.BelongsToNamespace(parentContext.Test.Namespace))
+        if (!(parentContext.Test.Namespace is null && parentContext.ParentContext is null) && !testInfo.BelongsToNamespace(parentContext.Test.Namespace!))
             return null;
 
         foreach (var childContext in parentContext.ChildContexts)
@@ -87,7 +89,7 @@ internal static class AtataContextParentResolver
         return parentContext;
     }
 
-    private static AtataContext FindTestSuiteGroupContext(AtataContext parentContext, TestInfo testInfo)
+    private static AtataContext? FindTestSuiteGroupContext(AtataContext parentContext, TestInfo testInfo)
     {
         foreach (var childContext in parentContext.ChildContexts)
         {
@@ -110,7 +112,7 @@ internal static class AtataContextParentResolver
         return null;
     }
 
-    private static AtataContext FindTestSuiteContext(AtataContext parentContext, TestInfo testInfo)
+    private static AtataContext? FindTestSuiteContext(AtataContext parentContext, TestInfo testInfo)
     {
         foreach (var childContext in parentContext.ChildContexts)
         {
