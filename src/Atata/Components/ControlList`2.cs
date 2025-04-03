@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the list of controls of <typeparamref name="TItem"/> type.
@@ -37,11 +39,11 @@ return textValues;";
 
     private readonly Dictionary<string, TItem> _cachedNamedItemsMap = [];
 
-    private readonly Dictionary<(Visibility Visibility, string ExtraXPath), ReadOnlyCollection<IWebElement>> _cachedAllElementsMap = [];
+    private readonly Dictionary<(Visibility Visibility, string? ExtraXPath), ReadOnlyCollection<IWebElement>> _cachedAllElementsMap = [];
 
     private readonly Dictionary<IWebElement, TItem> _cachedElementItemsMap = [];
 
-    private string _itemComponentTypeName;
+    private string? _itemComponentTypeName;
 
     protected string ItemComponentTypeName =>
         _itemComponentTypeName ??= UIComponentResolver.ResolveControlTypeName(Metadata);
@@ -102,7 +104,7 @@ return textValues;";
         set => Metadata = value;
     }
 
-    public UIComponentMetadata Metadata { get; private set; }
+    public UIComponentMetadata Metadata { get; private set; } = null!;
 
     Type ISupportsMetadata.ComponentType => typeof(TItem);
 
@@ -160,7 +162,7 @@ return textValues;";
     /// The XPath condition.
     /// For example: <c>"@some-attr='some value'"</c>.</param>
     /// <returns>The first item that matches the XPath condition.</returns>
-    public TItem GetByXPathCondition(string itemName, string xPathCondition)
+    public TItem GetByXPathCondition(string? itemName, string xPathCondition)
     {
         xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
 
@@ -189,7 +191,7 @@ return textValues;";
     /// The XPath condition.
     /// For example: <c>"@some-attr='some value'"</c>.</param>
     /// <returns>All items that match the XPath condition.</returns>
-    public EnumerableValueProvider<TItem, TOwner> GetAllByXPathCondition(string itemsName, string xPathCondition)
+    public EnumerableValueProvider<TItem, TOwner> GetAllByXPathCondition(string? itemsName, string xPathCondition)
     {
         xPathCondition.CheckNotNullOrEmpty(nameof(xPathCondition));
 
@@ -370,8 +372,8 @@ return textValues;";
     /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
     public ValueProvider<IEnumerable<TData>, TOwner> SelectData<TData>(
         string elementValueJSPath,
-        string valueProviderName = null,
-        TermOptions valueTermOptions = null) =>
+        string? valueProviderName = null,
+        TermOptions? valueTermOptions = null) =>
         SelectDataByExtraXPath<TData>(null, elementValueJSPath, valueProviderName, valueTermOptions);
 
     /// <summary>
@@ -388,10 +390,10 @@ return textValues;";
     /// <param name="valueTermOptions">The term options of value.</param>
     /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
     public ValueProvider<IEnumerable<TData>, TOwner> SelectDataByExtraXPath<TData>(
-        string elementXPath,
+        string? elementXPath,
         string elementValueJSPath,
-        string valueProviderName = null,
-        TermOptions valueTermOptions = null)
+        string? valueProviderName = null,
+        TermOptions? valueTermOptions = null)
     {
         elementValueJSPath.CheckNotNullOrEmpty(nameof(elementValueJSPath));
 
@@ -399,7 +401,7 @@ return textValues;";
         {
             StringBuilder nameBuilder = new StringBuilder();
 
-            if (elementXPath != null)
+            if (elementXPath is not null)
             {
                 nameBuilder.Append($"XPath \"{elementXPath}\" {ElementsText}");
 
@@ -461,8 +463,8 @@ return textValues;";
     /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
     public ValueProvider<IEnumerable<string>, TOwner> SelectContentsByExtraXPath(
         string elementXPath,
-        string valueProviderName = null,
-        TermOptions valueTermOptions = null)
+        string? valueProviderName = null,
+        TermOptions? valueTermOptions = null)
         =>
         SelectContentsByExtraXPath<string>(elementXPath, valueProviderName, valueTermOptions);
 
@@ -477,23 +479,23 @@ return textValues;";
     /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
     public ValueProvider<IEnumerable<TData>, TOwner> SelectContentsByExtraXPath<TData>(
         string elementXPath,
-        string valueProviderName = null,
-        TermOptions valueTermOptions = null)
+        string? valueProviderName = null,
+        TermOptions? valueTermOptions = null)
         =>
         SelectDataByExtraXPath<TData>(elementXPath, ContentElementValueJSPath, valueProviderName, valueTermOptions);
 
     protected IEnumerable<TData> SelectElementValues<TData>(
-        string elementXPath,
+        string? elementXPath,
         string elementValueJSPath,
-        TermOptions valueTermOptions)
+        TermOptions? valueTermOptions)
     {
         var elements = GetItemElements(extraXPath: elementXPath);
 
         return GetElementTextValues(elements, elementValueJSPath)
-            .Select(x => TermResolver.FromString<TData>(x, valueTermOptions));
+            .Select(x => TermResolver.FromString<TData>(x, valueTermOptions)!);
     }
 
-    private string[] GetElementTextValues(
+    private string?[] GetElementTextValues(
         IEnumerable<IWebElement> elements,
         string elementValueJSPath)
     {
@@ -522,9 +524,9 @@ return textValues;";
     protected virtual IEnumerable<TItem> GetAll() =>
         GetAll(null, null);
 
-    protected virtual IEnumerable<TItem> GetAll(string extraXPath, string itemsName)
+    protected virtual IEnumerable<TItem> GetAll(string? extraXPath, string? itemsName)
     {
-        string nameFormat = string.IsNullOrEmpty(itemsName)
+        string nameFormat = itemsName is null or []
             ? "{0}"
             : $"{itemsName} {ItemsText}{UIComponent.SubComponentSeparator}{{0}}";
 
@@ -533,7 +535,7 @@ return textValues;";
             .ToArray();
     }
 
-    protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions searchOptions = null, string extraXPath = null)
+    protected ReadOnlyCollection<IWebElement> GetItemElements(SearchOptions? searchOptions = null, string? extraXPath = null)
     {
         searchOptions ??= ResolveSearchOptions();
 
