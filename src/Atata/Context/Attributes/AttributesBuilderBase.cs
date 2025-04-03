@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// A base class for attributes builders.
@@ -12,7 +14,7 @@ public abstract class AttributesBuilderBase
 
     /// <inheritdoc cref="Add(IEnumerable{Attribute})"/>
     public AtataContextBuilder Add(params Attribute[] attributes) =>
-        Add(attributes?.AsEnumerable());
+        Add(attributes!.AsEnumerable());
 
     /// <summary>
     /// Adds the specified attributes.
@@ -21,7 +23,7 @@ public abstract class AttributesBuilderBase
     /// <returns>The <see cref="Atata.AtataContextBuilder"/> instance.</returns>
     public AtataContextBuilder Add(IEnumerable<Attribute> attributes)
     {
-        if (attributes != null && attributes.Any())
+        if (attributes is not null && attributes.Any())
             OnAdd(attributes);
 
         return AtataContextBuilder;
