@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the hierarchical item control (a control containing structured hierarchy of controls of <typeparamref name="TItem" /> type).
@@ -16,7 +18,8 @@ public class HierarchicalItem<TItem, TOwner> : HierarchicalControl<TItem, TOwner
     /// Gets the parent control of <typeparamref name="TItem"/> type.
     /// </summary>
     [FindLast(OuterXPath = "ancestor::")]
-    public new TItem Parent => Controls.Resolve<TItem>();
+    public new TItem Parent =>
+        Controls.Resolve<TItem>();
 
     /// <summary>
     /// Gets the <see cref="ValueProvider{TValue, TOwner}"/> of a value indicating whether the control has parent.
