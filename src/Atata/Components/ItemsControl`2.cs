@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the items control (a control containing a set of any control of <typeparamref name="TItem"/> type).
@@ -14,19 +16,21 @@ public class ItemsControl<TItem, TOwner> : Control<TOwner>
     /// <summary>
     /// Gets the items' <see cref="ControlList{TItem, TOwner}"/> instance.
     /// </summary>
-    public ControlList<TItem, TOwner> Items { get; private set; }
+    public ControlList<TItem, TOwner> Items { get; private set; } = null!;
 
     /// <summary>
     /// Gets the item at the specified index.
     /// </summary>
     /// <param name="index">The zero-based index of the item to get.</param>
     /// <returns>The child item at the specified index.</returns>
-    public TItem this[int index] => Items[index];
+    public TItem this[int index] =>
+        Items[index];
 
     /// <summary>
     /// Gets the item that matches the conditions defined by the specified predicate expression.
     /// </summary>
     /// <param name="predicateExpression">The predicate expression to test each item.</param>
     /// <returns>The first child item that matches the conditions of the specified predicate.</returns>
-    public TItem this[Expression<Func<TItem, bool>> predicateExpression] => Items[predicateExpression];
+    public TItem this[Expression<Func<TItem, bool>> predicateExpression] =>
+        Items[predicateExpression];
 }
