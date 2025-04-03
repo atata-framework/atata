@@ -18,11 +18,11 @@ public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
         string itemConditionXPath = ItemElementFindStrategy.GetXPathCondition(parameter, GetValueTermOptions());
         itemConditionXPath += xPathCondition;
 
-        IWebElement element = ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
+        IWebElement? element = ScopeLocator.GetElement(SearchOptions.Safely(isSafely), itemConditionXPath);
 
         ExecuteTriggers(TriggerEvents.AfterAccess);
 
-        return element;
+        return element!;
     }
 
     protected IWebElement[] GetItemElements()

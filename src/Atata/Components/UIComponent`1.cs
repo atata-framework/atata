@@ -141,9 +141,9 @@ return (
     {
         ExecuteTriggers(TriggerEvents.BeforeAccess);
 
-        IWebElement element = ScopeLocator.GetElement(searchOptions);
+        IWebElement? element = ScopeLocator.GetElement(searchOptions);
 
-        if (!searchOptions.IsSafely && element == null)
+        if (!searchOptions.IsSafely && element is null)
         {
             throw ElementExceptionFactory.CreateForNotFound(
                 new SearchFailureData
@@ -155,7 +155,7 @@ return (
 
         ExecuteTriggers(TriggerEvents.AfterAccess);
 
-        return element;
+        return element!;
     }
 
     /// <summary>

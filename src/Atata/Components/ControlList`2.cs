@@ -255,7 +255,7 @@ return textValues;";
     {
         var predicate = predicateExpression.Compile();
 
-        ControlListScopeLocator scopeLocator = new ControlListScopeLocator(
+        ControlListScopeLocator scopeLocator = new(
             Component.Session,
             searchOptions => GetItemElements(searchOptions)
                 .Where((element, index) => predicate(GetOrCreateItemByElement(element, (index + 1).Ordinalize()))));

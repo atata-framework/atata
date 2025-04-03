@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class StrategyScopeLocator : IScopeLocator
 {
@@ -14,9 +16,9 @@ public class StrategyScopeLocator : IScopeLocator
         _executor = executor;
     }
 
-    public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
+    public IWebElement? GetElement(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
-        searchOptions ??= new SearchOptions();
+        searchOptions ??= new();
 
         var executionData = _executionDataCollector.Get(searchOptions);
         XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
@@ -46,9 +48,9 @@ public class StrategyScopeLocator : IScopeLocator
         }
     }
 
-    public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+    public IWebElement[] GetElements(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
-        searchOptions ??= new SearchOptions();
+        searchOptions ??= new();
 
         var executionData = _executionDataCollector.Get(searchOptions);
         XPathComponentScopeFindResult[] xPathResults = _executor.Execute(executionData);
@@ -67,16 +69,16 @@ public class StrategyScopeLocator : IScopeLocator
             : [];
     }
 
-    public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
+    public bool IsMissing(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
-        searchOptions ??= new SearchOptions();
+        searchOptions ??= new();
 
         SearchOptions quickSearchOptions = searchOptions.Clone();
         quickSearchOptions.IsSafely = true;
         quickSearchOptions.Timeout = TimeSpan.Zero;
 
-        var driver = WebDriverSession.Current.Driver;
         StrategyScopeLocatorExecutionData executionData = _executionDataCollector.Get(quickSearchOptions);
+        var driver = executionData.Component.Session.Driver;
 
         bool isMissing = driver.Try(searchOptions.Timeout, searchOptions.RetryInterval).Until(_ =>
         {

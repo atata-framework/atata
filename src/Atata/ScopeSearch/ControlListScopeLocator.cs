@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class ControlListScopeLocator : IScopeLocator
 {
@@ -12,9 +14,9 @@ public class ControlListScopeLocator : IScopeLocator
         _predicate = predicate;
     }
 
-    public string ElementName { get; set; }
+    public string? ElementName { get; set; }
 
-    public IWebElement GetElement(SearchOptions searchOptions = null, string xPathCondition = null)
+    public IWebElement? GetElement(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
         searchOptions ??= new SearchOptions();
 
@@ -37,18 +39,18 @@ public class ControlListScopeLocator : IScopeLocator
         }
     }
 
-    public IWebElement[] GetElements(SearchOptions searchOptions = null, string xPathCondition = null)
+    public IWebElement[] GetElements(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
-        searchOptions ??= new SearchOptions();
+        searchOptions ??= new();
 
         return _session.Driver
             .Try(searchOptions.Timeout, searchOptions.RetryInterval)
             .Until(_ => _predicate(searchOptions).ToArray());
     }
 
-    public bool IsMissing(SearchOptions searchOptions = null, string xPathCondition = null)
+    public bool IsMissing(SearchOptions? searchOptions = null, string? xPathCondition = null)
     {
-        searchOptions ??= new SearchOptions();
+        searchOptions ??= new();
 
         bool isMissing = _session.Driver
             .Try(searchOptions.Timeout, searchOptions.RetryInterval)
