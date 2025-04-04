@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the value provider class that wraps enumerable of <see cref="DirectorySubject"/> objects and is hosted in <typeparamref name="TOwner"/> object.
@@ -17,7 +19,7 @@ public class DirectoryEnumerableProvider<TOwner> : EnumerableValueProvider<Direc
         TOwner owner,
         IObjectSource<IEnumerable<DirectorySubject>> objectSource,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
         : base(owner, objectSource, providerName, executionUnit)
     {
     }

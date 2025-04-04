@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the provider of enumerable <see cref="FileSubject"/> objects that represent the files in a certain directory.
@@ -14,7 +16,7 @@ public class DirectoryFilesProvider : EnumerableValueProvider<FileSubject, Direc
     public DirectoryFilesProvider(
         DirectorySubject owner,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
         : base(
             owner,
             new DynamicObjectSource<IEnumerable<FileSubject>, DirectoryInfo>(

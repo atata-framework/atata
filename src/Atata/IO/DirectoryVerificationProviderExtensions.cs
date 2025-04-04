@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 using Should = IObjectVerificationProvider<DirectoryInfo, DirectorySubject>;
 
@@ -26,7 +28,7 @@ public static class DirectoryVerificationProviderExtensions
 
     /// <inheritdoc cref="ContainFiles(Should, IEnumerable{string})"/>
     public static DirectorySubject ContainFiles(this Should should, params string[] fileNames) =>
-        should.ContainFiles(fileNames?.AsEnumerable());
+        should.ContainFiles(fileNames?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that directory contains files with the specified names.
@@ -48,7 +50,7 @@ public static class DirectoryVerificationProviderExtensions
 
     /// <inheritdoc cref="ContainDirectories(Should, IEnumerable{string})"/>
     public static DirectorySubject ContainDirectories(this Should should, params string[] directoryNames) =>
-        should.ContainDirectories(directoryNames?.AsEnumerable());
+        should.ContainDirectories(directoryNames?.AsEnumerable()!);
 
     /// <summary>
     /// Verifies that directory contains subdirectories with the specified names.

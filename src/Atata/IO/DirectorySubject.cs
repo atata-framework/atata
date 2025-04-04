@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 using _ = DirectorySubject;
 
@@ -13,7 +15,7 @@ public class DirectorySubject : SubjectBase<DirectoryInfo, _>
     /// <param name="directoryPath">The directory path.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public DirectorySubject(string directoryPath, string providerName = null, IAtataExecutionUnit executionUnit = null)
+    public DirectorySubject(string directoryPath, string? providerName = null, IAtataExecutionUnit? executionUnit = null)
         : this(
             DynamicObjectSource.Create(() => new DirectoryInfo(directoryPath)),
             providerName ?? BuildProviderName(directoryPath),
@@ -26,7 +28,7 @@ public class DirectorySubject : SubjectBase<DirectoryInfo, _>
     /// <param name="directoryInfo">The <see cref="DirectoryInfo"/> object.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public DirectorySubject(DirectoryInfo directoryInfo, string providerName = null, IAtataExecutionUnit executionUnit = null)
+    public DirectorySubject(DirectoryInfo directoryInfo, string? providerName = null, IAtataExecutionUnit? executionUnit = null)
         : this(
             new StaticObjectSource<DirectoryInfo>(directoryInfo.CheckNotNull(nameof(directoryInfo))),
             providerName ?? BuildProviderName(directoryInfo.FullName),
@@ -40,7 +42,7 @@ public class DirectorySubject : SubjectBase<DirectoryInfo, _>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public DirectorySubject(IObjectSource<DirectoryInfo> objectSource, string providerName, IAtataExecutionUnit executionUnit = null)
+    public DirectorySubject(IObjectSource<DirectoryInfo> objectSource, string providerName, IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
     {
     }

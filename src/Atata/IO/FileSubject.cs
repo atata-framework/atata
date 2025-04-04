@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 using _ = FileSubject;
 
@@ -13,7 +15,7 @@ public class FileSubject : SubjectBase<FileInfo, _>
     /// <param name="filePath">The file path.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public FileSubject(string filePath, string providerName = null, IAtataExecutionUnit executionUnit = null)
+    public FileSubject(string filePath, string? providerName = null, IAtataExecutionUnit? executionUnit = null)
         : this(
             DynamicObjectSource.Create(() => new FileInfo(filePath)),
             providerName ?? BuildProviderName(filePath),
@@ -26,7 +28,7 @@ public class FileSubject : SubjectBase<FileInfo, _>
     /// <param name="fileInfo">The <see cref="FileInfo"/> object.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public FileSubject(FileInfo fileInfo, string providerName = null, IAtataExecutionUnit executionUnit = null)
+    public FileSubject(FileInfo fileInfo, string? providerName = null, IAtataExecutionUnit? executionUnit = null)
         : this(
             new StaticObjectSource<FileInfo>(fileInfo.CheckNotNull(nameof(fileInfo))),
             providerName ?? BuildProviderName(fileInfo.FullName),
@@ -40,7 +42,7 @@ public class FileSubject : SubjectBase<FileInfo, _>
     /// <param name="objectSource">The object source.</param>
     /// <param name="providerName">Name of the provider.</param>
     /// <param name="executionUnit">The execution unit, which can be <see langword="null"/>.</param>
-    public FileSubject(IObjectSource<FileInfo> objectSource, string providerName, IAtataExecutionUnit executionUnit = null)
+    public FileSubject(IObjectSource<FileInfo> objectSource, string providerName, IAtataExecutionUnit? executionUnit = null)
         : base(objectSource, providerName, executionUnit)
     {
     }

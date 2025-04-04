@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the provider of enumerable <see cref="DirectorySubject"/> objects that represent the subdirectories of a certain directory.
@@ -14,7 +16,7 @@ public class SubdirectoriesProvider : EnumerableValueProvider<DirectorySubject, 
     public SubdirectoriesProvider(
         DirectorySubject owner,
         string providerName,
-        IAtataExecutionUnit executionUnit = null)
+        IAtataExecutionUnit? executionUnit = null)
         : base(
             owner,
             new DynamicObjectSource<IEnumerable<DirectorySubject>, DirectoryInfo>(
