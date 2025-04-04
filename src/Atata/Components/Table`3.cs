@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the table control (&lt;table&gt;).
@@ -13,17 +15,17 @@ public class Table<THeader, TRow, TOwner> : Control<TOwner>, ITable
     where TRow : TableRow<TOwner>
     where TOwner : PageObject<TOwner>
 {
-    private List<string> _cachedColumnHeaderTexts;
+    private List<string>? _cachedColumnHeaderTexts;
 
     /// <summary>
     /// Gets the rows list.
     /// </summary>
-    public TableRowList<TRow, TOwner> Rows { get; private set; }
+    public TableRowList<TRow, TOwner> Rows { get; private set; } = null!;
 
     /// <summary>
     /// Gets the headers list.
     /// </summary>
-    public TableHeaderList<THeader, TOwner> Headers { get; private set; }
+    public TableHeaderList<THeader, TOwner> Headers { get; private set; } = null!;
 
     /// <summary>
     /// Gets a value indicating whether to the cache of column header texts.

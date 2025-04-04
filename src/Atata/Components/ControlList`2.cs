@@ -462,7 +462,7 @@ return textValues;";
     /// <param name="valueTermOptions">The term options of value.</param>
     /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
     public ValueProvider<IEnumerable<string>, TOwner> SelectContentsByExtraXPath(
-        string elementXPath,
+        string? elementXPath,
         string? valueProviderName = null,
         TermOptions? valueTermOptions = null)
         =>
@@ -478,7 +478,7 @@ return textValues;";
     /// <param name="valueTermOptions">The term options of value.</param>
     /// <returns>An instance of <see cref="ValueProvider{TValue, TOwner}"/>.</returns>
     public ValueProvider<IEnumerable<TData>, TOwner> SelectContentsByExtraXPath<TData>(
-        string elementXPath,
+        string? elementXPath,
         string? valueProviderName = null,
         TermOptions? valueTermOptions = null)
         =>
