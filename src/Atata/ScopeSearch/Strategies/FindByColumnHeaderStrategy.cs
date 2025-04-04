@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents a strategy that finds a control in a cell that corresponds the column searched by the column header text.

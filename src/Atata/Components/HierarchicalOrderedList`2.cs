@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the hierarchical ordered list control (<c>&lt;ol&gt;</c>).

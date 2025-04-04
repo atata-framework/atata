@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// An interface of log writer, an entry point for the Atata logging functionality.

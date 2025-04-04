@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using OpenQA.Selenium.DevTools;
+﻿using OpenQA.Selenium.DevTools;
 
 namespace Atata;
 

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the <c>&lt;h2&gt;</c> heading tag.

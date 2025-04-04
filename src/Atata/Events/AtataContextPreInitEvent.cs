@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents an event that occurs before <see cref="AtataContext"/> initialization.

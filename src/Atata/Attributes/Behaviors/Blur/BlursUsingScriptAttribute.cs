@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control blurring by executing <c>HTMLElement.blur()</c> JavaScript.

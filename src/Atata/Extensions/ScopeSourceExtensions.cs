@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 // TODO: Review to move these methods to UIComponent/UIComponent`1 class.
 public static class ScopeSourceExtensions

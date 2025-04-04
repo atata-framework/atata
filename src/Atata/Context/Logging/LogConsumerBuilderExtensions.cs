@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Provides extension methods for <see cref="LogConsumerBuilder{TLogConsumer}"/>.

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the SVG ellipse shape control (<c>&lt;ellipse&gt;</c>).

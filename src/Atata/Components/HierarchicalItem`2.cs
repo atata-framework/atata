@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the hierarchical item control (a control containing structured hierarchy of controls of <typeparamref name="TItem" /> type).

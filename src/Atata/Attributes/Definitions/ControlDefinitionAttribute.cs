@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Specifies the definition of the control, like scope XPath, visibility, component type name, etc.

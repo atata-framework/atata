@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using RandomizeFunc = System.Func<Atata.UIComponentMetadata, object>;
+﻿using RandomizeFunc = System.Func<Atata.UIComponentMetadata, object>;
 
 namespace Atata;
 

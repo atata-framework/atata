@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public abstract class OptionList<TValue, TOwner> : EditableField<TValue, TOwner>
     where TOwner : PageObject<TOwner>

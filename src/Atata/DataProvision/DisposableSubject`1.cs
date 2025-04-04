@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the test subject that wraps <typeparamref name="TObject"/> object, which should be <see cref="IDisposable"/>.

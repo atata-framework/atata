@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Specifies the window title of <see cref="PopupWindow{TOwner}"/> page object.

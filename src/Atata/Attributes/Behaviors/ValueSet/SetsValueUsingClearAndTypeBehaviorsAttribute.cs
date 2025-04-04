@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control value set by executing <see cref="ValueClearBehaviorAttribute"/> behavior first;

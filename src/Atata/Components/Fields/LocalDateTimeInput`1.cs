@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the local date/time input control (<c>&lt;input type="datetime-local"&gt;</c>).

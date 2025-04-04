@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Provides a set of verification extension methods for <see cref="UIComponent{TOwner}"/> and its inheritors.

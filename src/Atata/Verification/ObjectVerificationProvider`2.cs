@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public class ObjectVerificationProvider<TObject, TOwner> :
     VerificationProvider<ObjectVerificationProvider<TObject, TOwner>, TOwner>,

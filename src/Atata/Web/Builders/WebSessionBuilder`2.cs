@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public abstract class WebSessionBuilder<TSession, TBuilder> : AtataSessionBuilder<TSession, TBuilder>
     where TSession : WebSession, new()

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the provider of enumerable <see cref="FileSubject"/> objects that represent the files in a certain directory.

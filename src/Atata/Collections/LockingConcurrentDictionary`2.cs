@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 internal class LockingConcurrentDictionary<TKey, TValue>
     where TKey : notnull

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// The base trigger attribute class that can be used in the verification process when the page object is initialized.

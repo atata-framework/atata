@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents a log consumer that uses <see cref="Trace.WriteLine(string)"/> method for logging.

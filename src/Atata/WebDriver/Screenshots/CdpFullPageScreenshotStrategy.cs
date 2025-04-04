@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System.Text.Json.Nodes;
+﻿using System.Text.Json.Nodes;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.DevTools;
 using OpenQA.Selenium.Edge;

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// An interface of web session reporting functionality belonging to particular <typeparamref name="TOwner"/>.

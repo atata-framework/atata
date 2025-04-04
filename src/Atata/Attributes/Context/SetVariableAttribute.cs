@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents an attribute that sets a variable to <see cref="AtataContextBuilder"/>.

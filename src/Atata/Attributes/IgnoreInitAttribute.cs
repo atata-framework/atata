@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 [AttributeUsage(AttributeTargets.Property)]
 public class IgnoreInitAttribute : Attribute

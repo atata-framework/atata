@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control focusing by executing <c>HTMLElement.focus()</c> JavaScript.

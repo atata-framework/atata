@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public interface IPageObjectVerificationProvider<out TPageObject> :
     IUIComponentVerificationProvider<TPageObject, TPageObject>

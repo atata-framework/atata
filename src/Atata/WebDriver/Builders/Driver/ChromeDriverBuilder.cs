@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using OpenQA.Selenium.Chrome;
+﻿using OpenQA.Selenium.Chrome;
 
 namespace Atata;
 

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control value getting from <see cref="IUIComponent{TOwner}.Content"/> property.

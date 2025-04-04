@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the items control (a control containing a set of any control of <typeparamref name="TItem"/> type).

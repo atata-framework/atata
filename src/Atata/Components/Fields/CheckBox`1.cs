@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the checkbox control (<c>&lt;input type="checkbox"&gt;</c>).

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Provides a set of extension methods for <see cref="IObjectProvider{TObject, TOwner}"/> where <c>TObject</c> is <see cref="IEnumerable{T}"/>.

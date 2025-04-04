@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 [Obsolete("Instead create custom factory implementing Atata.IAggregateAssertionExceptionFactory interface.")] // Obsolete since v4.0.0.
 internal sealed class TypeBasedAggregateAssertionExceptionFactory : IAggregateAssertionExceptionFactory

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public sealed class UIComponentChildrenList<TOwner> : List<UIComponent<TOwner>>
     where TOwner : PageObject<TOwner>

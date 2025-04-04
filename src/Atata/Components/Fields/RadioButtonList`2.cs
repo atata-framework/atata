@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the radio button list control (a set of <c>&lt;input type="radio"&gt;</c>).

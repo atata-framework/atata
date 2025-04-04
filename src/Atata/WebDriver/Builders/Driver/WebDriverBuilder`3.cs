@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public abstract class WebDriverBuilder<TBuilder, TService, TOptions>
     : WebDriverBuilder<TBuilder>, IUsesLocalBrowser

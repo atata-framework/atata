@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the base behavior class for option selection of <see cref="Select{TValue, TOwner}"/> control.

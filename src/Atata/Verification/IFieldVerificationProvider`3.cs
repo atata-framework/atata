@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public interface IFieldVerificationProvider<out TValue, out TField, out TOwner> :
     IUIComponentVerificationProvider<TField, TOwner>,

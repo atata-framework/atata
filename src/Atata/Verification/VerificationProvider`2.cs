@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public abstract class VerificationProvider<TVerificationProvider, TOwner> : IVerificationProvider<TOwner>
     where TVerificationProvider : VerificationProvider<TVerificationProvider, TOwner>

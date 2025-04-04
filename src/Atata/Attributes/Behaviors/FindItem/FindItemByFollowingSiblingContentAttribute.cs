@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the behavior to find an item of <see cref="OptionList{TValue, TOwner}"/> control by following sibling element content.

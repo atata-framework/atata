@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Specifies that a control should be found by the DOM test identifier attribute, <c>data-testid</c> by default.

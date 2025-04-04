@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the base behavior class for an implementation of the <see cref="EditableTextField{TValue, TOwner}"/> value getting.

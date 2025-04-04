@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// A collection of <see cref="AtataSession"/> items associated with a certain <see cref="AtataContext"/>.

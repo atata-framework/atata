@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the value provider class that wraps <typeparamref name="TValue"/> and is hosted in <typeparamref name="TOwner"/> object.

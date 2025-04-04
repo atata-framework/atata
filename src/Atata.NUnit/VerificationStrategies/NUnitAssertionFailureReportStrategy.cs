@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata.NUnit;
+﻿namespace Atata.NUnit;
 
 /// <summary>
 /// Represents the NUnit strategy for assertion failure reporting.

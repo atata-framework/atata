@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 using Should = IObjectVerificationProvider<FileInfo, FileSubject>;
 

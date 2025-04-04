@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents a base attribute class that configures test suite <see cref="AtataContext"/> via <see cref="AtataContextBuilder"/>.

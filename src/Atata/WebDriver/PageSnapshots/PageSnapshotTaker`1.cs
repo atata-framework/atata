@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 internal sealed class PageSnapshotTaker<TSession> : IPageSnapshotTaker
     where TSession : WebSession

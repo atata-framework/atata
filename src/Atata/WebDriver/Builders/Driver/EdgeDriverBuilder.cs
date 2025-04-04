@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using OpenQA.Selenium.Edge;
+﻿using OpenQA.Selenium.Edge;
 
 namespace Atata;
 

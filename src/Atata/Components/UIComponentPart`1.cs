@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public class UIComponentPart<TOwner>
     where TOwner : PageObject<TOwner>

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Provides log4net extension methods for <see cref="LogConsumerBuilder{TLogConsumer}"/>.

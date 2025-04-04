@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 public abstract class WebDriverBuilder<TBuilder> : IWebDriverFactory, ICloneable
     where TBuilder : WebDriverBuilder<TBuilder>

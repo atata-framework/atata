@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// A factory that creates a relative artifacts path for a given <see cref="AtataContext"/>.

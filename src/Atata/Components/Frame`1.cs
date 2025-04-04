@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 /// <summary>
 /// Represents the frame control (<c>&lt;iframe&gt;</c> or <c>&lt;frame&gt;</c>).

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using System.Net;
+﻿using System.Net;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using OpenQA.Selenium.Chromium;

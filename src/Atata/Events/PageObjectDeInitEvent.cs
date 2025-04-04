@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata;
+﻿namespace Atata;
 
 [Obsolete("Use PageObjectDeInitCompletedEvent instead.")] // Obsolete since v4.0.0.
 public sealed class PageObjectDeInitEvent : PageObjectEvent
