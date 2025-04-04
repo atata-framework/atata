@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class UIComponentAccessChainScopeCache
 {
@@ -6,7 +8,7 @@ public class UIComponentAccessChainScopeCache
 
     internal bool IsActive { get; private set; }
 
-    internal bool TryGet(UIComponent component, Visibility visibility, out IWebElement scope)
+    internal bool TryGet(UIComponent component, Visibility visibility, [MaybeNullWhen(false)] out IWebElement scope)
     {
         scope = null;
 

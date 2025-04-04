@@ -114,7 +114,7 @@ public abstract class UIComponent
         var cache = Session.UIComponentAccessChainScopeCache;
         bool isActivatedAccessChainCache = cache.AcquireActivation();
 
-        IWebElement element;
+        IWebElement? element;
 
         try
         {
@@ -125,7 +125,7 @@ public abstract class UIComponent
                     : OnGetScopeElement(actualSearchOptions);
             }
 
-            if (!isActivatedAccessChainCache && element != null)
+            if (!isActivatedAccessChainCache && element is not null)
                 cache.Add(this, actualSearchOptions.Visibility, element);
         }
         finally
@@ -137,7 +137,7 @@ public abstract class UIComponent
         if (UsesScopeCache)
             CachedScope = element;
 
-        return element;
+        return element!;
     }
 
     internal abstract IWebElement OnGetScopeElement(SearchOptions searchOptions);
