@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium.DevTools;
+﻿#nullable enable
+
+using OpenQA.Selenium.DevTools;
 
 namespace Atata;
 
@@ -8,9 +10,9 @@ internal sealed class ChromiumBrowserLogMonitoringStrategy : IBrowserLogMonitori
 
     private readonly IEnumerable<IBrowserLogHandler> _browserLogHandlers;
 
-    private DevToolsSession _devToolsSession;
+    private DevToolsSession? _devToolsSession;
 
-    private JavaScriptEngine _javaScriptEngine;
+    private JavaScriptEngine? _javaScriptEngine;
 
     public ChromiumBrowserLogMonitoringStrategy(
         IWebDriver driver,
@@ -26,7 +28,7 @@ internal sealed class ChromiumBrowserLogMonitoringStrategy : IBrowserLogMonitori
         _devToolsSession.Domains.Log.EntryAdded += OnLog;
         _devToolsSession.Domains.Log.Enable().GetAwaiter().GetResult();
 
-        _javaScriptEngine = new JavaScriptEngine(_driver);
+        _javaScriptEngine = new(_driver);
         _javaScriptEngine.JavaScriptExceptionThrown += OnLog;
         _javaScriptEngine.JavaScriptConsoleApiCalled += OnLog;
         _javaScriptEngine.StartEventMonitoring().GetAwaiter().GetResult();

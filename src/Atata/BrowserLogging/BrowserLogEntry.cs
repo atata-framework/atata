@@ -1,4 +1,6 @@
-﻿using SeleniumLogLevel = OpenQA.Selenium.LogLevel;
+﻿#nullable enable
+
+using SeleniumLogLevel = OpenQA.Selenium.LogLevel;
 
 namespace Atata;
 
