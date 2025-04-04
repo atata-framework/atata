@@ -36,9 +36,7 @@ public class TableRowList<TItem, TOwner> : ControlList<TItem, TOwner>
     {
         values.CheckNotNullOrEmpty(nameof(values));
 
-        return values.Length == 1
-            ? $"\"{values[0]}\""
-            : values.ToQuotedValuesListOfString(doubleQuotes: true);
+        return values.ToDoubleQuotedValuesListOfString();
     }
 
     protected static string CreateItemInnerXPathByCellValues(params string[] values) =>

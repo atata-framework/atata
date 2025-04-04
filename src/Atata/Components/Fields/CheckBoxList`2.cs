@@ -156,7 +156,7 @@ public class CheckBoxList<TValue, TOwner> : OptionList<TValue, TOwner>
         if (stringValues is null or [])
             return "<none>";
         else if (wrapWithDoubleQuotes)
-            return stringValues.ToQuotedValuesListOfString(doubleQuotes: true);
+            return stringValues.ToDoubleQuotedValuesListOfString();
         else
             return string.Join(", ", stringValues);
     }
