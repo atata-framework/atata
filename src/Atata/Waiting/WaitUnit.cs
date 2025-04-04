@@ -1,6 +1,8 @@
-﻿namespace Atata;
+﻿#nullable enable
 
-public class WaitUnit
+namespace Atata;
+
+public sealed class WaitUnit
 {
     public enum WaitMethod
     {
@@ -8,11 +10,11 @@ public class WaitUnit
         Absence
     }
 
-    public WaitMethod Method { get; set; }
+    public required WaitMethod Method { get; init; }
 
-    public Until Until { get; set; }
+    public required Until Until { get; init; }
 
-    public SearchOptions SearchOptions { get; set; }
+    public required SearchOptions SearchOptions { get; init; }
 
     internal string GetWaitingText()
     {
@@ -31,7 +33,7 @@ public class WaitUnit
                 Visibility.Visible => "visible",
                 Visibility.Hidden => "hidden",
                 Visibility.Any => "visible or hidden",
-                _ => null
+                _ => string.Empty
             };
         }
         else
@@ -39,9 +41,9 @@ public class WaitUnit
             return SearchOptions.Visibility switch
             {
                 Visibility.Visible => "missing or hidden",
-                Visibility.Hidden => null,
+                Visibility.Hidden => string.Empty,
                 Visibility.Any => "missing",
-                _ => null
+                _ => string.Empty
             };
         }
     }

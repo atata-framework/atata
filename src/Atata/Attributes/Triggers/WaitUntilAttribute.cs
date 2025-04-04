@@ -64,5 +64,5 @@ public abstract class WaitUntilAttribute : TriggerAttribute
     /// <summary>
     /// Gets the wait options.
     /// </summary>
-    protected WaitOptions WaitOptions { get; } = new WaitOptions();
+    protected WaitOptions WaitOptions { get; } = new();
 }

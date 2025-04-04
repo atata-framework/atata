@@ -1,9 +1,11 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the component waiting options.
 /// </summary>
-public class WaitOptions
+public sealed class WaitOptions
 {
     private double? _presenceTimeout;
 
