@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Specifies that a control should be found within the table column (<c>&lt;td&gt;</c>) that has the header (<c>&lt;th&gt;</c>) matching the specified term(s).

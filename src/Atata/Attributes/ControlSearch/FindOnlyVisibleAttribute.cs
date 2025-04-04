@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Sets <see cref="FindSettingsAttribute.Visibility"/> property to <see cref="Visibility.Visible"/>.
