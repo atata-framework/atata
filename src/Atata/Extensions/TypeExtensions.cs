@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class TypeExtensions
 {
@@ -6,7 +8,7 @@ public static class TypeExtensions
     {
         type.CheckNotNull(nameof(type));
 
-        return type.IsClass || Nullable.GetUnderlyingType(type) != null;
+        return type.IsClass || Nullable.GetUnderlyingType(type) is not null;
     }
 
     public static Enum[] GetIndividualEnumFlags(this Type type)
@@ -77,13 +79,13 @@ public static class TypeExtensions
             ?? throw new MissingMemberException(type.FullName, name);
     }
 
-    internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, Type propertyType, BindingFlags bindingFlags = BindingFlags.Default)
+    internal static PropertyInfo GetPropertyWithThrowOnError(this Type type, string name, Type? propertyType, BindingFlags bindingFlags = BindingFlags.Default)
     {
+        if (propertyType is null)
+            return type.GetPropertyWithThrowOnError(name, bindingFlags);
+
         type.CheckNotNull(nameof(type));
         name.CheckNotNullOrWhitespace(nameof(name));
-
-        if (propertyType == null)
-            return type.GetPropertyWithThrowOnError(name, bindingFlags);
 
         PropertyInfo[] properties = bindingFlags == BindingFlags.Default
             ? type.GetProperties()
@@ -110,7 +112,7 @@ public static class TypeExtensions
     {
         type.CheckNotNull(nameof(type));
 
-        if (baseType == null)
+        if (baseType is null)
             return null;
         else if (baseType.IsGenericTypeDefinition)
             return type.GetDepthOfInheritanceOfRawGeneric(baseType);
@@ -122,7 +124,7 @@ public static class TypeExtensions
     {
         Type typeToCheck = type;
 
-        for (int depth = 0; typeToCheck != null; depth++)
+        for (int depth = 0; typeToCheck is not null; depth++)
         {
             if (typeToCheck == baseType)
                 return depth;
@@ -137,7 +139,7 @@ public static class TypeExtensions
     {
         type.CheckNotNull(nameof(type));
 
-        if (baseType == null)
+        if (baseType is null)
             return false;
         else if (baseType.IsGenericTypeDefinition)
             return type.GetDepthOfInheritanceOfRawGeneric(baseType) != null;
@@ -151,15 +153,15 @@ public static class TypeExtensions
     /// <param name="type">The type.</param>
     /// <param name="genericType">Type of the generic.</param>
     /// <returns>A <see cref="Type"/> or <see langword="null"/>.</returns>
-    public static Type GetBaseTypeOfRawGeneric(this Type type, Type genericType)
+    public static Type? GetBaseTypeOfRawGeneric(this Type type, Type genericType)
     {
-        if (genericType == null)
+        if (genericType is null)
             return null;
 
         Type typeToCheck = type;
         int depth = 0;
 
-        while (typeToCheck != null && typeToCheck != typeof(object))
+        while (typeToCheck is not null && typeToCheck != typeof(object))
         {
             if (typeToCheck.IsGenericType && typeToCheck.GetGenericTypeDefinition() == genericType)
                 return typeToCheck;

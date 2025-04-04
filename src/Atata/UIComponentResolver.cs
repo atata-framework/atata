@@ -362,7 +362,7 @@ public static class UIComponentResolver
         {
             var propertyContextAttributes = contextAttributes.PropertyMap
                .Where(x => x.Key.PropertyName == name)
-               .Select(pair => new { Depth = parentComponentType.GetDepthOfInheritance(pair.Key.Type), Attributes = pair.Value })
+               .Select(pair => new { Depth = parentComponentType!.GetDepthOfInheritance(pair.Key.Type), Attributes = pair.Value })
                .Where(x => x.Depth != null)
                .OrderBy(x => x.Depth)
                .SelectMany(x => x.Attributes.AsEnumerable().Reverse());

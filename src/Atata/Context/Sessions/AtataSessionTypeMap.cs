@@ -24,7 +24,7 @@ internal static class AtataSessionTypeMap
 
     private static Type? DoResolveSessionTypeByBuilderType(Type builderType)
     {
-        Type concreteBuilderType = builderType.GetBaseTypeOfRawGeneric(typeof(AtataSessionBuilder<,>));
+        Type? concreteBuilderType = builderType.GetBaseTypeOfRawGeneric(typeof(AtataSessionBuilder<,>));
 
         return concreteBuilderType?.GetGenericArguments()[0];
     }
