@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents an improved version of visitor or rewriter for expression trees.
@@ -69,7 +71,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
         return s_expressionValueStringifiers.Any(x => x.CanHandle(underlyingType));
     }
 
-    private static bool TryStringifyValue(object value, Type valueType, out string result)
+    private static bool TryStringifyValue(object value, Type valueType, [NotNullWhen(true)] out string? result)
     {
         if (value is null)
         {
@@ -138,7 +140,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
             {
                 object value = Expression.Lambda(node).Compile().DynamicInvoke();
 
-                if (TryStringifyValue(value, node.Type, out string valueAsString))
+                if (TryStringifyValue(value, node.Type, out string? valueAsString))
                 {
                     Out(valueAsString);
                     return node;
@@ -366,7 +368,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
     private BinaryExpression VisitEnumComparison(BinaryExpression node)
     {
-        Type enumType = ((node.Left as UnaryExpression) ?? (node.Right as UnaryExpression))?.Operand.Type;
+        Type? enumType = ((node.Left as UnaryExpression) ?? (node.Right as UnaryExpression))?.Operand.Type;
 
         return VisitComparisonWithConvert(
             node,
@@ -409,7 +411,7 @@ public class ImprovedExpressionStringBuilder : ExpressionStringBuilder
 
     protected override Expression VisitConstant(ConstantExpression node)
     {
-        if (TryStringifyValue(node.Value, node.Type, out string valueAsString))
+        if (TryStringifyValue(node.Value, node.Type, out string? valueAsString))
         {
             Out(valueAsString);
             return node;

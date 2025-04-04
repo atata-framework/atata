@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal class LambdaExpressionPart
 {
@@ -7,18 +9,18 @@ internal class LambdaExpressionPart
     {
     }
 
-    internal LambdaExpressionPart(LambdaExpressionPart parent) =>
+    internal LambdaExpressionPart(LambdaExpressionPart? parent) =>
         Parent = parent;
 
-    internal LambdaExpressionPart Parent { get; }
+    internal LambdaExpressionPart? Parent { get; }
 
-    internal LiteralExpressionPart Parameters { get; } = new LiteralExpressionPart();
+    internal LiteralExpressionPart Parameters { get; } = new();
 
-    internal BodyExpressionPart Body { get; } = new BodyExpressionPart();
+    internal BodyExpressionPart Body { get; } = new();
 
     public override string ToString()
     {
-        StringBuilder builder = new StringBuilder();
+        StringBuilder builder = new();
 
         string parameters = Parameters.ToString();
 

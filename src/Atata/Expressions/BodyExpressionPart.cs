@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal class BodyExpressionPart
 {
@@ -10,7 +12,7 @@ internal class BodyExpressionPart
 
     internal LiteralExpressionPart StartNewLiteral()
     {
-        LiteralExpressionPart literal = new LiteralExpressionPart();
+        LiteralExpressionPart literal = new();
         _subParts.Add(literal);
         return literal;
     }
