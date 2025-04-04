@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control value set by clicking on the control element
@@ -18,7 +20,7 @@ public class SetsValueUsingCharByCharTypingAttribute : ValueSetBehaviorAttribute
 
         scopeElement.ClickWithLogging(component.Session.Log);
 
-        if (!string.IsNullOrEmpty(value))
+        if (value?.Length > 0)
         {
             foreach (char character in value)
             {

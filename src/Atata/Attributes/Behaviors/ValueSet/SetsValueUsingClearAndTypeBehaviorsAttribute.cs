@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control value set by executing <see cref="ValueClearBehaviorAttribute"/> behavior first;
@@ -31,7 +33,7 @@ public class SetsValueUsingClearAndTypeBehaviorsAttribute : ValueSetBehaviorAttr
         {
             component.ExecuteBehavior<ValueClearBehaviorAttribute>(x => x.Execute(component));
 
-            if (!string.IsNullOrEmpty(value))
+            if (value?.Length > 0)
                 component.ExecuteBehavior<TextTypeBehaviorAttribute>(x => x.Execute(component, value));
         }
 

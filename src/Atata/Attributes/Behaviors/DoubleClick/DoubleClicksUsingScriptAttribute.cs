@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control double-clicking by executing <c>HTMLElement.dispatchEvent(new Event('dblclick'))</c> JavaScript.

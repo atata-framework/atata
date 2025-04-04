@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the behavior for component content getting from HTML attribute by attribute name.
@@ -18,5 +20,5 @@ public class GetsContentFromAttributeAttribute : ContentGetBehaviorAttribute
     public string AttributeName { get; }
 
     public override string Execute<TOwner>(IUIComponent<TOwner> component) =>
-        component.DomAttributes[AttributeName];
+        component.DomAttributes[AttributeName].Value ?? string.Empty;
 }

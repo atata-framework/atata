@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices;
+﻿#nullable enable
+
+using System.Runtime.InteropServices;
 
 namespace Atata;
 

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the behavior for option selection of <see cref="Select{TValue, TOwner}"/> control using specified option attribute.

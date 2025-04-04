@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control text typing by invoking <see cref="IWebElement.SendKeys(string)"/> method
@@ -15,7 +17,7 @@ public class TypesTextUsingSendKeysCharByCharAttribute : TextTypeBehaviorAttribu
     /// <inheritdoc/>
     public override void Execute<TOwner>(IUIComponent<TOwner> component, string value)
     {
-        if (!string.IsNullOrEmpty(value))
+        if (value?.Length > 0)
         {
             var scopeElement = component.Scope;
 

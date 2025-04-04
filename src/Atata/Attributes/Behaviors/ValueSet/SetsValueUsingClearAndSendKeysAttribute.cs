@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the behavior for control value set by invoking
@@ -14,7 +16,7 @@ public class SetsValueUsingClearAndSendKeysAttribute : ValueSetBehaviorAttribute
 
         scopeElement.ClearWithLogging(component.Session.Log);
 
-        if (!string.IsNullOrEmpty(value))
+        if (value?.Length > 0)
             scopeElement.SendKeysWithLogging(component.Session.Log, value);
     }
 }
