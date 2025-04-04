@@ -1,6 +1,8 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public interface IStrategyScopeLocatorExecutionDataCollector
 {
-    StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions);
+    StrategyScopeLocatorExecutionData Get(SearchOptions? searchOptions);
 }

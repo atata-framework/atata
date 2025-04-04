@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorExecutionDataCollector
 {
@@ -7,7 +9,7 @@ public class StrategyScopeLocatorExecutionDataCollector : IStrategyScopeLocatorE
     public StrategyScopeLocatorExecutionDataCollector(UIComponent component) =>
         _component = component;
 
-    public StrategyScopeLocatorExecutionData Get(SearchOptions searchOptions)
+    public StrategyScopeLocatorExecutionData Get(SearchOptions? searchOptions)
     {
         searchOptions ??= new();
 

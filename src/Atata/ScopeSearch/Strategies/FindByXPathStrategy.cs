@@ -39,7 +39,7 @@ public class FindByXPathStrategy : XPathComponentScopeFindStrategy
                 .ToArray();
         }
 
-        string conditionalXPath = conditionalXPathSelectors.Length > 0
+        string? conditionalXPath = conditionalXPathSelectors.Length > 0
             ? builder.WrapWithIndex(x => x.OuterXPath.ComponentXPath[y => y.JoinOr(conditionalXPathSelectors)])
             : null;
 
@@ -51,7 +51,7 @@ public class FindByXPathStrategy : XPathComponentScopeFindStrategy
                     : ((options.OuterXPath ?? ".//") + x))
             .ToArray();
 
-        string completeXPath = completeXPathSelectors.Length > 0
+        string? completeXPath = completeXPathSelectors.Length > 0
             ? builder.WrapWithIndex(x => x._($"({string.Join(" | ", completeXPathSelectors)})")).DescendantOrSelf.ComponentXPath
             : null;
 

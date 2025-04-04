@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class ComponentScopeXPathBuilder : XPathBuilder<ComponentScopeXPathBuilder>
 {
@@ -19,7 +21,8 @@ public class ComponentScopeXPathBuilder : XPathBuilder<ComponentScopeXPathBuilde
     public ComponentScopeXPathBuilder TermsConditionOfText =>
         _(Options.Match.CreateXPathCondition(Options.Terms, "text()"));
 
-    public static implicit operator string(ComponentScopeXPathBuilder builder) =>
+    [return: NotNullIfNotNull(nameof(builder))]
+    public static implicit operator string?(ComponentScopeXPathBuilder? builder) =>
         builder?.XPath;
 
     public ComponentScopeXPathBuilder TermsConditionOf(string attributeName) =>

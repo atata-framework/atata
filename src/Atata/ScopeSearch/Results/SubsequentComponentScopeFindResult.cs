@@ -9,7 +9,7 @@ public sealed class SubsequentComponentScopeFindResult : ComponentScopeFindResul
     {
     }
 
-    public SubsequentComponentScopeFindResult(IEnumerable<ISearchContext> scopeSources, IComponentScopeFindStrategy strategy, ComponentScopeFindOptions? scopeFindOptions = null)
+    public SubsequentComponentScopeFindResult(IReadOnlyList<ISearchContext> scopeSources, IComponentScopeFindStrategy strategy, ComponentScopeFindOptions? scopeFindOptions = null)
         : this(strategy, scopeFindOptions) =>
         ScopeSources = scopeSources ?? throw new ArgumentNullException(nameof(scopeSources));
 
@@ -23,7 +23,7 @@ public sealed class SubsequentComponentScopeFindResult : ComponentScopeFindResul
         ScopeFindOptions = scopeFindOptions;
     }
 
-    public IEnumerable<ISearchContext> ScopeSources { get; } = Enumerable.Empty<IWebElement>();
+    public IReadOnlyList<ISearchContext> ScopeSources { get; } = [];
 
     public By? ScopeSourceBy { get; }
 

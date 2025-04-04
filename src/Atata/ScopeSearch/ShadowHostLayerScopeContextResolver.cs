@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class ShadowHostLayerScopeContextResolver : ILayerScopeContextResolver
 {
@@ -21,6 +23,7 @@ throw 'Element\'s shadowRoot doesn\'t contain any elements.';";
     public string DefaultOuterXPath => "..//";
 
     public ISearchContext Resolve(IWebElement element, WebDriverSession session) =>
-        (IWebElement)session.Driver.AsScriptExecutor()
-            .ExecuteScriptWithLogging(session.Log, GetShadowRootChildElementsScript, element);
+        session.Driver.AsScriptExecutor()
+            .ExecuteScriptWithLogging(session.Log, GetShadowRootChildElementsScript, element) as IWebElement
+        ?? throw new InvalidOperationException($"Failed to find a shadow DOM element in {Stringifier.ToString(element).ToLowerFirstLetter()}.");
 }

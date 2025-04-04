@@ -1,8 +1,10 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
 {
-    public static StrategyScopeLocatorExecutor Default { get; } = new StrategyScopeLocatorExecutor();
+    public static StrategyScopeLocatorExecutor Default { get; } = new();
 
     public XPathComponentScopeFindResult[] Execute(StrategyScopeLocatorExecutionData executionData)
     {
@@ -73,9 +75,9 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
         {
             ComponentScopeFindOptions nextScopeFindOptions = subsequentResult.ScopeFindOptions ?? scopeLocateOptions;
 
-            if (subsequentResult.ScopeSources?.Count() == 1)
+            if (subsequentResult.ScopeSources.Count == 1)
             {
-                return Execute(subsequentResult.Strategy, subsequentResult.ScopeSources.First(), nextScopeFindOptions, searchOptions);
+                return Execute(subsequentResult.Strategy, subsequentResult.ScopeSources[0], nextScopeFindOptions, searchOptions);
             }
             else
             {
@@ -90,7 +92,7 @@ public class StrategyScopeLocatorExecutor : IStrategyScopeLocatorExecutor
                 // TODO: When there are no results, do retry.
                 var results = nextScopeSources
                     .Select(nextScopeSource => Execute(subsequentResult.Strategy, nextScopeSource, nextScopeFindOptions, nextSearchOptions))
-                    .Where(xPathResults => xPathResults != null)
+                    .Where(xPathResults => xPathResults is not null)
                     .SelectMany(xPathResults => xPathResults)
                     .ToArray();
 
