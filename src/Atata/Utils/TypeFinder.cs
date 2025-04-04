@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Provides a set of methods for type finding.
@@ -38,7 +40,7 @@ public static class TypeFinder
 
         Type DoFind(string name)
         {
-            Type type = null;
+            Type? type = null;
 
             if (name.Contains(NamespaceSeparator))
             {
@@ -60,7 +62,7 @@ public static class TypeFinder
     private static Type FindAmongTypes(string typeName, IEnumerable<Type> typesToFindAmong)
     {
         string pureTypeName;
-        string namespacePart = null;
+        string? namespacePart = null;
         string[] declaringTypeNames = [];
 
         if (typeName.Contains(NamespaceSeparator))
@@ -86,7 +88,7 @@ public static class TypeFinder
             : FilterByNameConsideringGeneric(typesToFindAmong, pureTypeName))
             .ToArray();
 
-        if (namespacePart != null)
+        if (namespacePart is not null)
         {
             matchingTypes = FilterByNamespacePart(matchingTypes, namespacePart);
         }
@@ -125,7 +127,7 @@ public static class TypeFinder
     {
         bool DoesMatch(Type type)
         {
-            Type currentType = type.DeclaringType;
+            Type? currentType = type.DeclaringType;
 
             foreach (string typeName in declaringTypeNames)
             {
@@ -138,7 +140,7 @@ public static class TypeFinder
                 if (!match)
                     return false;
 
-                currentType = currentType.DeclaringType;
+                currentType = currentType!.DeclaringType;
             }
 
             return true;
@@ -149,7 +151,7 @@ public static class TypeFinder
 
     private static IEnumerable<Type> FilterByNamespacePart(IEnumerable<Type> types, string namespacePart)
     {
-        Regex regex = new Regex($@"(^|.+\.){namespacePart}$", RegexOptions.IgnoreCase);
+        Regex regex = new($@"(^|.+\.){namespacePart}$", RegexOptions.IgnoreCase);
 
         return types.Where(x => regex.IsMatch(x.Namespace));
     }
