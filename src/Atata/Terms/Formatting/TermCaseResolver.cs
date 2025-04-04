@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class TermCaseResolver
 {
@@ -21,7 +23,7 @@ public static class TermCaseResolver
         [TermCase.PascalHyphenKebab] = FormatterItem.For<PascalHyphenKebabTermFormatter>()
     };
 
-    public static string ApplyCase(string value, TermCase termCase, CultureInfo culture = null)
+    public static string ApplyCase(string value, TermCase termCase, CultureInfo? culture = null)
     {
         value.CheckNotNull(nameof(value));
 
@@ -33,12 +35,12 @@ public static class TermCaseResolver
         return ApplyCase(words, termCase, culture);
     }
 
-    public static string ApplyCase(string[] words, TermCase termCase, CultureInfo culture = null)
+    public static string ApplyCase(string[] words, TermCase termCase, CultureInfo? culture = null)
     {
         words.CheckNotNull(nameof(words));
         culture ??= CultureInfo.CurrentCulture;
 
-        if (words.Length == 0)
+        if (words is [])
             return string.Empty;
 
         if (termCase == TermCase.None)
@@ -61,7 +63,7 @@ public static class TermCaseResolver
 
     private sealed class FormatterItem
     {
-        public FormatterItem(ITermFormatter formatter, string stringFormat = null)
+        private FormatterItem(ITermFormatter formatter, string? stringFormat = null)
         {
             Formatter = formatter;
             StringFormat = stringFormat;
@@ -69,9 +71,9 @@ public static class TermCaseResolver
 
         public ITermFormatter Formatter { get; }
 
-        public string StringFormat { get; }
+        public string? StringFormat { get; }
 
-        public static FormatterItem For<T>(string stringFormat = null)
+        public static FormatterItem For<T>(string? stringFormat = null)
             where T : ITermFormatter, new()
         {
             ITermFormatter formatter = new T();
