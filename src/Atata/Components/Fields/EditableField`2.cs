@@ -100,7 +100,7 @@ public abstract class EditableField<TValue, TOwner> : Field<TValue, TOwner>
     /// </summary>
     /// <param name="value">The generated value.</param>
     /// <returns>The instance of the owner page object.</returns>
-    public TOwner SetRandom(out TValue value)
+    public TOwner SetRandom([NotNull] out TValue value)
     {
         value = GenerateRandomValue();
         return Set(value);
@@ -126,6 +126,7 @@ public abstract class EditableField<TValue, TOwner> : Field<TValue, TOwner>
     /// Generates the random value.
     /// </summary>
     /// <returns>The generated value.</returns>
+    [return: NotNull]
     protected virtual TValue GenerateRandomValue() =>
         ValueRandomizer.GetRandom<TValue>(Metadata);
 }

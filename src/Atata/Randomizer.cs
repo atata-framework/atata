@@ -82,15 +82,18 @@ public static class Randomizer
         return Math.Round(value, precision);
     }
 
+    [return: NotNull]
     public static T GetEnum<T>()
     {
         var values = typeof(T).GetIndividualEnumFlags().Cast<T>();
         return GetOneOf(values);
     }
 
+    [return: NotNull]
     public static T GetEnumExcluding<T>(params T[] valuesToExclude) =>
         GetEnumExcluding((IEnumerable<T>)valuesToExclude);
 
+    [return: NotNull]
     public static T GetEnumExcluding<T>(IEnumerable<T> valuesToExclude)
     {
         var values = typeof(T).GetIndividualEnumFlags().Cast<T>().Except(valuesToExclude);
@@ -100,15 +103,20 @@ public static class Randomizer
     public static bool GetBool() =>
         CreateRandom().Next(2) == 0;
 
+    [return: NotNull]
     public static T GetOneOf<T>(params T[] values) =>
         GetOneOf((IEnumerable<T>)values);
 
+    [return: NotNull]
     public static T GetOneOf<T>(IEnumerable<T> values)
     {
-        values.CheckNotNullOrEmpty(nameof(values));
+        values.CheckNotNull(nameof(values));
 
-        int valueIndex = CreateRandom().Next(values.Count());
-        return values.ElementAt(valueIndex);
+        IReadOnlyList<T> valueArray = values as IReadOnlyList<T> ?? [.. values];
+        valueArray.CheckNotNull(nameof(values));
+
+        int valueIndex = CreateRandom().Next(valueArray.Count);
+        return valueArray[valueIndex]!;
     }
 
     public static T[] GetManyOf<T>(int count, params T[] values) =>

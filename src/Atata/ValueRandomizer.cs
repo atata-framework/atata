@@ -67,12 +67,14 @@ public static class ValueRandomizer
     private static bool RandomizeBool(UIComponentMetadata metadata) =>
         Randomizer.GetBool();
 
+    [return: NotNull]
     private static T RandomizeNonFlagEnum<T>(Type enumType, UIComponentMetadata metadata)
     {
         var optionValues = GetEnumOptionValues<T>(enumType, metadata);
         return Randomizer.GetOneOf(optionValues);
     }
 
+    [return: NotNull]
     private static T RandomizeFlagsEnum<T>(Type enumType, UIComponentMetadata metadata)
     {
         var optionValues = GetEnumOptionValues<T>(enumType, metadata);
@@ -90,7 +92,7 @@ public static class ValueRandomizer
         }
         else
         {
-            return valuesAsArray[0];
+            return valuesAsArray[0]!;
         }
     }
 
@@ -135,6 +137,7 @@ public static class ValueRandomizer
         return includeAttribute?.Values?.Cast<T>().ToArray() ?? [];
     }
 
+    [return: NotNull]
     public static T GetRandom<T>(UIComponentMetadata metadata)
     {
         Type type = typeof(T);
