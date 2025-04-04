@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Indicates that the click on the parent component should occur on the specified event.
@@ -13,5 +15,5 @@ public class ClickParentAttribute : TriggerAttribute
     }
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-        ((Control<TOwner>)context.Component.Parent).Click();
+        ((Control<TOwner>)context.Component.Parent!).Click();
 }

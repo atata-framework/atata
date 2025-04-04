@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Defines the method to invoke on the specified event.
@@ -18,7 +20,7 @@ public class InvokeMethodAttribute : TriggerAttribute
     {
         bool isDefinedAtComponentLevel = context.Component.Metadata.ComponentAttributes.Contains(this);
 
-        var methodOwner = isDefinedAtComponentLevel ? context.Component : context.Component.Parent;
+        var methodOwner = isDefinedAtComponentLevel ? context.Component : context.Component.Parent!;
         MethodInfo method = methodOwner.GetType()
             .GetMethodWithThrowOnError(MethodName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
 

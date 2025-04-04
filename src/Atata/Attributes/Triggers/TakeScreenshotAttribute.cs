@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Indicates that a screenshot should be captured with an optional title.
@@ -20,7 +22,7 @@ public class TakeScreenshotAttribute : TriggerAttribute
     {
     }
 
-    public TakeScreenshotAttribute(ScreenshotKind kind, string title, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
+    public TakeScreenshotAttribute(ScreenshotKind kind, string? title, TriggerEvents on, TriggerPriority priority = TriggerPriority.Medium)
         : base(on, priority)
     {
         Kind = kind;
@@ -35,7 +37,7 @@ public class TakeScreenshotAttribute : TriggerAttribute
     /// <summary>
     /// Gets the title of a screenshot.
     /// </summary>
-    public string Title { get; }
+    public string? Title { get; }
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
         context.Component.Session.TakeScreenshot(Kind, Title);

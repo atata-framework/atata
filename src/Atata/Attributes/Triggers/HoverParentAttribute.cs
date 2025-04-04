@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Indicates that the hover on the parent component should occur on the specified event.
@@ -13,5 +15,5 @@ public class HoverParentAttribute : TriggerAttribute
     }
 
     protected internal override void Execute<TOwner>(TriggerContext<TOwner> context) =>
-        ((Control<TOwner>)context.Component.Parent).Hover();
+        ((Control<TOwner>)context.Component.Parent!).Hover();
 }

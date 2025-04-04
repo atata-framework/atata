@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Indicates to wait until Angular (v2+) has finished rendering and has no outstanding HTTP calls.

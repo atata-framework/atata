@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// The base trigger attribute class that can be used in the verification process when the page object is initialized.
@@ -46,28 +48,28 @@ public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute
 
     protected virtual TermMatch DefaultMatch => TermMatch.Equals;
 
-    public string Format
+    public string? Format
     {
         get => ResolveFormat();
         set => OptionalProperties[nameof(Format)] = value;
     }
 
-    internal TermCase ResolveCase(UIComponentMetadata metadata = null) =>
+    internal TermCase ResolveCase(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve(
             nameof(Case),
             DefaultCase,
-            metadata != null ? GetSettingsAttributes(metadata) : null);
+            metadata is not null ? GetSettingsAttributes(metadata) : null);
 
-    internal TermMatch ResolveMatch(UIComponentMetadata metadata = null) =>
+    internal TermMatch ResolveMatch(UIComponentMetadata? metadata = null) =>
         OptionalProperties.Resolve(
             nameof(Match),
             DefaultMatch,
-            metadata != null ? GetSettingsAttributes(metadata) : null);
+            metadata is not null ? GetSettingsAttributes(metadata) : null);
 
-    internal string ResolveFormat(UIComponentMetadata metadata = null) =>
-        OptionalProperties.Resolve<string>(
+    internal string? ResolveFormat(UIComponentMetadata? metadata = null) =>
+        OptionalProperties.Resolve<string?>(
             nameof(Format),
-            metadata != null ? GetSettingsAttributes(metadata) : null);
+            metadata is not null ? GetSettingsAttributes(metadata) : null);
 
     protected virtual IEnumerable<IHasOptionalProperties> GetSettingsAttributes(UIComponentMetadata metadata) =>
         [];
@@ -88,9 +90,9 @@ public abstract class TermVerificationTriggerAttribute : WaitingTriggerAttribute
             ? Values
             : [ResolveCase(metadata).ApplyTo(fallbackValue ?? throw new ArgumentNullException(nameof(fallbackValue)))];
 
-        string format = ResolveFormat(metadata);
+        string? format = ResolveFormat(metadata);
 
-        return !string.IsNullOrEmpty(format)
+        return format?.Length > 0
             ? [.. rawValues.Select(x => string.Format(format, x))]
             : rawValues;
     }

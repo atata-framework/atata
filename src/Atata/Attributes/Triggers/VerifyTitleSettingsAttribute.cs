@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Defines the settings to apply for the <see cref="VerifyTitleAttribute"/> trigger.
