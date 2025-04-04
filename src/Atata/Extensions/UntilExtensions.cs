@@ -1,10 +1,12 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 public static class UntilExtensions
 {
-    public static WaitUnit[] GetWaitUnits(this Until until, WaitOptions options = null)
+    public static WaitUnit[] GetWaitUnits(this Until until, WaitOptions? options = null)
     {
-        options ??= new WaitOptions();
+        options ??= new();
 
         return until switch
         {
@@ -67,7 +69,7 @@ public static class UntilExtensions
         {
             Method = WaitUnit.WaitMethod.Presence,
             Until = until,
-            SearchOptions = new SearchOptions
+            SearchOptions = new()
             {
                 Timeout = TimeSpan.FromSeconds(options.PresenceTimeout),
                 RetryInterval = TimeSpan.FromSeconds(options.RetryInterval),
@@ -81,7 +83,7 @@ public static class UntilExtensions
         {
             Method = WaitUnit.WaitMethod.Absence,
             Until = until,
-            SearchOptions = new SearchOptions
+            SearchOptions = new()
             {
                 Timeout = TimeSpan.FromSeconds(options.AbsenceTimeout),
                 RetryInterval = TimeSpan.FromSeconds(options.RetryInterval),

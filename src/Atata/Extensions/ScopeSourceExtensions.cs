@@ -1,15 +1,17 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 // TODO: Review to move these methods to UIComponent/UIComponent`1 class.
 public static class ScopeSourceExtensions
 {
-    public static ISearchContext GetScopeContext<TOwner>(this ScopeSource scopeSource, IUIComponent<TOwner> component, SearchOptions options = null)
+    public static ISearchContext GetScopeContext<TOwner>(this ScopeSource scopeSource, IUIComponent<TOwner> component, SearchOptions? options = null)
         where TOwner : PageObject<TOwner> =>
         GetScopeContext(scopeSource, (UIComponent)component, options);
 
-    public static ISearchContext GetScopeContext(this ScopeSource scopeSource, UIComponent component, SearchOptions options = null)
+    public static ISearchContext GetScopeContext(this ScopeSource scopeSource, UIComponent component, SearchOptions? options = null)
     {
-        options ??= new SearchOptions();
+        options ??= new();
 
         return scopeSource switch
         {

@@ -1,5 +1,7 @@
 ﻿#nullable enable
 
+#nullable enable
+
 namespace Atata;
 
 internal static class Int32Extensions
