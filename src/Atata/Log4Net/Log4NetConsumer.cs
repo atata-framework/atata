@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents the log consumer for log4net.
@@ -10,14 +12,14 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
 
     private static readonly Lazy<dynamic> s_lazyThreadContextProperties = new(GetThreadContextProperties);
 
-    private string _repositoryName;
+    private string? _repositoryName;
 
-    private Assembly _repositoryAssembly;
+    private Assembly? _repositoryAssembly;
 
     /// <summary>
     /// Gets or sets the name of the logger repository.
     /// </summary>
-    public string RepositoryName
+    public string? RepositoryName
     {
         get => _repositoryName;
         set
@@ -30,7 +32,7 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     /// <summary>
     /// Gets or sets the assembly to use to lookup the repository.
     /// </summary>
-    public Assembly RepositoryAssembly
+    public Assembly? RepositoryAssembly
     {
         get => _repositoryAssembly;
         set
@@ -43,7 +45,7 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
     /// <summary>
     /// Gets or sets the name of the logger.
     /// </summary>
-    public string LoggerName { get; set; }
+    public string? LoggerName { get; set; }
 
     private static Dictionary<LogLevel, dynamic> CreateLogLevelsMap()
     {
@@ -80,7 +82,7 @@ public class Log4NetConsumer : LazyInitializableLogConsumer, INamedLogConsumer
 
         var level = s_lazyLogLevelsMap.Value[eventInfo.Level];
 
-        Logger.Log(null, level, eventInfo.Message, eventInfo.Exception);
+        Logger!.Log(null, level, eventInfo.Message, eventInfo.Exception);
 
         properties.Clear();
     }
