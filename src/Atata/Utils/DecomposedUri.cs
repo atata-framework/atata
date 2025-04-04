@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class DecomposedUri : ICloneable
 {
@@ -15,7 +17,8 @@ internal sealed class DecomposedUri : ICloneable
 
     public string Fragment { get; set; } = string.Empty;
 
-    public static implicit operator string(DecomposedUri value) =>
+    [return: NotNullIfNotNull(nameof(value))]
+    public static implicit operator string?(DecomposedUri? value) =>
         value?.ToString();
 
     private static (string Fragment, int IndexOfHash) ExtractFragment(string uri)

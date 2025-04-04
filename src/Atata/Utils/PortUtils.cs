@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿#nullable enable
+
+using System.Net;
 using System.Net.Sockets;
 
 namespace Atata;
