@@ -327,14 +327,14 @@ public sealed class WebDriverSessionNavigator
         return nextPageObject;
     }
 
-    private string? PrepareNavigationUrl(string? navigationUrl, GoOptions options, IEnumerable<KeyValuePair<string, object>>? navigationUrlVariables)
+    private string? PrepareNavigationUrl(string? navigationUrl, GoOptions options, IEnumerable<KeyValuePair<string, object?>>? navigationUrlVariables)
     {
-        if (!string.IsNullOrEmpty(navigationUrl))
+        if (navigationUrl?.Length > 0)
             navigationUrl = _session.Variables.FillUriTemplateString(navigationUrl, navigationUrlVariables);
 
         navigationUrl = NormalizeAsAbsoluteUrlSafely(navigationUrl);
 
-        if (options.Navigate && !string.IsNullOrEmpty(options.Url))
+        if (options.Navigate && options.Url?.Length > 0)
         {
             string additionalUrl = _session.Variables.FillUriTemplateString(options.Url, navigationUrlVariables);
             navigationUrl = UriUtils.MergeAsString(navigationUrl, additionalUrl);

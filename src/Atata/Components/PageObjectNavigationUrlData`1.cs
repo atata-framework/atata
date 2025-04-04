@@ -9,7 +9,7 @@ internal sealed class PageObjectNavigationUrlData<TPageObject>
 
     internal string? Value { get; set; }
 
-    internal Dictionary<string, object>? Variables { get; private set; }
+    internal Dictionary<string, object?>? Variables { get; private set; }
 
     internal void Set(string? url)
     {
@@ -29,7 +29,7 @@ internal sealed class PageObjectNavigationUrlData<TPageObject>
         Appends = true;
     }
 
-    internal void SetVariable(string key, object value)
+    internal void SetVariable(string key, object? value)
     {
         key.CheckNotNullOrWhitespace(nameof(key));
 

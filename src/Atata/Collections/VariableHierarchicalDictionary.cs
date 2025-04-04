@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a variable hierarchical dictionary, which can contain a parent dictionary.
@@ -10,7 +12,7 @@
 /// Parent dictionary can also be a <see cref="VariableHierarchicalDictionary"/>,
 /// which allows building of multi-level dictionaries.
 /// </summary>
-public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<string, object>
+public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<string, object?>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="VariableHierarchicalDictionary"/> class.
@@ -18,8 +20,8 @@ public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<stri
     /// <param name="parentDictionary">The parent dictionary, which is optional.</param>
     /// <param name="comparer">The comparer, which is optional.</param>
     public VariableHierarchicalDictionary(
-        IReadOnlyDictionary<string, object> parentDictionary = null,
-        IEqualityComparer<string> comparer = null)
+        IReadOnlyDictionary<string, object?>? parentDictionary = null,
+        IEqualityComparer<string>? comparer = null)
         : base(parentDictionary, comparer)
     {
     }
@@ -44,7 +46,7 @@ public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<stri
     /// <inheritdoc cref="FillTemplateString(string)"/>
     /// <param name="template">The template string.</param>
     /// <param name="additionalVariables">The additional variables.</param>
-    public string FillTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
+    public string FillTemplateString(string template, IEnumerable<KeyValuePair<string, object?>>? additionalVariables) =>
         TransformTemplateString(template, additionalVariables, TemplateStringTransformer.Transform);
 
     /// <summary>
@@ -70,7 +72,7 @@ public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<stri
     /// <inheritdoc cref="FillPathTemplateString(string)"/>
     /// <param name="template">The template string.</param>
     /// <param name="additionalVariables">The additional variables.</param>
-    public string FillPathTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
+    public string FillPathTemplateString(string template, IEnumerable<KeyValuePair<string, object?>>? additionalVariables) =>
         TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformPath);
 
     /// <summary>
@@ -104,13 +106,13 @@ public sealed class VariableHierarchicalDictionary : HierarchicalDictionary<stri
     /// <inheritdoc cref="FillUriTemplateString(string)"/>
     /// <param name="template">The template string.</param>
     /// <param name="additionalVariables">The additional variables.</param>
-    public string FillUriTemplateString(string template, IEnumerable<KeyValuePair<string, object>> additionalVariables) =>
+    public string FillUriTemplateString(string template, IEnumerable<KeyValuePair<string, object?>>? additionalVariables) =>
         TransformTemplateString(template, additionalVariables, TemplateStringTransformer.TransformUri);
 
     private string TransformTemplateString(
         string template,
-        IEnumerable<KeyValuePair<string, object>> additionalVariables,
-        Func<string, IEnumerable<KeyValuePair<string, object>>, string> transformFunction)
+        IEnumerable<KeyValuePair<string, object?>>? additionalVariables,
+        Func<string, IEnumerable<KeyValuePair<string, object?>>, string> transformFunction)
     {
         template.CheckNotNull(nameof(template));
 

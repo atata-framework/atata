@@ -219,6 +219,29 @@ public static class AtataContextTests
             context.State.ToSutSubject()
                 .ValueOf(x => x.Get<string>()).Should.Be("val1");
         }
+
+        [Test]
+        public void SetNullWithAutoKeyViaBuilder()
+        {
+            var context = ConfigureSessionlessAtataContext()
+                .UseState<string>(null)
+                .Build();
+
+            context.State.ToSutSubject()
+                .ValueOf(x => x.Get<string>()).Should.BeNull();
+        }
+
+        [Test]
+        public void SetNullWithAutoKeyViaContext()
+        {
+            var context = ConfigureSessionlessAtataContext()
+                .Build();
+
+            context.State.Set<string>(null);
+
+            context.State.ToSutSubject()
+                .ValueOf(x => x.Get<string>()).Should.BeNull();
+        }
     }
 
     public sealed class RaiseAssertionError : SessionlessTestSuite

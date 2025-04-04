@@ -36,7 +36,7 @@ public static class TemplateStringTransformer
     /// <param name="template">The template.</param>
     /// <param name="variables">The variables.</param>
     /// <returns>The string result.</returns>
-    public static string Transform(string template, IEnumerable<KeyValuePair<string, object>> variables) =>
+    public static string Transform(string template, IEnumerable<KeyValuePair<string, object?>> variables) =>
         Transform(template, variables, AtataTemplateStringFormatter.Default);
 
     /// <summary>
@@ -57,7 +57,7 @@ public static class TemplateStringTransformer
     /// <param name="template">The template.</param>
     /// <param name="variables">The variables.</param>
     /// <returns>The string result.</returns>
-    public static string TransformPath(string template, IEnumerable<KeyValuePair<string, object>> variables) =>
+    public static string TransformPath(string template, IEnumerable<KeyValuePair<string, object?>> variables) =>
         Transform(template, variables, AtataPathTemplateStringFormatter.Default);
 
     /// <summary>
@@ -86,10 +86,10 @@ public static class TemplateStringTransformer
     /// <param name="template">The template.</param>
     /// <param name="variables">The variables.</param>
     /// <returns>The string result.</returns>
-    public static string TransformUri(string template, IEnumerable<KeyValuePair<string, object>> variables) =>
+    public static string TransformUri(string template, IEnumerable<KeyValuePair<string, object?>> variables) =>
         Transform(template, variables, AtataUriTemplateStringFormatter.Default);
 
-    private static string Transform(string template, IEnumerable<KeyValuePair<string, object>> variables, IFormatProvider formatProvider)
+    private static string Transform(string template, IEnumerable<KeyValuePair<string, object?>> variables, IFormatProvider formatProvider)
     {
         template.CheckNotNull(nameof(template));
         variables.CheckNotNull(nameof(variables));
@@ -98,7 +98,7 @@ public static class TemplateStringTransformer
         {
             string workingTemplate = template;
 
-            List<object> variablesValuesList = [];
+            List<object?> variablesValuesList = [];
             int variableIndex = 0;
 
             foreach (var variable in variables)
@@ -116,7 +116,7 @@ public static class TemplateStringTransformer
                 }
             }
 
-            object[] variablesValuesArray = [.. variablesValuesList];
+            object?[] variablesValuesArray = [.. variablesValuesList];
 
             try
             {

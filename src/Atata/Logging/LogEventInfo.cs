@@ -92,7 +92,7 @@ public sealed class LogEventInfo
     /// and the variables of <see cref="Session"/>/<see cref="Context"/>.
     /// </summary>
     /// <returns>The properties.</returns>
-    public IEnumerable<KeyValuePair<string, object>> GetProperties()
+    public IEnumerable<KeyValuePair<string, object?>> GetProperties()
     {
         yield return new("time-elapsed", TimeElapsed);
 

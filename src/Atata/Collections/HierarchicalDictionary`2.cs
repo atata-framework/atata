@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a hierarchical dictionary, which can contain a parent dictionary.
@@ -10,6 +12,7 @@
 /// <typeparam name="TKey">The type of keys.</typeparam>
 /// <typeparam name="TValue">The type of values.</typeparam>
 public class HierarchicalDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TValue>
+    where TKey : notnull
 {
     private readonly object _modificationLock = new();
 
@@ -23,8 +26,8 @@ public class HierarchicalDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TV
     /// <param name="parentDictionary">The parent dictionary, which is optional.</param>
     /// <param name="comparer">The comparer, which is optional.</param>
     public HierarchicalDictionary(
-        IReadOnlyDictionary<TKey, TValue> parentDictionary = null,
-        IEqualityComparer<TKey> comparer = null)
+        IReadOnlyDictionary<TKey, TValue>? parentDictionary = null,
+        IEqualityComparer<TKey>? comparer = null)
     {
         _parentDictionary = parentDictionary ?? new Dictionary<TKey, TValue>();
         comparer ??= (parentDictionary as HierarchicalDictionary<TKey, TValue>)?.Comparer
@@ -175,8 +178,10 @@ public class HierarchicalDictionary<TKey, TValue> : IReadOnlyDictionary<TKey, TV
     /// <see langword="true"/> if the dictionary contains an element that has the specified key;
     /// otherwise, <see langword="false"/>.
     /// </returns>
-    public bool TryGetValue(TKey key, out TValue value) =>
+#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
+    public bool TryGetValue(TKey key, [MaybeNullWhen(false)] out TValue value) =>
         _thisDictionary.TryGetValue(key, out value) || _parentDictionary.TryGetValue(key, out value);
+#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
 
     private Dictionary<TKey, TValue> CopyThisDictionary() =>
         new(_thisDictionary, Comparer);

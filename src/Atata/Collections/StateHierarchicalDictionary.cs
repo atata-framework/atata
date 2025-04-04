@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// Represents a state hierarchical dictionary, which can contain a parent dictionary.
@@ -9,7 +11,7 @@
 /// Parent dictionary can also be a <see cref="StateHierarchicalDictionary"/>,
 /// which allows building of multi-level dictionaries.
 /// </summary>
-public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string, object>
+public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string, object?>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="StateHierarchicalDictionary"/> class.
@@ -17,8 +19,8 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
     /// <param name="parentDictionary">The parent dictionary, which is optional.</param>
     /// <param name="comparer">The comparer, which is optional.</param>
     public StateHierarchicalDictionary(
-        IReadOnlyDictionary<string, object> parentDictionary = null,
-        IEqualityComparer<string> comparer = null)
+        IReadOnlyDictionary<string, object?>? parentDictionary = null,
+        IEqualityComparer<string>? comparer = null)
         : base(parentDictionary, comparer)
     {
     }
@@ -54,7 +56,7 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
     /// </returns>
     /// <exception cref="KeyNotFoundException">The given key '{key}' was not present in the dictionary.</exception>
     public TValue Get<TValue>(string key) =>
-        (TValue)this[key];
+        (TValue)this[key]!;
 
     /// <summary>
     /// Gets the value that is associated with the <typeparamref name="TValue"/> type full name as a key.
@@ -69,16 +71,16 @@ public sealed class StateHierarchicalDictionary : HierarchicalDictionary<string,
     /// <see langword="true"/> if the dictionary contains an element that has the key;
     /// otherwise, <see langword="false"/>.
     /// </returns>
-    public bool TryGetValue<TValue>(out TValue value) =>
+    public bool TryGetValue<TValue>([MaybeNullWhen(false)] out TValue value) =>
         TryGetValue(ResolveTypeKey<TValue>(), out value);
 
     /// <inheritdoc cref="HierarchicalDictionary{TKey, TValue}.TryGetValue(TKey, out TValue)"/>
     /// <typeparam name="TValue">The type of the value.</typeparam>
-    public bool TryGetValue<TValue>(string key, out TValue value)
+    public bool TryGetValue<TValue>(string key, [MaybeNullWhen(false)] out TValue value)
     {
-        if (base.TryGetValue(key, out object result))
+        if (base.TryGetValue(key, out object? result))
         {
-            value = (TValue)result;
+            value = (TValue)result!;
             return true;
         }
         else

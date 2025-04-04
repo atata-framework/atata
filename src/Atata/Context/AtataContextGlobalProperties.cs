@@ -352,7 +352,7 @@ public sealed class AtataContextGlobalProperties
 
     private DirectorySubject CreateArtifactsRootDirectorySubject()
     {
-        Dictionary<string, object> variables = new()
+        Dictionary<string, object?> variables = new()
         {
             ["basedir"] = AppDomain.CurrentDomain.BaseDirectory,
             ["run-start"] = RunStart,
@@ -361,7 +361,7 @@ public sealed class AtataContextGlobalProperties
 
         string path = TemplateStringTransformer.Transform(_artifactsRootPathTemplate, variables);
 
-        return new DirectorySubject(path, nameof(ArtifactsRoot));
+        return new(path, nameof(ArtifactsRoot));
     }
 
     private void SetObjectCreationalProperties()
