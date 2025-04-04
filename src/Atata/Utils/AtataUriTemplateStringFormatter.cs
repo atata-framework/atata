@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustomFormatter
 {
@@ -21,7 +23,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
 
     public static AtataUriTemplateStringFormatter Default { get; } = new();
 
-    public object GetFormat(Type formatType) =>
+    public object? GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;
 
     public string Format(string format, object arg, IFormatProvider formatProvider)
@@ -50,7 +52,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
             {
                 if (format.Equals(item.Key, StringComparison.OrdinalIgnoreCase))
                 {
-                    return new UriVariableProcessingResult(null, item.Value, true);
+                    return new UriVariableProcessingResult(string.Empty, item.Value, true);
                 }
                 else if (format.StartsWith(item.Key + ':', StringComparison.OrdinalIgnoreCase))
                 {
@@ -65,7 +67,7 @@ internal sealed class AtataUriTemplateStringFormatter : IFormatProvider, ICustom
             }
         }
 
-        return new UriVariableProcessingResult(format, s_defaultModifierFunction, false);
+        return new(format, s_defaultModifierFunction, false);
     }
 
     private sealed class UriVariableProcessingResult

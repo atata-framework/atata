@@ -1,17 +1,19 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFormatter
 {
     private const string InnerFormatValueIndicator = "*";
 
-    private readonly Func<string, string> _argumentHandler;
+    private readonly Func<string, string>? _argumentHandler;
 
-    internal AtataTemplateStringFormatter(Func<string, string> argumentHandler = null) =>
+    internal AtataTemplateStringFormatter(Func<string, string>? argumentHandler = null) =>
         _argumentHandler = argumentHandler;
 
     public static AtataTemplateStringFormatter Default { get; } = new();
 
-    public object GetFormat(Type formatType) =>
+    public object? GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;
 
     public string Format(string format, object arg, IFormatProvider formatProvider)
@@ -19,7 +21,7 @@ internal sealed class AtataTemplateStringFormatter : IFormatProvider, ICustomFor
         if (arg is null)
             return string.Empty;
 
-        if (!string.IsNullOrEmpty(format))
+        if (format?.Length > 0)
         {
             if (arg is IFormattable argFormattable)
             {

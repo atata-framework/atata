@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class AtataPathTemplateStringFormatter : IFormatProvider, ICustomFormatter
 {
@@ -12,7 +14,7 @@ internal sealed class AtataPathTemplateStringFormatter : IFormatProvider, ICusto
 
     public static AtataPathTemplateStringFormatter Default { get; } = new();
 
-    public object GetFormat(Type formatType) =>
+    public object? GetFormat(Type formatType) =>
         formatType == typeof(ICustomFormatter) ? this : null;
 
     public string Format(string format, object arg, IFormatProvider formatProvider)
