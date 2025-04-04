@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 /// <summary>
 /// A factory of <see cref="LogEventInfo"/>.
@@ -12,5 +14,5 @@ internal interface ILogEventInfoFactory
     /// <param name="level">The level.</param>
     /// <param name="message">The message.</param>
     /// <returns>The <see cref="LogEventInfo"/> instance.</returns>
-    LogEventInfo Create(DateTime timestamp, LogLevel level, string message);
+    LogEventInfo Create(DateTime timestamp, LogLevel level, string? message);
 }

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class CategoryLogEventInfoFactory : ILogEventInfoFactory
 {
@@ -14,7 +16,7 @@ internal sealed class CategoryLogEventInfoFactory : ILogEventInfoFactory
         _category = category.CheckNotNullOrWhitespace(nameof(category));
     }
 
-    public LogEventInfo Create(DateTime timestamp, LogLevel level, string message)
+    public LogEventInfo Create(DateTime timestamp, LogLevel level, string? message)
     {
         var eventInfo = _parentFactory.Create(timestamp, level, message);
 

@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class AtataSessionLogEventInfoFactory : ILogEventInfoFactory
 {
@@ -14,7 +16,7 @@ internal sealed class AtataSessionLogEventInfoFactory : ILogEventInfoFactory
         _session = session.CheckNotNull(nameof(session));
     }
 
-    public LogEventInfo Create(DateTime timestamp, LogLevel level, string message)
+    public LogEventInfo Create(DateTime timestamp, LogLevel level, string? message)
     {
         var eventInfo = _parentFactory.Create(timestamp, level, message);
 

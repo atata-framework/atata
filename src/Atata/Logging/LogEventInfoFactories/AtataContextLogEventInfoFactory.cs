@@ -1,4 +1,6 @@
-﻿namespace Atata;
+﻿#nullable enable
+
+namespace Atata;
 
 internal sealed class AtataContextLogEventInfoFactory : ILogEventInfoFactory
 {
@@ -7,7 +9,7 @@ internal sealed class AtataContextLogEventInfoFactory : ILogEventInfoFactory
     internal AtataContextLogEventInfoFactory(AtataContext context) =>
         _context = context.CheckNotNull(nameof(context));
 
-    public LogEventInfo Create(DateTime timestamp, LogLevel level, string message) =>
+    public LogEventInfo Create(DateTime timestamp, LogLevel level, string? message) =>
         new(_context)
         {
             Timestamp = timestamp,
