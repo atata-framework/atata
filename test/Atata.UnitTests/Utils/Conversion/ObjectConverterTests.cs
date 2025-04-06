@@ -4,7 +4,7 @@ public static class ObjectConverterTests
 {
     public class Convert
     {
-        private ObjectConverter _sut;
+        private ObjectConverter _sut = null!;
 
         [SetUp]
         public void SetUp() =>
@@ -123,7 +123,7 @@ public static class ObjectConverterTests
 
         private TDestination TestConvert<TDestination>(object sourceValue)
         {
-            object result = _sut.Convert<TDestination>(sourceValue);
+            object? result = _sut.Convert<TDestination>(sourceValue);
 
             return result.Should().BeAssignableTo<TDestination>().Subject;
         }

@@ -6,7 +6,7 @@ public static class DecomposedUriTests
     {
         [Test]
         public void WithNullUrl() =>
-            new DecomposedUri(null)
+            new DecomposedUri(null!)
                 .Should().BeEquivalentTo(new DecomposedUri());
 
         [Test]

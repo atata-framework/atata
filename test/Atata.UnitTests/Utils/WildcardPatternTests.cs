@@ -34,7 +34,7 @@ public static class WildcardPatternTests
         [Test]
         public void WithNullInput()
         {
-            Action action = () => WildcardPattern.IsMatch(null, "some");
+            Action action = () => WildcardPattern.IsMatch(null!, "some");
 
             action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null. (Parameter 'input')");
         }
@@ -42,7 +42,7 @@ public static class WildcardPatternTests
         [Test]
         public void WithNullPattern()
         {
-            Action action = () => WildcardPattern.IsMatch("some", null);
+            Action action = () => WildcardPattern.IsMatch("some", null!);
 
             action.Should().Throw<ArgumentNullException>().WithMessage("Value cannot be null. (Parameter 'pattern')");
         }

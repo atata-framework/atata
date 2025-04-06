@@ -8,7 +8,7 @@ public sealed class AttributesBuilderTests
         new TermAttribute("some-id")
     ];
 
-    private AttributesBuilder _sut;
+    private AttributesBuilder _sut = null!;
 
     [SetUp]
     public void SetUp() =>

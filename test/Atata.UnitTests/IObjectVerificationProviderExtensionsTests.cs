@@ -85,7 +85,7 @@ public static class IObjectVerificationProviderExtensionsTests
             public void WithNull() =>
                 Assert.Throws<ArgumentNullException>(() =>
                     new[] { 1, 2 }.ToSutSubject()
-                        .Should.ConsistSequentiallyOf(null));
+                        .Should.ConsistSequentiallyOf(null!));
 
             [Test]
             public void WithEmpty() =>

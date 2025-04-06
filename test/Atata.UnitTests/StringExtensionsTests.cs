@@ -7,7 +7,7 @@ public static class StringExtensionsTests
         [Test]
         public static void WithNullValue() =>
             Assert.Throws<ArgumentNullException>(() =>
-                (null as string).TrimStart("abc"));
+                ((null as string)!).TrimStart("abc"));
 
         [TestCase("abcdef", null, ExpectedResult = "abcdef")]
         [TestCase("abcdef", "", ExpectedResult = "abcdef")]
@@ -25,7 +25,7 @@ public static class StringExtensionsTests
         [Test]
         public static void WithNullInvalidChars() =>
             Assert.Throws<ArgumentNullException>(() =>
-                "some".Sanitize(null, '_'));
+                "some".Sanitize(null!, '_'));
 
         [TestCase("abcdef", new[] { 'c', 'f' }, 'X', ExpectedResult = "abXdeX")]
         [TestCase("abcdef", new char[] { }, 'X', ExpectedResult = "abcdef")]
@@ -41,7 +41,7 @@ public static class StringExtensionsTests
         [Test]
         public static void WithNullInvalidChars() =>
             Assert.Throws<ArgumentNullException>(() =>
-                "some".Sanitize(null));
+                "some".Sanitize(null!));
 
         [TestCase("abcdef", new[] { 'c', 'f' }, ExpectedResult = "abde")]
         [TestCase("abcdef", new char[] { }, ExpectedResult = "abcdef")]

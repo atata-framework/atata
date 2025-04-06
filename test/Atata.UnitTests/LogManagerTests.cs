@@ -2,11 +2,11 @@
 
 public class LogManagerTests
 {
-    private LogConsumerSpy _consumerSpy;
+    private LogConsumerSpy _consumerSpy = null!;
 
     [SetUp]
     public void SetUp() =>
-        _consumerSpy = new LogConsumerSpy();
+        _consumerSpy = new();
 
     [Test]
     public void Info_WithSecretString()
@@ -175,10 +175,10 @@ public class LogManagerTests
             x => x.NestingText == "- - > " && x.Message == "trace sub-section" && x.Category == category1Name,
             x => x.NestingText == "- - - " && x.Message == "inner info message" && x.Category == category1Name,
             x => x.NestingText == "- - - " && x.Message == "inner trace message" && x.Category == category1Name,
-            x => x.NestingText == "- - < " && x.Message.StartsWith("trace sub-section (") && x.Category == category1Name,
-            x => x.NestingText == "- < " && x.Message.StartsWith("step section (") && x.Category == category1Name,
+            x => x.NestingText == "- - < " && x.Message!.StartsWith("trace sub-section (") && x.Category == category1Name,
+            x => x.NestingText == "- < " && x.Message!.StartsWith("step section (") && x.Category == category1Name,
             x => x.NestingText == "- " && x.Message == "trace for sub-category" && x.Category == category2Name,
-            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.Category == null);
+            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.Category == null);
     }
 
     [Test]
@@ -204,10 +204,10 @@ public class LogManagerTests
             x => x.NestingText == "- - > " && x.Message == "trace sub-section" && x.ExternalSource == sourceName,
             x => x.NestingText == "- - - " && x.Message == "inner info message" && x.ExternalSource == sourceName,
             x => x.NestingText == "- - - " && x.Message == "inner trace message" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- - < " && x.Message.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
-            x => x.NestingText == "- < " && x.Message.StartsWith("step section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == "- - < " && x.Message!.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == "- < " && x.Message!.StartsWith("step section (") && x.ExternalSource == sourceName,
             x => x.NestingText == "- " && x.Message == "trace for sub-category" && x.ExternalSource == sourceName && x.Category == "cat1",
-            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.ExternalSource == null);
+            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.ExternalSource == null);
     }
 
     [Test]
@@ -236,11 +236,11 @@ public class LogManagerTests
             x => x.NestingText == "- > " && x.Message == "trace sub-section" && x.ExternalSource == sourceName,
             x => x.NestingText == "- - " && x.Message == "inner info message" && x.ExternalSource == sourceName,
             x => x.NestingText == "- - " && x.Message == "inner trace message" && x.ExternalSource == sourceName,
-            x => x.NestingText == "- < " && x.Message.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
-            x => x.NestingText == "< " && x.Message.StartsWith("step section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == "- < " && x.Message!.StartsWith("trace sub-section (") && x.ExternalSource == sourceName,
+            x => x.NestingText == "< " && x.Message!.StartsWith("step section (") && x.ExternalSource == sourceName,
             x => x.NestingText == null && x.Message == "trace ext" && x.ExternalSource == sourceName && x.Category == "cat1",
             x => x.NestingText == "- " && x.Message == "trace non-ext" && x.ExternalSource == null && x.Category == "cat2",
-            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.ExternalSource == null);
+            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.ExternalSource == null);
     }
 
     [Test]
@@ -277,14 +277,14 @@ public class LogManagerTests
             x => x.NestingText == "- - " && x.Message == "CreateSubLogForCategory trace message" && x.Category == category1Name,
             x => x.NestingText == "- - " && x.Message == "ForCategory trace message" && x.Category == category2Name,
             x => x.NestingText == "- " && x.Message == "Root trace message" && x.Category == null,
-            x => x.NestingText == "- < " && x.Message.StartsWith("ForCategory (") && x.Category == category2Name,
-            x => x.NestingText == "- < " && x.Message.StartsWith("CreateSubLogForCategory (") && x.Category == category1Name,
-            x => x.NestingText == "< " && x.Message.StartsWith("root section (") && x.Category == null);
+            x => x.NestingText == "- < " && x.Message!.StartsWith("ForCategory (") && x.Category == category2Name,
+            x => x.NestingText == "- < " && x.Message!.StartsWith("CreateSubLogForCategory (") && x.Category == category1Name,
+            x => x.NestingText == "< " && x.Message!.StartsWith("root section (") && x.Category == null);
     }
 
     private static LogManager CreateSut(
         LogConsumerConfiguration[] consumerConfigurations,
-        SecretStringToMask[] secretStringsToMask = null) =>
+        SecretStringToMask[]? secretStringsToMask = null) =>
         new(
             new(
                 consumerConfigurations,
@@ -304,8 +304,8 @@ public class LogManagerTests
 
     private sealed class BasicLogEventInfoFactory : ILogEventInfoFactory
     {
-        public LogEventInfo Create(DateTime timestamp, LogLevel level, string message) =>
-            new(null)
+        public LogEventInfo Create(DateTime timestamp, LogLevel level, string? message) =>
+            new(null!)
             {
                 Timestamp = timestamp,
                 Level = level,

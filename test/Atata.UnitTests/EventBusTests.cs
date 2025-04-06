@@ -2,9 +2,9 @@
 
 public class EventBusTests
 {
-    protected Subject<EventBus> Sut { get; private set; }
+    protected Subject<EventBus> Sut { get; private set; } = null!;
 
-    protected AtataContext Context { get; private set; }
+    protected AtataContext Context { get; private set; } = null!;
 
     [SetUp]
     public void SetUp()
@@ -20,7 +20,7 @@ public class EventBusTests
     {
         [Test]
         public void WithNull() =>
-            Sut.Invoking(x => x.Publish<TestEvent>(null))
+            Sut.Invoking(x => x.Publish<TestEvent>(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -207,12 +207,12 @@ public class EventBusTests
     {
         [Test]
         public void WithNullDelegate() =>
-            Sut.Invoking(x => x.Subscribe<TestEvent>(null as Action))
+            Sut.Invoking(x => x.Subscribe<TestEvent>((null as Action)!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
         public void WithNullAsyncDelegate() =>
-            Sut.Invoking(x => x.Subscribe<TestEvent>(null as Func<CancellationToken, Task>))
+            Sut.Invoking(x => x.Subscribe<TestEvent>((null as Func<CancellationToken, Task>)!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -238,7 +238,7 @@ public class EventBusTests
     {
         [Test]
         public void WithNull() =>
-            Sut.Invoking(x => x.Unsubscribe(null))
+            Sut.Invoking(x => x.Unsubscribe(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -269,7 +269,7 @@ public class EventBusTests
     {
         [Test]
         public void WithNull() =>
-            Sut.Invoking(x => x.UnsubscribeHandler(null))
+            Sut.Invoking(x => x.UnsubscribeHandler(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]

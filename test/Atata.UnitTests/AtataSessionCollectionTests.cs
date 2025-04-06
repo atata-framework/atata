@@ -2,9 +2,9 @@
 
 public sealed class AtataSessionCollectionTests
 {
-    private AtataContext _context;
+    private AtataContext _context = null!;
 
-    private DisposableSubject<AtataSessionCollection> _sut;
+    private DisposableSubject<AtataSessionCollection> _sut = null!;
 
     [SetUp]
     public async Task SetUpAsync()

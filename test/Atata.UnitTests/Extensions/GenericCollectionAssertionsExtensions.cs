@@ -19,12 +19,12 @@ public static class GenericCollectionAssertionsExtensions
 
     public class ReferenceEqualityComparer<T> : EqualityComparer<T>
     {
-        private static IEqualityComparer<T> s_defaultComparer;
+        private static IEqualityComparer<T>? s_defaultComparer;
 
         public static new IEqualityComparer<T> Default =>
             s_defaultComparer ??= new ReferenceEqualityComparer<T>();
 
-        public override bool Equals(T x, T y) =>
+        public override bool Equals(T? x, T? y) =>
             ReferenceEquals(x, y);
 
         public override int GetHashCode(T obj) =>

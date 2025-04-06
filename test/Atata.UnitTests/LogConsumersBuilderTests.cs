@@ -2,7 +2,7 @@
 
 public class LogConsumersBuilderTests
 {
-    protected Subject<LogConsumersBuilder> Sut { get; private set; }
+    protected Subject<LogConsumersBuilder> Sut { get; private set; } = null!;
 
     [SetUp]
     public void SetUp() =>

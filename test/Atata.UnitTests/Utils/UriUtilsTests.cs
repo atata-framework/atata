@@ -13,11 +13,11 @@ public class UriUtilsTests
     [TestCase(null, false)]
     public void TryCreateAbsoluteUrl(string url, bool isAbsolute)
     {
-        var isActuallyAbsolute = UriUtils.TryCreateAbsoluteUrl(url, out Uri result);
+        var isActuallyAbsolute = UriUtils.TryCreateAbsoluteUrl(url, out Uri? result);
         isActuallyAbsolute.Should().Be(isAbsolute);
 
         if (isAbsolute)
-            result.AbsoluteUri.Should().StartWith(url);
+            result!.AbsoluteUri.Should().StartWith(url);
         else
             result.Should().BeNull();
     }
@@ -33,5 +33,5 @@ public class UriUtilsTests
     [Test]
     public void Concat_WithNullBaseUrl() =>
         Assert.Throws<ArgumentNullException>(() =>
-            UriUtils.Concat(null, "/path"));
+            UriUtils.Concat(null!, "/path"));
 }

@@ -8,7 +8,7 @@ public static class MulticastAttributeTests
 
     public class CalculateTargetRank
     {
-        private UIComponentMetadata _metadata;
+        private UIComponentMetadata _metadata = null!;
 
         [SetUp]
         public void SetUp()

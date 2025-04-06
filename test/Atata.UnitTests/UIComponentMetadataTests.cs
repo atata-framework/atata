@@ -2,7 +2,7 @@
 
 public class UIComponentMetadataTests
 {
-    private UIComponentMetadata _metadata;
+    private UIComponentMetadata _metadata = null!;
 
     public List<Attribute> Declared => _metadata.DeclaredAttributesList;
 

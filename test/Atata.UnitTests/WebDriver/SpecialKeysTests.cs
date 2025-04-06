@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 
 namespace Atata.UnitTests.WebDriver;
 

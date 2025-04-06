@@ -17,7 +17,7 @@ public sealed class WebDriverSessionBuilderTests
         copy.DriverFactories.Should().HaveCount(2);
         copy.DriverFactories.Should().NotContain(original.DriverFactories);
 
-        copy.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
+        copy.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Chrome);
         copy.DriverFactoryToUse.Should().NotBe(original.DriverFactoryToUse);
         copy.DriverFactories.Should().Contain(copy.DriverFactoryToUse);
     }
@@ -35,7 +35,7 @@ public sealed class WebDriverSessionBuilderTests
 
             // Assert
             builder.DriverFactories.Should().HaveCount(1);
-            builder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Edge);
+            builder.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Edge);
         }
 
         [Test]
@@ -50,7 +50,7 @@ public sealed class WebDriverSessionBuilderTests
 
             // Assert
             builder.DriverFactories.Should().HaveCount(1);
-            builder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Edge);
+            builder.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Edge);
         }
 
         [Test]
@@ -65,7 +65,7 @@ public sealed class WebDriverSessionBuilderTests
 
             // Assert
             builder.DriverFactories.Should().HaveCount(1);
-            builder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Edge);
+            builder.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Edge);
         }
     }
 
@@ -82,7 +82,7 @@ public sealed class WebDriverSessionBuilderTests
 
             // Assert
             builder.DriverFactories.Should().HaveCount(1);
-            builder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Edge);
+            builder.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Edge);
         }
 
         [Test]
@@ -111,7 +111,7 @@ public sealed class WebDriverSessionBuilderTests
 
             // Assert
             builder.DriverFactories.Should().HaveCount(2);
-            builder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
+            builder.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Chrome);
         }
     }
 }

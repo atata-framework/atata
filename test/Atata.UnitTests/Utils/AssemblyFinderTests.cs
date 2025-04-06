@@ -5,9 +5,9 @@ public sealed class AssemblyFinderTests
     [Test]
     public void Find()
     {
-        Assembly currentAssembly = Assembly.GetAssembly(typeof(AssemblyFinderTests));
+        Assembly currentAssembly = Assembly.GetAssembly(typeof(AssemblyFinderTests))!;
 
-        AssemblyFinder.Find(currentAssembly.GetName().Name)
+        AssemblyFinder.Find(currentAssembly.GetName().Name!)
             .Should().BeSameAs(currentAssembly);
     }
 

@@ -52,7 +52,7 @@ public static class ImprovedExpressionStringBuilderTests
         // Variable:
         string itemName = "VarStr";
         TestModel item = new() { Name = "PropStr" };
-        ValueProvider<string, object> valueItem = null;
+        ValueProvider<string, object>? valueItem = null;
         bool? nullableBool = null;
         bool? nullableBoolIsTrue = true;
 
@@ -62,9 +62,9 @@ public static class ImprovedExpressionStringBuilderTests
             .Returns("x => x.Item == \"FldStr\"");
         TestPredicate(x => x.Item != item.Name)
             .Returns("x => x.Item != item.Name");
-        TestPredicate(x => x.Item == valueItem)
+        TestPredicate(x => x.Item == valueItem!)
             .Returns("x => x.Item == valueItem");
-        TestPredicate(x => x.Item == valueItem.Value)
+        TestPredicate(x => x.Item == valueItem!.Value)
             .Returns("x => x.Item == valueItem.Value");
         TestPredicate(x => x.Item.Attributes.Checked == nullableBool)
             .Returns("x => x.Item.Attributes.Checked == null");
@@ -181,9 +181,9 @@ public static class ImprovedExpressionStringBuilderTests
 
     public abstract class TestComponent
     {
-        public TestItem Item { get; private set; }
+        public TestItem Item { get; private set; } = null!;
 
-        public TestItem Item2 { get; private set; }
+        public TestItem Item2 { get; private set; } = null!;
 
         public TestFlagValues Flags { get; private set; }
 
@@ -196,12 +196,12 @@ public static class ImprovedExpressionStringBuilderTests
 
     public class TestItem
     {
-        public TestItemAttributes Attributes { get; private set; }
+        public TestItemAttributes Attributes { get; private set; } = null!;
 
-        public string Value { get; private set; }
+        public string Value { get; private set; } = string.Empty;
 
-        public static implicit operator string(TestItem item) =>
-            item.ToString();
+        public static implicit operator string?(TestItem? item) =>
+            item?.ToString();
     }
 
     public abstract class TestItemAttributes
@@ -216,7 +216,7 @@ public static class ImprovedExpressionStringBuilderTests
     public class TestModel
     {
         public TestModel()
-            : this(null)
+            : this(null!)
         {
         }
 

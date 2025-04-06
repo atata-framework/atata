@@ -4,11 +4,11 @@ public sealed class AtataSessionPoolTests
 {
     private const int PoolMaxCapacity = 5;
 
-    private AtataContext _context;
+    private AtataContext _context = null!;
 
-    private FakeSessionBuilder _sessionBuilder;
+    private FakeSessionBuilder _sessionBuilder = null!;
 
-    private AtataSessionPool _sut;
+    private AtataSessionPool _sut = null!;
 
     [SetUp]
     public void SetUp()
@@ -150,7 +150,7 @@ public sealed class AtataSessionPoolTests
     public void Return_WithNull()
     {
         // Act
-        Action action = () => _sut.Return(null);
+        Action action = () => _sut.Return(null!);
 
         // Assert
         action.Should().ThrowExactly<ArgumentNullException>();

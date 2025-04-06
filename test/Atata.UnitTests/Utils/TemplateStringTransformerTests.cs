@@ -8,7 +8,7 @@ public static class TemplateStringTransformerTests
         public void WithMissingVariables()
         {
             string template = "{a}{b}{b}{c}{c:D2}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = 1
             };
@@ -22,7 +22,7 @@ public static class TemplateStringTransformerTests
         public void WithIncorrectFormat()
         {
             string template = "{a";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = 1
             };
@@ -36,7 +36,7 @@ public static class TemplateStringTransformerTests
         public void WithNullVariable()
         {
             string template = "-{a}-";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = null
             };
@@ -49,7 +49,7 @@ public static class TemplateStringTransformerTests
         public void WithNullVariable_AndExtendedStringFormat()
         {
             string template = "-{a:+*+}-";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = null
             };
@@ -64,7 +64,7 @@ public static class TemplateStringTransformerTests
         [TestCase("{{{a}}}", ExpectedResult = "{1}")]
         public string WithDoubleBraces(string template)
         {
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = 1
             };
@@ -76,7 +76,7 @@ public static class TemplateStringTransformerTests
         public void WithStringAndIntVariables()
         {
             string template = "{a}{b}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "1",
                 ["b"] = 2
@@ -90,7 +90,7 @@ public static class TemplateStringTransformerTests
         public void WithIntFormat()
         {
             string template = "-{a:D3}-";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = 1
             };
@@ -103,7 +103,7 @@ public static class TemplateStringTransformerTests
         public void WithDateTimeFormat()
         {
             string template = "{a:yyyy-MM-dd HH_mm_ss}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = new DateTime(2021, 5, 12, 11, 39, 15)
             };
@@ -116,7 +116,7 @@ public static class TemplateStringTransformerTests
         public void WithExtendedStringFormat()
         {
             string template = "{a:-*-}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "1"
             };
@@ -129,7 +129,7 @@ public static class TemplateStringTransformerTests
         public void WithExtendedStringFormatThatHasDoubleStars()
         {
             string template = "{a:** * **}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "1"
             };
@@ -138,7 +138,7 @@ public static class TemplateStringTransformerTests
                 .Should.Equal("* 1 *");
         }
 
-        private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
+        private static Subject<string> Act(string template, Dictionary<string, object?> variables) =>
             Subject.ResultOf(() => TemplateStringTransformer.Transform(template, variables));
     }
 
@@ -148,7 +148,7 @@ public static class TemplateStringTransformerTests
         public void WithStringAndIntVariables()
         {
             string template = "{a}{b}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "1",
                 ["b"] = 2
@@ -162,7 +162,7 @@ public static class TemplateStringTransformerTests
         public void WithVariablesContainingInvalidChars()
         {
             string template = "{a}-{b}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "10:30",
                 ["b"] = "1*2/3=?"
@@ -176,7 +176,7 @@ public static class TemplateStringTransformerTests
         public void WithExtendedStringFormat()
         {
             string template = "{a:-*/\\}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "a/\\b"
             };
@@ -189,7 +189,7 @@ public static class TemplateStringTransformerTests
         public void WithExtendedStringFormatThatHasDoubleStars()
         {
             string template = "{a:** * **}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "1"
             };
@@ -198,7 +198,7 @@ public static class TemplateStringTransformerTests
                 .Should.Equal("* 1 *");
         }
 
-        private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
+        private static Subject<string> Act(string template, Dictionary<string, object?> variables) =>
             Subject.ResultOf(() => TemplateStringTransformer.TransformPath(template, variables));
     }
 
@@ -208,7 +208,7 @@ public static class TemplateStringTransformerTests
         public void WithNormalVariables()
         {
             string template = "{a}{b}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "1",
                 ["b"] = 2
@@ -222,7 +222,7 @@ public static class TemplateStringTransformerTests
         public void WithVariablesToBeDataEscaped()
         {
             string template = "{a}-{b}?q=z{c:dataescape:#*}{c:#*}{c:#*:dataescape}";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "10:30",
                 ["b"] = "1*2/3=?",
@@ -237,7 +237,7 @@ public static class TemplateStringTransformerTests
         public void WithVariablesToBeNotEscaped()
         {
             string template = "/path/{a:d3:noescape}/{b:noescape}{c:_*_:noescape}{c:noescape:_*_}#frg";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = 42,
                 ["b"] = "x/?q=1&r",
@@ -252,7 +252,7 @@ public static class TemplateStringTransformerTests
         public void WithVariablesToBeUriEscaped()
         {
             string template = "/path{a:/*:uriescape}/{b:uriescape}#frg";
-            var variables = new Dictionary<string, object>
+            var variables = new Dictionary<string, object?>
             {
                 ["a"] = "</>",
                 ["b"] = "x/?q=1%2&r"
@@ -262,7 +262,7 @@ public static class TemplateStringTransformerTests
                 .Should.Equal("/path/%3C/%3E/x/?q=1%252&r#frg");
         }
 
-        private static Subject<string> Act(string template, Dictionary<string, object> variables) =>
+        private static Subject<string> Act(string template, Dictionary<string, object?> variables) =>
             Subject.ResultOf(() => TemplateStringTransformer.TransformUri(template, variables));
     }
 }

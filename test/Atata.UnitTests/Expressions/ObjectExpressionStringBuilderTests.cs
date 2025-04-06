@@ -79,7 +79,7 @@ public class ObjectExpressionStringBuilderTests
 
     public abstract class TestComponent
     {
-        public TestItem Item1 { get; private set; }
+        public TestItem Item1 { get; private set; } = null!;
 
         public abstract object this[string index] { get; }
 
@@ -88,15 +88,15 @@ public class ObjectExpressionStringBuilderTests
 
     public class TestItem
     {
-        public TestItemAttributes Attributes { get; private set; }
+        public TestItemAttributes Attributes { get; private set; } = null!;
 
-        public string Value { get; private set; }
+        public string Value { get; private set; } = string.Empty;
 
-        public static implicit operator string(TestItem item) =>
-            item.ToString();
+        public static implicit operator string?(TestItem? item) =>
+            item?.ToString();
 
         public string GetContent() =>
-            ToString();
+            ToString()!;
     }
 
     public abstract class TestItemAttributes
@@ -110,6 +110,6 @@ public class ObjectExpressionStringBuilderTests
 
     public class TestModel
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

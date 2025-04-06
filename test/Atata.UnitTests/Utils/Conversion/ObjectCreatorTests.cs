@@ -4,7 +4,7 @@ public static class ObjectCreatorTests
 {
     public class Create
     {
-        private ObjectCreator _sut;
+        private ObjectCreator _sut = null!;
 
         [SetUp]
         public void SetUp()
@@ -30,7 +30,7 @@ public static class ObjectCreatorTests
         {
             object result = _sut.Create(
                 typeof(TraceLogAttribute),
-                new Dictionary<string, object>
+                new Dictionary<string, object?>
                 {
                     ["targetName"] = "SomeName",
                     ["targetParentTypes"] = new[] { nameof(OrdinaryPage), nameof(TestPage) }
@@ -50,7 +50,7 @@ public static class ObjectCreatorTests
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),
-                new Dictionary<string, object>
+                new Dictionary<string, object?>
                 {
                     ["targetName"] = "SomeName",
                     ["targetParentTypes"] = new[] { nameof(OrdinaryPage), nameof(TestPage) }
@@ -70,7 +70,7 @@ public static class ObjectCreatorTests
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),
-                new Dictionary<string, object>
+                new Dictionary<string, object?>
                 {
                     ["match"] = TermMatch.StartsWith,
                     ["values"] = new[] { "val1", "val2" },
@@ -92,7 +92,7 @@ public static class ObjectCreatorTests
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),
-                new Dictionary<string, object>
+                new Dictionary<string, object?>
                 {
                     ["match"] = TermMatch.EndsWith,
                     ["value"] = "val1"
@@ -117,7 +117,7 @@ public static class ObjectCreatorTests
         {
             object result = _sut.Create(
                 typeof(FindByIdAttribute),
-                new Dictionary<string, object>
+                new Dictionary<string, object?>
                 {
                     ["case"] = TermCase.LowerMerged,
                     ["match"] = TermMatch.EndsWith

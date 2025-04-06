@@ -89,7 +89,7 @@ public static class TermResolverTests
 
             Assert.That(formatted, Is.EqualTo(expectedFormattedValue));
 
-            object unformatted = TermResolver.FromString(formatted, value.GetType(), options);
+            object? unformatted = TermResolver.FromString(formatted, value.GetType(), options);
             Assert.That(unformatted, Is.EqualTo(value));
         }
 
@@ -189,8 +189,8 @@ public static class TermResolverTests
                 Add(guid, "<{0:B}>");
             }
 
-            private void Add(object value, string format = "<{0}>", string expectedFormattedValue = null) =>
-                base.Add(value, format, expectedFormattedValue ?? string.Format(CultureInfo.GetCultureInfo(CultureName), format, value));
+            private void Add(object value, string? format = "<{0}>", string? expectedFormattedValue = null) =>
+                base.Add(value, format, expectedFormattedValue ?? string.Format(CultureInfo.GetCultureInfo(CultureName), format!, value));
         }
 #pragma warning restore S1144, CA1812 // Unused private types or members should be removed
     }

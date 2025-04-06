@@ -4,7 +4,7 @@ public static class AtataContextParentResolverTests
 {
     public sealed class FindParentContext
     {
-        private AtataContext _globalContext;
+        private AtataContext _globalContext = null!;
 
         [SetUp]
         public void SetUpTest() =>
@@ -69,7 +69,7 @@ public static class AtataContextParentResolverTests
             result.Should().Be(subNamespaceContext);
         }
 
-        private static AtataContext CreateContext(AtataContext parentContext, AtataContextScope? scope, TestInfo testInfo)
+        private static AtataContext CreateContext(AtataContext? parentContext, AtataContextScope? scope, TestInfo testInfo)
         {
             var context = new AtataContext(parentContext, scope, testInfo)
             {
@@ -87,7 +87,7 @@ public static class AtataContextParentResolverTests
                 AtataContextScope.Namespace,
                 new(typeof(AtataContext))); // Need any type from Atata namespace.
 
-        private AtataContext Act(AtataContextScope scope, TestInfo testInfo) =>
+        private AtataContext? Act(AtataContextScope scope, TestInfo testInfo) =>
             AtataContextParentResolver.FindParentContext(_globalContext, scope, testInfo);
     }
 }

@@ -2,14 +2,14 @@
 
 public sealed class TypeFinderTests
 {
-    private Assembly[] _assembliesToFindIn;
+    private Assembly[] _assembliesToFindIn = null!;
 
     [OneTimeSetUp]
     public void SetUpFixture() =>
         _assembliesToFindIn =
         [
-            Assembly.GetAssembly(typeof(AtataContext)),
-            Assembly.GetAssembly(typeof(TypeFinderTests))
+            Assembly.GetAssembly(typeof(AtataContext))!,
+            Assembly.GetAssembly(typeof(TypeFinderTests))!
         ];
 
     [TestCase("Atata.UnitTests.TestPage, Atata.UnitTests", ExpectedResult = typeof(TestPage))]

@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata.UnitTests.DataProvision;
+﻿namespace Atata.UnitTests.DataProvision;
 
 public sealed class EnumerableProviderTests
 {

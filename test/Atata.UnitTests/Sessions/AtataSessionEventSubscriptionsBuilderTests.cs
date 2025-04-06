@@ -4,7 +4,7 @@ public static class AtataSessionEventSubscriptionsBuilderTests
 {
     public sealed class Add
     {
-        private Subject<AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>> _sut;
+        private Subject<AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>> _sut = null!;
 
         [SetUp]
         public void SetUp() =>
@@ -13,7 +13,7 @@ public static class AtataSessionEventSubscriptionsBuilderTests
 
         [Test]
         public void NullAsAction() =>
-            _sut.Invoking(x => x.Add<TestEvent>(null as Action))
+            _sut.Invoking(x => x.Add<TestEvent>((null as Action)!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -212,7 +212,7 @@ public static class AtataSessionEventSubscriptionsBuilderTests
 
     public sealed class RemoveAll
     {
-        private Subject<AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>> _sut;
+        private Subject<AtataSessionEventSubscriptionsBuilder<AtataContextBuilder>> _sut = null!;
 
         [SetUp]
         public void SetUp() =>
@@ -221,7 +221,7 @@ public static class AtataSessionEventSubscriptionsBuilderTests
 
         [Test]
         public void WithNull() =>
-            _sut.Invoking(x => x.RemoveAll(null))
+            _sut.Invoking(x => x.RemoveAll(null!))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
