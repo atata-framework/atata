@@ -40,7 +40,7 @@ Features:
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Selenium.WebDriver" Version="4.30.0" />
-    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.2" />
+    <PackageReference Include="System.Threading.Tasks.Extensions" Version="4.6.3" />
   </ItemGroup>
   
   <ItemGroup>
