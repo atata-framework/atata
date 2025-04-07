@@ -69,7 +69,7 @@ public abstract class TestSuiteBase
         where TException : Exception
         where TInnerException : Exception
     {
-        TException exception = Assert.Throws<TException>(code);
+        TException exception = Assert.Throws<TException>(code)!;
 
         Assert.That(exception.InnerException, Is.InstanceOf<TInnerException>(), "Invalid inner exception.");
 
@@ -79,7 +79,7 @@ public abstract class TestSuiteBase
     protected static TException AssertThrowsWithoutInnerException<TException>(TestDelegate code)
         where TException : Exception
     {
-        TException exception = Assert.Throws<TException>(code);
+        TException exception = Assert.Throws<TException>(code)!;
 
         Assert.That(exception.InnerException, Is.Null, "Inner exception should be null.");
 
@@ -132,7 +132,7 @@ public abstract class TestSuiteBase
         }
     }
 
-    protected void VerifyLastLogEntries(params (LogLevel Level, string Message, Exception Exception)[] expectedLogEntries)
+    protected void VerifyLastLogEntries(params (LogLevel Level, string? Message, Exception? Exception)[] expectedLogEntries)
     {
         var actualLogEntries = CurrentLog.GetSnapshot(LogLevel.Trace, expectedLogEntries.Length);
         actualLogEntries.Should().HaveCount(expectedLogEntries.Length);
@@ -148,12 +148,12 @@ public abstract class TestSuiteBase
         }
     }
 
-    private static string GetCurrentTestFixtureName()
+    private static string? GetCurrentTestFixtureName()
     {
-        ITest testItem = TestExecutionContext.CurrentContext.CurrentTest;
+        ITest? testItem = TestExecutionContext.CurrentContext.CurrentTest;
 
         if (testItem is NUnit.Framework.Internal.SetUpFixture)
-            return testItem.TypeInfo.Type.Name;
+            return testItem.TypeInfo?.Type.Name;
 
         do
         {
@@ -167,17 +167,17 @@ public abstract class TestSuiteBase
         return null;
     }
 
-    private static Type GetCurrentTestFixtureType()
+    private static Type? GetCurrentTestFixtureType()
     {
-        ITest testItem = TestExecutionContext.CurrentContext.CurrentTest;
+        ITest? testItem = TestExecutionContext.CurrentContext.CurrentTest;
 
         if (testItem is NUnit.Framework.Internal.SetUpFixture)
-            return testItem.TypeInfo.Type;
+            return testItem.TypeInfo?.Type;
 
         do
         {
             if (testItem is TestFixture)
-                return testItem.TypeInfo.Type;
+                return testItem.TypeInfo?.Type;
 
             testItem = testItem.Parent;
         }

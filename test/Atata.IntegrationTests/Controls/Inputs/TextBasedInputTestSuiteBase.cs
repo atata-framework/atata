@@ -26,7 +26,7 @@ public abstract class TextBasedInputTestSuiteBase : WebDriverSessionTestSuite
         sut.Should.BeEmpty();
 
         sut.Type("1");
-        sut.Set(null);
+        sut.Set(null!);
         sut.Should.BeEmpty();
     }
 }

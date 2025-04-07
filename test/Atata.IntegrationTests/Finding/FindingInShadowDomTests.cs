@@ -131,6 +131,6 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
 
         AssertThrowsWithInnerException<AssertionException, WebDriverException>(() =>
             sut.Should.BePresent())
-            .InnerException.Message.Should().Contain("Element doesn't have shadowRoot value");
+            .InnerException!.Message.Should().Contain("Element doesn't have shadowRoot value");
     }
 }

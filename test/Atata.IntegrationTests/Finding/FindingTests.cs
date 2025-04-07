@@ -145,7 +145,7 @@ public class FindingTests : WebDriverSessionTestSuite
     public void ByScript_WithInvalidScript()
     {
         var exception = Assert.Throws<JavaScriptException>(() =>
-            _ = _page.OptionByScriptWithInvalidScript.Scope);
+            _ = _page.OptionByScriptWithInvalidScript.Scope)!;
 
         Assert.That(exception.Message, Does.StartWith("javascript error:"));
 
@@ -157,7 +157,7 @@ public class FindingTests : WebDriverSessionTestSuite
     public void ByScript_WithIncorrectScriptResult()
     {
         InvalidOperationException exception = Assert.Throws<InvalidOperationException>(() =>
-            _ = _page.OptionByScriptWithIncorrectScriptResult.Scope);
+            _ = _page.OptionByScriptWithIncorrectScriptResult.Scope)!;
 
         Assert.That(exception.Message, Does.Contain("I am not OK."));
 

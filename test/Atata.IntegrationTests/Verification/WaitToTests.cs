@@ -29,7 +29,7 @@ public class WaitToTests : WebDriverSessionTestSuite
         var waitTo = _page.IsTrue.WaitTo.AtOnce;
 
         var exception = Assert.Throws<TimeoutException>(() =>
-            waitTo.BeFalse());
+            waitTo.BeFalse())!;
 
         Assert.That(exception.Message, Does.StartWith("Timed out waiting for "));
         Assert.That(exception.InnerException, Is.Null);
@@ -41,7 +41,7 @@ public class WaitToTests : WebDriverSessionTestSuite
         var waitTo = _page.IsTrue.WaitTo.Not.AtOnce;
 
         var exception = Assert.Throws<TimeoutException>(() =>
-            waitTo.BeTrue());
+            waitTo.BeTrue())!;
 
         Assert.That(exception.Message, Does.StartWith("Timed out waiting for "));
         Assert.That(exception.InnerException, Is.Null);

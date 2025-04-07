@@ -29,7 +29,7 @@ public class DirectoryFixture : IDisposable
         return this;
     }
 
-    public DirectoryFixture CreateFile(string fileName, string content = null)
+    public DirectoryFixture CreateFile(string fileName, string? content = null)
     {
         File.WriteAllText(
             Path.Combine(DirectoryPath, fileName),

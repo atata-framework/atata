@@ -76,8 +76,8 @@ public class InputPage : Page<_>
 
         protected override void SetValue(DateTime? value)
         {
-            string valueAsString = ConvertValueToStringUsingSetFormat(value);
-            AssociatedInput.Set(valueAsString);
+            string? valueAsString = ConvertValueToStringUsingSetFormat(value);
+            AssociatedInput.Set(valueAsString!);
         }
     }
 }

@@ -106,7 +106,7 @@ public class GoTests : WebDriverSessionTestSuite
     {
         var page1 = Go.To<OrdinaryPage>();
         AssertCurrentPageObject(page1);
-        page1.PageUri.Should.Be(new Uri(WebSession.Current.BaseUrl));
+        page1.PageUri.Should.Be(new Uri(WebSession.Current.BaseUrl!));
     }
 
     [Test]
@@ -136,7 +136,7 @@ public class GoTests : WebDriverSessionTestSuite
         AtataContext.Current.Variables["GoToNumber"] = 2;
 
         var exception = Assert.Throws<FormatException>(
-            () => Go.To<PageWithTemplatedUrl>());
+            () => Go.To<PageWithTemplatedUrl>())!;
 
         exception.Message.Should().Contain(@"{GoToArg}");
     }
@@ -515,7 +515,7 @@ public class GoTests : WebDriverSessionTestSuite
         public void To_WithoutUrl_WhenNotNavigated()
         {
             var exception = Assert.Throws<InvalidOperationException>(() =>
-                Go.To<OrdinaryPage>());
+                Go.To<OrdinaryPage>())!;
 
             exception.Message.Should().StartWith("Cannot navigate to empty or null URL.");
         }
@@ -533,7 +533,7 @@ public class GoTests : WebDriverSessionTestSuite
         public void To_WithRelativeUrl_WhenNotNavigated()
         {
             var exception = Assert.Throws<InvalidOperationException>(() =>
-                Go.To<OrdinaryPage>(url: "/goto1"));
+                Go.To<OrdinaryPage>(url: "/goto1"))!;
 
             exception.Message.Should().StartWith("Cannot navigate to relative URL \"/goto1\".");
         }

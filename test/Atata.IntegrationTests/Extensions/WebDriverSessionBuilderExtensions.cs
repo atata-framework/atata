@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Atata.IntegrationTests;
+﻿namespace Atata.IntegrationTests;
 
 internal static class WebDriverSessionBuilderExtensions
 {

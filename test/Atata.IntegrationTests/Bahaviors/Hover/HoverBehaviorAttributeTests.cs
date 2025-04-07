@@ -15,7 +15,7 @@ public class HoverBehaviorAttributeTests : WebDriverSessionTestSuite
     public void Execute(HoverBehaviorAttribute behavior)
     {
         static object GetPageYOffset() =>
-            WebDriverSession.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
+            WebDriverSession.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;")!;
 
         WebDriverSession.Current.Driver.Manage().Window.Size = new Size(400, 400);
 

@@ -23,7 +23,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
             .Sessions.AddWebDriver();
 
         var exception = Assert.Throws<AtataSessionBuilderValidationException>(() =>
-           builder.Build());
+           builder.Build())!;
 
         exception.Message.Should().Contain("no driver is specified");
     }
@@ -33,10 +33,10 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
     {
         var builder = AtataContext.CreateBuilder(AtataContextScope.Test)
             .Sessions.AddWebDriver(x => x
-                .UseDriver(() => null));
+                .UseDriver(() => null!));
 
         var exception = Assert.Throws<WebDriverInitializationException>(
-            () => builder.Build());
+            () => builder.Build())!;
 
         exception.Message.Should().Be("Driver factory returned null as a driver.");
     }
@@ -65,7 +65,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
 
         var sessionBuilder = builder.Sessions.Builders.OfType<WebDriverSessionBuilder>().Single();
         sessionBuilder.DriverFactories.Should().HaveCount(1);
-        sessionBuilder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
+        sessionBuilder.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Chrome);
     }
 
     [Test]
@@ -80,7 +80,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
 
         var sessionBuilder = builder.Sessions.Builders.OfType<WebDriverSessionBuilder>().Single();
         sessionBuilder.DriverFactories.Should().HaveCount(2);
-        sessionBuilder.DriverFactoryToUse.Alias.Should().Be(WebDriverAliases.Chrome);
+        sessionBuilder.DriverFactoryToUse!.Alias.Should().Be(WebDriverAliases.Chrome);
         sessionBuilder.DriverFactories[1].Alias.Should().Be("chrome_other");
     }
 

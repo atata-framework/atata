@@ -13,9 +13,9 @@ public class ReportTests : WebDriverSessionTestSuite
             .Report.Debug("debugmessage")
             .Report.Info("infomessage")
             .Report.Warn("warnmessage")
-            .Report.Error(errorException, null)
+            .Report.Error(errorException)
             .Report.Error(errorException, "errormessage")
-            .Report.Fatal(fatalException, null)
+            .Report.Fatal(fatalException)
             .Report.Fatal(fatalException, "fatalmessage");
 
         VerifyLastLogEntries(
@@ -35,7 +35,7 @@ public class ReportTests : WebDriverSessionTestSuite
         Go.To<OrdinaryPage>()
             .Report.Info("{")
             .Report.Info("}")
-            .Report.Info(null);
+            .Report.Info(null!);
 
         VerifyLastLogEntries(
             (LogLevel.Info, "{", null),

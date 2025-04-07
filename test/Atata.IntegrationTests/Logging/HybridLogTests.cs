@@ -47,8 +47,8 @@ public sealed class HybridLogTests : TestSuiteBase
             x => x == "- - s1 sub-trace 2",
             x => x == "- - s2 sub-trace 1",
             x => x == "- - s2 sub-trace 2",
-            x => x.StartsWith("- < s1 section"),
-            x => x.StartsWith("- < s2 section"));
+            x => x!.StartsWith("- < s1 section"),
+            x => x!.StartsWith("- < s2 section"));
         logMessages.ElementAt(11).Should.StartWith("< context section");
     }
 }

@@ -6,7 +6,7 @@ public class StubPage : Page<_>
 {
     private bool _isTrueInASecond;
 
-    private System.Timers.Timer _isTrueInASecondTimer;
+    private System.Timers.Timer? _isTrueInASecondTimer;
 
     public ValueProvider<bool, _> IsTrue =>
         CreateValueProvider(nameof(IsTrue), () => true);
@@ -16,7 +16,7 @@ public class StubPage : Page<_>
 
     private bool GetIsTrueInASecond()
     {
-        if (!_isTrueInASecond && _isTrueInASecondTimer == null)
+        if (!_isTrueInASecond && _isTrueInASecondTimer is null)
         {
             _isTrueInASecondTimer = new(1000)
             {

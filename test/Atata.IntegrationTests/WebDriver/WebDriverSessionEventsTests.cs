@@ -6,7 +6,7 @@ public sealed class WebDriverSessionEventsTests : WebDriverSessionTestSuiteBase
     public void WebDriverInitCompletedEvent()
     {
         int executionsCount = 0;
-        IWebDriver driverOfEvent = null;
+        IWebDriver? driverOfEvent = null;
 
         var builder = ConfigureAtataContextWithWebDriverSession(session =>
             session.EventSubscriptions.Add<WebDriverInitCompletedEvent>((eventData, _) =>
@@ -24,7 +24,7 @@ public sealed class WebDriverSessionEventsTests : WebDriverSessionTestSuiteBase
     public void WebDriverInitCompletedEvent_WhenRestartDriver()
     {
         int executionsCount = 0;
-        IWebDriver initialDriver = null;
+        IWebDriver? initialDriver = null;
 
         var builder = ConfigureAtataContextWithWebDriverSession(session =>
             session.EventSubscriptions.Add<WebDriverInitCompletedEvent>(eventData =>

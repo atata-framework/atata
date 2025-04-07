@@ -19,12 +19,12 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
     ];
 
     protected AtataContext BuildAtataContextWithWebDriverSession(
-        Action<WebDriverSessionBuilder> configureWebDriverSession = null) =>
+        Action<WebDriverSessionBuilder>? configureWebDriverSession = null) =>
         ConfigureAtataContextWithWebDriverSession(configureWebDriverSession)
             .Build();
 
     protected AtataContextBuilder ConfigureAtataContextWithWebDriverSession(
-        Action<WebDriverSessionBuilder> configureWebDriverSession = null)
+        Action<WebDriverSessionBuilder>? configureWebDriverSession = null)
     {
         AtataContextBuilder atataContextBuilder = ConfigureSessionlessAtataContext();
 

@@ -16,7 +16,7 @@ public class PageObjectTests : WebDriverSessionTestSuite
     public void RefreshPageUntil() =>
         Go.To<WaitingPage>()
             .CurrentTime.Get(out TimeSpan? time)
-            .RefreshPageUntil(x => x.CurrentTime.Value > time.Value.Add(TimeSpan.FromSeconds(15)), timeout: 20, retryInterval: 2);
+            .RefreshPageUntil(x => x.CurrentTime.Value > time!.Value.Add(TimeSpan.FromSeconds(15)), timeout: 20, retryInterval: 2);
 
     [Test]
     public void RefreshPageUntil_WithTimeout()
@@ -26,7 +26,7 @@ public class PageObjectTests : WebDriverSessionTestSuite
 
         using (StopwatchAsserter.WithinSeconds(1))
             Assert.Throws<TimeoutException>(() =>
-                page.RefreshPageUntil(x => x.CurrentTime.Value > time.Value.Add(TimeSpan.FromSeconds(15)), timeout: 1));
+                page.RefreshPageUntil(x => x.CurrentTime.Value > time!.Value.Add(TimeSpan.FromSeconds(15)), timeout: 1));
     }
 
     [Test]
@@ -95,7 +95,7 @@ public class PageObjectTests : WebDriverSessionTestSuite
                 .AggregateAssert(x => x
                     .IsTrue.Should.AtOnce.BeFalse()
                     .IsTrue.Should.AtOnce.BeTrue()
-                    .IsTrue.Should.AtOnce.BeFalse()));
+                    .IsTrue.Should.AtOnce.BeFalse()))!;
 
         Assert.That(exception.Results, Has.Count.EqualTo(2));
     }
@@ -110,7 +110,7 @@ public class PageObjectTests : WebDriverSessionTestSuite
                    x.Should.AtOnce.BeFalse();
                    x.Should.AtOnce.BeTrue();
                    x.Should.AtOnce.BeFalse();
-               }));
+               }))!;
 
         Assert.That(exception.Results, Has.Count.EqualTo(2));
     }

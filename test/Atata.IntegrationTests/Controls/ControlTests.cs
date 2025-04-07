@@ -25,7 +25,7 @@ public class ControlTests : WebDriverSessionTestSuite
         Go.To<BasicControlsPage>()
             .OptionBWithScrollUsingActions.ScrollTo();
 
-        object yOffset = WebDriverSession.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
+        object? yOffset = WebDriverSession.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
 
         Assert.That(yOffset, Is.GreaterThan(200));
     }
@@ -38,7 +38,7 @@ public class ControlTests : WebDriverSessionTestSuite
         Go.To<BasicControlsPage>()
             .OptionBWithScrollUsingScript.ScrollTo();
 
-        object yOffset = WebDriverSession.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
+        object? yOffset = WebDriverSession.Current.Driver.AsScriptExecutor().ExecuteScript("return window.pageYOffset;");
 
         Assert.That(yOffset, Is.GreaterThan(200));
     }

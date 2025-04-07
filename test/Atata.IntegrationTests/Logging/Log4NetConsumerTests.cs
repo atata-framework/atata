@@ -85,8 +85,8 @@ public sealed class Log4NetConsumerTests : TestSuiteBase
 
         foreach (var fileAppender in fileAppenders)
         {
-            AssertThatFileShouldContainText(fileAppender.File, infoTestMessage);
-            AssertThatFileShouldNotContainText(fileAppender.File, traceTestMessage, debugTestMessage);
+            AssertThatFileShouldContainText(fileAppender.File!, infoTestMessage);
+            AssertThatFileShouldNotContainText(fileAppender.File!, traceTestMessage, debugTestMessage);
         }
     }
 
@@ -101,7 +101,7 @@ public sealed class Log4NetConsumerTests : TestSuiteBase
 
         // Act // Assert
         var exception = Assert.Throws<LogException>(() =>
-            builder.Build());
+            builder.Build())!;
 
         exception.Message.Should().Be("Repository [MissingRepository] is NOT defined.");
     }

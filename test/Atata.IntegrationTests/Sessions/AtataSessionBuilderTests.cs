@@ -36,7 +36,7 @@ public static class AtataSessionBuilderTests
 
             // Assert
             context.Sessions.Should().ContainSingle();
-            return (AtataContextScopes)context.Sessions[0].Variables["scopes"];
+            return (AtataContextScopes)context.Sessions[0].Variables["scopes"]!;
         }
     }
 
@@ -46,7 +46,7 @@ public static class AtataSessionBuilderTests
         public async Task WithoutContext()
         {
             AtataSession session = await new FakeSessionBuilder().BuildAsync();
-            AtataContext context = null;
+            AtataContext? context = null;
 
             await using (session)
             {
@@ -80,7 +80,7 @@ public static class AtataSessionBuilderTests
         public async Task WithinCurrentContext_ThenDisposeContext()
         {
             AtataContext context = AtataContext.CreateDefaultNonScopedBuilder().Build();
-            AtataSession session = null;
+            AtataSession? session = null;
 
             await using (context)
             {

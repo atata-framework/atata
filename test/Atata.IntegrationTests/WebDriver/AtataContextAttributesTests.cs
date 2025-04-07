@@ -26,7 +26,7 @@ public class AtataContextAttributesTests : WebDriverSessionTestSuiteBase
     public void Assembly()
     {
         ConfigureAtataContextWithWebDriverSession()
-            .Attributes.Assembly(System.Reflection.Assembly.GetAssembly(GetType())).Add(
+            .Attributes.Assembly(System.Reflection.Assembly.GetAssembly(GetType())!).Add(
                 new FindByContentAttribute("_missing_")
                 {
                     TargetParentType = typeof(BasicControlsPage),

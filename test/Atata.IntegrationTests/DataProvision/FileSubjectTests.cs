@@ -5,12 +5,12 @@ public sealed class FileSubjectTests
     [Test]
     public void Ctor_WithNullAsString() =>
         Assert.Throws<ArgumentNullException>(() =>
-            new FileSubject(null as string));
+            new FileSubject((null as string)!));
 
     [Test]
     public void Ctor_WithNullAsFileInfo() =>
         Assert.Throws<ArgumentNullException>(() =>
-            new FileSubject(null as FileInfo));
+            new FileSubject((null as FileInfo)!));
 
     [Test]
     public void Ctor_WithEmptyString() =>

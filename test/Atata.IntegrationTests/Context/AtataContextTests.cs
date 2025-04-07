@@ -58,12 +58,12 @@ public static class AtataContextTests
 
         [Test]
         public void WithNullAsRelativeFilePath() =>
-            _sut.Invoking(x => x.AddArtifact(null, "...", null, null))
+            _sut.Invoking(x => x.AddArtifact(null!, "...", null, null))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
         public void WithNullAsFileContent() =>
-            _sut.Invoking(x => x.AddArtifact("a.txt", null as string, null, null))
+            _sut.Invoking(x => x.AddArtifact("a.txt", (null as string)!, null, null))
                 .Should.Throw<ArgumentNullException>();
 
         [Test]
@@ -224,7 +224,7 @@ public static class AtataContextTests
         public void SetNullWithAutoKeyViaBuilder()
         {
             var context = ConfigureSessionlessAtataContext()
-                .UseState<string>(null)
+                .UseState<string?>(null)
                 .Build();
 
             context.State.ToSutSubject()
@@ -237,7 +237,7 @@ public static class AtataContextTests
             var context = ConfigureSessionlessAtataContext()
                 .Build();
 
-            context.State.Set<string>(null);
+            context.State.Set<string?>(null);
 
             context.State.ToSutSubject()
                 .ValueOf(x => x.Get<string>()).Should.BeNull();

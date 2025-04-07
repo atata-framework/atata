@@ -4,7 +4,7 @@ public abstract class WebDriverSessionTestSuite : WebDriverSessionTestSuiteBase
 {
     protected virtual bool ReuseDriver => true;
 
-    protected IWebDriver PreservedDriver { get; private set; }
+    protected IWebDriver? PreservedDriver { get; private set; }
 
     [SetUp]
     public void SetUp()

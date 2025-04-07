@@ -5,12 +5,12 @@ public sealed class DirectorySubjectTests
     [Test]
     public void Ctor_WithNullAsString() =>
         Assert.Throws<ArgumentNullException>(() =>
-            new DirectorySubject(null as string));
+            new DirectorySubject((null as string)!));
 
     [Test]
     public void Ctor_WithNullAsDirectoryInfo() =>
         Assert.Throws<ArgumentNullException>(() =>
-            new DirectorySubject(null as DirectoryInfo));
+            new DirectorySubject((null as DirectoryInfo)!));
 
     [Test]
     public void Ctor_WithEmptyString() =>

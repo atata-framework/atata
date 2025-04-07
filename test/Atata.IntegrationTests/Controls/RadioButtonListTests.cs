@@ -50,7 +50,7 @@ public class RadioButtonListTests : WebDriverSessionTestSuite
             _page.VerticalItems.Set("Item 999"));
 
         Assert.Throws<ArgumentNullException>(() =>
-            _page.VerticalItems.Set(null));
+            _page.VerticalItems.Set(null!));
     }
 
     [Test]
@@ -64,7 +64,7 @@ public class RadioButtonListTests : WebDriverSessionTestSuite
             _page.IntegerItems.Set(9));
 
         Assert.Throws<ArgumentNullException>(() =>
-            _page.VerticalItems.Set(null));
+            _page.VerticalItems.Set(null!));
     }
 
     [Test]
@@ -79,7 +79,7 @@ public class RadioButtonListTests : WebDriverSessionTestSuite
             _page.DecimalItems.Set(918.76m));
 
         Assert.Throws<ArgumentNullException>(() =>
-            _page.VerticalItems.Set(null));
+            _page.VerticalItems.Set(null!));
     }
 
     [Test]
@@ -121,6 +121,6 @@ public class RadioButtonListTests : WebDriverSessionTestSuite
             control.Set("Option Z"));
 
         Assert.Throws<ArgumentNullException>(() =>
-            control.Set(null));
+            control.Set(null!));
     }
 }
