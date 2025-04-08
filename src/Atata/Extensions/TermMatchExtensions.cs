@@ -19,7 +19,7 @@ public static class TermMatchExtensions
                 : $"normalize-space({operand}) = {valueString}",
             TermMatch.StartsWith => $"starts-with(normalize-space({operand}), {valueString})",
             TermMatch.EndsWith => $"substring(normalize-space({operand}), string-length(normalize-space({operand})) - {value.Length - 1}) = {valueString}",
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match)),
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match),
         };
     }
 
@@ -47,7 +47,7 @@ public static class TermMatchExtensions
             TermMatch.Equals => (text, term) => text != null && text.Equals(term, stringComparison),
             TermMatch.StartsWith => (text, term) => text != null && text.StartsWith(term, stringComparison),
             TermMatch.EndsWith => (text, term) => text != null && text.EndsWith(term, stringComparison),
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match))
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match)
         };
 
     internal static string GetShouldText(this TermMatch match) =>
@@ -57,7 +57,7 @@ public static class TermMatchExtensions
             TermMatch.Equals => "equal",
             TermMatch.StartsWith => "start with",
             TermMatch.EndsWith => "end with",
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match))
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match)
         };
 
     internal static string FormatComponentName(this TermMatch match, string[] values)
@@ -68,7 +68,7 @@ public static class TermMatchExtensions
             TermMatch.Equals => "{0}",
             TermMatch.StartsWith => "Starting with '{0}'",
             TermMatch.EndsWith => "Ending with '{0}'",
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match, nameof(match))
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(match)
         };
         string combinedValues = TermResolver.ToDisplayString(values);
 

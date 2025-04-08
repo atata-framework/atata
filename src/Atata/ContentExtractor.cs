@@ -97,7 +97,7 @@ return '';";
                 component.Script.ExecuteAgainst<string>(GetTextContentOfFirstChildTextNodeScript),
             ContentSource.LastChildTextNode =>
                 component.Script.ExecuteAgainst<string>(GetTextContentOfLastChildTextNodeScript),
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource, nameof(contentSource))
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(contentSource)
         };
     }
 }

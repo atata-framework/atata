@@ -46,6 +46,6 @@ public class ClearCacheAttribute : TriggerAttribute
                 component.Parent?.Parent?.Parent ?? throw UIComponentNotFoundException.ForGreatGrandparent(component.ComponentFullName),
             ClearCacheTarget.PageObject =>
                 component.Owner,
-            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(target, nameof(target))
+            _ => throw ExceptionFactory.CreateForUnsupportedEnumValue(target)
         };
 }
