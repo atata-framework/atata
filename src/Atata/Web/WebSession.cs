@@ -2,8 +2,8 @@
 
 public abstract class WebSession : AtataSession
 {
-    public static WebSession Current =>
-        AtataContext.ResolveCurrent().Sessions.Get<WebSession>();
+    public static WebSession? Current =>
+        AtataContext.Current?.Sessions.GetOrNull<WebSession>();
 
     /// <summary>
     /// Gets the <see cref="IWebSessionReport{TOwner}"/> instance that provides a reporting functionality.
