@@ -4,6 +4,9 @@ public abstract class TestSuiteBase
 {
     private FakeLogConsumer _fakeLogConsumer;
 
+    protected static AtataContext CurrentContext =>
+        AtataContext.ResolveCurrent();
+
     protected FakeLogConsumer CurrentLog =>
         _fakeLogConsumer;
 

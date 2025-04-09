@@ -7,7 +7,7 @@ public class WebDriverSessionTests : WebDriverSessionTestSuite
     [Test]
     public void RestartDriver()
     {
-        var session = WebDriverSession.Current;
+        var session = CurrentSession;
         session.RestartDriver();
 
         Go.To<BasicControlsPage>();

@@ -9,7 +9,7 @@ public class GoTests : WebDriverSessionTestSuite
     {
         Go.ToUrl(GoTo1Page.DefaultUrl);
 
-        WebDriverSession.Current.Driver.Url.Should().Be(BaseUrl + GoTo1Page.DefaultUrl);
+        CurrentSession.Driver.Url.Should().Be(BaseUrl + GoTo1Page.DefaultUrl);
     }
 
     [Test]
@@ -122,9 +122,9 @@ public class GoTests : WebDriverSessionTestSuite
     [Test]
     public void To_UsingDirectNavigation_WhenUrlIsTemplated()
     {
-        AtataContext.Current.Variables["GoToNumber"] = 2;
-        WebDriverSession.Current.Variables["GoToArg"] = 42;
-        WebDriverSession.Current.Variables["GoToFragment"] = "fragment";
+        CurrentContext.Variables["GoToNumber"] = 2;
+        CurrentSession.Variables["GoToArg"] = 42;
+        CurrentSession.Variables["GoToFragment"] = "fragment";
 
         Go.To<PageWithTemplatedUrl>()
             .PageUri.Relative.Should.Be("/goto2?arg=42#fragment");
@@ -133,7 +133,7 @@ public class GoTests : WebDriverSessionTestSuite
     [Test]
     public void To_UsingDirectNavigation_WhenUrlIsTemplated_AndNoVariable()
     {
-        AtataContext.Current.Variables["GoToNumber"] = 2;
+        CurrentContext.Variables["GoToNumber"] = 2;
 
         var exception = Assert.Throws<FormatException>(
             () => Go.To<PageWithTemplatedUrl>())!;
@@ -144,7 +144,7 @@ public class GoTests : WebDriverSessionTestSuite
     [Test]
     public void To_UsingRelativeUrlNavigation_WhenUrlIsTemplated()
     {
-        AtataContext.Current.Variables["GoToArg"] = "?";
+        CurrentContext.Variables["GoToArg"] = "?";
 
         Go.To<GoTo1Page>(url: "/goto1{GoToArg:dataescape:?q=*}")
             .PageUrl.Should.EndWith("/goto1?q=%3F");
@@ -153,7 +153,7 @@ public class GoTests : WebDriverSessionTestSuite
     [Test]
     public void To_UsingRelativeUrlNavigation_WhenUrlIsTemplated_AndVariableNull()
     {
-        AtataContext.Current.Variables["GoToArg"] = null;
+        CurrentContext.Variables["GoToArg"] = null;
 
         Go.To<GoTo1Page>(url: "/goto1{GoToArg:dataescape:?q=*}")
             .PageUrl.Should.EndWith("/goto1");
@@ -162,7 +162,7 @@ public class GoTests : WebDriverSessionTestSuite
     [Test]
     public void To_UsingQueryUrlNavigation_WhenUrlIsTemplated()
     {
-        AtataContext.Current.Variables["GoToArg"] = "/?";
+        CurrentContext.Variables["GoToArg"] = "/?";
 
         Go.To<GoTo1Page>(url: "?q={GoToArg:dataescape}")
             .PageUrl.Should.EndWith("/goto1?q=%2F%3F");
@@ -191,7 +191,7 @@ public class GoTests : WebDriverSessionTestSuite
         Go.To<GoTo2Page>(url: url);
 
         AssertNoTemporarilyPreservedPageObjects();
-        Assert.That(WebDriverSession.Current.Driver.Url, Is.EqualTo(url));
+        Assert.That(CurrentSession.Driver.Url, Is.EqualTo(url));
     }
 
     [Test]
@@ -202,7 +202,7 @@ public class GoTests : WebDriverSessionTestSuite
         Go.To<GoTo2Page>(url: url);
 
         AssertNoTemporarilyPreservedPageObjects();
-        Assert.That(WebDriverSession.Current.Driver.Url, Does.EndWith(url));
+        Assert.That(CurrentSession.Driver.Url, Does.EndWith(url));
     }
 
     [Test]
@@ -213,7 +213,7 @@ public class GoTests : WebDriverSessionTestSuite
         Go.To<GoTo2Page>(url: url);
 
         AssertNoTemporarilyPreservedPageObjects();
-        Assert.That(WebDriverSession.Current.Driver.Url, Does.EndWith(url));
+        Assert.That(CurrentSession.Driver.Url, Does.EndWith(url));
     }
 
     [TestCase("?arg=1", ExpectedResult = "/?arg=1")]
@@ -291,10 +291,10 @@ public class GoTests : WebDriverSessionTestSuite
     {
         Go.To<GoTo1Page>();
 
-        var driver = WebDriverSession.Current.Driver;
+        var driver = CurrentSession.Driver;
 
-        WebDriverSession.Current.DisposeDriver = false;
-        AtataContext.Current.Dispose();
+        CurrentSession.DisposeDriver = false;
+        CurrentContext.Dispose();
 
         BuildAtataContextWithWebDriverSession(
             x => x.UseDriver(driver));
@@ -485,18 +485,18 @@ public class GoTests : WebDriverSessionTestSuite
     }
 
     private static void AssertWindowHandlesCount(int expected) =>
-        Assert.That(WebDriverSession.Current.Driver.WindowHandles.Count, Is.EqualTo(expected));
+        Assert.That(CurrentSession.Driver.WindowHandles.Count, Is.EqualTo(expected));
 
     private static void AssertCurrentPageObject(UIComponent pageObject) =>
-        Assert.That(WebDriverSession.Current.PageObject, Is.EqualTo(pageObject));
+        Assert.That(CurrentSession.PageObject, Is.EqualTo(pageObject));
 
     private static void AssertNoTemporarilyPreservedPageObjects() =>
-        Assert.That(WebDriverSession.Current.TemporarilyPreservedPageObjects, Is.Empty);
+        Assert.That(CurrentSession.TemporarilyPreservedPageObjects, Is.Empty);
 
     private static void AssertTemporarilyPreservedPageObjects(params UIComponent[] pageObjects)
     {
-        Assert.That(WebDriverSession.Current.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
-        Assert.That(WebDriverSession.Current.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
+        Assert.That(CurrentSession.TemporarilyPreservedPageObjects.Count, Is.EqualTo(pageObjects.Length));
+        Assert.That(CurrentSession.TemporarilyPreservedPageObjects, Is.EquivalentTo(pageObjects));
     }
 
     public class WithoutBaseUrl : WebDriverSessionTestSuiteBase

@@ -18,6 +18,9 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
         "disable-search-engine-choice-screen"
     ];
 
+    protected static WebDriverSession CurrentSession =>
+        CurrentContext.Sessions.Get<WebDriverSession>();
+
     protected AtataContext BuildAtataContextWithWebDriverSession(
         Action<WebDriverSessionBuilder>? configureWebDriverSession = null) =>
         ConfigureAtataContextWithWebDriverSession(configureWebDriverSession)
@@ -79,11 +82,11 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
 
     protected static void AssertThatPopupBoxIsOpen() =>
         Assert.DoesNotThrow(() =>
-            WebDriverSession.Current.Driver.SwitchTo().Alert());
+            CurrentSession.Driver.SwitchTo().Alert());
 
     protected static void AssertThatPopupBoxIsNotOpen() =>
         Assert.Throws<NoAlertPresentException>(() =>
-            WebDriverSession.Current.Driver.SwitchTo().Alert());
+            CurrentSession.Driver.SwitchTo().Alert());
 
     protected void AssertThatLastLogSectionIsVerificationAndEmpty()
     {
