@@ -50,7 +50,7 @@ public sealed partial class WebDriverSessionBuilderTests : WebDriverSessionTestS
                     .WithArguments(ChromeArguments)))
             .Build();
 
-        context.GetWebDriverSession().Driver.Should().BeOfType<ChromeDriver>();
+        context.Sessions.Get<WebDriverSession>().Driver.Should().BeOfType<ChromeDriver>();
     }
 
     [Test]

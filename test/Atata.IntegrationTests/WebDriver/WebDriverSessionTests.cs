@@ -8,10 +8,10 @@ public static partial class WebDriverSessionTests
         public void Screenshot()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            string sessionId = context.GetWebDriverSession().Id;
+            string sessionId = context.Sessions.Get<WebDriverSession>().Id;
             Go.To<InputPage>();
 
-            context.GetWebDriverSession().Report.Screenshot();
+            context.Sessions.Get<WebDriverSession>().Report.Screenshot();
 
             context.Artifacts.Should.ContainFile($"{sessionId}-01 Input page.png");
         }
@@ -20,10 +20,10 @@ public static partial class WebDriverSessionTests
         public void PageSnapshot()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            string sessionId = context.GetWebDriverSession().Id;
+            string sessionId = context.Sessions.Get<WebDriverSession>().Id;
             Go.To<InputPage>();
 
-            context.GetWebDriverSession().Report.PageSnapshot();
+            context.Sessions.Get<WebDriverSession>().Report.PageSnapshot();
 
             context.Artifacts.Should.ContainFile($"{sessionId}-01 Input page.mhtml");
         }

@@ -186,24 +186,24 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     public AtataSessionCollection Sessions { get; }
 
-    [Obsolete("Use GetWebDriverSession().DriverFactory instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().DriverFactory instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     internal IWebDriverFactory? DriverFactory { get; set; }
 
-    [Obsolete("Use GetWebDriver() or GetWebDriverSession().Driver instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use GetWebDriver() or Sessions.Get<WebDriverSession>().Driver instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public IWebDriver Driver =>
-        this.GetWebDriverSession().Driver;
+        Sessions.Get<WebDriverSession>().Driver;
 
     [Obsolete("Use Sessions.Contains<WebDriverSession>() instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public bool HasDriver =>
         Sessions.Contains<WebDriverSession>();
 
-    [Obsolete("Use GetWebDriverSession().DriverAlias instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().DriverAlias instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public string? DriverAlias =>
-        this.GetWebDriverSession().DriverAlias;
+        Sessions.Get<WebDriverSession>().DriverAlias;
 
     /// <summary>
     /// Gets the instance of the log manager.
@@ -271,10 +271,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public TimeSpan VerificationRetryInterval { get; internal set; }
 
-    [Obsolete("Use GetWebDriverSession().DefaultControlVisibility instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().DefaultControlVisibility instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public Visibility DefaultControlVisibility =>
-        this.GetWebDriverSession().DefaultControlVisibility;
+        Sessions.Get<WebDriverSession>().DefaultControlVisibility;
 
     /// <summary>
     /// Gets the culture.
@@ -360,10 +360,10 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
     /// </summary>
     public string ArtifactsRelativePath { get; private set; } = null!;
 
-    [Obsolete("Use GetWebDriverSession().Go instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().Go instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public WebDriverSessionNavigator Go =>
-        this.GetWebDriverSession().Go;
+        Sessions.Get<WebDriverSession>().Go;
 
     /// <summary>
     /// Gets the <see cref="IReport{TOwner}"/> instance that provides a reporting functionality.
@@ -381,15 +381,15 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
 
     internal Stopwatch SetupExecutionStopwatch { get; } = new();
 
-    [Obsolete("Use GetWebDriverSession().TemporarilyPreservedPageObjects instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().TemporarilyPreservedPageObjects instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public IReadOnlyList<UIComponent> TemporarilyPreservedPageObjects =>
-        this.GetWebDriverSession().TemporarilyPreservedPageObjects;
+        Sessions.Get<WebDriverSession>().TemporarilyPreservedPageObjects;
 
-    [Obsolete("Use GetWebDriverSession().UIComponentAccessChainScopeCache instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().UIComponentAccessChainScopeCache instead.")] // Obsolete since v4.0.0.
     [DebuggerBrowsable(DebuggerBrowsableState.Never)]
     public UIComponentAccessChainScopeCache UIComponentAccessChainScopeCache =>
-        this.GetWebDriverSession().UIComponentAccessChainScopeCache;
+        Sessions.Get<WebDriverSession>().UIComponentAccessChainScopeCache;
 
     /// <summary>
     /// Gets the event bus of <see cref="AtataContext"/>,
@@ -652,9 +652,9 @@ public sealed class AtataContext : IDisposable, IAsyncDisposable
         }
     }
 
-    [Obsolete("Use GetWebDriverSession().RestartDriver() instead.")] // Obsolete since v4.0.0.
+    [Obsolete("Use Sessions.Get<WebDriverSession>().RestartDriver() instead.")] // Obsolete since v4.0.0.
     public void RestartDriver() =>
-        this.GetWebDriverSession().RestartDriver();
+        Sessions.Get<WebDriverSession>().RestartDriver();
 
     [Obsolete("Use Sessions.Get<WebDriverSession>().TakeScreenshot(string) instead.")] // Obsolete since v4.0.0.
     public void TakeScreenshot(string? title = null) =>

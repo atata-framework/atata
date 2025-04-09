@@ -38,7 +38,7 @@ public sealed class WebDriverSessionEventsTests : WebDriverSessionTestSuiteBase
             }));
         var context = builder.Build();
 
-        context.GetWebDriverSession().RestartDriver();
+        context.Sessions.Get<WebDriverSession>().RestartDriver();
 
         executionsCount.Should().Be(2);
     }

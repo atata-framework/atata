@@ -35,7 +35,7 @@ public sealed class WebDriverDeInitStartedEventTests : WebDriverSessionTestSuite
     [Test]
     public void AfterRestartDriver()
     {
-        _context.GetWebDriverSession().RestartDriver();
+        _context.Sessions.Get<WebDriverSession>().RestartDriver();
 
         _executionsCount.Should().Be(1);
     }

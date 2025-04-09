@@ -23,7 +23,7 @@ public static class DriverWebDriverSessionBuilderTests
                     }
                 }));
 
-            context.GetWebDriverSession().Driver.Should().NotBeNull();
+            context.Sessions.Get<WebDriverSession>().Driver.Should().NotBeNull();
             CurrentLog.GetSnapshotOfLevel(LogLevel.Warn).Should().ContainSingle();
         }
 
@@ -63,7 +63,7 @@ public static class DriverWebDriverSessionBuilderTests
                     .WithInitialHealthCheck(false)
                     .WithInitialHealthCheckFunction(checkFunctionMock.Object)));
 
-            context.GetWebDriverSession().Driver.Should().NotBeNull();
+            context.Sessions.Get<WebDriverSession>().Driver.Should().NotBeNull();
             checkFunctionMock.Verify(x => x(It.IsAny<IWebDriver>()), Times.Never);
         }
 
@@ -75,7 +75,7 @@ public static class DriverWebDriverSessionBuilderTests
                     .WithInitialHealthCheck()
                     .WithInitialHealthCheckFunction(_ => true)));
 
-            context.GetWebDriverSession().Driver.Should().NotBeNull();
+            context.Sessions.Get<WebDriverSession>().Driver.Should().NotBeNull();
             CurrentLog.GetSnapshotOfLevel(LogLevel.Warn).Should().BeEmpty();
         }
 

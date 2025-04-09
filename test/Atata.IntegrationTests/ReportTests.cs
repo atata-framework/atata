@@ -174,7 +174,7 @@ public class ReportTests : WebDriverSessionTestSuite
         {
             var context = ConfigureAtataContextWithWebDriverSession().Build();
 
-            var page = context.GetWebDriverSession().Go.To<ScrollablePage>();
+            var page = context.Sessions.Get<WebDriverSession>().Go.To<ScrollablePage>();
 
             long TakeScreenshotAndReturnItsSize(ScreenshotKind kind)
             {
@@ -208,7 +208,7 @@ public class ReportTests : WebDriverSessionTestSuite
                 using var context = builder.Build();
 
                 string screenshotNameIndicator = Guid.NewGuid().ToString();
-                context.GetWebDriverSession().Go.To<ScrollablePage>()
+                context.Sessions.Get<WebDriverSession>().Go.To<ScrollablePage>()
                     .Report.Screenshot(screenshotNameIndicator);
 
                 var file = context.Artifacts.Files

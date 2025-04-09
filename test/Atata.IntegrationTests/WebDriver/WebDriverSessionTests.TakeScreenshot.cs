@@ -8,7 +8,7 @@ public partial class WebDriverSessionTests
         public void WhenNavigated()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            var session = context.GetWebDriverSession();
+            var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
             session.TakeScreenshot();
@@ -20,7 +20,7 @@ public partial class WebDriverSessionTests
         public void WithTitle_WhenNavigated()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            var session = context.GetWebDriverSession();
+            var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
             session.TakeScreenshot("Test");
@@ -32,7 +32,7 @@ public partial class WebDriverSessionTests
         public void WhenNoNavigation()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            var session = context.GetWebDriverSession();
+            var session = context.Sessions.Get<WebDriverSession>();
 
             session.TakeScreenshot();
 
@@ -43,7 +43,7 @@ public partial class WebDriverSessionTests
         public void WithTitle_WhenNoNavigation()
         {
             var context = BuildAtataContextWithWebDriverSession();
-            var session = context.GetWebDriverSession();
+            var session = context.Sessions.Get<WebDriverSession>();
 
             session.TakeScreenshot("Test");
 
@@ -56,7 +56,7 @@ public partial class WebDriverSessionTests
             var context = ConfigureAtataContextWithWebDriverSession(
                 session => session.Screenshots.UseStrategy(Mock.Of<IScreenshotStrategy<WebDriverSession>>(MockBehavior.Strict)))
                 .Build();
-            var session = context.GetWebDriverSession();
+            var session = context.Sessions.Get<WebDriverSession>();
             session.Go.To<InputPage>();
 
             session.TakeScreenshot();

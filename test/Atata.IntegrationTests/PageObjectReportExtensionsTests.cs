@@ -6,7 +6,7 @@ public sealed class PageObjectReportExtensionsTests : WebDriverSessionTestSuite
     public void Setup()
     {
         CurrentContext.Report.Setup(x => x
-            .GetWebDriverSession().Go.To<OrdinaryPage>());
+            .Sessions.Get<WebDriverSession>().Go.To<OrdinaryPage>());
 
         VerifyLastLogNestingTextsWithMessagesMatch(
             minLogLevel: LogLevel.Trace,
