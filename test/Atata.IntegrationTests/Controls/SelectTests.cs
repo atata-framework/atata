@@ -13,11 +13,11 @@ public class SelectTests : WebDriverSessionTestSuite
         var sut = _page.TextSelect;
 
         VerifyEquals(sut, "--select--");
-        sut.SelectedIndex.Should.Equal(0);
+        sut.SelectedIndex.Should.Be(0);
 
         SetAndVerifyValues(sut, "Option A", "Option B");
-        sut.SelectedIndex.Should.Equal(2);
-        sut.SelectedOption.Should.Equal("Option B");
+        sut.SelectedIndex.Should.Be(2);
+        sut.SelectedOption.Should.Be("Option B");
         sut.Options[2].IsSelected.Should.BeTrue();
         sut.Options[0].IsSelected.Should.BeFalse();
 
@@ -38,8 +38,8 @@ public class SelectTests : WebDriverSessionTestSuite
 
         VerifyDoesNotEqual(sut, "C");
 
-        sut.Options[1].Should.Equal("A");
-        sut.Options[4].Should.Equal("D");
+        sut.Options[1].Should.Be("A");
+        sut.Options[4].Should.Be("D");
     }
 
     [Test]
@@ -48,10 +48,10 @@ public class SelectTests : WebDriverSessionTestSuite
         var sut = _page.TextSelectWithContainsMatch;
 
         sut.Set("A");
-        sut.Should.Equal("Option A");
+        sut.Should.Be("Option A");
 
         sut.Set("C");
-        sut.SelectedOption.Should.Equal("Option C");
+        sut.SelectedOption.Should.Be("Option C");
     }
 
     [Test]

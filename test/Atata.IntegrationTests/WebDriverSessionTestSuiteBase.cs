@@ -56,11 +56,11 @@ public abstract class WebDriverSessionTestSuiteBase : TestSuiteBase
         for (int i = 0; i < values.Length; i++)
         {
             control.Set(values[i]);
-            control.Should.Equal(values[i]);
+            control.Should.Be(values[i]);
             Assert.That(control.Value, Is.EqualTo(values[i]));
 
             if (i > 0 && !Equals(values[i], values[i - 1]))
-                control.Should.Not.Equal(values[i - 1]);
+                control.Should.Not.Be(values[i - 1]);
         }
     }
 

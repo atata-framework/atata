@@ -18,8 +18,8 @@ public class LocalDateTimeInputTests : WebDriverSessionTestSuite
         var testValue = new DateTime(2019, 11, 27, 20, 45, 0);
 
         control.Set(testValue);
-        control.Should.Equal(testValue);
-        outputControl.Should.Equal(testValue);
+        control.Should.Be(testValue);
+        outputControl.Should.Be(testValue);
 
         control.Clear();
         control.Should.BeNull();
@@ -31,7 +31,7 @@ public class LocalDateTimeInputTests : WebDriverSessionTestSuite
 
         testValue = new DateTime(2011, 1, 2, 8, 00, 0);
         control.Set(testValue);
-        control.Should.Equal(testValue);
-        outputControl.Should.Equal(testValue);
+        control.Should.Be(testValue);
+        outputControl.Should.Be(testValue);
     }
 }

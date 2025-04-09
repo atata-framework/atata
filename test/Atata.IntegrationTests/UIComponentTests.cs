@@ -8,10 +8,10 @@ public class UIComponentTests : WebDriverSessionTestSuite
             .TextInput.ComponentLocation.X.Should.BeGreater(10)
             .TextInput.ComponentLocation.Y.Should.BeInRange(10, 1000)
             .TextInput.ComponentLocation.Y.Get(out int y)
-            .TextInput.ComponentLocation.Y.Should.Equal(y)
+            .TextInput.ComponentLocation.Y.Should.Be(y)
 
             .TextInput.ComponentLocation.Get(out var location)
-            .TextInput.ComponentLocation.Should.Equal(location);
+            .TextInput.ComponentLocation.Should.Be(location);
 
     [Test]
     public void ComponentSize() =>
@@ -19,10 +19,10 @@ public class UIComponentTests : WebDriverSessionTestSuite
             .TextInput.ComponentSize.Width.Should.BeGreater(20)
             .TextInput.ComponentSize.Height.Should.BeInRange(10, 100)
             .TextInput.ComponentSize.Height.Get(out int height)
-            .TextInput.ComponentSize.Height.Should.Equal(height)
+            .TextInput.ComponentSize.Height.Should.Be(height)
 
             .TextInput.ComponentSize.Get(out var size)
-            .TextInput.ComponentSize.Should.Equal(size);
+            .TextInput.ComponentSize.Should.Be(size);
 
     [Test]
     public void IsPresent()
@@ -193,82 +193,82 @@ public class UIComponentTests : WebDriverSessionTestSuite
         public void WithoutAttributes_WithName() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>("Enum Text Input")
-                    .DomProperties.Id.Should.Equal("enum-text-input");
+                    .DomProperties.Id.Should.Be("enum-text-input");
 
         [Test]
         public void WithAttributes_WithoutName() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>(new FindByIdAttribute("enum-text-input"))
-                    .DomProperties.Id.Should.Equal("enum-text-input");
+                    .DomProperties.Id.Should.Be("enum-text-input");
 
         [Test]
         public void WithAttributes_WithName() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>("Email Input", new ControlDefinitionAttribute("input[@type='email']"))
-                    .DomProperties["type"].Should.Equal("email");
+                    .DomProperties["type"].Should.Be("email");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindByIdAttribute() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>(new FindByIdAttribute("text-input"))
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal("FindById:text-input");
+                    .ValueOf(x => x.ComponentName).Should.Be("FindById:text-input");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindByIdAttribute_WithTermAttribute() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>(new FindByIdAttribute(), new TermAttribute("text-input"))
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal("FindById:text-input");
+                    .ValueOf(x => x.ComponentName).Should.Be("FindById:text-input");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindByNameAttribute_WithMultipleValues() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>(new FindByNameAttribute("name1", "name2"))
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal("FindByName:name1/name2");
+                    .ValueOf(x => x.ComponentName).Should.Be("FindByName:name1/name2");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindByXPathAttribute_WithMultipleValues() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>(new FindByXPathAttribute("//a", "//b"))
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal("FindByXPath://a or //b");
+                    .ValueOf(x => x.ComponentName).Should.Be("FindByXPath://a or //b");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindFirstAttribute() =>
             Go.To<InputPage>()
                 .Find<H1<InputPage>>()
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal("1st");
+                    .ValueOf(x => x.ComponentName).Should.Be("1st");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindLastAttribute() =>
             Go.To<InputPage>()
                 .Find<H1<InputPage>>(new FindLastAttribute())
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal("Last");
+                    .ValueOf(x => x.ComponentName).Should.Be("Last");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindByIndexAttribute() =>
            Go.To<InputPage>()
                .Find<H1<InputPage>>(new FindByIndexAttribute(4))
                .ToSutSubject()
-                   .ValueOf(x => x.ComponentName).Should.Equal("5th");
+                   .ValueOf(x => x.ComponentName).Should.Be("5th");
 
         [Test]
         public void Name_WhenNameIsNotSet_WithFindByScriptAttribute() =>
            Go.To<InputPage>()
                .Find<H1<InputPage>>(new FindByScriptAttribute("return true;"))
                .ToSutSubject()
-                   .ValueOf(x => x.ComponentName).Should.Equal("FindByScript");
+                   .ValueOf(x => x.ComponentName).Should.Be("FindByScript");
 
         [Test]
         public void Name_WhenNameIsSet_WithoutAttributes() =>
             Go.To<InputPage>()
                 .Find<TextInput<InputPage>>(TestName)
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal(TestName);
+                    .ValueOf(x => x.ComponentName).Should.Be(TestName);
 
         [Test]
         public void Name_WhenNameIsSet_WithAttributes() =>
@@ -277,7 +277,7 @@ public class UIComponentTests : WebDriverSessionTestSuite
                     TestName,
                     new ControlDefinitionAttribute("input[@type='email']"))
                 .ToSutSubject()
-                    .ValueOf(x => x.ComponentName).Should.Equal(TestName);
+                    .ValueOf(x => x.ComponentName).Should.Be(TestName);
     }
 
     public class FindAll : WebDriverSessionTestSuite
@@ -294,7 +294,7 @@ public class UIComponentTests : WebDriverSessionTestSuite
         public void WithAttributes() =>
             Go.To<InputPage>()
                 .FindAll<TextInput<InputPage>>(new ControlDefinitionAttribute("input[@type='email']"))
-                    .Count.Should.Equal(1);
+                    .Count.Should.Be(1);
 
         [Test]
         public void Name_WhenNameIsNotSet_WithoutAttributes()
@@ -340,7 +340,7 @@ public class UIComponentTests : WebDriverSessionTestSuite
 
         private static void AssertName(ControlList<TextInput<InputPage>, InputPage> list, string expected) =>
             list.ToSutSubject()
-                .ValueOf(x => x.Metadata.Name).Should.Equal(expected)
-                .ValueOf(x => x.ComponentPartName).Should.Equal(expected);
+                .ValueOf(x => x.Metadata.Name).Should.Be(expected)
+                .ValueOf(x => x.ComponentPartName).Should.Be(expected);
     }
 }

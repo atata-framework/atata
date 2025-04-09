@@ -14,8 +14,8 @@ public static class EditableFieldTests
 
             sut.Set("INDICATOR abc");
 
-            sut.Should.AtOnce.Equal("abc");
-            sut.DomProperties.Value.Should.AtOnce.Equal("INDICATOR abc");
+            sut.Should.AtOnce.Be("abc");
+            sut.DomProperties.Value.Should.AtOnce.Be("INDICATOR abc");
         }
 
         [Test]
@@ -28,8 +28,8 @@ public static class EditableFieldTests
 
             sut.Set("abc");
 
-            sut.Should.AtOnce.Equal("INDICATOR abc");
-            sut.DomProperties.Value.Should.AtOnce.Equal("INDICATOR abc");
+            sut.Should.AtOnce.Be("INDICATOR abc");
+            sut.DomProperties.Value.Should.AtOnce.Be("INDICATOR abc");
         }
 
         [Test]
@@ -43,8 +43,8 @@ public static class EditableFieldTests
 
             sut.Set("INDICATOR abc");
 
-            sut.Should.AtOnce.Equal("abc");
-            sut.DomProperties.Value.Should.AtOnce.Equal("SET INDICATOR abc");
+            sut.Should.AtOnce.Be("abc");
+            sut.DomProperties.Value.Should.AtOnce.Be("SET INDICATOR abc");
         }
 
         [Test]
@@ -58,8 +58,8 @@ public static class EditableFieldTests
 
             sut.Set("INDICATOR abc");
 
-            sut.Should.AtOnce.Equal("abc");
-            sut.DomProperties.Value.Should.AtOnce.Equal("SET INDICATOR abc");
+            sut.Should.AtOnce.Be("abc");
+            sut.DomProperties.Value.Should.AtOnce.Be("SET INDICATOR abc");
         }
 
         [Test]
@@ -72,8 +72,8 @@ public static class EditableFieldTests
 
             sut.Set("abc");
 
-            sut.Should.AtOnce.Equal("SET abc");
-            sut.DomProperties.Value.Should.AtOnce.Equal("!SET abc!");
+            sut.Should.AtOnce.Be("SET abc");
+            sut.DomProperties.Value.Should.AtOnce.Be("!SET abc!");
         }
     }
 }

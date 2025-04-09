@@ -11,6 +11,6 @@ public class RightClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
 
         block.RightClick();
 
-        block.Should.Equal(1);
+        block.Should.Be(1);
     }
 }

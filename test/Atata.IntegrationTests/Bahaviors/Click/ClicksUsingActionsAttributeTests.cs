@@ -20,7 +20,7 @@ public class ClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
         });
 
         _table.Click();
-        _table.Rows[2].Cells[2].Should.Equal(1);
+        _table.Rows[2].Cells[2].Should.Be(1);
     }
 
     [Test]
@@ -34,7 +34,7 @@ public class ClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
         });
 
         _table.Click();
-        _table.Rows[0].Cells[0].Should.Equal(1);
+        _table.Rows[0].Cells[0].Should.Be(1);
     }
 
     [Test]
@@ -48,7 +48,7 @@ public class ClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
         });
 
         _table.Click();
-        _table.Rows[0].Cells[1].Should.Equal(1);
+        _table.Rows[0].Cells[1].Should.Be(1);
     }
 
     [Test]
@@ -62,6 +62,6 @@ public class ClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
         });
 
         _table.Click();
-        _table.Rows[2].Cells[2].Should.Equal(1);
+        _table.Rows[2].Cells[2].Should.Be(1);
     }
 }

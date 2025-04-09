@@ -9,9 +9,9 @@ public class ControlListTests : WebDriverSessionTestSuite
 
         sut[1].SetRandom(out string lastName);
 
-        sut[0].Should.Not.Equal(lastName);
-        sut[1].Should.Equal(lastName);
-        sut[2].Should.Not.Equal(lastName);
+        sut[0].Should.Not.Be(lastName);
+        sut[1].Should.Be(lastName);
+        sut[2].Should.Not.Be(lastName);
     }
 
     [Test]
@@ -22,7 +22,7 @@ public class ControlListTests : WebDriverSessionTestSuite
 
         sut.Should.HaveCount(actualCount);
         sut.Should.Not.HaveCount(1);
-        sut.Count.Should.Equal(actualCount);
+        sut.Count.Should.Be(actualCount);
         sut.Count.Should.BeGreaterOrEqual(actualCount);
         sut.Count.Should.Not.BeLess(actualCount);
         sut.Should.Not.Contain(true);
@@ -39,7 +39,7 @@ public class ControlListTests : WebDriverSessionTestSuite
         var sut = Go.To<RadioButtonListPage>().IntegerItemsControl.Items;
 
         sut.Should.HaveCount(4);
-        sut.Count.Should.Equal(4);
+        sut.Count.Should.Be(4);
         sut.Should.Not.Contain(true);
         sut.Should.Not.Contain(x => x.IsChecked);
         sut[x => x.IsChecked].Should.Not.BePresent();
@@ -54,19 +54,19 @@ public class ControlListTests : WebDriverSessionTestSuite
     [Test]
     public void WithDeclaredAttributes() =>
         Go.To<ListPage>()
-            .ProductNameTextControlList[0].Should.Equal("Phone")
-            .ProductNameTextControlList[1].Should.Equal("Book")
-            .ProductNameTextControlList.Count.Should.Equal(3)
+            .ProductNameTextControlList[0].Should.Be("Phone")
+            .ProductNameTextControlList[1].Should.Be("Book")
+            .ProductNameTextControlList.Count.Should.Be(3)
             .ProductNameTextControlList.Should.EqualSequence("Phone", "Book", "Table")
             .ProductPercentNumberControlList.Should.EqualSequence(0.05m, 0.10m, 0.15m)
-            .ProductPercentNumberControlList[1].Should.Equal(0.10m);
+            .ProductPercentNumberControlList[1].Should.Be(0.10m);
 
     [Test]
     public void OfDescendantsAsControls()
     {
         var sut = Go.To<ListPage>().ItemsControlOfDescendantsAsControls.Items;
 
-        sut.Count.Should.Equal(6);
+        sut.Count.Should.Be(6);
 
         var tagNames = sut.Select(x => x.Scope.TagName).ToArray();
 
@@ -79,7 +79,7 @@ public class ControlListTests : WebDriverSessionTestSuite
     {
         var sut = Go.To<ListPage>().ItemsControlOfChildrenAsControls.Items;
 
-        sut.Count.Should.Equal(3);
+        sut.Count.Should.Be(3);
 
         foreach (var item in sut)
             item.Scope.TagName.Should().Be("li");
@@ -119,7 +119,7 @@ public class ControlListTests : WebDriverSessionTestSuite
     {
         var sut = Go.To<TablePage>().CarsTable.Rows;
 
-        sut.GetByXPathCondition("Nissan", "td[1][text()='Nissan']").CarMake.Should.Equal("Nissan");
+        sut.GetByXPathCondition("Nissan", "td[1][text()='Nissan']").CarMake.Should.Be("Nissan");
     }
 
     [Test]
@@ -139,7 +139,7 @@ public class ControlListTests : WebDriverSessionTestSuite
             sut.Should.BeEmpty();
 
         using (StopwatchAsserter.WithinSeconds(0))
-            sut.Count.Should.Equal(0);
+            sut.Count.Should.Be(0);
 
         using (StopwatchAsserter.WithinSeconds(0))
             sut.Should.HaveCount(0);
@@ -169,7 +169,7 @@ public class ControlListTests : WebDriverSessionTestSuite
 
         foreach (var dictionary in dictionaries)
             sut[x => x.Name.Value.Contains(dictionary["Name"])]
-                .Name.Should.Equal(dictionary["Name"]);
+                .Name.Should.Be(dictionary["Name"]);
     }
 
     public class UsesScopeCache : WebDriverSessionTestSuite

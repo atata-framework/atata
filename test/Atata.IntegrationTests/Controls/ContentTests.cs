@@ -22,8 +22,8 @@ public class ContentTests : WebDriverSessionTestSuite
     [Test]
     public void Content_OfStringType() =>
         Go.To<ContentPage>()
-            .VisibleDiv.Should.Equal("Some text")
-            .VisibleDiv.Content.Should.Equal("Some text");
+            .VisibleDiv.Should.Be("Some text")
+            .VisibleDiv.Content.Should.Be("Some text");
 
     [Test]
     public void Content_OfStringType_Invisible() =>
@@ -31,10 +31,10 @@ public class ContentTests : WebDriverSessionTestSuite
             .HiddenDiv.Should.Not.BeVisible()
             .HiddenDiv.Should.BeEmpty()
             .HiddenDiv.Content.Should.BeEmpty()
-            .HiddenDivUsingTextContent.Should.Equal("Some text")
-            .HiddenDivUsingTextContent.Content.Should.Equal("Some text")
-            .HiddenDivUsingInnerHtml.Should.Equal("Some <b>text</b>")
-            .HiddenDivUsingInnerHtml.Content.Should.Equal("Some <b>text</b>");
+            .HiddenDivUsingTextContent.Should.Be("Some text")
+            .HiddenDivUsingTextContent.Content.Should.Be("Some text")
+            .HiddenDivUsingInnerHtml.Should.Be("Some <b>text</b>")
+            .HiddenDivUsingInnerHtml.Content.Should.Be("Some <b>text</b>");
 
     [TestCaseSource(nameof(ContentSourceTestCaseSource))]
     public string GetContent(ContentSource contentSource) =>
@@ -61,7 +61,7 @@ public class ContentTests : WebDriverSessionTestSuite
         VerifyEquals(_page.Number, 125.26m);
         VerifyEquals(_page.NumberZero, 0);
         VerifyEquals(_page.NumberNull, null);
-        _page.NumberNull.Content.Should.Equal(string.Empty);
+        _page.NumberNull.Content.Should.Be(string.Empty);
 
         VerifyEquals(_page.NumberWithFormat, 59);
         VerifyDoesNotEqual(_page.NumberWithFormat, 55);
@@ -80,7 +80,7 @@ public class ContentTests : WebDriverSessionTestSuite
     {
         VerifyEquals(_page.Date, new DateTime(2016, 5, 15));
         VerifyEquals(_page.DateNull, null);
-        _page.DateNull.Content.Should.Equal(string.Empty);
+        _page.DateNull.Content.Should.Be(string.Empty);
 
         VerifyEquals(_page.DateWithFormat, new DateTime(2016, 6, 15));
     }
@@ -90,7 +90,7 @@ public class ContentTests : WebDriverSessionTestSuite
     {
         VerifyEquals(_page.Time, new TimeSpan(17, 15, 0));
         VerifyEquals(_page.TimeNull, null);
-        _page.TimeNull.Content.Should.Equal(string.Empty);
+        _page.TimeNull.Content.Should.Be(string.Empty);
 
         VerifyEquals(_page.TimeOfDay, new TimeSpan(14, 45, 0));
     }

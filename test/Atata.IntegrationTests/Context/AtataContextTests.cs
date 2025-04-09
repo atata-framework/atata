@@ -15,12 +15,12 @@ public static class AtataContextTests
         [Test]
         public void SubDirectory_ProviderName() =>
             CurrentContext.Artifacts.Directories["dir1"].ProviderName.ToResultSubject()
-                .Should.Equal("Artifacts.Directories[\"dir1\"]");
+                .Should.Be("Artifacts.Directories[\"dir1\"]");
 
         [Test]
         public void FileInSubDirectory_ProviderName() =>
             CurrentContext.Artifacts.Directories["dir1"].Files["file.txt"].ProviderName.ToResultSubject()
-                .Should.Equal("Artifacts.Directories[\"dir1\"].Files[\"file.txt\"]");
+                .Should.Be("Artifacts.Directories[\"dir1\"].Files[\"file.txt\"]");
 
         [Test]
         public void FileInSubDirectory_Should_Not_Exist() =>
@@ -70,13 +70,13 @@ public static class AtataContextTests
         public void WithFileContent() =>
             _sut.Act(x => x.AddArtifact("b.txt", "123", null, null))
                 .Object.Artifacts.Files["b.txt"].Should.Exist()
-                    .ReadAllText().Should.Equal("123");
+                    .ReadAllText().Should.Be("123");
 
         [Test]
         public void WithFileBytes() =>
             _sut.Act(x => x.AddArtifact("c.txt", Encoding.UTF8.GetBytes("abc"), null, null))
                 .Object.Artifacts.Files["c.txt"].Should.Exist()
-                    .ReadAllText().Should.Equal("abc");
+                    .ReadAllText().Should.Be("abc");
 
         [Test]
         public void WithStream()
@@ -85,21 +85,21 @@ public static class AtataContextTests
 
             _sut.Act(x => x.AddArtifact("d.txt", stream, null, null))
                 .Object.Artifacts.Files["d.txt"].Should.Exist()
-                    .ReadAllText().Should.Equal("xyz");
+                    .ReadAllText().Should.Be("xyz");
         }
 
         [Test]
         public void WithFileContentWithExtension() =>
             _sut.Act(x => x.AddArtifact("e", FileContentWithExtension.CreateFromText("qwe", ".txt"), null, null))
                 .Object.Artifacts.Files["e.txt"].Should.Exist()
-                    .ReadAllText().Should.Equal("qwe");
+                    .ReadAllText().Should.Be("qwe");
 
         [TestCase("a/b.txt")]
         [TestCase("a/b/c.txt")]
         public void WithRelativeFilePath(string relativeFilePath) =>
             _sut.Act(x => x.AddArtifact(relativeFilePath, "123", null, null))
                 .Object.Artifacts.Files[relativeFilePath].Should.Exist()
-                    .ReadAllText().Should.Equal("123");
+                    .ReadAllText().Should.Be("123");
 
         [Test]
         public void Publishes_ArtifactAddedEvent()

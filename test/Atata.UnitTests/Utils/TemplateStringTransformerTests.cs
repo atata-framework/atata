@@ -42,7 +42,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("--");
+                .Should.Be("--");
         }
 
         [Test]
@@ -55,7 +55,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("--");
+                .Should.Be("--");
         }
 
         [TestCase("a{{b", ExpectedResult = "a{b")]
@@ -83,7 +83,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("12");
+                .Should.Be("12");
         }
 
         [Test]
@@ -96,7 +96,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("-001-");
+                .Should.Be("-001-");
         }
 
         [Test]
@@ -109,7 +109,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("2021-05-12 11_39_15");
+                .Should.Be("2021-05-12 11_39_15");
         }
 
         [Test]
@@ -122,7 +122,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("-1-");
+                .Should.Be("-1-");
         }
 
         [Test]
@@ -135,7 +135,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("* 1 *");
+                .Should.Be("* 1 *");
         }
 
         private static Subject<string> Act(string template, Dictionary<string, object?> variables) =>
@@ -155,7 +155,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("12");
+                .Should.Be("12");
         }
 
         [Test]
@@ -169,7 +169,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("10_30-1_2_3=_");
+                .Should.Be("10_30-1_2_3=_");
         }
 
         [Test]
@@ -182,7 +182,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("-a__b/\\");
+                .Should.Be("-a__b/\\");
         }
 
         [Test]
@@ -195,7 +195,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("* 1 *");
+                .Should.Be("* 1 *");
         }
 
         private static Subject<string> Act(string template, Dictionary<string, object?> variables) =>
@@ -215,7 +215,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("12");
+                .Should.Be("12");
         }
 
         [Test]
@@ -230,7 +230,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("10%3A30-1%2A2%2F3%3D%3F?q=z#frg%3F%23frg%3F%23frg%3F");
+                .Should.Be("10%3A30-1%2A2%2F3%3D%3F?q=z#frg%3F%23frg%3F%23frg%3F");
         }
 
         [Test]
@@ -245,7 +245,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("/path/042/x/?q=1&r#frg");
+                .Should.Be("/path/042/x/?q=1&r#frg");
         }
 
         [Test]
@@ -259,7 +259,7 @@ public static class TemplateStringTransformerTests
             };
 
             Act(template, variables)
-                .Should.Equal("/path/%3C/%3E/x/?q=1%252&r#frg");
+                .Should.Be("/path/%3C/%3E/x/?q=1%252&r#frg");
         }
 
         private static Subject<string> Act(string template, Dictionary<string, object?> variables) =>

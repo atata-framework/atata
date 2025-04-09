@@ -146,17 +146,7 @@ public static partial class IObjectVerificationProviderExtensions
             ? objectVerificationProvider.Not
             : (IObjectVerificationProvider<TObject, TOwner>)verificationProvider.GetType().GetPropertyWithThrowOnError("Not").GetValue(verificationProvider);
 
-    /// <summary>
-    /// Verifies that object is equal to <paramref name="expected"/> value.
-    /// The method does the same as <see cref="Be{TObject, TOwner}(IObjectVerificationProvider{TObject, TOwner}, TObject)"/> method,
-    /// and the second one is preferable to use.
-    /// This method will be removed in future.
-    /// </summary>
-    /// <typeparam name="TObject">The type of the object.</typeparam>
-    /// <typeparam name="TOwner">The type of the owner.</typeparam>
-    /// <param name="verifier">The verification provider.</param>
-    /// <param name="expected">The expected value.</param>
-    /// <returns>The owner instance.</returns>
+    [Obsolete("Use Be(...) instead.")] // Obsolete since v4.0.0.
     public static TOwner Equal<TObject, TOwner>(this IObjectVerificationProvider<TObject, TOwner> verifier, TObject expected)
     {
         var equalityComparer = verifier.ResolveEqualityComparer<TObject>();

@@ -8,7 +8,7 @@ public class PageObjectTests : WebDriverSessionTestSuite
     public void RefreshPage() =>
         Go.To<BasicControlsPage>()
             .ById.FirstName.Set("test")
-            .ById.FirstName.Should.Equal("test")
+            .ById.FirstName.Should.Be("test")
             .RefreshPage()
             .ById.FirstName.Should.BeEmpty();
 
@@ -77,15 +77,15 @@ public class PageObjectTests : WebDriverSessionTestSuite
             .Press("d")
             .Press(Keys.Tab)
             .Press("e")
-            .TextInput.Should.Equal("abcd");
+            .TextInput.Should.Be("abcd");
 
     [Test]
     public void ActiveControl() =>
         Go.To<InputPage>()
             .TelInput.Set("123")
-            .ActiveControl.DomProperties.Value.Should.Equal("123")
+            .ActiveControl.DomProperties.Value.Should.Be("123")
             .IntTextInput.Focus()
-            .ActiveControl.DomProperties.Id.Should.Equal("int-text-input");
+            .ActiveControl.DomProperties.Id.Should.Be("int-text-input");
 
     [Test]
     public void AggregateAssert()
@@ -144,36 +144,36 @@ public class PageObjectTests : WebDriverSessionTestSuite
            .SwitchToFrame1()
                .TextInput.Set("abc")
                .SwitchToRoot<FramePage>()
-           .Header.Should.Equal("Frame")
+           .Header.Should.Be("Frame")
            .SwitchToFrame2()
                .Select.Set(4)
                .SwitchBack()
 
-           .Header.Should.Equal("Frame")
+           .Header.Should.Be("Frame")
            .SwitchToFrame1()
-               .Header.Should.Equal("Frame Inner 1")
-               .TextInput.Should.Equal("abc")
+               .Header.Should.Be("Frame Inner 1")
+               .TextInput.Should.Be("abc")
                .SwitchToRoot<FramePage>()
            .SwitchToFrame2()
-               .Header.Should.Equal("Frame Inner 2")
-               .Select.Should.Equal(4);
+               .Header.Should.Be("Frame Inner 2")
+               .Select.Should.Be(4);
 
     [Test]
     public void FrameSwitchingViaGo()
     {
         Go.To<FramePage>()
-            .Header.Should.Equal("Frame");
+            .Header.Should.Be("Frame");
 
         Go.To<FrameInner1SelfSwitchingPage>()
-            .Header.Should.Equal("Frame Inner 1")
+            .Header.Should.Be("Frame Inner 1")
             .TextInput.Set("abc");
 
         Go.To<FramePage>(navigate: false)
-            .Header.Should.Equal("Frame");
+            .Header.Should.Be("Frame");
 
         Go.To<FrameInner1SelfSwitchingPage>()
-            .Header.Should.Equal("Frame Inner 1")
-            .TextInput.Should.Equal("abc");
+            .Header.Should.Be("Frame Inner 1")
+            .TextInput.Should.Be("abc");
     }
 
     [Test]

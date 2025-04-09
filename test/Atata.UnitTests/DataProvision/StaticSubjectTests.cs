@@ -12,7 +12,7 @@ public static class StaticSubjectTests
         [Test]
         public static void Function_Returns() =>
             Subject.ResultOf(() => TestClass.GetEntity(10))
-                .ValueOf(x => x.Id).Should.Equal(10)
+                .ValueOf(x => x.Id).Should.Be(10)
                 .ValueOf(x => x.Name).Should.BeNull();
 
         [Test]

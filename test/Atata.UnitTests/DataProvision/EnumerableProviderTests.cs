@@ -7,7 +7,7 @@ public sealed class EnumerableProviderTests
     [Test]
     public void ProviderName() =>
         CreateSut(() => [])
-            .ProviderName.ToSubject().Should.Equal(ExpectedSourceProviderName);
+            .ProviderName.ToSubject().Should.Be(ExpectedSourceProviderName);
 
     [Test]
     public void Value_CanThrow()
@@ -30,18 +30,18 @@ public sealed class EnumerableProviderTests
 
         subject.Should.Not.BeEmpty();
 
-        tryCount.ToSubject(nameof(tryCount)).Should.Equal(4);
+        tryCount.ToSubject(nameof(tryCount)).Should.Be(4);
     }
 
     [Test]
     public void Indexer() =>
         CreateSut(() => [10, 20, 30])[1]
-            .Number.ToSubject().Should.Equal(20);
+            .Number.ToSubject().Should.Be(20);
 
     [Test]
     public void Indexer_ProviderNameOfItem() =>
         CreateSut(() => [10, 20, 30])[1]
-            .ProviderName.ToSubject().Should.Equal("[1]");
+            .ProviderName.ToSubject().Should.Be("[1]");
 
     [Test]
     public void ItemsAreInSameSequence() =>

@@ -29,7 +29,7 @@ public class SvgTests : WebDriverSessionTestSuite
         var sut = _page.Svg.Text;
 
         sut.Should.BeVisible();
-        sut.Should.Equal("Drag");
+        sut.Should.Be("Drag");
     }
 
     [Test]

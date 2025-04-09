@@ -15,7 +15,7 @@ public class ControlTests : WebDriverSessionTestSuite
             .DragItems[0].DragAndDropTo(x => x.DropContainer)
             .DropContainer.Items.Should.HaveCount(2)
             .DragItems.Items.Should.BeEmpty()
-            .DropContainer[1].Content.Should.Equal("Drag item 2");
+            .DropContainer[1].Content.Should.Be("Drag item 2");
 
     [Test]
     public void ScrollTo_WithScrollsUsingActionsAttribute()
@@ -53,7 +53,7 @@ public class ControlTests : WebDriverSessionTestSuite
         Go.To<InputPage>()
             .TelInput.Set("123")
             .TelInput.Blur()
-            .ActiveControl.DomProperties.Value.Should.Not.Equal("123");
+            .ActiveControl.DomProperties.Value.Should.Not.Be("123");
 
     public class IsFocused : WebDriverSessionTestSuite
     {

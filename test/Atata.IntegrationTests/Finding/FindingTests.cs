@@ -175,7 +175,7 @@ public class FindingTests : WebDriverSessionTestSuite
 
     [Test]
     public void ByControlDefinition_MultipleClasses() =>
-        _page.SpanWithMultipleClasses.Should.Equal("Span with multiple classes");
+        _page.SpanWithMultipleClasses.Should.Be("Span with multiple classes");
 
     [Test]
     public void ByControlDefinition_MultipleClasses_Missing() =>

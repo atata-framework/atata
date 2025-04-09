@@ -71,7 +71,7 @@ public class TriggerTests : WebDriverSessionTestSuite
         _page.Input.Get(out _);
         VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
 
-        _page.Input.Should.Equal("asd");
+        _page.Input.Should.Be("asd");
         VerifyInputEvents(TriggerEvents.BeforeGet, TriggerEvents.BeforeAccess, TriggerEvents.AfterAccess, TriggerEvents.AfterGet);
 
         _page.Input.Click();

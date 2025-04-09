@@ -14,9 +14,9 @@ public class ClicksOnCellByIndexAttributeTests : WebDriverSessionTestSuite
 
         CurrentSession.AggregateAssert(() =>
         {
-            row.Cells[0].Should.Equal(0);
-            row.Cells[1].Should.Equal(0);
-            row.Cells[2].Should.Equal(1);
+            row.Cells[0].Should.Be(0);
+            row.Cells[1].Should.Be(0);
+            row.Cells[2].Should.Be(1);
         });
 
         row.Metadata.Push(new ClicksOnCellByIndexAttribute(0));
@@ -24,9 +24,9 @@ public class ClicksOnCellByIndexAttributeTests : WebDriverSessionTestSuite
 
         CurrentSession.AggregateAssert(() =>
         {
-            row.Cells[0].Should.Equal(1);
-            row.Cells[1].Should.Equal(0);
-            row.Cells[2].Should.Equal(1);
+            row.Cells[0].Should.Be(1);
+            row.Cells[1].Should.Be(0);
+            row.Cells[2].Should.Be(1);
         });
     }
 }

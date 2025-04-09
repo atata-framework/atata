@@ -20,22 +20,22 @@ public sealed class FileSubjectTests
     [Test]
     public void Name() =>
         new FileSubject(Path.Combine("Dir", "Some.txt"))
-            .Name.Should.Equal("Some.txt");
+            .Name.Should.Be("Some.txt");
 
     [Test]
     public void FullName() =>
         new FileSubject(Path.Combine("Dir", "Some.txt"))
-            .FullName.Should.Equal(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dir", "Some.txt"));
+            .FullName.Should.Be(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Dir", "Some.txt"));
 
     [Test]
     public void Extension() =>
         new FileSubject(Path.Combine("Dir", "Some.txt"))
-            .Extension.Should.Equal(".txt");
+            .Extension.Should.Be(".txt");
 
     [Test]
     public void NameWithoutExtension() =>
         new FileSubject(Path.Combine("Dir", "Some.txt"))
-            .NameWithoutExtension.Should.Equal("Some");
+            .NameWithoutExtension.Should.Be("Some");
 
     [Test]
     public void ProviderName()
@@ -43,7 +43,7 @@ public sealed class FileSubjectTests
         string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "SomeDir", "SomeFile.txt");
 
         new FileSubject(filePath).ProviderName.ToResultSubject()
-            .Should.Equal($"\"{filePath}\" file");
+            .Should.Be($"\"{filePath}\" file");
     }
 
     public sealed class Exists
@@ -87,7 +87,7 @@ public sealed class FileSubjectTests
         [Test]
         public void ProviderName() =>
             new FileSubject("some.txt", "sut")
-                .ReadAllText().ProviderName.ToResultSubject().Should.Equal("sut.ReadAllText() => result");
+                .ReadAllText().ProviderName.ToResultSubject().Should.Be("sut.ReadAllText() => result");
 
         [Test]
         public void Executes()
@@ -96,7 +96,7 @@ public sealed class FileSubjectTests
                 .CreateFile("1.txt", "some text");
 
             new FileSubject(Path.Combine(directoryFixture.DirectoryPath, "1.txt"), "sut")
-                .ReadAllText().Should.Equal("some text");
+                .ReadAllText().Should.Be("some text");
         }
 
         [Test]

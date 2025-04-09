@@ -19,7 +19,7 @@ public class TableTests : WebDriverSessionTestSuite
     public void OfTypeWithoutTRow() =>
         _page
             .SimpleTable.Should.BePresent()
-            .SimpleTable.Rows.Count.Should.Equal(4)
+            .SimpleTable.Rows.Count.Should.Be(4)
             .SimpleTable.Headers.Should.HaveCount(2)
             .SimpleTable.Headers.Should.Not.HaveCount(3)
             .SimpleTable.Headers.Should.ContainHavingContent(TermMatch.Equals, "First Name", "Last Name")
@@ -30,7 +30,7 @@ public class TableTests : WebDriverSessionTestSuite
                 x.Should.BePresent();
                 x.Content.Should.Contain("Jameson");
             })
-            .SimpleTable.Rows.IndexOf(x => x.Content == "Sam Jackson").Should.Equal(3)
+            .SimpleTable.Rows.IndexOf(x => x.Content == "Sam Jackson").Should.Be(3)
             .SimpleTable.Rows["Jack", "Jameson"].Should.BePresent()
             .SimpleTable.Rows.Should.ContainHavingContent(TermMatch.Contains, "Jameson")
             .SimpleTable.Rows["Jack Jameson"].Should.Not.BePresent()
@@ -41,18 +41,18 @@ public class TableTests : WebDriverSessionTestSuite
     public void OfTypeWithTRow() =>
         _page
             .ComplexTable.Should.BePresent()
-            .ComplexTable.Rows.Count.Should.Equal(4)
+            .ComplexTable.Rows.Count.Should.Be(4)
             .ComplexTable.Headers.Should.HaveCount(2)
             .ComplexTable.Headers.Should.ContainHavingContent(TermMatch.Equals, "First Name", "Last Name")
-            .ComplexTable.Rows[0].FirstName.Should.Equal("John")
-            .ComplexTable.Rows[1].FirstName.Should.Equal("Jane")
+            .ComplexTable.Rows[0].FirstName.Should.Be("John")
+            .ComplexTable.Rows[1].FirstName.Should.Be("Jane")
             .Do(x => x.ComplexTable.Rows[r => r.FirstName == "Jack"], x =>
             {
                 x.Should.BePresent();
-                x.LastName.Should.Equal("Jameson");
+                x.LastName.Should.Be("Jameson");
             })
-            .ComplexTable.Rows.IndexOf(r => r.FirstName == "Jack" && r.LastName == "Jameson").Should.Equal(2)
-            .ComplexTable.Rows.IndexOf(r => r.FirstName == "Unknown").Should.Equal(-1)
+            .ComplexTable.Rows.IndexOf(r => r.FirstName == "Jack" && r.LastName == "Jameson").Should.Be(2)
+            .ComplexTable.Rows.IndexOf(r => r.FirstName == "Unknown").Should.Be(-1)
             .ComplexTable.Rows[r => r.FirstName == "Jack" && r.LastName == "Jameson"].Should.BePresent()
             .ComplexTable.Rows.Should.Contain(r => r.FirstName == "Jack" && r.LastName == "Jameson")
             .ComplexTable.Rows.Should.Not.Contain(r => r.FirstName == "Jason")
@@ -65,14 +65,14 @@ public class TableTests : WebDriverSessionTestSuite
     public void WithFindByIndexAttribute() =>
         _page
             .CountryTable.Should.BePresent()
-            .CountryTable.Rows.Count.Should.Equal(3)
-            .CountryTable.Rows[0].Capital.Should.Equal("London")
-            .CountryTable.Rows.IndexOf(r => r.Capital.Value.StartsWith("london", StringComparison.CurrentCultureIgnoreCase)).Should.Equal(0)
-            .CountryTable.Rows.IndexOf(r => r.Capital == "Paris").Should.Equal(1)
+            .CountryTable.Rows.Count.Should.Be(3)
+            .CountryTable.Rows[0].Capital.Should.Be("London")
+            .CountryTable.Rows.IndexOf(r => r.Capital.Value.StartsWith("london", StringComparison.CurrentCultureIgnoreCase)).Should.Be(0)
+            .CountryTable.Rows.IndexOf(r => r.Capital == "Paris").Should.Be(1)
             .Do(x => x.CountryTable.Rows[r => r.Capital == "Paris"], x =>
             {
                 x.Should.BePresent();
-                x.Country.Should.Equal("France");
+                x.Country.Should.Be("France");
             })
             .CountryTable.Rows["Germany", "Berlin"].Should.BePresent();
 
@@ -80,12 +80,12 @@ public class TableTests : WebDriverSessionTestSuite
     public void WithFindByColumnIndexAttributeOnRow() =>
         _page
             .CountryByColumnIndexTable.Should.BePresent()
-            .CountryByColumnIndexTable.Rows.Count.Should.Equal(3)
-            .CountryByColumnIndexTable.Rows[0].CapitalName.Should.Equal("London")
+            .CountryByColumnIndexTable.Rows.Count.Should.Be(3)
+            .CountryByColumnIndexTable.Rows[0].CapitalName.Should.Be("London")
             .Do(x => x.CountryByColumnIndexTable.Rows[r => r.CapitalName == "Paris"], x =>
             {
                 x.Should.BePresent();
-                x.CountryName.Should.Equal("France");
+                x.CountryName.Should.Be("France");
             })
             .CountryByColumnIndexTable.Rows["Germany", "Berlin"].Should.BePresent();
 
@@ -93,51 +93,51 @@ public class TableTests : WebDriverSessionTestSuite
     public void WhenEmpty() =>
         _page
             .EmptyTable.Should.BePresent()
-            .EmptyTable.Rows.Count.Should.Equal(0)
+            .EmptyTable.Rows.Count.Should.Be(0)
             .EmptyTable.Rows.Should.BeEmpty()
             .EmptyTable.Rows[x => x.Name == "missing"].Should.Not.BePresent();
 
     [Test]
     public void WhenRowIsAppending() =>
         _page
-            .CountryTable.Rows.Count.Should.Equal(3)
+            .CountryTable.Rows.Count.Should.Be(3)
             .AddUsa.Click()
-            .CountryTable.Rows[x => x.Country == "USA"].Capital.Should.Equal("Washington")
-            .CountryTable.Rows.Count.Should.Equal(4);
+            .CountryTable.Rows[x => x.Country == "USA"].Capital.Should.Be("Washington")
+            .CountryTable.Rows.Count.Should.Be(4);
 
     [Test]
     public void WhenRowIsAppending_WithDelay() =>
         _page
-            .CountryTable.Rows.Count.Should.Equal(3)
+            .CountryTable.Rows.Count.Should.Be(3)
             .AddChina.Click()
-            .CountryTable.Rows[x => x.Country == "China"].Capital.Should.Equal("Beijing")
+            .CountryTable.Rows[x => x.Country == "China"].Capital.Should.Be("Beijing")
             .ClearChina.Click()
 
-            .CountryTable.Rows.Count.Should.Equal(3)
+            .CountryTable.Rows.Count.Should.Be(3)
             .AddChina.Click()
             .CountryTable.Rows[3].Capital.Click()
-            .CountryTable.Rows.Count.Should.Equal(4)
+            .CountryTable.Rows.Count.Should.Be(4)
             .ClearChina.Click()
 
-            .CountryTable.Rows.Count.Should.Equal(3)
+            .CountryTable.Rows.Count.Should.Be(3)
             .AddChina.Click()
-            .CountryTable.Rows.Count.Should.Equal(4)
+            .CountryTable.Rows.Count.Should.Be(4)
             .ClearChina.Click()
 
-            .CountryTable.Rows.Count.Should.Equal(3)
+            .CountryTable.Rows.Count.Should.Be(3)
             .AddChina.Click()
-            .CountryTable.Rows.IndexOf(x => x.Capital == "Beijing").Should.Equal(3)
+            .CountryTable.Rows.IndexOf(x => x.Capital == "Beijing").Should.Be(3)
             .ClearChina.Click()
 
-            .CountryTable.Rows.Count.Should.Equal(3)
+            .CountryTable.Rows.Count.Should.Be(3)
             .AddChina.Click()
-            .CountryTable.Rows.Count.Should.AtOnce.Equal(3)
+            .CountryTable.Rows.Count.Should.AtOnce.Be(3)
             .CountryTable.Rows.SelectData(x => x.Capital).Should.Contain("Beijing");
 
     [Test]
     public void Rows_GetByXPathCondition() =>
         _page.CountryTable.Rows.GetByXPathCondition("Paris", @"td[2][.='Paris']").Country
-            .Should.Equal("France");
+            .Should.Be("France");
 
     [Test]
     public void WhenInsideAnotherTable()
@@ -145,10 +145,10 @@ public class TableTests : WebDriverSessionTestSuite
         var sut = _page.InsideAnotherTable;
 
         sut.Should.BePresent();
-        sut.Rows.Count.Should.Equal(1);
-        sut.Rows[0].Key.Should.Equal("A");
-        sut.Rows[0].Value.Should.Equal(1);
-        sut.Rows[x => x.Key == "A"].Value.Should.Equal(1);
+        sut.Rows.Count.Should.Be(1);
+        sut.Rows[0].Key.Should.Be("A");
+        sut.Rows[0].Value.Should.Be(1);
+        sut.Rows[x => x.Key == "A"].Value.Should.Be(1);
     }
 
     [Test]

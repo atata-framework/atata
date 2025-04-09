@@ -21,7 +21,7 @@ public abstract class TextBasedInputTestSuiteBase : WebDriverSessionTestSuite
         VerifyDoesNotEqual(sut, "Text3");
 
         sut.Type("0");
-        sut.Should.Equal("Text20");
+        sut.Should.Be("Text20");
         sut.Clear();
         sut.Should.BeEmpty();
 

@@ -11,14 +11,14 @@ public class FrameSetPageTests : WebDriverSessionTestSuite
     public void Interact() =>
         _page
             .Frame1.SwitchTo()
-                .Header.Should.Equal("Frame Inner 1")
+                .Header.Should.Be("Frame Inner 1")
                 .TextInput.Set("123")
-                .TextInput.Should.Equal("123")
+                .TextInput.Should.Be("123")
                 .SwitchToRoot<FrameSetPage>()
             .Frame2.DoWithin(x => x
-                .Header.Should.Equal("Frame Inner 2")
-                .Select.Should.Equal(1))
+                .Header.Should.Be("Frame Inner 2")
+                .Select.Should.Be(1))
             .Frame3.SwitchTo()
-                .Header.Should.Equal("Frame Inner 1")
+                .Header.Should.Be("Frame Inner 1")
                 .TextInput.Should.BeNullOrEmpty();
 }

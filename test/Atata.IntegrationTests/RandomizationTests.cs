@@ -19,7 +19,7 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
-            control.Should.Equal(newValue);
+            control.Should.Be(newValue);
             _page.CheckedItemsCount.Should.BeInRange(0, 1);
 
             if (newValue != value)
@@ -39,7 +39,7 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
-            control.Should.Equal(newValue);
+            control.Should.Be(newValue);
             _page.CheckedItemsCount.Should.BeInRange(2, 4);
 
             if (newValue != value)
@@ -59,8 +59,8 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
-            control.Should.Equal(newValue);
-            _page.CheckedItemsCount.Should.Equal(2);
+            control.Should.Be(newValue);
+            _page.CheckedItemsCount.Should.Be(2);
             control.Should.Not.HaveChecked(
                 RandomizationPage.CheckBoxOptions.None |
                 RandomizationPage.CheckBoxOptions.OptionB |
@@ -84,8 +84,8 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out RandomizationPage.CheckBoxOptions newValue);
-            control.Should.Equal(newValue);
-            _page.CheckedItemsCount.Should.Equal(3);
+            control.Should.Be(newValue);
+            _page.CheckedItemsCount.Should.Be(3);
             control.Should.Not.HaveChecked(
                 RandomizationPage.CheckBoxOptions.None |
                 RandomizationPage.CheckBoxOptions.OptionC);
@@ -107,7 +107,7 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out RandomizationPage.SelectOption newValue);
-            control.Should.Equal(newValue);
+            control.Should.Be(newValue);
 
             if (newValue != value)
                 return;
@@ -126,8 +126,8 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out string newValue);
-            control.Should.Equal(newValue);
-            control.Should.Not.Equal("Option D");
+            control.Should.Be(newValue);
+            control.Should.Not.Be("Option D");
 
             if (newValue != value)
                 return;
@@ -146,7 +146,7 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out int newValue);
-            control.Should.Equal(newValue);
+            control.Should.Be(newValue);
             control.Should.BeInRange(1, 2);
 
             if (newValue != value)
@@ -166,7 +166,7 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out int newValue);
-            control.Should.Equal(newValue);
+            control.Should.Be(newValue);
             control.Should.BeLessOrEqual(3);
 
             if (newValue != value)
@@ -186,7 +186,7 @@ public class RandomizationTests : WebDriverSessionTestSuite
         for (int i = 0; i < MaxTriesNumber; i++)
         {
             control.SetRandom(out bool newValue);
-            control.Should.Equal(newValue);
+            control.Should.Be(newValue);
 
             if (newValue != value)
                 return;

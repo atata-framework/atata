@@ -15,6 +15,6 @@ public class DoubleClicksUsingActionsAttributeTests : WebDriverSessionTestSuite
 
         table.DoubleClick();
 
-        table.Rows[2].Cells[2].Should.Equal(2);
+        table.Rows[2].Cells[2].Should.Be(2);
     }
 }

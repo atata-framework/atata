@@ -11,6 +11,6 @@ public class DoubleClicksUsingScriptAttributeTests : WebDriverSessionTestSuite
 
         block.DoubleClick();
 
-        block.Should.Equal(1);
+        block.Should.Be(1);
     }
 }

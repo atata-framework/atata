@@ -11,13 +11,13 @@ public class FrameWrappedContentEditorTests : WebDriverSessionTestSuite
         sut.Should.Not.BeReadOnly();
 
         sut.Set("Abc");
-        sut.Should.Equal("Abc");
+        sut.Should.Be("Abc");
 
         sut.Set("Def");
-        sut.Should.Equal("Def");
+        sut.Should.Be("Def");
 
         sut.Type("Ghi");
-        sut.Should.Equal("DefGhi");
+        sut.Should.Be("DefGhi");
 
         sut.Clear();
         sut.Should.BeEmpty();

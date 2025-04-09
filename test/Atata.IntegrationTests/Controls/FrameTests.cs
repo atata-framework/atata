@@ -14,19 +14,19 @@ public class FrameTests : WebDriverSessionTestSuite
             .Frame1.SwitchTo()
                 .TextInput.Set("abc")
                 .SwitchToRoot<FramePage>()
-            .Header.Should.Equal("Frame")
+            .Header.Should.Be("Frame")
             .Frame2.SwitchTo()
                 .Select.Set(4)
                 .SwitchBack()
 
-            .Header.Should.Equal("Frame")
+            .Header.Should.Be("Frame")
             .Frame1.SwitchTo()
-                .Header.Should.Equal("Frame Inner 1")
-                .TextInput.Should.Equal("abc")
+                .Header.Should.Be("Frame Inner 1")
+                .TextInput.Should.Be("abc")
                 .SwitchToRoot<FramePage>()
             .Frame2.SwitchTo()
-                .Header.Should.Equal("Frame Inner 2")
-                .Select.Should.Equal(4);
+                .Header.Should.Be("Frame Inner 2")
+                .Select.Should.Be(4);
 
     [Test]
     public void OfTypeWithoutTFramePageObject() =>
@@ -34,10 +34,10 @@ public class FrameTests : WebDriverSessionTestSuite
             .Frame1Generic.SwitchTo<FrameInner1Page>()
                 .TextInput.Set("abc")
                 .SwitchToRoot<FramePage>()
-            .Header.Should.Equal("Frame")
+            .Header.Should.Be("Frame")
             .Frame1Generic.SwitchTo<FrameInner1Page>()
-                .Header.Should.Equal("Frame Inner 1")
-                .TextInput.Should.Equal("abc");
+                .Header.Should.Be("Frame Inner 1")
+                .TextInput.Should.Be("abc");
 
     [Test]
     public void WithGoTemporarilyAttribute() =>
@@ -46,36 +46,36 @@ public class FrameTests : WebDriverSessionTestSuite
             .Frame1Temporarily.SwitchTo()
                 .TextInput.Set("abc")
                 .SwitchToRoot<FramePage>()
-            .State.Should.Equal(1)
+            .State.Should.Be(1)
             .SetState(2)
             .Frame2Temporarily.SwitchTo()
                 .SwitchBack()
-            .State.Should.Equal(2)
+            .State.Should.Be(2)
             .SetState(3)
             .Frame2.SwitchTo(temporarily: true)
                 .SwitchBack()
-            .State.Should.Equal(3)
+            .State.Should.Be(3)
             .SetState(4)
             .Frame1Temporarily.SwitchTo(temporarily: false)
                 .SwitchToRoot<FramePage>()
-            .State.Should.Equal(0);
+            .State.Should.Be(0);
 
     [Test]
     public void DoWithin() =>
         _page
             .Frame1.DoWithin(x => x
                 .TextInput.Set("abc"))
-            .Header.Should.Equal("Frame")
+            .Header.Should.Be("Frame")
             .Frame2.DoWithin(x => x
                 .Select.Set(4))
 
-            .Header.Should.Equal("Frame")
+            .Header.Should.Be("Frame")
             .Frame1.DoWithin(x => x
-                .Header.Should.Equal("Frame Inner 1")
-                .TextInput.Should.Equal("abc"))
+                .Header.Should.Be("Frame Inner 1")
+                .TextInput.Should.Be("abc"))
             .Frame2.DoWithin(x => x
-                .Header.Should.Equal("Frame Inner 2")
-                .Select.Should.Equal(4));
+                .Header.Should.Be("Frame Inner 2")
+                .Select.Should.Be(4));
 
     [Test]
     public void DoWithin_WithGoTemporarilyAttribute() =>
@@ -83,20 +83,20 @@ public class FrameTests : WebDriverSessionTestSuite
             .SetState(1)
             .Frame1Temporarily.DoWithin(
                 x => x.TextInput.Set("abc"))
-            .State.Should.Equal(1)
+            .State.Should.Be(1)
             .SetState(2)
             .Frame1Generic.DoWithin<FrameInner1Page>(
-                x => x.TextInput.Should.Equal("abc"),
+                x => x.TextInput.Should.Be("abc"),
                 temporarily: true)
-            .State.Should.Equal(2)
+            .State.Should.Be(2)
             .SetState(3)
             .Frame2.DoWithin(
                 x => x.Select.Set(2),
                 temporarily: true)
-            .State.Should.Equal(3)
+            .State.Should.Be(3)
             .SetState(4)
             .Frame1Temporarily.DoWithin(
-                x => x.TextInput.Should.Equal("abc"),
+                x => x.TextInput.Should.Be("abc"),
                 temporarily: false)
-            .State.Should.Equal(0);
+            .State.Should.Be(0);
 }

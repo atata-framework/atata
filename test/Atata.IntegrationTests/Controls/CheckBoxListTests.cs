@@ -10,7 +10,7 @@ public class CheckBoxListTests : WebDriverSessionTestSuite
     [Test]
     public void OfEnumType()
     {
-        _page.ByIdAndLabel.Should.Equal(CheckBoxListPage.Options.None);
+        _page.ByIdAndLabel.Should.Be(CheckBoxListPage.Options.None);
 
         SetAndVerifyValues(
             _page.ByIdAndLabel,
@@ -31,7 +31,7 @@ public class CheckBoxListTests : WebDriverSessionTestSuite
             CheckBoxListPage.Options.OptionA);
 
         _page.ByIdAndLabel.Check(CheckBoxListPage.Options.OptionD);
-        _page.ByXPathAndValue.Should.Equal(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
+        _page.ByXPathAndValue.Should.Be(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
 
         _page.ByXPathAndValue.Uncheck(CheckBoxListPage.Options.OptionA);
         _page.ByIdAndLabel.Should.HaveChecked(CheckBoxListPage.Options.OptionD);
@@ -51,7 +51,7 @@ public class CheckBoxListTests : WebDriverSessionTestSuite
     {
         var sut = _page.ByFieldsetAndLabelUsingId;
 
-        sut.Should.Equal(CheckBoxListPage.Options.None);
+        sut.Should.Be(CheckBoxListPage.Options.None);
 
         SetAndVerifyValues(
             sut,
@@ -67,7 +67,7 @@ public class CheckBoxListTests : WebDriverSessionTestSuite
             CheckBoxListPage.Options.OptionA);
 
         sut.Check(CheckBoxListPage.Options.OptionD);
-        sut.Should.Equal(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
+        sut.Should.Be(CheckBoxListPage.Options.OptionA | CheckBoxListPage.Options.OptionD);
 
         sut.Uncheck(CheckBoxListPage.Options.OptionA);
         sut.Should.HaveChecked(CheckBoxListPage.Options.OptionD);

@@ -84,7 +84,7 @@ public static class SubjectTests
         [Test]
         public void Property() =>
             _subject.ResultOf(x => x.Count)
-                .Should.Equal(3);
+                .Should.Be(3);
 
         [Test]
         public void Function() =>
@@ -95,7 +95,7 @@ public static class SubjectTests
         public void Function_Should_Throw() =>
             _subject.ResultOf(x => x.ContainsKey(null!))
                 .Should.Throw<ArgumentNullException>()
-                    .ValueOf(x => x.ParamName).Should.Equal("key")
+                    .ValueOf(x => x.ParamName).Should.Be("key")
                     .ValueOf(x => x.Message).Should.Contain("key");
 
         [Test]
@@ -110,7 +110,7 @@ public static class SubjectTests
         [Test]
         public void Indexer() =>
             _subject.ResultOf(x => x["a"])
-                .Should.Equal(1);
+                .Should.Be(1);
 
         [Test]
         public void ProviderName_OfProperty() =>
@@ -156,14 +156,14 @@ public static class SubjectTests
             _subject.ResultOf(x => x.Keys.Where(key => key != "z"))
                 .ResultOf(x => x.First())
                 .ProviderName.ToResultSubject()
-                .Should.Equal("subject.Keys.Where(key => key != \"z\") => result.First() => result");
+                .Should.Be("subject.Keys.Where(key => key != \"z\") => result.First() => result");
 
         [Test]
         public void ProviderName_OfFunction_AfterSubjectOf() =>
             _subject.SubjectOf(x => x.Keys.Where(key => key != "z"))
                 .ResultOf(x => x.First())
                 .ProviderName.ToResultSubject()
-                .Should.Equal("subject.Keys.Where(key => key != \"z\").First() => result");
+                .Should.Be("subject.Keys.Where(key => key != \"z\").First() => result");
 
         [Test]
         public void ProviderName_OfIndexer() =>
@@ -206,14 +206,14 @@ public static class SubjectTests
             _subject.ResultOf(x => x.Keys.Where(key => key != "z"))
                 .SubjectOf(x => x.First())
                 .ProviderName.ToResultSubject()
-                .Should.Equal("subject.Keys.Where(key => key != \"z\") => result.First()");
+                .Should.Be("subject.Keys.Where(key => key != \"z\") => result.First()");
 
         [Test]
         public void ProviderName_OfFunction_AfterSubjectOf() =>
             _subject.SubjectOf(x => x.Keys.Where(key => key != "z"))
                 .SubjectOf(x => x.First())
                 .ProviderName.ToResultSubject()
-                .Should.Equal("subject.Keys.Where(key => key != \"z\").First()");
+                .Should.Be("subject.Keys.Where(key => key != \"z\").First()");
 
         [Test]
         public void ProviderName_OfIndexer() =>
@@ -233,14 +233,14 @@ public static class SubjectTests
         public void Function_Should_Throw() =>
             _subject.Invoking(x => x.ContainsKey(null!))
                 .Should.Throw<ArgumentNullException>()
-                    .ValueOf(x => x.ParamName).Should.Equal("key")
+                    .ValueOf(x => x.ParamName).Should.Be("key")
                     .ValueOf(x => x.Message).Should.Contain("key");
 
         [Test]
         public void Action_Should_Throw() =>
             _subject.Invoking(x => x.Add(null!, 0))
                 .Should.Throw<ArgumentNullException>()
-                    .ValueOf(x => x.ParamName).Should.Equal("key")
+                    .ValueOf(x => x.ParamName).Should.Be("key")
                     .ValueOf(x => x.Message).Should.Contain("key");
 
         [Test]
@@ -334,6 +334,6 @@ public static class SubjectTests
         [Test]
         public void Returns() =>
             _subject.Act(x => x.Clear())
-                .Should.Equal(_subject);
+                .Should.Be(_subject);
     }
 }

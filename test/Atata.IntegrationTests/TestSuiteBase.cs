@@ -55,17 +55,17 @@ public abstract class TestSuiteBase
     protected static void VerifyEquals<T, TPage>(Field<T, TPage> control, T value)
         where TPage : PageObject<TPage>
     {
-        control.Should.Equal(value);
+        control.Should.Be(value);
         Assert.That(control.Value, Is.EqualTo(value));
     }
 
     protected static void VerifyDoesNotEqual<T, TPage>(Field<T, TPage> control, T value)
         where TPage : PageObject<TPage>
     {
-        control.Should.Not.Equal(value);
+        control.Should.Not.Be(value);
 
         Assert.Throws<AssertionException>(() =>
-            control.Should.AtOnce.Equal(value));
+            control.Should.AtOnce.Be(value));
     }
 
     protected static TException AssertThrowsWithInnerException<TException, TInnerException>(TestDelegate code)

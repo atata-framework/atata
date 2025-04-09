@@ -7,14 +7,14 @@ public sealed class ControlDelegateTests : WebDriverSessionTestSuite
         Go.To<BasicControlsPage>()
             .RawButton.Should().BePresent()
             .RawButton.Should().BeEnabled()
-            .RawButton.Content().Should.Equal("Raw Button")
+            .RawButton.Content().Should.Be("Raw Button")
             .RawButton()
             .InputButton.Should().BePresent()
             .InputButton()
             .Do(_ => _.LinkButton, x =>
             {
                 x.Should().BePresent();
-                x.Content().Should.Equal("Link Button");
+                x.Content().Should.Be("Link Button");
                 x();
             })
             .DivButton.Should().BePresent()

@@ -12,6 +12,6 @@ public class ClicksUsingScriptAttributeTests : WebDriverSessionTestSuite
 
         cell.Click();
 
-        cell.Should.Equal(1);
+        cell.Should.Be(1);
     }
 }

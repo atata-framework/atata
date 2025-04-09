@@ -11,7 +11,7 @@ public class CustomControlTests : WebDriverSessionTestSuite
 
         DateTime value = new(2018, 7, 11);
         sut.Set(value);
-        sut.Should.Equal(value);
+        sut.Should.Be(value);
 
         sut.Set(null);
         sut.Should.BeNull();

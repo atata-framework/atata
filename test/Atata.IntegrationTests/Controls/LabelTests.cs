@@ -9,17 +9,17 @@ public class LabelTests : WebDriverSessionTestSuite
 
     [Test]
     public void Value() =>
-        _page.FirstNameLabel.Should.Equal("First Name");
+        _page.FirstNameLabel.Should.Be("First Name");
 
     [Test]
     public void For() =>
-        _page.FirstNameLabel.For.Should.Equal("first-name");
+        _page.FirstNameLabel.For.Should.Be("first-name");
 
     [Test]
     public void WithFindByAttributeAttribute() =>
-        _page.LastNameByForLabel.Should.Equal("Last Name*");
+        _page.LastNameByForLabel.Should.Be("Last Name*");
 
     [Test]
     public void WithFormatAttribute() =>
-        _page.LastNameLabel.Should.Equal("Last Name");
+        _page.LastNameLabel.Should.Be("Last Name");
 }

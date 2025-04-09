@@ -23,7 +23,7 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         var sut = _page.Shadow1_1;
 
         sut.Should.BePresent();
-        sut.Content.Should.Equal("Shadow 1.1");
+        sut.Content.Should.Be("Shadow 1.1");
     }
 
     [Test]
@@ -32,16 +32,16 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         var sut = _page.Shadow1_2;
 
         sut.Should.BePresent();
-        sut.Content.Should.Equal("Shadow 1.2");
+        sut.Content.Should.Be("Shadow 1.2");
     }
 
     [Test]
     public void ControlList() =>
         _page.AggregateAssert(x => x.Shadow1Paragraphs, controls =>
         {
-            controls[0].Should.Equal("Shadow 1.1");
-            controls[1].Should.Equal("Shadow 1.2");
-            controls.Count.Should.Equal(2);
+            controls[0].Should.Be("Shadow 1.1");
+            controls[1].Should.Be("Shadow 1.2");
+            controls.Count.Should.Be(2);
             controls.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
             controls.Contents.Should.EqualSequence("Shadow 1.1", "Shadow 1.2");
         });
@@ -62,9 +62,9 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         sut.Should.BePresent();
         sut.Should.BeNull();
         sut.Set("No");
-        sut.Should.Equal("No");
+        sut.Should.Be("No");
         sut.Set("Yes");
-        sut.Should.Equal("Yes");
+        sut.Should.Be("Yes");
     }
 
     [Test]
@@ -73,7 +73,7 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         var sut = _page.Shadow2_1_1;
 
         sut.Should.BePresent();
-        sut.Content.Should.Equal("2.1.1");
+        sut.Content.Should.Be("2.1.1");
     }
 
     [Test]
@@ -82,7 +82,7 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         var sut = _page.Shadow2_1_1_1;
 
         sut.Should.BePresent();
-        sut.Content.Should.Equal("Shadow 2.1.1.1");
+        sut.Content.Should.Be("Shadow 2.1.1.1");
     }
 
     [Test]
@@ -91,7 +91,7 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         var sut = _page.Shadow2_1_1_1_AtDifferentLevels;
 
         sut.Should.BePresent();
-        sut.Content.Should.Equal("Shadow 2.1.1.1");
+        sut.Content.Should.Be("Shadow 2.1.1.1");
     }
 
     [Test]
@@ -100,7 +100,7 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         var sut = _page.Shadow2_1_1_1_AtDifferentLevelsWithSetLayers;
 
         sut.Should.BePresent();
-        sut.Content.Should.Equal("Shadow 2.1.1.1");
+        sut.Content.Should.Be("Shadow 2.1.1.1");
     }
 
     [Test]
@@ -109,20 +109,20 @@ public class FindingInShadowDomTests : WebDriverSessionTestSuite
         var sut = _page.Shadow2_1_1_1_MixedAtDifferentLevelsWithSetLayers;
 
         sut.Should.BePresent();
-        sut.Content.Should.Equal("2.1.1.1");
+        sut.Content.Should.Be("2.1.1.1");
     }
 
     [Test]
     public void AsShadowHostPage() =>
         Go.To<ShadowHostPage>().AggregateAssert(x => x
             .Paragraphs.Should.EqualSequence("Shadow 1.1", "Shadow 1.2")
-            .Paragraph2.Should.Equal("Shadow 1.2"));
+            .Paragraph2.Should.Be("Shadow 1.2"));
 
     [Test]
     public void AsShadowHostPopupWindow() =>
         Go.To<ShadowHostPopupWindow>().AggregateAssert(x => x
             .Paragraphs.Should.EqualSequence("Shadow 1.1", "Shadow 1.2")
-            .Paragraph2.Should.Equal("Shadow 1.2"));
+            .Paragraph2.Should.Be("Shadow 1.2"));
 
     [Test]
     public void InvalidShadowHostLocator()

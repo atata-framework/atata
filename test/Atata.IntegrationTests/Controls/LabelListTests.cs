@@ -9,7 +9,7 @@ public class LabelListTests : WebDriverSessionTestSuite
 
     [Test]
     public void FuncIndexer() =>
-        _sut[x => x.FirstName].Should.Equal("First Name");
+        _sut[x => x.FirstName].Should.Be("First Name");
 
     [Test]
     public void FuncIndexer_MissingItem() =>
@@ -17,7 +17,7 @@ public class LabelListTests : WebDriverSessionTestSuite
 
     [Test]
     public void For() =>
-        _sut.For(x => x.LastName).Should.Equal("Last Name*");
+        _sut.For(x => x.LastName).Should.Be("Last Name*");
 
     [Test]
     public void Count() =>

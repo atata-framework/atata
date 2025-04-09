@@ -26,6 +26,6 @@ public class NumberInputTests : WebDriverSessionTestSuite
         Assert.That(intNumber, Is.EqualTo(57));
 
         sut.SetRandom(out intNumber);
-        sut.Should.Equal(intNumber);
+        sut.Should.Be(intNumber);
     }
 }

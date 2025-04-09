@@ -294,13 +294,13 @@ public class ShouldTests : WebDriverSessionTestSuite
     public void Equal_Delayed() =>
         Go.To<WaitingPage>()
             .WaitAndUpdateValue.Click()
-            .ValueBlock.Should.Equal("New value");
+            .ValueBlock.Should.Be("New value");
 
     [Test]
     public void Equal_Delayed_WithParentReset() =>
         Go.To<WaitingPage>()
             .WaitAndUpdateValue.Click()
-            .ValueContainer.ValueBlock.Should.Equal("New value");
+            .ValueContainer.ValueBlock.Should.Be("New value");
 
     [Test]
     public void MatchRegex()

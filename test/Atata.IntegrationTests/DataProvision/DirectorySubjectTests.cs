@@ -20,12 +20,12 @@ public sealed class DirectorySubjectTests
     [Test]
     public void Name() =>
         new DirectorySubject(Path.Combine("Parent", "Dir"))
-            .Name.Should.Equal("Dir");
+            .Name.Should.Be("Dir");
 
     [Test]
     public void FullName() =>
         new DirectorySubject(Path.Combine("Parent", "Dir"))
-            .FullName.Should.Equal(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Parent", "Dir"));
+            .FullName.Should.Be(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Parent", "Dir"));
 
     public static class Exists
     {
@@ -83,25 +83,25 @@ public sealed class DirectorySubjectTests
 
         [Test]
         public static void Count() =>
-            s_sut.Directories.Count().Should.Equal(2);
+            s_sut.Directories.Count().Should.Be(2);
 
         [Test]
         public static void Count_ProviderName() =>
             s_sut.Directories.Count().ProviderName.ToResultSubject()
-                .Should.Equal("sut.Directories.Count()");
+                .Should.Be("sut.Directories.Count()");
 
         [Test]
         public static void IntIndexer()
         {
             s_sut.Directories[0].Name.Should.StartWith("dir");
             s_sut.Directories[1].Name.Should.StartWith("dir");
-            s_sut.Directories[0].Name.Should.Not.Equal(s_sut.Directories[1].Name);
+            s_sut.Directories[0].Name.Should.Not.Be(s_sut.Directories[1].Name);
         }
 
         [Test]
         public static void IntIndexer_ProviderName() =>
             s_sut.Directories[0].ProviderName.ToResultSubject()
-                .Should.Equal("sut.Directories[0]");
+                .Should.Be("sut.Directories[0]");
 
         [Test]
         public static void StringIndexer() =>
@@ -114,7 +114,7 @@ public sealed class DirectorySubjectTests
         [Test]
         public static void StringIndexer_ProviderName() =>
             s_sut.Directories["dir1"].ProviderName.ToResultSubject()
-                .Should.Equal("sut.Directories[\"dir1\"]");
+                .Should.Be("sut.Directories[\"dir1\"]");
 
         [Test]
         public static void StringIndexer_ForSubDirectories() =>
@@ -123,16 +123,16 @@ public sealed class DirectorySubjectTests
         [Test]
         public static void StringIndexer_ForSubDirectories_ProviderName() =>
             s_sut.Directories["dir1"].Directories["dir1_2"].ProviderName.ToResultSubject()
-                .Should.Equal("sut.Directories[\"dir1\"].Directories[\"dir1_2\"]");
+                .Should.Be("sut.Directories[\"dir1\"].Directories[\"dir1_2\"]");
 
         [Test]
         public static void SubDirectoriesCount() =>
-            s_sut.Directories["dir1"].Directories.Count().Should.Equal(3);
+            s_sut.Directories["dir1"].Directories.Count().Should.Be(3);
 
         [Test]
         public static void SubDirectoriesCount_ProviderName() =>
             s_sut.Directories[0].Directories.Count().ProviderName.ToSubject()
-                .Should.Equal("sut.Directories[0].Directories.Count()");
+                .Should.Be("sut.Directories[0].Directories.Count()");
 
         [Test]
         public static void SubDirectories_Owner()
@@ -149,7 +149,7 @@ public sealed class DirectorySubjectTests
         [Test]
         public static void Names_ProviderName() =>
             s_sut.Directories["dir1"].Directories.Names.ProviderName.ToResultSubject()
-                .Should.Equal("sut.Directories[\"dir1\"].Directories.Names");
+                .Should.Be("sut.Directories[\"dir1\"].Directories.Names");
     }
 
     public static class Files
@@ -175,22 +175,22 @@ public sealed class DirectorySubjectTests
 
         [Test]
         public static void Count() =>
-            s_sut.Files.Count().Should.Equal(2);
+            s_sut.Files.Count().Should.Be(2);
 
         [Test]
         public static void Count_ProviderName() =>
             s_sut.Files.Count().ProviderName.ToResultSubject()
-                .Should.Equal("sut.Files.Count()");
+                .Should.Be("sut.Files.Count()");
 
         [Test]
         public static void Owner() =>
-            Assert.That(s_sut.Files.Count().Should.Equal(2), Is.EqualTo(s_sut));
+            Assert.That(s_sut.Files.Count().Should.Be(2), Is.EqualTo(s_sut));
 
         [Test]
         public static void SubDirectories_Owner()
         {
             var directory = s_sut.Directories[0];
-            Assert.That(directory.Files.Count().Should.Equal(0), Is.EqualTo(directory));
+            Assert.That(directory.Files.Count().Should.Be(0), Is.EqualTo(directory));
         }
 
         [Test]
@@ -198,7 +198,7 @@ public sealed class DirectorySubjectTests
         {
             s_sut.Files[0].Name.Should.EndWith(".txt");
             s_sut.Files[1].Name.Should.EndWith(".txt");
-            s_sut.Files[0].Name.Should.Not.Equal(s_sut.Files[1].Name);
+            s_sut.Files[0].Name.Should.Not.Be(s_sut.Files[1].Name);
         }
 
         [Test]
@@ -208,7 +208,7 @@ public sealed class DirectorySubjectTests
         [Test]
         public static void StringIndexer_ProviderName() =>
             s_sut.Files["1.txt"].ProviderName.ToResultSubject()
-                .Should.Equal("sut.Files[\"1.txt\"]");
+                .Should.Be("sut.Files[\"1.txt\"]");
 
         [Test]
         public static void Where_First() =>
@@ -218,7 +218,7 @@ public sealed class DirectorySubjectTests
         [Test]
         public static void Where_First_ProviderName() =>
             s_sut.Files.Where(x => x.Extension != ".ext").First()
-                .ProviderName.ToResultSubject().Should.Equal("sut.Files.Where(x => x.Extension != \".ext\").First()");
+                .ProviderName.ToResultSubject().Should.Be("sut.Files.Where(x => x.Extension != \".ext\").First()");
 
         [Test]
         public static void Names() =>
@@ -228,7 +228,7 @@ public sealed class DirectorySubjectTests
         [Test]
         public static void Names_ProviderName() =>
             s_sut.Files.Names.ProviderName.ToResultSubject()
-                .Should.Equal("sut.Files.Names");
+                .Should.Be("sut.Files.Names");
 
         [Test]
         public static void ThroughMissingSubDirectory() =>

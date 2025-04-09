@@ -9,17 +9,17 @@ public class FindingInAncestorTests : WebDriverSessionTestSuite
 
     [Test]
     public void First_Visible() =>
-        _page.LegendInOneLayer.Should.Equal("Radio Buttons");
+        _page.LegendInOneLayer.Should.Be("Radio Buttons");
 
     [Test]
     public void ThreeLayers() =>
-        _page.LegendInThreeLayers.Should.Equal("Radio Buttons");
+        _page.LegendInThreeLayers.Should.Be("Radio Buttons");
 
     [Test]
     public void ThreeLayers_AtParentAndDeclared() =>
-        _page.LegendInThreeLayersAtParentAndDeclared.Should.Equal("Radio Buttons");
+        _page.LegendInThreeLayersAtParentAndDeclared.Should.Be("Radio Buttons");
 
     [Test]
     public void ThreeLayers_AtParentAndDeclaredAndComponent() =>
-        _page.LegendInThreeLayersAtParentAndDeclaredAndComponent.Should.Equal("Radio Buttons");
+        _page.LegendInThreeLayersAtParentAndDeclaredAndComponent.Should.Be("Radio Buttons");
 }

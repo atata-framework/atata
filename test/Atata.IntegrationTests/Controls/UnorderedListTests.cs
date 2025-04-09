@@ -12,10 +12,10 @@ public class UnorderedListTests : WebDriverSessionTestSuite
     {
         var sut = _page.SimpleUnorderedList;
 
-        sut.Items.Count.Should.Equal(3);
-        sut.Items[0].Should.Equal("Phone 5%");
-        sut[1].Should.Equal("Book 10%");
-        sut[2].Should.Equal("Table 15%");
+        sut.Items.Count.Should.Be(3);
+        sut.Items[0].Should.Be("Phone 5%");
+        sut[1].Should.Be("Book 10%");
+        sut[2].Should.Be("Table 15%");
         sut.Items.Should.BeEquivalent("Phone 5%", "Book 10%", "Table 15%");
     }
 
@@ -24,12 +24,12 @@ public class UnorderedListTests : WebDriverSessionTestSuite
     {
         var sut = _page.ComplexUnorderedList;
 
-        sut.Items.Count.Should.Equal(3);
-        sut.Items[0].Name.Should.Equal("Phone");
-        sut.Items[0].Percent.Should.Equal(0.05m);
-        sut.Items[2].Name.Should.Equal("Table");
-        sut.Items[2].Percent.Should.Equal(0.15m);
-        sut.Items[1].Content.Should.Equal("Book 10%");
+        sut.Items.Count.Should.Be(3);
+        sut.Items[0].Name.Should.Be("Phone");
+        sut.Items[0].Percent.Should.Be(0.05m);
+        sut.Items[2].Name.Should.Be("Table");
+        sut.Items[2].Percent.Should.Be(0.15m);
+        sut.Items[1].Content.Should.Be("Book 10%");
     }
 
     [Test]
@@ -37,6 +37,6 @@ public class UnorderedListTests : WebDriverSessionTestSuite
     {
         var sut = _page.UnorderedListForHierarchy;
 
-        sut.Items.Count.Should.Equal(2);
+        sut.Items.Count.Should.Be(2);
     }
 }
