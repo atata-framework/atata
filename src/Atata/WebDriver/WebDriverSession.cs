@@ -16,8 +16,8 @@ public class WebDriverSession : WebSession
     public WebDriverSession() =>
         Go = new(this);
 
-    public static new WebDriverSession Current =>
-        AtataContext.ResolveCurrent().Sessions.Get<WebDriverSession>();
+    public static new WebDriverSession? Current =>
+        AtataContext.Current?.Sessions.GetOrNull<WebDriverSession>();
 
     /// <inheritdoc cref="WebSession.Report"/>
     public new IWebSessionReport<WebDriverSession> Report =>

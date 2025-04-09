@@ -60,5 +60,5 @@ public static class Go
         ResolveWebDriverSession().Go.ToUrl(url);
 
     private static WebDriverSession ResolveWebDriverSession() =>
-        WebDriverSession.Current;
+        AtataContext.ResolveCurrent().Sessions.Get<WebDriverSession>();
 }
