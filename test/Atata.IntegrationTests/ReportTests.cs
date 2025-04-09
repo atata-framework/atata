@@ -46,7 +46,7 @@ public class ReportTests : WebDriverSessionTestSuite
     [Test]
     public void PageSnapshot()
     {
-        string sessionId = WebSession.Current.Id;
+        string sessionId = CurrentSession.Id;
         Go.To(new OrdinaryPage("Test"))
             .Report.PageSnapshot()
             .Report.PageSnapshot("sometitle");
@@ -226,7 +226,7 @@ public class ReportTests : WebDriverSessionTestSuite
         public void FilesAndLogEntries()
         {
             ConfigureAtataContextWithWebDriverSession().Build();
-            string sessionId = WebSession.Current.Id;
+            string sessionId = CurrentSession.Id;
 
             Go.To(new OrdinaryPage("Test"))
                 .Report.Screenshot()

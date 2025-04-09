@@ -106,7 +106,7 @@ public class GoTests : WebDriverSessionTestSuite
     {
         var page1 = Go.To<OrdinaryPage>();
         AssertCurrentPageObject(page1);
-        page1.PageUri.Should.Be(new Uri(WebSession.Current.BaseUrl!));
+        page1.PageUri.Should.Be(new Uri(CurrentSession.BaseUrl!));
     }
 
     [Test]
