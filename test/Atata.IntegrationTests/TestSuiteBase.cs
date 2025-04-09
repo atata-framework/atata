@@ -39,7 +39,7 @@ public abstract class TestSuiteBase
     [TearDown]
     public async Task TearDownTestAtataContextAsync()
     {
-        var context = CurrentContext;
+        var context = AtataContext.Current;
 
         if (context is { IsActive: true })
         {
